@@ -26,10 +26,33 @@ minetest.register_on_generated(on_generated)
 --]]
 
 -- Aliases for map generator outputs
--- v7 still needs them.. sigh..
 
 minetest.register_alias("mapgen_stone", "default:stone")
+minetest.register_alias("mapgen_desert_stone", "default:sandstone")
+minetest.register_alias("mapgen_desert_sand", "default:sand")
 minetest.register_alias("mapgen_sandstone", "default:sandstone")
+minetest.register_alias("mapgen_cobble", "default:cobble")
+minetest.register_alias("mapgen_gravel", "default:gravel")
+minetest.register_alias("mapgen_mossycobble", "default:cobble")
+minetest.register_alias("mapgen_dirt", "default:dirt")
+minetest.register_alias("mapgen_dirt_with_grass", "default:dirt_with_grass")
+minetest.register_alias("mapgen_sand", "default:sand")
+minetest.register_alias("mapgen_snow", "air")
+--minetest.register_alias("mapgen_snowblock", "default:dirt_with_dry_grass")
+--minetest.register_alias("mapgen_dirt_with_snow", "default:dry_dirt")
+minetest.register_alias("mapgen_snowblock", "default:air")
+minetest.register_alias("mapgen_dirt_with_snow", "default:dirt_with_grass")
+minetest.register_alias("mapgen_ice", "default:water_source")
+minetest.register_alias("mapgen_tree", "default:tree")
+minetest.register_alias("mapgen_leaves", "default:leaves")
+minetest.register_alias("mapgen_apple", "default:apple")
+minetest.register_alias("mapgen_jungletree", "default:tree_oak")
+minetest.register_alias("mapgen_jungleleaves", "default:leaves_oak")
+minetest.register_alias("mapgen_junglegrass", "default:tall_grass")
+minetest.register_alias("mapgen_pine_tree", "default:tree_birch")
+minetest.register_alias("mapgen_pine_needles", "default:leaves_birch")
+--minetest.register_alias("mapgen_pine_tree", "air")
+--minetest.register_alias("mapgen_pine_needles", "air")
 
 minetest.register_alias("mapgen_water_source", "default:water_source")
 minetest.register_alias("mapgen_river_water_source", "default:river_water_source")
@@ -40,7 +63,9 @@ minetest.register_alias("mapgen_lava_source", "default:water_source")
 
 minetest.clear_registered_biomes()
 
--- Aboveground biomes
+local mg_name = minetest.get_mapgen_setting("mg_name")
+
+if mg_name ~= "v6" then
 
 minetest.register_biome(
    {
@@ -298,9 +323,68 @@ minetest.register_biome(
       heat_point = 60,
       humidity_point = 30,
 })
+end
+
+-- Water
+
+minetest.register_ore( -- Springs
+   {
+      ore_type       = "blob",
+      ore            = "default:water_source",
+      wherein        = "default:dirt_with_grass",
+      biomes         = {"Grassland"},
+      clust_scarcity = 26*26*26,
+      clust_num_ores = 1,
+      clust_size     = 1,
+      y_min          = 20,
+      y_max          = 31000,
+})
+
+minetest.register_ore( -- Pools
+   {
+      ore_type       = "blob",
+      ore            = "default:water_source",
+      wherein        = "default:dirt_with_grass",
+      biomes         = {"Wilderness"},
+      clust_scarcity = 32*32*32,
+      clust_num_ores = 20,
+      clust_size     = 6,
+      y_min          = 10,
+      y_max          = 30,
+})
+if mg_name ~= "v6" then
+minetest.register_ore( -- Swamp
+   {
+      ore_type       = "blob",
+      ore            = "default:swamp_water_source",
+      wherein        = {"default:dirt_with_swamp_grass", "default:swamp_dirt"},
+      biomes         = {"Swamp"},
+      clust_scarcity = 14*14*14,
+      clust_num_ores = 10,
+      clust_size     = 4,
+      y_min          = -31000,
+      y_max          = 31000,
+})
+
+minetest.register_ore( -- Marsh
+   {
+      ore_type       = "blob",
+      ore            = "default:swamp_water_source",
+      wherein        = {"default:dirt_with_grass", "default:dirt"},
+      biomes         = {"Marsh"},
+      clust_scarcity = 8*8*8,
+      clust_num_ores = 10,
+      clust_size     = 6,
+      y_min          = -31000,
+      y_max          = 31000,
+})
+end
+
+
 
 -- Tree decorations
 
+if mg_name ~= "v6" then
 minetest.register_decoration(
    {
       deco_type = "schematic",
@@ -431,6 +515,8 @@ minetest.register_decoration(
       y_max = 32000,
 })
 
+end
+
 -- Papyrus decorations
 
 minetest.register_decoration(
@@ -464,6 +550,7 @@ minetest.register_decoration(
 
 -- Grass decorations
 
+if mg_name ~= "v6" then
 minetest.register_decoration(
    {
       deco_type = "simple",
@@ -475,6 +562,7 @@ minetest.register_decoration(
       y_min = 10,
       y_max = 32000,
 })
+end
 
 minetest.register_decoration(
    {
@@ -500,6 +588,7 @@ minetest.register_decoration(
       y_max = 500,
 })
 
+if mg_name ~= "v6" then
 minetest.register_decoration(
    {
       deco_type = "simple",
@@ -535,6 +624,7 @@ minetest.register_decoration(
       y_min = 0,
       y_max = 32000,
 })
+end
 
 minetest.register_decoration(
    {
@@ -875,60 +965,6 @@ minetest.register_ore( -- Large clusters
       clust_size     = 10,
       y_min          = -230,
       y_max          = -180,
-})
-
--- Water
-
-minetest.register_ore( -- Springs
-   {
-      ore_type       = "blob",
-      ore            = "default:water_source",
-      wherein        = "default:dirt_with_grass",
-      biomes         = {"Grassland"},
-      clust_scarcity = 26*26*26,
-      clust_num_ores = 1,
-      clust_size     = 1,
-      y_min          = 20,
-      y_max          = 31000,
-})
-
-minetest.register_ore( -- Pools
-   {
-      ore_type       = "blob",
-      ore            = "default:water_source",
-      wherein        = "default:dirt_with_grass",
-      biomes         = {"Wilderness"},
-      clust_scarcity = 32*32*32,
-      clust_num_ores = 20,
-      clust_size     = 6,
-      y_min          = 10,
-      y_max          = 30,
-})
-
-minetest.register_ore( -- Swamp
-   {
-      ore_type       = "blob",
-      ore            = "default:swamp_water_source",
-      wherein        = {"default:dirt_with_swamp_grass", "default:swamp_dirt"},
-      biomes         = {"Swamp"},
-      clust_scarcity = 14*14*14,
-      clust_num_ores = 10,
-      clust_size     = 4,
-      y_min          = -31000,
-      y_max          = 31000,
-})
-
-minetest.register_ore( -- Marsh
-   {
-      ore_type       = "blob",
-      ore            = "default:swamp_water_source",
-      wherein        = {"default:dirt_with_grass", "default:dirt"},
-      biomes         = {"Marsh"},
-      clust_scarcity = 8*8*8,
-      clust_num_ores = 10,
-      clust_size     = 6,
-      y_min          = -31000,
-      y_max          = 31000,
 })
 
 default.log("mapgen", "loaded")
