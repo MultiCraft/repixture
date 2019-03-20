@@ -22,7 +22,7 @@ local function on_globalstep(dtime)
    timer = 0
 
    for _, player in ipairs(minetest.get_connected_players()) do
-      local pos = player:getpos()
+      local pos = player:get_pos()
 
       util.nodefunc(
 	 {

@@ -50,7 +50,7 @@ minetest.register_entity(
 
 local function attach_wielditem(player)
    local name = player:get_player_name()
-   local pos = player:getpos()
+   local pos = player:get_pos()
 
    wielditem[name] = minetest.add_entity(pos, "wielditem:wielditem")
    wielditem[name]:set_attach(player, "right_arm", {x = -1.5, y = 5.7, z = 2.5}, {x = 90, y = -45, z = 270})

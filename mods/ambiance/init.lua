@@ -69,7 +69,7 @@ if minetest.settings:get_bool("ambiance_enable") == true then
       local player_positions = {}
 
       for _, player in ipairs(minetest.get_connected_players()) do
-         local pos = player:getpos()
+         local pos = player:get_pos()
          local name = player:get_player_name()
 
          for soundname, sound in pairs(ambiance.sounds) do

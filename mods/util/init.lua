@@ -65,7 +65,7 @@ if minetest.settings:get_bool("fixlight_command_enable") then
 
 		   local player = minetest.get_player_by_name(name)
 
-		   local pos = player:getpos()
+		   local pos = player:get_pos()
 		   pos.x = math.floor(pos.x + 0.5)
 		   pos.y = math.floor(pos.y + 0.5)
 		   pos.z = math.floor(pos.z + 0.5)

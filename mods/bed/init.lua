@@ -50,7 +50,7 @@ local function put_player_in_bed(player)
    end
 
    player:set_look_horizontal(bed.userdata[name].spawn_yaw)
-   player:setpos(bed.userdata[name].spawn_pos)
+   player:set_pos(bed.userdata[name].spawn_pos)
 
    player_effects.apply_effect(player, "inbed")
 
@@ -75,7 +75,7 @@ local function take_player_from_bed(player)
 
    local name = player:get_player_name()
 
-   player:setpos(bed.userdata[name].spawn_pos)
+   player:set_pos(bed.userdata[name].spawn_pos)
 
    player_effects.remove_effect(player, "inbed")
 
@@ -212,8 +212,8 @@ local function on_globalstep(dtime)
 
          sleeping_players = sleeping_players + 1
 
-         if vector.distance(player:getpos(), data.spawn_pos) > 2 then
-            player:moveto(data.spawn_pos)
+         if vector.distance(player:get_pos(), data.spawn_pos) > 2 then
+            player:move_to(data.spawn_pos)
          end
       end
    end

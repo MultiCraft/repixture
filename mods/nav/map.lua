@@ -68,7 +68,7 @@ function nav.show_map(player)
 
    if not open_formspecs[name] then return end
 
-   local pos = player:getpos()
+   local pos = player:get_pos()
 
    local form = default.ui.get_page("default:default")
 
@@ -131,7 +131,7 @@ local function on_joinplayer(player)
       1.0,
       function()
 	 nav.add_waypoint(
-            player:getpos(),
+            player:get_pos(),
             "player_" .. name,
             name,
             true,
@@ -174,7 +174,7 @@ local function on_globalstep(dtime)
    for wptname, wpt in pairs(nav.waypoints) do
       if wpt.type == "player" then
          if players[wpt.label] ~= nil and minetest.get_player_by_name(wpt.label) ~= nil then
-            nav.relocate_waypoint(wptname, players[wpt.label]:getpos())
+            nav.relocate_waypoint(wptname, players[wpt.label]:get_pos())
          end
       end
    end

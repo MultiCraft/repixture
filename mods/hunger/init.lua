@@ -195,7 +195,7 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
    hunger.userdata[name].saturation = math.min(100, hunger.userdata[name].saturation
                                                   + saturation)
 
-   local headpos  = player:getpos()
+   local headpos  = player:get_pos()
 
    headpos.y = headpos.y + 1
    minetest.sound_play("hunger_eat", {pos = headpos, max_hear_distance = 8})
@@ -297,7 +297,7 @@ local function on_globalstep(dtime)
                player:set_hp(hp - 1)
                hunger.userdata[name].hunger = 0
 
-               local pos_sound  = player:getpos()
+               local pos_sound  = player:get_pos()
                minetest.chat_send_player(
                   name, minetest.colorize("#f00", "You are hungry."))
             end
@@ -322,7 +322,7 @@ end
 
 local function fake_on_item_eat(hpdata, replace_with_item, itemstack,
                                 player, pointed_thing)
-   local headpos  = player:getpos()
+   local headpos  = player:get_pos()
    headpos.y = headpos.y + 1
    minetest.sound_play(
       "hunger_eat",

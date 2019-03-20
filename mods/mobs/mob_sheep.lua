@@ -94,11 +94,11 @@ mobs:register_mob(
          if itemname == "default:shears" then
             if self.gotten == false and self.child == false then
                self.gotten = true -- shaved
-               local pos = self.object:getpos()
+               local pos = self.object:get_pos()
                pos.y = pos.y + 0.5
                local obj = minetest.add_item(pos, ItemStack("mobs:wool"))
                if obj then
-                  obj:setvelocity(
+                  obj:set_velocity(
                      {
                         x = math.random(-1,1),
                         y = 5,

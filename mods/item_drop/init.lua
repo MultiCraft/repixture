@@ -26,7 +26,7 @@ function item_drop.drop_item(pos, itemstack)
          z = -z
       end
 
-      drop:setvelocity({x = 1 / x, y = drop:getvelocity().y, z = 1 / z})
+      drop:set_velocity({x = 1 / x, y = drop:get_velocity().y, z = 1 / z})
    end
 end
 
@@ -38,7 +38,7 @@ minetest.register_globalstep(
    function(dtime)
       for _,player in ipairs(minetest.get_connected_players()) do
 	 if player:get_hp() > 0 or not minetest.settings:get_bool("enable_damage") then
-	    local pos = player:getpos()
+	    local pos = player:get_pos()
 	    local inv = player:get_inventory()
 
             local in_radius = minetest.get_objects_inside_radius(pos, 6.0)
@@ -50,7 +50,7 @@ minetest.register_globalstep(
 
                   pos1.y = pos1.y + 0.2
 
-                  local pos2 = object:getpos()
+                  local pos2 = object:get_pos()
 
                   local vec = {
                      x = pos1.x - pos2.x,
@@ -69,7 +69,7 @@ minetest.register_globalstep(
                            vec.y = vec.y*3
                            vec.z = vec.z*3
 
-                           object:setvelocity(vec)
+                           object:set_velocity(vec)
 
                            object:get_luaentity().physical_state = false
 
@@ -100,7 +100,7 @@ minetest.register_globalstep(
                         end
                      end
                   else
-                     object:setvelocity({x = 0, y = object:getvelocity().y, z = 0})
+                     object:set_velocity({x = 0, y = object:get_velocity().y, z = 0})
 
                      object:get_luaentity().physical_state = true
 
@@ -133,7 +133,7 @@ function minetest.handle_node_drops(pos, drops, digger)
 	    if math.random(1,2) == 1 then
 	       z = -z
 	    end
-	    obj:setvelocity({x=1/x, y=obj:getvelocity().y, z=1/z})
+	    obj:set_velocity({x=1/x, y=obj:get_velocity().y, z=1/z})
 
 	    -- FIXME this doesnt work for deactiveted objects
 	    if minetest.settings:get("remove_items") and tonumber(minetest.settings:get("remove_items")) then

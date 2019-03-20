@@ -168,7 +168,7 @@ minetest.register_craftitem(
          if inv:room_for_item("main", {name="default:bucket"}) then
             inv:add_item("main", "default:bucket")
          else
-            local pos = user:getpos()
+            local pos = user:get_pos()
             pos.y = math.floor(pos.y + 0.5)
             minetest.add_item(pos, "default:bucket")
          end
@@ -210,7 +210,7 @@ minetest.register_craftitem(
          if inv:room_for_item("main", {name="default:bucket"}) then
             inv:add_item("main", "default:bucket")
          else
-            local pos = user:getpos()
+            local pos = user:get_pos()
             pos.y = math.floor(pos.y + 0.5)
             minetest.add_item(pos, "default:bucket")
          end
@@ -252,7 +252,7 @@ minetest.register_craftitem(
          if inv:room_for_item("main", {name="default:bucket"}) then
             inv:add_item("main", "default:bucket")
          else
-            local pos = user:getpos()
+            local pos = user:get_pos()
             pos.y = math.floor(pos.y + 0.5)
             minetest.add_item(pos, "default:bucket")
          end
@@ -294,7 +294,7 @@ minetest.register_craftitem(
             if inv:room_for_item("main", {name="default:bucket_water"}) then
                inv:add_item("main", "default:bucket_water")
             else
-               local pos = user:getpos()
+               local pos = user:get_pos()
                pos.y = math.floor(pos.y + 0.5)
                minetest.add_item(pos, "default:bucket_water")
             end
@@ -308,7 +308,7 @@ minetest.register_craftitem(
             if inv:room_for_item("main", {name="default:bucket_river_water"}) then
                inv:add_item("main", "default:bucket_river_water")
             else
-               local pos = user:getpos()
+               local pos = user:get_pos()
                pos.y = math.floor(pos.y + 0.5)
                minetest.add_item(pos, "default:bucket_river_water")
             end
@@ -322,7 +322,7 @@ minetest.register_craftitem(
             if inv:room_for_item("main", {name="default:bucket_swamp_water"}) then
                inv:add_item("main", "default:bucket_swamp_water")
             else
-               local pos = user:getpos()
+               local pos = user:get_pos()
                pos.y = math.floor(pos.y + 0.5)
                minetest.add_item(pos, "default:bucket_swamp_water")
             end

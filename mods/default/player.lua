@@ -9,7 +9,7 @@ local function step(dtime)
    local player_positions = {}
 
    for _, player in ipairs(minetest.get_connected_players()) do
-      local player_pos=player:getpos()
+      local player_pos=player:get_pos()
       local head_pos = player_pos
       local name=player:get_player_name()
 
@@ -23,10 +23,10 @@ local function step(dtime)
                "Don't go past 30000m in any direction!"
          ))
 
-	 player:setpos(player_lastpos[name])
+	 player:set_pos(player_lastpos[name])
       end
 
-      player_lastpos[name] = player:getpos()
+      player_lastpos[name] = player:get_pos()
 
       if player:get_hp() < player_health[name] then
 	 minetest.sound_play(
@@ -117,7 +117,7 @@ local function on_joinplayer(player)
 
    player_health[name] = player:get_hp()
 
-   player_lastpos[name] = player:getpos()
+   player_lastpos[name] = player:get_pos()
 
    -- Uncomment to enable player-on-player collisions
    --   player:set_properties({physical = true})
