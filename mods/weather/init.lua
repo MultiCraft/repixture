@@ -14,7 +14,8 @@ end
 local snow_enable = minetest.settings:get_bool("weather_snow_enable") or false
 
 local weather_soundspec=nil
-local weather_pr=PseudoRandom(minetest.get_mapgen_params().seed + 2387)
+local mapseed = minetest.get_mapgen_setting("seed")
+local weather_pr=PseudoRandom(mapseed + 2387)
 
 local sound_min_height = -20 -- Below -20m you can't hear weather
 

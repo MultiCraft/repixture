@@ -5,7 +5,8 @@
 
 gold = {}
 
-gold.pr = PseudoRandom(minetest.get_mapgen_params().seed+8732)
+local mapseed = minetest.get_mapgen_setting("seed")
+gold.pr = PseudoRandom(mapseed+8732)
 
 gold.trades = {}
 gold.trade_names = {}

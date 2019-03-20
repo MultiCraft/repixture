@@ -5,6 +5,7 @@
 
 local spawn_pos = minetest.setting_get_pos("static_spawnpoint") or {x = 0, y = 0, z = 0}
 local spawn_radius = minetest.settings:get("static_spawn_radius") or 256
+local mapseed = minetest.get_mapgen_setting("seed")
 
 -- Nodes
 
@@ -30,7 +31,7 @@ minetest.register_node(
       on_construct = function(pos)
          minetest.remove_node(pos)
 
-         local pr = PseudoRandom(minetest.get_mapgen_params().seed
+         local pr = PseudoRandom(mapseed
                                     + pos.x + pos.y + pos.z)
 
          village.spawn_village(pos, pr)
@@ -73,10 +74,10 @@ minetest.register_lbm(
             return
          end
 
-         local pr = PseudoRandom(minetest.get_mapgen_params().seed
+         local pr = PseudoRandom(mapseed
                                     + pos.x + pos.y + pos.z)
 
-         if ((minetest.get_mapgen_params().seed + pos.x + pos.y + pos.z) % 30) == 1 then
+         if ((mapseed + pos.x + pos.y + pos.z) % 30) == 1 then
             local nearest = village.get_nearest_village(pos)
 
             if nearest.dist > village.min_spawn_dist then
