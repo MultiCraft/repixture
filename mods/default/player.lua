@@ -127,17 +127,6 @@ local function on_joinplayer(player)
 
    -- Uncomment to disable the minimap
    player:hud_set_flags({minimap = false})
-
-   -- Welcome
-
-   minetest.after(1.0, function()
-                     minetest.chat_send_player(
-                        player:get_player_name(),
-                        minetest.colorize(
-                           "#ff0",
-                           "Welcome to Pixture! Type /help for a list of commands."
-                     ))
-   end)
 end
 
 local function on_leaveplayer(player)

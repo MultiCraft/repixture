@@ -5,8 +5,6 @@
 
 ## Multiplayer settings
 
-welcome_enable (Welcome) bool true
-
 ## Player stuff
 
 drop_items_on_die (Drop items on death) bool true
