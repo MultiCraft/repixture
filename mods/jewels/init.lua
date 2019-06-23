@@ -139,6 +139,11 @@ function jewels.register_jewel(toolname, new_toolname, def)
 
    new_tooldef.description = desc
 
+   if not new_tooldef.groups then
+     new_tooldef.groups = {}
+   end
+   new_tooldef.groups.not_in_creative_inventory = 1
+
    minetest.register_tool(new_toolname, new_tooldef)
 end
 
@@ -175,7 +180,7 @@ minetest.register_craftitem(
 minetest.register_node(
    "jewels:bench",
    {
-      description = "Jewelers Workbench",
+      description = "Jeweler's Workbench",
       tiles ={"jewels_bench_top.png", "jewels_bench_bottom.png", "jewels_bench_sides.png"},
       paramtype2 = "facedir",
       groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -186,7 +191,7 @@ minetest.register_node(
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
          meta:set_string("formspec", default.ui.get_page("jewels_bench"))
-         meta:set_string("infotext", "Jewelers Workbench")
+         meta:set_string("infotext", "Jeweler's Workbench")
 
          local inv = meta:get_inventory()
          inv:set_size("main", 1)

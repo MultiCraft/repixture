@@ -19,7 +19,7 @@ if minetest.settings:get_bool("music_enable") then
       local dp = minetest.hash_node_position(pos)
 
       local meta = minetest.get_meta(pos)
-      meta:set_string("infotext", "Music player (Off)")
+      meta:set_string("infotext", "Music Player (off)")
       meta:set_int("music_player_enabled", 0)
 
       if music.players[dp] ~= nil then
@@ -32,7 +32,7 @@ if minetest.settings:get_bool("music_enable") then
       local dp = minetest.hash_node_position(pos)
 
       local meta = minetest.get_meta(pos)
-      meta:set_string("infotext", "Music player (On)")
+      meta:set_string("infotext", "Music Player (on)")
       meta:set_int("music_player_enabled", 1)
 
       if music.players[dp] == nil then
@@ -89,7 +89,7 @@ if minetest.settings:get_bool("music_enable") then
    minetest.register_node(
       "music:player",
       {
-	 description = "Music player",
+	 description = "Music Player",
 
 	 tiles = {"music_top.png", "music_bottom.png", "music_side.png"},
 
@@ -131,7 +131,7 @@ if minetest.settings:get_bool("music_enable") then
 
    minetest.register_abm(
       {
-         label = "Music player",
+         label = "Music Player",
 	 nodenames = {"music:player"},
 	 chance = 1,
 	 interval = 1,
@@ -148,7 +148,7 @@ else
    minetest.register_node(
       "music:player",
       {
-	 description = "Music player",
+	 description = "Music Player",
 
 	 tiles = {"music_top.png", "music_bottom.png", "music_side.png"},
 
@@ -166,7 +166,7 @@ else
 	 on_construct = function(pos)
             local meta = minetest.get_meta(pos)
 
-            meta:set_string("infotext", "Music player(Disabled by server)")
+            meta:set_string("infotext", "Music Player (disabled by server)")
          end,
 
 	 groups = {oddly_breakable_by_hand = 3}

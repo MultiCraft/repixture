@@ -58,7 +58,7 @@ minetest.register_craftitem(
       inventory_image = "nav_compass_inventory_1.png",
       wield_image = wield_image_1,
 
-      groups = {nav_compass = 1},
+      groups = {nav_compass = 1, not_in_creative_inventory = 1},
       stack_max = 1,
 })
 
@@ -70,7 +70,7 @@ minetest.register_craftitem(
       inventory_image = "nav_compass_inventory_0.png^[transformR270",
       wield_image = wield_image_0 .. "^[transformR270",
 
-      groups = {nav_compass = 1},
+      groups = {nav_compass = 1, not_in_creative_inventory = 1},
       stack_max = 1,
 })
 
@@ -82,7 +82,7 @@ minetest.register_craftitem(
       inventory_image = "nav_compass_inventory_1.png^[transformR270",
       wield_image = wield_image_1 .. "^[transformR270",
 
-      groups = {nav_compass = 1},
+      groups = {nav_compass = 1, not_in_creative_inventory = 1},
       stack_max = 1,
 })
 
@@ -95,7 +95,7 @@ minetest.register_craftitem(
       inventory_image = "nav_compass_inventory_0.png^[transformR180",
       wield_image = wield_image_0 .. "^[transformR180",
 
-      groups = {nav_compass = 1},
+      groups = {nav_compass = 1, not_in_creative_inventory = 1},
       stack_max = 1,
 })
 
@@ -107,7 +107,7 @@ minetest.register_craftitem(
       inventory_image = "nav_compass_inventory_1.png^[transformR180",
       wield_image = wield_image_1 .. "^[transformR180",
 
-      groups = {nav_compass = 1},
+      groups = {nav_compass = 1, not_in_creative_inventory = 1},
       stack_max = 1,
 })
 
@@ -119,7 +119,7 @@ minetest.register_craftitem(
       inventory_image = "nav_compass_inventory_0.png^[transformR90",
       wield_image = wield_image_0 .. "^[transformR90",
 
-      groups = {nav_compass = 1},
+      groups = {nav_compass = 1, not_in_creative_inventory = 1},
       stack_max = 1,
 })
 
@@ -131,7 +131,7 @@ minetest.register_craftitem(
       inventory_image = "nav_compass_inventory_1.png^[transformR90",
       wield_image = wield_image_1 .. "^[transformR90",
 
-      groups = {nav_compass = 1},
+      groups = {nav_compass = 1, not_in_creative_inventory = 1},
       stack_max = 1,
 })
 

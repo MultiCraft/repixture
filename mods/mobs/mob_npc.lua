@@ -3,13 +3,15 @@
 -- Modded by KaadmY
 
 local npc_types = {
-   "farmer",
-   "tavernkeeper",
-   "blacksmith",
-   "butcher",
+   { "farmer", "Farmer" },
+   { "tavernkeeper", "Tavern Keeper" },
+   { "blacksmith", "Blacksmith" },
+   { "butcher", "Butcher" },
 }
 
-for _, npc_type in pairs(npc_types) do
+for _, npc_type_table in pairs(npc_types) do
+   local npc_type = npc_type_table[1]
+   local npc_name = npc_type_table[2]
    mobs:register_mob(
       "mobs:npc_" .. npc_type,
       {
@@ -117,5 +119,5 @@ for _, npc_type in pairs(npc_types) do
          end,
    })
 
-   mobs:register_egg("mobs:npc_" .. npc_type, "NPC", "default_brick.png^mobs_egg.png")
+   mobs:register_egg("mobs:npc_" .. npc_type, npc_name, "default_brick.png^mobs_egg.png")
 end

@@ -59,7 +59,7 @@ minetest.register_globalstep(on_globalstep)
 minetest.register_node(
    "lumien:crystal_on",
    {
-      description = "Lumien Crystal",
+      description = "Glowing Lumien Crystal",
       inventory_image = "lumien_crystal.png",
       tiles = {"lumien_block.png"},
       paramtype = "light",
@@ -72,7 +72,7 @@ minetest.register_node(
          wall_bottom = {-4/16, -0.5, -4/16, 4/16, -0.5+(4/16), 4/16}
       },
 
-      groups = {crumbly = 3},
+      groups = {crumbly = 3, not_in_creative_inventory = 1},
       light_source = 12,
       drop = "lumien:crystal_off",
       sounds = default.node_sound_glass_defaults(),

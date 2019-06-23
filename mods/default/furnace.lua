@@ -87,13 +87,13 @@ minetest.register_node(
 minetest.register_node(
    "default:furnace_active",
    {
-      description = "Furnace",
+      description = "Furnace (active)",
       tiles ={"default_furnace_top.png", "default_furnace_top.png", "default_furnace_sides.png",
 	      "default_furnace_sides.png", "default_furnace_sides.png", "default_furnace_front.png^default_furnace_flame.png"},
       paramtype2 = "facedir",
       light_source = 8,
       drop = "default:furnace",
-      groups = {cracky = 2},
+      groups = {cracky = 2, not_in_creative_inventory=1},
       is_ground_content = false,
       sounds = default.node_sound_stone_defaults(),
       on_construct = function(pos)

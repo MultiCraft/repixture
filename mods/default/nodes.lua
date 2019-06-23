@@ -597,13 +597,13 @@ minetest.register_node(
 minetest.register_node( -- looks just like default oak leaves, except they decay much farther
    "default:leaves_oak_huge",
    {
-      description = "Oak Leaves(Huge)",
+      description = "Oak Leaves (Huge)",
       drawtype = "allfaces_optional",
       visual_scale = 1.3,
       tiles = {"default_leaves_oak.png"},
       paramtype = "light",
       waving = 1,
-      groups = {snappy = 3, leafdecay = 10, fall_damage_add_percent = -5, leaves = 1},
+      groups = {snappy = 3, leafdecay = 10, fall_damage_add_percent = -5, leaves = 1, not_in_creative_inventory = 1},
       drop = {
 	 max_items = 1,
 	 items = {
@@ -942,7 +942,7 @@ minetest.register_node(
 minetest.register_node(
    "default:water_flowing",
    {
-      description = "Water (flowing)",
+      description = "Flowing Water",
       drawtype = "flowingliquid",
       tiles = {"default_water.png"},
       special_tiles = {
@@ -970,7 +970,7 @@ minetest.register_node(
       liquid_alternative_source = "default:water_source",
       liquid_viscosity = default.WATER_VISC,
       post_effect_color = {a = 90, r = 40, g = 40, b = 100},
-      groups = {water = 1, flowing_water = 1, liquid = 1},
+      groups = {water = 1, flowing_water = 1, liquid = 1, not_in_creative_inventory=1,},
       sounds = default.node_sound_liquid_defaults(),
       is_ground_content = false,
 })
@@ -978,7 +978,7 @@ minetest.register_node(
 minetest.register_node(
    "default:water_source",
    {
-      description = "Water",
+      description = "Water Source",
       drawtype = "liquid",
       tiles = {"default_water.png"},
       special_tiles = {
@@ -1008,7 +1008,7 @@ minetest.register_node(
 minetest.register_node(
    "default:river_water_flowing",
    {
-      description = "River Water (flowing)",
+      description = "Flowing River Water",
       drawtype = "flowingliquid",
       tiles = {"default_water.png"},
       special_tiles = {
@@ -1038,7 +1038,7 @@ minetest.register_node(
       liquid_renewable = false,
       liquid_range = 1,
       post_effect_color = {a=40, r=40, g=70, b=100},
-      groups = {water=1, flowing_water = 1, river_water = 1, liquid=1},
+      groups = {water=1, flowing_water = 1, river_water = 1, liquid=1, not_in_creative_inventory=1,},
       sounds = default.node_sound_liquid_defaults(),
       is_ground_content = false,
 })
@@ -1046,7 +1046,7 @@ minetest.register_node(
 minetest.register_node(
    "default:river_water_source",
    {
-      description = "River Water",
+      description = "River Water Source",
       drawtype = "liquid",
       tiles = {"default_water.png"},
       special_tiles = {
@@ -1078,7 +1078,7 @@ minetest.register_node(
 minetest.register_node(
    "default:swamp_water_flowing",
    {
-      description = "Swamp Water (flowing)",
+      description = "Flowing Swamp Water",
       drawtype = "flowingliquid",
       tiles = {"default_swamp_water.png"},
       special_tiles = {
@@ -1108,7 +1108,7 @@ minetest.register_node(
       liquid_renewable = false,
       liquid_range = 2,
       post_effect_color = {a=220, r=50, g=40, b=70},
-      groups = {water=1, flowing_water = 1, swamp_water = 1, liquid=1},
+      groups = {water=1, flowing_water = 1, swamp_water = 1, liquid=1, not_in_creative_inventory=1,},
       sounds = default.node_sound_liquid_defaults(),
       is_ground_content = false,
 })
@@ -1116,7 +1116,7 @@ minetest.register_node(
 minetest.register_node(
    "default:swamp_water_source",
    {
-      description = "Swamp Water",
+      description = "Swamp Water Source",
       drawtype = "liquid",
       tiles = {"default_swamp_water.png"},
       special_tiles = {

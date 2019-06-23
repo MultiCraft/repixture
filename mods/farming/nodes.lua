@@ -33,7 +33,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:wheat_2",
    {
-      description = "Wheat",
+      description = "Wheat Plant (stage 1)",
       drawtype = "plantlike",
       tiles = {"farming_wheat_2.png"},
       paramtype = "light",
@@ -50,7 +50,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {dig_immediate=2, not_in_craftingguide = 1},
+      groups = {dig_immediate=2, not_in_craftingguide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -58,7 +58,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:wheat_3",
    {
-      description = "Wheat",
+      description = "Wheat Plant (stage 2)",
       drawtype = "plantlike",
       tiles = {"farming_wheat_3.png"},
       paramtype = "light",
@@ -75,7 +75,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {dig_immediate=2, not_in_craftingguide = 1},
+      groups = {dig_immediate=2, not_in_craftingguide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -83,7 +83,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:wheat_4",
    {
-      description = "Wheat",
+      description = "Wheat Plant (stage 3)",
       drawtype = "plantlike",
       tiles = {"farming_wheat_4.png"},
       paramtype = "light",
@@ -103,7 +103,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {dig_immediate=2, not_in_craftingguide = 1},
+      groups = {dig_immediate=2, not_in_craftingguide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -138,7 +138,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:cotton_2",
    {
-      description = "Cotton",
+      description = "Cotton Plant (stage 1)",
       drawtype = "plantlike",
       tiles = {"farming_cotton_2.png"},
       paramtype = "light",
@@ -155,7 +155,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {dig_immediate=2, not_in_craftingguide = 1},
+      groups = {dig_immediate=2, not_in_craftingguide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -163,7 +163,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:cotton_3",
    {
-      description = "Cotton",
+      description = "Cotton Plant (stage 2)",
       drawtype = "plantlike",
       tiles = {"farming_cotton_3.png"},
       paramtype = "light",
@@ -180,7 +180,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {dig_immediate=2, not_in_craftingguide = 1},
+      groups = {dig_immediate=2, not_in_craftingguide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -188,7 +188,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:cotton_4",
    {
-      description = "Cotton",
+      description = "Cotton Plant (stage 3)",
       drawtype = "plantlike",
       tiles = {"farming_cotton_4.png"},
       paramtype = "light",
@@ -208,7 +208,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {dig_immediate=2, not_in_craftingguide = 1},
+      groups = {dig_immediate=2, not_in_craftingguide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults(),
       on_punch = function(pos, node, player)
          local name = player:get_wielded_item():get_name()
