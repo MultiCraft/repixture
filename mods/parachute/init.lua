@@ -24,7 +24,7 @@ minetest.register_craftitem(
       on_use = function(itemstack, player, pointed_thing)
          local name = player:get_player_name()
 
-         local pos = player:getpos()
+         local pos = player:get_pos()
 
          local on = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z})
 
@@ -38,7 +38,7 @@ minetest.register_craftitem(
 
             local ent = minetest.add_entity(pos, "parachute:entity")
 
-            ent:setvelocity(
+            ent:set_velocity(
                {
                   x = 0,
                   y = math.min(0, player:get_player_velocity().y),
@@ -47,7 +47,7 @@ minetest.register_craftitem(
 
             player:set_attach(ent, "", {x = 0, y = -8, z = 0}, {x = 0, y = 0, z = 0})
 
-            ent:setyaw(player:get_look_horizontal())
+            ent:set_yaw(player:get_look_horizontal())
 
             ent = ent:get_luaentity()
             ent.attached = name
@@ -75,13 +75,13 @@ minetest.register_entity(
       automatic_face_movement_dir = -90,
       attached = nil,
       on_step = function(self, dtime)
-         local pos = self.object:getpos()
+         local pos = self.object:get_pos()
          local under = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z})
 
          if self.attached ~= nil then
             local player = minetest.get_player_by_name(self.attached)
 
-            local vel = self.object:getvelocity()
+            local vel = self.object:get_velocity()
 
             local accel = {x = 0, y = 0, z = 0}
 
@@ -94,7 +94,7 @@ minetest.register_entity(
             if lookyaw >= (math.pi * 2) then
                lookyaw = lookyaw - (math.pi * 2)
             end
---            self.object:setyaw(lookyaw)
+--            self.object:set_yaw(lookyaw)
 
             local s = math.sin(lookyaw)
             local c = math.cos(lookyaw)
@@ -124,7 +124,7 @@ minetest.register_entity(
 
             accel.y = accel.y + air_physics(vel.y) * 0.25
 
-            self.object:setacceleration(accel)
+            self.object:set_acceleration(accel)
 
             if under.name ~= "air" then
                default.player_attached[self.attached] = false

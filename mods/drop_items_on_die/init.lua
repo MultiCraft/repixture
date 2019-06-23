@@ -14,7 +14,7 @@ function drop_items_on_die.register_listname(listname)
 end
 
 local function on_die(player)
-   local pos = player:getpos()
+   local pos = player:get_pos()
 
    local inv = player:get_inventory()
 

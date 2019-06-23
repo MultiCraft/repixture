@@ -331,7 +331,7 @@ local function on_player_receive_fields(player, form_name, fields)
 
 
    if fields.quit then
-      local pos = player:getpos()
+      local pos = player:get_pos()
 
       for i = 1, inv:get_size("craft_in") do
          local itemstack = inv:get_stack("craft_in", i)

@@ -14,7 +14,8 @@ end
 local snow_enable = minetest.settings:get_bool("weather_snow_enable") or false
 
 local weather_soundspec=nil
-local weather_pr=PseudoRandom(minetest.get_mapgen_params().seed + 2387)
+local mapseed = minetest.get_mapgen_setting("seed")
+local weather_pr=PseudoRandom(mapseed + 2387)
 
 local sound_min_height = -20 -- Below -20m you can't hear weather
 
@@ -27,7 +28,7 @@ local function play_sound()
 
    if weather.weather == "storm" then
       for _, player in ipairs(minetest.get_connected_players()) do
-         if player:getpos().y > sound_min_height then
+         if player:get_pos().y > sound_min_height then
             weather_soundspec = minetest.sound_play(
                {
                name = "weather_storm",
@@ -41,7 +42,7 @@ local function play_sound()
       return
    elseif weather.weather == "snowstorm" then
       for _, player in ipairs(minetest.get_connected_players()) do
-         if player:getpos().y > sound_min_height then
+         if player:get_pos().y > sound_min_height then
             weather_soundspec = minetest.sound_play(
                {
                   name = "weather_snowstorm",
@@ -130,12 +131,12 @@ minetest.register_globalstep(
 	    player:override_day_night_ratio(nil)
 	 end
 
-	 local p=player:getpos()
+	 local p=player:get_pos()
 
 	 if weather.weather == "storm" then
 	    if minetest.get_node_light({x=p.x, y=p.y+15, z=p.z}, 0.5) == 15 then
-	       local minpos = addvec(player:getpos(), {x = -15, y = 15, z = -15})
-	       local maxpos = addvec(player:getpos(), {x = 15, y = 10, z = 15})
+	       local minpos = addvec(player:get_pos(), {x = -15, y = 15, z = -15})
+	       local maxpos = addvec(player:get_pos(), {x = 15, y = 10, z = 15})
 	       minetest.add_particlespawner(
 		  {
 		     amount = 30,
@@ -166,8 +167,8 @@ minetest.register_globalstep(
 	    end
 
 	    if minetest.get_node_light({x=p.x, y=p.y+15, z=p.z}, 0.5) == 15 then
-	       local minpos = addvec(player:getpos(), {x = -30, y = 20, z = -30})
-	       local maxpos = addvec(player:getpos(), {x = 30, y = 15, z = 30})
+	       local minpos = addvec(player:get_pos(), {x = -30, y = 20, z = -30})
+	       local maxpos = addvec(player:get_pos(), {x = 30, y = 15, z = 30})
 	       local vel = {x = 16.0, y = -8, z = 13.0}
 	       local acc = {x = -16.0, y = -8, z = -13.0}
 	       minetest.add_particlespawner(

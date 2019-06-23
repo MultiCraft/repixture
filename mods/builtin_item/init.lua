@@ -87,8 +87,8 @@ minetest.register_entity(
 			  self.itemstring = staticdata
 		       end
 		       self.object:set_armor_groups({immortal=1})
-		       self.object:setvelocity({x=0, y=2, z=0})
-		       self.object:setacceleration({x=0, y=-10, z=0})
+		       self.object:set_velocity({x=0, y=2, z=0})
+		       self.object:set_acceleration({x=0, y=-10, z=0})
 		       self:set_item(self.itemstring)
 		    end,
       
@@ -102,11 +102,11 @@ minetest.register_entity(
 		      self.object:remove()
 		   end
 		   
-		   local p = self.object:getpos()
+		   local p = self.object:get_pos()
 		   
 		   local name = minetest.get_node(p).name
 		   if minetest.registered_nodes[name].damage_per_second > 0 or name == "maptools:igniter" then
-		      minetest.sound_play("builtin_item_lava", {pos = self.object:getpos(), gain = 0.45})
+		      minetest.sound_play("builtin_item_lava", {pos = self.object:get_pos(), gain = 0.45})
 		      self.object:remove()
 		      return
 		   end
@@ -116,8 +116,8 @@ minetest.register_entity(
 		   -- If node is not registered or node is walkably solid:
 		   if not minetest.registered_nodes[nn] or minetest.registered_nodes[nn].walkable then
 		      if self.physical_state then
-			 self.object:setvelocity({x=0,y=0,z=0})
-			 self.object:setacceleration({x=0, y=0, z=0})
+			 self.object:set_velocity({x=0,y=0,z=0})
+			 self.object:set_acceleration({x=0, y=0, z=0})
 			 self.physical_state = false
 			 self.object:set_properties(
 			    {
@@ -126,8 +126,8 @@ minetest.register_entity(
 		      end
 		   else
 		      if not self.physical_state then
-			 self.object:setvelocity({x=0,y=0,z=0})
-			 self.object:setacceleration({x=0, y=-10, z=0})
+			 self.object:set_velocity({x=0,y=0,z=0})
+			 self.object:set_acceleration({x=0, y=-10, z=0})
 			 self.physical_state = true
 			 self.object:set_properties(
 			    {

@@ -67,7 +67,7 @@ function headbars.attach_hpbar(to)
    if not enable_damage then return end
    if not enable_headbars then return end
 
-   local pos = to:getpos()
+   local pos = to:get_pos()
    local bar = minetest.add_entity(pos, "headbars:hpbar")
 
    if bar == nil then return end
