@@ -74,18 +74,11 @@ function player_skins.get_skin(name)
 end
 
 function player_skins.set_skin(name, tex)
-   if minetest.check_player_privs(name, {player_skin = true}) then
-      if is_valid_skin(tex) then
-	 player_skins.skins[name] = tex
-	 save_player_skins()
-      else
-	 minetest.chat_send_player(name, "Invalid skin")
-      end
+   if is_valid_skin(tex) then
+      player_skins.skins[name] = tex
+      save_player_skins()
    else
-      minetest.chat_send_player(
-         name,
-         "You do not have the privilege to change your skin."
-      )
+      minetest.chat_send_player(name, "Invalid skin!")
    end
 end
 
@@ -195,13 +188,12 @@ minetest.register_on_player_receive_fields(
       end
 end)
 
-minetest.register_privilege("player_skin", "Can change player skin")
 minetest.register_chatcommand(
    "player_skin",
    {
       params = get_chatparams(),
       description = "Set your player skin",
-      privs = {player_skin = true},
+      privs = {},
       func = function(name, param)
          if is_valid_skin(param) then
             player_skins.set_skin(name, param)
