@@ -124,9 +124,6 @@ local function on_joinplayer(player)
 
    -- Uncomment to disable sneaking
    player:set_physics_override({sneak = false})
-
-   -- Uncomment to disable the minimap
-   player:hud_set_flags({minimap = false})
 end
 
 local function on_leaveplayer(player)
