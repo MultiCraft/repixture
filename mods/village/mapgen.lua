@@ -54,7 +54,7 @@ minetest.register_node(
       is_ground_content = true,
       air_equivalent = true,
       drop = "",
-      groups = {not_in_craftingguide = 1},
+      groups = {not_in_craft_guide = 1},
 })
 
 -- Spawning LBM

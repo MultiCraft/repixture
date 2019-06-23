@@ -10,7 +10,7 @@ minetest.register_node(
    {
       description = "Stone with Sulfur",
       tiles = {"default_stone.png^default_mineral_sulfur.png"},
-      groups = {cracky = 2, stone = 1, not_in_craftingguide = 1},
+      groups = {cracky = 2, stone = 1, not_in_craft_guide = 1},
       drop = "default:lump_sulfur",
       sounds = default.node_sound_stone_defaults(),
 })
@@ -20,7 +20,7 @@ minetest.register_node(
    {
       description = "Stone with Graphite",
       tiles = {"default_stone.png^default_mineral_graphite.png"},
-      groups = {cracky = 2, stone = 1, not_in_craftingguide = 1},
+      groups = {cracky = 2, stone = 1, not_in_craft_guide = 1},
       drop = "default:sheet_graphite",
       sounds = default.node_sound_stone_defaults(),
 })
@@ -30,7 +30,7 @@ minetest.register_node(
    {
       description = "Stone with Coal",
       tiles = {"default_stone.png^default_mineral_coal.png"},
-      groups = {cracky = 2, stone = 1, not_in_craftingguide = 1},
+      groups = {cracky = 2, stone = 1, not_in_craft_guide = 1},
       drop = "default:lump_coal",
       sounds = default.node_sound_stone_defaults(),
 })
@@ -40,7 +40,7 @@ minetest.register_node(
    {
       description = "Stone with Iron",
       tiles = {"default_stone.png^default_mineral_iron.png"},
-      groups = {cracky = 2, stone = 1, not_in_craftingguide = 1},
+      groups = {cracky = 2, stone = 1, not_in_craft_guide = 1},
       drop = "default:lump_iron",
       sounds = default.node_sound_stone_defaults(),
 })
@@ -50,7 +50,7 @@ minetest.register_node(
    {
       description = "Stone with Tin",
       tiles = {"default_stone.png^default_mineral_tin.png"},
-      groups = {cracky = 1, stone = 1, not_in_craftingguide = 1},
+      groups = {cracky = 1, stone = 1, not_in_craft_guide = 1},
       drop = "default:lump_tin",
       sounds = default.node_sound_stone_defaults(),
 })
@@ -60,7 +60,7 @@ minetest.register_node(
    {
       description = "Stone with Copper",
       tiles = {"default_stone.png^default_mineral_copper.png"},
-      groups = {cracky = 1, stone = 1, not_in_craftingguide = 1},
+      groups = {cracky = 1, stone = 1, not_in_craft_guide = 1},
       drop = "default:lump_copper",
       sounds = default.node_sound_stone_defaults(),
 })
@@ -202,7 +202,7 @@ minetest.register_node(
 	 plantable_soil = 1,
 	 plantable_fertilizer = 1,
 	 fall_damage_add_percent = -5,
-	 not_in_craftingguide = 1,
+	 not_in_craft_guide = 1,
       },
       drop = "default:dirt",
       sounds = default.node_sound_dirt_defaults(),
@@ -218,7 +218,7 @@ minetest.register_node(
          "default_dirt.png^default_dry_grass_side.png"
       },
       groups = {crumbly = 3, soil = 1, plantable_sandy = 1,
-                fall_damage_add_percent = -5, not_in_craftingguide = 1},
+                fall_damage_add_percent = -5, not_in_craft_guide = 1},
       drop = {
 	 max_items = 3,
 	 items = {
@@ -244,7 +244,7 @@ minetest.register_node(
          "default_swamp_dirt.png^default_swamp_grass_side.png"
       },
       groups = {crumbly = 3, soil = 1, plantable_soil = 1,
-                fall_damage_add_percent = -5, not_in_craftingguide = 1},
+                fall_damage_add_percent = -5, not_in_craft_guide = 1},
       drop = {
 	 max_items = 3,
 	 items = {
@@ -270,7 +270,7 @@ minetest.register_node(
          "default_dirt.png^default_grass_side.png"
       },
       groups = {crumbly = 3, soil = 1, plantable_soil = 1,
-                fall_damage_add_percent = -5, not_in_craftingguide = 1},
+                fall_damage_add_percent = -5, not_in_craft_guide = 1},
       drop = {
 	 max_items = 3,
 	 items = {
@@ -292,7 +292,7 @@ minetest.register_node(
    {
       description = "Dirt with Grass Footsteps",
       tiles = {"default_grass_footstep.png", "default_dirt.png", "default_dirt.png^default_grass_side.png"},
-      groups = {crumbly = 3, soil = 1, plantable_soil = 1, fall_damage_add_percent = -5, not_in_craftingguide = 1},
+      groups = {crumbly = 3, soil = 1, plantable_soil = 1, fall_damage_add_percent = -5, not_in_craft_guide = 1},
       drop = {
 	 max_items = 3,
 	 items = {
@@ -395,7 +395,7 @@ minetest.register_node(
 	 plantable_sandy = 1,
 	 plantable_fertilizer = 1,
 	 fall_damage_add_percent = -10,
-	 not_in_craftingguide = 1,
+	 not_in_craft_guide = 1,
       },
       drop = "default:sand",
       is_ground_content = false,

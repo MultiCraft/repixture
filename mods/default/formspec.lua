@@ -184,7 +184,7 @@ function default.ui.item_group(x, y, group, count, name)
    else
       for itemn, itemdef in pairs(minetest.registered_items) do
          if minetest.get_item_group(itemn, group) ~= 0
-         and minetest.get_item_group(itemn, "not_in_craftingguide") ~= 1 then
+         and minetest.get_item_group(itemn, "not_in_craft_guide") ~= 1 then
             itemname = itemn
          end
       end
