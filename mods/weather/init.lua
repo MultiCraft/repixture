@@ -69,6 +69,9 @@ function setweather_type(type)
    if valid then
       weather.weather = type
       play_sound()
+      return true
+   else
+      return false
    end
 end
 
@@ -201,18 +204,23 @@ minetest.register_globalstep(
 minetest.register_privilege(
    "weather",
    {
-      description = "Can use /weather command",
+      description = "Can change the weather using the /weather command",
       give_to_singleplayer = false
 })
 
 minetest.register_chatcommand(
    "weather",
    {
-      params = "[storm|snowstorm|clear]",
-      description = "Set the weather to either clear, storm, or snowstorm",
+      params = "storm | snowstorm | clear",
+      description = "Change the weather",
       privs = {weather = true},
       func = function(name, param)
-         setweather_type(param)
+         local weather_set = setweather_type(param)
+         if not weather_set then
+             return false, "Incorrect weather. Valid weathers are “storm”, “snowstorm” and “clear”."
+         else
+             return true, "Weather changed."
+         end
       end
 })
 

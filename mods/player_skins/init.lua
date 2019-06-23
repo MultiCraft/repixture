@@ -205,15 +205,11 @@ minetest.register_chatcommand(
       func = function(name, param)
          if is_valid_skin(param) then
             player_skins.set_skin(name, param)
+            return true, string.format("Skin set to “%s”.", param)
          elseif param == "" then
-            minetest.chat_send_player(
-               name,
-               "Current player skin: " .. player_skins.skins[name])
+            return true, "Current player skin: " .. player_skins.skins[name]
          else
-            minetest.chat_send_player(
-               name,
-               "Bad param for /player_skin; type /help player_skin"
-            )
+            return false, "Unknown player skin. Enter “/help player_skin” for help."
          end
       end
 })

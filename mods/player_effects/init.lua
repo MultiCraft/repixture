@@ -205,7 +205,7 @@ minetest.register_on_dieplayer(on_dieplayer)
 minetest.register_chatcommand(
    "player_effects",
    {
-      description = "Show current player effects",
+      description = "Show your current player effects",
       func = function(name, param)
          local s = "Current player effects:\n"
          local ea = 0
@@ -221,9 +221,9 @@ minetest.register_chatcommand(
          end
 
          if ea > 0 then
-            minetest.chat_send_player(name, s)
+            return true, s
          else
-            minetest.chat_send_player(name, "You currently have no effects")
+            return true, "You currently have no effects."
          end
       end
 })

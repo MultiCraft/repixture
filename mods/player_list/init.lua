@@ -107,6 +107,7 @@ minetest.register_chatcommand(
 		else
 		   minetest.chat_send_player(player_name, player_count .. " connected players")
 		end
+                return true
 	     end
    })
 
