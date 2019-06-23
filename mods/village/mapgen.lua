@@ -12,7 +12,7 @@ local mapseed = minetest.get_mapgen_setting("seed")
 minetest.register_node(
    "village:entity_spawner",
    {
-      description = "Chunk defs may choose which entities to spawn here",
+      description = "Village Entity Spawner",
       tiles = {"default_brick.png^default_book.png"},
       is_ground_content = false,
       groups = {dig_immediate = 2},
@@ -22,7 +22,7 @@ minetest.register_node(
 minetest.register_node(
    "village:grassland_village",
    {
-      description = "Village spawner",
+      description = "Village Spawner",
       tiles = {"default_grass.png^default_book.png"},
       is_ground_content = false,
       groups = {dig_immediate = 2},
@@ -41,7 +41,9 @@ minetest.register_node(
 minetest.register_node(
    "village:grassland_village_mg",
    {
-      description = "Mapgen village spawner(Has chance of not spawning village)",
+      description = "Mapgen Village Spawner\n(Has chance of not spawning village)",
+      inventory_image = "default_wood.png^default_book.png",
+      wield_image = "default_wood.png^default_book.png",
       drawtype = "airlike",
       paramtype = "light",
       sunlight_propagates = true,
