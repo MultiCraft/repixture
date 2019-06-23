@@ -104,8 +104,8 @@ function hunger.update_bar(player)
 	    text = "hunger.png",
 	    number = hunger.userdata[name].hunger,
 	    dir = 0,
-	    size = {x=16, y=16},
-	    offset = {x=64, y=-(48+24+16)},
+	    size = {x=24, y=24},
+	    offset = {x=16, y=-(48+24+24)},
       })
    end
 end
@@ -149,8 +149,8 @@ local function on_joinplayer(player)
          text = "hunger.png^[colorize:#666666:255",
          number = 20,
          dir = 0,
-         size = {x=16, y=16},
-         offset = {x=64, y=-(48+24+16)},
+         size = {x=24, y=24},
+         offset = {x=16, y=-(48+24+24)},
    })
 
    hunger.update_bar(player)

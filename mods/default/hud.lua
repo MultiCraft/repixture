@@ -8,8 +8,8 @@ local health_bar_definition = {
    text = "heart.png",
    number = 20,
    direction = 0,
-   size = { x=16, y=16 },
-   offset = { x=(-10*16)-64, y=-(48+24+16)},
+   size = { x=24, y=24 },
+   offset = { x=(-10*16)-64-32, y=-(48+24+24)},
 }
 
 local breath_bar_definition = {
@@ -18,8 +18,8 @@ local breath_bar_definition = {
    text = "bubble.png",
    number = 20,
    dir = 0,
-   size = { x=16, y=16 },
-   offset = {x=64,y=-(48+24+16)-16},
+   size = { x=24, y=24 },
+   offset = {x=16,y=-(48+24+24)-24},
 }
 
 local health_bar_bg = {
@@ -28,8 +28,8 @@ local health_bar_bg = {
    text = "heart.png^[colorize:#666666:255",
    number = 20,
    direction = 0,
-   size = { x=16, y=16 },
-   offset = { x=(-10*16)-64, y=-(48+24+16)},
+   size = { x=24, y=24 },
+   offset = { x=(-10*16)-64-32, y=-(48+24+24)},
 }
 
 local breath_bar_bg = {
@@ -38,8 +38,8 @@ local breath_bar_bg = {
    text = "bubble.png^[colorize:#666666:255",
    number = 20,
    dir = 0,
-   size = { x=16, y=16 },
-   offset = {x=64,y=-(48+24+16)-16},
+   size = { x=24, y=24 },
+   offset = {x=16,y=-(48+24+24)-24},
 }
 
 default.hud.ids={}
