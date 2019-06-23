@@ -170,18 +170,6 @@ local function on_respawnplayer(player)
 
    if bed.userdata[name] then
       if not bed.userdata[name].slept then
-         if not is_bed_node(bed.userdata[name].node_pos) then
-            minetest.chat_send_player(
-               name,
-               minetest.colorize(
-                  "#f00", "You don't have a bed"))
-         else
-            minetest.chat_send_player(
-               name,
-               minetest.colorize(
-                  "#f00", "You haven't slept in a bed yet"))
-         end
-
          return
       end
 
