@@ -119,5 +119,5 @@ for _, npc_type_table in pairs(npc_types) do
          end,
    })
 
-   mobs:register_egg("mobs:npc_" .. npc_type, npc_name, "default_brick.png^mobs_egg.png")
+   mobs:register_egg("mobs:npc_" .. npc_type, npc_name, "mobs_npc_"..npc_type.."_inventory.png")
 end
