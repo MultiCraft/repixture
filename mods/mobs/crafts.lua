@@ -48,7 +48,7 @@ minetest.register_craft(
 minetest.register_tool(
    "mobs:net",
    {
-      description = "Net (Right-click to capture)",
+      description = "Net\n(Right-click to capture)",
       inventory_image = "mobs_net.png",
 })
 
@@ -66,7 +66,7 @@ crafting.register_craft(
 minetest.register_tool(
    "mobs:lasso",
    {
-      description = "Lasso (Right-click to capture)",
+      description = "Lasso\n(Right-click to capture)",
       inventory_image = "mobs_lasso.png",
 })
 
