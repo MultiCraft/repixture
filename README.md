@@ -1,5 +1,6 @@
-
-# Pixture v0.1.1
+# Pixture Revival
+Pixture Revival (temporary game) is a revival of the Pixture game.
+The name of this game will likely change.
 
 Pixture is Copyright (C) 2015-2017 KaadmY
 
@@ -8,9 +9,9 @@ Inspiration by [Kenney](http://kenney.nl)
 
 ## Notes
 
-- Currently known to support Minetest 0.4.16 (and possibly later versions)
-- Do **not** use mapgen v6, it is not supported and will fail. Use v5 or v7
- instead.
+- Currently known to support Minetest 5.0.0
+- Currently very buggy
+
 
 ## Changelog
 
@@ -19,7 +20,7 @@ See file *CHANGELOG.md* for more information
 ## Credits
 
 - [Kenney](http://kenney.nl) for the inspiration, most of the aesthetic.
-- Sounds in the default mod are all by Kenney(CC0)
+- Sounds in the default mod are all by Kenney (CC0)
 - All textures/models by KaadmY (CC BY-SA 4.0)
 
 ## Licenses
