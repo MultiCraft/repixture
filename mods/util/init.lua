@@ -42,44 +42,6 @@ function util.fixlight(pos1, pos2)
    return #nodes
 end
 
-if minetest.settings:get_bool("fixlight_command_enable") then
-   minetest.register_privilege(
-      "fixlight",
-      {
-         description = "Can use /fixlight command",
-         give_to_singleplayer = false
-   })
-
-   minetest.register_chatcommand(
-      "fixlight",
-      {
-	 params = "[radius 1-20]",
-	 description = "Fix light in a radius around you",
-	 privs = {fixlight = true},
-	 func = function(name, param)
-		   local rad = tonumber(param)
-
-		   if rad == nil or (rad < 1 or rad > 20) then
-		      return false, "Bad param for /fixlight; type /help fixlight"
-		   end
-
-		   local player = minetest.get_player_by_name(name)
-
-		   local pos = player:get_pos()
-		   pos.x = math.floor(pos.x + 0.5)
-		   pos.y = math.floor(pos.y + 0.5)
-		   pos.z = math.floor(pos.z + 0.5)
-
-		   local minp = {x = pos.x - rad, y = pos.y - rad, z = pos.z - rad}
-		   local maxp = {x = pos.x + rad, y = pos.y + rad, z = pos.z + rad}
-
-		   util.fixlight(minp, maxp)
-
-		   minetest.chat_send_all("*** " .. name .. " has fixed light in a " .. rad .. "m radius at (" .. pos.x .. ", " .. pos.y .. ", " .. pos.z .. ")")
-		end
-      })
-end
-
 function util.nodefunc(pos1, pos2, name, func, nomanip)
    -- function based off fixlight
    -- call a function for every node of a single type
