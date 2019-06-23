@@ -9,8 +9,6 @@
 
 drop_items_on_die (Drop items on death) bool true
 
-enable_pvp (PvP) bool true
-
 ## Initial items
 
 give_initial_enable (Enable initial items) bool false
