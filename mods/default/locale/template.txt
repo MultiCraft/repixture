@@ -112,7 +112,6 @@ Clam=
 Sign=
 Bookshelf=
 Chest=
-Don't go past 30000m in any direction!=
 Creative Tool=
 Wooden Pickaxe=
 Stone Pickaxe=

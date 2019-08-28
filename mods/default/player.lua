@@ -15,19 +15,6 @@ local function step(dtime)
       local head_pos = player_pos
       local name=player:get_player_name()
 
-      if player_pos.x < -30000 or player_pos.x > 30000
-	 or player_pos.y < -30000 or player_pos.y > 30000
-      or player_pos.z < -30000 or player_pos.z > 30000 then
-	 minetest.chat_send_player(
-            name,
-            minetest.colorize(
-               "#f00",
-               S("Don't go past 30000m in any direction!")
-         ))
-
-	 player:set_pos(player_lastpos[name])
-      end
-
       player_lastpos[name] = player:get_pos()
 
       if player:get_hp() < player_health[name] then
