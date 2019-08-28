@@ -75,13 +75,15 @@ creative_inventory.set_creative_formspec = function(player, start_i, pagenum)
 			"list[current_player;main;5,3.5;8,1;]"..
 			"list[current_player;main;5,4.75;8,3;8]"..
 			"list[detached:creative;main;0.3,0.5;4,6;"..tostring(start_i).."]"..
-			"label[2.0,6.55;"..tostring(pagenum).."/"..tostring(pagemax).."]"..
+			"label[2.0,6.55;"..F(S("@1/@2", pagenum, pagemax)).."]"..
 			"button[0.3,6.5;1.6,1;creative_prev;<<]"..
 			"button[2.7,6.5;1.6,1;creative_next;>>]"..
 			"label[5,1.5;"..F(S("Trash:")).."]"..
 			"list[detached:creative_trash;main;5,2;1,1;]"..
 			"listring[current_player;main]"..
-			"listring[detached:creative_trash;main]"
+			"listring[detached:creative_trash;main]"..
+			"listring[detached:creative;main]"..
+			"listring[current_player;main]"
 	)
 end
 minetest.register_on_joinplayer(function(player)
