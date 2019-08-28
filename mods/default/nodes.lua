@@ -1591,7 +1591,7 @@ minetest.register_node(
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
          meta:set_string("formspec", default.ui.get_page("default:bookshelf"))
-         meta:set_string("infotext", "Bookshelf")
+         meta:set_string("infotext", S("Bookshelf"))
          local inv = meta:get_inventory()
          inv:set_size("main", 4*2)
       end,
@@ -1606,7 +1606,7 @@ minetest.register_node(
          if text ~= "" then
             meta:set_string("infotext", text)
          else
-            meta:set_string("infotext", "Bookshelf")
+            meta:set_string("infotext", S("Bookshelf"))
          end
       end,
 })
