@@ -11,11 +11,11 @@ armor = {}
 
 armor.materials = {
    -- material      craftitem                     description     %
-   {"wood",         "group:planks",               "Wooden",       10},
-   {"steel",        "default:ingot_steel",        "Steel",        20},
-   {"chainmail",    "armor:chainmail_sheet",      "Chainmail",    30},
-   {"carbon_steel", "default:ingot_carbon_steel", "Carbon Steel", 40},
-   {"bronze",       "default:ingot_bronze",       "Bronze",       60},
+   {"wood",         "group:planks",               { S("Wooden Helmet"), S("Wooden Chestplate"), S("Wooden Boots") }, 10},
+   {"steel",        "default:ingot_steel",        { S("Steel Helmet"), S("Steel Chestplate"), S("Steel Boots") }, 20},
+   {"chainmail",    "armor:chainmail_sheet",      { S("Chainmail Helmet"), S("Chainmail Chestplate"), S("Chainmail Boots") }, 30},
+   {"carbon_steel", "default:ingot_carbon_steel", { S("Carbon Steel Helmet"), S("Carbon Steel Chestplate"), S("Carbon Steel Boots") }, 40},
+   {"bronze",       "default:ingot_bronze",       { S("Bronze Helmet"), S("Bronze Chestplate"), S("Bronze Boots") }, 60},
 }
 
 -- Usable slots
@@ -214,18 +214,12 @@ for mat_index, matdef in ipairs(armor.materials) do
 
    local armor_def = math.floor(matdef[4] / #armor.slots)
 
-   for _, slot in ipairs(armor.slots) do
-      local prettystring = slot:gsub(
-         "(%a)([%w_']*)",
-         function(first, rest)
-            return first:upper()..rest:lower()
-      end)
-
+   for s, slot in ipairs(armor.slots) do
 
       minetest.register_craftitem(
 	 "armor:" .. slot .. "_" .. mat,
 	 {
-	    description = matdef[3] .. " " .. prettystring,
+	    description = matdef[3][s],
 
 	    inventory_image = "armor_" .. slot .. "_" .. mat .. "_inventory.png",
 	    wield_image = "armor_" .. slot .. "_" .. mat .. "_inventory.png",

@@ -1,9 +1,24 @@
 # textdomain: armor
 Helmet=Helm
 Chestplate=Brustplatte
-Boots=Schuhwerk
+Boots=Stiefel
 Chainmail Sheet=Kettenpanzerplane
 Armored=Gepanzert
 Craft a piece of armor=Fertigen Sie einen Rüstungsgegenstand
 Warrior=Krieger
 Craft 10 pieces of armor=Fertigen Sie 10 Rüstungsgegenstände
+Wooden Helmet=Holzhelm
+Wooden Chestplate=Holzbrustplatte
+Wooden Boots=Holzstiefel
+Steel Helmet=Stahlhelm
+Steel Chestplate=Stahlbrustplatte
+Steel Boots=Stahlstiefel
+Chainmail Helmet=Kettenpanzerhelm
+Chainmail Chestplate=Kettenpanzerbrustplatte
+Chainmail Boots=Kettenpanzerstiefel
+Carbon Steel Helmet=Karbonstahlhelm
+Carbon Steel Chestplate=Karbonstahlbrustplatte
+Carbon Steel Boots=Karbonstahlstiefel
+Bronze Helmet=Bronzehelm
+Bronze Chestplate=Bronzebrustplatte
+Bronze Boots=Bronzestiefel
