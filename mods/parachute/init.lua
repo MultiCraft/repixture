@@ -162,7 +162,7 @@ crafting.register_craft(
 achievements.register_achievement(
    "sky_diver",
    {
-      title = S("Sky Diver"),
+      title = S("Skydiver"),
       description = S("Craft 5 parachutes."),
       times = 5,
       craftitem = "parachute:parachute",

@@ -1,4 +1,4 @@
 # textdomain: parachute
 Parachute=
-Sky Diver=
+Skydiver=
 Craft 5 parachutes.=

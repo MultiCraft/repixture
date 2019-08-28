@@ -213,7 +213,7 @@ minetest.register_privilege(
 minetest.register_chatcommand(
    "weather",
    {
-      params = S("storm | snowstorm | clear"),
+      params = "storm | snowstorm | clear",
       description = S("Change the weather"),
       privs = {weather = true},
       func = function(name, param)

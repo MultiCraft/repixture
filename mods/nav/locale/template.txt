@@ -3,3 +3,5 @@ Compass=
 Map=
 Navigator=
 Craft a map=
+True Navigator=
+Craft a compass=

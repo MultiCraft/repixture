@@ -54,7 +54,7 @@ minetest.register_on_leaveplayer(on_leaveplayer)
 minetest.register_chatcommand(
    "plist",
    {
-      params = S("[all|recent]"),
+      params = "[ all | recent ]",
       description = S("List current, recent, or all players since the last server restart"),
       func = function(player_name, param)
 		local time = minetest.get_gametime()

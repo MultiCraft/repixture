@@ -242,12 +242,12 @@ function achievements.get_formspec(name, row)
    local progress = ""
    if achievements.achievements[name][aname] then
       if achievements.achievements[name][aname] == -1 then
-	 progress = "Gotten"
+	 progress = S("Gotten")
       else
 	 progress = achievements.achievements[name][aname] .. "/" .. def.times
       end
    else
-      progress = "Missing"
+      progress = S("Missing")
    end
 
    form = form .. "label[0.25,8.15;"
@@ -428,7 +428,7 @@ achievements.register_achievement(
    "builder",
    {
       title = S("Builder"),
-      description = S("Craft 180 bricks."),
+      description = S("Craft 180 brick blocks."),
       times = 180,
       craftitem = "default:brick",
 })
