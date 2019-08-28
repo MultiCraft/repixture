@@ -12,7 +12,6 @@ goodies.types = {}
 -- custom types
 goodies.types["FURNACE_SRC"] = {
    ["default:lump_iron"] = 3,
-   ["default:dust_carbonsteel"] = 8,
    ["farming:flour"] = 5,
 }
 goodies.types["FURNACE_FUEL"] = {
@@ -22,7 +21,7 @@ goodies.types["FURNACE_FUEL"] = {
 }
 goodies.types["FURNACE_DST"] = {
    ["default:ingot_steel"] = 5,
-   ["default:ingot_carbonsteel"] = 12,
+   ["default:ingot_carbon_steel"] = 12,
    ["farming:bread"] = 8,
 }
 
@@ -32,7 +31,6 @@ if minetest.get_modpath("village") ~= nil then
       ["default:ingot_steel"] = 10,
       ["default:lump_coal"] = 4,
       ["default:lump_iron"] = 6,
-      ["default:dust_carbonsteel"] = 18,
       ["default:pick_stone"] = 9,
       ["default:tree_oak"] = 2,
    }

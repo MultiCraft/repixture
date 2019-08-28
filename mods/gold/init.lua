@@ -30,7 +30,7 @@ if minetest.get_modpath("mobs") ~= nil then
       -- tool repair
       {"gold:ingot_gold 6", "default:shovel_stone", "default:shovel_stone"},
       {"gold:ingot_gold 8", "default:shovel_steel", "default:shovel_steel"},
-      {"gold:ingot_gold 10", "default:shovel_carbonsteel", "default:shovel_carbonsteel"},
+      {"gold:ingot_gold 10", "default:shovel_carbon_steel", "default:shovel_carbon_steel"},
    }
    gold.trades["tavernkeeper"] = {
       -- materials
@@ -49,7 +49,6 @@ if minetest.get_modpath("mobs") ~= nil then
       -- smeltables
       {"gold:ingot_gold", "", "default:lump_coal"},
       {"gold:ingot_gold 3", "", "default:lump_iron"},
-      {"gold:ingot_gold 5", "", "default:dust_carbonsteel"},
 
       -- materials
       {"gold:ingot_gold 2", "", "default:cobble 10"},
@@ -63,16 +62,15 @@ if minetest.get_modpath("mobs") ~= nil then
 
       -- ingots
       {"gold:ingot_gold 5", "", "default:ingot_steel"},
-      {"gold:ingot_gold 8", "", "default:ingot_carbonsteel"},
+      {"gold:ingot_gold 8", "", "default:ingot_carbon_steel"},
 
       -- auto smelting
       {"gold:ingot_gold 2", "default:lump_iron", "default:ingot_steel"},
-      {"gold:ingot_gold 4", "default:dust_carbonsteel", "default:ingot_carbonsteel"},
 
       -- tool repair
       {"gold:ingot_gold 8", "default:pick_stone", "default:pick_stone"},
       {"gold:ingot_gold 12", "default:pick_steel", "default:pick_steel"},
-      {"gold:ingot_gold 16", "default:pick_carbonsteel", "default:pick_carbonsteel"},
+      {"gold:ingot_gold 16", "default:pick_carbon_steel", "default:pick_carbon_steel"},
    }
    gold.trades["butcher"] = {
       -- materials
@@ -93,7 +91,7 @@ if minetest.get_modpath("mobs") ~= nil then
       -- tool repair
       {"gold:ingot_gold 5", "default:spear_stone", "default:spear_stone"},
       {"gold:ingot_gold 7", "default:spear_steel", "default:spear_steel"},
-      {"gold:ingot_gold 11", "default:spear_carbonsteel", "default:spear_carbonsteel"},
+      {"gold:ingot_gold 11", "default:spear_carbon_steel", "default:spear_carbon_steel"},
 
    }
    -- trading currency
@@ -332,5 +330,19 @@ achievements.register_achievement(
       times = 60,
       dignode = "gold:stone_with_gold",
 })
+
+if minetest.settings:get_bool("pixture_debug", false) == true then
+    -- Check if all specified items are valid
+    minetest.register_on_mods_loaded(function()
+        for trader_name, trader in pairs(gold.trades) do
+            for trade_id, trade in pairs(trader) do
+                for i=1,3 do
+                    local item = ItemStack(trade[i]):get_name()
+                    assert(item ~= nil and (item == "" or minetest.registered_items[item]), "[gold] Invalid trade item: trader="..trader_name..", index="..trade_id..", item="..item)
+                end
+            end
+        end
+    end)
+end
 
 default.log("mod:gold", "loaded")
