@@ -61,7 +61,7 @@ local msgs = {
 }
 
 local function say(text, to_player)
-   minetest.chat_send_player(to_player, S("Villager says: „@1“", text))
+   minetest.chat_send_player(to_player, S("Villager says: “@1”", text))
 end
 
 local function say_random(mtype, to_player)
