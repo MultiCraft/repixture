@@ -43,7 +43,7 @@ minetest.register_on_player_receive_fields(
 
       local meta = itemstack:get_meta()
 
-      meta:set_string("description", fields.title) -- Set the item description
+      meta:set_string("description", S("Book: “@1”", minetest.colorize("#ffff00", fields.title))) -- Set the item description
 
       meta:set_string("book:title", fields.title)
       meta:set_string("book:text", fields.text)
