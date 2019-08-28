@@ -10,6 +10,66 @@ local npc_types = {
    { "butcher", S("Butcher") },
 }
 
+local msgs = {
+    npc = {
+        farmer = S("Hi! I'm a farmer. I take care of crops."),
+        tavernkeeper = S("In my village, I keep a tavern and the townsfolk entertained."),
+        blacksmith = S("Hi! I'm a blacksmith. Smelting ores is my job."),
+        butcher = S("Hi! I'm a butcher. I sell meat."),
+    },
+    trade = {
+        S("If you want to trade, show me a trading book."),
+    },
+    full_already = {
+        S("I don't want to eat anymore!"),
+        S("I'm not hungry!"),
+        S("I'm full already."),
+        S("I don't want food right now."),
+    },
+    eat_full = {
+        S("Ah, that hit the spot!"),
+        S("Thanks, now I'm filled up."),
+        S("Burp!"),
+        S("Thank you, now I feel much better!"),
+    },
+    eat_normal = {
+        S("Munch-munch!"),
+        S("Yummies!"),
+        S("Yum-yum!"),
+        S("Chomp!"),
+        S("Thanks, I liked that!"),
+    },
+    hungry = {
+        S("I could use a snack."),
+        S("I'm a bit hungry."),
+    },
+    happy = {
+        S("Hello!"),
+        S("What's up?"),
+        S("Nice to see you."),
+    },
+    hurt = {
+        S("I don't feel so good."),
+        S("I ... I am hurt."),
+        S("Leave me alone."),
+        S("What do you want from me?"),
+        S("Go away!"),
+    },
+    hostile = {
+        S("Screw you!"),
+    }
+}
+
+local function say(text, to_player)
+   minetest.chat_send_player(to_player, S("Villager says: „@1“", text))
+end
+
+local function say_random(mtype, to_player)
+   local r = math.random(1, #msgs[mtype])
+   local text = msgs[mtype][r]
+   say(text, to_player)
+end
+
 for _, npc_type_table in pairs(npc_types) do
    local npc_type = npc_type_table[1]
    local npc_name = npc_type_table[2]
@@ -53,7 +113,6 @@ for _, npc_type_table in pairs(npc_types) do
 	 follow = "gold:ingot_gold",
 	 view_range = 15,
 	 owner = "",
-	 order = "stand",
 	 animation = {
 	    speed_normal = 30,
 	    speed_run = 30,
@@ -73,20 +132,39 @@ for _, npc_type_table in pairs(npc_types) do
             local item = clicker:get_wielded_item()
             local name = clicker:get_player_name()
 
+            -- Reject all interaction when hostile
+            if self.attack and self.attack.player == clicker then
+              say_random("hostile", name)
+              return
+            end
+
             -- Feed to heal npc
 
-            if item:get_name() == "mobs:meat" or item:get_name() == "mobs:pork"
-            or item:get_name() == "farming:bread" then
+            local hp = self.object:get_hp()
+            local iname = item:get_name()
+            if iname == "mobs:meat" or iname == "mobs:pork"
+            or iname == "farming:bread" or iname == "default:apple"
+            or iname == "default:clam" then
 
-               local hp = self.object:get_hp()
                -- return if full health
                if hp >= self.hp_max then
-                  minetest.chat_send_player(name, S("Villager is no longer hungry."))
+                  say_random("full_already", name)
                   return
                end
 
-               hp = hp + 4
-               if hp > self.hp_max then hp = self.hp_max end
+               if iname == "default:apple" then
+                   hp = hp + 1
+               elseif iname == "default:clam" then
+                   hp = hp + 2
+               else
+                   hp = hp + 4
+               end
+               if hp >= self.hp_max then
+                   hp = self.hp_max
+                   say_random("eat_full", name)
+               else
+                   say_random("eat_normal", name)
+               end
                self.object:set_hp(hp)
 
                -- take item
@@ -95,10 +173,14 @@ for _, npc_type_table in pairs(npc_types) do
                   clicker:set_wielded_item(item)
                end
 
-               -- Right clicking with trading book trades, else changes order if tame
+               -- Right clicking with trading book trades
                -- Trading is done in the gold mod
             else
-               -- If owner switch between follow and stand
+               -- No trading if low health
+               if hp < 5 then
+                  say_random("hurt", name)
+                  return
+               end
 
                if not self.npc_trade then
                   self.npc_trade = util.choice_element(
@@ -106,17 +188,26 @@ for _, npc_type_table in pairs(npc_types) do
                end
 
                if not gold.trade(self.npc_trade, self.npc_type, clicker) then
-                  if self.owner and self.owner == clicker:get_player_name() then
-                     if self.order == "follow" then
-                        self.order = "stand"
-                     else
-                        self.order = "follow"
-                     end
-                  end
+                   if hp >= self.hp_max-7 then
+                      if iname ~= "" then
+                          say_random("trade", name)
+                      else
+                          local r = math.random(1,3)
+                          if r == 1 then
+                              say_random("trade", name)
+                          elseif r == 2 then
+                              say(msgs.npc[npc_type], name)
+                          else
+                              say_random("happy", name)
+                          end
+                      end
+                   elseif hp >= 5 then
+                      say_random("hungry", name)
+                   else
+                      say_random("hurt", name)
+                   end
                end
             end
-
-            mobs:feed_tame(self, clicker, 8, false)
          end,
    })
 
