@@ -1,5 +1,7 @@
 -- Walker by KaadmY
 
+local S = minetest.get_translator("mobs")
+
 mobs:register_mob(
    "mobs:walker",
    {
@@ -68,3 +70,5 @@ mobs:register_spawn(
    1,
    31000
 )
+
+mobs:register_egg("mobs:walker", S("Walker"), "mobs_walker_inventory.png")
