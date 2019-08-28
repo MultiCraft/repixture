@@ -753,7 +753,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("default")
          .. "/schematics/default_small_rock.mts",
-      y_min = 0,
+      y_min = 1,
       y_max = 32000,
       rotation = "random",
 })
@@ -768,7 +768,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("default")
          .. "/schematics/default_large_rock.mts",
-      y_min = 0,
+      y_min = 1,
       y_max = 32000,
       rotation = "random",
 })
