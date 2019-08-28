@@ -347,9 +347,9 @@ achievements.register_achievement(
 })
 
 achievements.register_achievement(
-   "master_carpenter",
+   "pro_carpenter",
    {
-      title = S("Master Carpenter"),
+      title = S("Pro Carpenter"),
       description = S("Place 500 planks"),
       times = 500,
       placenode = "group:planks",

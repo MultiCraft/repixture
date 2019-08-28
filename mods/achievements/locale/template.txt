@@ -12,6 +12,7 @@ Plunks=
 Place 10 planks=
 Carpenter=
 Place 100 planks=
+Pro Carpenter=
 Master Carpenter=
 Place 500 planks=
 Mineority=
