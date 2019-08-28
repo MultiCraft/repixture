@@ -4,6 +4,8 @@
 -- By Kaadmy, for Pixture
 --
 
+local S = minetest.get_translator("locks")
+
 locks = {}
 
 -- Settings
@@ -51,7 +53,7 @@ end
 minetest.register_tool(
    "locks:pick",
    {
-      description = "Lock Pick",
+      description = S("Lock Pick"),
 
       inventory_image = "locks_pick.png",
       wield_image = "locks_pick.png",
@@ -69,8 +71,8 @@ minetest.register_tool(
             if own then
                minetest.chat_send_player(
                   own,
-                  minetest.colorize("#f00", player:get_player_name()
-                                       .. " has broken into your locked chest!"))
+                  minetest.colorize("#f00",
+                      S("@1 has broken into your locked chest!", player:get_player_name())))
             end
          end
 
@@ -82,7 +84,7 @@ minetest.register_tool(
 minetest.register_craftitem(
    "locks:lock",
    {
-      description = "Lock",
+      description = S("Lock"),
 
       inventory_image = "locks_lock.png",
       wield_image = "locks_lock.png",
@@ -91,7 +93,7 @@ minetest.register_craftitem(
 minetest.register_node(
    "locks:chest",
    {
-      description = "Locked Chest",
+      description = S("Locked Chest"),
       tiles ={
          "default_chest_top.png",
          "default_chest_top.png",
@@ -115,7 +117,7 @@ minetest.register_node(
          local name = player:get_player_name()
 
          local meta = minetest.get_meta(pos)
-         meta:set_string("infotext", "Locked Chest (Owned by " .. name .. ")")
+         meta:set_string("infotext", S("Locked Chest (Owned by @1)", name))
          meta:set_string("lock_owner", name)
       end,
       on_rightclick = function(pos, node, player)
@@ -175,11 +177,11 @@ minetest.register_node(
          local meta = minetest.get_meta(pos)
 
          if text == "" then
-            meta:set_string("infotext", "Locked Chest (Owned by "
-                               .. meta:get_string("lock_owner") .. ")")
+            meta:set_string("infotext", S("Locked Chest (Owned by @1)",
+                               meta:get_string("lock_owner")))
          else
-            meta:set_string("infotext", text .. " (Owned by "
-                               .. meta:get_string("lock_owner") .. ")")
+            meta:set_string("infotext", S("@1 (Owned by @2)",
+                               text, meta:get_string("lock_owner")))
          end
       end,
       on_blast = function() end,
@@ -219,8 +221,8 @@ crafting.register_craft(
 achievements.register_achievement(
    "locksmith",
    {
-      title = "Locksmith",
-      description = "Craft a lock",
+      title = S("Locksmith"),
+      description = S("Craft a lock"),
       times = 1,
       craftitem = "locks:lock",
 })
@@ -228,8 +230,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "burglar",
    {
-      title = "Burglar",
-      description = "Craft a lock pick",
+      title = S("Burglar"),
+      description = S("Craft a lock pick"),
       times = 1,
       craftitem = "locks:pick",
 })

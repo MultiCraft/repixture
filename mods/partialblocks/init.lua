@@ -3,10 +3,11 @@
 -- Partial blocks mod
 -- By Kaadmy, for Pixture
 --
+local S = minetest.get_translator("partialblocks")
 
 partialblocks = {}
 
-function partialblocks.register_material(name, desc, node, is_fuel)
+function partialblocks.register_material(name, desc_slab, desc_stair, node, is_fuel)
    local nodedef = minetest.registered_nodes[node]
 
    if nodedef == nil then
@@ -24,7 +25,7 @@ function partialblocks.register_material(name, desc, node, is_fuel)
 	 groups = nodedef.groups,
 	 sounds = nodedef.sounds,
 
-	 description = desc .. " Slab",
+	 description = desc_slab,
 	 drawtype = "nodebox",
 
 	 node_box = {
@@ -72,7 +73,7 @@ function partialblocks.register_material(name, desc, node, is_fuel)
 	 groups = nodedef.groups,
 	 sounds = nodedef.sounds,
 
-	 description = desc .. " Stair",
+	 description = desc_stair,
 	 drawtype = "nodebox",
 
 	 node_box = {
@@ -108,45 +109,45 @@ end
 -- Stonelike materials
 
 partialblocks.register_material(
-   "cobble", "Cobble", "default:cobble", false)
+   "cobble", S("Cobble Slab"), S("Cobble Stair"), "default:cobble", false)
 
 partialblocks.register_material(
-   "stone", "Stone", "default:stone", false)
+   "stone", S("Stone Slab"), S("Stone Stair"), "default:stone", false)
 
 partialblocks.register_material(
-   "brick", "Brick", "default:brick", false)
+   "brick", S("Brick Slab"), S("Brick Stair"), "default:brick", false)
 
 -- Woodlike
 
 partialblocks.register_material(
-   "wood", "Wood", "default:planks", true)
+   "wood", S("Wooden Slab"), S("Wooden Stair"), "default:planks", true)
 
 partialblocks.register_material(
-   "oak", "Oak", "default:planks_oak", true)
+   "oak", S("Oak Slab"), S("Oak Stair"), "default:planks_oak", true)
 
 partialblocks.register_material(
-   "birch", "Birch", "default:planks_birch", true)
+   "birch", S("Birch Slab"), S("Birch Stair"), "default:planks_birch", true)
 
 -- Frames
 
 partialblocks.register_material(
-   "frame", "Frame", "default:frame", true)
+   "frame", S("Frame Slab"), S("Frame Stair"), "default:frame", true)
 
 partialblocks.register_material(
-   "reinforced_frame", "Reinforced Frame", "default:reinforced_frame", true)
+   "reinforced_frame", S("Reinforced Frame Slab"), S("Reinforced Frame Stair"), "default:reinforced_frame", true)
 
 partialblocks.register_material(
-   "reinforced_cobble", "Reinforced Cobble", "default:reinforced_cobble", false)
+   "reinforced_cobble", S("Reinforced Cobble Slab"), S("Reinforced Cobble Stair"), "default:reinforced_cobble", false)
 
 -- Misc. blocks
 
 partialblocks.register_material(
-   "coal", "Coal", "default:block_coal", false)
+   "coal", S("Coal Slab"), S("Coal Stair"), "default:block_coal", false)
 
 partialblocks.register_material(
-   "steel", "Steel", "default:block_steel", false)
+   "steel", S("Steel Slab"), S("Steel Stair"), "default:block_steel", false)
 
 partialblocks.register_material(
-   "compressed_sandstone", "Compressed Sandstone", "default:compressed_sandstone", false)
+   "compressed_sandstone", S("Compressed Sandstone Slab"), S("Compressed Sandstone Stair"), "default:compressed_sandstone", false)
 
 default.log("mod:partialblocks", "loaded")

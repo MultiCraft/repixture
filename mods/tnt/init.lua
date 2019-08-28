@@ -4,6 +4,7 @@
 -- By PilzAdam and ShadowNinja
 -- Tweaked by Kaadmy, for Pixture
 --
+local S = minetest.get_translator("tnt")
 
 tnt = {}
 
@@ -237,7 +238,7 @@ minetest.after(0, on_load)
 minetest.register_node(
    "tnt:tnt",
    {
-      description = "TNT",
+      description = S("TNT"),
       tiles = {"tnt_top.png", "tnt_bottom.png", "tnt_sides.png"},
       is_ground_content = false,
       groups = {dig_immediate = 2},
@@ -303,8 +304,8 @@ minetest.register_craft(
 achievements.register_achievement(
    "boom",
    {
-      title = "Boom!",
-      description = "Craft TNT",
+      title = S("Boom!"),
+      description = S("Craft TNT"),
       times = 1,
       craftitem = "tnt:tnt",
 })

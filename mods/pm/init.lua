@@ -2,6 +2,7 @@
 -- Private messages mod
 -- By Kaadmy, for Pixture
 --
+local S = minetest.get_translator("pm")
 
 local enable_saving = minetest.settings:get_bool("pm_enable_saving")
 if enable_saving == nil then enable_saving = true end
@@ -14,44 +15,41 @@ local messages = {}
 minetest.register_chatcommand(
    "pm",
    {
-      params = "<player> <message>",
-      description = "Send somebody a private message",
+      params = S("<player> <message>"),
+      description = S("Send somebody a private message"),
       privs = {shout=true},
       func = function(name, param)
          local sendto, message = param:match("^(%S+)%s(.+)$")
 
-         if not sendto then return false, "Invalid usage, see /help pm." end
+         if not sendto then return false, S("Invalid usage, see /help pm.") end
 
          if not minetest.get_player_by_name(sendto) then
             if enable_saving then
                if messages[sendto] == nil then messages[sendto] = {} end
                table.insert(messages[sendto], name .. ": " .. message)
 
-               return false, "The player " .. sendto
-                  .. " is not online, saving message instead."
+               return false, S("The player @1 is not online, saving message instead.", sendto)
             else
-               return false, "The player " .. sendto
-                  .. " is not online, and PM saving is disabled."
+               return false, S("The player @1 is not online, and PM saving is disabled.", sendto)
             end
          end
 
          minetest.log("action", "PM from " .. name .. " to " .. sendto
                          .. ": " .. message)
-         minetest.chat_send_player(sendto, "PM from " .. name .. ": "
-                                      .. message)
-         return true, "PM sent."
+         minetest.chat_send_player(sendto, S("PM from @1: @2", name, message))
+         return true, S("PM sent.")
       end
 })
 
 minetest.register_chatcommand(
    "pms",
    {
-      description = "Show saved private messages",
+      description = S("Show saved private messages"),
       func = function(name, param)
-         if not enable_saving then return false, "PM saving is disabled." end
-         if messages[name] == nil then return false, "No saved PMs." end
+         if not enable_saving then return false, S("PM saving is disabled.") end
+         if messages[name] == nil then return false, S("No saved PMs.") end
 
-         minetest.chat_send_player(name, "Saved PMs:")
+         minetest.chat_send_player(name, S("Saved PMs:"))
 
          local str = ""
          local amt_pms = 0
@@ -64,7 +62,7 @@ minetest.register_chatcommand(
 
          messages[name] = nil
 
-         return true, amt_pms .. " saved PMs"
+         return true, S("@1 saved PMs", amt_pms)
       end
 })
 
@@ -74,10 +72,10 @@ if enable_saving then
 	 local name = player:get_player_name()
 
          if messages[name] ~= nil and #messages[name] >= 1 then
-            minetest.chat_send_player(name, minetest.colorize("#0ff", "You have " .. #messages[name] .. " saved PMs. Type /pms to view."))
+            minetest.chat_send_player(name, minetest.colorize("#0ff", S("Number of saved PMs: @1. Enter /pms command to view.", #messages[name])))
             return false
          else
-            minetest.chat_send_player(name, minetest.colorize("#0ff", "You have no saved PMs. Send PMs with the /pm command."))
+            minetest.chat_send_player(name, minetest.colorize("#0ff", S("You have no saved PMs. Send PMs with the /pm command.")))
             return true
          end
    end)

@@ -1,3 +1,6 @@
+local S = minetest.get_translator("creative")
+local F = minetest.formspec_escape
+
 local creative_inventory = {}
 creative_inventory.creative_inventory_size = 0
 
@@ -75,7 +78,7 @@ creative_inventory.set_creative_formspec = function(player, start_i, pagenum)
 			"label[2.0,6.55;"..tostring(pagenum).."/"..tostring(pagemax).."]"..
 			"button[0.3,6.5;1.6,1;creative_prev;<<]"..
 			"button[2.7,6.5;1.6,1;creative_next;>>]"..
-			"label[5,1.5;Trash:]"..
+			"label[5,1.5;"..F(S("Trash:")).."]"..
 			"list[detached:creative_trash;main;5,2;1,1;]"..
 			"listring[current_player;main]"..
 			"listring[detached:creative_trash;main]"

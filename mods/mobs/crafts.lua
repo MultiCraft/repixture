@@ -2,13 +2,14 @@
 --
 -- Crafts and items
 --
+local S = minetest.get_translator("mobs")
 
 -- Wool
 
 minetest.register_node(
    "mobs:wool",
    {
-      description = "Wool Bundle",
+      description = S("Wool Bundle"),
       tiles ={"mobs_wool.png"},
       is_ground_content = false,
       groups = {snappy = 2, oddly_breakable_by_hand = 3, fall_damage_add_percent = -25, fuzzy = 1},
@@ -20,7 +21,7 @@ minetest.register_node(
 minetest.register_craftitem(
    "mobs:meat_raw",
    {
-      description = "Raw Meat",
+      description = S("Raw Meat"),
       inventory_image = "mobs_meat_raw.png",
       on_use = minetest.item_eat({hp = 3, sat = 30}),
 })
@@ -30,7 +31,7 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "mobs:meat",
    {
-      description = "Cooked Meat",
+      description = S("Cooked Meat"),
       inventory_image = "mobs_meat_cooked.png",
       on_use = minetest.item_eat({hp = 7, sat = 70}),
 })
@@ -48,7 +49,7 @@ minetest.register_craft(
 minetest.register_tool(
    "mobs:net",
    {
-      description = "Net\n(Right-click to capture)",
+      description = S("Net").."\n"..S("(Right-click to capture)"),
       inventory_image = "mobs_net.png",
 })
 
@@ -66,7 +67,7 @@ crafting.register_craft(
 minetest.register_tool(
    "mobs:lasso",
    {
-      description = "Lasso\n(Right-click to capture)",
+      description = S("Lasso").."\n"..S("(Right-click to capture)"),
       inventory_image = "mobs_lasso.png",
 })
 

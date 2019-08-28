@@ -3,6 +3,8 @@
 -- By Kaadmy, for Pixture
 --
 
+local S = minetest.get_translator("player_effects")
+
 player_effects = {}
 
 player_effects.effects = {}
@@ -35,7 +37,7 @@ end
 function player_effects.register_effect(name, def)
    local rd = {
       title = def.title or name, -- good-looking name of the effect
-      description = def.description or "The " .. name .. " effect", -- description of what the effect does
+      description = def.description or S("The @1 effect", name), -- description of what the effect does
       duration = def.duration or 1, -- how long the effect lasts, <0 is infinite and has to be disabled manually
       physics = def.physics or {} -- physics overrides for the player
    }
@@ -205,16 +207,16 @@ minetest.register_on_dieplayer(on_dieplayer)
 minetest.register_chatcommand(
    "player_effects",
    {
-      description = "Show your current player effects",
+      description = S("Show your current player effects"),
       func = function(name, param)
-         local s = "Current player effects:\n"
+         local s = S("Current player effects:").."\n"
          local ea = 0
 
          for ename, endtime in pairs(player_effects.effects[name]) do
             if endtime < 0 then
-               s = s .. "  " .. player_effects.registered_effects[ename].title .. ": unlimited\n"
+               s = s .. "  " .. S("@1: unlimited", player_effects.registered_effects[ename].title) .. "\n"
             else
-               s = s .. "  " .. player_effects.registered_effects[ename].title .. ": " .. (endtime - minetest.get_gametime()) .. " seconds remaining\n"
+               s = s .. "  " .. S("@1: @2 s remaining", player_effects.registered_effects[ename].title, (endtime - minetest.get_gametime())) .. "\n"
             end
 
             ea = ea + 1
@@ -223,7 +225,7 @@ minetest.register_chatcommand(
          if ea > 0 then
             return true, s
          else
-            return true, "You currently have no effects."
+            return true, S("You currently have no effects.")
          end
       end
 })

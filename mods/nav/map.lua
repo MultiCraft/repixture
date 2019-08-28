@@ -3,6 +3,8 @@
 -- Map handling
 --
 
+local S = minetest.get_translator("nav")
+
 -- Based on Minetest Game's map mod, licensed under MIT License.
 
 local map = {}
@@ -55,7 +57,7 @@ minetest.after(5.3, cyclic_update)
 minetest.register_craftitem(
    "nav:map",
    {
-      description = "Map",
+      description = S("Map"),
       inventory_image = "nav_inventory.png",
       wield_image = "nav_inventory.png",
       stack_max = 1,
@@ -81,8 +83,8 @@ crafting.register_craft(
 achievements.register_achievement(
    "navigator",
    {
-      title = "Navigator",
-      description = "Craft a map",
+      title = S("Navigator"),
+      description = S("Craft a map"),
       times = 1,
       craftitem = "nav:map",
 })

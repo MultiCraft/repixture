@@ -1,12 +1,13 @@
 
 -- Npc by TenPlus1
 -- Modded by KaadmY
+local S = minetest.get_translator("mobs")
 
 local npc_types = {
-   { "farmer", "Farmer" },
-   { "tavernkeeper", "Tavern Keeper" },
-   { "blacksmith", "Blacksmith" },
-   { "butcher", "Butcher" },
+   { "farmer", S("Farmer") },
+   { "tavernkeeper", S("Tavern Keeper") },
+   { "blacksmith", S("Blacksmith") },
+   { "butcher", S("Butcher") },
 }
 
 for _, npc_type_table in pairs(npc_types) do
@@ -80,7 +81,7 @@ for _, npc_type_table in pairs(npc_types) do
                local hp = self.object:get_hp()
                -- return if full health
                if hp >= self.hp_max then
-                  minetest.chat_send_player(name, "Villager is no longer hungry.")
+                  minetest.chat_send_player(name, S("Villager is no longer hungry."))
                   return
                end
 

@@ -4,6 +4,8 @@
 -- By Kaadmy, for Pixture
 --
 
+local S = minetest.get_translator("lumien")
+
 local lumien_on_radius = 2
 local lumien_off_radius = 4
 
@@ -59,7 +61,7 @@ minetest.register_globalstep(on_globalstep)
 minetest.register_node(
    "lumien:crystal_on",
    {
-      description = "Glowing Lumien Crystal",
+      description = S("Glowing Lumien Crystal"),
       inventory_image = "lumien_crystal.png",
       tiles = {"lumien_block.png"},
       paramtype = "light",
@@ -81,7 +83,7 @@ minetest.register_node(
 minetest.register_node(
    "lumien:crystal_off",
    {
-      description = "Lumien Crystal",
+      description = S("Lumien Crystal"),
       inventory_image = "lumien_crystal.png",
       tiles = {"lumien_block.png"},
       paramtype = "light",
@@ -102,7 +104,7 @@ minetest.register_node(
 minetest.register_node(
    "lumien:block",
    {
-      description = "Lumien Block",
+      description = S("Lumien Block"),
       tiles = {"lumien_block.png"},
       groups = {cracky = 1},
       light_source = 14,
@@ -114,7 +116,7 @@ minetest.register_node(
 minetest.register_node(
    "lumien:stone_with_lumien",
    {
-      description = "Stone with Lumien",
+      description = S("Stone with Lumien"),
       tiles = {"default_stone.png^lumien_mineral_lumien.png"},
       groups = {cracky = 1, stone = 1},
       drop = "lumien:block",
@@ -195,8 +197,8 @@ crafting.register_craft(
 achievements.register_achievement(
    "enlightened",
    {
-      title = "Enlightened",
-      description = "Place 9 lumien crystals.",
+      title = S("Enlightened"),
+      description = S("Place 9 lumien crystals."),
       times = 9,
       placenode = "lumien:lumien_crystal_off",
 })

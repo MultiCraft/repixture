@@ -4,6 +4,9 @@
 -- By Kaadmy
 --
 
+local S = minetest.get_translator("jewels")
+local F = minetest.formspec_escape
+
 jewels = {}
 
 -- Array of registered jeweled tools
@@ -18,8 +21,8 @@ form_bench = form_bench .. "list[current_name;main;2.25,1.75;1,1;]"
 form_bench = form_bench .. "listring[current_name;main]"
 form_bench = form_bench .. default.ui.get_itemslot_bg(2.25, 1.75, 1, 1)
 
-form_bench = form_bench .. "label[3.25,1.75;1. Place unjeweled tool here]"
-form_bench = form_bench .. "label[3.25,2.25;2. Hold a jewel and punch the bench]"
+form_bench = form_bench .. "label[3.25,1.75;"..F(S("1. Place unjeweled tool here")).."]"
+form_bench = form_bench .. "label[3.25,2.25;"..F(S("2. Hold a jewel and punch the bench")).."]"
 
 form_bench = form_bench .. "list[current_player;main;0.25,4.75;8,4;]"
 form_bench = form_bench .. "listring[current_player;main]"
@@ -83,7 +86,8 @@ function jewels.register_jewel(toolname, new_toolname, def)
    local new_tooldef = tooldef
    local desc = new_tooldef.description or ""
 
-   desc = "Jeweled " .. desc
+   -- TODO: Add custom description for each tool for better translatability
+   desc = S("Jeweled @1", desc)
 
    if data.description ~= nil then
       desc = data.description
@@ -94,14 +98,14 @@ function jewels.register_jewel(toolname, new_toolname, def)
 
    if data.stats.range and new_tooldef.range then
       new_tooldef.range = new_tooldef.range + data.stats.range
-      desc = desc .. "\nRange: " .. plus_power(data.stats.range)
+      desc = desc .. "\n"..S("Range: @1", plus_power(data.stats.range))
    end
 
    if new_tooldef.tool_capabilities then
       if data.stats.maxdrop and new_tooldef.tool_capabilities.max_drop_level then
 	 new_tooldef.tool_capabilities.max_drop_level =
             new_tooldef.tool_capabilities.max_drop_level + data.stats.maxdrop
-	 desc = desc .. "\nDrop level: " .. plus_power(data.stats.maxdrop)
+	 desc = desc .. "\n"..S("Drop level: @1", plus_power(data.stats.maxdrop))
       end
 
       if data.stats.digspeed then
@@ -119,21 +123,21 @@ function jewels.register_jewel(toolname, new_toolname, def)
 	    end
 	 end
 
-	 desc = desc .. "\nDig time: " .. plus_power(data.stats.digspeed) .. " seconds"
+	 desc = desc .. "\n"..S("Dig time: @1 s", plus_power(data.stats.digspeed))
       end
 
       if data.stats.uses then
-	 desc = desc .. "\nUses: " .. plus_power(data.stats.uses)
+	 desc = desc .. "\n"..S("Uses: @1", plus_power(data.stats.uses))
       end
       if data.stats.maxlevel then
-	 desc = desc .. "\nDig level: " .. plus_power(data.stats.maxlevel)
+	 desc = desc .. "\n"..S("Dig level: @1", plus_power(data.stats.maxlevel))
       end
 
       if data.stats.fleshy and new_tooldef.tool_capabilities.damage_groups
       and new_tooldef.tool_capabilities.damage_groups.fleshy then
 	 new_tooldef.tool_capabilities.damage_groups.fleshy =
             new_tooldef.tool_capabilities.damage_groups.fleshy + data.stats.fleshy
-	 desc = desc .. "\nDamage: " .. plus_power(data.stats.fleshy)
+	 desc = desc .. "\n"..S("Damage: @1", plus_power(data.stats.fleshy))
       end
    end
 
@@ -170,7 +174,7 @@ end
 minetest.register_craftitem(
    "jewels:jewel",
    {
-      description = "Jewel",
+      description = S("Jewel"),
       inventory_image = "jewels_jewel.png",
       stack_max = 10
 })
@@ -180,7 +184,7 @@ minetest.register_craftitem(
 minetest.register_node(
    "jewels:bench",
    {
-      description = "Jeweler's Workbench",
+      description = S("Jeweler's Workbench"),
       tiles ={"jewels_bench_top.png", "jewels_bench_bottom.png", "jewels_bench_sides.png"},
       paramtype2 = "facedir",
       groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -191,7 +195,7 @@ minetest.register_node(
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
          meta:set_string("formspec", default.ui.get_page("jewels_bench"))
-         meta:set_string("infotext", "Jeweler's Workbench")
+         meta:set_string("infotext", S("Jeweler's Workbench"))
 
          local inv = meta:get_inventory()
          inv:set_size("main", 1)
@@ -228,7 +232,7 @@ minetest.register_node(
 minetest.register_node(
    "jewels:jewel_ore",
    {
-      description = "Jewel Ore",
+      description = S("Jewel Ore"),
       tiles = {
          "default_tree_birch_top.png",
          "default_tree_birch_top.png",
@@ -268,16 +272,16 @@ crafting.register_craft(
 achievements.register_achievement(
    "jeweler",
    {
-      title = "Jeweler",
-      description = "Jewel a tool",
+      title = S("Jeweler"),
+      description = S("Jewel a tool"),
       times = 1,
 })
 
 achievements.register_achievement(
    "master_jeweler",
    {
-      title = "Master Jeweler",
-      description = "Jewel 10 tools",
+      title = S("Master Jeweler"),
+      description = S("Jewel 10 tools"),
       times = 10,
 })
 

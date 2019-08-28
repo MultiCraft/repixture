@@ -1,4 +1,4 @@
-
+local S = minetest.get_translator("farming")
 --
 -- Nodes
 --
@@ -6,7 +6,7 @@
 minetest.register_node(
    "farming:wheat_1",
    {
-      description = "Wheat Seed",
+      description = S("Wheat Seed"),
       drawtype = "plantlike",
       tiles = {"farming_wheat_1.png"},
       inventory_image = "farming_wheat_seed.png",
@@ -33,7 +33,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:wheat_2",
    {
-      description = "Wheat Plant (stage 1)",
+      description = S("Wheat Plant (stage 1)"),
       drawtype = "plantlike",
       tiles = {"farming_wheat_2.png"},
       paramtype = "light",
@@ -58,7 +58,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:wheat_3",
    {
-      description = "Wheat Plant (stage 2)",
+      description = S("Wheat Plant (stage 2)"),
       drawtype = "plantlike",
       tiles = {"farming_wheat_3.png"},
       paramtype = "light",
@@ -83,7 +83,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:wheat_4",
    {
-      description = "Wheat Plant (stage 3)",
+      description = S("Wheat Plant (stage 3)"),
       drawtype = "plantlike",
       tiles = {"farming_wheat_4.png"},
       paramtype = "light",
@@ -111,7 +111,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:cotton_1",
    {
-      description = "Cotton Seed",
+      description = S("Cotton Seed"),
       drawtype = "plantlike",
       tiles = {"farming_cotton_1.png"},
       inventory_image = "farming_cotton_seed.png",
@@ -138,7 +138,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:cotton_2",
    {
-      description = "Cotton Plant (stage 1)",
+      description = S("Cotton Plant (stage 1)"),
       drawtype = "plantlike",
       tiles = {"farming_cotton_2.png"},
       paramtype = "light",
@@ -163,7 +163,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:cotton_3",
    {
-      description = "Cotton Plant (stage 2)",
+      description = S("Cotton Plant (stage 2)"),
       drawtype = "plantlike",
       tiles = {"farming_cotton_3.png"},
       paramtype = "light",
@@ -188,7 +188,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:cotton_4",
    {
-      description = "Cotton Plant (stage 3)",
+      description = S("Cotton Plant (stage 3)"),
       drawtype = "plantlike",
       tiles = {"farming_cotton_4.png"},
       paramtype = "light",
@@ -243,7 +243,7 @@ minetest.register_node(
 minetest.register_node(
    "farming:cotton_bale",
    {
-      description = "Cotton Bale",
+      description = S("Cotton Bale"),
       tiles ={"farming_cotton_bale.png"},
       is_ground_content = false,
       groups = {snappy = 2, oddly_breakable_by_hand = 3,

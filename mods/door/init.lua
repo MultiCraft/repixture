@@ -3,6 +3,8 @@
 -- By Kaadmy, for Pixture
 --
 
+local S = minetest.get_translator("door")
+
 door = {}
 
 -- Registers a door
@@ -289,7 +291,7 @@ end
 door.register_door(
    "door:door_wood",
    {
-      description = "Wooden Door",
+      description = S("Wooden Door"),
       inventory_image = "door_wood.png",
       groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=2,door=1},
       tiles_top = {"door_wood_a.png", "door_brown.png"},
@@ -311,7 +313,7 @@ crafting.register_craft(
 door.register_door(
    "door:door_stone",
    {
-      description = "Stone Door",
+      description = S("Stone Door"),
       inventory_image = "door_stone.png",
       groups = {cracky=3,oddly_breakable_by_hand=1,door=1},
       tiles_top = {"door_stone_a.png", "door_brown.png"},
@@ -335,8 +337,8 @@ crafting.register_craft(
 achievements.register_achievement(
    "adoorable",
    {
-      title = "Adoorable",
-      description = "Craft a door",
+      title = S("Adoorable"),
+      description = S("Craft a door"),
       times = 1,
       craftitem = "group:door",
 })

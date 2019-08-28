@@ -3,19 +3,21 @@
 -- Crafting items
 --
 
+local S = minetest.get_translator("default")
+
 -- Organic items
 
 minetest.register_craftitem(
    "default:fiber",
    {
-      description = "Fiber",
+      description = S("Fiber"),
       inventory_image = "default_fiber.png",
 })
 
 minetest.register_craftitem(
    "default:stick",
    {
-      description = "Stick",
+      description = S("Stick"),
       inventory_image = "default_stick.png",
       groups = {stick = 1}
 })
@@ -23,14 +25,14 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "default:paper",
    {
-      description = "Paper",
+      description = S("Paper"),
       inventory_image = "default_paper.png",
 })
 
 minetest.register_craftitem(
    "default:pearl",
    {
-      description = "Pearl",
+      description = S("Pearl"),
       inventory_image = "default_pearl.png",
 })
 
@@ -39,7 +41,7 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "default:sheet_graphite",
    {
-      description = "Graphite Sheet",
+      description = S("Graphite Sheet"),
       inventory_image = "default_sheet_graphite.png",
 })
 
@@ -48,42 +50,42 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "default:lump_sulfur",
    {
-      description = "Sulfur Lump",
+      description = S("Sulfur Lump"),
       inventory_image = "default_lump_sulfur.png",
 })
 
 minetest.register_craftitem(
    "default:lump_coal",
    {
-      description = "Coal Lump",
+      description = S("Coal Lump"),
       inventory_image = "default_lump_coal.png",
 })
 
 minetest.register_craftitem(
    "default:lump_iron",
    {
-      description = "Iron Lump",
+      description = S("Iron Lump"),
       inventory_image = "default_lump_iron.png",
 })
 
 minetest.register_craftitem(
    "default:lump_tin",
    {
-      description = "Tin Lump",
+      description = S("Tin Lump"),
       inventory_image = "default_lump_tin.png",
 })
 
 minetest.register_craftitem(
    "default:lump_copper",
    {
-      description = "Copper Lump",
+      description = S("Copper Lump"),
       inventory_image = "default_lump_copper.png",
 })
 
 minetest.register_craftitem(
    "default:lump_bronze",
    {
-      description = "Bronze Lump",
+      description = S("Bronze Lump"),
       inventory_image = "default_lump_bronze.png",
 })
 
@@ -92,42 +94,42 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "default:ingot_wrought_iron",
    {
-      description = "Wrought Iron Ingot",
+      description = S("Wrought Iron Ingot"),
       inventory_image = "default_ingot_wrought_iron.png",
 })
 
 minetest.register_craftitem(
    "default:ingot_steel",
    {
-      description = "Steel Ingot",
+      description = S("Steel Ingot"),
       inventory_image = "default_ingot_steel.png",
 })
 
 minetest.register_craftitem(
    "default:ingot_carbon_steel",
    {
-      description = "Carbon Steel Ingot",
+      description = S("Carbon Steel Ingot"),
       inventory_image = "default_ingot_carbon_steel.png",
 })
 
 minetest.register_craftitem(
    "default:ingot_copper",
    {
-      description = "Copper Ingot",
+      description = S("Copper Ingot"),
       inventory_image = "default_ingot_copper.png",
 })
 
 minetest.register_craftitem(
    "default:ingot_tin",
    {
-      description = "Tin Ingot",
+      description = S("Tin Ingot"),
       inventory_image = "default_ingot_tin.png",
 })
 
 minetest.register_craftitem(
    "default:ingot_bronze",
    {
-      description = "Bronze Ingot",
+      description = S("Bronze Ingot"),
       inventory_image = "default_ingot_bronze.png",
 })
 
@@ -136,14 +138,14 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "default:flint",
    {
-      description = "Flint Shard",
+      description = S("Flint Shard"),
       inventory_image = "default_flint.png",
 })
 
 minetest.register_craftitem(
    "default:book",
    {
-      description = "Book",
+      description = S("Book"),
       inventory_image = "default_book.png",
       wield_scale = {x=1,y=1,z=2},
       stack_max = 1,
@@ -152,7 +154,7 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "default:bucket_water",
    {
-      description = "Water Bucket",
+      description = S("Water Bucket"),
       inventory_image = "default_bucket_water.png",
       stack_max = 1,
       wield_scale = {x=1,y=1,z=2},
@@ -192,7 +194,7 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "default:bucket_river_water",
    {
-      description = "River Water Bucket",
+      description = S("River Water Bucket"),
       inventory_image = "default_bucket_river_water.png",
       stack_max = 1,
       wield_scale = {x=1,y=1,z=2},
@@ -234,7 +236,7 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "default:bucket_swamp_water",
    {
-      description = "Swamp Water Bucket",
+      description = S("Swamp Water Bucket"),
       inventory_image = "default_bucket_swamp_water.png",
       stack_max = 1,
       wield_scale = {x=1,y=1,z=2},
@@ -276,7 +278,7 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "default:bucket",
    {
-      description = "Empty Bucket",
+      description = S("Empty Bucket"),
       inventory_image = "default_bucket.png",
       stack_max = 10,
       wield_scale = {x=1,y=1,z=2},
@@ -339,7 +341,7 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "default:fertilizer",
    {
-      description = "Fertilizer",
+      description = S("Fertilizer"),
       inventory_image = "default_fertilizer_inventory.png",
       wield_scale = {x=1,y=1,z=2},
       on_place = function(itemstack, user, pointed_thing)

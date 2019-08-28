@@ -3,6 +3,8 @@
 -- By Kaadmy, for Pixture
 --
 
+local S = minetest.get_translator("player_skins")
+
 player_skins = {}
 
 -- Array of usable player skins
@@ -78,7 +80,7 @@ function player_skins.set_skin(name, tex)
       player_skins.skins[name] = tex
       save_player_skins()
    else
-      minetest.chat_send_player(name, "Invalid skin!")
+      minetest.chat_send_player(name, S("Invalid skin!"))
    end
 end
 
@@ -192,16 +194,16 @@ minetest.register_chatcommand(
    "player_skin",
    {
       params = get_chatparams(),
-      description = "Set your player skin",
+      description = S("Set your player skin"),
       privs = {},
       func = function(name, param)
          if is_valid_skin(param) then
             player_skins.set_skin(name, param)
-            return true, string.format("Skin set to “%s”.", param)
+            return true, S("Skin set to “@1”.", param)
          elseif param == "" then
-            return true, "Current player skin: " .. player_skins.skins[name]
+            return true, S("Current player skin: @1", player_skins.skins[name])
          else
-            return false, "Unknown player skin. Enter “/help player_skin” for help."
+            return false, S("Unknown player skin. Enter “/help player_skin” for help.")
          end
       end
 })

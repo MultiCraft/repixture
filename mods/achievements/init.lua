@@ -3,6 +3,8 @@
 -- By Kaadmy, for Pixture
 --
 
+local S = minetest.get_translator("achievements")
+
 achievements = {}
 
 achievements.achievements = {}
@@ -209,14 +211,14 @@ function achievements.get_formspec(name, row)
       local progress = ""
       if achievements.achievements[name][aname] then
 	 if achievements.achievements[name][aname] == -1 then
-	    progress = "Gotten"
+	    progress = S("Gotten")
 	    amt_gotten = amt_gotten + 1
 	 else
 	    progress = achievements.achievements[name][aname] .. "/" .. def.times
 	    amt_progress = amt_progress + 1
 	 end
       else
-	 progress = "Missing"
+	 progress = S("Missing")
       end
 
       if achievement_list ~= "" then
@@ -226,7 +228,7 @@ function achievements.get_formspec(name, row)
       achievement_list = achievement_list .. minetest.formspec_escape(def.title) .. ","
       achievement_list = achievement_list .. minetest.formspec_escape(def.description)
          .. ","
-      achievement_list = achievement_list .. progress
+      achievement_list = achievement_list .. minetest.formspec_escape(progress)
    end
 
    local form = default.ui.get_page("achievements:achievements")
@@ -249,10 +251,11 @@ function achievements.get_formspec(name, row)
    end
 
    form = form .. "label[0.25,8.15;"
-      .. minetest.formspec_escape(amt_gotten.. " of "
-                                     .. #achievements.registered_achievements_list
-                                     .. " achievements gotten, " .. amt_progress
-                                     .. " in progress") .. "]"
+      .. minetest.formspec_escape(
+		S("@1 of @2 achievements gotten, @3 in progress",
+		amt_gotten,
+                #achievements.registered_achievements_list,
+                amt_progress)) .. "]"
 
    form = form .. "label[0.25,0.25;" .. minetest.formspec_escape(def.title) .. "]"
    form = form .. "label[7.25,0.25;" .. minetest.formspec_escape(progress) .. "]"
@@ -297,8 +300,8 @@ minetest.register_on_player_receive_fields(receive_fields)
 achievements.register_achievement(
    "off_to_battle",
    {
-      title = "Off to Battle",
-      description = "Craft a Broadsword",
+      title = S("Off to Battle"),
+      description = S("Craft a Broadsword"),
       times = 1,
       craftitem = "default:broadsword",
 })
@@ -306,8 +309,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "hardened_miner",
    {
-      title = "Hardened Miner",
-      description = "Craft 3 Carbon Steel pickaxes.",
+      title = S("Hardened Miner"),
+      description = S("Craft 3 Carbon Steel pickaxes."),
       times = 3,
       craftitem = "default:pick_carbon_steel",
 })
@@ -317,8 +320,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "drain_the_swamp",
    {
-      title = "Drain the Swamp",
-      description = "Dig 30 swamp dirt.",
+      title = S("Drain the Swamp"),
+      description = S("Dig 30 swamp dirt."),
       times = 30,
       dignode = "default:swamp_dirt",
 })
@@ -328,8 +331,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "plunks",
    {
-      title = "Plunks",
-      description = "Place 10 planks",
+      title = S("Plunks"),
+      description = S("Place 10 planks"),
       times = 10,
       placenode = "group:planks",
 })
@@ -337,8 +340,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "carpenter",
    {
-      title = "Carpenter",
-      description = "Place 100 planks",
+      title = S("Carpenter"),
+      description = S("Place 100 planks"),
       times = 100,
       placenode = "group:planks",
 })
@@ -346,8 +349,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "master_carpenter",
    {
-      title = "Master Carpenter",
-      description = "Place 500 planks",
+      title = S("Master Carpenter"),
+      description = S("Place 500 planks"),
       times = 500,
       placenode = "group:planks",
 })
@@ -357,8 +360,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "mineority",
    {
-      title = "Mineority",
-      description = "Mine 20 stone",
+      title = S("Mineority"),
+      description = S("Mine 20 stone"),
       times = 20,
       dignode = "group:stone",
 })
@@ -366,8 +369,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "rockin",
    {
-      title = "Rockin'",
-      description = "Mine 200 stone",
+      title = S("Rockin'"),
+      description = S("Mine 200 stone"),
       times = 200,
       dignode = "group:stone",
 })
@@ -375,8 +378,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "rocksolid",
    {
-      title = "Rock Solid",
-      description = "Mine 1000 stone",
+      title = S("Rock Solid"),
+      description = S("Mine 1000 stone"),
       times = 1000,
       dignode = "group:stone",
 })
@@ -384,8 +387,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "cave_builder",
    {
-      title = "Cave Builder",
-      description = "Place 60 stone.",
+      title = S("Cave Builder"),
+      description = S("Place 60 stone."),
       times = 60,
       placenode = "default:stone",
 })
@@ -395,8 +398,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "timber",
    {
-      title = "Timber",
-      description = "Dig 10 tree trunks.",
+      title = S("Timber"),
+      description = S("Dig 10 tree trunks."),
       times = 10,
       dignode = "group:tree",
 })
@@ -404,8 +407,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "timberer",
    {
-      title = "Timberer",
-      description = "Dig 100 tree trunks.",
+      title = S("Timberer"),
+      description = S("Dig 100 tree trunks."),
       times = 100,
       dignode = "group:tree",
 })
@@ -413,8 +416,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "timbererest",
    {
-      title = "Timbererest",
-      description = "Dig 500 tree trunks.",
+      title = S("Timbererest"),
+      description = S("Dig 500 tree trunks."),
       times = 500,
       dignode = "group:tree",
 })
@@ -424,8 +427,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "builder",
    {
-      title = "Builder",
-      description = "Craft 180 bricks.",
+      title = S("Builder"),
+      description = S("Craft 180 bricks."),
       times = 180,
       craftitem = "default:brick",
 })
@@ -436,8 +439,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "gardener",
    {
-      title = "Gardener",
-      description = "Plant 10 flowers.",
+      title = S("Gardener"),
+      description = S("Plant 10 flowers."),
       times = 10,
       placenode = "default:flower",
 })
@@ -445,8 +448,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "master_gardener",
    {
-      title = "Master Gardener",
-      description = "Plant 100 flowers.",
+      title = S("Master Gardener"),
+      description = S("Plant 100 flowers."),
       times = 100,
       placenode = "default:flower",
 })
@@ -454,8 +457,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "welcome_to_the_mountains",
    {
-      title = "Welcome to the Mountains",
-      description = "Collect dry grass.",
+      title = S("Welcome to the Mountains"),
+      description = S("Collect dry grass."),
       times = 1,
       dignode = "default:dry_grass",
 })
@@ -463,8 +466,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "fertile",
    {
-      title = "Fertile",
-      description = "Craft 100 bags of fertilizer.",
+      title = S("Fertile"),
+      description = S("Craft 100 bags of fertilizer."),
       times = 100,
       craftitem = "default:fertilizer",
 })
@@ -474,8 +477,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "master_carpenter",
    {
-      title = "Master Carpenter",
-      description = "Craft 200 reinforced frames.",
+      title = S("Master Carpenter"),
+      description = S("Craft 200 reinforced frames."),
       times = 200,
       craftitem = "default:reinforced_frame",
 })
@@ -483,8 +486,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "master_stonemason",
    {
-      title = "Master Stonemason",
-      description = "Craft 200 reinforced cobble.",
+      title = S("Master Stonemason"),
+      description = S("Craft 200 reinforced cobble."),
       times = 200,
       craftitem = "default:reinforced_cobble",
 })
@@ -494,8 +497,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "sandman",
    {
-      title = "Sandman",
-      description = "Craft 60 compressed sandstone.",
+      title = S("Sandman"),
+      description = S("Craft 60 compressed sandstone."),
       times = 60,
       craftitem = "default:compressed_sandstone",
 })
@@ -505,8 +508,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "librarian",
    {
-      title = "Librarian",
-      description = "Craft 10 bookshelves.",
+      title = S("Librarian"),
+      description = S("Craft 10 bookshelves."),
       times = 10,
       craftitem = "default:bookshelf",
 })
@@ -516,8 +519,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "smelting_room",
    {
-      title = "Smelting Room",
-      description = "Craft 20 furnaces.",
+      title = S("Smelting Room"),
+      description = S("Craft 20 furnaces."),
       times = 20,
       craftitem = "default:furnace",
 })

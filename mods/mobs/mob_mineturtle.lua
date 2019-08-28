@@ -1,6 +1,8 @@
 
 -- Mineturtle by KaadmY
 
+local S = minetest.get_translator("mobs")
+
 mobs:register_mob(
    "mobs:mineturtle",
    {
@@ -71,4 +73,4 @@ mobs:register_spawn(
    31000
 )
 
-mobs:register_egg("mobs:mineturtle", "Mine Turtle", "mobs_mineturtle_inventory.png")
+mobs:register_egg("mobs:mineturtle", S("Mine Turtle"), "mobs_mineturtle_inventory.png")

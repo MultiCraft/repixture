@@ -2,6 +2,8 @@
 -- Jeweled tool defs
 --
 
+local S = minetest.get_translator("jewels")
+
 --  Automatic jeweling on specific tools
 
 local tool_types = {
@@ -166,7 +168,7 @@ jewels.register_jewel(
    "default:broadsword",
    "jewels:broadsword_jeweled_pommel",
    {
-      description = "Jeweled Pommel Broadsword",
+      description = S("Jeweled Pommel Broadsword"),
       overlay = "jewels_jeweled_pommel.png",
       stats = {
 	 fleshy = 2,
@@ -177,7 +179,7 @@ jewels.register_jewel(
    "jewels:broadsword_jeweled_pommel",
    "jewels:broadsword_jeweled_pommel_and_guard",
    {
-      description = "Jeweled Pommel&Guard Broadsword",
+      description = S("Jeweled Pommel&Guard Broadsword"),
       overlay = "jewels_jeweled_guard.png",
       stats = {
 	 range = 1,
@@ -188,7 +190,7 @@ jewels.register_jewel(
    "jewels:broadsword_jeweled_pommel_and_guard",
    "jewels:serrated_broadsword",
    {
-      description = "Serrated Broadsword",
+      description = S("Serrated Broadsword"),
       overlay = "jewels_jeweled_blade.png",
       stats = {
 	 fleshy = 2,

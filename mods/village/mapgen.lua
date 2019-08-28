@@ -2,6 +2,7 @@
 --
 -- Mapgen
 --
+local S = minetest.get_translator("village")
 
 local spawn_pos = minetest.setting_get_pos("static_spawnpoint") or {x = 0, y = 0, z = 0}
 local spawn_radius = minetest.settings:get("static_spawn_radius") or 256
@@ -12,7 +13,7 @@ local mapseed = minetest.get_mapgen_setting("seed")
 minetest.register_node(
    "village:entity_spawner",
    {
-      description = "Village Entity Spawner",
+      description = S("Village Entity Spawner"),
       tiles = {"default_brick.png^default_book.png"},
       is_ground_content = false,
       groups = {dig_immediate = 2},
@@ -22,7 +23,7 @@ minetest.register_node(
 minetest.register_node(
    "village:grassland_village",
    {
-      description = "Village Spawner",
+      description = S("Village Spawner"),
       tiles = {"default_grass.png^default_book.png"},
       is_ground_content = false,
       groups = {dig_immediate = 2},
@@ -41,7 +42,7 @@ minetest.register_node(
 minetest.register_node(
    "village:grassland_village_mg",
    {
-      description = "Mapgen Village Spawner\n(Has chance of not spawning village)",
+      description = S("Mapgen Village Spawner").."\n"..S("(Has chance of not spawning village)"),
       inventory_image = "default_wood.png^default_book.png",
       wield_image = "default_wood.png^default_book.png",
       drawtype = "airlike",

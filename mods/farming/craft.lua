@@ -1,35 +1,35 @@
-
 --
 -- Crafts and items
 --
+local S = minetest.get_translator("farming")
 
 -- Items
 
 minetest.register_craftitem(
    "farming:cotton",
    {
-      description = "Cotton",
+      description = S("Cotton"),
       inventory_image = "farming_cotton.png"
 })
 
 minetest.register_craftitem(
    "farming:wheat",
    {
-      description = "Wheat",
+      description = S("Wheat"),
       inventory_image = "farming_wheat.png"
 })
 
 minetest.register_craftitem(
    "farming:flour",
    {
-      description = "Flour",
+      description = S("Flour"),
       inventory_image = "farming_flour.png"
 })
 
 minetest.register_craftitem(
    "farming:bread",
    {
-      description = "Bread",
+      description = S("Bread"),
       inventory_image = "farming_bread.png",
       on_use = minetest.item_eat({hp = 4, sat = 40})
 })

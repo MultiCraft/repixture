@@ -3,6 +3,8 @@
 -- Tool definitions
 --
 
+local S = minetest.get_translator("default")
+
 local creative_digtime = 0.15
 
 local tool_levels = nil
@@ -339,7 +341,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:pick_wood",
    {
-      description = "Wooden Pickaxe",
+      description = S("Wooden Pickaxe"),
       inventory_image = "default_pick_wood.png",
       tool_capabilities = {
 	 max_drop_level=0,
@@ -353,7 +355,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:pick_stone",
    {
-      description = "Stone Pickaxe",
+      description = S("Stone Pickaxe"),
       inventory_image = "default_pick_stone.png",
       tool_capabilities = {
 	 max_drop_level = 0,
@@ -367,7 +369,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:pick_wrought_iron",
    {
-      description = "Wrought Iron Pickaxe",
+      description = S("Wrought Iron Pickaxe"),
       inventory_image = "default_pick_wrought_iron.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -381,7 +383,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:pick_steel",
    {
-      description = "Steel Pickaxe",
+      description = S("Steel Pickaxe"),
       inventory_image = "default_pick_steel.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -395,7 +397,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:pick_carbon_steel",
    {
-      description = "Carbon Steel Pickaxe",
+      description = S("Carbon Steel Pickaxe"),
       inventory_image = "default_pick_carbon_steel.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -409,7 +411,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:pick_bronze",
    {
-      description = "Bronze Pickaxe",
+      description = S("Bronze Pickaxe"),
       inventory_image = "default_pick_bronze.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -425,7 +427,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:shovel_wood",
    {
-      description = "Wooden Shovel",
+      description = S("Wooden Shovel"),
       inventory_image = "default_shovel_wood.png",
       tool_capabilities = {
 	 max_drop_level=0,
@@ -439,7 +441,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:shovel_stone",
    {
-      description = "Stone Shovel",
+      description = S("Stone Shovel"),
       inventory_image = "default_shovel_stone.png",
       tool_capabilities = {
 	 max_drop_level=0,
@@ -453,7 +455,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:shovel_wrought_iron",
    {
-      description = "Wrought Iron Shovel",
+      description = S("Wrought Iron Shovel"),
       inventory_image = "default_shovel_wrought_iron.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -467,7 +469,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:shovel_steel",
    {
-      description = "Steel Shovel",
+      description = S("Steel Shovel"),
       inventory_image = "default_shovel_steel.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -481,7 +483,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:shovel_carbon_steel",
    {
-      description = "Carbon Steel Shovel",
+      description = S("Carbon Steel Shovel"),
       inventory_image = "default_shovel_carbon_steel.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -495,7 +497,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:shovel_bronze",
    {
-      description = "Bronze Shovel",
+      description = S("Bronze Shovel"),
       inventory_image = "default_shovel_bronze.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -511,7 +513,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:axe_wood",
    {
-      description = "Wooden Axe",
+      description = S("Wooden Axe"),
       inventory_image = "default_axe_wood.png",
       tool_capabilities = {
 	 max_drop_level=0,
@@ -526,7 +528,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:axe_stone",
    {
-      description = "Stone Axe",
+      description = S("Stone Axe"),
       inventory_image = "default_axe_stone.png",
       tool_capabilities = {
 	 max_drop_level=0,
@@ -541,7 +543,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:axe_wrought_iron",
    {
-      description = "Wrought Iron Axe",
+      description = S("Wrought Iron Axe"),
       inventory_image = "default_axe_wrought_iron.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -556,7 +558,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:axe_steel",
    {
-      description = "Steel Axe",
+      description = S("Steel Axe"),
       inventory_image = "default_axe_steel.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -571,7 +573,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:axe_carbon_steel",
    {
-      description = "Carbon Steel Axe",
+      description = S("Carbon Steel Axe"),
       inventory_image = "default_axe_carbon_steel.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -586,7 +588,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:axe_bronze",
    {
-      description = "Bronze Axe",
+      description = S("Bronze Axe"),
       inventory_image = "default_axe_bronze.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -603,7 +605,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:spear_wood",
    {
-      description = "Wooden Spear",
+      description = S("Wooden Spear"),
       inventory_image = "default_spear_wood.png",
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -619,7 +621,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:spear_stone",
    {
-      description = "Stone Spear",
+      description = S("Stone Spear"),
       inventory_image = "default_spear_stone.png",
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -635,7 +637,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:spear_wrought_iron",
    {
-      description = "Wrought Iron Spear",
+      description = S("Wrought Iron Spear"),
       inventory_image = "default_spear_wrought_iron.png",
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -651,7 +653,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:spear_steel",
    {
-      description = "Steel Spear",
+      description = S("Steel Spear"),
       inventory_image = "default_spear_steel.png",
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -667,7 +669,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:spear_carbon_steel",
    {
-      description = "Carbon Steel Spear",
+      description = S("Carbon Steel Spear"),
       inventory_image = "default_spear_carbon_steel.png",
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -683,7 +685,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:spear_bronze",
    {
-      description = "Bronze Spear",
+      description = S("Bronze Spear"),
       inventory_image = "default_spear_bronze.png",
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -701,7 +703,7 @@ minetest.register_tool(
 minetest.register_tool(
    "default:broadsword",
    {
-      description = "Broadsword",
+      description = S("Broadsword"),
       inventory_image = "default_broadsword.png",
       wield_image = "default_broadsword.png",
       wield_scale = {x = 2.0, y = 2.0, z = 1.0},
@@ -716,14 +718,14 @@ minetest.register_tool(
 minetest.register_tool(
    "default:shears",
    {
-      description = "Wrought Iron Shears",
+      description = S("Wrought Iron Shears"),
       inventory_image = "default_shears.png",
 })
 
 minetest.register_tool(
    "default:flint_and_steel",
    {
-      description = "Flint and Steel",
+      description = S("Flint and Steel"),
       inventory_image = "default_flint_and_steel.png",
       on_use = function(itemstack, user, pointed_thing)
          if pointed_thing == nil then return end

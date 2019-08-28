@@ -2,6 +2,8 @@
 -- Warthog(Boar) by KrupnoPavel
 -- Changed to Boar and tweaked by KaadmY
 
+local S = minetest.get_translator("mobs")
+
 mobs:register_mob(
    "mobs:boar",
    {
@@ -72,14 +74,14 @@ mobs:register_spawn(
    31000
 )
 
-mobs:register_egg("mobs:boar", "Boar", "mobs_boar_inventory.png")
+mobs:register_egg("mobs:boar", S("Boar"), "mobs_boar_inventory.png")
 
 -- Raw porkchop
 
 minetest.register_craftitem(
    "mobs:pork_raw",
    {
-      description = "Raw Porkchop",
+      description = S("Raw Porkchop"),
       inventory_image = "mobs_pork_raw.png",
       on_use = minetest.item_eat({hp = 4, sat = 30}),
 })
@@ -89,7 +91,7 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "mobs:pork",
    {
-      description = "Cooked Porkchop",
+      description = S("Cooked Porkchop"),
       inventory_image = "mobs_pork_cooked.png",
       on_use = minetest.item_eat({hp = 8, sat = 50}),
 })

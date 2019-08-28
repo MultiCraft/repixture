@@ -3,6 +3,7 @@
 -- Music player mod
 -- By Kaadmy, for Pixture
 --
+local S = minetest.get_translator("music")
 
 music = {}
 
@@ -19,7 +20,7 @@ if minetest.settings:get_bool("music_enable") then
       local dp = minetest.hash_node_position(pos)
 
       local meta = minetest.get_meta(pos)
-      meta:set_string("infotext", "Music Player (off)")
+      meta:set_string("infotext", S("Music Player (off)"))
       meta:set_int("music_player_enabled", 0)
 
       if music.players[dp] ~= nil then
@@ -32,7 +33,7 @@ if minetest.settings:get_bool("music_enable") then
       local dp = minetest.hash_node_position(pos)
 
       local meta = minetest.get_meta(pos)
-      meta:set_string("infotext", "Music Player (on)")
+      meta:set_string("infotext", S("Music Player (on)"))
       meta:set_int("music_player_enabled", 1)
 
       if music.players[dp] == nil then
@@ -89,7 +90,7 @@ if minetest.settings:get_bool("music_enable") then
    minetest.register_node(
       "music:player",
       {
-	 description = "Music Player",
+	 description = S("Music Player"),
 
 	 tiles = {"music_top.png", "music_bottom.png", "music_side.png"},
 
@@ -148,7 +149,7 @@ else
    minetest.register_node(
       "music:player",
       {
-	 description = "Music Player",
+	 description = S("Music Player"),
 
 	 tiles = {"music_top.png", "music_bottom.png", "music_side.png"},
 
@@ -166,7 +167,7 @@ else
 	 on_construct = function(pos)
             local meta = minetest.get_meta(pos)
 
-            meta:set_string("infotext", "Music Player (disabled by server)")
+            meta:set_string("infotext", S("Music Player (disabled by server)"))
          end,
 
 	 groups = {oddly_breakable_by_hand = 3}
@@ -187,8 +188,8 @@ crafting.register_craft(
 achievements.register_achievement(
    "musician",
    {
-      title = "Musician",
-      description = "Craft a music player.",
+      title = S("Musician"),
+      description = S("Craft a music player."),
       times = 1,
       craftitem = "music:player",
 })

@@ -5,6 +5,8 @@
 -- Tweaked by Kaadmy, for Pixture
 --
 
+local S = minetest.get_translator("parachute")
+
 function air_physics(v)
    local m = 80    -- Weight of player, kg
    local g = -9.81 -- Earth Acceleration, m/s^2
@@ -17,7 +19,7 @@ end
 
 minetest.register_craftitem(
    "parachute:parachute", {
-      description = "Parachute",
+      description = S("Parachute"),
       inventory_image = "parachute_inventory.png",
       wield_image = "parachute_inventory.png",
       stack_max = 1,
@@ -160,8 +162,8 @@ crafting.register_craft(
 achievements.register_achievement(
    "sky_diver",
    {
-      title = "Sky Diver",
-      description = "Craft 5 parachutes.",
+      title = S("Sky Diver"),
+      description = S("Craft 5 parachutes."),
       times = 5,
       craftitem = "parachute:parachute",
 })

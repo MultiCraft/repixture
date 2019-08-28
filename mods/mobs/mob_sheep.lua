@@ -1,6 +1,8 @@
 
 -- Sheep by PilzAdam; tweaked for Pixture by KaadmY
 
+local S = minetest.get_translator("mobs")
+
 mobs:register_mob(
    "mobs:sheep",
    {
@@ -143,4 +145,4 @@ mobs:register_spawn(
    31000
 )
 
-mobs:register_egg("mobs:sheep", "Sheep", "mobs_sheep_inventory.png")
+mobs:register_egg("mobs:sheep", S("Sheep"), "mobs_sheep_inventory.png")

@@ -3,6 +3,8 @@
 -- By Kaadmy, for Pixture
 --
 
+local S = minetest.get_translator("weather")
+
 weather = {}
 weather.weather = "clear"
 weather.types = {"storm", "snowstorm", "clear"}
@@ -204,22 +206,22 @@ minetest.register_globalstep(
 minetest.register_privilege(
    "weather",
    {
-      description = "Can change the weather using the /weather command",
+      description = S("Can change the weather using the /weather command"),
       give_to_singleplayer = false
 })
 
 minetest.register_chatcommand(
    "weather",
    {
-      params = "storm | snowstorm | clear",
-      description = "Change the weather",
+      params = S("storm | snowstorm | clear"),
+      description = S("Change the weather"),
       privs = {weather = true},
       func = function(name, param)
          local weather_set = setweather_type(param)
          if not weather_set then
-             return false, "Incorrect weather. Valid weathers are “storm”, “snowstorm” and “clear”."
+             return false, S("Incorrect weather. Valid weathers are “storm”, “snowstorm” and “clear”.")
          else
-             return true, "Weather changed."
+             return true, S("Weather changed.")
          end
       end
 })

@@ -2,6 +2,7 @@
 -- Gold and NPC Trading
 -- By Kaadmy, for Pixture
 --
+local S = minetest.get_translator("gold")
 
 gold = {}
 
@@ -124,10 +125,10 @@ if minetest.get_modpath("mobs") ~= nil then
    table.insert(gold.trades["butcher"], {"mobs:meat_raw 4", "", "gold:ingot_gold 2"})
    table.insert(gold.trades["butcher"], {"mobs:meat_raw 5", "", "gold:ingot_gold 4"})
 
-   gold.trade_names["farmer"] = "Farmer"
-   gold.trade_names["tavernkeeper"] = "Tavern Keeper"
-   gold.trade_names["blacksmith"] = "Blacksmith"
-   gold.trade_names["butcher"] = "Butcher"
+   gold.trade_names["farmer"] = S("Farmer")
+   gold.trade_names["tavernkeeper"] = S("Tavern Keeper")
+   gold.trade_names["blacksmith"] = S("Blacksmith")
+   gold.trade_names["butcher"] = S("Butcher")
 end
 
 local form_trading = ""
@@ -150,8 +151,8 @@ form_trading = form_trading .. default.ui.get_itemslot_bg(6.25, 1.25, 1, 2)
 form_trading = form_trading .. "image[2.5,1.25;1,1;ui_arrow_bg.png^[transformR270]"
 form_trading = form_trading .. "image[5,2.25;1,1;ui_arrow.png^[transformR90]"
 
-form_trading = form_trading .. default.ui.button_exit(1.25, 3.25, 2, 1, "cancel", "Cancel")
-form_trading = form_trading .. default.ui.button(5.25, 3.25, 2, 1, "trade", "Trade")
+form_trading = form_trading .. default.ui.button_exit(1.25, 3.25, 2, 1, "cancel", S("Cancel"))
+form_trading = form_trading .. default.ui.button(5.25, 3.25, 2, 1, "trade", S("Trade"))
 
 default.ui.register_page("gold_trading_book", form_trading)
 
@@ -247,7 +248,7 @@ end)
 minetest.register_craftitem(
    "gold:trading_book",
    {
-      description = "Trading Book",
+      description = S("Trading Book"),
       inventory_image = "default_book.png^gold_bookribbon.png",
       stack_max = 1,
 })
@@ -255,14 +256,14 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "gold:lump_gold",
    {
-      description = "Gold Lump",
+      description = S("Gold Lump"),
       inventory_image = "gold_lump_gold.png",
 })
 
 minetest.register_craftitem(
    "gold:ingot_gold",
    {
-      description = "Gold Ingot",
+      description = S("Gold Ingot"),
       inventory_image = "gold_ingot_gold.png",
 })
 
@@ -271,7 +272,7 @@ minetest.register_craftitem(
 minetest.register_node(
    "gold:stone_with_gold",
    {
-      description = "Stone with Gold",
+      description = S("Stone with Gold"),
       tiles ={"default_stone.png^gold_mineral_gold.png"},
       groups = {cracky=1, stone=1},
       drop = "gold:lump_gold",
@@ -317,8 +318,8 @@ minetest.register_craft(
 achievements.register_achievement(
    "trader",
    {
-      title = "Trader",
-      description = "Craft a trading book.",
+      title = S("Trader"),
+      description = S("Craft a trading book."),
       times = 1,
       craftitem = "gold:trading_book",
 })
@@ -326,8 +327,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "gold_rush",
    {
-      title = "Gold Rush",
-      description = "Dig 60 gold ore.",
+      title = S("Gold Rush"),
+      description = S("Dig 60 gold ore."),
       times = 60,
       dignode = "gold:stone_with_gold",
 })

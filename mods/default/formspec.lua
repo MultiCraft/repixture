@@ -1,6 +1,8 @@
 
 default.ui = {}
 
+local S = minetest.get_translator("default")
+
 -- Registered UI pages
 
 default.ui.registered_pages = {
@@ -66,15 +68,15 @@ function default.ui.button(x, y, w, h, name, label, noclip)
 
    if w == 1 then
       return "image_button["..x..","..y..";"..w..","..h
-         ..";ui_button_1w_inactive.png;"..name..";"..label..";"
+         ..";ui_button_1w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
          ..nc..";false;ui_button_1w_active.png]"
    elseif w == 2 then
       return "image_button["..x..","..y..";"..w..","..h
-         ..";ui_button_2w_inactive.png;"..name..";"..label..";"
+         ..";ui_button_2w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
          ..nc..";false;ui_button_2w_active.png]"
    else
       return "image_button["..x..","..y..";"..w..","..h
-         ..";ui_button_3w_inactive.png;"..name..";"..label..";"
+         ..";ui_button_3w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
          ..nc..";false;ui_button_3w_active.png]"
    end
 end
@@ -88,11 +90,11 @@ function default.ui.button_exit(x, y, w, h, name, label, noclip)
 
    if w == 2 then
       return "image_button_exit["..x..","..y..";"..w..","..h
-         ..";ui_button_2w_inactive.png;"..name..";"..label..";"
+         ..";ui_button_2w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
          ..nc..";false;ui_button_2w_active.png]"
    else
       return "image_button_exit["..x..","..y..";"..w..","..h
-         ..";ui_button_3w_inactive.png;"..name..";"..label..";"
+         ..";ui_button_3w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
          ..nc..";false;ui_button_3w_active.png]"
    end
 end
@@ -109,7 +111,7 @@ function default.ui.tab(x, y, name, icon, tooltip)
       ..icon..";"..name..";;true;false;"
       ..minetest.formspec_escape(shifted_icon).."]"
 
-   form = form .. "tooltip["..name..";"..tooltip.."]"
+   form = form .. "tooltip["..name..";"..minetest.formspec_escape(tooltip).."]"
 
    return form
 end
@@ -197,8 +199,8 @@ function default.ui.item_group(x, y, group, count, name)
       result = result .. "item_image["..x..","..y..";1,1;"
          ..minetest.formspec_escape(itemname .. " " .. count).."]"
 
-      result = result .. "tooltip["..name..";Group: "
-         ..minetest.formspec_escape(group).."]"
+      result = result .. "tooltip["..name..";"..
+         minetest.formspec_escape(S("Group: @1", group)).."]"
    end
 
    return result
@@ -237,15 +239,15 @@ local form_default_default = ""
 form_default_default = form_default_default .. "size[8.5,9]"
 form_default_default = form_default_default .. default.ui.default.colors
 form_default_default = form_default_default .. default.ui.default.bg
-form_default_default = form_default_default .. default.ui.tab(-0.9, 0.5, "tab_crafting", "ui_icon_crafting.png", "Crafting")
+form_default_default = form_default_default .. default.ui.tab(-0.9, 0.5, "tab_crafting", "ui_icon_crafting.png", S("Crafting"))
 if minetest.get_modpath("armor") ~= nil then
-   form_default_default = form_default_default .. default.ui.tab(-0.9, 1.28, "tab_armor", "ui_icon_armor.png", "Armor")
+   form_default_default = form_default_default .. default.ui.tab(-0.9, 1.28, "tab_armor", "ui_icon_armor.png", S("Armor"))
 end
 if minetest.get_modpath("achievements") ~= nil then
-   form_default_default = form_default_default .. default.ui.tab(-0.9, 2.06, "tab_achievements", "ui_icon_achievements.png", "Achievements")
+   form_default_default = form_default_default .. default.ui.tab(-0.9, 2.06, "tab_achievements", "ui_icon_achievements.png", S("Achievements"))
 end
 if minetest.get_modpath("player_skins") ~= nil then
-   form_default_default = form_default_default .. default.ui.tab(-0.9, 2.84, "tab_player_skins", "ui_icon_player_skins.png", "Player Skins")
+   form_default_default = form_default_default .. default.ui.tab(-0.9, 2.84, "tab_player_skins", "ui_icon_player_skins.png", S("Player Skins"))
 end
 form_default_default = form_default_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
 default.ui.register_page("default:default", form_default_default)
@@ -264,7 +266,7 @@ form_default_field = form_default_field .. "size[8.5,5]"
 form_default_field = form_default_field .. default.ui.default.colors
 form_default_field = form_default_field .. default.ui.default.bg
 form_default_field = form_default_field .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
-form_default_field = form_default_field .. default.ui.button_exit(2.75, 3, 3, 1, "", "Write", false)
+form_default_field = form_default_field .. default.ui.button_exit(2.75, 3, 3, 1, "", S("Write"), false)
 form_default_field = form_default_field .. "field[1,1.75;7,0;text;;${text}]"
 default.ui.register_page("default:field", form_default_field)
 

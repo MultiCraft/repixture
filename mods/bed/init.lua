@@ -5,6 +5,8 @@
 -- Tweaked by Kaadmy, for Pixture
 --
 
+local S = minetest.get_translator("bed")
+
 bed = {}
 
 -- Per-user data table
@@ -254,7 +256,7 @@ minetest.register_globalstep(on_globalstep)
 minetest.register_node(
    "bed:bed_foot",
    {
-      description = "Bed",
+      description = S("Bed"),
       drawtype = "nodebox",
       paramtype = "light",
       paramtype2 = "facedir",
@@ -393,8 +395,8 @@ player_effects.register_effect(
 achievements.register_achievement(
    "bedtime",
    {
-      title = "Bed Time",
-      description = "Craft a bed",
+      title = S("Bed Time"),
+      description = S("Craft a bed"),
       times = 1,
       craftitem = "bed:bed_foot",
 })

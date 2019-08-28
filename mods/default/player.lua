@@ -1,3 +1,5 @@
+local S = minetest.get_translator("default")
+
 local player_soundspec = {}
 local player_lastsound = {}
 local player_health = {}
@@ -20,7 +22,7 @@ local function step(dtime)
             name,
             minetest.colorize(
                "#f00",
-               "Don't go past 30000m in any direction!"
+               S("Don't go past 30000m in any direction!")
          ))
 
 	 player:set_pos(player_lastpos[name])

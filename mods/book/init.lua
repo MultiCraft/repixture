@@ -4,10 +4,13 @@
 -- By Kaadmy, for Pixture
 --
 
+local S = minetest.get_translator("book")
+local F = minetest.formspec_escape
+
 minetest.register_craftitem(
    ":default:book",
    {
-      description = "Unnamed Book",
+      description = S("Unnamed Book"),
       inventory_image = "default_book.png",
       stack_max = 1,
 
@@ -24,9 +27,9 @@ minetest.register_craftitem(
          end
 
          local form = default.ui.get_page("default:notabs")
-         form = form .. "field[0.5,1.25;8,0;title;Title:;"..minetest.formspec_escape(title).."]"
-         form = form .. "textarea[0.5,1.75;8,6.75;text;Contents:;"..minetest.formspec_escape(text).."]"
-         form = form .. default.ui.button_exit(2.75, 7.75, 3, 1, "write", "Write")
+         form = form .. "field[0.5,1.25;8,0;title;"..F(S("Title:"))..";"..F(title).."]"
+         form = form .. "textarea[0.5,1.75;8,6.75;text;"..F(S("Contents:"))..";"..F(text).."]"
+         form = form .. default.ui.button_exit(2.75, 7.75, 3, 1, "write", S("Write"))
 
          minetest.show_formspec(name, "book:book", form)
       end,
@@ -53,8 +56,8 @@ end)
 achievements.register_achievement(
    "scribe",
    {
-      title = "Scribe",
-      description = "Craft a book",
+      title = S("Scribe"),
+      description = S("Craft a book"),
       times = 1,
       craftitem = "default:book",
 })

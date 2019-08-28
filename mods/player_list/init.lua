@@ -2,6 +2,7 @@
 -- Player listing mod
 -- By Kaadmy, for Pixture
 --
+local S = minetest.get_translator("player_list")
 
 player_list = {}
 
@@ -53,19 +54,19 @@ minetest.register_on_leaveplayer(on_leaveplayer)
 minetest.register_chatcommand(
    "plist",
    {
-      params = "[all|recent]",
-      description = "List current, recent, or all players since the last server restart",
+      params = S("[all|recent]"),
+      description = S("List current, recent, or all players since the last server restart"),
       func = function(player_name, param)
 		local time = minetest.get_gametime()
 
 		local str = ""
 
 		if param == "all" then
-		   minetest.chat_send_player(player_name, "Players:")
+		   minetest.chat_send_player(player_name, S("Players:"))
 		elseif param == "recent" then
-		   str = str .. "Recent players: "
+		   str = str .. S("Recent players: ")
 		else
-		   str = str .. "Connected players: "
+		   str = str .. S("Connected players: ")
 		end
 
 		local player_count = 0
@@ -75,9 +76,9 @@ minetest.register_chatcommand(
 		   if param == "all" then
 		      if plyr ~= nil then
 			 player_count = player_count + 1
-			 minetest.chat_send_player(player_name, "  " .. name .. ": connected for " .. prettytime(time - jointime))
+			 minetest.chat_send_player(S("@1: connected for @2", player_name, name, prettytime(time - jointime)))
 		      else
-			 minetest.chat_send_player(player_name, "  " .. name .. ": last seen " .. prettytime(time - jointime) .. " ago")
+			 minetest.chat_send_player(S("@1, @2: last seen @3 ago", player_name, name, prettytime(time - jointime)))
 		      end
 		   elseif param == "recent" then
                       if plyr == nil then -- Only show players that were connected but are currently disconnected
@@ -86,6 +87,7 @@ minetest.register_chatcommand(
                          if player_count == 1 then
                             str = str .. name
                          else
+                            -- TODO: Translate comma
                             str = str .. ", " .. name
                          end
                       end
@@ -95,6 +97,7 @@ minetest.register_chatcommand(
                       if player_count == 1 then
                          str = str .. name
                       else
+                         -- TODO: Translate comma
                          str = str .. ", " .. name
                       end
                    end
@@ -103,9 +106,9 @@ minetest.register_chatcommand(
 		minetest.chat_send_player(player_name, str)
 
 		if param == "recent" then
-		   minetest.chat_send_player(player_name, player_count .. " recent players")
+		   minetest.chat_send_player(player_name, S("Count: @1", player_count))
 		else
-		   minetest.chat_send_player(player_name, player_count .. " connected players")
+		   minetest.chat_send_player(player_name, S("Count: @1", player_count))
 		end
                 return true
 	     end

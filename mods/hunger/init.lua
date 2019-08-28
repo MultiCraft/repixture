@@ -4,6 +4,8 @@
 -- Tweaked by Kaadmy, for Pixture
 --
 
+local S = minetest.get_translator("hunger")
+
 hunger = {}
 
 -- Per-player userdata
@@ -299,7 +301,7 @@ local function on_globalstep(dtime)
 
                local pos_sound  = player:get_pos()
                minetest.chat_send_player(
-                  name, minetest.colorize("#f00", "You are hungry."))
+                  name, minetest.colorize("#f00", S("You are hungry.")))
             end
          end
       end
@@ -361,8 +363,8 @@ end
 player_effects.register_effect(
    "hunger_eating",
    {
-      title = "Eating",
-      description = "If you are eating food",
+      title = S("Eating"),
+      description = S("You're eating food, which slows you down"),
       duration = 2,
       physics = {
          speed = 0.6,

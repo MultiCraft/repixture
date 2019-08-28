@@ -2,6 +2,9 @@
 -- Furnace
 --
 
+local S = minetest.get_translator("default")
+local F = minetest.formspec_escape
+
 function default.furnace_active_formspec(percent, item_percent)
    local form = default.ui.get_page("default:2part")
    form = form .. "list[current_player;main;0.25,4.75;8,4;]"
@@ -53,7 +56,7 @@ default.ui.register_page("default_furnace_inactive", form_furnace)
 minetest.register_node(
    "default:furnace",
    {
-      description = "Furnace",
+      description = S("Furnace"),
       tiles ={"default_furnace_top.png", "default_furnace_top.png", "default_furnace_sides.png",
 	      "default_furnace_sides.png", "default_furnace_sides.png", "default_furnace_front.png"},
       paramtype2 = "facedir",
@@ -63,7 +66,7 @@ minetest.register_node(
       on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("formspec", default.ui.get_page("default_furnace_inactive"))
-			meta:set_string("infotext", "Furnace")
+			meta:set_string("infotext", S("Furnace"))
 
 			local inv = meta:get_inventory()
 			inv:set_size("fuel", 1)
@@ -87,7 +90,7 @@ minetest.register_node(
 minetest.register_node(
    "default:furnace_active",
    {
-      description = "Furnace (active)",
+      description = S("Furnace (active)"),
       tiles ={"default_furnace_top.png", "default_furnace_top.png", "default_furnace_sides.png",
 	      "default_furnace_sides.png", "default_furnace_sides.png", "default_furnace_front.png^default_furnace_flame.png"},
       paramtype2 = "facedir",
@@ -99,7 +102,7 @@ minetest.register_node(
       on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("formspec", default.ui.get_page("default_furnace_inactive"))
-			meta:set_string("infotext", "Furnace");
+			meta:set_string("infotext", S("Furnace"));
 
 			local inv = meta:get_inventory()
 			inv:set_size("fuel", 1)
@@ -226,31 +229,36 @@ minetest.register_abm(
 		  local item_percent = 0
 		  if cookable then
 		     item_percent =  math.floor(src_time / cooked.time * 100)
-		     item_state = item_percent .. "%"
+		     item_state = S("@1%", item_percent)
 		  else
 		     if srclist[1]:is_empty() then
-			item_state = "Empty"
+			item_state = S("Empty")
 		     else
-			item_state = "Not cookable"
+			item_state = S("Not cookable")
 		     end
 		  end
 
-		  local fuel_state = "Empty"
-		  local active = "inactive "
+		  local fuel_state = S("Empty")
+		  local active = false
 		  if fuel_time <= fuel_totaltime and fuel_totaltime ~= 0 then
-		     active = "active "
+		     active = true
 		     local fuel_percent = math.floor(fuel_time / fuel_totaltime * 100)
-		     fuel_state = fuel_percent .. "%"
+		     fuel_state = S("@1%", fuel_percent)
 		     formspec = default.furnace_active_formspec(fuel_percent, item_percent)
 		     swap_node(pos, "default:furnace_active")
 		  else
 		     if not fuellist[1]:is_empty() then
-			fuel_state = "0%"
+			fuel_state = S("@1%", "0")
 		     end
 		     swap_node(pos, "default:furnace")
 		  end
 
-		  local infotext =  "Furnace " .. active .. "(Item: " .. item_state .. "; Fuel: " .. fuel_state .. ")"
+		  local infotext
+		  if active then
+		     infotext = S("Furnace active (Item: @1; Fuel: @2)", item_state, fuel_state)
+		  else
+		     infotext = S("Furnace inactive (Item: @1; Fuel: @2)", item_state, fuel_state)
+		  end
 
 		  --
 		  -- Set meta values

@@ -3,6 +3,8 @@
 -- By Kaadmy, for Pixture
 --
 
+local S = minetest.get_translator("armor")
+
 armor = {}
 
 -- Wear is wear per HP of damage taken
@@ -34,9 +36,9 @@ form_armor = form_armor .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form_armor = form_armor .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
 form_armor = form_armor .. "listring[current_player;main]"
 
-form_armor = form_armor .. "label[3.25,1;Helmet]"
-form_armor = form_armor .. "label[3.25,2;Chestplate]"
-form_armor = form_armor .. "label[3.25,3;Boots]"
+form_armor = form_armor .. "label[3.25,1;"..minetest.formspec_escape(S("Helmet")).."]"
+form_armor = form_armor .. "label[3.25,2;"..minetest.formspec_escape(S("Chestplate")).."]"
+form_armor = form_armor .. "label[3.25,3;"..minetest.formspec_escape(S("Boots")).."]"
 
 form_armor = form_armor .. "list[current_player;armor;2.25,0.75;1,3;]"
 form_armor = form_armor .. "listring[current_player;armor]"
@@ -193,7 +195,7 @@ minetest.register_globalstep(on_globalstep)
 minetest.register_craftitem(
    "armor:chainmail_sheet",
    {
-      description = "Chainmail Sheet",
+      description = S("Chainmail Sheet"),
 
       inventory_image = "armor_chainmail.png",
       wield_image = "armor_chainmail.png",
@@ -273,8 +275,8 @@ end
 achievements.register_achievement(
    "armored",
    {
-      title = "Armored",
-      description = "Craft a piece of armor",
+      title = S("Armored"),
+      description = S("Craft a piece of armor"),
       times = 1,
       craftitem = "group:is_armor",
 })
@@ -282,8 +284,8 @@ achievements.register_achievement(
 achievements.register_achievement(
    "warrior",
    {
-      title = "Warrior",
-      description = "Craft 10 pieces of armor",
+      title = S("Warrior"),
+      description = S("Craft 10 pieces of armor"),
       times = 10,
       craftitem = "group:is_armor",
 })

@@ -1,5 +1,6 @@
 -- Boar by KrupnoPavel
 -- Changed to Skunk and tweaked by KaadmY
+local S = minetest.get_translator("mobs")
 
 mobs:register_mob(
    "mobs:skunk",
@@ -69,4 +70,4 @@ mobs:register_spawn(
    50
 )
 
-mobs:register_egg("mobs:skunk", "Skunk", "mobs_skunk_inventory.png")
+mobs:register_egg("mobs:skunk", S("Skunk"), "mobs_skunk_inventory.png")

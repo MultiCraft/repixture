@@ -1,6 +1,8 @@
 
 -- Mobs Api (9th August 2015)
 
+local S = minetest.get_translator("mobs")
+
 mobs = {}
 mobs.mod = "redo"
 
@@ -1344,7 +1346,7 @@ function mobs:spawn_specific(name, nodes, neighbors, min_light, max_light, inter
             end
 
             if minetest.settings:get_bool("display_mob_spawn") then
-               minetest.chat_send_all("[mobs] Add "..name.." at "..minetest.pos_to_string(pos))
+               minetest.chat_send_all("[mobs] "..S("Spawned @1 at @2", name, minetest.pos_to_string(pos)))
             end
 
             -- spawn mob half block higher
@@ -1562,7 +1564,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
       -- Is mob tamed?
 
       if self.tamed == false and force_take == false then
-         minetest.chat_send_player(name, "Not tamed!")
+         minetest.chat_send_player(name, S("Not tamed!"))
 
          return
       end
@@ -1570,7 +1572,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
       -- Cannot pick up if not owner
 
       if self.owner ~= name and force_take == false then
-         minetest.chat_send_player(name, self.owner .. " is owner!")
+         minetest.chat_send_player(name, S("@1 is owner!", self.owner))
 
          return
       end
@@ -1607,7 +1609,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
 
             achievements.trigger_achievement(clicker, "ranger")
          else
-	    minetest.chat_send_player(name, "Missed!")
+	    minetest.chat_send_player(name, S("Missed!"))
          end
       end
    end
