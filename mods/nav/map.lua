@@ -19,7 +19,7 @@ local creative_mode_cache = minetest.settings:get_bool("creative_mode")
 
 function map.update_hud_flags(player)
 	local creative_enabled =
-		(creative and creative.is_enabled_for(player:get_player_name())) or
+		(minetest.global_exists("creative") and creative.is_enabled_for(player:get_player_name())) or
 		creative_mode_cache
 
 	local minimap_enabled = creative_enabled or
