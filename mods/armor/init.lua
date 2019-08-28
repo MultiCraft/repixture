@@ -90,8 +90,6 @@ function armor.get_texture(player, base)
       end
    end
 
-   --   print("[armor] Got armor texture: " .. image)
-
    return image
 end
 
@@ -135,8 +133,6 @@ function armor.get_groups(player)
    if match_amt == #armor.slots then
       groups.fleshy = groups.fleshy - 10
    end
-
-   --   print("[armor] Armor groups: " .. dump(groups))
 
    return groups
 end
@@ -217,7 +213,6 @@ for mat_index, matdef in ipairs(armor.materials) do
    local mat = matdef[1]
 
    local armor_def = math.floor(matdef[4] / #armor.slots)
-   --   print("Material " .. mat .. ": " .. armor_def)
 
    for _, slot in ipairs(armor.slots) do
       local prettystring = slot:gsub(

@@ -380,7 +380,7 @@ function village.spawn_village(pos, pr)
 
    local t1 = os.clock()
    village.spawn_road(pos, houses, built, roads, depth, pr)
-   print(string.format("Took %.2fms to spawn village", (os.clock() - t1) * 1000))
+   minetest.log("action", string.format("[village] Took %.2fms to generate village", (os.clock() - t1) * 1000))
 
    local function connects(pos, nextpos)
       local hnp = minetest.hash_node_position(nextpos)

@@ -85,7 +85,7 @@ minetest.register_lbm(
 
             if nearest.dist > village.min_spawn_dist then
                if vector.distance(spawn_pos, pos) > spawn_radius then
-                  minetest.log("Spawning a Grassland village at " .. "(" .. pos.x
+                  minetest.log("action", "[village] Spawning a Grassland village at " .. "(" .. pos.x
                                   .. ", " .. pos.y .. ", " .. pos.z .. ")")
 
                   minetest.after(
@@ -94,10 +94,10 @@ minetest.register_lbm(
                         village.spawn_village(pos, pr)
                   end)
                else
-                  minetest.log("Cannot spawn village, too near the static spawnpoint")
+                  minetest.log("action", "[village] Cannot spawn village, too near the static spawnpoint")
                end
             else
-               minetest.log("Cannot spawn village, too near another village")
+               minetest.log("action", "[village] Cannot spawn village, too near another village")
             end
          end
       end,

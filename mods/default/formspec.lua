@@ -284,8 +284,6 @@ default.ui.register_page("default:bookshelf", form_bookshelf)
 function default.ui.receive_fields(player, form_name, fields)
    local name = player:get_player_name()
 
-   --   print("Received formspec fields from '"..name.."': "..dump(fields))
-
    if fields.tab_crafting then
       minetest.show_formspec(name, "crafting:crafting", crafting.get_formspec(name))
    elseif minetest.get_modpath("armor") ~= nil and fields.tab_armor then

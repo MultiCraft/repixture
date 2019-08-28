@@ -1562,7 +1562,6 @@ minetest.register_node(
          meta:set_string("text", "")
       end,
       on_receive_fields = function(pos, formname, fields, sender)
-         --print("Sign at "..minetest.pos_to_string(pos).." got "..dump(fields))
          if fields.text == nil then return end
          local meta = minetest.get_meta(pos)
          minetest.log("action", (sender:get_player_name() or "")..

@@ -288,7 +288,6 @@ function mobs:register_mob(name, def)
             and math.random(1, self.replace_rate) == 1 then
                local pos = self.object:get_pos()
                pos.y = pos.y + self.replace_offset
-               -- print ("replace node = ".. minetest.get_node(pos).name, pos.y)
                if self.replace_what and self.object:get_velocity().y == 0 and #minetest.find_nodes_in_area(pos, pos, self.replace_what) > 0 then
                   --and self.state == "stand" then
                   if self.on_replace ~= nil then
@@ -393,7 +392,7 @@ function mobs:register_mob(name, def)
 
                pos.y = pos.y + self.collisionbox[2] -- foot level
                local nod = minetest.get_node_or_nil(pos)
-               if not nod then return end ;  -- print ("standing in "..nod.name)
+               if not nod then return end
                local nodef = minetest.registered_nodes[nod.name]
                pos.y = pos.y + 1
 
@@ -425,7 +424,6 @@ function mobs:register_mob(name, def)
                   local pos = self.object:get_pos()
                   pos.y = (pos.y + self.collisionbox[2]) - 0.2
                   local nod = minetest.get_node(pos)
-                  --print ("standing on:", nod.name, pos.y)
                   if not nod
                      or not minetest.registered_nodes[nod.name]
                   or minetest.registered_nodes[nod.name].walkable == false then
@@ -439,7 +437,6 @@ function mobs:register_mob(name, def)
                            y = pos.y,
                            z = pos.z + self.direction.z
                      })
-                     --print ("in front:", nod.name, pos.y)
                      if nod and nod.name and
                         (nod.name ~= "air"
                          or self.walk_chance == 0) then
@@ -804,7 +801,6 @@ function mobs:register_mob(name, def)
 
                -- water swimmers cannot move out of water
                if self.fly and self.fly_in == "default:water_source" and not lp then
-                  print ("out of water")
                   self.set_velocity(self, 0)
                   self.state = "flop" -- change to undefined state so nothing more happens
                   self:set_animation("stand")
@@ -931,7 +927,6 @@ function mobs:register_mob(name, def)
             elseif self.state == "attack"
             and self.attack_type == "dogfight" then
                if not self.attack.player or not self.attack.player:get_pos() then
-                  print("stop attacking")
                   self.state = "stand"
                   self:set_animation("stand")
                   return
@@ -1194,7 +1189,7 @@ function mobs:register_mob(name, def)
 
             -- remove mob when out of range unless tamed
             if mobs.remove == true and self.remove_ok and not self.tamed then
-               print ("REMOVED", self.remove_ok, self.name)
+               minetest.log("action", "[mobs] Mob removed (out of range): " .. tostring(self.remove_ok) .." ".. self.name)
                self.object:remove()
             end
             self.remove_ok = true
@@ -1209,7 +1204,6 @@ function mobs:register_mob(name, def)
                   tmp[_] = self[_]
                end
             end
-            -- print('===== '..self.name..'\n'.. dump(tmp)..'\n=====\n')
             return minetest.serialize(tmp)
          end,
 
@@ -1352,7 +1346,7 @@ function mobs:spawn_specific(name, nodes, neighbors, min_light, max_light, inter
             -- spawn mob half block higher
             pos.y = pos.y - 0.5
             minetest.add_entity(pos, name)
-            --print ("Spawned "..name.." at "..minetest.pos_to_string(pos).." on "..node.name.." near "..neighbors[1])
+            minetest.log("action", "[mobs] Spawned "..name.." at "..minetest.pos_to_string(pos).." on "..node.name.." near "..neighbors[1])
 
          end
    })
@@ -1492,7 +1486,7 @@ function mobs:register_arrow(name, def)
                   self.lastpos = (self.lastpos or pos)
                   minetest.add_item(self.lastpos, self.object:get_luaentity().name)
                end
-               self.object:remove() ; -- print ("hit node")
+               self.object:remove()
                return
             end
 
@@ -1502,14 +1496,14 @@ function mobs:register_arrow(name, def)
                   if self.hit_player
                   and player:is_player() then
                      self.hit_player(self, player)
-                     self.object:remove() ; -- print ("hit player")
+                     self.object:remove()
                      return
                   end
                   if self.hit_mob
                      and player:get_luaentity().name ~= self.object:get_luaentity().name
                   and player:get_luaentity().name ~= "__builtin:item" then
                      self.hit_mob(self, player)
-                     self.object:remove() ; -- print ("hit mob")
+                     self.object:remove()
                      return
                   end
                end
