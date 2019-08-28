@@ -12,10 +12,10 @@ local npc_types = {
 
 local msgs = {
     npc = {
-        farmer = S("Hi! I'm a farmer. I take care of crops."),
-        tavernkeeper = S("In my village, I keep a tavern and the townsfolk entertained."),
-        blacksmith = S("Hi! I'm a blacksmith. Smelting ores is my job."),
-        butcher = S("Hi! I'm a butcher. I sell meat."),
+        farmer = S("Hi! I'm a farmer. I sell farming goods."),
+        tavernkeeper = S("Hi! I'm a tavernkeeper. I trade with assorted goods."),
+        blacksmith = S("Hi! I'm a blacksmith. I sell metal products."),
+        butcher = S("Hi! I'm a butcher. Want to buy something?"),
     },
     trade = {
         S("If you want to trade, show me a trading book."),
@@ -27,9 +27,8 @@ local msgs = {
         S("I don't want food right now."),
     },
     eat_full = {
-        S("Ah, that hit the spot!"),
+        S("Ah, now I'm fully energized!"),
         S("Thanks, now I'm filled up."),
-        S("Burp!"),
         S("Thank you, now I feel much better!"),
     },
     eat_normal = {
