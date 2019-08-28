@@ -1,0 +1,4 @@
+# textdomain: bed
+Bed=
+Bed Time=
+Craft a bed=

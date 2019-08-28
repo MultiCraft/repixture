@@ -1,0 +1,11 @@
+# textdomain: locks
+Lock Pick=
+@1 has broken into your locked chest!=
+Lock=
+Locked Chest=
+Locked Chest (Owned by @1)=
+@1 (Owned by @2)=
+Locksmith=
+Craft a lock=
+Burglar=
+Craft a lock pick=

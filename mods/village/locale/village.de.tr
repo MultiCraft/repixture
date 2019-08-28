@@ -1,0 +1,5 @@
+# textdomain: village
+Village Entity Spawner=Dorf-Entity-Erzeuger
+Village Spawner=Dorf-Erzeuger
+Mapgen Village Spawner=Kartengenerator-Dorf-Erzeuger
+(Has chance of not spawning village)=(Könnte das Dorf evtl. nicht erzeugen)

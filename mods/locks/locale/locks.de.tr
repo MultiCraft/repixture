@@ -1,0 +1,11 @@
+# textdomain: locks
+Lock Pick=Dietrich
+@1 has broken into your locked chest!=@1 hat Ihre abgeschlossene Truhe geknackt!
+Lock=Schloss
+Locked Chest=Abgeschlossene Truhe
+Locked Chest (Owned by @1)=Abgeschlossene Truhe (Eigentümer: @1)
+@1 (Owned by @2)=@1 (Eigentümer: @2)
+Locksmith=Schlossmacher
+Craft a lock=Fertigen Sie ein Schloss
+Burglar=Räuber
+Craft a lock pick=Fertigen Sie einen Dietrich

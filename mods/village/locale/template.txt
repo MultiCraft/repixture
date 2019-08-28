@@ -1,0 +1,5 @@
+# textdomain: village
+Village Entity Spawner=
+Village Spawner=
+Mapgen Village Spawner=
+(Has chance of not spawning village)=

@@ -1,0 +1,22 @@
+# textdomain: farming
+Farmer=Bauer
+Plant 20 wheat seeds=Pflanzen Sie 20 Weizensamen
+Master Farmer=Meisterbauer
+Plant 200 wheat seeds=Pflanzen Sie 200 Weizensamen
+Cotton Farmer=Baumwollfarmer
+Plant 10 cotton seeds=Pflanzen Sie 10 Baumwollsamen
+Master Cotton Farmer=Meisterbaumwollfarmer
+Plant 100 cotton seeds=Pflanzen Sie 100 Baumwollsamen
+Cotton=Baumwolle
+Wheat=Weizen
+Flour=Mehl
+Bread=Brot
+Wheat Seed=Weizensamen
+Wheat Plant (stage 1)=Weizenpflanze (1. Stufe)
+Wheat Plant (stage 2)=Weizenpflanze (2. Stufe)
+Wheat Plant (stage 3)=Weizenpflanze (3. Stufe)
+Cotton Seed=Baumwollsamen
+Cotton Plant (stage 1)=Baumwollpflanze (1. Stufe)
+Cotton Plant (stage 2)=Baumwollpflanze (2. Stufe)
+Cotton Plant (stage 3)=Baumwollpflanze (3. Stufe)
+Cotton Bale=Baumwollballen

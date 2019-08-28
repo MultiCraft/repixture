@@ -1,0 +1,15 @@
+# textdomain: pm
+<player> <message>=<Spieler> <Nachricht>
+Send somebody a private message=Jemanden eine Privatnachricht senden
+Invalid usage, see /help pm.=Ungültige Verwendung, siehe /help pm.
+The player @1 is not online, saving message instead.=Der Spieler @1 ist nicht online, die Nachricht wird statt dessen gespeichert.
+The player @1 is not online, and PM saving is disabled.=Der Spieler @1 ist nicht online, und das Speichern von PNs ist deaktiviert.
+PM from @1: @2=PN von @1: @2
+PM sent.=PN gesendet.
+Show saved private messages=Gespeicherte Privatnachrichten zeigen
+PM saving is disabled.=Speichern von PNs ist deaktiviert.
+No saved PMs.=Keine gespeicherten PNs.
+Saved PMs:=Gespeicherte PNs:
+@1 saved PMs=@1 gespeicherte PNs
+Number of saved PMs: @1. Enter /pms command to view.=Anzahl der gespeicherten PNs: @. „/pms“-Behel eingeben, um sie zu lesen.
+You have no saved PMs. Send PMs with the /pm command.=Sie haben keine gespeicherten PNs. Senden Sie PNs mit dem „/pm“-Befehl.

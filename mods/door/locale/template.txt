@@ -1,0 +1,5 @@
+# textdomain: door
+Wooden Door=
+Stone Door=
+Adoorable=
+Craft a door=

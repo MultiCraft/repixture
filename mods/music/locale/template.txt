@@ -1,0 +1,7 @@
+# textdomain: music
+Music Player (off)=
+Music Player (on)=
+Music Player=
+Music Player (disabled by server)=
+Musician=
+Craft a music player.=

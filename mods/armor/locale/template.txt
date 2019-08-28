@@ -1,0 +1,9 @@
+# textdomain: armor
+Helmet=
+Chestplate=
+Boots=
+Chainmail Sheet=
+Armored=
+Craft a piece of armor=
+Warrior=
+Craft 10 pieces of armor=

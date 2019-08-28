@@ -1,0 +1,7 @@
+# textdomain: book
+Unnamed Book=
+Title:=
+Contents:=
+Write=
+Scribe=
+Craft a book=

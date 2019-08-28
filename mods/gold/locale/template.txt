@@ -1,0 +1,15 @@
+# textdomain: gold
+Farmer=
+Tavern Keeper=
+Blacksmith=
+Butcher=
+Cancel=
+Trade=
+Trading Book=
+Gold Lump=
+Gold Ingot=
+Stone with Gold=
+Trader=
+Craft a trading book.=
+Gold Rush=
+Dig 60 gold ore.=

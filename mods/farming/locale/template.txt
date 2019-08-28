@@ -1,0 +1,22 @@
+# textdomain: farming
+Farmer=
+Plant 20 wheat seeds=
+Master Farmer=
+Plant 200 wheat seeds=
+Cotton Farmer=
+Plant 10 cotton seeds=
+Master Cotton Farmer=
+Plant 100 cotton seeds=
+Cotton=
+Wheat=
+Flour=
+Bread=
+Wheat Seed=
+Wheat Plant (stage 1)=
+Wheat Plant (stage 2)=
+Wheat Plant (stage 3)=
+Cotton Seed=
+Cotton Plant (stage 1)=
+Cotton Plant (stage 2)=
+Cotton Plant (stage 3)=
+Cotton Bale=

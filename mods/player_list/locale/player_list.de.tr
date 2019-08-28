@@ -1,0 +1,9 @@
+# textdomain: player_list
+[all|recent]=[all|recent]
+List current, recent, or all players since the last server restart=Aktuelle, neu hinzugekommene oder alle Spieler seit dem letzten Server-Neustart auflisten
+Players:=Spieler:
+Recent players: =Neue hinzugekommene Spieler: 
+Connected players: =Verbundene Spieler: 
+@1: connected for @2=@1: verbunden für @2
+@1, @2: last seen @3 ago=@1, @2: zuletz gesehen vor @3
+Count: @1=Anzahl: @1

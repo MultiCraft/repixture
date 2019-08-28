@@ -1,0 +1,7 @@
+# textdomain: lumien
+Glowing Lumien Crystal=
+Lumien Crystal=
+Lumien Block=
+Stone with Lumien=
+Enlightened=
+Place 9 lumien crystals.=

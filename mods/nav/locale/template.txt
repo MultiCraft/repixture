@@ -1,0 +1,5 @@
+# textdomain: nav
+Compass=
+Map=
+Navigator=
+Craft a map=

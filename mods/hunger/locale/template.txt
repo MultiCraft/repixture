@@ -1,0 +1,4 @@
+# textdomain: hunger
+You are hungry.=
+Eating=
+You're eating food, which slows you down=

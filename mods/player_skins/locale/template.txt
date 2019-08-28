@@ -1,0 +1,6 @@
+# textdomain: player_skins
+Invalid skin!=
+Set your player skin=
+Skin set to “@1”.=
+Current player skin: @1=
+Unknown player skin. Enter “/help player_skin” for help.=

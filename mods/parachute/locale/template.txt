@@ -1,0 +1,4 @@
+# textdomain: parachute
+Parachute=
+Sky Diver=
+Craft 5 parachutes.=

@@ -1,0 +1,25 @@
+# textdomain: partialblocks
+Cobble Slab=Pflastersteinplatte
+Cobble Stair=Pflastersteintreppe
+Stone Slab=Steinplatte
+Stone Stair=Steintreppe
+Brick Slab=Ziegelplatte
+Brick Stair=Ziegeltreppe
+Wooden Slab=Holzplatte
+Wooden Stair=Holttreppe
+Oak Slab=Eichenplatte
+Oak Stair=Eichentreppe
+Birch Slab=Birkenplatte
+Birch Stair=Birkentreppe
+Frame Slab=Rahmenplatte
+Frame Stair=Rahmentreppe
+Reinforced Frame Slab=Verstärkte Rahmenplatte
+Reinforced Frame Stair=Verstärkte Rahmentreppe
+Reinforced Cobble Slab=Verstärkte Pflastersteinplatte
+Reinforced Cobble Stair=Verstärkte Pflastersteintreppe
+Coal Slab=Kohleplatte
+Coal Stair=Kohletreppe
+Steel Slab=Stahlplatte
+Steel Stair=Stahltreppe
+Compressed Sandstone Slab=Kompaktsandsteinplatte
+Compressed Sandstone Stair=Kompaktsandsteintreppe

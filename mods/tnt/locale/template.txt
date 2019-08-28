@@ -1,0 +1,4 @@
+# textdomain: tnt
+TNT=
+Boom!=
+Craft TNT=

@@ -1,0 +1,25 @@
+# textdomain: partialblocks
+Cobble Slab=
+Cobble Stair=
+Stone Slab=
+Stone Stair=
+Brick Slab=
+Brick Stair=
+Wooden Slab=
+Wooden Stair=
+Oak Slab=
+Oak Stair=
+Birch Slab=
+Birch Stair=
+Frame Slab=
+Frame Stair=
+Reinforced Frame Slab=
+Reinforced Frame Stair=
+Reinforced Cobble Slab=
+Reinforced Cobble Stair=
+Coal Slab=
+Coal Stair=
+Steel Slab=
+Steel Stair=
+Compressed Sandstone Slab=
+Compressed Sandstone Stair=
