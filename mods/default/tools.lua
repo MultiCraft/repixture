@@ -319,6 +319,7 @@ end
 minetest.register_tool(
    "default:creative_tool",
    {
+      description = S("Creative Tool"),
       inventory_image = "default_creative_tool.png",
       tool_capabilities = {
 	 full_punch_interval = 0.5,
