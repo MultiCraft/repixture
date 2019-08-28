@@ -1,7 +1,7 @@
 
 --
 -- Parachute mod
--- By webdesigner97(No license?)
+-- By webdesigner97 (license of original mod: WTFPL)
 -- Tweaked by Kaadmy, for Pixture
 --
 
