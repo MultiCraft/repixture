@@ -16,14 +16,14 @@ minetest.register_craftitem(
 
       on_use = function(itemstack, player, pointed_thing)
          local name = player:get_player_name()
-         local data = minetest.deserialize(itemstack:get_metadata())
+         local data = itemstack:get_meta()
 
          local title = ""
          local text = ""
 
          if data then
-            text = data.text
-            title = data.title
+            text = data:get_string("book:text")
+            title = data:get_string("book:title")
          end
 
          local form = default.ui.get_page("default:notabs")
