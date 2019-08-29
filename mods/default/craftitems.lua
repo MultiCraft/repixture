@@ -151,31 +151,4 @@ minetest.register_craftitem(
       stack_max = 1,
 })
 
-minetest.register_craftitem(
-   "default:fertilizer",
-   {
-      description = S("Fertilizer"),
-      inventory_image = "default_fertilizer_inventory.png",
-      wield_scale = {x=1,y=1,z=2},
-      on_place = function(itemstack, user, pointed_thing)
-         local pos = pointed_thing.above
-
-         local underdef = minetest.registered_nodes[minetest.get_node(pointed_thing.under).name]
-
-         if underdef.groups then
-            if underdef.groups.plantable_soil then
-               minetest.remove_node(pos)
-               minetest.set_node(pointed_thing.under, {name = "default:fertilized_dirt"})
-            elseif underdef.groups.plantable_sandy then
-               minetest.remove_node(pos)
-               minetest.set_node(pointed_thing.under, {name = "default:fertilized_sand"})
-            end
-         end
-
-         itemstack:take_item()
-
-         return itemstack
-      end,
-})
-
 default.log("craftitems", "loaded")

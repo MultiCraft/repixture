@@ -98,3 +98,5 @@ minetest.register_craftitem(
       end
 
 })
+
+default.log("bucket", "loaded")

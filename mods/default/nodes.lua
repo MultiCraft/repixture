@@ -1,11 +1,9 @@
 
 --
--- Node definitions
+-- Node definitions of simple, non-interactive nodes
 --
 
 local S = minetest.get_translator("default")
-
-local SIGN_MAX_TEXT_LENGTH = 64
 
 -- Ores
 
@@ -198,27 +196,6 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:fertilized_dirt",
-   {
-      description = S("Fertilized Dirt"),
-      tiles = {
-         "default_dirt.png^default_fertilizer.png",
-         "default_dirt.png",
-         "default_dirt.png"
-      },
-      groups = {
-	 crumbly = 3,
-	 soil = 1,
-	 plantable_soil = 1,
-	 plantable_fertilizer = 1,
-	 fall_damage_add_percent = -5,
-	 not_in_craft_guide = 1,
-      },
-      drop = "default:dirt",
-      sounds = default.node_sound_dirt_defaults(),
-})
-
-minetest.register_node(
    "default:dirt_with_dry_grass",
    {
       description = S("Dirt with Dry Grass"),
@@ -390,25 +367,6 @@ minetest.register_node(
       description = S("Sand"),
       tiles = {"default_sand.png"},
       groups = {crumbly = 3, falling_node = 1, sand = 1, plantable_sandy = 1, fall_damage_add_percent = -10},
-      sounds = default.node_sound_sand_defaults(),
-})
-
-minetest.register_node(
-   "default:fertilized_sand",
-   {
-      description = S("Fertilized Sand"),
-      tiles = {"default_sand.png^default_fertilizer.png", "default_sand.png", "default_sand.png"},
-      groups = {
-	 crumbly = 3,
-	 falling_node = 1,
-	 sand = 1,
-	 plantable_sandy = 1,
-	 plantable_fertilizer = 1,
-	 fall_damage_add_percent = -10,
-	 not_in_craft_guide = 1,
-      },
-      drop = "default:sand",
-      is_ground_content = false,
       sounds = default.node_sound_sand_defaults(),
 })
 
@@ -949,372 +907,6 @@ minetest.register_node(
       sounds = default.node_sound_wood_defaults(),
 })
 
--- Water
-
-minetest.register_node(
-   "default:water_flowing",
-   {
-      description = S("Flowing Water"),
-      drawtype = "flowingliquid",
-      tiles = {"default_water.png"},
-      special_tiles = {
-	 {
-	    image = "default_water_animated.png",
-	    backface_culling = false,
-	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
-	 },
-	 {
-	    image = "default_water_animated.png",
-	    backface_culling = false,
-	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
-	 },
-      },
-      drop = "",
-      alpha = default.WATER_ALPHA,
-      paramtype = "light",
-      walkable = false,
-      pointable = false,
-      diggable = false,
-      buildable_to = true,
-      drowning = 1,
-      liquidtype = "flowing",
-      liquid_alternative_flowing = "default:water_flowing",
-      liquid_alternative_source = "default:water_source",
-      liquid_viscosity = default.WATER_VISC,
-      post_effect_color = {a = 90, r = 40, g = 40, b = 100},
-      groups = {water = 1, flowing_water = 1, liquid = 1, not_in_creative_inventory=1,},
-      sounds = default.node_sound_liquid_defaults(),
-      is_ground_content = false,
-})
-
-minetest.register_node(
-   "default:water_source",
-   {
-      description = S("Water Source"),
-      drawtype = "liquid",
-      tiles = {"default_water.png"},
-      special_tiles = {
-	 {
-	    image = "default_water.png",
-	    backface_culling = false,
-	 },
-      },
-      drop = "",
-      alpha = default.WATER_ALPHA,
-      paramtype = "light",
-      walkable = false,
-      pointable = false,
-      diggable = false,
-      buildable_to = true,
-      drowning = 1,
-      liquidtype = "source",
-      liquid_alternative_flowing = "default:water_flowing",
-      liquid_alternative_source = "default:water_source",
-      liquid_viscosity = default.WATER_VISC,
-      post_effect_color = {a=90, r=40, g=40, b=100},
-      groups = {water=1, liquid=1},
-      sounds = default.node_sound_liquid_defaults(),
-      is_ground_content = false,
-})
-
-minetest.register_node(
-   "default:river_water_flowing",
-   {
-      description = S("Flowing River Water"),
-      drawtype = "flowingliquid",
-      tiles = {"default_water.png"},
-      special_tiles = {
-	 {
-	    image = "default_water_animated.png",
-	    backface_culling = false,
-	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
-	 },
-	 {
-	    image = "default_water_animated.png",
-	    backface_culling = false,
-	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
-	 },
-      },
-      drop= "",
-      alpha = default.RIVER_WATER_ALPHA,
-      paramtype = "light",
-      walkable = false,
-      pointable = false,
-      diggable = false,
-      buildable_to = true,
-      drowning = 2,
-      liquidtype = "flowing",
-      liquid_alternative_flowing = "default:river_water_flowing",
-      liquid_alternative_source = "default:river_water_source",
-      liquid_viscosity = default.RIVER_WATER_VISC,
-      liquid_renewable = false,
-      liquid_range = 1,
-      post_effect_color = {a=40, r=40, g=70, b=100},
-      groups = {water=1, flowing_water = 1, river_water = 1, liquid=1, not_in_creative_inventory=1,},
-      sounds = default.node_sound_liquid_defaults(),
-      is_ground_content = false,
-})
-
-minetest.register_node(
-   "default:river_water_source",
-   {
-      description = S("River Water Source"),
-      drawtype = "liquid",
-      tiles = {"default_water.png"},
-      special_tiles = {
-	 {
-	    image = "default_water.png",
-	    backface_culling = false,
-	 },
-      },
-      drop= "",
-      alpha = default.RIVER_WATER_ALPHA,
-      paramtype = "light",
-      walkable = false,
-      pointable = false,
-      diggable = false,
-      buildable_to = true,
-      drowning = 2,
-      liquidtype = "source",
-      liquid_alternative_flowing = "default:river_water_flowing",
-      liquid_alternative_source = "default:river_water_source",
-      liquid_viscosity = default.RIVER_WATER_VISC,
-      liquid_renewable = false,
-      liquid_range = 1,
-      post_effect_color = {a=40, r=40, g=70, b=100},
-      groups = {water = 1, river_water = 1, liquid = 1},
-      sounds = default.node_sound_liquid_defaults(),
-      is_ground_content = false,
-})
-
-minetest.register_node(
-   "default:swamp_water_flowing",
-   {
-      description = S("Flowing Swamp Water"),
-      drawtype = "flowingliquid",
-      tiles = {"default_swamp_water.png"},
-      special_tiles = {
-	 {
-	    image = "default_swamp_water_animated.png",
-	    backface_culling = false,
-	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 1.8}
-	 },
-	 {
-	    image = "default_swamp_water_animated.png",
-	    backface_culling = false,
-	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 1.8}
-	 },
-      },
-      drop= "",
-      alpha = default.SWAMP_WATER_ALPHA,
-      paramtype = "light",
-      walkable = false,
-      pointable = false,
-      diggable = false,
-      buildable_to = true,
-      drowning = 3,
-      liquidtype = "flowing",
-      liquid_alternative_flowing = "default:swamp_water_flowing",
-      liquid_alternative_source = "default:swamp_water_source",
-      liquid_viscosity = default.SWAMP_WATER_VISC,
-      liquid_renewable = false,
-      liquid_range = 2,
-      post_effect_color = {a=220, r=50, g=40, b=70},
-      groups = {water=1, flowing_water = 1, swamp_water = 1, liquid=1, not_in_creative_inventory=1,},
-      sounds = default.node_sound_liquid_defaults(),
-      is_ground_content = false,
-})
-
-minetest.register_node(
-   "default:swamp_water_source",
-   {
-      description = S("Swamp Water Source"),
-      drawtype = "liquid",
-      tiles = {"default_swamp_water.png"},
-      special_tiles = {
-	 {
-	    image = "default_swamp_water.png",
-	    backface_culling = false,
-	 },
-      },
-      drop= "",
-      alpha = default.SWAMP_WATER_ALPHA,
-      paramtype = "light",
-      walkable = false,
-      pointable = false,
-      diggable = false,
-      buildable_to = true,
-      drowning = 3,
-      liquidtype = "source",
-      liquid_alternative_flowing = "default:swamp_water_flowing",
-      liquid_alternative_source = "default:swamp_water_source",
-      liquid_viscosity = default.SWAMP_WATER_VISC,
-      liquid_renewable = false,
-      liquid_range = 2,
-      post_effect_color = {a=220, r=50, g=40, b=70},
-      groups = {water = 1, swamp_water = 1, liquid = 1},
-      sounds = default.node_sound_liquid_defaults(),
-      is_ground_content = false,
-})
-
--- Torches
-
-minetest.register_node(
-   "default:torch_dead",
-   {
-      description = S("Dead Torch"),
-      drawtype = "nodebox",
-      tiles = {
-	 "default_torch_ends.png",
-	 "default_torch_ends.png",
-	 "default_torch_base.png",
-      },
-      inventory_image = "default_torch_dead_inventory.png",
-      wield_image = "default_torch_dead_inventory.png",
-      paramtype = "light",
-      paramtype2 = "wallmounted",
-      sunlight_propagates = true,
-      walkable = false,
-      floodable = true,
-      node_box = {
-	 type = "wallmounted",
-	 wall_top = {-2/16, 0, -2/16, 2/16, 0.5, 2/16},
-	 wall_bottom = {-2/16, -0.5, -2/16, 2/16, 0, 2/16},
-	 wall_side = {-0.5, -8/16, -2/16, -0.5+4/16, 0, 2/16},
-      },
-      groups = {choppy = 2, dig_immediate = 3, attached_node = 1},
-      is_ground_content = false,
-      sounds = default.node_sound_defaults(),
-})
-
-minetest.register_node(
-   "default:torch_weak",
-   {
-      description = S("Weak Torch"),
-      drawtype = "nodebox",
-      tiles = {
-	 {
-	    name = "default_torch_ends.png",
-	 },
-	 {
-	    name = "default_torch_ends.png",
-	 },
-	 {
-	    name = "default_torch_base.png",
-	 },
-      },
-      overlay_tiles = {
-	 {
-	    name = "default_torch_weak_ends_overlay.png",
-	    animation = {
-	       type = "vertical_frames",
-	       aspect_w = 16,
-	       aspect_h = 16,
-	       length = 1.0,
-	    },
-	 },
-	 {
-	    name = "default_torch_weak_ends_overlay.png",
-	    animation = {
-	       type = "vertical_frames",
-	       aspect_w = 16,
-	       aspect_h = 16,
-	       length = 1.0,
-	    },
-	 },
-	 {
-	    name = "default_torch_weak_overlay.png",
-	    animation = {
-	       type = "vertical_frames",
-	       aspect_w = 16,
-	       aspect_h = 16,
-	       length = 1.0,
-	    },
-	 },
-      },
-      inventory_image = "default_torch_weak_inventory.png",
-      wield_image = "default_torch_weak_inventory.png",
-      paramtype = "light",
-      paramtype2 = "wallmounted",
-      sunlight_propagates = true,
-      walkable = false,
-      floodable = true,
-      light_source = default.LIGHT_MAX-4,
-      node_box = {
-	 type = "wallmounted",
-	 wall_top = {-2/16, 0, -2/16, 2/16, 0.5, 2/16},
-	 wall_bottom = {-2/16, -0.5, -2/16, 2/16, 0, 2/16},
-	 wall_side = {-0.5, -8/16, -2/16, -0.5+4/16, 0, 2/16},
-      },
-      groups = {choppy = 2, dig_immediate = 3, attached_node = 1},
-      is_ground_content = false,
-      sounds = default.node_sound_defaults(),
-})
-
-minetest.register_node(
-   "default:torch",
-   {
-      description = S("Torch"),
-      drawtype = "nodebox",
-      tiles = {
-	 {
-	    name = "default_torch_ends.png",
-	 },
-	 {
-	    name = "default_torch_ends.png",
-	 },
-	 {
-	    name = "default_torch_base.png",
-	 },
-      },
-      overlay_tiles = {
-	 {
-	    name = "default_torch_ends_overlay.png",
-	    animation = {
-	       type = "vertical_frames",
-	       aspect_w = 16,
-	       aspect_h = 16,
-	       length = 1.0,
-	    },
-	 },
-	 {
-	    name = "default_torch_ends_overlay.png",
-	    animation = {
-	       type = "vertical_frames",
-	       aspect_w = 16,
-	       aspect_h = 16,
-	       length = 1.0,
-	    },
-	 },
-	 {
-	    name = "default_torch_overlay.png",
-	    animation = {
-	       type = "vertical_frames",
-	       aspect_w = 16,
-	       aspect_h = 16,
-	       length = 1.0,
-	    },
-	 },
-      },
-      inventory_image = "default_torch_inventory.png",
-      wield_image = "default_torch_inventory.png",
-      paramtype = "light",
-      paramtype2 = "wallmounted",
-      sunlight_propagates = true,
-      walkable = false,
-      floodable = true,
-      light_source = default.LIGHT_MAX-1,
-      node_box = {
-	 type = "wallmounted",
-	 wall_top = {-2/16, 0, -2/16, 2/16, 0.5, 2/16},
-	 wall_bottom = {-2/16, -0.5, -2/16, 2/16, 0, 2/16},
-	 wall_side = {-0.5, -8/16, -2/16, -0.5+4/16, 0, 2/16},
-      },
-      groups = {choppy = 2, dig_immediate = 3, attached_node = 1},
-      is_ground_content = false,
-      sounds = default.node_sound_defaults(),
-})
-
 -- Fern
 
 minetest.register_node(
@@ -1534,136 +1126,212 @@ minetest.register_node(
       sounds = default.node_sound_defaults(),
 })
 
--- Misc. crafted nodes
+-- Water
 
 minetest.register_node(
-   "default:sign",
+   "default:water_flowing",
    {
-      description = S("Sign"),
-      drawtype = "nodebox",
-      tiles = {"default_sign.png"},
-      inventory_image = "default_sign_inventory.png",
-      wield_image = "default_sign_inventory.png",
-      paramtype = "light",
-      paramtype2 = "wallmounted",
-      sunlight_propagates = true,
-      walkable = false,
-      node_box = {
-	 type = "wallmounted",
-	 wall_top = {-0.5+(1/16), 0.5, -0.5+(4/16), 0.5-(1/16), 0.5-(1/16), 0.5-(4/16)},
-	 wall_bottom = {-0.5+(1/16), -0.5, -0.5+(4/16), 0.5-(1/16), -0.5+(1/16), 0.5-(4/16)},
-	 wall_side = {-0.5, -0.5+(4/16), -0.5+(1/16), -0.5+(1/16), 0.5-(4/16), 0.5-(1/16)},
+      description = S("Flowing Water"),
+      drawtype = "flowingliquid",
+      tiles = {"default_water.png"},
+      special_tiles = {
+	 {
+	    image = "default_water_animated.png",
+	    backface_culling = false,
+	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
+	 },
+	 {
+	    image = "default_water_animated.png",
+	    backface_culling = false,
+	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
+	 },
       },
-      groups = {choppy = 2,dig_immediate = 2,attached_node = 1},
+      drop = "",
+      alpha = default.WATER_ALPHA,
+      paramtype = "light",
+      walkable = false,
+      pointable = false,
+      diggable = false,
+      buildable_to = true,
+      drowning = 1,
+      liquidtype = "flowing",
+      liquid_alternative_flowing = "default:water_flowing",
+      liquid_alternative_source = "default:water_source",
+      liquid_viscosity = default.WATER_VISC,
+      post_effect_color = {a = 90, r = 40, g = 40, b = 100},
+      groups = {water = 1, flowing_water = 1, liquid = 1, not_in_creative_inventory=1,},
+      sounds = default.node_sound_liquid_defaults(),
       is_ground_content = false,
-      sounds = default.node_sound_defaults(),
-      on_construct = function(pos)
-         --local n = minetest.get_node(pos)
-         local meta = minetest.get_meta(pos)
-         meta:set_string("formspec", default.ui.get_page("default:field"))
-         -- Show empty sign text in quotation marks
-         meta:set_string("infotext", S('""'))
-         meta:set_string("text", "")
-      end,
-      on_receive_fields = function(pos, formname, fields, sender)
-         if fields.text == nil then return end
-         local meta = minetest.get_meta(pos)
-         local text = fields.text
-         if string.len(text) > SIGN_MAX_TEXT_LENGTH then
-             text = string.sub(text, 1, SIGN_MAX_TEXT_LENGTH)
-         end
-         minetest.log("action", (sender:get_player_name() or "")..
-                         " wrote \""..text.."\" to sign at "..
-                         minetest.pos_to_string(pos))
-         meta:set_string("text", text)
-         -- Show sign text in quotation marks
-         meta:set_string("infotext", S('"@1"', text))
-
-         default.write_name(pos, meta:get_string("text"))
-      end,
-      on_destruct = function(pos)
-         default.write_name(pos, "")
-      end
-})
-
-
-minetest.register_node(
-   "default:bookshelf",
-   {
-      description = S("Bookshelf"),
-      tiles = {"default_wood.png", "default_wood.png", "default_bookshelf.png"},
-      paramtype2 = "facedir",
-      groups = {snappy = 2,choppy = 3,oddly_breakable_by_hand = 2},
-      is_ground_content = false,
-      sounds = default.node_sound_wood_defaults(),
-      on_construct = function(pos)
-         local meta = minetest.get_meta(pos)
-         meta:set_string("formspec", default.ui.get_page("default:bookshelf"))
-         meta:set_string("infotext", S("Bookshelf"))
-         local inv = meta:get_inventory()
-         inv:set_size("main", 4*2)
-      end,
-      can_dig = function(pos,player)
-         local meta = minetest.get_meta(pos);
-         local inv = meta:get_inventory()
-         return inv:is_empty("main")
-      end,
-      write_name = function(pos, text)
-         local meta = minetest.get_meta(pos)
-
-         if text ~= "" then
-            meta:set_string("infotext", text)
-         else
-            meta:set_string("infotext", S("Bookshelf"))
-         end
-      end,
 })
 
 minetest.register_node(
-   "default:chest",
+   "default:water_source",
    {
-      description = S("Chest"),
-      tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_sides.png",
-	      "default_chest_sides.png", "default_chest_sides.png", "default_chest_front.png"},
-      paramtype2 = "facedir",
-      groups = {snappy = 2,choppy = 2,oddly_breakable_by_hand = 2},
+      description = S("Water Source"),
+      drawtype = "liquid",
+      tiles = {"default_water.png"},
+      special_tiles = {
+	 {
+	    image = "default_water.png",
+	    backface_culling = false,
+	 },
+      },
+      drop = "",
+      alpha = default.WATER_ALPHA,
+      paramtype = "light",
+      walkable = false,
+      pointable = false,
+      diggable = false,
+      buildable_to = true,
+      drowning = 1,
+      liquidtype = "source",
+      liquid_alternative_flowing = "default:water_flowing",
+      liquid_alternative_source = "default:water_source",
+      liquid_viscosity = default.WATER_VISC,
+      post_effect_color = {a=90, r=40, g=40, b=100},
+      groups = {water=1, liquid=1},
+      sounds = default.node_sound_liquid_defaults(),
       is_ground_content = false,
-      sounds = default.node_sound_wood_defaults(),
-      on_construct = function(pos)
-         local meta = minetest.get_meta(pos)
-
-         meta:set_string("formspec", default.ui.get_page("default:chest"))
-         meta:set_string("infotext", S("Chest"))
-
-         local inv = meta:get_inventory()
-
-         inv:set_size("main", 8 * 4)
-      end,
-      can_dig = function(pos, player)
-         local meta = minetest.get_meta(pos)
-         local inv = meta:get_inventory()
-         return inv:is_empty("main")
-      end,
-      write_name = function(pos, text)
-         local meta = minetest.get_meta(pos)
-
-         if text ~= "" then
-            meta:set_string("infotext", text)
-         else
-            meta:set_string("infotext", S("Chest"))
-         end
-      end,
 })
 
-local form_chest = default.ui.get_page("default:2part")
-form_chest = form_chest .. "list[current_name;main;0.25,0.25;8,4;]"
-form_chest = form_chest .. "listring[current_name;main]"
-form_chest = form_chest .. default.ui.get_itemslot_bg(0.25, 0.25, 8, 4)
+minetest.register_node(
+   "default:river_water_flowing",
+   {
+      description = S("Flowing River Water"),
+      drawtype = "flowingliquid",
+      tiles = {"default_water.png"},
+      special_tiles = {
+	 {
+	    image = "default_water_animated.png",
+	    backface_culling = false,
+	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
+	 },
+	 {
+	    image = "default_water_animated.png",
+	    backface_culling = false,
+	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
+	 },
+      },
+      drop= "",
+      alpha = default.RIVER_WATER_ALPHA,
+      paramtype = "light",
+      walkable = false,
+      pointable = false,
+      diggable = false,
+      buildable_to = true,
+      drowning = 2,
+      liquidtype = "flowing",
+      liquid_alternative_flowing = "default:river_water_flowing",
+      liquid_alternative_source = "default:river_water_source",
+      liquid_viscosity = default.RIVER_WATER_VISC,
+      liquid_renewable = false,
+      liquid_range = 1,
+      post_effect_color = {a=40, r=40, g=70, b=100},
+      groups = {water=1, flowing_water = 1, river_water = 1, liquid=1, not_in_creative_inventory=1,},
+      sounds = default.node_sound_liquid_defaults(),
+      is_ground_content = false,
+})
 
-form_chest = form_chest .. "list[current_player;main;0.25,4.75;8,4;]"
-form_chest = form_chest .. "listring[current_player;main]"
-form_chest = form_chest .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_chest = form_chest .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
-default.ui.register_page("default:chest", form_chest)
+minetest.register_node(
+   "default:river_water_source",
+   {
+      description = S("River Water Source"),
+      drawtype = "liquid",
+      tiles = {"default_water.png"},
+      special_tiles = {
+	 {
+	    image = "default_water.png",
+	    backface_culling = false,
+	 },
+      },
+      drop= "",
+      alpha = default.RIVER_WATER_ALPHA,
+      paramtype = "light",
+      walkable = false,
+      pointable = false,
+      diggable = false,
+      buildable_to = true,
+      drowning = 2,
+      liquidtype = "source",
+      liquid_alternative_flowing = "default:river_water_flowing",
+      liquid_alternative_source = "default:river_water_source",
+      liquid_viscosity = default.RIVER_WATER_VISC,
+      liquid_renewable = false,
+      liquid_range = 1,
+      post_effect_color = {a=40, r=40, g=70, b=100},
+      groups = {water = 1, river_water = 1, liquid = 1},
+      sounds = default.node_sound_liquid_defaults(),
+      is_ground_content = false,
+})
+
+minetest.register_node(
+   "default:swamp_water_flowing",
+   {
+      description = S("Flowing Swamp Water"),
+      drawtype = "flowingliquid",
+      tiles = {"default_swamp_water.png"},
+      special_tiles = {
+	 {
+	    image = "default_swamp_water_animated.png",
+	    backface_culling = false,
+	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 1.8}
+	 },
+	 {
+	    image = "default_swamp_water_animated.png",
+	    backface_culling = false,
+	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 1.8}
+	 },
+      },
+      drop= "",
+      alpha = default.SWAMP_WATER_ALPHA,
+      paramtype = "light",
+      walkable = false,
+      pointable = false,
+      diggable = false,
+      buildable_to = true,
+      drowning = 3,
+      liquidtype = "flowing",
+      liquid_alternative_flowing = "default:swamp_water_flowing",
+      liquid_alternative_source = "default:swamp_water_source",
+      liquid_viscosity = default.SWAMP_WATER_VISC,
+      liquid_renewable = false,
+      liquid_range = 2,
+      post_effect_color = {a=220, r=50, g=40, b=70},
+      groups = {water=1, flowing_water = 1, swamp_water = 1, liquid=1, not_in_creative_inventory=1,},
+      sounds = default.node_sound_liquid_defaults(),
+      is_ground_content = false,
+})
+
+minetest.register_node(
+   "default:swamp_water_source",
+   {
+      description = S("Swamp Water Source"),
+      drawtype = "liquid",
+      tiles = {"default_swamp_water.png"},
+      special_tiles = {
+	 {
+	    image = "default_swamp_water.png",
+	    backface_culling = false,
+	 },
+      },
+      drop= "",
+      alpha = default.SWAMP_WATER_ALPHA,
+      paramtype = "light",
+      walkable = false,
+      pointable = false,
+      diggable = false,
+      buildable_to = true,
+      drowning = 3,
+      liquidtype = "source",
+      liquid_alternative_flowing = "default:swamp_water_flowing",
+      liquid_alternative_source = "default:swamp_water_source",
+      liquid_viscosity = default.SWAMP_WATER_VISC,
+      liquid_renewable = false,
+      liquid_range = 2,
+      post_effect_color = {a=220, r=50, g=40, b=70},
+      groups = {water = 1, swamp_water = 1, liquid = 1},
+      sounds = default.node_sound_liquid_defaults(),
+      is_ground_content = false,
+})
 
 default.log("nodes", "loaded")
