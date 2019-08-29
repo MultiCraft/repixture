@@ -81,12 +81,21 @@ function crafting.get_crafts(player_inventory)
          local contains_all = true
          for c=1, #craftdef.items do
              local name = craftdef.items[c]:get_name()
-             -- TODO: Add group support
              if string.sub(name, 1, 6) == "group:" then
-                 contains_all = false
-                 break
-             end
-             if not player_inventory:contains_item("craft_in", craftdef.items[c]) then
+                 local group = string.sub(name, 7)
+                 local gcount = craftdef.items[c]:get_count()
+                 local items_in = player_inventory:get_list("craft_in")
+                 local count = 0
+                 for i=1, #items_in do
+                     if minetest.get_item_group(items_in[i]:get_name(), group) ~= 0 then
+                         count = count + items_in[i]:get_count()
+                     end
+                 end
+                 if count < gcount then
+                     contains_all = false
+                     break
+                 end
+             elseif not player_inventory:contains_item("craft_in", craftdef.items[c]) then
                  contains_all = false
                  break
              end
