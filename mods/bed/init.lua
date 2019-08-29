@@ -159,9 +159,11 @@ local function on_joinplayer(player)
    if bed.userdata[name].in_bed then
       minetest.after(
          0.1,
-         function()
-            put_player_in_bed(player)
-      end)
+         function(player)
+            if player and player:is_player() then
+                put_player_in_bed(player)
+            end
+      end, player)
    end
 end
 
@@ -222,12 +224,12 @@ local function on_globalstep(dtime)
                   minetest.chat_send_all(
                      minetest.colorize(
                         "#0ff",
-                        "*** " .. sleeping_players .. " of " .. player_count
-                           .. " players slept, rise and shine!"))
+                        "*** " .. S("Players have slept, rise and shine!")))
 
                   minetest.set_timeofday(0.23)
                   delay_daytime = false
 
+                  local players = minetest.get_connected_players()
                   for _, player in ipairs(players) do
                      if bed.userdata[player:get_player_name()].in_bed then
                         bed.userdata[player:get_player_name()].slept = true
@@ -241,7 +243,7 @@ local function on_globalstep(dtime)
    end
 end
 
-minetest.after(0, on_load)
+minetest.register_on_mods_loaded(on_load)
 
 minetest.register_on_shutdown(on_shutdown)
 
@@ -382,8 +384,8 @@ crafting.register_craft(
 player_effects.register_effect(
    "inbed",
    {
-      title = "In bed",
-      description = "If you're in a bed",
+      title = S("In bed"),
+      description = S("You're in a bed"),
       duration = -1,
       physics = {
 	 speed = 0,

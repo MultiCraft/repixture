@@ -2,3 +2,6 @@
 Bed=
 Bed Time=
 Craft a bed=
+Players have slept, rise and shine!=
+In bed=
+You're in a bed=
