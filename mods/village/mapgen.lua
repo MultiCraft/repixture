@@ -19,7 +19,8 @@ minetest.register_node(
           "village_entity.png", "village_entity.png^[transformFX", "village_entity.png^[transformFX"
       },
       is_ground_content = false,
-      groups = {dig_immediate = 2},
+      drop = "",
+      groups = {dig_immediate = 2, not_in_creative_inventory = 1},
       sounds = default.node_sound_defaults()
 })
 
@@ -34,6 +35,7 @@ minetest.register_node(
       is_ground_content = false,
       groups = {dig_immediate = 2},
       sounds = default.node_sound_dirt_defaults(),
+      drop = "",
 
       on_construct = function(pos)
          minetest.remove_node(pos)
