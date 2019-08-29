@@ -278,17 +278,58 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 2/16, 1.5}
       },
 
-      after_place_node = function(pos)
-         local node = minetest.get_node(pos)
-         local dir = minetest.facedir_to_dir(node.param2)
-         local head_pos = vector.add(pos, dir)
-         node.name = "bed:bed_head"
-         if minetest.registered_nodes[minetest.get_node(head_pos).name].buildable_to then
-            minetest.set_node(head_pos, node)
-         else
-            minetest.remove_node(pos)
-         end
-      end,
+      on_place = function(itemstack, placer, pointed_thing)
+              local under = pointed_thing.under
+
+              -- Use pointed node's on_rightclick function first, if present
+              local node = minetest.get_node(under)
+              if placer and not placer:get_player_control().sneak then
+                     if minetest.registered_nodes[node.name] and minetest.registered_nodes[node.name].on_rightclick then
+                            return minetest.registered_nodes[node.name].on_rightclick(pointed_thing.under, node, placer, itemstack) or itemstack
+                     end
+              end
+
+              local pos
+              local undername = minetest.get_node(under).name
+              if minetest.registered_items[undername] and minetest.registered_items[undername].buildable_to then
+                     pos = under
+              else
+                     pos = pointed_thing.above
+              end
+
+              if minetest.is_protected(pos, placer:get_player_name()) and
+                            not minetest.check_player_privs(placer, "protection_bypass") then
+                     minetest.record_protection_violation(pos, placer:get_player_name())
+                     return itemstack
+              end
+
+              local node_def = minetest.registered_nodes[minetest.get_node(pos).name]
+              if not node_def or not node_def.buildable_to then
+                     return itemstack
+              end
+
+              local dir = minetest.dir_to_facedir(placer:get_look_dir())
+              local botpos = vector.add(pos, minetest.facedir_to_dir(dir))
+
+              if minetest.is_protected(botpos, placer:get_player_name()) and
+                            not minetest.check_player_privs(placer, "protection_bypass") then
+                     minetest.record_protection_violation(botpos, placer:get_player_name())
+                     return itemstack
+              end
+
+              local botdef = minetest.registered_nodes[minetest.get_node(botpos).name]
+              if not botdef or not botdef.buildable_to then
+                     return itemstack
+              end
+
+              minetest.set_node(pos, {name = "bed:bed_foot", param2 = dir})
+              minetest.set_node(botpos, {name = "bed:bed_head", param2 = dir})
+
+              if not minetest.settings:get_bool("creative_mode") then
+                     itemstack:take_item()
+              end
+              return itemstack
+       end,
 
       on_destruct = function(pos)
          local node = minetest.get_node(pos)
