@@ -73,17 +73,26 @@ function crafting.register_craft(def)
    minetest.log("info", "Registered recipe for " .. itemkey)
 end
 
-function crafting.get_crafts(filter)
+function crafting.get_crafts(player_inventory)
    local results = {}
 
-   local function get_filter()
+   local function get_filtered()
       for craftname, craftdef in pairs(crafting.registered_crafts) do
-         for filtername, filtervalue in pairs(filter) do
-            if craftdef.groups[filtername] ~= nil
-            and filtervalue >= craftdef.groups[filtername] then
-               table.insert(results, craftname)
-               break
-            end
+         local contains_all = true
+         for c=1, #craftdef.items do
+             local name = craftdef.items[c]:get_name()
+             -- TODO: Add group support
+             if string.sub(name, 1, 6) == "group:" then
+                 contains_all = false
+                 break
+             end
+             if not player_inventory:contains_item("craft_in", craftdef.items[c]) then
+                 contains_all = false
+                 break
+             end
+         end
+         if contains_all then
+             table.insert(results, craftname)
          end
       end
    end
@@ -94,10 +103,10 @@ function crafting.get_crafts(filter)
       end
    end
 
-   if filter == nil then
+   if player_inventory == nil then
       get_all()
    else
-      get_filter()
+      get_filtered()
    end
 
    local function sort_function(a, b)
@@ -268,7 +277,7 @@ function crafting.get_formspec(name)
 
    local craft_list = ""
 
-   local craftitems = crafting.get_crafts(nil)
+   local craftitems = crafting.get_crafts(inv)
 
    local selected_craftdef = nil
 
@@ -361,7 +370,7 @@ local function on_player_receive_fields(player, form_name, fields)
    local name = player:get_player_name()
 
    if fields.do_craft_1 or fields.do_craft_10 then
-      local craftitems = crafting.get_crafts(nil)
+      local craftitems = crafting.get_crafts(inv)
 
       local wanted_itemstack = ItemStack(craftitems[crafting.userdata[name].row])
       local output_itemstack = inv:get_stack("craft_out", 1)
@@ -395,6 +404,8 @@ local function on_player_receive_fields(player, form_name, fields)
             inv:set_stack("craft_in", 2, crafted.items[2])
             inv:set_stack("craft_in", 3, crafted.items[3])
             inv:set_stack("craft_in", 4, crafted.items[4])
+
+            crafting.update_crafting_formspec(player)
          end
       end
    elseif fields.craft_list then
@@ -410,6 +421,25 @@ local function on_player_receive_fields(player, form_name, fields)
 
    player:set_inventory_formspec(crafting.get_formspec(name))
 end
+
+function crafting.update_crafting_formspec(player)
+   local name = player:get_player_name()
+   minetest.show_formspec(name, "crafting:crafting",
+                          crafting.get_formspec(name, crafting.userdata[name].row))
+   player:set_inventory_formspec(crafting.get_formspec(name))
+end
+
+minetest.register_on_player_inventory_action(function(player, action, inventory, inventory_info)
+   if action == "move" then
+      if inventory_info.from_list == "craft_in" or inventory_info.to_list == "craft_in" then
+          crafting.update_crafting_formspec(player)
+      end
+   elseif action == "put" or action == "take" then
+      if inventory_info.listname == "craft_in" then
+          crafting.update_crafting_formspec(player)
+      end
+   end
+end)
 
 local function on_joinplayer(player)
    local name = player:get_player_name()
