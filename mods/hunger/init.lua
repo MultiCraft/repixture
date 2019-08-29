@@ -220,7 +220,7 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
    })
 
    minetest.after(0.15, function(name)
-         if particlespawner[name] then
+         if particlespawners[name] then
                  minetest.delete_particlespawner(particlespawners[name])
          end
    end, name)
