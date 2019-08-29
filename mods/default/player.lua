@@ -17,15 +17,6 @@ local function step(dtime)
 
       player_lastpos[name] = player:get_pos()
 
-      if player:get_hp() < player_health[name] then
-	 minetest.sound_play(
-	    "default_hurt",
-	    {
-	       pos = player_pos,
-	       max_hear_distance = 4,
-         })
-      end
-
       player_health[name] = player:get_hp()
 
       head_pos.x=math.floor(head_pos.x+0.5)
