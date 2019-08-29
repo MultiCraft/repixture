@@ -36,7 +36,7 @@ local msgs = {
         S("Yummies!"),
         S("Yum-yum!"),
         S("Chomp!"),
-        S("Thanks, I liked that!"),
+        S("Thanks!"),
     },
     hungry = {
         S("I could use a snack."),
@@ -44,15 +44,17 @@ local msgs = {
     },
     happy = {
         S("Hello!"),
-        S("What's up?"),
         S("Nice to see you."),
+        S("Life is beautiful."),
+        S("I feel good."),
+        S("Have a nice day!"),
     },
     hurt = {
         S("I don't feel so good."),
         S("I ... I am hurt."),
-        S("Leave me alone."),
-        S("What do you want from me?"),
-        S("Go away!"),
+        S("I feel weak."),
+        S("My head hurts."),
+        S("I have a bad day today."),
     },
     hostile = {
         S("Screw you!"),
