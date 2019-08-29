@@ -190,7 +190,7 @@ for _, npc_type_table in pairs(npc_types) do
 
                if not gold.trade(self.npc_trade, self.npc_type, clicker) then
                    if hp >= self.hp_max-7 then
-                      if iname ~= "" then
+                      if iname == "gold:ingot_gold" then
                           say_random("trade", name)
                       else
                           local r = math.random(1,3)
