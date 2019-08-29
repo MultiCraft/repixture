@@ -17,7 +17,7 @@ minetest.register_node(
       tiles = {"default_brick.png^default_book.png"},
       is_ground_content = false,
       groups = {dig_immediate = 2},
-      sounds = default.node_sound_wood_defaults()
+      sounds = default.node_sound_stone_defaults()
 })
 
 minetest.register_node(
@@ -27,7 +27,7 @@ minetest.register_node(
       tiles = {"default_grass.png^default_book.png"},
       is_ground_content = false,
       groups = {dig_immediate = 2},
-      sounds = default.node_sound_wood_defaults(),
+      sounds = default.node_sound_dirt_defaults(),
 
       on_construct = function(pos)
          minetest.remove_node(pos)

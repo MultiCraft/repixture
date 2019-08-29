@@ -106,6 +106,8 @@ if minetest.settings:get_bool("music_enable") then
 	    fixed = {-4/16, -0.5, -4/16, 4/16, -0.5 + (4/16), 4/16}
 	 },
 
+         sounds = default.node_sound_defaults(),
+
 	 on_construct = function(pos)
             music.start(pos)
          end,
@@ -165,6 +167,8 @@ else
 	    type = "fixed",
 	    fixed = {-4/16, -0.5, -4/16, 4/16, -0.5 + (4/16), 4/16}
 	 },
+
+         sounds = default.node_sound_defaults(),
 
 	 on_construct = function(pos)
             local meta = minetest.get_meta(pos)
