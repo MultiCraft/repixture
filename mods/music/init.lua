@@ -97,6 +97,7 @@ if minetest.settings:get_bool("music_enable") then
 	 inventory_image = "music_inventory.png",
 	 wield_image = "music_inventory.png",
 
+	 is_ground_content = false,
 	 paramtype = "light",
 
 	 drawtype = "nodebox",
@@ -156,6 +157,7 @@ else
 	 inventory_image = "music_inventory.png",
 	 wield_image = "music_inventory.png",
 
+	 is_ground_content = false,
 	 paramtype = "light",
 
 	 drawtype = "nodebox",

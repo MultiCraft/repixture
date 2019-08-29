@@ -66,6 +66,7 @@ minetest.register_node(
       tiles = {"lumien_block.png"},
       paramtype = "light",
       paramtype2 = "wallmounted",
+      is_ground_content = false,
       drawtype = "nodebox",
       node_box = {
          type = "wallmounted",
@@ -88,6 +89,7 @@ minetest.register_node(
       tiles = {"lumien_block.png"},
       paramtype = "light",
       paramtype2 = "wallmounted",
+      is_ground_content = false,
       drawtype = "nodebox",
       node_box = {
          type = "wallmounted",

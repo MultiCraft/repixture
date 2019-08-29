@@ -179,6 +179,7 @@ function door.register_door(name, def)
             end
          end,
 
+	 is_ground_content = false,
 	 can_dig = check_player_priv,
 	 sounds = def.sounds,
 	 sunlight_propagates = def.sunlight
@@ -213,6 +214,7 @@ function door.register_door(name, def)
             end
          end,
 
+	 is_ground_content = false,
 	 can_dig = check_player_priv,
 	 sounds = def.sounds,
 	 sunlight_propagates = def.sunlight,
@@ -247,6 +249,7 @@ function door.register_door(name, def)
             end
          end,
 
+	 is_ground_content = false,
 	 can_dig = check_player_priv,
 	 sounds = def.sounds,
 	 sunlight_propagates = def.sunlight
@@ -281,6 +284,7 @@ function door.register_door(name, def)
             end
          end,
 
+	 is_ground_content = false,
 	 can_dig = check_player_priv,
 	 sounds = def.sounds,
 	 sunlight_propagates = def.sunlight

@@ -265,6 +265,7 @@ minetest.register_node(
       inventory_image = "bed_bed_inventory.png",
       tiles = {"bed_foot.png", "default_wood.png", "bed_side.png"},
       groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+      is_ground_content = false,
       sounds = default.node_sound_wood_defaults(),
       node_box = {
 	 type = "fixed",
@@ -352,6 +353,7 @@ minetest.register_node(
       drawtype = "nodebox",
       paramtype = "light",
       paramtype2 = "facedir",
+      is_ground_content = false,
       pointable = false,
       tiles = {"bed_head.png", "default_wood.png", "bed_side.png"},
       groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},

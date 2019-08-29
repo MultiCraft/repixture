@@ -40,6 +40,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, is_f
 	 },
 
 	 paramtype = "light",
+	 is_ground_content = nodedef.is_ground_content,
 
          on_rightclick = function(pos, _, _, itemstack, _)
             if minetest.get_node(pos).name == itemstack:get_name()
@@ -99,6 +100,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, is_f
 
 	 paramtype = "light",
 	 paramtype2 = "facedir",
+	 is_ground_content = nodedef.is_ground_content,
    })
 
    crafting.register_craft( -- Craft to

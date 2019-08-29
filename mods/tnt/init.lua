@@ -274,6 +274,7 @@ minetest.register_node(
 	 "tnt_bottom.png", "tnt_sides.png"},
       light_source = 5,
       drop = "tnt:tnt",
+      is_ground_content = false,
       groups = {dig_immediate = 2},
       sounds = default.node_sound_wood_defaults(),
       on_timer = tnt.boom,

@@ -89,6 +89,7 @@ minetest.register_node(
       stack_max = 240,
       groups = {cracky = 3, stone = 1},
       sounds = default.node_sound_stone_defaults(),
+      is_ground_content = false,
 })
 
 minetest.register_node(
@@ -96,6 +97,7 @@ minetest.register_node(
    {
       description = S("Reinforced Cobble"),
       tiles = {"default_reinforced_cobbles.png"},
+      is_ground_content = false,
       groups = {cracky = 1, stone = 1},
       sounds = default.node_sound_stone_defaults(),
 })
@@ -130,6 +132,7 @@ minetest.register_node(
       tiles = {"default_block_wrought_iron.png"},
       groups = {cracky = 2},
       sounds = default.node_sound_stone_defaults(),
+      is_ground_content = false,
 })
 
 minetest.register_node(
@@ -139,6 +142,7 @@ minetest.register_node(
       tiles = {"default_block_steel.png"},
       groups = {cracky = 2},
       sounds = default.node_sound_stone_defaults(),
+      is_ground_content = false,
 })
 
 minetest.register_node(
@@ -148,6 +152,7 @@ minetest.register_node(
       tiles = {"default_block_carbon_steel.png"},
       groups = {cracky = 1},
       sounds = default.node_sound_stone_defaults(),
+      is_ground_content = false,
 })
 
 minetest.register_node(
@@ -157,6 +162,7 @@ minetest.register_node(
       tiles = {"default_block_bronze.png"},
       groups = {cracky = 1},
       sounds = default.node_sound_stone_defaults(),
+      is_ground_content = false,
 })
 
 -- Soil
@@ -926,6 +932,7 @@ minetest.register_node(
    {
       description = S("Frame"),
       tiles = {"default_frame.png"},
+      is_ground_content = false,
       groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1},
       is_ground_content = false,
       sounds = default.node_sound_wood_defaults(),
@@ -936,6 +943,7 @@ minetest.register_node(
    {
       description = S("Reinforced Frame"),
       tiles = {"default_reinforced_frame.png"},
+      is_ground_content = false,
       groups = {wood = 1, choppy = 1},
       is_ground_content = false,
       sounds = default.node_sound_wood_defaults(),
