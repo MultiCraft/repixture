@@ -26,6 +26,100 @@ local function is_too_near_spawn(pos)
    return (vector.distance(pos, sp) < rad)
 end
 
+-- particle effects
+local function effect(pos, amount, texture, max_size)
+   minetest.add_particlespawner(
+      {
+         amount = amount,
+         time = 0.25,
+         minpos = pos,
+         maxpos = pos,
+         minvel = {x = -0, y = 2, z = -0},
+         maxvel = {x = 2,  y = 6,  z = 2},
+         minacc = {x = -4, y = -16, z = -4},
+         maxacc = {x = 4, y = -4, z = 4},
+         minexptime = 0.1,
+         maxexptime = 1,
+         minsize = 1,
+         maxsize = (max_size or 2),
+         texture = texture,
+   })
+end
+
+-- on mob death drop items
+local function check_for_death(self, hitter)
+   local hp = self.object:get_hp()
+   if hp > 0 then
+      self.health = hp
+      if self.sounds.damage ~= nil then
+         minetest.sound_play(
+	    self.sounds.damage,
+	    {
+               object = self.object,
+               max_hear_distance = self.sounds.distance
+         })
+      end
+      return false
+   end
+   local pos = self.object:get_pos()
+   self.object:remove()
+   local obj = nil
+   for _,drop in ipairs(self.drops) do
+      if math.random(1, drop.chance) == 1 then
+         obj = minetest.add_item(pos, ItemStack(drop.name.." "..math.random(drop.min, drop.max)))
+         if obj then
+	    obj:set_velocity(
+               {
+                  x = math.random(-1, 1),
+                  y = 5,
+                  z = math.random(-1, 1)
+            })
+         end
+      end
+   end
+   if self.sounds.death ~= nil then
+      minetest.sound_play(
+         self.sounds.death,
+         {
+	    object = self.object,
+	    max_hear_distance = self.sounds.distance
+      })
+   end
+   if self.on_die then
+      self.on_die(self, pos, hitter)
+   end
+   return true
+end
+
+-- from TNT mod
+local function calc_velocity(pos1, pos2, old_vel, power)
+   local vel = vector.direction(pos1, pos2)
+   vel = vector.normalize(vel)
+   vel = vector.multiply(vel, power)
+   local dist = vector.distance(pos1, pos2)
+   dist = math.max(dist, 1)
+   vel = vector.divide(vel, dist)
+   vel = vector.add(vel, old_vel)
+   return vel
+end
+
+-- modified from TNT mod
+local function entity_physics(pos, radius)
+   radius = radius * 2
+   local objs = minetest.get_objects_inside_radius(pos, radius)
+   local obj_pos, obj_vel, dist
+   for _, obj in pairs(objs) do
+      obj_pos = obj:get_pos()
+      obj_vel = obj:get_velocity()
+      dist = math.max(1, vector.distance(pos, obj_pos))
+      if obj_vel ~= nil then
+         obj:set_velocity(calc_velocity(pos, obj_pos, obj_vel, radius * 10))
+      end
+      local damage = (4 / dist) * radius
+      obj:set_hp(obj:get_hp() - damage)
+   end
+end
+
 function mobs:register_mob(name, def)
    minetest.register_entity(
       name,
@@ -1355,100 +1449,6 @@ end
 -- compatibility with older mob registration
 function mobs:register_spawn(name, nodes, max_light, min_light, chance, active_object_count, max_height)
    mobs:spawn_specific(name, nodes, {"air"}, min_light, max_light, 30, chance, active_object_count, -31000, max_height)
-end
-
--- particle effects
-local function effect(pos, amount, texture, max_size)
-   minetest.add_particlespawner(
-      {
-         amount = amount,
-         time = 0.25,
-         minpos = pos,
-         maxpos = pos,
-         minvel = {x = -0, y = 2, z = -0},
-         maxvel = {x = 2,  y = 6,  z = 2},
-         minacc = {x = -4, y = -16, z = -4},
-         maxacc = {x = 4, y = -4, z = 4},
-         minexptime = 0.1,
-         maxexptime = 1,
-         minsize = 1,
-         maxsize = (max_size or 2),
-         texture = texture,
-   })
-end
-
--- on mob death drop items
-local function check_for_death(self, hitter)
-   local hp = self.object:get_hp()
-   if hp > 0 then
-      self.health = hp
-      if self.sounds.damage ~= nil then
-         minetest.sound_play(
-	    self.sounds.damage,
-	    {
-               object = self.object,
-               max_hear_distance = self.sounds.distance
-         })
-      end
-      return false
-   end
-   local pos = self.object:get_pos()
-   self.object:remove()
-   local obj = nil
-   for _,drop in ipairs(self.drops) do
-      if math.random(1, drop.chance) == 1 then
-         obj = minetest.add_item(pos, ItemStack(drop.name.." "..math.random(drop.min, drop.max)))
-         if obj then
-	    obj:set_velocity(
-               {
-                  x = math.random(-1, 1),
-                  y = 5,
-                  z = math.random(-1, 1)
-            })
-         end
-      end
-   end
-   if self.sounds.death ~= nil then
-      minetest.sound_play(
-         self.sounds.death,
-         {
-	    object = self.object,
-	    max_hear_distance = self.sounds.distance
-      })
-   end
-   if self.on_die then
-      self.on_die(self, pos, hitter)
-   end
-   return true
-end
-
--- from TNT mod
-local function calc_velocity(pos1, pos2, old_vel, power)
-   local vel = vector.direction(pos1, pos2)
-   vel = vector.normalize(vel)
-   vel = vector.multiply(vel, power)
-   local dist = vector.distance(pos1, pos2)
-   dist = math.max(dist, 1)
-   vel = vector.divide(vel, dist)
-   vel = vector.add(vel, old_vel)
-   return vel
-end
-
--- modified from TNT mod
-local function entity_physics(pos, radius)
-   radius = radius * 2
-   local objs = minetest.get_objects_inside_radius(pos, radius)
-   local obj_pos, obj_vel, dist
-   for _, obj in pairs(objs) do
-      obj_pos = obj:get_pos()
-      obj_vel = obj:get_velocity()
-      dist = math.max(1, vector.distance(pos, obj_pos))
-      if obj_vel ~= nil then
-         obj:set_velocity(calc_velocity(pos, obj_pos, obj_vel, radius * 10))
-      end
-      local damage = (4 / dist) * radius
-      obj:set_hp(obj:get_hp() - damage)
-   end
 end
 
 -- register arrow for shoot attack
