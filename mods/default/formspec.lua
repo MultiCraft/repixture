@@ -141,8 +141,8 @@ function default.ui.fake_itemstack(x, y, itemstack, name)
 
    local result = ""
    if itemname ~= "" then
-      result = result .. "image_button["..x..","..y..";1,1;ui_null.png;"
-         ..name..";;false;false;ui_null.png]"
+      result = result .. "image_button["..x..","..y..";1,1;blank.png;"
+         ..name..";;false;false;blank.png]"
       result = result .. "item_image["..x..","..y..";1,1;"
          ..minetest.formspec_escape(itemname .. " " .. itemamt).."]"
 
@@ -163,8 +163,8 @@ function default.ui.fake_simple_itemstack(x, y, itemname, name)
 
    local result = ""
    if itemname ~= "" then
-      result = result .. "image_button["..x..","..y..";1,1;ui_null.png;"
-         ..name..";;false;false;ui_null.png]"
+      result = result .. "image_button["..x..","..y..";1,1;blank.png;"
+         ..name..";;false;false;blank.png]"
       result = result .. "item_image["..x..","..y..";1,1;"
          ..minetest.formspec_escape(itemname).."]"
       result = result .. "tooltip["..name..";"
@@ -194,8 +194,8 @@ function default.ui.item_group(x, y, group, count, name)
 
    local result = ""
    if itemname ~= "" then
-      result = result .. "image_button["..x..","..y..";1,1;ui_null.png;"
-         ..name..";;false;false;ui_null.png]"
+      result = result .. "image_button["..x..","..y..";1,1;blank.png;"
+         ..name..";;false;false;blank.png]"
       result = result .. "item_image["..x..","..y..";1,1;"
          ..minetest.formspec_escape(itemname .. " " .. count).."]"
 

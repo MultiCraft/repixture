@@ -12,7 +12,7 @@ local timer = 10 -- needs to be more than update_time
 minetest.register_craftitem(
    "wielditem:null",
    {
-      wield_image = "ui_null.png"
+      wield_image = "blank.png"
    })
 
 minetest.register_entity(

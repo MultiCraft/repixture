@@ -13,22 +13,22 @@ if enable_headbars == nil then enable_headbars = true end
 local headbars_scale = tonumber(minetest.settings:get("headbars_scale")) or 1.0
 
 function headbars.get_sprite(icon, background, max, amt)
-   local img = "[combine:" .. (max * 8) .. "x16:0,0=ui_null.png:0,0=ui_null.png"
+   local img = "[combine:" .. (max * 8) .. "x16:0,0=blank.png:0,0=blank.png"
 
    if amt < max then
       for i = 0, max / 2 do
-	 img = img .. "^[combine:16x16:0,0=ui_null.png:" .. (i * 16) .. ",0=" .. background
+	 img = img .. "^[combine:16x16:0,0=blank.png:" .. (i * 16) .. ",0=" .. background
       end
    end
 
-   img = img .. "^([combine:" .. (max * 8) .. "x16:0,0=ui_null.png:0,0=ui_null.png"
+   img = img .. "^([combine:" .. (max * 8) .. "x16:0,0=blank.png:0,0=blank.png"
 
    for i = 0, max / 2 do
       if i < (amt - 1) / 2 then
-	 img = img .. "^[combine:" .. (max * 8) .. "x16:0,0=ui_null.png:" .. (i * 16) .. ",0=" .. icon
+	 img = img .. "^[combine:" .. (max * 8) .. "x16:0,0=blank.png:" .. (i * 16) .. ",0=" .. icon
       elseif i < amt / 2 then
-	 img = img .. "^[combine:" .. (max * 8) .. "x16:0,0=ui_null.png:" .. (i * 16) .. ",0=" .. icon
-	 img = img .. "^[combine:" .. (max * 8) .. "x16:0,0=ui_null.png:" .. (i * 16) .. ",0=headbars_half.png"
+	 img = img .. "^[combine:" .. (max * 8) .. "x16:0,0=blank.png:" .. (i * 16) .. ",0=" .. icon
+	 img = img .. "^[combine:" .. (max * 8) .. "x16:0,0=blank.png:" .. (i * 16) .. ",0=headbars_half.png"
       end
    end
 
@@ -42,7 +42,7 @@ minetest.register_entity(
    {
       visual = "sprite",
       visual_size = {x = 1 * headbars_scale, y = 0.1 * headbars_scale, z = 1},
-      textures = {headbars.get_sprite("heart.png", "ui_null.png", 20, 20)},
+      textures = {headbars.get_sprite("heart.png", "blank.png", 20, 20)},
 
       glow = 5,
 
