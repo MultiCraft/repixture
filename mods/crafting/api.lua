@@ -381,7 +381,18 @@ local function on_player_receive_fields(player, form_name, fields)
 
    local name = player:get_player_name()
 
-   if fields.do_craft_1 or fields.do_craft_10 then
+   local do_craft_1, do_craft_10
+   if fields.craft_list then
+      -- Double-click on list entry crafts single time
+      local selection = minetest.explode_table_event(fields.craft_list)
+      if selection.type == "DCL" then
+          do_craft_1 = true
+      end
+   else
+      do_craft_1 = fields.do_craft_1 ~= nil
+   end
+   do_craft_10 = fields.do_craft_10 ~= nil
+   if do_craft_1 or do_craft_10 then
       local craftitems = crafting.get_crafts(inv)
 
       local wanted_itemstack = ItemStack(craftitems[crafting.userdata[name].row])
@@ -394,9 +405,9 @@ local function on_player_receive_fields(player, form_name, fields)
 
       local count = 1
 
-      if fields.do_craft_1 then
+      if do_craft_1 then
          count = 1
-      elseif fields.do_craft_10 then
+      elseif do_craft_10 then
          count = 10
       else
          return
