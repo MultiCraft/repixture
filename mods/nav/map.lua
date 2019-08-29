@@ -79,7 +79,7 @@ minetest.register_craftitem(
       wield_image = "nav_inventory.png",
       stack_max = 1,
       on_use = function(itemstack, user, pointed_thing)
-          minetest.chat_send_player(user:get_player_name(), S("Use the minimap key to show the map."))
+          minetest.chat_send_player(user:get_player_name(), minetest.colorize("#FFFF00", S("Use the minimap key to show the map.")))
           nav.map.update_hud_flags(user)
       end,
 })

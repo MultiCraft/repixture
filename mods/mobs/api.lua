@@ -1558,7 +1558,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
       -- Is mob tamed?
 
       if self.tamed == false and force_take == false then
-         minetest.chat_send_player(name, S("Not tamed!"))
+         minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Not tamed!")))
 
          return
       end
@@ -1566,7 +1566,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
       -- Cannot pick up if not owner
 
       if self.owner ~= name and force_take == false then
-         minetest.chat_send_player(name, S("@1 is owner!", self.owner))
+         minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("@1 is owner!", self.owner)))
 
          return
       end
@@ -1603,7 +1603,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
 
             achievements.trigger_achievement(clicker, "ranger")
          else
-	    minetest.chat_send_player(name, S("Missed!"))
+	    minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Missed!")))
          end
       end
    end
