@@ -123,7 +123,7 @@ minetest.register_node(
 		end,
    })
 
-function swap_node(pos, name)
+local function swap_node(pos, name)
    local node = minetest.get_node(pos)
    if node.name == name then
       return

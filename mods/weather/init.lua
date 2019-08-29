@@ -61,7 +61,7 @@ local function play_sound()
    minetest.after(3, play_sound)
 end
 
-function setweather_type(type)
+local function setweather_type(type)
    local valid = false
    for i = 1, #weather.types do
       if weather.types[i] == type then

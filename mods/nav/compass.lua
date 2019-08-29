@@ -7,7 +7,7 @@ local S = minetest.get_translator("nav")
 local wield_image_0 = "nav_compass_inventory_0.png"
 local wield_image_1 = "nav_compass_inventory_1.png"
 
-function on_globalstep(dtime)
+local function on_globalstep(dtime)
    for _, player in pairs(minetest.get_connected_players()) do
       local inv = player:get_inventory()
 

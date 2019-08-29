@@ -120,7 +120,7 @@ if minetest.settings:get_bool("music_enable") then
 	 groups = {oddly_breakable_by_hand = 3}
    })
 
-   function step(dtime)
+   local function step(dtime)
       for dp, _ in pairs(music.players) do
 	 music.players[dp]["timer"] = music.players[dp]["timer"] + dtime
 

@@ -7,7 +7,7 @@
 
 local S = minetest.get_translator("parachute")
 
-function air_physics(v)
+local function air_physics(v)
    local m = 80    -- Weight of player, kg
    local g = -9.81 -- Earth Acceleration, m/s^2
    local cw = 1.25 -- Drag coefficient

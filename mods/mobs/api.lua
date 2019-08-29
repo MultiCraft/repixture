@@ -1358,7 +1358,7 @@ function mobs:register_spawn(name, nodes, max_light, min_light, chance, active_o
 end
 
 -- particle effects
-function effect(pos, amount, texture, max_size)
+local function effect(pos, amount, texture, max_size)
    minetest.add_particlespawner(
       {
          amount = amount,
@@ -1378,7 +1378,7 @@ function effect(pos, amount, texture, max_size)
 end
 
 -- on mob death drop items
-function check_for_death(self, hitter)
+local function check_for_death(self, hitter)
    local hp = self.object:get_hp()
    if hp > 0 then
       self.health = hp
@@ -1423,7 +1423,7 @@ function check_for_death(self, hitter)
 end
 
 -- from TNT mod
-function calc_velocity(pos1, pos2, old_vel, power)
+local function calc_velocity(pos1, pos2, old_vel, power)
    local vel = vector.direction(pos1, pos2)
    vel = vector.normalize(vel)
    vel = vector.multiply(vel, power)
@@ -1435,7 +1435,7 @@ function calc_velocity(pos1, pos2, old_vel, power)
 end
 
 -- modified from TNT mod
-function entity_physics(pos, radius)
+local function entity_physics(pos, radius)
    radius = radius * 2
    local objs = minetest.get_objects_inside_radius(pos, radius)
    local obj_pos, obj_vel, dist
