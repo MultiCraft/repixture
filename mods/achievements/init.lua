@@ -234,7 +234,7 @@ function achievements.get_formspec(name, row)
 
    local form = default.ui.get_page("achievements:achievements")
 
-   form = form .. "table[0.25,2.5;7.75,5.5;achievement_list;" .. achievement_list
+   form = form .. "table[0.25,2.5;7.9,5.5;achievement_list;" .. achievement_list
       .. ";" .. row .. "]"
 
    local aname = achievements.registered_achievements_list[row]
