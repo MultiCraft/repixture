@@ -350,7 +350,7 @@ minetest.register_node(
          local put_pos = vector.add(pos, vector.divide(
                                        minetest.facedir_to_dir(node.param2), 2))
 
-         if clicker:get_player_name() == meta:get_string("player") then
+         if name == meta:get_string("player") then
             put_pos.y = put_pos.y - 0.5
 
             bed.userdata[name].in_bed = false
@@ -362,6 +362,12 @@ minetest.register_node(
          and bed.userdata[name].in_bed == false then
             if not minetest.settings:get_bool("bed_enabled") then
                return
+            end
+
+            -- No sleeping while moving
+            if vector.length(clicker:get_player_velocity()) > 0.001 then
+               minetest.chat_send_player(name, S("You have to stop moving before going to bed!"))
+               return false
             end
 
             put_pos.y = put_pos.y + 0.6
