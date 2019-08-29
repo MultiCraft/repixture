@@ -62,7 +62,7 @@ minetest.register_craftitem(
          else
             minetest.chat_send_player(
                player:get_player_name(),
-               "Cannot open parachute on ground!")
+               S("Cannot open parachute on ground!"))
          end
       end
 })

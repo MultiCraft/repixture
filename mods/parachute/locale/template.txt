@@ -2,3 +2,4 @@
 Parachute=
 Skydiver=
 Craft 5 parachutes.=
+Cannot open parachute on ground!=
