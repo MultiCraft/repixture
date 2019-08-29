@@ -134,7 +134,6 @@ local form_trading = ""
 form_trading = form_trading .. default.ui.get_page("default:2part")
 
 form_trading = form_trading .. "list[current_player;gold_trade_out;3.75,2.25;1,1;]"
-form_trading = form_trading .. "listring[current_player;gold_trade_out]"
 
 form_trading = form_trading .. default.ui.get_hotbar_itemslot_bg(3.75, 2.25, 1, 1)
 
@@ -143,8 +142,12 @@ form_trading = form_trading .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 
 form_trading = form_trading .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
 
 form_trading = form_trading .. "list[current_player;gold_trade_in;6.25,1.25;1,2;]"
-form_trading = form_trading .. "listring[current_player;gold_trade_in]"
 form_trading = form_trading .. default.ui.get_itemslot_bg(6.25, 1.25, 1, 2)
+
+form_trading = form_trading .. "listring[current_player;main]"
+form_trading = form_trading .. "listring[current_player;gold_trade_in]"
+form_trading = form_trading .. "listring[current_player;main]"
+form_trading = form_trading .. "listring[current_player;gold_trade_out]"
 
 form_trading = form_trading .. "image[2.5,1.25;1,1;ui_arrow_bg.png^[transformR270]"
 form_trading = form_trading .. "image[5,2.25;1,1;ui_arrow.png^[transformR90]"
