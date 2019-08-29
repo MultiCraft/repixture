@@ -86,6 +86,10 @@ function crafting.get_crafts(player_inventory)
                  local group = string.sub(name, 7)
                  local gcount = craftdef.items[c]:get_count()
                  local items_in = player_inventory:get_list("craft_in")
+                 if items_in == nil then
+                     contains_all = false
+                     break
+                 end
                  local count = 0
                  for i=1, #items_in do
                      if minetest.get_item_group(items_in[i]:get_name(), group) ~= 0 then
