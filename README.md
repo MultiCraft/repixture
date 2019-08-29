@@ -1,5 +1,5 @@
 # Pixture Revival
-Pixture Revival (temporary game) is a revival of the Pixture game.
+Pixture Revival (temporary name) is a revival of the Pixture game.
 The name of this game will likely change.
 
 Pixture is Copyright (C) 2015-2017 KaadmY
@@ -7,11 +7,20 @@ Pixture is Copyright (C) 2015-2017 KaadmY
 By [KaadmY](https://github.com/kaadmy)
 Inspiration by [Kenney](http://kenney.nl)
 
-## Notes
+## Project Notes
 
-- Currently known to support Minetest 5.0.0
-- Currently very buggy
+This game works for Minetest 5.0.0. It's a fork of Pixture 0.1.1
+The goal of Pixture Revival is to make Pixture work properly in
+latest Minetest versions.
+The original gameplay of Pixture will be preserved, only bugfixes
+and usability features will be added.
 
+## Bugs and problems
+
+- Crafting is terribly inconvenient and painful to do ... to the
+  point it completely sucks out the lifeblood of this game
+- Creative Mode has limited functionality and is only for testing
+- Villages sometimes don't destroy enough land above them
 
 ## Changelog
 
