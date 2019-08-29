@@ -26,6 +26,13 @@ default.ui.group_defaults = {
    stone = "default:stone",
    tree = "default:tree",
 }
+default.ui.group_names = {
+   fuzzy = { S("Fuzzy"), S("Any fuzzy block") },
+   planks = { S("Planks"), S("Any planks") },
+   soil = { S("Soil"), S("Any soil") },
+   stone = { S("Stone"), S("Any stone") },
+   tree = { S("Tree"), S("Any tree") },
+}
 
 -- Itemslot backgrounds
 
@@ -190,13 +197,19 @@ function default.ui.item_group(x, y, group, count, name)
 
    local result = ""
    if itemname ~= "" then
-      result = result .. "image_button["..x..","..y..";1,1;blank.png;"
-         ..name..";;false;false;blank.png]"
-      result = result .. "item_image["..x..","..y..";1,1;"
+      result = result
+         .."box["..x..","..y..";0.85,0.9;#00000040]"
+         .."item_image["..x..","..y..";1,1;"
          ..minetest.formspec_escape(itemname .. " " .. count).."]"
 
-      result = result .. "tooltip["..name..";"..
-         minetest.formspec_escape(S("Group: @1", group)).."]"
+      local group_prettyprint
+      if default.ui.group_names[group] then
+          group_prettyprint = minetest.colorize("#ffecb6", default.ui.group_names[group][2])
+      else
+          group_prettyprint = S("Group: @1", minetest.colorize("#ffecb6", group))
+      end
+      result = result .. "tooltip["..x..","..y..";1,1;"..
+         minetest.formspec_escape(group_prettyprint).."]"
    end
 
    return result
