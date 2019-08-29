@@ -9,7 +9,7 @@ local filled_buckets = {
 for b=1, #filled_buckets do
    local bucket = filled_buckets[b]
    minetest.register_craftitem(
-      "default:"..bucket[1],
+      "default:bucket_"..bucket[1],
       {
          description = bucket[2],
          inventory_image = bucket[3],
@@ -24,9 +24,13 @@ for b=1, #filled_buckets do
    
             local inv=user:get_inventory()
    
-            if inv:room_for_item("main", {name="default:bucket"}) then
+            if itemstack:get_count() == 1 then
+               itemstack:set_name("default:bucket")
+            elseif inv:room_for_item("main", {name="default:bucket"}) then
+               itemstack:take_item()
                inv:add_item("main", "default:bucket")
             else
+               itemstack:take_item()
                local pos = user:get_pos()
                pos.y = math.floor(pos.y + 0.5)
                minetest.add_item(pos, "default:bucket")
