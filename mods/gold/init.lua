@@ -190,9 +190,9 @@ function gold.trade(trade, trade_type, player)
    local form = default.ui.get_page("gold_trading_book")
    form = form .. "label[0.25,0.25;"..minetest.formspec_escape(trade_name).."]"
 
-   form = form .. default.ui.fake_itemstack(1.25, 1.25, trade_wanted1, "trade_wanted1")
-   form = form .. default.ui.fake_itemstack(1.25, 2.25, trade_wanted2, "trade_wanted2")
-   form = form .. default.ui.fake_itemstack(3.75, 1.25, ItemStack(trade[3]), "trade_result")
+   form = form .. default.ui.fake_itemstack(1.25, 1.25, trade_wanted1)
+   form = form .. default.ui.fake_itemstack(1.25, 2.25, trade_wanted2)
+   form = form .. default.ui.fake_itemstack(3.75, 1.25, ItemStack(trade[3]))
 
    minetest.show_formspec(name, "gold:trading_book", form)
 

@@ -125,9 +125,7 @@ local function get_itemdef_field(itemname, fieldname)
    return minetest.registered_items[itemname][fieldname]
 end
 
-function default.ui.fake_itemstack(x, y, itemstack, name)
-   local name = name or "fake_itemstack"
-
+function default.ui.fake_itemstack(x, y, itemstack)
    local itemname = itemstack:get_name()
    local itemamt = itemstack:get_count()
 
@@ -141,12 +139,10 @@ function default.ui.fake_itemstack(x, y, itemstack, name)
 
    local result = ""
    if itemname ~= "" then
-      result = result .. "image_button["..x..","..y..";1,1;blank.png;"
-         ..name..";;false;false;blank.png]"
       result = result .. "item_image["..x..","..y..";1,1;"
          ..minetest.formspec_escape(itemname .. " " .. itemamt).."]"
 
-      result = result .. "tooltip["..name..";"..minetest.formspec_escape(itemdesc).."]"
+      result = result .. "tooltip["..x..","..y..";1,1;"..minetest.formspec_escape(itemdesc).."]"
    end
 
    return result
@@ -210,7 +206,7 @@ function default.ui.fake_itemstack_any(x, y, itemstack, name)
    local group = string.match(itemstack:get_name(), "group:(.*)")
 
    if group == nil then
-      return default.ui.fake_itemstack(x, y, itemstack, name)
+      return default.ui.fake_itemstack(x, y, itemstack)
    else
       return default.ui.item_group(x, y, group, itemstack:get_count(), name)
    end
