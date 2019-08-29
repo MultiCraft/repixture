@@ -89,8 +89,9 @@ function achievements.trigger_achievement(player, aname, times)
             minetest.chat_send_all(
                minetest.colorize(
                   "#0f0",
-                  "*** " .. name .." has earned the achievement [" ..
-                     achievements.registered_achievements[aname].title .. "]"))
+                  "*** " .. S("@1 has earned the achievement “@2”.",
+                     name,
+                     achievements.registered_achievements[aname].title)))
       end)
    end
 
@@ -214,7 +215,7 @@ function achievements.get_formspec(name, row)
 	    progress = S("Gotten")
 	    amt_gotten = amt_gotten + 1
 	 else
-	    progress = achievements.achievements[name][aname] .. "/" .. def.times
+	    progress = S("@1/@2", achievements.achievements[name][aname], def.times)
 	    amt_progress = amt_progress + 1
 	 end
       else
