@@ -216,13 +216,34 @@ minetest.register_on_player_receive_fields(
       if fields.trade then
 	 local item = player:get_wielded_item()
 
-	 local trade_wanted1 = inv:get_stack("gold_trade_wanted", 1):to_string()
-	 local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2):to_string()
+	 local trade_wanted1 = inv:get_stack("gold_trade_wanted", 1)
+	 local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
+	 local trade_wanted1_n = trade_wanted1:get_name()
+	 local trade_wanted2_n = trade_wanted2:get_name()
 
-	 local trade_in1 = inv:get_stack("gold_trade_in", 1):to_string()
-	 local trade_in2 = inv:get_stack("gold_trade_in", 2):to_string()
+	 local trade_in1 = inv:get_stack("gold_trade_in", 1)
+	 local trade_in2 = inv:get_stack("gold_trade_in", 2)
+	 local trade_in1_n = trade_in1:get_name()
+	 local trade_in2_n = trade_in2:get_name()
 
-	 local matches = trade_wanted1 == trade_in1 and trade_wanted2 == trade_in2
+	 local matches = false
+	 if trade_wanted1_n == "" or trade_wanted2_n == "" then
+	    -- Wants 1 item
+	    local wanted, wanted_n, wanted_c
+	    if trade_wanted1_n ~= "" then
+	       wanted = trade_wanted1
+	    else
+	       wanted = trade_wanted2
+	    end
+	    if inv:contains_item("gold_trade_in", wanted) then
+	       matches = true
+	    end
+	 else
+	    -- Wants 2 items (this assumes both items are different)
+	    if inv:contains_item("gold_trade_in", trade_wanted1) and inv:contains_item("gold_trade_in", trade_wanted2) then
+	       matches = true
+	    end
+	 end
 
 	 local meta = minetest.deserialize(item:get_metadata())
 
@@ -237,8 +258,8 @@ minetest.register_on_player_receive_fields(
 	 if matches then
 	    if inv:room_for_item("gold_trade_out", trade[3]) then
 	       inv:add_item("gold_trade_out", trade[3])
-	       inv:set_stack("gold_trade_in", 1, "")
-	       inv:set_stack("gold_trade_in", 2, "")
+	       inv:remove_item("gold_trade_in", trade[1])
+	       inv:remove_item("gold_trade_in", trade[2])
 	    end
 	 end
       end
