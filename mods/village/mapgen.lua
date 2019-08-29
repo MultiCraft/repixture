@@ -14,17 +14,23 @@ minetest.register_node(
    "village:entity_spawner",
    {
       description = S("Village Entity Spawner"),
-      tiles = {"default_brick.png^default_book.png"},
+      tiles = {
+          "village_entity.png", "village_entity.png", "village_entity.png",
+          "village_entity.png", "village_entity.png^[transformFX", "village_entity.png^[transformFX"
+      },
       is_ground_content = false,
       groups = {dig_immediate = 2},
-      sounds = default.node_sound_stone_defaults()
+      sounds = default.node_sound_defaults()
 })
 
 minetest.register_node(
    "village:grassland_village",
    {
       description = S("Village Spawner"),
-      tiles = {"default_grass.png^default_book.png"},
+      tiles = {
+          "village_gen.png", "village_gen.png", "village_gen.png",
+          "village_gen.png", "village_gen.png^[transformFX", "village_gen.png^[transformFX",
+      },
       is_ground_content = false,
       groups = {dig_immediate = 2},
       sounds = default.node_sound_dirt_defaults(),
@@ -43,8 +49,8 @@ minetest.register_node(
    "village:grassland_village_mg",
    {
       description = S("Mapgen Village Spawner").."\n"..S("(Has chance of not spawning village)"),
-      inventory_image = "default_wood.png^default_book.png",
-      wield_image = "default_wood.png^default_book.png",
+      inventory_image = "village_gen_mg.png",
+      wield_image = "village_gen_mg.png",
       drawtype = "airlike",
       paramtype = "light",
       sunlight_propagates = true,
