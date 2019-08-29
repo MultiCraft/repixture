@@ -1,3 +1,4 @@
+local S = minetest.get_translator("crafting")
 
 --
 -- API
@@ -293,6 +294,7 @@ function crafting.get_formspec(name)
 
    local selected_craftdef = nil
 
+   local craft_count = 0
    for i, itemn in ipairs(craftitems) do
       local itemstack = ItemStack(itemn)
       local itemdef = minetest.registered_items[itemstack:get_name()]
@@ -313,13 +315,16 @@ function crafting.get_formspec(name)
          end
 
          craft_list = craft_list .. "," .. minetest.formspec_escape(itemdef.description)
+         craft_count = craft_count + 1
       end
    end
 
    local form = default.ui.get_page("crafting:crafting")
 
-   form = form .. "table[2.25,0.25;4.75,3.75;craft_list;" .. craft_list
-      .. ";" .. row .. "]"
+   if craft_count > 0 then
+       form = form .. "table[2.25,0.25;4.75,3.75;craft_list;" .. craft_list
+          .. ";" .. row .. "]"
+   end
 
    if selected_craftdef ~= nil then
       if selected_craftdef.items[1] ~= nil then
@@ -381,7 +386,7 @@ local function on_player_receive_fields(player, form_name, fields)
 
    local name = player:get_player_name()
 
-   local do_craft_1, do_craft_10
+   local do_craft_1, do_craft_10 = false, false
    if fields.craft_list then
       -- Double-click on list entry crafts single time
       local selection = minetest.explode_table_event(fields.craft_list)
