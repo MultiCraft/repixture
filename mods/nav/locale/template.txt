@@ -5,3 +5,4 @@ Navigator=
 Craft a map=
 True Navigator=
 Craft a compass=
+Use the minimap key to show the map.=
