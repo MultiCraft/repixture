@@ -5,6 +5,8 @@
 
 local S = minetest.get_translator("default")
 
+local SIGN_MAX_TEXT_LENGTH = 64
+
 -- Ores
 
 minetest.register_node(
@@ -1558,12 +1560,16 @@ minetest.register_node(
       on_receive_fields = function(pos, formname, fields, sender)
          if fields.text == nil then return end
          local meta = minetest.get_meta(pos)
+         local text = fields.text
+         if string.len(text) > SIGN_MAX_TEXT_LENGTH then
+             text = string.sub(text, 1, SIGN_MAX_TEXT_LENGTH)
+         end
          minetest.log("action", (sender:get_player_name() or "")..
-                         " wrote \""..fields.text.."\" to sign at "..
+                         " wrote \""..text.."\" to sign at "..
                          minetest.pos_to_string(pos))
-         meta:set_string("text", fields.text)
+         meta:set_string("text", text)
          -- Show sign text in quotation marks
-         meta:set_string("infotext", S('"@1"', fields.text))
+         meta:set_string("infotext", S('"@1"', text))
 
          default.write_name(pos, meta:get_string("text"))
       end,
