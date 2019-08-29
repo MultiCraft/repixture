@@ -66,9 +66,11 @@ local function step(dtime)
                texture = "bubble.png"
          })
 
-	 minetest.after(0.15, function()
-                           minetest.delete_particlespawner(particlespawners[name])
-         end)
+	 minetest.after(0.15, function(name)
+               if particlespawners[name] then
+                       minetest.delete_particlespawner(particlespawners[name])
+               end
+         end, name)
       end
 
       if minetest.get_item_group(minetest.get_node(player_pos).name, "water") > 0 then

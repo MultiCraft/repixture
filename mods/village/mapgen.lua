@@ -98,9 +98,9 @@ minetest.register_lbm(
 
                   minetest.after(
                      2.0,
-                     function()
+                     function(pos, pr)
                         village.spawn_village(pos, pr)
-                  end)
+                  end, pos, pr)
                else
                   minetest.log("action", "[village] Cannot spawn village, too near the static spawnpoint")
                end

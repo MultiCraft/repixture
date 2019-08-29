@@ -455,8 +455,4 @@ function village.spawn_village(pos, pr)
    end
 end
 
-minetest.after(
-   0,
-   function()
-      village.load_villages()
-end)
+minetest.register_on_mods_loaded(village.load_villages)

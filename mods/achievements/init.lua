@@ -85,14 +85,14 @@ function achievements.trigger_achievement(player, aname, times)
       achievements.achievements[name][aname] = -1
       minetest.after(
          2.0,
-         function()
+         function(name, aname)
             minetest.chat_send_all(
                minetest.colorize(
                   "#0f0",
                   "*** " .. S("@1 has earned the achievement “@2”.",
                      name,
                      achievements.registered_achievements[aname].title)))
-      end)
+      end, name, aname)
    end
 
    delayed_save()
@@ -173,7 +173,7 @@ end
 
 -- Add callback functions
 
-minetest.after(0, on_load)
+minetest.register_on_mods_loaded(on_load)
 
 minetest.register_on_shutdown(on_shutdown)
 

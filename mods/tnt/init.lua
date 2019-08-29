@@ -231,7 +231,7 @@ local function on_load()
    end
 end
 
-minetest.after(0, on_load)
+minetest.register_on_mods_loaded(on_load)
 
 -- Nodes
 

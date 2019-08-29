@@ -219,9 +219,11 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
          texture = "magicpuff.png"
    })
 
-   minetest.after(0.15, function()
-                     minetest.delete_particlespawner(particlespawners[name])
-   end)
+   minetest.after(0.15, function(name)
+         if particlespawner[name] then
+                 minetest.delete_particlespawner(particlespawners[name])
+         end
+   end, name)
 
    player_effects.apply_effect(player, "hunger_eating")
 
