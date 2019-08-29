@@ -172,6 +172,17 @@ partialblocks.register_material(
 partialblocks.register_material(
    "steel", S("Steel Slab"), S("Steel Stair"), "default:block_steel", false, adv_slab_tex("default:block_steel", "block_steel"), adv_stair_tex("default:block_steel", "block_steel"))
 
+partialblocks.register_material(
+   "carbon_steel", S("Carbon Steel Slab"), S("Carbon Steel Stair"), "default:block_carbon_steel", false, adv_slab_tex("default:block_carbon_steel", "block_carbon_steel"), adv_stair_tex("default:block_carbon_steel", "block_carbon_steel"))
+
+partialblocks.register_material(
+   "wrought_iron", S("Wrought Iron Slab"), S("Wrought Iron Stair"), "default:block_wrought_iron", false, adv_slab_tex("default:block_wrought_iron", "block_wrought_iron"), adv_stair_tex("default:block_wrought_iron", "block_wrought_iron"))
+
+partialblocks.register_material(
+   "bronze", S("Bronze Slab"), S("Bronze Stair"), "default:block_bronze", false, adv_slab_tex("default:block_bronze", "block_bronze"), adv_stair_tex("default:block_bronze", "block_bronze"))
+
+
+
 local cs_stair_tiles = {
 	"default_compressed_sandstone.png",
 	"default_compressed_sandstone_top.png",
