@@ -8,20 +8,24 @@ local F = minetest.formspec_escape
 function default.furnace_active_formspec(percent, item_percent)
    local form = default.ui.get_page("default:2part")
    form = form .. "list[current_player;main;0.25,4.75;8,4;]"
-   form = form .. "listring[current_player;main]"
    form = form .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
    form = form .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
 
    form = form .. "list[current_name;src;2.25,0.75;1,1;]"
-   form = form .. "listring[current_name;src]"
    form = form .. default.ui.get_itemslot_bg(2.25, 0.75, 1, 1)
 
    form = form .. "list[current_name;fuel;2.25,2.75;1,1;]"
    form = form .. default.ui.get_itemslot_bg(2.25, 2.75, 1, 1)
 
    form = form .. "list[current_name;dst;4.25,1.25;2,2;]"
-   form = form .. "listring[current_name;dst]"
    form = form .. default.ui.get_hotbar_itemslot_bg(4.25, 1.25, 2, 2)
+
+   form = form .. "listring[current_player;main]"
+   form = form .. "listring[current_name;src]"
+   form = form .. "listring[current_player;main]"
+   form = form .. "listring[current_name;dst]"
+   form = form .. "listring[current_player;main]"
+   form = form .. "listring[current_name;fuel]"
 
    form = form .. "image[2.25,1.75;1,1;ui_fire_bg.png^[lowpart:"
    form = form .. (100-percent) .. ":ui_fire.png]"
@@ -33,20 +37,24 @@ end
 
 local form_furnace = default.ui.get_page("default:2part")
 form_furnace = form_furnace .. "list[current_player;main;0.25,4.75;8,4;]"
-form_furnace = form_furnace .. "listring[current_player;main]"
 form_furnace = form_furnace .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form_furnace = form_furnace .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
 
 form_furnace = form_furnace .. "list[current_name;src;2.25,0.75;1,1;]"
-form_furnace = form_furnace .. "listring[current_name;src]"
 form_furnace = form_furnace .. default.ui.get_itemslot_bg(2.25, 0.75, 1, 1)
 
 form_furnace = form_furnace .. "list[current_name;fuel;2.25,2.75;1,1;]"
 form_furnace = form_furnace .. default.ui.get_itemslot_bg(2.25, 2.75, 1, 1)
 
 form_furnace = form_furnace .. "list[current_name;dst;4.25,1.25;2,2;]"
-form_furnace = form_furnace .. "listring[current_name;dst]"
 form_furnace = form_furnace .. default.ui.get_hotbar_itemslot_bg(4.25, 1.25, 2, 2)
+
+form_furnace = form_furnace .. "listring[current_player;main]"
+form_furnace = form_furnace .. "listring[current_name;src]"
+form_furnace = form_furnace .. "listring[current_player;main]"
+form_furnace = form_furnace .. "listring[current_name;dst]"
+form_furnace = form_furnace .. "listring[current_player;main]"
+form_furnace = form_furnace .. "listring[current_name;fuel]"
 
 form_furnace = form_furnace .. "image[2.25,1.75;1,1;ui_fire_bg.png]"
 form_furnace = form_furnace .. "image[3.25,1.75;1,1;ui_arrow_bg.png^[transformR270]"

@@ -255,14 +255,17 @@ local form = default.ui.get_page("default:2part")
 form = form .. "field[-1,-1;0,0;crafting_tracker;;]"
 
 form = form .. "list[current_player;main;0.25,4.75;8,4;]"
-form = form .. "listring[current_player;main]"
 form = form .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form = form .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
 
 form = form .. "list[current_player;craft_in;0.25,0.25;1,4;]"
-form = form .. "listring[current_player;craft_in]"
 
 form = form .. "list[current_player;craft_out;7.25,3.25;1,1;]"
+
+form = form .. "listring[current_player;main]"
+form = form .. "listring[current_player;craft_in]"
+form = form .. "listring[current_player;main]"
+form = form .. "listring[current_player;craft_out]"
 
 form = form .. default.ui.get_itemslot_bg(0.25, 0.25, 1, 4)
 form = form .. default.ui.get_itemslot_bg(7.25, 3.25, 1, 1)
