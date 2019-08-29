@@ -7,7 +7,7 @@ local S = minetest.get_translator("nav")
 
 -- Based on Minetest Game's map mod, licensed under MIT License.
 
-local map = {}
+nav.map = {}
 
 -- Cache creative mode setting
 
@@ -17,7 +17,7 @@ local creative_mode_cache = minetest.settings:get_bool("creative_mode")
 -- Update HUD flags
 -- Global to allow overriding
 
-function map.update_hud_flags(player)
+function nav.map.update_hud_flags(player)
 	local creative_enabled =
 		(minetest.global_exists("creative") and creative.is_enabled_for(player:get_player_name())) or
 		creative_mode_cache
@@ -36,15 +36,32 @@ end
 -- Set HUD flags 'on joinplayer'
 
 minetest.register_on_joinplayer(function(player)
-	map.update_hud_flags(player)
+	nav.map.update_hud_flags(player)
 end)
 
+-- Update HUD flags on inventory change. Sadly, this function is not exhaustive and doesn't capture all
+-- inventory changes (such as changes by Lua).
 
--- Cyclic update of HUD flags
+minetest.register_on_player_inventory_action(function(player, action, inventory, inventory_info)
+	if action == "move" then
+		local stack_from = inventory:get_stack(inventory_info.from_list, inventory_info.from_index)
+		local stack_to = inventory:get_stack(inventory_info.to_list, inventory_info.to_index)
+		if stack_from:get_name() == "nav:map" or stack_to:get_name() == "nav:map" then
+			nav.map.update_hud_flags(player)
+		end
+	elseif action == "put" or action == "take" then
+		if inventory_info.stack:get_name() == "nav:map" then
+			nav.map.update_hud_flags(player)
+		end
+	end
+end)
+
+-- Cyclic update of HUD flags. Required because register_on_player_inventory_action does not
+-- capture all changes.
 
 local function cyclic_update()
 	for _, player in ipairs(minetest.get_connected_players()) do
-		map.update_hud_flags(player)
+		nav.map.update_hud_flags(player)
 	end
 	minetest.after(5.3, cyclic_update)
 end
@@ -62,7 +79,7 @@ minetest.register_craftitem(
       wield_image = "nav_inventory.png",
       stack_max = 1,
       on_use = function(itemstack, user, pointed_thing)
-          map.update_hud_flags(user)
+          nav.map.update_hud_flags(user)
       end,
 })
 

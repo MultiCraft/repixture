@@ -5,6 +5,8 @@
 -- Tweaked by Kaadmy, for Pixture
 --
 
+local nav_mod = minetest.get_modpath("nav") ~= nil
+
 item_drop = {}
 
 function item_drop.drop_item(pos, itemstack)
@@ -92,6 +94,10 @@ minetest.register_globalstep(
                                        gain = 0.3,
                                        max_hear_distance = 16
                                  })
+                              end
+                              -- Notify nav mod of inventory change
+                              if nav_mod and lua.itemstring == "nav:map" then
+                                  nav.map.update_hud_flags(player)
                               end
 
                               lua.itemstring = ""
