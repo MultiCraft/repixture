@@ -62,48 +62,32 @@ minetest.register_craftitem(
 
          local nodename=minetest.get_node(pointed_thing.under).name
 
+         local replace_bucket = function(itemstack, new_bucket)
+            if itemstack:get_count() == 1 then
+                itemstack:set_name(new_bucket)
+            else
+                itemstack:take_item()
+
+                local inv=user:get_inventory()
+
+                if inv:room_for_item("main", {name="default:bucket_water"}) then
+                   inv:add_item("main", "default:bucket_water")
+                else
+                   local pos = user:get_pos()
+                   pos.y = math.floor(pos.y + 0.5)
+                   minetest.add_item(pos, "default:bucket_water")
+                end
+             end
+             minetest.remove_node(pointed_thing.under)
+             return itemstack
+         end
+
          if nodename == "default:water_source" then
-            itemstack:take_item()
-
-            local inv=user:get_inventory()
-
-            if inv:room_for_item("main", {name="default:bucket_water"}) then
-               inv:add_item("main", "default:bucket_water")
-            else
-               local pos = user:get_pos()
-               pos.y = math.floor(pos.y + 0.5)
-               minetest.add_item(pos, "default:bucket_water")
-            end
-
-            minetest.remove_node(pointed_thing.under)
+            itemstack = replace_bucket(itemstack, "default:bucket_water")
          elseif nodename == "default:river_water_source" then
-            itemstack:take_item()
-
-            local inv=user:get_inventory()
-
-            if inv:room_for_item("main", {name="default:bucket_river_water"}) then
-               inv:add_item("main", "default:bucket_river_water")
-            else
-               local pos = user:get_pos()
-               pos.y = math.floor(pos.y + 0.5)
-               minetest.add_item(pos, "default:bucket_river_water")
-            end
-
-            minetest.remove_node(pointed_thing.under)
+            itemstack = replace_bucket(itemstack, "default:bucket_river_water")
          elseif nodename == "default:swamp_water_source" then
-            itemstack:take_item()
-
-            local inv=user:get_inventory()
-
-            if inv:room_for_item("main", {name="default:bucket_swamp_water"}) then
-               inv:add_item("main", "default:bucket_swamp_water")
-            else
-               local pos = user:get_pos()
-               pos.y = math.floor(pos.y + 0.5)
-               minetest.add_item(pos, "default:bucket_swamp_water")
-            end
-
-            minetest.remove_node(pointed_thing.under)
+            itemstack = replace_bucket(itemstack, "default:bucket_swamp_water")
          end
 
          return itemstack
