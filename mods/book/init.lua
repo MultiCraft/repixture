@@ -7,6 +7,9 @@
 local S = minetest.get_translator("book")
 local F = minetest.formspec_escape
 
+local BOOK_MAX_TITLE_LENGTH = 64
+local BOOK_MAX_TEXT_LENGTH = 4500
+
 minetest.register_craftitem(
    ":default:book",
    {
@@ -42,6 +45,14 @@ minetest.register_on_player_receive_fields(
       local itemstack = player:get_wielded_item()
 
       local meta = itemstack:get_meta()
+
+      -- Limit title and text length
+      if string.len(fields.title) > BOOK_MAX_TITLE_LENGTH then
+          fields.title = string.sub(fields.title, 1, BOOK_MAX_TITLE_LENGTH)
+      end
+      if string.len(fields.text) > BOOK_MAX_TEXT_LENGTH then
+          fields.text= string.sub(fields.text, 1, BOOK_MAX_TEXT_LENGTH)
+      end
 
       meta:set_string("description", S("Book: “@1”", minetest.colorize("#ffff00", fields.title))) -- Set the item description
 
