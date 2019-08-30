@@ -11,5 +11,4 @@ PM saving is disabled.=Speichern von PNs ist deaktiviert.
 No saved PMs.=Keine gespeicherten PNs.
 Saved PMs:=Gespeicherte PNs:
 @1 saved PMs=@1 gespeicherte PNs
-Number of saved PMs: @1. Enter /pms command to view.=Anzahl der gespeicherten PNs: @. „/pms“-Behel eingeben, um sie zu lesen.
-You have no saved PMs. Send PMs with the /pm command.=Sie haben keine gespeicherten PNs. Senden Sie PNs mit dem „/pm“-Befehl.
+You've got mail! Number of saved PMs: @1. Enter /pms command to view.=Sie haben Post! Anzahl der gespeicherten PNs: @. „/pms“-Behel eingeben, um sie zu lesen.

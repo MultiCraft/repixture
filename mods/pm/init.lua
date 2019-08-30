@@ -72,11 +72,7 @@ if enable_saving then
 	 local name = player:get_player_name()
 
          if messages[name] ~= nil and #messages[name] >= 1 then
-            minetest.chat_send_player(name, minetest.colorize("#0ff", S("Number of saved PMs: @1. Enter /pms command to view.", #messages[name])))
-            return false
-         else
-            minetest.chat_send_player(name, minetest.colorize("#0ff", S("You have no saved PMs. Send PMs with the /pm command.")))
-            return true
+            minetest.chat_send_player(name, minetest.colorize("#0ff", S("You've got mail! Number of saved PMs: @1. Enter /pms command to view.", #messages[name])))
          end
    end)
 end

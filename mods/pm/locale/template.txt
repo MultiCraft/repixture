@@ -11,5 +11,4 @@ PM saving is disabled.=
 No saved PMs.=
 Saved PMs:=
 @1 saved PMs=
-Number of saved PMs: @1. Enter /pms command to view.=
-You have no saved PMs. Send PMs with the /pm command.=
+You've got mail! Number of saved PMs: @1. Enter /pms command to view.=
