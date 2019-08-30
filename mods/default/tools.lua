@@ -5,7 +5,7 @@
 
 local S = minetest.get_translator("default")
 
-local creative_digtime = 0.15
+local creative_digtime = 0
 
 local tool_levels = nil
 
