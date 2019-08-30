@@ -318,7 +318,14 @@ function crafting.get_formspec(name)
             craft_list = craft_list .. minetest.formspec_escape(itemstack:get_count())
          end
 
-         craft_list = craft_list .. "," .. minetest.formspec_escape(itemdef.description)
+         local desc = itemdef.description
+         -- Cut off item description after first newline
+         local firstnewline = string.find(desc, "\n")
+         if firstnewline then
+             desc = string.sub(desc, 1, firstnewline-1)
+         end
+
+         craft_list = craft_list .. "," .. minetest.formspec_escape(desc)
          craft_count = craft_count + 1
       end
    end
