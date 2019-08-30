@@ -89,7 +89,7 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
                 default.ui.button(7.25, 2.25, 1, 1, "creative_next", ">>")..
 
                 default.ui.get_itemslot_bg(0.25, 0.25, 7,4)..
-		-- TODO: Add trash icon
+		"image[7.25,3.25;1,1;creative_trash_icon.png]"..
 		"list[detached:creative_trash;main;7.25,3.25;1,1;]"..
                 default.ui.get_itemslot_bg(7.25, 3.25, 1,1)..
 		"listring[current_player;main]"..
