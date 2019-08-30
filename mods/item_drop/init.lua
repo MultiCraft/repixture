@@ -84,7 +84,13 @@ minetest.register_globalstep(
                            end
 
                            if inv:room_for_item("main", ItemStack(lua.itemstring)) then
-                              inv:add_item("main", ItemStack(lua.itemstring))
+                              if minetest.settings:get_bool("creative_mode") then
+                                  if not inv:contains_item("main", ItemStack(lua.itemstring), true) then
+                                      inv:add_item("main", ItemStack(lua.itemstring))
+                                  end
+                              else
+                                  inv:add_item("main", ItemStack(lua.itemstring))
+                              end
 
                               if lua.itemstring ~= "" then
                                  minetest.sound_play(
@@ -119,6 +125,20 @@ minetest.register_globalstep(
 end)
 
 function minetest.handle_node_drops(pos, drops, digger)
+   if minetest.settings:get_bool("creative_mode") then
+      if not digger or not digger:is_player() then
+         return
+      end
+      local inv = digger:get_inventory()
+      if inv then
+         for _,item in ipairs(drops) do
+            if not inv:contains_item("main", item, true) then
+               inv:add_item("main", item)
+            end
+         end
+      end
+      return
+   end
    for _,item in ipairs(drops) do
       local count, name
       if type(item) == "string" then
