@@ -61,6 +61,9 @@ minetest.register_tool(
       stack_max = 1,
 
       on_use = function(itemstack, player, pointed_thing)
+         if pointed_thing.type ~= "node" then
+             return itemstack
+         end
          if math.random(1, 5) <= 1 then
             local pos = pointed_thing.under
 
