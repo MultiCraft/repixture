@@ -4,3 +4,5 @@ Set your player skin=Ihren Spielerskin wählen
 Skin set to “@1”.=Skin ausgewählt: „@1“
 Current player skin: @1=Momentaner Spielerskin: @1
 Unknown player skin. Enter “/help player_skin” for help.=Unbekannter Spielerskin. „/help player_skin“ eingeben für Hilfe.
+male=männlich
+female=weiblich

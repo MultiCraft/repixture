@@ -4,12 +4,14 @@
 --
 
 local S = minetest.get_translator("player_skins")
+local NS = function(s) return s end
 
 player_skins = {}
 
 -- Array of usable player skins
 
-player_skins.skin_names = {"male", "female"}
+player_skins.skin_names = {NS("male"), NS("female")}
+player_skins.default_skins = {male=true, female=true}
 
 if minetest.settings:get("player_skins_names") then
    player_skins.skin_names = util.split(minetest.settings:get("player_skins_names"), ",")
@@ -161,8 +163,14 @@ function player_skins.get_formspec(playername)
 	 y = y - 8
       end
 
+      local sname
+      if player_skins.default_skins[name] then
+          sname = S(name)
+      else
+          sname = name
+      end
       form = form .. default.ui.button(x, y, 2, 1, "skin_select_"
-                                          .. name, player_skins.skin_names[i])
+                                          .. name, sname)
       form = form .. "image[" .. (x + 2.25) .. "," .. y.. ";1,1;player_skins_icon_"
          .. name .. ".png]"
       if player_skins.skins[playername] == name then
