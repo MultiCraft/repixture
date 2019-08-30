@@ -97,8 +97,10 @@ end
 local function on_joinplayer(player)
    local name = player:get_player_name()
 
+   -- New players start with a random skin
    if player_skins.skins[name] == nil then
-      player_skins.skins[name] = "male"
+      local skin = math.random(1, #player_skins.skin_names)
+      player_skins.skins[name] = player_skins.skin_names[skin]
    end
 end
 
