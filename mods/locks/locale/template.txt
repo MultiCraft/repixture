@@ -1,6 +1,8 @@
 # textdomain: locks
 Lock Pick=
 @1 has broken into your locked chest!=
+You have broken the lock!=
+You have broken into your own locked chest!=
 Lock=
 Locked Chest=
 Locked Chest (Owned by @1)=

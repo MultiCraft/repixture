@@ -1,6 +1,8 @@
 # textdomain: locks
 Lock Pick=Dietrich
 @1 has broken into your locked chest!=@1 hat Ihre abgeschlossene Truhe geknackt!
+You have broken the lock!=Sie haben das Schloss geknackt!
+You have broken into your own locked chest!=Sie haben Ihre eigene abgeschlossene Truhe geknackt!
 Lock=Schloss
 Locked Chest=Abgeschlossene Truhe
 Locked Chest (Owned by @1)=Abgeschlossene Truhe (Eigentümer: @1)

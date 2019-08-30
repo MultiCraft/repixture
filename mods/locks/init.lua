@@ -67,12 +67,28 @@ minetest.register_tool(
             local meta = minetest.get_meta(pos)
             meta:set_float("last_lock_pick", minetest.get_gametime() + picked_time)
 
-            local own = meta:get_string("lock_owner")
-            if own then
+            -- TODO: Add sound + particle effect to show success
+
+            local burglar = player:get_player_name()
+            local owner = meta:get_string("lock_owner")
+            if owner then
+               if owner ~= burglar then
+                   minetest.chat_send_player(
+                      owner,
+                      minetest.colorize("#f00",
+                          S("@1 has broken into your locked chest!", burglar)))
+                   minetest.chat_send_player(
+                       burglar,
+                       minetest.colorize("#0f0", S("You have broken the lock!")))
+               else
+                   minetest.chat_send_player(
+                      burglar,
+                      minetest.colorize("#0f0", S("You have broken into your own locked chest!")))
+               end
+            else
                minetest.chat_send_player(
-                  own,
-                  minetest.colorize("#f00",
-                      S("@1 has broken into your locked chest!", player:get_player_name())))
+                   burglar,
+                   minetest.colorize("#0f0", S("You have broken the lock!")))
             end
          end
 
