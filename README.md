@@ -9,7 +9,7 @@ Inspiration by [Kenney](http://kenney.nl)
 
 ## Project Notes
 
-This game works for Minetest 5.0.0. It's a fork of Pixture 0.1.1
+This game works for Minetest 5.0.0. It's a fork of Pixture 0.1.1.
 The goal of Pixture Revival is to make Pixture work properly in
 latest Minetest versions.
 The original gameplay of Pixture will be preserved, only bugfixes
@@ -17,10 +17,10 @@ and usability features will be added.
 
 ## Bugs and problems
 
-- Crafting is terribly inconvenient and painful to do ... to the
-  point it completely sucks out the lifeblood of this game
+- There's currently no crafting guide
+- Wall torches look wrong
 - Creative Mode has limited functionality and is only for testing
-- Villages sometimes don't destroy enough land above them
+- Villages sometimes have huge landmasses or floating treecaps above them
 
 ## Changelog
 
