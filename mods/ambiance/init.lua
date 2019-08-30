@@ -74,6 +74,10 @@ if minetest.settings:get_bool("ambiance_enable") == true then
 
          for soundname, sound in pairs(ambiance.sounds) do
             if not minetest.settings:get_bool("ambiance_disable_" .. soundname) then
+               if lastsound[name] == nil then
+                  -- lastsound is not initialized yet
+                  return
+               end
                if lastsound[name][soundname] then
                   lastsound[name][soundname] = lastsound[name][soundname] + dtime
                else

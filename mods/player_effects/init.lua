@@ -163,6 +163,10 @@ local function step(dtime)
 
    local gt = minetest.get_gametime()
 
+   if player_effects.effects == nil then
+      return
+   end
+
    for _, player in pairs(minetest.get_connected_players()) do
       local name = player:get_player_name()
 
