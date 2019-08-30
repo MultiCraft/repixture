@@ -230,7 +230,9 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
    hunger.update_bar(player)
    delayed_save()
 
-   itemstack:take_item(1)
+   if not minetest.settings:get_bool("creative_mode") then
+       itemstack:take_item(1)
+   end
 
    return itemstack
 end
@@ -335,7 +337,9 @@ local function fake_on_item_eat(hpdata, replace_with_item, itemstack,
          max_hear_distance = 8
    })
 
-   itemstack:take_item(1)
+   if not minetest.settings:get_bool("creative_mode") then
+       itemstack:take_item(1)
+   end
 
    return itemstack
 end

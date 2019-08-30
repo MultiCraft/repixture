@@ -98,7 +98,9 @@ minetest.register_tool(
             end
          end
 
-         itemstack:add_wear(8200) -- about 8 uses
+         if not minetest.settings:get_bool("creative_mode") then
+             itemstack:add_wear(8200) -- about 8 uses
+         end
          return itemstack
       end,
 })

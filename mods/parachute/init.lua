@@ -56,7 +56,9 @@ minetest.register_craftitem(
 
             default.player_attached[player:get_player_name()] = true
 
-            itemstack:take_item()
+            if not minetest.settings:get_bool("creative_mode") then
+                itemstack:take_item()
+            end
 
             return itemstack
          else

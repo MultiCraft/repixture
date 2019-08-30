@@ -182,3 +182,11 @@ creative.is_enabled_for = function(player)
 		return false
 	end
 end
+
+if minetest.settings:get_bool("creative_mode") then
+	minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack)
+		-- Place infinite nodes, except for shulker boxes
+		local group = minetest.get_item_group(itemstack:get_name(), "shulker_box")
+		return group == 0 or group == nil
+	end)
+end

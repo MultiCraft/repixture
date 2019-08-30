@@ -107,7 +107,9 @@ mobs:register_mob(
                         z = math.random(-1,1)
                   })
                end
-               item:add_wear(650) -- 100 uses
+               if not minetest.settings:get_bool("creative_mode") then
+                   item:add_wear(650) -- 100 uses
+               end
                clicker:set_wielded_item(item)
                self.object:set_properties(
                   {

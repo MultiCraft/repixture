@@ -1306,7 +1306,9 @@ function mobs:register_mob(name, def)
             local weapon = hitter:get_wielded_item()
             if weapon:get_definition().tool_capabilities ~= nil then
                local wear = ( (weapon:get_definition().tool_capabilities.full_punch_interval or 1.4) / 75 ) * 9000
-               weapon:add_wear(wear)
+               if not minetest.settings:get_bool("creative_mode") then
+                  weapon:add_wear(wear)
+               end
                hitter:set_wielded_item(weapon)
             end
 
@@ -1533,7 +1535,9 @@ function mobs:register_egg(mob, desc, background)
                   ent.owner = placer:get_player_name()
                   ent.tamed = true
                end
-               itemstack:take_item()
+               if not minetest.settings:get_bool("creative_mode") then
+                   itemstack:take_item()
+               end
             end
             return itemstack
          end,
@@ -1581,11 +1585,15 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
 	    chance = chance_hand
          elseif tool:get_name() == "mobs:net" then
 	    chance = chance_net
-	    tool:add_wear(4000) -- 17 uses
+            if not minetest.settings:get_bool("creative_mode") then
+	        tool:add_wear(4000) -- 17 uses
+            end
 	    clicker:set_wielded_item(tool)
          elseif tool:get_name() == "mobs:lasso" then
 	    chance = chance_lasso
-	    tool:add_wear(1500) -- 43 uses
+            if not minetest.settings:get_bool("creative_mode") then
+	        tool:add_wear(1500) -- 43 uses
+            end
 	    clicker:set_wielded_item(tool)
          end
 

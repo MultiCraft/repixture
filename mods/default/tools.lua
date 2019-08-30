@@ -745,7 +745,9 @@ minetest.register_tool(
                   param2 = node.param2
             })
 
-            itemstack:add_wear(800)
+            if not minetest.settings:get_bool("creative_mode") then
+                itemstack:add_wear(800)
+            end
          elseif nodename == "default:torch_dead" then
             minetest.set_node(
                pos,
@@ -755,13 +757,17 @@ minetest.register_tool(
                   param2 = node.param2
             })
 
-            itemstack:add_wear(800)
+            if not minetest.settings:get_bool("creative_mode") then
+                itemstack:add_wear(800)
+            end
          elseif nodename == "tnt:tnt" then
             local y = minetest.registered_nodes["tnt:tnt"]
             if y ~= nil then
                y.on_punch(pos, node, user)
 
-               itemstack:add_wear(800)
+               if not minetest.settings:get_bool("creative_mode") then
+                   itemstack:add_wear(800)
+               end
             end
          end
 

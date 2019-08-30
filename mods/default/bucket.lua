@@ -24,16 +24,18 @@ for b=1, #filled_buckets do
    
             local inv=user:get_inventory()
    
-            if itemstack:get_count() == 1 then
-               itemstack:set_name("default:bucket")
-            elseif inv:room_for_item("main", {name="default:bucket"}) then
-               itemstack:take_item()
-               inv:add_item("main", "default:bucket")
-            else
-               itemstack:take_item()
-               local pos = user:get_pos()
-               pos.y = math.floor(pos.y + 0.5)
-               minetest.add_item(pos, "default:bucket")
+            if not minetest.settings:get_bool("creative_mode") then
+               if itemstack:get_count() == 1 then
+                  itemstack:set_name("default:bucket")
+               elseif inv:room_for_item("main", {name="default:bucket"}) then
+                  itemstack:take_item()
+                  inv:add_item("main", "default:bucket")
+               else
+                  itemstack:take_item()
+                  local pos = user:get_pos()
+                  pos.y = math.floor(pos.y + 0.5)
+                  minetest.add_item(pos, "default:bucket")
+               end
             end
 
             local pos = pointed_thing.above
@@ -67,7 +69,9 @@ minetest.register_craftitem(
          local nodename=minetest.get_node(pointed_thing.under).name
 
          local replace_bucket = function(itemstack, new_bucket)
-            if itemstack:get_count() == 1 then
+            if minetest.settings:get_bool("creative_mode") then
+                -- no-op
+            elseif itemstack:get_count() == 1 then
                 itemstack:set_name(new_bucket)
             else
                 itemstack:take_item()
