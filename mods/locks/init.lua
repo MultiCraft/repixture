@@ -64,9 +64,12 @@ minetest.register_tool(
          if pointed_thing.type ~= "node" then
              return itemstack
          end
+         local pos = pointed_thing.under
+         local node = minetest.get_node(pos)
+         if minetest.get_item_group(node.name, "locked") == 0 then
+            return itemstack
+         end
          if math.random(1, 5) <= 1 then
-            local pos = pointed_thing.under
-
             local meta = minetest.get_meta(pos)
             meta:set_float("last_lock_pick", minetest.get_gametime() + picked_time)
 
@@ -122,7 +125,7 @@ minetest.register_node(
          "locks_chest_front.png"
       },
       paramtype2 = "facedir",
-      groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
+      groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, locked = 1},
       is_ground_content = false,
       sounds = default.node_sound_wood_defaults(),
       on_construct = function(pos)
