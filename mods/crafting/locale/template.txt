@@ -1,0 +1,3 @@
+# textdomain:crafting
+T=
+Show all recipes/show only craftable recipes=

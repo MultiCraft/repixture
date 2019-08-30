@@ -1,5 +1,9 @@
 local S = minetest.get_translator("crafting")
 
+-- Crafting menu display modes
+local MODE_CRAFTABLE = 1 -- crafting guide mode, show all recipes (default)
+local MODE_GUIDE = 2 -- craftable mode, only show recipes craftable from input slots
+
 --
 -- API
 --
@@ -275,6 +279,7 @@ form = form .. "listring[current_player;craft_out]"
 form = form .. default.ui.get_itemslot_bg(0.25, 0.25, 1, 4)
 form = form .. default.ui.get_itemslot_bg(7.25, 3.25, 1, 1)
 
+form = form .. default.ui.button(1.25, 3.25, 1.0, 1.0, "toggle_filter", S("T"), nil, S("Show all recipes/show only craftable recipes"))
 form = form .. default.ui.button(7.25, 1.25, 1, 1, "do_craft_1", "1")
 form = form .. default.ui.button(7.25, 2.25, 1, 1, "do_craft_10", "10")
 
@@ -294,7 +299,12 @@ function crafting.get_formspec(name)
 
    local craft_list = ""
 
-   local craftitems = crafting.get_crafts(inv)
+   local craftitems
+   if crafting.userdata[name] and crafting.userdata[name].mode == MODE_GUIDE then
+       craftitems = crafting.get_crafts()
+   else
+       craftitems = crafting.get_crafts(inv)
+   end
 
    local selected_craftdef = nil
 
@@ -409,7 +419,12 @@ local function on_player_receive_fields(player, form_name, fields)
    end
    do_craft_10 = fields.do_craft_10 ~= nil
    if do_craft_1 or do_craft_10 then
-      local craftitems = crafting.get_crafts(inv)
+      local craftitems
+      if crafting.userdata[name] and crafting.userdata[name].mode == MODE_GUIDE then
+          craftitems = crafting.get_crafts()
+      else
+          craftitems = crafting.get_crafts(inv)
+      end
 
       local wanted_itemstack = ItemStack(craftitems[crafting.userdata[name].row])
       local output_itemstack = inv:get_stack("craft_out", 1)
@@ -456,6 +471,14 @@ local function on_player_receive_fields(player, form_name, fields)
          minetest.show_formspec(name, "crafting:crafting",
                                 crafting.get_formspec(name, crafting.userdata[name].row))
       end
+   elseif fields.toggle_filter then
+      if crafting.userdata[name].mode == MODE_GUIDE then
+          crafting.userdata[name].mode = MODE_CRAFTABLE
+      else
+          crafting.userdata[name].mode = MODE_GUIDE
+      end
+      minetest.show_formspec(name, "crafting:crafting",
+                             crafting.get_formspec(name, crafting.userdata[name].row))
    end
 
    player:set_inventory_formspec(crafting.get_formspec(name))
@@ -486,7 +509,7 @@ local function on_joinplayer(player)
    local inv = player:get_inventory()
 
    if crafting.userdata[name] == nil then
-      crafting.userdata[name] = {row = 1}
+      crafting.userdata[name] = {row = 1, mode = MODE_CRAFTABLE}
    end
 
    if inv:get_size("craft_in") ~= 4 then

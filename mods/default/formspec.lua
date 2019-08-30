@@ -59,50 +59,71 @@ end
 
 -- Buttons
 
-function default.ui.image_button(x, y, w, h, name, image)
+function default.ui.image_button(x, y, w, h, name, image, tooltip)
    local image = minetest.formspec_escape(image)
+
+   local tt = ""
+   if tooltip then
+      tt = "tooltip["..name..";"..minetest.formspec_escape(tooltip).."]"
+   end
 
    return "image_button["..x..","..y..";"..w..","..h..";"
       ..image..";"..name..";;;false;"..image.."]"
+      ..tt
 end
 
-function default.ui.button(x, y, w, h, name, label, noclip)
+function default.ui.button(x, y, w, h, name, label, noclip, tooltip)
    local nc = "false"
 
    if noclip then
       nc = "true"
+   end
+
+   local tt = ""
+   if tooltip then
+      tt = "tooltip["..name..";"..minetest.formspec_escape(tooltip).."]"
    end
 
    if w == 1 then
       return "image_button["..x..","..y..";"..w..","..h
          ..";ui_button_1w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
          ..nc..";false;ui_button_1w_active.png]"
+         ..tt
    elseif w == 2 then
       return "image_button["..x..","..y..";"..w..","..h
          ..";ui_button_2w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
          ..nc..";false;ui_button_2w_active.png]"
+         ..tt
    else
       return "image_button["..x..","..y..";"..w..","..h
          ..";ui_button_3w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
          ..nc..";false;ui_button_3w_active.png]"
+         ..tt
    end
 end
 
-function default.ui.button_exit(x, y, w, h, name, label, noclip)
+function default.ui.button_exit(x, y, w, h, name, label, noclip, tooltip)
    local nc = "false"
 
    if noclip then
       nc = "true"
    end
 
+   local tt = ""
+   if tooltip then
+      tt = "tooltip["..name..";"..minetest.formspec_escape(tooltip).."]"
+   end
+
    if w == 2 then
       return "image_button_exit["..x..","..y..";"..w..","..h
          ..";ui_button_2w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
          ..nc..";false;ui_button_2w_active.png]"
+         ..tt
    else
       return "image_button_exit["..x..","..y..";"..w..","..h
          ..";ui_button_3w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
          ..nc..";false;ui_button_3w_active.png]"
+         ..tt
    end
 end
 
