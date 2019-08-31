@@ -172,7 +172,7 @@ partialblocks.register_material(
 -- Misc. blocks
 
 partialblocks.register_material(
-   "coal", S("Coal Slab"), S("Coal Stair"), "default:block_coal", { choppy = 3 }, false, adv_slab_tex("default:block_coal", "block_coal"), adv_stair_tex("default:block_coal", "block_coal"))
+   "coal", S("Coal Slab"), S("Coal Stair"), "default:block_coal", { cracky = 3 }, false, adv_slab_tex("default:block_coal", "block_coal"), adv_stair_tex("default:block_coal", "block_coal"))
 
 partialblocks.register_material(
    "steel", S("Steel Slab"), S("Steel Stair"), "default:block_steel", { cracky = 2 }, false, adv_slab_tex("default:block_steel", "block_steel"), adv_stair_tex("default:block_steel", "block_steel"))
