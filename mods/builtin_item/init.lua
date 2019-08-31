@@ -12,6 +12,7 @@ minetest.register_entity(
 	 physical = true,
 	 collisionbox = {-0.125, -0.125, -0.125, 0.125, 0.125, 0.125},
 	 collide_with_objects = false,
+	 pointable = false,
 	 visual = "sprite",
 	 visual_size = {x=0.15, y=0.15},
 	 textures = {""},
