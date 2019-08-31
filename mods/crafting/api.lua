@@ -540,6 +540,18 @@ function crafting.update_crafting_formspec(player)
    player:set_inventory_formspec(crafting.get_formspec(name))
 end
 
+minetest.register_allow_player_inventory_action(function(player, action, inventory, inventory_info)
+   if action == "put" then
+      if inventory_info.listname == "craft_out" then
+          return 0
+      end
+   elseif action == "move" then
+      if inventory_info.to_list == "craft_out" then
+          return 0
+      end
+   end
+end)
+
 minetest.register_on_player_inventory_action(function(player, action, inventory, inventory_info)
    if action == "move" then
       if inventory_info.from_list == "craft_in" or inventory_info.to_list == "craft_in" then
