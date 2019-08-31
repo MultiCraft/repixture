@@ -3,6 +3,8 @@
 -- By Kaadmy, for Pixture
 --
 
+local COLOR_GOTTEN = "#00FF00"
+
 local S = minetest.get_translator("achievements")
 
 achievements = {}
@@ -189,7 +191,7 @@ crafting.register_on_craft(on_craft)
 local form = default.ui.get_page("default:default")
 
 form = form .. "tableoptions[background=#DDDDDD30]"
-form = form .. "tablecolumns[text,align=left,width=11;text,align=left,width=28;"
+form = form .. "tablecolumns[color;text,align=left,width=11;text,align=left,width=28;"
    .. "text,align=left,width=5]"
 
 default.ui.register_page("achievements:achievements", form)
@@ -210,9 +212,11 @@ function achievements.get_formspec(name, row)
       local def = achievements.registered_achievements[aname]
 
       local progress = ""
+      local color = ""
       if achievements.achievements[name][aname] then
 	 if achievements.achievements[name][aname] == -1 then
 	    progress = S("Gotten")
+            color = COLOR_GOTTEN
 	    amt_gotten = amt_gotten + 1
 	 else
 	    progress = S("@1/@2", achievements.achievements[name][aname], def.times)
@@ -226,6 +230,7 @@ function achievements.get_formspec(name, row)
 	 achievement_list = achievement_list .. ","
       end
 
+      achievement_list = achievement_list .. color .. ","
       achievement_list = achievement_list .. minetest.formspec_escape(def.title) .. ","
       achievement_list = achievement_list .. minetest.formspec_escape(def.description)
          .. ","
@@ -241,27 +246,36 @@ function achievements.get_formspec(name, row)
    local def = achievements.registered_achievements[aname]
 
    local progress = ""
+   local title = def.title
+   local description = def.description
    if achievements.achievements[name][aname] then
       if achievements.achievements[name][aname] == -1 then
-	 progress = S("Gotten")
+	 progress = minetest.colorize(COLOR_GOTTEN, S("Gotten"))
+         title = minetest.colorize(COLOR_GOTTEN, title)
+         description = minetest.colorize(COLOR_GOTTEN, description)
       else
-	 progress = achievements.achievements[name][aname] .. "/" .. def.times
+	 progress = S("@1/@2", achievements.achievements[name][aname], def.times)
       end
    else
       progress = S("Missing")
    end
 
+   local progress_total =
+      S("@1 of @2 achievements gotten, @3 in progress",
+      amt_gotten,
+      #achievements.registered_achievements_list,
+      amt_progress)
+   if amt_gotten == #achievements.registered_achievements_list then
+      progress_total = minetest.colorize(COLOR_GOTTEN, progress_total)
+   end
    form = form .. "label[0.25,8.15;"
-      .. minetest.formspec_escape(
-		S("@1 of @2 achievements gotten, @3 in progress",
-		amt_gotten,
-                #achievements.registered_achievements_list,
-                amt_progress)) .. "]"
+      .. minetest.formspec_escape(progress_total)
+      .. "]"
 
-   form = form .. "label[0.25,0.25;" .. minetest.formspec_escape(def.title) .. "]"
+   form = form .. "label[0.25,0.25;" .. minetest.formspec_escape(title) .. "]"
    form = form .. "label[7.25,0.25;" .. minetest.formspec_escape(progress) .. "]"
 
-   form = form .. "label[0.5,0.75;" .. minetest.formspec_escape(def.description) .. "]"
+   form = form .. "label[0.5,0.75;" .. minetest.formspec_escape(description) .. "]"
 
    return form
 end
