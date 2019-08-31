@@ -1,13 +1,13 @@
 local S = minetest.get_translator("default")
 
-local filled_buckets = {
+local water_buckets = {
    { "water", S("Water Bucket"), "default_bucket_water.png", "default:water_source" },
    { "river_water", S("River Water Bucket"), "default_bucket_river_water.png", "default:river_water_source" },
    { "swamp_water", S("Swamp Water Bucket"), "default_bucket_swamp_water.png", "default:swamp_water_source" },
 }
 
-for b=1, #filled_buckets do
-   local bucket = filled_buckets[b]
+for b=1, #water_buckets do
+   local bucket = water_buckets[b]
    minetest.register_craftitem(
       "default:bucket_"..bucket[1],
       {
@@ -16,6 +16,7 @@ for b=1, #filled_buckets do
          stack_max = 1,
          wield_scale = {x=1,y=1,z=2},
          liquids_pointable = true,
+         groups = { bucket = 2, bucket_water = 1 },
          on_place = function(itemstack, user, pointed_thing)
             if pointed_thing.type ~= "node" then return end
    
@@ -63,6 +64,7 @@ minetest.register_craftitem(
       stack_max = 10,
       wield_scale = {x=1,y=1,z=2},
       liquids_pointable = true,
+      groups = { bucket = 1 },
       on_use = function(itemstack, user, pointed_thing)
          if pointed_thing.type ~= "node" then return end
 

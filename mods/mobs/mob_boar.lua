@@ -83,6 +83,7 @@ minetest.register_craftitem(
    {
       description = S("Raw Porkchop"),
       inventory_image = "mobs_pork_raw.png",
+      groups = { food = 2 },
       on_use = minetest.item_eat({hp = 4, sat = 30}),
 })
 
@@ -93,6 +94,7 @@ minetest.register_craftitem(
    {
       description = S("Cooked Porkchop"),
       inventory_image = "mobs_pork_cooked.png",
+      groups = { food = 2 },
       on_use = minetest.item_eat({hp = 8, sat = 50}),
 })
 

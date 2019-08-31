@@ -31,6 +31,7 @@ minetest.register_craftitem(
    {
       description = S("Bread"),
       inventory_image = "farming_bread.png",
+      groups = { food = 2 },
       on_use = minetest.item_eat({hp = 4, sat = 40})
 })
 

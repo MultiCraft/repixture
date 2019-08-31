@@ -23,6 +23,7 @@ minetest.register_craftitem(
    {
       description = S("Raw Meat"),
       inventory_image = "mobs_meat_raw.png",
+      groups = { food = 2 },
       on_use = minetest.item_eat({hp = 3, sat = 30}),
 })
 
@@ -33,6 +34,7 @@ minetest.register_craftitem(
    {
       description = S("Cooked Meat"),
       inventory_image = "mobs_meat_cooked.png",
+      groups = { food = 2 },
       on_use = minetest.item_eat({hp = 7, sat = 70}),
 })
 

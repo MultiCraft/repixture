@@ -1523,6 +1523,7 @@ function mobs:register_egg(mob, desc, background)
       {
          description = desc,
          inventory_image = invimg,
+         groups = { spawn_egg = 1 },
          on_place = function(itemstack, placer, pointed_thing)
             local pos = pointed_thing.above
             if pointed_thing.above

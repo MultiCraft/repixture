@@ -375,7 +375,7 @@ minetest.register_node(
    {
       description = S("Sandstone"),
       tiles = {"default_sandstone.png"},
-      groups = {crumbly = 2, cracky = 3},
+      groups = {crumbly = 2, cracky = 3, sandstone = 1},
       drop = "default:sand 2",
       sounds = default.node_sound_stone_defaults(),
 })
@@ -385,7 +385,7 @@ minetest.register_node(
    {
       description = S("Compressed Sandstone"),
       tiles = {"default_compressed_sandstone_top.png", "default_compressed_sandstone_top.png", "default_compressed_sandstone.png"},
-      groups = {cracky = 2},
+      groups = {cracky = 2, sandstone = 1},
       is_ground_content = false,
       sounds = default.node_sound_stone_defaults(),
 })
@@ -740,7 +740,7 @@ minetest.register_node(
       tiles = {"default_glass_frame.png", "default_glass.png"},
       paramtype = "light",
       sunlight_propagates = true,
-      groups = {snappy = 2,cracky = 3,oddly_breakable_by_hand = 2},
+      groups = {snappy = 2,cracky = 3,oddly_breakable_by_hand = 2, glass=1},
       is_ground_content = false,
       sounds = default.node_sound_glass_defaults(),
 })
@@ -858,7 +858,7 @@ minetest.register_node(
    {
       description = S("Wooden Planks"),
       tiles = {"default_wood.png"},
-      groups = {planks = 1, snappy = 3, choppy = 3, oddly_breakable_by_hand = 3},
+      groups = {planks = 1, wood = 1, snappy = 3, choppy = 3, oddly_breakable_by_hand = 3},
       is_ground_content = false,
       sounds = default.node_sound_wood_defaults(),
 })
@@ -868,7 +868,7 @@ minetest.register_node(
    {
       description = S("Oak Planks"),
       tiles = {"default_wood_oak.png"},
-      groups = {planks = 1, snappy = 2, choppy = 2, oddly_breakable_by_hand = 3},
+      groups = {planks = 1, wood = 1, snappy = 2, choppy = 2, oddly_breakable_by_hand = 3},
       is_ground_content = false,
       sounds = default.node_sound_wood_defaults(),
 })
@@ -878,7 +878,7 @@ minetest.register_node(
    {
       description = S("Birch Planks"),
       tiles = {"default_wood_birch.png"},
-      groups = {planks = 1, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
+      groups = {planks = 1, wood = 1, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
       is_ground_content = false,
       sounds = default.node_sound_wood_defaults(),
 })
@@ -950,7 +950,7 @@ minetest.register_node(
       walkable = false,
       buildable_to = true,
       floodable = true,
-      groups = {snappy = 2, dig_immediate = 3, attached_node = 1},
+      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, flower = 1},
       sounds = default.node_sound_leaves_defaults(),
 })
 
@@ -1017,7 +1017,7 @@ minetest.register_node(
       walkable = false,
       buildable_to = true,
       floodable = true,
-      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1},
+      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1},
       sounds = default.node_sound_leaves_defaults(),
 })
 
@@ -1040,7 +1040,7 @@ minetest.register_node(
       walkable = false,
       buildable_to = true,
       floodable = true,
-      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1},
+      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1},
       sounds = default.node_sound_leaves_defaults(),
 })
 
@@ -1091,7 +1091,7 @@ minetest.register_node(
       sunlight_propagates = true,
       walkable = false,
       floodable = true,
-      groups = {fleshy = 3, dig_immediate = 2, leafdecay = 3, leafdecay_drop = 1, attached_node = 1},
+      groups = {fleshy = 3, dig_immediate = 2, leafdecay = 3, leafdecay_drop = 1, attached_node = 1, food = 2},
       on_use = minetest.item_eat({hp = 2, sat = 10}),
       sounds = default.node_sound_defaults(),
 })
@@ -1121,7 +1121,7 @@ minetest.register_node(
 	    {items = {"default:pearl"}, rarity = 20},
 	 }
       },
-      groups = {fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1},
+      groups = {fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, food = 2},
       on_use = minetest.item_eat({hp = 4, sat = 40}),
       sounds = default.node_sound_defaults(),
 })

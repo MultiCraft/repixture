@@ -351,6 +351,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 2}
       },
+      groups = { pickaxe = 1 },
 })
 
 minetest.register_tool(
@@ -365,6 +366,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 3}
       },
+      groups = { pickaxe = 1 },
 })
 
 minetest.register_tool(
@@ -379,6 +381,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 4}
       },
+      groups = { pickaxe = 1 },
 })
 
 minetest.register_tool(
@@ -393,6 +396,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      groups = { pickaxe = 1 },
 })
 
 minetest.register_tool(
@@ -407,6 +411,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      groups = { pickaxe = 1 },
 })
 
 minetest.register_tool(
@@ -421,6 +426,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      groups = { pickaxe = 1 },
 })
 
 -- Shovels
@@ -437,6 +443,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 2}
       },
+      groups = { shovel = 1 },
 })
 
 minetest.register_tool(
@@ -451,6 +458,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 3}
       },
+      groups = { shovel = 1 },
 })
 
 minetest.register_tool(
@@ -465,6 +473,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 4}
       },
+      groups = { shovel = 1 },
 })
 
 minetest.register_tool(
@@ -479,6 +488,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      groups = { shovel = 1 },
 })
 
 minetest.register_tool(
@@ -493,6 +503,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      groups = { shovel = 1 },
 })
 
 minetest.register_tool(
@@ -507,6 +518,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      groups = { shovel = 1 },
 })
 
 -- Axes
@@ -524,6 +536,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 3}
       },
+      groups = { axe = 1 },
 })
 
 minetest.register_tool(
@@ -539,6 +552,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 4}
       },
+      groups = { axe = 1 },
 })
 
 minetest.register_tool(
@@ -554,6 +568,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      groups = { axe = 1 },
 })
 
 minetest.register_tool(
@@ -569,6 +584,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 6}
       },
+      groups = { axe = 1 },
 })
 
 minetest.register_tool(
@@ -584,6 +600,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 6}
       },
+      groups = { axe = 1 },
 })
 
 minetest.register_tool(
@@ -599,6 +616,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 6}
       },
+      groups = { axe = 1 },
 })
 
 -- Spears
@@ -616,7 +634,8 @@ minetest.register_tool(
 	    fleshy={times={[2]=1.10, [3]=0.60}, uses=10, maxlevel=1},
 	 },
 	 damage_groups = {fleshy = 4}
-      }
+      },
+      groups = { spear = 1 },
 })
 
 minetest.register_tool(
@@ -632,7 +651,8 @@ minetest.register_tool(
 	    fleshy={times={[2]=0.80, [3]=0.40}, uses=20, maxlevel=1},
 	 },
 	 damage_groups = {fleshy = 5}
-      }
+      },
+      groups = { spear = 1 },
 })
 
 minetest.register_tool(
@@ -648,7 +668,8 @@ minetest.register_tool(
 	    fleshy={times={[1]=2.00, [2]=0.80, [3]=0.40}, uses=15, maxlevel=2},
 	 },
 	 damage_groups = {fleshy = 6}
-      }
+      },
+      groups = { spear = 1 },
 })
 
 minetest.register_tool(
@@ -664,7 +685,8 @@ minetest.register_tool(
 	    fleshy={times={[1]=2.00, [2]=0.80, [3]=0.40}, uses=30, maxlevel=2},
 	 },
 	 damage_groups = {fleshy = 10}
-      }
+      },
+      groups = { spear = 1 },
 })
 
 minetest.register_tool(
@@ -680,7 +702,8 @@ minetest.register_tool(
 	    fleshy={times={[1]=2.00, [2]=0.80, [3]=0.40}, uses=40, maxlevel=2},
 	 },
 	 damage_groups = {fleshy = 10}
-      }
+      },
+      groups = { spear = 1 },
 })
 
 minetest.register_tool(
@@ -696,7 +719,8 @@ minetest.register_tool(
 	    fleshy={times={[1]=2.00, [2]=0.80, [3]=0.40}, uses=30, maxlevel=2},
 	 },
 	 damage_groups = {fleshy = 10}
-      }
+      },
+      groups = { spear = 1 },
 })
 
 -- Broadsword
@@ -711,7 +735,8 @@ minetest.register_tool(
       tool_capabilities = {
 	 full_punch_interval = 4.0,
 	 damage_groups = {fleshy = 12}
-      }
+      },
+      groups = { sword = 1 },
 })
 
 -- Other
@@ -721,6 +746,7 @@ minetest.register_tool(
    {
       description = S("Wrought Iron Shears"),
       inventory_image = "default_shears.png",
+      groups = { shears = 1 },
 })
 
 minetest.register_tool(
