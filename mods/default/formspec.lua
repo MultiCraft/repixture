@@ -317,16 +317,26 @@ default.ui.register_page("default:bookshelf", form_bookshelf)
 function default.ui.receive_fields(player, form_name, fields)
    local name = player:get_player_name()
 
+   local formname, form
    if fields.tab_crafting then
-      minetest.show_formspec(name, "crafting:crafting", crafting.get_formspec(name))
+      formname = "crafting:crafting"
+      form = crafting.get_formspec(name)
    elseif minetest.get_modpath("armor") ~= nil and fields.tab_armor then
-      minetest.show_formspec(name, "armor:armor", default.ui.get_page("armor:armor"))
+      formname = "armor:armor"
+      form = default.ui.get_page("armor:armor")
    elseif minetest.get_modpath("achievements") ~= nil and fields.tab_achievements then
-      minetest.show_formspec(name, "achievements:achievements", achievements.get_formspec(name))
+      formname = "achievements:achievements"
+      form = achievements.get_formspec(name)
    elseif minetest.get_modpath("player_skins") ~= nil and fields.tab_player_skins then
-      minetest.show_formspec(name, "player_skins:player_skins", player_skins.get_formspec(name))
+      formname = "player_skins:player_skins"
+      form = player_skins.get_formspec(name)
    elseif minetest.get_modpath("creative") ~= nil and minetest.settings:get_bool("creative_mode") and fields.tab_creative then
-      minetest.show_formspec(name, "creative:creative", creative.get_formspec(name))
+      formname = "creative:creative"
+      form = creative.get_formspec(name)
+   end
+   if formname and form then
+      player:set_inventory_formspec(form)
+      minetest.show_formspec(name, formname, form)
    end
 end
 
