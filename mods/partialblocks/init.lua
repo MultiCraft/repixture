@@ -7,7 +7,7 @@ local S = minetest.get_translator("partialblocks")
 
 partialblocks = {}
 
-function partialblocks.register_material(name, desc_slab, desc_stair, node, is_fuel, tiles_slab, tiles_stair)
+function partialblocks.register_material(name, desc_slab, desc_stair, node, groups, is_fuel, tiles_slab, tiles_stair)
    local nodedef = minetest.registered_nodes[node]
 
    if nodedef == nil then
@@ -23,12 +23,15 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, is_f
    else
       tiles = nodedef.tiles
    end
+   if not groups then
+      groups = nodedef.groups
+   end
 
    minetest.register_node(
       "partialblocks:slab_" .. name,
       {
 	 tiles = tiles,
-	 groups = nodedef.groups,
+	 groups = groups,
 	 sounds = nodedef.sounds,
 
 	 description = desc_slab,
@@ -84,7 +87,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, is_f
       "partialblocks:stair_" .. name,
       {
 	 tiles = tiles,
-	 groups = nodedef.groups,
+	 groups = groups,
 	 sounds = nodedef.sounds,
 
 	 description = desc_stair,
@@ -136,52 +139,52 @@ end
 -- Stonelike materials
 
 partialblocks.register_material(
-   "cobble", S("Cobble Slab"), S("Cobble Stair"), "default:cobble", false)
+   "cobble", S("Cobble Slab"), S("Cobble Stair"), "default:cobble", {cracky=3}, false)
 
 partialblocks.register_material(
-   "stone", S("Stone Slab"), S("Stone Stair"), "default:stone", false)
+   "stone", S("Stone Slab"), S("Stone Stair"), "default:stone", {cracky=2}, false)
 
 partialblocks.register_material(
-   "brick", S("Brick Slab"), S("Brick Stair"), "default:brick", false)
+   "brick", S("Brick Slab"), S("Brick Stair"), "default:brick", {cracky=2}, false)
 
 -- Woodlike
 
 partialblocks.register_material(
-   "wood", S("Wooden Slab"), S("Wooden Stair"), "default:planks", true)
+   "wood", S("Wooden Slab"), S("Wooden Stair"), "default:planks", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true)
 
 partialblocks.register_material(
-   "oak", S("Oak Slab"), S("Oak Stair"), "default:planks_oak", true)
+   "oak", S("Oak Slab"), S("Oak Stair"), "default:planks_oak", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true)
 
 partialblocks.register_material(
-   "birch", S("Birch Slab"), S("Birch Stair"), "default:planks_birch", true)
+   "birch", S("Birch Slab"), S("Birch Stair"), "default:planks_birch", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true)
 
 -- Frames
 
 partialblocks.register_material(
-   "frame", S("Frame Slab"), S("Frame Stair"), "default:frame", true, adv_slab_tex("default:frame", "frame"), adv_stair_tex("default:frame", "frame"))
+   "frame", S("Frame Slab"), S("Frame Stair"), "default:frame", {choppy = 2, oddly_breakable_by_hand = 1}, true, adv_slab_tex("default:frame", "frame"), adv_stair_tex("default:frame", "frame"))
 
 partialblocks.register_material(
-   "reinforced_frame", S("Reinforced Frame Slab"), S("Reinforced Frame Stair"), "default:reinforced_frame", true, adv_slab_tex("default:reinforced_frame", "reinforced_frame"), adv_stair_tex("default:reinforced_frame", "reinforced_frame"))
+   "reinforced_frame", S("Reinforced Frame Slab"), S("Reinforced Frame Stair"), "default:reinforced_frame", {choppy = 1}, true, adv_slab_tex("default:reinforced_frame", "reinforced_frame"), adv_stair_tex("default:reinforced_frame", "reinforced_frame"))
 
 partialblocks.register_material(
-   "reinforced_cobble", S("Reinforced Cobble Slab"), S("Reinforced Cobble Stair"), "default:reinforced_cobble", false, adv_slab_tex("default:reinforced_cobble", "reinforced_cobbles"), adv_stair_tex("default:reinforced_cobble", "reinforced_cobbles"))
+   "reinforced_cobble", S("Reinforced Cobble Slab"), S("Reinforced Cobble Stair"), "default:reinforced_cobble", {cracky = 1}, false, adv_slab_tex("default:reinforced_cobble", "reinforced_cobbles"), adv_stair_tex("default:reinforced_cobble", "reinforced_cobbles"))
 
 -- Misc. blocks
 
 partialblocks.register_material(
-   "coal", S("Coal Slab"), S("Coal Stair"), "default:block_coal", false, adv_slab_tex("default:block_coal", "block_coal"), adv_stair_tex("default:block_coal", "block_coal"))
+   "coal", S("Coal Slab"), S("Coal Stair"), "default:block_coal", { choppy = 3 }, false, adv_slab_tex("default:block_coal", "block_coal"), adv_stair_tex("default:block_coal", "block_coal"))
 
 partialblocks.register_material(
-   "steel", S("Steel Slab"), S("Steel Stair"), "default:block_steel", false, adv_slab_tex("default:block_steel", "block_steel"), adv_stair_tex("default:block_steel", "block_steel"))
+   "steel", S("Steel Slab"), S("Steel Stair"), "default:block_steel", { cracky = 2 }, false, adv_slab_tex("default:block_steel", "block_steel"), adv_stair_tex("default:block_steel", "block_steel"))
 
 partialblocks.register_material(
-   "carbon_steel", S("Carbon Steel Slab"), S("Carbon Steel Stair"), "default:block_carbon_steel", false, adv_slab_tex("default:block_carbon_steel", "block_carbon_steel"), adv_stair_tex("default:block_carbon_steel", "block_carbon_steel"))
+   "carbon_steel", S("Carbon Steel Slab"), S("Carbon Steel Stair"), "default:block_carbon_steel", { cracky = 1 }, false, adv_slab_tex("default:block_carbon_steel", "block_carbon_steel"), adv_stair_tex("default:block_carbon_steel", "block_carbon_steel"))
 
 partialblocks.register_material(
-   "wrought_iron", S("Wrought Iron Slab"), S("Wrought Iron Stair"), "default:block_wrought_iron", false, adv_slab_tex("default:block_wrought_iron", "block_wrought_iron"), adv_stair_tex("default:block_wrought_iron", "block_wrought_iron"))
+   "wrought_iron", S("Wrought Iron Slab"), S("Wrought Iron Stair"), "default:block_wrought_iron", { cracky = 2 }, false, adv_slab_tex("default:block_wrought_iron", "block_wrought_iron"), adv_stair_tex("default:block_wrought_iron", "block_wrought_iron"))
 
 partialblocks.register_material(
-   "bronze", S("Bronze Slab"), S("Bronze Stair"), "default:block_bronze", false, adv_slab_tex("default:block_bronze", "block_bronze"), adv_stair_tex("default:block_bronze", "block_bronze"))
+   "bronze", S("Bronze Slab"), S("Bronze Stair"), "default:block_bronze", { cracky = 1 }, false, adv_slab_tex("default:block_bronze", "block_bronze"), adv_stair_tex("default:block_bronze", "block_bronze"))
 
 
 
@@ -193,6 +196,6 @@ local cs_stair_tiles = {
 	"default_compressed_sandstone.png",
 	"default_compressed_sandstone.png" }
 partialblocks.register_material(
-   "compressed_sandstone", S("Compressed Sandstone Slab"), S("Compressed Sandstone Stair"), "default:compressed_sandstone", false, nil, cs_stair_tiles)
+   "compressed_sandstone", S("Compressed Sandstone Slab"), S("Compressed Sandstone Stair"), "default:compressed_sandstone", { cracky = 2 }, false, nil, cs_stair_tiles)
 
 default.log("mod:partialblocks", "loaded")
