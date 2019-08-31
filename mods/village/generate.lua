@@ -268,6 +268,23 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill)
 	 end
       end, true)
 
+   -- Replace legacy torches
+   -- TODO: Fix the torches in the formspec instead
+   util.nodefunc(
+      pos,
+      {x = pos.x+12, y = pos.y+12, z = pos.z+12},
+      "default:torch",
+      function(pos)
+	 local node = minetest.get_node(pos)
+         local dir = minetest.wallmounted_to_dir(node.param2)
+         if dir.x ~= 0 or dir.z ~= 0 then
+            node.name = "default:torch_wall"
+            minetest.set_node(pos, node)
+         end
+      end, true)
+
+
+
    local chunkdef = village.chunkdefs[chunktype]
    if chunkdef ~= nil then
       if chunkdef.entities ~= nil then
