@@ -404,32 +404,42 @@ function crafting.get_formspec(name, select_item)
    return form
 end
 
+local function clear_craft_slots(player)
+   local inv = player:get_inventory()
+   -- Move items out of input and output slots
+   local items_moved = false
+   local pos = player:get_pos()
+   local lists = { "craft_out", "craft_in" }
+   for l = 1, #lists do
+      local list = lists[l]
+      for i = 1, inv:get_size(list) do
+          local itemstack = inv:get_stack(list, i)
+          if not itemstack:is_empty() then
+              if inv:room_for_item("main", itemstack) then
+                  inv:add_item("main", itemstack)
+              else
+                  item_drop.drop_item(pos, itemstack)
+              end
+
+              itemstack:clear()
+              inv:set_stack(list, i, itemstack)
+
+              items_moved = true
+          end
+      end
+   end
+
+   if items_moved then
+       player:set_inventory_formspec(crafting.get_formspec(player:get_player_name()))
+   end
+end
+
 local function on_player_receive_fields(player, form_name, fields)
    local inv = player:get_inventory()
 
 
    if fields.quit then
-      local pos = player:get_pos()
-
-      for i = 1, inv:get_size("craft_in") do
-         local itemstack = inv:get_stack("craft_in", i)
-
-         item_drop.drop_item(pos, itemstack)
-
-         itemstack:clear()
-
-         inv:set_stack("craft_in", i, itemstack)
-      end
-
-      for i = 1, inv:get_size("craft_out") do
-         local itemstack = inv:get_stack("craft_out", i)
-
-         item_drop.drop_item(pos, itemstack)
-
-         itemstack:clear()
-
-         inv:set_stack("craft_out", i, itemstack)
-      end
+      clear_craft_slots(player)
    end
 
    if fields.crafting_tracker == nil then
@@ -558,6 +568,8 @@ local function on_joinplayer(player)
    if inv:get_size("craft_out") ~= 1 then
       inv:set_size("craft_out", 1)
    end
+
+   clear_craft_slots(player)
 end
 
 local function on_leaveplayer(player)
