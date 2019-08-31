@@ -98,7 +98,14 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 		"listring[current_player;main]"
 end
 
+local init_playerdata = function(playername)
+	if not playerdata[playername] then
+		playerdata[playername] = { page = 1 }
+	end
+end
+
 local get_page_and_start_i = function(playername)
+	init_playerdata(playername)
 	local page = playerdata[playername].page
 	local start_i = (page - 1) * creative.slots_num
 	return page, start_i
@@ -122,7 +129,7 @@ minetest.register_on_joinplayer(function(player)
 	if not minetest.settings:get_bool("creative_mode") then
 		return
 	end
-	playerdata[player:get_player_name()] = { page = 1 }
+	init_playerdata(player:get_player_name())
 end)
 minetest.register_on_leaveplayer(function(player)
 	playerdata[player:get_player_name()] = nil

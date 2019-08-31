@@ -347,5 +347,9 @@ end)
 
 minetest.register_on_joinplayer(
    function(player)
-      player:set_inventory_formspec(crafting.get_formspec(player:get_player_name()))
+      if minetest.settings:get_bool("creative_mode") then
+          player:set_inventory_formspec(creative.get_formspec(player:get_player_name()))
+      else
+          player:set_inventory_formspec(crafting.get_formspec(player:get_player_name()))
+      end
 end)
