@@ -51,19 +51,23 @@ minetest.register_craftitem(
       on_place = function(itemstack, user, pointed_thing)
          local pos = pointed_thing.above
 
-         local underdef = minetest.registered_nodes[minetest.get_node(pointed_thing.under).name]
+         local undernode = minetest.get_node(pointed_thing.under)
+         local underdef = minetest.registered_nodes[undernode.name]
 
-         if underdef.groups then
-            if underdef.groups.plantable_soil then
-               minetest.remove_node(pos)
-               minetest.set_node(pointed_thing.under, {name = "default:fertilized_dirt"})
-            elseif underdef.groups.plantable_sandy then
-               minetest.remove_node(pos)
-               minetest.set_node(pointed_thing.under, {name = "default:fertilized_sand"})
+         local diff = vector.subtract(pointed_thing.above, pointed_thing.under)
+         if diff.y > 0 then
+            if underdef.groups then
+               if underdef.groups.plantable_soil then
+                  minetest.set_node(pointed_thing.under, {name = "default:fertilized_dirt"})
+               elseif underdef.groups.plantable_sandy then
+                  minetest.set_node(pointed_thing.under, {name = "default:fertilized_sand"})
+               end
             end
          end
 
-         itemstack:take_item()
+         if not minetest.settings:get_bool("creative_mode") then
+            itemstack:take_item()
+         end
 
          return itemstack
       end,
