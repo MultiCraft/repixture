@@ -1067,6 +1067,9 @@ minetest.register_node(
       after_dig_node = function(pos, node, metadata, digger)
          default.dig_up(pos, node, digger)
       end,
+      on_flood = function(pos, oldnode, newnode)
+         default.dig_up(pos, oldnode)
+      end,
 })
 
 -- Food
