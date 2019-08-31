@@ -171,12 +171,12 @@ function player_skins.get_formspec(playername)
       else
           sname = name
       end
-      form = form .. default.ui.button(x, y, 2.75, 1, "skin_select_"
+      form = form .. default.ui.button(x, y, 3, 1, "skin_select_"
                                           .. name, sname)
-      form = form .. "image[" .. (x + 2.7) .. "," .. y.. ";1,1;player_skins_icon_"
+      form = form .. "image[" .. (x + 2.85) .. "," .. y.. ";1,1;player_skins_icon_"
          .. name .. ".png]"
       if player_skins.skins[playername] == name then
-	 form = form .. "image[" .. (x + 3.65) .. "," .. (y + 0.25)
+	 form = form .. "image[" .. (x + 3.68) .. "," .. (y + 0.25)
             .. ";0.5,0.5;ui_checkmark.png]"
       end
    end
