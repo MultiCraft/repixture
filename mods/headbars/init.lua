@@ -47,7 +47,7 @@ minetest.register_entity(
       glow = 5,
 
       physical = false,
-      collisionbox = {0, 0, 0, 0, 0, 0},
+      pointable = false,
 
       on_step = function(self, dtime)
          local ent = self.wielder

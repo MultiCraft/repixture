@@ -75,7 +75,8 @@ minetest.register_entity(
       visual = "mesh",
       mesh = "parachute.b3d",
       textures = {"parachute_mesh.png"},
-      collisionbox = {0, 0, 0, 0, 0, 0},
+      physical = false,
+      pointable = false,
       automatic_face_movement_dir = -90,
       attached = nil,
       on_step = function(self, dtime)

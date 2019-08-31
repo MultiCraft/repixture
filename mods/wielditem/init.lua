@@ -23,10 +23,10 @@ minetest.register_entity(
       visual = "wielditem",
       visual_size = {x = 0.17, y = 0.17},
 
-      collisionbox = {0, 0, 0, 0, 0, 0},
       hp_max = 1,
 
       physical = false,
+      pointable = false,
       collide_with_objects = false,
       makes_footstep_sounds = false,
 
