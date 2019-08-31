@@ -167,4 +167,17 @@ register_torch("torch_dead", S("Dead Torch"), {"default_torch_ends.png","default
 register_torch("torch_weak", S("Weak Torch"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, overlay_tiles_weak, overlayR90_weak, "default_torch_weak_inventory.png", default.LIGHT_MAX-4)
 register_torch("torch", S("Torch"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, overlay_tiles_normal, overlayR90_normal, "default_torch_inventory.png", default.LIGHT_MAX-1)
 
+minetest.register_lbm({
+	label = "Upgrade wall torches",
+	name = "default:replace_legacy_wall_torches",
+	nodenames = { "default:torch", "default:torch_weak", "default:torch_dead" },
+	action = function(pos, node)
+		local dir = minetest.wallmounted_to_dir(node.param2)
+		if dir and (dir.x ~= 0 or dir.z ~= 0) then
+			node.name = node.name .. "_wall"
+			minetest.set_node(pos, node)
+		end
+	end,
+})
+
 default.log("torch", "loaded")
