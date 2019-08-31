@@ -23,7 +23,8 @@ local function create_creative_inventory(player)
 	local player_name = player:get_player_name()
 	local inv = minetest.create_detached_inventory("creative_"..player_name, {
 		allow_move = function(inv, from_list, from_index, to_list, to_index, count, player)
-			if minetest.settings:get_bool("creative_mode") then
+			local name = player:get_player_name()
+			if minetest.settings:get_bool("creative_mode") and to_list ~= "main" then
 				return count
 			else
 				return 0
