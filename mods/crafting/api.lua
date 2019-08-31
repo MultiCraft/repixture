@@ -290,7 +290,7 @@ form = form .. "tablecolumns[text,align=left,width=2;text,align=left,width=40]"
 
 default.ui.register_page("crafting:crafting", form)
 
-function crafting.get_formspec(name)
+function crafting.get_formspec(name, select_item)
    local row = 1
 
    if crafting.userdata[name] ~= nil then
@@ -307,15 +307,37 @@ function crafting.get_formspec(name)
    else
        craftitems = crafting.get_crafts(inv)
    end
+   if select_item == nil then
+       if row > #craftitems then
+           row = #craftitems
+           if crafting.userdata[name] ~= nil then
+               crafting.userdata[name].row = row
+           end
+       elseif row < 1 and #craftitems >= 1 then
+           row = 1
+           if crafting.userdata[name] ~= nil then
+               crafting.userdata[name].row = row
+           end
+       end
+   end
 
    local selected_craftdef = nil
 
    local craft_count = 0
    for i, itemn in ipairs(craftitems) do
       local itemstack = ItemStack(itemn)
-      local itemdef = minetest.registered_items[itemstack:get_name()]
+      local itemname = itemstack:get_name()
+      local itemdef = minetest.registered_items[itemname]
 
-      if i == row then
+      if select_item then
+         if itemname == select_item then
+            selected_craftdef = crafting.registered_crafts[itemn]
+            row = i
+            if crafting.userdata[name] ~= nil then
+                crafting.userdata[name].row = row
+            end
+         end
+      elseif i == row then
          selected_craftdef = crafting.registered_crafts[itemn]
       end
 
@@ -339,6 +361,13 @@ function crafting.get_formspec(name)
 
          craft_list = craft_list .. "," .. minetest.formspec_escape(desc)
          craft_count = craft_count + 1
+      end
+   end
+   if select_item and (not selected_craftdef) and #craftitems > 0 then
+      row = 1
+      selected_craftdef = crafting.registered_crafts[craftitems[row]]
+      if crafting.userdata[name] ~= nil then
+          crafting.userdata[name].row = row
       end
    end
 
@@ -471,16 +500,24 @@ local function on_player_receive_fields(player, form_name, fields)
          crafting.userdata[name].row = selection.row
 
          minetest.show_formspec(name, "crafting:crafting",
-                                crafting.get_formspec(name, crafting.userdata[name].row))
+                                crafting.get_formspec(name))
       end
    elseif fields.toggle_filter then
+      local craftitems
+      if crafting.userdata[name] and crafting.userdata[name].mode == MODE_GUIDE then
+          craftitems = crafting.get_crafts()
+      else
+          craftitems = crafting.get_crafts(inv)
+      end
+      local old_item = craftitems[crafting.userdata[name].row]
       if crafting.userdata[name].mode == MODE_GUIDE then
           crafting.userdata[name].mode = MODE_CRAFTABLE
       else
           crafting.userdata[name].mode = MODE_GUIDE
       end
+
       minetest.show_formspec(name, "crafting:crafting",
-                             crafting.get_formspec(name, crafting.userdata[name].row))
+                             crafting.get_formspec(name, old_item))
    end
 
    player:set_inventory_formspec(crafting.get_formspec(name))
@@ -489,7 +526,7 @@ end
 function crafting.update_crafting_formspec(player)
    local name = player:get_player_name()
    minetest.show_formspec(name, "crafting:crafting",
-                          crafting.get_formspec(name, crafting.userdata[name].row))
+                          crafting.get_formspec(name))
    player:set_inventory_formspec(crafting.get_formspec(name))
 end
 
