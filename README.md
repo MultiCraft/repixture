@@ -1,29 +1,38 @@
 # Pixture Revival
-Pixture Revival (temporary name) is a revival of the Pixture game.
-The name of this game will likely change.
 
-Pixture is Copyright (C) 2015-2017 KaadmY
+Pixture Revival (temporary name) is a revival of Pixture 0.1.1, a game
+for Minetest 0.4.
+Note the name of this game will likely change.
 
-By [KaadmY](https://github.com/kaadmy)
-Inspiration by [Kenney](http://kenney.nl)
+This is a sandbox survival crafting game focusing on low-tech and
+unique graphics and sounds.
 
 ## Project Notes
 
-This game works for Minetest 5.0.0. It's a fork of Pixture 0.1.1.
+Pixture Revival works for Minetest 5.0.0. It's a fork of Pixture 0.1.1.
 The goal of Pixture Revival is to make Pixture work properly in
-latest Minetest versions.
+latest Minetest versions and to fix bugs and improve usability.
 The original gameplay of Pixture will be preserved, only bugfixes
 and usability features will be added.
+There will be no major changes to gameplay.
 
-## Bugs and problems
+## Bugs, problems and limitations
 
 - Villages sometimes have huge landmasses or floating treecaps above them
+- The v6 mapgen is intentionally disabled
 
 ## Changelog
 
-See file *CHANGELOG.md* for more information
+See file *CHANGELOG.md*.
 
 ## Credits
+
+Pixture Revival was started by Wuzzy. It's a fork of Pixture.
+
+Pixture is Copyright (C) 2015-2017 KaadmY.
+
+By [KaadmY](https://github.com/kaadmy)
+Inspiration by [Kenney](http://kenney.nl)
 
 - [Kenney](http://kenney.nl) for the inspiration, most of the aesthetic.
 - Sounds in the default mod are all by Kenney (CC0)
@@ -31,6 +40,6 @@ See file *CHANGELOG.md* for more information
 
 ## Licenses
 
-- Assets: all CC BY-SA 4.0, CC0, or GPL (The GPL ones I want replaced with CC),
- see per-mod READMEs.
+- Media: all CC BY-SA 4.0, CC0, or GPL (The GPL ones I want replaced with CC),
+  see per-mod READMEs.
 - Source: all LGPLv2.1+ or MIT, see per-mod READMEs.
