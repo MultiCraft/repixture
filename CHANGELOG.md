@@ -4,7 +4,7 @@ Meta:
 
 Cleanup:
 - Add 5.0.0 support
-- Only show possible crafting recipes in crafting menu
+- Allow toggling displaying all crafts / only possible crafts
 - Removed a lot of cruft:
     - fixlight command
     - uberspeed command
@@ -29,12 +29,15 @@ Bugfixes:
 - Fix incorrect trades
 - Fix rocks floating on water in wasteland
 - Remove server settings in settingtypes.txt that caused a lot of conflicts
+- Fix floating thistle after being flooded
+- Fix fertilizer sometimes destroying blocks
+- Make some objects non-pointable when it doesn't make sense to point them
 
 Features:
+- Add creative inventory
+- Shift-click in inventories moves items fast
 - Map item enables minimap when carried
 - Show wielded item above hotbar
-- Shift-click in inventories moves items fast
-- Add rudimentary creative inventory (for testing)
 - Villagers now talk when rightclicked
 - Villagers refuse to trade when on low health or hostile
 - Now slabs/stairs: bronze, wrought iron, carbon steel

@@ -17,9 +17,6 @@ and usability features will be added.
 
 ## Bugs and problems
 
-- There's currently no crafting guide
-- Wall torches look wrong
-- Creative Mode has limited functionality and is only for testing
 - Villages sometimes have huge landmasses or floating treecaps above them
 
 ## Changelog
