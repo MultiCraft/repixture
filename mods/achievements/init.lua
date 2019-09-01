@@ -472,7 +472,7 @@ achievements.register_achievement(
 achievements.register_achievement(
    "welcome_to_the_mountains",
    {
-      title = S("Welcome to the Mountains"),
+      title = S("Dry Lands"),
       description = S("Collect dry grass."),
       times = 1,
       dignode = "default:dry_grass",
