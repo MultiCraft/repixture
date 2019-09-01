@@ -662,7 +662,7 @@ minetest.register_node(
       },
       tiles = {"default_cactus_top.png", "default_cactus_top.png", "default_cactus_sides.png"},
       --	damage_per_second = 1,
-      groups = {snappy = 2, choppy = 2, fall_damage_add_percent = 20},
+      groups = {snappy = 2, choppy = 2, fall_damage_add_percent = 20, food = 2},
       sounds = default.node_sound_wood_defaults(),
       after_dig_node = function(pos, node, metadata, digger)
          default.dig_up(pos, node, digger)
