@@ -283,25 +283,37 @@ end
 local function receive_fields(player, form_name, fields)
    local name = player:get_player_name()
 
-   if form_name ~= "achievements:achievements" and form_name ~= "" then return end
-
-   if fields.quit then return end
+   local in_achievements_menu = false
+   if form_name == "achievements:achievements" then
+      in_achievements_menu = true
+   elseif form_name ~= "" then
+      return
+   end
+   if fields.quit then
+      return
+   end
 
    local selected = 1
 
+   if fields.tab_achievements then
+      in_achievements_menu = true
+   end
    if fields.achievement_list then
+      in_achievements_menu = true
       local selection = minetest.explode_table_event(fields.achievement_list)
 
       if selection.type == "CHG" or selection.type == "DCL" then
 	 selected = selection.row
       end
-   end
 
-   minetest.show_formspec(
-      name,
-      "achievements:achievements",
-      achievements.get_formspec(name, selected)
-   )
+   end
+   if in_achievements_menu then
+      minetest.show_formspec(
+         name,
+         "achievements:achievements",
+         achievements.get_formspec(name, selected)
+      )
+   end
 end
 
 minetest.register_on_player_receive_fields(receive_fields)
