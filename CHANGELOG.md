@@ -1,23 +1,28 @@
 ## 0.2.0
 Meta:
-- Rename to Pixture Revival
+- Rename game to Pixture Revival
 
 Cleanup:
-- Add 5.0.0 support
-- Allow toggling displaying all crafts / only possible crafts
+- Game now works on Minetest 5.0.0
+- Game no longer works in earlier Minetest versions
+- Rework the terribly inconvenient crafting system
+    - Show only the possible crafts by default
+    - Add button to show all possible crafts again
+    - Group slots will be highlighted
+    - Item tooltips appear instantly
 - Removed a lot of cruft:
-    - fixlight command
-    - uberspeed command
-    - `player_skin` privilege
-    - Forced teleportation when reaching 30000m
-    - Welcome message and a ton of other chat spam
+    - `fixlight` command (is now part of Minetest)
+    - `uberspeed` command (instead, default fast speed is made faster)
+    - `player_skin` privilege (needlessly complicated)
+    - Forced teleportation when reaching 30000m (an ugly hack)
+    - Welcome message and a ton of other chat spam (just annoying)
 - Disable v6 mapgen
 - Make statbars larger
-- Rename most items
+- Rename some items
 - Replace TNT sounds
 - Limit text length in books and signs
 - Improve slab and stair textures
-- More item images to help keeping items apart
+- More unique item images to help keeping items apart
 
 Bugfixes:
 - Fix crash when using lockpick in air
@@ -34,13 +39,13 @@ Bugfixes:
 - Make some objects non-pointable when it doesn't make sense to point them
 
 Features:
-- Add creative inventory
+- Add creative inventory and support for Creative Mode
 - Shift-click in inventories moves items fast
-- Map item enables minimap when carried
+- Map item enables minimap when carried, the old unfinished map window is gone
 - Show wielded item above hotbar
 - Villagers now talk when rightclicked
 - Villagers refuse to trade when on low health or hostile
-- Now slabs/stairs: bronze, wrought iron, carbon steel
+- More slabs/stairs: bronze, wrought iron, carbon steel
 - Add German translation
 
 ## 0.1.1
