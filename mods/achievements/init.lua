@@ -283,7 +283,7 @@ end
 local function receive_fields(player, form_name, fields)
    local name = player:get_player_name()
 
-   if form_name ~= "achievements:achievements" then return end
+   if form_name ~= "achievements:achievements" and form_name ~= "" then return end
 
    if fields.quit then return end
 
