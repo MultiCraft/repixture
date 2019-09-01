@@ -7,6 +7,9 @@ Note the name of this game will likely change.
 This is a sandbox survival crafting game focusing on low-tech and
 unique graphics and sounds.
 
+## Version
+0.2.0
+
 ## Project Notes
 
 Pixture Revival works for Minetest 5.0.0. It's a fork of Pixture 0.1.1.
