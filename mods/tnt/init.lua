@@ -306,7 +306,7 @@ achievements.register_achievement(
    "boom",
    {
       title = S("Boom!"),
-      description = S("Craft TNT"),
+      description = S("Craft TNT."),
       times = 1,
       craftitem = "tnt:tnt",
 })

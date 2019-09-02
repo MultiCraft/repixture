@@ -342,7 +342,7 @@ achievements.register_achievement(
    "adoorable",
    {
       title = S("Adoorable"),
-      description = S("Craft a door"),
+      description = S("Craft a door."),
       times = 1,
       craftitem = "group:door",
 })

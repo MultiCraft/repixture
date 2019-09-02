@@ -273,7 +273,7 @@ achievements.register_achievement(
    "jeweler",
    {
       title = S("Jeweler"),
-      description = S("Jewel a tool"),
+      description = S("Jewel a tool."),
       times = 1,
 })
 
@@ -281,7 +281,7 @@ achievements.register_achievement(
    "master_jeweler",
    {
       title = S("Master Jeweler"),
-      description = S("Jewel 10 tools"),
+      description = S("Jewel 10 tools."),
       times = 10,
 })
 

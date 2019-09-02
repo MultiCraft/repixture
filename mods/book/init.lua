@@ -68,7 +68,7 @@ achievements.register_achievement(
    "scribe",
    {
       title = S("Scribe"),
-      description = S("Craft a book"),
+      description = S("Craft a book."),
       times = 1,
       craftitem = "default:book",
 })

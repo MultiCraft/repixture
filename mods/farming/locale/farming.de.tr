@@ -1,12 +1,12 @@
 # textdomain: farming
 Farmer=Bauer
-Plant 20 wheat seeds=Pflanzen Sie 20 Weizensamen
+Plant 20 wheat seeds.=Pflanzen Sie 20 Weizensamen.
 Master Farmer=Meisterbauer
-Plant 200 wheat seeds=Pflanzen Sie 200 Weizensamen
+Plant 200 wheat seeds.=Pflanzen Sie 200 Weizensamen.
 Cotton Farmer=Baumwollfarmer
-Plant 10 cotton seeds=Pflanzen Sie 10 Baumwollsamen
+Plant 10 cotton seeds.=Pflanzen Sie 10 Baumwollsamen.
 Master Cotton Farmer=Meisterbaumwollfarmer
-Plant 100 cotton seeds=Pflanzen Sie 100 Baumwollsamen
+Plant 100 cotton seeds.=Pflanzen Sie 100 Baumwollsamen.
 Cotton=Baumwolle
 Wheat=Weizen
 Flour=Mehl

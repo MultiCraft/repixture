@@ -2,7 +2,7 @@
 Compass=
 Map=
 Navigator=
-Craft a map=
+Craft a map.=
 True Navigator=
-Craft a compass=
+Craft a compass.=
 Use the minimap key to show the map.=

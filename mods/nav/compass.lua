@@ -155,7 +155,7 @@ achievements.register_achievement(
    "true_navigator",
    {
       title = S("True Navigator"),
-      description = S("Craft a compass"),
+      description = S("Craft a compass."),
       times = 1,
       craftitem = "nav:compass_0",
 })

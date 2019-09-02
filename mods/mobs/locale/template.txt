@@ -1,12 +1,12 @@
 # textdomain: mobs
 Hunter=
-Kill 5 animals for food=
+Kill 5 animals for food.=
 Bomb has Been Defused!=
-Kill a mineturtle=
+Kill a mine turtle.=
 Ranger=
-Capture a tame animal=
+Capture a tame animal.=
 Best Friends Forever=
-Tame an animal=
+Tame an animal.=
 Spawned @1 at @2=
 Not tamed!=
 @1 is owner!=

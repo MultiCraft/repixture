@@ -1,12 +1,12 @@
 # textdomain: mobs
 Hunter=Jäger
-Kill 5 animals for food=Töten Sie 5 Tiere für Nahrung
+Kill 5 animals for food.=Töten Sie 5 Tiere für Nahrung.
 Bomb has Been Defused!=Bombe wurde entschärft!
-Kill a mineturtle=Töten Sie eine Minenschildkröte
+Kill a mine turtle.=Töten Sie eine Minenschildkröte.
 Ranger=Waldhüter
-Capture a tame animal=Fangen Sie ein zahmes Tier
+Capture a tame animal.=Fangen Sie ein zahmes Tier.
 Best Friends Forever=Beste Freunde
-Tame an animal=Zähmen Sie ein Tier
+Tame an animal.=Zähmen Sie ein Tier.
 Spawned @1 at @2=@1 bei @2 gespawnt
 Not tamed!=Nicht gezähmt!
 @1 is owner!=@1 ist der Eigentümer!

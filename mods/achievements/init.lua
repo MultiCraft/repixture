@@ -328,7 +328,7 @@ achievements.register_achievement(
    "off_to_battle",
    {
       title = S("Off to Battle"),
-      description = S("Craft a Broadsword"),
+      description = S("Craft a broadsword."),
       times = 1,
       craftitem = "default:broadsword",
 })
@@ -337,7 +337,7 @@ achievements.register_achievement(
    "hardened_miner",
    {
       title = S("Hardened Miner"),
-      description = S("Craft 3 Carbon Steel pickaxes."),
+      description = S("Craft 3 carbon steel pickaxes."),
       times = 3,
       craftitem = "default:pick_carbon_steel",
 })
@@ -359,7 +359,7 @@ achievements.register_achievement(
    "plunks",
    {
       title = S("Plunks"),
-      description = S("Place 10 planks"),
+      description = S("Place 10 planks."),
       times = 10,
       placenode = "group:planks",
 })
@@ -368,7 +368,7 @@ achievements.register_achievement(
    "carpenter",
    {
       title = S("Carpenter"),
-      description = S("Place 100 planks"),
+      description = S("Place 100 planks."),
       times = 100,
       placenode = "group:planks",
 })
@@ -377,7 +377,7 @@ achievements.register_achievement(
    "pro_carpenter",
    {
       title = S("Pro Carpenter"),
-      description = S("Place 500 planks"),
+      description = S("Place 500 planks."),
       times = 500,
       placenode = "group:planks",
 })
@@ -388,7 +388,7 @@ achievements.register_achievement(
    "mineority",
    {
       title = S("Mineority"),
-      description = S("Mine 20 stone"),
+      description = S("Mine 20 stone."),
       times = 20,
       dignode = "group:stone",
 })
@@ -397,7 +397,7 @@ achievements.register_achievement(
    "rockin",
    {
       title = S("Rockin'"),
-      description = S("Mine 200 stone"),
+      description = S("Mine 200 stone."),
       times = 200,
       dignode = "group:stone",
 })
@@ -406,7 +406,7 @@ achievements.register_achievement(
    "rocksolid",
    {
       title = S("Rock Solid"),
-      description = S("Mine 1000 stone"),
+      description = S("Mine 1000 stone."),
       times = 1000,
       dignode = "group:stone",
 })

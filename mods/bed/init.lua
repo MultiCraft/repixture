@@ -447,7 +447,7 @@ achievements.register_achievement(
    "bedtime",
    {
       title = S("Bed Time"),
-      description = S("Craft a bed"),
+      description = S("Craft a bed."),
       times = 1,
       craftitem = "bed:bed_foot",
 })

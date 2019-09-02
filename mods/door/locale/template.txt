@@ -2,4 +2,4 @@
 Wooden Door=
 Stone Door=
 Adoorable=
-Craft a door=
+Craft a door.=

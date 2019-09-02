@@ -246,7 +246,7 @@ achievements.register_achievement(
    "locksmith",
    {
       title = S("Locksmith"),
-      description = S("Craft a lock"),
+      description = S("Craft a lock."),
       times = 1,
       craftitem = "locks:lock",
 })
@@ -255,7 +255,7 @@ achievements.register_achievement(
    "burglar",
    {
       title = S("Burglar"),
-      description = S("Craft a lock pick"),
+      description = S("Craft a lock pick."),
       times = 1,
       craftitem = "locks:pick",
 })

@@ -102,7 +102,7 @@ achievements.register_achievement(
    "navigator",
    {
       title = S("Navigator"),
-      description = S("Craft a map"),
+      description = S("Craft a map."),
       times = 1,
       craftitem = "nav:map",
 })
