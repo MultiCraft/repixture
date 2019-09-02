@@ -52,7 +52,7 @@ local function load_player_skins()
 	 local l = f:read("*l")
 	 if l == nil then break end
 
-	 for name, tex in string.gfind(l, "(.+) (.+)") do
+	 for name, tex in string.gmatch(l, "(.+) (.+)") do
 	    player_skins.skins[name] = tex
 	 end
       until f:read(0) == nil
