@@ -50,7 +50,9 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
             and itemstack:get_count() >= 1 then
                minetest.set_node(pos, {name = node})
 
-               itemstack:take_item()
+               if not minetest.settings:get_bool("creative_mode") then
+                   itemstack:take_item()
+               end
 
                return itemstack
             end
