@@ -1537,6 +1537,11 @@ end
 -- Spawn Egg
 function mobs:register_egg(mob, desc, background)
    local invimg = background
+   local place
+   if minetest.registered_entities[mob].type == "monster" and peaceful_only then
+      desc = S("@1 (disabled)", desc)
+      invimg = invimg .. "^[multiply:#FF0000"
+   end
    minetest.register_craftitem(
       mob,
       {
@@ -1544,6 +1549,10 @@ function mobs:register_egg(mob, desc, background)
          inventory_image = invimg,
          groups = { spawn_egg = 1 },
          on_place = function(itemstack, placer, pointed_thing)
+            if peaceful_only then
+               minetest.chat_send_player(placer:get_player_name(), minetest.colorize("#FFFF00", S("Hostile mobs are disabled!")))
+               return itemstack
+            end
             local pos = pointed_thing.above
             if pointed_thing.above
             and not minetest.is_protected(pos, placer:get_player_name()) then

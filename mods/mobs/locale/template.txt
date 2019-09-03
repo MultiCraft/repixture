@@ -62,3 +62,5 @@ I ... I am hurt.=
 I feel weak.=
 My head hurts.=
 I have a bad day today.=
+@1 (disabled)=
+Hostile mobs are disabled!=
