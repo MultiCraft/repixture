@@ -19,10 +19,8 @@ give_initial_items (Initial items) string default:pick_stone,default:torch_weak 
 
 ## TNT
 
-# This enables TNT. TNT is a block that, if ignited, will explode, deal damage and destroy blocks around it.
-# If disabled, TNT will be completely removed from the game.
-#
-# Warning: If you disable this setting in a world in which TNT already existed, there will be bugs!
+# This enables TNT. TNT is a block that, when ignited, will explode, deal damage and destroy blocks around it.
+# If disabled, all TNT will be defused and thus unable to explode.
 tnt_enable (Enable TNT) bool true
 
 # The radius in which blocks will be destroyed by a TNT explosion.

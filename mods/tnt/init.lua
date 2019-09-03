@@ -13,8 +13,11 @@ tnt = {}
 local singleplayer = minetest.is_singleplayer()
 local setting = minetest.settings:get_bool("tnt_enable")
 
+local tnt_enable
 if (not singleplayer and setting ~= true) or (singleplayer and setting == false) then
-   return
+   tnt_enable = false
+else
+   tnt_enable = true
 end
 
 local tnt_radius = tonumber(minetest.settings:get("tnt_radius") or 3)
@@ -155,7 +158,7 @@ end
 
 function tnt.burn(pos)
    local name = minetest.get_node(pos).name
-   if name == "tnt:tnt" then
+   if tnt_enable and name == "tnt:tnt" then
       minetest.sound_play("tnt_ignite", {pos = pos})
       minetest.set_node(pos, {name = "tnt:tnt_burning"})
       minetest.get_node_timer(pos):start(2)
@@ -212,11 +215,12 @@ end
 
 function tnt.boom(pos)
    minetest.remove_node(pos)
-
-   local drops = tnt.explode(pos, tnt_radius, "tnt_explode")
-   entity_physics(pos, tnt_radius)
-   eject_drops(drops, pos, tnt_radius)
-   add_effects(pos, tnt_radius)
+   if tnt_enable then
+      local drops = tnt.explode(pos, tnt_radius, "tnt_explode")
+      entity_physics(pos, tnt_radius)
+      eject_drops(drops, pos, tnt_radius)
+      add_effects(pos, tnt_radius)
+   end
 end
 
 -- On load register content IDs
@@ -235,16 +239,28 @@ minetest.register_on_mods_loaded(on_load)
 
 -- Nodes
 
+local top_tex, desc
+if tnt_enable then
+   top_tex = "tnt_top.png"
+   desc = S("TNT")
+else
+   top_tex = "tnt_top_disabled.png"
+   desc = S("Defused TNT")
+end
+
 minetest.register_node(
    "tnt:tnt",
    {
-      description = S("TNT"),
-      tiles = {"tnt_top.png", "tnt_bottom.png", "tnt_sides.png"},
+      description = desc,
+      tiles = {top_tex, "tnt_bottom.png", "tnt_sides.png"},
       is_ground_content = false,
       groups = {dig_immediate = 2},
       sounds = default.node_sound_wood_defaults(),
 
       on_punch = function(pos, node, puncher)
+         if not tnt_enable then
+            return
+         end
          local itemname = puncher:get_wielded_item():get_name()
 
          if itemname == "default:flint_and_steel" then
@@ -252,7 +268,9 @@ minetest.register_node(
          end
       end,
       on_blast = function(pos, intensity)
-         tnt.burn(pos)
+         if tnt_enable then
+            tnt.burn(pos)
+         end
       end,
 })
 
@@ -282,6 +300,7 @@ minetest.register_node(
       on_blast = function() end,
 })
 
+
 -- Crafting
 
 crafting.register_craft(
@@ -302,11 +321,20 @@ minetest.register_craft(
 
 -- Achievements
 
+local title, desc
+if tnt_enable then
+   title = S("Boom!")
+   desc = S("Craft TNT.")
+else
+   title = S("Boom?")
+   desc = S("Craft defused TNT.")
+end
+
 achievements.register_achievement(
    "boom",
    {
-      title = S("Boom!"),
-      description = S("Craft TNT."),
+      title = title,
+      description = desc,
       times = 1,
       craftitem = "tnt:tnt",
 })

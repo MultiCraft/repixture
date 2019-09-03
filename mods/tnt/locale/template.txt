@@ -1,4 +1,7 @@
 # textdomain: tnt
 TNT=
+Defused TNT=
 Boom!=
+Boom?=
 Craft TNT.=
+Craft defused TNT.=
