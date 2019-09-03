@@ -20,8 +20,9 @@ mobs:register_mob(
       },
       makes_footstep_sound = false,
       sounds = {
+	 war_cry = "mobs_mineturtle",
 	 random = "mobs_mineturtle",
-	 explode= "tnt_explode",
+	 explode = "tnt_explode",
 	 distance = 16,
       },
       walk_velocity = 2,
