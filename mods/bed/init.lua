@@ -161,7 +161,16 @@ local function on_joinplayer(player)
          0.1,
          function(player)
             if player and player:is_player() then
-                put_player_in_bed(player)
+                local name = player:get_player_name()
+                bed.userdata[name].in_bed = false
+                local n = minetest.get_node(bed.userdata[name].node_pos)
+                if n.name == "bed:bed_foot" then
+                    local meta = minetest.get_meta(bed.userdata[name].node_pos)
+                    if meta:get_string("player") == name then
+                        meta:set_string("player", "")
+                    end
+                end
+                take_player_from_bed(player)
             end
       end, player)
    end
@@ -348,6 +357,15 @@ minetest.register_node(
          local name = clicker:get_player_name()
          local meta = minetest.get_meta(pos)
          local put_pos = vector.add(pos, vector.divide(minetest.facedir_to_dir(node.param2), 2))
+
+         -- Clear player if player is not online
+         local playername_in_bed = meta:get_string("player")
+         if playername_in_bed ~= "" then
+             local player_in_bed = minetest.get_player_by_name(playername_in_bed)
+             if not player_in_bed then
+                 meta:set_string("player", "")
+             end
+         end
 
          if name == meta:get_string("player") then
             bed.userdata[name].in_bed = false
