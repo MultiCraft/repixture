@@ -194,8 +194,9 @@ minetest.register_on_player_receive_fields(
 	 if skinname ~= nil then
 	    player_skins.set_skin(name, skinname)
 
-	    minetest.show_formspec(name, "player_skins:player_skins",
-                                   player_skins.get_formspec(name))
+	    local form = player_skins.get_formspec(name)
+	    player:set_inventory_formspec(form)
+	    minetest.show_formspec(name, "player_skins:player_skins", form)
 	 end
       end
 end)
