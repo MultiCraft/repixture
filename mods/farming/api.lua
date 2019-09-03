@@ -73,10 +73,7 @@ function farming.place_plant(itemstack, placer, pointed_thing)
 
       if (group ~= nil and minetest.get_item_group(under.name, group) > 0) or
       (under.name == can_grow_on) then
-         minetest.set_node(pointed_thing.above, {name = itemstack:get_name()})
-
-         itemstack:take_item()
-
+         itemstack = minetest.item_place(itemstack, placer, pointed_thing)
          break
       end
    end
