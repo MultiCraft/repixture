@@ -15,13 +15,17 @@ achievements.register_achievement(
       times = 5,
 })
 
-achievements.register_achievement(
-   "bomb_has_been_defused",
-   {
-      title = S("Bomb has Been Defused!"),
-      description = S("Kill a mine turtle."),
-      times = 1,
-})
+local peaceful_only = minetest.settings:get_bool("only_peaceful_mobs") or false
+
+if not peaceful_only then
+    achievements.register_achievement(
+       "bomb_has_been_defused",
+       {
+          title = S("Bomb has Been Defused!"),
+          description = S("Kill a mine turtle."),
+          times = 1,
+    })
+end
 
 achievements.register_achievement(
    "ranger",
