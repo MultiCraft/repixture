@@ -7,6 +7,9 @@ local S = minetest.get_translator("mobs")
 achievements.register_achievement(
    "hunter",
    {
+      -- Note: This achievement only counts animals that
+      -- have at least one food item in their drop table
+      -- (no matter how unlikely).
       title = S("Hunter"),
       description = S("Kill 5 animals for food."),
       times = 5,

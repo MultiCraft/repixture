@@ -46,25 +46,15 @@ local function effect(pos, amount, texture, max_size)
    })
 end
 
--- on mob death drop items
-local function check_for_death(self, hitter)
-   local hp = self.object:get_hp()
-   if hp > 0 then
-      self.health = hp
-      if self.sounds.damage ~= nil then
-         minetest.sound_play(
-	    self.sounds.damage,
-	    {
-               object = self.object,
-               max_hear_distance = self.sounds.distance
-         })
-      end
-      return false
-   end
+local function die_handler(self, killer)
    local pos = self.object:get_pos()
-   self.object:remove()
+   minetest.log("action", "[mobs] "..self.name.." dies at "..minetest.pos_to_string(vector.round(pos)))
    local obj = nil
+   local drops_food = false
    for _,drop in ipairs(self.drops) do
+      if minetest.get_item_group(drop.name, "food") ~= 0 then
+         drops_food = true
+      end
       if math.random(1, drop.chance) == 1 then
          obj = minetest.add_item(pos, ItemStack(drop.name.." "..math.random(drop.min, drop.max)))
          if obj then
@@ -85,10 +75,33 @@ local function check_for_death(self, hitter)
 	    max_hear_distance = self.sounds.distance
       })
    end
-   if self.on_die then
-      self.on_die(self, pos, hitter)
+   -- Hunter achievement: If mob is a food-dropping animal, it counts.
+   if killer ~= nil and self.type == "animal" and drops_food then
+      achievements.trigger_achievement(killer, "hunter")
    end
-   return true
+   if self.on_die then
+      self.on_die(self, pos, killer)
+   end
+end
+
+-- on mob death drop items
+local function check_for_death(self, hitter)
+   local hp = self.object:get_hp()
+   if hp > 0 then
+      self.health = hp
+      if self.sounds.damage ~= nil then
+         minetest.sound_play(
+	    self.sounds.damage,
+	    {
+               object = self.object,
+               max_hear_distance = self.sounds.distance
+         })
+      end
+      return false
+   else
+      die_handler(self, hitter)
+      return true
+   end
 end
 
 -- from TNT mod
@@ -1375,6 +1388,10 @@ function mobs:register_mob(name, def)
                   end
                end
             end
+         end,
+
+         on_death = function(self, killer)
+            die_handler(self, killer)
          end,
    })
 end
