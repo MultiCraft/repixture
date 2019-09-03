@@ -340,19 +340,16 @@ minetest.register_node(
          end
       end,
 
-      on_rightclick = function(pos, node, clicker)
+      on_rightclick = function(pos, node, clicker, itemstack)
          if not clicker:is_player() then
-            return
+            return itemstack
          end
 
          local name = clicker:get_player_name()
          local meta = minetest.get_meta(pos)
-         local put_pos = vector.add(pos, vector.divide(
-                                       minetest.facedir_to_dir(node.param2), 2))
+         local put_pos = vector.add(pos, vector.divide(minetest.facedir_to_dir(node.param2), 2))
 
          if name == meta:get_string("player") then
-            put_pos.y = put_pos.y - 0.5
-
             bed.userdata[name].in_bed = false
 
             take_player_from_bed(clicker)
@@ -361,13 +358,31 @@ minetest.register_node(
          elseif meta:get_string("player") == "" and not default.player_attached[name]
          and bed.userdata[name].in_bed == false then
             if not minetest.settings:get_bool("bed_enable", true) then
-               return
+               minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Sleeping is disabled.")))
+               return itemstack
+            end
+
+            local dir = minetest.facedir_to_dir(node.param2)
+            local above_posses = {
+                {x=pos.x, y=pos.y+1, z=pos.z},
+                vector.add({x=pos.x, y=pos.y+1, z=pos.z}, dir),
+                {x=pos.x, y=pos.y+2, z=pos.z},
+                vector.add({x=pos.x, y=pos.y+2, z=pos.z}, dir),
+            }
+            for a=1,#above_posses do
+                local apos = above_posses[a]
+                local anode = minetest.get_node(apos)
+                local adef = minetest.registered_nodes[anode.name]
+                if adef.walkable then
+                    minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Not enough space to sleep!")))
+                    return itemstack
+                end
             end
 
             -- No sleeping while moving
             if vector.length(clicker:get_player_velocity()) > 0.001 then
                minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("You have to stop moving before going to bed!")))
-               return false
+               return itemstack
             end
 
             put_pos.y = put_pos.y + 0.6
@@ -389,6 +404,7 @@ minetest.register_node(
 
             meta:set_string("player", name)
          end
+         return itemstack
       end,
 
       can_dig = function(pos)

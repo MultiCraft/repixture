@@ -6,3 +6,5 @@ Players have slept, rise and shine!=
 In bed=
 You're in a bed=
 You have to stop moving before going to bed!=
+Not enough space to sleep!=
+Sleeping is disabled.=
