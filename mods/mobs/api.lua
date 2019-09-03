@@ -13,7 +13,7 @@ local peaceful_only = minetest.settings:get_bool("only_peaceful_mobs") or false
 local enable_blood = minetest.settings:get_bool("mobs_enable_blood") or false
 
 mobs.protected = tonumber(minetest.settings:get("mobs_spawn_protected")) or 0
-mobs.remove = minetest.settings:get_bool("remove_far_mobs") or false
+mobs.remove = false
 
 local function is_too_near_spawn(pos)
    if minetest.is_singleplayer() or not minetest.settings:get_bool("mobs_safe_spawn") then

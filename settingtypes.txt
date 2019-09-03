@@ -38,6 +38,10 @@ only_peaceful_mobs (Only peaceful mobs) bool false
 # The safety radius is set in static_spawn_radius.
 mobs_safe_spawn (Safe spawn from mobs) bool true
 
+# Enables blood particles when attacking mobs.
+# If disabled, there will be other, less “gruesome” particle effects.
+mobs_enable_blood (Enable blood) bool false
+
 ## Spawning
 
 # Radius around the player spawn point in which mobs don't attack.
@@ -46,6 +50,9 @@ mobs_safe_spawn (Safe spawn from mobs) bool true
 # Additionally, this radius also specifies the radius around
 # spawn in which villages don't generate.
 static_spawn_radius (Spawnpoint safety radius) int 256 0
+
+# If enabled, villages will no longer be generated.
+mapgen_disable_villages (Disable villages) bool false
 
 ## Beds
 
@@ -68,6 +75,9 @@ weather_enable (Enable dynamic weather) bool true
 
 # Enables ambient sounds, such as birds, crickets, etc.
 ambiance_enable (Enable ambient sounds) bool true
+
+# This will add an graphical effect that slightly darkens the edges of the screen.
+vignette_enable (Enable vignette) bool true
 
 ## Player skins
 
