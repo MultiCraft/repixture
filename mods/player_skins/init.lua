@@ -210,6 +210,16 @@ minetest.register_chatcommand(
       func = function(name, param)
          if is_valid_skin(param) then
             player_skins.set_skin(name, param)
+            local form = player_skins.get_formspec(name)
+            local player = minetest.get_player_by_name(name)
+            if player then
+                --[[ This updates inventory menu to make sure the
+                checkmark is updated. However, it will force-change
+                the inventory menu page to skins, even when sth else
+                was selected. This is a minor annoyance, but not a big problem.
+                TODO: Only do this when we're on the skins page. ]]
+                player:set_inventory_formspec(form)
+            end
             return true, S("Skin set to “@1”.", param)
          elseif param == "" then
             return true, S("Current player skin: @1", player_skins.skins[name])
