@@ -1,9 +1,0 @@
-# textdomain: player_list
-[all|recent]=
-List current, recent, or all players since the last server restart=
-Players:=
-Recent players: =
-Connected players: =
-@1: connected for @2=
-@1, @2: last seen @3 ago=
-Count: @1=
