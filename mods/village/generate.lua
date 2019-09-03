@@ -258,13 +258,17 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill)
 	 goodies.fill(pos, chunktype, pr, "main", 3)
       end, true)
 
+   -- Restrict number of music players
+   local music = 0
    util.nodefunc(
       pos,
       {x = pos.x+12, y = pos.y+12, z = pos.z+12},
       "music:player",
       function(pos)
-	 if pr:next(1, 2) > 1 then
+	 if music >= 1 or pr:next(1, 2) > 1 then
 	    minetest.remove_node(pos)
+	 else
+	    music = music + 1
 	 end
       end, true)
 
