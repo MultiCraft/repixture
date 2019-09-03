@@ -47,24 +47,6 @@ minetest.register_node(
       end,
 })
 
--- TODO: Remove
-minetest.register_node(
-   "village:grassland_village_mg",
-   {
-      description = S("Legacy Mapgen Village Spawner"),
-      tiles = {"village_gen_mg.png"},
-      drawtype = "normal",
-      paramtype = "light",
-      sunlight_propagates = true,
-      walkable = false,
-      pointable = true,
-      diggable = true,
-      buildable_to = false,
-      is_ground_content = true,
-      drop = "",
-      groups = {not_in_craft_guide = 1, not_in_creative_inventory=1, dig_immediate = 2},
-})
-
 local function attempt_village_spawn(pos)
     local spos = table.copy(pos)
     spos.y = spos.y + 1
@@ -132,3 +114,5 @@ if not minetest.settings:get_bool("mapgen_disable_villages") then
    end
 end
 
+-- Legacy alias
+minetest.register_alias("village:grassland_village_mg", "air")
