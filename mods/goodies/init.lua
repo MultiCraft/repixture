@@ -89,7 +89,8 @@ function goodies.fill(pos, ctype, pr, listname, keepchance)
       local chance = goodies.types[ctype][util.choice(goodies.types[ctype], pr)]
       local item = util.choice(goodies.types[ctype], pr)
       if pr:next(1, chance) <= 1 then
-	 local itemstr = item.." "..pr:next(1, goodies.max_stack)
+	 local max = math.min(goodies.max_stack, minetest.registered_items[item].stack_max)
+	 local itemstr = item.." "..pr:next(1, max)
 	 inv:set_stack(listname, pr:next(1, size), ItemStack(itemstr))
       end
    end
