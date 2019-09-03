@@ -5,20 +5,24 @@
 
 ## Multiplayer settings
 
-## Player stuff
-
+[Player]
 # If enabled, players drop their items when they die.
 drop_items_on_die (Drop items on death) bool true
 
-## Initial items
-
 # If enabled, new players will start with a couple of initial items, set in the give_initial_items setting.
 give_initial_enable (Enable initial items) bool false
+
 # Comma-separated list of initial items to give to new players. You must use itemstrings as the item identifiers. This only works if give_initial_enable is active.
 give_initial_items (Initial items) string default:pick_stone,default:torch_weak 10
 
-## TNT
+[World]
+# If enabled, the weather will change from time to time.
+weather_enable (Enable dynamic weather) bool true
 
+# If enabled, villages will no longer be generated.
+mapgen_disable_villages (Disable villages) bool false
+
+[Blocks]
 # This enables TNT. TNT is a block that, when ignited, will explode, deal damage and destroy blocks around it.
 # If disabled, all TNT will be defused and thus unable to explode.
 tnt_enable (Enable TNT) bool true
@@ -26,8 +30,15 @@ tnt_enable (Enable TNT) bool true
 # The radius in which blocks will be destroyed by a TNT explosion.
 tnt_radius (TNT radius) int 3 0
 
-## Mobs
+# If enabled, players can sleep in beds. If the majority of all players game sleep in the bed at night, the night will be skipped.
+# If disabled, beds are just decoration and can't be interacted with.
+bed_enable (Enable sleeping in beds) bool true
 
+# If enabled, music players will be able to play music.
+# If disabled, music players will stay silent.
+music_enable (Enable music player playback) bool true
+
+[Mobs]
 # If enabled, only peaceful, non-hostile mobs will appear. Hostile mobs will disappear and cannot be spawned at all.
 # This setting is only read at startup.
 only_peaceful_mobs (Only peaceful mobs) bool false
@@ -36,12 +47,6 @@ only_peaceful_mobs (Only peaceful mobs) bool false
 # The safety radius is set in static_spawn_radius.
 mobs_safe_spawn (Safe spawn from mobs) bool true
 
-# Enables blood particles when attacking mobs.
-# If disabled, there will be other, less “gruesome” particle effects.
-mobs_enable_blood (Enable blood) bool false
-
-## Spawning
-
 # Radius around the player spawn point in which mobs don't attack.
 # This is only the case in multiplayer servers and if the setting mobs_safe_spawn is enabled. In singleplayer, mobs will attack regardless.
 #
@@ -49,36 +54,7 @@ mobs_enable_blood (Enable blood) bool false
 # spawn in which villages don't generate.
 static_spawn_radius (Spawnpoint safety radius) int 256 0
 
-# If enabled, villages will no longer be generated.
-mapgen_disable_villages (Disable villages) bool false
-
-## Beds
-
-# If enabled, players can sleep in beds. If the majority of all players game sleep in the bed at night, the night will be skipped.
-# If disabled, beds are just decoration and can't be interacted with.
-bed_enable (Enable sleeping in beds) bool true
-
-## Music
-
-# If enabled, music players will be able to play music.
-# If disabled, music players will stay silent.
-music_enable (Enable music player playback) bool true
-
-## Weather
-
-# If enabled, the weather will change from time to time.
-weather_enable (Enable dynamic weather) bool true
-
-## Ambience
-
-# Enables ambient sounds, such as birds, crickets, etc.
-ambiance_enable (Enable ambient sounds) bool true
-
-# This will add an graphical effect that slightly darkens the edges of the screen.
-vignette_enable (Enable vignette) bool true
-
-## Player skins
-
+[Graphics and audio]
 # Here you can add your custom player skins. List each skin by name here, separated by commas.
 # The player skin files are read from mods/player_skins/textures in the game's directory.
 # Each skin requires two PNG files, where <name> is the skin name:
@@ -86,3 +62,13 @@ vignette_enable (Enable vignette) bool true
 # * player_skins_<name>.png: Player skin
 # * player_skins_icon_<name>.png: Player skin icon
 player_skins_names (Player skin list) string male,female
+
+# This will add an graphical effect that slightly darkens the edges of the screen.
+vignette_enable (Enable vignette) bool true
+
+# Enables blood particles when attacking mobs.
+# If disabled, there will be other, less “gruesome” particle effects.
+mobs_enable_blood (Enable blood) bool false
+
+# Enables ambient sounds, such as birds, crickets, etc.
+ambiance_enable (Enable ambient sounds) bool true
