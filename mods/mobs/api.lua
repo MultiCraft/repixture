@@ -372,6 +372,7 @@ function mobs:register_mob(name, def)
 
             if self.type == "monster"
             and peaceful_only then
+               minetest.log("action", "[mobs] Hostile mob "..self.name.." removed at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
                self.object:remove()
                return
             end
@@ -1209,6 +1210,7 @@ function mobs:register_mob(name, def)
 
             if self.type == "monster"
             and peaceful_only then
+               minetest.log("action", "[mobs] Hostile mob "..self.name.." removed at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
                self.object:remove()
             end
 
