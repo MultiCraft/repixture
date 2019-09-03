@@ -245,7 +245,7 @@ if tnt_enable then
    desc = S("TNT")
 else
    top_tex = "tnt_top_disabled.png"
-   desc = S("Defused TNT")
+   desc = S("TNT (defused)")
 end
 
 minetest.register_node(

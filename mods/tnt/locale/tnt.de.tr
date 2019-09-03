@@ -1,6 +1,6 @@
 # textdomain: tnt
 TNT=TNT
-Defused TNT=Entschärftes TNT
+TNT (defused)=TNT (entschärft)
 Boom!=Bumm!
 Boom?=Bumm?
 Craft TNT.=Fertigen Sie TNT.
