@@ -1,3 +1,7 @@
+## 0.3.1
+- Fix mobs failing to die when drowning
+- Clams no longer drop pearls
+
 ## 0.3.0
 Improvements:
 - Village land generation improvements
