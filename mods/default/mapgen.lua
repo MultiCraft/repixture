@@ -426,11 +426,6 @@ minetest.register_decoration(
       fill_ratio = 0.009,
       biomes = {"Forest", "Deep Forest"},
       flags = "place_center_x, place_center_z",
-      replacements = {
-         ["default:leaves"] = "default:leaves_oak",
-         ["default:tree"] = "default:tree_oak",
-         ["default:apple"] = "air",
-      },
       schematic = minetest.get_modpath("default")
          .. "/schematics/default_appletree.mts",
       y_min = -32000,
