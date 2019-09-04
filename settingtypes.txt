@@ -15,6 +15,14 @@ give_initial_enable (Enable initial items) bool false
 # Comma-separated list of initial items to give to new players. You must use itemstrings as the item identifiers. This only works if give_initial_enable is active.
 give_initial_items (Initial items) string default:pick_stone,default:torch_weak 10
 
+# Here you can add your custom player skins. List each skin by name here, separated by commas.
+# The player skin files are read from mods/player_skins/textures in the game's directory.
+# Each skin requires two PNG files, where <name> is the skin name:
+#
+# * player_skins_<name>.png: Player skin
+# * player_skins_icon_<name>.png: Player skin icon
+player_skins_names (Player skin list) string male,female
+
 [World]
 # If enabled, the weather will change from time to time.
 weather_enable (Enable dynamic weather) bool true
@@ -24,13 +32,13 @@ mapgen_disable_villages (Disable villages) bool false
 
 [Blocks]
 # This enables TNT. TNT is a block that, when ignited, will explode, deal damage and destroy blocks around it.
-# If disabled, all TNT will be defused and thus unable to explode.
+# If disabled, all TNTs will be defused and thus unable to explode.
 tnt_enable (Enable TNT) bool true
 
 # The radius in which blocks will be destroyed by a TNT explosion.
 tnt_radius (TNT radius) int 3 0
 
-# If enabled, players can sleep in beds. If the majority of all players game sleep in the bed at night, the night will be skipped.
+# If enabled, players can sleep in beds. If the majority of all players currently in the game sleep in the bed at night, the night will be skipped.
 # If disabled, beds are just decoration and can't be interacted with.
 bed_enable (Enable sleeping in beds) bool true
 
@@ -55,14 +63,6 @@ mobs_safe_spawn (Safe spawn from mobs) bool true
 static_spawn_radius (Spawnpoint safety radius) int 256 0
 
 [Graphics and audio]
-# Here you can add your custom player skins. List each skin by name here, separated by commas.
-# The player skin files are read from mods/player_skins/textures in the game's directory.
-# Each skin requires two PNG files, where <name> is the skin name:
-#
-# * player_skins_<name>.png: Player skin
-# * player_skins_icon_<name>.png: Player skin icon
-player_skins_names (Player skin list) string male,female
-
 # This will add an graphical effect that slightly darkens the edges of the screen.
 vignette_enable (Enable vignette) bool true
 
