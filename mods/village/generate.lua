@@ -459,6 +459,7 @@ function village.spawn_village(pos, pr)
       village_replace_id = vpr:next(1,#village_replaces)
    end
    local replace = village_replaces[village_replace_id]
+   local dirt_path = "default:heated_dirt_path"
 
    village.spawn_chunk(pos, "0", replace, pr, "well")
    built[minetest.hash_node_position(pos)] = true
@@ -490,14 +491,14 @@ function village.spawn_village(pos, pr)
    -- directions and it will be replaced either with a dirt path or
    -- the ground.
    for _,road in pairs(roads) do
-      -- FIXME: This replaces the nodes completely wrong!
-      -- Schematic replacements can't be used for this.
       local replaces = {
 	 ["default:planks"]       = "default:dirt_with_grass", -- north
 	 ["default:cobble"]       = "default:dirt_with_grass", -- east
 	 ["default:planks_oak"]   = "default:dirt_with_grass", -- south
 	 ["default:planks_birch"] = "default:dirt_with_grass"  -- west
       }
+
+      village.spawn_chunk(road.pos, "0", replaces, pr, "road")
 
       local amt_connections = 0
 
@@ -508,31 +509,34 @@ function village.spawn_village(pos, pr)
 	    amt_connections = amt_connections + 1
 	    nextpos.z = nextpos.z + 12
 	    if connects(road.pos, nextpos) then
-	       replaces["default:planks"] = "default:heated_dirt_path"
+               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=8}), vector.add(road.pos, {x=7,y=0,z=11}), {"default:dirt_with_grass"})
+               minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 elseif i == 2 then
 	    amt_connections = amt_connections + 1
 	    nextpos.x = nextpos.x + 12
 	    if connects(road.pos, nextpos) then
-	       replaces["default:cobble"] = "default:heated_dirt_path"
+               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=8, y=0, z=4}), vector.add(road.pos, {x=11,y=0,z=7}), {"default:dirt_with_grass"})
+               minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 elseif i == 3 then
 	    amt_connections = amt_connections + 1
 	    nextpos.z = nextpos.z - 12
 	    if connects(road.pos, nextpos) then
-	       replaces["default:planks_oak"] = "default:heated_dirt_path"
+               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=0}), vector.add(road.pos, {x=7,y=0,z=3}), {"default:dirt_with_grass"})
+               minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 else
 	    amt_connections = amt_connections + 1
 	    nextpos.x = nextpos.x - 12
 	    if connects(road.pos, nextpos) then
-	       replaces["default:planks_birch"] = "default:heated_dirt_path"
+               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=0, y=0, z=4}), vector.add(road.pos, {x=3,y=0,z=7}), {"default:dirt_with_grass"})
+               minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 end
 
       end
 
-      village.spawn_chunk(road.pos, "0", replaces, pr, "road")
       if amt_connections >= 2 then
 	 village.spawn_chunk(
 	    {x = road.pos.x, y = road.pos.y+1, z = road.pos.z},
