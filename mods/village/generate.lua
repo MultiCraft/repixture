@@ -11,6 +11,7 @@ local village_file = minetest.get_worldpath() .. "/villages.dat"
 
 local modpath = minetest.get_modpath("village")
 local mapseed = minetest.get_mapgen_setting("seed")
+local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
 
 --[[ List of village wood materials (schematic replacements)
 One of these will be chosen at random and it applies
@@ -208,15 +209,19 @@ function village.lift_ground(pos, scanheight)
 
    local stonenode = nil
 
+   if minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name == "air" then
+       return
+   end
+
    for y = pos.y, pos.y - scanheight, -1 do
       local p = {x = pos.x, y = y, z = pos.z}
 
       local nn = minetest.get_node(p).name
       local an = minetest.get_node({x = p.x, y = p.y + 1, z = p.z}).name
 
-      if nn ~= "air" then
+      if nn ~= "air" and minetest.registered_nodes[nn].liquidtype ~= "none" then
 	 local nd = minetest.registered_nodes[nn]
-	 if not nd.buildable_to then -- avoid grass, fluids, etc.
+	 if not nd.buildable_to then
 	    if topnode == nil and nn ~= an then
 	       topnode = nn
 	    elseif fillernode == nil and nn ~= an then
@@ -251,6 +256,7 @@ function village.lift_ground(pos, scanheight)
 
       local th = pos.y - y
 
+      -- TODO: Optimize speed
       if th <= fillerdepth - topdepth then
 	 minetest.set_node(p, {name = fillernode})
       elseif th <= topdepth then
@@ -265,10 +271,22 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill)
    util.getvoxelmanip(pos, {x = pos.x+12, y = pos.y+12, z = pos.z+12})
 
    if nofill ~= true then
+      minetest.place_schematic(
+	 {x = pos.x-6, y = pos.y-5, z = pos.z-6},
+	 modpath .. "/schematics/village_filler.mts",
+	 "0",
+	 {},
+	 false
+      )
+
+      local py = pos.y-6
+      if py < water_level then
+          py = water_level
+      end
       util.nodefunc(
-	 {x = pos.x-6, y = pos.y-7, z = pos.z-6},
-	 {x = pos.x+17, y = pos.y-6, z = pos.z+17},
-	 "air",
+	 {x = pos.x-6, y = py, z = pos.z-6},
+	 {x = pos.x+17, y = py, z = pos.z+17},
+	 {"air", "group:liquid"},
 	 function(pos)
 	    village.lift_ground(pos, 15) -- distance to lift ground; larger numbers will be slower
 	 end, true)
@@ -281,13 +299,6 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill)
 	 true
       )
 
-      minetest.place_schematic(
-	 {x = pos.x-6, y = pos.y-5, z = pos.z-6},
-	 modpath .. "/schematics/village_filler.mts",
-	 "0",
-	 {},
-	 false
-      )
    end
 
    if chunktype == "orchard" then

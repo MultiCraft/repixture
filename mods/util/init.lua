@@ -42,7 +42,7 @@ function util.fixlight(pos1, pos2)
    return #nodes
 end
 
-function util.nodefunc(pos1, pos2, name, func, nomanip)
+function util.nodefunc(pos1, pos2, nodes, func, nomanip)
    -- function based off fixlight
    -- call a function for every node of a single type
    local pos1, pos2 = util.sort_pos(pos1, pos2)
@@ -52,7 +52,7 @@ function util.nodefunc(pos1, pos2, name, func, nomanip)
       manip:read_from_map(pos1, pos2)
    end
 
-   local nodes = minetest.find_nodes_in_area(pos1, pos2, name)
+   local nodes = minetest.find_nodes_in_area(pos1, pos2, nodes)
    for _, pos in ipairs(nodes) do
       func(pos)
    end
