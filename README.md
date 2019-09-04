@@ -1,14 +1,12 @@
 # Pixture Revival
 
-Pixture Revival (temporary name) is a revival of Pixture 0.1.1, a game
-for Minetest 0.4.
-Note the name of this game will likely change.
+Pixture Revival is a revival of Pixture 0.1.1, a game for Minetest 0.4.
 
 This is a sandbox survival crafting game focusing on low-tech and
 unique graphics and sounds.
 
 ## Version
-0.2.0
+0.3.0
 
 ## Project Notes
 
@@ -21,7 +19,7 @@ There will be no major changes to gameplay.
 
 ## Bugs, problems and limitations
 
-- Villages sometimes have huge landmasses or floating treecaps above them
+- Villages might cut aggressively through the terrain or trees
 - The v6 mapgen is intentionally disabled
 
 ## Changelog
