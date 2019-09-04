@@ -30,8 +30,12 @@ minetest.register_node(
           "village_entity.png", "village_entity.png^[transformFX", "village_entity.png^[transformFX"
       },
       is_ground_content = false,
+      sunlight_propagates = true,
+      paramtype = "light",
+      post_effect_color = { a = 0x40, r = 0x8D, g = 0x75, b = 0x97 },
+      walkable = false,
       drop = "",
-      groups = {dig_immediate = 2, not_in_creative_inventory = 1},
+      groups = {dig_immediate = 3, not_in_creative_inventory = 1},
       sounds = default.node_sound_defaults()
 })
 
