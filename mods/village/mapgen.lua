@@ -51,7 +51,7 @@ minetest.register_node(
       on_construct = function(pos)
          minetest.remove_node(pos)
 
-         local pr = PseudoRandom(mapseed + pos.x + pos.y + pos.z)
+         local pr = PseudoRandom(shortseed + pos.x + pos.y + pos.z)
 
          village.spawn_village(pos, pr)
       end,
