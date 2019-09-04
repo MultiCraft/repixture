@@ -1,3 +1,33 @@
+## 0.3.0
+Improvements:
+- Village land generation improvements
+- Minor improvements to a few village structures
+- Dying mobs now make sounds
+- Add descriptions for all important settings
+- Expose more settings in the settings menu
+- Turn dirt with grass to dirt below slabs and stairs
+- Oak trees now generate
+
+Cleanup:
+- Clean up achievements descriptions
+- More items are kept when placed in Creative Mode
+- Disabling TNT no longer removes TNT from the game, instead it replaces it with defused TNT
+- Removed mods: `pm`, `player_list`
+- Show message when trying to spawn hostile mob when it's disabled
+- Prevent sleep if not enough space
+- Kick player out of bed when re-joining
+- Restrict villages to grasslands
+
+Bugfixes:
+- Disable some achievements when they are unobtainable due to settings
+- Fix crash in `player_skins` mod
+- Fix invalid water bucket stacks sometimes appearing in village chests
+- Fix furnace/chest facing the wrong way in forge house
+- Fix overlaping dirt path slab
+- Fix broken achievements: place seeds, place lumien crystals, kill mobs
+- Fix mobs never dropping anything
+- Fix inventory menu not updating when changing skin via chat command
+
 ## 0.2.0
 Meta:
 - Rename game to Pixture Revival
