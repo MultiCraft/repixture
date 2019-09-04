@@ -413,7 +413,7 @@ minetest.register_decoration(
       biomes = {"Orchard"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("default")
-         .. "/schematics/default_tree.mts",
+         .. "/schematics/default_appletree.mts",
       y_min = 10,
       y_max = 32000,
 })
@@ -432,7 +432,7 @@ minetest.register_decoration(
          ["default:apple"] = "air",
       },
       schematic = minetest.get_modpath("default")
-         .. "/schematics/default_tree.mts",
+         .. "/schematics/default_appletree.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -477,7 +477,7 @@ minetest.register_decoration(
          ["default:apple"] = "air",
       },
       schematic = minetest.get_modpath("default")
-         .. "/schematics/default_tree.mts",
+         .. "/schematics/default_appletree.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -490,13 +490,8 @@ minetest.register_decoration(
       fill_ratio = 0.004,
       biomes = {"Wilderness"},
       flags = "place_center_x, place_center_z",
-      replacements = {
-         ["default:leaves"] = "default:leaves_oak",
-         ["default:tree"] = "default:tree_oak",
-         ["default:apple"] = "air",
-      },
       schematic = minetest.get_modpath("default")
-         .. "/schematics/default_tree.mts",
+         .. "/schematics/default_oaktree.mts",
       y_min = -32000,
       y_max = 32000,
 })

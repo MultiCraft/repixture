@@ -77,7 +77,7 @@ function default.grow_sapling(pos, variety)
                z = pos.z - 2
             },
             minetest.get_modpath("default")
-               .. "/schematics/default_tree.mts", "0", {}, false)
+               .. "/schematics/default_appletree.mts", "0", {}, false)
       elseif variety == "oak" then
 	 minetest.place_schematic(
             {
@@ -86,12 +86,7 @@ function default.grow_sapling(pos, variety)
                z = pos.z - 2
             },
             minetest.get_modpath("default")
-               .. "/schematics/default_tree.mts", "0",
-            {
-               ["default:leaves"] = "default:leaves_oak",
-               ["default:tree"] = "default:tree_oak",
-               ["default:apple"] = "air"
-            }, false)
+               .. "/schematics/default_oaktree.mts", "0", {}, false)
       elseif variety == "birch" then
 	 minetest.place_schematic(
             {
