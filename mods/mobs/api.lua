@@ -46,6 +46,7 @@ local function effect(pos, amount, texture, max_size)
    })
 end
 
+-- Handle death (does not remove mob)
 local function die_handler(self, killer)
    local pos = self.object:get_pos()
    minetest.log("action", "[mobs] "..self.name.." dies at "..minetest.pos_to_string(vector.round(pos)))
@@ -100,6 +101,7 @@ local function check_for_death(self, hitter)
       return false
    else
       die_handler(self, hitter)
+      self.object:remove()
       return true
    end
 end
