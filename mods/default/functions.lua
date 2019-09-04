@@ -48,7 +48,9 @@ function default.place_sapling(itemstack, placer, pointed_thing)
 
    minetest.set_node(pointed_thing.above, {name = itemstack:get_name()})
 
-   itemstack:take_item()
+   if not minetest.settings:get_bool("creative_mode") then
+       itemstack:take_item()
+   end
 
    return itemstack
 end
