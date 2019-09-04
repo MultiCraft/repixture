@@ -100,7 +100,6 @@ if not minetest.settings:get_bool("mapgen_disable_villages") then
          fill_ratio = 0.005,
          biomes = {
             "Grassland",
-            "Forest"
          },
          -- empty schematic
          schematic = {
