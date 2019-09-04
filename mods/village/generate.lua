@@ -10,6 +10,57 @@ village.villages = {}
 local village_file = minetest.get_worldpath() .. "/villages.dat"
 
 local modpath = minetest.get_modpath("village")
+local mapseed = minetest.get_mapgen_setting("seed")
+
+--[[ List of village wood materials (schematic replacements)
+One of these will be chosen at random and it applies
+for the whole world. ]]
+local village_replaces = {
+   -- Default (Birch + Oak, as specified in schematics)
+   {
+   },
+   -- Birch → Normal (Normal + Oak)
+   {
+      ["default:planks_birch"] = "default:planks",
+      ["default:tree_birch"] = "default:tree",
+      ["default:fence_birch"] = "default:fence",
+   },
+   -- Oak → Normal (Normal + Birch)
+   {
+      ["default:planks_oak"] = "default:planks",
+      ["default:tree_oak"] = "default:tree",
+      ["default:fence_oak"] = "default:fence",
+   },
+   -- Normal wood only
+   {
+      ["default:planks_birch"] = "default:planks",
+      ["default:planks_oak"] = "default:planks",
+      ["default:tree_birch"] = "default:tree",
+      ["default:tree_oak"] = "default:tree",
+      ["default:fence_birch"] = "default:fence",
+      ["default:fence_oak"] = "default:fence",
+   },
+   -- Birch wood only
+   {
+      ["default:planks"] = "default:planks_birch",
+      ["default:planks_oak"] = "default:planks_birch",
+      ["default:tree"] = "default:tree_birch",
+      ["default:tree_oak"] = "default:tree_birch",
+      ["default:fence"] = "default:fence_birch",
+      ["default:fence_oak"] = "default:fence_birch",
+   },
+   -- Oak wood only
+   {
+      ["default:planks"] = "default:planks_oak",
+      ["default:planks_birch"] = "default:planks_oak",
+      ["default:tree"] = "default:tree_oak",
+      ["default:tree_birch"] = "default:tree_oak",
+      ["default:fence"] = "default:fence_oak",
+      ["default:fence_birch"] = "default:fence_oak"
+   },
+}
+
+local village_replace_id
 
 function village.get_id(name, pos)
    return name .. minetest.hash_node_position(pos)
@@ -239,6 +290,9 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill)
       )
    end
 
+   if chunktype == "orchard" then
+      replace["default:tree"] = nil
+   end
    minetest.place_schematic(
       pos,
       modpath .. "/schematics/village_" .. chunktype .. ".mts",
@@ -341,7 +395,7 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill)
    end
 end
 
-function village.spawn_road(pos, houses, built, roads, depth, pr)
+function village.spawn_road(pos, houses, built, roads, depth, pr, replace)
    for i=1,4 do
       local nextpos = {x = pos.x, y = pos.y, z = pos.z}
       local orient = "random"
@@ -368,10 +422,10 @@ function village.spawn_road(pos, houses, built, roads, depth, pr)
 	    houses[hnp] = {pos = nextpos, front = pos}
 
 	    local structure = util.choice_element(village.chunktypes, pr)
-	    village.spawn_chunk(nextpos, orient, {}, pr, structure)
+	    village.spawn_chunk(nextpos, orient, replace, pr, structure)
 	 else
 	    roads[hnp] = {pos = nextpos}
-	    village.spawn_road(nextpos, houses, built, roads, depth - 1, pr)
+	    village.spawn_road(nextpos, houses, built, roads, depth - 1, pr, replace)
 	 end
       end
    end
@@ -396,11 +450,21 @@ function village.spawn_village(pos, pr)
 
    local spawnpos = pos
 
-   village.spawn_chunk(pos, "0", {}, pr, "well")
+   -- Get village wood type based on mapseed. All villages in the world
+   -- will have the same style.
+   -- This is done because the schematic replacements cannot be changed
+   -- once the schematic was loaded.
+   if not village_replace_id then
+      local vpr = PseudoRandom(mapseed)
+      village_replace_id = vpr:next(1,#village_replaces)
+   end
+   local replace = village_replaces[village_replace_id]
+
+   village.spawn_chunk(pos, "0", replace, pr, "well")
    built[minetest.hash_node_position(pos)] = true
 
    local t1 = os.clock()
-   village.spawn_road(pos, houses, built, roads, depth, pr)
+   village.spawn_road(pos, houses, built, roads, depth, pr, replace)
    minetest.log("action", string.format("[village] Took %.2fms to generate village", (os.clock() - t1) * 1000))
 
    local function connects(pos, nextpos)
@@ -421,7 +485,13 @@ function village.spawn_village(pos, pr)
       end
    end
 
+   -- Connect dirt paths with other village tiles.
+   -- The dirt path schematic uses planks and cobble for each of the 4 cardinal
+   -- directions and it will be replaced either with a dirt path or
+   -- the ground.
    for _,road in pairs(roads) do
+      -- FIXME: This replaces the nodes completely wrong!
+      -- Schematic replacements can't be used for this.
       local replaces = {
 	 ["default:planks"]       = "default:dirt_with_grass", -- north
 	 ["default:cobble"]       = "default:dirt_with_grass", -- east
