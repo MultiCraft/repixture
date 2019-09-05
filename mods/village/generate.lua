@@ -556,6 +556,8 @@ function village.spawn_village(pos, pr)
       return false
    end
 
+   local wellpos = table.copy(pos)
+
    built[minetest.hash_node_position(pos)] = true
 
    -- Generate a road at the well. The road tries to grow in 4 directions
@@ -581,10 +583,16 @@ function village.spawn_village(pos, pr)
       end
    end
 
+   -- Add position of well to roads list to connect it properly with
+   -- the road network.
+   local hnp = minetest.hash_node_position(wellpos)
+   roads[hnp] = { pos = wellpos, is_well = true }
+
    -- Connect dirt paths with other village tiles.
    -- The dirt path schematic uses planks and cobble for each of the 4 cardinal
    -- directions and it will be replaced either with a dirt path or
    -- the ground.
+
    for _,road in pairs(roads) do
    if road ~= false then
 
@@ -595,7 +603,9 @@ function village.spawn_village(pos, pr)
 	 ["default:planks_birch"] = "default:dirt_with_grass"  -- west
       }
 
-      village.spawn_chunk(road.pos, "0", replaces, pr, "road")
+      if not road.is_well then
+         village.spawn_chunk(road.pos, "0", replaces, pr, "road")
+      end
 
       local amt_connections = 0
 
@@ -634,7 +644,7 @@ function village.spawn_village(pos, pr)
 
       end
 
-      if amt_connections >= 2 then
+      if amt_connections >= 2 and not road.is_well then
 	 village.spawn_chunk(
 	    {x = road.pos.x, y = road.pos.y+1, z = road.pos.z},
 	    "0",
