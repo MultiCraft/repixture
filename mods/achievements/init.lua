@@ -275,7 +275,9 @@ function achievements.get_formspec(name, row)
    form = form .. "label[0.25,0.25;" .. minetest.formspec_escape(title) .. "]"
    form = form .. "label[7.25,0.25;" .. minetest.formspec_escape(progress) .. "]"
 
-   form = form .. "label[0.5,0.75;" .. minetest.formspec_escape(description) .. "]"
+   -- TODO: Revert this back to a label
+   -- Currently a textarea as a workaround for a bug in Minetest that makes labels too short when translated.
+   form = form .. "textarea[0.75,0.75;7.75,2;;;" .. minetest.formspec_escape(description) .. "]"
 
    return form
 end
