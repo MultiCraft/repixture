@@ -234,10 +234,14 @@ minetest.register_abm( -- leaf decay
       end
 })
 
+local is_dry_biome = function(biomename)
+   return biomename == "Charparral" or biomename == "Savanna" or biomename == "Savanna Ocean" or biomename == "Desert" or biomename == "Wasteland"
+end
+
 minetest.register_abm( -- dirt and grass footsteps becomes dirt with grass if uncovered
    {
-      label = "Grow dirt",
-      nodenames = {"default:dirt", "default:dirt_with_grass_footsteps"},
+      label = "Grow grass on dirt",
+      nodenames = {"default:dirt", "default:dirt_with_grass_footsteps", "default:swamp_dirt"},
       interval = 2,
       chance = 40,
       action = function(pos, node)
@@ -246,7 +250,19 @@ minetest.register_abm( -- dirt and grass footsteps becomes dirt with grass if un
          local partialblock = minetest.get_item_group(name, "path") ~= 0 or minetest.get_item_group(name, "slab") ~= 0 or minetest.get_item_group(name, "stair") ~= 0
          local nodedef = minetest.registered_nodes[name]
          if nodedef and (not partialblock) and (nodedef.sunlight_propagates or nodedef.paramtype == "light") and nodedef.liquidtype == "none" and (minetest.get_node_light(above) or 0) >= 8 then
-            minetest.set_node(pos, {name = "default:dirt_with_grass"})
+            local biomedata = minetest.get_biome_data(pos)
+            local biomename = minetest.get_biome_name(biomedata.biome)
+            if node.name == "default:swamp_dirt" then
+                if biomename == "Swamp" then
+                    minetest.set_node(pos, {name = "default:dirt_with_swamp_grass"})
+                end
+            else
+                if is_dry_biome(biomename) then
+                    minetest.set_node(pos, {name = "default:dirt_with_dry_grass"})
+                else
+                    minetest.set_node(pos, {name = "default:dirt_with_grass"})
+                end
+            end
          end
       end
 })
@@ -254,7 +270,7 @@ minetest.register_abm( -- dirt and grass footsteps becomes dirt with grass if un
 minetest.register_abm( -- dirt with grass becomes dirt if covered
    {
       label = "Remove grass on covered dirt",
-      nodenames = {"default:dirt_with_grass"},
+      nodenames = {"group:grass_cover"},
       interval = 2,
       chance = 10,
       action = function(pos, node)
@@ -263,7 +279,11 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
          local partialblock = minetest.get_item_group(name, "path") ~= 0 or minetest.get_item_group(name, "slab") ~= 0 or minetest.get_item_group(name, "stair") ~= 0
          local nodedef = minetest.registered_nodes[name]
          if name ~= "ignore" and nodedef and (partialblock) or (not ((nodedef.sunlight_propagates or nodedef.paramtype == "light") and nodedef.liquidtype == "none")) then
-            minetest.set_node(pos, {name = "default:dirt"})
+            if node.name == "default:dirt_with_swamp_grass" then
+                minetest.set_node(pos, {name = "default:swamp_dirt"})
+            else
+                minetest.set_node(pos, {name = "default:dirt"})
+            end
          end
       end
 })

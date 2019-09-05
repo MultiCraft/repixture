@@ -204,7 +204,7 @@ minetest.register_node(
          "default_dirt.png",
          "default_dirt.png^default_dry_grass_side.png"
       },
-      groups = {crumbly = 3, soil = 1, plantable_sandy = 1,
+      groups = {crumbly = 3, soil = 1, plantable_sandy = 1, grass_cover = 1,
                 fall_damage_add_percent = -5, not_in_craft_guide = 1},
       drop = {
 	 max_items = 3,
@@ -230,7 +230,7 @@ minetest.register_node(
          "default_swamp_dirt.png",
          "default_swamp_dirt.png^default_swamp_grass_side.png"
       },
-      groups = {crumbly = 3, soil = 1, plantable_soil = 1,
+      groups = {crumbly = 3, soil = 1, plantable_soil = 1, grass_cover = 1,
                 fall_damage_add_percent = -5, not_in_craft_guide = 1},
       drop = {
 	 max_items = 3,
@@ -256,7 +256,7 @@ minetest.register_node(
          "default_dirt.png",
          "default_dirt.png^default_grass_side.png"
       },
-      groups = {crumbly = 3, soil = 1, plantable_soil = 1,
+      groups = {crumbly = 3, soil = 1, plantable_soil = 1, grass_cover = 1,
                 fall_damage_add_percent = -5, not_in_craft_guide = 1},
       drop = {
 	 max_items = 3,
@@ -279,7 +279,7 @@ minetest.register_node(
    {
       description = S("Dirt with Grass and Footsteps"),
       tiles = {"default_grass_footstep.png", "default_dirt.png", "default_dirt.png^default_grass_side.png"},
-      groups = {crumbly = 3, soil = 1, plantable_soil = 1, fall_damage_add_percent = -5, not_in_craft_guide = 1},
+      groups = {crumbly = 3, soil = 1, plantable_soil = 1, grass_cover = 1, fall_damage_add_percent = -5, not_in_craft_guide = 1},
       drop = {
 	 max_items = 3,
 	 items = {
