@@ -267,7 +267,21 @@ function village.lift_ground(pos, scanheight)
    end
 end
 
+local function check_empty(pos)
+   local min = { x = pos.x, y = pos.y + 1, z = pos.z }
+   local max = { x = pos.x+12, y = pos.y+12, z = pos.z+12 }
+   local stones = minetest.find_nodes_in_area(min, max, "group:stone")
+   local leaves = minetest.find_nodes_in_area(min, max, "group:leaves")
+   local trees = minetest.find_nodes_in_area(min, max, "group:tree")
+   return #stones <= 15 and #leaves <= 2 and #trees == 0
+end
+
 function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill)
+   if nofill ~= true and not check_empty(pos) then
+      minetest.log("verbose", "[village] Chunk not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
+      return false
+   end
+
    util.getvoxelmanip(pos, {x = pos.x+12, y = pos.y+12, z = pos.z+12})
 
    if nofill ~= true then
@@ -365,7 +379,7 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill)
 	       function(pos)
 		  minetest.remove_node(pos)
             end)
-	    return
+	    return true
 	 end
 
 	 local ent_spawns = {}
@@ -404,9 +418,16 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill)
 	    goodies.fill(pos, "FURNACE_FUEL", pr, "fuel", 1)
 	 end, true)
    end
+   minetest.log("verbose", "[village] Chunk generated at "..minetest.pos_to_string(pos))
+   return true
 end
 
-function village.spawn_road(pos, houses, built, roads, depth, pr, replace)
+function village.spawn_road(pos, houses, built, roads, depth, pr, replace, dont_check_empty)
+   if not dont_check_empty and not check_empty(pos) then
+      minetest.log("verbose", "[village] Road not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
+      return false
+   end
+
    for i=1,4 do
       local nextpos = {x = pos.x, y = pos.y, z = pos.z}
       local orient = "random"
@@ -427,19 +448,27 @@ function village.spawn_road(pos, houses, built, roads, depth, pr, replace)
 
       local hnp = minetest.hash_node_position(nextpos)
 
+      local chunk_ok
       if built[hnp] == nil then
 	 built[hnp] = true
 	 if depth <= 0 or pr:next(1, 8) < 6 then
 	    houses[hnp] = {pos = nextpos, front = pos}
 
 	    local structure = util.choice_element(village.chunktypes, pr)
-	    village.spawn_chunk(nextpos, orient, replace, pr, structure)
+	    chunk_ok = village.spawn_chunk(nextpos, orient, replace, pr, structure)
+            if not chunk_ok then
+               houses[hnp] = false
+            end
 	 else
 	    roads[hnp] = {pos = nextpos}
-	    village.spawn_road(nextpos, houses, built, roads, depth - 1, pr, replace)
+	    chunk_ok = village.spawn_road(nextpos, houses, built, roads, depth - 1, pr, replace)
+            if not chunk_ok then
+               roads[hnp] = false
+            end
 	 end
       end
    end
+   return true
 end
 
 function village.spawn_village(pos, pr)
@@ -471,24 +500,28 @@ function village.spawn_village(pos, pr)
    end
    local replace = village_replaces[village_replace_id]
    local dirt_path = "default:heated_dirt_path"
+   local chunk_ok
+   chunk_ok = village.spawn_chunk(pos, "0", replace, pr, "well")
+   if not chunk_ok then
+      return false
+   end
 
-   village.spawn_chunk(pos, "0", replace, pr, "well")
    built[minetest.hash_node_position(pos)] = true
 
    local t1 = os.clock()
-   village.spawn_road(pos, houses, built, roads, depth, pr, replace)
+   village.spawn_road(pos, houses, built, roads, depth, pr, replace, true)
    minetest.log("action", string.format("[village] Took %.2fms to generate village", (os.clock() - t1) * 1000))
 
    local function connects(pos, nextpos)
       local hnp = minetest.hash_node_position(nextpos)
 
-      if houses[hnp] ~= nil then
+      if houses[hnp] ~= nil and houses[hnp] ~= false then
 	 if vector.equals(houses[hnp].front, pos) then
 	    return true
 	 end
       end
 
-      if roads[hnp] ~= nil then
+      if roads[hnp] ~= nil and roads[hnp] ~= false then
 	 return true
       end
 
@@ -502,6 +535,8 @@ function village.spawn_village(pos, pr)
    -- directions and it will be replaced either with a dirt path or
    -- the ground.
    for _,road in pairs(roads) do
+   if road ~= false then
+
       local replaces = {
 	 ["default:planks"]       = "default:dirt_with_grass", -- north
 	 ["default:cobble"]       = "default:dirt_with_grass", -- east
@@ -559,6 +594,8 @@ function village.spawn_village(pos, pr)
          )
       end
    end
+   end
+   return true
 end
 
 minetest.register_on_mods_loaded(village.load_villages)

@@ -77,7 +77,10 @@ local function attempt_village_spawn(pos)
           if vector.distance(spawn_pos, spos) > spawn_radius then
              minetest.log("action", "[village] Spawning a grassland village at " .. "(" .. spos.x
                              .. ", " .. spos.y .. ", " .. spos.z .. ")")
-             village.spawn_village(spos, pr)
+             local ok = village.spawn_village(spos, pr)
+             if not ok then
+                 minetest.log("action", "[village] Village spawn failed")
+             end
           else
              minetest.log("action", "[village] Cannot spawn village, too near the static spawnpoint")
           end
