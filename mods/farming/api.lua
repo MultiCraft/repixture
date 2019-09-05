@@ -106,6 +106,9 @@ function farming.grow_plant(pos, name)
 
    if plant.grows_near and
    minetest.find_node_near(pos, plant.growing_distance, plant.grows_near) == nil then
+      minetest.get_node_timer(pos):start(
+         math.random(plant.grow_time / 16, plant.grow_time / 4))
+
       return
    end
 
