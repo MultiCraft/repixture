@@ -150,3 +150,5 @@ Any soil=
 Any stone=
 Any tree=
 Creative Inventory=
+Fertilized Dry Dirt=
+Fertilized Swamp Dirt=

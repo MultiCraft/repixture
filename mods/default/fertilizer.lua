@@ -25,6 +25,50 @@ minetest.register_node(
 })
 
 minetest.register_node(
+   "default:fertilized_dry_dirt",
+   {
+      description = S("Fertilized Dry Dirt"),
+      tiles = {
+         "default_dirt.png^default_fertilizer.png",
+         "default_dirt.png",
+         "default_dirt.png"
+      },
+      groups = {
+	 crumbly = 3,
+	 soil = 1,
+	 dry_dirt = 1,
+	 plantable_dry = 1,
+	 plantable_fertilizer = 1,
+	 fall_damage_add_percent = -10,
+	 not_in_craft_guide = 1,
+      },
+      drop = "default:dry_dirt",
+      sounds = default.node_sound_dirt_defaults(),
+})
+
+minetest.register_node(
+   "default:fertilized_swamp_dirt",
+   {
+      description = S("Fertilized Swamp Dirt"),
+      tiles = {
+         "default_swamp_dirt.png^default_fertilizer.png",
+         "default_swamp_dirt.png",
+         "default_swamp_dirt.png"
+      },
+      groups = {
+	 crumbly = 3,
+	 soil = 1,
+	 swamp_dirt = 1,
+	 plantable_soil = 1,
+	 plantable_fertilizer = 1,
+	 fall_damage_add_percent = -10,
+	 not_in_craft_guide = 1,
+      },
+      drop = "default:swamp_dirt",
+      sounds = default.node_sound_dirt_defaults(),
+})
+
+minetest.register_node(
    "default:fertilized_sand",
    {
       description = S("Fertilized Sand"),
@@ -60,6 +104,10 @@ minetest.register_craftitem(
                return itemstack
             elseif minetest.get_item_group(undernode.name, "normal_dirt") ~= 0 then
                minetest.set_node(pointed_thing.under, {name = "default:fertilized_dirt"})
+            elseif minetest.get_item_group(undernode.name, "swamp_dirt") ~= 0 then
+               minetest.set_node(pointed_thing.under, {name = "default:fertilized_swamp_dirt"})
+            elseif minetest.get_item_group(undernode.name, "dry_dirt") ~= 0 then
+               minetest.set_node(pointed_thing.under, {name = "default:fertilized_dry_dirt"})
             elseif undernode.name == "default:sand" then
                minetest.set_node(pointed_thing.under, {name = "default:fertilized_sand"})
             end
