@@ -435,10 +435,15 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill)
 	 if #ent_spawns > 0 then
 	    for ent, amt in pairs(chunkdef.entities) do
 	       for j = 1, pr:next(1, amt) do
-		  local spawn = util.choice_element(ent_spawns, pr)
+                  if #ent_spawns == 0 then
+                     break
+                  end
+		  local spawn, index = util.choice_element(ent_spawns, pr)
 		  if spawn ~= nil then
 		     spawn.y = spawn.y + 1.6
 		     minetest.add_entity(spawn, ent)
+                     -- Prevent spawning on same tile
+                     table.remove(ent_spawns, index)
 		  end
 	       end
 	    end

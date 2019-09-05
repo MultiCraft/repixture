@@ -161,6 +161,8 @@ end
 
 function util.choice_element(tab, pr)
    -- return a random element of the given table
+   -- 2nd return value is index of chosen element
+   -- Returns nil if table is empty
 
    local choices = {}
 
@@ -170,11 +172,13 @@ function util.choice_element(tab, pr)
 
    if #choices <= 0 then return end
 
+   local rnd
    if pr then
-      return choices[pr:next(1, #choices)]
+      rnd = pr:next(1, #choices)
    else
-      return choices[math.random(1, #choices)]
+      rnd = math.random(1, #choices)
    end
+   return choices[rnd], rnd
 end
 
 -- util.split function taken from a StackOverflow answer.
