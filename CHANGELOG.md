@@ -27,7 +27,7 @@ Bugfixes:
 - Fix crash in `player_skins` mod
 - Fix invalid water bucket stacks sometimes appearing in village chests
 - Fix furnace/chest facing the wrong way in forge house
-- Fix overlaping dirt path slab
+- Fix overlapping dirt path slab
 - Fix broken achievements: place seeds, place lumien crystals, kill mobs
 - Fix mobs never dropping anything
 - Fix inventory menu not updating when changing skin via chat command
@@ -77,7 +77,7 @@ Features:
 - Shift-click in inventories moves items fast
 - Map item enables minimap when carried, the old unfinished map window is gone
 - Show wielded item above hotbar
-- Villagers now talk when rightclicked
+- Villagers now talk when right-clicked
 - Villagers refuse to trade when on low health or hostile
 - More slabs/stairs: bronze, wrought iron, carbon steel
 - Add German translation

@@ -60,7 +60,7 @@ mobs_safe_spawn (Safe spawn from mobs) bool true
 #
 # Additionally, this radius also specifies the radius around
 # spawn in which villages don't generate.
-static_spawn_radius (Spawnpoint safety radius) int 256 0
+static_spawn_radius (Spawn point safety radius) int 256 0
 
 [Graphics and audio]
 # This will add an graphical effect that slightly darkens the edges of the screen.

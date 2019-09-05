@@ -1,6 +1,5 @@
 # textdomain: weather
 Can change the weather using the /weather command=
-storm | snowstorm | clear=
 Change the weather=
 Incorrect weather. Valid weathers are “storm”, “snowstorm” and “clear”.=
 Weather changed.=
