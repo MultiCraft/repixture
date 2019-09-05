@@ -315,8 +315,8 @@ local function check_empty(pos)
    return #stones <= 15 and #leaves <= 2 and #trees == 0
 end
 
-function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill)
-   if nofill ~= true and not check_empty(pos) then
+function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill, dont_check_empty)
+   if not dont_check_empty and not check_empty(pos) then
       minetest.log("verbose", "[village] Chunk not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
       return false
    end
@@ -515,7 +515,7 @@ function village.spawn_road(pos, houses, built, roads, depth, pr, replace, dont_
    return true
 end
 
-function village.spawn_village(pos, pr)
+function village.spawn_village(pos, pr, force_place_well)
    local name = village.name.generate(pr)
 
    local depth = pr:next(village.min_size, village.max_size)
@@ -550,7 +550,7 @@ function village.spawn_village(pos, pr)
    local t1 = os.clock()
 
    -- Every village generation starts with a well.
-   chunk_ok = village.spawn_chunk(pos, "0", replace, pr, "well")
+   chunk_ok = village.spawn_chunk(pos, "0", replace, pr, "well", nil, force_place_well == true)
    if not chunk_ok then
       -- Oops! Not enough space for the well. Village generation fails.
       return false
@@ -651,6 +651,7 @@ function village.spawn_village(pos, pr)
 	    {},
 	    pr,
 	    "lamppost",
+	    true,
 	    true
          )
       end

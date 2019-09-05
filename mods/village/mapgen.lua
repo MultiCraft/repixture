@@ -57,7 +57,9 @@ minetest.register_node(
 
          local pr = PseudoRandom(shortseed + pos.x + pos.y + pos.z)
 
-         village.spawn_village({x=pos.x,y=pos.y-1,z=pos.z}, pr)
+         -- Spawn village on placement.
+         -- Guarantee that at least the well is placed, to avoid confusion.
+         village.spawn_village({x=pos.x,y=pos.y-1,z=pos.z}, pr, true)
       end,
 })
 
