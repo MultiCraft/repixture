@@ -11,10 +11,11 @@ function farming.register_plant(name, plant)
 
    farming.registered_plants[name] = plant -- Might need to fully copy here?
 
+   local lbm_name = string.gsub(name, ":", "_")
    minetest.register_lbm(
       {
-         label = "Grow legacy farming plants",
-         name = "farming:grow_legacy_plants",
+         label = "Grow legacy farming plants ("..name..")",
+         name = "farming:grow_legacy_plants_v2_"..lbm_name,
 
 	 nodenames = {
 	    name .. "_1",
@@ -23,7 +24,10 @@ function farming.register_plant(name, plant)
 	 },
 
 	 action = function(pos, node)
-            farming.grow_plant(pos, name)
+            local timer = minetest.get_node_timer(pos)
+            if not timer:is_started() then
+                farming.begin_growing_plant(pos)
+            end
          end,
       }
    )
