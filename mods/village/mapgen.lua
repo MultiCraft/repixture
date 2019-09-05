@@ -57,7 +57,7 @@ minetest.register_node(
 
          local pr = PseudoRandom(shortseed + pos.x + pos.y + pos.z)
 
-         village.spawn_village(pos, pr)
+         village.spawn_village({x=pos.x,y=pos.y-1,z=pos.z}, pr)
       end,
 })
 
@@ -77,7 +77,7 @@ local function attempt_village_spawn(pos)
           if vector.distance(spawn_pos, spos) > spawn_radius then
              minetest.log("action", "[village] Spawning a grassland village at " .. "(" .. spos.x
                              .. ", " .. spos.y .. ", " .. spos.z .. ")")
-             local ok = village.spawn_village(spos, pr)
+             local ok = village.spawn_village({x=spos.x,y=spos.y-1,z=spos.z}, pr)
              if not ok then
                  minetest.log("action", "[village] Village spawn failed")
              end
