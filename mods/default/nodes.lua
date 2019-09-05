@@ -179,7 +179,7 @@ minetest.register_node(
    "default:dry_dirt",
    {
       description = S("Dry Dirt"),
-      tiles = {"default_dirt.png"},
+      tiles = {"default_dry_dirt.png"},
       stack_max = 240,
       groups = {crumbly = 3, soil = 1, dry_dirt = 1, plantable_dry = 1, fall_damage_add_percent = -10},
       sounds = default.node_sound_dirt_defaults(),

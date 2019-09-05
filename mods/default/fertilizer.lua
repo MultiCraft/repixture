@@ -29,9 +29,9 @@ minetest.register_node(
    {
       description = S("Fertilized Dry Dirt"),
       tiles = {
-         "default_dirt.png^default_fertilizer.png",
-         "default_dirt.png",
-         "default_dirt.png"
+         "default_dry_dirt.png^default_fertilizer.png",
+         "default_dry_dirt.png",
+         "default_dry_dirt.png"
       },
       groups = {
 	 crumbly = 3,
