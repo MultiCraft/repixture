@@ -243,7 +243,7 @@ minetest.register_abm( -- dirt and grass footsteps becomes dirt with grass if un
       action = function(pos, node)
          local above = {x=pos.x, y=pos.y+1, z=pos.z}
          local name = minetest.get_node(above).name
-         local partialblock = minetest.get_item_group(name, "slab") ~= 0 or minetest.get_item_group(name, "stair") ~= 0
+         local partialblock = minetest.get_item_group(name, "path") ~= 0 or minetest.get_item_group(name, "slab") ~= 0 or minetest.get_item_group(name, "stair") ~= 0
          local nodedef = minetest.registered_nodes[name]
          if nodedef and (not partialblock) and (nodedef.sunlight_propagates or nodedef.paramtype == "light") and nodedef.liquidtype == "none" and (minetest.get_node_light(above) or 0) >= 8 then
             minetest.set_node(pos, {name = "default:dirt_with_grass"})
@@ -260,7 +260,7 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
       action = function(pos, node)
          local above = {x=pos.x, y=pos.y+1, z=pos.z}
          local name = minetest.get_node(above).name
-         local partialblock = minetest.get_item_group(name, "slab") ~= 0 or minetest.get_item_group(name, "stair") ~= 0
+         local partialblock = minetest.get_item_group(name, "path") ~= 0 or minetest.get_item_group(name, "slab") ~= 0 or minetest.get_item_group(name, "stair") ~= 0
          local nodedef = minetest.registered_nodes[name]
          if name ~= "ignore" and nodedef and (partialblock) or (not ((nodedef.sunlight_propagates or nodedef.paramtype == "light") and nodedef.liquidtype == "none")) then
             minetest.set_node(pos, {name = "default:dirt"})

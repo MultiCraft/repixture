@@ -309,7 +309,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 0.5-2/16, 0.5}
       },
       tiles = {"default_dirt.png"},
-      groups = {crumbly = 3, fall_damage_add_percent = -10},
+      groups = {crumbly = 3, path = 1, fall_damage_add_percent = -10},
       is_ground_content = false,
       sounds = default.node_sound_dirt_defaults(),
 })
@@ -342,7 +342,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 0.5-2/16, 0.5}
       },
       tiles = {"default_dirt.png"},
-      groups = {crumbly = 3, fall_damage_add_percent = -10},
+      groups = {crumbly = 3, path = 1, fall_damage_add_percent = -10},
       is_ground_content = false,
       sounds = default.node_sound_dirt_defaults(),
 })
