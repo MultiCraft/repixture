@@ -21,7 +21,7 @@ farming.register_plant(
       grow_time = 780,
       grows_near = {"group:water"},
       growing_distance = 4,
-      grows_on = {"group:plantable_sandy", "group:plantable_soil"},
+      grows_on = {"group:plantable_sandy", "group:plantable_soil", "group:plantable_dry"},
       light_min = 12,
       light_max = 15,
    }

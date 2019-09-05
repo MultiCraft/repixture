@@ -14,6 +14,7 @@ minetest.register_node(
       groups = {
 	 crumbly = 3,
 	 soil = 1,
+	 normal_dirt = 1,
 	 plantable_soil = 1,
 	 plantable_fertilizer = 1,
 	 fall_damage_add_percent = -5,
@@ -52,16 +53,15 @@ minetest.register_craftitem(
          local pos = pointed_thing.above
 
          local undernode = minetest.get_node(pointed_thing.under)
-         local underdef = minetest.registered_nodes[undernode.name]
 
          local diff = vector.subtract(pointed_thing.above, pointed_thing.under)
          if diff.y > 0 then
-            if underdef.groups then
-               if underdef.groups.plantable_soil then
-                  minetest.set_node(pointed_thing.under, {name = "default:fertilized_dirt"})
-               elseif underdef.groups.plantable_sandy then
-                  minetest.set_node(pointed_thing.under, {name = "default:fertilized_sand"})
-               end
+            if minetest.get_item_group(undernode.name, "plantable_fertilizer") ~= 0 then
+               return itemstack
+            elseif minetest.get_item_group(undernode.name, "normal_dirt") ~= 0 then
+               minetest.set_node(pointed_thing.under, {name = "default:fertilized_dirt"})
+            elseif undernode.name == "default:sand" then
+               minetest.set_node(pointed_thing.under, {name = "default:fertilized_sand"})
             end
          end
 
