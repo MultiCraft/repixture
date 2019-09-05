@@ -23,18 +23,19 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    else
       tiles = nodedef.tiles
    end
+   local groups_slab
    if not groups then
-      groups = table.copy(nodedef.groups)
+      groups_slab = table.copy(nodedef.groups)
    else
-      groups = {}
+      groups_slab = table.copy(groups)
    end
-   groups.slab = 1
+   groups_slab.slab = 1
 
    minetest.register_node(
       "partialblocks:slab_" .. name,
       {
 	 tiles = tiles,
-	 groups = groups,
+	 groups = groups_slab,
 	 sounds = nodedef.sounds,
 
 	 description = desc_slab,
@@ -101,14 +102,19 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       tiles = nodedef.tiles
    end
 
-   groups.slab = nil
-   groups.stair = 1
+   local groups_stair
+   if not groups then
+      groups_stair = table.copy(nodedef.groups)
+   else
+      groups_stair = table.copy(groups)
+   end
+   groups_stair.stair = 1
 
    minetest.register_node(
       "partialblocks:stair_" .. name,
       {
 	 tiles = tiles,
-	 groups = groups,
+	 groups = groups_stair,
 	 sounds = nodedef.sounds,
 
 	 description = desc_stair,
