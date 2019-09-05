@@ -194,7 +194,7 @@ crafting.register_craft(
 achievements.register_achievement(
    "musician",
    {
-      title = S("Musician"),
+      title = S("Sound Engineer"),
       description = S("Craft a music player."),
       times = 1,
       craftitem = "music:player",

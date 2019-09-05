@@ -3,5 +3,5 @@ Music Player (off)=
 Music Player (on)=
 Music Player=
 Music Player (disabled by server)=
-Musician=
+Sound Engineer=
 Craft a music player.=
