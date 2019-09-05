@@ -48,8 +48,19 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 	 paramtype = "light",
 	 is_ground_content = nodedef.is_ground_content,
 
-         on_rightclick = function(pos, _, _, itemstack, _)
-            if minetest.get_node(pos).name == itemstack:get_name()
+         on_place = function(itemstack, placer, pointed_thing)
+            -- Slab on slab placement creates full block
+            if not (pointed_thing.above.y > pointed_thing.under.y) then
+               itemstack = minetest.item_place(itemstack, placer, pointed_thing)
+               return itemstack
+            end
+            local pos = pointed_thing.under
+            local shift = false
+            if placer:is_player() then
+               -- Place node normally when sneak is pressed
+               shift = placer:get_player_control().sneak
+            end
+            if (not shift) and minetest.get_node(pos).name == itemstack:get_name()
             and itemstack:get_count() >= 1 then
                minetest.set_node(pos, {name = node})
 
@@ -57,8 +68,10 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
                    itemstack:take_item()
                end
 
-               return itemstack
+            else
+               itemstack = minetest.item_place(itemstack, placer, pointed_thing)
             end
+            return itemstack
          end,
    })
 
