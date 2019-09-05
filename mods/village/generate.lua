@@ -181,6 +181,18 @@ village.chunkdefs["farm"] = {
       ["mobs:npc_farmer"] = 1,
    },
 }
+village.chunkdefs["farm_wheat"] = {
+   entity_chance = 2,
+   entities = {
+      ["mobs:npc_farmer"] = 1,
+   },
+}
+village.chunkdefs["farm_cotton"] = {
+   entity_chance = 2,
+   entities = {
+      ["mobs:npc_farmer"] = 1,
+   },
+}
 village.chunkdefs["farm_papyrus"] = {
    entity_chance = 2,
    entities = {
@@ -188,15 +200,42 @@ village.chunkdefs["farm_papyrus"] = {
    },
 }
 
+-- List of chunk types. Chunk types are structurs and buildings
+-- that are not the well and are placed next to roads.
+-- The number is their absolute frequency. The higher the number,
+-- the more likely it will occur.
+-- The well is not listed here because it acts as the start point.
 village.chunktypes = {
-   "house", "house", "house", "house",
-   "tavern", "tavern",
-   "forge", "forge",
-   "farm", "farm",
-   "farm_papyrus",
-   "livestock_pen",
-   "orchard",
+   -- chunktype, absolute frequency
+   { "house", 12 },
+   { "tavern", 6 },
+   { "forge", 6 },
+   { "farm_wheat", 2 },
+   { "farm_cotton", 2 },
+   { "farm", 2 },
+   { "farm_papyrus", 3 },
+   { "livestock_pen", 3 },
+   { "orchard", 3 },
 }
+
+-- Calculate cumulated absolute frequency and put it in index 3
+local chunksum = 0
+for i=1, #village.chunktypes do
+   chunksum = chunksum + village.chunktypes[i][2]
+   village.chunktypes[i][3] = chunksum
+end
+
+-- Select a random chunk. The probability of a chunk being selected is
+-- <absolute frequency> / <sum of all absolute frequencies>
+local function random_chunktype(pr)
+   local rnd = pr:next(1, chunksum)
+   for i=1, #village.chunktypes do
+      if rnd <= village.chunktypes[i][3] then
+         return village.chunktypes[i][1]
+      end
+   end
+   return village.chunktypes[#village.chunktypes][1]
+end
 
 function village.lift_ground(pos, scanheight)
    -- assume ground is lower than pos.y
@@ -454,7 +493,7 @@ function village.spawn_road(pos, houses, built, roads, depth, pr, replace, dont_
 	 if depth <= 0 or pr:next(1, 8) < 6 then
 	    houses[hnp] = {pos = nextpos, front = pos}
 
-	    local structure = util.choice_element(village.chunktypes, pr)
+	    local structure = random_chunktype(pr)
 	    chunk_ok = village.spawn_chunk(nextpos, orient, replace, pr, structure)
             if not chunk_ok then
                houses[hnp] = false
@@ -501,16 +540,23 @@ function village.spawn_village(pos, pr)
    local replace = village_replaces[village_replace_id]
    local dirt_path = "default:heated_dirt_path"
    local chunk_ok
+
+   -- For measuring the generation time
+   local t1 = os.clock()
+
+   -- Every village generation starts with a well.
    chunk_ok = village.spawn_chunk(pos, "0", replace, pr, "well")
    if not chunk_ok then
+      -- Oops! Not enough space for the well. Village generation fails.
       return false
    end
 
    built[minetest.hash_node_position(pos)] = true
 
-   local t1 = os.clock()
+   -- Generate a road at the well. The road tries to grow in 4 directions
+   -- growing either recursively more roads or buildings (where the road
+   -- terminates)
    village.spawn_road(pos, houses, built, roads, depth, pr, replace, true)
-   minetest.log("action", string.format("[village] Took %.2fms to generate village", (os.clock() - t1) * 1000))
 
    local function connects(pos, nextpos)
       local hnp = minetest.hash_node_position(nextpos)
@@ -595,6 +641,7 @@ function village.spawn_village(pos, pr)
       end
    end
    end
+   minetest.log("action", string.format("[village] Took %.2fms to generate village", (os.clock() - t1) * 1000))
    return true
 end
 
