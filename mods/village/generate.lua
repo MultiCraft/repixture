@@ -86,7 +86,7 @@ function village.load_villages()
 	 local l = f:read("*l")
 	 if l == nil then break end
 
-	 for name, fname, pos in string.gfind(l, "(.+) (%a+) (%d.+)") do
+	 for name, fname, pos in string.gmatch(l, "(.+) (%a+) (%d.+)") do
 	    village.villages[name] = {
 	       name = fname,
 	       pos = minetest.get_position_from_hash(pos),
