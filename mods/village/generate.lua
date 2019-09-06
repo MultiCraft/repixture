@@ -617,30 +617,30 @@ function village.spawn_village(pos, pr, force_place_well)
 	 local nextpos = {x = road.pos.x, y = road.pos.y, z = road.pos.z}
 
 	 if i == 1 then
-	    amt_connections = amt_connections + 1
 	    nextpos.z = nextpos.z + 12
 	    if connects(road.pos, nextpos) then
+               amt_connections = amt_connections + 1
                local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=8}), vector.add(road.pos, {x=7,y=0,z=11}), {"default:dirt_with_grass"})
                minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 elseif i == 2 then
-	    amt_connections = amt_connections + 1
 	    nextpos.x = nextpos.x + 12
 	    if connects(road.pos, nextpos) then
+               amt_connections = amt_connections + 1
                local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=8, y=0, z=4}), vector.add(road.pos, {x=11,y=0,z=7}), {"default:dirt_with_grass"})
                minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 elseif i == 3 then
-	    amt_connections = amt_connections + 1
 	    nextpos.z = nextpos.z - 12
 	    if connects(road.pos, nextpos) then
+               amt_connections = amt_connections + 1
                local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=0}), vector.add(road.pos, {x=7,y=0,z=3}), {"default:dirt_with_grass"})
                minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 else
-	    amt_connections = amt_connections + 1
 	    nextpos.x = nextpos.x - 12
 	    if connects(road.pos, nextpos) then
+               amt_connections = amt_connections + 1
                local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=0, y=0, z=4}), vector.add(road.pos, {x=3,y=0,z=7}), {"default:dirt_with_grass"})
                minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
