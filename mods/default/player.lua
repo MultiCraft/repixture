@@ -100,12 +100,6 @@ local function on_joinplayer(player)
    player_health[name] = player:get_hp()
 
    player_lastpos[name] = player:get_pos()
-
-   -- Uncomment to enable player-on-player collisions
-   --   player:set_properties({physical = true})
-
-   -- Uncomment to disable sneaking
-   player:set_physics_override({sneak = false})
 end
 
 local function on_leaveplayer(player)
