@@ -403,6 +403,7 @@ minetest.register_node(
       wield_image = "default_sapling_inventory.png",
       paramtype = "light",
       walkable = false,
+      floodable = true,
       selection_box = {
 	 type = "fixed",
 	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
@@ -433,6 +434,7 @@ minetest.register_node(
       wield_image = "default_sapling_oak_inventory.png",
       paramtype = "light",
       walkable = false,
+      floodable = true,
       selection_box = {
 	 type = "fixed",
 	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
@@ -462,6 +464,7 @@ minetest.register_node(
       wield_image = "default_sapling_birch_inventory.png",
       paramtype = "light",
       walkable = false,
+      floodable = true,
       selection_box = {
 	 type = "fixed",
 	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
@@ -995,6 +998,7 @@ minetest.register_node(
       waving = 1,
       walkable = false,
       buildable_to = true,
+      floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, dry_grass = 1},
       sounds = default.node_sound_leaves_defaults(),
 })
@@ -1116,6 +1120,7 @@ minetest.register_node(
       },
       sunlight_propagates = true,
       walkable = false,
+      floodable = true,
       -- TODO: Enable the drop code below, when the pearl is useful.
       -- The pearl is currently useless.
       --[[drop = {

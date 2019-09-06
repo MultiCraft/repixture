@@ -14,6 +14,7 @@ minetest.register_node(
       paramtype = "light",
       waving = 1,
       walkable = false,
+      floodable = true,
       buildable_to = true,
       is_ground_content = true,
       drop = {
@@ -39,6 +40,7 @@ minetest.register_node(
       paramtype = "light",
       waving = 1,
       walkable = false,
+      floodable = true,
       buildable_to = true,
       is_ground_content = true,
       drop = {
@@ -64,6 +66,7 @@ minetest.register_node(
       paramtype = "light",
       waving = 1,
       walkable = false,
+      floodable = true,
       buildable_to = true,
       is_ground_content = true,
       drop = {
@@ -89,6 +92,7 @@ minetest.register_node(
       paramtype = "light",
       waving = 1,
       walkable = false,
+      floodable = true,
       buildable_to = true,
       is_ground_content = true,
       drop = {
@@ -119,6 +123,7 @@ minetest.register_node(
       paramtype = "light",
       waving = 1,
       walkable = false,
+      floodable = true,
       buildable_to = true,
       is_ground_content = true,
       drop = {
@@ -144,6 +149,7 @@ minetest.register_node(
       paramtype = "light",
       waving = 1,
       walkable = false,
+      floodable = true,
       buildable_to = true,
       is_ground_content = true,
       drop = {
@@ -169,6 +175,7 @@ minetest.register_node(
       paramtype = "light",
       waving = 1,
       walkable = false,
+      floodable = true,
       buildable_to = true,
       is_ground_content = true,
       drop = {
@@ -194,6 +201,7 @@ minetest.register_node(
       paramtype = "light",
       waving = 1,
       walkable = false,
+      floodable = true,
       buildable_to = true,
       is_ground_content = true,
       drop = {
