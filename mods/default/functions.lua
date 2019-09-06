@@ -1,3 +1,5 @@
+local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
+
 --
 -- Functions/ABMs
 --
@@ -288,46 +290,85 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
       end
 })
 
-minetest.register_abm( -- grass expands
-   {
-      label = "Grass expansion",
-      nodenames = {"default:grass"},
-      interval = 20,
-      chance = 160,
-      action = function(pos, node)
-         local rx = math.random(0, 2) - 1
-         local rz = math.random(0, 2) - 1
+minetest.register_abm({
+    label = "Grass expansion",
+    nodenames = {"group:grass"},
+    neighbors = {"group:grass_cover"},
+    interval = 20,
+    chance = 160,
+    action = function(pos, node)
+        pos.y = pos.y - 1
+        local under = minetest.get_node(pos)
+        pos.y = pos.y + 1
 
-         local edgepos = {x = pos.x+rx, y = pos.y, z = pos.z+rz}
-         local downpos = {x = pos.x+rx, y = pos.y-1, z = pos.z+rz}
-         local edgenode = minetest.get_node(edgepos)
-         local downnode = minetest.get_node(downpos)
+        local required_under
+        if minetest.get_item_group(node.name, "normal_grass") ~= 0 then
+            required_under = "default:dirt_with_grass"
+        elseif minetest.get_item_group(node.name, "dry_grass") ~= 0 then
+            required_under = "default:dirt_with_dry_grass"
+        elseif minetest.get_item_group(node.name, "swamp_grass") ~= 0 then
+            required_under = "default:dirt_with_swamp_grass"
+        else
+            return
+        end
 
-         if edgenode.name == "air" and downnode.name ~= "air" and downnode.buildable_to == false and walkable == true then
-            minetest.set_node(edgepos, {name = "default:grass"})
-         end
-      end
+        if under.name ~= required_under then
+            return
+        end
+
+        -- Lower chance to spread dry grass
+        if node.name == "default:dry_grass" and math.random(1,2) == 1 then
+            return
+        end
+
+        local pos0 = vector.subtract(pos, 4)
+        local pos1 = vector.add(pos, 4)
+        -- Testing shows that a threshold of 3 results in an appropriate maximum
+        -- density of approximately 7 nodes per 9x9 area.
+        if #minetest.find_nodes_in_area(pos0, pos1, {"group:grass", "default:fern"}) > 3 then
+            return
+        end
+
+        local soils = minetest.find_nodes_in_area_under_air( pos0, pos1, "group:grass_cover")
+        local num_soils = #soils
+        if num_soils >= 1 then
+            for si = 1, math.min(3, num_soils) do
+                local soil = soils[math.random(num_soils)]
+                local soil_above = {x = soil.x, y = soil.y + 1, z = soil.z}
+                minetest.set_node(soil_above, {name = node.name})
+            end
+        end
+    end
 })
 
-minetest.register_abm( -- clams grow
-   {
-      label = "Growing clams",
-      nodenames = {"default:clam"},
-      interval = 20,
-      chance = 160,
-      action = function(pos, node)
-         local rx = math.random(0, 2) - 1
-         local rz = math.random(0, 2) - 1
+minetest.register_abm({
+    label = "Growing clams",
+    nodenames = {"default:sand", "default:gravel"},
+    neighbors = {"default:water_source"},
+    interval = 20,
+    chance = 160,
+    action = function(pos, node)
+        if pos.y ~= water_level then
+           return
+        end
+        local pos0 = vector.add(pos, {x=-5, y=0, z=-5})
+        local pos1 = vector.add(pos, {x=5, y=2, z=5})
+        if #minetest.find_nodes_in_area(pos0, pos1, "default:clam") >= 1 then
+            return
+        end
 
-         local edgepos = {x = pos.x+rx, y = pos.y, z = pos.z+rz}
-         local downpos = {x = pos.x+rx, y = pos.y-1, z = pos.z+rz}
-         local edgenode = minetest.get_node(edgepos)
-         local downnode = minetest.get_node(downpos)
-
-         if edgenode.name == "air" and downnode.name ~= "air" and downnode.buildable_to == false and walkable == true then
-            minetest.set_node(edgepos, {name = "default:clam"})
-         end
-      end
+        pos0 = vector.add(pos, {x=-2, y=0, z=-2})
+        pos1 = vector.add(pos, {x=2, y=0, z=2})
+        local soils = minetest.find_nodes_in_area_under_air( pos0, pos1, {"default:sand", "default:gravel"})
+        local num_soils = #soils
+        if num_soils >= 1 then
+            for si = 1, math.min(3, num_soils) do
+                local soil = soils[math.random(num_soils)]
+                local soil_above = {x = soil.x, y = soil.y + 1, z = soil.z}
+                minetest.set_node(soil_above, {name = "default:clam"})
+            end
+        end
+    end
 })
 
 minetest.register_abm( -- cactus grows
