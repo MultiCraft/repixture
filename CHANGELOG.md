@@ -1,3 +1,16 @@
+## 0.3.2
+- Fix crash when farming plants tries to grow in rain
+- Fix undiggable slabs
+- Villages no longer aggressively cut into trees or terrain
+- Few minor village structure improvements and fixes
+- Fix villagers spawning on same spot
+- Fix farming plants not growing under certain circumstances
+- Fix fertilizer acting incorrectly on various types of dirt
+- Fix some grass covers not disappearing when covered
+- Dirt grows a dry grass cover in dry biomes (instead of normal grass cover)
+- Swamp dirt grows a swamp grass cover in swamp biomes
+- Dry dirt now has an unique appearance
+
 ## 0.3.1
 - Fix mobs failing to die when drowning
 - Clams no longer drop pearls
