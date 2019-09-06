@@ -1,3 +1,10 @@
+## 0.4.0
+- Fix another crash in villages mod
+- Sneaking now protects you from falling down edge of blocks
+- Grass clumps will now spread slowly
+- Clams will appear slowly at sand and gravel beaches
+- Swamp grass clump now can be used to craft fiber (1:1)
+
 ## 0.3.2
 - Fix crash when farming plants tries to grow in rain
 - Fix undiggable slabs
