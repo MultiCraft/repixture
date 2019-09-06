@@ -129,7 +129,7 @@ crafting.register_craft(
    {
       output = "default:fiber",
       items = {
-         "default:grass",
+         "group:green_grass",
       }
 })
 

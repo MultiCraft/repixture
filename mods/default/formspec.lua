@@ -25,13 +25,14 @@ default.ui.group_defaults = {
    soil = "default:dirt",
    stone = "default:stone",
    tree = "default:tree",
+   green_grass = "default:grass",
 }
 default.ui.group_names = {
    fuzzy = { S("Fuzzy"), S("Any fuzzy block") },
    planks = { S("Planks"), S("Any planks") },
    soil = { S("Soil"), S("Any soil") },
    stone = { S("Stone"), S("Any stone") },
-   tree = { S("Tree"), S("Any tree") },
+   green_grass = { S("Green Grass Clump"), S("Any green grass clump") },
 }
 
 -- Itemslot backgrounds
