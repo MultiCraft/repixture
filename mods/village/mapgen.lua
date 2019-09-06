@@ -25,18 +25,39 @@ minetest.register_node(
    "village:entity_spawner",
    {
       description = S("Village Entity Spawner"),
-      tiles = {
-          "village_entity.png", "village_entity.png", "village_entity.png",
-          "village_entity.png", "village_entity.png^[transformFX", "village_entity.png^[transformFX"
-      },
-      is_ground_content = false,
+      drawtype = "airlike",
+      pointable = false,
+      inventory_image = "village_entity.png",
+      wield_image = "village_entity.png",
+      is_ground_content = true,
       sunlight_propagates = true,
       paramtype = "light",
       post_effect_color = { a = 0x40, r = 0x8D, g = 0x75, b = 0x97 },
       walkable = false,
+      floodable = true,
+      buildable_to = true,
       drop = "",
       groups = {dig_immediate = 3, not_in_creative_inventory = 1},
-      sounds = default.node_sound_defaults()
+      sounds = default.node_sound_defaults(),
+      on_timer = function(pos, elapsed)
+          -- Wait until some objects are nearby ...
+          local objs_around = minetest.get_objects_inside_radius(pos, 12)
+          -- ... but not TOO nearby (occupying the pos)
+          local objs_near = minetest.get_objects_inside_radius(pos, 1.2)
+          if #objs_around > 0 and #objs_near == 0 then
+              local ent = minetest.get_meta(pos):get_string("entity")
+              if ent ~= "" then
+                  minetest.add_entity({x=pos.x, y=pos.y+0.6, z=pos.z}, ent)
+              else
+                  minetest.log("error", "[village] Entity spawner without 'entity' in meta set @ "..minetest.pos_to_string(pos))
+              end
+              minetest.remove_node(pos)
+              return
+          else
+              -- Don't spawn and try again later
+              minetest.get_node_timer(pos):start(5)
+          end
+      end,
 })
 
 minetest.register_node(

@@ -429,7 +429,6 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill, dont_c
 	    "village:entity_spawner",
 	    function(pos)
 	       table.insert(ent_spawns, pos)
-	       minetest.remove_node(pos)
 	    end, true)
 
 	 if #ent_spawns > 0 then
@@ -440,14 +439,19 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill, dont_c
                   end
 		  local spawn, index = util.choice_element(ent_spawns, pr)
 		  if spawn ~= nil then
-		     spawn.y = spawn.y + 1.6
-		     minetest.add_entity(spawn, ent)
+                     local meta = minetest.get_meta(spawn)
+	             meta:set_string("entity", ent)
+	             minetest.get_node_timer(spawn):start(1)
                      -- Prevent spawning on same tile
                      table.remove(ent_spawns, index)
 		  end
 	       end
 	    end
 	 end
+         -- Remove unused entity spawners
+         for e=1, #ent_spawns do
+             minetest.remove_node(ent_spawns[e])
+         end
       end
    end
 
