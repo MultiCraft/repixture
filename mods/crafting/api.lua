@@ -44,10 +44,9 @@ function crafting.register_craft(def)
    local itemstack = ItemStack(def.output)
    local itemkey = itemstack:to_string()
 
-   if crafting.registered_crafts[itemkey] ~= nil then
-      minetest.log("warning",
-                   "Tried to register an existing craft " .. itemkey .. ", allowing")
-   end
+   -- Each output item may only be used once. There can't be 2 recipes with
+   -- the exact same output
+   assert(crafting.registered_crafts[itemkey] == nil, "Crafting recipe collision! itemkey="..itemkey.." def="..dump(def))
 
    if not minetest.registered_items[itemstack:get_name()] then
       minetest.log("warning",
@@ -61,7 +60,7 @@ function crafting.register_craft(def)
       groups = def.groups or crafting.default_craftdef.groups,
    }
 
-   if #craftdef.items > 4 then
+   if #craftdef.items > crafting.max_inputs then
       minetest.log("warning",
                    "Attempting to register craft " .. itemkey .." with more than "
                       .. crafting.max_inputs .. " inputs, allowing")
