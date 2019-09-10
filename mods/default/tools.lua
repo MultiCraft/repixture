@@ -163,9 +163,9 @@ if minetest.settings:get_bool("creative_mode") == true then
 	       snappy = {times={[1]=creative_digtime, [2]=creative_digtime, [3]=creative_digtime}, uses=0, maxlevel=1},
 	       oddly_breakable_by_hand = {times={[1]=creative_digtime,[2]=creative_digtime,[3]=creative_digtime}, uses=0, maxlevel=3},
 	    },
-	    range = 3.8,
 	    damage_groups = {fleshy = 1}
-	 }
+	 },
+	 range = 20,
    })
 else
    tool_levels = {
@@ -308,9 +308,9 @@ else
 	       fleshy = {times={[2]=1.6, [3]=1.0}, uses=0, maxlevel=1},
 	       oddly_breakable_by_hand = {times={[1]=7.0,[2]=5.5,[3]=4.0}, uses=0, maxlevel=1},
 	    },
-	    range = 3.8,
 	    damage_groups = {fleshy = 1}
-	 }
+	 },
+	 range = 4,
    })
 end
 
@@ -332,7 +332,7 @@ minetest.register_tool(
 	    snappy = {times={[1]=creative_digtime, [2]=creative_digtime, [3]=creative_digtime}, uses=0, maxlevel=1},
 	    oddly_breakable_by_hand = {times={[1]=creative_digtime,[2]=creative_digtime,[3]=creative_digtime}, uses=0, maxlevel=3},
 	 },
-	 range = 20.8,
+	 range = 20,
 	 damage_groups = {fleshy = 1}
       }
 })
