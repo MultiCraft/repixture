@@ -1,3 +1,10 @@
+## 0.4.1
+- Jewels generate again
+- Increase hand range in Creative Mode
+- Dry grass, music player, saplings and farming plants are now floodable
+- Villages: Don't place lanterns in dead-end roads
+- Make villager spawning more reliable
+
 ## 0.4.0
 - Fix another crash in villages mod
 - Sneaking now protects you from falling down edge of blocks

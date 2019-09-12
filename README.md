@@ -6,7 +6,7 @@ This is a sandbox survival crafting game focusing on low-tech and
 unique graphics and sounds.
 
 ## Version
-0.4.0
+0.4.1
 
 ## Project Notes
 
@@ -19,7 +19,6 @@ There will be no major changes to gameplay.
 
 ## Bugs, problems and limitations
 
-- Jewels do not generate
 - The v6 mapgen is intentionally disabled
 
 ## Changelog
