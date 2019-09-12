@@ -243,20 +243,6 @@ minetest.register_node(
       sounds = default.node_sound_wood_defaults(),
 })
 
--- Ore
-
-minetest.register_ore(
-   {
-      ore_type       = "scatter",
-      ore            = "jewels:jewel_ore",
-      wherein        = "default:tree_birch",
-      clust_scarcity = 11*11*11,
-      clust_num_ores = 3,
-      clust_size     = 6,
-      y_min     = 0,
-      y_max     = 31000,
-})
-
 crafting.register_craft(
    {
       output = "jewels:bench",
@@ -288,5 +274,6 @@ achievements.register_achievement(
 -- The tool jewel definitions
 
 dofile(minetest.get_modpath("jewels").."/jewels.lua")
+dofile(minetest.get_modpath("jewels").."/mapgen.lua")
 
 default.log("mod:jewels", "loaded")

@@ -448,6 +448,7 @@ minetest.register_decoration(
 
 minetest.register_decoration(
    {
+      name = "default:gigatree",
       deco_type = "schematic",
       place_on = {"default:dirt_with_grass"},
       sidelen = 16,
