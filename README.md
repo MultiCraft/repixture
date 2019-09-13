@@ -40,6 +40,18 @@ Inspiration by [Kenney](http://kenney.nl)
 
 ## Licenses
 
-- Media: all CC BY-SA 4.0, CC0, or GPL (The GPL ones I want replaced with CC),
-  see per-mod READMEs.
-- Source: all LGPLv2.1+ or MIT, see per-mod READMEs.
+This game is free software, licensed 100% under free software licenses.
+
+See *LICENSE.txt* or the links below for the full license texts.
+
+- Media files: all licensed under CC BY-SA 4.0 or CC0, with one exception:
+    - The exception: Sounds in the `weather` mod are under GPLv2 (these sounds should be replaced later)
+    - See per-mod READMEs for details
+- Source code: all licensed under LGPLv2.1 (or later versions of the LGPL), or MIT License, see per-mod READMEs.
+
+Links:
+- CC BY-SA 4.0: <https://creativecommons.org/licenses/by-sa/4.0>
+- CC0: <https://creativecommons.org/publicdomain/zero/1.0>
+- GPLv2: <https://www.gnu.org/licenses/old-licenses/gpl-2.0>
+- LGPLv2.1: <https://www.gnu.org/licenses/old-licenses/lgpl-2.1>
+- MIT License: <https://mit-license.org/>
