@@ -334,7 +334,8 @@ minetest.register_tool(
 	 },
 	 range = 20,
 	 damage_groups = {fleshy = 1}
-      }
+      },
+      groups = { no_item_drop = 1 },
 })
 
 -- Pickaxes

@@ -34,8 +34,10 @@ minetest.register_entity(
 		       itemname = stack:to_table().name
 		    end
 
-		    if itemname ~= nil and itemname == "default:creative_tool" then
+                    -- Hand and specially marked items are not allowed in entity form
+		    if itemname ~= nil and ((itemname == "") or (minetest.get_item_group(itemname, "no_item_drop") == 1)) then
 		       self.object:remove()
+                       return
 		    end
 
 		    local item_texture = nil
@@ -101,12 +103,14 @@ minetest.register_entity(
 		   self.timer = self.timer + dtime
 		   if time ~= 0 and (self.timer > time) then
 		      self.object:remove()
+		      return
 		   end
 		   
 		   local p = self.object:get_pos()
 		   
 		   local name = minetest.get_node(p).name
-		   if minetest.registered_nodes[name].damage_per_second > 0 or name == "maptools:igniter" then
+                   -- Destroy item in damaging node
+		   if minetest.registered_nodes[name].damage_per_second > 0 then
 		      minetest.sound_play("builtin_item_lava", {pos = self.object:get_pos(), gain = 0.45})
 		      self.object:remove()
 		      return
@@ -137,18 +141,6 @@ minetest.register_entity(
 		      end
 		   end
 		end,
-      --[[ -- This causes a duplication glitch if a player walks upon an item and clicks on it at the same time:
-      on_punch = function(self, hitter)
-		    if self.itemstring ~= "" then
-		       local left = hitter:get_inventory():add_item("main", self.itemstring)
-		       if not left:is_empty() then
-			  self.itemstring = left:to_string()
-			  return
-		       end
-		    end
-		    self.object:remove()
-		 end,
-      --]]
    })
 
 default.log("mod:builtin_item", "loaded")
