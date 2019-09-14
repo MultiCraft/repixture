@@ -281,8 +281,8 @@ function mobs:register_mob(name, def)
             local tmpyaw = self.object:get_yaw()
             local yaw = self.rotate
 
-            if tmpyaw ~= tmpyaw then -- It's a nan value
-               minetest.log("warning", "[mod:mobs] object:get_yaw() nan shim used")
+            if tmpyaw ~= tmpyaw then -- It's a NaN value
+               minetest.log("warning", "[mobs] object:get_yaw(): NaN returned (pos="..minetest.pos_to_string(vector.round(self.object_get_pos())).."; entitystring="..self.name..")")
             else
                yaw = yaw + tmpyaw
             end
@@ -823,7 +823,9 @@ function mobs:register_mob(name, def)
                      if p.x > s.x then
                         yaw = yaw + math.pi
                      end
-                     self.object:set_yaw(yaw)
+                     if yaw == yaw then -- NaN check
+                        self.object:set_yaw(yaw)
+                     end
 
                      -- anyone but standing npc's can move along
                      if dist > 2 and self.order ~= "stand" then
@@ -878,7 +880,9 @@ function mobs:register_mob(name, def)
                   else
                      yaw = self.object:get_yaw() + ((math.random(0, 360) - 180) / 180 * math.pi)
                   end
-                  self.object:set_yaw(yaw)
+                  if yaw == yaw then -- NaN check
+                     self.object:set_yaw(yaw)
+                  end
                end
 
                self.set_velocity(self, 0)
@@ -920,11 +924,12 @@ function mobs:register_mob(name, def)
                if lp then
                   local vec = {x = lp.x - s.x, y = lp.y - s.y, z = lp.z - s.z}
                   yaw = math.atan(vec.z / vec.x) + 3 * math.pi / 2 - self.rotate
-                  if lp.x > s.x then
-                     yaw = yaw + math.pi
+                  if yaw == yaw then -- NaN check
+                     if lp.x > s.x then
+                        yaw = yaw + math.pi
+                     end
+                     self.object:set_yaw(yaw)
                   end
-                  self.object:set_yaw(yaw)
-
                   -- otherwise randomly turn
                elseif math.random(1, 100) <= 30 then
                   self.object:set_yaw(self.object:get_yaw() + ((math.random(0, 360) - 180) / 180 * math.pi))
@@ -978,7 +983,9 @@ function mobs:register_mob(name, def)
                if p.x > s.x then
                   yaw = yaw+math.pi
                end
-               self.object:set_yaw(yaw)
+               if yaw == yaw then -- NaN check
+                  self.object:set_yaw(yaw)
+               end
                if self.attack.dist > 3 then
                   if not self.v_start then
                      self.v_start = true
@@ -1104,7 +1111,9 @@ function mobs:register_mob(name, def)
                if p.x > s.x then
                   yaw = yaw + math.pi
                end
-               self.object:set_yaw(yaw)
+               if yaw == yaw then -- NaN check
+                  self.object:set_yaw(yaw)
+               end
                -- attack distance is 2 + half of mob width so the bigger mobs can attack (like slimes)
                if self.attack.dist > ((-self.collisionbox[1] + self.collisionbox[4]) / 2) + 2 then
                   -- jump attack
@@ -1177,7 +1186,9 @@ function mobs:register_mob(name, def)
                if p.x > s.x then
                   yaw = yaw + math.pi
                end
-               self.object:set_yaw(yaw)
+               if yaw == yaw then -- NaN check
+                  self.object:set_yaw(yaw)
+               end
                self.set_velocity(self, 0)
 
                if self.shoot_interval and self.timer > self.shoot_interval and math.random(1, 100) <= 60 then
