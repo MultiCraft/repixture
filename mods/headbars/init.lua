@@ -53,6 +53,7 @@ minetest.register_entity(
       _wielder = nil,
 
       on_activate = function(self, staticdata)
+         self.object:set_armor_groups({immortal=1})
          local name = staticdata
          local wielder = minetest.get_player_by_name(name)
          if wielder and wielder:is_player() then
