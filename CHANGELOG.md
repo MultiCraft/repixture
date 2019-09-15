@@ -1,3 +1,6 @@
+## 0.4.3
+- Game renamed from “Pixture Revival” to “Repixture”
+
 ## 0.4.2
 - Fix crashes related to mobs
 - Fix dropped items refusing to fall when block below is dug

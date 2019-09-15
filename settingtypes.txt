@@ -1,6 +1,6 @@
 
 ##
-## Pixture's menu settings
+## Menu settings for this game
 ##
 
 ## Multiplayer settings
