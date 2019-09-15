@@ -58,11 +58,16 @@ minetest.register_entity(
          local wielder = minetest.get_player_by_name(name)
          if wielder and wielder:is_player() then
             self._wielder = wielder
+         else
+            minetest.log("info", "[headbars] Attempted to spawn orphan HP bar entity!")
+            self.object:remove()
+            return
          end
       end,
       on_step = function(self, dtime)
          local ent = self._wielder
 
+         -- Remove orphan HP bar
          if ent == nil or (minetest.get_player_by_name(ent:get_player_name()) == nil) then
             self.object:remove()
             return
@@ -74,6 +79,7 @@ minetest.register_entity(
 
          local hp = ent:get_hp()
 
+         -- Update displayed hearts
          self.object:set_properties({textures = {headbars.get_sprite("heart.png", "headbars_heart_bg.png", 20, hp)}})
       end,
 })
