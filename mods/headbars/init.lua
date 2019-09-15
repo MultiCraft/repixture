@@ -48,13 +48,27 @@ minetest.register_entity(
 
       physical = false,
       pointable = false,
+      static_save = false,
 
+      _wielder = nil,
+
+      on_activate = function(self, staticdata)
+         local name = staticdata
+         local wielder = minetest.get_player_by_name(name)
+         if wielder and wielder:is_player() then
+            self._wielder = wielder
+         end
+      end,
       on_step = function(self, dtime)
-         local ent = self.wielder
+         local ent = self._wielder
 
-         if ent == nil or (minetest.get_player_by_name(ent:get_player_name(0)) == nil) then
+         if ent == nil or (minetest.get_player_by_name(ent:get_player_name()) == nil) then
             self.object:remove()
             return
+         end
+
+         if self.object:get_attach() == nil then
+            self.object:set_attach(ent, "", {x = 0, y = 19, z = 0}, {x = 0, y = 0, z = 0})
          end
 
          local hp = ent:get_hp()
@@ -68,17 +82,20 @@ function headbars.attach_hpbar(to)
    if not enable_headbars then return end
 
    local pos = to:get_pos()
-   local bar = minetest.add_entity(pos, "headbars:hpbar")
+   local name = to:get_player_name()
+   local bar = minetest.add_entity(pos, "headbars:hpbar", name)
 
-   if bar == nil then return end
-
-   --   local attach_pos = {x = 0, y = 0, z = 0}
-   local attach_pos = {x = 0, y = 9, z = 0}
-
-   bar:set_attach(to, "", attach_pos, {x = 0, y = 0, z = 0})
-   bar = bar:get_luaentity()
-   bar.wielder = to
+   if bar == nil then
+      minetest.log("error", "[headbars] HP bar failed to spawn!")
+      return
+   end
 end
 
-minetest.register_on_joinplayer(headbars.attach_hpbar)
+minetest.register_on_joinplayer(function(player)
+	minetest.after(1, function(player)
+		if player and player:is_player() then
+			headbars.attach_hpbar(player)
+		end
+	end, player)
+end)
 default.log("mod:headbars", "loaded")
