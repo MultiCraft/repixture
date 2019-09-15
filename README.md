@@ -6,7 +6,7 @@ This is a sandbox survival crafting game focusing on low-tech and
 unique graphics and sounds.
 
 ## Version
-0.4.1
+0.4.2
 
 ## Project Notes
 
@@ -16,10 +16,6 @@ latest Minetest versions and to fix bugs and improve usability.
 The original gameplay of Pixture will be preserved, only bugfixes
 and usability features will be added.
 There will be no major changes to gameplay.
-
-## Bugs, problems and limitations
-
-- The v6 mapgen is intentionally disabled
 
 ## Changelog
 

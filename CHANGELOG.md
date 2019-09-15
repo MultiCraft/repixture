@@ -1,3 +1,11 @@
+## 0.4.2
+- Fix crashes related to mobs
+- Fix dropped items refusing to fall when block below is dug
+- Fix buggy HP bars above player heads
+- Make wielditem functional again
+- Clarify license information
+- Add screenshot
+
 ## 0.4.1
 - Jewels generate again
 - Increase hand range in Creative Mode
