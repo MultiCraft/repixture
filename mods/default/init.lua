@@ -17,7 +17,11 @@ default.WATER_VISC = 1
 default.LIGHT_MAX = 14
 
 function default.log(text, type)
-   minetest.log("action", "Pixture ["..type.."] "..text)
+   local level = "action"
+   if type == "loaded" then
+     level = "info"
+   end
+   minetest.log(level, "Pixture ["..type.."] "..text)
 end
 
 function default.dumpvec(v)
