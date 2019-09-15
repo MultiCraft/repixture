@@ -48,7 +48,7 @@ minetest.register_globalstep(
 	    for _,object in ipairs(in_radius) do
 	       if not object:is_player() and object:get_luaentity()
                and object:get_luaentity().name == "__builtin:item" and valid(object) then
-                  local pos1 = pos
+                  local pos1 = table.copy(pos)
 
                   pos1.y = pos1.y + 0.2
 
@@ -71,11 +71,10 @@ minetest.register_globalstep(
                            vec.y = vec.y*3
                            vec.z = vec.z*3
 
+                           object:get_luaentity().item_magnet = true
                            object:set_velocity(vec)
+                           object:set_properties({ physical = false })
 
-                           object:get_luaentity().physical_state = false
-
-                           object:get_luaentity().object:set_properties({physical = false})
                         else
                            local lua = object:get_luaentity()
 
@@ -113,10 +112,7 @@ minetest.register_globalstep(
                      end
                   else
                      object:set_velocity({x = 0, y = object:get_velocity().y, z = 0})
-
-                     object:get_luaentity().physical_state = true
-
-                     object:get_luaentity().object:set_properties({physical = true})
+                     object:get_luaentity().item_magnet = false
                   end
                end
             end

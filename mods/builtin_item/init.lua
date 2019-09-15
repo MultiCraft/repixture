@@ -24,6 +24,7 @@ minetest.register_entity(
       
       itemstring = "",
       physical_state = true,
+      item_magnet = false, -- set by other mod that implements item magnet
 
       set_item = function(self, itemstring)
 		    self.itemstring = itemstring
@@ -113,6 +114,10 @@ minetest.register_entity(
 		   if minetest.registered_nodes[name].damage_per_second > 0 then
 		      minetest.sound_play("builtin_item_lava", {pos = self.object:get_pos(), gain = 0.45})
 		      self.object:remove()
+		      return
+		   end
+
+		   if self.item_magnet then
 		      return
 		   end
 		   
