@@ -1098,7 +1098,7 @@ minetest.register_node(
       sunlight_propagates = true,
       walkable = false,
       floodable = true,
-      groups = {fleshy = 3, dig_immediate = 2, leafdecay = 3, leafdecay_drop = 1, attached_node = 1, food = 2},
+      groups = {fleshy = 3, dig_immediate = 2, leafdecay = 3, leafdecay_drop = 1, food = 2},
       on_use = minetest.item_eat({hp = 2, sat = 10}),
       sounds = default.node_sound_defaults(),
 })
