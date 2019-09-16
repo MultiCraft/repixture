@@ -303,7 +303,7 @@ else
 	    groupcaps = {
 	       crumbly = {times={[2]=3.2, [3]=2.1}, uses=0, maxlevel=1},
 	       choppy = {times={[2]=3.5, [3]=3.8}, uses=0, maxlevel=1},
-	       cracky = {times={[2]=8.5, [3]=7.0}, uses=0, maxlevel=1},
+	       cracky = {times={[3]=8.5}, uses=0, maxlevel=1},
 	       snappy = {times={[1]=2.5, [2]=2.0, [3]=1.5}, uses=0, maxlevel=1},
 	       fleshy = {times={[2]=1.6, [3]=1.0}, uses=0, maxlevel=1},
 	       oddly_breakable_by_hand = {times={[1]=7.0,[2]=5.5,[3]=4.0}, uses=0, maxlevel=1},
