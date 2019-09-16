@@ -329,7 +329,7 @@ function crafting.get_formspec(name, select_item)
       local itemdef = minetest.registered_items[itemname]
 
       if select_item then
-         if itemname == select_item then
+         if itemn == select_item then
             selected_craftdef = crafting.registered_crafts[itemn]
             row = i
             if crafting.userdata[name] ~= nil then
@@ -465,6 +465,10 @@ local function on_player_receive_fields(player, form_name, fields)
       else
           craftitems = crafting.get_crafts(inv)
       end
+      local old_item = nil
+      if crafting.userdata[name] then
+          old_item = craftitems[crafting.userdata[name].row]
+      end
 
       local wanted_itemstack = ItemStack(craftitems[crafting.userdata[name].row])
       local output_itemstack = inv:get_stack("craft_out", 1)
@@ -499,13 +503,13 @@ local function on_player_receive_fields(player, form_name, fields)
             inv:set_stack("craft_in", 3, crafted.items[3])
             inv:set_stack("craft_in", 4, crafted.items[4])
 
-            crafting.update_crafting_formspec(player)
+            crafting.update_crafting_formspec(player, old_item)
          end
       end
    elseif fields.craft_list then
       local selection = minetest.explode_table_event(fields.craft_list)
 
-      if selection.type == "CHG" or selection.type == "DCL" then
+      if selection.type == "CHG" then
          crafting.userdata[name].row = selection.row
 
          minetest.show_formspec(name, "crafting:crafting",
@@ -532,11 +536,11 @@ local function on_player_receive_fields(player, form_name, fields)
    player:set_inventory_formspec(crafting.get_formspec(name))
 end
 
-function crafting.update_crafting_formspec(player)
+function crafting.update_crafting_formspec(player, old_item)
    local name = player:get_player_name()
-   minetest.show_formspec(name, "crafting:crafting",
-                          crafting.get_formspec(name))
-   player:set_inventory_formspec(crafting.get_formspec(name))
+   local newform = crafting.get_formspec(name, old_item)
+   minetest.show_formspec(name, "crafting:crafting", newform)
+   player:set_inventory_formspec(newform)
 end
 
 minetest.register_allow_player_inventory_action(function(player, action, inventory, inventory_info)
