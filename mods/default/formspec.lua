@@ -12,6 +12,8 @@ default.ui.registered_pages = {
 
 default.ui.default = {}
 
+default.ui.current_page = {}
+
 -- Colors
 
 default.ui.default.colors = "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]"
@@ -338,6 +340,7 @@ function default.ui.receive_fields(player, form_name, fields)
    if formname and form then
       player:set_inventory_formspec(form)
       minetest.show_formspec(name, formname, form)
+      default.ui.current_page[name] = formname
    end
 end
 
@@ -348,9 +351,17 @@ end)
 
 minetest.register_on_joinplayer(
    function(player)
+      local name = player:get_player_name()
       if minetest.settings:get_bool("creative_mode") then
-          player:set_inventory_formspec(creative.get_formspec(player:get_player_name()))
+          player:set_inventory_formspec(creative.get_formspec(name))
+          default.ui.current_page[name] = "creative:creative"
       else
-          player:set_inventory_formspec(crafting.get_formspec(player:get_player_name()))
+          player:set_inventory_formspec(crafting.get_formspec(name))
+          default.ui.current_page[name] = "crafting:crafting"
       end
+end)
+
+minetest.register_on_leaveplayer(
+   function(player)
+      default.ui.current_page[player:get_player_name()] = nil
 end)

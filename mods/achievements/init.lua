@@ -97,6 +97,11 @@ function achievements.trigger_achievement(player, aname, times)
       end, name, aname)
    end
 
+   if default.ui.current_page[name] == "achievements:achievements" then
+      local form = achievements.get_formspec(name, selected)
+      player:set_inventory_formspec(form)
+   end
+
    delayed_save()
 end
 
@@ -310,11 +315,13 @@ local function receive_fields(player, form_name, fields)
 
    end
    if in_achievements_menu then
+      local form = achievements.get_formspec(name, selected)
       minetest.show_formspec(
          name,
          "achievements:achievements",
-         achievements.get_formspec(name, selected)
+         form
       )
+      player:set_inventory_formspec(form)
    end
 end
 
