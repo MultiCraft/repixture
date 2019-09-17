@@ -1,3 +1,9 @@
+## 0.4.4
+- Fix achievements screen sometimes not properly updated
+- Fix weird attachment behaviour of apples
+- Fix crafting menu selection sometimes annoyingly jumping around after craft
+- Hand can no longer stone and other “hard” blocks
+
 ## 0.4.3
 - Game renamed from “Pixture Revival” to “Repixture”
 

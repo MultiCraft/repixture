@@ -6,7 +6,7 @@ This is a sandbox survival crafting game focusing on low-tech and
 unique graphics and sounds.
 
 ## Version
-0.4.3
+0.4.4
 
 ## Project Notes
 
