@@ -98,7 +98,7 @@ function achievements.trigger_achievement(player, aname, times)
    end
 
    if default.ui.current_page[name] == "achievements:achievements" then
-      local form = achievements.get_formspec(name, selected)
+      local form = achievements.get_formspec(name)
       player:set_inventory_formspec(form)
    end
 
