@@ -1,4 +1,6 @@
 # textdomain: hunger
 You are hungry.=
+You are starving.=
+You starved to death.=
 Eating=
 You're eating food, which slows you down=
