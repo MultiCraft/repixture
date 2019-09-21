@@ -37,7 +37,7 @@ ambiance.sounds["crickets"] = {
    chance = 3,
    file = "ambiance_crickets",
    dist = 8,
-   nodename = "group:grass",
+   nodename = {"group:normal_grass", "group:dry_grass"},
    can_play = function(pos)
       local tod = (minetest.get_timeofday() or 1) * 2
 
@@ -48,6 +48,25 @@ ambiance.sounds["crickets"] = {
       end
 
       if tod < 0.5 or tod > 1.5 then
+         return true
+      end
+
+      return false
+   end,
+}
+
+ambiance.sounds["frog"] = {
+   length = 0.5,
+   chance = 64,
+   pitch_min = -10,
+   pitch_max = 10,
+   file = "ambiance_frog",
+   dist = 16,
+   nodename = "group:swamp_grass",
+   can_play = function(pos)
+      local tod = (minetest.get_timeofday() or 1) * 2
+
+      if tod < 0.4 or tod > 1.6 then
          return true
       end
 
@@ -121,12 +140,17 @@ if minetest.settings:get_bool("ambiance_enable") == true then
                      end
 
                      if ok then
+                        local pitch = nil
+                        if sound.pitch_min and sound.pitch_max then
+                           pitch = 1 + 0.01 * math.random(sound.pitch_min, sound.pitch_max)
+                        end
                         soundspec[name][soundname] = minetest.sound_play(
                            sound.file,
                            {
                               pos = sourcepos,
                               max_hear_distance = sound.dist,
                               gain = ambiance_volume,
+                              pitch = pitch,
                         })
 
                         lastsound[name][soundname] = 0
