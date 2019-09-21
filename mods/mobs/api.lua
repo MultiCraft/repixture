@@ -1340,19 +1340,11 @@ function mobs:register_mob(name, def)
                hitter:set_wielded_item(weapon)
             end
 
-            -- weapon sounds
-            if weapon:get_definition().sounds ~= nil then
-               local s = math.random(0, #weapon:get_definition().sounds)
-               minetest.sound_play(weapon:get_definition().sounds[s], {
-                                      object=hitter,
-                                      max_hear_distance = 8
-               })
-            else
-               minetest.sound_play("default_punch", {
-                                      object = hitter,
-                                      max_hear_distance = 5
-               })
-            end
+            -- punch sounds
+            minetest.sound_play("default_punch", {
+                                   object = hitter,
+                                   max_hear_distance = 5
+            })
 
             -- exit here if dead
             if check_for_death(self, hitter) then
