@@ -22,6 +22,10 @@ function locks.is_owner(meta, player)
    return name == owner
 end
 
+function locks.has_owner(meta)
+   return meta:get_string("lock_owner") ~= ""
+end
+
 function locks.is_locked(meta, player)
    if all_unlocked then
       return false
@@ -133,6 +137,7 @@ minetest.register_node(
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
          meta:set_float("last_lock_pick", -1)
+         meta:set_string("infotext", S("Locked Chest"))
 
          local inv = meta:get_inventory()
          inv:set_size("main", 8 * 4)
@@ -195,7 +200,7 @@ minetest.register_node(
       can_dig = function(pos, player)
          local meta = minetest.get_meta(pos)
          local inv = meta:get_inventory()
-         return inv:is_empty("main") and locks.is_owner(meta, player)
+         return inv:is_empty("main") and (locks.is_owner(meta, player) or (not locks.has_owner(meta)))
       end,
       write_name = function(pos, text)
          local meta = minetest.get_meta(pos)
