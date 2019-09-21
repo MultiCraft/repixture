@@ -119,25 +119,14 @@ function util.reconstruct(pos1, pos2, nomanip)
       manip:read_from_map(pos1, pos2)
    end
 
-   -- fix chests
-   local nodes = minetest.find_nodes_in_area(pos1, pos2, "default:chest")
-   local node = minetest.registered_nodes["default:chest"]
-   for _, pos in ipairs(nodes) do
-      node.on_construct(pos)
-   end
-
-   -- fix music players
-   nodes = minetest.find_nodes_in_area(pos1, pos2, "music:player")
-   node = minetest.registered_nodes["music:player"]
-   for _, pos in ipairs(nodes) do
-      node.on_construct(pos)
-   end
-
-   -- fix furnaces
-   nodes = minetest.find_nodes_in_area(pos1, pos2, "default:furnace")
-   node = minetest.registered_nodes["default:furnace"]
-   for _, pos in ipairs(nodes) do
-      node.on_construct(pos)
+   -- Fix chests, locked chests, music players, furnaces
+   local nodetypes = { "default:chest", "locks:chest", "music:player", "default:furnace" }
+   for n=1, #nodetypes do
+       local nodes = minetest.find_nodes_in_area(pos1, pos2, nodetypes[n])
+       local node = minetest.registered_nodes[nodetypes[n]]
+       for _, pos in ipairs(nodes) do
+          node.on_construct(pos)
+       end
    end
 end
 

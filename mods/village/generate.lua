@@ -10,6 +10,7 @@ village.villages = {}
 local village_file = minetest.get_worldpath() .. "/villages.dat"
 
 local modpath = minetest.get_modpath("village")
+local mod_locks = minetest.get_modpath("locks") ~= nil
 local mapseed = minetest.get_mapgen_setting("seed")
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
 
@@ -365,15 +366,31 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill, dont_c
       true
    )
 
-   util.reconstruct(pos, {x = pos.x+12, y = pos.y+12, z = pos.z+12})
    util.fixlight(pos, {x = pos.x+12, y = pos.y+12, z = pos.z+12})
+
+   -- Replace some chests with locked chests
+   if mod_locks then
+      util.nodefunc(
+         pos,
+         {x = pos.x+12, y = pos.y+12, z = pos.z+12},
+         "default:chest",
+         function(pos)
+            if math.random(1,4) == 1 then
+               local node = minetest.get_node(pos)
+               node.name = "locks:chest"
+               minetest.swap_node(pos, node)
+            end
+         end, true)
+   end
+
+   util.reconstruct(pos, {x = pos.x+12, y = pos.y+12, z = pos.z+12})
 
    util.nodefunc(
       pos,
       {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-      "default:chest",
+      {"default:chest", "locks:chest"},
       function(pos)
-	 goodies.fill(pos, chunktype, pr, "main", 3)
+         goodies.fill(pos, chunktype, pr, "main", 3)
       end, true)
 
    -- Restrict number of music players
