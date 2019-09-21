@@ -49,6 +49,7 @@ for b=1, #water_buckets do
 
             if not above_nodedef.walkable then
                minetest.add_node(pos, {name = bucket[4]})
+               minetest.sound_play({name="default_place_node_water", gain=1.0}, {pos=pos})
             end
 
             return itemstack
@@ -89,6 +90,7 @@ minetest.register_craftitem(
                 end
              end
              minetest.remove_node(pointed_thing.under)
+             minetest.sound_play({name="default_dug_water", gain=1.0}, {pos=pointed_thing.pos})
              return itemstack
          end
 
