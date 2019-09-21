@@ -218,7 +218,9 @@ minetest.register_node(
             if jewels.can_jewel(itemname) then
                inv:set_stack("main", 1, ItemStack(jewels.get_jeweled(itemname)))
 
-               itemstack:take_item()
+               if not minetest.settings:get_bool("creative_mode") then
+                  itemstack:take_item()
+               end
 
                achievements.trigger_achievement(player, "jeweler")
                achievements.trigger_achievement(player, "master_jeweler")
