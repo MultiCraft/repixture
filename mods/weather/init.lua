@@ -7,15 +7,13 @@ local S = minetest.get_translator("weather")
 
 weather = {}
 weather.weather = "clear"
-weather.types = {"storm", "snowstorm", "clear"}
+weather.types = {"storm", "clear"}
 
 local sound_handles = {}
 
 local function addvec(v1, v2)
    return {x = v1.x + v2.x, y = v1.y + v2.y, z = v1.z + v2.z}
 end
-
-local snow_enable = minetest.settings:get_bool("weather_snow_enable") or false
 
 local mapseed = minetest.get_mapgen_setting("seed")
 local weather_pr=PseudoRandom(mapseed + 2387)
@@ -41,20 +39,6 @@ local function play_sound()
             end
          end
       end
---[[   elseif weather.weather == "snowstorm" then
-      for _, player in ipairs(minetest.get_connected_players()) do
-         if player:get_pos().y > sound_min_height then
-            weather_soundspec = minetest.sound_play(
-               {
-                  name = "weather_snowstorm",
-                  to_player = player:get_player_name(),
-                  loop = true,
-               }
-            )
-         end
-      end
-      return
-]]
    else
       for _, player in ipairs(minetest.get_connected_players()) do
          local name = player:get_player_name()
@@ -93,14 +77,11 @@ minetest.register_globalstep(
 	    -- on avg., every 1800 frames the weather.weather will change to one of:
 	    -- 13/20 chance of clear weather
 	    -- 6/20 chance or stormy weather
-	    -- 1/20 chance of snowstorm weather
 
 	    if weathertype < 13 then
 	       weather.weather = "clear"
-	    elseif weathertype < 19 then
+	    elseif weathertype < 20 then
 	       weather.weather = "storm"
-	    elseif weathertype < 20 and snow_enable then
-	       weather.weather = "snowstorm"
 	    end
 	 end
       end
@@ -116,7 +97,7 @@ minetest.register_globalstep(
       local skycol = math.floor(light * 190)
 
       for _, player in ipairs(minetest.get_connected_players()) do
-	 if weather.weather == "storm" or weather.weather == "snowstorm" then
+	 if weather.weather == "storm" then
 	    player:set_sky({r = skycol, g = skycol, b = skycol * 1.2}, "plain", {}, true)
 
             if default_cloud_state == nil then
@@ -169,42 +150,6 @@ minetest.register_globalstep(
 		  }
 	       )
 	    end
-	 elseif weather.weather == "snowstorm" then
-	    if math.random(0, 6000*dtime) <= 1 then
-	       local hp = player:get_hp()
-
-	       if minetest.get_node_light(p) == 15 then
-		  player:set_hp(hp-1)
-	       end
-	    end
-
-	    if minetest.get_node_light({x=p.x, y=p.y+15, z=p.z}, 0.5) == 15 then
-	       local minpos = addvec(player:get_pos(), {x = -30, y = 20, z = -30})
-	       local maxpos = addvec(player:get_pos(), {x = 30, y = 15, z = 30})
-	       local vel = {x = 16.0, y = -8, z = 13.0}
-	       local acc = {x = -16.0, y = -8, z = -13.0}
-	       minetest.add_particlespawner(
-		  {
-		     amount = 8,
-		     time = 0.4,
-		     minpos = minpos,
-		     maxpos = maxpos,
-		     minvel = {x=-vel.x, y=vel.y, z=-vel.z},
-		     maxvel = vel,
-		     minacc = acc,
-		     maxacc = acc,
-		     minexptime = 1.0,
-		     maxexptime = 1.4,
-		     minsize = 3,
-		     maxsize = 4,
-		     collisiondetection = true,
-		     collision_removal = true,
-		     vertical = false,
-		     texture = "weather_snowflake.png",
-		     playername = player:get_player_name()
-		  }
-	       )
-	    end
 	 end
       end
    end
@@ -220,13 +165,13 @@ minetest.register_privilege(
 minetest.register_chatcommand(
    "weather",
    {
-      params = "storm | snowstorm | clear",
+      params = "storm | clear",
       description = S("Change the weather"),
       privs = {weather = true},
       func = function(name, param)
          local weather_set = setweather_type(param)
          if not weather_set then
-             return false, S("Incorrect weather. Valid weathers are “storm”, “snowstorm” and “clear”.")
+             return false, S("Incorrect weather. Valid weathers are “storm” and “clear”.")
          else
              return true, S("Weather changed.")
          end

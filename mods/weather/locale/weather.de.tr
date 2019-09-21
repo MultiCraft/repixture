@@ -1,5 +1,5 @@
 # textdomain: weather
 Can change the weather using the /weather command=Kann das Wetter mit dem „/weather“-Befehl ändern
 Change the weather=Das Wetter ändern
-Incorrect weather. Valid weathers are “storm”, “snowstorm” and “clear”.=Ungültiges Wetter. Gültige Wetter sind „storm“ (Sturm), „sandstorm“ (Sandsturm) und „clear“ (klar)
+Incorrect weather. Valid weathers are “storm” and “clear”.=Ungültiges Wetter. Gültige Wetter sind „storm“ (Sturm) und „clear“ (klar).
 Weather changed.=Wetter geändert.
