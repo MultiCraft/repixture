@@ -316,10 +316,13 @@ local function check_empty(pos)
    return #stones <= 15 and #leaves <= 2 and #trees == 0
 end
 
-function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill, dont_check_empty)
+function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill, dont_check_empty)
    if not dont_check_empty and not check_empty(pos) then
       minetest.log("verbose", "[village] Chunk not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
-      return false
+      return false, state
+   end
+   if not state then
+      state = { music_players = 0 }
    end
 
    util.getvoxelmanip(pos, {x = pos.x+12, y = pos.y+12, z = pos.z+12})
@@ -393,17 +396,16 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill, dont_c
          goodies.fill(pos, chunktype, pr, "main", 3)
       end, true)
 
-   -- Restrict number of music players
-   local music = 0
+   -- Maximum of 1 music player per village
    util.nodefunc(
       pos,
       {x = pos.x+12, y = pos.y+12, z = pos.z+12},
       "music:player",
       function(pos)
-	 if music >= 1 or pr:next(1, 2) > 1 then
+	 if state.music_players >= 1 or pr:next(1,8) > 1 then
 	    minetest.remove_node(pos)
 	 else
-	    music = music + 1
+	    state.music_players = state.music_players + 1
 	 end
       end, true)
 
@@ -435,7 +437,7 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill, dont_c
 	       function(pos)
 		  minetest.remove_node(pos)
             end)
-	    return true
+	    return true, state
 	 end
 
 	 local ent_spawns = {}
@@ -484,13 +486,13 @@ function village.spawn_chunk(pos, orient, replace, pr, chunktype, nofill, dont_c
 	 end, true)
    end
    minetest.log("verbose", "[village] Chunk generated at "..minetest.pos_to_string(pos))
-   return true
+   return true, state
 end
 
-function village.spawn_road(pos, houses, built, roads, depth, pr, replace, dont_check_empty)
+function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace, dont_check_empty)
    if not dont_check_empty and not check_empty(pos) then
       minetest.log("verbose", "[village] Road not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
-      return false
+      return false, state
    end
 
    for i=1,4 do
@@ -520,20 +522,20 @@ function village.spawn_road(pos, houses, built, roads, depth, pr, replace, dont_
 	    houses[hnp] = {pos = nextpos, front = pos}
 
 	    local structure = random_chunktype(pr)
-	    chunk_ok = village.spawn_chunk(nextpos, orient, replace, pr, structure)
+	    chunk_ok, state = village.spawn_chunk(nextpos, state, orient, replace, pr, structure)
             if not chunk_ok then
                houses[hnp] = false
             end
 	 else
 	    roads[hnp] = {pos = nextpos}
-	    chunk_ok = village.spawn_road(nextpos, houses, built, roads, depth - 1, pr, replace)
+	    chunk_ok, state = village.spawn_road(nextpos, state, houses, built, roads, depth - 1, pr, replace)
             if not chunk_ok then
                roads[hnp] = false
             end
 	 end
       end
    end
-   return true
+   return true, state
 end
 
 function village.spawn_village(pos, pr, force_place_well)
@@ -565,13 +567,12 @@ function village.spawn_village(pos, pr, force_place_well)
    end
    local replace = village_replaces[village_replace_id]
    local dirt_path = "default:heated_dirt_path"
-   local chunk_ok
 
    -- For measuring the generation time
    local t1 = os.clock()
 
    -- Every village generation starts with a well.
-   chunk_ok = village.spawn_chunk(pos, "0", replace, pr, "well", nil, force_place_well == true)
+   local chunk_ok, state = village.spawn_chunk(pos, state, "0", replace, pr, "well", nil, force_place_well == true)
    if not chunk_ok then
       -- Oops! Not enough space for the well. Village generation fails.
       return false
@@ -584,7 +585,7 @@ function village.spawn_village(pos, pr, force_place_well)
    -- Generate a road at the well. The road tries to grow in 4 directions
    -- growing either recursively more roads or buildings (where the road
    -- terminates)
-   village.spawn_road(pos, houses, built, roads, depth, pr, replace, true)
+   local _, state = village.spawn_road(pos, state, houses, built, roads, depth, pr, replace, true)
 
    local function connects(pos, nextpos)
       local hnp = minetest.hash_node_position(nextpos)
@@ -625,7 +626,7 @@ function village.spawn_village(pos, pr, force_place_well)
       }
 
       if not road.is_well then
-         village.spawn_chunk(road.pos, "0", replaces, pr, "road")
+         _, state = village.spawn_chunk(road.pos, state, "0", replaces, pr, "road")
       end
 
       local amt_connections = 0
@@ -668,6 +669,7 @@ function village.spawn_village(pos, pr, force_place_well)
       if amt_connections >= 2 and not road.is_well then
 	 village.spawn_chunk(
 	    {x = road.pos.x, y = road.pos.y+1, z = road.pos.z},
+	    state,
 	    "0",
 	    {},
 	    pr,
