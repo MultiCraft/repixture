@@ -64,3 +64,5 @@ My head hurts.=
 I have a bad day today.=
 @1 (disabled)=
 Hostile mobs are disabled!=
+Carpenter=
+Hi! I'm a carpenter. Making things out of wood is my job.=

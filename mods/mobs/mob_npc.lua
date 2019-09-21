@@ -8,6 +8,7 @@ local npc_types = {
    { "tavernkeeper", S("Tavern Keeper") },
    { "blacksmith", S("Blacksmith") },
    { "butcher", S("Butcher") },
+   { "carpenter", S("Carpenter") },
 }
 
 local msgs = {
@@ -16,6 +17,7 @@ local msgs = {
         tavernkeeper = S("Hi! I'm a tavernkeeper. I trade with assorted goods."),
         blacksmith = S("Hi! I'm a blacksmith. I sell metal products."),
         butcher = S("Hi! I'm a butcher. Want to buy something?"),
+        carpenter = S("Hi! I'm a carpenter. Making thinks out of wood is my job."),
     },
     trade = {
         S("If you want to trade, show me a trading book."),

@@ -24,23 +24,33 @@ if minetest.get_modpath("mobs") ~= nil then
       -- crafts
       {"gold:ingot_gold 7", "", "farming:cotton_bale 3"},
 
-      -- materials
-      {"default:planks 3", "farming:cotton_bale 3", "bed:bed"},
-
       -- tool repair
       {"gold:ingot_gold 6", "default:shovel_stone", "default:shovel_stone"},
       {"gold:ingot_gold 8", "default:shovel_steel", "default:shovel_steel"},
       {"gold:ingot_gold 10", "default:shovel_carbon_steel", "default:shovel_carbon_steel"},
+
+      -- filling buckets
+      {"gold:ingot_gold", "default:bucket", "default:bucket_water"},
    }
-   gold.trades["tavernkeeper"] = {
+   gold.trades["carpenter"] = {
       -- materials
       {"gold:ingot_gold 2", "", "default:planks 12"},
       {"gold:ingot_gold 2", "", "default:planks_birch 8"},
+      {"gold:ingot_gold 3", "", "default:planks_oak 10"},
+      {"gold:ingot_gold 5", "", "default:frame 10"},
+      {"gold:ingot_gold 10", "", "default:reinforced_frame 10"},
 
       -- useables
       {"gold:ingot_gold 9", "", "bed:bed"},
       {"gold:ingot_gold 5", "", "default:chest"},
-      {"default:planks_birch 3", "mobs:wool 3", "bed:bed"},
+      {"gold:ingot_gold 5", "mobs:wool 3", "bed:bed"},
+   }
+   gold.trades["tavernkeeper"] = {
+      -- edibles
+      {"gold:ingot_gold", "", "default:apple 3"},
+      {"gold:ingot_gold", "", "farming:bread"},
+      {"gold:ingot_gold 2", "", "mobs:meat"},
+      {"gold:ingot_gold 3", "", "mobs:pork"},
 
       -- filling buckets
       {"gold:ingot_gold", "default:bucket", "default:bucket_water"},
@@ -73,13 +83,6 @@ if minetest.get_modpath("mobs") ~= nil then
       {"gold:ingot_gold 16", "default:pick_carbon_steel", "default:pick_carbon_steel"},
    }
    gold.trades["butcher"] = {
-      -- materials
-      {"gold:ingot_gold 3", "", "default:planks_oak 10"},
-
-      -- cooked edibles
-      {"gold:ingot_gold 2", "", "mobs:meat"},
-      {"gold:ingot_gold 3", "", "mobs:pork"},
-
       -- raw edibles
       {"gold:ingot_gold 2", "", "mobs:meat_raw 2"},
       {"gold:ingot_gold 3", "", "mobs:pork_raw 2"},
@@ -105,7 +108,8 @@ if minetest.get_modpath("mobs") ~= nil then
       table.insert(gold.trades["farmer"], {"jewels:jewel 2", "", "gold:ingot_gold 20"})
       table.insert(gold.trades["farmer"], {"jewels:jewel 4", "", "gold:ingot_gold 32"})
 
-      table.insert(gold.trades["farmer"], {"default:planks 6", "", "gold:ingot_gold"})
+      -- carpenter
+      table.insert(gold.trades["carpenter"], {"default:tree 2", "", "gold:ingot_gold"})
 
       -- tavern keeper
       table.insert(gold.trades["tavernkeeper"], {"gold:ingot_gold 14", "", "jewels:jewel"})
@@ -125,6 +129,7 @@ if minetest.get_modpath("mobs") ~= nil then
 
    gold.trade_names["farmer"] = S("Farmer")
    gold.trade_names["tavernkeeper"] = S("Tavern Keeper")
+   gold.trade_names["carpenter"] = S("Carpenter")
    gold.trade_names["blacksmith"] = S("Blacksmith")
    gold.trade_names["butcher"] = S("Butcher")
 end

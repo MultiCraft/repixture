@@ -3,6 +3,7 @@ Farmer=
 Tavern Keeper=
 Blacksmith=
 Butcher=
+Carpenter=
 Cancel=
 Trade=
 Trading Book=

@@ -141,7 +141,7 @@ village.chunkdefs["livestock_pen"] = {
 village.chunkdefs["lamppost"] = { -- not road because of road height limit of 1 nodes
    entity_chance = 2,
    entities = {
-      ["mobs:npc_butcher"] = 1,
+      ["mobs:npc_carpenter"] = 1,
    },
 }
 village.chunkdefs["well"] = {
@@ -153,7 +153,7 @@ village.chunkdefs["well"] = {
 village.chunkdefs["house"] = {
    entity_chance = 2,
    entities = {
-      ["mobs:npc_farmer"] = 1,
+      ["mobs:npc_carpenter"] = 1,
    },
 }
 village.chunkdefs["tavern"] = {
