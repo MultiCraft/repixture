@@ -3,6 +3,8 @@
 -- By Kaadmy, for Pixture
 --
 
+local mod_weather = minetest.get_modpath("weather")
+
 ambiance = {}
 
 ambiance.sounds = {}
@@ -15,6 +17,12 @@ ambiance.sounds["birds"] = {
    nodename = "group:leaves",
    can_play = function(pos)
       local tod = (minetest.get_timeofday() or 1) * 2
+
+      if mod_weather then
+         if weather.weather ~= "clear" then
+            return false
+         end
+      end
 
       if tod > 0.47 and tod < 1.53 then -- bit of overlap into crickets
          return true
@@ -32,6 +40,12 @@ ambiance.sounds["crickets"] = {
    nodename = "group:grass",
    can_play = function(pos)
       local tod = (minetest.get_timeofday() or 1) * 2
+
+      if mod_weather then
+         if weather.weather ~= "clear" then
+            return false
+         end
+      end
 
       if tod < 0.5 or tod > 1.5 then
          return true
