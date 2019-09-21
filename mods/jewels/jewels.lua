@@ -115,7 +115,7 @@ local tool_types = {
    spear = {
       steel = {
          reach = {
-            reach = 1,
+            range = 1,
          },
          damage = {
             fleshy = 3,
@@ -126,7 +126,7 @@ local tool_types = {
       },
       carbon_steel = {
          reach = {
-            reach = 2,
+            range = 2,
          },
          damage = {
             fleshy = 4,
@@ -137,7 +137,7 @@ local tool_types = {
       },
       bronze = {
          reach = {
-            reach = 2,
+            range = 2,
          },
          damage = {
             fleshy = 5,

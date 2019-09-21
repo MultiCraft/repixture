@@ -96,7 +96,10 @@ function jewels.register_jewel(toolname, new_toolname, def)
    new_tooldef.inventory_image = new_tool_invimage
    new_tooldef.wield_image = new_tool_wieldimage
 
-   if data.stats.range and new_tooldef.range then
+   if data.stats.range then
+      if not new_tooldef.range then
+          new_tooldef.range = 4
+      end
       new_tooldef.range = new_tooldef.range + data.stats.range
       desc = desc .. "\n"..S("Range: @1", plus_power(data.stats.range))
    end
