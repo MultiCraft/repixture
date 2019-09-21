@@ -5,6 +5,8 @@
 
 local S = minetest.get_translator("weather")
 
+local mod_storage = minetest.get_mod_storage()
+
 weather = {}
 weather.weather = "clear"
 weather.types = {"storm", "clear"}
@@ -63,6 +65,7 @@ local function setweather_type(type, do_repeat)
    end
    if valid then
       weather.weather = type
+      mod_storage:set_string("weather:weather", weather.weather)
       minetest.log("action", "[weather] Weather set to: "..weather.weather)
       update_sounds(do_repeat)
       return true
@@ -88,6 +91,7 @@ minetest.register_globalstep(
 	       weather.weather = "storm"
 	    end
             if oldweather ~= weather.weather then
+               mod_storage:set_string("weather:weather", weather.weather)
                minetest.log("action", "[weather] Weather changed to: "..weather.weather)
                update_sounds()
             end
@@ -190,6 +194,11 @@ minetest.register_on_leaveplayer(function(player)
     sound_handles[player:get_player_name()] = nil
 end)
 
-setweather_type("clear", true)
+local loaded_weather = mod_storage:get_string("weather:weather")
+if loaded_weather == "" then
+  setweather_type("clear", true)
+else
+  setweather_type(loaded_weather, true)
+end
 
 default.log("mod:weather", "loaded")
