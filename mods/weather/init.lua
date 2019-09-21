@@ -22,7 +22,7 @@ local sound_min_height = -20 -- Below -20m you can't hear weather
 
 local default_cloud_state = nil
 
-local function play_sound()
+local function update_sounds(do_repeat)
    if weather.weather == "storm" then
       for _, player in ipairs(minetest.get_connected_players()) do
          local name = player:get_player_name()
@@ -34,7 +34,7 @@ local function play_sound()
             end
          else
             if sound_handles[name] then
-               minetest.sound_fade(sound_handles[name], -0.5, 0.0)
+               minetest.sound_fade(sound_handles[name], -0.5, 0)
                sound_handles[name] = nil
             end
          end
@@ -43,16 +43,18 @@ local function play_sound()
       for _, player in ipairs(minetest.get_connected_players()) do
          local name = player:get_player_name()
          if sound_handles[name] then
-            minetest.sound_fade(sound_handles[name], -1.0, 0.0)
+            minetest.sound_fade(sound_handles[name], -1.0, 0)
             sound_handles[name] = nil
          end
       end
    end
 
-   minetest.after(3, play_sound)
+   if do_repeat then
+      minetest.after(3, update_sounds)
+   end
 end
 
-local function setweather_type(type)
+local function setweather_type(type, do_repeat)
    local valid = false
    for i = 1, #weather.types do
       if weather.types[i] == type then
@@ -61,7 +63,7 @@ local function setweather_type(type)
    end
    if valid then
       weather.weather = type
-      play_sound()
+      update_sounds(do_repeat)
       return true
    else
       return false
@@ -182,6 +184,6 @@ minetest.register_on_leaveplayer(function(player)
     sound_handles[player:get_player_name()] = nil
 end)
 
-setweather_type("clear")
+setweather_type("clear", true)
 
 default.log("mod:weather", "loaded")
