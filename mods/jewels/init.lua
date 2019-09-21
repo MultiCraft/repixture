@@ -222,6 +222,9 @@ minetest.register_node(
                   itemstack:take_item()
                end
 
+               minetest.sound_play({name="jewels_jewelling_a_tool"}, {gain=0.8, pos=pos, max_hear_distance=8})
+               -- TODO: Graphical effect
+
                achievements.trigger_achievement(player, "jeweler")
                achievements.trigger_achievement(player, "master_jeweler")
             end
