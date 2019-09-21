@@ -5,7 +5,7 @@
 
 goodies = {}
 
-goodies.max_stack = 6
+goodies.max_stack_default = 6
 goodies.max_items = 20
 
 goodies.types = {}
@@ -35,7 +35,7 @@ if minetest.get_modpath("village") ~= nil then
       ["default:tree_oak"] = 2,
    }
    goodies.types["tavern"] = {
-      ["bed:bed"] = 8,
+      ["bed:bed"] = { chance = 8, max_stack = 1},
       ["default:bucket"] = 20,
       ["mobs:meat"] = 5,
       ["mobs:pork"] = 9,
@@ -54,7 +54,7 @@ if minetest.get_modpath("village") ~= nil then
 
    -- jewels and gold
    if minetest.get_modpath("jewels") ~= nil then
-      goodies.types["house"]["jewels:bench"] = 24 -- jeweling benches
+      goodies.types["house"]["jewels:bench"] = { chance = 24, max_stack = 1} -- jeweling benches
       goodies.types["house"]["jewels:jewel"] = 34
       goodies.types["tavern"]["jewels:jewel"] = 32
       goodies.types["forge"]["jewels:jewel"] = 30
@@ -86,10 +86,18 @@ function goodies.fill(pos, ctype, pr, listname, keepchance)
    local item_amt = pr:next(1, size)
 
    for i = 1, item_amt do
-      local chance = goodies.types[ctype][util.choice(goodies.types[ctype], pr)]
       local item = util.choice(goodies.types[ctype], pr)
+      local goodie = goodies.types[ctype][item]
+      local chance, max_stack
+      if type(goodie) == "table" then
+         chance = goodie.chance
+         max_stack = goodie.max_stack
+      else
+         chance = goodie
+         max_stack = goodies.max_stack_default
+      end
       if pr:next(1, chance) <= 1 then
-	 local max = math.min(goodies.max_stack, minetest.registered_items[item].stack_max)
+	 local max = math.min(max_stack, minetest.registered_items[item].stack_max)
 	 local itemstr = item.." "..pr:next(1, max)
 	 inv:set_stack(listname, pr:next(1, size), ItemStack(itemstr))
       end
