@@ -7,8 +7,11 @@ local S = minetest.get_translator("music")
 
 music = {}
 
-music.default_track = minetest.settings:get("music_track") or "music_catsong"
-music.track_length = tonumber(minetest.settings:get("music_track_length")) or 30.0
+music.tracks = {
+   { name = "music_catsong", length = 30.0 },
+   { name = "music_greyarms", length = 82.0 },
+}
+
 music.volume = tonumber(minetest.settings:get("music_volume")) or 1.0
 
 -- Array of music players
@@ -36,10 +39,17 @@ if minetest.settings:get_bool("music_enable") then
       meta:set_string("infotext", S("Music Player (on)"))
       meta:set_int("music_player_enabled", 1)
 
+      -- Get track or set random track if not set
+      local track = meta:get_int("music_player_track")
+      if track == nil or not music.tracks[track] then
+         track = math.random(1, #music.tracks)
+         meta:set_int("music_player_track", track)
+      end
+
       if music.players[dp] == nil then
 	 music.players[dp] = {
 	    ["handle"] = minetest.sound_play(
-	       music.default_track,
+	       music.tracks[track].name,
 	       {
 		  pos = pos,
 		  gain = music.volume,
@@ -51,7 +61,7 @@ if minetest.settings:get_bool("music_enable") then
 	 music.players[dp]["timer"] = 0
 	 minetest.sound_stop(music.players[dp]["handle"])
 	 music.players[dp]["handle"] = minetest.sound_play(
-	    music.default_track,
+	    music.tracks[track].name,
 	    {
 	       pos = pos,
 	       gain = music.volume,
@@ -71,9 +81,14 @@ if minetest.settings:get_bool("music_enable") then
 	    return
 	 end
 
-	 if music.players[dp]["timer"] > music.track_length then
-	    music.start(pos)
-	 end
+	 local meta = minetest.get_meta(pos)
+         local track = meta:get_int("music_player_track")
+
+	 if music.tracks[track] then
+	    if music.players[dp]["timer"] > music.tracks[track].length then
+	       music.start(pos)
+	    end
+         end
       end
    end
 
