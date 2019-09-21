@@ -56,20 +56,19 @@ if minetest.get_modpath("village") ~= nil then
       ["default:bucket"] = 8,
       ["default:bucket_water"] = 12,
    }
+   goodies.types_valuable["house"] = {}
 
    -- jewels and gold
    if minetest.get_modpath("jewels") ~= nil then
-      goodies.types_valuable["house"] = {
-        ["jewels:bench"] = { chance = 24, max_stack = 1},
-        ["jewels:jewel"] = 34,
-      }
-      goodies.types_valuable["tavern"] = { ["jewels:jewel"] = 32 }
-      goodies.types_valuable["forge"] = { ["jewels:jewel"] = 30 }
+      goodies.types_valuable["house"]["jewels:bench"] = { chance = 24, max_stack = 1 }
+      goodies.types_valuable["house"]["jewels:jewel"] = 34
+      goodies.types_valuable["tavern"]["jewels:jewel"] = 32
+      goodies.types_valuable["forge"]["jewels:jewel"] = 30
    end
    if minetest.get_modpath("gold") ~= nil then
-      goodies.types_valuable["house"] = { ["gold:ingot_gold"] = 12 }
-      goodies.types_valuable["tavern"] = { ["gold:ingot_gold"] = 10 }
-      goodies.types_valuable["forge"] = { ["gold:ingot_gold"] = 8 }
+      goodies.types_valuable["house"]["gold:ingot_gold"] = 12
+      goodies.types_valuable["tavern"]["gold:ingot_gold"] = 10
+      goodies.types_valuable["forge"]["gold:ingot_gold"] = 8
    end
 end
 
@@ -111,16 +110,28 @@ function goodies.fill(pos, ctype, pr, listname, keepchance)
       is_locked = true
    end
 
+   -- In locked chests, double the amount of item attempts,
+   -- 75% of which are drawn from all items,
+   -- 25% are drawn only from valuable items.
    local item_amt = pr:next(1, size)
+   local valuable_guaranteed_at
+   if is_locked then
+      item_amt = item_amt * 2
+      valuable_guaranteed_at = item_amt * 0.75
+   end
 
    local types
+   -- Select initial items pool to draw items from
    if is_locked then
-      types = goodies.types_all
+      types = goodies.types_all -- unvaluable and valuable
    else
-      types = goodies.types
+      types = goodies.types -- unvaluable only
    end
 
    for i = 1, item_amt do
+      if is_locked and i >= valuable_guaranteed_at then
+         types = goodies.types_valuable
+      end
       local item = util.choice(types[ctype], pr)
       local goodie = types[ctype][item]
       local chance, max_stack
@@ -134,7 +145,16 @@ function goodies.fill(pos, ctype, pr, listname, keepchance)
       if pr:next(1, chance) <= 1 then
 	 local max = math.min(max_stack, minetest.registered_items[item].stack_max)
 	 local itemstr = item.." "..pr:next(1, max)
-	 inv:set_stack(listname, pr:next(1, size), ItemStack(itemstr))
+         local slot = pr:next(1, size)
+         if inv:get_stack(listname, slot):item_fits(ItemStack(itemstr)) then
+	    inv:set_stack(listname, pr:next(1, size), ItemStack(itemstr))
+         else
+	    local leftover = inv:add_item(listname, ItemStack(itemstr))
+            if not leftover:is_empty() then
+               -- Chest is full, abort!
+               break
+            end
+         end
       end
    end
 end
