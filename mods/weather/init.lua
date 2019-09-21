@@ -63,6 +63,7 @@ local function setweather_type(type, do_repeat)
    end
    if valid then
       weather.weather = type
+      minetest.log("action", "[weather] Weather set to: "..weather.weather)
       update_sounds(do_repeat)
       return true
    else
@@ -76,15 +77,20 @@ minetest.register_globalstep(
 	 if weather_pr:next(0, 5000) < 1 then
 	    local weathertype = weather_pr:next(0, 19)
 
-	    -- on avg., every 1800 frames the weather.weather will change to one of:
+	    -- on avg., every 1800 globalsteps, the weather.weather will change to one of:
 	    -- 13/20 chance of clear weather
-	    -- 6/20 chance or stormy weather
+	    -- 7/20 chance or stormy weather
 
+            local oldweather = weather.weather
 	    if weathertype < 13 then
 	       weather.weather = "clear"
-	    elseif weathertype < 20 then
+	    else
 	       weather.weather = "storm"
 	    end
+            if oldweather ~= weather.weather then
+               minetest.log("action", "[weather] Weather changed to: "..weather.weather)
+               update_sounds()
+            end
 	 end
       end
 
