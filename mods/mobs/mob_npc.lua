@@ -40,6 +40,9 @@ local msgs = {
         S("Chomp!"),
         S("Thanks!"),
     },
+    item_reject = {
+        S("I don't want this."),
+    },
     hungry = {
         S("I could use a snack."),
         S("I'm a bit hungry."),
@@ -145,9 +148,14 @@ for _, npc_type_table in pairs(npc_types) do
 
             local hp = self.object:get_hp()
             local iname = item:get_name()
-            if iname == "mobs:meat" or iname == "mobs:pork"
-            or iname == "farming:bread" or iname == "default:apple"
-            or iname == "default:clam" then
+            if minetest.get_item_group(iname, "food") > 0 then
+               -- Reject food that is not in this list
+               if iname ~= "mobs:meat" and iname ~= "mobs:pork"
+               and iname ~= "farming:bread" and iname ~= "default:apple"
+               and iname ~= "default:clam" then
+                  say_random("item_reject", name)
+                  return
+               end
 
                -- return if full health
                if hp >= self.hp_max then
