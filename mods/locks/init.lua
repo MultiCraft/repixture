@@ -77,7 +77,7 @@ minetest.register_tool(
             local meta = minetest.get_meta(pos)
             meta:set_float("last_lock_pick", minetest.get_gametime() + picked_time)
 
-            -- TODO: Add sound + particle effect to show success
+            -- TODO: Add graphical effect to show success
 
             local burglar = player:get_player_name()
             local owner = meta:get_string("lock_owner")
@@ -100,6 +100,7 @@ minetest.register_tool(
                    burglar,
                    minetest.colorize("#0f0", S("You have broken the lock!")))
             end
+            minetest.sound_play({name="locks_unlock",gain=0.5},{pos=pos, max_hear_distance=8})
          end
 
          if not minetest.settings:get_bool("creative_mode") then
