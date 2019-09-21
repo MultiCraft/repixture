@@ -62,7 +62,7 @@ minetest.register_node(
    "lumien:crystal_on",
    {
       description = S("Glowing Lumien Crystal"),
-      inventory_image = "lumien_crystal.png",
+      inventory_image = "lumien_crystal_on.png",
       tiles = {"lumien_block.png"},
       paramtype = "light",
       paramtype2 = "wallmounted",
