@@ -52,7 +52,7 @@ local function update_sounds(do_repeat)
    end
 
    if do_repeat then
-      minetest.after(3, update_sounds)
+      minetest.after(3, update_sounds, do_repeat)
    end
 end
 
