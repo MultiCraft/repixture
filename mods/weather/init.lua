@@ -9,13 +9,14 @@ weather = {}
 weather.weather = "clear"
 weather.types = {"storm", "snowstorm", "clear"}
 
+local sound_handles = {}
+
 local function addvec(v1, v2)
    return {x = v1.x + v2.x, y = v1.y + v2.y, z = v1.z + v2.z}
 end
 
 local snow_enable = minetest.settings:get_bool("weather_snow_enable") or false
 
-local weather_soundspec=nil
 local mapseed = minetest.get_mapgen_setting("seed")
 local weather_pr=PseudoRandom(mapseed + 2387)
 
@@ -24,38 +25,44 @@ local sound_min_height = -20 -- Below -20m you can't hear weather
 local default_cloud_state = nil
 
 local function play_sound()
-   if weather_soundspec ~= nil then
-      minetest.sound_stop(weather_soundspec)
-   end
-
    if weather.weather == "storm" then
       for _, player in ipairs(minetest.get_connected_players()) do
+         local name = player:get_player_name()
          if player:get_pos().y > sound_min_height then
-            weather_soundspec = minetest.sound_play(
-               {
-               name = "weather_storm",
-               to_player = player:get_player_name()
-               }
-            )
+            if not sound_handles[name] then
+               sound_handles[name] = minetest.sound_play(
+                  { name = "weather_storm" }, { to_player = name, loop = true, fade = 0.5 }
+               )
+            end
+         else
+            if sound_handles[name] then
+               minetest.sound_fade(sound_handles[name], -0.5, 0.0)
+               sound_handles[name] = nil
+            end
          end
       end
-
-      minetest.after(18, play_sound)
-      return
-   elseif weather.weather == "snowstorm" then
+--[[   elseif weather.weather == "snowstorm" then
       for _, player in ipairs(minetest.get_connected_players()) do
          if player:get_pos().y > sound_min_height then
             weather_soundspec = minetest.sound_play(
                {
                   name = "weather_snowstorm",
-                  to_player = player:get_player_name()
+                  to_player = player:get_player_name(),
+                  loop = true,
                }
             )
          end
       end
-
-      minetest.after(7, play_sound)
       return
+]]
+   else
+      for _, player in ipairs(minetest.get_connected_players()) do
+         local name = player:get_player_name()
+         if sound_handles[name] then
+            minetest.sound_fade(sound_handles[name], -1.0, 0.0)
+            sound_handles[name] = nil
+         end
+      end
    end
 
    minetest.after(3, play_sound)
@@ -225,6 +232,10 @@ minetest.register_chatcommand(
          end
       end
 })
+
+minetest.register_on_leaveplayer(function(player)
+    sound_handles[player:get_player_name()] = nil
+end)
 
 setweather_type("clear")
 
