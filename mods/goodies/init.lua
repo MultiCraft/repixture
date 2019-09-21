@@ -32,6 +32,7 @@ if minetest.get_modpath("village") ~= nil then
       ["default:lump_iron"] = 6,
       ["default:pick_stone"] = 9,
       ["default:tree_oak"] = 2,
+      ["default:ingot_steel"] = { chance = 20, max_stack = 1 },
    }
    goodies.types_valuable["forge"] = {
       ["default:ingot_steel"] = 10,
@@ -66,6 +67,8 @@ if minetest.get_modpath("village") ~= nil then
       goodies.types_valuable["forge"]["jewels:jewel"] = 30
    end
    if minetest.get_modpath("gold") ~= nil then
+      goodies.types["forge"]["gold:ingot_gold"] = { chance = 24, max_stack = 2 }
+      goodies.types["forge"]["gold:lump_gold"] = { chance = 18, max_stack = 6 }
       goodies.types_valuable["house"]["gold:ingot_gold"] = 12
       goodies.types_valuable["tavern"]["gold:ingot_gold"] = 10
       goodies.types_valuable["forge"]["gold:ingot_gold"] = 8
