@@ -73,7 +73,9 @@ minetest.register_tool(
          if minetest.get_item_group(node.name, "locked") == 0 then
             return itemstack
          end
+         -- Attempt to pick lock
          if math.random(1, 5) <= 1 then
+            -- Success!
             local meta = minetest.get_meta(pos)
             meta:set_float("last_lock_pick", minetest.get_gametime() + picked_time)
 
@@ -100,7 +102,10 @@ minetest.register_tool(
                    burglar,
                    minetest.colorize("#0f0", S("You have broken the lock!")))
             end
-            minetest.sound_play({name="locks_unlock",gain=0.5},{pos=pos, max_hear_distance=8})
+            minetest.sound_play({name="locks_unlock",gain=0.8},{pos=pos, max_hear_distance=16})
+         else
+            -- Failure!
+            minetest.sound_play({name="locks_pick",gain=0.5},{pos=pos, max_hear_distance=16})
          end
 
          if not minetest.settings:get_bool("creative_mode") then
