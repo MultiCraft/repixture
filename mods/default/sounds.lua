@@ -108,7 +108,7 @@ end
 function default.node_sound_water_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
-      {name="default_liquid_footstep", gain=1.0}
+      {name="default_water_footstep", gain=1.0}
    table.dug = table.dug or
       {name="default_dug_water", gain=1.0}
    table.place = table.place or
