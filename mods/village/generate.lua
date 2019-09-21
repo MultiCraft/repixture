@@ -378,7 +378,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
          {x = pos.x+12, y = pos.y+12, z = pos.z+12},
          "default:chest",
          function(pos)
-            if math.random(1,4) == 1 then
+            if pr:next(1,4) == 1 then
                local node = minetest.get_node(pos)
                node.name = "locks:chest"
                minetest.swap_node(pos, node)
