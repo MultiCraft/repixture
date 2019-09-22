@@ -20,7 +20,7 @@
 - Improve the quality of ambient sounds a bit, add swamp ambience at night
 - Make trader form less confusing
 - Torches and music players drop as items when flooded
-- Make lasso texture look more try
+- Make lasso texture look more dry
 
 ## 0.4.4
 - Fix achievements screen sometimes not properly updated
