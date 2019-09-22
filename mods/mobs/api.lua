@@ -158,6 +158,7 @@ function mobs:register_mob(name, def)
 	 fly = def.fly,
 	 fly_in = def.fly_in or "air",
 	 owner = def.owner or "",
+         last_feeder = "",
 	 order = def.order or "",
 	 on_die = def.on_die,
 	 do_custom = def.do_custom,
@@ -241,6 +242,8 @@ function mobs:register_mob(name, def)
                if breed and self.hornytimer == 0 then
                   self.horny = true
                end
+
+               self.last_feeder = name
 
                self.gotten = false
 
@@ -723,11 +726,21 @@ function mobs:register_mob(name, def)
                   if num > 1 then
                      self.hornytimer = 41
                      ent.hornytimer = 41
+                     local feeder
+                     if self.last_feeder and self.last_feeder ~= "" and self.last_feeder == ent.last_feeder then
+                        feeder = self.last_feeder
+                     end
                      minetest.after(
                         7,
                         function(dtime)
                            local mob = minetest.add_entity(pos, self.name)
                            local ent2 = mob:get_luaentity()
+                           if feeder then
+                              local pfeeder = minetest.get_player_by_name(feeder)
+                              if pfeeder:is_player() then
+                                 achievements.trigger_achievement(pfeeder, "the_wonder_of_life")
+                              end
+                           end
                            local textures = self.base_texture
                            if def.child_texture then
                               textures = def.child_texture[1]
@@ -750,7 +763,7 @@ function mobs:register_mob(name, def)
                            ent2.child = true
                            ent2.tamed = true
                            --ent2.following = ent -- follow mother
-                     end)
+                     end, feeder)
                      num = 0
                      break
                   end

@@ -44,9 +44,18 @@ achievements.register_achievement(
 })
 
 achievements.register_achievement(
+   "the_wonder_of_life",
+   {
+      title = S("The Wonder of Life"),
+      description = S("Get two animals to breed."),
+      times = 1,
+})
+
+achievements.register_achievement(
    "smalltalk",
    {
       title = S("Smalltalk"),
       description = S("Visit a village and have a friendly chat with a villager."),
       times = 1,
 })
+

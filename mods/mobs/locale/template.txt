@@ -96,3 +96,5 @@ Isn't it stressful to carry this heavy bed around?=
 Get this thing out of my face!=
 Smalltalk=
 Visit a village and have a friendly chat with a villager.=
+The Wonder of Life=
+Get two animals to breed.=
