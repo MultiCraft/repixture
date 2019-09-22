@@ -182,6 +182,7 @@ function mobs:register_mob(name, def)
 	 light_damage = def.light_damage or 0,
 	 water_damage = def.water_damage or 0,
 	 lava_damage = def.lava_damage or 0,
+	 takes_node_damage = def.takes_node_damage or true,
 	 fall_damage = def.fall_damage or 1,
 	 fall_speed = def.fall_speed or -10, -- must be lower than -2 (default: -10)
 	 drops = def.drops or {},
@@ -521,6 +522,18 @@ function mobs:register_mob(name, def)
                and nodef.groups.lava then
                   self.object:set_hp(self.object:get_hp() - self.lava_damage)
                   effect(pos, 5, "mobs_flame.png", 8)
+                  if check_for_death(self) then return end
+               end
+
+               -- node damage
+               if self.takes_node_damage == true
+               and nodef.damage_per_second > 0 then
+                  self.object:set_hp(self.object:get_hp() - nodef.damage_per_second)
+                  if enable_blood then
+                     effect(pos, self.blood_amount, self.blood_texture)
+                  else
+                     effect(pos, self.blood_amount, "default_grass_clump_tall.png")
+                  end
                   if check_for_death(self) then return end
                end
 
