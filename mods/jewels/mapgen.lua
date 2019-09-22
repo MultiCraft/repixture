@@ -13,7 +13,15 @@ local y_min = 0
 
 -- Helper variables
 local gigatree_decoration_id = minetest.get_decoration_id("default:gigatree")
-local biome_y = minetest.registered_biomes["Deep Forest"].y_min
+local biome_y
+local biome_exists
+if minetest.registered_biomes["Deep Forest"] then
+   biome_y = minetest.registered_biomes["Deep Forest"].y_min
+   biome_exists = true
+else
+   biome_y = tonumber(minetest.get_mapgen_setting("water_level")) or 1
+   biome_exists = false
+end
 
 local lvm_buffer = {}
 
@@ -21,7 +29,7 @@ local c_birch = minetest.get_content_id("default:tree_birch")
 local c_jewel_ore = minetest.get_content_id("jewels:jewel_ore")
 
 -- Generation algorithm:
-if gigatree_decoration_id then
+do
 
 	-- Helper function to find a random minimum/maxium range of length clust_size.
 	-- Returned numbers are offsets.
@@ -38,10 +46,14 @@ if gigatree_decoration_id then
 		end
 		local ores_in_mapblock = {}
 		local pr = PseudoRandom(blockseed)
-		local mgobj = minetest.get_mapgen_object("gennotify")
-		local deco = mgobj["decoration#"..gigatree_decoration_id]
-		-- If a giga tree was found anywhere in generated area, activate generation
-		if deco and #deco > 0 then
+		local deco_ok = true
+		if gigatree_decoration_id then
+			-- Was a giga tree was found anywhere in generated area?
+			local mgobj = minetest.get_mapgen_object("gennotify")
+			local deco = mgobj["decoration#"..gigatree_decoration_id]
+			deco_ok = deco and #deco > 0
+		end
+		if deco_ok then
 			-- This code tries to imitate scatter ores in Minetest
 			local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 			local area = VoxelArea:new({MinEdge=emin, MaxEdge=emax})
@@ -53,9 +65,12 @@ if gigatree_decoration_id then
 			for x=minp.x, maxp.x do
 				local p_pos = area:index(x,y,z)
 				if data[p_pos] == c_birch then
-					local bdata = minetest.get_biome_data({x=x,y=math.max(y, biome_y),z=z})
-					local bname = minetest.get_biome_name(bdata.biome)
-					if bname == "Deep Forest" and pr:next(1, clust_scarcity) == 1 then
+					local bdata, bname
+					if biome_exists then
+						bdata = minetest.get_biome_data({x=x,y=math.max(y, biome_y),z=z})
+						bname = minetest.get_biome_name(bdata.biome)
+					end
+					if ((not biome_exists) or (bname == "Deep Forest")) and pr:next(1, clust_scarcity) == 1 then
 						data[p_pos] = c_jewel_ore
 						table.insert(ores_in_mapblock, {x=x,y=y,z=z})
 					end
@@ -95,6 +110,4 @@ if gigatree_decoration_id then
 			end
 		end
 	end)
-else
-	minetest.log("error", "[jewels] Decoration ID for gigatree not found!")
 end
