@@ -11,8 +11,8 @@ achievements.register_achievement(
       -- have at least one food item in their drop table
       -- (no matter how unlikely).
       title = S("Hunter"),
-      description = S("Kill 5 animals for food."),
-      times = 5,
+      description = S("Kill an animal for food."),
+      times = 1,
 })
 
 local peaceful_only = minetest.settings:get_bool("only_peaceful_mobs") or false
@@ -40,5 +40,13 @@ achievements.register_achievement(
    {
       title = S("Best Friends Forever"),
       description = S("Tame an animal."),
+      times = 1,
+})
+
+achievements.register_achievement(
+   "smalltalk",
+   {
+      title = S("Smalltalk"),
+      description = S("Visit a village and have a friendly chat with a villager."),
       times = 1,
 })

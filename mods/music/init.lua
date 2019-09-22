@@ -206,15 +206,4 @@ crafting.register_craft(
       }
 })
 
--- Achievements
-
-achievements.register_achievement(
-   "musician",
-   {
-      title = S("Sound Engineer"),
-      description = S("Craft a music player."),
-      times = 1,
-      craftitem = "music:player",
-})
-
 default.log("mod:music", "loaded")

@@ -1,6 +1,6 @@
 # textdomain: mobs
 Hunter=
-Kill 5 animals for food.=
+Kill an animal for food.=
 Bomb has Been Defused!=
 Kill a mine turtle.=
 Ranger=
@@ -94,3 +94,5 @@ TNT needs to be ignited by a flint and steel.=
 Sleeping makes the night go past in the blink of an eye.=
 Isn't it stressful to carry this heavy bed around?=
 Get this thing out of my face!=
+Smalltalk=
+Visit a village and have a friendly chat with a villager.=

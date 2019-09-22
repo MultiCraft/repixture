@@ -1,12 +1,4 @@
 # textdomain: armor
-Helmet=
-Chestplate=
-Boots=
-Chainmail Sheet=
-Armored=
-Craft a piece of armor.=
-Warrior=
-Craft 10 pieces of armor.=
 Wooden Helmet=
 Wooden Chestplate=
 Wooden Boots=
@@ -22,3 +14,11 @@ Carbon Steel Boots=
 Bronze Helmet=
 Bronze Chestplate=
 Bronze Boots=
+Helmet=
+Chestplate=
+Boots=
+Chainmail Sheet=
+Armor Smith=
+Craft a piece of armor.=
+Skin of Bronze=
+Equip a full suit of bronze armor.=

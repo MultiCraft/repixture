@@ -26,7 +26,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {dig_immediate=2, attached_node=1},
+      groups = {dig_immediate=2, attached_node=1, seed=1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -135,7 +135,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {dig_immediate=2, attached_node=1},
+      groups = {dig_immediate=2, attached_node=1, seed=1},
       sounds=default.node_sound_leaves_defaults()
    }
 )

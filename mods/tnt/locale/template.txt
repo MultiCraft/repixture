@@ -3,5 +3,5 @@ TNT=
 TNT (defused)=
 Boom!=
 Boom?=
-Craft TNT.=
+Ignite TNT.=
 Craft defused TNT.=

@@ -200,8 +200,8 @@ achievements.register_achievement(
    "enlightened",
    {
       title = S("Enlightened"),
-      description = S("Place 9 lumien crystals."),
-      times = 9,
+      description = S("Place a lumien crystal."),
+      times = 1,
       placenode = "lumien:crystal_off",
 })
 

@@ -62,15 +62,4 @@ minetest.register_on_player_receive_fields(
       player:set_wielded_item(itemstack)
 end)
 
--- Achievements
-
-achievements.register_achievement(
-   "scribe",
-   {
-      title = S("Scribe"),
-      description = S("Craft a book."),
-      times = 1,
-      craftitem = "default:book",
-})
-
 default.log("mod:book", "loaded")

@@ -1,6 +1,6 @@
 # textdomain: mobs
 Hunter=Jäger
-Kill 5 animals for food.=Töten Sie 5 Tiere für Nahrung.
+Kill an animal for food.=Töten Sie ein Tier für Nahrung.
 Bomb has Been Defused!=Bombe wurde entschärft!
 Kill a mine turtle.=Töten Sie eine Minenschildkröte.
 Ranger=Waldhüter
@@ -91,3 +91,5 @@ TNT needs to be ignited by a flint and steel.=TNT muss mit Feuerstein und Stahl 
 Sleeping makes the night go past in the blink of an eye.=Im Schlaf vergeht die Nacht wie im Fluge.
 Isn't it stressful to carry this heavy bed around?=Ist es nicht anstrengend, dieses schwere Bett mit dir herumzuschleppen?
 Get this thing out of my face!=Nimm dieses Ding aus meinem Gesicht!
+Smalltalk=Gerede
+Visit a village and have a friendly chat with a villager.=Besuchen Sie ein Dorf und haben Sie ein nettes Gespräch mit einem Dorfbewohner.

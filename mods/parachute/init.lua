@@ -81,7 +81,16 @@ minetest.register_entity(
       physical = false,
       pointable = false,
       automatic_face_movement_dir = -90,
+
       attached = nil,
+      start_y = nil,
+
+      on_activate = function(self, staticdata, dtime_s)
+         if dtime_s == 0 then
+           local pos = self.object:get_pos()
+           self.start_y = pos.y
+         end
+      end,
       on_step = function(self, dtime)
          local pos = self.object:get_pos()
          local under = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z})
@@ -143,6 +152,12 @@ minetest.register_entity(
             if self.attached ~= nil then
                default.player_attached[self.attached] = false
 
+               local player = minetest.get_player_by_name(self.attached)
+               if player and self.start_y ~= nil then
+                  if self.start_y - self.object:get_pos().y > 100 then
+                     achievements.trigger_achievement(player, "sky_diver")
+                  end
+               end
                self.object:set_detach()
             end
 
@@ -169,9 +184,8 @@ achievements.register_achievement(
    "sky_diver",
    {
       title = S("Skydiver"),
-      description = S("Craft 5 parachutes."),
-      times = 5,
-      craftitem = "parachute:parachute",
+      description = S("Descend over 100 blocks with a parachute."),
+      times = 1,
 })
 
 default.log("mod:parachute", "loaded")

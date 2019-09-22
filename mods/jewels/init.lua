@@ -272,11 +272,12 @@ achievements.register_achievement(
 })
 
 achievements.register_achievement(
-   "master_jeweler",
+   "secret_of_jewels",
    {
-      title = S("Master Jeweler"),
-      description = S("Jewel 10 tools."),
-      times = 10,
+      title = S("The Secret of Jewels"),
+      description = S("Discover the origin of jewels."),
+      times = 1,
+      dignode = "jewels:jewel_ore",
 })
 
 -- The tool jewel definitions

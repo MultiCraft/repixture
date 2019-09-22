@@ -12,4 +12,4 @@ Locked Chest (cracked open) (Owned by @1)=
 Locksmith=
 Craft a lock.=
 Burglar=
-Craft a lock pick.=
+Break into a locked chest.=

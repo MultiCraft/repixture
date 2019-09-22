@@ -264,6 +264,7 @@ minetest.register_node(
          local itemname = puncher:get_wielded_item():get_name()
 
          if itemname == "default:flint_and_steel" then
+            achievements.trigger_achievement(puncher, "boom")
             tnt.burn(pos)
          end
       end,
@@ -323,20 +324,22 @@ minetest.register_craft(
 
 local title, desc
 if tnt_enable then
-   title = S("Boom!")
-   desc = S("Craft TNT.")
+   achievements.register_achievement(
+      "boom",
+      {
+         title = S("Boom!"),
+         description = S("Ignite TNT."),
+         times = 1,
+   })
 else
-   title = S("Boom?")
-   desc = S("Craft defused TNT.")
+   achievements.register_achievement(
+      "boom",
+      {
+         title = S("Boom?"),
+         description = S("Craft defused TNT."),
+         times = 1,
+         craftitem = "tnt:tnt",
+   })
 end
-
-achievements.register_achievement(
-   "boom",
-   {
-      title = title,
-      description = desc,
-      times = 1,
-      craftitem = "tnt:tnt",
-})
 
 default.log("mod:tnt", "loaded")

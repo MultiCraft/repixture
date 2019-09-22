@@ -110,6 +110,7 @@ minetest.register_tool(
                    burglar,
                    minetest.colorize("#0f0", S("You have broken the lock!")))
             end
+            achievements.trigger_achievement(player, "burglar")
             minetest.sound_play({name="locks_unlock",gain=0.8},{pos=pos, max_hear_distance=16})
          else
             -- Failure!
@@ -279,9 +280,8 @@ achievements.register_achievement(
    "burglar",
    {
       title = S("Burglar"),
-      description = S("Craft a lock pick."),
+      description = S("Break into a locked chest."),
       times = 1,
-      craftitem = "locks:pick",
 })
 
 default.log("mod:locks", "loaded")
