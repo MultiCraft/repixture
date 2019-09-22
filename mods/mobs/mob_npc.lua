@@ -17,7 +17,7 @@ local msgs = {
         tavernkeeper = S("Hi! I'm a tavernkeeper. I trade with assorted goods."),
         blacksmith = S("Hi! I'm a blacksmith. I sell metal products."),
         butcher = S("Hi! I'm a butcher. Want to buy something?"),
-        carpenter = S("Hi! I'm a carpenter. Making thinks out of wood is my job."),
+        carpenter = S("Hi! I'm a carpenter. Making things out of wood is my job."),
     },
     trade = {
         S("If you want to trade, show me a trading book."),
@@ -144,11 +144,16 @@ for _, npc_type_table in pairs(npc_types) do
               return
             end
 
+            local iname = item:get_name()
+            if minetest.get_item_group(iname, "sword") > 0 or minetest.get_item_group(iname, "spear") > 0 or iname == "default:thistle" then
+               say(S("Get this thing out of my face!"), name)
+               return
+            end
+
             -- Feed to heal npc
 
             local hp = self.object:get_hp()
-            local iname = item:get_name()
-            if minetest.get_item_group(iname, "food") > 0 then
+            if minetest.get_item_group(iname, "food") > 0 and iname ~= "default:cactus" then
                -- Reject food that is not in this list
                if iname ~= "mobs:meat" and iname ~= "mobs:pork"
                and iname ~= "farming:bread" and iname ~= "default:apple"
@@ -202,6 +207,74 @@ for _, npc_type_table in pairs(npc_types) do
                    if hp >= self.hp_max-7 then
                       if iname == "gold:ingot_gold" then
                           say_random("trade", name)
+                      elseif iname == "default:fertilizer" then
+                          if npc_type == "farmer" then
+                              say(S("This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."), name)
+                          else
+                              say(S("Sorry, I don't know how to use this. Maybe ask a farmer."), name)
+                          end
+                      elseif minetest.get_item_group(iname, "bucket") > 0 then
+                          if npc_type == "farmer" then
+                              say(S("Remember to put water near to your seeds."), name)
+                          else
+                              say_random("happy", name)
+                          end
+                      elseif iname == "mobs:lasso" then
+                          say(S("It's used to capture large animals."), name)
+                      elseif iname == "locks:pick" then
+                          say(S("Why are you carrying this around? Do you want crack open our locked chests?"), name)
+                      elseif iname == "mobs:net" then
+                          say(S("It's used to capture small animals."), name)
+                      elseif iname == "farming:wheat_1" then
+                          say(S("Every kid knows seeds need soil, water and sunlight."), name)
+                      elseif iname == "farming:cotton_1" then
+                          if npc_type == "farmer" then
+                              say(S("Did you know cotton seed not only grow on dirt, but also on sand? But it still needs water."), name)
+                          else
+                              say(S("Every kid knows seeds need soil, water and sunlight."), name)
+                          end
+                      elseif iname == "default:book" then
+                          say(S("A truly epic story!"), name)
+                      elseif iname == "default:pearl" then
+                          say(S("Ooh, a shiny pearl! Unfortunately, I don't know what it's good for."), name)
+                      elseif minetest.get_item_group(iname, "sapling") > 0 then
+                          say(S("Place it on the ground in sunlight and it will grow to a tree."), name)
+                      elseif minetest.get_item_group(iname, "shears") > 0 then
+                          say(S("Use this to get wool from sheep."), name)
+                      elseif iname == "default:papyrus" then
+                          if npc_type == "farmer" then
+                              say(S("Papyrus likes to grow next to water."), name)
+                          else
+                              say(S("When I was I kid, I always liked to climb on the papyrus."), name)
+                          end
+                      elseif iname == "default:cactus" then
+                          if npc_type == "farmer" then
+                              say(S("Cacti like to grow on sand. They are also a food source, if you're really desperate."), name)
+                          elseif npc_type == "blacksmith" then
+                              say(S("Ah, a cactus. You'd be surprised how well they burn in a furnace."), name)
+                          else
+                              say(S("Now what can you possibly do with a cactus? I don't know!"), name)
+                          end
+                      elseif iname == "jewels:jewel" then
+                          if npc_type == "blacksmith" then
+                             say(S("Jewels are great! If you have a jeweller's workbench, you can enhance your tools."), name)
+                          else
+                             say(S("Did you know we sometimes sell jewels?"), name)
+                          end
+                      elseif iname == "lumien:crystal_off" then
+                          say(S("This looks like it could be a good wall decoration."), name)
+                      elseif iname == "default:flower" then
+                          say(S("A flower? I love flowers! Let's make the world bloom!"), name)
+                      elseif iname == "default:flint_and_steel" then
+                          say(S("You can use this to ignite TNT."), name)
+                      elseif iname == "tnt:tnt" then
+                          say(S("TNT needs to be ignited by a flint and steel."), name)
+                      elseif iname == "bed:bed_foot" then
+                          if npc_type == "carpenter" then
+                             say(S("Isn't it stressful to carry this heavy bed around?"), name)
+                          else
+                             say(S("Sleeping makes the night go past in the blink of an eye."), name)
+                          end
                       else
                           local r = math.random(1,3)
                           if r == 1 then
