@@ -1,12 +1,10 @@
 # textdomain: farming
-Farmer=
-Plant 20 wheat seeds.=
-Master Farmer=
-Plant 200 wheat seeds.=
+Wannabe Farmer=
+Wheat Farmer=
 Cotton Farmer=
-Plant 10 cotton seeds.=
-Master Cotton Farmer=
-Plant 100 cotton seeds.=
+Plant a seed and watch it grow.=
+Harvest a fully-grown wheat plant.=
+Harvest a fully-grown cotton plant.=
 Cotton=
 Wheat=
 Flour=

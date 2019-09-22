@@ -426,7 +426,7 @@ achievements.register_achievement(
    "fertile",
    {
       title = S("Fertile"),
-      description = S("Craft a fertilzer."),
+      description = S("Craft a bag of fertilizer."),
       times = 1,
       craftitem = "default:fertilizer",
 })

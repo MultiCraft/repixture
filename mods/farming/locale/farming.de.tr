@@ -1,12 +1,10 @@
 # textdomain: farming
-Farmer=Bauer
-Plant 20 wheat seeds.=Pflanzen Sie 20 Weizensamen.
-Master Farmer=Meisterbauer
-Plant 200 wheat seeds.=Pflanzen Sie 200 Weizensamen.
+Wannabe Farmer=Möchtegernbauer
+Wheat Farmer=Weizenbauer
 Cotton Farmer=Baumwollfarmer
-Plant 10 cotton seeds.=Pflanzen Sie 10 Baumwollsamen.
-Master Cotton Farmer=Meisterbaumwollfarmer
-Plant 100 cotton seeds.=Pflanzen Sie 100 Baumwollsamen.
+Plant a seed and watch it grow.=Pflanzen Sie einen Samen und lassen Sie ihn wachsen.
+Harvest a fully-grown wheat plant.=Ernten Sie eine reife Weizenpflanze.
+Harvest a fully-grown cotton plant.=Ernten Sie eine reife Baumwollpflanze.
 Cotton=Baumwolle
 Wheat=Weizen
 Flour=Mehl

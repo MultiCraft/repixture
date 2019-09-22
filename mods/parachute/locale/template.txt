@@ -1,5 +1,5 @@
 # textdomain: parachute
 Parachute=
 Skydiver=
-Craft 5 parachutes.=
+Craft a parachute.=
 Cannot open parachute on ground!=
