@@ -102,8 +102,11 @@ local function die_handler(self, killer)
 end
 
 -- on mob death drop items
-local function check_for_death(self, hitter)
-   local hp = self.object:get_hp()
+local function check_for_death(self, hitter, damage)
+   if damage == nil then
+      damage = 0
+   end
+   local hp = self.object:get_hp() - damage
    if hp > 0 then
       self.health = hp
       if self.sounds.damage ~= nil then
@@ -1310,7 +1313,7 @@ function mobs:register_mob(name, def)
             return minetest.serialize(tmp)
          end,
 
-         on_punch = function(self, hitter, tflp, tool_capabilities, dir)
+         on_punch = function(self, hitter, tflp, tool_capabilities, dir, damage)
             -- weapon wear
             local weapon = hitter:get_wielded_item()
             if weapon:get_definition().tool_capabilities ~= nil then
@@ -1328,7 +1331,7 @@ function mobs:register_mob(name, def)
             })
 
             -- exit here if dead
-            if check_for_death(self, hitter) then
+            if check_for_death(self, hitter, damage) then
                return
             end
 
