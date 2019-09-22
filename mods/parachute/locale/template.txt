@@ -1,5 +1,5 @@
 # textdomain: parachute
 Parachute=
 Skydiver=
-Craft a parachute.=
+Descend over 100 blocks with a parachute.=
 Cannot open parachute on ground!=
