@@ -28,7 +28,9 @@ local function update_sounds(do_repeat)
    if weather.weather == "storm" then
       for _, player in ipairs(minetest.get_connected_players()) do
          local name = player:get_player_name()
-         if player:get_pos().y > sound_min_height then
+         local pos = player:get_pos()
+         local node = minetest.get_node({x=pos.x, y=pos.y+1.5, z=pos.z})
+         if pos.y > sound_min_height and minetest.get_item_group(node.name, "water") == 0 then
             if not sound_handles[name] then
                sound_handles[name] = minetest.sound_play(
                   { name = "weather_storm" }, { to_player = name, loop = true, fade = 0.5 }
