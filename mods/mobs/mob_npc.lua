@@ -116,8 +116,9 @@ for _, npc_type_table in pairs(npc_types) do
 	 water_damage = 0,
 	 lava_damage = 2,
 	 light_damage = 0,
+	 group_attack = true,
 	 follow = "gold:ingot_gold",
-	 view_range = 15,
+	 view_range = 16,
 	 owner = "",
 	 animation = {
 	    speed_normal = 30,
