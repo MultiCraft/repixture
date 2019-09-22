@@ -67,10 +67,15 @@ minetest.register_tool(
          if minetest.get_item_group(node.name, "locked") == 0 then
             return itemstack
          end
+         local meta = minetest.get_meta(pos)
+         local cracked = meta:get_int("lock_cracked") == 1
+         if cracked then
+            -- Is already open
+            return itemstack
+         end
          -- Attempt to pick lock
          if math.random(1, 5) <= 1 then
             -- Success!
-            local meta = minetest.get_meta(pos)
             meta:set_int("lock_cracked", 1)
             local timer = minetest.get_node_timer(pos)
             -- Unlock node for a limited time
