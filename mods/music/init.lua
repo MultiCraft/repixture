@@ -114,6 +114,9 @@ if minetest.settings:get_bool("music_enable") then
 
 	 is_ground_content = false,
 	 floodable = true,
+         on_flood = function(pos, oldnode, newnode)
+            minetest.add_item(pos, "music:player")
+         end,
 	 paramtype = "light",
 
 	 drawtype = "nodebox",
@@ -177,6 +180,9 @@ else
 
 	 is_ground_content = false,
 	 floodable = true,
+	 on_flood = function(pos, oldnode, newnode)
+	   minetest.add_item(pos, "music:player")
+	 end,
 	 paramtype = "light",
 
 	 drawtype = "nodebox",

@@ -20,6 +20,9 @@ local function register_torch(subname, description, tiles, overlay_tiles, overla
          sunlight_propagates = true,
          walkable = false,
          floodable = true,
+         on_flood = function(pos, oldnode, newnode)
+            minetest.add_item(pos, "default:torch_dead")
+         end,
          node_placement_prediction = "",
          node_box = {
 	    type = "wallmounted",
@@ -96,6 +99,9 @@ local function register_torch(subname, description, tiles, overlay_tiles, overla
          sunlight_propagates = true,
          walkable = false,
          floodable = true,
+         on_flood = function(pos, oldnode, newnode)
+            minetest.add_item(pos, "default:torch_dead")
+         end,
          node_box = {
 	    type = "wallmounted",
 	    wall_top = {-2/16, 0, -2/16, 2/16, 0.5, 2/16},
