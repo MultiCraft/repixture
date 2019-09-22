@@ -101,9 +101,14 @@ function armor.get_groups(player)
 
    local inv = player:get_inventory()
 
+   local ach_ok = true
    for slot_index, slot in ipairs(armor.slots) do
       local itemstack = inv:get_stack("armor", slot_index)
       local itemname = itemstack:get_name()
+
+      if itemstack:get_name() ~= "armor:"..slot.."_bronze" then
+         ach_ok = false
+      end
 
       if armor.is_armor(itemname) then
 	 local item = minetest.registered_items[itemname]
@@ -124,8 +129,10 @@ function armor.get_groups(player)
 	       break
 	    end
 	 end
-
       end
+   end
+   if ach_ok then
+      achievements.trigger_achievement(player, "full_armor")
    end
 
    -- If full set of same armor material, then boost armor by 10%
@@ -264,10 +271,18 @@ end
 achievements.register_achievement(
    "armored",
    {
-      title = S("Armored"),
+      title = S("Armor Smith"),
       description = S("Craft a piece of armor."),
       times = 1,
       craftitem = "group:is_armor",
+})
+
+achievements.register_achievement(
+   "full_armor",
+   {
+      title = S("Skin of Bronze"),
+      description = S("Equip a full suit of bronze armor."),
+      times = 1,
 })
 
 default.log("mod:armor", "loaded")

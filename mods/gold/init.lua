@@ -265,6 +265,7 @@ minetest.register_on_player_receive_fields(
 	       inv:add_item("gold_trade_out", trade[3])
 	       inv:remove_item("gold_trade_in", trade[1])
 	       inv:remove_item("gold_trade_in", trade[2])
+               achievements.trigger_achievement(player, "trader")
 	    end
 	 end
       end
@@ -346,9 +347,8 @@ achievements.register_achievement(
    "trader",
    {
       title = S("Trader"),
-      description = S("Craft a trading book."),
+      description = S("Trade with a villager."),
       times = 1,
-      craftitem = "gold:trading_book",
 })
 
 achievements.register_achievement(

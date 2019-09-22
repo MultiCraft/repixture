@@ -271,6 +271,15 @@ achievements.register_achievement(
       times = 1,
 })
 
+achievements.register_achievement(
+   "secret_of_jewels",
+   {
+      title = S("The Secret of Jewels"),
+      description = S("Discover the origin of jewels."),
+      times = 1,
+      dignode = "jewels:jewel_ore",
+})
+
 -- The tool jewel definitions
 
 dofile(minetest.get_modpath("jewels").."/jewels.lua")

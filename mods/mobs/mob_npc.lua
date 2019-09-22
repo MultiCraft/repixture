@@ -151,6 +151,8 @@ for _, npc_type_table in pairs(npc_types) do
                return
             end
 
+            achievements.trigger_achievement(clicker, "smalltalk")
+
             -- Feed to heal npc
 
             local hp = self.object:get_hp()

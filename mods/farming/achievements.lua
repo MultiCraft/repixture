@@ -6,7 +6,7 @@ local S = minetest.get_translator("farming")
 achievements.register_achievement(
    "farmer",
    {
-      title = S("Farmer"),
+      title = S("Wannabe Farmer"),
       description = S("Plant a seed and watch it grow."),
       times = 1,
       placenode = "group:seed",

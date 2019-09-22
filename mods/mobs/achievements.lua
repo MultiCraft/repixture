@@ -42,3 +42,11 @@ achievements.register_achievement(
       description = S("Tame an animal."),
       times = 1,
 })
+
+achievements.register_achievement(
+   "smalltalk",
+   {
+      title = S("Smalltalk"),
+      description = S("Visit a village and have a nice friendly chat with a villager."),
+      times = 1,
+})
