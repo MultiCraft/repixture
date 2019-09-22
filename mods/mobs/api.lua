@@ -48,8 +48,13 @@ end
 
 local function mob_sound(self, sound, keep_pitch)
    local pitch
-   if self.child and not keep_pitch then
-      pitch = 1.5
+   if not keep_pitch then
+      if self.child then
+         pitch = 1.5
+      else
+         pitch = 1.0
+      end
+      pitch = pitch + 0.0025 * math.random(-10,10)
    end
       minetest.sound_play(
          sound,
