@@ -7,36 +7,27 @@ achievements.register_achievement(
    "farmer",
    {
       title = S("Farmer"),
-      description = S("Plant 20 wheat seeds."),
-      times = 20,
-      placenode = "farming:wheat_1",
+      description = S("Plant a seed and watch it grow."),
+      times = 1,
+      placenode = "group:seed",
    })
 
 achievements.register_achievement(
-   "master_farmer",
+   "wheat_farmer",
    {
-      title = S("Master Farmer"),
-      description = S("Plant 200 wheat seeds."),
-      times = 200,
-      placenode = "farming:wheat_1",
+      title = S("Wheat Farmer"),
+      description = S("Harvest a fully-grown wheat plant."),
+      times = 1,
+      placenode = "farming:wheat_4",
    })
 
 achievements.register_achievement(
    "cotton_farmer",
    {
       title = S("Cotton Farmer"),
-      description = S("Plant 10 cotton seeds."),
-      times = 10,
-      placenode = "farming:cotton_1",
-   })
-
-achievements.register_achievement(
-   "master_cotton_farmer",
-   {
-      title = S("Master Cotton Farmer"),
-      description = S("Plant 100 cotton seeds."),
-      times = 100,
-      placenode = "farming:cotton_1",
+      description = S("Harvest a fully-grown cotton plant."),
+      times = 1,
+      placenode = "farming:cotton_4",
    })
 
 default.log("achievements", "loaded")

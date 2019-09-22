@@ -270,13 +270,4 @@ achievements.register_achievement(
       craftitem = "group:is_armor",
 })
 
-achievements.register_achievement(
-   "warrior",
-   {
-      title = S("Warrior"),
-      description = S("Craft 10 pieces of armor."),
-      times = 10,
-      craftitem = "group:is_armor",
-})
-
 default.log("mod:armor", "loaded")

@@ -355,8 +355,8 @@ achievements.register_achievement(
    "gold_rush",
    {
       title = S("Gold Rush"),
-      description = S("Dig 60 gold ore."),
-      times = 60,
+      description = S("Dig a gold ore."),
+      times = 1,
       dignode = "gold:stone_with_gold",
 })
 

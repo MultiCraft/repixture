@@ -271,14 +271,6 @@ achievements.register_achievement(
       times = 1,
 })
 
-achievements.register_achievement(
-   "master_jeweler",
-   {
-      title = S("Master Jeweler"),
-      description = S("Jewel 10 tools."),
-      times = 10,
-})
-
 -- The tool jewel definitions
 
 dofile(minetest.get_modpath("jewels").."/jewels.lua")
