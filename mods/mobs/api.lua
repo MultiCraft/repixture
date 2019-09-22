@@ -46,6 +46,22 @@ local function effect(pos, amount, texture, max_size)
    })
 end
 
+local function mob_sound(self, sound, keep_pitch)
+   local pitch
+   if self.child and not keep_pitch then
+      pitch = 1.5
+   end
+      minetest.sound_play(
+         sound,
+         {
+         pitch = pitch,
+         object = self.object,
+         max_hear_distance = self.sounds.distance
+         })
+end
+
+
+
 -- Handle death (does not remove mob)
 local function die_handler(self, killer)
    local pos = self.object:get_pos()
@@ -69,12 +85,7 @@ local function die_handler(self, killer)
       end
    end
    if self.sounds.death ~= nil then
-      minetest.sound_play(
-         self.sounds.death,
-         {
-	    object = self.object,
-	    max_hear_distance = self.sounds.distance
-      })
+      mob_sound(self, self.sounds.death)
    end
    -- Hunter achievement: If mob is a food-dropping animal, it counts.
    if killer ~= nil and self.type == "animal" and drops_food then
@@ -91,12 +102,7 @@ local function check_for_death(self, hitter)
    if hp > 0 then
       self.health = hp
       if self.sounds.damage ~= nil then
-         minetest.sound_play(
-	    self.sounds.damage,
-	    {
-               object = self.object,
-               max_hear_distance = self.sounds.distance
-         })
+         mob_sound(self, self.sounds.damage)
       end
       return false
    else
@@ -244,12 +250,7 @@ function mobs:register_mob(name, def)
                -- Make sound when fed so many times
 
                if self.sounds.random then
-                  minetest.sound_play(
-                     self.sounds.random,
-                     {
-                        object = self.object,
-                        max_hear_distance = self.sounds.distance
-                  })
+                  mob_sound(self, self.sounds.random)
                end
             end
          end,
@@ -259,12 +260,7 @@ function mobs:register_mob(name, def)
             if self.state ~= "attack" then
                if math.random(0,100) < 90
                and self.sounds.war_cry then
-                  minetest.sound_play(
-                     self.sounds.war_cry,
-                     {
-                        object = self.object,
-                        max_hear_distance = self.sounds.distance
-                  })
+                  mob_sound(self, self.sounds.war_cry)
                end
                self.state = "attack"
                self.attack.player = player
@@ -476,12 +472,7 @@ function mobs:register_mob(name, def)
 
             if self.sounds.random
             and math.random(1, 100) <= 1 then
-               minetest.sound_play(
-                  self.sounds.random,
-                  {
-                     object = self.object,
-                     max_hear_distance = self.sounds.distance
-               })
+               mob_sound(self, self.sounds.random)
             end
 
             local do_env_damage = function(self)
@@ -561,12 +552,7 @@ function mobs:register_mob(name, def)
                               v.z = v.z * 2.2
                               self.object:set_velocity(v)
                               if self.sounds.jump then
-                                 minetest.sound_play(
-                                    self.sounds.jump,
-                                    {
-                                       object = self.object,
-                                       max_hear_distance = self.sounds.distance
-                                 })
+                                 mob_sound(self, self.sounds.jump, false)
                               end
                            end
                      end
@@ -1138,12 +1124,7 @@ function mobs:register_mob(name, def)
                      s2.y = s2.y + 1.5
                      if minetest.line_of_sight(p2, s2) == true then
                         if self.sounds.attack then
-                           minetest.sound_play(
-                              self.sounds.attack,
-                              {
-                                 object = self.object,
-                                 max_hear_distance = self.sounds.distance
-                           })
+                           mob_sound(self, self.sounds.attack)
                         end
                         self.attack.player:punch(
                            self.object,
@@ -1197,12 +1178,7 @@ function mobs:register_mob(name, def)
                   self:set_animation("punch")
 
                   if self.sounds.attack then
-                     minetest.sound_play(
-                        self.sounds.attack,
-                        {
-                           object = self.object,
-                           max_hear_distance = self.sounds.distance
-                     })
+                     mob_sound(self, self.sounds.attack)
                   end
 
                   local p = self.object:get_pos()
