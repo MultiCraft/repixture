@@ -27,7 +27,7 @@ if gigatree_decoration_id then
 	-- Returned numbers are offsets.
 	local rnd_minmax = function(pr)
 		local min = pr:next(- clust_size + 1, 0)
-		max = min + (clust_size - 1)
+		local max = min + (clust_size - 1)
 		return min, max
 	end
 

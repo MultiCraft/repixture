@@ -572,7 +572,7 @@ function village.spawn_village(pos, pr, force_place_well)
    local t1 = os.clock()
 
    -- Every village generation starts with a well.
-   local chunk_ok, state = village.spawn_chunk(pos, state, "0", replace, pr, "well", nil, force_place_well == true)
+   local chunk_ok, state = village.spawn_chunk(pos, nil, "0", replace, pr, "well", nil, force_place_well == true)
    if not chunk_ok then
       -- Oops! Not enough space for the well. Village generation fails.
       return false
