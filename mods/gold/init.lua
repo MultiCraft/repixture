@@ -19,7 +19,7 @@ if minetest.get_modpath("mobs") ~= nil then
       {"gold:ingot_gold 3", "", "farming:cotton_1 4"},
       {"gold:ingot_gold 5", "", "farming:cotton_1 8"},
       {"gold:ingot_gold", "", "default:papyrus 4"},
-      {"gold:ingot_gold 4", "", "default:cactus 2"},
+      {"gold:ingot_gold 2", "", "default:cactus"},
 
       -- crafts
       {"gold:ingot_gold 7", "", "farming:cotton_bale 3"},
@@ -34,11 +34,11 @@ if minetest.get_modpath("mobs") ~= nil then
    }
    gold.trades["carpenter"] = {
       -- materials
-      {"gold:ingot_gold 2", "", "default:planks 12"},
-      {"gold:ingot_gold 2", "", "default:planks_birch 8"},
+      {"gold:ingot_gold", "", "default:planks 6"},
+      {"gold:ingot_gold", "", "default:planks_birch 4"},
       {"gold:ingot_gold 3", "", "default:planks_oak 10"},
-      {"gold:ingot_gold 5", "", "default:frame 10"},
-      {"gold:ingot_gold 10", "", "default:reinforced_frame 10"},
+      {"gold:ingot_gold", "", "default:frame 2"},
+      {"gold:ingot_gold", "", "default:reinforced_frame"},
 
       -- useables
       {"gold:ingot_gold 9", "", "bed:bed"},
@@ -61,9 +61,9 @@ if minetest.get_modpath("mobs") ~= nil then
       {"gold:ingot_gold 3", "", "default:lump_iron"},
 
       -- materials
-      {"gold:ingot_gold 2", "", "default:cobble 10"},
+      {"gold:ingot_gold", "", "default:cobble 5"},
       {"gold:ingot_gold 3", "", "default:stone 10"},
-      {"gold:ingot_gold 5", "", "default:reinforced_cobble 10"},
+      {"gold:ingot_gold", "", "default:reinforced_cobble 2"},
       {"gold:ingot_gold 25", "", "default:block_steel"},
       {"gold:ingot_gold 6", "", "default:glass 5"},
 
@@ -84,7 +84,7 @@ if minetest.get_modpath("mobs") ~= nil then
    }
    gold.trades["butcher"] = {
       -- raw edibles
-      {"gold:ingot_gold 2", "", "mobs:meat_raw 2"},
+      {"gold:ingot_gold", "", "mobs:meat_raw"},
       {"gold:ingot_gold 3", "", "mobs:pork_raw 2"},
 
       -- cooking edibles
