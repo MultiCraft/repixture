@@ -3,8 +3,10 @@ Mobs mod
 By PilzAdam, KrupnovPavel, Zeg9, TenPlus1
 Tweaked by KaadmY, for Pixture
 
-Asset license: CC BY-SA 4.0
-Source License:
+Media file license: CC BY-SA 4.0
+* mobs_skunk_hiss.ogg: by Reitanna, CC0 <https://freesound.org/people/Reitanna/sounds/343927/>
+
+Source code license:
     api.lua: MIT
     sheep.lua: MIT
     boar.lua: MIT

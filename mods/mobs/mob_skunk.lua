@@ -20,7 +20,9 @@ mobs:register_mob(
       },
       makes_footstep_sound = true,
       sounds = {
-	 attack = "mobs_boar_angry",
+	 attack = "mobs_skunk_hiss",
+	 damage = "mobs_skunk_hiss",
+	 death = "mobs_skunk_hiss",
 	 distance = 16,
       },
       walk_velocity = 1.5,
