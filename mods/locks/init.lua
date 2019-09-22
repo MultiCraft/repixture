@@ -37,16 +37,10 @@ function locks.is_locked(meta, player)
 
    local t = minetest.get_gametime()
 
-   local lp = meta:get_float("last_lock_pick")
+   local cracked = meta:get_int("lock_cracked")
 
-   if lp == -1 or lp == nil then
-      lp = -1
-   end
-
-   if lp > t then
+   if cracked == 1 then
       return false
-   else
-      meta:set_float("last_lock_pick", -1)
    end
 
    return true
@@ -77,12 +71,21 @@ minetest.register_tool(
          if math.random(1, 5) <= 1 then
             -- Success!
             local meta = minetest.get_meta(pos)
-            meta:set_float("last_lock_pick", minetest.get_gametime() + picked_time)
+            meta:set_int("lock_cracked", 1)
+            local timer = minetest.get_node_timer(pos)
+            -- Unlock node for a limited time
+            timer:start(picked_time)
+
+            local owner = meta:get_string("lock_owner")
+            if owner == "" then
+               meta:set_string("infotext", S("Locked Chest (cracked open)"))
+            else
+               meta:set_string("infotext", S("Locked Chest (cracked open) (Owned by @1)", owner))
+            end
 
             -- TODO: Add graphical effect to show success
 
             local burglar = player:get_player_name()
-            local owner = meta:get_string("lock_owner")
             if owner then
                if owner ~= burglar then
                    minetest.chat_send_player(
@@ -142,7 +145,7 @@ minetest.register_node(
       sounds = default.node_sound_wood_defaults(),
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
-         meta:set_float("last_lock_pick", -1)
+         meta:set_int("lock_cracked", 0)
          meta:set_string("infotext", S("Locked Chest"))
 
          local inv = meta:get_inventory()
@@ -159,11 +162,6 @@ minetest.register_node(
          local meta = minetest.get_meta(pos)
 
          if not locks.is_locked(meta, player) then
-            if locks.is_owner(meta, player) then
-               -- also unlock when owner opens for "sharing" locked stuff
-               meta:set_float("last_lock_pick", minetest.get_gametime() + 5)
-            end
-
             local np = pos.x .. "," .. pos.y .. "," .. pos.z
             local form = default.ui.get_page("default:2part")
             form = form .. "list[nodemeta:" .. np .. ";main;0.25,0.25;8,4;]"
@@ -180,6 +178,16 @@ minetest.register_node(
                "default_chest",
                form
             )
+         end
+      end,
+      on_timer = function(pos, elapsed)
+         local meta = minetest.get_meta(pos)
+         meta:set_int("lock_cracked", 0)
+         local owner = meta:get_string("lock_owner")
+         if owner == "" then
+            meta:set_string("infotext", S("Locked Chest"))
+         else
+            meta:set_string("infotext", S("Locked Chest (Owned by @1)", owner))
          end
       end,
       allow_metadata_inventory_move = function(pos, from_l, from_i, to_l, to_i, cnt, player)
