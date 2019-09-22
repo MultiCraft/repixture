@@ -37,6 +37,7 @@ mobs:register_mob(
       water_damage = 1,
       lava_damage = 5,
       light_damage = 0,
+      takes_node_damage = false,
       animation = {
 	 speed_normal = 25,
 	 speed_run = 35,
