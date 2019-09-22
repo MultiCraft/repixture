@@ -1,3 +1,27 @@
+## 0.5.0
+- Villagers: Add carpenter profession
+- Villagers: Re-balance trades a bit
+- Villagers: Add a number of new messages, commenting on the stuff you carry
+- Villagers now group-attack
+- Tweak stuff in village chests
+- Generate locked chests in villages
+- Limit number of music players per village to 1
+- Fade in/out weather sounds; don't play rain sound underwater
+- Remove unused snowstorm weather
+- Save weather status when quitting game
+- Fix mob punch sound not always played
+- New sounds: Skunk, jewelling, placing/taking water, lockpicking, hungry
+- Improve mob sounds
+- Jewelling: Fix "range" bonus not working
+- Complete overhaul of achievements: Remove all "grindy" achievements, change requirements for existing achievements to be more specific, add new achievements
+- Locked chests: Display "cracked" state in info text
+- Locked chests can now be ownerless
+- Lockpicks no longer try to pick already cracked chests
+- Improve the quality of ambient sounds a bit, add swamp ambience at night
+- Make trader form less confusing
+- Torches and music players drop as items when flooded
+- Make lasso texture look more try
+
 ## 0.4.4
 - Fix achievements screen sometimes not properly updated
 - Fix weird attachment behaviour of apples
