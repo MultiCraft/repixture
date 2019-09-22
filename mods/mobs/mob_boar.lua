@@ -23,6 +23,7 @@ mobs:register_mob(
       makes_footstep_sound = true,
       sounds = {
 	 random = "mobs_boar",
+	 damage = "mobs_boar",
 	 attack = "mobs_boar_angry",
 	 death = "mobs_boar_angry",
 	 distance = 16,

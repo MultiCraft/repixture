@@ -24,6 +24,7 @@ mobs:register_mob(
       sounds = {
 	 random = "mobs_sheep",
 	 death = "mobs_sheep",
+	 damage = "mobs_sheep",
 	 distance = 16,
       },
       walk_velocity = 1,
