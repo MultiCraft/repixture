@@ -532,7 +532,7 @@ function mobs:register_mob(name, def)
                   if enable_blood then
                      effect(pos, self.blood_amount, self.blood_texture)
                   else
-                     effect(pos, self.blood_amount, "default_grass_clump_tall.png")
+                     effect(pos, self.blood_amount, "mobs_damage.png")
                   end
                   if check_for_death(self) then return end
                end
@@ -1368,7 +1368,7 @@ function mobs:register_mob(name, def)
                if enable_blood then
                   effect(pos, self.blood_amount, self.blood_texture)
                else
-                  effect(pos, self.blood_amount, "default_grass_clump_tall.png")
+                  effect(pos, self.blood_amount, "mobs_damage.png")
                end
             end
 
