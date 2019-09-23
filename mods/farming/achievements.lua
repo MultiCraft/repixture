@@ -7,7 +7,7 @@ achievements.register_achievement(
    "farmer",
    {
       title = S("Wannabe Farmer"),
-      description = S("Plant a seed and watch it grow."),
+      description = S("Plant a seed."),
       times = 1,
       placenode = "group:seed",
    })

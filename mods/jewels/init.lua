@@ -274,7 +274,7 @@ achievements.register_achievement(
 achievements.register_achievement(
    "secret_of_jewels",
    {
-      title = S("The Secret of Jewels"),
+      title = S("Secret of Jewels"),
       description = S("Discover the origin of jewels."),
       times = 1,
       dignode = "jewels:jewel_ore",

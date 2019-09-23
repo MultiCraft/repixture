@@ -751,7 +751,7 @@ function mobs:register_mob(name, def)
                            if feeder then
                               local pfeeder = minetest.get_player_by_name(feeder)
                               if pfeeder:is_player() then
-                                 achievements.trigger_achievement(pfeeder, "the_wonder_of_life")
+                                 achievements.trigger_achievement(pfeeder, "wonder_of_life")
                               end
                            end
                            local textures = self.base_texture

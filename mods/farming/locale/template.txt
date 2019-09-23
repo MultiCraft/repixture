@@ -2,7 +2,7 @@
 Wannabe Farmer=
 Wheat Farmer=
 Cotton Farmer=
-Plant a seed and watch it grow.=
+Plant a seed.=
 Harvest a fully-grown wheat plant.=
 Harvest a fully-grown cotton plant.=
 Cotton=
