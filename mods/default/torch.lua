@@ -91,8 +91,6 @@ local function register_torch(subname, description, tiles, overlay_tiles, overla
          drawtype = "nodebox",
          tiles = tiles2,
          overlay_tiles = overlay_tiles2,
-         inventory_image = inv_image,
-         wield_image = inv_image,
          paramtype = "light",
          paramtype2 = "wallmounted",
          light_source = light,
