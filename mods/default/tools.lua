@@ -9,141 +9,42 @@ local creative_digtime = 0
 
 local tool_levels = nil
 
+local creative_digtable = {
+   crumbly = {
+      [3] = creative_digtime,
+      [2] = creative_digtime,
+      [1] = creative_digtime,
+   },
+   choppy = {
+      [3] = creative_digtime,
+      [2] = creative_digtime,
+      [1] = creative_digtime,
+   },
+   cracky = {
+      [3] = creative_digtime,
+      [2] = creative_digtime,
+      [1] = creative_digtime,
+   },
+   snappy = {
+      [3] = creative_digtime,
+      [2] = creative_digtime,
+      [1] = creative_digtime,
+   },
+   dig_immediate = {
+      [3] = 0,
+      [2] = math.min(creative_digtime, 0.5),
+   },
+}
+
 -- Creative mode/hand defs
 if minetest.settings:get_bool("creative_mode") == true then
    tool_levels = {
-      wood = {
-         crumbly = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         choppy = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         cracky = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         snappy = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-      },
-      stone = {
-         crumbly = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         choppy = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         cracky = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         snappy = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-      },
-      wrought_iron = {
-         crumbly = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         choppy = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         cracky = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         snappy = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-      },
-      steel = {
-         crumbly = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         choppy = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         cracky = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         snappy = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-      },
-      carbon_steel = {
-         crumbly = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         choppy = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         cracky = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         snappy = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-      },
-      bronze = {
-         crumbly = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         choppy = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         cracky = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-         snappy = {
-            [3] = creative_digtime,
-            [2] = creative_digtime,
-            [1] = creative_digtime,
-         },
-      },
+      wood = creative_digtable,
+      stone = creative_digtable,
+      wrought_iron = creative_digtable,
+      steel = creative_digtable,
+      carbon_steel = creative_digtable,
+      bronze = creative_digtable,
    }
 
    minetest.register_item(
@@ -162,6 +63,7 @@ if minetest.settings:get_bool("creative_mode") == true then
 	       cracky = {times={[1]=creative_digtime, [2]=creative_digtime, [3]=creative_digtime}, uses=0, maxlevel=1},
 	       snappy = {times={[1]=creative_digtime, [2]=creative_digtime, [3]=creative_digtime}, uses=0, maxlevel=1},
 	       oddly_breakable_by_hand = {times={[1]=creative_digtime,[2]=creative_digtime,[3]=creative_digtime}, uses=0, maxlevel=3},
+	       dig_immediate = {times={[2]=math.min(creative_digtime, 0.5), [3]=0}, uses=0, maxlevel=1},
 	    },
 	    damage_groups = {fleshy = 1}
 	 },
@@ -331,6 +233,7 @@ minetest.register_tool(
 	    cracky = {times={[1]=creative_digtime, [2]=creative_digtime, [3]=creative_digtime}, uses=0, maxlevel=1},
 	    snappy = {times={[1]=creative_digtime, [2]=creative_digtime, [3]=creative_digtime}, uses=0, maxlevel=1},
 	    oddly_breakable_by_hand = {times={[1]=creative_digtime,[2]=creative_digtime,[3]=creative_digtime}, uses=0, maxlevel=3},
+	    dig_immediate = {times={[2]=math.min(creative_digtime, 0.5), [3]=0}, uses=0, maxlevel=1},
 	 },
 	 range = 20,
 	 damage_groups = {fleshy = 1}
