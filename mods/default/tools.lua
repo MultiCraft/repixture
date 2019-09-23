@@ -651,6 +651,13 @@ minetest.register_tool(
       description = S("Wrought Iron Shears"),
       inventory_image = "default_shears.png",
       groups = { shears = 1 },
+      tool_capabilities = {
+	 full_punch_interval = 1.0,
+         max_drop_level=1,
+         groupcaps={
+	    snappy={times=tool_levels.wrought_iron.snappy, uses=60, maxlevel=1},
+         },
+      },
 })
 
 minetest.register_tool(
