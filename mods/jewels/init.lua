@@ -21,7 +21,7 @@ form_bench = form_bench .. "list[current_name;main;2.25,1.75;1,1;]"
 form_bench = form_bench .. "listring[current_name;main]"
 form_bench = form_bench .. default.ui.get_itemslot_bg(2.25, 1.75, 1, 1)
 
-form_bench = form_bench .. "label[3.25,1.75;"..F(S("1. Place unjeweled tool here")).."]"
+form_bench = form_bench .. "label[3.25,1.75;"..F(S("1. Place tool here")).."]"
 form_bench = form_bench .. "label[3.25,2.25;"..F(S("2. Hold a jewel and punch the bench")).."]"
 
 form_bench = form_bench .. "list[current_player;main;0.25,4.75;8,4;]"

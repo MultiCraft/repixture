@@ -1,5 +1,5 @@
 # textdomain: jewels
-1. Place unjeweled tool here=
+1. Place tool here=
 2. Hold a jewel and punch the bench=
 Jeweled @1=
 Range: @1=
