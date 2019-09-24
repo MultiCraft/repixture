@@ -42,7 +42,7 @@ if minetest.get_modpath("mobs") ~= nil then
 
       -- useables
       {"gold:ingot_gold 9", "", "bed:bed"},
-      {"gold:ingot_gold 5", "", "default:chest"},
+      {"gold:ingot_gold 2", "", "default:chest"},
       {"gold:ingot_gold 5", "mobs:wool 3", "bed:bed"},
    }
    gold.trades["tavernkeeper"] = {
