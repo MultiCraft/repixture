@@ -89,7 +89,9 @@ Jewels are great! If you have a jeweller's workbench, you can enhance your tools
 Did you know we sometimes sell jewels?=
 This looks like it could be a good wall decoration.=
 A flower? I love flowers! Let's make the world bloom!=
-You can use this to ignite TNT.=
+You can use this to light up torches and ignite TNT.=
+You can use this to light up torches.=
+For some reason, TNT can't be ignited. Strange.=
 TNT needs to be ignited by a flint and steel.=
 Sleeping makes the night go past in the blink of an eye.=
 Isn't it stressful to carry this heavy bed around?=
