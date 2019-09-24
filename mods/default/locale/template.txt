@@ -154,3 +154,6 @@ Fertilized Dry Dirt=
 Fertilized Swamp Dirt=
 Green Grass Clump=
 Any green grass clump=
+Steel Shears=
+Carbon Steel Shears=
+Bronze Shears=

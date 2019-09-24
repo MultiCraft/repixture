@@ -78,6 +78,36 @@ crafting.register_craft(
       }
 })
 
+crafting.register_craft(
+   {
+      output = "default:shears_steel",
+      items = {
+         "default:ingot_steel 2",
+         "default:fiber 2",
+         "default:stick 2",
+      }
+})
+
+crafting.register_craft(
+   {
+      output = "default:shears_carbon_steel",
+      items = {
+         "default:ingot_carbon_steel 2",
+         "default:fiber 2",
+         "default:stick 2",
+      }
+})
+
+crafting.register_craft(
+   {
+      output = "default:shears_bronze",
+      items = {
+         "default:ingot_bronze 2",
+         "default:fiber 2",
+         "default:stick 2",
+      }
+})
+
 -- Minerals
 
 crafting.register_craft(

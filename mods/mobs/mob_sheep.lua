@@ -110,7 +110,13 @@ mobs:register_mob(
                   })
                end
                if not minetest.settings:get_bool("creative_mode") then
-                   item:add_wear(650) -- 100 uses
+                   local def = item:get_definition()
+                   local cuts = minetest.get_item_group(itemname, "sheep_cuts")
+                   if cuts > 0 then
+                      item:add_wear(math.floor(65535 / cuts))
+                   else
+                      item:add_wear(math.floor(65535 / def.tool_capabilities.snappy.uses))
+                   end
                end
                clicker:set_wielded_item(item)
                self.object:set_properties(

@@ -537,7 +537,6 @@ minetest.register_tool(
 	 full_punch_interval = 1.0,
 	 max_drop_level=0,
 	 groupcaps={
-	    snappy={times=tool_levels.wood.snappy, uses=10, maxlevel=1},
 	    fleshy={times={[2]=1.10, [3]=0.60}, uses=10, maxlevel=1},
 	 },
 	 damage_groups = {fleshy = 4}
@@ -554,7 +553,6 @@ minetest.register_tool(
 	 full_punch_interval = 1.0,
 	 max_drop_level=0,
 	 groupcaps={
-	    snappy={times=tool_levels.stone.snappy, uses=20, maxlevel=1},
 	    fleshy={times={[2]=0.80, [3]=0.40}, uses=20, maxlevel=1},
 	 },
 	 damage_groups = {fleshy = 5}
@@ -571,7 +569,6 @@ minetest.register_tool(
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
 	 groupcaps={
-	    snappy={times=tool_levels.wrought_iron.snappy, uses=15, maxlevel=1},
 	    fleshy={times={[1]=2.00, [2]=0.80, [3]=0.40}, uses=15, maxlevel=2},
 	 },
 	 damage_groups = {fleshy = 6}
@@ -588,7 +585,6 @@ minetest.register_tool(
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
 	 groupcaps={
-	    snappy={times=tool_levels.steel.snappy, uses=30, maxlevel=1},
 	    fleshy={times={[1]=2.00, [2]=0.80, [3]=0.40}, uses=30, maxlevel=2},
 	 },
 	 damage_groups = {fleshy = 10}
@@ -605,7 +601,6 @@ minetest.register_tool(
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
 	 groupcaps={
-	    snappy={times=tool_levels.carbon_steel.snappy, uses=40, maxlevel=1},
 	    fleshy={times={[1]=2.00, [2]=0.80, [3]=0.40}, uses=40, maxlevel=2},
 	 },
 	 damage_groups = {fleshy = 10}
@@ -622,7 +617,6 @@ minetest.register_tool(
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
 	 groupcaps={
-	    snappy={times=tool_levels.bronze.snappy, uses=30, maxlevel=1},
 	    fleshy={times={[1]=2.00, [2]=0.80, [3]=0.40}, uses=30, maxlevel=2},
 	 },
 	 damage_groups = {fleshy = 10}
@@ -653,12 +647,54 @@ minetest.register_tool(
    {
       description = S("Wrought Iron Shears"),
       inventory_image = "default_shears.png",
-      groups = { shears = 1 },
+      groups = { shears = 1, sheep_cuts = 100 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
          max_drop_level=1,
          groupcaps={
-	    snappy={times=tool_levels.wrought_iron.snappy, uses=60, maxlevel=1},
+	    snappy={times=tool_levels.wrought_iron.snappy, uses=15, maxlevel=1},
+         },
+      },
+})
+minetest.register_tool(
+   "default:shears_steel",
+   {
+      description = S("Steel Shears"),
+      inventory_image = "default_shears_steel.png",
+      groups = { shears = 1, sheep_cuts = 200 },
+      tool_capabilities = {
+	 full_punch_interval = 1.0,
+         max_drop_level=1,
+         groupcaps={
+	    snappy={times=tool_levels.steel.snappy, uses=30, maxlevel=1},
+         },
+      },
+})
+minetest.register_tool(
+   "default:shears_carbon_steel",
+   {
+      description = S("Carbon Steel Shears"),
+      inventory_image = "default_shears_carbon_steel.png",
+      groups = { shears = 1, sheep_cuts = 266 },
+      tool_capabilities = {
+	 full_punch_interval = 1.0,
+         max_drop_level=1,
+         groupcaps={
+	    snappy={times=tool_levels.carbon_steel.snappy, uses=40, maxlevel=1},
+         },
+      },
+})
+minetest.register_tool(
+   "default:shears_bronze",
+   {
+      description = S("Bronze Shears"),
+      inventory_image = "default_shears_bronze.png",
+      groups = { shears = 1, sheep_cuts = 200 },
+      tool_capabilities = {
+	 full_punch_interval = 1.0,
+         max_drop_level=1,
+         groupcaps={
+	    snappy={times=tool_levels.bronze.snappy, uses=30, maxlevel=1},
          },
       },
 })
