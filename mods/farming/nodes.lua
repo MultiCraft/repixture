@@ -225,9 +225,10 @@ minetest.register_node(
       groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults(),
       on_punch = function(pos, node, player)
-         local name = player:get_wielded_item():get_name()
+         local item = player:get_wielded_item()
+         local name = item:get_name()
 
-         if name == "default:shears" then
+         if minetest.get_item_group(name, "shears") > 0 then
             minetest.set_node(pos, {name = "farming:cotton_2"})
 
             -- Drop some seeds
@@ -244,6 +245,13 @@ minetest.register_node(
                else
                   item_drop.drop_item(pos, "farming:cotton")
                end
+            end
+
+            -- Add wear
+            if not minetest.settings:get_bool("creative_mode") then
+               local def = item:get_definition()
+               item:add_wear(math.ceil(65536 / def.tool_capabilities.groupcaps.snappy.uses))
+               player:set_wielded_item(item)
             end
 
             -- Keep it growing
