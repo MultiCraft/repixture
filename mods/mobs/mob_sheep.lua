@@ -95,7 +95,7 @@ mobs:register_mob(
 
          -- Are we giving a haircut?
 
-         if itemname == "default:shears" then
+         if minetest.get_item_group(itemname, "shears") > 0 then
             if self.gotten == false and self.child == false then
                self.gotten = true -- shaved
                local pos = self.object:get_pos()
