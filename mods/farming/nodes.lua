@@ -26,7 +26,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {handy=2, attached_node=1, seed=1},
+      groups = {snappy=3, handy=2, attached_node=1, seed=1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -53,7 +53,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+      groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -80,7 +80,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+      groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -110,7 +110,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+      groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -138,7 +138,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {handy=2, attached_node=1, seed=1},
+      groups = {snappy=3, handy=2, attached_node=1, seed=1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -165,7 +165,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+      groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -192,7 +192,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+      groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults()
    }
 )
@@ -222,7 +222,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+      groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
       sounds=default.node_sound_leaves_defaults(),
       on_punch = function(pos, node, player)
          local name = player:get_wielded_item():get_name()
