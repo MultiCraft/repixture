@@ -408,7 +408,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
       },
-      groups = {snappy = 2, dig_immediate = 2, attached_node = 1, sapling = 1},
+      groups = {snappy = 2, handy = 2, attached_node = 1, sapling = 1},
       is_ground_content = false,
       sounds = default.node_sound_defaults(),
 
@@ -439,7 +439,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
       },
-      groups = {snappy = 2, dig_immediate = 2, attached_node = 1, sapling = 1},
+      groups = {snappy = 2, handy = 2, attached_node = 1, sapling = 1},
       sounds = default.node_sound_defaults(),
 
       on_timer = function(pos)
@@ -469,7 +469,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
       },
-      groups = {snappy = 2, dig_immediate = 2, attached_node = 1, sapling = 1},
+      groups = {snappy = 2, handy = 2, attached_node = 1, sapling = 1},
       is_ground_content = false,
       sounds = default.node_sound_defaults(),
 
@@ -1098,7 +1098,7 @@ minetest.register_node(
       sunlight_propagates = true,
       walkable = false,
       floodable = true,
-      groups = {fleshy = 3, dig_immediate = 2, leafdecay = 3, leafdecay_drop = 1, food = 2},
+      groups = {fleshy = 3, handy = 2, leafdecay = 3, leafdecay_drop = 1, food = 2},
       on_use = minetest.item_eat({hp = 2, sat = 10}),
       sounds = default.node_sound_defaults(),
 })

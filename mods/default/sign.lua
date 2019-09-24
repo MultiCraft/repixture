@@ -20,7 +20,7 @@ minetest.register_node(
 	 wall_bottom = {-0.5+(1/16), -0.5, -0.5+(4/16), 0.5-(1/16), -0.5+(1/16), 0.5-(4/16)},
 	 wall_side = {-0.5, -0.5+(4/16), -0.5+(1/16), -0.5+(1/16), 0.5-(4/16), 0.5-(1/16)},
       },
-      groups = {choppy = 2,dig_immediate = 2,attached_node = 1},
+      groups = {choppy = 2,handy = 2,attached_node = 1},
       is_ground_content = false,
       sounds = default.node_sound_defaults(),
       on_construct = function(pos)
