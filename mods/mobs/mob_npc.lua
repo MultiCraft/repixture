@@ -243,7 +243,7 @@ for _, npc_type_table in pairs(npc_types) do
                       elseif minetest.get_item_group(iname, "sapling") > 0 then
                           say(S("Place it on the ground in sunlight and it will grow to a tree."), name)
                       elseif minetest.get_item_group(iname, "shears") > 0 then
-                          say(S("Use this to get wool from sheep."), name)
+                          say(S("Use this to trim plants and get wool from sheep."), name)
                       elseif iname == "default:papyrus" then
                           if npc_type == "farmer" then
                               say(S("Papyrus likes to grow next to water."), name)
