@@ -16,8 +16,11 @@ default.ui.current_page = {}
 
 -- Colors
 
-default.ui.default.colors = "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]"
+local listcolors = "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]"
 default.ui.default.bg = "bgcolor[#00000000;false]"
+
+-- bgcolor intentionally not included because it would make pause menu transparent, too :(
+local formspec_prepend = listcolors
 
 -- Group default items
 
@@ -270,7 +273,6 @@ end
 
 local form_default_default = ""
 form_default_default = form_default_default .. "size[8.5,9]"
-form_default_default = form_default_default .. default.ui.default.colors
 form_default_default = form_default_default .. default.ui.default.bg
 form_default_default = form_default_default .. default.ui.tab(-0.9, 0.5, "tab_crafting", "ui_icon_crafting.png", S("Crafting"))
 if minetest.get_modpath("armor") ~= nil then
@@ -291,7 +293,6 @@ default.ui.register_page("default:2part", form_default_default .. "background[0,
 
 local form_default_notabs = ""
 form_default_notabs = form_default_notabs .. "size[8.5,9]"
-form_default_notabs = form_default_notabs .. default.ui.default.colors
 form_default_notabs = form_default_notabs .. default.ui.default.bg
 form_default_notabs = form_default_notabs .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
 default.ui.register_page("default:notabs", form_default_notabs)
@@ -299,7 +300,6 @@ default.ui.register_page("default:notabs_2part", form_default_notabs .. "backgro
 
 local form_default_field = ""
 form_default_field = form_default_field .. "size[8.5,5]"
-form_default_field = form_default_field .. default.ui.default.colors
 form_default_field = form_default_field .. default.ui.default.bg
 form_default_field = form_default_field .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
 form_default_field = form_default_field .. default.ui.button_exit(2.75, 3, 3, 1, "", S("Write"), false)
@@ -351,6 +351,7 @@ end)
 
 minetest.register_on_joinplayer(
    function(player)
+      player:set_formspec_prepend(formspec_prepend)
       local name = player:get_player_name()
       if minetest.settings:get_bool("creative_mode") then
           player:set_inventory_formspec(creative.get_formspec(name))
