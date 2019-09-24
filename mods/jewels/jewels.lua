@@ -147,6 +147,32 @@ local tool_types = {
          },
       },
    },
+   shears = {
+      steel = {
+         digspeed = {
+            digspeed = -0.1,
+         },
+         uses = {
+            uses = 3,
+         },
+      },
+      carbon_steel = {
+         digspeed = {
+            digspeed = -0.13,
+         },
+         uses = {
+            uses = 5,
+         },
+      },
+      bronze = {
+         digspeed = {
+            digspeed = -0.14,
+         },
+         uses = {
+            uses = 6,
+         },
+      },
+   }
 }
 
 for tool_name, tool_def in pairs(tool_types) do
