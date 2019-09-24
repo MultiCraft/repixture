@@ -261,11 +261,16 @@ minetest.register_node(
          if not tnt_enable then
             return
          end
-         local itemname = puncher:get_wielded_item():get_name()
+         local item = puncher:get_wielded_item()
+         local itemname = item:get_name()
 
          if itemname == "default:flint_and_steel" then
-            achievements.trigger_achievement(puncher, "boom")
+            if not minetest.settings:get_bool("creative_mode") then
+                item:add_wear(800)
+                puncher:set_wielded_item(item)
+            end
             tnt.burn(pos)
+            achievements.trigger_achievement(puncher, "boom")
          end
       end,
       on_blast = function(pos, intensity)
