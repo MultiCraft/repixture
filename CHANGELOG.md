@@ -1,3 +1,14 @@
+## 0.6.0
+- Most mobs now take damage from blocks
+- Change graphite ore texture
+- New mob damage particle
+- More things get dug instantly in Creative Mode
+- Add 3 shears: steel shears, carbon steel shears, bronze shears (+ jeweled variants)
+- Shears can now dig leaves and other plant-like blocks
+- Trading: Make chest cheaper
+- Trimming cotton with shears now adds wear
+- Various minor text changes here and there
+
 ## 0.5.0
 - Villagers: Add carpenter profession
 - Villagers: Re-balance trades a bit
