@@ -17,7 +17,7 @@ default.ui.current_page = {}
 -- Colors
 
 local listcolors = "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]"
-default.ui.default.bg = "bgcolor[#00000000;false]"
+default.ui.default.bg = "bgcolor[#00000000]"
 
 -- bgcolor intentionally not included because it would make pause menu transparent, too :(
 local formspec_prepend = listcolors
