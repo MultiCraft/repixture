@@ -9,6 +9,7 @@ mobs:register_mob(
       passive = false,
       attack_type = "dogfight",
       damage = 1,
+      breath_max = 7,
       hp_min = 16,
       hp_max = 22,
       armor = 130,
@@ -34,7 +35,7 @@ mobs:register_mob(
 	 {name = "mobs:meat_raw",
 	  chance = 1, min = 1, max = 2},
       },
-      water_damage = 1,
+      water_damage = 0,
       lava_damage = 7,
       light_damage = 0,
       animation = {

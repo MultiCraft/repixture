@@ -90,6 +90,7 @@ for _, npc_type_table in pairs(npc_types) do
 	 attacks_monsters = true,
 	 hp_min = 10,
 	 hp_max = 20,
+	 breath_max = 11,
 	 armor = 80,
 	 collisionbox = {-0.35,-1.0,-0.35, 0.35,0.8,0.35},
 	 visual = "mesh",

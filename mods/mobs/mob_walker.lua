@@ -11,6 +11,7 @@ mobs:register_mob(
       damage = 3,
       hp_min = 8,
       hp_max = 16,
+      breath_max = -1,
       armor = 200,
       collisionbox = {-0.3, 0, -0.3, 0.3, 1.5, 0.3},
       visual = "mesh",

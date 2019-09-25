@@ -168,6 +168,8 @@ function mobs:register_mob(name, def)
 	 lifetimer = def.lifetimer or 180, -- 3 minutes
 	 hp_min = def.hp_min or 5,
 	 hp_max = def.hp_max or 10,
+	 breath_max = def.breath_max or -1, -- how many seconds the mob can breathe in drowning nodes. -1 = no drowning damage
+	 breath = def.breath_max,
 	 physical = true,
 	 collides_with_objects = def.collides_with_objects or true,
 	 collisionbox = def.collisionbox,
@@ -517,22 +519,6 @@ function mobs:register_mob(name, def)
                local nodef = minetest.registered_nodes[nod.name]
                pos.y = pos.y + 1
 
-               -- water
-               if self.water_damage ~= 0
-               and nodef.groups.water then
-                  self.object:set_hp(self.object:get_hp() - self.water_damage)
-                  effect(pos, 5, "bubble.png")
-                  if check_for_death(self) then return end
-               end
-
-               -- lava or fire
-               if self.lava_damage ~= 0
-               and nodef.groups.lava then
-                  self.object:set_hp(self.object:get_hp() - self.lava_damage)
-                  effect(pos, 5, "mobs_flame.png", 8)
-                  if check_for_death(self) then return end
-               end
-
                -- node damage
                if self.takes_node_damage == true
                and nodef.damage_per_second > 0 then
@@ -542,6 +528,43 @@ function mobs:register_mob(name, def)
                   else
                      effect(pos, self.blood_amount, "mobs_damage.png")
                   end
+                  if check_for_death(self) then return end
+               end
+
+               -- drowning damage
+               if self.breath_max ~= - 1 then
+                  if not self.breath then
+                      self.breath = self.breath_max
+                  end
+                  if nodef.drowning > 0 then
+                      self.breath = self.breath - 1
+                      if self.breath < 0 then
+                          self.breath = 0
+                          self.object:set_hp(self.object:get_hp() - nodef.drowning)
+                          effect(pos, 5, "bubble.png")
+                      end
+                      if check_for_death(self) then return end
+                  else
+                      self.breath = self.breath + 1
+                      if self.breath > self.breath_max then
+                         self.breath = self.breath_max
+                      end
+                  end
+               end
+
+               -- water damage
+               if self.water_damage ~= 0
+               and nodef.groups.water then
+                  self.object:set_hp(self.object:get_hp() - self.water_damage)
+                  effect(pos, 5, "bubble.png")
+                  if check_for_death(self) then return end
+               end
+
+               -- lava damage
+               if self.lava_damage ~= 0
+               and nodef.groups.lava then
+                  self.object:set_hp(self.object:get_hp() - self.lava_damage)
+                  effect(pos, 5, "mobs_flame.png", 8)
                   if check_for_death(self) then return end
                end
 

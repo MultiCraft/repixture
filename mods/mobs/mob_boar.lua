@@ -13,6 +13,7 @@ mobs:register_mob(
       damage = 2,
       hp_min = 16,
       hp_max = 20,
+      breath_max = 5,
       armor = 200,
       collisionbox = {-0.5, -1, -0.5, 0.5, 0.1, 0.5},
       visual = "mesh",
@@ -37,7 +38,7 @@ mobs:register_mob(
 	 {name = "mobs:pork_raw",
 	  chance = 1, min = 1, max = 4},
       },
-      water_damage = 1,
+      water_damage = 0,
       lava_damage = 5,
       light_damage = 0,
       animation = {
