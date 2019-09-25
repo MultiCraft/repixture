@@ -1,5 +1,24 @@
 local S = minetest.get_translator("default")
 
+local protection_check_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+    if minetest.is_protected(pos, player:get_player_name()) and
+            not minetest.check_player_privs(player, "protection_bypass") then
+        minetest.record_protection_violation(pos, player:get_player_name())
+        return 0
+    else
+        return count
+    end
+end
+local protection_check_put_take = function(pos, listname, index, stack, player)
+    if minetest.is_protected(pos, player:get_player_name()) and
+            not minetest.check_player_privs(player, "protection_bypass") then
+        minetest.record_protection_violation(pos, player:get_player_name())
+        return 0
+    else
+        return stack:get_count()
+    end
+end
+
 -- Chest and bookshelf
 
 minetest.register_node(
@@ -22,6 +41,9 @@ minetest.register_node(
 
          inv:set_size("main", 8 * 4)
       end,
+      -- Unlike other inventory nodes in this game, chests are NOT subject to protection.
+      -- This is done to allow something like "public chests" in protected areas.
+      -- To protect their belongings, players are supposed locked chests instead.
       can_dig = function(pos, player)
          local meta = minetest.get_meta(pos)
          local inv = meta:get_inventory()
@@ -66,6 +88,9 @@ minetest.register_node(
          local inv = meta:get_inventory()
          inv:set_size("main", 4*2)
       end,
+      allow_metadata_inventory_move = protection_check_move,
+      allow_metadata_inventory_put = protection_check_put_take,
+      allow_metadata_inventory_take = protection_check_put_take,
       can_dig = function(pos,player)
          local meta = minetest.get_meta(pos);
          local inv = meta:get_inventory()

@@ -18,10 +18,14 @@ for b=1, #water_buckets do
          liquids_pointable = true,
          groups = { bucket = 2, bucket_water = 1 },
          on_place = function(itemstack, user, pointed_thing)
-            if pointed_thing.type ~= "node" then return end
+            if pointed_thing.type ~= "node" then return itemstack end
    
             local pos_protected = minetest.get_pointed_thing_position(pointed_thing, true)
-            if minetest.is_protected(pos_protected, user) then return end
+            if minetest.is_protected(pos_protected, user:get_player_name()) and
+                    not minetest.check_player_privs(user, "protection_bypass") then
+                minetest.record_protection_violation(pos_protected, user:get_player_name())
+                return itemstack
+            end
    
             local inv=user:get_inventory()
    
@@ -68,6 +72,13 @@ minetest.register_craftitem(
       groups = { bucket = 1 },
       on_use = function(itemstack, user, pointed_thing)
          if pointed_thing.type ~= "node" then return end
+
+         local pos_protected = minetest.get_pointed_thing_position(pointed_thing, true)
+         if minetest.is_protected(pos_protected, user:get_player_name()) and
+                 not minetest.check_player_privs(user, "protection_bypass") then
+             minetest.record_protection_violation(pos_protected, user:get_player_name())
+             return
+         end
 
          local nodename=minetest.get_node(pointed_thing.under).name
 

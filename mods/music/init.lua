@@ -135,7 +135,12 @@ if minetest.settings:get_bool("music_enable") then
             music.stop(pos)
          end,
 
-	 on_rightclick = function(pos)
+	 on_rightclick = function(pos, node, clicker)
+            if minetest.is_protected(pos, clicker:get_player_name()) and
+                    not minetest.check_player_privs(clicker, "protection_bypass") then
+                minetest.record_protection_violation(pos, clicker:get_player_name())
+                return
+            end
             music.toggle(pos)
          end,
 

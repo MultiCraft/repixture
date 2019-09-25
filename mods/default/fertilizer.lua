@@ -96,6 +96,13 @@ minetest.register_craftitem(
       on_place = function(itemstack, user, pointed_thing)
          local pos = pointed_thing.above
 
+         local pos_protected = minetest.get_pointed_thing_position(pointed_thing, true)
+         if minetest.is_protected(pos_protected, user:get_player_name()) and
+                 not minetest.check_player_privs(user, "protection_bypass") then
+             minetest.record_protection_violation(pos_protected, user:get_player_name())
+             return itemstack
+         end
+
          local undernode = minetest.get_node(pointed_thing.under)
 
          local diff = vector.subtract(pointed_thing.above, pointed_thing.under)

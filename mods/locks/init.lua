@@ -63,6 +63,12 @@ minetest.register_tool(
              return itemstack
          end
          local pos = pointed_thing.under
+         if minetest.is_protected(pos, player:get_player_name()) and
+                 not minetest.check_player_privs(player, "protection_bypass") then
+             minetest.record_protection_violation(pos, player:get_player_name())
+             return itemstack
+         end
+
          local node = minetest.get_node(pos)
          if minetest.get_item_group(node.name, "locked") == 0 then
             return itemstack
@@ -197,6 +203,11 @@ minetest.register_node(
          end
       end,
       allow_metadata_inventory_move = function(pos, from_l, from_i, to_l, to_i, cnt, player)
+         if minetest.is_protected(pos, player:get_player_name()) and
+                 not minetest.check_player_privs(player, "protection_bypass") then
+             minetest.record_protection_violation(pos, player:get_player_name())
+             return 0
+         end
          local meta = minetest.get_meta(pos)
          if locks.is_locked(meta, player) then
             return 0
@@ -204,6 +215,11 @@ minetest.register_node(
          return cnt
       end,
       allow_metadata_inventory_put = function(pos, listname, index, itemstack, player)
+         if minetest.is_protected(pos, player:get_player_name()) and
+                 not minetest.check_player_privs(player, "protection_bypass") then
+             minetest.record_protection_violation(pos, player:get_player_name())
+             return 0
+         end
          local meta = minetest.get_meta(pos)
          if locks.is_locked(meta, player) then
             return 0
@@ -211,6 +227,11 @@ minetest.register_node(
          return itemstack:get_count()
       end,
       allow_metadata_inventory_take = function(pos, listname, index, itemstack, player)
+         if minetest.is_protected(pos, player:get_player_name()) and
+                 not minetest.check_player_privs(player, "protection_bypass") then
+             minetest.record_protection_violation(pos, player:get_player_name())
+             return 0
+         end
          local meta = minetest.get_meta(pos)
          if locks.is_locked(meta, player) then
             return 0

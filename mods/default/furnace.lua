@@ -61,6 +61,25 @@ form_furnace = form_furnace .. "image[3.25,1.75;1,1;ui_arrow_bg.png^[transformR2
 
 default.ui.register_page("default_furnace_inactive", form_furnace)
 
+local protection_check_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+    if minetest.is_protected(pos, player:get_player_name()) and
+            not minetest.check_player_privs(player, "protection_bypass") then
+        minetest.record_protection_violation(pos, player:get_player_name())
+        return 0
+    else
+        return count
+    end
+end
+local protection_check_put_take = function(pos, listname, index, stack, player)
+    if minetest.is_protected(pos, player:get_player_name()) and
+            not minetest.check_player_privs(player, "protection_bypass") then
+        minetest.record_protection_violation(pos, player:get_player_name())
+        return 0
+    else
+        return stack:get_count()
+    end
+end
+
 minetest.register_node(
    "default:furnace",
    {
@@ -81,6 +100,9 @@ minetest.register_node(
 			inv:set_size("src", 1)
 			inv:set_size("dst", 4)
 		     end,
+      allow_metadata_inventory_move = protection_check_move,
+      allow_metadata_inventory_put = protection_check_put_take,
+      allow_metadata_inventory_take = protection_check_put_take,
       can_dig = function(pos,player)
 		   local meta = minetest.get_meta(pos);
 		   local inv = meta:get_inventory()
@@ -117,6 +139,9 @@ minetest.register_node(
 			inv:set_size("src", 1)
 			inv:set_size("dst", 4)
 		     end,
+      allow_metadata_inventory_move = protection_check_move,
+      allow_metadata_inventory_put = protection_check_put_take,
+      allow_metadata_inventory_take = protection_check_put_take,
       can_dig = function(pos,player)
 		   local meta = minetest.get_meta(pos);
 		   local inv = meta:get_inventory()

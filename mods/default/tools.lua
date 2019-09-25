@@ -709,6 +709,12 @@ minetest.register_tool(
          if pointed_thing.type ~= "node" then return end
 
          local pos = pointed_thing.under
+         if minetest.is_protected(pos, user:get_player_name()) and
+                 not minetest.check_player_privs(user, "protection_bypass") then
+             minetest.record_protection_violation(pos, user:get_player_name())
+             return itemstack
+         end
+
          local node = minetest.get_node(pos)
          local nodename = node.name
 

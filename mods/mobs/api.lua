@@ -1600,8 +1600,13 @@ function mobs:register_egg(mob, desc, background)
                return itemstack
             end
             local pos = pointed_thing.above
-            if pointed_thing.above
-            and not minetest.is_protected(pos, placer:get_player_name()) then
+            if pointed_thing.above then
+               if minetest.is_protected(pos, placer:get_player_name()) and
+                       not minetest.check_player_privs(placer, "protection_bypass") then
+                   minetest.record_protection_violation(pos, placer:get_player_name())
+                   return itemstack
+               end
+
                pos.y = pos.y + 0.5
                local mob = minetest.add_entity(pos, mob)
                local ent = mob:get_luaentity()

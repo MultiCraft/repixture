@@ -265,6 +265,11 @@ minetest.register_node(
          local itemname = item:get_name()
 
          if itemname == "default:flint_and_steel" then
+            if minetest.is_protected(pos, puncher:get_player_name()) and
+                    not minetest.check_player_privs(puncher, "protection_bypass") then
+                minetest.record_protection_violation(pos, puncher:get_player_name())
+                return
+            end
             if not minetest.settings:get_bool("creative_mode") then
                 item:add_wear(800)
                 puncher:set_wielded_item(item)

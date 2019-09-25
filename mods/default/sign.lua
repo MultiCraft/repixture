@@ -33,6 +33,11 @@ minetest.register_node(
       end,
       on_receive_fields = function(pos, formname, fields, sender)
          if fields.text == nil then return end
+         if minetest.is_protected(pos, sender:get_player_name()) and
+                        not minetest.check_player_privs(sender, "protection_bypass") then
+                 minetest.record_protection_violation(pos, sender:get_player_name())
+                 return itemstack
+         end
          local meta = minetest.get_meta(pos)
          local text = fields.text
          if string.len(text) > SIGN_MAX_TEXT_LENGTH then

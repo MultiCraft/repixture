@@ -184,6 +184,25 @@ minetest.register_craftitem(
 
 -- Nodes
 
+local protection_check_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+    if minetest.is_protected(pos, player:get_player_name()) and
+            not minetest.check_player_privs(player, "protection_bypass") then
+        minetest.record_protection_violation(pos, player:get_player_name())
+        return 0
+    else
+        return count
+    end
+end
+local protection_check_put_take = function(pos, listname, index, stack, player)
+    if minetest.is_protected(pos, player:get_player_name()) and
+            not minetest.check_player_privs(player, "protection_bypass") then
+        minetest.record_protection_violation(pos, player:get_player_name())
+        return 0
+    else
+        return stack:get_count()
+    end
+end
+
 minetest.register_node(
    "jewels:bench",
    {
@@ -209,10 +228,18 @@ minetest.register_node(
 
          return inv:is_empty("main")
       end,
+      allow_metadata_inventory_move = protection_check_move,
+      allow_metadata_inventory_put = protection_check_put_take,
+      allow_metadata_inventory_take = protection_check_put_take,
       on_punch = function(pos, node, player, pointed_thing)
          local itemstack = player:get_wielded_item()
-
+         local itemstack_changed = false
          if itemstack:get_name() == "jewels:jewel" then
+            if minetest.is_protected(pos, player:get_player_name()) and
+                    not minetest.check_player_privs(player, "protection_bypass") then
+                minetest.record_protection_violation(pos, player:get_player_name())
+                return
+            end
             local meta = minetest.get_meta(pos)
             local inv = meta:get_inventory()
 
@@ -223,6 +250,7 @@ minetest.register_node(
 
                if not minetest.settings:get_bool("creative_mode") then
                   itemstack:take_item()
+                  itemstack_changed = true
                end
 
                minetest.sound_play({name="jewels_jewelling_a_tool"}, {gain=0.8, pos=pos, max_hear_distance=8})
@@ -233,7 +261,9 @@ minetest.register_node(
             end
          end
 
-         player:set_wielded_item(itemstack)
+         if itemstack_changed then
+             player:set_wielded_item(itemstack)
+         end
       end,
 })
 
