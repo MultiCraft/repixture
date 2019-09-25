@@ -45,9 +45,15 @@ minetest.register_node(
           -- ... but not TOO nearby (occupying the pos)
           local objs_near = minetest.get_objects_inside_radius(pos, 1.2)
           if #objs_around > 0 and #objs_near == 0 then
-              local ent = minetest.get_meta(pos):get_string("entity")
-              if ent ~= "" then
-                  minetest.add_entity({x=pos.x, y=pos.y+0.6, z=pos.z}, ent)
+              local ent_name = minetest.get_meta(pos):get_string("entity")
+              if ent_name ~= "" then
+                  local ent = minetest.add_entity({x=pos.x, y=pos.y+0.6, z=pos.z}, ent_name)
+                  -- All spawned animals are tamed
+                  if ent ~= nil and ent:get_luaentity() ~= nil then
+                     if minetest.registered_entities[ent_name].type == "animal" then
+                         ent:get_luaentity().tamed = true
+                     end
+                  end
               else
                   minetest.log("error", "[village] Entity spawner without 'entity' in meta set @ "..minetest.pos_to_string(pos))
               end
