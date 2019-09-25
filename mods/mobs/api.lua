@@ -393,7 +393,15 @@ function mobs:register_mob(name, def)
                self.lifetimer = self.lifetimer - dtime
                if self.lifetimer <= 0
                and self.state ~= "attack" then
-                  minetest.log("action","lifetimer expired, removed "..self.name)
+                  -- Only despawn if away from player
+                  local objs = minetest.get_objects_inside_radius(self.object:get_pos(), 15)
+                  for n = 1, #objs do
+                     if objs[n]:is_player() then
+                        self.lifetimer = 20
+                        return
+                     end
+                  end
+                  minetest.log("action", "[mobs] Mob lifetimer expired, removed "..self.name.." at "..minetest.pos_to_string(self.object:get_pos()))
                   effect(self.object:get_pos(), 15, "tnt_smoke.png")
                   self.object:remove()
                   return
