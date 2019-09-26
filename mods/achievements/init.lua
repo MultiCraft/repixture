@@ -417,7 +417,7 @@ achievements.register_achievement(
       title = S("Drain the Swamp"),
       description = S("Dig some swamp dirt."),
       times = 1,
-      dignode = "default:swamp_dirt",
+      dignode = "group:swamp_dirt",
 })
 
 -- Farming
