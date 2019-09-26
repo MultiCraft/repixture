@@ -249,14 +249,15 @@ function village.lift_ground(pos, scanheight)
 
    local stonenode = nil
 
-   if minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name == "air" then
+   local nn = minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name
+   if nn ~= "air" and minetest.registered_nodes[nn].liquidtype ~= "none" then
        return
    end
 
    for y = pos.y, pos.y - scanheight, -1 do
       local p = {x = pos.x, y = y, z = pos.z}
 
-      local nn = minetest.get_node(p).name
+      nn = minetest.get_node(p).name
       local an = minetest.get_node({x = p.x, y = p.y + 1, z = p.z}).name
 
       if nn ~= "air" and minetest.registered_nodes[nn].liquidtype ~= "none" then
@@ -356,9 +357,6 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
       village.generate_hill({x=pos.x-6, y=pos.y-5, z=pos.z-6})
 
       local py = pos.y-6
-      if py < water_level then
-          py = water_level
-      end
       util.nodefunc(
 	 {x = pos.x-6, y = py, z = pos.z-6},
 	 {x = pos.x+17, y = py, z = pos.z+17},
