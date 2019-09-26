@@ -224,7 +224,7 @@ minetest.register_node(
 minetest.register_node(
    "default:dirt_with_swamp_grass",
    {
-      description = S("Dirt with Swamp Grass"),
+      description = S("Swamp Dirt with Swamp Grass"),
       tiles = {
          "default_swamp_grass.png",
          "default_swamp_dirt.png",
