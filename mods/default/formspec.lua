@@ -302,7 +302,7 @@ local form_default_field = ""
 form_default_field = form_default_field .. "size[8.5,5]"
 form_default_field = form_default_field .. default.ui.default.bg
 form_default_field = form_default_field .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
-form_default_field = form_default_field .. default.ui.button_exit(2.75, 3, 3, 1, "", S("Write"), false)
+form_default_field = form_default_field .. default.ui.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 form_default_field = form_default_field .. "field[1,1.75;7,0;text;;${text}]"
 default.ui.register_page("default:field", form_default_field)
 
