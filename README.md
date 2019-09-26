@@ -1,20 +1,40 @@
 # Repixture
 
-Repixture is a revival of Pixture 0.1.1, a game for Minetest 0.4.
-
-This is a sandbox survival crafting game focusing on low-tech and
+Repixture is a sandbox survival crafting game focusing on low-tech and
 unique graphics and sounds.
 
+This is a revival of Pixture 0.1.1, a game for Minetest 0.4.
+
 ## Version
-0.6.0
+1.0.0
+
+Designed for use with Minetest 5.0.0 or later.
+
+## Features
+
+* Animals and monsters
+* Villages and trading
+* Upgradable tools via jeweling
+* Hunger
+* Custom inventories
+* Armor
+* Simplified crafting with crafting guide
+* A variety of trees
+* Weather
+* Beds (skip the night)
+* New and better player models
+* 2 player skins
+* Achievements
+* Multi-language support
+* Creative Mode
 
 ## Project Notes
 
 Repixture works for Minetest 5.0.0. It's a fork of Pixture 0.1.1.
 The goal of Repixture is to make Pixture work properly in
 latest Minetest versions and to fix bugs and improve usability.
-The original gameplay of Pixture will be preserved, only bugfixes
-and usability features will be added.
+The original gameplay of Pixture will be (mostly) preserved,
+the focus lies on bugfixes and usability features.
 There will be no major changes to gameplay.
 
 ## Changelog

@@ -1,3 +1,14 @@
+## 1.0.0
+- Fix villages sometimes digging too aggressively into land
+- Change clothing color of villagers
+- "Drain the swamp" achievement now recognizes any swamp dirt
+- Placing villages now requires new "maphack" privilege
+- Add basic protection support
+- Mobs now have breath and drown instead of taking direct water damage
+- Animals that spawn in villages are tamed
+- Mobs don't despawn near players
+- Add sound for placing blocks
+
 ## 0.6.0
 - Most mobs now take damage from blocks
 - Change graphite ore texture
