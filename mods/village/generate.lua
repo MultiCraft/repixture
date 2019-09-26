@@ -250,7 +250,7 @@ function village.lift_ground(pos, scanheight)
    local stonenode = nil
 
    local nn = minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name
-   if nn ~= "air" and minetest.registered_nodes[nn].liquidtype ~= "none" then
+   if (nn == "ignore") or (nn ~= "air" and minetest.registered_nodes[nn].liquidtype ~= "none") then
        return
    end
 
@@ -260,7 +260,7 @@ function village.lift_ground(pos, scanheight)
       nn = minetest.get_node(p).name
       local an = minetest.get_node({x = p.x, y = p.y + 1, z = p.z}).name
 
-      if nn ~= "air" and minetest.registered_nodes[nn].liquidtype ~= "none" then
+      if (nn == "ignore") or (nn ~= "air" and minetest.registered_nodes[nn].liquidtype ~= "none") then
 	 local nd = minetest.registered_nodes[nn]
 	 if not nd.buildable_to then
 	    if topnode == nil and nn ~= an then
@@ -319,7 +319,7 @@ function village.generate_hill(pos)
       local p = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
       local n = minetest.get_node(p)
       local def = minetest.registered_nodes[n.name]
-      if n.name == "air" or (def and (def.liquidtype ~= "none" or (def.walkable == false and def.is_ground_content == true))) then
+      if n.name == "air" or n.name == "ignore" or (def and (def.liquidtype ~= "none" or (def.walkable == false and def.is_ground_content == true))) then
          if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
             table.insert(dirts_with_grass, p)
          else
