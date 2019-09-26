@@ -241,7 +241,7 @@ end
 function village.get_column_nodes(pos, scanheight, dirtnodes)
    local nn = minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name
    local nd = minetest.registered_nodes[nn]
-   if (not nd) or (not nd.is_ground_content and minetest.registered_nodes[nn].liquidtype ~= "none") then
+   if (not nd) or (not nd.is_ground_content and minetest.registered_nodes[nn].liquidtype == "none" and nn ~= "ignore") then
        return
    end
 
@@ -250,14 +250,10 @@ function village.get_column_nodes(pos, scanheight, dirtnodes)
 
       nn = minetest.get_node(p).name
       nd = minetest.registered_nodes[nn]
-      if (not nd) or (not nd.is_ground_content and minetest.registered_nodes[nn].liquidtype ~= "none") then
+      if (not nd) or (not nd.is_ground_content and minetest.registered_nodes[nn].liquidtype == "none" and nn ~= "ignore") then
          break
       else
-	 if (nd.is_ground_content) or nn == "ignore" then
-            table.insert(dirtnodes, p)
-         else
-            break
-         end
+         table.insert(dirtnodes, p)
       end
    end
 end
