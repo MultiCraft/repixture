@@ -22,8 +22,8 @@ local shortseed = bitwise_and(mapseed, 0xFFFFFF)
 -- Nodes
 
 local place_priv = function(itemstack, placer, pointed_thing)
-    if not minetest.get_player_privs(placer:get_player_name()).server then
-        minetest.chat_send_player(placer:get_player_name(), minetest.colorize("#FF0000", S("You need the “server” privilege to use this.")))
+    if not minetest.get_player_privs(placer:get_player_name()).maphack then
+        minetest.chat_send_player(placer:get_player_name(), minetest.colorize("#FF0000", S("You need the “maphack” privilege to use this.")))
         return itemstack
     end
     return minetest.item_place(itemstack, placer, pointed_thing)
