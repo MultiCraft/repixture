@@ -153,6 +153,7 @@ function mobs:register_mob(name, def)
    minetest.register_entity(
       name,
       {
+	 _cmi_is_mob = true,
 	 stepheight = def.stepheight or 0.6,
 	 name = name,
 	 fly = def.fly,
