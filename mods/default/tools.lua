@@ -533,6 +533,7 @@ minetest.register_tool(
    {
       description = S("Wooden Spear"),
       inventory_image = "default_spear_wood.png",
+      wield_image = "default_spear_wood.png^[transformR90",
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=0,
@@ -549,6 +550,7 @@ minetest.register_tool(
    {
       description = S("Stone Spear"),
       inventory_image = "default_spear_stone.png",
+      wield_image = "default_spear_stone.png^[transformR90",
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=0,
@@ -565,6 +567,7 @@ minetest.register_tool(
    {
       description = S("Wrought Iron Spear"),
       inventory_image = "default_spear_wrought_iron.png",
+      wield_image = "default_spear_wrought_iron.png^[transformR90",
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
@@ -581,6 +584,7 @@ minetest.register_tool(
    {
       description = S("Steel Spear"),
       inventory_image = "default_spear_steel.png",
+      wield_image = "default_spear_steel.png^[transformR90",
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
@@ -597,6 +601,7 @@ minetest.register_tool(
    {
       description = S("Carbon Steel Spear"),
       inventory_image = "default_spear_carbon_steel.png",
+      wield_image = "default_spear_carbon_steel.png^[transformR90",
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
@@ -613,6 +618,7 @@ minetest.register_tool(
    {
       description = S("Bronze Spear"),
       inventory_image = "default_spear_bronze.png",
+      wield_image = "default_spear_bronze.png^[transformR90",
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
@@ -647,6 +653,7 @@ minetest.register_tool(
    {
       description = S("Wrought Iron Shears"),
       inventory_image = "default_shears.png",
+      wield_image = "default_shears.png^[transformR90",
       groups = { shears = 1, sheep_cuts = 100 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -661,6 +668,7 @@ minetest.register_tool(
    {
       description = S("Steel Shears"),
       inventory_image = "default_shears_steel.png",
+      wield_image = "default_shears_steel.png^[transformR90",
       groups = { shears = 1, sheep_cuts = 200 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -675,6 +683,7 @@ minetest.register_tool(
    {
       description = S("Carbon Steel Shears"),
       inventory_image = "default_shears_carbon_steel.png",
+      wield_image = "default_shears_carbon_steel.png^[transformR90",
       groups = { shears = 1, sheep_cuts = 266 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -689,6 +698,7 @@ minetest.register_tool(
    {
       description = S("Bronze Shears"),
       inventory_image = "default_shears_bronze.png",
+      wield_image = "default_shears_bronze.png^[transformR90",
       groups = { shears = 1, sheep_cuts = 200 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
