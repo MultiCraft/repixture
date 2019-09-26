@@ -307,6 +307,31 @@ function village.lift_ground(pos, scanheight)
    end
 end
 
+local HILL_W, HILL_H = 24, 6
+
+function village.generate_hill(pos)
+   local dirts = {}
+   local dirts_with_grass = {}
+   for y=0,HILL_H-1 do
+   for z=y,HILL_W-1-y do
+   for x=y,HILL_W-1-y do
+      local p = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
+      local n = minetest.get_node(p)
+      local def = minetest.registered_nodes[n.name]
+      if n.name == "air" or (def and (def.liquidtype ~= "none" or (def.walkable == false and def.is_ground_content == true))) then
+         if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
+            table.insert(dirts_with_grass, p)
+         else
+            table.insert(dirts, p)
+         end
+      end
+   end
+   end
+   end
+   minetest.bulk_set_node(dirts, {name="default:dirt"})
+   minetest.bulk_set_node(dirts_with_grass, {name="default:dirt_with_grass"})
+end
+
 local function check_empty(pos)
    local min = { x = pos.x, y = pos.y + 1, z = pos.z }
    local max = { x = pos.x+12, y = pos.y+12, z = pos.z+12 }
@@ -328,13 +353,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
    util.getvoxelmanip(pos, {x = pos.x+12, y = pos.y+12, z = pos.z+12})
 
    if nofill ~= true then
-      minetest.place_schematic(
-	 {x = pos.x-6, y = pos.y-5, z = pos.z-6},
-	 modpath .. "/schematics/village_filler.mts",
-	 "0",
-	 {},
-	 false
-      )
+      village.generate_hill({x=pos.x-6, y=pos.y-5, z=pos.z-6})
 
       local py = pos.y-6
       if py < water_level then
