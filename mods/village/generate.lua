@@ -238,19 +238,10 @@ local function random_chunktype(pr)
    return village.chunktypes[#village.chunktypes][1]
 end
 
-function village.lift_ground(pos, scanheight)
-   -- assume ground is lower than pos.y
-
-   local topnode = nil
-   local topdepth = 0
-
-   local fillernode = nil
-   local fillerdepth = 0
-
-   local stonenode = nil
-
+function village.get_column_nodes(pos, scanheight, dirtnodes)
    local nn = minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name
-   if (nn == "ignore") or (nn ~= "air" and minetest.registered_nodes[nn].liquidtype ~= "none") then
+   local nd = minetest.registered_nodes[nn]
+   if (not nd) or (not nd.is_ground_content and minetest.registered_nodes[nn].liquidtype ~= "none") then
        return
    end
 
@@ -258,52 +249,15 @@ function village.lift_ground(pos, scanheight)
       local p = {x = pos.x, y = y, z = pos.z}
 
       nn = minetest.get_node(p).name
-      local an = minetest.get_node({x = p.x, y = p.y + 1, z = p.z}).name
-
-      if (nn == "ignore") or (nn ~= "air" and minetest.registered_nodes[nn].liquidtype ~= "none") then
-	 local nd = minetest.registered_nodes[nn]
-	 if not nd.buildable_to then
-	    if topnode == nil and nn ~= an then
-	       topnode = nn
-	    elseif fillernode == nil and nn ~= an then
-	       fillernode = nn
-	    else
-	       stonenode = nn
-	    end
-	 end
-
-	 if fillernode and not stonenode then
-	    fillerdepth = fillerdepth + 1
-	 elseif topnode and not fillernode then
-	    topdepth = topdepth + 1
-	 end
-      end
-   end
-
-   if topnode == nil then
-      topnode = "default:dirt_with_grass"
-      topdepth = 1
-   end
-   if fillernode == nil then
-      fillernode = "default:dirt"
-      fillerdepth = 3
-   end
-   if stonenode == nil then
-      stonenode = fillernode
-   end
-
-   for y = pos.y - scanheight, pos.y do
-      local p = {x = pos.x, y = y, z = pos.z}
-
-      local th = pos.y - y
-
-      -- TODO: Optimize speed
-      if th <= fillerdepth - topdepth then
-	 minetest.set_node(p, {name = fillernode})
-      elseif th <= topdepth then
-	 minetest.set_node(p, {name = topnode})
+      nd = minetest.registered_nodes[nn]
+      if (not nd) or (not nd.is_ground_content and minetest.registered_nodes[nn].liquidtype ~= "none") then
+         break
       else
-	 minetest.set_node(p, {name = stonenode})
+	 if (nd.is_ground_content) or nn == "ignore" then
+            table.insert(dirtnodes, p)
+         else
+            break
+         end
       end
    end
 end
@@ -319,7 +273,7 @@ function village.generate_hill(pos)
       local p = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
       local n = minetest.get_node(p)
       local def = minetest.registered_nodes[n.name]
-      if n.name == "air" or n.name == "ignore" or (def and (def.liquidtype ~= "none" or (def.walkable == false and def.is_ground_content == true))) then
+      if n.name == "air" or n.name == "ignore" or (def and (def.liquidtype ~= "none" or (def.is_ground_content))) then
          if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
             table.insert(dirts_with_grass, p)
          else
@@ -354,16 +308,19 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
    util.getvoxelmanip(pos, {x = pos.x+12, y = pos.y+12, z = pos.z+12})
 
    if nofill ~= true then
+      -- Make a hill for the building to stand on
       village.generate_hill({x=pos.x-6, y=pos.y-5, z=pos.z-6})
 
       local py = pos.y-6
-      util.nodefunc(
-	 {x = pos.x-6, y = py, z = pos.z-6},
-	 {x = pos.x+17, y = py, z = pos.z+17},
-	 {"air", "group:liquid"},
-	 function(pos)
-	    village.lift_ground(pos, 15) -- distance to lift ground; larger numbers will be slower
-	 end, true)
+      local dirtnodes = {}
+      -- Extend the dirt below the hill, in case the hill is floating
+      -- in mid-air
+      for z=pos.z-6, pos.z+17 do
+      for x=pos.x-6, pos.x+17 do
+          village.get_column_nodes({x=x, y=py, z=z}, 15, dirtnodes)
+      end
+      end
+      minetest.bulk_set_node(dirtnodes, {name="default:dirt"})
 
       minetest.place_schematic(
 	 pos,
