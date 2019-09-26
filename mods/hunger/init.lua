@@ -301,7 +301,7 @@ local function on_globalstep(dtime)
             local oldhng = hunger.userdata[name].hunger
             hunger.userdata[name].hunger = hunger.userdata[name].hunger - 1
             if (oldhng == 5 or oldhng == 3) and hp >= 0 then
-               minetest.chat_send_player(name, minetest.colorize("#f00", S("You are hungry.")))
+               minetest.chat_send_player(name, minetest.colorize("#ff0", S("You are hungry.")))
                local pos_sound  = player:get_pos()
                minetest.sound_play({name="hunger_hungry"}, {pos=pos_sound, max_hear_distance=3, object=player})
             end
