@@ -11,7 +11,7 @@ function default.node_sound_defaults(table)
    table.dug = table.dug or
       {name="default_dug_node", gain=0.1}
    table.place = table.place or
-      {name="default_place_node", gain=0.8}
+      {name="default_place_node_hard", gain=0.8}
    return table
 end
 
@@ -36,7 +36,7 @@ function default.node_sound_dirt_defaults(table)
    table.dig = table.dig or
       {name="default_dig_soft", gain=0.3}
    table.place = table.place or
-      {name="default_place_node", gain=1.0}
+      {name="default_place_node_hard", gain=1.0}
    default.node_sound_defaults(table)
    return table
 end
@@ -50,7 +50,7 @@ function default.node_sound_sand_defaults(table)
    table.dig = table.dig or
       {name="default_dig_soft", gain=0.2}
    table.place = table.place or
-      {name="default_place_node", gain=1.0}
+      {name="default_place_node_hard", gain=1.0}
    default.node_sound_defaults(table)
    return table
 end
@@ -76,7 +76,7 @@ function default.node_sound_leaves_defaults(table)
    table.dig = table.dig or
       {name="default_dig_soft", gain=0.3}
    table.place = table.place or
-      {name="default_place_node", gain=1.0}
+      {name="default_place_node_hard", gain=1.0}
    default.node_sound_defaults(table)
    return table
 end
