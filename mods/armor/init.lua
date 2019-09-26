@@ -271,7 +271,7 @@ end
 achievements.register_achievement(
    "armored",
    {
-      title = S("Armor Smith"),
+      title = S("Armored"),
       description = S("Craft a piece of armor."),
       times = 1,
       craftitem = "group:is_armor",
