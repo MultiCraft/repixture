@@ -21,6 +21,14 @@ local shortseed = bitwise_and(mapseed, 0xFFFFFF)
 
 -- Nodes
 
+local place_priv = function(itemstack, placer, pointed_thing)
+    if not minetest.get_player_privs(placer:get_player_name()).server then
+        minetest.chat_send_player(placer:get_player_name(), minetest.colorize("#FF0000", S("You need the “server” privilege to use this.")))
+        return itemstack
+    end
+    return minetest.item_place(itemstack, placer, pointed_thing)
+end
+
 minetest.register_node(
    "village:entity_spawner",
    {
@@ -39,6 +47,7 @@ minetest.register_node(
       drop = "",
       groups = {dig_immediate = 3, not_in_creative_inventory = 1},
       sounds = default.node_sound_defaults(),
+      on_place = place_priv,
       on_timer = function(pos, elapsed)
           -- Wait until some objects are nearby ...
           local objs_around = minetest.get_objects_inside_radius(pos, 12)
@@ -79,6 +88,7 @@ minetest.register_node(
       sounds = default.node_sound_dirt_defaults(),
       drop = "",
 
+      on_place = place_priv,
       on_construct = function(pos)
          minetest.remove_node(pos)
 
