@@ -278,9 +278,8 @@ form = form .. "listring[current_player;craft_out]"
 form = form .. default.ui.get_itemslot_bg(0.25, 0.25, 1, 4)
 form = form .. default.ui.get_itemslot_bg(7.25, 3.25, 1, 1)
 
--- FIXME: This is placed below the item display, so it would collide with a potential 4th item in a craft recipe
--- As of 0.1.1, no craft used more than 3 item stacks so far.
-form = form .. default.ui.button(1.25, 3.25, 1.0, 1.0, "toggle_filter", "?", nil, S("Show all recipes/show only craftable recipes"))
+-- TODO: Use ui_icon_craftingguide_active.png when crafting guide is active
+form = form .. default.ui.tab(8.4, 0.5, "toggle_filter", "ui_icon_craftingguide.png", S("Show all recipes/show only craftable recipes"), "right")
 form = form .. default.ui.button(7.25, 1.25, 1, 1, "do_craft_1", "1")
 form = form .. default.ui.button(7.25, 2.25, 1, 1, "do_craft_10", "10")
 

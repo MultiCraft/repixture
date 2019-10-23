@@ -135,15 +135,27 @@ end
 
 -- Tabs
 
-function default.ui.tab(x, y, name, icon, tooltip)
+function default.ui.tab(x, y, name, icon, tooltip, side)
    local tooltip = tooltip or ""
-   local shifted_icon = "[combine:16x16:0,0=ui_tab_active.png:0,1="..icon
+   local img_active
+   if side == "right" then
+      img_active = "[combine:16x16:0,0=(ui_tab_active.png^[transformFX):0,1="..icon
+   else
+      img_active = "[combine:16x16:0,0=ui_tab_active.png:0,1="..icon
+   end
 
    local form = ""
+   local img_inactive
+   if side == "right" then
+      img_inactive = "(ui_tab_inactive.png^[transformFX)^" .. icon
+   else
+      img_inactive = "ui_tab_inactive.png^" .. icon
+   end
 
-   form = form .. "image_button["..x..","..y..";1,1;ui_tab_inactive.png^"
-      ..icon..";"..name..";;true;false;"
-      ..minetest.formspec_escape(shifted_icon).."]"
+   form = form .. "image_button["..x..","..y..";1,1;"
+      ..minetest.formspec_escape(img_inactive)
+      ..";"..name..";;true;false;"
+      ..minetest.formspec_escape(img_active).."]"
 
    form = form .. "tooltip["..name..";"..minetest.formspec_escape(tooltip).."]"
 
