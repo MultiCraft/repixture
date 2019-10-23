@@ -97,12 +97,13 @@ minetest.register_entity(
 		    end,
       
       on_step = function(self, dtime)
-		   local time = tonumber(minetest.settings:get("remove_items"))
-		   if not time then time = 600 end
+		   local time_to_live = tonumber(minetest.settings:get("item_entity_ttl"))
+		   if not time_to_live then time_to_live = 900 end
 		   if not self.timer then self.timer = 0 end
 		   
 		   self.timer = self.timer + dtime
-		   if time ~= 0 and (self.timer > time) then
+		   if time_to_live ~= -1 and (self.timer > time_to_live) then
+		      minetest.log("action", "[builtin_item] Item entity removed due to timeout at "..minetest.pos_to_string(self.object:get_pos()))
 		      self.object:remove()
 		      return
 		   end
