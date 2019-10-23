@@ -95,8 +95,9 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 	return
 		"list[detached:creative_"..player_name..";main;0.25,0.25;7,4;"..tostring(start_i).."]"..
 		"label[7.5,0.75;"..F(S("@1/@2", pagenum, pagemax)).."]"..
-                default.ui.button(7.25, 1.25, 1, 1, "creative_prev", "<<")..
-                default.ui.button(7.25, 2.25, 1, 1, "creative_next", ">>")..
+
+                default.ui.image_button(7.25, 1.25, 1, 1, "creative_prev", "ui_icon_prev.png")..
+                default.ui.image_button(7.25, 2.25, 1, 1, "creative_next", "ui_icon_next.png")..
 
                 default.ui.get_itemslot_bg(0.25, 0.25, 7,4)..
 		"image[7.25,3.25;1,1;creative_trash_icon.png]"..

@@ -66,16 +66,28 @@ end
 -- Buttons
 
 function default.ui.image_button(x, y, w, h, name, image, tooltip)
-   local image = minetest.formspec_escape(image)
-
-   local tt = ""
-   if tooltip then
-      tt = "tooltip["..name..";"..minetest.formspec_escape(tooltip).."]"
+   local ww
+   if w == 1 then
+      ww = "1w"
+   elseif w == 2 then
+      ww = "2w"
+   else
+      ww = "3w"
    end
+   local tooltip = tooltip or ""
+   local img_active = "[combine:16x16:0,0=ui_button_"..ww.."_active.png:0,1="..image
 
-   return "image_button["..x..","..y..";"..w..","..h..";"
-      ..image..";"..name..";;;false;"..image.."]"
-      ..tt
+   local form = ""
+   local img_inactive = "ui_button_"..ww.."_inactive.png^" .. image
+
+   form = form .. "image_button["..x..","..y..";1,1;"
+      ..minetest.formspec_escape(img_inactive)
+      ..";"..name..";;true;false;"
+      ..minetest.formspec_escape(img_active).."]"
+
+   form = form .. "tooltip["..name..";"..minetest.formspec_escape(tooltip).."]"
+
+   return form
 end
 
 function default.ui.button(x, y, w, h, name, label, noclip, tooltip)
