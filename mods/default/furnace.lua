@@ -18,7 +18,7 @@ function default.furnace_active_formspec(percent, item_percent)
    form = form .. default.ui.get_itemslot_bg(2.25, 2.75, 1, 1)
 
    form = form .. "list[current_name;dst;4.25,1.25;2,2;]"
-   form = form .. default.ui.get_hotbar_itemslot_bg(4.25, 1.25, 2, 2)
+   form = form .. default.ui.get_output_itemslot_bg(4.25, 1.25, 2, 2)
 
    form = form .. "listring[current_player;main]"
    form = form .. "listring[current_name;src]"

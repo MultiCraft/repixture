@@ -63,6 +63,8 @@ function default.ui.get_hotbar_itemslot_bg(x, y, w, h)
    return out
 end
 
+default.ui.get_output_itemslot_bg = default.ui.get_hotbar_itemslot_bg
+
 -- Buttons
 
 function default.ui.image_button(x, y, w, h, name, image, tooltip)

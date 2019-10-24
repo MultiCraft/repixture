@@ -276,7 +276,7 @@ form = form .. "listring[current_player;main]"
 form = form .. "listring[current_player;craft_out]"
 
 form = form .. default.ui.get_itemslot_bg(0.25, 0.25, 1, 4)
-form = form .. default.ui.get_itemslot_bg(7.25, 3.25, 1, 1)
+form = form .. default.ui.get_output_itemslot_bg(7.25, 3.25, 1, 1)
 
 form = form .. default.ui.button(7.25, 1.25, 1, 1, "do_craft_1", "1")
 form = form .. default.ui.button(7.25, 2.25, 1, 1, "do_craft_10", "10")
