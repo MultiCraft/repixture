@@ -189,16 +189,32 @@ minetest.register_craftitem(
 
 -- Nodes
 
-local protection_check_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+local check_put = function(pos, listname, index, stack, player)
     if minetest.is_protected(pos, player:get_player_name()) and
             not minetest.check_player_privs(player, "protection_bypass") then
         minetest.record_protection_violation(pos, player:get_player_name())
         return 0
-    else
-        return count
     end
+    local meta = minetest.get_meta(pos)
+    local inv = meta:get_inventory()
+    if listname == "main" then
+        local name = stack:get_name()
+        if minetest.registered_items[name] then
+            -- Disallow put for non-tools (unless it can be jeweled)
+            if (not jewels.can_jewel(name)) and minetest.registered_items[name].type ~= "tool" then
+                return 0
+            end
+        end
+    end
+    return stack:get_count()
 end
-local protection_check_put_take = function(pos, listname, index, stack, player)
+local check_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+    local meta = minetest.get_meta(pos)
+    local inv = meta:get_inventory()
+    local stack = inv:get_stack(from_list, from_index)
+    return check_take(pos, to_list, to_index, stack, player)
+end
+local check_take = function(pos, listname, index, stack, player)
     if minetest.is_protected(pos, player:get_player_name()) and
             not minetest.check_player_privs(player, "protection_bypass") then
         minetest.record_protection_violation(pos, player:get_player_name())
@@ -233,9 +249,9 @@ minetest.register_node(
 
          return inv:is_empty("main")
       end,
-      allow_metadata_inventory_move = protection_check_move,
-      allow_metadata_inventory_put = protection_check_put_take,
-      allow_metadata_inventory_take = protection_check_put_take,
+      allow_metadata_inventory_move = check_move,
+      allow_metadata_inventory_put = check_put,
+      allow_metadata_inventory_take = check_take,
       on_punch = function(pos, node, player, pointed_thing)
          local itemstack = player:get_wielded_item()
          local itemstack_changed = false
@@ -248,9 +264,14 @@ minetest.register_node(
             local meta = minetest.get_meta(pos)
             local inv = meta:get_inventory()
 
-            local itemname = inv:get_stack("main", 1):get_name()
+            local iitem = inv:get_stack("main", 1)
+            if iitem:is_empty() then
+                return
+            end
+            local itemname = iitem:get_name()
 
             if jewels.can_jewel(itemname) then
+               -- Success
                inv:set_stack("main", 1, ItemStack(jewels.get_jeweled(itemname)))
 
                if not minetest.settings:get_bool("creative_mode") then
@@ -263,6 +284,9 @@ minetest.register_node(
 
                achievements.trigger_achievement(player, "jeweler")
                achievements.trigger_achievement(player, "master_jeweler")
+            else
+               -- Failure
+               minetest.sound_play({name="jewels_jewelling_fail"}, {gain=0.8, pos=pos, max_hear_distance=8})
             end
          end
 
