@@ -41,6 +41,11 @@ form_armor = form_armor .. default.ui.get_itemslot_bg(2.25, 0.75, 1, 3)
 
 default.ui.register_page("armor:armor", form_armor)
 
+function armor.get_formspec(name)
+   local form = default.ui.get_page("armor:armor")
+   return form
+end
+
 function armor.is_armor(itemname)
    local item = minetest.registered_items[itemname]
 
@@ -279,10 +284,7 @@ end)
 
 -- Move armor items to correct slot
 minetest.register_on_player_inventory_action(function(player, action, inventory, inventory_info)
-    if inventory_info.to_list ~= "armor" then
-       return
-    end
-    if action == "move" then
+    if action == "move" and inventory_info.to_list == "armor" then
        local stack = inventory:get_stack(inventory_info.to_list, inventory_info.to_index)
        local name = stack:get_name()
        local slot = minetest.get_item_group(name, "armor_slot")
@@ -298,7 +300,11 @@ minetest.register_on_player_inventory_action(function(player, action, inventory,
            inventory:set_stack("armor", slot, stack)
        end
     end
-    armor.update(player)
+    if action == "move" and inventory_info.to_list == "armor" or inventory_info.from_list == "armor" then
+        armor.update(player)
+    elseif action == "put" or action == "take" and inventory_info.listname == "armor" then
+        armor.update(player)
+    end
 end)
 
 -- Achievements

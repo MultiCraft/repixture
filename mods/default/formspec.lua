@@ -350,7 +350,7 @@ function default.ui.receive_fields(player, form_name, fields)
       form = crafting.get_formspec(name)
    elseif minetest.get_modpath("armor") ~= nil and fields.tab_armor then
       formname = "armor:armor"
-      form = default.ui.get_page("armor:armor")
+      form = armor.get_formspec(name)
    elseif minetest.get_modpath("achievements") ~= nil and fields.tab_achievements then
       formname = "achievements:achievements"
       form = achievements.get_formspec(name)
