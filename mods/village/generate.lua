@@ -380,7 +380,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
       end, true)
 
    -- Replace legacy torches
-   -- TODO: Fix the torches in the formspec instead
+   -- TODO: Fix the torches in the schematic instead
    util.nodefunc(
       pos,
       {x = pos.x+12, y = pos.y+12, z = pos.z+12},
