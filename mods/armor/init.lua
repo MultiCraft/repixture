@@ -234,7 +234,8 @@ for mat_index, matdef in ipairs(armor.materials) do
 	    groups = {
 	       is_armor = 1,
 	       armor = armor_def,
-	       armor_material = mat_index
+	       armor_material = mat_index,
+	       armor_slot = s,
 	    },
 
 	    stack_max = 1,
@@ -265,6 +266,27 @@ for mat_index, matdef in ipairs(armor.materials) do
 	 }
    })
 end
+
+minetest.register_allow_player_inventory_action(function(player, action, inventory, inventory_info)
+    if action == "move" and inventory_info.to_list == "armor" then
+       local stack = inventory:get_stack(inventory_info.from_list, inventory_info.from_index)
+       local name = stack:get_name()
+       if minetest.get_item_group(name, "is_armor") ~= 1 then
+           return 0
+       end
+       if minetest.get_item_group(name, "armor_slot") ~= inventory_info.to_index then
+           return 0
+       end
+    elseif action == "put" and inventory_info.listname == "armor" then
+       local name = inventory_info.stack:get_name()
+       if minetest.get_item_group(name, "is_armor") ~= 1 then
+           return 0
+       end
+       if minetest.get_item_group(name, "armor_slot") ~= inventory_info.index then
+           return 0
+       end
+    end
+end)
 
 -- Achievements
 
