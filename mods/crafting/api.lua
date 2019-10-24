@@ -278,8 +278,6 @@ form = form .. "listring[current_player;craft_out]"
 form = form .. default.ui.get_itemslot_bg(0.25, 0.25, 1, 4)
 form = form .. default.ui.get_itemslot_bg(7.25, 3.25, 1, 1)
 
--- TODO: Use ui_icon_craftingguide_active.png when crafting guide is active
-form = form .. default.ui.tab(8.4, 0.5, "toggle_filter", "ui_icon_craftingguide.png", S("Show all recipes/show only craftable recipes"), "right")
 form = form .. default.ui.button(7.25, 1.25, 1, 1, "do_craft_1", "1")
 form = form .. default.ui.button(7.25, 2.25, 1, 1, "do_craft_10", "10")
 
@@ -398,6 +396,16 @@ function crafting.get_formspec(name, select_item)
             7.25, 0.25, selected_craftdef.output, "craftex_out")
       end
    end
+
+   local guide_icon, guide_tip
+   if crafting.userdata[name] and crafting.userdata[name].mode == MODE_GUIDE then
+      guide_icon = "ui_icon_craftingguide_active.png"
+      guide_tip = S("Show only craftable recipes")
+   else
+      guide_icon = "ui_icon_craftingguide.png"
+      guide_tip = S("Show all recipes")
+   end
+   form = form .. default.ui.tab(8.4, 0.5, "toggle_filter", guide_icon, guide_tip, "right")
 
    return form
 end

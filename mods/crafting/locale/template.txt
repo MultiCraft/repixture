@@ -1,2 +1,3 @@
 # textdomain:crafting
-Show all recipes/show only craftable recipes=
+Show all recipes=
+Show only craftable recipes=
