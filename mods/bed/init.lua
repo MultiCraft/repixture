@@ -230,11 +230,6 @@ local function on_globalstep(dtime)
             minetest.after(
                2,
                function()
-                  minetest.chat_send_all(
-                     minetest.colorize(
-                        "#0ff",
-                        "*** " .. S("Players have slept, rise and shine!")))
-
                   minetest.set_timeofday(0.23)
                   delay_daytime = false
 
@@ -244,6 +239,14 @@ local function on_globalstep(dtime)
                         bed.userdata[player:get_player_name()].slept = true
                      end
                   end
+
+                  local msg
+                  if #players == 1 then
+                      msg = S("You have slept, rise and shine!")
+                  else
+                      msg = S("Players have slept, rise and shine!")
+                  end
+                  minetest.chat_send_all(minetest.colorize("#0ff", "*** " .. msg))
             end)
 
             delayed_save()
