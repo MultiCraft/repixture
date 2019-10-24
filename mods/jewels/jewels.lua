@@ -235,7 +235,7 @@ jewels.register_jewel(
    "jewels:broadsword_jeweled_pommel_and_guard",
    "jewels:serrated_broadsword",
    {
-      description = S("Serrated Broadsword"),
+      description = S("Jeweled Serrated Broadsword"),
       overlay = "jewels_jeweled_blade.png",
       stats = {
 	 fleshy = 2,
