@@ -4,6 +4,14 @@
 -- Tweaked by Kaadmy, for Pixture
 --
 
+local function add_item_death_particle(ent)
+    minetest.add_particle({
+        pos = ent.object:get_pos(),
+        size = 3,
+        texture = "smoke_puff.png",
+    })
+end
+
 minetest.register_entity(
    ":__builtin:item",
    {
@@ -103,6 +111,7 @@ minetest.register_entity(
 		   
 		   self.timer = self.timer + dtime
 		   if time_to_live ~= -1 and (self.timer > time_to_live) then
+		      add_item_death_particle(self)
 		      minetest.log("action", "[builtin_item] Item entity removed due to timeout at "..minetest.pos_to_string(self.object:get_pos()))
 		      self.object:remove()
 		      return
@@ -117,11 +126,7 @@ minetest.register_entity(
                       if minetest.get_item_group(name, "lava") ~= 0 or minetest.get_item_group(name, "fire") ~= 0 then
 		          minetest.sound_play("builtin_item_lava", {pos = self.object:get_pos(), gain = 0.45})
                       end
-		      minetest.add_particle({
-                          pos = self.object:get_pos(),
-                          size = 3,
-                          texture = "smoke_puff.png",
-                      })
+		      add_item_death_particle(self)
 		      minetest.log("action", "[builtin_item] Item entity destroyed in damaging node at "..minetest.pos_to_string(self.object:get_pos()))
 		      self.object:remove()
 		      return
