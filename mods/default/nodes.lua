@@ -1047,6 +1047,11 @@ minetest.register_node(
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1, green_grass = 1},
       sounds = default.node_sound_leaves_defaults(),
       on_rightclick = function(pos, node, player, itemstack)
+          if minetest.is_protected(pos, player:get_player_name()) and
+                  not minetest.check_player_privs(player, "protection_bypass") then
+              minetest.record_protection_violation(pos, player:get_player_name())
+              return itemstack
+          end
           -- Trim tall grass clump when rightclicked by shears
           local name = itemstack:get_name()
           if minetest.get_item_group(name, "shears") == 1 then
