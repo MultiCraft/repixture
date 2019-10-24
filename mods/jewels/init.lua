@@ -5,6 +5,7 @@
 --
 
 local S = minetest.get_translator("jewels")
+local NS = function(s) return s end
 local F = minetest.formspec_escape
 
 jewels = {}
@@ -12,6 +13,7 @@ jewels = {}
 -- Array of registered jeweled tools
 
 jewels.registered_jewels = {}
+jewels.registered_jewel_parents = {}
 
 -- Formspec
 
@@ -39,6 +41,17 @@ local function plus_power(i)
    return i
 end
 
+local function append_stat(desc, format_text, stats_key, parent, data)
+   local disp_val = data.stats[stats_key] or 0
+   if parent then
+      disp_val = disp_val + parent.stats[stats_key]
+   end
+   if disp_val ~= 0 then
+      desc = desc .. "\n"..S(format_text, plus_power(disp_val))
+   end
+   return desc
+end
+
 function jewels.register_jewel(toolname, new_toolname, def)
    -- registers a new tool with different stats
 
@@ -61,6 +74,25 @@ function jewels.register_jewel(toolname, new_toolname, def)
    end
 
    table.insert(jewels.registered_jewels[toolname], data)
+   local newparent = {
+      name = toolname,
+      stats = {
+         digspeed = (data.stats.digspeed or 0),
+         maxlevel = (data.stats.maxlevel or 0),
+         maxdrop = (data.stats.maxdrop or 0),
+         uses = (data.stats.uses or 0),
+         fleshy = (data.stats.fleshy or 0),
+         range = (data.stats.range or 0),
+      }
+   }
+
+   local parent = jewels.registered_jewel_parents[toolname] 
+   if parent then
+      for k,v in pairs(parent.stats) do
+         newparent.stats[k] = newparent.stats[k] + v
+      end
+   end
+   jewels.registered_jewel_parents[new_toolname] = newparent
 
    local tooldef = minetest.deserialize(
       minetest.serialize(minetest.registered_tools[toolname]))
@@ -106,15 +138,15 @@ function jewels.register_jewel(toolname, new_toolname, def)
           new_tooldef.range = 4
       end
       new_tooldef.range = new_tooldef.range + data.stats.range
-      desc = desc .. "\n"..S("Range: @1", plus_power(data.stats.range))
    end
+   desc = append_stat(desc, NS("Range: @1"), "range", parent, data)
 
    if new_tooldef.tool_capabilities then
       if data.stats.maxdrop and new_tooldef.tool_capabilities.max_drop_level then
 	 new_tooldef.tool_capabilities.max_drop_level =
             new_tooldef.tool_capabilities.max_drop_level + data.stats.maxdrop
-	 desc = desc .. "\n"..S("Drop level: @1", plus_power(data.stats.maxdrop))
       end
+      desc = append_stat(desc, NS("Drop level: @1"), "maxdrop", parent, data)
 
       if data.stats.digspeed then
 	 for group, cap in pairs(new_tooldef.tool_capabilities.groupcaps) do
@@ -130,23 +162,19 @@ function jewels.register_jewel(toolname, new_toolname, def)
 	       cap.uses = cap.uses + data.stats.uses
 	    end
 	 end
+      end
+      desc = append_stat(desc, NS("Dig time: @1 s"), "digspeed", parent, data)
 
-	 desc = desc .. "\n"..S("Dig time: @1 s", plus_power(data.stats.digspeed))
-      end
+      desc = append_stat(desc, NS("Uses: @1"), "uses", parent, data)
 
-      if data.stats.uses then
-	 desc = desc .. "\n"..S("Uses: @1", plus_power(data.stats.uses))
-      end
-      if data.stats.maxlevel then
-	 desc = desc .. "\n"..S("Dig level: @1", plus_power(data.stats.maxlevel))
-      end
+      desc = append_stat(desc, NS("Dig level: @1"), "maxlevel", parent, data)
 
       if data.stats.fleshy and new_tooldef.tool_capabilities.damage_groups
       and new_tooldef.tool_capabilities.damage_groups.fleshy then
 	 new_tooldef.tool_capabilities.damage_groups.fleshy =
             new_tooldef.tool_capabilities.damage_groups.fleshy + data.stats.fleshy
-	 desc = desc .. "\n"..S("Damage: @1", plus_power(data.stats.fleshy))
       end
+      desc = append_stat(desc, NS("Damage: @1"), "fleshy", parent, data)
    end
 
    new_tooldef.description = desc
