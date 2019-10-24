@@ -197,6 +197,40 @@ minetest.register_node(
    }
 )
 
+local insta_cut_cotton = function(pos, node, player, tool)
+   local name = tool:get_name()
+   minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8})
+   minetest.set_node(pos, {name = "farming:cotton_2"})
+
+   -- Drop some seeds
+
+   if math.random(1, 2) == 1 then
+      item_drop.drop_item(pos, "farming:cotton_1")
+   end
+
+   -- Drop an extra cotton ball
+
+   for i = 1, 2 do
+      if math.random(1, 4) == 1 then -- 25% chance of dropping 2x
+         item_drop.drop_item(pos, "farming:cotton 2")
+      else
+         item_drop.drop_item(pos, "farming:cotton")
+      end
+   end
+
+   -- Add wear
+   if not minetest.settings:get_bool("creative_mode") then
+      local def = tool:get_definition()
+      tool:add_wear(math.ceil(65536 / def.tool_capabilities.groupcaps.snappy.uses))
+   end
+
+   -- Keep it growing
+
+   farming.begin_growing_plant(pos)
+
+   return tool
+end
+
 minetest.register_node(
    "farming:cotton_4",
    {
@@ -223,43 +257,24 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
       groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=default.node_sound_leaves_defaults(),
+      sounds = default.node_sound_leaves_defaults(),
       on_punch = function(pos, node, player)
          local item = player:get_wielded_item()
-         local name = item:get_name()
-
-         -- Insta-cut cotton when punching with shears
-         if minetest.get_item_group(name, "shears") > 0 then
-            minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8})
-            minetest.set_node(pos, {name = "farming:cotton_2"})
-
-            -- Drop some seeds
-
-            if math.random(1, 2) == 1 then
-               item_drop.drop_item(pos, "farming:cotton_1")
-            end
-
-            -- Drop an extra cotton ball
-
-            for i = 1, 2 do
-               if math.random(1, 4) == 1 then -- 25% chance of dropping 2x
-                  item_drop.drop_item(pos, "farming:cotton 2")
-               else
-                  item_drop.drop_item(pos, "farming:cotton")
-               end
-            end
-
-            -- Add wear
-            if not minetest.settings:get_bool("creative_mode") then
-               local def = item:get_definition()
-               item:add_wear(math.ceil(65536 / def.tool_capabilities.groupcaps.snappy.uses))
-               player:set_wielded_item(item)
-            end
-
-            -- Keep it growing
-
-            farming.begin_growing_plant(pos)
+         if minetest.settings:get_bool("creative_mode") then
+            return
          end
+         -- Insta-cut cotton when punching with shears
+         if minetest.get_item_group(item:get_name(), "shears") == 1 then
+            item = insta_cut_cotton(pos, node, player, item)
+            player:set_wielded_item(item)
+         end
+      end,
+      on_rightclick = function(pos, node, player, itemstack)
+         -- Insta-cut cotton when rightclicking with shears
+         if minetest.get_item_group(itemstack:get_name(), "shears") == 1 then
+             itemstack = insta_cut_cotton(pos, node, player, itemstack)
+         end
+         return itemstack
       end,
    }
 )
