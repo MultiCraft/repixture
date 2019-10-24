@@ -152,6 +152,9 @@ end
 function crafting.craft(player, wanted, wanted_count, output, items)
    -- `output` can be any ItemStack value
    -- Duplicate items in `items` should work correctly
+   if wanted:is_empty() then
+      return nil
+   end
 
    local craftdef = crafting.registered_crafts[wanted:to_string()]
 
