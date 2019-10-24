@@ -22,11 +22,6 @@ armor.materials = {
 
 armor.slots = {"helmet", "chestplate", "boots"}
 
--- Timer
-
-local timer_interval = 1
-local timer = 10
-
 -- Formspec
 
 local form_armor = default.ui.get_page("default:2part")
@@ -152,6 +147,7 @@ function armor.init(player)
    end
 end
 
+-- This function must be called whenever the armor inventory has been changed
 function armor.update(player)
    local groups = armor.get_groups(player)
    player:set_armor_groups({fleshy = groups.fleshy})
@@ -168,20 +164,11 @@ end
 
 local function on_joinplayer(player)
    armor.init(player)
+   armor.update(player)
 end
 
-local function on_globalstep(dtime)
-   timer = timer + dtime
-
-   if timer < timer_interval then
-      return
-   end
-
-   timer = 0
-
-   for _, player in pairs(minetest.get_connected_players()) do
-      armor.update(player)
-   end
+local function on_respawnplayer(player)
+   armor.update(player)
 end
 
 if minetest.get_modpath("drop_items_on_die") ~= nil then
@@ -190,8 +177,7 @@ end
 
 minetest.register_on_newplayer(on_newplayer)
 minetest.register_on_joinplayer(on_joinplayer)
-
-minetest.register_globalstep(on_globalstep)
+minetest.register_on_respawnplayer(on_respawnplayer)
 
 -- Chainmail
 
@@ -293,7 +279,10 @@ end)
 
 -- Move armor items to correct slot
 minetest.register_on_player_inventory_action(function(player, action, inventory, inventory_info)
-    if action == "move" and inventory_info.to_list == "armor" then
+    if inventory_info.to_list ~= "armor" then
+       return
+    end
+    if action == "move" then
        local stack = inventory:get_stack(inventory_info.to_list, inventory_info.to_index)
        local name = stack:get_name()
        local slot = minetest.get_item_group(name, "armor_slot")
@@ -309,6 +298,7 @@ minetest.register_on_player_inventory_action(function(player, action, inventory,
            inventory:set_stack("armor", slot, stack)
        end
     end
+    armor.update(player)
 end)
 
 -- Achievements
