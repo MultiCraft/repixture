@@ -267,6 +267,7 @@ for mat_index, matdef in ipairs(armor.materials) do
    })
 end
 
+-- Only allow armor items to be put into armor slots
 minetest.register_allow_player_inventory_action(function(player, action, inventory, inventory_info)
     if action == "move" and inventory_info.to_list == "armor" then
        local stack = inventory:get_stack(inventory_info.from_list, inventory_info.from_index)
@@ -274,7 +275,8 @@ minetest.register_allow_player_inventory_action(function(player, action, invento
        if minetest.get_item_group(name, "is_armor") ~= 1 then
            return 0
        end
-       if minetest.get_item_group(name, "armor_slot") ~= inventory_info.to_index then
+       local slot = minetest.get_item_group(name, "armor_slot")
+       if not inventory:get_stack("armor", slot):is_empty() then
            return 0
        end
     elseif action == "put" and inventory_info.listname == "armor" then
@@ -282,8 +284,29 @@ minetest.register_allow_player_inventory_action(function(player, action, invento
        if minetest.get_item_group(name, "is_armor") ~= 1 then
            return 0
        end
-       if minetest.get_item_group(name, "armor_slot") ~= inventory_info.index then
+       local slot = minetest.get_item_group(name, "armor_slot")
+       if not inventory:get_stack("armor", slot):is_empty() then
            return 0
+       end
+    end
+end)
+
+-- Move armor items to correct slot
+minetest.register_on_player_inventory_action(function(player, action, inventory, inventory_info)
+    if action == "move" and inventory_info.to_list == "armor" then
+       local stack = inventory:get_stack(inventory_info.to_list, inventory_info.to_index)
+       local name = stack:get_name()
+       local slot = minetest.get_item_group(name, "armor_slot")
+       if slot ~= inventory_info.to_index then
+           inventory:set_stack("armor", inventory_info.to_index, "")
+           inventory:set_stack("armor", slot, stack)
+       end
+    elseif action == "put" and inventory_info.listname == "armor" then
+       local name = inventory_info.stack:get_name()
+       local slot = minetest.get_item_group(name, "armor_slot")
+       if slot ~= inventory_info.to_index then
+           inventory:set_stack("armor", inventory_info.index, "")
+           inventory:set_stack("armor", slot, stack)
        end
     end
 end)
