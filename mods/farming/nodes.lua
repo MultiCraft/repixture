@@ -197,7 +197,9 @@ minetest.register_node(
    }
 )
 
-local insta_cut_cotton = function(pos, node, player, tool)
+local trim_cotton = function(pos, node, player, tool)
+   -- This cuts down the cotton plant to stage 1 and might drop some bonus goodies
+
    local name = tool:get_name()
    minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8})
    minetest.set_node(pos, {name = "farming:cotton_2"})
@@ -258,21 +260,10 @@ minetest.register_node(
       },
       groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
       sounds = default.node_sound_leaves_defaults(),
-      on_punch = function(pos, node, player)
-         local item = player:get_wielded_item()
-         if minetest.settings:get_bool("creative_mode") then
-            return
-         end
-         -- Insta-cut cotton when punching with shears
-         if minetest.get_item_group(item:get_name(), "shears") == 1 then
-            item = insta_cut_cotton(pos, node, player, item)
-            player:set_wielded_item(item)
-         end
-      end,
       on_rightclick = function(pos, node, player, itemstack)
-         -- Insta-cut cotton when rightclicking with shears
+         -- Trim cotton when rightclicking with shears
          if minetest.get_item_group(itemstack:get_name(), "shears") == 1 then
-             itemstack = insta_cut_cotton(pos, node, player, itemstack)
+             itemstack = trim_cotton(pos, node, player, itemstack)
          end
          return itemstack
       end,
