@@ -84,13 +84,18 @@ function jewels.register_jewel(toolname, new_toolname, def)
    end
 
    local new_tooldef = tooldef
-   local desc = new_tooldef.description or ""
-
-   -- TODO: Add custom description for each tool for better translatability
-   desc = S("Jeweled @1", desc)
-
+   local desc
    if data.description ~= nil then
       desc = data.description
+   else
+      -- All tools should have their description set explicitly. This is a fallback
+      minetest.log("warning", "[jewels] No description for jeweled tool "..new_toolname.."! Auto-generating a name")
+      desc = new_tooldef.description
+      if not desc then
+         desc = new_toolname
+      else
+         desc = S("Jeweled @1", desc)
+      end
    end
 
    new_tooldef.inventory_image = new_tool_invimage

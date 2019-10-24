@@ -9,6 +9,7 @@ local S = minetest.get_translator("jewels")
 local tool_types = {
    pick = {
       steel = {
+         description = S("Jeweled Steel Pickaxe"),
          digspeed = {
             digspeed = -0.1,
          },
@@ -20,6 +21,7 @@ local tool_types = {
          },
       },
       carbon_steel = {
+         description = S("Jeweled Carbon Steel Pickaxe"),
          digspeed = {
             digspeed = -0.13,
          },
@@ -31,6 +33,7 @@ local tool_types = {
          },
       },
       bronze = {
+         description = S("Jeweled Bronze Pickaxe"),
          digspeed = {
             digspeed = -0.14,
          },
@@ -44,6 +47,7 @@ local tool_types = {
    },
    shovel = {
       steel = {
+         description = S("Jeweled Steel Shovel"),
          digspeed = {
             digspeed = -0.1,
          },
@@ -55,6 +59,7 @@ local tool_types = {
          },
       },
       carbon_steel = {
+         description = S("Jeweled Carbon Steel Shovel"),
          digspeed = {
             digspeed = -0.13,
          },
@@ -66,6 +71,7 @@ local tool_types = {
          },
       },
       bronze = {
+         description = S("Jeweled Bronze Shovel"),
          digspeed = {
             digspeed = -0.14,
          },
@@ -79,6 +85,7 @@ local tool_types = {
    },
    axe = {
       steel = {
+         description = S("Jeweled Steel Axe"),
          digspeed = {
             digspeed = -0.1,
          },
@@ -90,6 +97,7 @@ local tool_types = {
          },
       },
       carbon_steel = {
+         description = S("Jeweled Carbon Steel Axe"),
          digspeed = {
             digspeed = -0.13,
          },
@@ -101,6 +109,7 @@ local tool_types = {
          },
       },
       bronze = {
+         description = S("Jeweled Bronze Axe"),
          digspeed = {
             digspeed = -0.14,
          },
@@ -114,6 +123,7 @@ local tool_types = {
    },
    spear = {
       steel = {
+         description = S("Jeweled Steel Spear"),
          reach = {
             range = 1,
          },
@@ -125,6 +135,7 @@ local tool_types = {
          },
       },
       carbon_steel = {
+         description = S("Jeweled Carbon Steel Spear"),
          reach = {
             range = 2,
          },
@@ -136,6 +147,7 @@ local tool_types = {
          },
       },
       bronze = {
+         description = S("Jeweled Bronze Spear"),
          reach = {
             range = 2,
          },
@@ -149,6 +161,7 @@ local tool_types = {
    },
    shears = {
       steel = {
+         description = S("Jeweled Steel Shears"),
          digspeed = {
             digspeed = -0.1,
          },
@@ -157,6 +170,7 @@ local tool_types = {
          },
       },
       carbon_steel = {
+         description = S("Jeweled Carbon Steel Shears"),
          digspeed = {
             digspeed = -0.13,
          },
@@ -165,6 +179,7 @@ local tool_types = {
          },
       },
       bronze = {
+         description = S("Jeweled Bronze Shears"),
          digspeed = {
             digspeed = -0.14,
          },
@@ -178,12 +193,16 @@ local tool_types = {
 for tool_name, tool_def in pairs(tool_types) do
    for material_name, material_def in pairs(tool_def) do
       for jewel_name, jewel_def in pairs(material_def) do
-         jewels.register_jewel(
-            "default:" .. tool_name .. "_" .. material_name,
-            "jewels:" .. tool_name .. "_" .. material_name .. "_" .. jewel_name,
-            {
-               stats = jewel_def,
-         })
+         if jewel_name ~= "description" then
+            jewels.register_jewel(
+               "default:" .. tool_name .. "_" .. material_name,
+               "jewels:" .. tool_name .. "_" .. material_name .. "_" .. jewel_name,
+               {
+                  stats = jewel_def,
+                  description = material_def.description,
+               }
+            )
+         end
       end
    end
 end
