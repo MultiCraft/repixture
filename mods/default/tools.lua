@@ -273,6 +273,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 3}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { pickaxe = 1 },
 })
 
@@ -288,6 +289,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 4}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { pickaxe = 1 },
 })
 
@@ -303,6 +305,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { pickaxe = 1 },
 })
 
@@ -318,6 +321,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { pickaxe = 1 },
 })
 
@@ -333,6 +337,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { pickaxe = 1 },
 })
 
@@ -350,6 +355,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 2}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { shovel = 1 },
 })
 
@@ -365,6 +371,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 3}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { shovel = 1 },
 })
 
@@ -380,6 +387,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 4}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { shovel = 1 },
 })
 
@@ -395,6 +403,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { shovel = 1 },
 })
 
@@ -410,6 +419,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { shovel = 1 },
 })
 
@@ -425,6 +435,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { shovel = 1 },
 })
 
@@ -443,6 +454,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 3}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { axe = 1 },
 })
 
@@ -459,6 +471,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 4}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { axe = 1 },
 })
 
@@ -475,6 +488,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { axe = 1 },
 })
 
@@ -491,6 +505,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 6}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { axe = 1 },
 })
 
@@ -507,6 +522,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 6}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { axe = 1 },
 })
 
@@ -523,6 +539,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 6}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { axe = 1 },
 })
 
@@ -542,6 +559,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 4}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { spear = 1 },
 })
 
@@ -559,6 +577,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { spear = 1 },
 })
 
@@ -576,6 +595,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 6}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { spear = 1 },
 })
 
@@ -593,6 +613,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 10}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { spear = 1 },
 })
 
@@ -610,6 +631,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 10}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { spear = 1 },
 })
 
@@ -627,6 +649,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 10}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { spear = 1 },
 })
 
@@ -643,6 +666,7 @@ minetest.register_tool(
 	 full_punch_interval = 4.0,
 	 damage_groups = {fleshy = 12}
       },
+      sound = { breaks = "default_tool_breaks" },
       groups = { sword = 1 },
 })
 
@@ -654,6 +678,7 @@ minetest.register_tool(
       description = S("Wrought Iron Shears"),
       inventory_image = "default_shears.png",
       wield_image = "default_shears.png^[transformR90",
+      sound = { breaks = "default_tool_breaks" },
       groups = { shears = 1, sheep_cuts = 100 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -669,6 +694,7 @@ minetest.register_tool(
       description = S("Steel Shears"),
       inventory_image = "default_shears_steel.png",
       wield_image = "default_shears_steel.png^[transformR90",
+      sound = { breaks = "default_tool_breaks" },
       groups = { shears = 1, sheep_cuts = 200 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -684,6 +710,7 @@ minetest.register_tool(
       description = S("Carbon Steel Shears"),
       inventory_image = "default_shears_carbon_steel.png",
       wield_image = "default_shears_carbon_steel.png^[transformR90",
+      sound = { breaks = "default_tool_breaks" },
       groups = { shears = 1, sheep_cuts = 266 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -699,6 +726,7 @@ minetest.register_tool(
       description = S("Bronze Shears"),
       inventory_image = "default_shears_bronze.png",
       wield_image = "default_shears_bronze.png^[transformR90",
+      sound = { breaks = "default_tool_breaks" },
       groups = { shears = 1, sheep_cuts = 200 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -714,6 +742,7 @@ minetest.register_tool(
    {
       description = S("Flint and Steel"),
       inventory_image = "default_flint_and_steel.png",
+      sound = { breaks = "default_tool_breaks" },
       on_use = function(itemstack, user, pointed_thing)
          if pointed_thing == nil then return end
          if pointed_thing.type ~= "node" then return end

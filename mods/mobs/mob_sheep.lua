@@ -102,6 +102,7 @@ mobs:register_mob(
                local pos = self.object:get_pos()
                pos.y = pos.y + 0.5
                local obj = minetest.add_item(pos, ItemStack("mobs:wool"))
+               minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = clicker:get_pos(), max_hear_distance = 8})
                if obj then
                   obj:set_velocity(
                      {

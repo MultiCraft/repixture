@@ -56,6 +56,7 @@ minetest.register_tool(
       inventory_image = "locks_pick.png",
       wield_image = "locks_pick.png",
 
+      sound = { breaks = "default_tool_breaks" },
       stack_max = 1,
 
       on_use = function(itemstack, player, pointed_thing)

@@ -228,7 +228,9 @@ minetest.register_node(
          local item = player:get_wielded_item()
          local name = item:get_name()
 
+         -- Insta-cut cotton when punching with shears
          if minetest.get_item_group(name, "shears") > 0 then
+            minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8})
             minetest.set_node(pos, {name = "farming:cotton_2"})
 
             -- Drop some seeds
