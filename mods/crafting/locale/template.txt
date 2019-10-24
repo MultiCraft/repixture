@@ -1,3 +1,5 @@
 # textdomain:crafting
 Show all recipes=
 Show only craftable recipes=
+Craft once=
+Craft 10 times=
