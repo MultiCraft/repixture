@@ -111,9 +111,18 @@ minetest.register_entity(
 		   local p = self.object:get_pos()
 		   
 		   local name = minetest.get_node(p).name
+                   local def = minetest.registered_nodes[name]
                    -- Destroy item in damaging node
-		   if minetest.registered_nodes[name].damage_per_second > 0 then
-		      minetest.sound_play("builtin_item_lava", {pos = self.object:get_pos(), gain = 0.45})
+		   if def and def.damage_per_second > 0 then
+                      if minetest.get_item_group(name, "lava") ~= 0 or minetest.get_item_group(name, "fire") ~= 0 then
+		          minetest.sound_play("builtin_item_lava", {pos = self.object:get_pos(), gain = 0.45})
+                      end
+		      minetest.add_particle({
+                          pos = self.object:get_pos(),
+                          size = 3,
+                          texture = "smoke_puff.png",
+                      })
+		      minetest.log("action", "[builtin_item] Item entity destroyed in damaging node at "..minetest.pos_to_string(self.object:get_pos()))
 		      self.object:remove()
 		      return
 		   end
