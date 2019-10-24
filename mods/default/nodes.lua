@@ -1046,28 +1046,19 @@ minetest.register_node(
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1, green_grass = 1},
       sounds = default.node_sound_leaves_defaults(),
-      on_rightclick = function(pos, node, player, itemstack)
-          if minetest.is_protected(pos, player:get_player_name()) and
-                  not minetest.check_player_privs(player, "protection_bypass") then
-              minetest.record_protection_violation(pos, player:get_player_name())
-              return itemstack
+      -- Trim tall grass with shears
+      _on_trim = function(pos, node, player, itemstack)
+          -- This turns it to a normal grass clump and drops one bonus grass clump
+          minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8})
+          minetest.set_node(pos, {name = "default:grass"})
+
+          item_drop.drop_item(pos, "default:grass")
+
+          -- Add wear
+          if not minetest.settings:get_bool("creative_mode") then
+             local def = itemstack:get_definition()
+             itemstack:add_wear(math.ceil(65536 / def.tool_capabilities.groupcaps.snappy.uses))
           end
-          -- Trim tall grass clump when rightclicked by shears
-          local name = itemstack:get_name()
-          if minetest.get_item_group(name, "shears") == 1 then
-              -- This turns it to a normal grass clump and drops one bonus grass clump
-              minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8})
-              minetest.set_node(pos, {name = "default:grass"})
-
-              item_drop.drop_item(pos, "default:grass")
-
-              -- Add wear
-              if not minetest.settings:get_bool("creative_mode") then
-                 local def = itemstack:get_definition()
-                 itemstack:add_wear(math.ceil(65536 / def.tool_capabilities.groupcaps.snappy.uses))
-              end
-          end
-
           return itemstack
       end,
 })

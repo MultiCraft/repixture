@@ -672,6 +672,22 @@ minetest.register_tool(
 
 -- Other
 
+local trim = function(itemstack, player, pointed_thing)
+    if pointed_thing.type == "node" then
+        local pos = pointed_thing.under
+        local node = minetest.get_node(pos)
+        local def = minetest.registered_nodes[node.name]
+        if def and def._on_trim then
+            if minetest.is_protected(pos, player:get_player_name()) and
+                    not minetest.check_player_privs(player, "protection_bypass") then
+                minetest.record_protection_violation(pos, player:get_player_name())
+                return
+            end
+            return def._on_trim(pos, node, player, itemstack, pointed_thing)
+        end
+    end
+end
+
 minetest.register_tool(
    "default:shears",
    {
@@ -687,6 +703,7 @@ minetest.register_tool(
 	    snappy={times=tool_levels.wrought_iron.snappy, uses=15, maxlevel=1},
          },
       },
+      on_place = trim,
 })
 minetest.register_tool(
    "default:shears_steel",
@@ -703,6 +720,7 @@ minetest.register_tool(
 	    snappy={times=tool_levels.steel.snappy, uses=30, maxlevel=1},
          },
       },
+      on_place = trim,
 })
 minetest.register_tool(
    "default:shears_carbon_steel",
@@ -719,6 +737,7 @@ minetest.register_tool(
 	    snappy={times=tool_levels.carbon_steel.snappy, uses=40, maxlevel=1},
          },
       },
+      on_place = trim,
 })
 minetest.register_tool(
    "default:shears_bronze",
@@ -735,6 +754,7 @@ minetest.register_tool(
 	    snappy={times=tool_levels.bronze.snappy, uses=30, maxlevel=1},
          },
       },
+      on_place = trim,
 })
 
 minetest.register_tool(

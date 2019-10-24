@@ -260,18 +260,9 @@ minetest.register_node(
       },
       groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
       sounds = default.node_sound_leaves_defaults(),
-      on_rightclick = function(pos, node, player, itemstack)
-         if minetest.is_protected(pos, player:get_player_name()) and
-                 not minetest.check_player_privs(player, "protection_bypass") then
-             minetest.record_protection_violation(pos, player:get_player_name())
-             return itemstack
-         end
-         -- Trim cotton when rightclicking with shears
-         if minetest.get_item_group(itemstack:get_name(), "shears") == 1 then
-             itemstack = trim_cotton(pos, node, player, itemstack)
-         end
-         return itemstack
-      end,
+
+      -- Trim cotton with shears
+      _on_trim = trim_cotton,
    }
 )
 
