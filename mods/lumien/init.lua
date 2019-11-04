@@ -194,6 +194,16 @@ crafting.register_craft(
       },
 })
 
+crafting.register_craft(
+   {
+      output = "default:heated_dirt_path",
+      items = {
+         "default:dirt_path 2",
+         "lumien:crystal_off",
+      },
+})
+
+
 -- Achievements
 
 achievements.register_achievement(
