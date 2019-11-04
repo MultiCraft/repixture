@@ -333,7 +333,7 @@ minetest.register_node(
 minetest.register_node(
    "default:heated_dirt_path",
    {
-      description = S("Heated Dirt Path"),
+      description = S("Glowing Dirt Path"),
       drawtype = "nodebox",
       paramtype = "light",
       light_source = 6,
