@@ -10,8 +10,6 @@ door = {}
 -- Registers a door
 
 function door.register_door(name, def)
-   def.groups.not_in_creative_inventory = 1
-
    local box = {{-0.5, -0.5, -0.5, 0.5, 0.5, -0.5+1.5/16}}
 
    if not def.node_box_bottom then
@@ -150,6 +148,9 @@ function door.register_door(name, def)
       local pn = player:get_player_name()
    end
 
+   local groups_node = table.copy(def.groups)
+   groups_node.not_in_creative_inventory = 1
+
    minetest.register_node(
       name.."_b_1",
       {
@@ -166,8 +167,8 @@ function door.register_door(name, def)
 	    type = "fixed",
 	    fixed = def.selection_box_bottom
 	 },
-	 groups = def.groups,
 
+	 groups = groups_node,
 	 after_dig_node = function(pos, oldnode, oldmetadata, digger)
             pos.y = pos.y+1
             after_dig_node(pos, name.."_t_1", digger)
@@ -201,7 +202,7 @@ function door.register_door(name, def)
 	    type = "fixed",
 	    fixed = def.selection_box_top
 	 },
-	 groups = def.groups,
+	 groups = groups_node,
 
 	 after_dig_node = function(pos, oldnode, oldmetadata, digger)
             pos.y = pos.y-1
@@ -236,7 +237,7 @@ function door.register_door(name, def)
 	    type = "fixed",
 	    fixed = def.selection_box_bottom
 	 },
-	 groups = def.groups,
+	 groups = groups_node,
 
 	 after_dig_node = function(pos, oldnode, oldmetadata, digger)
             pos.y = pos.y+1
@@ -271,7 +272,7 @@ function door.register_door(name, def)
 	    type = "fixed",
 	    fixed = def.selection_box_top
 	 },
-	 groups = def.groups,
+	 groups = groups_node,
 
 	 after_dig_node = function(pos, oldnode, oldmetadata, digger)
             pos.y = pos.y-1
