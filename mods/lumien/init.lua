@@ -196,7 +196,7 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:heated_dirt_path",
+      output = "default:heated_dirt_path 2",
       items = {
          "default:dirt_path 2",
          "lumien:crystal_off",
