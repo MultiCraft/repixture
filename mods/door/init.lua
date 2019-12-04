@@ -85,7 +85,9 @@ function door.register_door(name, def)
                minetest.get_meta(pt2):set_int("right", 1)
             end
 
-            itemstack:take_item()
+            if not minetest.settings:get_bool("creative_mode") then
+               itemstack:take_item()
+            end
 
             return itemstack
          end,
