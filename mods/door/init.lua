@@ -84,6 +84,9 @@ function door.register_door(name, def)
                minetest.get_meta(pt):set_int("right", 1)
                minetest.get_meta(pt2):set_int("right", 1)
             end
+            if def.sounds and def.sounds.place then
+               minetest.sound_play(def.sounds.place, {pos=pt})
+            end
 
             if not minetest.settings:get_bool("creative_mode") then
                itemstack:take_item()
