@@ -62,7 +62,6 @@ minetest.register_node(
    "lumien:crystal_on",
    {
       description = S("Glowing Lumien Crystal"),
-      _tt_help = S("It glows"),
       inventory_image = "lumien_crystal_on.png",
       tiles = {"lumien_block.png"},
       paramtype = "light",
@@ -86,7 +85,7 @@ minetest.register_node(
    "lumien:crystal_off",
    {
       description = S("Lumien Crystal"),
-      _tt_help = S("Glows when someone is close"),
+      _tt_help = S("Can be placed; glows when someone is close"),
       inventory_image = "lumien_crystal.png",
       tiles = {"lumien_block.png"},
       paramtype = "light",

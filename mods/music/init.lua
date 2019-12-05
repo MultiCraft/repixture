@@ -106,7 +106,6 @@ if minetest.settings:get_bool("music_enable") then
       "music:player",
       {
 	 description = S("Music Player"),
-         _tt_help = S("Play those funky tunes!"),
 
 	 tiles = {"music_top.png", "music_bottom.png", "music_side.png"},
 
@@ -178,7 +177,6 @@ else
       "music:player",
       {
 	 description = S("Music Player"),
-         _tt_help = S("Play those funky tunes!"),
 
 	 tiles = {"music_top.png", "music_bottom.png", "music_side.png"},
 

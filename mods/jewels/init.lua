@@ -258,7 +258,7 @@ minetest.register_node(
    "jewels:bench",
    {
       description = S("Jeweler's Workbench"),
-      _tt_help = S("Improves your tools with jewels"),
+      _tt_help = S("Tools can be upgraded with jewels here"),
       tiles ={"jewels_bench_top.png", "jewels_bench_bottom.png", "jewels_bench_sides.png"},
       paramtype2 = "facedir",
       groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},

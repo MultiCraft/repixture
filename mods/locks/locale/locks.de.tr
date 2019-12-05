@@ -13,3 +13,7 @@ Locksmith=Schlossmacher
 Craft a lock.=Fertigen Sie ein Schloss.
 Burglar=Räuber
 Break into a locked chest.=Knacken Sie eine abgeschlossene Truhe.
+Cracks locked chests=Knackt abgeschlossene Truhen
+Used to craft locked chests=Benutzt, um abgeschlossene Truhen zu knacken
+Provides 32 inventory slots=Enthält 32 Inventarplätze
+Can only be opened by its owner and those who have a lockpick=Kann nur von ihrem Eigentümer und Besitzern eines Dietrichs geöffnet werden

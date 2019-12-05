@@ -5,3 +5,5 @@ Boom!=
 Boom?=
 Ignite TNT.=
 Craft defused TNT.=
+Will explode when ignited by flint and steel=
+It's harmless=

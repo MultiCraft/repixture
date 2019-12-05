@@ -7,7 +7,7 @@ minetest.register_node(
    "farming:wheat_1",
    {
       description = S("Wheat Seed"),
-      _tt_help = S("Grows on dirt and swamp dirt. It likes water"),
+      _tt_help = S("Grows on dirt and swamp dirt; it likes water"),
       drawtype = "plantlike",
       tiles = {"farming_wheat_1.png"},
       inventory_image = "farming_wheat_seed.png",
@@ -120,7 +120,7 @@ minetest.register_node(
    "farming:cotton_1",
    {
       description = S("Cotton Seed"),
-      _tt_help = S("Grows on dirt, swamp dirt, dry dirt and sand. It likes water"),
+      _tt_help = S("Grows on dirt, swamp dirt, dry dirt and sand; it likes water"),
       drawtype = "plantlike",
       tiles = {"farming_cotton_1.png"},
       inventory_image = "farming_cotton_seed.png",

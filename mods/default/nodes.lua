@@ -522,7 +522,7 @@ minetest.register_node(
    "default:leaves",
    {
       description = S("Leaves"),
-      _tt_help = S("Will decay if not near a tree"),
+      _tt_help = S("Decays when not near a tree block"),
       drawtype = "allfaces_optional",
       visual_scale = 1.3,
       tiles = {"default_leaves.png"},
@@ -548,7 +548,7 @@ minetest.register_node(
    "default:leaves_oak",
    {
       description = S("Oak Leaves"),
-      _tt_help = S("Will decay if not near a tree"),
+      _tt_help = S("Decays when not near a tree block"),
       drawtype = "allfaces_optional",
       visual_scale = 1.3,
       tiles = {"default_leaves_oak.png"},
@@ -575,7 +575,7 @@ minetest.register_node( -- looks just like default oak leaves, except they decay
    {
       description = S("Oak Leaves (Huge)"),
       drawtype = "allfaces_optional",
-      _tt_help = S("Will decay if not near a tree"),
+      _tt_help = S("Decays when not near a tree block"),
       visual_scale = 1.3,
       tiles = {"default_leaves_oak.png"},
       paramtype = "light",
@@ -601,7 +601,7 @@ minetest.register_node(
    "default:leaves_birch",
    {
       description = S("Birch Leaves"),
-      _tt_help = S("Will decay if not near a tree"),
+      _tt_help = S("Decays when not near a tree block"),
       drawtype = "allfaces_optional",
       visual_scale = 1.3,
       tiles = {"default_leaves_birch.png"},
@@ -627,7 +627,7 @@ minetest.register_node(
    "default:dry_leaves",
    {
       description = S("Dry Leaves"),
-      _tt_help = S("Will decay if not near a tree"),
+      _tt_help = S("Decays when not near a tree block"),
       drawtype = "allfaces_optional",
       visual_scale = 1.3,
       tiles = {"default_dry_leaves.png"},

@@ -14,3 +14,4 @@ Trader=
 Trade with a villager.=
 Gold Rush=
 Dig a gold ore.=
+Show this to a villager to trade=

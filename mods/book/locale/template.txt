@@ -6,3 +6,4 @@ Write=
 Scribe=
 Craft a book.=
 Book: “@1”=
+Write down some notes=

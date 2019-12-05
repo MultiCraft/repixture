@@ -224,7 +224,7 @@ minetest.register_tool(
    "default:creative_tool",
    {
       description = S("Creative Tool"),
-      _tt_help = S("Dig everything you want!"),
+      _tt_help = S("Can dig (nearly) every block"),
       inventory_image = "default_creative_tool.png",
       tool_capabilities = {
 	 full_punch_interval = 0.5,
@@ -795,7 +795,7 @@ minetest.register_tool(
 
 local tt_flint_and_steel
 if minetest.settings:get_bool("tnt_enable", true) then
-   tt_flint_and_steel = S("Ingnites TNT and lights up torches")
+   tt_flint_and_steel = S("Ignites TNT and lights up torches")
 else
    tt_flint_and_steel = S("Lights up torches")
 end

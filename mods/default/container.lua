@@ -77,7 +77,7 @@ minetest.register_node(
    "default:bookshelf",
    {
       description = S("Bookshelf"),
-      _tt_help = S("Provides 32 inventory slots"),
+      _tt_help = S("Provides 8 inventory slots"),
       tiles = {"default_wood.png", "default_wood.png", "default_bookshelf.png"},
       paramtype2 = "facedir",
       groups = {snappy = 2,choppy = 3,oddly_breakable_by_hand = 2},

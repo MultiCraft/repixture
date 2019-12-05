@@ -18,3 +18,5 @@ Cotton Plant (stage 1)=
 Cotton Plant (stage 2)=
 Cotton Plant (stage 3)=
 Cotton Bale=
+Grows on dirt and swamp dirt; it likes water=
+Grows on dirt, swamp dirt, dry dirt and sand; it likes water=
