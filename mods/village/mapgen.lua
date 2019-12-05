@@ -40,7 +40,6 @@ minetest.register_node(
       is_ground_content = true,
       sunlight_propagates = true,
       paramtype = "light",
-      post_effect_color = { a = 0x40, r = 0x8D, g = 0x75, b = 0x97 },
       walkable = false,
       floodable = true,
       buildable_to = true,
