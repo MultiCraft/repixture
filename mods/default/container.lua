@@ -25,6 +25,7 @@ minetest.register_node(
    "default:chest",
    {
       description = S("Chest"),
+      _tt_help = S("Provides 32 inventory slots"),
       tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_sides.png",
 	      "default_chest_sides.png", "default_chest_sides.png", "default_chest_front.png"},
       paramtype2 = "facedir",
@@ -76,6 +77,7 @@ minetest.register_node(
    "default:bookshelf",
    {
       description = S("Bookshelf"),
+      _tt_help = S("Provides 32 inventory slots"),
       tiles = {"default_wood.png", "default_wood.png", "default_bookshelf.png"},
       paramtype2 = "facedir",
       groups = {snappy = 2,choppy = 3,oddly_breakable_by_hand = 2},

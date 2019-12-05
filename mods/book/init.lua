@@ -14,6 +14,7 @@ minetest.register_craftitem(
    ":default:book",
    {
       description = S("Unnamed Book"),
+      _tt_help = S("Write down some notes"),
       inventory_image = "default_book.png",
       stack_max = 1,
 

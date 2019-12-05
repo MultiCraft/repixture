@@ -20,6 +20,7 @@ end
 minetest.register_craftitem(
    "parachute:parachute", {
       description = S("Parachute"),
+      _tt_help = S("Lets you glide safely to the ground when falling"),
       inventory_image = "parachute_inventory.png",
       wield_image = "parachute_inventory.png",
       stack_max = 1,

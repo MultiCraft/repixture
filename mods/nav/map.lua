@@ -75,6 +75,7 @@ minetest.register_craftitem(
    "nav:map",
    {
       description = S("Map"),
+      _tt_help = S("Carry this item and view the map with the 'minimap' key"),
       inventory_image = "nav_inventory.png",
       wield_image = "nav_inventory.png",
       stack_max = 1,

@@ -132,6 +132,8 @@ function jewels.register_jewel(toolname, new_toolname, def)
 
    new_tooldef.inventory_image = new_tool_invimage
    new_tooldef.wield_image = new_tool_wieldimage
+   -- TODO: Add support for tt mod
+   new_tooldef._tt_ignore = true
 
    if data.stats.range then
       if not new_tooldef.range then
@@ -256,6 +258,7 @@ minetest.register_node(
    "jewels:bench",
    {
       description = S("Jeweler's Workbench"),
+      _tt_help = S("Improves your tools with jewels"),
       tiles ={"jewels_bench_top.png", "jewels_bench_bottom.png", "jewels_bench_sides.png"},
       paramtype2 = "facedir",
       groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},

@@ -52,6 +52,7 @@ minetest.register_tool(
    "locks:pick",
    {
       description = S("Lock Pick"),
+      _tt_help = S("It helps you crack locked chests"),
 
       inventory_image = "locks_pick.png",
       wield_image = "locks_pick.png",
@@ -135,6 +136,7 @@ minetest.register_craftitem(
    "locks:lock",
    {
       description = S("Lock"),
+      _tt_help = S("Used to craft locked chests"),
 
       inventory_image = "locks_lock.png",
       wield_image = "locks_lock.png",
@@ -144,6 +146,7 @@ minetest.register_node(
    "locks:chest",
    {
       description = S("Locked Chest"),
+      _tt_help = S("Provides 32 inventory slots") .. "\n" .. S("Can only be opened by owner, or if you have a lockpick"),
       tiles ={
          "default_chest_top.png",
          "default_chest_top.png",

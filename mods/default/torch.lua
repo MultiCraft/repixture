@@ -4,11 +4,12 @@ local S = minetest.get_translator("default")
 
 
 
-local function register_torch(subname, description, tiles, overlay_tiles, overlay_side_R90, inv_image, light)
+local function register_torch(subname, description, tt_help, tiles, overlay_tiles, overlay_side_R90, inv_image, light)
    minetest.register_node(
       "default:"..subname,
       {
          description = description,
+         _tt_help = tt_help,
          drawtype = "nodebox",
          tiles = tiles,
          overlay_tiles = overlay_tiles,
@@ -167,9 +168,9 @@ local overlay_tiles_normal = {
 local overlayR90_weak = "default_torch_weak_overlayR90.png"
 local overlayR90_normal = "default_torch_overlayR90.png"
 
-register_torch("torch_dead", S("Dead Torch"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, nil, nil, "default_torch_dead_inventory.png")
-register_torch("torch_weak", S("Weak Torch"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, overlay_tiles_weak, overlayR90_weak, "default_torch_weak_inventory.png", default.LIGHT_MAX-4)
-register_torch("torch", S("Torch"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, overlay_tiles_normal, overlayR90_normal, "default_torch_inventory.png", default.LIGHT_MAX-1)
+register_torch("torch_dead", S("Dead Torch"), S("Doesn't provide any light"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, nil, nil, "default_torch_dead_inventory.png")
+register_torch("torch_weak", S("Weak Torch"), S("Provides a bit of light but it will eventually burn out"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, overlay_tiles_weak, overlayR90_weak, "default_torch_weak_inventory.png", default.LIGHT_MAX-4)
+register_torch("torch", S("Torch"), S("It's bright and burns forever"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, overlay_tiles_normal, overlayR90_normal, "default_torch_inventory.png", default.LIGHT_MAX-1)
 
 minetest.register_lbm({
 	label = "Upgrade wall torches",

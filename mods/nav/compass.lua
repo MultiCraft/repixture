@@ -39,10 +39,14 @@ minetest.register_globalstep(on_globalstep)
 
 -- Items
 
+local d = S("Compass")
+local t = S("It points to the North")
+
 minetest.register_craftitem(
    "nav:compass_0",
    {
-      description = S("Compass"),
+      description = d,
+      _tt_help = t,
 
       inventory_image = "nav_compass_inventory_0.png",
       wield_image = wield_image_0,
@@ -54,7 +58,8 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "nav:compass_1",
    {
-      description = S("Compass"),
+      description = d,
+      _tt_help = t,
 
       inventory_image = "nav_compass_inventory_1.png",
       wield_image = wield_image_1,
@@ -66,7 +71,8 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "nav:compass_2",
    {
-      description = S("Compass"),
+      description = d,
+      _tt_help = t,
 
       inventory_image = "nav_compass_inventory_0.png^[transformR270",
       wield_image = wield_image_0 .. "^[transformR270",
@@ -78,7 +84,8 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "nav:compass_3",
    {
-      description = S("Compass"),
+      description = d,
+      _tt_help = t,
 
       inventory_image = "nav_compass_inventory_1.png^[transformR270",
       wield_image = wield_image_1 .. "^[transformR270",
@@ -91,7 +98,8 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "nav:compass_4",
    {
-      description = S("Compass"),
+      description = d,
+      _tt_help = t,
 
       inventory_image = "nav_compass_inventory_0.png^[transformR180",
       wield_image = wield_image_0 .. "^[transformR180",
@@ -103,7 +111,8 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "nav:compass_5",
    {
-      description = S("Compass"),
+      description = d,
+      _tt_help = t,
 
       inventory_image = "nav_compass_inventory_1.png^[transformR180",
       wield_image = wield_image_1 .. "^[transformR180",
@@ -115,7 +124,8 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "nav:compass_6",
    {
-      description = S("Compass"),
+      description = d,
+      _tt_help = t,
 
       inventory_image = "nav_compass_inventory_0.png^[transformR90",
       wield_image = wield_image_0 .. "^[transformR90",
@@ -127,7 +137,8 @@ minetest.register_craftitem(
 minetest.register_craftitem(
    "nav:compass_7",
    {
-      description = S("Compass"),
+      description = d,
+      _tt_help = t,
 
       inventory_image = "nav_compass_inventory_1.png^[transformR90",
       wield_image = wield_image_1 .. "^[transformR90",

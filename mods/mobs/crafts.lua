@@ -22,6 +22,9 @@ minetest.register_craftitem(
    "mobs:meat_raw",
    {
       description = S("Raw Meat"),
+      _tt_food = true,
+      _tt_food_hp = 3,
+      _tt_food_satiation = 30,
       inventory_image = "mobs_meat_raw.png",
       groups = { food = 2 },
       on_use = minetest.item_eat({hp = 3, sat = 30}),
@@ -33,6 +36,9 @@ minetest.register_craftitem(
    "mobs:meat",
    {
       description = S("Cooked Meat"),
+      _tt_food = true,
+      _tt_food_hp = 7,
+      _tt_food_satiation = 70,
       inventory_image = "mobs_meat_cooked.png",
       groups = { food = 2 },
       on_use = minetest.item_eat({hp = 7, sat = 70}),
@@ -51,7 +57,8 @@ minetest.register_craft(
 minetest.register_tool(
    "mobs:net",
    {
-      description = S("Net").."\n"..S("(Right-click to capture)"),
+      description = S("Net"),
+      _tt_help = S("Good for capturing small animals"),
       inventory_image = "mobs_net.png",
 })
 
@@ -69,7 +76,8 @@ crafting.register_craft(
 minetest.register_tool(
    "mobs:lasso",
    {
-      description = S("Lasso").."\n"..S("(Right-click to capture)"),
+      description = S("Lasso"),
+      _tt_help = S("Good for capturing large animals"),
       inventory_image = "mobs_lasso.png",
 })
 
