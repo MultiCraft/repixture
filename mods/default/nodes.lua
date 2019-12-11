@@ -691,7 +691,6 @@ minetest.register_node(
    "default:rope",
    {
       description = S("Rope"),
-      _tt_help = S("Can be climbed"),
       drawtype = "nodebox",
       tiles = {"default_rope.png"},
       inventory_image = "default_rope_inventory.png",
@@ -718,7 +717,7 @@ minetest.register_node(
    "default:papyrus",
    {
       description = S("Papyrus"),
-      _tt_help = S("Can be climbed") .. "\n" .. S("Grows on sand or dirt near water"),
+      _tt_help = S("Grows on sand or dirt near water"),
       drawtype = "nodebox",
       tiles = {"default_papyrus.png"},
       inventory_image = "default_papyrus_inventory.png",
@@ -833,7 +832,6 @@ minetest.register_node(
    "default:ladder",
    {
       description = S("Ladder"),
-      _tt_help = S("Can be climbed"),
       drawtype = "nodebox",
       tiles = {
          "default_ladder_sides.png",
