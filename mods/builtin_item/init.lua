@@ -70,6 +70,10 @@ minetest.register_entity(
 		       prop.visual_size = {x=0.15, y=0.15}
 		       prop.automatic_rotate = math.pi * 0.5
 		    end
+                    local ndef = minetest.registered_nodes[itemname]
+                    if ndef then
+                       prop.glow = ndef.light_source
+                    end
 		    self.object:set_properties(prop)
 		 end,
 
