@@ -706,7 +706,7 @@ minetest.register_node(
    {
       description = S("Papyrus"),
       drawtype = "nodebox",
-      tiles = {"default_papyrus.png"},
+      tiles = {"default_papyrus_repixture.png"},
       inventory_image = "default_papyrus_inventory.png",
       wield_image = "default_papyrus_inventory.png",
       paramtype = "light",
