@@ -1,0 +1,8 @@
+# textdomain: book
+Unnamed Book=Livre sans nom
+Title:=Titre:
+Contents:=Contenu:
+Write=Écrire
+Scribe=Scribe
+Craft a book.=Constuire un livre.
+Book: “@1”=Livre: "@1"

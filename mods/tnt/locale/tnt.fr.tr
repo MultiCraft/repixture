@@ -1,0 +1,7 @@
+# textdomain: tnt
+TNT=Explosif
+TNT (defused)=Explosif (désamorcé)
+Boom!=Boom!
+Boom?=Boom?
+Ignite TNT.=Déclencher l'explosif.
+Craft defused TNT.=Constuire un désamorceur d'explosif.

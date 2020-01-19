@@ -1,0 +1,15 @@
+# textdomain: locks
+Lock Pick=Crochet de serrure
+@1 has broken into your locked chest!=@1 a forcé votre coffre fermé à clé!
+You have broken the lock!=Tu as cassé la serrure!
+You have broken into your own locked chest!=Vous avez forcé votre propre coffre fermé à clé !
+Lock=Fermer à clé
+Locked Chest=Coffre verrouillé.
+Locked Chest (Owned by @1)=Coffre verrouillé (propriété de @1)
+Locked Chest (cracked open)=Coffre verrouillé (fissuré, ouvert)
+Locked Chest (cracked open) (Owned by @1)=Coffre verrouillé (fissuré, ouvert) (propriété de @1)
+@1 (Owned by @2)=@1 (Propriété de @2)
+Locksmith=Serrurier
+Craft a lock.=Constuire une serrure.
+Burglar=Cambrioleur
+Break into a locked chest.=Forcer un coffre fermé à clé.

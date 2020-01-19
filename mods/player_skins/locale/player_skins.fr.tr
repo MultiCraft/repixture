@@ -1,0 +1,8 @@
+# textdomain: player_skins
+Invalid skin!=Costume non valide!
+Set your player skin=Réglez votre costume de joueur
+Skin set to “@1”.=Costume complet à « @1 ».
+Current player skin: @1=Costume de joueur actuel: @1
+Unknown player skin. Enter “/help player_skin” for help.=Costume inconnue. Entrez « /help player_skin » pour l'aide.
+male=Masculin
+female=Femme

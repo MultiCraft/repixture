@@ -1,0 +1,7 @@
+# textdomain: player_effects
+The @1 effect=L'effet de @1
+Show your current player effects=Montrez vos effets actuels
+Current player effects:=Effets du joueur actuel:
+@1: unlimited=@1: illimité
+@1: @2 s remaining=@1: @2s restant
+You currently have no effects.=Vous n'avez actuellement aucun effet.
