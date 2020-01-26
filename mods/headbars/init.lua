@@ -42,7 +42,7 @@ minetest.register_entity(
    {
       visual = "sprite",
       visual_size = {x = 1 * headbars_scale, y = 0.1 * headbars_scale, z = 1},
-      textures = {headbars.get_sprite("heart.png", "blank.png", 20, 20)},
+      textures = {headbars.get_sprite("headbars_heart.png", "blank.png", 20, 20)},
 
       glow = 5,
 
@@ -80,7 +80,7 @@ minetest.register_entity(
          local hp = ent:get_hp()
 
          -- Update displayed hearts
-         self.object:set_properties({textures = {headbars.get_sprite("heart.png", "headbars_heart_bg.png", 20, hp)}})
+         self.object:set_properties({textures = {headbars.get_sprite("headbars_heart.png", "headbars_heart_bg.png", 20, hp)}})
       end,
 })
 
