@@ -58,6 +58,7 @@ function jewels.register_jewel(toolname, new_toolname, def)
    local data = {
       name = new_toolname, -- the new name of the tool
       overlay = def.overlay or "jewels_jeweled_handle.png", -- overlay image
+      overlay_wield = def.overlay_wield, -- overlay wield image
       description = def.description or nil,
       stats = {
 	 digspeed = def.stats.digspeed, -- negative digs faster
@@ -68,6 +69,9 @@ function jewels.register_jewel(toolname, new_toolname, def)
 	 range = def.stats.range, -- positive increases reach distance with tool
       }
    }
+   if not data.overlay_wield then
+      data.overlay_wield = data.overlay
+   end
 
    if not jewels.registered_jewels[toolname] then
       jewels.registered_jewels[toolname] = {}
@@ -107,12 +111,12 @@ function jewels.register_jewel(toolname, new_toolname, def)
 
    local new_tool_invimage = ""
    if tooldef.inventory_image then
-      new_tool_invimage = tooldef.inventory_image .. "^" .. data.overlay
+      new_tool_invimage = "(" .. tooldef.inventory_image .. ")^(" .. data.overlay .. ")"
    end
 
    local new_tool_wieldimage = ""
    if tooldef.wield_image then
-      new_tool_wieldimage = tooldef.wield_image .. "^" .. data.overlay
+      new_tool_wieldimage = "(" .. tooldef.wield_image .. ")^(" .. data.overlay_wield .. ")"
    end
 
    local new_tooldef = tooldef

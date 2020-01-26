@@ -124,6 +124,7 @@ local tool_types = {
    spear = {
       steel = {
          description = S("Jeweled Steel Spear"),
+         overlay_wield = "jewels_jeweled_handle.png^[transformR90",
          reach = {
             range = 1,
          },
@@ -136,6 +137,7 @@ local tool_types = {
       },
       carbon_steel = {
          description = S("Jeweled Carbon Steel Spear"),
+         overlay_wield = "jewels_jeweled_handle.png^[transformR90",
          reach = {
             range = 2,
          },
@@ -148,6 +150,7 @@ local tool_types = {
       },
       bronze = {
          description = S("Jeweled Bronze Spear"),
+         overlay_wield = "jewels_jeweled_handle.png^[transformR90",
          reach = {
             range = 2,
          },
@@ -162,6 +165,7 @@ local tool_types = {
    shears = {
       steel = {
          description = S("Jeweled Steel Shears"),
+         overlay_wield = "jewels_jeweled_handle.png^[transformR90",
          digspeed = {
             digspeed = -0.1,
          },
@@ -171,6 +175,7 @@ local tool_types = {
       },
       carbon_steel = {
          description = S("Jeweled Carbon Steel Shears"),
+         overlay_wield = "jewels_jeweled_handle.png^[transformR90",
          digspeed = {
             digspeed = -0.13,
          },
@@ -180,6 +185,7 @@ local tool_types = {
       },
       bronze = {
          description = S("Jeweled Bronze Shears"),
+         overlay_wield = "jewels_jeweled_handle.png^[transformR90",
          digspeed = {
             digspeed = -0.14,
          },
@@ -200,6 +206,7 @@ for tool_name, tool_def in pairs(tool_types) do
                {
                   stats = jewel_def,
                   description = material_def.description,
+                  overlay_wield = material_def.overlay_wield,
                }
             )
          end
