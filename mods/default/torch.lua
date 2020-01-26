@@ -68,8 +68,8 @@ local function register_torch(subname, description, tiles, overlay_tiles, overla
       overlay_tiles2 = {
           copy_tile(overlay_tiles[3]),
           copy_tile(overlay_tiles[4]),
-          overlay_side_R90,
-          overlay_side_R90,
+          copy_tile(overlay_side_R90),
+          copy_tile(overlay_side_R90),
           copy_tile(overlay_tiles[1]),
           copy_tile(overlay_tiles[2]),
       }
@@ -164,8 +164,25 @@ local overlay_tiles_normal = {
         },
     },
 }
-local overlayR90_weak = "default_torch_weak_overlayR90.png"
-local overlayR90_normal = "default_torch_overlayR90.png"
+
+local overlayR90_weak = {
+    name = "default_torch_weak_overlayR90.png",
+    animation = {
+        type = "vertical_frames",
+        aspect_w = 16,
+        aspect_h = 16,
+        length = 1.0,
+    },
+}
+local overlayR90_normal = {
+    name = "default_torch_overlayR90.png",
+    animation = {
+        type = "vertical_frames",
+        aspect_w = 16,
+        aspect_h = 16,
+        length = 1.0,
+    },
+}
 
 register_torch("torch_dead", S("Dead Torch"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, nil, nil, "default_torch_dead_inventory.png")
 register_torch("torch_weak", S("Weak Torch"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, overlay_tiles_weak, overlayR90_weak, "default_torch_weak_inventory.png", default.LIGHT_MAX-4)
