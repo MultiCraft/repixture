@@ -304,8 +304,8 @@ door.register_door(
       description = S("Wooden Door"),
       inventory_image = "door_wood.png",
       groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=2,door=1},
-      tiles_top = {"door_wood_a.png", "door_brown.png"},
-      tiles_bottom = {"door_wood_b.png", "door_brown.png"},
+      tiles_top = {"door_wood_a.png", "door_wood_side.png"},
+      tiles_bottom = {"door_wood_b.png", "door_wood_side.png"},
       sounds = default.node_sound_wood_defaults(),
       sunlight = false,
 })
@@ -326,8 +326,8 @@ door.register_door(
       description = S("Stone Door"),
       inventory_image = "door_stone.png",
       groups = {cracky=3,oddly_breakable_by_hand=1,door=1},
-      tiles_top = {"door_stone_a.png", "door_brown.png"},
-      tiles_bottom = {"door_stone_b.png", "door_brown.png"},
+      tiles_top = {"door_stone_a.png", "door_stone_side.png"},
+      tiles_bottom = {"door_stone_b.png", "door_stone_side.png"},
       sounds = default.node_sound_stone_defaults(),
       sunlight = false,
 })
