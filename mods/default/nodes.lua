@@ -821,12 +821,12 @@ minetest.register_node(
       description = S("Ladder"),
       drawtype = "nodebox",
       tiles = {
-         "default_ladder_sides.png",
-         "default_ladder_sides.png",
-         "default_ladder_sides.png",
-         "default_ladder_sides.png",
-         "default_ladder_sides.png",
-         "default_ladder.png"
+         "default_ladder_nodebox_sides.png",
+         "default_ladder_nodebox_sides.png",
+         "default_ladder_nodebox_sides.png",
+         "default_ladder_nodebox_sides.png",
+         "default_ladder_nodebox_back.png",
+         "default_ladder_nodebox_front.png"
       },
       inventory_image = "default_ladder_inventory.png",
       wield_image = "default_ladder_inventory.png",
