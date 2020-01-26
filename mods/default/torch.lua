@@ -117,7 +117,7 @@ local function register_torch(subname, description, tiles, overlay_tiles, overla
 
 end
 
-local tiles_base = {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}
+local tiles_base = {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}
 local overlay_tiles_weak = {
     {
         name = "default_torch_weak_ends_overlay.png",
@@ -184,9 +184,9 @@ local overlayR90_normal = {
     },
 }
 
-register_torch("torch_dead", S("Dead Torch"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, nil, nil, "default_torch_dead_inventory.png")
-register_torch("torch_weak", S("Weak Torch"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, overlay_tiles_weak, overlayR90_weak, "default_torch_weak_inventory.png", default.LIGHT_MAX-4)
-register_torch("torch", S("Torch"), {"default_torch_ends.png","default_torch_ends.png","default_torch_base.png"}, overlay_tiles_normal, overlayR90_normal, "default_torch_inventory.png", default.LIGHT_MAX-1)
+register_torch("torch_dead", S("Dead Torch"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, nil, nil, "default_torch_dead_inventory.png")
+register_torch("torch_weak", S("Weak Torch"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, overlay_tiles_weak, overlayR90_weak, "default_torch_weak_inventory.png", default.LIGHT_MAX-4)
+register_torch("torch", S("Torch"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, overlay_tiles_normal, overlayR90_normal, "default_torch_inventory.png", default.LIGHT_MAX-1)
 
 minetest.register_lbm({
 	label = "Upgrade wall torches",
