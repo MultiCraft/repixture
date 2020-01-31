@@ -100,3 +100,5 @@ Smalltalk=
 Have a friendly chat with a villager.=
 Wonder of Life=
 Get two animals to breed.=
+Good for capturing small animals=
+Good for capturing large animals=

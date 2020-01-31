@@ -224,6 +224,7 @@ minetest.register_tool(
    "default:creative_tool",
    {
       description = S("Creative Tool"),
+      _tt_help = S("Can dig (nearly) every block"),
       inventory_image = "default_creative_tool.png",
       tool_capabilities = {
 	 full_punch_interval = 0.5,
@@ -244,12 +245,19 @@ minetest.register_tool(
       groups = { no_item_drop = 1 },
 })
 
+local tt_pick = S("Digs hard, cracky blocks")
+local tt_shovel = S("Digs soft, crumbly blocks")
+local tt_axe = S("Chops wood")
+local tt_spear = S("Melee weapon")
+local tt_shears = S("Cuts leaves and plants and shears sheep")
+
 -- Pickaxes
 
 minetest.register_tool(
    "default:pick_wood",
    {
       description = S("Wooden Pickaxe"),
+      _tt_help = tt_pick,
       inventory_image = "default_pick_wood.png",
       tool_capabilities = {
 	 max_drop_level=0,
@@ -265,6 +273,7 @@ minetest.register_tool(
    "default:pick_stone",
    {
       description = S("Stone Pickaxe"),
+      _tt_help = tt_pick,
       inventory_image = "default_pick_stone.png",
       tool_capabilities = {
 	 max_drop_level = 0,
@@ -281,6 +290,7 @@ minetest.register_tool(
    "default:pick_wrought_iron",
    {
       description = S("Wrought Iron Pickaxe"),
+      _tt_help = tt_pick,
       inventory_image = "default_pick_wrought_iron.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -297,6 +307,7 @@ minetest.register_tool(
    "default:pick_steel",
    {
       description = S("Steel Pickaxe"),
+      _tt_help = tt_pick,
       inventory_image = "default_pick_steel.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -313,6 +324,7 @@ minetest.register_tool(
    "default:pick_carbon_steel",
    {
       description = S("Carbon Steel Pickaxe"),
+      _tt_help = tt_pick,
       inventory_image = "default_pick_carbon_steel.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -329,6 +341,7 @@ minetest.register_tool(
    "default:pick_bronze",
    {
       description = S("Bronze Pickaxe"),
+      _tt_help = tt_pick,
       inventory_image = "default_pick_bronze.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -347,6 +360,7 @@ minetest.register_tool(
    "default:shovel_wood",
    {
       description = S("Wooden Shovel"),
+      _tt_help = tt_shovel,
       inventory_image = "default_shovel_wood.png",
       tool_capabilities = {
 	 max_drop_level=0,
@@ -363,6 +377,7 @@ minetest.register_tool(
    "default:shovel_stone",
    {
       description = S("Stone Shovel"),
+      _tt_help = tt_shovel,
       inventory_image = "default_shovel_stone.png",
       tool_capabilities = {
 	 max_drop_level=0,
@@ -379,6 +394,7 @@ minetest.register_tool(
    "default:shovel_wrought_iron",
    {
       description = S("Wrought Iron Shovel"),
+      _tt_help = tt_shovel,
       inventory_image = "default_shovel_wrought_iron.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -395,6 +411,7 @@ minetest.register_tool(
    "default:shovel_steel",
    {
       description = S("Steel Shovel"),
+      _tt_help = tt_shovel,
       inventory_image = "default_shovel_steel.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -411,6 +428,7 @@ minetest.register_tool(
    "default:shovel_carbon_steel",
    {
       description = S("Carbon Steel Shovel"),
+      _tt_help = tt_shovel,
       inventory_image = "default_shovel_carbon_steel.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -427,6 +445,7 @@ minetest.register_tool(
    "default:shovel_bronze",
    {
       description = S("Bronze Shovel"),
+      _tt_help = tt_shovel,
       inventory_image = "default_shovel_bronze.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -445,6 +464,7 @@ minetest.register_tool(
    "default:axe_wood",
    {
       description = S("Wooden Axe"),
+      _tt_help = tt_axe,
       inventory_image = "default_axe_wood.png",
       tool_capabilities = {
 	 max_drop_level=0,
@@ -462,6 +482,7 @@ minetest.register_tool(
    "default:axe_stone",
    {
       description = S("Stone Axe"),
+      _tt_help = tt_axe,
       inventory_image = "default_axe_stone.png",
       tool_capabilities = {
 	 max_drop_level=0,
@@ -479,6 +500,7 @@ minetest.register_tool(
    "default:axe_wrought_iron",
    {
       description = S("Wrought Iron Axe"),
+      _tt_help = tt_axe,
       inventory_image = "default_axe_wrought_iron.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -496,6 +518,7 @@ minetest.register_tool(
    "default:axe_steel",
    {
       description = S("Steel Axe"),
+      _tt_help = tt_axe,
       inventory_image = "default_axe_steel.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -513,6 +536,7 @@ minetest.register_tool(
    "default:axe_carbon_steel",
    {
       description = S("Carbon Steel Axe"),
+      _tt_help = tt_axe,
       inventory_image = "default_axe_carbon_steel.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -530,6 +554,7 @@ minetest.register_tool(
    "default:axe_bronze",
    {
       description = S("Bronze Axe"),
+      _tt_help = tt_axe,
       inventory_image = "default_axe_bronze.png",
       tool_capabilities = {
 	 max_drop_level=1,
@@ -549,6 +574,7 @@ minetest.register_tool(
    "default:spear_wood",
    {
       description = S("Wooden Spear"),
+      _tt_help = tt_spear,
       inventory_image = "default_spear_wood.png",
       wield_image = "default_spear_wood.png^[transformR90",
       tool_capabilities = {
@@ -567,6 +593,7 @@ minetest.register_tool(
    "default:spear_stone",
    {
       description = S("Stone Spear"),
+      _tt_help = tt_spear,
       inventory_image = "default_spear_stone.png",
       wield_image = "default_spear_stone.png^[transformR90",
       tool_capabilities = {
@@ -585,6 +612,7 @@ minetest.register_tool(
    "default:spear_wrought_iron",
    {
       description = S("Wrought Iron Spear"),
+      _tt_help = tt_spear,
       inventory_image = "default_spear_wrought_iron.png",
       wield_image = "default_spear_wrought_iron.png^[transformR90",
       tool_capabilities = {
@@ -603,6 +631,7 @@ minetest.register_tool(
    "default:spear_steel",
    {
       description = S("Steel Spear"),
+      _tt_help = tt_spear,
       inventory_image = "default_spear_steel.png",
       wield_image = "default_spear_steel.png^[transformR90",
       tool_capabilities = {
@@ -621,6 +650,7 @@ minetest.register_tool(
    "default:spear_carbon_steel",
    {
       description = S("Carbon Steel Spear"),
+      _tt_help = tt_spear,
       inventory_image = "default_spear_carbon_steel.png",
       wield_image = "default_spear_carbon_steel.png^[transformR90",
       tool_capabilities = {
@@ -639,6 +669,7 @@ minetest.register_tool(
    "default:spear_bronze",
    {
       description = S("Bronze Spear"),
+      _tt_help = tt_spear,
       inventory_image = "default_spear_bronze.png",
       wield_image = "default_spear_bronze.png^[transformR90",
       tool_capabilities = {
@@ -659,6 +690,7 @@ minetest.register_tool(
    "default:broadsword",
    {
       description = S("Broadsword"),
+      _tt_help = S("A mighty melee weapon"),
       inventory_image = "default_broadsword.png",
       wield_image = "default_broadsword.png",
       wield_scale = {x = 2.0, y = 2.0, z = 1.0},
@@ -692,6 +724,7 @@ minetest.register_tool(
    "default:shears",
    {
       description = S("Wrought Iron Shears"),
+      _tt_help = tt_shears,
       inventory_image = "default_shears.png",
       wield_image = "default_shears.png^[transformR90",
       sound = { breaks = "default_tool_breaks" },
@@ -709,6 +742,7 @@ minetest.register_tool(
    "default:shears_steel",
    {
       description = S("Steel Shears"),
+      _tt_help = tt_shears,
       inventory_image = "default_shears_steel.png",
       wield_image = "default_shears_steel.png^[transformR90",
       sound = { breaks = "default_tool_breaks" },
@@ -726,6 +760,7 @@ minetest.register_tool(
    "default:shears_carbon_steel",
    {
       description = S("Carbon Steel Shears"),
+      _tt_help = tt_shears,
       inventory_image = "default_shears_carbon_steel.png",
       wield_image = "default_shears_carbon_steel.png^[transformR90",
       sound = { breaks = "default_tool_breaks" },
@@ -743,6 +778,7 @@ minetest.register_tool(
    "default:shears_bronze",
    {
       description = S("Bronze Shears"),
+      _tt_help = tt_shears,
       inventory_image = "default_shears_bronze.png",
       wield_image = "default_shears_bronze.png^[transformR90",
       sound = { breaks = "default_tool_breaks" },
@@ -757,10 +793,18 @@ minetest.register_tool(
       on_place = trim,
 })
 
+local tt_flint_and_steel
+if minetest.settings:get_bool("tnt_enable", true) then
+   tt_flint_and_steel = S("Ignites TNT and lights up torches")
+else
+   tt_flint_and_steel = S("Lights up torches")
+end
+
 minetest.register_tool(
    "default:flint_and_steel",
    {
       description = S("Flint and Steel"),
+      _tt_help = tt_flint_and_steel,
       inventory_image = "default_flint_and_steel.png",
       sound = { breaks = "default_tool_breaks" },
       on_use = function(itemstack, user, pointed_thing)

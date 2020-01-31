@@ -6,6 +6,7 @@ minetest.register_node(
    "default:fertilized_dirt",
    {
       description = S("Fertilized Dirt"),
+      _tt_help = S("Speeds up the growth of plants"),
       tiles = {
          "default_dirt.png^default_fertilizer.png",
          "default_dirt.png",
@@ -28,6 +29,7 @@ minetest.register_node(
    "default:fertilized_dry_dirt",
    {
       description = S("Fertilized Dry Dirt"),
+      _tt_help = S("Speeds up the growth of plants"),
       tiles = {
          "default_dry_dirt.png^default_fertilizer.png",
          "default_dry_dirt.png",
@@ -50,6 +52,7 @@ minetest.register_node(
    "default:fertilized_swamp_dirt",
    {
       description = S("Fertilized Swamp Dirt"),
+      _tt_help = S("Speeds up the growth of plants"),
       tiles = {
          "default_swamp_dirt.png^default_fertilizer.png",
          "default_swamp_dirt.png",
@@ -72,6 +75,7 @@ minetest.register_node(
    "default:fertilized_sand",
    {
       description = S("Fertilized Sand"),
+      _tt_help = S("Speeds up the growth of plants"),
       tiles = {"default_sand.png^default_fertilizer.png", "default_sand.png", "default_sand.png"},
       groups = {
 	 crumbly = 3,
@@ -91,6 +95,7 @@ minetest.register_craftitem(
    "default:fertilizer",
    {
       description = S("Fertilizer"),
+      _tt_help = S("Used to fertilize dirt and sand to speed up plant growth"),
       inventory_image = "default_fertilizer_inventory.png",
       wield_scale = {x=1,y=1,z=2},
       on_place = function(itemstack, user, pointed_thing)

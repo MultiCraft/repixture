@@ -3,3 +3,4 @@ Parachute=
 Skydiver=
 Descend over 100 blocks with a parachute.=
 Cannot open parachute on ground!=
+Lets you glide safely to the ground when falling=

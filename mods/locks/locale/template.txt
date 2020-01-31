@@ -13,3 +13,7 @@ Locksmith=
 Craft a lock.=
 Burglar=
 Break into a locked chest.=
+Cracks locked chests=
+Used to craft locked chests=
+Provides 32 inventory slots=
+Can only be opened by its owner and those who have a lockpick=

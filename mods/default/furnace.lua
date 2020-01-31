@@ -103,6 +103,7 @@ minetest.register_node(
    "default:furnace",
    {
       description = S("Furnace"),
+      _tt_help = S("Uses fuel to smelt a material into something else"),
       tiles ={"default_furnace_top.png", "default_furnace_top.png", "default_furnace_sides.png",
 	      "default_furnace_sides.png", "default_furnace_sides.png", "default_furnace_front.png"},
       paramtype2 = "facedir",
@@ -140,6 +141,7 @@ minetest.register_node(
    "default:furnace_active",
    {
       description = S("Furnace (active)"),
+      _tt_help = S("Uses fuel to smelt a material into something else"),
       tiles ={"default_furnace_top.png", "default_furnace_top.png", "default_furnace_sides.png",
 	      "default_furnace_sides.png", "default_furnace_sides.png", "default_furnace_front.png^default_furnace_flame.png"},
       paramtype2 = "facedir",

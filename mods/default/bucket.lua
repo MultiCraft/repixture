@@ -1,9 +1,9 @@
 local S = minetest.get_translator("default")
 
 local water_buckets = {
-   { "water", S("Water Bucket"), "default_bucket_water.png", "default:water_source" },
-   { "river_water", S("River Water Bucket"), "default_bucket_river_water.png", "default:river_water_source" },
-   { "swamp_water", S("Swamp Water Bucket"), "default_bucket_swamp_water.png", "default:swamp_water_source" },
+   { "water", S("Water Bucket"), "default_bucket_water.png", "default:water_source", S("Places a water source") },
+   { "river_water", S("River Water Bucket"), "default_bucket_river_water.png", "default:river_water_source", S("Places a river water source") },
+   { "swamp_water", S("Swamp Water Bucket"), "default_bucket_swamp_water.png", "default:swamp_water_source", S("Places a swamp water source") },
 }
 
 for b=1, #water_buckets do
@@ -12,6 +12,7 @@ for b=1, #water_buckets do
       "default:bucket_"..bucket[1],
       {
          description = bucket[2],
+         _tt_help = bucket[5],
          inventory_image = bucket[3],
          stack_max = 1,
          wield_scale = {x=1,y=1,z=2},
@@ -65,6 +66,7 @@ minetest.register_craftitem(
    "default:bucket",
    {
       description = S("Empty Bucket"),
+      _tt_help = S("Place it to collect a liquid source"),
       inventory_image = "default_bucket.png",
       stack_max = 10,
       wield_scale = {x=1,y=1,z=2},

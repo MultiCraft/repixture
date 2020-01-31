@@ -33,3 +33,4 @@ Jeweled Bronze Spear=
 Jeweled Steel Shears=
 Jeweled Carbon Steel Shears=
 Jeweled Bronze Shears=
+Tools can be upgraded with jewels here=

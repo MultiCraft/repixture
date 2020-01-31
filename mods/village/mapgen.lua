@@ -33,6 +33,7 @@ minetest.register_node(
    "village:entity_spawner",
    {
       description = S("Village Entity Spawner"),
+      _tt_help = S("Placeholder that marks a position at which to spawn an entity during village generation"),
       drawtype = "airlike",
       pointable = false,
       inventory_image = "village_entity.png",
@@ -78,6 +79,7 @@ minetest.register_node(
    "village:grassland_village",
    {
       description = S("Village Spawner"),
+      _tt_help = S("Generates a village when placed"),
       tiles = {
           "village_gen.png", "village_gen.png", "village_gen.png",
           "village_gen.png", "village_gen.png^[transformFX", "village_gen.png^[transformFX",

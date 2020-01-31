@@ -242,19 +242,22 @@ minetest.register_on_mods_loaded(on_load)
 
 -- Nodes
 
-local top_tex, desc
+local top_tex, desc, tt
 if tnt_enable then
    top_tex = "tnt_top.png"
    desc = S("TNT")
+   tt = S("Will explode when ignited by flint and steel")
 else
    top_tex = "tnt_top_disabled.png"
    desc = S("TNT (defused)")
+   tt = S("It's harmless")
 end
 
 minetest.register_node(
    "tnt:tnt",
    {
       description = desc,
+      _tt_help = tt,
       tiles = {top_tex, "tnt_bottom.png", "tnt_sides.png"},
       is_ground_content = false,
       groups = {handy = 2},

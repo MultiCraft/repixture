@@ -277,6 +277,7 @@ minetest.register_craftitem(
    "gold:trading_book",
    {
       description = S("Trading Book"),
+      _tt_help = S("Show this to a villager to trade"),
       inventory_image = "default_book.png^gold_bookribbon.png",
       stack_max = 1,
 })

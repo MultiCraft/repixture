@@ -6,6 +6,7 @@ minetest.register_node(
    "default:sign",
    {
       description = S("Sign"),
+      _tt_help = S("Write a short message"),
       drawtype = "nodebox",
       tiles = {"default_sign.png"},
       inventory_image = "default_sign_inventory.png",

@@ -326,4 +326,13 @@ achievements.register_achievement(
       times = 1,
 })
 
+if minetest.get_modpath("tt") then
+	tt.register_snippet(function(itemstring)
+		if minetest.get_item_group(itemstring, "is_armor") == 1 then
+			local a = minetest.get_item_group(itemstring, "armor")
+			return S("Protection: +@1%", a)
+		end
+	end)
+end
+
 default.log("mod:armor", "loaded")

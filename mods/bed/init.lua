@@ -262,6 +262,7 @@ minetest.register_node(
    "bed:bed_foot",
    {
       description = S("Bed"),
+      _tt_help = S("Use it to sleep and pass the night"),
       drawtype = "nodebox",
       paramtype = "light",
       paramtype2 = "facedir",

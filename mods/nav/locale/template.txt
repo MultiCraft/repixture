@@ -6,3 +6,5 @@ Craft a map.=
 True Navigator=
 Craft a compass.=
 Use the minimap key to show the map.=
+It points to the North=
+Keep this in your inventory and view the map with the 'minimap' key=

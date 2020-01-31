@@ -13,6 +13,7 @@ jewels = {}
 -- Array of registered jeweled tools
 
 jewels.registered_jewels = {}
+jewels.registered_jewel_defs = {}
 jewels.registered_jewel_parents = {}
 
 -- Formspec
@@ -41,17 +42,6 @@ local function plus_power(i)
    return i
 end
 
-local function append_stat(desc, format_text, stats_key, parent, data)
-   local disp_val = data.stats[stats_key] or 0
-   if parent then
-      disp_val = disp_val + parent.stats[stats_key]
-   end
-   if disp_val ~= 0 then
-      desc = desc .. "\n"..S(format_text, plus_power(disp_val))
-   end
-   return desc
-end
-
 function jewels.register_jewel(toolname, new_toolname, def)
    -- registers a new tool with different stats
 
@@ -76,6 +66,8 @@ function jewels.register_jewel(toolname, new_toolname, def)
    if not jewels.registered_jewels[toolname] then
       jewels.registered_jewels[toolname] = {}
    end
+
+   jewels.registered_jewel_defs[new_toolname] = data
 
    table.insert(jewels.registered_jewels[toolname], data)
    local newparent = {
@@ -133,6 +125,7 @@ function jewels.register_jewel(toolname, new_toolname, def)
          desc = S("Jeweled @1", desc)
       end
    end
+   new_tooldef.description = desc
 
    new_tooldef.inventory_image = new_tool_invimage
    new_tooldef.wield_image = new_tool_wieldimage
@@ -143,14 +136,12 @@ function jewels.register_jewel(toolname, new_toolname, def)
       end
       new_tooldef.range = new_tooldef.range + data.stats.range
    end
-   desc = append_stat(desc, NS("Range: @1"), "range", parent, data)
 
    if new_tooldef.tool_capabilities then
       if data.stats.maxdrop and new_tooldef.tool_capabilities.max_drop_level then
 	 new_tooldef.tool_capabilities.max_drop_level =
             new_tooldef.tool_capabilities.max_drop_level + data.stats.maxdrop
       end
-      desc = append_stat(desc, NS("Drop level: @1"), "maxdrop", parent, data)
 
       if data.stats.digspeed then
 	 for group, cap in pairs(new_tooldef.tool_capabilities.groupcaps) do
@@ -167,21 +158,13 @@ function jewels.register_jewel(toolname, new_toolname, def)
 	    end
 	 end
       end
-      desc = append_stat(desc, NS("Dig time: @1 s"), "digspeed", parent, data)
-
-      desc = append_stat(desc, NS("Uses: @1"), "uses", parent, data)
-
-      desc = append_stat(desc, NS("Dig level: @1"), "maxlevel", parent, data)
 
       if data.stats.fleshy and new_tooldef.tool_capabilities.damage_groups
       and new_tooldef.tool_capabilities.damage_groups.fleshy then
 	 new_tooldef.tool_capabilities.damage_groups.fleshy =
             new_tooldef.tool_capabilities.damage_groups.fleshy + data.stats.fleshy
       end
-      desc = append_stat(desc, NS("Damage: @1"), "fleshy", parent, data)
    end
-
-   new_tooldef.description = desc
 
    if not new_tooldef.groups then
      new_tooldef.groups = {}
@@ -189,6 +172,50 @@ function jewels.register_jewel(toolname, new_toolname, def)
    new_tooldef.groups.not_in_creative_inventory = 1
 
    minetest.register_tool(new_toolname, new_tooldef)
+end
+
+if minetest.get_modpath("tt") then
+
+local function get_stat(format_text, stats_key, parent, stats)
+   local disp_val = stats[stats_key] or 0
+   if parent then
+      disp_val = disp_val + parent.stats[stats_key]
+   end
+   if disp_val ~= 0 then
+      return S(format_text, plus_power(disp_val))
+   end
+   return nil
+end
+
+local amendments = {
+   { "range", NS("Range: @1") },
+   { "maxdrop", NS("Drop level: @1") },
+   { "digspeed", NS("Dig time: @1 s") },
+   { "uses", NS("Uses: @1") },
+   { "maxlevel", NS("Dig level: @1") },
+}
+
+for a=1, #amendments do
+   tt.register_snippet(function(itemname)
+      local jewel = jewels.registered_jewel_defs[itemname]
+      local parent = jewels.registered_jewel_parents[itemname]
+      if not jewel then
+         return
+      end
+
+      local desc
+      local stat = amendments[a][1]
+      if jewel.stats[stat] then
+          desc = get_stat(amendments[a][2], stat, parent, jewel.stats)
+      end
+      if desc ~= nil then
+         return desc, "#4CFFFD"
+      end
+
+      return desc
+   end)
+end
+
 end
 
 function jewels.can_jewel(toolname)
@@ -260,6 +287,7 @@ minetest.register_node(
    "jewels:bench",
    {
       description = S("Jeweler's Workbench"),
+      _tt_help = S("Tools can be upgraded with jewels here"),
       tiles ={"jewels_bench_top.png", "jewels_bench_bottom.png", "jewels_bench_sides.png"},
       paramtype2 = "facedir",
       groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},

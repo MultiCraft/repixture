@@ -396,6 +396,7 @@ minetest.register_node(
    "default:sapling",
    {
       description = S("Sapling"),
+      _tt_help = S("Grows into an apple tree"),
       drawtype = "plantlike",
       visual_scale = 1.0,
       tiles = {"default_sapling.png"},
@@ -427,6 +428,7 @@ minetest.register_node(
    "default:sapling_oak",
    {
       description = S("Oak Sapling"),
+      _tt_help = S("Grows into an oak tree"),
       drawtype = "plantlike",
       visual_scale = 1.0,
       tiles = {"default_sapling_oak.png"},
@@ -457,6 +459,7 @@ minetest.register_node(
    "default:sapling_birch",
    {
       description = S("Birch Sapling"),
+      _tt_help = S("Grows into a birch tree"),
       drawtype = "plantlike",
       visual_scale = 1.0,
       tiles = {"default_sapling_birch.png"},
@@ -519,6 +522,7 @@ minetest.register_node(
    "default:leaves",
    {
       description = S("Leaves"),
+      _tt_help = S("Decays when not near a tree block"),
       drawtype = "allfaces_optional",
       visual_scale = 1.3,
       tiles = {"default_leaves.png"},
@@ -544,6 +548,7 @@ minetest.register_node(
    "default:leaves_oak",
    {
       description = S("Oak Leaves"),
+      _tt_help = S("Decays when not near a tree block"),
       drawtype = "allfaces_optional",
       visual_scale = 1.3,
       tiles = {"default_leaves_oak.png"},
@@ -570,6 +575,7 @@ minetest.register_node( -- looks just like default oak leaves, except they decay
    {
       description = S("Oak Leaves (Huge)"),
       drawtype = "allfaces_optional",
+      _tt_help = S("Decays when not near a tree block"),
       visual_scale = 1.3,
       tiles = {"default_leaves_oak.png"},
       paramtype = "light",
@@ -595,6 +601,7 @@ minetest.register_node(
    "default:leaves_birch",
    {
       description = S("Birch Leaves"),
+      _tt_help = S("Decays when not near a tree block"),
       drawtype = "allfaces_optional",
       visual_scale = 1.3,
       tiles = {"default_leaves_birch.png"},
@@ -620,6 +627,7 @@ minetest.register_node(
    "default:dry_leaves",
    {
       description = S("Dry Leaves"),
+      _tt_help = S("Decays when not near a tree block"),
       drawtype = "allfaces_optional",
       visual_scale = 1.3,
       tiles = {"default_dry_leaves.png"},
@@ -647,6 +655,10 @@ minetest.register_node(
    "default:cactus",
    {
       description = S("Cactus"),
+      _tt_help = S("Grows on sand"),
+      _tt_food = true,
+      _tt_food_hp = 2,
+      _tt_food_satiation = 5,
       drawtype = "nodebox",
       paramtype = "light",
       node_box = {
@@ -705,6 +717,7 @@ minetest.register_node(
    "default:papyrus",
    {
       description = S("Papyrus"),
+      _tt_help = S("Grows on sand or dirt near water"),
       drawtype = "nodebox",
       tiles = {"default_papyrus_repixture.png"},
       inventory_image = "default_papyrus_inventory.png",
@@ -940,6 +953,7 @@ minetest.register_node(
    "default:flower",
    {
       description = S("Flower"),
+      _tt_help = S("It looks beautiful"),
       drawtype = "nodebox",
       node_box = {
 	 type = "fixed",
@@ -1069,6 +1083,7 @@ minetest.register_node(
    "default:thistle",
    {
       description = S("Thistle"),
+      _tt_help = S("Careful, it stings!"),
       drawtype = "plantlike",
       selection_box = {
 	 type = "fixed",
@@ -1097,6 +1112,9 @@ minetest.register_node(
    "default:apple",
    {
       description = S("Apple"),
+      _tt_food = true,
+      _tt_food_hp = 2,
+      _tt_food_satiation = 10,
       drawtype = "nodebox",
       visual_scale = 1.0,
       tiles = {"default_apple_top.png", "default_apple_bottom.png", "default_apple_side.png"},
@@ -1122,6 +1140,9 @@ minetest.register_node(
    "default:clam",
    {
       description = S("Clam"),
+      _tt_food = true,
+      _tt_food_hp = 4,
+      _tt_food_satiation = 40,
       drawtype = "nodebox",
       tiles = {"default_clam.png"},
       inventory_image = "default_clam_inventory.png",
