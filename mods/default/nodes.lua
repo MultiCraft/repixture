@@ -570,33 +570,6 @@ minetest.register_node(
       sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node( -- looks just like default oak leaves, except they decay much farther
-   "default:leaves_oak_huge",
-   {
-      description = S("Oak Leaves (Huge)"),
-      drawtype = "allfaces_optional",
-      _tt_help = S("Decays when not near a tree block"),
-      visual_scale = 1.3,
-      tiles = {"default_leaves_oak.png"},
-      paramtype = "light",
-      waving = 1,
-      groups = {snappy = 3, leafdecay = 10, fall_damage_add_percent = -5, leaves = 1, not_in_creative_inventory = 1},
-      drop = {
-	 max_items = 1,
-	 items = {
-	    {
-	       items = {"default:sapling_oak"},
-	       rarity = 40,
-	    },
-	    {
-	       items = {"default:leaves_oak"},
-	       rarity = 10,
-	    }
-	 }
-      },
-      sounds = default.node_sound_leaves_defaults(),
-})
-
 minetest.register_node(
    "default:leaves_birch",
    {

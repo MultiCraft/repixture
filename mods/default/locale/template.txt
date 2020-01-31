@@ -75,7 +75,6 @@ Oak Tree=
 Birch Tree=
 Leaves=
 Oak Leaves=
-Oak Leaves (Huge)=
 Birch Leaves=
 Dry Leaves=
 Cactus=
