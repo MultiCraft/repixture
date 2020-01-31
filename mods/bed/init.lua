@@ -12,6 +12,8 @@ bed = {}
 -- Per-user data table
 
 bed.userdata = {}
+bed.userdata.saved = {}
+bed.userdata.temp = {}
 
 -- Savefile
 
@@ -46,13 +48,13 @@ local function put_player_in_bed(player)
 
    local name = player:get_player_name()
 
-   if bed.userdata[name].slept
-   and not is_bed_node(bed.userdata[name].node_pos) then
+   if bed.userdata.temp[name].slept
+   and not is_bed_node(bed.userdata.temp[name].node_pos) then
       return
    end
 
-   player:set_look_horizontal(bed.userdata[name].spawn_yaw)
-   player:set_pos(bed.userdata[name].spawn_pos)
+   player:set_look_horizontal(bed.userdata.saved[name].spawn_yaw)
+   player:set_pos(bed.userdata.saved[name].spawn_pos)
 
    player_effects.apply_effect(player, "inbed")
 
@@ -77,7 +79,9 @@ local function take_player_from_bed(player)
 
    local name = player:get_player_name()
 
-   player:set_pos(bed.userdata[name].spawn_pos)
+   if bed.userdata.saved[name].spawn_pos then
+      player:set_pos(bed.userdata.saved[name].spawn_pos)
+   end
 
    player_effects.remove_effect(player, "inbed")
 
@@ -97,7 +101,7 @@ end
 local function save_bed()
    local f = io.open(bed_file, "w")
 
-   f:write(minetest.serialize(bed.userdata))
+   f:write(minetest.serialize(bed.userdata.saved))
 
    io.close(f)
 
@@ -116,7 +120,7 @@ local function load_bed()
    local f = io.open(bed_file, "r")
 
    if f then
-      bed.userdata = minetest.deserialize(f:read("*all"))
+      bed.userdata.saved = minetest.deserialize(f:read("*all"))
 
       io.close(f)
    else
@@ -141,39 +145,18 @@ end
 local function on_joinplayer(player)
    local name = player:get_player_name()
 
-   if not bed.userdata[name] then
-      bed.userdata[name] = {
-         in_bed = false,
-
+   if not bed.userdata.saved[name] then
+      bed.userdata.saved[name] = {
          spawn_yaw = 0,
          spawn_pos = nil,
-
+      }
+   end
+   bed.userdata.temp[name] = {
+         in_bed = false,
          slept = false,
-
          node_pos = nil,
       }
-
-      delayed_save()
-   end
-
-   if bed.userdata[name].in_bed then
-      minetest.after(
-         0.1,
-         function(player)
-            if player and player:is_player() then
-                local name = player:get_player_name()
-                bed.userdata[name].in_bed = false
-                local n = minetest.get_node(bed.userdata[name].node_pos)
-                if n.name == "bed:bed_foot" then
-                    local meta = minetest.get_meta(bed.userdata[name].node_pos)
-                    if meta:get_string("player") == name then
-                        meta:set_string("player", "")
-                    end
-                end
-                take_player_from_bed(player)
-            end
-      end, player)
-   end
+   delayed_save()
 end
 
 -- Respawning player
@@ -181,12 +164,12 @@ end
 local function on_respawnplayer(player)
    local name = player:get_player_name()
 
-   if bed.userdata[name] then
-      if not bed.userdata[name].slept then
+   if bed.userdata.temp[name] then
+      if not bed.userdata.temp[name].slept then
          return
       end
 
-      bed.userdata[name].in_bed = false
+      bed.userdata.temp[name].in_bed = false
 
       take_player_from_bed(player)
 
@@ -207,15 +190,23 @@ local function on_globalstep(dtime)
 
    local sleeping_players = 0
 
-   for name, data in pairs(bed.userdata) do
+   local in_bed = {}
+   for name, data in pairs(bed.userdata.temp) do
       if data.in_bed then
          local player = minetest.get_player_by_name(name)
-
-         sleeping_players = sleeping_players + 1
-
-         if vector.distance(player:get_pos(), data.spawn_pos) > 2 then
-            player:move_to(data.spawn_pos)
+         if player then
+             table.insert(in_bed, name)
+             sleeping_players = sleeping_players + 1
          end
+      end
+   end
+   for p=1, #in_bed do
+      local data = bed.userdata.saved[in_bed[p]]
+      if data then
+          local player = minetest.get_player_by_name(in_bed[p])
+          if vector.distance(player:get_pos(), data.spawn_pos) > 2 then
+              player:move_to(data.spawn_pos)
+          end
       end
    end
 
@@ -235,8 +226,8 @@ local function on_globalstep(dtime)
 
                   local players = minetest.get_connected_players()
                   for _, player in ipairs(players) do
-                     if bed.userdata[player:get_player_name()].in_bed then
-                        bed.userdata[player:get_player_name()].slept = true
+                     if bed.userdata.temp[player:get_player_name()].in_bed then
+                        bed.userdata.temp[player:get_player_name()].slept = true
                      end
                   end
 
@@ -371,13 +362,13 @@ minetest.register_node(
          end
 
          if name == meta:get_string("player") then
-            bed.userdata[name].in_bed = false
+            bed.userdata.temp[name].in_bed = false
 
             take_player_from_bed(clicker)
 
             meta:set_string("player", "")
          elseif meta:get_string("player") == "" and not default.player_attached[name]
-         and bed.userdata[name].in_bed == false then
+         and bed.userdata.temp[name].in_bed == false then
             if not minetest.settings:get_bool("bed_enable", true) then
                minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Sleeping is disabled.")))
                return itemstack
@@ -414,12 +405,12 @@ minetest.register_node(
                yaw = (node.param2 / 2.0) * math.pi
             end
 
-            bed.userdata[name].in_bed = true
+            bed.userdata.temp[name].in_bed = true
 
-            bed.userdata[name].spawn_yaw = yaw
-            bed.userdata[name].spawn_pos = put_pos
+            bed.userdata.saved[name].spawn_yaw = yaw
+            bed.userdata.saved[name].spawn_pos = put_pos
 
-            bed.userdata[name].node_pos = pos
+            bed.userdata.temp[name].node_pos = pos
 
             put_player_in_bed(clicker)
 
@@ -489,6 +480,17 @@ achievements.register_achievement(
       description = S("Craft a bed."),
       times = 1,
       craftitem = "bed:bed_foot",
+})
+
+minetest.register_lbm({
+   label = "Reset beds",
+   name = "bed:reset_beds",
+   nodenames = {"bed:bed_foot"},
+   run_at_every_load = true,
+   action = function(pos, node)
+      local meta = minetest.get_meta(pos)
+      meta:set_string("player", "")
+   end,
 })
 
 default.log("mod:bed", "loaded")
