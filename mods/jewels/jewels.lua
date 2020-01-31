@@ -147,81 +147,93 @@ local tool_types = {
    },
    spear = {
       steel = {
-         overlay_wield = "jewels_jeweled_handle.png^[transformR90",
          reach = {
-            description = S("Ranged Jewel Steel Spear"),
+            overlay = "jewels_jeweled_spear_reach.png",
+            overlay_wield = "jewels_jeweled_spear_reach.png^[transformR90",
+            description = S("Extended Jewel Steel Spear"),
             range = 1,
          },
          damage = {
+            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
             description = S("Harming Jewel Steel Spear"),
             fleshy = 3,
          },
          uses = {
+            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
             description = S("Durable Jewel Steel Spear"),
             uses = 3,
          },
       },
       carbon_steel = {
-         overlay_wield = "jewels_jeweled_handle.png^[transformR90",
          reach = {
-            description = S("Ranged Jewel Carbon Steel Spear"),
+            description = S("Extended Jewel Carbon Steel Spear"),
+            overlay = "jewels_jeweled_spear_reach.png",
+            overlay_wield = "jewels_jeweled_spear_reach.png^[transformR90",
             range = 2,
          },
          damage = {
             description = S("Harming Jewel Carbon Steel Spear"),
+            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
             fleshy = 4,
          },
          uses = {
             description = S("Durable Jewel Carbon Steel Spear"),
+            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
             uses = 5,
          },
       },
       bronze = {
-         overlay_wield = "jewels_jeweled_handle.png^[transformR90",
          reach = {
-            description = S("Ranged Jewel Bronze Spear"),
+            description = S("Extended Jewel Bronze Spear"),
+            overlay = "jewels_jeweled_spear_reach.png",
+            overlay_wield = "jewels_jeweled_spear_reach.png^[transformR90",
             range = 2,
          },
          damage = {
             description = S("Harming Jewel Bronze Spear"),
+            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
             fleshy = 5,
          },
          uses = {
             description = S("Durable Jewel Bronze Spear"),
+            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
             uses = 6,
          },
       },
    },
    shears = {
       steel = {
-         overlay_wield = "jewels_jeweled_handle.png^[transformR90",
          digspeed = {
+            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
             description = S("Swift Jewel Steel Shears"),
             digspeed = -0.1,
          },
          uses = {
+            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
             description = S("Durable Jewel Steel Shears"),
             uses = 3,
          },
       },
       carbon_steel = {
-         overlay_wield = "jewels_jeweled_handle.png^[transformR90",
          digspeed = {
+            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
             description = S("Swift Jewel Carbon Steel Shears"),
             digspeed = -0.13,
          },
          uses = {
+            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
             description = S("Durable Jewel Carbon Steel Shears"),
             uses = 5,
          },
       },
       bronze = {
-         overlay_wield = "jewels_jeweled_handle.png^[transformR90",
          digspeed = {
+            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
             description = S("Swift Jewel Bronze Shears"),
             digspeed = -0.14,
          },
          uses = {
+            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
             description = S("Durable Jewel Bronze Shears"),
             uses = 6,
          },
@@ -232,17 +244,22 @@ local tool_types = {
 for tool_name, tool_def in pairs(tool_types) do
    for material_name, material_def in pairs(tool_def) do
       for jewel_name, jewel_def in pairs(material_def) do
-         if jewel_name ~= "description" and jewel_name ~= "overlay_wield" then
-            jewels.register_jewel(
-               "default:" .. tool_name .. "_" .. material_name,
-               "jewels:" .. tool_name .. "_" .. material_name .. "_" .. jewel_name,
-               {
-                  stats = jewel_def,
-                  description = jewel_def.description,
-                  overlay_wield = material_def.overlay_wield,
-               }
-            )
-         end
+         local description = jewel_def.description
+         local overlay = jewel_def.overlay
+         local overlay_wield = jewel_def.overlay_wield
+         jewel_def.description = nil
+         jewel_def.overlay = nil
+         jewel_def.overlay_wield = nil
+         jewels.register_jewel(
+            "default:" .. tool_name .. "_" .. material_name,
+            "jewels:" .. tool_name .. "_" .. material_name .. "_" .. jewel_name,
+            {
+               stats = jewel_def,
+               description = description,
+               overlay = overlay,
+               overlay_wield = overlay_wield,
+            }
+         )
       end
    end
 end
