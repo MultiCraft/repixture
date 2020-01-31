@@ -72,8 +72,12 @@ function player_effects.register_effect(name, def)
       description = def.description or S("The @1 effect", name), -- description of what the effect does
       duration = def.duration or 1, -- how long the effect lasts, <0 is infinite and has to be disabled manually
       physics = def.physics or {}, -- physics overrides for the player
-      icon = def.icon, -- effect icon for HUD
+      icon = def.icon, -- effect icon for HUD (optional)
+      save = def.save, -- if true, effect will be preserved after server shutdown (default: true)
    }
+   if rd.save == nil then
+      rd.save = true
+   end
 
    player_effects.registered_effects[name] = rd
 end
@@ -157,20 +161,28 @@ end
 function player_effects.refresh_effects(player)
    local phys = {speed = 1, jump = 1, gravity = 1}
 
-   for en, _ in pairs(player_effects.effects[player:get_player_name()]) do
+   local clear = {}
+   local name = player:get_player_name()
+   for en, _ in pairs(player_effects.effects[name]) do
       local effect = player_effects.get_registered_effect(en)
+      if effect.save == false then
+         table.insert(clear, en)
+      else
+         if effect.physics.speed ~= nil then
+            phys.speed = phys.speed * effect.physics.speed
+         end
 
-      if effect.physics.speed ~= nil then
-	 phys.speed = phys.speed * effect.physics.speed
-      end
+         if effect.physics.jump ~= nil then
+            phys.jump = phys.jump * effect.physics.jump
+         end
 
-      if effect.physics.jump ~= nil then
-	 phys.jump = phys.jump * effect.physics.jump
+         if effect.physics.gravity ~= nil then
+            phys.gravity = phys.gravity * effect.physics.gravity
+         end
       end
-
-      if effect.physics.gravity ~= nil then
-	 phys.gravity = phys.gravity * effect.physics.gravity
-      end
+   end
+   for e=1, #clear do
+      player_effects.effects[name][clear[e]] = nil
    end
 
    player:set_physics_override(phys)
