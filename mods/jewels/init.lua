@@ -205,7 +205,7 @@ for a=1, #amendments do
           desc = get_stat(amendments[a][2], stat, parent, jewel.stats)
       end
       if desc ~= nil then
-         desc = minetest.colorize("#4CFFFD", desc)
+         return desc, "#4CFFFD"
       end
 
       return desc

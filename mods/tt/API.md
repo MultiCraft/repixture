@@ -16,7 +16,9 @@ Once this mod had overwritten the `description` field of an item was overwritten
 ## `tt.register_snippet(func)`
 
 Register a custom snippet function.
-`func` is a function of the form `func(itemstring)`. It will be called for (nearly) every itemstring and it must return a string you want to append to this item or `nil` if nothing shall be appended.
+`func` is a function of the form `func(itemstring)`.
+It will be called for (nearly) every itemstring and it must return a string you want to append to this item or `nil` if nothing shall be appended.
+You can optionally return the text color in `"#RRGGBB"` format as the second return value.
 
 Example:
 
