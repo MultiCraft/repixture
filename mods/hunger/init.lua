@@ -382,5 +382,6 @@ player_effects.register_effect(
       duration = 2,
       physics = {
          speed = 0.6,
-      }
+      },
+      icon = "hunger_effect_eating.png",
 })

@@ -475,7 +475,8 @@ player_effects.register_effect(
 	 speed = 0,
 	 jump = 0,
 	 gravity = 0,
-      }
+      },
+      icon = "bed_effect.png",
 })
 
 -- Achievements

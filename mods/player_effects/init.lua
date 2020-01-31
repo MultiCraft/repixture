@@ -4,6 +4,7 @@
 --
 
 local S = minetest.get_translator("player_effects")
+local DISPLAY_ICONS = true
 
 player_effects = {}
 
@@ -34,12 +35,44 @@ local function load_effects()
    end
 end
 
+local huds = {}
+
+local function display_effect_icons(player)
+   if not DISPLAY_ICONS then
+      return
+   end
+
+   local name = player:get_player_name()
+   for _,h in pairs(huds[name]) do
+     player:hud_remove(h)
+   end
+   huds[name] = {}
+   local i = 0
+   for en, _ in pairs(player_effects.effects[name]) do
+     local effect = player_effects.get_registered_effect(en)
+     if effect.icon then
+        local id = player:hud_add({
+            hud_elem_type = "image",
+            position = { x = 1, y = 0 },
+            offset = { x = -52 - i*52, y = 270 },
+            text = effect.icon,
+            scale = { x = 3, y = 3 },
+            size = { x = 16, y = 16 },
+            alignment = { x = 1, y = 1 },
+        })
+        table.insert(huds[name], id)
+        i = i + 1
+     end
+   end
+end
+
 function player_effects.register_effect(name, def)
    local rd = {
       title = def.title or name, -- good-looking name of the effect
       description = def.description or S("The @1 effect", name), -- description of what the effect does
       duration = def.duration or 1, -- how long the effect lasts, <0 is infinite and has to be disabled manually
-      physics = def.physics or {} -- physics overrides for the player
+      physics = def.physics or {}, -- physics overrides for the player
+      icon = def.icon, -- effect icon for HUD
    }
 
    player_effects.registered_effects[name] = rd
@@ -85,6 +118,7 @@ function player_effects.apply_effect(player, ename)
    end
 
    player:set_physics_override(phys)
+   display_effect_icons(player)
 
    save_effects()
 end
@@ -115,6 +149,7 @@ function player_effects.remove_effect(player, ename)
    player:set_physics_override(phys)
 
    player_effects.effects[player:get_player_name()][ename] = nil
+   display_effect_icons(player)
 
    save_effects()
 end
@@ -140,6 +175,8 @@ function player_effects.refresh_effects(player)
 
    player:set_physics_override(phys)
 
+   display_effect_icons(player)
+
    save_effects()
 end
 
@@ -148,6 +185,7 @@ function player_effects.clear_effects(player)
    player:set_physics_override({speed = 1, jump = 1, gravity = 1})
 
    player_effects.effects[player:get_player_name()] = {}
+   display_effect_icons(player)
 
    save_effects()
 end
@@ -189,6 +227,7 @@ local function on_joinplayer(player)
    if player_effects.effects[name] == nil then
       player_effects.effects[name] = {}
    end
+   huds[name] = {}
 
    player_effects.refresh_effects(player)
 
