@@ -21,6 +21,7 @@ local tool_types = {
          },
          damage = {
             description = S("Harming Jewel Steel Pickaxe"),
+            overlay = "jewels_jeweled_pick_damage.png",
             fleshy = 1,
          },
          uses = {
@@ -35,6 +36,7 @@ local tool_types = {
          },
          damage = {
             description = S("Harming Jewel Carbon Steel Pickaxe"),
+            overlay = "jewels_jeweled_pick_damage.png",
             fleshy = 2,
          },
          uses = {
@@ -49,6 +51,7 @@ local tool_types = {
          },
          damage = {
             description = S("Harming Jewel Bronze Pickaxe"),
+            overlay = "jewels_jeweled_pick_damage.png",
             fleshy = 3,
          },
          uses = {
@@ -65,6 +68,7 @@ local tool_types = {
          },
          damage = {
             description = S("Harming Jewel Steel Shovel"),
+            overlay = "jewels_jeweled_shovel_damage.png",
             fleshy = 1,
          },
          uses = {
@@ -79,6 +83,7 @@ local tool_types = {
          },
          damage = {
             description = S("Harming Jewel Carbon Steel Shovel"),
+            overlay = "jewels_jeweled_shovel_damage.png",
             fleshy = 2,
          },
          uses = {
@@ -93,6 +98,7 @@ local tool_types = {
          },
          damage = {
             description = S("Harming Jewel Bronze Shovel"),
+            overlay = "jewels_jeweled_shovel_damage.png",
             fleshy = 3,
          },
          uses = {
@@ -109,6 +115,7 @@ local tool_types = {
          },
          damage = {
             description = S("Harming Jewel Steel Axe"),
+            overlay = "jewels_jeweled_axe_damage.png",
             fleshy = 2,
          },
          uses = {
@@ -123,6 +130,7 @@ local tool_types = {
          },
          damage = {
             description = S("Harming Jewel Carbon Steel Axe"),
+            overlay = "jewels_jeweled_axe_damage.png",
             fleshy = 3,
          },
          uses = {
@@ -137,6 +145,7 @@ local tool_types = {
          },
          damage = {
             description = S("Harming Jewel Bronze Axe"),
+            overlay = "jewels_jeweled_axe_damage.png",
             fleshy = 4,
          },
          uses = {
@@ -154,12 +163,14 @@ local tool_types = {
             range = 1,
          },
          damage = {
-            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
+            overlay = "jewels_jeweled_spear_damage.png",
+            overlay_wield = "jewels_jeweled_spear_damage.png^[transformR90",
             description = S("Harming Jewel Steel Spear"),
             fleshy = 3,
          },
          uses = {
-            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
+            overlay = "jewels_jeweled_handle_uses.png",
+            overlay_wield = "jewels_jeweled_handle_uses.png^[transformR90",
             description = S("Durable Jewel Steel Spear"),
             uses = 3,
          },
@@ -173,12 +184,14 @@ local tool_types = {
          },
          damage = {
             description = S("Harming Jewel Carbon Steel Spear"),
-            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
+            overlay = "jewels_jeweled_spear_damage.png",
+            overlay_wield = "jewels_jeweled_spear_damage.png^[transformR90",
             fleshy = 4,
          },
          uses = {
             description = S("Durable Jewel Carbon Steel Spear"),
-            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
+            overlay = "jewels_jeweled_handle_uses.png",
+            overlay_wield = "jewels_jeweled_handle_uses.png^[transformR90",
             uses = 5,
          },
       },
@@ -191,12 +204,14 @@ local tool_types = {
          },
          damage = {
             description = S("Harming Jewel Bronze Spear"),
-            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
+            overlay = "jewels_jeweled_spear_damage.png",
+            overlay_wield = "jewels_jeweled_spear_damage.png^[transformR90",
             fleshy = 5,
          },
          uses = {
             description = S("Durable Jewel Bronze Spear"),
-            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
+            overlay = "jewels_jeweled_handle_uses.png",
+            overlay_wield = "jewels_jeweled_handle_uses.png^[transformR90",
             uses = 6,
          },
       },
@@ -204,36 +219,42 @@ local tool_types = {
    shears = {
       steel = {
          digspeed = {
-            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
+            overlay = "jewels_jeweled_shears_digspeed.png",
+            overlay_wield = "jewels_jeweled_shears_digspeed.png^[transformR90",
             description = S("Swift Jewel Steel Shears"),
             digspeed = -0.1,
          },
          uses = {
-            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
+            overlay = "jewels_jeweled_shears_uses.png",
+            overlay_wield = "jewels_jeweled_shears_uses.png^[transformR90",
             description = S("Durable Jewel Steel Shears"),
             uses = 3,
          },
       },
       carbon_steel = {
          digspeed = {
-            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
+            overlay = "jewels_jeweled_shears_digspeed.png",
+            overlay_wield = "jewels_jeweled_shears_digspeed.png^[transformR90",
             description = S("Swift Jewel Carbon Steel Shears"),
             digspeed = -0.13,
          },
          uses = {
-            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
+            overlay = "jewels_jeweled_shears_uses.png",
+            overlay_wield = "jewels_jeweled_shears_uses.png^[transformR90",
             description = S("Durable Jewel Carbon Steel Shears"),
             uses = 5,
          },
       },
       bronze = {
          digspeed = {
-            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
+            overlay = "jewels_jeweled_shears_digspeed.png",
+            overlay_wield = "jewels_jeweled_shears_digspeed.png^[transformR90",
             description = S("Swift Jewel Bronze Shears"),
             digspeed = -0.14,
          },
          uses = {
-            overlay_wield = "jewels_jeweled_handle.png^[transformR90",
+            overlay = "jewels_jeweled_shears_uses.png",
+            overlay_wield = "jewels_jeweled_shears_uses.png^[transformR90",
             description = S("Durable Jewel Bronze Shears"),
             uses = 6,
          },
@@ -250,6 +271,13 @@ for tool_name, tool_def in pairs(tool_types) do
          jewel_def.description = nil
          jewel_def.overlay = nil
          jewel_def.overlay_wield = nil
+         if not overlay then
+            if jewel_name == "damage" then
+               overlay = "jewels_jeweled_handle_damage.png"
+            elseif jewel_name == "uses" then
+               overlay = "jewels_jeweled_handle_uses.png"
+            end
+         end
          jewels.register_jewel(
             "default:" .. tool_name .. "_" .. material_name,
             "jewels:" .. tool_name .. "_" .. material_name .. "_" .. jewel_name,
