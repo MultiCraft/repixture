@@ -100,14 +100,16 @@ function jewels.register_jewel(toolname, new_toolname, def)
       return
    end
 
-   local new_tool_invimage = ""
-   if tooldef.inventory_image then
+   local new_tool_invimage
+   if tooldef.inventory_image ~= nil and tooldef.inventory_image ~= "" then
       new_tool_invimage = "(" .. tooldef.inventory_image .. ")^(" .. data.overlay .. ")"
    end
 
-   local new_tool_wieldimage = ""
-   if tooldef.wield_image then
+   local new_tool_wieldimage
+   if tooldef.wield_image ~= nil and tooldef.wield_image ~= "" then
       new_tool_wieldimage = "(" .. tooldef.wield_image .. ")^(" .. data.overlay_wield .. ")"
+   elseif data.overlay_wield then
+      new_tool_wieldimage = "(" .. tooldef.inventory_image .. ")^(" .. data.overlay_wield .. ")"
    end
 
    local new_tooldef = table.copy(tooldef)
