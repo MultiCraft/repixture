@@ -90,8 +90,7 @@ function jewels.register_jewel(toolname, new_toolname, def)
    end
    jewels.registered_jewel_parents[new_toolname] = newparent
 
-   local tooldef = minetest.deserialize(
-      minetest.serialize(minetest.registered_tools[toolname]))
+   local tooldef = minetest.registered_tools[toolname]
 
    if not tooldef then
       minetest.log("warning",
@@ -111,7 +110,7 @@ function jewels.register_jewel(toolname, new_toolname, def)
       new_tool_wieldimage = "(" .. tooldef.wield_image .. ")^(" .. data.overlay_wield .. ")"
    end
 
-   local new_tooldef = tooldef
+   local new_tooldef = table.copy(tooldef)
    local desc
    if data.description ~= nil then
       desc = data.description
