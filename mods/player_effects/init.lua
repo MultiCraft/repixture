@@ -4,7 +4,7 @@
 --
 
 local S = minetest.get_translator("player_effects")
-local DISPLAY_ICONS = true
+local DISPLAY_ICONS = false
 
 player_effects = {}
 
