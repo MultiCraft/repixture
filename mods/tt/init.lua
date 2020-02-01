@@ -46,7 +46,7 @@ local function append_descs()
 			if def._tt_food then
 				desc = desc .. "\n" .. minetest.colorize(COLOR_DEFAULT, S("Food item"))
 				if def._tt_food_hp then
-					msg = S("+@1 food points", def._tt_food_hp)
+					local msg = S("+@1 food points", def._tt_food_hp)
 					desc = desc .. "\n" .. minetest.colorize(COLOR_DEFAULT, msg)
 				end
 				-- NOTE: This is unused atm
@@ -95,7 +95,7 @@ local function append_descs()
 			if minetest.get_item_group(itemstring, "slippery") >= 1 then
 				desc = desc .. "\n" .. minetest.colorize(COLOR_DEFAULT, S("Slippery"))
 			end
-			tmp = minetest.get_item_group(itemstring, "bouncy")
+			local tmp = minetest.get_item_group(itemstring, "bouncy")
 			if tmp >= 1 then
 				desc = desc .. "\n" .. minetest.colorize(COLOR_DEFAULT, S("Bouncy (@1%)", tmp))
 			end
