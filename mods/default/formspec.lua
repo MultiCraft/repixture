@@ -16,11 +16,12 @@ default.ui.current_page = {}
 
 -- Colors
 
-local listcolors = "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]"
+local prepend = "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]" ..
+    "tableoptions[background=#DDDDDD30;highlight=#539646]"
 default.ui.default.bg = "bgcolor[#00000000]"
 
 -- bgcolor intentionally not included because it would make pause menu transparent, too :(
-local formspec_prepend = listcolors
+local formspec_prepend = prepend
 
 -- Group default items
 

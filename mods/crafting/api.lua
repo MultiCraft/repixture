@@ -284,7 +284,6 @@ form = form .. default.ui.get_output_itemslot_bg(7.25, 3.25, 1, 1)
 form = form .. default.ui.button(7.25, 1.25, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
 form = form .. default.ui.button(7.25, 2.25, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
 
-form = form .. "tableoptions[background=#DDDDDD30]"
 form = form .. "tablecolumns[text,align=left,width=2;text,align=left,width=40]"
 
 default.ui.register_page("crafting:crafting", form)

@@ -195,7 +195,6 @@ crafting.register_on_craft(on_craft)
 
 local form = default.ui.get_page("default:default")
 
-form = form .. "tableoptions[background=#DDDDDD30]"
 form = form .. "tablecolumns[color;text,align=left,width=11;text,align=left,width=28;"
    .. "text,align=left,width=5]"
 
