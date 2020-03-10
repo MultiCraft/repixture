@@ -132,6 +132,39 @@ minetest.register_tool(
       end,
 })
 
+-- Use lock on chest to lock it
+local put_lock = function(itemstack, putter, pointed_thing)
+    if pointed_thing.type ~= "node" then
+        return itemstack
+    end
+    local pos = pointed_thing.under
+    local node = minetest.get_node(pos)
+    if node.name == "default:chest" then
+        local name
+        if putter and putter:is_player() then
+           name = putter:get_player_name()
+        end
+        if minetest.is_protected(pos, name) and
+                not minetest.check_player_privs(putter, "protection_bypass") then
+            minetest.record_protection_violation(pos, name)
+            return itemstack
+        end
+        node.name = "locks:chest"
+        minetest.swap_node(pos, node)
+        local meta = minetest.get_meta(pos)
+        if name ~= "" then
+           meta:set_string("infotext", S("Locked Chest (Owned by @1)", name))
+           meta:set_string("lock_owner", name)
+        else
+           meta:set_string("infotext", S("Locked Chest"))
+        end
+        if not minetest.settings:get_bool("creative_mode") then
+           itemstack:take_item()
+        end
+    end
+    return itemstack
+end
+
 minetest.register_craftitem(
    "locks:lock",
    {
@@ -140,6 +173,10 @@ minetest.register_craftitem(
 
       inventory_image = "locks_lock.png",
       wield_image = "locks_lock.png",
+
+      -- Place or punch lock on chest to lock the chest
+      on_use = put_lock,
+      on_place = put_lock,
 })
 
 minetest.register_node(
