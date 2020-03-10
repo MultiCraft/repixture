@@ -1596,7 +1596,7 @@ function mobs:register_egg(mob, desc, background)
          inventory_image = invimg,
          groups = { spawn_egg = 1 },
          on_place = function(itemstack, placer, pointed_thing)
-            if peaceful_only then
+            if peaceful_only and minetest.registered_entities[mob].type == "monster" then
                minetest.chat_send_player(placer:get_player_name(), minetest.colorize("#FFFF00", S("Hostile mobs are disabled!")))
                return itemstack
             end
