@@ -112,8 +112,21 @@ minetest.register_globalstep(
 
       for _, player in ipairs(minetest.get_connected_players()) do
 	 if weather.weather == "storm" then
-	    player:set_sky({r = skycol, g = skycol, b = skycol * 1.2}, "plain", {}, true)
-
+	    player:set_sky({
+               type = "regular",
+               clouds = true,
+               sky_color = {
+                   day_sky = {r = skycol, g = skycol, b = skycol * 1.2},
+                   day_horizon = {r = skycol, g = skycol, b = skycol * 1.2},
+                   dawn_sky = {r = skycol*0.75, g = skycol*0.75, b = skycol * 0.9},
+                   dawn_horizon = {r = skycol*0.75, g = skycol*0.75, b = skycol * 0.9},
+                   night_sky = {r = skycol*0.5, g = skycol*0.5, b = skycol * 0.6},
+                   night_horizon = {r = skycol*0.5, g = skycol*0.5, b = skycol * 0.6},
+               },
+            })
+            player:set_sun({visible=false, sunrise_visible=false})
+            player:set_stars({visible=false})
+            player:set_moon({visible=false})
             if default_cloud_state == nil then
                default_cloud_state = player:get_clouds()
             end
@@ -129,7 +142,17 @@ minetest.register_globalstep(
 
 	    player:override_day_night_ratio(light)
 	 else
-	    player:set_sky(nil, "regular", {}, true)
+	    player:set_sky({type = "regular", clouds = true, sky_color = {
+                day_sky = "#8cbafa",
+                day_horizon = "#9bc1f0",
+                dawn_sky = "#b4bafa",
+                dawn_horizon = "#bac1f0",
+                night_sky = "#006aff",
+                night_horizon = "#4090ff",
+            }})
+            player:set_sun({visible=true, sunrise_visible=true})
+            player:set_stars({visible=true})
+            player:set_moon({visible=true})
 
             if default_cloud_state ~= nil then
                player:set_clouds(default_cloud_state)
