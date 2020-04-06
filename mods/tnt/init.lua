@@ -159,7 +159,7 @@ end
 function tnt.burn(pos)
    local name = minetest.get_node(pos).name
    if tnt_enable and name == "tnt:tnt" then
-      minetest.sound_play("tnt_ignite", {pos = pos})
+      minetest.sound_play("tnt_ignite", {pos = pos}, true)
       minetest.set_node(pos, {name = "tnt:tnt_burning"})
       minetest.get_node_timer(pos):start(2)
    end
@@ -174,7 +174,7 @@ function tnt.explode(pos, radius, sound)
          pos = pos,
          gain = 1.5,
          max_hear_distance = 128
-   })
+   }, true)
 
    local pos = vector.round(pos)
    local vm = VoxelManip()

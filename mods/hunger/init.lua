@@ -200,7 +200,7 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
    local headpos  = player:get_pos()
 
    headpos.y = headpos.y + 1
-   minetest.sound_play("hunger_eat", {pos = headpos, max_hear_distance = 8, object=player})
+   minetest.sound_play("hunger_eat", {pos = headpos, max_hear_distance = 8, object=player}, true)
 
    particlespawners[name] = minetest.add_particlespawner(
       {
@@ -303,7 +303,7 @@ local function on_globalstep(dtime)
             if (oldhng == 5 or oldhng == 3) and hp >= 0 then
                minetest.chat_send_player(name, minetest.colorize("#ff0", S("You are hungry.")))
                local pos_sound  = player:get_pos()
-               minetest.sound_play({name="hunger_hungry"}, {pos=pos_sound, max_hear_distance=3, object=player})
+               minetest.sound_play({name="hunger_hungry"}, {pos=pos_sound, max_hear_distance=3, object=player}, true)
             end
             if hunger.userdata[name].hunger <= 0 and hp >= 0 then
                player:set_hp(hp - 1)
@@ -343,7 +343,7 @@ local function fake_on_item_eat(hpdata, replace_with_item, itemstack,
          pos = headpos,
          max_hear_distance = 8,
          object = player,
-   })
+   }, true)
 
    if not minetest.settings:get_bool("creative_mode") then
        itemstack:take_item(1)

@@ -119,10 +119,10 @@ minetest.register_tool(
                    minetest.colorize("#0f0", S("You have broken the lock!")))
             end
             achievements.trigger_achievement(player, "burglar")
-            minetest.sound_play({name="locks_unlock",gain=0.8},{pos=pos, max_hear_distance=16})
+            minetest.sound_play({name="locks_unlock",gain=0.8},{pos=pos, max_hear_distance=16}, true)
          else
             -- Failure!
-            minetest.sound_play({name="locks_pick",gain=0.5},{pos=pos, max_hear_distance=16})
+            minetest.sound_play({name="locks_pick",gain=0.5},{pos=pos, max_hear_distance=16}, true)
          end
 
          if not minetest.settings:get_bool("creative_mode") then

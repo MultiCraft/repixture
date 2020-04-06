@@ -203,7 +203,7 @@ local trim_cotton = function(pos, node, player, tool)
    -- This cuts down the cotton plant to stage 1 and might drop some bonus goodies
 
    local name = tool:get_name()
-   minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8})
+   minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8}, true)
    minetest.set_node(pos, {name = "farming:cotton_2"})
 
    -- Drop some seeds

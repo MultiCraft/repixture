@@ -98,7 +98,7 @@ minetest.register_globalstep(
                                        pos = pos,
                                        gain = 0.3,
                                        max_hear_distance = 16
-                                 })
+                                 }, true)
                               end
                               -- Notify nav mod of inventory change
                               if nav_mod and lua.itemstring == "nav:map" then

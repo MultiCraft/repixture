@@ -85,7 +85,7 @@ function door.register_door(name, def)
                minetest.get_meta(pt2):set_int("right", 1)
             end
             if def.sounds and def.sounds.place then
-               minetest.sound_play(def.sounds.place, {pos=pt})
+               minetest.sound_play(def.sounds.place, {pos=pt}, true)
             end
 
             if not minetest.settings:get_bool("creative_mode") then
@@ -133,7 +133,7 @@ function door.register_door(name, def)
                pos = pos,
                gain = 0.8,
                max_hear_distance = 10
-         })
+         }, true)
       else
 	 minetest.sound_play(
             snd_2,
@@ -141,7 +141,7 @@ function door.register_door(name, def)
                pos = pos,
                gain = 0.8,
                max_hear_distance = 10
-         })
+         }, true)
       end
    end
 

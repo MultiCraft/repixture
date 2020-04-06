@@ -62,7 +62,7 @@ local function mob_sound(self, sound, keep_pitch)
          pitch = pitch,
          object = self.object,
          max_hear_distance = self.sounds.distance
-         })
+         }, true)
 end
 
 
@@ -1078,7 +1078,7 @@ function mobs:register_mob(name, def)
                                                   pos = pos,
                                                   gain = 1.0,
                                                   max_hear_distance = 16
-                           })
+                           }, true)
                         end
                         effect(pos, 15, "tnt_smoke.png", 5)
                         return
@@ -1386,7 +1386,7 @@ function mobs:register_mob(name, def)
             minetest.sound_play("default_punch", {
                                    object = hitter,
                                    max_hear_distance = 5
-            })
+            }, true)
 
             -- exit here if dead
             if check_for_death(self, hitter, damage) then

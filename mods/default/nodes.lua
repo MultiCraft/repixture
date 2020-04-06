@@ -1036,7 +1036,7 @@ minetest.register_node(
       -- Trim tall grass with shears
       _on_trim = function(pos, node, player, itemstack)
           -- This turns it to a normal grass clump and drops one bonus grass clump
-          minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8})
+          minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8}, true)
           minetest.set_node(pos, {name = "default:grass"})
 
           item_drop.drop_item(pos, "default:grass")
