@@ -108,6 +108,7 @@ function hunger.update_bar(player)
 	    dir = 0,
 	    size = {x=24, y=24},
 	    offset = {x=16, y=-(48+24+24)},
+            z_index = 1,
       })
    end
 end
@@ -153,6 +154,7 @@ local function on_joinplayer(player)
          dir = 0,
          size = {x=24, y=24},
          offset = {x=16, y=-(48+24+24)},
+         z_index = 0,
    })
 
    hunger.update_bar(player)

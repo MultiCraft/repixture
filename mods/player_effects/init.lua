@@ -59,6 +59,7 @@ local function display_effect_icons(player)
             scale = { x = 3, y = 3 },
             size = { x = 16, y = 16 },
             alignment = { x = 1, y = 1 },
+            z_index = 10,
         })
         table.insert(huds[name], id)
         i = i + 1

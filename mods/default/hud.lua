@@ -10,6 +10,7 @@ local health_bar_definition = {
    direction = 0,
    size = { x=24, y=24 },
    offset = { x=(-10*16)-64-32, y=-(48+24+24)},
+   z_index = 1,
 }
 
 local breath_bar_definition = {
@@ -20,6 +21,7 @@ local breath_bar_definition = {
    dir = 0,
    size = { x=24, y=24 },
    offset = {x=16,y=-(48+24+24)-24},
+   z_index = 1,
 }
 
 local health_bar_bg = {
@@ -30,6 +32,7 @@ local health_bar_bg = {
    direction = 0,
    size = { x=24, y=24 },
    offset = { x=(-10*16)-64-32, y=-(48+24+24)},
+   z_index = 0,
 }
 
 local breath_bar_bg = {
@@ -40,6 +43,7 @@ local breath_bar_bg = {
    dir = 0,
    size = { x=24, y=24 },
    offset = {x=16,y=-(48+24+24)-24},
+   z_index = 0,
 }
 
 default.hud.ids={}
