@@ -471,7 +471,7 @@ function mobs:register_mob(name, def)
                      if d > 5 then
                         self.object:set_hp(self.object:get_hp() - math.floor(d - 5))
                         effect(self.object:get_pos(), 5, "tnt_smoke.png")
-                        check_for_death(self)
+                        if check_for_death(self) then return end
                      end
                      self.old_y = self.object:get_pos().y
                   end
@@ -1092,6 +1092,7 @@ function mobs:register_mob(name, def)
                      pos.y = pos.y - 1
 
                      tnt.explode(pos, self.explode_radius, self.sounds.explode)
+                     return
                   end
                end
                -- end of exploding mobs
@@ -1270,6 +1271,7 @@ function mobs:register_mob(name, def)
             and peaceful_only then
                minetest.log("action", "[mobs] Hostile mob "..self.name.." removed at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
                self.object:remove()
+               return
             end
 
             -- load entity variables
@@ -1358,6 +1360,7 @@ function mobs:register_mob(name, def)
             if mobs.remove == true and self.remove_ok and not self.tamed then
                minetest.log("action", "[mobs] Mob removed (out of range): " .. tostring(self.remove_ok) .." ".. self.name)
                self.object:remove()
+               return
             end
             self.remove_ok = true
             self.attack = nil
@@ -1694,6 +1697,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
 	    self.object:remove()
 
             achievements.trigger_achievement(clicker, "ranger")
+            return
          else
 	    minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Missed!")))
          end
