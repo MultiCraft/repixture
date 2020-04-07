@@ -290,6 +290,9 @@ function mobs:register_mob(name, def)
             end
 
             local tmpyaw = self.object:get_yaw()
+            if not tmpyaw then
+               return
+            end
             local yaw = self.rotate
 
             if tmpyaw ~= tmpyaw then -- It's a NaN value
