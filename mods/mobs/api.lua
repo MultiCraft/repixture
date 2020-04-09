@@ -1084,11 +1084,13 @@ function mobs:register_mob(name, def)
                            }, true)
                         end
                         effect(pos, 15, "tnt_smoke.png", 5)
+                        minetest.log("action", "[mobs] Mob "..self.name.." exploded at "..minetest.pos_to_string(vector.round(pos)))
                         return
                      end
 
                      self.object:remove()
 
+                     minetest.log("action", "[mobs] Mob "..self.name.." exploded at "..minetest.pos_to_string(vector.round(pos)))
                      pos.y = pos.y - 1
 
                      tnt.explode(pos, self.explode_radius, self.sounds.explode)
@@ -1544,7 +1546,11 @@ function mobs:register_arrow(name, def)
 
          on_step = function(self, dtime)
             self.timer = (self.timer or 0) + 1
-            if self.timer > 150 then self.object:remove() return end
+            if self.timer > 150 then
+                minetest.log("info", "[mobs] Arrow "..self.name.." removed due to timeout at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
+                self.object:remove()
+                return
+            end
 
             local engage = 10 - (self.velocity / 2) -- clear entity before arrow becomes active
             local pos = self.object:get_pos()
@@ -1560,6 +1566,7 @@ function mobs:register_arrow(name, def)
                   self.lastpos = (self.lastpos or pos)
                   minetest.add_item(self.lastpos, self.object:get_luaentity().name)
                end
+               minetest.log("info", "[mobs] Arrow "..self.name.." hit node at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
                self.object:remove()
                return
             end
@@ -1570,6 +1577,7 @@ function mobs:register_arrow(name, def)
                   if self.hit_player
                   and player:is_player() then
                      self.hit_player(self, player)
+                     minetest.log("info", "[mobs] Arrow "..self.name.." hit player at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
                      self.object:remove()
                      return
                   end
@@ -1577,6 +1585,7 @@ function mobs:register_arrow(name, def)
                      and player:get_luaentity().name ~= self.object:get_luaentity().name
                   and player:get_luaentity().name ~= "__builtin:item" then
                      self.hit_mob(self, player)
+                     minetest.log("info", "[mobs] Arrow "..self.name.." hit mob at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
                      self.object:remove()
                      return
                   end
@@ -1695,6 +1704,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
 	    clicker:get_inventory():add_item("main", mobname)
 
 	    self.object:remove()
+            minetest.log("action", "[mobs] Mob "..self.name.." captured at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
 
             achievements.trigger_achievement(clicker, "ranger")
             return
