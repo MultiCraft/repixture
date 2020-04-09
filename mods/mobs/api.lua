@@ -471,7 +471,7 @@ function mobs:register_mob(name, def)
                      if d > 5 then
                         self.object:set_hp(self.object:get_hp() - math.floor(d - 5))
                         effect(self.object:get_pos(), 5, "tnt_smoke.png")
-                        if check_for_death(self) then return end
+                        if check_for_death(self) then return true end
                      end
                      self.old_y = self.object:get_pos().y
                   end
@@ -501,6 +501,8 @@ function mobs:register_mob(name, def)
                mob_sound(self, self.sounds.random)
             end
 
+            -- Environment damage handling
+            -- Returns true if mob died
             local do_env_damage = function(self)
 
                local pos = self.object:get_pos()
@@ -514,7 +516,7 @@ function mobs:register_mob(name, def)
                and (minetest.get_node_light(pos) or 0) > 12 then
                   self.object:set_hp(self.object:get_hp() - self.light_damage)
                   effect(pos, 5, "tnt_smoke.png")
-                  if check_for_death(self) then return end
+                  if check_for_death(self) then return true end
                end
 
                pos.y = pos.y + self.collisionbox[2] -- foot level
@@ -532,7 +534,7 @@ function mobs:register_mob(name, def)
                   else
                      effect(pos, self.blood_amount, "mobs_damage.png")
                   end
-                  if check_for_death(self) then return end
+                  if check_for_death(self) then return true end
                end
 
                -- drowning damage
@@ -547,7 +549,7 @@ function mobs:register_mob(name, def)
                           self.object:set_hp(self.object:get_hp() - nodef.drowning)
                           effect(pos, 5, "bubble.png")
                       end
-                      if check_for_death(self) then return end
+                      if check_for_death(self) then return true end
                   else
                       self.breath = self.breath + 1
                       if self.breath > self.breath_max then
@@ -561,7 +563,7 @@ function mobs:register_mob(name, def)
                and nodef.groups.water then
                   self.object:set_hp(self.object:get_hp() - self.water_damage)
                   effect(pos, 5, "bubble.png")
-                  if check_for_death(self) then return end
+                  if check_for_death(self) then return true end
                end
 
                -- lava damage
@@ -569,7 +571,7 @@ function mobs:register_mob(name, def)
                and nodef.groups.lava then
                   self.object:set_hp(self.object:get_hp() - self.lava_damage)
                   effect(pos, 5, "mobs_flame.png", 8)
-                  if check_for_death(self) then return end
+                  if check_for_death(self) then return true end
                end
 
             end
@@ -626,9 +628,9 @@ function mobs:register_mob(name, def)
             if self.state == "attack"
             and self.env_damage_timer > 1 then
                self.env_damage_timer = 0
-               do_env_damage(self)
+               if do_env_damage(self) then return end
             elseif self.state ~= "attack" then
-               do_env_damage(self)
+               if do_env_damage(self) then return end
             end
 
             -- find someone to attack
