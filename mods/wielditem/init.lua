@@ -36,6 +36,7 @@ minetest.register_entity(
             -- Remove orphan wielditem
             minetest.log("info", "[wielditem] Attempted to spawn orphan wielditem entity!")
             self.object:remove()
+            return
          end
          self.object:set_armor_groups({immortal=1})
       end,
