@@ -12,7 +12,7 @@ if enable_vignette then
       scale = {x = -100, y = -100},
       alignment = 0,
       text = "vignette_vignette.png",
-      z_index = -40,
+      z_index = -400,
    }
 
    local function on_joinplayer(player)
