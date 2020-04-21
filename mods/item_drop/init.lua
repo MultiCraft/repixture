@@ -136,27 +136,17 @@ function minetest.handle_node_drops(pos, drops, digger)
       return
    end
    for _,item in ipairs(drops) do
-      local count, name
-      if type(item) == "string" then
-	 count = 1
-	 name = item
-      else
-	 count = item:get_count()
-	 name = item:get_name()
-      end
-      for i=1,count do
-	 local obj = minetest.add_item(pos, name)
-	 if obj ~= nil then
-	    local x = math.random(1, 5)
-	    if math.random(1,2) == 1 then
-	       x = -x
-	    end
-	    local z = math.random(1, 5)
-	    if math.random(1,2) == 1 then
-	       z = -z
-	    end
-	    obj:set_velocity({x=1/x, y=obj:get_velocity().y, z=1/z})
-	 end
+      local obj = minetest.add_item(pos, item)
+      if obj ~= nil then
+         local x = math.random(1, 5)
+         if math.random(1,2) == 1 then
+            x = -x
+         end
+         local z = math.random(1, 5)
+         if math.random(1,2) == 1 then
+            z = -z
+         end
+         obj:set_velocity({x=1/x, y=obj:get_velocity().y, z=1/z})
       end
    end
 end
