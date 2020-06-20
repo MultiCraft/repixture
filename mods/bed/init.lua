@@ -336,6 +336,14 @@ minetest.register_node(
        end,
 
       on_destruct = function(pos)
+         local meta = minetest.get_meta(pos)
+         local name = meta:get_string("player")
+         local player = minetest.get_player_by_name(name)
+         if name ~= "" and player then
+            bed.userdata.temp[name].in_bed = false
+            take_player_from_bed(player)
+         end
+
          local node = minetest.get_node(pos)
          local dir = minetest.facedir_to_dir(node.param2)
          local head_pos = vector.add(pos, dir)
@@ -433,13 +441,16 @@ minetest.register_node(
       paramtype2 = "facedir",
       is_ground_content = false,
       pointable = false,
+      diggable = false,
       tiles = {"bed_head.png", "default_wood.png", "bed_side.png"},
       groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
       sounds = default.node_sound_wood_defaults(),
       node_box = {
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 2/16, 0.5}
-      }
+      },
+      on_blast = function() end,
+      drop = "",
 })
 
 minetest.register_alias("bed:bed", "bed:bed_foot")
