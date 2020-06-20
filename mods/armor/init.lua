@@ -141,6 +141,10 @@ function armor.get_groups(player)
       groups.fleshy = groups.fleshy - 10
    end
 
+   if minetest.settings:get_bool("enable_damage", true) == false then
+      groups.immortal = 1
+   end
+
    return groups
 end
 
@@ -155,7 +159,7 @@ end
 -- This function must be called whenever the armor inventory has been changed
 function armor.update(player)
    local groups = armor.get_groups(player)
-   player:set_armor_groups({fleshy = groups.fleshy})
+   player:set_armor_groups({fleshy = groups.fleshy, immortal = groups.immortal})
 
    local image = armor.get_texture(player, armor.get_base_skin(player))
    if image ~= default.player_get_textures(player)[1] then
