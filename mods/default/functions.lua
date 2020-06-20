@@ -428,7 +428,7 @@ minetest.register_abm( -- papyrus grows
 minetest.register_abm( -- weak torchs burn out and die after ~3 minutes
    {
       label = "Burning out weak torches",
-      nodenames = {"default:torch_weak"},
+      nodenames = {"default:torch_weak", "default:torch_weak_wall"},
       interval = 3,
       chance = 60,
       action = function(pos, node)
