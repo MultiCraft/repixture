@@ -466,7 +466,6 @@ player_effects.register_effect(
       physics = {
 	 speed = 0,
 	 jump = 0,
-	 gravity = 0,
       },
       save = false,
       icon = "bed_effect.png",
