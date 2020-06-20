@@ -99,13 +99,6 @@ function door.register_door(name, def)
    local tt = def.tiles_top
    local tb = def.tiles_bottom
 
-   local function after_dig_node(pos, name, digger)
-      local node = minetest.get_node(pos)
-      if node.name == name then
-	 minetest.node_dig(pos, node, digger)
-      end
-   end
-
    local function on_rightclick(pos, dir, check_name, replace, replace_dir, params)
       pos.y = pos.y+dir
       if not minetest.get_node(pos).name == check_name then
@@ -174,14 +167,17 @@ function door.register_door(name, def)
 	 },
 
 	 groups = groups_node,
-	 after_dig_node = function(pos, oldnode, oldmetadata, digger)
-            pos.y = pos.y+1
-            after_dig_node(pos, name.."_t_1", digger)
-         end,
 
 	 on_rightclick = function(pos, node, clicker)
             if check_player_priv(pos, clicker) then
                on_rightclick(pos, 1, name.."_t_1", name.."_b_2", name.."_t_2", {1,2,3,0})
+            end
+         end,
+
+         after_destruct = function(bottom, oldnode)
+            local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
+            if minetest.get_node(bottom).name ~= name.."_b_2" and minetest.get_node(top).name == name.."_t_1" then
+               minetest.remove_node(top)
             end
          end,
 
@@ -209,14 +205,16 @@ function door.register_door(name, def)
 	 },
 	 groups = groups_node,
 
-	 after_dig_node = function(pos, oldnode, oldmetadata, digger)
-            pos.y = pos.y-1
-            after_dig_node(pos, name.."_b_1", digger)
-         end,
-
 	 on_rightclick = function(pos, node, clicker)
             if check_player_priv(pos, clicker) then
                on_rightclick(pos, -1, name.."_b_1", name.."_t_2", name.."_b_2", {1,2,3,0})
+            end
+         end,
+
+         after_destruct = function(top, oldnode)
+            local bottom = { x = top.x, y = top.y - 1, z = top.z }
+            if minetest.get_node(top).name ~= name.."_t_2" and minetest.get_node(bottom).name == name.."_b_1" and oldnode.name == name.."_t_1" then
+               minetest.dig_node(bottom)
             end
          end,
 
@@ -244,14 +242,16 @@ function door.register_door(name, def)
 	 },
 	 groups = groups_node,
 
-	 after_dig_node = function(pos, oldnode, oldmetadata, digger)
-            pos.y = pos.y+1
-            after_dig_node(pos, name.."_t_2", digger)
-         end,
-
 	 on_rightclick = function(pos, node, clicker)
             if check_player_priv(pos, clicker) then
                on_rightclick(pos, 1, name.."_t_2", name.."_b_1", name.."_t_1", {3,0,1,2})
+            end
+         end,
+
+         after_destruct = function(bottom, oldnode)
+            local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
+            if minetest.get_node(bottom).name ~= name.."_b_1" and minetest.get_node(top).name == name.."_t_2" then
+               minetest.remove_node(top)
             end
          end,
 
@@ -279,14 +279,16 @@ function door.register_door(name, def)
 	 },
 	 groups = groups_node,
 
-	 after_dig_node = function(pos, oldnode, oldmetadata, digger)
-            pos.y = pos.y-1
-            after_dig_node(pos, name.."_b_2", digger)
-         end,
-
 	 on_rightclick = function(pos, node, clicker)
             if check_player_priv(pos, clicker) then
                on_rightclick(pos, -1, name.."_b_2", name.."_t_1", name.."_b_1", {3,0,1,2})
+            end
+         end,
+
+         after_destruct = function(top, oldnode)
+            local bottom = { x = top.x, y = top.y - 1, z = top.z }
+            if minetest.get_node(top).name ~= name.."_t_1" and minetest.get_node(bottom).name == name.."_b_2" and oldnode.name == name.."_t_2" then
+               minetest.dig_node(bottom)
             end
          end,
 
