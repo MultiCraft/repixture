@@ -104,7 +104,9 @@ function hunger.update_bar(player)
 	    hud_elem_type = "statbar",
 	    position = {x=0.5,y=1.0},
 	    text = "hunger.png",
+	    text2 = "hunger.png^[colorize:#666666:255",
 	    number = hunger.userdata[name].hunger,
+	    item = 20,
 	    dir = 0,
 	    size = {x=24, y=24},
 	    offset = {x=16, y=-(48+24+24)},
@@ -144,18 +146,6 @@ local function on_joinplayer(player)
          saturation = 0,
       }
    end
-
-   player:hud_add(
-      {
-         hud_elem_type = "statbar",
-         position = {x=0.5,y=1.0},
-         text = "hunger.png^[colorize:#666666:255",
-         number = 20,
-         dir = 0,
-         size = {x=24, y=24},
-         offset = {x=16, y=-(48+24+24)},
-         z_index = 0,
-   })
 
    hunger.update_bar(player)
 end

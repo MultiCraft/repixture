@@ -6,7 +6,9 @@ local health_bar_definition = {
    hud_elem_type = "statbar",
    position = { x=0.5, y=1 },
    text = "heart.png",
+   text2 = "heart.png^[colorize:#666666:255",
    number = 20,
+   item = 20,
    direction = 0,
    size = { x=24, y=24 },
    offset = { x=(-10*16)-64-32, y=-(48+24+24)},
@@ -17,33 +19,13 @@ local breath_bar_definition = {
    hud_elem_type = "statbar",
    position = { x=0.5, y=1 },
    text = "bubble.png",
+   text2 = "bubble.png^[colorize:#666666:255",
    number = 20,
+   item = 20,
    dir = 0,
    size = { x=24, y=24 },
    offset = {x=16,y=-(48+24+24)-24},
    z_index = 1,
-}
-
-local health_bar_bg = {
-   hud_elem_type = "statbar",
-   position = { x=0.5, y=1 },
-   text = "heart.png^[colorize:#666666:255",
-   number = 20,
-   direction = 0,
-   size = { x=24, y=24 },
-   offset = { x=(-10*16)-64-32, y=-(48+24+24)},
-   z_index = 0,
-}
-
-local breath_bar_bg = {
-   hud_elem_type = "statbar",
-   position = { x=0.5, y=1 },
-   text = "bubble.png^[colorize:#666666:255",
-   number = 20,
-   dir = 0,
-   size = { x=24, y=24 },
-   offset = {x=16,y=-(48+24+24)-24},
-   z_index = 0,
 }
 
 default.hud.ids={}
@@ -76,7 +58,6 @@ function default.hud.initialize_builtin_statbars(player)
    if minetest.is_yes(minetest.settings:get("enable_damage")) then
       if default.hud.ids[name].id_healthbar == nil then
 	 health_bar_definition.number = player:get_hp()
-	 default.hud.ids[name].id_healthbar_bg  = player:hud_add(health_bar_bg)
 	 default.hud.ids[name].id_healthbar  = player:hud_add(health_bar_definition)
       end
    else
@@ -89,20 +70,16 @@ function default.hud.initialize_builtin_statbars(player)
    if (player:get_breath() < 11) then
       if minetest.is_yes(minetest.settings:get("enable_damage")) then
 	 if default.hud.ids[name].id_breathbar == nil then
-
-	    default.hud.ids[name].id_breathbar_bg  = player:hud_add(breath_bar_bg)
 	    default.hud.ids[name].id_breathbar = player:hud_add(breath_bar_definition)
 	 end
       else
 	 if default.hud.ids[name].id_breathbar ~= nil then
 	    player:hud_remove(default.hud.ids[name].id_breathbar)
-	    player:hud_remove(default.hud.ids[name].id_breathbar_bg)
 	    default.hud.ids[name].id_breathbar = nil
 	 end
       end
    elseif default.hud.ids[name].id_breathbar ~= nil then
       player:hud_remove(default.hud.ids[name].id_breathbar)
-      player:hud_remove(default.hud.ids[name].id_breathbar_bg)
       default.hud.ids[name].id_breathbar = nil
    end
 end
