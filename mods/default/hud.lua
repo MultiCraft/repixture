@@ -67,9 +67,10 @@ function default.hud.initialize_builtin_statbars(player)
       end
    end
 
-   if (player:get_breath() < 11) then
+   if (player:get_breath() < minetest.PLAYER_MAX_BREATH_DEFAULT) then
       if minetest.is_yes(minetest.settings:get("enable_damage")) then
 	 if default.hud.ids[name].id_breathbar == nil then
+	    breath_bar_definition.number = player:get_breath()*2
 	    default.hud.ids[name].id_breathbar = player:hud_add(breath_bar_definition)
 	 end
       else
