@@ -820,6 +820,7 @@ minetest.register_tool(
 
          local node = minetest.get_node(pos)
          local nodename = node.name
+         local wear = false
 
          if nodename == "default:torch_weak" then
             minetest.set_node(
@@ -829,10 +830,18 @@ minetest.register_tool(
                   param = node.param,
                   param2 = node.param2
             })
+            wear = true
 
-            if not minetest.settings:get_bool("creative_mode") then
-                itemstack:add_wear(800)
-            end
+         elseif nodename == "default:torch_weak_wall" then
+            minetest.set_node(
+               pos,
+               {
+                  name = "default:torch_wall",
+                  param = node.param,
+                  param2 = node.param2
+            })
+            wear = true
+
          elseif nodename == "default:torch_dead" then
             minetest.set_node(
                pos,
@@ -841,19 +850,28 @@ minetest.register_tool(
                   param = node.param,
                   param2 = node.param2
             })
+            wear = true
 
-            if not minetest.settings:get_bool("creative_mode") then
-                itemstack:add_wear(800)
-            end
+         elseif nodename == "default:torch_dead_wall" then
+            minetest.set_node(
+               pos,
+               {
+                  name = "default:torch_weak_wall",
+                  param = node.param,
+                  param2 = node.param2
+            })
+            wear = true
+
          elseif nodename == "tnt:tnt" then
             local y = minetest.registered_nodes["tnt:tnt"]
             if y ~= nil then
                y.on_punch(pos, node, user)
-
-               if not minetest.settings:get_bool("creative_mode") then
-                   itemstack:add_wear(800)
-               end
+               wear = true
             end
+         end
+
+         if wear and not minetest.settings:get_bool("creative_mode") then
+            itemstack:add_wear(800)
          end
 
          return itemstack
