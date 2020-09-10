@@ -1,12 +1,11 @@
 # Extended Tooltip (`tt`)
 This mod extends the tooltip of items to add more informative texts.
 
-It displays the following useful information:
-* Weapon damage and speed
-* Tool properties
-* Noteworthy block properties
-* Food satiation
-* Custom help text (added by mods)
+The mod itself does nothing and is meant to be integrated into
+games to use the API to define custom tooltips (see `API.md`).
+
+## Version
+1.0.0
 
 ## License
 MIT License.
