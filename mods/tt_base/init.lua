@@ -39,30 +39,6 @@ tt.register_snippet(function(itemstring)
 	local def = minetest.registered_items[itemstring]
 	local desc = ""
 	if def.tool_capabilities then
-		-- Digging times
-		local digs = ""
-		local d
-		if def.tool_capabilities.groupcaps then
-			for group, caps in pairs(def.tool_capabilities.groupcaps) do
-				local mintime, unique_mintime
-				if caps.times then
-					mintime, unique_mintime = get_min_digtime(caps)
-					if mintime and (mintime > 0 or (not unique_mintime)) then
-						d = S("Digs @1 blocks", group) .. "\n"
-						d = d .. S("Minimum dig time: @1s", string.format("%.2f", mintime))
-						digs = newline(digs)
-						digs = digs .. d
-					elseif mintime and mintime == 0 then
-						d = S("Digs @1 blocks instantly", group)
-						digs = newline(digs)
-						digs = digs .. d
-					end
-				end
-			end
-			if digs ~= "" then
-				desc = desc .. digs
-			end
-		end
 		-- Weapon stats
 		if def.tool_capabilities.damage_groups then
 			for group, damage in pairs(def.tool_capabilities.damage_groups) do
