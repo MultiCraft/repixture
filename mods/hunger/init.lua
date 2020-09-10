@@ -121,7 +121,9 @@ local function on_dignode(pos, oldnode, player)
    end
 
    local name = player:get_player_name()
-
+   if not hunger.userdata[name] then
+      return
+   end
    hunger.userdata[name].active = hunger.userdata[name].active + 2
 end
 
