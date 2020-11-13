@@ -68,7 +68,7 @@ local function create_creative_inventory(player)
 end
 
 -- Create the trash field
-local trash = minetest.create_detached_inventory("creative_!trash", {
+local trash = minetest.create_detached_inventory("creative!trash", {
 	-- Allow the stack to be placed and remove it in on_put()
 	-- This allows the creative inventory to restore the stack
 	allow_put = function(inv, listname, index, stack, player)
@@ -101,10 +101,10 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 
                 default.ui.get_itemslot_bg(0.25, 0.25, 7,4)..
 		"image[7.25,3.25;1,1;creative_trash_icon.png]"..
-		"list[detached:creative_!trash;main;7.25,3.25;1,1;]"..
+		"list[detached:creative!trash;main;7.25,3.25;1,1;]"..
                 default.ui.get_itemslot_bg(7.25, 3.25, 1,1)..
 		"listring[current_player;main]"..
-		"listring[detached:creative_!trash;main]"..
+		"listring[detached:creative!trash;main]"..
 		"listring[detached:creative_"..player_name..";main]"..
 		"listring[current_player;main]"
 end
