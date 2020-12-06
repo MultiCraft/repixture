@@ -1667,7 +1667,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
 
       -- Cannot pick up if not owner
 
-      if self.owner ~= name and force_take == false then
+      if self.owner ~= "" and self.owner ~= nil and self.owner ~= name and force_take == false then
          minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("@1 is owner!", self.owner)))
 
          return
