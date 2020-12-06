@@ -28,7 +28,13 @@ function item_drop.drop_item(pos, itemstack)
          z = -z
       end
 
-      drop:set_velocity({x = 1 / x, y = drop:get_velocity().y, z = 1 / z})
+      local vel = drop:get_velocity()
+      if not vel then
+          vel = {x=0, y=0, z=0}
+      end
+      vel.x = 1 / x
+      vel.z = 1 / z
+      drop:set_velocity(vel)
    end
 end
 
