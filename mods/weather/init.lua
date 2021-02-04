@@ -24,6 +24,9 @@ local sound_min_height = -20 -- Below -20m you can't hear weather
 
 local default_cloud_state = nil
 
+local loaded_weather = mod_storage:get_string("weather:weather")
+local weather_inited = false
+
 local function update_sounds(do_repeat)
    if weather.weather == "storm" then
       for _, player in ipairs(minetest.get_connected_players()) do
@@ -79,7 +82,14 @@ end
 minetest.register_globalstep(
    function(dtime)
       if minetest.settings:get_bool("weather_enable") then
-	 if weather_pr:next(0, 5000) < 1 then
+         if not weather_inited then
+             if loaded_weather == "" then
+                setweather_type("clear", true)
+             else
+                setweather_type(loaded_weather, true)
+             end
+             weather_inited = true
+	 elseif weather_pr:next(0, 5000) < 1 then
 	    local weathertype = weather_pr:next(0, 19)
 
 	    -- on avg., every 1800 globalsteps, the weather.weather will change to one of:
@@ -218,12 +228,5 @@ minetest.register_chatcommand(
 minetest.register_on_leaveplayer(function(player)
     sound_handles[player:get_player_name()] = nil
 end)
-
-local loaded_weather = mod_storage:get_string("weather:weather")
-if loaded_weather == "" then
-  setweather_type("clear", true)
-else
-  setweather_type(loaded_weather, true)
-end
 
 default.log("mod:weather", "loaded")
