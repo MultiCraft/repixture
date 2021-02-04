@@ -12,6 +12,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          _tt_help = tt_help,
          drawtype = "nodebox",
          tiles = tiles,
+         use_texture_alpha = "clip",
          overlay_tiles = overlay_tiles,
          inventory_image = inv_image,
          wield_image = inv_image,
@@ -91,6 +92,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
       {
          drawtype = "nodebox",
          tiles = tiles2,
+         use_texture_alpha = "clip",
          overlay_tiles = overlay_tiles2,
          paramtype = "light",
          paramtype2 = "wallmounted",
