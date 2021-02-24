@@ -195,8 +195,11 @@ crafting.register_on_craft(on_craft)
 
 local form = default.ui.get_page("default:default")
 
-form = form .. "tablecolumns[color;text,align=left,width=11;text,align=left,width=28;"
-   .. "text,align=left,width=5]"
+-- column 1: status image (0=gotten, 1=partial, 2=missing)
+-- column 2: achievement name
+-- column 3: achievement description
+form = form .. "tablecolumns[color;image,align=left,width=1,0=ui_checkmark.png^[colorize:"..COLOR_GOTTEN..":255,1=blank.png,2=blank.png;text,align=left,width=11;"
+   .. "text,align=left,width=28]"
 
 default.ui.register_page("achievements:achievements", form)
 
@@ -219,15 +222,15 @@ function achievements.get_formspec(name, row)
       local color = ""
       if achievements.achievements[name][aname] then
 	 if achievements.achievements[name][aname] == -1 then
-	    progress = S("Gotten")
+	    progress = "0"
             color = COLOR_GOTTEN
 	    amt_gotten = amt_gotten + 1
 	 else
-	    progress = S("@1/@2", achievements.achievements[name][aname], def.times)
+	    progress = "1"
 	    amt_progress = amt_progress + 1
 	 end
       else
-	 progress = S("Missing")
+	 progress = "2"
       end
 
       if achievement_list ~= "" then
@@ -235,10 +238,9 @@ function achievements.get_formspec(name, row)
       end
 
       achievement_list = achievement_list .. color .. ","
+      achievement_list = achievement_list .. minetest.formspec_escape(progress) .. ","
       achievement_list = achievement_list .. minetest.formspec_escape(def.title) .. ","
       achievement_list = achievement_list .. minetest.formspec_escape(def.description)
-         .. ","
-      achievement_list = achievement_list .. minetest.formspec_escape(progress)
    end
 
    local form = default.ui.get_page("achievements:achievements")
