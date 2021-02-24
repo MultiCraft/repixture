@@ -322,6 +322,17 @@ minetest.register_biome(
 })
 end
 
+local spring_ore_np = {
+	offset  = 0,
+	scale   = 1,
+	spread  = {x=250, y=250, z=250},
+	seed    = 12345,
+	octaves = 3,
+	persist = 0.6,
+	lacunarity = 2,
+	flags = "defaults",
+}
+
 -- Water
 
 minetest.register_ore( -- Springs
@@ -335,6 +346,7 @@ minetest.register_ore( -- Springs
       clust_size     = 1,
       y_min          = 20,
       y_max          = 31000,
+      noise_params   = spring_ore_np,
 })
 
 minetest.register_ore( -- Pools
@@ -348,6 +360,7 @@ minetest.register_ore( -- Pools
       clust_size     = 6,
       y_min          = 10,
       y_max          = 30,
+      noise_params   = spring_ore_np,
 })
 if mg_name ~= "v6" then
 minetest.register_ore( -- Swamp
@@ -361,6 +374,7 @@ minetest.register_ore( -- Swamp
       clust_size     = 4,
       y_min          = -31000,
       y_max          = 31000,
+      noise_params   = spring_ore_np,
 })
 
 minetest.register_ore( -- Marsh
@@ -374,6 +388,7 @@ minetest.register_ore( -- Marsh
       clust_size     = 6,
       y_min          = -31000,
       y_max          = 31000,
+      noise_params   = spring_ore_np,
 })
 end
 
