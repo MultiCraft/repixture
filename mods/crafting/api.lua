@@ -407,7 +407,7 @@ function crafting.get_formspec(name, select_item)
       guide_icon = "ui_icon_craftingguide.png"
       guide_tip = S("Show all recipes")
    end
-   form = form .. default.ui.tab(8.4, 0.5, "toggle_filter", guide_icon, guide_tip, "right")
+   form = form .. default.ui.tab(8.37, 0.5, "toggle_filter", guide_icon, guide_tip, "right")
 
    return form
 end
