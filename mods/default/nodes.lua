@@ -1152,16 +1152,17 @@ minetest.register_node(
       tiles = {"default_water.png"},
       special_tiles = {
 	 {
-	    image = "default_water_animated.png",
+	    name = "default_water_animated.png",
 	    backface_culling = false,
 	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
 	 {
-	    image = "default_water_animated.png",
+	    name = "default_water_animated.png",
 	    backface_culling = false,
 	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
       },
+      use_texture_alpha = "blend",
       drop = "",
       paramtype = "light",
       walkable = false,
@@ -1185,13 +1186,17 @@ minetest.register_node(
    {
       description = S("Water Source"),
       drawtype = "liquid",
-      tiles = {"default_water.png"},
-      special_tiles = {
+      tiles = {
 	 {
-	    image = "default_water.png",
+	    name = "default_water.png",
+	    backface_culling = false,
+	 },
+	 {
+	    name = "default_water.png",
 	    backface_culling = false,
 	 },
       },
+      use_texture_alpha = "blend",
       drop = "",
       paramtype = "light",
       walkable = false,
@@ -1215,19 +1220,20 @@ minetest.register_node(
    {
       description = S("Flowing River Water"),
       drawtype = "flowingliquid",
-      tiles = {"default_water.png"},
+      tiles = {"default_river_water.png"},
       special_tiles = {
 	 {
-	    image = "default_water_animated.png",
+	    name = "default_river_water_animated.png",
 	    backface_culling = false,
 	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
 	 {
-	    image = "default_water_animated.png",
+	    name = "default_river_water_animated.png",
 	    backface_culling = false,
 	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
       },
+      use_texture_alpha = "blend",
       drop= "",
       paramtype = "light",
       walkable = false,
@@ -1253,13 +1259,18 @@ minetest.register_node(
    {
       description = S("River Water Source"),
       drawtype = "liquid",
-      tiles = {"default_water.png"},
-      special_tiles = {
+      tiles = {
 	 {
-	    image = "default_water.png",
+	    name = "default_river_water.png",
 	    backface_culling = false,
 	 },
+	 {
+	    name = "default_river_water.png",
+	    backface_culling = false,
+	 },
+
       },
+      use_texture_alpha = "blend",
       drop= "",
       paramtype = "light",
       walkable = false,
@@ -1288,16 +1299,17 @@ minetest.register_node(
       tiles = {"default_swamp_water.png"},
       special_tiles = {
 	 {
-	    image = "default_swamp_water_animated.png",
+	    name = "default_swamp_water_animated.png",
 	    backface_culling = false,
 	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 1.8}
 	 },
 	 {
-	    image = "default_swamp_water_animated.png",
+	    name = "default_swamp_water_animated.png",
 	    backface_culling = false,
 	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 1.8}
 	 },
       },
+      use_texture_alpha = "blend",
       drop= "",
       paramtype = "light",
       walkable = false,
@@ -1323,13 +1335,17 @@ minetest.register_node(
    {
       description = S("Swamp Water Source"),
       drawtype = "liquid",
-      tiles = {"default_swamp_water.png"},
-      special_tiles = {
+      tiles = {
 	 {
-	    image = "default_swamp_water.png",
+	    name = "default_swamp_water.png",
+	    backface_culling = false,
+	 },
+	 {
+	    name = "default_swamp_water.png",
 	    backface_culling = false,
 	 },
       },
+      use_texture_alpha = "blend",
       drop= "",
       paramtype = "light",
       walkable = false,
