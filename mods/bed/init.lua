@@ -402,7 +402,7 @@ minetest.register_node(
             end
 
             -- No sleeping while moving
-            if vector.length(clicker:get_player_velocity()) > 0.001 then
+            if vector.length(clicker:get_velocity()) > 0.001 then
                minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("You have to stop moving before going to bed!")))
                return itemstack
             end

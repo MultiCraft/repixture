@@ -47,7 +47,7 @@ minetest.register_craftitem(
             ent:set_velocity(
                {
                   x = 0,
-                  y = math.min(0, player:get_player_velocity().y),
+                  y = math.min(0, player:get_velocity().y),
                   z = 0
             })
 

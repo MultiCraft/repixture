@@ -1067,9 +1067,9 @@ function mobs:register_mob(name, def)
                   if self.blinktimer > 0.2 then
                      self.blinktimer = 0
                      if self.blinkstatus then
-                        self.object:settexturemod("")
+                        self.object:set_texture_mod("")
                      else
-                        self.object:settexturemod("^[brighten")
+                        self.object:set_texture_mod("^[brighten")
                      end
                      self.blinkstatus = not self.blinkstatus
                   end
