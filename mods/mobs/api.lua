@@ -1705,8 +1705,8 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
 	    -- Cuccessful capture.. add to inventory
 	    clicker:get_inventory():add_item("main", mobname)
 
-	    self.object:remove()
             minetest.log("action", "[mobs] Mob "..self.name.." captured at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
+	    self.object:remove()
 
             achievements.trigger_achievement(clicker, "ranger")
             return
