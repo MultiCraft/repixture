@@ -15,14 +15,6 @@ give_initial_enable (Enable initial items) bool false
 # Comma-separated list of initial items to give to new players. You must use itemstrings as the item identifiers. This only works if give_initial_enable is active.
 give_initial_items (Initial items) string default:pick_stone,default:torch_weak 10
 
-# Here you can add your custom player skins. List each skin by name here, separated by commas.
-# The player skin files are read from mods/player_skins/textures in the game's directory.
-# Each skin requires two PNG files, where <name> is the skin name:
-#
-# * player_skins_<name>.png: Player skin
-# * player_skins_icon_<name>.png: Player skin icon
-player_skins_names (Player skin list) string male,female
-
 [World]
 # If enabled, the weather will change from time to time.
 weather_enable (Enable dynamic weather) bool true

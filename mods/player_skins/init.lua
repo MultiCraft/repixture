@@ -13,10 +13,6 @@ player_skins = {}
 player_skins.skin_names = {NS("male"), NS("female")}
 player_skins.default_skins = {male=true, female=true}
 
-if minetest.settings:get("player_skins_names") then
-   player_skins.skin_names = util.split(minetest.settings:get("player_skins_names"), ",")
-end
-
 player_skins.old_skins = {}
 player_skins.skins = {}
 
@@ -226,5 +222,41 @@ minetest.register_chatcommand(
          end
       end
 })
+
+local genders = { "male", "female" }
+local cloth_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" }
+local band_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "green", "lime", "turquoise", "yellow", "orange" }
+local hairs = { "male", "female" }
+local eye_colors = { "green", "blue", "brown" }
+
+minetest.register_chatcommand(
+   "random_skin",
+   {
+      params = get_chatparams(),
+      description = S("Set random player skin"),
+      privs = {},
+      func = function(name, param)
+         local player = minetest.get_player_by_name(name)
+         if not player then
+              return false
+         end
+         local scol = math.random(0,9)
+         local gender = genders[math.random(1, #genders)]
+         local ccol = cloth_colors[math.random(1, #cloth_colors)]
+         local bcol = band_colors[math.random(1, #band_colors)]
+         local hair = hairs[math.random(1, #hairs)]
+         local ecol = eye_colors[math.random(1, #eye_colors)]
+         default.player_set_textures(
+            player, {
+               "player_skins_skin_"..scol.."_male.png" .. "^" ..
+               "player_skins_eyes_"..ecol..".png" .. "^" ..
+               "player_skins_hair_"..hair..".png" .. "^" ..
+               "player_skins_clothes_"..ccol..".png" .. "^" ..
+               "player_skins_bands_"..bcol..".png"
+         })
+         return true
+      end
+})
+
 
 default.log("mod:player_skins", "loaded")
