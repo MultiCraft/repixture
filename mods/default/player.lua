@@ -100,6 +100,9 @@ local function on_joinplayer(player)
    player_health[name] = player:get_hp()
 
    player_lastpos[name] = player:get_pos()
+
+   local inv = player:get_inventory()
+   inv:set_size("hand", 1)
 end
 
 local function on_leaveplayer(player)
