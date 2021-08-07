@@ -20,11 +20,14 @@ function player_skins.get_skin(name)
 end
 
 local components = {
-	-- TODO: Add support for skin colors 0-9
+	--skin_colors = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" },
 	skin_colors = { "1" },
 	cloth_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" },
 	band_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "turquoise", "lime", "green", "yellow", "orange" },
-	hairs = { "beard", "short" },
+	hairs = {
+		"beard_brown", "beard_dark_brown", "beard_silver", "beard_black", "beard_red", "beard_orange",
+		"short_brown", "short_dark_brown", "short_silver", "short_black", "short_red", "short_orange",
+	},
 	eye_colors = { "green", "blue", "brown" },
 }
 
@@ -123,6 +126,7 @@ function player_skins.get_formspec(playername)
 	form = form .. "model[0.2,0.5;4,8;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0;0]"
 	form = form .. default.ui.button(3.5, 0.3, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
 	form = form .. default.ui.button(3.5, 1.3, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
+	form = form .. default.ui.button(3.5, 2.3, 3, 1, "player_skins_skin_select_skin_colors", S("Skin"))
 	form = form .. default.ui.button(3.5, 3, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
 	form = form .. default.ui.button(3.5, 5, 3, 1, "player_skins_skin_select_band_colors", S("Trousers"))
 	form = form .. default.ui.button(3.5, 7.75, 3, 1, "player_skins_skin_select_random", S("Random"))
