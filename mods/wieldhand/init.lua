@@ -1,4 +1,4 @@
-hand = {}
+wieldhand = {}
 
 for h=0, 9 do
 	minetest.register_item("wieldhand:hand_"..h, {
