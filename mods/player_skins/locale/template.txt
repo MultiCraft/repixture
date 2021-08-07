@@ -4,3 +4,4 @@ Hair=
 Eyes=
 Shirt=
 Trousers=
+Skin=
