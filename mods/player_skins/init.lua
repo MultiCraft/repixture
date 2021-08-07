@@ -42,6 +42,9 @@ function player_skins.set_skin(name, skin, cloth, bands, hair, eyes)
 	local meta = player:get_meta()
 	local metastring = skin..","..eyes..","..hair..","..cloth..","..bands
 	meta:set_string("player_skins:skindata", metastring)
+	if minetest.global_exists("armor") then
+		armor.update(player)
+	end
 	return true
 end
 
