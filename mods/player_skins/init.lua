@@ -223,10 +223,9 @@ minetest.register_chatcommand(
       end
 })
 
-local genders = { "male", "female" }
 local cloth_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" }
 local band_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "green", "lime", "turquoise", "yellow", "orange" }
-local hairs = { "male", "female" }
+local hairs = { "beard", "short" }
 local eye_colors = { "green", "blue", "brown" }
 
 minetest.register_chatcommand(
@@ -241,14 +240,13 @@ minetest.register_chatcommand(
               return false
          end
          local scol = math.random(0,9)
-         local gender = genders[math.random(1, #genders)]
          local ccol = cloth_colors[math.random(1, #cloth_colors)]
          local bcol = band_colors[math.random(1, #band_colors)]
          local hair = hairs[math.random(1, #hairs)]
          local ecol = eye_colors[math.random(1, #eye_colors)]
          default.player_set_textures(
             player, {
-               "player_skins_skin_"..scol.."_male.png" .. "^" ..
+               "player_skins_skin_"..scol..".png" .. "^" ..
                "player_skins_eyes_"..ecol..".png" .. "^" ..
                "player_skins_hair_"..hair..".png" .. "^" ..
                "player_skins_clothes_"..ccol..".png" .. "^" ..
