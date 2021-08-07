@@ -16,7 +16,7 @@ local timer = 10
 function player_skins.get_skin(name)
 	if not player_skins.skins[name] then
 		-- Fallback skin
-		return "player_skins_male.png"
+		return "character.png"
 	else
 		return player_skins.skins[name]
 	end
@@ -83,6 +83,8 @@ local components = {
 function player_skins.get_formspec(playername)
    local form = default.ui.get_page("default:default")
 
+   form = form .. "model[0,0.1;10.5,8;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0;0]"
+
    --[[ TODO: Add skin selection buttons
    local x, y = 0.1, 0.1
    for c,component in pairs(components) do
@@ -95,20 +97,20 @@ function player_skins.get_formspec(playername)
        y = y + 1
    end
    ]]
-   form = form .. default.ui.button(1, 1, 3, 1, "skin_select_random", S("Random skin"))
+   form = form .. default.ui.button(2.75, 7.75, 3, 1, "player_skins_skin_select_random", S("New skin"))
 
    return form
 end
 
 minetest.register_on_player_receive_fields(function(player, form_name, fields)
-	if (form_name ~= "") or (not fields.skin_select_random) then
+	if not fields.player_skins_skin_select_random then
 		return
 	end
 	local name = player:get_player_name()
 	player_skins.set_random_skin(name)
 	local form = player_skins.get_formspec(name)
 	player:set_inventory_formspec(form)
-	minetest.show_formspec(name, "player_skins:player_skins", form)
+	minetest.show_formspec(name, "", form)
 end)
 
 function player_skins.set_random_skin(name)
