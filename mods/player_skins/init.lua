@@ -19,11 +19,39 @@ function player_skins.get_skin(name)
 	end
 end
 
+local components = {
+	-- TODO: Add support for skin colors 0-9
+	skin_colors = { "1" },
+	cloth_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" },
+	band_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "green", "lime", "turquoise", "yellow", "orange" },
+	hairs = { "beard", "short" },
+	eye_colors = { "green", "blue", "brown" },
+}
+
 -- NOTE: Skin data is saved in player meta under player_skins:skindata
 -- in comma-separated list, in this order:
 -- skin, eye, hair, cloth, bands
 
 function player_skins.set_skin(name, skin, cloth, bands, hair, eyes)
+	local skindata = player_skins.skindata_ids[name]
+	if not skindata then
+		return false
+	end
+	if not skin then
+		skin = components.skin_colors[skindata.skin_colors]
+	end
+	if not cloth then
+		cloth = components.cloth_colors[skindata.cloth_colors]
+	end
+	if not bands then
+		bands = components.band_colors[skindata.band_colors]
+	end
+	if not hair then
+		hair = components.hairs[skindata.hairs]
+	end
+	if not eyes then
+		eyes = components.eye_colors[skindata.eye_colors]
+	end
 	local newskin =
 		"player_skins_skin_"..skin..".png" .. "^" ..
 		"player_skins_eyes_"..eyes..".png" .. "^" ..
@@ -44,15 +72,6 @@ function player_skins.set_skin(name, skin, cloth, bands, hair, eyes)
 	end
 	return true
 end
-
-local components = {
-	-- TODO: Add support for skin colors 0-9
-	skin_colors = { "1" },
-	cloth_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" },
-	band_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "green", "lime", "turquoise", "yellow", "orange" },
-	hairs = { "beard", "short" },
-	eye_colors = { "green", "blue", "brown" },
-}
 
 local function on_joinplayer(player)
 	local name = player:get_player_name()
@@ -79,7 +98,7 @@ local function on_joinplayer(player)
 		for c,component in pairs(components) do
 			for i=1, #component do
 				if component[i] == map[c] then
-					player_skins.skindata_ids[name][c] = skin
+					player_skins.skindata_ids[name][c] = i
 				end
 			end
 		end
@@ -101,20 +120,41 @@ minetest.register_on_leaveplayer(on_leaveplayer)
 
 function player_skins.get_formspec(playername)
 	local form = default.ui.get_page("default:default")
-	form = form .. "model[0,0.1;10.5,8;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0;0]"
-	form = form .. default.ui.button(2.75, 7.75, 3, 1, "player_skins_skin_select_random", S("New skin"))
+	form = form .. "model[0.2,0.5;4,8;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0;0]"
+	form = form .. default.ui.button(3.5, 0.3, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
+	form = form .. default.ui.button(3.5, 1.3, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
+	form = form .. default.ui.button(3.5, 3, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
+	form = form .. default.ui.button(3.5, 5, 3, 1, "player_skins_skin_select_band_colors", S("Trousers"))
+	form = form .. default.ui.button(3.5, 7.75, 3, 1, "player_skins_skin_select_random", S("Random"))
 	return form
 end
 
 minetest.register_on_player_receive_fields(function(player, form_name, fields)
-	if not fields.player_skins_skin_select_random then
-		return
-	end
 	local name = player:get_player_name()
-	player_skins.set_random_skin(name)
-	local form = player_skins.get_formspec(name)
-	player:set_inventory_formspec(form)
-	minetest.show_formspec(name, "", form)
+	local changed = false
+	if fields.player_skins_skin_select_random then
+		player_skins.set_random_skin(name)
+		changed = true
+	else
+		local checks = {"hairs", "eye_colors", "cloth_colors", "band_colors"}
+		for c=1, #checks do
+			local check = checks[c]
+			if fields["player_skins_skin_select_"..check] then
+				player_skins.skindata_ids[name][check] = (player_skins.skindata_ids[name][check] + 1)
+				if player_skins.skindata_ids[name][check] > #components[check] then
+					player_skins.skindata_ids[name][check] = 1
+				end
+				player_skins.set_skin(name)
+				changed = true
+				break
+			end
+		end
+	end
+	if changed then
+		local form = player_skins.get_formspec(name)
+		player:set_inventory_formspec(form)
+		minetest.show_formspec(name, "", form)
+	end
 end)
 
 function player_skins.set_random_skin(name)
