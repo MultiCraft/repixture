@@ -81,25 +81,10 @@ local components = {
 }
 
 function player_skins.get_formspec(playername)
-   local form = default.ui.get_page("default:default")
-
-   form = form .. "model[0,0.1;10.5,8;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0;0]"
-
-   --[[ TODO: Add skin selection buttons
-   local x, y = 0.1, 0.1
-   for c,component in pairs(components) do
-       for c=1, #component do
-           local color = component[c]
-           form = form .. default.ui.button(x, y, 1, 1, "skin_select_" .. color, color)
-           x = x + 0.7
-       end
-       x = 0.1
-       y = y + 1
-   end
-   ]]
-   form = form .. default.ui.button(2.75, 7.75, 3, 1, "player_skins_skin_select_random", S("New skin"))
-
-   return form
+	local form = default.ui.get_page("default:default")
+	form = form .. "model[0,0.1;10.5,8;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0;0]"
+	form = form .. default.ui.button(2.75, 7.75, 3, 1, "player_skins_skin_select_random", S("New skin"))
+	return form
 end
 
 minetest.register_on_player_receive_fields(function(player, form_name, fields)
@@ -133,18 +118,5 @@ function player_skins.set_random_skin(name)
 
 	player_skins.set_skin(name, scol, ccol, bcol, hair, ecol)
 end
-
-minetest.register_chatcommand(
-   "random_skin",
-   {
-      params = "",
-      description = S("Set random player skin"),
-      privs = {},
-      func = function(name, param)
-         player_skins.set_random_skin(name)
-         return true
-      end
-})
-
 
 default.log("mod:player_skins", "loaded")
