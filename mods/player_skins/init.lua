@@ -4,14 +4,11 @@
 --
 
 local S = minetest.get_translator("player_skins")
-local NS = function(s) return s end
 
 player_skins = {}
 
 player_skins.skins = {}
-
-local timer_interval = 1
-local timer = 10
+player_skins.skindata_ids = {}
 
 function player_skins.get_skin(name)
 	if not player_skins.skins[name] then
@@ -48,10 +45,23 @@ function player_skins.set_skin(name, skin, cloth, bands, hair, eyes)
 	return true
 end
 
+local components = {
+	-- TODO: Add support for skin colors 0-9
+	skin_colors = { "1" },
+	cloth_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" },
+	band_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "green", "lime", "turquoise", "yellow", "orange" },
+	hairs = { "beard", "short" },
+	eye_colors = { "green", "blue", "brown" },
+}
+
 local function on_joinplayer(player)
 	local name = player:get_player_name()
 	local meta = player:get_meta()
 	local skin = meta:get_string("player_skins:skindata")
+	player_skins.skindata_ids[name] = {}
+	for k,v in pairs(components) do
+		player_skins.skindata_ids[name][k] = {}
+	end
 	if skin ~= "" then
 		local skindata = string.split(skin, ",")
 		local skin = skindata[1]
@@ -59,6 +69,21 @@ local function on_joinplayer(player)
 		local hair = skindata[3]
 		local cloth = skindata[4]
 		local bands = skindata[5]
+		local map = {
+			skin_colors = skin,
+			eye_colors = eye,
+			hairs = hair,
+			cloth_colors = cloth,
+			band_colors = bands,
+		}
+		for c,component in pairs(components) do
+			for i=1, #component do
+				if component[i] == map[c] then
+					player_skins.skindata_ids[name][c] = skin
+				end
+			end
+		end
+
 		player_skins.set_skin(name, skin, cloth, bands, hair, eye)
 	else
 		player_skins.set_random_skin(name)
@@ -68,17 +93,11 @@ end
 local function on_leaveplayer(player)
 	local name = player:get_player_name()
 	player_skins.skins[name] = nil
+	player_skins.skindata_ids[name] = nil
 end
 
 minetest.register_on_joinplayer(on_joinplayer)
 minetest.register_on_leaveplayer(on_leaveplayer)
-
-local components = {
-	cloth_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" },
-	band_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "green", "lime", "turquoise", "yellow", "orange" },
-	hairs = { "beard", "short" },
-	eye_colors = { "green", "blue", "brown" },
-}
 
 function player_skins.get_formspec(playername)
 	local form = default.ui.get_page("default:default")
@@ -103,12 +122,28 @@ function player_skins.set_random_skin(name)
 	if not player then
 		return false
 	end
-	-- TODO: Pick a random skin color (0-9)
-	local scol = "1"
-	local ccol = components.cloth_colors[math.random(1, #components.cloth_colors)]
-	local bcol = components.band_colors[math.random(1, #components.band_colors)]
-	local hair = components.hairs[math.random(1, #components.hairs)]
-	local ecol = components.eye_colors[math.random(1, #components.eye_colors)]
+
+	local snum = math.random(1, #components.skin_colors)
+	local scol = components.skin_colors[snum]
+
+	local cnum = math.random(1, #components.cloth_colors)
+	local ccol = components.cloth_colors[cnum]
+
+	local bnum = math.random(1, #components.band_colors)
+	local bcol = components.band_colors[math.random(1, bnum)]
+
+	local hnum = math.random(1, #components.hairs)
+	local hair = components.hairs[hnum]
+
+	local enum = math.random(1, #components.eye_colors)
+	local ecol = components.eye_colors[enum]
+
+	player_skins.skindata_ids[name].skin_colors = snum
+	player_skins.skindata_ids[name].cloth_colors = cnum
+	player_skins.skindata_ids[name].band_colors = bnum
+	player_skins.skindata_ids[name].hairs = hnum
+	player_skins.skindata_ids[name].eye_colors = enum
+
 	local newskin =
 		"player_skins_skin_"..scol..".png" .. "^" ..
 		"player_skins_eyes_"..ecol..".png" .. "^" ..
