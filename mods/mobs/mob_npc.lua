@@ -99,6 +99,10 @@ for _, npc_type_table in pairs(npc_types) do
 	 textures = {
 	    {"mobs_npc1.png"},
 	    {"mobs_npc2.png"},
+	    {"mobs_npc3.png"},
+	    {"mobs_npc4.png"},
+	    {"mobs_npc5.png"},
+	    {"mobs_npc6.png"},
 	 },
 	 makes_footstep_sound = true,
 	 sounds = {},
