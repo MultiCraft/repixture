@@ -127,7 +127,7 @@ minetest.register_on_leaveplayer(on_leaveplayer)
 
 function player_skins.get_formspec(playername)
 	local form = default.ui.get_page("default:default")
-	form = form .. "model[0.2,0.5;4,8;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0;0]"
+	form = form .. "model[0.2,0.5;4,8;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0]"
 	form = form .. default.ui.button(3.5, 0.3, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
 	form = form .. default.ui.button(3.5, 1.3, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
 	form = form .. default.ui.button(3.5, 3, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
