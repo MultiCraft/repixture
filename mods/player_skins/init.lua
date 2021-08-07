@@ -23,7 +23,7 @@ local components = {
 	-- TODO: Add support for skin colors 0-9
 	skin_colors = { "1" },
 	cloth_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" },
-	band_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "green", "lime", "turquoise", "yellow", "orange" },
+	band_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "turquoise", "lime", "green", "yellow", "orange" },
 	hairs = { "beard", "short" },
 	eye_colors = { "green", "blue", "brown" },
 }
