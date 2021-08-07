@@ -22,9 +22,44 @@ function player_skins.get_skin(name)
 	end
 end
 
+-- NOTE: Skin data is saved in player meta under player_skins:skindata
+-- in comma-separated list, in this order:
+-- skin, eye, hair, cloth, bands
+
+function player_skins.set_skin(name, skin, cloth, bands, hair, eyes)
+	local newskin =
+		"player_skins_skin_"..skin..".png" .. "^" ..
+		"player_skins_eyes_"..eyes..".png" .. "^" ..
+		"player_skins_hair_"..hair..".png" .. "^" ..
+		"player_skins_clothes_"..cloth..".png" .. "^" ..
+		"player_skins_bands_"..bands..".png"
+	local player = minetest.get_player_by_name(name)
+	if not player then
+		return false
+	end
+	default.player_set_textures(player, { newskin })
+	player_skins.skins[name] = newskin
+	local meta = player:get_meta()
+	local metastring = skin..","..eyes..","..hair..","..cloth..","..bands
+	meta:set_string("player_skins:skindata", metastring)
+	return true
+end
+
 local function on_joinplayer(player)
 	local name = player:get_player_name()
-	player_skins.set_random_skin(name)
+	local meta = player:get_meta()
+	local skin = meta:get_string("player_skins:skindata")
+	if skin ~= "" then
+		local skindata = string.split(skin, ",")
+		local skin = skindata[1]
+		local eye = skindata[2]
+		local hair = skindata[3]
+		local cloth = skindata[4]
+		local bands = skindata[5]
+		player_skins.set_skin(name, skin, cloth, bands, hair, eye)
+	else
+		player_skins.set_random_skin(name)
+	end
 end
 
 local function on_leaveplayer(player)
@@ -79,7 +114,7 @@ function player_skins.set_random_skin(name)
 		return false
 	end
 	-- TODO: Pick a random skin color (0-9)
-	local scol = 1
+	local scol = "1"
 	local ccol = components.cloth_colors[math.random(1, #components.cloth_colors)]
 	local bcol = components.band_colors[math.random(1, #components.band_colors)]
 	local hair = components.hairs[math.random(1, #components.hairs)]
@@ -91,8 +126,7 @@ function player_skins.set_random_skin(name)
 		"player_skins_clothes_"..ccol..".png" .. "^" ..
 		"player_skins_bands_"..bcol..".png"
 
-	default.player_set_textures(player, { newskin })
-	player_skins.skins[name] = newskin
+	player_skins.set_skin(name, scol, ccol, bcol, hair, ecol)
 end
 
 minetest.register_chatcommand(
