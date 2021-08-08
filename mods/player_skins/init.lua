@@ -1,6 +1,7 @@
 --
 -- Player skins mod
 -- By Kaadmy, for Pixture
+-- updated by Wuzzy, for Repixture
 --
 
 local S = minetest.get_translator("player_skins")
@@ -9,6 +10,32 @@ player_skins = {}
 
 player_skins.skins = {}
 player_skins.skindata_ids = {}
+
+-- Load legacy skins file (version 1.4.2 and before) to load the
+-- correct skin for players coming from old versions.
+-- Old versions supported only 2 skins: "male" and "female".
+-- Current version knows no gender, only skins.
+local legacy_skins = {}
+local function load_legacy_player_skins()
+	local legacy_skins_file = minetest.get_worldpath() .. "/player_skins.dat"
+	local f = io.open(legacy_skins_file, "r")
+
+	if not f then
+		return
+	end
+	repeat
+		local l = f:read("*l")
+		if l == nil then break end
+
+		for name, tex in string.gmatch(l, "(.+) (.+)") do
+			legacy_skins[name] = tex
+		end
+	until f:read(0) == nil
+	minetest.log("action", "[player_skins] Legacy skins file player_skins.dat found and loaded")
+
+	io.close(f)
+end
+load_legacy_player_skins()
 
 function player_skins.get_skin(name)
 	if not player_skins.skins[name] then
@@ -29,6 +56,16 @@ local components = {
 	},
 	eye_colors = { "green", "blue", "brown" },
 }
+
+function player_skins.build_skin(skin, cloth, bands, hair, eyes)
+	local skin =
+		"player_skins_skin_"..skin..".png" .. "^" ..
+		"player_skins_eyes_"..eyes..".png" .. "^" ..
+		"player_skins_hair_"..hair..".png" .. "^" ..
+		"player_skins_clothes_"..cloth..".png" .. "^" ..
+		"player_skins_bands_"..bands..".png"
+	return skin
+end
 
 -- NOTE: Skin data is saved in player meta under player_skins:skindata
 -- in comma-separated list, in this order:
@@ -54,12 +91,7 @@ function player_skins.set_skin(name, skin, cloth, bands, hair, eyes)
 	if not eyes then
 		eyes = components.eye_colors[skindata.eye_colors]
 	end
-	local newskin =
-		"player_skins_skin_"..skin..".png" .. "^" ..
-		"player_skins_eyes_"..eyes..".png" .. "^" ..
-		"player_skins_hair_"..hair..".png" .. "^" ..
-		"player_skins_clothes_"..cloth..".png" .. "^" ..
-		"player_skins_bands_"..bands..".png"
+	local newskin = player_skins.build_skin(skin, cloth, bands, hair, eyes)
 	local player = minetest.get_player_by_name(name)
 	if not player then
 		return false
@@ -83,18 +115,45 @@ end
 local function on_joinplayer(player)
 	local name = player:get_player_name()
 	local meta = player:get_meta()
-	local skin = meta:get_string("player_skins:skindata")
+	local skinstr = meta:get_string("player_skins:skindata")
 	player_skins.skindata_ids[name] = {}
 	for k,v in pairs(components) do
 		player_skins.skindata_ids[name][k] = {}
 	end
-	if skin ~= "" then
-		local skindata = string.split(skin, ",")
-		local skin = skindata[1]
-		local eye = skindata[2]
-		local hair = skindata[3]
-		local cloth = skindata[4]
-		local bands = skindata[5]
+	if skinstr ~= "" or legacy_skins[name] then
+		-- If no skin found in player meta, but a legacy skin (v.1.4.2 and before) is found,
+		-- use the legacy skin
+		local skin, eye, hair, cloth, bands
+		if skinstr == "" and legacy_skins[name] then
+			skin = "1"
+			eye = "green"
+			cloth = "red"
+			bands = "green"
+			local legacy_skin = legacy_skins[name]
+			legacy_skins[name] = nil
+			-- Load skin from legacy version (v1.4.2 and before)
+			if legacy_skin == "female" then
+				minetest.log("action", "[player_skins] Converting legacy skin 'female' for player "..name)
+				hair = "short_brown"
+			elseif legacy_skin == "male" then
+				minetest.log("action", "[player_skins] Converting legacy skin 'male' for player "..name)
+				hair = "beard_brown"
+			else
+				minetest.log("action", "[player_skins] Unknown legacy skin '"..tostring(legacy_skin).."' detected for player "..name..", setting a random skin")
+				player_skins.set_random_skin(name)
+				return
+			end
+		-- Skin found in player meta, so we parse it
+		else
+			local skindata = string.split(skinstr, ",")
+			skin = skindata[1]
+			eye = skindata[2]
+			hair = skindata[3]
+			cloth = skindata[4]
+			bands = skindata[5]
+		end
+
+		-- Populate skindata_ids (needed for formspec to know which skin components are selected)
 		local map = {
 			skin_colors = skin,
 			eye_colors = eye,
@@ -110,8 +169,11 @@ local function on_joinplayer(player)
 			end
 		end
 
+		-- Set skin :-)
 		player_skins.set_skin(name, skin, cloth, bands, hair, eye)
 	else
+		-- No skin found, set a random one
+		minetest.log("action", "[player_skins] Player "..name.." appears to be new, setting initial random skin")
 		player_skins.set_random_skin(name)
 	end
 end
