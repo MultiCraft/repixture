@@ -52,7 +52,7 @@ minetest.register_craftitem(
                   z = 0
             })
 
-            player:set_attach(ent, "", {x = 0, y = -8, z = 0}, {x = 0, y = 0, z = 0})
+            player:set_attach(ent, "", {x = 0, y = -8, z = 0}, {x = 0, y = 0, z = 0}, true)
 
             ent:set_yaw(player:get_look_horizontal())
 
