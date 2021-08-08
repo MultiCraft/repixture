@@ -233,6 +233,28 @@ for mat_index, matdef in ipairs(armor.materials) do
 	       armor_slot = s,
 	    },
 
+            -- Allow to equip armor from wieldhand
+            on_use = function(itemstack, user, pointed_thing)
+               local inv = user:get_inventory()
+               local slotstack = inv:get_stack("armor", s)
+               local armor_changed = false
+               if slotstack:is_empty() then
+                  -- Empty slot: Equip armor
+                  inv:set_stack("armor", s, itemstack)
+                  itemstack:take_item()
+                  armor_changed = true
+               else
+                  -- Occupied slot: Exchange armor
+                  itemstack, slotstack = slotstack, itemstack
+                  inv:set_stack("armor", s, slotstack)
+                  armor_changed = true
+               end
+               if armor_changed then
+                  armor.update(user)
+                  return itemstack
+               end
+            end,
+
 	    stack_max = 1,
       })
    end
