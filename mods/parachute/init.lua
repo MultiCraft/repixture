@@ -43,6 +43,7 @@ minetest.register_craftitem(
             pos.y = pos.y + 3
 
             local ent = minetest.add_entity(pos, "parachute:entity")
+            minetest.sound_play({name="parachute_open", pos=pos}, {gain=0.5}, true)
 
             ent:set_velocity(
                {
@@ -162,6 +163,7 @@ minetest.register_entity(
                self.object:set_detach()
             end
 
+            minetest.sound_play({name="parachute_close", pos=self.object:get_pos()}, {gain=0.5}, true)
             self.object:remove()
          end
       end
