@@ -121,7 +121,7 @@ for _, npc_type_table in pairs(npc_types) do
          do_custom = function(self)
             -- Slowly heal NPC over time
             self.healing_counter = self.healing_counter + 1
-            if self.healing_counter >= 10 then
+            if self.healing_counter >= 7 then
                local hp = self.object:get_hp()
                hp = math.min(20, hp + 1)
                self.object:set_hp(hp)
