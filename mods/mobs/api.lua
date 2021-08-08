@@ -728,6 +728,9 @@ function mobs:register_mob(name, def)
                if self.hornytimer > 240 then
                   self.child = false
                   self.hornytimer = 0
+                  local cpos = self.object:get_pos()
+                  cpos.y = cpos.y + ((self.base_colbox[5] - self.base_colbox[2])/2)
+                  self.object:set_pos(cpos)
                   self.object:set_properties(
                      {
                         textures = self.base_texture,
