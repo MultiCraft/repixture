@@ -61,6 +61,10 @@ local function update_sounds(do_repeat)
    end
 end
 
+-- This timer prevents the weather from changing naturally too fast
+local stoptimer = 0
+local stoptimer_init = 15 -- minumum time between natural weather changes in seconds
+
 local function setweather_type(type, do_repeat)
    local valid = false
    for i = 1, #weather.types do
@@ -69,6 +73,10 @@ local function setweather_type(type, do_repeat)
       end
    end
    if valid then
+      if weather.weather ~= type then
+        -- Only reset stoptimer if weather actually changed
+        stoptimer = stoptimer_init
+      end
       weather.weather = type
       mod_storage:set_string("weather:weather", weather.weather)
       minetest.log("action", "[weather] Weather set to: "..weather.weather)
@@ -81,7 +89,10 @@ end
 
 minetest.register_globalstep(
    function(dtime)
-      if minetest.settings:get_bool("weather_enable") then
+      if stoptimer > 0 then
+         stoptimer = stoptimer - dtime
+      end
+      if minetest.settings:get_bool("weather_enable") and stoptimer <= 0 then
          if not weather_inited then
              if loaded_weather == "" then
                 setweather_type("clear", true)
@@ -106,6 +117,7 @@ minetest.register_globalstep(
                mod_storage:set_string("weather:weather", weather.weather)
                minetest.log("action", "[weather] Weather changed to: "..weather.weather)
                update_sounds()
+               stoptimer = stoptimer_init
             end
 	 end
       end
