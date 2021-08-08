@@ -250,6 +250,7 @@ for mat_index, matdef in ipairs(armor.materials) do
                   armor_changed = true
                end
                if armor_changed then
+                  minetest.sound_play({name="armor_equip", object=user}, {gain=0.5}, true)
                   armor.update(user)
                   return itemstack
                end
@@ -310,6 +311,7 @@ end)
 
 -- Move armor items to correct slot
 minetest.register_on_player_inventory_action(function(player, action, inventory, inventory_info)
+    local sound  -- 1 == equip, 2 = unequip
     if action == "move" and inventory_info.to_list == "armor" then
        local stack = inventory:get_stack(inventory_info.to_list, inventory_info.to_index)
        local name = stack:get_name()
@@ -318,6 +320,7 @@ minetest.register_on_player_inventory_action(function(player, action, inventory,
            inventory:set_stack("armor", inventory_info.to_index, "")
            inventory:set_stack("armor", slot, stack)
        end
+       sound = 1
     elseif action == "put" and inventory_info.listname == "armor" then
        local name = inventory_info.stack:get_name()
        local slot = minetest.get_item_group(name, "armor_slot")
@@ -325,11 +328,29 @@ minetest.register_on_player_inventory_action(function(player, action, inventory,
            inventory:set_stack("armor", inventory_info.index, "")
            inventory:set_stack("armor", slot, stack)
        end
+       sound = 1
     end
-    if action == "move" and inventory_info.to_list == "armor" or inventory_info.from_list == "armor" then
-        armor.update(player)
-    elseif action == "put" or action == "take" and inventory_info.listname == "armor" then
-        armor.update(player)
+    if action == "move" then
+        if inventory_info.to_list == "armor" then
+            sound = 1
+            armor.update(player)
+        elseif inventory_info.from_list == "armor" then
+            sound = 2
+            armor.update(player)
+        end
+    elseif inventory_info.listname == "armor" then
+        if action == "put" then
+           sound = 1
+           armor.update(player)
+        elseif action == "take" then
+           sound = 2
+           armor.update(player)
+        end
+    end
+    if sound == 1 then
+        minetest.sound_play({name="armor_equip", object=player}, {gain=0.5}, true)
+    elseif sound == 2 then
+        minetest.sound_play({name="armor_unequip", object=player}, {gain=0.5}, true)
     end
 end)
 
