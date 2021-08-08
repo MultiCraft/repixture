@@ -6,7 +6,7 @@ unique graphics and sounds.
 This is a revival of Pixture 0.1.1, a game for Minetest 0.4.
 
 ## Version
-1.4.2
+1.5.0
 
 Designed for use with Minetest 5.4.0 or later.
 
@@ -23,7 +23,7 @@ Designed for use with Minetest 5.4.0 or later.
 * Weather
 * Beds (skip the night)
 * New and better player models
-* 2 player skins
+* Change your player appearance
 * Achievements
 * Multi-language support
 * Creative Mode
