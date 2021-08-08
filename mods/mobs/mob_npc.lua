@@ -22,37 +22,18 @@ local msgs = {
     trade = {
         S("If you want to trade, show me a trading book."),
     },
-    full_already = {
-        S("I don't want to eat anymore!"),
-        S("I'm not hungry!"),
-        S("I'm full already."),
-        S("I don't want food right now."),
-    },
-    eat_full = {
-        S("Ah, now I'm fully energized!"),
-        S("Thanks, now I'm filled up."),
-        S("Thank you, now I feel much better!"),
-    },
-    eat_normal = {
-        S("Munch-munch!"),
-        S("Yummies!"),
-        S("Yum-yum!"),
-        S("Chomp!"),
-        S("Thanks!"),
-    },
-    item_reject = {
-        S("I don't want this."),
-    },
-    hungry = {
-        S("I could use a snack."),
-        S("I'm a bit hungry."),
-    },
     happy = {
         S("Hello!"),
         S("Nice to see you."),
         S("Life is beautiful."),
         S("I feel good."),
         S("Have a nice day!"),
+    },
+    exhausted = {
+        S("I'm not in a good mood."),
+        S("I'm tired."),
+        S("I need to rest."),
+        S("Life could be better."),
     },
     hurt = {
         S("I don't feel so good."),
@@ -158,48 +139,8 @@ for _, npc_type_table in pairs(npc_types) do
 
             achievements.trigger_achievement(clicker, "smalltalk")
 
-            -- Feed to heal npc
-
             local hp = self.object:get_hp()
-            if minetest.get_item_group(iname, "food") > 0 and iname ~= "default:cactus" then
-               -- Reject food that is not in this list
-               if iname ~= "mobs:meat" and iname ~= "mobs:pork"
-               and iname ~= "farming:bread" and iname ~= "default:apple"
-               and iname ~= "default:clam" then
-                  say_random("item_reject", name)
-                  return
-               end
-
-               -- return if full health
-               if hp >= self.hp_max then
-                  say_random("full_already", name)
-                  return
-               end
-
-               if iname == "default:apple" then
-                   hp = hp + 1
-               elseif iname == "default:clam" then
-                   hp = hp + 2
-               else
-                   hp = hp + 4
-               end
-               if hp >= self.hp_max then
-                   hp = self.hp_max
-                   say_random("eat_full", name)
-               else
-                   say_random("eat_normal", name)
-               end
-               self.object:set_hp(hp)
-
-               -- take item
-               if not minetest.settings:get_bool("creative_mode") then
-                  item:take_item()
-                  clicker:set_wielded_item(item)
-               end
-
-               -- Right clicking with trading book trades
-               -- Trading is done in the gold mod
-            else
+            do
                -- No trading if low health
                if hp < 5 then
                   say_random("hurt", name)
@@ -235,6 +176,14 @@ for _, npc_type_table in pairs(npc_types) do
                           say(S("It's used to capture small animals."), name)
                       elseif iname == "farming:wheat_1" then
                           say(S("Every kid knows seeds need soil, water and sunlight."), name)
+                      elseif iname == "farming:wheat" then
+                          if npc_type == "farmer" then
+                             say(S("Sheep love to eat wheat. Give them enough wheat and they'll multiply!"), name)
+                          else
+                             say(S("We use wheat to make flour and bake bread."), name)
+                          end
+                      elseif iname == "farming:flour" then
+                          say(S("Put it in a furnace to bake tasty bread."), name)
                       elseif iname == "farming:cotton_1" then
                           if npc_type == "farmer" then
                               say(S("Did you know cotton seed not only grow on dirt, but also on sand? But it still needs water."), name)
@@ -291,6 +240,14 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                              say(S("Sleeping makes the night go past in the blink of an eye."), name)
                           end
+                      elseif iname == "default:apple" then
+                          if npc_type == "farmer" then
+                             say(S("Boars love to eat apples, too! If you feed enough of these to them, they will multiply."), name)
+                          else
+                             say(S("Apples are so tasty!"), name)
+                          end
+                      elseif minetest.get_item_group(iname, "food") > 0 then
+                          say(S("Stay healthy!"), name)
                       else
                           local r = math.random(1,3)
                           if r == 1 then
@@ -302,7 +259,7 @@ for _, npc_type_table in pairs(npc_types) do
                           end
                       end
                    elseif hp >= 5 then
-                      say_random("hungry", name)
+                      say_random("exhausted", name)
                    else
                       say_random("hurt", name)
                    end
