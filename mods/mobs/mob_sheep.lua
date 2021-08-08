@@ -65,7 +65,7 @@ mobs:register_mob(
       on_replace = function(self, pos)
          minetest.set_node(pos, {name = self.replace_with})
 
-         if mobs:feed_tame(self, self.follow, 8, true) then
+         if mobs:feed_tame(self, self.follow, 8, false, false) then
             if self.gotten == false then
                self.object:set_properties(
                   {
