@@ -29,7 +29,6 @@ mobs:register_mob(
       walk_velocity = 2,
       run_velocity = 4,
       jump = true,
-      follow = "tnt:tnt",
       view_range = 10,
       drops = {
 	 {name = "tnt:tnt",
@@ -51,10 +50,6 @@ mobs:register_mob(
 	 punch_start = 51,
 	 punch_end = 60,
       },
-      on_rightclick = function(self, clicker)
-         mobs:feed_tame(self, clicker, 4, false)
-         mobs:capture_mob(self, clicker, 0, 20, 40, false, nil)
-      end,
       on_die = function(self, pos, hitter)
          if hitter == nil or (hitter ~= nil and not hitter:is_player()) then
             return
