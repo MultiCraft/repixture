@@ -1,4 +1,0 @@
-default
-weather
-crafting
-achievements

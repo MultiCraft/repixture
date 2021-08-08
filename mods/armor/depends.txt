@@ -1,4 +1,0 @@
-default
-drop_items_on_die
-crafting
-achievements
