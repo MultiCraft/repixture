@@ -27,7 +27,6 @@ mobs:register_mob(
       walk_velocity = 1,
       run_velocity = 3,
       jump = true,
-      follow = "default:rope",
       view_range = 14,
       drops = {
 	 {
