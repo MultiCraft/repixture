@@ -76,7 +76,8 @@ minetest.register_on_joinplayer(function(player)
 end)
 
 minetest.register_on_leaveplayer(function(player)
-	 wielditem[name] = nil
+	local name = player:get_player_name()
+	wielditem[name] = nil
 end)
 
 default.log("mod:wielditem", "loaded")
