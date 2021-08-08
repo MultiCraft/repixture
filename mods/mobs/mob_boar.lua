@@ -27,6 +27,7 @@ mobs:register_mob(
 	 damage = "mobs_boar",
 	 attack = "mobs_boar_angry",
 	 death = "mobs_boar_angry",
+	 eat = "mobs_eat",
 	 distance = 16,
       },
       walk_velocity = 2,

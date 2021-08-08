@@ -24,6 +24,7 @@ mobs:register_mob(
 	 attack = "mobs_skunk_hiss",
 	 damage = "mobs_skunk_hiss",
 	 death = "mobs_skunk_hiss",
+	 eat = "mobs_eat",
 	 distance = 16,
       },
       walk_velocity = 1.5,

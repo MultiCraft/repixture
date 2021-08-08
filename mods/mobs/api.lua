@@ -1744,6 +1744,25 @@ function mobs:feed_tame(self, clicker, feed_count, breed)
 	    clicker:set_wielded_item(item)
          end
       end
+      mob_sound(self, self.sounds.eat, true)
+
+      local mobpos = self.object:get_pos()
+      minetest.add_particlespawner(
+      {
+         amount = 10,
+         time = 0.1,
+         minpos = {x = mobpos.x - 0.1, y = mobpos.y - 0.1, z = mobpos.z - 0.1},
+         maxpos = {x = mobpos.x + 0.1, y = mobpos.y + 0.1, z = mobpos.z + 0.1},
+         minvel = {x = -1, y = -1, z = -1},
+         maxvel = {x = 1, y = 0, z = 1},
+         minacc = {x = 0, y = 6, z = 0},
+         maxacc = {x = 0, y = 1, z = 0},
+         minexptime = 0.5,
+         maxexptime = 1,
+         minsize = 0.5,
+         maxsize = 2,
+         texture = "magicpuff.png"
+      })
 
       self:check_fed(name, feed_count, breed)
 

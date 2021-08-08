@@ -26,6 +26,7 @@ mobs:register_mob(
 	 random = "mobs_sheep",
 	 death = "mobs_sheep",
 	 damage = "mobs_sheep",
+	 eat = "mobs_eat",
 	 distance = 16,
       },
       walk_velocity = 1,
