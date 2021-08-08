@@ -118,8 +118,20 @@ for _, npc_type_table in pairs(npc_types) do
 	    punch_start = 200,
 	    punch_end = 219,
 	 },
+         do_custom = function(self)
+            -- Slowly heal NPC over time
+            self.healing_counter = self.healing_counter + 1
+            if self.healing_counter > 5 then
+               local hp = self.object:get_hp()
+               hp = math.min(20, hp + 1)
+               self.object:set_hp(hp)
+               local hp = self.object:get_hp()
+               self.healing_counter = 0
+            end
+         end,
 	 on_spawn = function(self)
             self.npc_type = npc_type
+            self.healing_counter = 0
          end,
 	 on_rightclick = function(self, clicker)
             local item = clicker:get_wielded_item()
