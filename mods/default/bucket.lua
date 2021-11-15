@@ -30,20 +30,6 @@ for b=1, #water_buckets do
    
             local inv=user:get_inventory()
    
-            if not minetest.settings:get_bool("creative_mode") then
-               if itemstack:get_count() == 1 then
-                  itemstack:set_name("default:bucket")
-               elseif inv:room_for_item("main", {name="default:bucket"}) then
-                  itemstack:take_item()
-                  inv:add_item("main", "default:bucket")
-               else
-                  itemstack:take_item()
-                  local pos = user:get_pos()
-                  pos.y = math.floor(pos.y + 0.5)
-                  minetest.add_item(pos, "default:bucket")
-               end
-            end
-
             local pos = pointed_thing.above
             local above_nodedef = minetest.registered_nodes[minetest.get_node(pointed_thing.above).name]
             local under_nodedef = minetest.registered_nodes[minetest.get_node(pointed_thing.under).name]
@@ -53,6 +39,19 @@ for b=1, #water_buckets do
             end
 
             if not above_nodedef.walkable then
+               if not minetest.settings:get_bool("creative_mode") then
+                  if itemstack:get_count() == 1 then
+                     itemstack:set_name("default:bucket")
+                  elseif inv:room_for_item("main", {name="default:bucket"}) then
+                     itemstack:take_item()
+                     inv:add_item("main", "default:bucket")
+                  else
+                     itemstack:take_item()
+                     local pos = user:get_pos()
+                     pos.y = math.floor(pos.y + 0.5)
+                     minetest.add_item(pos, "default:bucket")
+                  end
+               end
                minetest.add_node(pos, {name = bucket[4]})
                minetest.sound_play({name="default_place_node_water", gain=1.0}, {pos=pos}, true)
             end
