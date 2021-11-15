@@ -37,10 +37,6 @@ The original gameplay of Pixture will be (mostly) preserved,
 the focus lies on bugfixes and usability features.
 There will be no major changes to gameplay.
 
-## Changelog
-
-See file *CHANGELOG.md*.
-
 ## Credits
 
 Repixture was started by Wuzzy. It's a fork of Pixture.

@@ -1,3 +1,5 @@
+# Old changelog (not updated since 1.0.0)
+
 ## 1.0.0
 - Fix villages sometimes digging too aggressively into land
 - Change clothing color of villagers
