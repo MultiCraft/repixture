@@ -78,7 +78,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 
    crafting.register_craft( -- Craft to
       {
-	 output = "partialblocks:slab_" .. name,
+	 output = "partialblocks:slab_" .. name .. " 2",
 	 items = {
 	    node,
 	 },
@@ -88,7 +88,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       minetest.register_craft( -- Fuel
 	 {
 	    type = "fuel",
-	    recipe = "partialblocks:slab_" .. name,
+	    recipe = "partialblocks:slab_" .. name .. " 2",
 	    burntime = 7,
       })
    end
