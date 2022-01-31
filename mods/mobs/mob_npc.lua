@@ -232,6 +232,12 @@ for _, npc_type_table in pairs(npc_types) do
                           end
                       elseif iname == "lumien:crystal_off" then
                           say(S("This looks like it could be a good wall decoration."), name)
+                      elseif iname == "default:torch_dead" then
+                          say(S("It’s burned out. Use flint and steel to kindle it."), name)
+                      elseif iname == "default:torch_weak" then
+                          say(S("With flint and steel you could stabilize the flame."), name)
+                      elseif iname == "default:torch" then
+                          say(S("Let’s light up some caves!"), name)
                       elseif iname == "default:flower" then
                           say(S("A flower? I love flowers! Let's make the world bloom!"), name)
                       elseif iname == "default:flint_and_steel" then
@@ -252,6 +258,9 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                              say(S("Sleeping makes the night go past in the blink of an eye."), name)
                           end
+                      elseif iname == "default:lump_bronze" then
+                          -- Classic parody of Friedrich Schiller’s “Das Lied von der Glocke” (works best in German)
+                          say(S("Hole in dirt, put bronze in. Bell’s complete, bim, bim, bim!"), name)
                       elseif iname == "default:apple" then
                           if npc_type == "farmer" then
                              say(S("Boars love to eat apples, too! If you feed enough of these to them, they will multiply."), name)

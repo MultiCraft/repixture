@@ -92,3 +92,7 @@ Stay healthy!=
 Sheep=
 Skunk=
 Walker=
+It’s burned out. Use flint and steel to kindle it.=
+With flint and steel you could stabilize the flame.=
+Let’s light up some caves!=
+Hole in dirt, put bronze in. Bell’s complete, bim, bim, bim!
