@@ -157,4 +157,4 @@ function minetest.handle_node_drops(pos, drops, digger)
    end
 end
 
-default.log("mod:item_drop", "loaded")
+default.log("mod:rp_item_drop", "loaded")
