@@ -10,7 +10,7 @@ village.villages = {}
 local village_file = minetest.get_worldpath() .. "/villages.dat"
 
 local modpath = minetest.get_modpath("village")
-local mod_locks = minetest.get_modpath("locks") ~= nil
+local mod_locks = minetest.get_modpath("rp_locks") ~= nil
 local mapseed = minetest.get_mapgen_setting("seed")
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
 
@@ -350,7 +350,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
          function(pos)
             if pr:next(1,4) == 1 then
                local node = minetest.get_node(pos)
-               node.name = "locks:chest"
+               node.name = "rp_locks:chest"
                minetest.swap_node(pos, node)
             end
          end, true)
@@ -361,7 +361,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
    util.nodefunc(
       pos,
       {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-      {"rp_default:chest", "locks:chest"},
+      {"rp_default:chest", "rp_locks:chest"},
       function(pos)
          goodies.fill(pos, chunktype, pr, "main", 3)
       end, true)

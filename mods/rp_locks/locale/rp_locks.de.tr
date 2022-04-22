@@ -1,4 +1,4 @@
-# textdomain: locks
+# textdomain: rp_locks
 Lock Pick=Dietrich
 @1 has broken into your locked chest!=@1 hat Ihre abgeschlossene Truhe geknackt!
 You have broken the lock!=Sie haben das Schloss geknackt!

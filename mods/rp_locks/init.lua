@@ -4,7 +4,7 @@
 -- By Kaadmy, for Pixture
 --
 
-local S = minetest.get_translator("locks")
+local S = minetest.get_translator("rp_locks")
 
 locks = {}
 
@@ -49,7 +49,7 @@ end
 -- Items and nodes
 
 minetest.register_tool(
-   "locks:pick",
+   "rp_locks:pick",
    {
       description = S("Lock Pick"),
       _tt_help = S("Cracks locked chests"),
@@ -149,7 +149,7 @@ local put_lock = function(itemstack, putter, pointed_thing)
             minetest.record_protection_violation(pos, name)
             return itemstack
         end
-        node.name = "locks:chest"
+        node.name = "rp_locks:chest"
         minetest.swap_node(pos, node)
         local meta = minetest.get_meta(pos)
         if name ~= "" then
@@ -166,7 +166,7 @@ local put_lock = function(itemstack, putter, pointed_thing)
 end
 
 minetest.register_craftitem(
-   "locks:lock",
+   "rp_locks:lock",
    {
       description = S("Lock"),
       _tt_help = S("Used to craft locked chests"),
@@ -180,7 +180,7 @@ minetest.register_craftitem(
 })
 
 minetest.register_node(
-   "locks:chest",
+   "rp_locks:chest",
    {
       description = S("Locked Chest"),
       _tt_help = S("Provides 32 inventory slots") .. "\n" .. S("Can only be opened by its owner and those who have a lockpick"),
@@ -302,7 +302,7 @@ minetest.register_node(
 
 crafting.register_craft(
    {
-      output = "locks:pick",
+      output = "rp_locks:pick",
       items = {
          "rp_default:ingot_steel 2",
          "rp_default:stick 3",
@@ -311,7 +311,7 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "locks:lock",
+      output = "rp_locks:lock",
       items = {
          "rp_default:ingot_steel 3",
          "group:planks 2",
@@ -320,10 +320,10 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "locks:chest",
+      output = "rp_locks:chest",
       items = {
          "rp_default:chest",
-         "locks:lock",
+         "rp_locks:lock",
       },
 })
 
@@ -335,7 +335,7 @@ achievements.register_achievement(
       title = S("Locksmith"),
       description = S("Craft a lock."),
       times = 1,
-      craftitem = "locks:lock",
+      craftitem = "rp_locks:lock",
 })
 
 achievements.register_achievement(
@@ -346,4 +346,8 @@ achievements.register_achievement(
       times = 1,
 })
 
-default.log("mod:locks", "loaded")
+minetest.register_alias("locks:chest", "rp_locks:chest")
+minetest.register_alias("locks:lock", "rp_locks:lock")
+minetest.register_alias("locks:pick", "rp_locks:pick")
+
+default.log("mod:rp_locks", "loaded")

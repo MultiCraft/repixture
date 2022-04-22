@@ -1,4 +1,4 @@
-# textdomain: locks
+# textdomain: rp_locks
 Lock Pick=Crochet de serrure
 @1 has broken into your locked chest!=@1 a forcé votre coffre fermé à clé!
 You have broken the lock!=Tu as cassé la serrure!

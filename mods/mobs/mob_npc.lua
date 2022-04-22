@@ -182,7 +182,7 @@ for _, npc_type_table in pairs(npc_types) do
                           end
                       elseif iname == "mobs:lasso" then
                           say(S("It's used to capture large animals."), name)
-                      elseif iname == "locks:pick" then
+                      elseif iname == "rp_locks:pick" then
                           say(S("Why are you carrying this around? Do you want crack open our locked chests?"), name)
                       elseif iname == "mobs:net" then
                           say(S("It's used to capture small animals."), name)

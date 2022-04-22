@@ -1,4 +1,4 @@
-# textdomain: locks
+# textdomain: rp_locks
 Lock Pick=
 @1 has broken into your locked chest!=
 You have broken the lock!=
