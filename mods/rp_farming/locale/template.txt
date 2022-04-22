@@ -1,4 +1,4 @@
-# textdomain: farming
+# textdomain: rp_farming
 Wannabe Farmer=
 Wheat Farmer=
 Cotton Farmer=

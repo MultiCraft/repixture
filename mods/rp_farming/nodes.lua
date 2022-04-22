@@ -1,10 +1,10 @@
-local S = minetest.get_translator("farming")
+local S = minetest.get_translator("rp_farming")
 --
 -- Nodes
 --
 
 minetest.register_node(
-   "farming:wheat_1",
+   "rp_farming:wheat_1",
    {
       description = S("Wheat Seed"),
       _tt_help = S("Grows on dirt and swamp dirt; it likes water"),
@@ -20,7 +20,7 @@ minetest.register_node(
       is_ground_content = true,
       drop = {
 	 items = {
-	    {items = {"farming:wheat"}, rarity = 3}
+	    {items = {"rp_farming:wheat"}, rarity = 3}
 	 }
       },
       selection_box = {
@@ -33,7 +33,7 @@ minetest.register_node(
 )
 
 minetest.register_node(
-   "farming:wheat_2",
+   "rp_farming:wheat_2",
    {
       description = S("Wheat Plant (stage 1)"),
       drawtype = "plantlike",
@@ -47,7 +47,7 @@ minetest.register_node(
       is_ground_content = true,
       drop = {
 	 items = {
-	    {items = {"farming:wheat"}, rarity = 2}
+	    {items = {"rp_farming:wheat"}, rarity = 2}
 	 }
       },
       selection_box = {
@@ -60,7 +60,7 @@ minetest.register_node(
 )
 
 minetest.register_node(
-   "farming:wheat_3",
+   "rp_farming:wheat_3",
    {
       description = S("Wheat Plant (stage 2)"),
       drawtype = "plantlike",
@@ -74,7 +74,7 @@ minetest.register_node(
       is_ground_content = true,
       drop = {
 	 items = {
-	    {items = {"farming:wheat"}, rarity = 1}
+	    {items = {"rp_farming:wheat"}, rarity = 1}
 	 }
       },
       selection_box = {
@@ -87,7 +87,7 @@ minetest.register_node(
 )
 
 minetest.register_node(
-   "farming:wheat_4",
+   "rp_farming:wheat_4",
    {
       description = S("Wheat Plant (stage 3)"),
       drawtype = "plantlike",
@@ -101,10 +101,10 @@ minetest.register_node(
       is_ground_content = true,
       drop = {
 	 items = {
-	    {items = {"farming:wheat"}, rarity = 1},
-	    {items = {"farming:wheat 2"}, rarity = 4},
-	    {items = {"farming:wheat_1"}, rarity = 1},
-	    {items = {"farming:wheat_1"}, rarity = 2},
+	    {items = {"rp_farming:wheat"}, rarity = 1},
+	    {items = {"rp_farming:wheat 2"}, rarity = 4},
+	    {items = {"rp_farming:wheat_1"}, rarity = 1},
+	    {items = {"rp_farming:wheat_1"}, rarity = 2},
 	 }
       },
       selection_box = {
@@ -117,7 +117,7 @@ minetest.register_node(
 )
 
 minetest.register_node(
-   "farming:cotton_1",
+   "rp_farming:cotton_1",
    {
       description = S("Cotton Seed"),
       _tt_help = S("Grows on dirt, swamp dirt, dry dirt and sand; it likes water"),
@@ -133,7 +133,7 @@ minetest.register_node(
       is_ground_content = true,
       drop = {
 	 items = {
-	    {items = {"farming:cotton"}, rarity = 3}
+	    {items = {"rp_farming:cotton"}, rarity = 3}
 	 }
       },
       selection_box = {
@@ -146,7 +146,7 @@ minetest.register_node(
 )
 
 minetest.register_node(
-   "farming:cotton_2",
+   "rp_farming:cotton_2",
    {
       description = S("Cotton Plant (stage 1)"),
       drawtype = "plantlike",
@@ -160,7 +160,7 @@ minetest.register_node(
       is_ground_content = true,
       drop = {
 	 items = {
-	    {items = {"farming:cotton"}, rarity = 2}
+	    {items = {"rp_farming:cotton"}, rarity = 2}
 	 }
       },
       selection_box = {
@@ -173,7 +173,7 @@ minetest.register_node(
 )
 
 minetest.register_node(
-   "farming:cotton_3",
+   "rp_farming:cotton_3",
    {
       description = S("Cotton Plant (stage 2)"),
       drawtype = "plantlike",
@@ -187,7 +187,7 @@ minetest.register_node(
       is_ground_content = true,
       drop = {
 	 items = {
-	    {items = {"farming:cotton"}, rarity = 1}
+	    {items = {"rp_farming:cotton"}, rarity = 1}
 	 }
       },
       selection_box = {
@@ -204,21 +204,21 @@ local trim_cotton = function(pos, node, player, tool)
 
    local name = tool:get_name()
    minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8}, true)
-   minetest.set_node(pos, {name = "farming:cotton_2"})
+   minetest.set_node(pos, {name = "rp_farming:cotton_2"})
 
    -- Drop some seeds
 
    if math.random(1, 2) == 1 then
-      item_drop.drop_item(pos, "farming:cotton_1")
+      item_drop.drop_item(pos, "rp_farming:cotton_1")
    end
 
    -- Drop an extra cotton ball
 
    for i = 1, 2 do
       if math.random(1, 4) == 1 then -- 25% chance of dropping 2x
-         item_drop.drop_item(pos, "farming:cotton 2")
+         item_drop.drop_item(pos, "rp_farming:cotton 2")
       else
-         item_drop.drop_item(pos, "farming:cotton")
+         item_drop.drop_item(pos, "rp_farming:cotton")
       end
    end
 
@@ -236,7 +236,7 @@ local trim_cotton = function(pos, node, player, tool)
 end
 
 minetest.register_node(
-   "farming:cotton_4",
+   "rp_farming:cotton_4",
    {
       description = S("Cotton Plant (stage 3)"),
       drawtype = "plantlike",
@@ -250,10 +250,10 @@ minetest.register_node(
       is_ground_content = true,
       drop = {
 	 items = {
-	    {items = {"farming:cotton"}, rarity = 1},
-	    {items = {"farming:cotton 2"}, rarity = 4},
-	    {items = {"farming:cotton_1"}, rarity = 1},
-	    {items = {"farming:cotton_1"}, rarity = 2},
+	    {items = {"rp_farming:cotton"}, rarity = 1},
+	    {items = {"rp_farming:cotton 2"}, rarity = 4},
+	    {items = {"rp_farming:cotton_1"}, rarity = 1},
+	    {items = {"rp_farming:cotton_1"}, rarity = 2},
 	 }
       },
       selection_box = {
@@ -269,7 +269,7 @@ minetest.register_node(
 )
 
 minetest.register_node(
-   "farming:cotton_bale",
+   "rp_farming:cotton_bale",
    {
       description = S("Cotton Bale"),
       tiles ={"farming_cotton_bale.png"},
@@ -280,7 +280,7 @@ minetest.register_node(
    }
 )
 
-minetest.register_alias("farming:cotton_seed", "farming:cotton_1")
-minetest.register_alias("farming:wheat_seed", "farming:wheat_1")
+minetest.register_alias("rp_farming:cotton_seed", "rp_farming:cotton_1")
+minetest.register_alias("rp_farming:wheat_seed", "rp_farming:wheat_1")
 
 default.log("nodes", "loaded")

@@ -13,7 +13,7 @@ goodies.types_valuable = {}
 -- custom types
 goodies.types["FURNACE_SRC"] = {
    ["rp_default:lump_iron"] = 3,
-   ["farming:flour"] = 5,
+   ["rp_farming:flour"] = 5,
 }
 goodies.types["FURNACE_FUEL"] = {
    ["rp_default:lump_coal"] = 2,
@@ -22,7 +22,7 @@ goodies.types["FURNACE_FUEL"] = {
 }
 goodies.types["FURNACE_DST"] = {
    ["rp_default:ingot_wrought_iron"] = 5,
-   ["farming:bread"] = 8,
+   ["rp_farming:bread"] = 8,
 }
 
 -- chunk types for villages
@@ -49,9 +49,9 @@ if minetest.get_modpath("village") ~= nil then
    }
    goodies.types["house"] = {
       ["rp_default:stick"] = 2,
-      ["farming:bread"] = 6,
-      ["farming:cotton_1"] = 9,
-      ["farming:wheat_1"] = 6,
+      ["rp_farming:bread"] = 6,
+      ["rp_farming:cotton_1"] = 9,
+      ["rp_farming:wheat_1"] = 6,
       ["rp_default:axe_stone"] = 13,
       ["rp_default:apple"] = 3,
       ["rp_default:bucket"] = 8,

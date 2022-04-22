@@ -1,6 +1,6 @@
-Farming mod
-===========
-By Kaadmy, for Pixture
+rp_farming mod
+==============
+By Kaadmy and Wuzzy, for Repixture
 
 Place wheat/cotton seeds near water
 When they become stage 4, they can be harvested

@@ -1,4 +1,4 @@
-local S = minetest.get_translator("farming")
+local S = minetest.get_translator("rp_farming")
 --
 -- Achievements
 --
@@ -18,7 +18,7 @@ achievements.register_achievement(
       title = S("Wheat Farmer"),
       description = S("Harvest a fully-grown wheat plant."),
       times = 1,
-      dignode = "farming:wheat_4",
+      dignode = "rp_farming:wheat_4",
    })
 
 achievements.register_achievement(
@@ -27,7 +27,7 @@ achievements.register_achievement(
       title = S("Cotton Farmer"),
       description = S("Harvest a fully-grown cotton plant."),
       times = 1,
-      dignode = "farming:cotton_4",
+      dignode = "rp_farming:cotton_4",
    })
 
 default.log("achievements", "loaded")

@@ -15,7 +15,7 @@ function farming.register_plant(name, plant)
    minetest.register_lbm(
       {
          label = "Grow legacy farming plants ("..name..")",
-         name = "farming:grow_legacy_plants_v2_"..lbm_name,
+         name = "rp_farming:grow_legacy_plants_v2_"..lbm_name,
 
 	 nodenames = {
 	    name .. "_1",

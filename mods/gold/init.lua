@@ -15,14 +15,14 @@ gold.trade_names = {}
 if minetest.get_modpath("mobs") ~= nil then
    gold.trades["farmer"] = {
       -- plants
-      {"gold:ingot_gold", "", "farming:wheat_1 6"},
-      {"gold:ingot_gold 3", "", "farming:cotton_1 4"},
-      {"gold:ingot_gold 5", "", "farming:cotton_1 8"},
+      {"gold:ingot_gold", "", "rp_farming:wheat_1 6"},
+      {"gold:ingot_gold 3", "", "rp_farming:cotton_1 4"},
+      {"gold:ingot_gold 5", "", "rp_farming:cotton_1 8"},
       {"gold:ingot_gold", "", "rp_default:papyrus 4"},
       {"gold:ingot_gold 2", "", "rp_default:cactus"},
 
       -- crafts
-      {"gold:ingot_gold 7", "", "farming:cotton_bale 3"},
+      {"gold:ingot_gold 7", "", "rp_farming:cotton_bale 3"},
 
       -- tool repair
       {"gold:ingot_gold 6", "rp_default:shovel_stone", "rp_default:shovel_stone"},
@@ -48,7 +48,7 @@ if minetest.get_modpath("mobs") ~= nil then
    gold.trades["tavernkeeper"] = {
       -- edibles
       {"gold:ingot_gold", "", "rp_default:apple 3"},
-      {"gold:ingot_gold", "", "farming:bread"},
+      {"gold:ingot_gold", "", "rp_farming:bread"},
       {"gold:ingot_gold 2", "", "mobs:meat"},
       {"gold:ingot_gold 3", "", "mobs:pork"},
 

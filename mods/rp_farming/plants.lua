@@ -4,7 +4,7 @@
 --
 
 farming.register_plant(
-   "farming:wheat",
+   "rp_farming:wheat",
    {
       grow_time = 600,
       grows_near = {"group:water"},
@@ -16,7 +16,7 @@ farming.register_plant(
 )
 
 farming.register_plant(
-   "farming:cotton",
+   "rp_farming:cotton",
    {
       grow_time = 780,
       grows_near = {"group:water"},

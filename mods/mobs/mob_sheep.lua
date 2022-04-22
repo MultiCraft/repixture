@@ -50,14 +50,14 @@ mobs:register_mob(
 	 walk_start = 61,
 	 walk_end = 80,
       },
-      follow = "farming:wheat",
+      follow = "rp_farming:wheat",
       view_range = 5,
       replace_rate = 50,
       replace_what = {
          "rp_default:grass",
          "rp_default:tall_grass",
-         "farming:wheat_3",
-         "farming:wheat_4"
+         "rp_farming:wheat_3",
+         "rp_farming:wheat_4"
       },
       replace_with = "air",
       replace_offset = -1,

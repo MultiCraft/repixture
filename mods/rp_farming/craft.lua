@@ -1,33 +1,33 @@
 --
 -- Crafts and items
 --
-local S = minetest.get_translator("farming")
+local S = minetest.get_translator("rp_farming")
 
 -- Items
 
 minetest.register_craftitem(
-   "farming:cotton",
+   "rp_farming:cotton",
    {
       description = S("Cotton"),
       inventory_image = "farming_cotton.png"
 })
 
 minetest.register_craftitem(
-   "farming:wheat",
+   "rp_farming:wheat",
    {
       description = S("Wheat"),
       inventory_image = "farming_wheat.png"
 })
 
 minetest.register_craftitem(
-   "farming:flour",
+   "rp_farming:flour",
    {
       description = S("Flour"),
       inventory_image = "farming_flour.png"
 })
 
 minetest.register_craftitem(
-   "farming:bread",
+   "rp_farming:bread",
    {
       description = S("Bread"),
       _tt_food = true,
@@ -42,17 +42,17 @@ minetest.register_craftitem(
 
 crafting.register_craft(
    {
-      output = "farming:flour",
+      output = "rp_farming:flour",
       items = {
-         "farming:wheat 4",
+         "rp_farming:wheat 4",
       }
 })
 
 crafting.register_craft(
    {
-      output = "farming:cotton_bale 2",
+      output = "rp_farming:cotton_bale 2",
       items = {
-         "farming:cotton 2",
+         "rp_farming:cotton 2",
       }
 })
 
@@ -61,8 +61,8 @@ crafting.register_craft(
 minetest.register_craft(
    {
       type = "cooking",
-      output = "farming:bread",
-      recipe = "farming:flour",
+      output = "rp_farming:bread",
+      recipe = "rp_farming:flour",
       cooktime = 15,
 })
 

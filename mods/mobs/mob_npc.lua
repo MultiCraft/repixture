@@ -186,17 +186,17 @@ for _, npc_type_table in pairs(npc_types) do
                           say(S("Why are you carrying this around? Do you want crack open our locked chests?"), name)
                       elseif iname == "mobs:net" then
                           say(S("It's used to capture small animals."), name)
-                      elseif iname == "farming:wheat_1" then
+                      elseif iname == "rp_farming:wheat_1" then
                           say(S("Every kid knows seeds need soil, water and sunlight."), name)
-                      elseif iname == "farming:wheat" then
+                      elseif iname == "rp_farming:wheat" then
                           if npc_type == "farmer" then
                              say(S("Sheep love to eat wheat. Give them enough wheat and they'll multiply!"), name)
                           else
                              say(S("We use wheat to make flour and bake bread."), name)
                           end
-                      elseif iname == "farming:flour" then
+                      elseif iname == "rp_farming:flour" then
                           say(S("Put it in a furnace to bake tasty bread."), name)
-                      elseif iname == "farming:cotton_1" then
+                      elseif iname == "rp_farming:cotton_1" then
                           if npc_type == "farmer" then
                               say(S("Did you know cotton seed not only grow on dirt, but also on sand? But it still needs water."), name)
                           else

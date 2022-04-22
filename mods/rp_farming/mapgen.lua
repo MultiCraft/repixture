@@ -10,7 +10,7 @@ minetest.register_decoration(
       sidelen = 16,
       fill_ratio = 0.008,
       biomes = {"Wilderness"},
-      decoration = {"farming:wheat_4"},
+      decoration = {"rp_farming:wheat_4"},
       y_min = 0,
       y_max = 32000,
 })
@@ -22,7 +22,7 @@ minetest.register_decoration(
       sidelen = 16,
       fill_ratio = 0.006,
       biomes = {"Grassland", "Savanna"},
-      decoration = {"farming:wheat_4"},
+      decoration = {"rp_farming:wheat_4"},
       y_min = 0,
       y_max = 32000,
 })
@@ -34,7 +34,7 @@ minetest.register_decoration(
       sidelen = 16,
       fill_ratio = 0.004,
       biomes = {"Desert"},
-      decoration = {"farming:cotton_4"},
+      decoration = {"rp_farming:cotton_4"},
       y_min = 0,
       y_max = 32000,
 })
