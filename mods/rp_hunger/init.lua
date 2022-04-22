@@ -1,10 +1,10 @@
 --
 -- Hunger mod
--- For nodetest
--- Tweaked by Kaadmy, for Pixture
+-- originally from Nodetest
+-- Tweaked by Kaadmy and Wuzzy, for Repixture
 --
 
-local S = minetest.get_translator("hunger")
+local S = minetest.get_translator("rp_hunger")
 
 hunger = {}
 

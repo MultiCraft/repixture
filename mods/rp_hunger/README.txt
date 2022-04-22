@@ -1,7 +1,7 @@
 Hunger mod
 ==========
 For Voxelgarden (by Casimir?)
-Tweaked by Kaadmy, for Pixture
+Tweaked by Kaadmy and Wuzzy, for Reixture
 
 Media license: CC BY-SA 4.0
 Source code license: LGPLv2.1
