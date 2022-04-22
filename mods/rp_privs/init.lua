@@ -1,4 +1,4 @@
-local S = minetest.get_translator("privs")
+local S = minetest.get_translator("rp_privs")
 minetest.register_privilege("maphack", {
 	description = S("Can make advanced changes to the map, like placing villages"),
 	give_to_singleplayer = false,
