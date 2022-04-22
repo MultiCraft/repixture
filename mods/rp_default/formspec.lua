@@ -352,7 +352,7 @@ function default.ui.receive_fields(player, form_name, fields)
       formname = "player_skins:player_skins"
       form = player_skins.get_formspec(name)
    elseif minetest.get_modpath("creative") ~= nil and minetest.settings:get_bool("creative_mode") and fields.tab_creative then
-      formname = "creative:creative"
+      formname = "rp_creative:creative"
       form = creative.get_formspec(name)
    end
    if formname and form then
@@ -373,7 +373,7 @@ minetest.register_on_joinplayer(
       local name = player:get_player_name()
       if minetest.settings:get_bool("creative_mode") then
           player:set_inventory_formspec(creative.get_formspec(name))
-          default.ui.current_page[name] = "creative:creative"
+          default.ui.current_page[name] = "rp_creative:creative"
       else
           player:set_inventory_formspec(crafting.get_formspec(name))
           default.ui.current_page[name] = "crafting:crafting"
