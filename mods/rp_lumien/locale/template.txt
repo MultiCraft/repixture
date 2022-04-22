@@ -1,4 +1,4 @@
-# textdomain: lumien
+# textdomain: rp_lumien
 Glowing Lumien Crystal=
 Lumien Crystal=
 Lumien Block=

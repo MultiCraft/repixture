@@ -230,7 +230,7 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                              say(S("Did you know we sometimes sell jewels?"), name)
                           end
-                      elseif iname == "lumien:crystal_off" then
+                      elseif iname == "rp_lumien:crystal_off" then
                           say(S("This looks like it could be a good wall decoration."), name)
                       elseif iname == "rp_default:torch_dead" then
                           say(S("It’s burned out. Use flint and steel to kindle it."), name)

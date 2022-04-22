@@ -4,7 +4,7 @@
 -- By Kaadmy, for Pixture
 --
 
-local S = minetest.get_translator("lumien")
+local S = minetest.get_translator("rp_lumien")
 
 local lumien_on_radius = 2
 local lumien_off_radius = 4
@@ -37,14 +37,14 @@ local function on_globalstep(dtime)
             y = pos.y+lumien_on_radius,
             z = pos.z+lumien_on_radius
          },
-	 "lumien:crystal_off",
+	 "rp_lumien:crystal_off",
 	 function(pos)
 	    local node = minetest.get_node(pos)
 
 	    minetest.set_node(
 	       pos,
 	       {
-		  name = "lumien:crystal_on",
+		  name = "rp_lumien:crystal_on",
 		  param = node.param,
 		  param2 = node.param2
             })
@@ -59,7 +59,7 @@ minetest.register_globalstep(on_globalstep)
 -- Nodes
 
 minetest.register_node(
-   "lumien:crystal_on",
+   "rp_lumien:crystal_on",
    {
       description = S("Glowing Lumien Crystal"),
       inventory_image = "lumien_crystal_on.png",
@@ -77,12 +77,12 @@ minetest.register_node(
 
       groups = {crumbly = 3, not_in_creative_inventory = 1},
       light_source = 12,
-      drop = "lumien:crystal_off",
+      drop = "rp_lumien:crystal_off",
       sounds = default.node_sound_glass_defaults(),
 })
 
 minetest.register_node(
-   "lumien:crystal_off",
+   "rp_lumien:crystal_off",
    {
       description = S("Lumien Crystal"),
       _tt_help = S("Can be placed; glows when someone is close"),
@@ -105,7 +105,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "lumien:block",
+   "rp_lumien:block",
    {
       description = S("Lumien Block"),
       _tt_help = S("It shines so bright"),
@@ -118,19 +118,19 @@ minetest.register_node(
 -- Ores
 
 minetest.register_node(
-   "lumien:stone_with_lumien",
+   "rp_lumien:stone_with_lumien",
    {
       description = S("Stone with Lumien"),
       tiles = {"default_stone.png^lumien_mineral_lumien.png"},
       groups = {cracky = 1, stone = 1},
-      drop = "lumien:block",
+      drop = "rp_lumien:block",
       sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_ore(
    {
       ore_type       = "scatter",
-      ore            = "lumien:stone_with_lumien",
+      ore            = "rp_lumien:stone_with_lumien",
       wherein        = "rp_default:stone",
       clust_scarcity = 5*5*5,
       clust_num_ores = 8,
@@ -144,7 +144,7 @@ minetest.register_ore(
 minetest.register_abm(
    {
       label = "Lumien crystals",
-      nodenames = {"lumien:crystal_on"},
+      nodenames = {"rp_lumien:crystal_on"},
       interval = timer_interval,
       chance = 1,
       action = function(pos, node)
@@ -170,7 +170,7 @@ minetest.register_abm(
             minetest.set_node(
                pos,
                {
-                  name = "lumien:crystal_off",
+                  name = "rp_lumien:crystal_off",
                   param = node.param,
                   param2 = node.param2
             })
@@ -182,17 +182,17 @@ minetest.register_abm(
 
 crafting.register_craft(
    {
-      output = "lumien:crystal_off 9",
+      output = "rp_lumien:crystal_off 9",
       items = {
-         "lumien:block"
+         "rp_lumien:block"
       },
 })
 
 crafting.register_craft(
    {
-      output = "lumien:block",
+      output = "rp_lumien:block",
       items = {
-	 "lumien:crystal_off 9",
+	 "rp_lumien:crystal_off 9",
       },
 })
 
@@ -201,7 +201,7 @@ crafting.register_craft(
       output = "rp_default:heated_dirt_path 2",
       items = {
          "rp_default:dirt_path 2",
-         "lumien:crystal_off",
+         "rp_lumien:crystal_off",
       },
 })
 
@@ -214,7 +214,12 @@ achievements.register_achievement(
       title = S("Enlightened"),
       description = S("Place a lumien crystal."),
       times = 1,
-      placenode = "lumien:crystal_off",
+      placenode = "rp_lumien:crystal_off",
 })
 
-default.log("mod:lumien", "loaded")
+minetest.register_alias("lumien:block", "rp_lumien:block")
+minetest.register_alias("lumien:crystal_off", "rp_lumien:crystal_off")
+minetest.register_alias("lumien:crystal_on", "rp_lumien:crystal_on")
+minetest.register_alias("lumien:stone_with_lumien", "rp_lumien:stone_with_lumien")
+
+default.log("mod:rp_lumien", "loaded")
