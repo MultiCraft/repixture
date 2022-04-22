@@ -4,7 +4,7 @@
 -- By Kaadmy, for Pixture
 --
 
-local S = minetest.get_translator("book")
+local S = minetest.get_translator("rp_book")
 local F = minetest.formspec_escape
 
 local BOOK_MAX_TITLE_LENGTH = 64
@@ -35,13 +35,13 @@ minetest.register_craftitem(
          form = form .. "textarea[0.5,1.75;8,6.75;text;"..F(S("Contents:"))..";"..F(text).."]"
          form = form .. default.ui.button_exit(2.75, 7.75, 3, 1, "write", S("Write"))
 
-         minetest.show_formspec(name, "book:book", form)
+         minetest.show_formspec(name, "rp_book:book", form)
       end,
 })
 
 minetest.register_on_player_receive_fields(
    function(player, form_name, fields)
-      if form_name ~= "book:book" or not fields.write then return end
+      if form_name ~= "rp_book:book" or not fields.write then return end
 
       local itemstack = player:get_wielded_item()
 
@@ -63,4 +63,4 @@ minetest.register_on_player_receive_fields(
       player:set_wielded_item(itemstack)
 end)
 
-default.log("mod:book", "loaded")
+default.log("mod:rp_book", "loaded")

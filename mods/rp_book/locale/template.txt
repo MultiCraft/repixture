@@ -1,4 +1,4 @@
-# textdomain: book
+# textdomain: rp_book
 Unnamed Book=
 Title:=
 Contents:=
