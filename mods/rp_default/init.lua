@@ -56,4 +56,4 @@ dofile(minetest.get_modpath("rp_default").."/model.lua")
 
 dofile(minetest.get_modpath("rp_default").."/aliases.lua")
 
-default.log("mod:default", "loaded")
+default.log("mod:rp_default", "loaded")
