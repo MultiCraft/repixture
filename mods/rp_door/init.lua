@@ -3,7 +3,7 @@
 -- By Kaadmy, for Pixture
 --
 
-local S = minetest.get_translator("door")
+local S = minetest.get_translator("rp_door")
 
 door = {}
 
@@ -305,7 +305,7 @@ function door.register_door(name, def)
 end
 
 door.register_door(
-   "door:door_wood",
+   "rp_door:door_wood",
    {
       description = S("Wooden Door"),
       inventory_image = "door_wood.png",
@@ -318,7 +318,7 @@ door.register_door(
 
 crafting.register_craft(
    {
-      output = "door:door_wood",
+      output = "rp_door:door_wood",
       items = {
          "rp_default:fiber 6",
          "rp_default:stick 7",
@@ -327,7 +327,7 @@ crafting.register_craft(
 })
 
 door.register_door(
-   "door:door_stone",
+   "rp_door:door_stone",
    {
       description = S("Stone Door"),
       inventory_image = "door_stone.png",
@@ -340,7 +340,7 @@ door.register_door(
 
 crafting.register_craft(
    {
-      output = "door:door_stone",
+      output = "rp_door:door_stone",
       items = {
          "rp_default:fiber 6",
          "rp_default:stick 7",
@@ -359,4 +359,15 @@ achievements.register_achievement(
       craftitem = "group:door",
 })
 
-default.log("mod:door", "loaded")
+minetest.register_alias("door:door_stone", "rp_door:door_stone")
+minetest.register_alias("door:door_stone_b_1", "rp_door:door_stone_b_1")
+minetest.register_alias("door:door_stone_b_2", "rp_door:door_stone_b_2")
+minetest.register_alias("door:door_stone_t_1", "rp_door:door_stone_t_1")
+minetest.register_alias("door:door_stone_t_2", "rp_door:door_stone_t_2")
+minetest.register_alias("door:door_wood", "rp_door:door_wood")
+minetest.register_alias("door:door_wood_b_1", "rp_door:door_wood_b_1")
+minetest.register_alias("door:door_wood_b_2", "rp_door:door_wood_b_2")
+minetest.register_alias("door:door_wood_t_1", "rp_door:door_wood_t_1")
+minetest.register_alias("door:door_wood_t_2", "rp_door:door_wood_t_2")
+
+default.log("mod:rp_door", "loaded")

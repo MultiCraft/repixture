@@ -1,4 +1,4 @@
-# textdomain: door
+# textdomain: rp_door
 Wooden Door=
 Stone Door=
 Adoorable=
