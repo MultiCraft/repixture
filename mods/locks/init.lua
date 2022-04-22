@@ -139,7 +139,7 @@ local put_lock = function(itemstack, putter, pointed_thing)
     end
     local pos = pointed_thing.under
     local node = minetest.get_node(pos)
-    if node.name == "default:chest" then
+    if node.name == "rp_default:chest" then
         local name
         if putter and putter:is_player() then
            name = putter:get_player_name()
@@ -216,7 +216,7 @@ minetest.register_node(
 
          if not locks.is_locked(meta, player) then
             local np = pos.x .. "," .. pos.y .. "," .. pos.z
-            local form = default.ui.get_page("default:2part")
+            local form = default.ui.get_page("rp_default:2part")
             form = form .. "list[nodemeta:" .. np .. ";main;0.25,0.25;8,4;]"
             form = form .. "listring[nodemeta:" .. np .. ";main]"
             form = form .. default.ui.get_itemslot_bg(0.25, 0.25, 8, 4)
@@ -304,8 +304,8 @@ crafting.register_craft(
    {
       output = "locks:pick",
       items = {
-         "default:ingot_steel 2",
-         "default:stick 3",
+         "rp_default:ingot_steel 2",
+         "rp_default:stick 3",
       },
 })
 
@@ -313,7 +313,7 @@ crafting.register_craft(
    {
       output = "locks:lock",
       items = {
-         "default:ingot_steel 3",
+         "rp_default:ingot_steel 3",
          "group:planks 2",
       },
 })
@@ -322,7 +322,7 @@ crafting.register_craft(
    {
       output = "locks:chest",
       items = {
-         "default:chest",
+         "rp_default:chest",
          "locks:lock",
       },
 })

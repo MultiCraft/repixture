@@ -66,8 +66,8 @@ crafting.register_craft(
    {
       output = "mobs:net",
       items= {
-         "default:fiber 3",
-         "default:stick",
+         "rp_default:fiber 3",
+         "rp_default:stick",
       }
 })
 
@@ -85,7 +85,7 @@ crafting.register_craft(
    {
       output = "mobs:lasso",
       items = {
-         "default:rope 4",
-         "default:stick",
+         "rp_default:rope 4",
+         "rp_default:stick",
       }
 })

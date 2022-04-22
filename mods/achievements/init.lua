@@ -193,7 +193,7 @@ crafting.register_on_craft(on_craft)
 
 -- Formspecs
 
-local form = default.ui.get_page("default:default")
+local form = default.ui.get_page("rp_default:default")
 
 -- column 1: status image (0=gotten, 1=partial, 2=missing)
 -- column 2: achievement name
@@ -360,7 +360,7 @@ achievements.register_achievement(
       title = S("Hardened Miner"),
       description = S("Craft a carbon steel pickaxe."),
       times = 1,
-      craftitem = "default:pick_carbon_steel",
+      craftitem = "rp_default:pick_carbon_steel",
 })
 
 achievements.register_achievement(
@@ -369,7 +369,7 @@ achievements.register_achievement(
       title = S("Off to Battle"),
       description = S("Craft a broadsword."),
       times = 1,
-      craftitem = "default:broadsword",
+      craftitem = "rp_default:broadsword",
 })
 
 -- Stone
@@ -380,7 +380,7 @@ achievements.register_achievement(
       title = S("Mineority"),
       description = S("Mine a stone."),
       times = 1,
-      dignode = "default:stone",
+      dignode = "rp_default:stone",
 })
 
 achievements.register_achievement(
@@ -389,7 +389,7 @@ achievements.register_achievement(
       title = S("Smelting Room"),
       description = S("Craft a furnace."),
       times = 1,
-      craftitem = "default:furnace",
+      craftitem = "rp_default:furnace",
 })
 
 -- Biomes
@@ -400,7 +400,7 @@ achievements.register_achievement(
       title = S("Gardener"),
       description = S("Plant a flower."),
       times = 1,
-      placenode = "default:flower",
+      placenode = "rp_default:flower",
 })
 
 achievements.register_achievement(
@@ -409,7 +409,7 @@ achievements.register_achievement(
       title = S("Dry Lands"),
       description = S("Collect dry grass."),
       times = 1,
-      dignode = "default:dry_grass",
+      dignode = "rp_default:dry_grass",
 })
 
 achievements.register_achievement(
@@ -429,7 +429,7 @@ achievements.register_achievement(
       title = S("Fertile"),
       description = S("Craft a bag of fertilizer."),
       times = 1,
-      craftitem = "default:fertilizer",
+      craftitem = "rp_default:fertilizer",
 })
 
 -- Literature
@@ -440,7 +440,7 @@ achievements.register_achievement(
       title = S("Librarian"),
       description = S("Craft a bookshelf."),
       times = 1,
-      craftitem = "default:bookshelf",
+      craftitem = "rp_default:bookshelf",
 })
 
 default.log("mod:achievements", "loaded")

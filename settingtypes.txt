@@ -13,7 +13,7 @@ drop_items_on_die (Drop items on death) bool true
 give_initial_enable (Enable initial items) bool false
 
 # Comma-separated list of initial items to give to new players. You must use itemstrings as the item identifiers. This only works if give_initial_enable is active.
-give_initial_items (Initial items) string default:pick_stone,default:torch_weak 10
+give_initial_items (Initial items) string rp_default:pick_stone,rp_default:torch_weak 10
 
 [World]
 # If enabled, the weather will change from time to time.

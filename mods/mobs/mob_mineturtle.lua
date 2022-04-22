@@ -62,7 +62,7 @@ mobs:register_mob(
 mobs:register_spawn(
    "mobs:mineturtle",
    {
-      "default:dirt_with_grass"
+      "rp_default:dirt_with_grass"
    },
    20,
    5,

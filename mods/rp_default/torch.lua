@@ -1,4 +1,4 @@
-local S = minetest.get_translator("default")
+local S = minetest.get_translator("rp_default")
 
 -- Torches
 
@@ -6,7 +6,7 @@ local S = minetest.get_translator("default")
 
 local function register_torch(subname, description, tt_help, tiles, overlay_tiles, overlay_side_R90, inv_image, light)
    minetest.register_node(
-      "default:"..subname,
+      "rp_default:"..subname,
       {
          description = description,
          _tt_help = tt_help,
@@ -23,7 +23,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          walkable = false,
          floodable = true,
          on_flood = function(pos, oldnode, newnode)
-            minetest.add_item(pos, "default:torch_dead")
+            minetest.add_item(pos, "rp_default:torch_dead")
          end,
          node_placement_prediction = "",
          node_box = {
@@ -39,7 +39,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
              local node = minetest.get_node(pos)
              local dir = minetest.wallmounted_to_dir(node.param2)
              if dir.x ~= 0 or dir.z ~= 0 then
-                 minetest.set_node(pos, {name="default:"..subname.."_wall", param2 = node.param2})
+                 minetest.set_node(pos, {name="rp_default:"..subname.."_wall", param2 = node.param2})
              end
          end,
    })
@@ -88,7 +88,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
       }
    end
    minetest.register_node(
-      "default:"..subname.."_wall",
+      "rp_default:"..subname.."_wall",
       {
          drawtype = "nodebox",
          tiles = tiles2,
@@ -101,7 +101,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          walkable = false,
          floodable = true,
          on_flood = function(pos, oldnode, newnode)
-            minetest.add_item(pos, "default:torch_dead")
+            minetest.add_item(pos, "rp_default:torch_dead")
          end,
          node_box = {
 	    type = "wallmounted",
@@ -109,7 +109,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
 	    wall_bottom = {-2/16, -0.5, -2/16, 2/16, 0, 2/16},
 	    wall_side = {-0.5, -8/16, -2/16, -0.5+4/16, 0, 2/16},
          },
-         drop = "default:"..subname,
+         drop = "rp_default:"..subname,
          groups = {choppy = 2, dig_immediate = 3, attached_node = 1, not_in_creative_inventory = 1, torch = 2},
          is_ground_content = false,
          sounds = default.node_sound_defaults(),
@@ -193,8 +193,8 @@ register_torch("torch", S("Torch"), S("It's bright and burns forever"), {"defaul
 
 minetest.register_lbm({
 	label = "Upgrade wall torches",
-	name = "default:replace_legacy_wall_torches",
-	nodenames = { "default:torch", "default:torch_weak", "default:torch_dead" },
+	name = "rp_default:replace_legacy_wall_torches",
+	nodenames = { "rp_default:torch", "rp_default:torch_weak", "rp_default:torch_dead" },
 	action = function(pos, node)
 		local dir = minetest.wallmounted_to_dir(node.param2)
 		if dir and (dir.x ~= 0 or dir.z ~= 0) then

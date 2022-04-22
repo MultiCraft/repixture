@@ -3,84 +3,84 @@
 -- Node definitions of simple, non-interactive nodes
 --
 
-local S = minetest.get_translator("default")
+local S = minetest.get_translator("rp_default")
 
 -- Ores
 
 minetest.register_node(
-   "default:stone_with_sulfur",
+   "rp_default:stone_with_sulfur",
    {
       description = S("Stone with Sulfur"),
       tiles = {"default_stone.png^default_mineral_sulfur.png"},
       groups = {cracky = 2, stone = 1, not_in_craft_guide = 1},
-      drop = "default:lump_sulfur",
+      drop = "rp_default:lump_sulfur",
       sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node(
-   "default:stone_with_graphite",
+   "rp_default:stone_with_graphite",
    {
       description = S("Stone with Graphite"),
       tiles = {"default_stone.png^default_mineral_graphite.png"},
       groups = {cracky = 2, stone = 1, not_in_craft_guide = 1},
-      drop = "default:sheet_graphite",
+      drop = "rp_default:sheet_graphite",
       sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node(
-   "default:stone_with_coal",
+   "rp_default:stone_with_coal",
    {
       description = S("Stone with Coal"),
       tiles = {"default_stone.png^default_mineral_coal.png"},
       groups = {cracky = 2, stone = 1, not_in_craft_guide = 1},
-      drop = "default:lump_coal",
+      drop = "rp_default:lump_coal",
       sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node(
-   "default:stone_with_iron",
+   "rp_default:stone_with_iron",
    {
       description = S("Stone with Iron"),
       tiles = {"default_stone.png^default_mineral_iron.png"},
       groups = {cracky = 2, stone = 1, not_in_craft_guide = 1},
-      drop = "default:lump_iron",
+      drop = "rp_default:lump_iron",
       sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node(
-   "default:stone_with_tin",
+   "rp_default:stone_with_tin",
    {
       description = S("Stone with Tin"),
       tiles = {"default_stone.png^default_mineral_tin.png"},
       groups = {cracky = 1, stone = 1, not_in_craft_guide = 1},
-      drop = "default:lump_tin",
+      drop = "rp_default:lump_tin",
       sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node(
-   "default:stone_with_copper",
+   "rp_default:stone_with_copper",
    {
       description = S("Stone with Copper"),
       tiles = {"default_stone.png^default_mineral_copper.png"},
       groups = {cracky = 1, stone = 1, not_in_craft_guide = 1},
-      drop = "default:lump_copper",
+      drop = "rp_default:lump_copper",
       sounds = default.node_sound_stone_defaults(),
 })
 
 -- Stonelike
 
 minetest.register_node(
-   "default:stone",
+   "rp_default:stone",
    {
       description = S("Stone"),
       tiles = {"default_stone.png"},
       groups = {cracky = 2, stone = 1},
-      drop = "default:cobble",
+      drop = "rp_default:cobble",
       sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node(
-   "default:cobble",
+   "rp_default:cobble",
    {
       description = S("Cobble"),
       tiles = {"default_cobbles.png"},
@@ -91,7 +91,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:reinforced_cobble",
+   "rp_default:reinforced_cobble",
    {
       description = S("Reinforced Cobble"),
       tiles = {"default_reinforced_cobbles.png"},
@@ -101,7 +101,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:gravel",
+   "rp_default:gravel",
    {
       description = S("Gravel"),
       tiles = {"default_gravel.png"},
@@ -115,7 +115,7 @@ minetest.register_node(
 -- Material blocks
 
 minetest.register_node(
-   "default:block_coal",
+   "rp_default:block_coal",
    {
       description = S("Coal Block"),
       tiles = {"default_block_coal.png"},
@@ -124,7 +124,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:block_wrought_iron",
+   "rp_default:block_wrought_iron",
    {
       description = S("Wrought Iron Block"),
       tiles = {"default_block_wrought_iron.png"},
@@ -134,7 +134,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:block_steel",
+   "rp_default:block_steel",
    {
       description = S("Steel Block"),
       tiles = {"default_block_steel.png"},
@@ -144,7 +144,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:block_carbon_steel",
+   "rp_default:block_carbon_steel",
    {
       description = S("Carbon Steel Block"),
       tiles = {"default_block_carbon_steel.png"},
@@ -154,7 +154,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:block_bronze",
+   "rp_default:block_bronze",
    {
       description = S("Bronze Block"),
       tiles = {"default_block_bronze.png"},
@@ -166,7 +166,7 @@ minetest.register_node(
 -- Soil
 
 minetest.register_node(
-   "default:dirt",
+   "rp_default:dirt",
    {
       description = S("Dirt"),
       tiles = {"default_dirt.png"},
@@ -176,7 +176,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:dry_dirt",
+   "rp_default:dry_dirt",
    {
       description = S("Dry Dirt"),
       tiles = {"default_dry_dirt.png"},
@@ -186,7 +186,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:swamp_dirt",
+   "rp_default:swamp_dirt",
    {
       description = S("Swamp Dirt"),
       tiles = {"default_swamp_dirt.png"},
@@ -196,7 +196,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:dirt_with_dry_grass",
+   "rp_default:dirt_with_dry_grass",
    {
       description = S("Dirt with Dry Grass"),
       tiles = {
@@ -209,10 +209,10 @@ minetest.register_node(
       drop = {
 	 max_items = 3,
 	 items = {
-	    {items = {"default:dirt"}, rarity = 1},
-	    {items = {"default:dry_grass 4"}, rarity = 12},
-	    {items = {"default:dry_grass 2"}, rarity = 6},
-	    {items = {"default:dry_grass 1"}, rarity = 2},
+	    {items = {"rp_default:dirt"}, rarity = 1},
+	    {items = {"rp_default:dry_grass 4"}, rarity = 12},
+	    {items = {"rp_default:dry_grass 2"}, rarity = 6},
+	    {items = {"rp_default:dry_grass 1"}, rarity = 2},
 	 }
       },
       sounds = default.node_sound_dirt_defaults(
@@ -222,7 +222,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:dirt_with_swamp_grass",
+   "rp_default:dirt_with_swamp_grass",
    {
       description = S("Swamp Dirt with Swamp Grass"),
       tiles = {
@@ -235,10 +235,10 @@ minetest.register_node(
       drop = {
 	 max_items = 3,
 	 items = {
-	    {items = {"default:swamp_dirt"}, rarity = 1},
-	    {items = {"default:swamp_grass 6"}, rarity = 14},
-	    {items = {"default:swamp_grass 3"}, rarity = 7},
-	    {items = {"default:swamp_grass 2"}, rarity = 3},
+	    {items = {"rp_default:swamp_dirt"}, rarity = 1},
+	    {items = {"rp_default:swamp_grass 6"}, rarity = 14},
+	    {items = {"rp_default:swamp_grass 3"}, rarity = 7},
+	    {items = {"rp_default:swamp_grass 2"}, rarity = 3},
 	 }
       },
       sounds = default.node_sound_dirt_defaults(
@@ -248,7 +248,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:dirt_with_grass",
+   "rp_default:dirt_with_grass",
    {
       description = S("Dirt with Grass"),
       tiles = {
@@ -261,11 +261,11 @@ minetest.register_node(
       drop = {
 	 max_items = 3,
 	 items = {
-	    {items = {"default:dirt"}, rarity = 1},
-	    {items = {"default:grass 10"}, rarity = 30},
-	    {items = {"default:grass 3"}, rarity = 9},
-	    {items = {"default:grass 2"}, rarity = 6},
-	    {items = {"default:grass 1"}, rarity = 3},
+	    {items = {"rp_default:dirt"}, rarity = 1},
+	    {items = {"rp_default:grass 10"}, rarity = 30},
+	    {items = {"rp_default:grass 3"}, rarity = 9},
+	    {items = {"rp_default:grass 2"}, rarity = 6},
+	    {items = {"rp_default:grass 1"}, rarity = 3},
 	 }
       },
       sounds = default.node_sound_dirt_defaults(
@@ -275,7 +275,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:dirt_with_grass_footsteps",
+   "rp_default:dirt_with_grass_footsteps",
    {
       description = S("Dirt with Grass and Footsteps"),
       tiles = {"default_grass_footstep.png", "default_dirt.png", "default_dirt.png^default_grass_side.png"},
@@ -283,11 +283,11 @@ minetest.register_node(
       drop = {
 	 max_items = 3,
 	 items = {
-	    {items = {"default:dirt"}, rarity = 1},
-	    {items = {"default:grass 10"}, rarity = 30},
-	    {items = {"default:grass 3"}, rarity = 9},
-	    {items = {"default:grass 2"}, rarity = 6},
-	    {items = {"default:grass 1"}, rarity = 3},
+	    {items = {"rp_default:dirt"}, rarity = 1},
+	    {items = {"rp_default:grass 10"}, rarity = 30},
+	    {items = {"rp_default:grass 3"}, rarity = 9},
+	    {items = {"rp_default:grass 2"}, rarity = 6},
+	    {items = {"rp_default:grass 1"}, rarity = 3},
 	 }
       },
       sounds = default.node_sound_dirt_defaults(
@@ -299,7 +299,7 @@ minetest.register_node(
 -- Paths
 
 minetest.register_node(
-   "default:dirt_path",
+   "rp_default:dirt_path",
    {
       description = S("Dirt Path"),
       drawtype = "nodebox",
@@ -315,7 +315,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:path_slab",
+   "rp_default:path_slab",
    {
       description = S("Dirt Path Slab"),
       drawtype = "nodebox",
@@ -331,7 +331,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:heated_dirt_path",
+   "rp_default:heated_dirt_path",
    {
       description = S("Glowing Dirt Path"),
       drawtype = "nodebox",
@@ -350,7 +350,7 @@ minetest.register_node(
 -- Brick
 
 minetest.register_node(
-   "default:brick",
+   "rp_default:brick",
    {
       description = S("Brick Block"),
       tiles = {"default_brick.png"},
@@ -362,7 +362,7 @@ minetest.register_node(
 -- Sand
 
 minetest.register_node(
-   "default:sand",
+   "rp_default:sand",
    {
       description = S("Sand"),
       tiles = {"default_sand.png"},
@@ -371,17 +371,17 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:sandstone",
+   "rp_default:sandstone",
    {
       description = S("Sandstone"),
       tiles = {"default_sandstone.png"},
       groups = {crumbly = 2, cracky = 3, sandstone = 1},
-      drop = "default:sand 2",
+      drop = "rp_default:sand 2",
       sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node(
-   "default:compressed_sandstone",
+   "rp_default:compressed_sandstone",
    {
       description = S("Compressed Sandstone"),
       tiles = {"default_compressed_sandstone_top.png", "default_compressed_sandstone_top.png", "default_compressed_sandstone.png"},
@@ -393,7 +393,7 @@ minetest.register_node(
 -- Saplings
 
 minetest.register_node(
-   "default:sapling",
+   "rp_default:sapling",
    {
       description = S("Sapling"),
       _tt_help = S("Grows into an apple tree"),
@@ -424,7 +424,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:sapling_oak",
+   "rp_default:sapling_oak",
    {
       description = S("Oak Sapling"),
       _tt_help = S("Grows into an oak tree"),
@@ -454,7 +454,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:sapling_birch",
+   "rp_default:sapling_birch",
    {
       description = S("Birch Sapling"),
       _tt_help = S("Grows into a birch tree"),
@@ -487,7 +487,7 @@ minetest.register_node(
 -- Trees
 
 minetest.register_node(
-   "default:tree",
+   "rp_default:tree",
    {
       description = S("Tree"),
       tiles = {"default_tree_top.png", "default_tree_top.png", "default_tree.png"},
@@ -496,7 +496,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:tree_oak",
+   "rp_default:tree_oak",
    {
       description = S("Oak Tree"),
       tiles = {"default_tree_oak_top.png", "default_tree_oak_top.png", "default_tree_oak.png"},
@@ -505,7 +505,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:tree_birch",
+   "rp_default:tree_birch",
    {
       description = S("Birch Tree"),
       tiles = {"default_tree_birch_top.png", "default_tree_birch_top.png", "default_tree_birch.png"},
@@ -516,7 +516,7 @@ minetest.register_node(
 -- Leaves
 
 minetest.register_node(
-   "default:leaves",
+   "rp_default:leaves",
    {
       description = S("Leaves"),
       _tt_help = S("Decays when not near a tree block"),
@@ -529,11 +529,11 @@ minetest.register_node(
 	 max_items = 1,
 	 items = {
 	    {
-	       items = {"default:sapling"},
+	       items = {"rp_default:sapling"},
 	       rarity = 10,
 	    },
 	    {
-	       items = {"default:leaves"},
+	       items = {"rp_default:leaves"},
 	    }
 	 }
       },
@@ -541,7 +541,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:leaves_oak",
+   "rp_default:leaves_oak",
    {
       description = S("Oak Leaves"),
       _tt_help = S("Decays when not near a tree block"),
@@ -554,11 +554,11 @@ minetest.register_node(
 	 max_items = 1,
 	 items = {
 	    {
-	       items = {"default:sapling_oak"},
+	       items = {"rp_default:sapling_oak"},
 	       rarity = 10,
 	    },
 	    {
-	       items = {"default:leaves_oak"},
+	       items = {"rp_default:leaves_oak"},
 	    }
 	 }
       },
@@ -566,7 +566,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:leaves_birch",
+   "rp_default:leaves_birch",
    {
       description = S("Birch Leaves"),
       _tt_help = S("Decays when not near a tree block"),
@@ -579,11 +579,11 @@ minetest.register_node(
 	 max_items = 1,
 	 items = {
 	    {
-	       items = {"default:sapling_birch"},
+	       items = {"rp_default:sapling_birch"},
 	       rarity = 10,
 	    },
 	    {
-	       items = {"default:leaves_birch"},
+	       items = {"rp_default:leaves_birch"},
 	    }
 	 }
       },
@@ -591,7 +591,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:dry_leaves",
+   "rp_default:dry_leaves",
    {
       description = S("Dry Leaves"),
       _tt_help = S("Decays when not near a tree block"),
@@ -604,10 +604,10 @@ minetest.register_node(
 	 max_items = 1,
 	 items = {
 	    {
-	       items = {"default:dry_leaves"},
+	       items = {"rp_default:dry_leaves"},
 	    },
 	    {
-	       items = {"default:dry_grass"},
+	       items = {"rp_default:dry_grass"},
 	       rarity = 6,
 	    }
 	 }
@@ -618,7 +618,7 @@ minetest.register_node(
 -- Cacti
 
 minetest.register_node(
-   "default:cactus",
+   "rp_default:cactus",
    {
       description = S("Cactus"),
       _tt_help = S("Grows on sand"),
@@ -654,7 +654,7 @@ minetest.register_node(
 -- Rope
 
 minetest.register_node(
-   "default:rope",
+   "rp_default:rope",
    {
       description = S("Rope"),
       drawtype = "nodebox",
@@ -680,7 +680,7 @@ minetest.register_node(
 -- Papyrus
 
 minetest.register_node(
-   "default:papyrus",
+   "rp_default:papyrus",
    {
       description = S("Papyrus"),
       _tt_help = S("Grows on sand or dirt near water"),
@@ -716,7 +716,7 @@ minetest.register_node(
 -- Glass
 
 minetest.register_node(
-   "default:glass",
+   "rp_default:glass",
    {
       description = S("Glass"),
       drawtype = "glasslike_framed_optional",
@@ -731,7 +731,7 @@ minetest.register_node(
 -- Fences
 
 minetest.register_node(
-   "default:fence",
+   "rp_default:fence",
    {
       description = S("Wooden Fence"),
       drawtype = "fencelike",
@@ -752,7 +752,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:fence_oak",
+   "rp_default:fence_oak",
    {
       description = S("Oak Fence"),
       drawtype = "fencelike",
@@ -773,7 +773,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:fence_birch",
+   "rp_default:fence_birch",
    {
       description = S("Birch Fence"),
       drawtype = "fencelike",
@@ -796,7 +796,7 @@ minetest.register_node(
 -- Ladder
 
 minetest.register_node(
-   "default:ladder",
+   "rp_default:ladder",
    {
       description = S("Ladder"),
       drawtype = "nodebox",
@@ -838,7 +838,7 @@ minetest.register_node(
 -- Planks
 
 minetest.register_node(
-   "default:planks",
+   "rp_default:planks",
    {
       description = S("Wooden Planks"),
       tiles = {"default_wood.png"},
@@ -848,7 +848,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:planks_oak",
+   "rp_default:planks_oak",
    {
       description = S("Oak Planks"),
       tiles = {"default_wood_oak.png"},
@@ -858,7 +858,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:planks_birch",
+   "rp_default:planks_birch",
    {
       description = S("Birch Planks"),
       tiles = {"default_wood_birch.png"},
@@ -870,7 +870,7 @@ minetest.register_node(
 -- Frames
 
 minetest.register_node(
-   "default:frame",
+   "rp_default:frame",
    {
       description = S("Frame"),
       tiles = {"default_frame.png"},
@@ -881,7 +881,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:reinforced_frame",
+   "rp_default:reinforced_frame",
    {
       description = S("Reinforced Frame"),
       tiles = {"default_reinforced_frame.png"},
@@ -894,7 +894,7 @@ minetest.register_node(
 -- Fern
 
 minetest.register_node(
-   "default:fern",
+   "rp_default:fern",
    {
       description = S("Fern"),
       drawtype = "plantlike",
@@ -918,7 +918,7 @@ minetest.register_node(
 -- Flowers
 
 minetest.register_node(
-   "default:flower",
+   "rp_default:flower",
    {
       description = S("Flower"),
       _tt_help = S("It looks beautiful"),
@@ -943,7 +943,7 @@ minetest.register_node(
 -- Grasses
 
 minetest.register_node(
-   "default:swamp_grass",
+   "rp_default:swamp_grass",
    {
       description = S("Swamp Grass Clump"),
       drawtype = "plantlike",
@@ -965,7 +965,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:dry_grass",
+   "rp_default:dry_grass",
    {
       description = S("Dry Grass Clump"),
       drawtype = "plantlike",
@@ -987,7 +987,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:grass",
+   "rp_default:grass",
    {
       description = S("Grass Clump"),
       drawtype = "plantlike",
@@ -1009,7 +1009,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:tall_grass",
+   "rp_default:tall_grass",
    {
       description = S("Tall Grass Clump"),
       drawtype = "plantlike",
@@ -1021,7 +1021,7 @@ minetest.register_node(
       tiles = {"default_grass_clump_tall.png"},
       inventory_image = "default_grass_clump_tall_inventory.png",
       wield_image = "default_grass_clump_tall_inventory.png",
-      drop = "default:grass",
+      drop = "rp_default:grass",
       paramtype = "light",
       waving = 1,
       walkable = false,
@@ -1033,9 +1033,9 @@ minetest.register_node(
       _on_trim = function(pos, node, player, itemstack)
           -- This turns it to a normal grass clump and drops one bonus grass clump
           minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8}, true)
-          minetest.set_node(pos, {name = "default:grass"})
+          minetest.set_node(pos, {name = "rp_default:grass"})
 
-          item_drop.drop_item(pos, "default:grass")
+          item_drop.drop_item(pos, "rp_default:grass")
 
           -- Add wear
           if not minetest.settings:get_bool("creative_mode") then
@@ -1049,7 +1049,7 @@ minetest.register_node(
 -- Thistle
 
 minetest.register_node(
-   "default:thistle",
+   "rp_default:thistle",
    {
       description = S("Thistle"),
       _tt_help = S("Careful, it stings!"),
@@ -1078,7 +1078,7 @@ minetest.register_node(
 -- Food
 
 minetest.register_node(
-   "default:apple",
+   "rp_default:apple",
    {
       description = S("Apple"),
       _tt_food = true,
@@ -1106,7 +1106,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:clam",
+   "rp_default:clam",
    {
       description = S("Clam"),
       _tt_food = true,
@@ -1132,9 +1132,9 @@ minetest.register_node(
       --[[drop = {
 	 max_items = 3,
 	 items = {
-	    {items = {"default:clam"}, rarity = 1},
-	    {items = {"default:pearl"}, rarity = 60},
-	    {items = {"default:pearl"}, rarity = 20},
+	    {items = {"rp_default:clam"}, rarity = 1},
+	    {items = {"rp_default:pearl"}, rarity = 60},
+	    {items = {"rp_default:pearl"}, rarity = 20},
 	 }
       },]]
       groups = {fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, food = 2},
@@ -1145,7 +1145,7 @@ minetest.register_node(
 -- Water
 
 minetest.register_node(
-   "default:water_flowing",
+   "rp_default:water_flowing",
    {
       description = S("Flowing Water"),
       drawtype = "flowingliquid",
@@ -1172,8 +1172,8 @@ minetest.register_node(
       drowning = 1,
       is_ground_content = false,
       liquidtype = "flowing",
-      liquid_alternative_flowing = "default:water_flowing",
-      liquid_alternative_source = "default:water_source",
+      liquid_alternative_flowing = "rp_default:water_flowing",
+      liquid_alternative_source = "rp_default:water_source",
       liquid_viscosity = default.WATER_VISC,
       post_effect_color = {a = 90, r = 40, g = 40, b = 100},
       groups = {water = 1, flowing_water = 1, liquid = 1, not_in_creative_inventory=1,},
@@ -1182,7 +1182,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:water_source",
+   "rp_default:water_source",
    {
       description = S("Water Source"),
       drawtype = "liquid",
@@ -1206,8 +1206,8 @@ minetest.register_node(
       drowning = 1,
       is_ground_content = false,
       liquidtype = "source",
-      liquid_alternative_flowing = "default:water_flowing",
-      liquid_alternative_source = "default:water_source",
+      liquid_alternative_flowing = "rp_default:water_flowing",
+      liquid_alternative_source = "rp_default:water_source",
       liquid_viscosity = default.WATER_VISC,
       post_effect_color = {a=90, r=40, g=40, b=100},
       groups = {water=1, liquid=1},
@@ -1216,7 +1216,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:river_water_flowing",
+   "rp_default:river_water_flowing",
    {
       description = S("Flowing River Water"),
       drawtype = "flowingliquid",
@@ -1243,8 +1243,8 @@ minetest.register_node(
       drowning = 2,
       is_ground_content = false,
       liquidtype = "flowing",
-      liquid_alternative_flowing = "default:river_water_flowing",
-      liquid_alternative_source = "default:river_water_source",
+      liquid_alternative_flowing = "rp_default:river_water_flowing",
+      liquid_alternative_source = "rp_default:river_water_source",
       liquid_viscosity = default.RIVER_WATER_VISC,
       liquid_renewable = false,
       liquid_range = 1,
@@ -1255,7 +1255,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:river_water_source",
+   "rp_default:river_water_source",
    {
       description = S("River Water Source"),
       drawtype = "liquid",
@@ -1280,8 +1280,8 @@ minetest.register_node(
       drowning = 2,
       is_ground_content = false,
       liquidtype = "source",
-      liquid_alternative_flowing = "default:river_water_flowing",
-      liquid_alternative_source = "default:river_water_source",
+      liquid_alternative_flowing = "rp_default:river_water_flowing",
+      liquid_alternative_source = "rp_default:river_water_source",
       liquid_viscosity = default.RIVER_WATER_VISC,
       liquid_renewable = false,
       liquid_range = 1,
@@ -1292,7 +1292,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:swamp_water_flowing",
+   "rp_default:swamp_water_flowing",
    {
       description = S("Flowing Swamp Water"),
       drawtype = "flowingliquid",
@@ -1319,8 +1319,8 @@ minetest.register_node(
       drowning = 3,
       is_ground_content = false,
       liquidtype = "flowing",
-      liquid_alternative_flowing = "default:swamp_water_flowing",
-      liquid_alternative_source = "default:swamp_water_source",
+      liquid_alternative_flowing = "rp_default:swamp_water_flowing",
+      liquid_alternative_source = "rp_default:swamp_water_source",
       liquid_viscosity = default.SWAMP_WATER_VISC,
       liquid_renewable = false,
       liquid_range = 2,
@@ -1331,7 +1331,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "default:swamp_water_source",
+   "rp_default:swamp_water_source",
    {
       description = S("Swamp Water Source"),
       drawtype = "liquid",
@@ -1355,8 +1355,8 @@ minetest.register_node(
       drowning = 3,
       is_ground_content = false,
       liquidtype = "source",
-      liquid_alternative_flowing = "default:swamp_water_flowing",
-      liquid_alternative_source = "default:swamp_water_source",
+      liquid_alternative_flowing = "rp_default:swamp_water_flowing",
+      liquid_alternative_source = "rp_default:swamp_water_source",
       liquid_viscosity = default.SWAMP_WATER_VISC,
       liquid_renewable = false,
       liquid_range = 2,

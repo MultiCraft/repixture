@@ -30,15 +30,15 @@ mobs:register_mob(
       view_range = 14,
       drops = {
 	 {
-	    name = "default:stick",
+	    name = "rp_default:stick",
 	    chance = 1, min = 1, max = 2
 	 },
 	 {
-	    name = "default:stick",
+	    name = "rp_default:stick",
 	    chance = 3, min = 2, max = 4
 	 },
 	 {
-	    name = "default:fiber",
+	    name = "rp_default:fiber",
 	    chance = 15, min = 2, max = 3
 	 },
       },
@@ -61,8 +61,8 @@ mobs:register_mob(
 mobs:register_spawn(
    "mobs:walker",
    {
-      "default:dry_dirt",
-      "default:dirt_with_dry_grass"
+      "rp_default:dry_dirt",
+      "rp_default:dirt_with_dry_grass"
    },
    20,
    14,

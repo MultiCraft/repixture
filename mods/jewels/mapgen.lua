@@ -12,7 +12,7 @@ local clust_size = 6
 local y_min = 0
 
 -- Helper variables
-local gigatree_decoration_id = minetest.get_decoration_id("default:gigatree")
+local gigatree_decoration_id = minetest.get_decoration_id("rp_default:gigatree")
 local biome_y
 local biome_exists
 if minetest.registered_biomes["Deep Forest"] then
@@ -25,7 +25,7 @@ end
 
 local lvm_buffer = {}
 
-local c_birch = minetest.get_content_id("default:tree_birch")
+local c_birch = minetest.get_content_id("rp_default:tree_birch")
 local c_jewel_ore = minetest.get_content_id("jewels:jewel_ore")
 
 -- Generation algorithm:

@@ -60,11 +60,11 @@ end
 function default.begin_growing_sapling(pos)
    local node = minetest.get_node(pos)
 
-   if node.name == "default:sapling" then
+   if node.name == "rp_default:sapling" then
       minetest.get_node_timer(pos):start(math.random(300, 480))
-   elseif node.name == "default:sapling_oak" then
+   elseif node.name == "rp_default:sapling_oak" then
       minetest.get_node_timer(pos):start(math.random(700, 960))
-   elseif node.name == "default:sapling_birch" then
+   elseif node.name == "rp_default:sapling_birch" then
       minetest.get_node_timer(pos):start(math.random(480, 780))
    end
 end
@@ -78,7 +78,7 @@ function default.grow_sapling(pos, variety)
                y = pos.y - 1,
                z = pos.z - 2
             },
-            minetest.get_modpath("default")
+            minetest.get_modpath("rp_default")
                .. "/schematics/default_appletree.mts", "0", {}, false)
       elseif variety == "oak" then
 	 minetest.place_schematic(
@@ -87,7 +87,7 @@ function default.grow_sapling(pos, variety)
                y = pos.y - 1,
                z = pos.z - 2
             },
-            minetest.get_modpath("default")
+            minetest.get_modpath("rp_default")
                .. "/schematics/default_oaktree.mts", "0", {}, false)
       elseif variety == "birch" then
 	 minetest.place_schematic(
@@ -96,12 +96,12 @@ function default.grow_sapling(pos, variety)
                y = pos.y - 1,
                z = pos.z - 1
             },
-            minetest.get_modpath("default")
+            minetest.get_modpath("rp_default")
                .. "/schematics/default_squaretree.mts", "0",
             {
-               ["default:leaves"] = "default:leaves_birch",
-               ["default:tree"] = "default:tree_birch",
-               ["default:apple"] = "air"
+               ["rp_default:leaves"] = "rp_default:leaves_birch",
+               ["rp_default:tree"] = "rp_default:tree_birch",
+               ["rp_default:apple"] = "air"
             }, false)
       end
    end
@@ -119,8 +119,8 @@ end
 minetest.register_lbm(
    {
       label = "Grow legacy trees",
-      name = "default:grow_legacy_trees",
-      nodenames = {"default:sapling", "default:sapling_oak", "default:sapling_birch"},
+      name = "rp_default:grow_legacy_trees",
+      nodenames = {"rp_default:sapling", "rp_default:sapling_oak", "rp_default:sapling_birch"},
       action = function(pos, node)
          default.begin_growing_sapling(pos)
       end
@@ -243,7 +243,7 @@ end
 minetest.register_abm( -- dirt and grass footsteps becomes dirt with grass if uncovered
    {
       label = "Grow grass on dirt",
-      nodenames = {"default:dirt", "default:dirt_with_grass_footsteps", "default:swamp_dirt"},
+      nodenames = {"rp_default:dirt", "rp_default:dirt_with_grass_footsteps", "rp_default:swamp_dirt"},
       interval = 2,
       chance = 40,
       action = function(pos, node)
@@ -254,15 +254,15 @@ minetest.register_abm( -- dirt and grass footsteps becomes dirt with grass if un
          if nodedef and (not partialblock) and (nodedef.sunlight_propagates or nodedef.paramtype == "light") and nodedef.liquidtype == "none" and (minetest.get_node_light(above) or 0) >= 8 then
             local biomedata = minetest.get_biome_data(pos)
             local biomename = minetest.get_biome_name(biomedata.biome)
-            if node.name == "default:swamp_dirt" then
+            if node.name == "rp_default:swamp_dirt" then
                 if biomename == "Swamp" then
-                    minetest.set_node(pos, {name = "default:dirt_with_swamp_grass"})
+                    minetest.set_node(pos, {name = "rp_default:dirt_with_swamp_grass"})
                 end
             else
                 if is_dry_biome(biomename) then
-                    minetest.set_node(pos, {name = "default:dirt_with_dry_grass"})
+                    minetest.set_node(pos, {name = "rp_default:dirt_with_dry_grass"})
                 else
-                    minetest.set_node(pos, {name = "default:dirt_with_grass"})
+                    minetest.set_node(pos, {name = "rp_default:dirt_with_grass"})
                 end
             end
          end
@@ -281,10 +281,10 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
          local partialblock = minetest.get_item_group(name, "path") ~= 0 or minetest.get_item_group(name, "slab") ~= 0 or minetest.get_item_group(name, "stair") ~= 0
          local nodedef = minetest.registered_nodes[name]
          if nodedef and (name ~= "ignore" and (partialblock) or (not ((nodedef.sunlight_propagates or nodedef.paramtype == "light") and nodedef.liquidtype == "none"))) then
-            if node.name == "default:dirt_with_swamp_grass" then
-                minetest.set_node(pos, {name = "default:swamp_dirt"})
+            if node.name == "rp_default:dirt_with_swamp_grass" then
+                minetest.set_node(pos, {name = "rp_default:swamp_dirt"})
             else
-                minetest.set_node(pos, {name = "default:dirt"})
+                minetest.set_node(pos, {name = "rp_default:dirt"})
             end
          end
       end
@@ -303,11 +303,11 @@ minetest.register_abm({
 
         local required_under
         if minetest.get_item_group(node.name, "normal_grass") ~= 0 then
-            required_under = "default:dirt_with_grass"
+            required_under = "rp_default:dirt_with_grass"
         elseif minetest.get_item_group(node.name, "dry_grass") ~= 0 then
-            required_under = "default:dirt_with_dry_grass"
+            required_under = "rp_default:dirt_with_dry_grass"
         elseif minetest.get_item_group(node.name, "swamp_grass") ~= 0 then
-            required_under = "default:dirt_with_swamp_grass"
+            required_under = "rp_default:dirt_with_swamp_grass"
         else
             return
         end
@@ -317,7 +317,7 @@ minetest.register_abm({
         end
 
         -- Lower chance to spread dry grass
-        if node.name == "default:dry_grass" and math.random(1,2) == 1 then
+        if node.name == "rp_default:dry_grass" and math.random(1,2) == 1 then
             return
         end
 
@@ -325,7 +325,7 @@ minetest.register_abm({
         local pos1 = vector.add(pos, 4)
         -- Testing shows that a threshold of 3 results in an appropriate maximum
         -- density of approximately 7 nodes per 9x9 area.
-        if #minetest.find_nodes_in_area(pos0, pos1, {"group:grass", "default:fern"}) > 3 then
+        if #minetest.find_nodes_in_area(pos0, pos1, {"group:grass", "rp_default:fern"}) > 3 then
             return
         end
 
@@ -343,8 +343,8 @@ minetest.register_abm({
 
 minetest.register_abm({
     label = "Growing clams",
-    nodenames = {"default:sand", "default:gravel"},
-    neighbors = {"default:water_source"},
+    nodenames = {"rp_default:sand", "rp_default:gravel"},
+    neighbors = {"rp_default:water_source"},
     interval = 20,
     chance = 160,
     action = function(pos, node)
@@ -353,19 +353,19 @@ minetest.register_abm({
         end
         local pos0 = vector.add(pos, {x=-5, y=0, z=-5})
         local pos1 = vector.add(pos, {x=5, y=2, z=5})
-        if #minetest.find_nodes_in_area(pos0, pos1, "default:clam") >= 1 then
+        if #minetest.find_nodes_in_area(pos0, pos1, "rp_default:clam") >= 1 then
             return
         end
 
         pos0 = vector.add(pos, {x=-2, y=0, z=-2})
         pos1 = vector.add(pos, {x=2, y=0, z=2})
-        local soils = minetest.find_nodes_in_area_under_air( pos0, pos1, {"default:sand", "default:gravel"})
+        local soils = minetest.find_nodes_in_area_under_air( pos0, pos1, {"rp_default:sand", "rp_default:gravel"})
         local num_soils = #soils
         if num_soils >= 1 then
             for si = 1, math.min(3, num_soils) do
                 local soil = soils[math.random(num_soils)]
                 local soil_above = {x = soil.x, y = soil.y + 1, z = soil.z}
-                minetest.set_node(soil_above, {name = "default:clam"})
+                minetest.set_node(soil_above, {name = "rp_default:clam"})
             end
         end
     end
@@ -374,7 +374,7 @@ minetest.register_abm({
 minetest.register_abm( -- cactus grows
    {
       label = "Growing cacti",
-      nodenames = {"default:cactus"},
+      nodenames = {"rp_default:cactus"},
       neighbors = {"group:sand"},
       interval = 20,
       chance = 10,
@@ -384,13 +384,13 @@ minetest.register_abm( -- cactus grows
          if minetest.get_item_group(name, "sand") ~= 0 then
             pos.y = pos.y+1
             local height = 0
-            while minetest.get_node(pos).name == "default:cactus" and height < 3 do
+            while minetest.get_node(pos).name == "rp_default:cactus" and height < 3 do
                height = height+1
                pos.y = pos.y+1
             end
             if height < 3 then
                if minetest.get_node(pos).name == "air" then
-                  minetest.set_node(pos, {name="default:cactus"})
+                  minetest.set_node(pos, {name="rp_default:cactus"})
                end
             end
          end
@@ -400,7 +400,7 @@ minetest.register_abm( -- cactus grows
 minetest.register_abm( -- papyrus grows
    {
       label = "Growing papyrus",
-      nodenames = {"default:papyrus"},
+      nodenames = {"rp_default:papyrus"},
       neighbors = {"group:plantable_sandy", "group:plantable_soil"},
       interval = 20,
       chance = 10,
@@ -413,13 +413,13 @@ minetest.register_abm( -- papyrus grows
          end
          pos.y = pos.y+1
          local height = 0
-         while minetest.get_node(pos).name == "default:papyrus" and height < 3 do
+         while minetest.get_node(pos).name == "rp_default:papyrus" and height < 3 do
             height = height+1
             pos.y = pos.y+1
          end
          if height < 3 then
             if minetest.get_node(pos).name == "air" then
-               minetest.set_node(pos, {name="default:papyrus"})
+               minetest.set_node(pos, {name="rp_default:papyrus"})
             end
          end
       end,
@@ -428,11 +428,11 @@ minetest.register_abm( -- papyrus grows
 minetest.register_abm( -- weak torchs burn out and die after ~3 minutes
    {
       label = "Burning out weak torches",
-      nodenames = {"default:torch_weak", "default:torch_weak_wall"},
+      nodenames = {"rp_default:torch_weak", "rp_default:torch_weak_wall"},
       interval = 3,
       chance = 60,
       action = function(pos, node)
-         minetest.set_node(pos, {name = "default:torch_dead", param = node.param, param2 = node.param2})
+         minetest.set_node(pos, {name = "rp_default:torch_dead", param = node.param, param2 = node.param2})
       end
 })
 

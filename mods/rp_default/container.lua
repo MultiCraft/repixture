@@ -1,4 +1,4 @@
-local S = minetest.get_translator("default")
+local S = minetest.get_translator("rp_default")
 
 local protection_check_move = function(pos, from_list, from_index, to_list, to_index, count, player)
     if minetest.is_protected(pos, player:get_player_name()) and
@@ -22,7 +22,7 @@ end
 -- Chest and bookshelf
 
 minetest.register_node(
-   "default:chest",
+   "rp_default:chest",
    {
       description = S("Chest"),
       _tt_help = S("Provides 32 inventory slots"),
@@ -35,7 +35,7 @@ minetest.register_node(
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
 
-         meta:set_string("formspec", default.ui.get_page("default:chest"))
+         meta:set_string("formspec", default.ui.get_page("rp_default:chest"))
          meta:set_string("infotext", S("Chest"))
 
          local inv = meta:get_inventory()
@@ -61,7 +61,7 @@ minetest.register_node(
       end,
 })
 
-local form_chest = default.ui.get_page("default:2part")
+local form_chest = default.ui.get_page("rp_default:2part")
 form_chest = form_chest .. "list[current_name;main;0.25,0.25;8,4;]"
 form_chest = form_chest .. "listring[current_name;main]"
 form_chest = form_chest .. default.ui.get_itemslot_bg(0.25, 0.25, 8, 4)
@@ -70,11 +70,11 @@ form_chest = form_chest .. "list[current_player;main;0.25,4.75;8,4;]"
 form_chest = form_chest .. "listring[current_player;main]"
 form_chest = form_chest .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form_chest = form_chest .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
-default.ui.register_page("default:chest", form_chest)
+default.ui.register_page("rp_default:chest", form_chest)
 
 
 minetest.register_node(
-   "default:bookshelf",
+   "rp_default:bookshelf",
    {
       description = S("Bookshelf"),
       _tt_help = S("Provides 8 inventory slots"),
@@ -85,7 +85,7 @@ minetest.register_node(
       sounds = default.node_sound_wood_defaults(),
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
-         meta:set_string("formspec", default.ui.get_page("default:bookshelf"))
+         meta:set_string("formspec", default.ui.get_page("rp_default:bookshelf"))
          meta:set_string("infotext", S("Bookshelf"))
          local inv = meta:get_inventory()
          inv:set_size("main", 4*2)
@@ -109,7 +109,7 @@ minetest.register_node(
       end,
 })
 
-local form_bookshelf = default.ui.get_page("default:2part")
+local form_bookshelf = default.ui.get_page("rp_default:2part")
 form_bookshelf = form_bookshelf .. "list[current_player;main;0.25,4.75;8,4;]"
 form_bookshelf = form_bookshelf .. "listring[current_player;main]"
 form_bookshelf = form_bookshelf .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
@@ -118,6 +118,6 @@ form_bookshelf = form_bookshelf .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
 form_bookshelf = form_bookshelf .. "list[current_name;main;2.25,1.25;4,2;]"
 form_bookshelf = form_bookshelf .. "listring[current_name;main]"
 form_bookshelf = form_bookshelf .. default.ui.get_itemslot_bg(2.25, 1.25, 4, 2)
-default.ui.register_page("default:bookshelf", form_bookshelf)
+default.ui.register_page("rp_default:bookshelf", form_bookshelf)
 
 default.log("container", "loaded")

@@ -138,7 +138,7 @@ if not minetest.settings:get_bool("mapgen_disable_villages") then
       {
          name = "village_grassland",
          deco_type = "schematic",
-         place_on = "default:dirt_with_grass",
+         place_on = "rp_default:dirt_with_grass",
          sidelen = 16,
          fill_ratio = 0.005,
          biomes = {

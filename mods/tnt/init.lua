@@ -25,8 +25,8 @@ local tnt_radius = tonumber(minetest.settings:get("tnt_radius") or 3)
 -- Loss probabilities array (one in X will be lost)
 
 local loss_prob = {
-   ["default:cobble"] = 3,
-   ["default:dirt"] = 4,
+   ["rp_default:cobble"] = 3,
+   ["rp_default:dirt"] = 4,
 }
 
 -- Fill a list with data for content IDs, after all nodes are registered
@@ -117,7 +117,7 @@ local function entity_physics(pos, radius)
    -- Make the damage radius larger than the destruction radius
    radius = radius * 2
 
-   local no_water = (minetest.find_node_near(pos, 2, {"default:water_source"}) == nil)
+   local no_water = (minetest.find_node_near(pos, 2, {"rp_default:water_source"}) == nil)
 
    local objs = minetest.get_objects_inside_radius(pos, radius)
    for _, obj in pairs(objs) do
@@ -270,7 +270,7 @@ minetest.register_node(
          local item = puncher:get_wielded_item()
          local itemname = item:get_name()
 
-         if itemname == "default:flint_and_steel" then
+         if itemname == "rp_default:flint_and_steel" then
             if minetest.is_protected(pos, puncher:get_player_name()) and
                     not minetest.check_player_privs(puncher, "protection_bypass") then
                 minetest.record_protection_violation(pos, puncher:get_player_name())
@@ -325,7 +325,7 @@ crafting.register_craft(
       output = "tnt:tnt",
       items = {
          "group:planks 4",
-         "default:flint_and_steel",
+         "rp_default:flint_and_steel",
       }
 })
 

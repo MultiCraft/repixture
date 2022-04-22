@@ -18,7 +18,7 @@ jewels.registered_jewel_parents = {}
 
 -- Formspec
 
-local form_bench = default.ui.get_page("default:2part")
+local form_bench = default.ui.get_page("rp_default:2part")
 
 form_bench = form_bench .. "list[current_name;main;2.25,1.75;1,1;]"
 form_bench = form_bench .. "listring[current_name;main]"
@@ -376,7 +376,7 @@ crafting.register_craft(
       output = "jewels:bench",
       items = {
          "group:planks 5",
-         "default:ingot_carbon_steel 2",
+         "rp_default:ingot_carbon_steel 2",
          "jewels:jewel",
       }
 })

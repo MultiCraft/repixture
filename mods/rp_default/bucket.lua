@@ -1,15 +1,15 @@
-local S = minetest.get_translator("default")
+local S = minetest.get_translator("rp_default")
 
 local water_buckets = {
-   { "water", S("Water Bucket"), "default_bucket_water.png", "default:water_source", S("Places a water source") },
-   { "river_water", S("River Water Bucket"), "default_bucket_river_water.png", "default:river_water_source", S("Places a river water source") },
-   { "swamp_water", S("Swamp Water Bucket"), "default_bucket_swamp_water.png", "default:swamp_water_source", S("Places a swamp water source") },
+   { "water", S("Water Bucket"), "default_bucket_water.png", "rp_default:water_source", S("Places a water source") },
+   { "river_water", S("River Water Bucket"), "default_bucket_river_water.png", "rp_default:river_water_source", S("Places a river water source") },
+   { "swamp_water", S("Swamp Water Bucket"), "default_bucket_swamp_water.png", "rp_default:swamp_water_source", S("Places a swamp water source") },
 }
 
 for b=1, #water_buckets do
    local bucket = water_buckets[b]
    minetest.register_craftitem(
-      "default:bucket_"..bucket[1],
+      "rp_default:bucket_"..bucket[1],
       {
          description = bucket[2],
          _tt_help = bucket[5],
@@ -41,15 +41,15 @@ for b=1, #water_buckets do
             if not above_nodedef.walkable then
                if not minetest.settings:get_bool("creative_mode") then
                   if itemstack:get_count() == 1 then
-                     itemstack:set_name("default:bucket")
-                  elseif inv:room_for_item("main", {name="default:bucket"}) then
+                     itemstack:set_name("rp_default:bucket")
+                  elseif inv:room_for_item("main", {name="rp_default:bucket"}) then
                      itemstack:take_item()
-                     inv:add_item("main", "default:bucket")
+                     inv:add_item("main", "rp_default:bucket")
                   else
                      itemstack:take_item()
                      local pos = user:get_pos()
                      pos.y = math.floor(pos.y + 0.5)
-                     minetest.add_item(pos, "default:bucket")
+                     minetest.add_item(pos, "rp_default:bucket")
                   end
                end
                minetest.add_node(pos, {name = bucket[4]})
@@ -62,7 +62,7 @@ for b=1, #water_buckets do
 end
 
 minetest.register_craftitem(
-   "default:bucket",
+   "rp_default:bucket",
    {
       description = S("Empty Bucket"),
       _tt_help = S("Place it to collect a liquid source"),
@@ -93,12 +93,12 @@ minetest.register_craftitem(
 
                 local inv=user:get_inventory()
 
-                if inv:room_for_item("main", {name="default:bucket_water"}) then
-                   inv:add_item("main", "default:bucket_water")
+                if inv:room_for_item("main", {name="rp_default:bucket_water"}) then
+                   inv:add_item("main", "rp_default:bucket_water")
                 else
                    local pos = user:get_pos()
                    pos.y = math.floor(pos.y + 0.5)
-                   minetest.add_item(pos, "default:bucket_water")
+                   minetest.add_item(pos, "rp_default:bucket_water")
                 end
              end
              minetest.remove_node(pointed_thing.under)
@@ -106,12 +106,12 @@ minetest.register_craftitem(
              return itemstack
          end
 
-         if nodename == "default:water_source" then
-            itemstack = replace_bucket(itemstack, "default:bucket_water")
-         elseif nodename == "default:river_water_source" then
-            itemstack = replace_bucket(itemstack, "default:bucket_river_water")
-         elseif nodename == "default:swamp_water_source" then
-            itemstack = replace_bucket(itemstack, "default:bucket_swamp_water")
+         if nodename == "rp_default:water_source" then
+            itemstack = replace_bucket(itemstack, "rp_default:bucket_water")
+         elseif nodename == "rp_default:river_water_source" then
+            itemstack = replace_bucket(itemstack, "rp_default:bucket_river_water")
+         elseif nodename == "rp_default:swamp_water_source" then
+            itemstack = replace_bucket(itemstack, "rp_default:bucket_swamp_water")
          end
 
          return itemstack

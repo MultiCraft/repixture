@@ -176,8 +176,8 @@ crafting.register_craft(
       output = "parachute:parachute",
       items = {
          "group:fuzzy 3",
-         "default:rope 4",
-         "default:stick 6",
+         "rp_default:rope 4",
+         "rp_default:stick 6",
       }
 })
 

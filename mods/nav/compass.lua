@@ -155,8 +155,8 @@ crafting.register_craft(
    {
       output = "nav:compass",
       items = {
-         "default:ingot_steel 4",
-         "default:stick",
+         "rp_default:ingot_steel 4",
+         "rp_default:stick",
       }
 })
 

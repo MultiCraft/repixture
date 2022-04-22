@@ -213,7 +213,7 @@ crafting.register_craft(
       output = "music:player",
       items = {
          "group:planks 5",
-         "default:ingot_steel",
+         "rp_default:ingot_steel",
       }
 })
 

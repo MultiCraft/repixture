@@ -1,7 +1,7 @@
 
 default.ui = {}
 
-local S = minetest.get_translator("default")
+local S = minetest.get_translator("rp_default")
 
 -- Registered UI pages
 
@@ -29,11 +29,11 @@ local formspec_prepend = prepend
 
 default.ui.group_defaults = {
    fuzzy = "mobs:wool",
-   planks = "default:planks",
-   soil = "default:dirt",
-   stone = "default:stone",
-   tree = "default:tree",
-   green_grass = "default:grass",
+   planks = "rp_default:planks",
+   soil = "rp_default:dirt",
+   stone = "rp_default:stone",
+   tree = "rp_default:tree",
+   green_grass = "rp_default:grass",
 }
 default.ui.group_names = {
    fuzzy = { S("Fuzzy"), S("Any fuzzy block") },
@@ -317,15 +317,15 @@ if minetest.get_modpath("creative") ~= nil and minetest.settings:get_bool("creat
    form_default_default = form_default_default .. default.ui.tab(-0.9, 3.64, "tab_creative", "ui_icon_creative.png", S("Creative Inventory"))
 end
 form_default_default = form_default_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
-default.ui.register_page("default:default", form_default_default)
-default.ui.register_page("default:2part", form_default_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
+default.ui.register_page("rp_default:default", form_default_default)
+default.ui.register_page("rp_default:2part", form_default_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
 
 local form_default_notabs = ""
 form_default_notabs = form_default_notabs .. "size[8.5,9]"
 form_default_notabs = form_default_notabs .. default.ui.default.bg
 form_default_notabs = form_default_notabs .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
-default.ui.register_page("default:notabs", form_default_notabs)
-default.ui.register_page("default:notabs_2part", form_default_notabs .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
+default.ui.register_page("rp_default:notabs", form_default_notabs)
+default.ui.register_page("rp_default:notabs_2part", form_default_notabs .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
 
 local form_default_field = ""
 form_default_field = form_default_field .. "size[8.5,5]"
@@ -333,7 +333,7 @@ form_default_field = form_default_field .. default.ui.default.bg
 form_default_field = form_default_field .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
 form_default_field = form_default_field .. default.ui.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 form_default_field = form_default_field .. "field[1,1.75;7,0;text;;${text}]"
-default.ui.register_page("default:field", form_default_field)
+default.ui.register_page("rp_default:field", form_default_field)
 
 function default.ui.receive_fields(player, form_name, fields)
    local name = player:get_player_name()

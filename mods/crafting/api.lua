@@ -261,7 +261,7 @@ function crafting.craft(player, wanted, wanted_count, output, items)
    return {items = items, output = output}
 end
 
-local form = default.ui.get_page("default:2part")
+local form = default.ui.get_page("rp_default:2part")
 
 form = form .. "field[-1,-1;0,0;crafting_tracker;;]"
 

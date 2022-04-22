@@ -23,42 +23,42 @@ local village_replaces = {
    },
    -- Birch → Normal (Normal + Oak)
    {
-      ["default:planks_birch"] = "default:planks",
-      ["default:tree_birch"] = "default:tree",
-      ["default:fence_birch"] = "default:fence",
+      ["default:planks_birch"] = "rp_default:planks",
+      ["default:tree_birch"] = "rp_default:tree",
+      ["default:fence_birch"] = "rp_default:fence",
    },
    -- Oak → Normal (Normal + Birch)
    {
-      ["default:planks_oak"] = "default:planks",
-      ["default:tree_oak"] = "default:tree",
-      ["default:fence_oak"] = "default:fence",
+      ["default:planks_oak"] = "rp_default:planks",
+      ["default:tree_oak"] = "rp_default:tree",
+      ["default:fence_oak"] = "rp_default:fence",
    },
    -- Normal wood only
    {
-      ["default:planks_birch"] = "default:planks",
-      ["default:planks_oak"] = "default:planks",
-      ["default:tree_birch"] = "default:tree",
-      ["default:tree_oak"] = "default:tree",
-      ["default:fence_birch"] = "default:fence",
-      ["default:fence_oak"] = "default:fence",
+      ["default:planks_birch"] = "rp_default:planks",
+      ["default:planks_oak"] = "rp_default:planks",
+      ["default:tree_birch"] = "rp_default:tree",
+      ["default:tree_oak"] = "rp_default:tree",
+      ["default:fence_birch"] = "rp_default:fence",
+      ["default:fence_oak"] = "rp_default:fence",
    },
    -- Birch wood only
    {
-      ["default:planks"] = "default:planks_birch",
-      ["default:planks_oak"] = "default:planks_birch",
-      ["default:tree"] = "default:tree_birch",
-      ["default:tree_oak"] = "default:tree_birch",
-      ["default:fence"] = "default:fence_birch",
-      ["default:fence_oak"] = "default:fence_birch",
+      ["default:planks"] = "rp_default:planks_birch",
+      ["default:planks_oak"] = "rp_default:planks_birch",
+      ["default:tree"] = "rp_default:tree_birch",
+      ["default:tree_oak"] = "rp_default:tree_birch",
+      ["default:fence"] = "rp_default:fence_birch",
+      ["default:fence_oak"] = "rp_default:fence_birch",
    },
    -- Oak wood only
    {
-      ["default:planks"] = "default:planks_oak",
-      ["default:planks_birch"] = "default:planks_oak",
-      ["default:tree"] = "default:tree_oak",
-      ["default:tree_birch"] = "default:tree_oak",
-      ["default:fence"] = "default:fence_oak",
-      ["default:fence_birch"] = "default:fence_oak"
+      ["default:planks"] = "rp_default:planks_oak",
+      ["default:planks_birch"] = "rp_default:planks_oak",
+      ["default:tree"] = "rp_default:tree_oak",
+      ["default:tree_birch"] = "rp_default:tree_oak",
+      ["default:fence"] = "rp_default:fence_oak",
+      ["default:fence_birch"] = "rp_default:fence_oak"
    },
 }
 
@@ -279,8 +279,8 @@ function village.generate_hill(pos)
    end
    end
    end
-   minetest.bulk_set_node(dirts, {name="default:dirt"})
-   minetest.bulk_set_node(dirts_with_grass, {name="default:dirt_with_grass"})
+   minetest.bulk_set_node(dirts, {name="rp_default:dirt"})
+   minetest.bulk_set_node(dirts_with_grass, {name="rp_default:dirt_with_grass"})
 end
 
 local function check_empty(pos)
@@ -316,7 +316,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
           village.get_column_nodes({x=x, y=py, z=z}, 15, dirtnodes)
       end
       end
-      minetest.bulk_set_node(dirtnodes, {name="default:dirt"})
+      minetest.bulk_set_node(dirtnodes, {name="rp_default:dirt"})
 
       minetest.place_schematic(
 	 pos,
@@ -329,7 +329,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
    end
 
    if chunktype == "orchard" then
-      replace["default:tree"] = nil
+      replace["rp_default:tree"] = nil
    end
    minetest.place_schematic(
       pos,
@@ -346,7 +346,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
       util.nodefunc(
          pos,
          {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-         "default:chest",
+         "rp_default:chest",
          function(pos)
             if pr:next(1,4) == 1 then
                local node = minetest.get_node(pos)
@@ -361,7 +361,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
    util.nodefunc(
       pos,
       {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-      {"default:chest", "locks:chest"},
+      {"rp_default:chest", "locks:chest"},
       function(pos)
          goodies.fill(pos, chunktype, pr, "main", 3)
       end, true)
@@ -384,12 +384,12 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
    util.nodefunc(
       pos,
       {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-      "default:torch",
+      "rp_default:torch",
       function(pos)
 	 local node = minetest.get_node(pos)
          local dir = minetest.wallmounted_to_dir(node.param2)
          if dir.x ~= 0 or dir.z ~= 0 then
-            node.name = "default:torch_wall"
+            node.name = "rp_default:torch_wall"
             minetest.set_node(pos, node)
          end
       end, true)
@@ -448,7 +448,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
       util.nodefunc(
 	 pos,
 	 {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-	 "default:furnace",
+	 "rp_default:furnace",
 	 function(pos)
 	    goodies.fill(pos, "FURNACE_SRC", pr, "src", 1)
 	    goodies.fill(pos, "FURNACE_DST", pr, "dst", 1)
@@ -536,7 +536,7 @@ function village.spawn_village(pos, pr, force_place_well)
       village_replace_id = vpr:next(1,#village_replaces)
    end
    local replace = village_replaces[village_replace_id]
-   local dirt_path = "default:heated_dirt_path"
+   local dirt_path = "rp_default:heated_dirt_path"
 
    -- For measuring the generation time
    local t1 = os.clock()
@@ -589,10 +589,10 @@ function village.spawn_village(pos, pr, force_place_well)
    if road ~= false then
 
       local replaces = {
-	 ["default:planks"]       = "default:dirt_with_grass", -- north
-	 ["default:cobble"]       = "default:dirt_with_grass", -- east
-	 ["default:planks_oak"]   = "default:dirt_with_grass", -- south
-	 ["default:planks_birch"] = "default:dirt_with_grass"  -- west
+	 ["default:planks"]       = "rp_default:dirt_with_grass", -- north
+	 ["default:cobble"]       = "rp_default:dirt_with_grass", -- east
+	 ["default:planks_oak"]   = "rp_default:dirt_with_grass", -- south
+	 ["default:planks_birch"] = "rp_default:dirt_with_grass"  -- west
       }
 
       if not road.is_well then
@@ -608,28 +608,28 @@ function village.spawn_village(pos, pr, force_place_well)
 	    nextpos.z = nextpos.z + 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=8}), vector.add(road.pos, {x=7,y=0,z=11}), {"default:dirt_with_grass"})
+               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=8}), vector.add(road.pos, {x=7,y=0,z=11}), {"rp_default:dirt_with_grass"})
                minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 elseif i == 2 then
 	    nextpos.x = nextpos.x + 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=8, y=0, z=4}), vector.add(road.pos, {x=11,y=0,z=7}), {"default:dirt_with_grass"})
+               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=8, y=0, z=4}), vector.add(road.pos, {x=11,y=0,z=7}), {"rp_default:dirt_with_grass"})
                minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 elseif i == 3 then
 	    nextpos.z = nextpos.z - 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=0}), vector.add(road.pos, {x=7,y=0,z=3}), {"default:dirt_with_grass"})
+               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=0}), vector.add(road.pos, {x=7,y=0,z=3}), {"rp_default:dirt_with_grass"})
                minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 else
 	    nextpos.x = nextpos.x - 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=0, y=0, z=4}), vector.add(road.pos, {x=3,y=0,z=7}), {"default:dirt_with_grass"})
+               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=0, y=0, z=4}), vector.add(road.pos, {x=3,y=0,z=7}), {"rp_default:dirt_with_grass"})
                minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 end

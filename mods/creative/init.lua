@@ -8,7 +8,7 @@ creative.creative_sizes = {}
 
 local playerdata = {}
 
-local form = default.ui.get_page("default:2part")
+local form = default.ui.get_page("rp_default:2part")
 
 form = form .. "list[current_player;main;0.25,4.75;8,4;]"
 form = form .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)

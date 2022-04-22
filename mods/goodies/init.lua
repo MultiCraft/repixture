@@ -12,50 +12,50 @@ goodies.types = {}
 goodies.types_valuable = {}
 -- custom types
 goodies.types["FURNACE_SRC"] = {
-   ["default:lump_iron"] = 3,
+   ["rp_default:lump_iron"] = 3,
    ["farming:flour"] = 5,
 }
 goodies.types["FURNACE_FUEL"] = {
-   ["default:lump_coal"] = 2,
-   ["default:planks_oak"] = 4,
-   ["default:planks_birch"] = 5,
+   ["rp_default:lump_coal"] = 2,
+   ["rp_default:planks_oak"] = 4,
+   ["rp_default:planks_birch"] = 5,
 }
 goodies.types["FURNACE_DST"] = {
-   ["default:ingot_wrought_iron"] = 5,
+   ["rp_default:ingot_wrought_iron"] = 5,
    ["farming:bread"] = 8,
 }
 
 -- chunk types for villages
 if minetest.get_modpath("village") ~= nil then
    goodies.types["forge"] = {
-      ["default:lump_coal"] = 4,
-      ["default:lump_iron"] = 6,
-      ["default:pick_stone"] = 9,
-      ["default:tree_oak"] = 2,
-      ["default:ingot_steel"] = { chance = 20, max_stack = 1 },
+      ["rp_default:lump_coal"] = 4,
+      ["rp_default:lump_iron"] = 6,
+      ["rp_default:pick_stone"] = 9,
+      ["rp_default:tree_oak"] = 2,
+      ["rp_default:ingot_steel"] = { chance = 20, max_stack = 1 },
    }
    goodies.types_valuable["forge"] = {
-      ["default:ingot_steel"] = 10,
-      ["default:ingot_carbon_steel"] = 12,
+      ["rp_default:ingot_steel"] = 10,
+      ["rp_default:ingot_carbon_steel"] = 12,
    }
    goodies.types["tavern"] = {
       ["bed:bed"] = { chance = 8, max_stack = 1},
-      ["default:bucket"] = 20,
+      ["rp_default:bucket"] = 20,
       ["mobs:meat"] = 5,
-      ["default:ladder"] = 9,
+      ["rp_default:ladder"] = 9,
    }
    goodies.types_valuable["tavern"] = {
       ["mobs:pork"] = 9,
    }
    goodies.types["house"] = {
-      ["default:stick"] = 2,
+      ["rp_default:stick"] = 2,
       ["farming:bread"] = 6,
       ["farming:cotton_1"] = 9,
       ["farming:wheat_1"] = 6,
-      ["default:axe_stone"] = 13,
-      ["default:apple"] = 3,
-      ["default:bucket"] = 8,
-      ["default:bucket_water"] = 12,
+      ["rp_default:axe_stone"] = 13,
+      ["rp_default:apple"] = 3,
+      ["rp_default:bucket"] = 8,
+      ["rp_default:bucket_water"] = 12,
    }
    goodies.types_valuable["house"] = {}
 

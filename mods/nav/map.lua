@@ -91,8 +91,8 @@ crafting.register_craft(
    {
       output = "nav:map",
       items = {
-         "default:stick 6",
-         "default:paper 3",
+         "rp_default:stick 6",
+         "rp_default:paper 3",
       }
 })
 

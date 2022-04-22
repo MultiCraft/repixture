@@ -1,9 +1,9 @@
-local S = minetest.get_translator("default")
+local S = minetest.get_translator("rp_default")
 
 local SIGN_MAX_TEXT_LENGTH = 64
 
 minetest.register_node(
-   "default:sign",
+   "rp_default:sign",
    {
       description = S("Sign"),
       _tt_help = S("Write a short message"),
@@ -27,7 +27,7 @@ minetest.register_node(
       on_construct = function(pos)
          --local n = minetest.get_node(pos)
          local meta = minetest.get_meta(pos)
-         meta:set_string("formspec", default.ui.get_page("default:field"))
+         meta:set_string("formspec", default.ui.get_page("rp_default:field"))
          -- Show empty sign text in quotation marks
          meta:set_string("infotext", S('""'))
          meta:set_string("text", "")

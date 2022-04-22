@@ -6,7 +6,7 @@
 minetest.register_decoration(
    {
       deco_type = "simple",
-      place_on = "default:dirt_with_grass",
+      place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.008,
       biomes = {"Wilderness"},
@@ -18,7 +18,7 @@ minetest.register_decoration(
 minetest.register_decoration(
    {
       deco_type = "simple",
-      place_on = "default:dirt_with_grass",
+      place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.006,
       biomes = {"Grassland", "Savanna"},
@@ -30,7 +30,7 @@ minetest.register_decoration(
 minetest.register_decoration(
    {
       deco_type = "simple",
-      place_on = "default:sand",
+      place_on = "rp_default:sand",
       sidelen = 16,
       fill_ratio = 0.004,
       biomes = {"Desert"},

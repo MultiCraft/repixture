@@ -92,11 +92,11 @@ for _, npc_type_table in pairs(npc_types) do
 	 jump = true,
 	 walk_chance = 50,
 	 drops = {
-	    {name = "default:planks_oak",
+	    {name = "rp_default:planks_oak",
 	     chance = 1, min = 1, max = 3},
-	    {name = "default:apple",
+	    {name = "rp_default:apple",
 	     chance = 2, min = 1, max = 2},
-	    {name = "default:axe_stone",
+	    {name = "rp_default:axe_stone",
 	     chance = 5, min = 1, max = 1},
 	 },
 	 water_damage = 0,
@@ -144,7 +144,7 @@ for _, npc_type_table in pairs(npc_types) do
             end
 
             local iname = item:get_name()
-            if minetest.get_item_group(iname, "sword") > 0 or minetest.get_item_group(iname, "spear") > 0 or iname == "default:thistle" then
+            if minetest.get_item_group(iname, "sword") > 0 or minetest.get_item_group(iname, "spear") > 0 or iname == "rp_default:thistle" then
                say(S("Get this thing out of my face!"), name)
                return
             end
@@ -168,7 +168,7 @@ for _, npc_type_table in pairs(npc_types) do
                    if hp >= self.hp_max-7 then
                       if iname == "gold:ingot_gold" then
                           say_random("trade", name)
-                      elseif iname == "default:fertilizer" then
+                      elseif iname == "rp_default:fertilizer" then
                           if npc_type == "farmer" then
                               say(S("This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."), name)
                           else
@@ -202,21 +202,21 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                               say(S("Every kid knows seeds need soil, water and sunlight."), name)
                           end
-                      elseif iname == "default:book" then
+                      elseif iname == "rp_default:book" then
                           say(S("A truly epic story!"), name)
-                      elseif iname == "default:pearl" then
+                      elseif iname == "rp_default:pearl" then
                           say(S("Ooh, a shiny pearl! Unfortunately, I don't know what it's good for."), name)
                       elseif minetest.get_item_group(iname, "sapling") > 0 then
                           say(S("Place it on the ground in sunlight and it will grow to a tree."), name)
                       elseif minetest.get_item_group(iname, "shears") > 0 then
                           say(S("Use this to trim plants and get wool from sheep."), name)
-                      elseif iname == "default:papyrus" then
+                      elseif iname == "rp_default:papyrus" then
                           if npc_type == "farmer" then
                               say(S("Papyrus likes to grow next to water."), name)
                           else
                               say(S("When I was I kid, I always liked to climb on the papyrus."), name)
                           end
-                      elseif iname == "default:cactus" then
+                      elseif iname == "rp_default:cactus" then
                           if npc_type == "farmer" then
                               say(S("Cacti like to grow on sand. They are also a food source, if you're really desperate."), name)
                           elseif npc_type == "blacksmith" then
@@ -232,15 +232,15 @@ for _, npc_type_table in pairs(npc_types) do
                           end
                       elseif iname == "lumien:crystal_off" then
                           say(S("This looks like it could be a good wall decoration."), name)
-                      elseif iname == "default:torch_dead" then
+                      elseif iname == "rp_default:torch_dead" then
                           say(S("It’s burned out. Use flint and steel to kindle it."), name)
-                      elseif iname == "default:torch_weak" then
+                      elseif iname == "rp_default:torch_weak" then
                           say(S("With flint and steel you could stabilize the flame."), name)
-                      elseif iname == "default:torch" then
+                      elseif iname == "rp_default:torch" then
                           say(S("Let’s light up some caves!"), name)
-                      elseif iname == "default:flower" then
+                      elseif iname == "rp_default:flower" then
                           say(S("A flower? I love flowers! Let's make the world bloom!"), name)
-                      elseif iname == "default:flint_and_steel" then
+                      elseif iname == "rp_default:flint_and_steel" then
                           if minetest.settings:get_bool("tnt_enable", true) then
                              say(S("You can use this to light up torches and ignite TNT."), name)
                           else
@@ -258,10 +258,10 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                              say(S("Sleeping makes the night go past in the blink of an eye."), name)
                           end
-                      elseif iname == "default:lump_bronze" then
+                      elseif iname == "rp_default:lump_bronze" then
                           -- Classic parody of Friedrich Schiller’s “Das Lied von der Glocke” (works best in German)
                           say(S("Hole in dirt, put bronze in. Bell’s complete, bim, bim, bim!"), name)
-                      elseif iname == "default:apple" then
+                      elseif iname == "rp_default:apple" then
                           if npc_type == "farmer" then
                              say(S("Boars love to eat apples, too! If you feed enough of these to them, they will multiply."), name)
                           else

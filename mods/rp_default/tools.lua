@@ -3,7 +3,7 @@
 -- Tool definitions
 --
 
-local S = minetest.get_translator("default")
+local S = minetest.get_translator("rp_default")
 
 local creative_digtime = 0
 
@@ -221,7 +221,7 @@ end
 -- "Creative" Tool
 
 minetest.register_tool(
-   "default:creative_tool",
+   "rp_default:creative_tool",
    {
       description = S("Creative Tool"),
       _tt_help = S("Can dig (nearly) every block"),
@@ -254,7 +254,7 @@ local tt_shears = S("Cuts leaves and plants and shears sheep")
 -- Pickaxes
 
 minetest.register_tool(
-   "default:pick_wood",
+   "rp_default:pick_wood",
    {
       description = S("Wooden Pickaxe"),
       _tt_help = tt_pick,
@@ -270,7 +270,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:pick_stone",
+   "rp_default:pick_stone",
    {
       description = S("Stone Pickaxe"),
       _tt_help = tt_pick,
@@ -287,7 +287,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:pick_wrought_iron",
+   "rp_default:pick_wrought_iron",
    {
       description = S("Wrought Iron Pickaxe"),
       _tt_help = tt_pick,
@@ -304,7 +304,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:pick_steel",
+   "rp_default:pick_steel",
    {
       description = S("Steel Pickaxe"),
       _tt_help = tt_pick,
@@ -321,7 +321,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:pick_carbon_steel",
+   "rp_default:pick_carbon_steel",
    {
       description = S("Carbon Steel Pickaxe"),
       _tt_help = tt_pick,
@@ -338,7 +338,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:pick_bronze",
+   "rp_default:pick_bronze",
    {
       description = S("Bronze Pickaxe"),
       _tt_help = tt_pick,
@@ -357,7 +357,7 @@ minetest.register_tool(
 -- Shovels
 
 minetest.register_tool(
-   "default:shovel_wood",
+   "rp_default:shovel_wood",
    {
       description = S("Wooden Shovel"),
       _tt_help = tt_shovel,
@@ -374,7 +374,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:shovel_stone",
+   "rp_default:shovel_stone",
    {
       description = S("Stone Shovel"),
       _tt_help = tt_shovel,
@@ -391,7 +391,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:shovel_wrought_iron",
+   "rp_default:shovel_wrought_iron",
    {
       description = S("Wrought Iron Shovel"),
       _tt_help = tt_shovel,
@@ -408,7 +408,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:shovel_steel",
+   "rp_default:shovel_steel",
    {
       description = S("Steel Shovel"),
       _tt_help = tt_shovel,
@@ -425,7 +425,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:shovel_carbon_steel",
+   "rp_default:shovel_carbon_steel",
    {
       description = S("Carbon Steel Shovel"),
       _tt_help = tt_shovel,
@@ -442,7 +442,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:shovel_bronze",
+   "rp_default:shovel_bronze",
    {
       description = S("Bronze Shovel"),
       _tt_help = tt_shovel,
@@ -461,7 +461,7 @@ minetest.register_tool(
 -- Axes
 
 minetest.register_tool(
-   "default:axe_wood",
+   "rp_default:axe_wood",
    {
       description = S("Wooden Axe"),
       _tt_help = tt_axe,
@@ -479,7 +479,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:axe_stone",
+   "rp_default:axe_stone",
    {
       description = S("Stone Axe"),
       _tt_help = tt_axe,
@@ -497,7 +497,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:axe_wrought_iron",
+   "rp_default:axe_wrought_iron",
    {
       description = S("Wrought Iron Axe"),
       _tt_help = tt_axe,
@@ -515,7 +515,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:axe_steel",
+   "rp_default:axe_steel",
    {
       description = S("Steel Axe"),
       _tt_help = tt_axe,
@@ -533,7 +533,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:axe_carbon_steel",
+   "rp_default:axe_carbon_steel",
    {
       description = S("Carbon Steel Axe"),
       _tt_help = tt_axe,
@@ -551,7 +551,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:axe_bronze",
+   "rp_default:axe_bronze",
    {
       description = S("Bronze Axe"),
       _tt_help = tt_axe,
@@ -571,7 +571,7 @@ minetest.register_tool(
 -- Spears
 
 minetest.register_tool(
-   "default:spear_wood",
+   "rp_default:spear_wood",
    {
       description = S("Wooden Spear"),
       _tt_help = tt_spear,
@@ -590,7 +590,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:spear_stone",
+   "rp_default:spear_stone",
    {
       description = S("Stone Spear"),
       _tt_help = tt_spear,
@@ -609,7 +609,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:spear_wrought_iron",
+   "rp_default:spear_wrought_iron",
    {
       description = S("Wrought Iron Spear"),
       _tt_help = tt_spear,
@@ -628,7 +628,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:spear_steel",
+   "rp_default:spear_steel",
    {
       description = S("Steel Spear"),
       _tt_help = tt_spear,
@@ -647,7 +647,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:spear_carbon_steel",
+   "rp_default:spear_carbon_steel",
    {
       description = S("Carbon Steel Spear"),
       _tt_help = tt_spear,
@@ -666,7 +666,7 @@ minetest.register_tool(
 })
 
 minetest.register_tool(
-   "default:spear_bronze",
+   "rp_default:spear_bronze",
    {
       description = S("Bronze Spear"),
       _tt_help = tt_spear,
@@ -687,7 +687,7 @@ minetest.register_tool(
 -- Broadsword
 
 minetest.register_tool(
-   "default:broadsword",
+   "rp_default:broadsword",
    {
       description = S("Broadsword"),
       _tt_help = S("A mighty melee weapon"),
@@ -721,7 +721,7 @@ local trim = function(itemstack, player, pointed_thing)
 end
 
 minetest.register_tool(
-   "default:shears",
+   "rp_default:shears",
    {
       description = S("Wrought Iron Shears"),
       _tt_help = tt_shears,
@@ -739,7 +739,7 @@ minetest.register_tool(
       on_place = trim,
 })
 minetest.register_tool(
-   "default:shears_steel",
+   "rp_default:shears_steel",
    {
       description = S("Steel Shears"),
       _tt_help = tt_shears,
@@ -757,7 +757,7 @@ minetest.register_tool(
       on_place = trim,
 })
 minetest.register_tool(
-   "default:shears_carbon_steel",
+   "rp_default:shears_carbon_steel",
    {
       description = S("Carbon Steel Shears"),
       _tt_help = tt_shears,
@@ -775,7 +775,7 @@ minetest.register_tool(
       on_place = trim,
 })
 minetest.register_tool(
-   "default:shears_bronze",
+   "rp_default:shears_bronze",
    {
       description = S("Bronze Shears"),
       _tt_help = tt_shears,
@@ -801,7 +801,7 @@ else
 end
 
 minetest.register_tool(
-   "default:flint_and_steel",
+   "rp_default:flint_and_steel",
    {
       description = S("Flint and Steel"),
       _tt_help = tt_flint_and_steel,
@@ -822,41 +822,41 @@ minetest.register_tool(
          local nodename = node.name
          local wear = false
 
-         if nodename == "default:torch_weak" then
+         if nodename == "rp_default:torch_weak" then
             minetest.set_node(
                pos,
                {
-                  name = "default:torch",
+                  name = "rp_default:torch",
                   param = node.param,
                   param2 = node.param2
             })
             wear = true
 
-         elseif nodename == "default:torch_weak_wall" then
+         elseif nodename == "rp_default:torch_weak_wall" then
             minetest.set_node(
                pos,
                {
-                  name = "default:torch_wall",
+                  name = "rp_default:torch_wall",
                   param = node.param,
                   param2 = node.param2
             })
             wear = true
 
-         elseif nodename == "default:torch_dead" then
+         elseif nodename == "rp_default:torch_dead" then
             minetest.set_node(
                pos,
                {
-                  name = "default:torch_weak",
+                  name = "rp_default:torch_weak",
                   param = node.param,
                   param2 = node.param2
             })
             wear = true
 
-         elseif nodename == "default:torch_dead_wall" then
+         elseif nodename == "rp_default:torch_dead_wall" then
             minetest.set_node(
                pos,
                {
-                  name = "default:torch_weak_wall",
+                  name = "rp_default:torch_weak_wall",
                   param = node.param,
                   param2 = node.param2
             })

@@ -30,7 +30,7 @@ mobs:register_mob(
       walk_velocity = 1.5,
       run_velocity = 2,
       jump = true,
-      follow = "default:apple",
+      follow = "rp_default:apple",
       view_range = 15,
       drops = {
 	 {name = "mobs:meat_raw",
@@ -57,8 +57,8 @@ mobs:register_mob(
 mobs:register_spawn(
    "mobs:skunk",
    {
-      "default:dirt_with_swamp_grass",
-      "default:dirt_with_dry_grass"
+      "rp_default:dirt_with_swamp_grass",
+      "rp_default:dirt_with_dry_grass"
    },
    20,
    7,

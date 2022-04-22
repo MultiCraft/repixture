@@ -54,8 +54,8 @@ mobs:register_mob(
       view_range = 5,
       replace_rate = 50,
       replace_what = {
-         "default:grass",
-         "default:tall_grass",
+         "rp_default:grass",
+         "rp_default:tall_grass",
          "farming:wheat_3",
          "farming:wheat_4"
       },
@@ -142,7 +142,7 @@ mobs:register_mob(
 mobs:register_spawn(
    "mobs:sheep",
    {
-      "default:dirt_with_grass"
+      "rp_default:dirt_with_grass"
    },
    20,
    10,

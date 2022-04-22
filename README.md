@@ -47,7 +47,7 @@ By [KaadmY](https://github.com/kaadmy)
 Inspiration by [Kenney](http://kenney.nl)
 
 - [Kenney](http://kenney.nl) for the inspiration, most of the aesthetic.
-- Sounds in the default mod are all by Kenney (CC0)
+- Sounds in the `rp_default` mod are all by Kenney (CC0)
 - All textures/models by KaadmY (CC BY-SA 4.0)
 
 ## Licenses

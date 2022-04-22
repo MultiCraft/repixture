@@ -187,7 +187,7 @@ function mobs:register_mob(name, def)
 	 lava_damage = def.lava_damage or 0,
 	 takes_node_damage = def.takes_node_damage or true,
 	 fall_damage = def.fall_damage or 1,
-	 fall_speed = def.fall_speed or -10, -- must be lower than -2 (default: -10)
+	 fall_speed = def.fall_speed or -10, -- must be lower than -2 (rp_default: -10)
 	 drops = def.drops or {},
 	 armor = def.armor,
 	 on_rightclick = def.on_rightclick,
@@ -436,7 +436,7 @@ function mobs:register_mob(name, def)
                -- floating in water (or falling)
                local pos = self.object:get_pos()
                local nod = minetest.get_node_or_nil(pos)
-               if nod then nod = nod.name else nod = "default:dirt" end
+               if nod then nod = nod.name else nod = "rp_default:dirt" end
                local nodef = minetest.registered_nodes[nod]
 
                local v = self.object:get_velocity()
@@ -974,7 +974,7 @@ function mobs:register_mob(name, def)
                local lp = minetest.find_node_near(s, 1, {"group:water"})
 
                -- water swimmers cannot move out of water
-               if self.fly and self.fly_in == "default:water_source" and not lp then
+               if self.fly and self.fly_in == "rp_default:water_source" and not lp then
                   self.set_velocity(self, 0)
                   self.state = "flop" -- change to undefined state so nothing more happens
                   self:set_animation("stand")

@@ -1,12 +1,8 @@
-Default mod
-===========
-By Kaadmy, for Pixture
+Repixure core mod: rp_default
+=============================
+By Kaadmy and Wuzzy, for Repixture
 
-Adds the required stuff to run.
-
-WARNING: This mod will not be compatible with existing mods, tons of stuff has been renamed!
-
-This mod is NOT compatible with Minetest Game! In fact, it's very very different.
+The core mod of Repixture.
 
 Sound licenses:
   * Water sounds:

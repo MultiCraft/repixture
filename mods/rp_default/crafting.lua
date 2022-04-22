@@ -8,31 +8,31 @@
 minetest.register_craft(
    {
       type = "cooking",
-      output = "default:torch_weak",
-      recipe = "default:torch_dead",
+      output = "rp_default:torch_weak",
+      recipe = "rp_default:torch_dead",
       cooktime = 1,
 })
 
 minetest.register_craft(
    {
       type = "cooking",
-      output = "default:torch",
-      recipe = "default:torch_weak",
+      output = "rp_default:torch",
+      recipe = "rp_default:torch_weak",
       cooktime = 4,
 })
 
 minetest.register_craft(
    {
       type = "cooking",
-      output = "default:glass",
-      recipe = "default:sand",
+      output = "rp_default:glass",
+      recipe = "rp_default:sand",
       cooktime = 3,
 })
 
 minetest.register_craft(
    {
       type = "cooking",
-      output = "default:lump_coal",
+      output = "rp_default:lump_coal",
       recipe = "group:tree",
       cooktime = 4,
 })
@@ -40,8 +40,8 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "cooking",
-      output = "default:stone",
-      recipe = "default:cobble",
+      output = "rp_default:stone",
+      recipe = "rp_default:cobble",
       cooktime = 6,
 })
 
@@ -50,32 +50,32 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "cooking",
-      output = "default:ingot_wrought_iron",
-      recipe = "default:lump_iron",
+      output = "rp_default:ingot_wrought_iron",
+      recipe = "rp_default:lump_iron",
       cooktime = 3,
 })
 
 minetest.register_craft(
    {
       type = "cooking",
-      output = "default:ingot_tin",
-      recipe = "default:lump_tin",
+      output = "rp_default:ingot_tin",
+      recipe = "rp_default:lump_tin",
       cooktime = 3,
 })
 
 minetest.register_craft(
    {
       type = "cooking",
-      output = "default:ingot_copper",
-      recipe = "default:lump_copper",
+      output = "rp_default:ingot_copper",
+      recipe = "rp_default:lump_copper",
       cooktime = 3,
 })
 
 minetest.register_craft(
    {
       type = "cooking",
-      output = "default:ingot_bronze",
-      recipe = "default:lump_bronze",
+      output = "rp_default:ingot_bronze",
+      recipe = "rp_default:lump_bronze",
       cooktime = 6,
 })
 
@@ -91,35 +91,35 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:dry_grass",
+      recipe = "rp_default:dry_grass",
       burntime = 1,
 })
 
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:fern",
+      recipe = "rp_default:fern",
       burntime = 2,
 })
 
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:papyrus",
+      recipe = "rp_default:papyrus",
       burntime = 2,
 })
 
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:ladder",
+      recipe = "rp_default:ladder",
       burntime = 5,
 })
 
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:rope",
+      recipe = "rp_default:rope",
       burntime = 5,
 })
 
@@ -133,7 +133,7 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:torch",
+      recipe = "rp_default:torch",
       burntime = 7,
 })
 
@@ -147,14 +147,14 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:sign",
+      recipe = "rp_default:sign",
       burntime = 6,
 })
 
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:cactus",
+      recipe = "rp_default:cactus",
       burntime = 10,
 })
 
@@ -168,14 +168,14 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:frame",
+      recipe = "rp_default:frame",
       burntime = 13,
 })
 
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:reinforced_frame",
+      recipe = "rp_default:reinforced_frame",
       burntime = 17,
 })
 
@@ -189,28 +189,28 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:chest",
+      recipe = "rp_default:chest",
       burntime = 25,
 })
 
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:bookshelf",
+      recipe = "rp_default:bookshelf",
       burntime = 32,
 })
 
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:lump_coal",
+      recipe = "rp_default:lump_coal",
       burntime = 20,
 })
 
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "default:block_coal",
+      recipe = "rp_default:block_coal",
       burntime = 180,
 })
 

@@ -1,9 +1,9 @@
 -- Fertilizer
 
-local S = minetest.get_translator("default")
+local S = minetest.get_translator("rp_default")
 
 minetest.register_node(
-   "default:fertilized_dirt",
+   "rp_default:fertilized_dirt",
    {
       description = S("Fertilized Dirt"),
       _tt_help = S("Speeds up the growth of plants"),
@@ -21,12 +21,12 @@ minetest.register_node(
 	 fall_damage_add_percent = -5,
 	 not_in_craft_guide = 1,
       },
-      drop = "default:dirt",
+      drop = "rp_default:dirt",
       sounds = default.node_sound_dirt_defaults(),
 })
 
 minetest.register_node(
-   "default:fertilized_dry_dirt",
+   "rp_default:fertilized_dry_dirt",
    {
       description = S("Fertilized Dry Dirt"),
       _tt_help = S("Speeds up the growth of plants"),
@@ -44,12 +44,12 @@ minetest.register_node(
 	 fall_damage_add_percent = -10,
 	 not_in_craft_guide = 1,
       },
-      drop = "default:dry_dirt",
+      drop = "rp_default:dry_dirt",
       sounds = default.node_sound_dirt_defaults(),
 })
 
 minetest.register_node(
-   "default:fertilized_swamp_dirt",
+   "rp_default:fertilized_swamp_dirt",
    {
       description = S("Fertilized Swamp Dirt"),
       _tt_help = S("Speeds up the growth of plants"),
@@ -67,12 +67,12 @@ minetest.register_node(
 	 fall_damage_add_percent = -10,
 	 not_in_craft_guide = 1,
       },
-      drop = "default:swamp_dirt",
+      drop = "rp_default:swamp_dirt",
       sounds = default.node_sound_dirt_defaults(),
 })
 
 minetest.register_node(
-   "default:fertilized_sand",
+   "rp_default:fertilized_sand",
    {
       description = S("Fertilized Sand"),
       _tt_help = S("Speeds up the growth of plants"),
@@ -86,13 +86,13 @@ minetest.register_node(
 	 fall_damage_add_percent = -10,
 	 not_in_craft_guide = 1,
       },
-      drop = "default:sand",
+      drop = "rp_default:sand",
       is_ground_content = false,
       sounds = default.node_sound_sand_defaults(),
 })
 
 minetest.register_craftitem(
-   "default:fertilizer",
+   "rp_default:fertilizer",
    {
       description = S("Fertilizer"),
       _tt_help = S("Used to fertilize dirt and sand to speed up plant growth"),
@@ -115,13 +115,13 @@ minetest.register_craftitem(
             if minetest.get_item_group(undernode.name, "plantable_fertilizer") ~= 0 then
                return itemstack
             elseif minetest.get_item_group(undernode.name, "normal_dirt") ~= 0 then
-               minetest.set_node(pointed_thing.under, {name = "default:fertilized_dirt"})
+               minetest.set_node(pointed_thing.under, {name = "rp_default:fertilized_dirt"})
             elseif minetest.get_item_group(undernode.name, "swamp_dirt") ~= 0 then
-               minetest.set_node(pointed_thing.under, {name = "default:fertilized_swamp_dirt"})
+               minetest.set_node(pointed_thing.under, {name = "rp_default:fertilized_swamp_dirt"})
             elseif minetest.get_item_group(undernode.name, "dry_dirt") ~= 0 then
-               minetest.set_node(pointed_thing.under, {name = "default:fertilized_dry_dirt"})
-            elseif undernode.name == "default:sand" then
-               minetest.set_node(pointed_thing.under, {name = "default:fertilized_sand"})
+               minetest.set_node(pointed_thing.under, {name = "rp_default:fertilized_dry_dirt"})
+            elseif undernode.name == "rp_default:sand" then
+               minetest.set_node(pointed_thing.under, {name = "rp_default:fertilized_sand"})
             end
          end
 

@@ -279,7 +279,7 @@ for tool_name, tool_def in pairs(tool_types) do
             end
          end
          jewels.register_jewel(
-            "default:" .. tool_name .. "_" .. material_name,
+            "rp_default:" .. tool_name .. "_" .. material_name,
             "jewels:" .. tool_name .. "_" .. material_name .. "_" .. jewel_name,
             {
                stats = jewel_def,
@@ -295,7 +295,7 @@ end
 -- Broadswords
 
 jewels.register_jewel(
-   "default:broadsword",
+   "rp_default:broadsword",
    "jewels:broadsword_jeweled_pommel",
    {
       description = S("Pommel Jewel Broadsword"),

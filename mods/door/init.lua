@@ -320,8 +320,8 @@ crafting.register_craft(
    {
       output = "door:door_wood",
       items = {
-         "default:fiber 6",
-         "default:stick 7",
+         "rp_default:fiber 6",
+         "rp_default:stick 7",
          "group:planks 2",
       }
 })
@@ -342,8 +342,8 @@ crafting.register_craft(
    {
       output = "door:door_stone",
       items = {
-         "default:fiber 6",
-         "default:stick 7",
+         "rp_default:fiber 6",
+         "rp_default:stick 7",
          "group:stone 2",
       }
 })

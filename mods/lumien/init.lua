@@ -131,7 +131,7 @@ minetest.register_ore(
    {
       ore_type       = "scatter",
       ore            = "lumien:stone_with_lumien",
-      wherein        = "default:stone",
+      wherein        = "rp_default:stone",
       clust_scarcity = 5*5*5,
       clust_num_ores = 8,
       clust_size     = 6,
@@ -198,9 +198,9 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:heated_dirt_path 2",
+      output = "rp_default:heated_dirt_path 2",
       items = {
-         "default:dirt_path 2",
+         "rp_default:dirt_path 2",
          "lumien:crystal_off",
       },
 })

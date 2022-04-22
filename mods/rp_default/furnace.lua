@@ -2,11 +2,11 @@
 -- Furnace
 --
 
-local S = minetest.get_translator("default")
+local S = minetest.get_translator("rp_default")
 local F = minetest.formspec_escape
 
 function default.furnace_active_formspec(percent, item_percent)
-   local form = default.ui.get_page("default:2part")
+   local form = default.ui.get_page("rp_default:2part")
    form = form .. "list[current_player;main;0.25,4.75;8,4;]"
    form = form .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
    form = form .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
@@ -35,7 +35,7 @@ function default.furnace_active_formspec(percent, item_percent)
    return form
 end
 
-local form_furnace = default.ui.get_page("default:2part")
+local form_furnace = default.ui.get_page("rp_default:2part")
 form_furnace = form_furnace .. "list[current_player;main;0.25,4.75;8,4;]"
 form_furnace = form_furnace .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form_furnace = form_furnace .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
@@ -100,7 +100,7 @@ local check_move = function(pos, from_list, from_index, to_list, to_index, count
 end
 
 minetest.register_node(
-   "default:furnace",
+   "rp_default:furnace",
    {
       description = S("Furnace"),
       _tt_help = S("Uses fuel to smelt a material into something else"),
@@ -138,7 +138,7 @@ minetest.register_node(
    })
 
 minetest.register_node(
-   "default:furnace_active",
+   "rp_default:furnace_active",
    {
       description = S("Furnace (active)"),
       _tt_help = S("Uses fuel to smelt a material into something else"),
@@ -146,7 +146,7 @@ minetest.register_node(
 	      "default_furnace_sides.png", "default_furnace_sides.png", "default_furnace_front.png^default_furnace_flame.png"},
       paramtype2 = "facedir",
       light_source = 8,
-      drop = "default:furnace",
+      drop = "rp_default:furnace",
       groups = {cracky = 2, not_in_creative_inventory=1},
       is_ground_content = false,
       sounds = default.node_sound_stone_defaults(),
@@ -189,7 +189,7 @@ end
 minetest.register_abm(
    {
       label = "Furnace",
-      nodenames = {"default:furnace", "default:furnace_active"},
+      nodenames = {"rp_default:furnace", "rp_default:furnace_active"},
       interval = 1.0,
       chance = 1,
       action = function(pos, node, active_object_count, active_object_count_wider)
@@ -299,12 +299,12 @@ minetest.register_abm(
 		     local fuel_percent = math.floor(fuel_time / fuel_totaltime * 100)
 		     fuel_state = S("@1%", fuel_percent)
 		     formspec = default.furnace_active_formspec(fuel_percent, item_percent)
-		     swap_node(pos, "default:furnace_active")
+		     swap_node(pos, "rp_default:furnace_active")
 		  else
 		     if not fuellist[1]:is_empty() then
 			fuel_state = S("@1%", "0")
 		     end
-		     swap_node(pos, "default:furnace")
+		     swap_node(pos, "rp_default:furnace")
 		  end
 
 		  local infotext

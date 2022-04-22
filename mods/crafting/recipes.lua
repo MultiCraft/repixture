@@ -9,34 +9,34 @@ local tool_types = {
    pick = {
       wood = "group:planks 3",
       stone = "group:stone 3",
-      wrought_iron = "default:ingot_wrought_iron 3",
-      steel = "default:ingot_steel 3",
-      carbon_steel = "default:ingot_carbon_steel 3",
-      bronze = "default:ingot_bronze 3",
+      wrought_iron = "rp_default:ingot_wrought_iron 3",
+      steel = "rp_default:ingot_steel 3",
+      carbon_steel = "rp_default:ingot_carbon_steel 3",
+      bronze = "rp_default:ingot_bronze 3",
    },
    shovel = {
       wood = "group:planks 3",
       stone = "group:stone 3",
-      wrought_iron = "default:ingot_wrought_iron 3",
-      steel = "default:ingot_steel 3",
-      carbon_steel = "default:ingot_carbon_steel 3",
-      bronze = "default:ingot_bronze 3",
+      wrought_iron = "rp_default:ingot_wrought_iron 3",
+      steel = "rp_default:ingot_steel 3",
+      carbon_steel = "rp_default:ingot_carbon_steel 3",
+      bronze = "rp_default:ingot_bronze 3",
    },
    axe= {
       wood = "group:planks 3",
       stone = "group:stone 3",
-      wrought_iron = "default:ingot_wrought_iron 3",
-      steel = "default:ingot_steel 3",
-      carbon_steel = "default:ingot_carbon_steel 3",
-      bronze = "default:ingot_bronze 3",
+      wrought_iron = "rp_default:ingot_wrought_iron 3",
+      steel = "rp_default:ingot_steel 3",
+      carbon_steel = "rp_default:ingot_carbon_steel 3",
+      bronze = "rp_default:ingot_bronze 3",
    },
    spear = {
       wood = "group:planks 2",
       stone = "group:stone 2",
-      wrought_iron = "default:ingot_wrought_iron 2",
-      steel = "default:ingot_steel 2",
-      carbon_steel = "default:ingot_carbon_steel 2",
-      bronze = "default:ingot_bronze 2",
+      wrought_iron = "rp_default:ingot_wrought_iron 2",
+      steel = "rp_default:ingot_steel 2",
+      carbon_steel = "rp_default:ingot_carbon_steel 2",
+      bronze = "rp_default:ingot_bronze 2",
    },
 }
 
@@ -44,11 +44,11 @@ for tool_name, tool_type in pairs(tool_types) do
    for material_name, material_item in pairs(tool_type) do
       crafting.register_craft(
          {
-            output = "default:" .. tool_name .. "_" .. material_name,
+            output = "rp_default:" .. tool_name .. "_" .. material_name,
             items = {
                material_item,
-               "default:fiber 4",
-               "default:stick 3",
+               "rp_default:fiber 4",
+               "rp_default:stick 3",
             }
       })
    end
@@ -58,11 +58,11 @@ end
 
 crafting.register_craft(
    {
-      output = "default:broadsword",
+      output = "rp_default:broadsword",
       items = {
-         "default:ingot_steel 4",
-         "default:fiber 5",
-         "default:stick 2",
+         "rp_default:ingot_steel 4",
+         "rp_default:fiber 5",
+         "rp_default:stick 2",
       }
 })
 
@@ -70,41 +70,41 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:shears",
+      output = "rp_default:shears",
       items = {
-         "default:ingot_wrought_iron 2",
-         "default:fiber 2",
-         "default:stick 2",
+         "rp_default:ingot_wrought_iron 2",
+         "rp_default:fiber 2",
+         "rp_default:stick 2",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:shears_steel",
+      output = "rp_default:shears_steel",
       items = {
-         "default:ingot_steel 2",
-         "default:fiber 2",
-         "default:stick 2",
+         "rp_default:ingot_steel 2",
+         "rp_default:fiber 2",
+         "rp_default:stick 2",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:shears_carbon_steel",
+      output = "rp_default:shears_carbon_steel",
       items = {
-         "default:ingot_carbon_steel 2",
-         "default:fiber 2",
-         "default:stick 2",
+         "rp_default:ingot_carbon_steel 2",
+         "rp_default:fiber 2",
+         "rp_default:stick 2",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:shears_bronze",
+      output = "rp_default:shears_bronze",
       items = {
-         "default:ingot_bronze 2",
-         "default:fiber 2",
-         "default:stick 2",
+         "rp_default:ingot_bronze 2",
+         "rp_default:fiber 2",
+         "rp_default:stick 2",
       }
 })
 
@@ -112,28 +112,28 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:ingot_steel 2",
+      output = "rp_default:ingot_steel 2",
       items = {
-         "default:sheet_graphite",
-         "default:ingot_wrought_iron 4",
+         "rp_default:sheet_graphite",
+         "rp_default:ingot_wrought_iron 4",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:ingot_carbon_steel 2",
+      output = "rp_default:ingot_carbon_steel 2",
       items = {
-         "default:sheet_graphite 2",
-         "default:ingot_wrought_iron 7",
+         "rp_default:sheet_graphite 2",
+         "rp_default:ingot_wrought_iron 7",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:ingot_bronze 2",
+      output = "rp_default:ingot_bronze 2",
       items = {
-         "default:ingot_tin 2",
-         "default:ingot_copper 5",
+         "rp_default:ingot_tin 2",
+         "rp_default:ingot_copper 5",
       }
 })
 
@@ -141,23 +141,23 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:rope 2",
+      output = "rp_default:rope 2",
       items = {
-         "default:dry_grass 3",
+         "rp_default:dry_grass 3",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:fiber 3",
+      output = "rp_default:fiber 3",
       items = {
-         "default:leaves 4",
+         "rp_default:leaves 4",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:fiber",
+      output = "rp_default:fiber",
       items = {
          "group:green_grass",
       }
@@ -165,7 +165,7 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:stick 4",
+      output = "rp_default:stick 4",
       items = {
          "group:planks",
       }
@@ -173,46 +173,46 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:flint 2",
+      output = "rp_default:flint 2",
       items = {
-         "default:gravel",
+         "rp_default:gravel",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:paper",
+      output = "rp_default:paper",
       items = {
-         "default:papyrus 3",
+         "rp_default:papyrus 3",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:book",
+      output = "rp_default:book",
       items = {
-         "default:paper 3",
-         "default:stick",
-         "default:fiber",
+         "rp_default:paper 3",
+         "rp_default:stick",
+         "rp_default:fiber",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:flint_and_steel",
+      output = "rp_default:flint_and_steel",
       items = {
-         "default:ingot_steel",
-         "default:fiber",
-         "default:flint",
+         "rp_default:ingot_steel",
+         "rp_default:fiber",
+         "rp_default:flint",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:bucket",
+      output = "rp_default:bucket",
       items = {
-         "default:stick 2",
-         "default:fiber 4",
+         "rp_default:stick 2",
+         "rp_default:fiber 4",
          "group:planks 5",
       }
 })
@@ -221,18 +221,18 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:gravel",
+      output = "rp_default:gravel",
       items = {
-         "default:cobble",
+         "rp_default:cobble",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:brick 2",
+      output = "rp_default:brick 2",
       items = {
          "group:soil 5",
-         "default:gravel 4",
+         "rp_default:gravel 4",
       }
 })
 
@@ -240,41 +240,41 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:block_wrought_iron",
+      output = "rp_default:block_wrought_iron",
       items = {
-         "default:ingot_wrought_iron 9",
+         "rp_default:ingot_wrought_iron 9",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:block_steel",
+      output = "rp_default:block_steel",
       items = {
-         "default:ingot_steel 9",
+         "rp_default:ingot_steel 9",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:block_carbon_steel",
+      output = "rp_default:block_carbon_steel",
       items = {
-         "default:ingot_carbon_steel 9",
+         "rp_default:ingot_carbon_steel 9",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:block_bronze",
+      output = "rp_default:block_bronze",
       items = {
-         "default:ingot_bronze 9",
+         "rp_default:ingot_bronze 9",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:block_coal",
+      output = "rp_default:block_coal",
       items = {
-         "default:lump_coal 9",
+         "rp_default:lump_coal 9",
       }
 })
 
@@ -282,27 +282,27 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:dirt_path 8",
+      output = "rp_default:dirt_path 8",
       items = {
          "group:soil 3",
-         "default:gravel 6",
+         "rp_default:gravel 6",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:path_slab 2",
+      output = "rp_default:path_slab 2",
       items = {
-         "default:dirt_path",
+         "rp_default:dirt_path",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:heated_dirt_path",
+      output = "rp_default:heated_dirt_path",
       items = {
-         "default:dirt_path",
-         "default:ingot_wrought_iron",
+         "rp_default:dirt_path",
+         "rp_default:ingot_wrought_iron",
       }
 })
 
@@ -310,25 +310,25 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:planks 4",
+      output = "rp_default:planks 4",
       items = {
-         "default:tree",
+         "rp_default:tree",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:planks_oak 4",
+      output = "rp_default:planks_oak 4",
       items = {
-         "default:tree_oak",
+         "rp_default:tree_oak",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:planks_birch 4",
+      output = "rp_default:planks_birch 4",
       items = {
-         "default:tree_birch",
+         "rp_default:tree_birch",
       }
 })
 
@@ -336,31 +336,31 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:frame",
+      output = "rp_default:frame",
       items = {
-         "default:fiber 8",
-         "default:stick 6",
+         "rp_default:fiber 8",
+         "rp_default:stick 6",
          "group:planks",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:reinforced_frame",
+      output = "rp_default:reinforced_frame",
       items = {
-         "default:fiber 8",
-         "default:stick 6",
-         "default:frame",
+         "rp_default:fiber 8",
+         "rp_default:stick 6",
+         "rp_default:frame",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:reinforced_cobble",
+      output = "rp_default:reinforced_cobble",
       items = {
-         "default:fiber 8",
-         "default:stick 6",
-         "default:cobble",
+         "rp_default:fiber 8",
+         "rp_default:stick 6",
+         "rp_default:cobble",
       }
 })
 
@@ -368,31 +368,31 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:fence 4",
+      output = "rp_default:fence 4",
       items = {
-         "default:planks",
-         "default:fiber 4",
-         "default:stick 4",
+         "rp_default:planks",
+         "rp_default:fiber 4",
+         "rp_default:stick 4",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:fence_oak 4",
+      output = "rp_default:fence_oak 4",
       items = {
-         "default:planks_oak",
-         "default:stick 4",
-         "default:fiber 4",
+         "rp_default:planks_oak",
+         "rp_default:stick 4",
+         "rp_default:fiber 4",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:fence_birch 4",
+      output = "rp_default:fence_birch 4",
       items = {
-         "default:planks_birch",
-         "default:stick 4",
-         "default:fiber 4",
+         "rp_default:planks_birch",
+         "rp_default:stick 4",
+         "rp_default:fiber 4",
       }
 })
 
@@ -400,39 +400,39 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:sign 2",
+      output = "rp_default:sign 2",
       items = {
          "group:planks",
-         "default:fiber 2",
-         "default:stick 2",
+         "rp_default:fiber 2",
+         "rp_default:stick 2",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:torch 2",
+      output = "rp_default:torch 2",
       items = {
-         "default:lump_coal",
-         "default:stick",
-         "default:fiber",
+         "rp_default:lump_coal",
+         "rp_default:stick",
+         "rp_default:fiber",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:torch_weak 2",
+      output = "rp_default:torch_weak 2",
       items = {
-         "default:stick",
-         "default:fiber",
+         "rp_default:stick",
+         "rp_default:fiber",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:ladder 2",
+      output = "rp_default:ladder 2",
       items = {
-         "default:stick 5",
-         "default:fiber 2",
+         "rp_default:stick 5",
+         "rp_default:fiber 2",
       }
 })
 
@@ -440,28 +440,28 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:chest",
+      output = "rp_default:chest",
       items = {
-         "default:stick 12",
-         "default:fiber 8",
+         "rp_default:stick 12",
+         "rp_default:fiber 8",
          "group:planks 6",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:furnace",
+      output = "rp_default:furnace",
       items = {
-         "default:torch",
+         "rp_default:torch",
          "group:stone 6",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:bookshelf",
+      output = "rp_default:bookshelf",
       items = {
-         "default:book 3",
+         "rp_default:book 3",
          "group:planks 6",
       }
 })
@@ -470,17 +470,17 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:sandstone",
+      output = "rp_default:sandstone",
       items = {
-         "default:sand 2",
+         "rp_default:sand 2",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:compressed_sandstone",
+      output = "rp_default:compressed_sandstone",
       items = {
-         "default:sandstone 2",
+         "rp_default:sandstone 2",
       }
 })
 
@@ -488,19 +488,19 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "default:fertilizer",
+      output = "rp_default:fertilizer",
       items = {
-         "default:fern 4",
-         "default:fiber 3",
+         "rp_default:fern 4",
+         "rp_default:fiber 3",
       }
 })
 
 crafting.register_craft(
    {
-      output = "default:fertilizer 2",
+      output = "rp_default:fertilizer 2",
       items = {
-         "default:lump_sulfur 3",
-         "default:fiber 3",
+         "rp_default:lump_sulfur 3",
+         "rp_default:fiber 3",
       }
 })
 

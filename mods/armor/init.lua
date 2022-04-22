@@ -12,10 +12,10 @@ armor = {}
 armor.materials = {
    -- material      craftitem                     description     %
    {"wood",         "group:planks",               { S("Wooden Helmet"), S("Wooden Chestplate"), S("Wooden Boots") }, 10},
-   {"steel",        "default:ingot_steel",        { S("Steel Helmet"), S("Steel Chestplate"), S("Steel Boots") }, 20},
+   {"steel",        "rp_default:ingot_steel",        { S("Steel Helmet"), S("Steel Chestplate"), S("Steel Boots") }, 20},
    {"chainmail",    "armor:chainmail_sheet",      { S("Chainmail Helmet"), S("Chainmail Chestplate"), S("Chainmail Boots") }, 30},
-   {"carbon_steel", "default:ingot_carbon_steel", { S("Carbon Steel Helmet"), S("Carbon Steel Chestplate"), S("Carbon Steel Boots") }, 40},
-   {"bronze",       "default:ingot_bronze",       { S("Bronze Helmet"), S("Bronze Chestplate"), S("Bronze Boots") }, 60},
+   {"carbon_steel", "rp_default:ingot_carbon_steel", { S("Carbon Steel Helmet"), S("Carbon Steel Chestplate"), S("Carbon Steel Boots") }, 40},
+   {"bronze",       "rp_default:ingot_bronze",       { S("Bronze Helmet"), S("Bronze Chestplate"), S("Bronze Boots") }, 60},
 }
 
 -- Usable slots
@@ -24,7 +24,7 @@ armor.slots = {"helmet", "chestplate", "boots"}
 
 -- Formspec
 
-local form_armor = default.ui.get_page("default:2part")
+local form_armor = default.ui.get_page("rp_default:2part")
 
 form_armor = form_armor .. "list[current_player;main;0.25,4.75;8,4;]"
 form_armor = form_armor .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
@@ -205,7 +205,7 @@ crafting.register_craft(
    {
       output = "armor:chainmail_sheet 3",
       items = {
-         "default:ingot_steel 5",
+         "rp_default:ingot_steel 5",
       }
 })
 
