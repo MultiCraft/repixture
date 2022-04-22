@@ -39,7 +39,7 @@ if minetest.get_modpath("village") ~= nil then
       ["rp_default:ingot_carbon_steel"] = 12,
    }
    goodies.types["tavern"] = {
-      ["bed:bed"] = { chance = 8, max_stack = 1},
+      ["rp_bed:bed"] = { chance = 8, max_stack = 1},
       ["rp_default:bucket"] = 20,
       ["mobs:meat"] = 5,
       ["rp_default:ladder"] = 9,

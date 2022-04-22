@@ -5,7 +5,7 @@
 -- Tweaked by Kaadmy, for Pixture
 --
 
-local S = minetest.get_translator("bed")
+local S = minetest.get_translator("rp_bed")
 
 bed = {}
 
@@ -34,7 +34,7 @@ local function is_bed_node(pos)
 
    local node = minetest.get_node(pos)
 
-   if node.name == "bed:bed_foot" then
+   if node.name == "rp_bed:bed_foot" then
       return true
    end
 
@@ -259,7 +259,7 @@ minetest.register_globalstep(on_globalstep)
 -- Nodes
 
 minetest.register_node(
-   "bed:bed_foot",
+   "rp_bed:bed_foot",
    {
       description = S("Bed"),
       _tt_help = S("Use it to sleep and pass the night"),
@@ -327,8 +327,8 @@ minetest.register_node(
                      return itemstack
               end
 
-              minetest.set_node(pos, {name = "bed:bed_foot", param2 = dir})
-              minetest.set_node(botpos, {name = "bed:bed_head", param2 = dir})
+              minetest.set_node(pos, {name = "rp_bed:bed_foot", param2 = dir})
+              minetest.set_node(botpos, {name = "rp_bed:bed_head", param2 = dir})
 
               if not minetest.settings:get_bool("creative_mode") then
                      itemstack:take_item()
@@ -348,7 +348,7 @@ minetest.register_node(
          local node = minetest.get_node(pos)
          local dir = minetest.facedir_to_dir(node.param2)
          local head_pos = vector.add(pos, dir)
-         if minetest.get_node(head_pos).name == "bed:bed_head" then
+         if minetest.get_node(head_pos).name == "rp_bed:bed_head" then
             minetest.remove_node(head_pos)
          end
       end,
@@ -435,7 +435,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "bed:bed_head",
+   "rp_bed:bed_head",
    {
       drawtype = "nodebox",
       paramtype = "light",
@@ -455,13 +455,13 @@ minetest.register_node(
       drop = "",
 })
 
-minetest.register_alias("bed:bed", "bed:bed_foot")
+minetest.register_alias("rp_bed:bed", "rp_bed:bed_foot")
 
 -- Crafting
 
 crafting.register_craft(
    {
-      output = "bed:bed",
+      output = "rp_bed:bed",
       items = {
          "group:fuzzy 3",
          "group:planks 3",
@@ -492,13 +492,13 @@ achievements.register_achievement(
       title = S("Bed Time"),
       description = S("Craft a bed."),
       times = 1,
-      craftitem = "bed:bed_foot",
+      craftitem = "rp_bed:bed_foot",
 })
 
 minetest.register_lbm({
    label = "Reset beds",
-   name = "bed:reset_beds",
-   nodenames = {"bed:bed_foot"},
+   name = "rp_bed:reset_beds",
+   nodenames = {"rp_bed:bed_foot"},
    run_at_every_load = true,
    action = function(pos, node)
       local meta = minetest.get_meta(pos)
@@ -506,4 +506,9 @@ minetest.register_lbm({
    end,
 })
 
-default.log("mod:bed", "loaded")
+-- Aliases
+minetest.register_alias("bed:bed", "rp_bed:bed_foot")
+minetest.register_alias("bed:bed_foot", "rp_bed:bed_foot")
+minetest.register_alias("bed:bed_head", "rp_bed:bed_head")
+
+default.log("mod:rp_bed", "loaded")

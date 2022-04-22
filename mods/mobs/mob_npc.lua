@@ -252,7 +252,7 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                              say(S("For some reason, TNT can't be ignited. Strange."), name)
                           end
-                      elseif iname == "bed:bed_foot" then
+                      elseif iname == "rp_bed:bed_foot" then
                           if npc_type == "carpenter" then
                              say(S("Isn't it stressful to carry this heavy bed around?"), name)
                           else
