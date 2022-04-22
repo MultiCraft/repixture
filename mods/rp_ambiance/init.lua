@@ -183,4 +183,4 @@ if minetest.settings:get_bool("ambiance_enable") == true then
    minetest.register_globalstep(step)
 end
 
-default.log("mod:ambiance", "loaded")
+default.log("mod:rp_ambiance", "loaded")
