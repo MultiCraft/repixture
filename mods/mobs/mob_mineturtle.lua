@@ -31,7 +31,7 @@ mobs:register_mob(
       jump = true,
       view_range = 10,
       drops = {
-	 {name = "tnt:tnt",
+	 {name = "rp_tnt:tnt",
 	  chance = 1, min = 1, max = 3},
       },
       water_damage = 0,

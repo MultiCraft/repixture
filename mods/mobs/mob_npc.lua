@@ -246,7 +246,7 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                              say(S("You can use this to light up torches."), name)
                           end
-                      elseif iname == "tnt:tnt" then
+                      elseif iname == "rp_tnt:tnt" then
                           if minetest.settings:get_bool("tnt_enable", true) then
                              say(S("TNT needs to be ignited by a flint and steel."), name)
                           else

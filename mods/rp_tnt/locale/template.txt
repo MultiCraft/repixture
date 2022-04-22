@@ -1,4 +1,4 @@
-# textdomain: tnt
+# textdomain: rp_tnt
 TNT=
 TNT (defused)=
 Boom!=

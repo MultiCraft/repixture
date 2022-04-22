@@ -862,8 +862,8 @@ minetest.register_tool(
             })
             wear = true
 
-         elseif nodename == "tnt:tnt" then
-            local y = minetest.registered_nodes["tnt:tnt"]
+         elseif nodename == "rp_tnt:tnt" then
+            local y = minetest.registered_nodes["rp_tnt:tnt"]
             if y ~= nil then
                y.on_punch(pos, node, user)
                wear = true

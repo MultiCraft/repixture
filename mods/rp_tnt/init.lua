@@ -4,7 +4,7 @@
 -- By PilzAdam and ShadowNinja
 -- Tweaked by Kaadmy, for Pixture
 --
-local S = minetest.get_translator("tnt")
+local S = minetest.get_translator("rp_tnt")
 
 tnt = {}
 
@@ -158,9 +158,9 @@ end
 
 function tnt.burn(pos)
    local name = minetest.get_node(pos).name
-   if tnt_enable and name == "tnt:tnt" then
+   if tnt_enable and name == "rp_tnt:tnt" then
       minetest.sound_play("tnt_ignite", {pos = pos}, true)
-      minetest.set_node(pos, {name = "tnt:tnt_burning"})
+      minetest.set_node(pos, {name = "rp_tnt:tnt_burning"})
       minetest.get_node_timer(pos):start(2)
    end
 end
@@ -254,7 +254,7 @@ else
 end
 
 minetest.register_node(
-   "tnt:tnt",
+   "rp_tnt:tnt",
    {
       description = desc,
       _tt_help = tt,
@@ -294,7 +294,7 @@ minetest.register_node(
 -- Nodes
 
 minetest.register_node(
-   "tnt:tnt_burning",
+   "rp_tnt:tnt_burning",
    {
       tiles = {
 	 {
@@ -308,7 +308,7 @@ minetest.register_node(
 	 },
 	 "tnt_bottom.png", "tnt_sides.png"},
       light_source = 5,
-      drop = "tnt:tnt",
+      drop = "rp_tnt:tnt",
       is_ground_content = false,
       groups = {handy = 2},
       sounds = default.node_sound_wood_defaults(),
@@ -322,7 +322,7 @@ minetest.register_node(
 
 crafting.register_craft(
    {
-      output = "tnt:tnt",
+      output = "rp_tnt:tnt",
       items = {
          "group:planks 4",
          "rp_default:flint_and_steel",
@@ -332,7 +332,7 @@ crafting.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "tnt:tnt",
+      recipe = "rp_tnt:tnt",
       burntime = 13,
 })
 
@@ -354,8 +354,8 @@ else
          title = S("Boom?"),
          description = S("Craft defused TNT."),
          times = 1,
-         craftitem = "tnt:tnt",
+         craftitem = "rp_tnt:tnt",
    })
 end
 
-default.log("mod:tnt", "loaded")
+default.log("mod:rp_tnt", "loaded")

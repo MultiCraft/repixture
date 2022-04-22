@@ -151,7 +151,7 @@ minetest.register_abm(
          util.nodefunc(
             {x = pos.x-1, y = pos.y-1, z = pos.z-1},
             {x = pos.x+1, y = pos.y+1, z = pos.z+1},
-            "tnt:tnt",
+            "rp_tnt:tnt",
             function(pos)
                tnt.burn(pos)
             end,
