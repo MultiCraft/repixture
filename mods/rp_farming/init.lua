@@ -11,5 +11,6 @@ dofile(minetest.get_modpath("rp_farming").."/nodes.lua")
 dofile(minetest.get_modpath("rp_farming").."/plants.lua")
 dofile(minetest.get_modpath("rp_farming").."/craft.lua")
 dofile(minetest.get_modpath("rp_farming").."/achievements.lua")
+dofile(minetest.get_modpath("rp_farming").."/aliases.lua")
 
 default.log("mod:rp_farming", "loaded")

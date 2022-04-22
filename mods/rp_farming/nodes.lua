@@ -280,7 +280,4 @@ minetest.register_node(
    }
 )
 
-minetest.register_alias("rp_farming:cotton_seed", "rp_farming:cotton_1")
-minetest.register_alias("rp_farming:wheat_seed", "rp_farming:wheat_1")
-
 default.log("nodes", "loaded")
