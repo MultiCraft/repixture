@@ -2,7 +2,7 @@
 -- Gold and NPC Trading
 -- By Kaadmy, for Pixture
 --
-local S = minetest.get_translator("gold")
+local S = minetest.get_translator("rp_gold")
 
 gold = {}
 
@@ -15,106 +15,106 @@ gold.trade_names = {}
 if minetest.get_modpath("mobs") ~= nil then
    gold.trades["farmer"] = {
       -- plants
-      {"gold:ingot_gold", "", "rp_farming:wheat_1 6"},
-      {"gold:ingot_gold 3", "", "rp_farming:cotton_1 4"},
-      {"gold:ingot_gold 5", "", "rp_farming:cotton_1 8"},
-      {"gold:ingot_gold", "", "rp_default:papyrus 4"},
-      {"gold:ingot_gold 2", "", "rp_default:cactus"},
+      {"rp_gold:ingot_gold", "", "rp_farming:wheat_1 6"},
+      {"rp_gold:ingot_gold 3", "", "rp_farming:cotton_1 4"},
+      {"rp_gold:ingot_gold 5", "", "rp_farming:cotton_1 8"},
+      {"rp_gold:ingot_gold", "", "rp_default:papyrus 4"},
+      {"rp_gold:ingot_gold 2", "", "rp_default:cactus"},
 
       -- crafts
-      {"gold:ingot_gold 7", "", "rp_farming:cotton_bale 3"},
+      {"rp_gold:ingot_gold 7", "", "rp_farming:cotton_bale 3"},
 
       -- tool repair
-      {"gold:ingot_gold 6", "rp_default:shovel_stone", "rp_default:shovel_stone"},
-      {"gold:ingot_gold 8", "rp_default:shovel_steel", "rp_default:shovel_steel"},
-      {"gold:ingot_gold 10", "rp_default:shovel_carbon_steel", "rp_default:shovel_carbon_steel"},
+      {"rp_gold:ingot_gold 6", "rp_default:shovel_stone", "rp_default:shovel_stone"},
+      {"rp_gold:ingot_gold 8", "rp_default:shovel_steel", "rp_default:shovel_steel"},
+      {"rp_gold:ingot_gold 10", "rp_default:shovel_carbon_steel", "rp_default:shovel_carbon_steel"},
 
       -- filling buckets
-      {"gold:ingot_gold", "rp_default:bucket", "rp_default:bucket_water"},
+      {"rp_gold:ingot_gold", "rp_default:bucket", "rp_default:bucket_water"},
    }
    gold.trades["carpenter"] = {
       -- materials
-      {"gold:ingot_gold", "", "rp_default:planks 6"},
-      {"gold:ingot_gold", "", "rp_default:planks_birch 4"},
-      {"gold:ingot_gold 3", "", "rp_default:planks_oak 10"},
-      {"gold:ingot_gold", "", "rp_default:frame 2"},
-      {"gold:ingot_gold", "", "rp_default:reinforced_frame"},
+      {"rp_gold:ingot_gold", "", "rp_default:planks 6"},
+      {"rp_gold:ingot_gold", "", "rp_default:planks_birch 4"},
+      {"rp_gold:ingot_gold 3", "", "rp_default:planks_oak 10"},
+      {"rp_gold:ingot_gold", "", "rp_default:frame 2"},
+      {"rp_gold:ingot_gold", "", "rp_default:reinforced_frame"},
 
       -- useables
-      {"gold:ingot_gold 9", "", "rp_bed:bed"},
-      {"gold:ingot_gold 2", "", "rp_default:chest"},
-      {"gold:ingot_gold 5", "mobs:wool 3", "rp_bed:bed"},
+      {"rp_gold:ingot_gold 9", "", "rp_bed:bed"},
+      {"rp_gold:ingot_gold 2", "", "rp_default:chest"},
+      {"rp_gold:ingot_gold 5", "mobs:wool 3", "rp_bed:bed"},
    }
    gold.trades["tavernkeeper"] = {
       -- edibles
-      {"gold:ingot_gold", "", "rp_default:apple 3"},
-      {"gold:ingot_gold", "", "rp_farming:bread"},
-      {"gold:ingot_gold 2", "", "mobs:meat"},
-      {"gold:ingot_gold 3", "", "mobs:pork"},
+      {"rp_gold:ingot_gold", "", "rp_default:apple 3"},
+      {"rp_gold:ingot_gold", "", "rp_farming:bread"},
+      {"rp_gold:ingot_gold 2", "", "mobs:meat"},
+      {"rp_gold:ingot_gold 3", "", "mobs:pork"},
 
       -- filling buckets
-      {"gold:ingot_gold", "rp_default:bucket", "rp_default:bucket_water"},
+      {"rp_gold:ingot_gold", "rp_default:bucket", "rp_default:bucket_water"},
    }
    gold.trades["blacksmith"] = {
       -- smeltables
-      {"gold:ingot_gold", "", "rp_default:lump_coal"},
-      {"gold:ingot_gold 3", "", "rp_default:lump_iron"},
+      {"rp_gold:ingot_gold", "", "rp_default:lump_coal"},
+      {"rp_gold:ingot_gold 3", "", "rp_default:lump_iron"},
 
       -- materials
-      {"gold:ingot_gold", "", "rp_default:cobble 5"},
-      {"gold:ingot_gold 3", "", "rp_default:stone 10"},
-      {"gold:ingot_gold", "", "rp_default:reinforced_cobble 2"},
-      {"gold:ingot_gold 25", "", "rp_default:block_steel"},
-      {"gold:ingot_gold 6", "", "rp_default:glass 5"},
+      {"rp_gold:ingot_gold", "", "rp_default:cobble 5"},
+      {"rp_gold:ingot_gold 3", "", "rp_default:stone 10"},
+      {"rp_gold:ingot_gold", "", "rp_default:reinforced_cobble 2"},
+      {"rp_gold:ingot_gold 25", "", "rp_default:block_steel"},
+      {"rp_gold:ingot_gold 6", "", "rp_default:glass 5"},
 
       -- usebles
-      {"gold:ingot_gold 7", "", "rp_default:furnace"},
+      {"rp_gold:ingot_gold 7", "", "rp_default:furnace"},
 
       -- ingots
-      {"gold:ingot_gold 5", "", "rp_default:ingot_steel"},
-      {"gold:ingot_gold 8", "", "rp_default:ingot_carbon_steel"},
+      {"rp_gold:ingot_gold 5", "", "rp_default:ingot_steel"},
+      {"rp_gold:ingot_gold 8", "", "rp_default:ingot_carbon_steel"},
 
       -- auto smelting
-      {"gold:ingot_gold 2", "rp_default:lump_iron", "rp_default:ingot_steel"},
+      {"rp_gold:ingot_gold 2", "rp_default:lump_iron", "rp_default:ingot_steel"},
 
       -- tool repair
-      {"gold:ingot_gold 8", "rp_default:pick_stone", "rp_default:pick_stone"},
-      {"gold:ingot_gold 12", "rp_default:pick_steel", "rp_default:pick_steel"},
-      {"gold:ingot_gold 16", "rp_default:pick_carbon_steel", "rp_default:pick_carbon_steel"},
+      {"rp_gold:ingot_gold 8", "rp_default:pick_stone", "rp_default:pick_stone"},
+      {"rp_gold:ingot_gold 12", "rp_default:pick_steel", "rp_default:pick_steel"},
+      {"rp_gold:ingot_gold 16", "rp_default:pick_carbon_steel", "rp_default:pick_carbon_steel"},
    }
    gold.trades["butcher"] = {
       -- raw edibles
-      {"gold:ingot_gold", "", "mobs:meat_raw"},
-      {"gold:ingot_gold 3", "", "mobs:pork_raw 2"},
+      {"rp_gold:ingot_gold", "", "mobs:meat_raw"},
+      {"rp_gold:ingot_gold 3", "", "mobs:pork_raw 2"},
 
       -- cooking edibles
-      {"gold:ingot_gold 1", "mobs:meat_raw", "mobs:meat"},
-      {"gold:ingot_gold 2", "mobs:pork_raw", "mobs:pork"},
+      {"rp_gold:ingot_gold 1", "mobs:meat_raw", "mobs:meat"},
+      {"rp_gold:ingot_gold 2", "mobs:pork_raw", "mobs:pork"},
 
       -- tool repair
-      {"gold:ingot_gold 5", "rp_default:spear_stone", "rp_default:spear_stone"},
-      {"gold:ingot_gold 7", "rp_default:spear_steel", "rp_default:spear_steel"},
-      {"gold:ingot_gold 11", "rp_default:spear_carbon_steel", "rp_default:spear_carbon_steel"},
+      {"rp_gold:ingot_gold 5", "rp_default:spear_stone", "rp_default:spear_stone"},
+      {"rp_gold:ingot_gold 7", "rp_default:spear_steel", "rp_default:spear_steel"},
+      {"rp_gold:ingot_gold 11", "rp_default:spear_carbon_steel", "rp_default:spear_carbon_steel"},
 
    }
    -- trading currency
    if minetest.get_modpath("jewels") ~= nil then -- jewels/gold
       --farmer
-      table.insert(gold.trades["farmer"], {"gold:ingot_gold 16", "", "jewels:jewel"})
-      table.insert(gold.trades["farmer"], {"gold:ingot_gold 22", "", "jewels:jewel 2"})
-      table.insert(gold.trades["farmer"], {"gold:ingot_gold 34", "", "jewels:jewel 4"})
+      table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 16", "", "jewels:jewel"})
+      table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 22", "", "jewels:jewel 2"})
+      table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 34", "", "jewels:jewel 4"})
 
-      table.insert(gold.trades["farmer"], {"jewels:jewel", "", "gold:ingot_gold 14"})
-      table.insert(gold.trades["farmer"], {"jewels:jewel 2", "", "gold:ingot_gold 20"})
-      table.insert(gold.trades["farmer"], {"jewels:jewel 4", "", "gold:ingot_gold 32"})
+      table.insert(gold.trades["farmer"], {"jewels:jewel", "", "rp_gold:ingot_gold 14"})
+      table.insert(gold.trades["farmer"], {"jewels:jewel 2", "", "rp_gold:ingot_gold 20"})
+      table.insert(gold.trades["farmer"], {"jewels:jewel 4", "", "rp_gold:ingot_gold 32"})
 
       -- carpenter
-      table.insert(gold.trades["carpenter"], {"rp_default:tree 2", "", "gold:ingot_gold"})
+      table.insert(gold.trades["carpenter"], {"rp_default:tree 2", "", "rp_gold:ingot_gold"})
 
       -- tavern keeper
-      table.insert(gold.trades["tavernkeeper"], {"gold:ingot_gold 14", "", "jewels:jewel"})
-      table.insert(gold.trades["tavernkeeper"], {"gold:ingot_gold 20", "", "jewels:jewel 2"})
-      table.insert(gold.trades["tavernkeeper"], {"gold:ingot_gold 32", "", "jewels:jewel 4"})
+      table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 14", "", "jewels:jewel"})
+      table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 20", "", "jewels:jewel 2"})
+      table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 32", "", "jewels:jewel 4"})
 
       -- blacksmith
       table.insert(gold.trades["blacksmith"], {"rp_default:ingot_steel 14", "", "jewels:jewel"})
@@ -123,9 +123,9 @@ if minetest.get_modpath("mobs") ~= nil then
    end
 
    -- butcher(no mod check)
-   table.insert(gold.trades["butcher"], {"mobs:meat_raw 3", "", "gold:ingot_gold"})
-   table.insert(gold.trades["butcher"], {"mobs:meat_raw 4", "", "gold:ingot_gold 2"})
-   table.insert(gold.trades["butcher"], {"mobs:meat_raw 5", "", "gold:ingot_gold 4"})
+   table.insert(gold.trades["butcher"], {"mobs:meat_raw 3", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["butcher"], {"mobs:meat_raw 4", "", "rp_gold:ingot_gold 2"})
+   table.insert(gold.trades["butcher"], {"mobs:meat_raw 5", "", "rp_gold:ingot_gold 4"})
 
    gold.trade_names["farmer"] = S("Farmer")
    gold.trade_names["tavernkeeper"] = S("Tavern Keeper")
@@ -160,13 +160,15 @@ form_trading = form_trading .. "image[3.5,2.25;1,1;ui_arrow.png^[transformR270]"
 form_trading = form_trading .. default.ui.button(1.25, 3.25, 2, 1, "trade", S("Trade"))
 form_trading = form_trading .. default.ui.button_exit(5.25, 3.25, 2, 1, "cancel", S("Cancel"))
 
-default.ui.register_page("gold_trading_book", form_trading)
+default.ui.register_page("rp_gold_trading_book", form_trading)
 
 function gold.trade(trade, trade_type, player)
    local name = player:get_player_name()
    local item = player:get_wielded_item()
 
-   if item:get_name() ~= "gold:trading_book" then return end
+   local itemname = item:get_name()
+   local item_alias = minetest.registered_aliases[itemname]
+   if itemname ~= "rp_gold:trading_book" and item_alias ~= "rp_gold:trading_book" then return end
 
    local inv = player:get_inventory()
 
@@ -195,14 +197,14 @@ function gold.trade(trade, trade_type, player)
    local trade_wanted1 = inv:get_stack("gold_trade_wanted", 1)
    local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
 
-   local form = default.ui.get_page("gold_trading_book")
+   local form = default.ui.get_page("rp_gold_trading_book")
    form = form .. "label[0.25,0.25;"..minetest.formspec_escape(trade_name).."]"
 
    form = form .. default.ui.fake_itemstack(1.25, 1.25, trade_wanted1)
    form = form .. default.ui.fake_itemstack(2.25, 1.25, trade_wanted2)
    form = form .. default.ui.fake_itemstack(4.75, 1.25, ItemStack(trade[3]))
 
-   minetest.show_formspec(name, "gold:trading_book", form)
+   minetest.show_formspec(name, "rp_gold:trading_book", form)
 
    meta.trade_type = trade_type
 
@@ -214,7 +216,7 @@ end
 
 minetest.register_on_player_receive_fields(
    function(player, form_name, fields)
-      if form_name ~= "gold:trading_book" or fields.cancel then return end
+      if form_name ~= "rp_gold:trading_book" or fields.cancel then return end
 
       local inv = player:get_inventory()
 
@@ -252,7 +254,7 @@ minetest.register_on_player_receive_fields(
 
 	 local meta = minetest.deserialize(item:get_metadata())
 
-	 local trade = {"gold:ingot_gold", "gold:ingot_gold", "rp_default:stick"}
+	 local trade = {"rp_gold:ingot_gold", "rp_gold:ingot_gold", "rp_default:stick"}
 	 local trade_type = ""
 
 	 if meta then
@@ -274,7 +276,7 @@ end)
 -- Items
 
 minetest.register_craftitem(
-   "gold:trading_book",
+   "rp_gold:trading_book",
    {
       description = S("Trading Book"),
       _tt_help = S("Show this to a villager to trade"),
@@ -283,14 +285,14 @@ minetest.register_craftitem(
 })
 
 minetest.register_craftitem(
-   "gold:lump_gold",
+   "rp_gold:lump_gold",
    {
       description = S("Gold Lump"),
       inventory_image = "gold_lump_gold.png",
 })
 
 minetest.register_craftitem(
-   "gold:ingot_gold",
+   "rp_gold:ingot_gold",
    {
       description = S("Gold Ingot"),
       inventory_image = "gold_ingot_gold.png",
@@ -299,12 +301,12 @@ minetest.register_craftitem(
 -- Nodes
 
 minetest.register_node(
-   "gold:stone_with_gold",
+   "rp_gold:stone_with_gold",
    {
       description = S("Stone with Gold"),
       tiles ={"default_stone.png^gold_mineral_gold.png"},
       groups = {cracky=1, stone=1},
-      drop = "gold:lump_gold",
+      drop = "rp_gold:lump_gold",
       is_ground_content = true,
       sounds = default.node_sound_stone_defaults(),
 })
@@ -314,7 +316,7 @@ minetest.register_node(
 minetest.register_ore(
    {
       ore_type       = "scatter",
-      ore            = "gold:stone_with_gold",
+      ore            = "rp_gold:stone_with_gold",
       wherein        = "rp_default:stone",
       clust_scarcity = 9*9*9,
       clust_num_ores = 12,
@@ -327,18 +329,18 @@ minetest.register_ore(
 
 crafting.register_craft(
    {
-      output = "gold:trading_book",
+      output = "rp_gold:trading_book",
       items = {
          "rp_default:book",
-         "gold:ingot_gold",
+         "rp_gold:ingot_gold",
       }
 })
 
 minetest.register_craft(
    {
       type = "cooking",
-      output = "gold:ingot_gold",
-      recipe = "gold:lump_gold",
+      output = "rp_gold:ingot_gold",
+      recipe = "rp_gold:lump_gold",
       cooktime = 7,
 })
 
@@ -358,7 +360,7 @@ achievements.register_achievement(
       title = S("Gold Rush"),
       description = S("Dig a gold ore."),
       times = 1,
-      dignode = "gold:stone_with_gold",
+      dignode = "rp_gold:stone_with_gold",
 })
 
 if minetest.settings:get_bool("pixture_debug", false) == true then
@@ -368,11 +370,17 @@ if minetest.settings:get_bool("pixture_debug", false) == true then
             for trade_id, trade in pairs(trader) do
                 for i=1,3 do
                     local item = ItemStack(trade[i]):get_name()
-                    assert(item ~= nil and (item == "" or minetest.registered_items[item]), "[gold] Invalid trade item: trader="..trader_name..", index="..trade_id..", item="..item)
+                    assert(item ~= nil and (item == "" or minetest.registered_items[item]), "[rp_gold] Invalid trade item: trader="..trader_name..", index="..trade_id..", item="..item)
                 end
             end
         end
     end)
 end
 
-default.log("mod:gold", "loaded")
+-- Aliases
+minetest.register_alias("gold:ingot_gold", "rp_gold:ingot_gold")
+minetest.register_alias("gold:lump_gold", "rp_gold:lump_gold")
+minetest.register_alias("gold:stone_with_gold", "rp_gold:stone_with_gold")
+minetest.register_alias("gold:trading_book", "rp_gold:trading_book")
+
+default.log("mod:rp_gold", "loaded")

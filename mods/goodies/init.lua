@@ -66,12 +66,12 @@ if minetest.get_modpath("village") ~= nil then
       goodies.types_valuable["tavern"]["jewels:jewel"] = 32
       goodies.types_valuable["forge"]["jewels:jewel"] = 30
    end
-   if minetest.get_modpath("gold") ~= nil then
-      goodies.types["forge"]["gold:ingot_gold"] = { chance = 24, max_stack = 2 }
-      goodies.types["forge"]["gold:lump_gold"] = { chance = 18, max_stack = 6 }
-      goodies.types_valuable["house"]["gold:ingot_gold"] = 12
-      goodies.types_valuable["tavern"]["gold:ingot_gold"] = 10
-      goodies.types_valuable["forge"]["gold:ingot_gold"] = 8
+   if minetest.get_modpath("rp_gold") ~= nil then
+      goodies.types["forge"]["rp_gold:ingot_gold"] = { chance = 24, max_stack = 2 }
+      goodies.types["forge"]["rp_gold:lump_gold"] = { chance = 18, max_stack = 6 }
+      goodies.types_valuable["house"]["rp_gold:ingot_gold"] = 12
+      goodies.types_valuable["tavern"]["rp_gold:ingot_gold"] = 10
+      goodies.types_valuable["forge"]["rp_gold:ingot_gold"] = 8
    end
 end
 

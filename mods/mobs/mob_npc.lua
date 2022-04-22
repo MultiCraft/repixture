@@ -103,7 +103,7 @@ for _, npc_type_table in pairs(npc_types) do
 	 lava_damage = 2,
 	 light_damage = 0,
 	 group_attack = true,
-	 follow = "gold:ingot_gold",
+	 follow = "rp_gold:ingot_gold",
 	 view_range = 16,
 	 owner = "",
 	 animation = {
@@ -166,7 +166,7 @@ for _, npc_type_table in pairs(npc_types) do
 
                if not gold.trade(self.npc_trade, self.npc_type, clicker) then
                    if hp >= self.hp_max-7 then
-                      if iname == "gold:ingot_gold" then
+                      if iname == "rp_gold:ingot_gold" then
                           say_random("trade", name)
                       elseif iname == "rp_default:fertilizer" then
                           if npc_type == "farmer" then

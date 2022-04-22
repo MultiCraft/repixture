@@ -1,4 +1,4 @@
-# textdomain: gold
+# textdomain: rp_gold
 Farmer=
 Tavern Keeper=
 Blacksmith=
