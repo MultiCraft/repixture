@@ -1,4 +1,4 @@
-Cratfing mod
+Crafting mod
 ============
 By Kaadmy, for Pixture
 

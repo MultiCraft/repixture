@@ -340,7 +340,7 @@ function default.ui.receive_fields(player, form_name, fields)
 
    local formname, form
    if fields.tab_crafting then
-      formname = "crafting:crafting"
+      formname = "rp_crafting:crafting"
       form = crafting.get_formspec(name)
    elseif minetest.get_modpath("armor") ~= nil and fields.tab_armor then
       formname = "armor:armor"
@@ -376,7 +376,7 @@ minetest.register_on_joinplayer(
           default.ui.current_page[name] = "rp_creative:creative"
       else
           player:set_inventory_formspec(crafting.get_formspec(name))
-          default.ui.current_page[name] = "crafting:crafting"
+          default.ui.current_page[name] = "rp_crafting:crafting"
       end
 end)
 

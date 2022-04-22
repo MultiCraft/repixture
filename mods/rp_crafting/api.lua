@@ -1,4 +1,4 @@
-local S = minetest.get_translator("crafting")
+local S = minetest.get_translator("rp_crafting")
 
 -- Crafting menu display modes
 local MODE_CRAFTABLE = 1 -- crafting guide mode, show all recipes (default)
@@ -286,7 +286,7 @@ form = form .. default.ui.button(7.25, 2.25, 1, 1, "do_craft_10", "10", nil, S("
 
 form = form .. "tablecolumns[text,align=left,width=2;text,align=left,width=40]"
 
-default.ui.register_page("crafting:crafting", form)
+default.ui.register_page("rp_crafting:crafting", form)
 
 function crafting.get_formspec(name, select_item)
    local row = 1
@@ -369,7 +369,7 @@ function crafting.get_formspec(name, select_item)
       end
    end
 
-   local form = default.ui.get_page("crafting:crafting")
+   local form = default.ui.get_page("rp_crafting:crafting")
 
    if craft_count > 0 then
        form = form .. "table[2.25,0.25;4.75,3.75;craft_list;" .. craft_list
@@ -521,7 +521,7 @@ local function on_player_receive_fields(player, form_name, fields)
       if selection.type == "CHG" then
          crafting.userdata[name].row = selection.row
 
-         minetest.show_formspec(name, "crafting:crafting",
+         minetest.show_formspec(name, "rp_crafting:crafting",
                                 crafting.get_formspec(name))
       end
    elseif fields.toggle_filter then
@@ -538,7 +538,7 @@ local function on_player_receive_fields(player, form_name, fields)
           crafting.userdata[name].mode = MODE_GUIDE
       end
 
-      minetest.show_formspec(name, "crafting:crafting",
+      minetest.show_formspec(name, "rp_crafting:crafting",
                              crafting.get_formspec(name, old_item))
    end
 
@@ -548,7 +548,7 @@ end
 function crafting.update_crafting_formspec(player, old_item)
    local name = player:get_player_name()
    local newform = crafting.get_formspec(name, old_item)
-   minetest.show_formspec(name, "crafting:crafting", newform)
+   minetest.show_formspec(name, "rp_crafting:crafting", newform)
    player:set_inventory_formspec(newform)
 end
 

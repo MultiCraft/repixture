@@ -1,4 +1,4 @@
-# textdomain:crafting
+# textdomain:rp_crafting
 Show all recipes=
 Show only craftable recipes=
 Craft once=
