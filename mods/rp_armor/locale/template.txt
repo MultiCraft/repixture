@@ -1,4 +1,4 @@
-# textdomain: armor
+# textdomain: rp_armor
 Wooden Helmet=
 Wooden Chestplate=
 Wooden Boots=

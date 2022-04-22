@@ -3,7 +3,7 @@
 -- By Kaadmy, for Pixture
 --
 
-local S = minetest.get_translator("armor")
+local S = minetest.get_translator("rp_armor")
 
 armor = {}
 
@@ -13,7 +13,7 @@ armor.materials = {
    -- material      craftitem                     description     %
    {"wood",         "group:planks",               { S("Wooden Helmet"), S("Wooden Chestplate"), S("Wooden Boots") }, 10},
    {"steel",        "rp_default:ingot_steel",        { S("Steel Helmet"), S("Steel Chestplate"), S("Steel Boots") }, 20},
-   {"chainmail",    "armor:chainmail_sheet",      { S("Chainmail Helmet"), S("Chainmail Chestplate"), S("Chainmail Boots") }, 30},
+   {"chainmail",    "rp_armor:chainmail_sheet",      { S("Chainmail Helmet"), S("Chainmail Chestplate"), S("Chainmail Boots") }, 30},
    {"carbon_steel", "rp_default:ingot_carbon_steel", { S("Carbon Steel Helmet"), S("Carbon Steel Chestplate"), S("Carbon Steel Boots") }, 40},
    {"bronze",       "rp_default:ingot_bronze",       { S("Bronze Helmet"), S("Bronze Chestplate"), S("Bronze Boots") }, 60},
 }
@@ -39,10 +39,10 @@ form_armor = form_armor .. "list[current_player;armor;2.25,0.75;1,3;]"
 form_armor = form_armor .. "listring[current_player;armor]"
 form_armor = form_armor .. default.ui.get_itemslot_bg(2.25, 0.75, 1, 3)
 
-default.ui.register_page("armor:armor", form_armor)
+default.ui.register_page("rp_armor:armor", form_armor)
 
 function armor.get_formspec(name)
-   local form = default.ui.get_page("armor:armor")
+   local form = default.ui.get_page("rp_armor:armor")
    return form
 end
 
@@ -191,7 +191,7 @@ minetest.register_on_respawnplayer(on_respawnplayer)
 -- Chainmail
 
 minetest.register_craftitem(
-   "armor:chainmail_sheet",
+   "rp_armor:chainmail_sheet",
    {
       description = S("Chainmail Sheet"),
 
@@ -203,7 +203,7 @@ minetest.register_craftitem(
 
 crafting.register_craft(
    {
-      output = "armor:chainmail_sheet 3",
+      output = "rp_armor:chainmail_sheet 3",
       items = {
          "rp_default:ingot_steel 5",
       }
@@ -219,7 +219,7 @@ for mat_index, matdef in ipairs(armor.materials) do
    for s, slot in ipairs(armor.slots) do
 
       minetest.register_craftitem(
-	 "armor:" .. slot .. "_" .. mat,
+	 "rp_armor:" .. slot .. "_" .. mat,
 	 {
 	    description = matdef[3][s],
 
@@ -262,7 +262,7 @@ for mat_index, matdef in ipairs(armor.materials) do
 
    crafting.register_craft(
       {
-	 output = "armor:helmet_" .. mat,
+	 output = "rp_armor:helmet_" .. mat,
 	 items = {
             matdef[2] .. " 5",
 	 }
@@ -270,7 +270,7 @@ for mat_index, matdef in ipairs(armor.materials) do
 
    crafting.register_craft(
       {
-	 output = "armor:chestplate_" .. mat,
+	 output = "rp_armor:chestplate_" .. mat,
 	 items = {
             matdef[2] .. " 8",
 	 }
@@ -278,7 +278,7 @@ for mat_index, matdef in ipairs(armor.materials) do
 
    crafting.register_craft(
       {
-	 output = "armor:boots_" .. mat,
+	 output = "rp_armor:boots_" .. mat,
 	 items = {
             matdef[2] .. " 6",
 	 }
@@ -382,4 +382,6 @@ if minetest.get_modpath("tt") then
 	end)
 end
 
-default.log("mod:armor", "loaded")
+dofile(minetest.get_modpath("rp_armor").."/aliases.lua")
+
+default.log("mod:rp_armor", "loaded")

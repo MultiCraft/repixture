@@ -304,7 +304,7 @@ local form_default_default = ""
 form_default_default = form_default_default .. "size[8.5,9]"
 form_default_default = form_default_default .. default.ui.default.bg
 form_default_default = form_default_default .. default.ui.tab(-0.9, 0.5, "tab_crafting", "ui_icon_crafting.png", S("Crafting"))
-if minetest.get_modpath("armor") ~= nil then
+if minetest.get_modpath("rp_armor") ~= nil then
    form_default_default = form_default_default .. default.ui.tab(-0.9, 1.28, "tab_armor", "ui_icon_armor.png", S("Armor"))
 end
 if minetest.get_modpath("rp_achievements") ~= nil then
@@ -342,8 +342,8 @@ function default.ui.receive_fields(player, form_name, fields)
    if fields.tab_crafting then
       formname = "rp_crafting:crafting"
       form = crafting.get_formspec(name)
-   elseif minetest.get_modpath("armor") ~= nil and fields.tab_armor then
-      formname = "armor:armor"
+   elseif minetest.get_modpath("rp_armor") ~= nil and fields.tab_armor then
+      formname = "rp_armor:armor"
       form = armor.get_formspec(name)
    elseif minetest.get_modpath("rp_achievements") ~= nil and fields.tab_achievements then
       formname = "rp_achievements:achievements"
