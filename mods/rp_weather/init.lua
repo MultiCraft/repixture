@@ -3,7 +3,7 @@
 -- By Kaadmy, for Pixture
 --
 
-local S = minetest.get_translator("weather")
+local S = minetest.get_translator("rp_weather")
 
 local mod_storage = minetest.get_mod_storage()
 
@@ -24,7 +24,7 @@ local sound_min_height = -20 -- Below -20m you can't hear weather
 
 local default_cloud_state = nil
 
-local loaded_weather = mod_storage:get_string("weather:weather")
+local loaded_weather = mod_storage:get_string("rp_weather:weather")
 local weather_inited = false
 
 local function update_sounds(do_repeat)
@@ -78,8 +78,8 @@ local function setweather_type(type, do_repeat)
         stoptimer = stoptimer_init
       end
       weather.weather = type
-      mod_storage:set_string("weather:weather", weather.weather)
-      minetest.log("action", "[weather] Weather set to: "..weather.weather)
+      mod_storage:set_string("rp_weather:weather", weather.weather)
+      minetest.log("action", "[rp_weather] Weather set to: "..weather.weather)
       update_sounds(do_repeat)
       return true
    else
@@ -114,8 +114,8 @@ minetest.register_globalstep(
 	       weather.weather = "storm"
 	    end
             if oldweather ~= weather.weather then
-               mod_storage:set_string("weather:weather", weather.weather)
-               minetest.log("action", "[weather] Weather changed to: "..weather.weather)
+               mod_storage:set_string("rp_weather:weather", weather.weather)
+               minetest.log("action", "[rp_weather] Weather changed to: "..weather.weather)
                update_sounds()
                stoptimer = stoptimer_init
             end
@@ -241,4 +241,4 @@ minetest.register_on_leaveplayer(function(player)
     sound_handles[player:get_player_name()] = nil
 end)
 
-default.log("mod:weather", "loaded")
+default.log("mod:rp_weather", "loaded")
