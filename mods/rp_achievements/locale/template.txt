@@ -1,4 +1,4 @@
-# textdomain: achievements
+# textdomain: rp_achievements
 Gotten=
 Missing=
 @1 of @2 achievements gotten, @3 in progress=

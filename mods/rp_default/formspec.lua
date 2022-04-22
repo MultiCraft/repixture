@@ -307,7 +307,7 @@ form_default_default = form_default_default .. default.ui.tab(-0.9, 0.5, "tab_cr
 if minetest.get_modpath("armor") ~= nil then
    form_default_default = form_default_default .. default.ui.tab(-0.9, 1.28, "tab_armor", "ui_icon_armor.png", S("Armor"))
 end
-if minetest.get_modpath("achievements") ~= nil then
+if minetest.get_modpath("rp_achievements") ~= nil then
    form_default_default = form_default_default .. default.ui.tab(-0.9, 2.06, "tab_achievements", "ui_icon_achievements.png", S("Achievements"))
 end
 if minetest.get_modpath("player_skins") ~= nil then
@@ -345,8 +345,8 @@ function default.ui.receive_fields(player, form_name, fields)
    elseif minetest.get_modpath("armor") ~= nil and fields.tab_armor then
       formname = "armor:armor"
       form = armor.get_formspec(name)
-   elseif minetest.get_modpath("achievements") ~= nil and fields.tab_achievements then
-      formname = "achievements:achievements"
+   elseif minetest.get_modpath("rp_achievements") ~= nil and fields.tab_achievements then
+      formname = "rp_achievements:achievements"
       form = achievements.get_formspec(name)
    elseif minetest.get_modpath("player_skins") ~= nil and fields.tab_player_skins then
       formname = "player_skins:player_skins"

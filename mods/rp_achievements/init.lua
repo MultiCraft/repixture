@@ -5,7 +5,7 @@
 
 local COLOR_GOTTEN = "#00FF00"
 
-local S = minetest.get_translator("achievements")
+local S = minetest.get_translator("rp_achievements")
 
 achievements = {}
 
@@ -97,7 +97,7 @@ function achievements.trigger_achievement(player, aname, times)
       end, name, aname)
    end
 
-   if default.ui.current_page[name] == "achievements:achievements" then
+   if default.ui.current_page[name] == "rp_achievements:achievements" then
       local form = achievements.get_formspec(name)
       player:set_inventory_formspec(form)
    end
@@ -201,7 +201,7 @@ local form = default.ui.get_page("rp_default:default")
 form = form .. "tablecolumns[color;image,align=left,width=1,0=ui_checkmark.png^[colorize:"..COLOR_GOTTEN..":255,1=blank.png,2=blank.png;text,align=left,width=11;"
    .. "text,align=left,width=28]"
 
-default.ui.register_page("achievements:achievements", form)
+default.ui.register_page("rp_achievements:achievements", form)
 
 function achievements.get_formspec(name, row)
    row = row or 1
@@ -243,7 +243,7 @@ function achievements.get_formspec(name, row)
       achievement_list = achievement_list .. minetest.formspec_escape(def.description)
    end
 
-   local form = default.ui.get_page("achievements:achievements")
+   local form = default.ui.get_page("rp_achievements:achievements")
 
    form = form .. "table[0.25,2.5;7.9,5.5;achievement_list;" .. achievement_list
       .. ";" .. row .. "]"
@@ -292,7 +292,7 @@ local function receive_fields(player, form_name, fields)
    local name = player:get_player_name()
 
    local in_achievements_menu = false
-   if form_name == "achievements:achievements" then
+   if form_name == "rp_achievements:achievements" then
       in_achievements_menu = true
    elseif form_name ~= "" then
       return
@@ -319,7 +319,7 @@ local function receive_fields(player, form_name, fields)
       local form = achievements.get_formspec(name, selected)
       minetest.show_formspec(
          name,
-         "achievements:achievements",
+         "rp_achievements:achievements",
          form
       )
       player:set_inventory_formspec(form)
