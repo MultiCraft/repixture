@@ -38,7 +38,7 @@ function headbars.get_sprite(icon, background, max, amt)
 end
 
 minetest.register_entity(
-   "headbars:hpbar",
+   "rp_headbars:hpbar",
    {
       visual = "sprite",
       visual_size = {x = 1 * headbars_scale, y = 0.1 * headbars_scale, z = 1},
@@ -59,7 +59,7 @@ minetest.register_entity(
          if wielder and wielder:is_player() then
             self._wielder = wielder
          else
-            minetest.log("info", "[headbars] Attempted to spawn orphan HP bar entity!")
+            minetest.log("info", "[rp_headbars] Attempted to spawn orphan HP bar entity!")
             self.object:remove()
             return
          end
@@ -90,10 +90,10 @@ function headbars.attach_hpbar(to)
 
    local pos = to:get_pos()
    local name = to:get_player_name()
-   local bar = minetest.add_entity(pos, "headbars:hpbar", name)
+   local bar = minetest.add_entity(pos, "rp_headbars:hpbar", name)
 
    if bar == nil then
-      minetest.log("error", "[headbars] HP bar failed to spawn!")
+      minetest.log("error", "[rp_headbars] HP bar failed to spawn!")
       return
    end
 end
@@ -105,4 +105,4 @@ minetest.register_on_joinplayer(function(player)
 		end
 	end, player)
 end)
-default.log("mod:headbars", "loaded")
+default.log("mod:rp_headbars", "loaded")
