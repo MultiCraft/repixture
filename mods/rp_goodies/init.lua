@@ -26,7 +26,7 @@ goodies.types["FURNACE_DST"] = {
 }
 
 -- chunk types for villages
-if minetest.get_modpath("village") ~= nil then
+if minetest.get_modpath("rp_village") ~= nil then
    goodies.types["forge"] = {
       ["rp_default:lump_coal"] = 4,
       ["rp_default:lump_iron"] = 6,

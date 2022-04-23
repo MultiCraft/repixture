@@ -14,8 +14,8 @@ village.min_spawn_dist = 512
 local mapseed = minetest.get_mapgen_setting("seed")
 village.pr = PseudoRandom(mapseed)
 
-dofile(minetest.get_modpath("village") .. "/names.lua")
-dofile(minetest.get_modpath("village") .. "/generate.lua")
-dofile(minetest.get_modpath("village") .. "/mapgen.lua")
+dofile(minetest.get_modpath("rp_village") .. "/names.lua")
+dofile(minetest.get_modpath("rp_village") .. "/generate.lua")
+dofile(minetest.get_modpath("rp_village") .. "/mapgen.lua")
 
-default.log("mod:village", "loaded")
+default.log("mod:rp_village", "loaded")

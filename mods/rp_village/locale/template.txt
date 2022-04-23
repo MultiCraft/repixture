@@ -1,4 +1,4 @@
-# textdomain: village
+# textdomain: rp_village
 Village Entity Spawner=
 Village Spawner=
 Mapgen Village Spawner=

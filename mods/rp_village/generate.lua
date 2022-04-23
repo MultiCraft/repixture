@@ -9,7 +9,7 @@ village.villages = {}
 
 local village_file = minetest.get_worldpath() .. "/villages.dat"
 
-local modpath = minetest.get_modpath("village")
+local modpath = minetest.get_modpath("rp_village")
 local mod_locks = minetest.get_modpath("rp_locks") ~= nil
 local mapseed = minetest.get_mapgen_setting("seed")
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
@@ -455,13 +455,13 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
 	    goodies.fill(pos, "FURNACE_FUEL", pr, "fuel", 1)
 	 end, true)
    end
-   minetest.log("verbose", "[village] Chunk generated at "..minetest.pos_to_string(pos))
+   minetest.log("verbose", "[rp_village] Chunk generated at "..minetest.pos_to_string(pos))
    return true, state
 end
 
 function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace, dont_check_empty)
    if not dont_check_empty and not check_empty(pos) then
-      minetest.log("verbose", "[village] Road not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
+      minetest.log("verbose", "[rp_village] Road not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
       return false, state
    end
 
@@ -650,7 +650,7 @@ function village.spawn_village(pos, pr, force_place_well)
       end
    end
    end
-   minetest.log("action", string.format("[village] Took %.2fms to generate village", (os.clock() - t1) * 1000))
+   minetest.log("action", string.format("[rp_village] Took %.2fms to generate village", (os.clock() - t1) * 1000))
    return true
 end
 

@@ -2,7 +2,7 @@
 --
 -- Mapgen
 --
-local S = minetest.get_translator("village")
+local S = minetest.get_translator("rp_village")
 
 local spawn_pos = minetest.setting_get_pos("static_spawnpoint") or {x = 0, y = 0, z = 0}
 local spawn_radius = minetest.settings:get("static_spawn_radius") or 256
@@ -30,7 +30,7 @@ local place_priv = function(itemstack, placer, pointed_thing)
 end
 
 minetest.register_node(
-   "village:entity_spawner",
+   "rp_village:entity_spawner",
    {
       description = S("Village Entity Spawner"),
       _tt_help = S("Placeholder that marks a position at which to spawn an entity during village generation"),
@@ -64,7 +64,7 @@ minetest.register_node(
                      end
                   end
               else
-                  minetest.log("error", "[village] Entity spawner without 'entity' in meta set @ "..minetest.pos_to_string(pos))
+                  minetest.log("error", "[rp_village] Entity spawner without 'entity' in meta set @ "..minetest.pos_to_string(pos))
               end
               minetest.remove_node(pos)
               return
@@ -76,7 +76,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "village:grassland_village",
+   "rp_village:grassland_village",
    {
       description = S("Village Spawner"),
       _tt_help = S("Generates a village when placed"),
@@ -115,17 +115,17 @@ local function attempt_village_spawn(pos)
 
        if nearest.dist > village.min_spawn_dist then
           if vector.distance(spawn_pos, spos) > spawn_radius then
-             minetest.log("action", "[village] Spawning a grassland village at " .. "(" .. spos.x
+             minetest.log("action", "[rp_village] Spawning a grassland village at " .. "(" .. spos.x
                              .. ", " .. spos.y .. ", " .. spos.z .. ")")
              local ok = village.spawn_village({x=spos.x,y=spos.y-1,z=spos.z}, pr)
              if not ok then
-                 minetest.log("action", "[village] Village spawn failed")
+                 minetest.log("action", "[rp_village] Village spawn failed")
              end
           else
-             minetest.log("action", "[village] Cannot spawn village, too near the static spawnpoint")
+             minetest.log("action", "[rp_village] Cannot spawn village, too near the static spawnpoint")
           end
        else
-          minetest.log("action", "[village] Cannot spawn village, too near another village")
+          minetest.log("action", "[rp_village] Cannot spawn village, too near another village")
        end
     end
 end
@@ -170,5 +170,7 @@ if not minetest.settings:get_bool("mapgen_disable_villages") then
    end
 end
 
--- Legacy alias
+-- Legacy aliases
 minetest.register_alias("village:grassland_village_mg", "air")
+minetest.register_alias("village:entity_spawner", "rp_village:entity_spawner")
+minetest.register_alias("village:grassland_village", "rp_village:grassland_village")

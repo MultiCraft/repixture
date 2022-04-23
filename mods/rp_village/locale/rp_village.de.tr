@@ -1,4 +1,4 @@
-# textdomain: village
+# textdomain: rp_village
 Village Entity Spawner=Dorf-Entity-Erzeuger
 Village Spawner=Dorf-Erzeuger
 Mapgen Village Spawner=Kartengenerator-Dorf-Erzeuger
