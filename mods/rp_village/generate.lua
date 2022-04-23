@@ -294,7 +294,7 @@ end
 
 function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill, dont_check_empty)
    if not dont_check_empty and not check_empty(pos) then
-      minetest.log("verbose", "[village] Chunk not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
+      minetest.log("verbose", "[rp_village] Chunk not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
       return false, state
    end
    if not state then
