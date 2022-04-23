@@ -3,7 +3,7 @@
 -- By Kaadmy, for Pixture
 --
 
-local S = minetest.get_translator("player_effects")
+local S = minetest.get_translator("rp_player_effects")
 local DISPLAY_ICONS = false
 
 player_effects = {}
@@ -87,7 +87,7 @@ function player_effects.get_registered_effect(ename)
    local e = player_effects.registered_effects[ename]
 
    if not e then
-      default.log("[mod:player_effects] Cannot find registered player effect " .. ename, "error")
+      default.log("[rp_player_effects] Cannot find registered player effect " .. ename, "error")
 
       return nil
    end
@@ -286,4 +286,4 @@ minetest.register_chatcommand(
       end
 })
 
-default.log("mod:player_effects", "loaded")
+default.log("mod:rp_player_effects", "loaded")

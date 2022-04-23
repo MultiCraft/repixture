@@ -1,4 +1,4 @@
-# textdomain: player_effects
+# textdomain: rp_player_effects
 The @1 effect=
 Show your current player effects=
 Current player effects:=
