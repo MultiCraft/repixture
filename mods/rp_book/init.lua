@@ -4,7 +4,18 @@
 -- By Kaadmy, for Pixture
 --
 
-local S = minetest.get_translator("rp_book")
+--[[ Get translation function. The 'book' name is used
+here instead of 'rp_book' due to legacy reasons,
+so that old written books still have their
+correct translation after the renaming orgy
+after 1.5.3. If we switch to 'rp_book',
+then the item tooltip of writen books would
+lose their translation.
+This could be solved if Minetest had a function like
+minetest.register_lbm, but for items.
+But the 'book' identifier works just fine for now,
+it's just a minor deviation from convention. ]]
+local S = minetest.get_translator("book")
 local F = minetest.formspec_escape
 
 local BOOK_MAX_TITLE_LENGTH = 64
