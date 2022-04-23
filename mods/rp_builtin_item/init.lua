@@ -116,7 +116,7 @@ minetest.register_entity(
 		   self.timer = self.timer + dtime
 		   if time_to_live ~= -1 and (self.timer > time_to_live) then
 		      add_item_death_particle(self)
-		      minetest.log("action", "[builtin_item] Item entity removed due to timeout at "..minetest.pos_to_string(self.object:get_pos()))
+		      minetest.log("action", "[rp_builtin_item] Item entity removed due to timeout at "..minetest.pos_to_string(self.object:get_pos()))
 		      self.object:remove()
 		      return
 		   end
@@ -131,7 +131,7 @@ minetest.register_entity(
 		          minetest.sound_play("builtin_item_lava", {pos = self.object:get_pos(), gain = 0.45})
                       end
 		      add_item_death_particle(self)
-		      minetest.log("action", "[builtin_item] Item entity destroyed in damaging node at "..minetest.pos_to_string(self.object:get_pos()))
+		      minetest.log("action", "[rp_builtin_item] Item entity destroyed in damaging node at "..minetest.pos_to_string(self.object:get_pos()))
 		      self.object:remove()
 		      return
 		   end
@@ -167,4 +167,4 @@ minetest.register_entity(
 		end,
    })
 
-default.log("mod:builtin_item", "loaded")
+default.log("mod:rp_builtin_item", "loaded")
