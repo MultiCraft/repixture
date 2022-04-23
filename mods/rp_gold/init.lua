@@ -100,26 +100,26 @@ if minetest.get_modpath("mobs") ~= nil then
    -- trading currency
    if minetest.get_modpath("jewels") ~= nil then -- jewels/gold
       --farmer
-      table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 16", "", "jewels:jewel"})
-      table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 22", "", "jewels:jewel 2"})
-      table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 34", "", "jewels:jewel 4"})
+      table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 16", "", "rp_jewels:jewel"})
+      table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 22", "", "rp_jewels:jewel 2"})
+      table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 34", "", "rp_jewels:jewel 4"})
 
-      table.insert(gold.trades["farmer"], {"jewels:jewel", "", "rp_gold:ingot_gold 14"})
-      table.insert(gold.trades["farmer"], {"jewels:jewel 2", "", "rp_gold:ingot_gold 20"})
-      table.insert(gold.trades["farmer"], {"jewels:jewel 4", "", "rp_gold:ingot_gold 32"})
+      table.insert(gold.trades["farmer"], {"rp_jewels:jewel", "", "rp_gold:ingot_gold 14"})
+      table.insert(gold.trades["farmer"], {"rp_jewels:jewel 2", "", "rp_gold:ingot_gold 20"})
+      table.insert(gold.trades["farmer"], {"rp_jewels:jewel 4", "", "rp_gold:ingot_gold 32"})
 
       -- carpenter
       table.insert(gold.trades["carpenter"], {"rp_default:tree 2", "", "rp_gold:ingot_gold"})
 
       -- tavern keeper
-      table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 14", "", "jewels:jewel"})
-      table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 20", "", "jewels:jewel 2"})
-      table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 32", "", "jewels:jewel 4"})
+      table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 14", "", "rp_jewels:jewel"})
+      table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 20", "", "rp_jewels:jewel 2"})
+      table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 32", "", "rp_jewels:jewel 4"})
 
       -- blacksmith
-      table.insert(gold.trades["blacksmith"], {"rp_default:ingot_steel 14", "", "jewels:jewel"})
-      table.insert(gold.trades["blacksmith"], {"rp_default:ingot_steel 20", "", "jewels:jewel 2"})
-      table.insert(gold.trades["blacksmith"], {"rp_default:ingot_steel 32", "", "jewels:jewel 4"})
+      table.insert(gold.trades["blacksmith"], {"rp_default:ingot_steel 14", "", "rp_jewels:jewel"})
+      table.insert(gold.trades["blacksmith"], {"rp_default:ingot_steel 20", "", "rp_jewels:jewel 2"})
+      table.insert(gold.trades["blacksmith"], {"rp_default:ingot_steel 32", "", "rp_jewels:jewel 4"})
    end
 
    -- butcher(no mod check)

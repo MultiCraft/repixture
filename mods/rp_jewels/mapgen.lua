@@ -26,7 +26,7 @@ end
 local lvm_buffer = {}
 
 local c_birch = minetest.get_content_id("rp_default:tree_birch")
-local c_jewel_ore = minetest.get_content_id("jewels:jewel_ore")
+local c_jewel_ore = minetest.get_content_id("rp_jewels:jewel_ore")
 
 -- Generation algorithm:
 do

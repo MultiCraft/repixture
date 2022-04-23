@@ -2,7 +2,7 @@
 -- Jeweled tool defs
 --
 
-local S = minetest.get_translator("jewels")
+local S = minetest.get_translator("rp_jewels")
 
 --  Automatic jeweling on specific tools
 
@@ -280,7 +280,7 @@ for tool_name, tool_def in pairs(tool_types) do
          end
          jewels.register_jewel(
             "rp_default:" .. tool_name .. "_" .. material_name,
-            "jewels:" .. tool_name .. "_" .. material_name .. "_" .. jewel_name,
+            "rp_jewels:" .. tool_name .. "_" .. material_name .. "_" .. jewel_name,
             {
                stats = jewel_def,
                description = description,
@@ -296,7 +296,7 @@ end
 
 jewels.register_jewel(
    "rp_default:broadsword",
-   "jewels:broadsword_jeweled_pommel",
+   "rp_jewels:broadsword_jeweled_pommel",
    {
       description = S("Pommel Jewel Broadsword"),
       overlay = "jewels_jeweled_pommel.png",
@@ -306,8 +306,8 @@ jewels.register_jewel(
 })
 
 jewels.register_jewel(
-   "jewels:broadsword_jeweled_pommel",
-   "jewels:broadsword_jeweled_pommel_and_guard",
+   "rp_jewels:broadsword_jeweled_pommel",
+   "rp_jewels:broadsword_jeweled_pommel_and_guard",
    {
       description = S("Pommel&Guard Jewel Broadsword"),
       overlay = "jewels_jeweled_guard.png",
@@ -317,8 +317,8 @@ jewels.register_jewel(
 })
 
 jewels.register_jewel(
-   "jewels:broadsword_jeweled_pommel_and_guard",
-   "jewels:serrated_broadsword",
+   "rp_jewels:broadsword_jeweled_pommel_and_guard",
+   "rp_jewels:serrated_broadsword",
    {
       description = S("Serrated Jewel Broadsword"),
       overlay = "jewels_jeweled_blade.png",

@@ -1,4 +1,4 @@
-# textdomain: jewels
+# textdomain: rp_jewels
 1. Place tool here=
 2. Hold a jewel and punch the bench=
 Jeweled @1=

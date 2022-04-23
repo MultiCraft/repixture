@@ -4,7 +4,7 @@
 -- By Kaadmy
 --
 
-local S = minetest.get_translator("jewels")
+local S = minetest.get_translator("rp_jewels")
 local NS = function(s) return s end
 local F = minetest.formspec_escape
 
@@ -32,7 +32,7 @@ form_bench = form_bench .. "listring[current_player;main]"
 form_bench = form_bench .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form_bench = form_bench .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
 
-default.ui.register_page("jewels_bench", form_bench)
+default.ui.register_page("rp_jewels_bench", form_bench)
 
 local function plus_power(i)
    if i >= 0 then
@@ -118,7 +118,7 @@ function jewels.register_jewel(toolname, new_toolname, def)
       desc = data.description
    else
       -- All tools should have their description set explicitly. This is a fallback
-      minetest.log("warning", "[jewels] No description for jeweled tool "..new_toolname.."! Auto-generating a name")
+      minetest.log("warning", "[rp_jewels] No description for jeweled tool "..new_toolname.."! Auto-generating a name")
       desc = new_tooldef.description
       if not desc then
          desc = new_toolname
@@ -240,7 +240,7 @@ end
 -- Items
 
 minetest.register_craftitem(
-   "jewels:jewel",
+   "rp_jewels:jewel",
    {
       description = S("Jewel"),
       inventory_image = "jewels_jewel.png",
@@ -285,7 +285,7 @@ local check_take = function(pos, listname, index, stack, player)
 end
 
 minetest.register_node(
-   "jewels:bench",
+   "rp_jewels:bench",
    {
       description = S("Jeweler's Workbench"),
       _tt_help = S("Tools can be upgraded with jewels here"),
@@ -298,7 +298,7 @@ minetest.register_node(
 
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
-         meta:set_string("formspec", default.ui.get_page("jewels_bench"))
+         meta:set_string("formspec", default.ui.get_page("rp_jewels_bench"))
          meta:set_string("infotext", S("Jeweler's Workbench"))
 
          local inv = meta:get_inventory()
@@ -316,7 +316,7 @@ minetest.register_node(
       on_punch = function(pos, node, player, pointed_thing)
          local itemstack = player:get_wielded_item()
          local itemstack_changed = false
-         if itemstack:get_name() == "jewels:jewel" then
+         if itemstack:get_name() == "rp_jewels:jewel" then
             if minetest.is_protected(pos, player:get_player_name()) and
                     not minetest.check_player_privs(player, "protection_bypass") then
                 minetest.record_protection_violation(pos, player:get_player_name())
@@ -358,7 +358,7 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "jewels:jewel_ore",
+   "rp_jewels:jewel_ore",
    {
       description = S("Jewel Ore"),
       tiles = {
@@ -366,18 +366,18 @@ minetest.register_node(
          "default_tree_birch_top.png",
          "default_tree_birch.png^jewels_ore.png"
       },
-      drop = "jewels:jewel",
+      drop = "rp_jewels:jewel",
       groups = {snappy=1, choppy=1, tree=1},
       sounds = default.node_sound_wood_defaults(),
 })
 
 crafting.register_craft(
    {
-      output = "jewels:bench",
+      output = "rp_jewels:bench",
       items = {
          "group:planks 5",
          "rp_default:ingot_carbon_steel 2",
-         "jewels:jewel",
+         "rp_jewels:jewel",
       }
 })
 
@@ -397,12 +397,13 @@ achievements.register_achievement(
       title = S("Secret of Jewels"),
       description = S("Discover the origin of jewels."),
       times = 1,
-      dignode = "jewels:jewel_ore",
+      dignode = "rp_jewels:jewel_ore",
 })
 
 -- The tool jewel definitions
 
-dofile(minetest.get_modpath("jewels").."/jewels.lua")
-dofile(minetest.get_modpath("jewels").."/mapgen.lua")
+dofile(minetest.get_modpath("rp_jewels").."/jewels.lua")
+dofile(minetest.get_modpath("rp_jewels").."/mapgen.lua")
+dofile(minetest.get_modpath("rp_jewels").."/aliases.lua")
 
-default.log("mod:jewels", "loaded")
+default.log("mod:rp_jewels", "loaded")
