@@ -26,4 +26,4 @@ if enable_vignette then
    minetest.register_on_joinplayer(on_joinplayer)
 end
 
-default.log("mod:vignette", "loaded")
+default.log("mod:rp_vignette", "loaded")
