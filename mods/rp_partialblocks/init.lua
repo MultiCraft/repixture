@@ -3,7 +3,7 @@
 -- Partial blocks mod
 -- By Kaadmy, for Pixture
 --
-local S = minetest.get_translator("partialblocks")
+local S = minetest.get_translator("rp_partialblocks")
 
 partialblocks = {}
 
@@ -32,7 +32,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    groups_slab.slab = 1
 
    minetest.register_node(
-      "partialblocks:slab_" .. name,
+      "rp_partialblocks:slab_" .. name,
       {
 	 tiles = tiles,
 	 groups = groups_slab,
@@ -78,7 +78,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 
    crafting.register_craft( -- Craft to
       {
-	 output = "partialblocks:slab_" .. name .. " 2",
+	 output = "rp_partialblocks:slab_" .. name .. " 2",
 	 items = {
 	    node,
 	 },
@@ -88,7 +88,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       minetest.register_craft( -- Fuel
 	 {
 	    type = "fuel",
-	    recipe = "partialblocks:slab_" .. name .. " 2",
+	    recipe = "rp_partialblocks:slab_" .. name .. " 2",
 	    burntime = 7,
       })
    end
@@ -111,7 +111,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    groups_stair.stair = 1
 
    minetest.register_node(
-      "partialblocks:stair_" .. name,
+      "rp_partialblocks:stair_" .. name,
       {
 	 tiles = tiles,
 	 groups = groups_stair,
@@ -135,7 +135,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 
    crafting.register_craft( -- Craft to
       {
-	 output = "partialblocks:stair_" .. name,
+	 output = "rp_partialblocks:stair_" .. name,
 	 items = {
             node,
 	 },
@@ -145,7 +145,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       minetest.register_craft( -- Fuel
 	 {
 	    type = "fuel",
-	    recipe = "partialblocks:stair_" .. name,
+	    recipe = "rp_partialblocks:stair_" .. name,
 	    burntime = 7,
       })
    end
@@ -225,4 +225,6 @@ local cs_stair_tiles = {
 partialblocks.register_material(
    "compressed_sandstone", S("Compressed Sandstone Slab"), S("Compressed Sandstone Stair"), "rp_default:compressed_sandstone", { cracky = 2 }, false, nil, cs_stair_tiles)
 
-default.log("mod:partialblocks", "loaded")
+dofile(minetest.get_modpath("rp_partialblocks").."/aliases.lua")
+
+default.log("mod:rp_partialblocks", "loaded")
