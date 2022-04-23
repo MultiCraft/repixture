@@ -3,7 +3,7 @@
 -- Music player mod
 -- By Kaadmy, for Pixture
 --
-local S = minetest.get_translator("music")
+local S = minetest.get_translator("rp_music")
 
 music = {}
 
@@ -75,7 +75,7 @@ if minetest.settings:get_bool("music_enable") then
       if music.players[dp] ~= nil then
 	 local node = minetest.get_node(pos)
 
-	 if node.name ~= "music:player" then
+	 if node.name ~= "rp_music:player" then
 	    music.stop(pos)
 
 	    return
@@ -103,7 +103,7 @@ if minetest.settings:get_bool("music_enable") then
    end
 
    minetest.register_node(
-      "music:player",
+      "rp_music:player",
       {
 	 description = S("Music Player"),
 
@@ -115,7 +115,7 @@ if minetest.settings:get_bool("music_enable") then
 	 is_ground_content = false,
 	 floodable = true,
          on_flood = function(pos, oldnode, newnode)
-            minetest.add_item(pos, "music:player")
+            minetest.add_item(pos, "rp_music:player")
          end,
 	 paramtype = "light",
 
@@ -160,7 +160,7 @@ if minetest.settings:get_bool("music_enable") then
    minetest.register_abm(
       {
          label = "Music Player",
-	 nodenames = {"music:player"},
+	 nodenames = {"rp_music:player"},
 	 chance = 1,
 	 interval = 1,
 	 action = function(pos, node)
@@ -174,7 +174,7 @@ if minetest.settings:get_bool("music_enable") then
    })
 else
    minetest.register_node(
-      "music:player",
+      "rp_music:player",
       {
 	 description = S("Music Player"),
 
@@ -186,7 +186,7 @@ else
 	 is_ground_content = false,
 	 floodable = true,
 	 on_flood = function(pos, oldnode, newnode)
-	   minetest.add_item(pos, "music:player")
+	   minetest.add_item(pos, "rp_music:player")
 	 end,
 	 paramtype = "light",
 
@@ -210,11 +210,13 @@ end
 
 crafting.register_craft(
    {
-      output = "music:player",
+      output = "rp_music:player",
       items = {
          "group:planks 5",
          "rp_default:ingot_steel",
       }
 })
 
-default.log("mod:music", "loaded")
+minetest.register_alias("music:player", "rp_music:player")
+
+default.log("mod:rp_music", "loaded")

@@ -1,4 +1,4 @@
-# textdomain: music
+# textdomain: rp_music
 Music Player (off)=
 Music Player (on)=
 Music Player=

@@ -370,7 +370,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
    util.nodefunc(
       pos,
       {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-      "music:player",
+      "rp_music:player",
       function(pos)
 	 if state.music_players >= 1 or pr:next(1,8) > 1 then
 	    minetest.remove_node(pos)
