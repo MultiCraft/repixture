@@ -5,7 +5,7 @@
 -- Tweaked by Kaadmy, for Pixture
 --
 
-local nav_mod = minetest.get_modpath("nav") ~= nil
+local nav_mod = minetest.get_modpath("rp_nav") ~= nil
 
 item_drop = {}
 
@@ -107,7 +107,7 @@ minetest.register_globalstep(
                                  }, true)
                               end
                               -- Notify nav mod of inventory change
-                              if nav_mod and lua.itemstring == "nav:map" then
+                              if nav_mod and lua.itemstring == "rp_nav:map" then
                                   nav.map.update_hud_flags(player)
                               end
 

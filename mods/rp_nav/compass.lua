@@ -2,7 +2,7 @@
 --
 -- Compass handling
 --
-local S = minetest.get_translator("nav")
+local S = minetest.get_translator("rp_nav")
 
 local wield_image_0 = "nav_compass_inventory_0.png"
 local wield_image_1 = "nav_compass_inventory_1.png"
@@ -28,7 +28,7 @@ local function on_globalstep(dtime)
 
 	 if item ~= nil then
 	    if item.groups.nav_compass then
-	       inv:set_stack("main", i, ItemStack("nav:compass_"..dir))
+	       inv:set_stack("main", i, ItemStack("rp_nav:compass_"..dir))
 	    end
 	 end
       end
@@ -43,7 +43,7 @@ local d = S("Compass")
 local t = S("It points to the North")
 
 minetest.register_craftitem(
-   "nav:compass_0",
+   "rp_nav:compass_0",
    {
       description = d,
       _tt_help = t,
@@ -56,7 +56,7 @@ minetest.register_craftitem(
 })
 
 minetest.register_craftitem(
-   "nav:compass_1",
+   "rp_nav:compass_1",
    {
       description = d,
       _tt_help = t,
@@ -69,7 +69,7 @@ minetest.register_craftitem(
 })
 
 minetest.register_craftitem(
-   "nav:compass_2",
+   "rp_nav:compass_2",
    {
       description = d,
       _tt_help = t,
@@ -82,7 +82,7 @@ minetest.register_craftitem(
 })
 
 minetest.register_craftitem(
-   "nav:compass_3",
+   "rp_nav:compass_3",
    {
       description = d,
       _tt_help = t,
@@ -96,7 +96,7 @@ minetest.register_craftitem(
 
 
 minetest.register_craftitem(
-   "nav:compass_4",
+   "rp_nav:compass_4",
    {
       description = d,
       _tt_help = t,
@@ -109,7 +109,7 @@ minetest.register_craftitem(
 })
 
 minetest.register_craftitem(
-   "nav:compass_5",
+   "rp_nav:compass_5",
    {
       description = d,
       _tt_help = t,
@@ -122,7 +122,7 @@ minetest.register_craftitem(
 })
 
 minetest.register_craftitem(
-   "nav:compass_6",
+   "rp_nav:compass_6",
    {
       description = d,
       _tt_help = t,
@@ -135,7 +135,7 @@ minetest.register_craftitem(
 })
 
 minetest.register_craftitem(
-   "nav:compass_7",
+   "rp_nav:compass_7",
    {
       description = d,
       _tt_help = t,
@@ -147,13 +147,13 @@ minetest.register_craftitem(
       stack_max = 1,
 })
 
-minetest.register_alias("nav:compass", "nav:compass_0")
+minetest.register_alias("rp_nav:compass", "rp_nav:compass_0")
 
 -- Crafting
 
 crafting.register_craft(
    {
-      output = "nav:compass",
+      output = "rp_nav:compass",
       items = {
          "rp_default:ingot_steel 4",
          "rp_default:stick",
@@ -168,7 +168,12 @@ achievements.register_achievement(
       title = S("True Navigator"),
       description = S("Craft a compass."),
       times = 1,
-      craftitem = "nav:compass_0",
+      craftitem = "rp_nav:compass_0",
 })
+
+minetest.register_alias("nav:compass", "rp_nav:compass_0")
+for i=0, 7 do
+	minetest.register_alias("nav:compass_"..i, "rp_nav:compass_"..i)
+end
 
 default.log("compass", "loaded")

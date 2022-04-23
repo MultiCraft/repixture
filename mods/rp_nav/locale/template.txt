@@ -1,4 +1,4 @@
-# textdomain: nav
+# textdomain: rp_nav
 Compass=
 Map=
 Navigator=

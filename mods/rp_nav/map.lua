@@ -3,7 +3,7 @@
 -- Map handling
 --
 
-local S = minetest.get_translator("nav")
+local S = minetest.get_translator("rp_nav")
 
 -- Based on Minetest Game's map mod, licensed under MIT License.
 
@@ -23,7 +23,7 @@ function nav.map.update_hud_flags(player)
 		creative_mode_cache
 
 	local minimap_enabled = creative_enabled or
-		player:get_inventory():contains_item("main", "nav:map")
+		player:get_inventory():contains_item("main", "rp_nav:map")
 	local radar_enabled = creative_enabled
 
 	player:hud_set_flags({
@@ -46,11 +46,11 @@ minetest.register_on_player_inventory_action(function(player, action, inventory,
 	if action == "move" then
 		local stack_from = inventory:get_stack(inventory_info.from_list, inventory_info.from_index)
 		local stack_to = inventory:get_stack(inventory_info.to_list, inventory_info.to_index)
-		if stack_from:get_name() == "nav:map" or stack_to:get_name() == "nav:map" then
+		if stack_from:get_name() == "rp_nav:map" or stack_to:get_name() == "rp_nav:map" then
 			nav.map.update_hud_flags(player)
 		end
 	elseif action == "put" or action == "take" then
-		if inventory_info.stack:get_name() == "nav:map" then
+		if inventory_info.stack:get_name() == "rp_nav:map" then
 			nav.map.update_hud_flags(player)
 		end
 	end
@@ -72,7 +72,7 @@ minetest.after(5.3, cyclic_update)
 -- Items
 
 minetest.register_craftitem(
-   "nav:map",
+   "rp_nav:map",
    {
       description = S("Map"),
       _tt_help = S("Keep this in your inventory and view the map with the 'minimap' key"),
@@ -89,7 +89,7 @@ minetest.register_craftitem(
 
 crafting.register_craft(
    {
-      output = "nav:map",
+      output = "rp_nav:map",
       items = {
          "rp_default:stick 6",
          "rp_default:paper 3",
@@ -105,7 +105,9 @@ achievements.register_achievement(
       title = S("Navigator"),
       description = S("Craft a map."),
       times = 1,
-      craftitem = "nav:map",
+      craftitem = "rp_nav:map",
 })
+
+minetest.register_alias("nav:map", "rp_nav:map")
 
 default.log("map", "loaded")
