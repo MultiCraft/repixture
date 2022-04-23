@@ -66,7 +66,7 @@ function armor.is_slot(itemname, slot)
 end
 
 function armor.get_base_skin(player)
-   if minetest.get_modpath("player_skins") ~= nil then
+   if minetest.get_modpath("rp_player_skins") ~= nil then
       return player_skins.get_skin(player:get_player_name())
    else
       return armor.player_skin

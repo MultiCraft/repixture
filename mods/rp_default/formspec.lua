@@ -310,7 +310,7 @@ end
 if minetest.get_modpath("rp_achievements") ~= nil then
    form_default_default = form_default_default .. default.ui.tab(-0.9, 2.06, "tab_achievements", "ui_icon_achievements.png", S("Achievements"))
 end
-if minetest.get_modpath("player_skins") ~= nil then
+if minetest.get_modpath("rp_player_skins") ~= nil then
    form_default_default = form_default_default .. default.ui.tab(-0.9, 2.84, "tab_player_skins", "ui_icon_player_skins.png", S("Player Skins"))
 end
 if minetest.get_modpath("rp_creative") ~= nil and minetest.settings:get_bool("creative_mode") then
@@ -348,7 +348,7 @@ function default.ui.receive_fields(player, form_name, fields)
    elseif minetest.get_modpath("rp_achievements") ~= nil and fields.tab_achievements then
       formname = "rp_achievements:achievements"
       form = achievements.get_formspec(name)
-   elseif minetest.get_modpath("player_skins") ~= nil and fields.tab_player_skins then
+   elseif minetest.get_modpath("rp_player_skins") ~= nil and fields.tab_player_skins then
       formname = "player_skins:player_skins"
       form = player_skins.get_formspec(name)
    elseif minetest.get_modpath("rp_creative") ~= nil and minetest.settings:get_bool("creative_mode") and fields.tab_creative then

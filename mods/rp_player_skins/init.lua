@@ -4,7 +4,7 @@
 -- updated by Wuzzy, for Repixture
 --
 
-local S = minetest.get_translator("player_skins")
+local S = minetest.get_translator("rp_player_skins")
 
 player_skins = {}
 
@@ -31,7 +31,7 @@ local function load_legacy_player_skins()
 			legacy_skins[name] = tex
 		end
 	until f:read(0) == nil
-	minetest.log("action", "[player_skins] Legacy skins file player_skins.dat found and loaded")
+	minetest.log("action", "[rp_player_skins] Legacy skins file player_skins.dat found and loaded")
 
 	io.close(f)
 end
@@ -133,13 +133,13 @@ local function on_joinplayer(player)
 			legacy_skins[name] = nil
 			-- Load skin from legacy version (v1.4.2 and before)
 			if legacy_skin == "female" then
-				minetest.log("action", "[player_skins] Converting legacy skin 'female' for player "..name)
+				minetest.log("action", "[rp_player_skins] Converting legacy skin 'female' for player "..name)
 				hair = "short_brown"
 			elseif legacy_skin == "male" then
-				minetest.log("action", "[player_skins] Converting legacy skin 'male' for player "..name)
+				minetest.log("action", "[rp_player_skins] Converting legacy skin 'male' for player "..name)
 				hair = "beard_brown"
 			else
-				minetest.log("action", "[player_skins] Unknown legacy skin '"..tostring(legacy_skin).."' detected for player "..name..", setting a random skin")
+				minetest.log("action", "[rp_player_skins] Unknown legacy skin '"..tostring(legacy_skin).."' detected for player "..name..", setting a random skin")
 				player_skins.set_random_skin(name)
 				return
 			end
@@ -173,7 +173,7 @@ local function on_joinplayer(player)
 		player_skins.set_skin(name, skin, cloth, bands, hair, eye)
 	else
 		-- No skin found, set a random one
-		minetest.log("action", "[player_skins] Player "..name.." appears to be new, setting initial random skin")
+		minetest.log("action", "[rp_player_skins] Player "..name.." appears to be new, setting initial random skin")
 		player_skins.set_random_skin(name)
 	end
 end
@@ -264,4 +264,4 @@ function player_skins.set_random_skin(name)
 	player_skins.set_skin(name, scol, ccol, bcol, hair, ecol)
 end
 
-default.log("mod:player_skins", "loaded")
+default.log("mod:rp_player_skins", "loaded")

@@ -1,4 +1,4 @@
-# textdomain: player_skins
+# textdomain: rp_player_skins
 Random=
 Hair=
 Eyes=
