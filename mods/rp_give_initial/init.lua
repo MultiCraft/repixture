@@ -18,4 +18,4 @@ end
 
 minetest.register_on_newplayer(on_newplayer)
 
-default.log("mod:give_initial", "loaded")
+default.log("mod:rp_give_initial", "loaded")
