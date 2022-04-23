@@ -400,6 +400,19 @@ achievements.register_achievement(
       dignode = "rp_jewels:jewel_ore",
 })
 
+-- Update node after the rename orgy after 1.5.3
+minetest.register_lbm(
+   {
+      label = "Update jeweler's workbench",
+      name = "rp_jewels:update_bench",
+      nodenames = {"rp_jewels:bench"},
+      action = function(pos, node)
+         local def = minetest.registered_nodes[node.name]
+         def.on_construct(pos)
+      end
+   }
+)
+
 -- The tool jewel definitions
 
 dofile(minetest.get_modpath("rp_jewels").."/jewels.lua")

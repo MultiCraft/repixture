@@ -1,4 +1,5 @@
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
+local S = minetest.get_translator("rp_default")
 
 --
 -- Functions/ABMs
@@ -126,6 +127,43 @@ minetest.register_lbm(
       end
    }
 )
+
+-- Update nodes after the rename orgy after 1.5.3
+minetest.register_lbm(
+   {
+      label = "Update signs",
+      name = "rp_default:update_signs",
+      nodenames = {"rp_default:sign"},
+      action = function(pos, node)
+         local meta = minetest.get_meta(pos)
+         local text = meta:get_string("text")
+         meta:set_string("infotext", S('"@1"', text))
+      end
+   }
+)
+minetest.register_lbm(
+   {
+      label = "Update bookshelves",
+      name = "rp_default:update_bookshelves",
+      nodenames = {"rp_default:bookshelf"},
+      action = function(pos, node)
+         local def = minetest.registered_nodes[node.name]
+         def.on_construct(pos)
+      end
+   }
+)
+minetest.register_lbm(
+   {
+      label = "Update chests",
+      name = "rp_default:update_chests",
+      nodenames = {"rp_default:chest"},
+      action = function(pos, node)
+         local def = minetest.registered_nodes[node.name]
+         def.on_construct(pos)
+      end
+   }
+)
+
 
 -- Vertical plants
 

@@ -5,6 +5,10 @@
 --
 local S = minetest.get_translator("rp_music")
 
+local INFOTEXT_ON = S("Music Player (on)")
+local INFOTEXT_OFF = S("Music Player (off)")
+local INFOTEXT_DISABLED = S("Music Player (disabled by server)")
+
 music = {}
 
 music.tracks = {
@@ -23,7 +27,7 @@ if minetest.settings:get_bool("music_enable") then
       local dp = minetest.hash_node_position(pos)
 
       local meta = minetest.get_meta(pos)
-      meta:set_string("infotext", S("Music Player (off)"))
+      meta:set_string("infotext", INFOTEXT_OFF)
       meta:set_int("music_player_enabled", 0)
 
       if music.players[dp] ~= nil then
@@ -36,7 +40,7 @@ if minetest.settings:get_bool("music_enable") then
       local dp = minetest.hash_node_position(pos)
 
       local meta = minetest.get_meta(pos)
-      meta:set_string("infotext", S("Music Player (on)"))
+      meta:set_string("infotext", INFOTEXT_ON)
       meta:set_int("music_player_enabled", 1)
 
       -- Get track or set random track if not set
@@ -201,7 +205,7 @@ else
 	 on_construct = function(pos)
             local meta = minetest.get_meta(pos)
 
-            meta:set_string("infotext", S("Music Player (disabled by server)"))
+            meta:set_string("infotext", INFOTEXT_DISABLED)
          end,
 
 	 groups = {oddly_breakable_by_hand = 3, attached_node = 1}
@@ -216,6 +220,28 @@ crafting.register_craft(
          "rp_default:ingot_steel",
       }
 })
+
+-- Update nodes after the rename orgy after 1.5.3
+minetest.register_lbm(
+   {
+      label = "Update music players",
+      name = "rp_music:update_music_players",
+      nodenames = {"rp_music:player"},
+      action = function(pos, node)
+         local def = minetest.registered_nodes[node.name]
+         if minetest.settings:get_bool("music_enable") then
+            local meta = minetest.get_meta(pos)
+            if meta:get_int("music_player_enabled") == 1 then
+               meta:set_string("infotext", INFOTEXT_ON)
+            else
+               meta:set_string("infotext", INFOTEXT_OFF)
+            end
+         else
+            meta:set_string("infotext", INFOTEXT_DISABLED)
+         end
+      end
+   }
+)
 
 minetest.register_alias("music:player", "rp_music:player")
 
