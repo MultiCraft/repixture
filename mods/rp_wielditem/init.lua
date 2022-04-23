@@ -13,12 +13,12 @@ local function attach_wielditem(player)
 	 local name = player:get_player_name()
 	 local pos = player:get_pos()
 
-	 wielditem[name] = minetest.add_entity(pos, "wielditem:wielditem", name)
+	 wielditem[name] = minetest.add_entity(pos, "rp_wielditem:wielditem", name)
 	 wielditem[name]:set_attach(player, "right_arm", {x = -1.5, y = 5.7, z = 2.5}, {x = 90, y = -45, z = 270})
 	 wielditem[name]:get_luaentity()._wielder = player
 end
 
-minetest.register_entity("wielditem:wielditem", {
+minetest.register_entity("rp_wielditem:wielditem", {
 	is_visible = false,
 
 	visual = "wielditem",
@@ -52,7 +52,7 @@ minetest.register_entity("wielditem:wielditem", {
 		local player = self._wielder
 		-- Remove orphan wielditem
 		if player == nil or (minetest.get_player_by_name(player:get_player_name()) == nil) then
-			minetest.log("info", "[wielditem] Removed orphan wielditem!")
+			minetest.log("info", "[rp_wielditem] Removed orphan wielditem!")
 			self.object:remove()
 			return
 		end
@@ -80,4 +80,4 @@ minetest.register_on_leaveplayer(function(player)
 	wielditem[name] = nil
 end)
 
-default.log("mod:wielditem", "loaded")
+default.log("mod:rp_wielditem", "loaded")
