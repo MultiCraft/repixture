@@ -97,7 +97,7 @@ function achievements.trigger_achievement(player, aname, times)
       end, name, aname)
    end
 
-   if default.ui.current_page[name] == "rp_achievements:achievements" then
+   if rp_formspec.current_page[name] == "rp_achievements:achievements" then
       local form = achievements.get_formspec(name)
       player:set_inventory_formspec(form)
    end
@@ -193,7 +193,7 @@ crafting.register_on_craft(on_craft)
 
 -- Formspecs
 
-local form = default.ui.get_page("rp_default:default")
+local form = rp_formspec.get_page("rp_default:default")
 
 -- column 1: status image (0=gotten, 1=partial, 2=missing)
 -- column 2: achievement name
@@ -201,7 +201,7 @@ local form = default.ui.get_page("rp_default:default")
 form = form .. "tablecolumns[color;image,align=left,width=1,0=ui_checkmark.png^[colorize:"..COLOR_GOTTEN..":255,1=blank.png,2=blank.png;text,align=left,width=11;"
    .. "text,align=left,width=28]"
 
-default.ui.register_page("rp_achievements:achievements", form)
+rp_formspec.register_page("rp_achievements:achievements", form)
 
 function achievements.get_formspec(name, row)
    row = row or 1
@@ -243,7 +243,7 @@ function achievements.get_formspec(name, row)
       achievement_list = achievement_list .. minetest.formspec_escape(def.description)
    end
 
-   local form = default.ui.get_page("rp_achievements:achievements")
+   local form = rp_formspec.get_page("rp_achievements:achievements")
 
    form = form .. "table[0.25,2.5;7.9,5.5;achievement_list;" .. achievement_list
       .. ";" .. row .. "]"

@@ -223,15 +223,15 @@ minetest.register_node(
 
          if not locks.is_locked(meta, player) then
             local np = pos.x .. "," .. pos.y .. "," .. pos.z
-            local form = default.ui.get_page("rp_default:2part")
+            local form = rp_formspec.get_page("rp_default:2part")
             form = form .. "list[nodemeta:" .. np .. ";main;0.25,0.25;8,4;]"
             form = form .. "listring[nodemeta:" .. np .. ";main]"
-            form = form .. default.ui.get_itemslot_bg(0.25, 0.25, 8, 4)
+            form = form .. rp_formspec.get_itemslot_bg(0.25, 0.25, 8, 4)
 
             form = form .. "list[current_player;main;0.25,4.75;8,4;]"
             form = form .. "listring[current_player;main]"
-            form = form .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-            form = form .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
+            form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
+            form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
             minetest.show_formspec(
                player:get_player_name(),

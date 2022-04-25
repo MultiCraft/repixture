@@ -27,7 +27,7 @@ minetest.register_node(
       on_construct = function(pos)
          --local n = minetest.get_node(pos)
          local meta = minetest.get_meta(pos)
-         meta:set_string("formspec", default.ui.get_page("rp_default:field"))
+         meta:set_string("formspec", rp_formspec.get_page("rp_default:field"))
          -- Show empty sign text in quotation marks
          meta:set_string("infotext", S('""'))
          meta:set_string("text", "")

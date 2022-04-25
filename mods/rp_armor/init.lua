@@ -24,11 +24,11 @@ armor.slots = {"helmet", "chestplate", "boots"}
 
 -- Formspec
 
-local form_armor = default.ui.get_page("rp_default:2part")
+local form_armor = rp_formspec.get_page("rp_default:2part")
 
 form_armor = form_armor .. "list[current_player;main;0.25,4.75;8,4;]"
-form_armor = form_armor .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_armor = form_armor .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_armor = form_armor .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
+form_armor = form_armor .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 form_armor = form_armor .. "listring[current_player;main]"
 
 form_armor = form_armor .. "label[3.25,1;"..minetest.formspec_escape(S("Helmet")).."]"
@@ -37,12 +37,12 @@ form_armor = form_armor .. "label[3.25,3;"..minetest.formspec_escape(S("Boots"))
 
 form_armor = form_armor .. "list[current_player;armor;2.25,0.75;1,3;]"
 form_armor = form_armor .. "listring[current_player;armor]"
-form_armor = form_armor .. default.ui.get_itemslot_bg(2.25, 0.75, 1, 3)
+form_armor = form_armor .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 3)
 
-default.ui.register_page("rp_armor:armor", form_armor)
+rp_formspec.register_page("rp_armor:armor", form_armor)
 
 function armor.get_formspec(name)
-   local form = default.ui.get_page("rp_armor:armor")
+   local form = rp_formspec.get_page("rp_armor:armor")
    return form
 end
 

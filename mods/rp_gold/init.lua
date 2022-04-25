@@ -136,18 +136,18 @@ end
 
 local form_trading = ""
 
-form_trading = form_trading .. default.ui.get_page("rp_default:2part")
+form_trading = form_trading .. rp_formspec.get_page("rp_default:2part")
 
 form_trading = form_trading .. "list[current_player;gold_trade_out;4.75,2.25;1,1;]"
 
-form_trading = form_trading .. default.ui.get_hotbar_itemslot_bg(4.75, 2.25, 1, 1)
+form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(4.75, 2.25, 1, 1)
 
 form_trading = form_trading .. "list[current_player;main;0.25,4.75;8,4;]"
-form_trading = form_trading .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_trading = form_trading .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
+form_trading = form_trading .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
 form_trading = form_trading .. "list[current_player;gold_trade_in;1.25,2.25;2,1;]"
-form_trading = form_trading .. default.ui.get_itemslot_bg(1.25, 2.25, 2, 1)
+form_trading = form_trading .. rp_formspec.get_itemslot_bg(1.25, 2.25, 2, 1)
 
 form_trading = form_trading .. "listring[current_player;main]"
 form_trading = form_trading .. "listring[current_player;gold_trade_in]"
@@ -157,10 +157,10 @@ form_trading = form_trading .. "listring[current_player;gold_trade_out]"
 form_trading = form_trading .. "image[3.5,1.25;1,1;ui_arrow_bg.png^[transformR270]"
 form_trading = form_trading .. "image[3.5,2.25;1,1;ui_arrow.png^[transformR270]"
 
-form_trading = form_trading .. default.ui.button(1.25, 3.25, 2, 1, "trade", S("Trade"))
-form_trading = form_trading .. default.ui.button_exit(5.25, 3.25, 2, 1, "cancel", S("Cancel"))
+form_trading = form_trading .. rp_formspec.button(1.25, 3.25, 2, 1, "trade", S("Trade"))
+form_trading = form_trading .. rp_formspec.button_exit(5.25, 3.25, 2, 1, "cancel", S("Cancel"))
 
-default.ui.register_page("rp_gold_trading_book", form_trading)
+rp_formspec.register_page("rp_gold_trading_book", form_trading)
 
 function gold.trade(trade, trade_type, player)
    local name = player:get_player_name()
@@ -197,12 +197,12 @@ function gold.trade(trade, trade_type, player)
    local trade_wanted1 = inv:get_stack("gold_trade_wanted", 1)
    local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
 
-   local form = default.ui.get_page("rp_gold_trading_book")
+   local form = rp_formspec.get_page("rp_gold_trading_book")
    form = form .. "label[0.25,0.25;"..minetest.formspec_escape(trade_name).."]"
 
-   form = form .. default.ui.fake_itemstack(1.25, 1.25, trade_wanted1)
-   form = form .. default.ui.fake_itemstack(2.25, 1.25, trade_wanted2)
-   form = form .. default.ui.fake_itemstack(4.75, 1.25, ItemStack(trade[3]))
+   form = form .. rp_formspec.fake_itemstack(1.25, 1.25, trade_wanted1)
+   form = form .. rp_formspec.fake_itemstack(2.25, 1.25, trade_wanted2)
+   form = form .. rp_formspec.fake_itemstack(4.75, 1.25, ItemStack(trade[3]))
 
    minetest.show_formspec(name, "rp_gold:trading_book", form)
 

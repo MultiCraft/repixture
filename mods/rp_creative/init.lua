@@ -8,13 +8,13 @@ creative.creative_sizes = {}
 
 local playerdata = {}
 
-local form = default.ui.get_page("rp_default:2part")
+local form = rp_formspec.get_page("rp_default:2part")
 
 form = form .. "list[current_player;main;0.25,4.75;8,4;]"
-form = form .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form = form .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
+form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
+form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
-default.ui.register_page("rp_creative:creative", form)
+rp_formspec.register_page("rp_creative:creative", form)
 
 creative.slots_num = 7*4
 
@@ -96,13 +96,13 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 		"list[detached:creative_"..player_name..";main;0.25,0.25;7,4;"..tostring(start_i).."]"..
 		"label[7.5,0.75;"..F(S("@1/@2", pagenum, pagemax)).."]"..
 
-                default.ui.image_button(7.25, 1.25, 1, 1, "creative_prev", "ui_icon_prev.png")..
-                default.ui.image_button(7.25, 2.25, 1, 1, "creative_next", "ui_icon_next.png")..
+                rp_formspec.image_button(7.25, 1.25, 1, 1, "creative_prev", "ui_icon_prev.png")..
+                rp_formspec.image_button(7.25, 2.25, 1, 1, "creative_next", "ui_icon_next.png")..
 
-                default.ui.get_itemslot_bg(0.25, 0.25, 7,4)..
+                rp_formspec.get_itemslot_bg(0.25, 0.25, 7,4)..
 		"image[7.25,3.25;1,1;creative_trash_icon.png]"..
 		"list[detached:creative!trash;main;7.25,3.25;1,1;]"..
-                default.ui.get_itemslot_bg(7.25, 3.25, 1,1)..
+                rp_formspec.get_itemslot_bg(7.25, 3.25, 1,1)..
 		"listring[current_player;main]"..
 		"listring[detached:creative!trash;main]"..
 		"listring[detached:creative_"..player_name..";main]"..
@@ -128,7 +128,7 @@ creative.get_formspec = function(playername)
 	end
 	local player = minetest.get_player_by_name(playername)
 	if player then
-                local form = default.ui.get_page("rp_creative:creative")
+                local form = rp_formspec.get_page("rp_creative:creative")
 		local page, start_i = get_page_and_start_i(playername)
 		form = form .. creative.get_creative_formspec(player, start_i, page)
 		return form
@@ -187,7 +187,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		page = 1
 	end
 
-	local form = default.ui.get_page("rp_creative:creative")
+	local form = rp_formspec.get_page("rp_creative:creative")
 	form = form .. creative.get_creative_formspec(player, start_i, start_i / (creative.slots_num) + 1)
 	if changed then
 		minetest.show_formspec(playername, "rp_creative:creative", form)

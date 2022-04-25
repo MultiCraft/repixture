@@ -261,13 +261,13 @@ function crafting.craft(player, wanted, wanted_count, output, items)
    return {items = items, output = output}
 end
 
-local form = default.ui.get_page("rp_default:2part")
+local form = rp_formspec.get_page("rp_default:2part")
 
 form = form .. "field[-1,-1;0,0;crafting_tracker;;]"
 
 form = form .. "list[current_player;main;0.25,4.75;8,4;]"
-form = form .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form = form .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
+form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
+form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
 form = form .. "list[current_player;craft_in;0.25,0.25;1,4;]"
 
@@ -278,15 +278,15 @@ form = form .. "listring[current_player;craft_in]"
 form = form .. "listring[current_player;main]"
 form = form .. "listring[current_player;craft_out]"
 
-form = form .. default.ui.get_itemslot_bg(0.25, 0.25, 1, 4)
-form = form .. default.ui.get_output_itemslot_bg(7.25, 3.25, 1, 1)
+form = form .. rp_formspec.get_itemslot_bg(0.25, 0.25, 1, 4)
+form = form .. rp_formspec.get_output_itemslot_bg(7.25, 3.25, 1, 1)
 
-form = form .. default.ui.button(7.25, 1.25, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
-form = form .. default.ui.button(7.25, 2.25, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
+form = form .. rp_formspec.button(7.25, 1.25, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
+form = form .. rp_formspec.button(7.25, 2.25, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
 
 form = form .. "tablecolumns[text,align=left,width=2;text,align=left,width=40]"
 
-default.ui.register_page("rp_crafting:crafting", form)
+rp_formspec.register_page("rp_crafting:crafting", form)
 
 function crafting.get_formspec(name, select_item)
    local row = 1
@@ -369,7 +369,7 @@ function crafting.get_formspec(name, select_item)
       end
    end
 
-   local form = default.ui.get_page("rp_crafting:crafting")
+   local form = rp_formspec.get_page("rp_crafting:crafting")
 
    if craft_count > 0 then
        form = form .. "table[2.25,0.25;4.75,3.75;craft_list;" .. craft_list
@@ -378,23 +378,23 @@ function crafting.get_formspec(name, select_item)
 
    if selected_craftdef ~= nil then
       if selected_craftdef.items[1] ~= nil then
-         form = form .. default.ui.fake_itemstack_any(
+         form = form .. rp_formspec.fake_itemstack_any(
             1.25, 0.25, selected_craftdef.items[1], "craftex_in_1")
       end
       if selected_craftdef.items[2] ~= nil then
-         form = form .. default.ui.fake_itemstack_any(
+         form = form .. rp_formspec.fake_itemstack_any(
             1.25, 1.25, selected_craftdef.items[2], "craftex_in_2")
       end
       if selected_craftdef.items[3] ~= nil then
-         form = form .. default.ui.fake_itemstack_any(
+         form = form .. rp_formspec.fake_itemstack_any(
             1.25, 2.25, selected_craftdef.items[3], "craftex_in_3")
       end
       if selected_craftdef.items[4] ~= nil then
-         form = form .. default.ui.fake_itemstack_any(
+         form = form .. rp_formspec.fake_itemstack_any(
             1.25, 3.25, selected_craftdef.items[4], "craftex_in_4")
       end
       if selected_craftdef.output ~= nil then
-         form = form .. default.ui.fake_itemstack_any(
+         form = form .. rp_formspec.fake_itemstack_any(
             7.25, 0.25, selected_craftdef.output, "craftex_out")
       end
    end
@@ -407,7 +407,7 @@ function crafting.get_formspec(name, select_item)
       guide_icon = "ui_icon_craftingguide.png"
       guide_tip = S("Show all recipes")
    end
-   form = form .. default.ui.tab(8.37, 0.5, "toggle_filter", guide_icon, guide_tip, "right")
+   form = form .. rp_formspec.tab(8.37, 0.5, "toggle_filter", guide_icon, guide_tip, "right")
 
    return form
 end

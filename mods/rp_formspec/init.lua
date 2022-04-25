@@ -1,18 +1,22 @@
 
-default.ui = {}
+rp_formspec = {}
 
-local S = minetest.get_translator("rp_default")
+local S = minetest.get_translator("rp_formspec")
+
+function minetest.nodedef_default.on_receive_fields(pos, form_name, fields, player)
+   rp_formspec.receive_fields(player, form_name, fields)
+end
 
 -- Registered UI pages
 
-default.ui.registered_pages = {
+rp_formspec.registered_pages = {
 }
 
 -- UI defaults
 
-default.ui.default = {}
+rp_formspec.default = {}
 
-default.ui.current_page = {}
+rp_formspec.current_page = {}
 
 -- Colors
 
@@ -20,14 +24,14 @@ local prepend = "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]" ..
     "tableoptions[background=#DDDDDD30;highlight=#539646]" ..
     "style_type[button,image_button,item_image_button,checkbox,tabheader;sound=default_gui_button]" ..
     "style_type[button:pressed,image_button:pressed,item_image_button:pressed;content_offset=0]"
-default.ui.default.bg = "bgcolor[#00000000]"
+rp_formspec.default.bg = "bgcolor[#00000000]"
 
 -- bgcolor intentionally not included because it would make pause menu transparent, too :(
 local formspec_prepend = prepend
 
 -- Group default items
 
-default.ui.group_defaults = {
+rp_formspec.group_defaults = {
    fuzzy = "mobs:wool",
    planks = "rp_default:planks",
    soil = "rp_default:dirt",
@@ -35,7 +39,7 @@ default.ui.group_defaults = {
    tree = "rp_default:tree",
    green_grass = "rp_default:grass",
 }
-default.ui.group_names = {
+rp_formspec.group_names = {
    fuzzy = { S("Fuzzy"), S("Any fuzzy block") },
    planks = { S("Planks"), S("Any planks") },
    soil = { S("Soil"), S("Any soil") },
@@ -45,7 +49,7 @@ default.ui.group_names = {
 
 -- Itemslot backgrounds
 
-function default.ui.get_itemslot_bg(x, y, w, h)
+function rp_formspec.get_itemslot_bg(x, y, w, h)
    local out = ""
    for i = 0, w - 1, 1 do
       for j = 0, h - 1, 1 do
@@ -55,7 +59,7 @@ function default.ui.get_itemslot_bg(x, y, w, h)
    return out
 end
 
-function default.ui.get_hotbar_itemslot_bg(x, y, w, h)
+function rp_formspec.get_hotbar_itemslot_bg(x, y, w, h)
    local out = ""
    for i = 0, w - 1, 1 do
       for j = 0, h - 1, 1 do
@@ -66,11 +70,11 @@ function default.ui.get_hotbar_itemslot_bg(x, y, w, h)
    return out
 end
 
-default.ui.get_output_itemslot_bg = default.ui.get_hotbar_itemslot_bg
+rp_formspec.get_output_itemslot_bg = rp_formspec.get_hotbar_itemslot_bg
 
 -- Buttons
 
-function default.ui.image_button(x, y, w, h, name, image, tooltip)
+function rp_formspec.image_button(x, y, w, h, name, image, tooltip)
    local ww
    if w == 1 then
       ww = "1w"
@@ -95,7 +99,7 @@ function default.ui.image_button(x, y, w, h, name, image, tooltip)
    return form
 end
 
-function default.ui.button(x, y, w, h, name, label, noclip, tooltip)
+function rp_formspec.button(x, y, w, h, name, label, noclip, tooltip)
    local nc = "false"
 
    if noclip then
@@ -125,7 +129,7 @@ function default.ui.button(x, y, w, h, name, label, noclip, tooltip)
    end
 end
 
-function default.ui.button_exit(x, y, w, h, name, label, noclip, tooltip)
+function rp_formspec.button_exit(x, y, w, h, name, label, noclip, tooltip)
    local nc = "false"
 
    if noclip then
@@ -152,7 +156,7 @@ end
 
 -- Tabs
 
-function default.ui.tab(x, y, name, icon, tooltip, side)
+function rp_formspec.tab(x, y, name, icon, tooltip, side)
    local tooltip = tooltip or ""
    local img_active
    if side == "right" then
@@ -188,7 +192,7 @@ local function get_itemdef_field(itemname, fieldname)
    return minetest.registered_items[itemname][fieldname]
 end
 
-function default.ui.fake_itemstack(x, y, itemstack)
+function rp_formspec.fake_itemstack(x, y, itemstack)
    local itemname = itemstack:get_name()
    local itemamt = itemstack:get_count()
 
@@ -211,7 +215,7 @@ function default.ui.fake_itemstack(x, y, itemstack)
    return result
 end
 
-function default.ui.fake_simple_itemstack(x, y, itemname, name)
+function rp_formspec.fake_simple_itemstack(x, y, itemname, name)
    local name = name or "fake_simple_itemstack"
 
    local itemdesc = ""
@@ -233,12 +237,12 @@ function default.ui.fake_simple_itemstack(x, y, itemname, name)
    return result
 end
 
-function default.ui.item_group(x, y, group, count, name)
+function rp_formspec.item_group(x, y, group, count, name)
    local name = name or "fake_itemgroup"
 
    local itemname = ""
 
-   local group_default = default.ui.group_defaults[group]
+   local group_default = rp_formspec.group_defaults[group]
 
    if group_default ~= nil and minetest.registered_items[group_default] then
       itemname = group_default
@@ -259,8 +263,8 @@ function default.ui.item_group(x, y, group, count, name)
          ..minetest.formspec_escape(itemname .. " " .. count).."]"
 
       local group_prettyprint
-      if default.ui.group_names[group] then
-          group_prettyprint = minetest.colorize("#ffecb6", default.ui.group_names[group][2])
+      if rp_formspec.group_names[group] then
+          group_prettyprint = minetest.colorize("#ffecb6", rp_formspec.group_names[group][2])
       else
           group_prettyprint = S("Group: @1", minetest.colorize("#ffecb6", group))
       end
@@ -271,20 +275,20 @@ function default.ui.item_group(x, y, group, count, name)
    return result
 end
 
-function default.ui.fake_itemstack_any(x, y, itemstack, name)
+function rp_formspec.fake_itemstack_any(x, y, itemstack, name)
    local group = string.match(itemstack:get_name(), "group:(.*)")
 
    if group == nil then
-      return default.ui.fake_itemstack(x, y, itemstack)
+      return rp_formspec.fake_itemstack(x, y, itemstack)
    else
-      return default.ui.item_group(x, y, group, itemstack:get_count(), name)
+      return rp_formspec.item_group(x, y, group, itemstack:get_count(), name)
    end
 end
 
 -- Pages
 
-function default.ui.get_page(name)
-   local page= default.ui.registered_pages[name]
+function rp_formspec.get_page(name)
+   local page= rp_formspec.registered_pages[name]
 
    if page == nil then
       default.log("UI page '" .. name .. "' is not yet registered", "dev")
@@ -294,48 +298,48 @@ function default.ui.get_page(name)
    return page
 end
 
-function default.ui.register_page(name, form)
-   default.ui.registered_pages[name] = form
+function rp_formspec.register_page(name, form)
+   rp_formspec.registered_pages[name] = form
 end
 
 -- Default formspec boilerplates
 
 local form_default_default = ""
 form_default_default = form_default_default .. "size[8.5,9]"
-form_default_default = form_default_default .. default.ui.default.bg
-form_default_default = form_default_default .. default.ui.tab(-0.9, 0.5, "tab_crafting", "ui_icon_crafting.png", S("Crafting"))
+form_default_default = form_default_default .. rp_formspec.default.bg
+form_default_default = form_default_default .. rp_formspec.tab(-0.9, 0.5, "tab_crafting", "ui_icon_crafting.png", S("Crafting"))
 if minetest.get_modpath("rp_armor") ~= nil then
-   form_default_default = form_default_default .. default.ui.tab(-0.9, 1.28, "tab_armor", "ui_icon_armor.png", S("Armor"))
+   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 1.28, "tab_armor", "ui_icon_armor.png", S("Armor"))
 end
 if minetest.get_modpath("rp_achievements") ~= nil then
-   form_default_default = form_default_default .. default.ui.tab(-0.9, 2.06, "tab_achievements", "ui_icon_achievements.png", S("Achievements"))
+   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 2.06, "tab_achievements", "ui_icon_achievements.png", S("Achievements"))
 end
 if minetest.get_modpath("rp_player_skins") ~= nil then
-   form_default_default = form_default_default .. default.ui.tab(-0.9, 2.84, "tab_player_skins", "ui_icon_player_skins.png", S("Player Skins"))
+   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 2.84, "tab_player_skins", "ui_icon_player_skins.png", S("Player Skins"))
 end
 if minetest.get_modpath("rp_creative") ~= nil and minetest.settings:get_bool("creative_mode") then
-   form_default_default = form_default_default .. default.ui.tab(-0.9, 3.64, "tab_creative", "ui_icon_creative.png", S("Creative Inventory"))
+   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 3.64, "tab_creative", "ui_icon_creative.png", S("Creative Inventory"))
 end
 form_default_default = form_default_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
-default.ui.register_page("rp_default:default", form_default_default)
-default.ui.register_page("rp_default:2part", form_default_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
+rp_formspec.register_page("rp_default:default", form_default_default)
+rp_formspec.register_page("rp_default:2part", form_default_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
 
 local form_default_notabs = ""
 form_default_notabs = form_default_notabs .. "size[8.5,9]"
-form_default_notabs = form_default_notabs .. default.ui.default.bg
+form_default_notabs = form_default_notabs .. rp_formspec.default.bg
 form_default_notabs = form_default_notabs .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
-default.ui.register_page("rp_default:notabs", form_default_notabs)
-default.ui.register_page("rp_default:notabs_2part", form_default_notabs .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
+rp_formspec.register_page("rp_default:notabs", form_default_notabs)
+rp_formspec.register_page("rp_default:notabs_2part", form_default_notabs .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
 
 local form_default_field = ""
 form_default_field = form_default_field .. "size[8.5,5]"
-form_default_field = form_default_field .. default.ui.default.bg
+form_default_field = form_default_field .. rp_formspec.default.bg
 form_default_field = form_default_field .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
-form_default_field = form_default_field .. default.ui.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
+form_default_field = form_default_field .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 form_default_field = form_default_field .. "field[1,1.75;7,0;text;;${text}]"
-default.ui.register_page("rp_default:field", form_default_field)
+rp_formspec.register_page("rp_default:field", form_default_field)
 
-function default.ui.receive_fields(player, form_name, fields)
+function rp_formspec.receive_fields(player, form_name, fields)
    local name = player:get_player_name()
 
    local formname, form
@@ -358,13 +362,13 @@ function default.ui.receive_fields(player, form_name, fields)
    if formname and form then
       player:set_inventory_formspec(form)
       minetest.show_formspec(name, formname, form)
-      default.ui.current_page[name] = formname
+      rp_formspec.current_page[name] = formname
    end
 end
 
 minetest.register_on_player_receive_fields(
    function(player, form_name, fields)
-      default.ui.receive_fields(player, form_name, fields)
+      rp_formspec.receive_fields(player, form_name, fields)
 end)
 
 minetest.register_on_joinplayer(
@@ -373,14 +377,14 @@ minetest.register_on_joinplayer(
       local name = player:get_player_name()
       if minetest.settings:get_bool("creative_mode") then
           player:set_inventory_formspec(creative.get_formspec(name))
-          default.ui.current_page[name] = "rp_creative:creative"
+          rp_formspec.current_page[name] = "rp_creative:creative"
       else
           player:set_inventory_formspec(crafting.get_formspec(name))
-          default.ui.current_page[name] = "rp_crafting:crafting"
+          rp_formspec.current_page[name] = "rp_crafting:crafting"
       end
 end)
 
 minetest.register_on_leaveplayer(
    function(player)
-      default.ui.current_page[player:get_player_name()] = nil
+      rp_formspec.current_page[player:get_player_name()] = nil
 end)

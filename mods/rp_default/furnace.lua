@@ -6,19 +6,19 @@ local S = minetest.get_translator("rp_default")
 local F = minetest.formspec_escape
 
 function default.furnace_active_formspec(percent, item_percent)
-   local form = default.ui.get_page("rp_default:2part")
+   local form = rp_formspec.get_page("rp_default:2part")
    form = form .. "list[current_player;main;0.25,4.75;8,4;]"
-   form = form .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-   form = form .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
+   form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
+   form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
    form = form .. "list[current_name;src;2.25,0.75;1,1;]"
-   form = form .. default.ui.get_itemslot_bg(2.25, 0.75, 1, 1)
+   form = form .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 1)
 
    form = form .. "list[current_name;fuel;2.25,2.75;1,1;]"
-   form = form .. default.ui.get_itemslot_bg(2.25, 2.75, 1, 1)
+   form = form .. rp_formspec.get_itemslot_bg(2.25, 2.75, 1, 1)
 
    form = form .. "list[current_name;dst;4.25,1.25;2,2;]"
-   form = form .. default.ui.get_output_itemslot_bg(4.25, 1.25, 2, 2)
+   form = form .. rp_formspec.get_output_itemslot_bg(4.25, 1.25, 2, 2)
 
    form = form .. "listring[current_player;main]"
    form = form .. "listring[current_name;src]"
@@ -35,19 +35,19 @@ function default.furnace_active_formspec(percent, item_percent)
    return form
 end
 
-local form_furnace = default.ui.get_page("rp_default:2part")
+local form_furnace = rp_formspec.get_page("rp_default:2part")
 form_furnace = form_furnace .. "list[current_player;main;0.25,4.75;8,4;]"
-form_furnace = form_furnace .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_furnace = form_furnace .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_furnace = form_furnace .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
+form_furnace = form_furnace .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
 form_furnace = form_furnace .. "list[current_name;src;2.25,0.75;1,1;]"
-form_furnace = form_furnace .. default.ui.get_itemslot_bg(2.25, 0.75, 1, 1)
+form_furnace = form_furnace .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 1)
 
 form_furnace = form_furnace .. "list[current_name;fuel;2.25,2.75;1,1;]"
-form_furnace = form_furnace .. default.ui.get_itemslot_bg(2.25, 2.75, 1, 1)
+form_furnace = form_furnace .. rp_formspec.get_itemslot_bg(2.25, 2.75, 1, 1)
 
 form_furnace = form_furnace .. "list[current_name;dst;4.25,1.25;2,2;]"
-form_furnace = form_furnace .. default.ui.get_hotbar_itemslot_bg(4.25, 1.25, 2, 2)
+form_furnace = form_furnace .. rp_formspec.get_hotbar_itemslot_bg(4.25, 1.25, 2, 2)
 
 form_furnace = form_furnace .. "listring[current_player;main]"
 form_furnace = form_furnace .. "listring[current_name;src]"
@@ -59,7 +59,7 @@ form_furnace = form_furnace .. "listring[current_name;fuel]"
 form_furnace = form_furnace .. "image[2.25,1.75;1,1;ui_fire_bg.png]"
 form_furnace = form_furnace .. "image[3.25,1.75;1,1;ui_arrow_bg.png^[transformR270]"
 
-default.ui.register_page("default_furnace_inactive", form_furnace)
+rp_formspec.register_page("default_furnace_inactive", form_furnace)
 
 local check_put = function(pos, listname, index, stack, player)
     if minetest.is_protected(pos, player:get_player_name()) and
@@ -112,7 +112,7 @@ minetest.register_node(
       sounds = default.node_sound_stone_defaults(),
       on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("formspec", default.ui.get_page("default_furnace_inactive"))
+			meta:set_string("formspec", rp_formspec.get_page("default_furnace_inactive"))
 			meta:set_string("infotext", S("Furnace"))
 
 			local inv = meta:get_inventory()
@@ -152,7 +152,7 @@ minetest.register_node(
       sounds = default.node_sound_stone_defaults(),
       on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("formspec", default.ui.get_page("default_furnace_inactive"))
+			meta:set_string("formspec", rp_formspec.get_page("default_furnace_inactive"))
 			meta:set_string("infotext", S("Furnace"));
 
 			local inv = meta:get_inventory()
@@ -278,7 +278,7 @@ minetest.register_abm(
 		  --
 		  -- Update formspec, infotext and node
 		  --
-		  local formspec = default.ui.get_page("default_furnace_inactive")
+		  local formspec = rp_formspec.get_page("default_furnace_inactive")
 		  local item_state = ""
 		  local item_percent = 0
 		  if cookable then

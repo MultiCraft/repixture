@@ -27,11 +27,6 @@ end
 minetest.nodedef_default.stack_max = 60
 minetest.craftitemdef_default.stack_max = 60
 
-function minetest.nodedef_default.on_receive_fields(pos, form_name, fields, player)
-   default.ui.receive_fields(player, form_name, fields)
-end
-
-dofile(minetest.get_modpath("rp_default").."/formspec.lua")
 dofile(minetest.get_modpath("rp_default").."/functions.lua")
 dofile(minetest.get_modpath("rp_default").."/sounds.lua")
 

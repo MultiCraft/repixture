@@ -18,21 +18,21 @@ jewels.registered_jewel_parents = {}
 
 -- Formspec
 
-local form_bench = default.ui.get_page("rp_default:2part")
+local form_bench = rp_formspec.get_page("rp_default:2part")
 
 form_bench = form_bench .. "list[current_name;main;2.25,1.75;1,1;]"
 form_bench = form_bench .. "listring[current_name;main]"
-form_bench = form_bench .. default.ui.get_itemslot_bg(2.25, 1.75, 1, 1)
+form_bench = form_bench .. rp_formspec.get_itemslot_bg(2.25, 1.75, 1, 1)
 
 form_bench = form_bench .. "label[3.25,1.75;"..F(S("1. Place tool here")).."]"
 form_bench = form_bench .. "label[3.25,2.25;"..F(S("2. Hold a jewel and punch the bench")).."]"
 
 form_bench = form_bench .. "list[current_player;main;0.25,4.75;8,4;]"
 form_bench = form_bench .. "listring[current_player;main]"
-form_bench = form_bench .. default.ui.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_bench = form_bench .. default.ui.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_bench = form_bench .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
+form_bench = form_bench .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
-default.ui.register_page("rp_jewels_bench", form_bench)
+rp_formspec.register_page("rp_jewels_bench", form_bench)
 
 local function plus_power(i)
    if i >= 0 then
@@ -298,7 +298,7 @@ minetest.register_node(
 
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
-         meta:set_string("formspec", default.ui.get_page("rp_jewels_bench"))
+         meta:set_string("formspec", rp_formspec.get_page("rp_jewels_bench"))
          meta:set_string("infotext", S("Jeweler's Workbench"))
 
          local inv = meta:get_inventory()

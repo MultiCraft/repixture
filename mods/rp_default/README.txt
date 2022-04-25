@@ -15,10 +15,6 @@ Sound licenses:
   * default_tool_breaks.ogg:
     * Source: https://freesound.org/people/JustInvoke/sounds/446118/
     * Author: JustInvoke (CC BY 3.0)
-  * default_gui_button.ogg:
-    * Source: https://freesound.org/people/joedeshon/sounds/117413/
-    * Sound was changed!
-    * Author: joedeshon (CC BY 3.0)
   * All other sounds: CC0
 Texture license: CC BY-SA 4.0
 Source license: LGPLv2.1

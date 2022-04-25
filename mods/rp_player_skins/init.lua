@@ -188,14 +188,14 @@ minetest.register_on_joinplayer(on_joinplayer)
 minetest.register_on_leaveplayer(on_leaveplayer)
 
 function player_skins.get_formspec(playername)
-	local form = default.ui.get_page("rp_default:default")
+	local form = rp_formspec.get_page("rp_default:default")
 	form = form .. "model[0.2,0.5;4,8;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0]"
-	form = form .. default.ui.button(3.5, 0.3, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
-	form = form .. default.ui.button(3.5, 1.3, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
-	form = form .. default.ui.button(3.5, 3, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
-	form = form .. default.ui.button(3.5, 5, 3, 1, "player_skins_skin_select_band_colors", S("Trousers"))
-	form = form .. default.ui.button(3.5, 6, 3, 1, "player_skins_skin_select_skin_colors", S("Skin"))
-	form = form .. default.ui.button(3.5, 7.75, 3, 1, "player_skins_skin_select_random", S("Random"))
+	form = form .. rp_formspec.button(3.5, 0.3, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
+	form = form .. rp_formspec.button(3.5, 1.3, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
+	form = form .. rp_formspec.button(3.5, 3, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
+	form = form .. rp_formspec.button(3.5, 5, 3, 1, "player_skins_skin_select_band_colors", S("Trousers"))
+	form = form .. rp_formspec.button(3.5, 6, 3, 1, "player_skins_skin_select_skin_colors", S("Skin"))
+	form = form .. rp_formspec.button(3.5, 7.75, 3, 1, "player_skins_skin_select_random", S("Random"))
 	return form
 end
 

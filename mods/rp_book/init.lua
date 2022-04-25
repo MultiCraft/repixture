@@ -41,10 +41,10 @@ minetest.register_craftitem(
             title = data:get_string("book:title")
          end
 
-         local form = default.ui.get_page("rp_default:notabs")
+         local form = rp_formspec.get_page("rp_default:notabs")
          form = form .. "field[0.5,1.25;8,0;title;"..F(S("Title:"))..";"..F(title).."]"
          form = form .. "textarea[0.5,1.75;8,6.75;text;"..F(S("Contents:"))..";"..F(text).."]"
-         form = form .. default.ui.button_exit(2.75, 7.75, 3, 1, "write", S("Write"))
+         form = form .. rp_formspec.button_exit(2.75, 7.75, 3, 1, "write", S("Write"))
 
          minetest.show_formspec(name, "rp_book:book", form)
       end,
