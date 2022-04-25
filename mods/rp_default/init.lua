@@ -44,8 +44,6 @@ dofile(minetest.get_modpath("rp_default").."/crafting.lua")
 
 dofile(minetest.get_modpath("rp_default").."/mapgen.lua")
 
-dofile(minetest.get_modpath("rp_default").."/hud.lua")
-
 dofile(minetest.get_modpath("rp_default").."/aliases.lua")
 
 default.log("mod:rp_default", "loaded")
