@@ -28,7 +28,6 @@ minetest.nodedef_default.stack_max = 60
 minetest.craftitemdef_default.stack_max = 60
 
 dofile(minetest.get_modpath("rp_default").."/functions.lua")
-dofile(minetest.get_modpath("rp_default").."/sounds.lua")
 
 dofile(minetest.get_modpath("rp_default").."/nodes.lua") -- simple nodes
 dofile(minetest.get_modpath("rp_default").."/torch.lua")

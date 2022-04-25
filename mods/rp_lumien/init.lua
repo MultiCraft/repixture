@@ -78,7 +78,7 @@ minetest.register_node(
       groups = {crumbly = 3, not_in_creative_inventory = 1},
       light_source = 12,
       drop = "rp_lumien:crystal_off",
-      sounds = default.node_sound_glass_defaults(),
+      sounds = rp_sounds.node_sound_glass_defaults(),
 })
 
 minetest.register_node(
@@ -101,7 +101,7 @@ minetest.register_node(
 
       groups = {crumbly = 3},
       light_source = 2,
-      sounds = default.node_sound_glass_defaults(),
+      sounds = rp_sounds.node_sound_glass_defaults(),
 })
 
 minetest.register_node(
@@ -112,7 +112,7 @@ minetest.register_node(
       tiles = {"lumien_block.png"},
       groups = {cracky = 1},
       light_source = 14,
-      sounds = default.node_sound_stone_defaults(),
+      sounds = rp_sounds.node_sound_stone_defaults(),
 })
 
 -- Ores
@@ -124,7 +124,7 @@ minetest.register_node(
       tiles = {"default_stone.png^lumien_mineral_lumien.png"},
       groups = {cracky = 1, stone = 1},
       drop = "rp_lumien:block",
-      sounds = default.node_sound_stone_defaults(),
+      sounds = rp_sounds.node_sound_stone_defaults(),
 })
 
 minetest.register_ore(

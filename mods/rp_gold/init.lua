@@ -308,7 +308,7 @@ minetest.register_node(
       groups = {cracky=1, stone=1},
       drop = "rp_gold:lump_gold",
       is_ground_content = true,
-      sounds = default.node_sound_stone_defaults(),
+      sounds = rp_sounds.node_sound_stone_defaults(),
 })
 
 -- Ores

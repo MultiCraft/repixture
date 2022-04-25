@@ -31,7 +31,7 @@ minetest.register_node(
       paramtype2 = "facedir",
       groups = {snappy = 2,choppy = 2,oddly_breakable_by_hand = 2},
       is_ground_content = false,
-      sounds = default.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_wood_defaults(),
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
 
@@ -82,7 +82,7 @@ minetest.register_node(
       paramtype2 = "facedir",
       groups = {snappy = 2,choppy = 3,oddly_breakable_by_hand = 2},
       is_ground_content = false,
-      sounds = default.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_wood_defaults(),
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
          meta:set_string("formspec", rp_formspec.get_page("rp_default:bookshelf"))

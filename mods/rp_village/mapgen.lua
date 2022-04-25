@@ -46,7 +46,7 @@ minetest.register_node(
       buildable_to = true,
       drop = "",
       groups = {dig_immediate = 3, not_in_creative_inventory = 1},
-      sounds = default.node_sound_defaults(),
+      sounds = rp_sounds.node_sound_defaults(),
       on_place = place_priv,
       on_timer = function(pos, elapsed)
           -- Wait until some objects are nearby ...
@@ -86,7 +86,7 @@ minetest.register_node(
       },
       is_ground_content = false,
       groups = {dig_immediate = 2},
-      sounds = default.node_sound_dirt_defaults(),
+      sounds = rp_sounds.node_sound_dirt_defaults(),
       drop = "",
 
       on_place = place_priv,

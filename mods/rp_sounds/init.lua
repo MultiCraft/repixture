@@ -2,7 +2,9 @@
 -- Sounds
 --
 
-function default.node_sound_defaults(table)
+rp_sounds = {}
+
+function rp_sounds.node_sound_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
       {name="", gain=1.0}
@@ -15,7 +17,7 @@ function default.node_sound_defaults(table)
    return table
 end
 
-function default.node_sound_stone_defaults(table)
+function rp_sounds.node_sound_stone_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
       {name="default_hard_footstep", gain=0.6}
@@ -23,11 +25,11 @@ function default.node_sound_stone_defaults(table)
       {name="default_dig_hard", gain=0.3}
    table.dug = table.dug or
       {name="default_hard_footstep", gain=1.0}
-   default.node_sound_defaults(table)
+   rp_sounds.node_sound_defaults(table)
    return table
 end
 
-function default.node_sound_dirt_defaults(table)
+function rp_sounds.node_sound_dirt_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
       {name="default_crunch_footstep", gain=1.0}
@@ -37,11 +39,11 @@ function default.node_sound_dirt_defaults(table)
       {name="default_dig_soft", gain=0.3}
    table.place = table.place or
       {name="default_place_node_hard", gain=1.0}
-   default.node_sound_defaults(table)
+   rp_sounds.node_sound_defaults(table)
    return table
 end
 
-function default.node_sound_sand_defaults(table)
+function rp_sounds.node_sound_sand_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
       {name="default_soft_footstep", gain=0.2}
@@ -51,11 +53,11 @@ function default.node_sound_sand_defaults(table)
       {name="default_dig_soft", gain=0.2}
    table.place = table.place or
       {name="default_place_node_hard", gain=1.0}
-   default.node_sound_defaults(table)
+   rp_sounds.node_sound_defaults(table)
    return table
 end
 
-function default.node_sound_wood_defaults(table)
+function rp_sounds.node_sound_wood_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
       {name="default_hard_footstep", gain=0.5}
@@ -63,11 +65,11 @@ function default.node_sound_wood_defaults(table)
       {name="default_dig_hard", gain=0.2}
    table.dug = table.dug or
       {name="default_hard_footstep", gain=1.0}
-   default.node_sound_defaults(table)
+   rp_sounds.node_sound_defaults(table)
    return table
 end
 
-function default.node_sound_leaves_defaults(table)
+function rp_sounds.node_sound_leaves_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
       {name="default_soft_footstep", gain=0.35}
@@ -77,11 +79,11 @@ function default.node_sound_leaves_defaults(table)
       {name="default_dig_soft", gain=0.3}
    table.place = table.place or
       {name="default_place_node_hard", gain=1.0}
-   default.node_sound_defaults(table)
+   rp_sounds.node_sound_defaults(table)
    return table
 end
 
-function default.node_sound_glass_defaults(table)
+function rp_sounds.node_sound_glass_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
       {name="default_hard_footstep", gain=0.5}
@@ -89,11 +91,11 @@ function default.node_sound_glass_defaults(table)
       {name="default_dig_hard", gain=0.5}
    table.dug = table.dug or
       {name="default_dug_node", gain=1.0}
-   default.node_sound_defaults(table)
+   rp_sounds.node_sound_defaults(table)
    return table
 end
 
-function default.node_sound_snow_defaults(table)
+function rp_sounds.node_sound_snow_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
       {name="default_crunch_footstep", gain=0.3}
@@ -101,11 +103,11 @@ function default.node_sound_snow_defaults(table)
       {name="default_dig_soft", gain=0.2}
    table.dug = table.dug or
       {name="default_dig_soft", gain=0.8}
-   default.node_sound_defaults(table)
+   rp_sounds.node_sound_defaults(table)
    return table
 end
 
-function default.node_sound_water_defaults(table)
+function rp_sounds.node_sound_water_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
       {name="default_water_footstep", gain=1.0}
@@ -113,7 +115,7 @@ function default.node_sound_water_defaults(table)
       {name="default_dug_water", gain=1.0}
    table.place = table.place or
       {name="default_place_node_water", gain=1.0}
-   default.node_sound_defaults(table)
+   rp_sounds.node_sound_defaults(table)
    return table
 end
 

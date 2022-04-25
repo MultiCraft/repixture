@@ -5,10 +5,6 @@ By Kaadmy and Wuzzy, for Repixture
 The core mod of Repixture.
 
 Sound licenses:
-  * Water sounds:
-    * Voxelands project <http://www.voxelands.com/> (CC BY-SA 3.0)
-      * default_place_node_water.ogg
-      * default_dug_water.ogg
   * default_shears_cut.ogg:
     * Source: https://freesound.org/people/SmartWentCody/sounds/179015/
     * Author: SmartWentCody (CC BY 3.0)

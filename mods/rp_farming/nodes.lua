@@ -28,7 +28,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
       groups = {snappy=3, handy=2, attached_node=1, seed=1},
-      sounds=default.node_sound_leaves_defaults()
+      sounds=rp_sounds.node_sound_leaves_defaults()
    }
 )
 
@@ -55,7 +55,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
       groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=default.node_sound_leaves_defaults()
+      sounds=rp_sounds.node_sound_leaves_defaults()
    }
 )
 
@@ -82,7 +82,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
       groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=default.node_sound_leaves_defaults()
+      sounds=rp_sounds.node_sound_leaves_defaults()
    }
 )
 
@@ -112,7 +112,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
       groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=default.node_sound_leaves_defaults()
+      sounds=rp_sounds.node_sound_leaves_defaults()
    }
 )
 
@@ -141,7 +141,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
       groups = {snappy=3, handy=2, attached_node=1, seed=1},
-      sounds=default.node_sound_leaves_defaults()
+      sounds=rp_sounds.node_sound_leaves_defaults()
    }
 )
 
@@ -168,7 +168,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
       groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=default.node_sound_leaves_defaults()
+      sounds=rp_sounds.node_sound_leaves_defaults()
    }
 )
 
@@ -195,7 +195,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
       groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=default.node_sound_leaves_defaults()
+      sounds=rp_sounds.node_sound_leaves_defaults()
    }
 )
 
@@ -261,7 +261,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
       groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds = default.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_leaves_defaults(),
 
       -- Trim cotton with shears
       _on_trim = trim_cotton,
@@ -276,7 +276,7 @@ minetest.register_node(
       is_ground_content = false,
       groups = {snappy = 2, oddly_breakable_by_hand = 3,
                 fall_damage_add_percent = -15, fuzzy = 1},
-      sounds = default.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_leaves_defaults(),
    }
 )
 

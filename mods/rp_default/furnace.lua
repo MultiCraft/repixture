@@ -109,7 +109,7 @@ minetest.register_node(
       paramtype2 = "facedir",
       groups = {cracky = 2},
       is_ground_content = false,
-      sounds = default.node_sound_stone_defaults(),
+      sounds = rp_sounds.node_sound_stone_defaults(),
       on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("formspec", rp_formspec.get_page("default_furnace_inactive"))
@@ -149,7 +149,7 @@ minetest.register_node(
       drop = "rp_default:furnace",
       groups = {cracky = 2, not_in_creative_inventory=1},
       is_ground_content = false,
-      sounds = default.node_sound_stone_defaults(),
+      sounds = rp_sounds.node_sound_stone_defaults(),
       on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("formspec", rp_formspec.get_page("default_furnace_inactive"))

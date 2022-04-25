@@ -294,7 +294,7 @@ minetest.register_node(
       groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
       legacy_facedir_simple = true,
       is_ground_content = false,
-      sounds = default.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_wood_defaults(),
 
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
@@ -368,7 +368,7 @@ minetest.register_node(
       },
       drop = "rp_jewels:jewel",
       groups = {snappy=1, choppy=1, tree=1},
-      sounds = default.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_wood_defaults(),
 })
 
 crafting.register_craft(

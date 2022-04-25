@@ -261,7 +261,7 @@ minetest.register_node(
       tiles = {top_tex, "tnt_bottom.png", "tnt_sides.png"},
       is_ground_content = false,
       groups = {handy = 2},
-      sounds = default.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_wood_defaults(),
 
       on_punch = function(pos, node, puncher)
          if not tnt_enable then
@@ -311,7 +311,7 @@ minetest.register_node(
       drop = "rp_tnt:tnt",
       is_ground_content = false,
       groups = {handy = 2},
-      sounds = default.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_wood_defaults(),
       on_timer = tnt.boom,
       -- unaffected by explosions
       on_blast = function() end,

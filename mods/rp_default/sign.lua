@@ -23,7 +23,7 @@ minetest.register_node(
       },
       groups = {choppy = 2,handy = 2,attached_node = 1},
       is_ground_content = false,
-      sounds = default.node_sound_defaults(),
+      sounds = rp_sounds.node_sound_defaults(),
       on_construct = function(pos)
          --local n = minetest.get_node(pos)
          local meta = minetest.get_meta(pos)

@@ -22,7 +22,7 @@ minetest.register_node(
 	 not_in_craft_guide = 1,
       },
       drop = "rp_default:dirt",
-      sounds = default.node_sound_dirt_defaults(),
+      sounds = rp_sounds.node_sound_dirt_defaults(),
 })
 
 minetest.register_node(
@@ -45,7 +45,7 @@ minetest.register_node(
 	 not_in_craft_guide = 1,
       },
       drop = "rp_default:dry_dirt",
-      sounds = default.node_sound_dirt_defaults(),
+      sounds = rp_sounds.node_sound_dirt_defaults(),
 })
 
 minetest.register_node(
@@ -68,7 +68,7 @@ minetest.register_node(
 	 not_in_craft_guide = 1,
       },
       drop = "rp_default:swamp_dirt",
-      sounds = default.node_sound_dirt_defaults(),
+      sounds = rp_sounds.node_sound_dirt_defaults(),
 })
 
 minetest.register_node(
@@ -88,7 +88,7 @@ minetest.register_node(
       },
       drop = "rp_default:sand",
       is_ground_content = false,
-      sounds = default.node_sound_sand_defaults(),
+      sounds = rp_sounds.node_sound_sand_defaults(),
 })
 
 minetest.register_craftitem(

@@ -273,7 +273,7 @@ minetest.register_node(
       use_texture_alpha = "clip",
       groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1},
       is_ground_content = false,
-      sounds = default.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_wood_defaults(),
       node_box = {
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 2/16, 0.5}
@@ -446,7 +446,7 @@ minetest.register_node(
       tiles = {"bed_head.png", "default_wood.png", "bed_side.png"},
       use_texture_alpha = "clip",
       groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
-      sounds = default.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_wood_defaults(),
       node_box = {
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 2/16, 0.5}
