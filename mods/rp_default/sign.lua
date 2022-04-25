@@ -50,11 +50,6 @@ minetest.register_node(
          meta:set_string("text", text)
          -- Show sign text in quotation marks
          meta:set_string("infotext", S('"@1"', text))
-
-         default.write_name(pos, meta:get_string("text"))
       end,
-      on_destruct = function(pos)
-         default.write_name(pos, "")
-      end
 })
 

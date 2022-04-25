@@ -292,6 +292,7 @@ minetest.register_node(
          return inv:is_empty("main") and (locks.is_owner(meta, player) or (not locks.has_owner(meta)))
       end,
       write_name = function(pos, text)
+--[[ TODO: Bring back locked chest naming
          local meta = minetest.get_meta(pos)
 
          if text == "" then
@@ -301,6 +302,7 @@ minetest.register_node(
             meta:set_string("infotext", S(INFOTEXT_NAMED_OWNED,
                                text, meta:get_string("lock_owner")))
          end
+]]
       end,
       on_blast = function() end,
 })

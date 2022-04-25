@@ -51,6 +51,7 @@ minetest.register_node(
          return inv:is_empty("main")
       end,
       write_name = function(pos, text)
+--[[ TODO: Bring back container naming
          local meta = minetest.get_meta(pos)
          
          if text ~= "" then
@@ -58,6 +59,7 @@ minetest.register_node(
          else
              meta:set_string("infotext", S("Chest"))
          end
+]]
       end,
 })
 
@@ -99,6 +101,7 @@ minetest.register_node(
          return inv:is_empty("main")
       end,
       write_name = function(pos, text)
+--[[ TODO: Bring back container naming
          local meta = minetest.get_meta(pos)
 
          if text ~= "" then
@@ -106,6 +109,7 @@ minetest.register_node(
          else
             meta:set_string("infotext", S("Bookshelf"))
          end
+]]
       end,
 })
 

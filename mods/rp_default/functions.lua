@@ -8,6 +8,8 @@ local S = minetest.get_translator("rp_default")
 -- Chest naming via signs
 
 function default.write_name(pos, text)
+-- TODO: Allow container naming later
+--[[
    -- Check above, if allowed
 
    if minetest.settings:get_bool("signs_allow_name_above") then
@@ -36,6 +38,7 @@ function default.write_name(pos, text)
    if belowdef and belowdef.write_name ~= nil then
       belowdef.write_name(below, text)
    end
+]]
 end
 
 -- Saplings growing and placing
