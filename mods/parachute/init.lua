@@ -34,7 +34,7 @@ minetest.register_craftitem(
 
          local on = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z})
 
-         if default.player_attached[name] then
+         if rp_player.player_attached[name] then
             return
          end
 
@@ -59,7 +59,7 @@ minetest.register_craftitem(
             ent = ent:get_luaentity()
             ent.attached = name
 
-            default.player_attached[player:get_player_name()] = true
+            rp_player.player_attached[player:get_player_name()] = true
 
             if not minetest.settings:get_bool("creative_mode") then
                 itemstack:take_item()
@@ -146,13 +146,13 @@ minetest.register_entity(
             self.object:set_acceleration(accel)
 
             if under.name ~= "air" then
-               default.player_attached[self.attached] = false
+               rp_player.player_attached[self.attached] = false
             end
          end
 
          if under.name ~= "air" then
             if self.attached ~= nil then
-               default.player_attached[self.attached] = false
+               rp_player.player_attached[self.attached] = false
 
                local player = minetest.get_player_by_name(self.attached)
                if player and self.start_y ~= nil then

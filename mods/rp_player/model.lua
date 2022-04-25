@@ -1,7 +1,6 @@
 
--- Copied from minetest_game and changed a bit
+-- Copied from Minetest Game and changed a bit
 
--- Minetest 0.4 mod: player
 -- See README.txt for licensing and other information.
 
 -- Variable for animation speed; 30-35 is good
@@ -13,19 +12,21 @@ local player_animation_speed = 33
 
 local animation_blend = 0
 
-default.registered_player_models = {}
+rp_player = {}
+
+rp_player.registered_player_models = {}
 
 -- Local for speed.
 
-local models = default.registered_player_models
+local models = rp_player.registered_player_models
 
-function default.player_register_model(name, def)
+function rp_player.player_register_model(name, def)
    models[name] = def
 end
 
 -- Default player appearance
 
-default.player_register_model(
+rp_player.player_register_model(
    "character.b3d",
    {
       animation_speed = player_animation_speed,
@@ -49,9 +50,9 @@ local player_textures = {}
 local player_anim = {}
 local player_sneak = {}
 
-default.player_attached = {}
+rp_player.player_attached = {}
 
-function default.player_get_animation(player)
+function rp_player.player_get_animation(player)
    local name = player:get_player_name()
 
    return {
@@ -63,7 +64,7 @@ end
 
 -- Called when a player's appearance needs to be updated
 
-function default.player_set_model(player, model_name)
+function rp_player.player_set_model(player, model_name)
    local name = player:get_player_name()
    local model = models[model_name]
 
@@ -79,12 +80,12 @@ function default.player_set_model(player, model_name)
 	 visual_size = model.visual_size or {x = 1, y = 1},
    })
 
-   default.player_set_animation(player, "stand")
+   rp_player.player_set_animation(player, "stand")
 
    player_model[name] = model_name
 end
 
-function default.player_get_textures(player)
+function rp_player.player_get_textures(player)
    if player.get_properties ~= nil then
       return player:get_properties().textures
    else
@@ -92,7 +93,7 @@ function default.player_get_textures(player)
    end
 end
 
-function default.player_set_textures(player, textures)
+function rp_player.player_set_textures(player, textures)
    local name = player:get_player_name()
 
    player_textures[name] = textures
@@ -100,7 +101,7 @@ function default.player_set_textures(player, textures)
    player:set_properties({textures = textures})
 end
 
-function default.player_set_animation(player, anim_name, speed)
+function rp_player.player_set_animation(player, anim_name, speed)
    local name = player:get_player_name()
 
    if player_anim[name] == anim_name then
@@ -122,21 +123,21 @@ end
 
 -- Localize for better performance.
 
-local player_set_animation = default.player_set_animation
-local player_attached = default.player_attached
+local player_set_animation = rp_player.player_set_animation
+local player_attached = rp_player.player_attached
 
 -- Update appearance when the player joins
 
 local function on_joinplayer(player)
-   default.player_attached[player:get_player_name()] = false
-   default.player_set_model(player, "character.b3d")
+   rp_player.player_attached[player:get_player_name()] = false
+   rp_player.player_set_model(player, "character.b3d")
 
    player:set_local_animation(
       {x = 0, y = 79},
       {x = 168, y = 187},
       {x = 189, y = 198},
       {x = 200, y = 219},
-      default.player_animation_speed)
+      rp_player.player_animation_speed)
 end
 
 local function on_leaveplayer(player)

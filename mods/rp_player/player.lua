@@ -1,5 +1,3 @@
-local S = minetest.get_translator("rp_default")
-
 local player_soundspec = {}
 local player_lastsound = {}
 local player_health = {}

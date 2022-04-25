@@ -21,5 +21,4 @@ Sound licenses:
     * Author: joedeshon (CC BY 3.0)
   * All other sounds: CC0
 Texture license: CC BY-SA 4.0
-Model license: CC BY-SA 4.0
 Source license: LGPLv2.1

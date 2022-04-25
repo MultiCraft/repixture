@@ -162,8 +162,8 @@ function armor.update(player)
    player:set_armor_groups({fleshy = groups.fleshy, immortal = groups.immortal})
 
    local image = armor.get_texture(player, armor.get_base_skin(player))
-   if image ~= default.player_get_textures(player)[1] then
-      default.player_set_textures(player, {image})
+   if image ~= rp_player.player_get_textures(player)[1] then
+      rp_player.player_set_textures(player, {image})
    end
 end
 

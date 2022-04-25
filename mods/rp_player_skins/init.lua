@@ -97,7 +97,7 @@ function player_skins.set_skin(name, skin, cloth, bands, hair, eyes)
 		return false
 	end
 	-- Set player skin and wieldhand
-	default.player_set_textures(player, { newskin })
+	rp_player.player_set_textures(player, { newskin })
 	wieldhand.set_hand(player, skin)
 
 	-- Update internal data

@@ -64,11 +64,11 @@ local function put_player_in_bed(player)
       {x=162, y=166},
       {x=162, y=166},
       {x=162, y=168},
-      default.player_animation_speed)
+      rp_player.player_animation_speed)
 
-   default.player_set_animation(player, "lay", default.player_animation_speed)
+   rp_player.player_set_animation(player, "lay", rp_player.player_animation_speed)
 
-   default.player_attached[name] = true
+   rp_player.player_attached[name] = true
 
 end
 
@@ -91,11 +91,11 @@ local function take_player_from_bed(player)
       {x=168, y=187},
       {x=189, y=198},
       {x=200, y=219},
-      default.player_animation_speed)
+      rp_player.player_animation_speed)
 
-   default.player_set_animation(player, "stand", default.player_animation_speed)
+   rp_player.player_set_animation(player, "stand", rp_player.player_animation_speed)
 
-   default.player_attached[name] = false
+   rp_player.player_attached[name] = false
 end
 
 local function save_bed()
@@ -377,7 +377,7 @@ minetest.register_node(
             take_player_from_bed(clicker)
 
             meta:set_string("player", "")
-         elseif meta:get_string("player") == "" and not default.player_attached[name]
+         elseif meta:get_string("player") == "" and not rp_player.player_attached[name]
          and bed.userdata.temp[name].in_bed == false then
             if not minetest.settings:get_bool("bed_enable", true) then
                minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Sleeping is disabled.")))
