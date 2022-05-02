@@ -109,8 +109,22 @@ local function register_sign(id, def)
 end
 
 register_sign("sign", {
-	description = S("Sign"),
+	description = S("Wooden Sign"),
 	tile = "default_sign.png",
 	inv_image = "default_sign_inventory.png",
+	sounds = rp_sounds.node_sound_defaults(),
+})
+
+register_sign("sign_oak", {
+	description = S("Oak Sign"),
+	tile = "rp_default_sign_oak.png",
+	inv_image = "rp_default_sign_oak_inventory.png",
+	sounds = rp_sounds.node_sound_defaults(),
+})
+
+register_sign("sign_birch", {
+	description = S("Birch Sign"),
+	tile = "rp_default_sign_birch.png",
+	inv_image = "rp_default_sign_birch_inventory.png",
 	sounds = rp_sounds.node_sound_defaults(),
 })
