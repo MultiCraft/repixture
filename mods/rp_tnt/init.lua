@@ -202,7 +202,7 @@ function tnt.explode(pos, radius, sound)
 	       p.z = pos.z + z
 	       if cid ~= c_air then
 		  destroy(drops, p, cid)
-		  minetest.check_single_for_falling({x=p.x, y=p.y+1, z=p.z})
+		  minetest.check_for_falling({x=p.x, y=p.y, z=p.z})
 	       end
 	    end
 	    vi = vi + 1
@@ -229,7 +229,7 @@ function tnt.boom(pos, radius, sound)
       eject_drops(drops, pos, tnt_radius)
       add_effects(pos, tnt_radius)
    else
-      minetest.check_single_for_falling({x=pos.x, y=pos.y+1, z=pos.z})
+      minetest.check_for_falling({x=pos.x, y=pos.y, z=pos.z})
    end
 end
 
