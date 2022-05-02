@@ -214,10 +214,16 @@ end
 
 -- TNT node explosion
 
-function tnt.boom(pos)
+function tnt.boom(pos, radius, sound)
+   if not radius then
+      radius = tnt_radius
+   end
+   if not sound then
+      sound = "tnt_explode"
+   end
    minetest.remove_node(pos)
    if tnt_enable then
-      local drops = tnt.explode(pos, tnt_radius, "tnt_explode")
+      local drops = tnt.explode(pos, tnt_radius, sound)
       entity_physics(pos, tnt_radius)
       eject_drops(drops, pos, tnt_radius)
       add_effects(pos, tnt_radius)
