@@ -34,15 +34,17 @@ local on_destruct = function(pos)
    default.write_name(pos, "")
 end
 
+local function register_sign(id, def)
+
 minetest.register_node(
-   "rp_default:sign",
+   "rp_default:"..id,
    {
-      description = S("Sign"),
+      description = def.description,
       _tt_help = S("Write a short message"),
       drawtype = "nodebox",
-      tiles = {"default_sign.png"},
-      inventory_image = "default_sign_inventory.png",
-      wield_image = "default_sign_inventory.png",
+      tiles = {def.tile},
+      inventory_image = def.inv_image,
+      wield_image = def.inv_image,
       paramtype = "light",
       paramtype2 = "wallmounted",
       sunlight_propagates = true,
@@ -53,9 +55,9 @@ minetest.register_node(
 	 wall_bottom = {-0.5+(1/16), -0.5, -0.5+(4/16), 0.5-(1/16), -0.5+(1/16), 0.5-(4/16)},
 	 wall_side = {-0.5, -0.5+(4/16), -0.5+(1/16), -0.5+(1/16), 0.5-(4/16), 0.5-(1/16)},
       },
-      groups = {choppy = 2,handy = 2,attached_node = 1},
+      groups = {choppy = 2,handy = 2,attached_node = 1, sign=1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = def.sounds,
       on_construct = on_construct,
       on_receive_fields = on_receive_fields,
       on_destruct = on_destruct,
@@ -75,7 +77,7 @@ minetest.register_node(
 	if not ((yaw > (1/4)*math.pi and yaw < (3/4)*math.pi) or (yaw > (5/4)*math.pi and yaw < (7/4)*math.pi)) then
 	  return minetest.item_place_node(itemstack, placer, pointed_thing)
         end
-	local r90sign = ItemStack("rp_default:sign_r90")
+	local r90sign = ItemStack("rp_default:"..id.."_r90")
 	r90sign = minetest.item_place_node(r90sign, placer, pointed_thing)
 	if r90sign:is_empty() then
 	  itemstack:take_item()
@@ -85,12 +87,12 @@ minetest.register_node(
 })
 
 minetest.register_node(
-   "rp_default:sign_r90",
+   "rp_default:"..id.."_r90",
    {
       drawtype = "nodebox",
-      tiles = {"default_sign.png^[transformR90"},
-      inventory_image = "default_sign_inventory.png^[transformR90",
-      wield_image = "default_sign_inventory.png^[transformR90",
+      tiles = {"("..def.tile..")^[transformR90"},
+      inventory_image = "("..def.inv_image..")^[transformR90",
+      wield_image = "("..def.inv_image..")^[transformR90",
       paramtype = "light",
       paramtype2 = "wallmounted",
       sunlight_propagates = true,
@@ -101,12 +103,20 @@ minetest.register_node(
 	 wall_bottom = {-0.5+(4/16), -0.5, -0.5+(1/16), 0.5-(4/16), -0.5+(1/16), 0.5-(1/16)},
 	 wall_side = {-0.5, -0.5+(1/16), -0.5+(4/16), -0.5+(1/16), 0.5-(1/16), 0.5-(4/16)},
       },
-      groups = {choppy = 2,handy = 2,attached_node = 1, not_in_creative_inventory=1},
+      groups = {choppy = 2,handy = 2,attached_node = 1, sign=2, not_in_creative_inventory=1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = def.sounds,
       on_construct = on_construct,
       on_receive_fields = on_receive_fields,
       on_destruct = on_destruct,
-      drop = "rp_default:sign",
+      drop = "rp_default:"..id,
 })
 
+end
+
+register_sign("sign", {
+	description = S("Sign"),
+	tile = "default_sign.png",
+	inv_image = "default_sign_inventory.png",
+	sounds = rp_sounds.node_sound_defaults(),
+})
