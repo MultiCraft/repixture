@@ -272,6 +272,22 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
+      output = "rp_default:block_copper",
+      items = {
+         "rp_default:ingot_copper 9",
+      }
+})
+
+crafting.register_craft(
+   {
+      output = "rp_default:block_tin",
+      items = {
+         "rp_default:ingot_tin 9",
+      }
+})
+
+crafting.register_craft(
+   {
       output = "rp_default:block_coal",
       items = {
          "rp_default:lump_coal 9",

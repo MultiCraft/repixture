@@ -163,6 +163,26 @@ minetest.register_node(
       is_ground_content = false,
 })
 
+minetest.register_node(
+   "rp_default:block_copper",
+   {
+      description = S("Copper Block"),
+      tiles = {"default_block_copper.png"},
+      groups = {cracky = 2},
+      sounds = rp_sounds.node_sound_stone_defaults(),
+      is_ground_content = false,
+})
+
+minetest.register_node(
+   "rp_default:block_tin",
+   {
+      description = S("Tin Block"),
+      tiles = {"default_block_tin.png"},
+      groups = {cracky = 2},
+      sounds = rp_sounds.node_sound_stone_defaults(),
+      is_ground_content = false,
+})
+
 -- Soil
 
 minetest.register_node(

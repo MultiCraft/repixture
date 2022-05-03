@@ -213,6 +213,11 @@ partialblocks.register_material(
 partialblocks.register_material(
    "bronze", S("Bronze Slab"), S("Bronze Stair"), "rp_default:block_bronze", { cracky = 1 }, false, adv_slab_tex("rp_default:block_bronze", "block_bronze"), adv_stair_tex("rp_default:block_bronze", "block_bronze"))
 
+partialblocks.register_material(
+   "copper", S("Copper Slab"), S("Copper Stair"), "rp_default:block_copper", { cracky = 2 }, false, adv_slab_tex("rp_default:block_copper", "block_copper"), adv_stair_tex("rp_default:block_copper", "block_copper"))
+
+partialblocks.register_material(
+   "tin", S("Tin Slab"), S("Tin Stair"), "rp_default:block_tin", { cracky = 2 }, false, adv_slab_tex("rp_default:block_tin", "block_tin"), adv_stair_tex("rp_default:block_tin", "block_tin"))
 
 
 local cs_stair_tiles = {
