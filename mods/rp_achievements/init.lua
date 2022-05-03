@@ -130,6 +130,9 @@ end
 -- Interaction callbacks
 
 local function on_craft(itemstack, player)
+   if not player or not player:is_player() then
+      return
+   end
    for aname, def in pairs(achievements.registered_achievements) do
       if def.craftitem ~= nil then
 	 if def.craftitem == itemstack:get_name() then
@@ -146,6 +149,9 @@ local function on_craft(itemstack, player)
 end
 
 local function on_dig(pos, oldnode, player)
+   if not player or not player:is_player() then
+      return
+   end
    for aname, def in pairs(achievements.registered_achievements) do
       if def.dignode ~= nil then
 
@@ -163,6 +169,9 @@ local function on_dig(pos, oldnode, player)
 end
 
 local function on_place(pos, newnode, player, oldnode, itemstack, pointed_thing)
+   if not player or not player:is_player() then
+      return
+   end
    for aname, def in pairs(achievements.registered_achievements) do
       if def.placenode ~= nil then
 	 if def.placenode == newnode.name then
