@@ -222,6 +222,29 @@ partialblocks.register_material(
 partialblocks.register_material(
    "gold", S("Gold Slab"), S("Gold Stair"), "rp_gold:block_gold", { cracky = 2 }, false, adv_slab_tex("rp_gold:block_gold", "block_gold"), adv_stair_tex("rp_gold:block_gold", "block_gold"))
 
+-- Recipes to craft metal and coal stairs/slabs back to ingots/lumps
+-- at a small loss.
+local mats = {
+	{ "rp_default:lump_coal", "coal" },
+	{ "rp_default:ingot_steel", "steel" },
+	{ "rp_default:ingot_carbon_steel", "carbon_steel" },
+	{ "rp_default:ingot_bronze", "bronze" },
+	{ "rp_default:ingot_copper", "copper" },
+	{ "rp_default:ingot_tin", "tin" },
+	{ "rp_default:ingot_wrought_iron", "wrought_iron" },
+	{ "rp_gold:ingot_gold", "gold" },
+}
+for m=1, #mats do
+	local mat = mats[m]
+	crafting.register_craft({
+		output = mat[1] .." 4",
+		items = { "rp_partialblocks:slab_" .. mat[2] },
+	})
+	crafting.register_craft({
+		output = mat[1] .. " 6",
+		items = { "rp_partialblocks:stair_" .. mat[2] },
+	})
+end
 
 local cs_stair_tiles = {
 	"default_compressed_sandstone.png",

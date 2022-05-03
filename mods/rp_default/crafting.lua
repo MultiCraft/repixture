@@ -79,6 +79,50 @@ minetest.register_craft(
       cooktime = 6,
 })
 
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_default:block_bronze",
+      recipe = "rp_default:ingot_bronze 9",
+      cooktime = 20,
+})
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_default:block_copper",
+      recipe = "rp_default:ingot_copper 9",
+      cooktime = 10,
+})
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_default:block_tin",
+      recipe = "rp_default:ingot_tin 9",
+      cooktime = 10,
+})
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_default:block_steel",
+      recipe = "rp_default:ingot_steel 9",
+      cooktime = 10,
+})
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_default:block_carbon_steel",
+      recipe = "rp_default:ingot_carbon_steel 9",
+      cooktime = 10,
+})
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_default:block_wrought_iron",
+      recipe = "rp_default:ingot_wrought_iron 9",
+      cooktime = 10,
+})
+
+
 -- Fuels
 
 minetest.register_craft(

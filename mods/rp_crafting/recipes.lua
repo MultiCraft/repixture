@@ -245,12 +245,26 @@ crafting.register_craft(
          "rp_default:ingot_wrought_iron 9",
       }
 })
+crafting.register_craft(
+   {
+      output = "rp_default:ingot_wrought_iron 9",
+      items = {
+         "rp_default:block_wrought_iron",
+      }
+})
 
 crafting.register_craft(
    {
       output = "rp_default:block_steel",
       items = {
          "rp_default:ingot_steel 9",
+      }
+})
+crafting.register_craft(
+   {
+      output = "rp_default:ingot_steel 9",
+      items = {
+         "rp_default:block_steel",
       }
 })
 
@@ -261,12 +275,26 @@ crafting.register_craft(
          "rp_default:ingot_carbon_steel 9",
       }
 })
+crafting.register_craft(
+   {
+      output = "rp_default:ingot_carbon_steel 9",
+      items = {
+         "rp_default:block_carbon_steel",
+      }
+})
 
 crafting.register_craft(
    {
       output = "rp_default:block_bronze",
       items = {
          "rp_default:ingot_bronze 9",
+      }
+})
+crafting.register_craft(
+   {
+      output = "rp_default:ingot_bronze 9",
+      items = {
+         "rp_default:block_bronze",
       }
 })
 
@@ -277,6 +305,13 @@ crafting.register_craft(
          "rp_default:ingot_copper 9",
       }
 })
+crafting.register_craft(
+   {
+      output = "rp_default:ingot_copper 9",
+      items = {
+         "rp_default:block_copper",
+      }
+})
 
 crafting.register_craft(
    {
@@ -285,12 +320,26 @@ crafting.register_craft(
          "rp_default:ingot_tin 9",
       }
 })
+crafting.register_craft(
+   {
+      output = "rp_default:ingot_tin 9",
+      items = {
+         "rp_default:block_tin",
+      }
+})
 
 crafting.register_craft(
    {
       output = "rp_default:block_coal",
       items = {
          "rp_default:lump_coal 9",
+      }
+})
+crafting.register_craft(
+   {
+	   output = "rp_default:lump_coal 9",
+      items = {
+         "rp_default:block_coal",
       }
 })
 

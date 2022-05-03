@@ -353,6 +353,14 @@ crafting.register_craft(
          "rp_gold:ingot_gold 9",
       }
 })
+crafting.register_craft(
+   {
+      output = "rp_gold:ingot_gold 9",
+      items = {
+         "rp_gold:block_gold",
+      }
+})
+
 
 minetest.register_craft(
    {
