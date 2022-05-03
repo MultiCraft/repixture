@@ -76,7 +76,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
          end,
    })
 
-   crafting.register_craft( -- Craft to
+   crafting.register_craft( -- Craft to slab
       {
 	 output = "rp_partialblocks:slab_" .. name .. " 2",
 	 items = {
@@ -84,12 +84,28 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 	 },
    })
 
+   local full_node_burntime
+   local output = minetest.get_craft_result({
+      method = "fuel",
+      width = 1,
+      items = {node},
+   })
+   full_node_burntime = output.time
+
    if is_fuel then
+      local burntime
+      if full_node_burntime > 0 then
+	      -- Burntime is 50% of the origin node (if a fuel recipe was available)
+	      burntime = math.max(1, math.floor(output.time * 0.5))
+      else
+	      -- Fallback burntime
+	      burntime = 7
+      end
       minetest.register_craft( -- Fuel
 	 {
 	    type = "fuel",
-	    recipe = "rp_partialblocks:slab_" .. name .. " 2",
-	    burntime = 7,
+	    recipe = "rp_partialblocks:slab_" .. name,
+	    burntime = burntime,
       })
    end
 
@@ -133,7 +149,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 	 is_ground_content = nodedef.is_ground_content,
    })
 
-   crafting.register_craft( -- Craft to
+   crafting.register_craft( -- Craft to stair
       {
 	 output = "rp_partialblocks:stair_" .. name,
 	 items = {
@@ -142,11 +158,19 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    })
 
    if is_fuel then
+      local burntime
+      if full_node_burntime > 0 then
+	      -- Burntime is 75% of the origin node (if a fuel recipe was available)
+	      burntime = math.max(1, math.floor(output.time * 0.75))
+      else
+	      -- Fallback burntime
+	      burntime = 7
+      end
       minetest.register_craft( -- Fuel
 	 {
 	    type = "fuel",
 	    recipe = "rp_partialblocks:stair_" .. name,
-	    burntime = 7,
+	    burntime = burntime,
       })
    end
 end
@@ -199,7 +223,7 @@ partialblocks.register_material(
 -- Misc. blocks
 
 partialblocks.register_material(
-   "coal", S("Coal Slab"), S("Coal Stair"), "rp_default:block_coal", { cracky = 3 }, false, adv_slab_tex("rp_default:block_coal", "block_coal"), adv_stair_tex("rp_default:block_coal", "block_coal"))
+   "coal", S("Coal Slab"), S("Coal Stair"), "rp_default:block_coal", { cracky = 3 }, true, adv_slab_tex("rp_default:block_coal", "block_coal"), adv_stair_tex("rp_default:block_coal", "block_coal"))
 
 partialblocks.register_material(
    "steel", S("Steel Slab"), S("Steel Stair"), "rp_default:block_steel", { cracky = 2 }, false, adv_slab_tex("rp_default:block_steel", "block_steel"), adv_stair_tex("rp_default:block_steel", "block_steel"))
@@ -245,6 +269,7 @@ for m=1, #mats do
 		items = { "rp_partialblocks:stair_" .. mat[2] },
 	})
 end
+
 
 local cs_stair_tiles = {
 	"default_compressed_sandstone.png",

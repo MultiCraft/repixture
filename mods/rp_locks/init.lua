@@ -336,6 +336,12 @@ crafting.register_craft(
       },
 })
 
+minetest.register_craft({
+    type = "fuel",
+    recipe = "rp_locks:chest",
+    burntime = 25
+})
+
 -- Achievements
 
 achievements.register_achievement(

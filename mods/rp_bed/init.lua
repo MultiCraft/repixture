@@ -467,6 +467,11 @@ crafting.register_craft(
          "group:planks 3",
       }
 })
+minetest.register_craft({
+   type = "fuel",
+   recipe = "rp_bed:bed_foot",
+   burntime = 30,
+})
 
 -- Player effects
 

@@ -354,6 +354,23 @@ minetest.register_on_player_inventory_action(function(player, action, inventory,
     end
 end)
 
+-- Wooden armor fuel recipes
+minetest.register_craft({
+   type = "fuel",
+   recipe = "rp_armor:helmet_wood",
+   burntime = 10
+})
+minetest.register_craft({
+   type = "fuel",
+   recipe = "rp_armor:chestplate_wood",
+   burntime = 16
+})
+minetest.register_craft({
+   type = "fuel",
+   recipe = "rp_armor:boots_wood",
+   burntime = 12
+})
+
 -- Achievements
 
 achievements.register_achievement(

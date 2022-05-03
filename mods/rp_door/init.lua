@@ -326,6 +326,12 @@ crafting.register_craft(
       }
 })
 
+minetest.register_craft({
+    type = "fuel",
+    recipe = "rp_door:door_wood",
+    burntime = 15
+})
+
 door.register_door(
    "rp_door:door_stone",
    {

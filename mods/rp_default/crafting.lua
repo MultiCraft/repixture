@@ -1,4 +1,3 @@
-
 --
 -- Crafting/creation
 --
@@ -128,6 +127,13 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
+      recipe = "rp_default:stick",
+      burntime = 1,
+})
+
+minetest.register_craft(
+   {
+      type = "fuel",
       recipe = "group:leaves",
       burntime = 1,
 })
@@ -156,6 +162,13 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
+      recipe = "rp_default:book",
+      burntime = 2,
+})
+
+minetest.register_craft(
+   {
+      type = "fuel",
       recipe = "rp_default:ladder",
       burntime = 5,
 })
@@ -173,6 +186,37 @@ minetest.register_craft(
       recipe = "group:planks",
       burntime = 9,
 })
+
+minetest.register_craft(
+   {
+      type = "fuel",
+      recipe = "rp_default:pick_wood",
+      burntime = 15,
+})
+minetest.register_craft(
+   {
+      type = "fuel",
+      recipe = "rp_default:spear_wood",
+      burntime = 12,
+})
+minetest.register_craft(
+   {
+      type = "fuel",
+      recipe = "rp_default:axe_wood",
+      burntime = 15,
+})
+minetest.register_craft(
+   {
+      type = "fuel",
+      recipe = "rp_default:shovel_wood",
+      burntime = 12,
+})
+
+
+
+
+
+
 
 minetest.register_craft(
    {
