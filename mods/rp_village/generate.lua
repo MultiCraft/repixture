@@ -331,14 +331,15 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
 
    end
 
+   local sreplace = table.copy(replace)
    if chunktype == "orchard" then
-      replace["rp_default:tree"] = nil
+      sreplace["default:tree"] = nil
    end
    minetest.place_schematic(
       pos,
       modpath .. "/schematics/village_" .. chunktype .. ".mts",
       orient,
-      replace,
+      sreplace,
       true
    )
 
