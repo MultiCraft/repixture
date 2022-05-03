@@ -129,8 +129,9 @@ end
 
 function village.get_nearest_village(pos)
    local nearest = math.huge
-   local npos = nil
-   local fname = nil
+   local npos = nil -- village pos
+   local fname = nil -- human-readable village name
+   local name = nil -- village ID
 
    for name, def in pairs(village.villages) do
       local dist = vector.distance(pos, def.pos)
