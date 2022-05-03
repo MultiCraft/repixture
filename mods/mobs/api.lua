@@ -1684,13 +1684,22 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
 
          if tool:is_empty() then
 	    chance = chance_hand
+            minetest.sound_play("mobs_lasso_swing", {
+               pos = clicker:get_pos(),
+               gain = 0.2, max_hear_distance = 8, pitch=1.5}, true)
          elseif tool:get_name() == "mobs:net" then
+            minetest.sound_play("mobs_lasso_swing", {
+               pos = clicker:get_pos(),
+               gain = 0.2, max_hear_distance = 16, pitch=1.25}, true)
 	    chance = chance_net
             if not minetest.settings:get_bool("creative_mode") then
 	        tool:add_wear(4000) -- 17 uses
             end
 	    clicker:set_wielded_item(tool)
          elseif tool:get_name() == "mobs:lasso" then
+            minetest.sound_play("mobs_lasso_swing", {
+               pos = clicker:get_pos(),
+               gain = 0.2, max_hear_distance = 16, pitch=1}, true)
 	    chance = chance_lasso
             if not minetest.settings:get_bool("creative_mode") then
 	        tool:add_wear(1500) -- 43 uses
@@ -1700,11 +1709,18 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
 
          -- Return if no chance
 
-         if chance == 0 then return end
+         if chance == 0 then
+		minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Missed!")))
+		return
+	 end
 
          -- Calculate chance.. was capture successful?
 
          if math.random(100) <= chance then
+            minetest.sound_play("mobs_capture_succeed", {
+               pos = clicker:get_pos(),
+               gain = 0.2, max_hear_distance = 16}, true)
+
 	    -- Cuccessful capture.. add to inventory
 	    clicker:get_inventory():add_item("main", mobname)
 

@@ -5,6 +5,8 @@ Tweaked by KaadmY, for Pixture
 
 Media file license: CC BY-SA 4.0
 * mobs_skunk_hiss.ogg: by Reitanna, CC0 <https://freesound.org/people/Reitanna/sounds/343927/>
+* mobs_capture_succeed.ogg: by Wuzzy, CC0
+* mobs_lasso_swing.ogg: by Wuzzy, CC0
 
 Source code license:
     api.lua: MIT
