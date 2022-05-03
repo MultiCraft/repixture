@@ -104,9 +104,9 @@ local wield_imgs_magno = {
 }
 
 local d = S("Compass")
-local t = S("It points to the North")
+local t = S("It points to the North") .. "\n" .. S("Can be magnetized at magnetic blocks")
 local dm = S("Magno Compass")
-local tm = S("It points to a position")
+local tm = S("It points to a position") .. "\n" .. S("Can be demagnetized at unmagnetic blocks")
 
 for c=0,7 do
 	local magnetize_on_place = function(itemstack, placer, pointed_thing)
