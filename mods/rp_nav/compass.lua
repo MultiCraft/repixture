@@ -108,6 +108,38 @@ local t = S("It points to the North") .. "\n" .. S("Can be magnetized at magneti
 local dm = S("Magno Compass")
 local tm = S("It points to a position") .. "\n" .. S("Can be demagnetized at unmagnetic blocks")
 
+-- Magnetize the compass item (`itemstack`) to point at position `magnet_pos`,
+-- playing a confirm sound at `sound_pos`.
+-- `itemstack` MUST be a compass.
+-- Returns the itemstack of the magnetized compass.
+nav.magnetize_compass = function(itemstack, magnet_pos, sound_pos)
+	itemstack:set_name("rp_nav:magnocompass_0")
+	local meta = itemstack:get_meta()
+	meta:set_int("magno_x", magnet_pos.x)
+	meta:set_int("magno_y", magnet_pos.y)
+	meta:set_int("magno_z", magnet_pos.z)
+	minetest.sound_play({name="rp_nav_magnetize_compass", gain=0.2}, {pos=sound_pos}, true)
+	return itemstack
+end
+
+-- Demagnetize the compass item (`itemstack`) to point at North again,
+-- playing a confirm sound at `sound_pos`.
+-- Returns the itemstack of the demagnetized compass.
+nav.demagnetize_compass = function(itemstack, sound_pos)
+	local is_magnocompass = minetest.get_item_group(itemstack:get_name(), "nav_compass") == 2
+	if not is_magnocompass then
+		-- Don’t demagnetize if not magnocompass
+		return itemstack
+	end
+	itemstack:set_name("rp_nav:compass_0")
+	local meta = itemstack:get_meta()
+	meta:set_string("magno_x", "")
+	meta:set_string("magno_y", "")
+	meta:set_string("magno_z", "")
+	minetest.sound_play({name="rp_nav_demagnetize_compass", gain=0.2}, {pos=sound_pos}, true)
+	return itemstack
+end
+
 for c=0,7 do
 	local magnetize_on_place = function(itemstack, placer, pointed_thing)
 		-- Magnetize compass when placing on a magnetic node
@@ -118,21 +150,11 @@ for c=0,7 do
 		local node = minetest.get_node(nodepos)
 		-- demagnetize compass at magnetic node
 		if minetest.get_item_group(node.name, "magnetic") > 0 then
-			itemstack:set_name("rp_nav:magnocompass_"..c)
-			local meta = itemstack:get_meta()
-			meta:set_int("magno_x", nodepos.x)
-			meta:set_int("magno_y", nodepos.y)
-			meta:set_int("magno_z", nodepos.z)
-			minetest.sound_play({name="rp_nav_magnetize_compass", gain=0.2}, {pos=nodepos}, true)
+			itemstack = nav.magnetize_compass(itemstack, nodepos, placer:get_pos())
 			return itemstack
 		-- demagnetize magnocompass at "unmagnetic" node
 		elseif minetest.get_item_group(itemstack:get_name(), "nav_compass") == 2 and minetest.get_item_group(node.name, "unmagnetic") > 0 then
-			itemstack:set_name("rp_nav:compass_"..c)
-			local meta = itemstack:get_meta()
-			meta:set_string("magno_x", "")
-			meta:set_string("magno_y", "")
-			meta:set_string("magno_z", "")
-			minetest.sound_play({name="rp_nav_demagnetize_compass", gain=0.2}, {pos=nodepos}, true)
+			itemstack = nav.demagnetize_compass(itemstack, placer:get_pos())
 			return itemstack
 		end
 	end

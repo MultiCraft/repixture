@@ -3,6 +3,8 @@
 
 local S = minetest.get_translator("mobs")
 
+local mod_nav = minetest.get_modpath("rp_nav")
+
 mobs:register_mob(
    "mobs:sheep",
    {
@@ -76,8 +78,20 @@ mobs:register_mob(
          end
       end,
       on_rightclick = function(self, clicker)
-         -- Are we feeding?
 
+         local item = clicker:get_wielded_item()
+         local itemname = item:get_name()
+
+         -- Demagnetize magnocompass if sheep has wool
+	 if mod_nav then
+            if minetest.get_item_group(itemname, "nav_compass") == 2 and self.gotten == false then
+	       item = nav.demagnetize_compass(item, clicker:get_pos())
+               clicker:set_wielded_item(item)
+               return
+            end
+	 end
+
+         -- Are we feeding?
          if mobs:feed_tame(self, clicker, 8, true) then
             -- If full grow, add fuzz
 
@@ -91,9 +105,6 @@ mobs:register_mob(
 
             return
          end
-
-         local item = clicker:get_wielded_item()
-         local itemname = item:get_name()
 
          -- Are we giving a haircut?
 
