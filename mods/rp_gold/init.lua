@@ -311,6 +311,16 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
 
+minetest.register_node(
+   "rp_gold:block_gold",
+   {
+      description = S("Gold Block"),
+      tiles = {"gold_block.png"},
+      groups = {cracky = 2},
+      sounds = rp_sounds.node_sound_stone_defaults(),
+      is_ground_content = false,
+})
+
 -- Ores
 
 minetest.register_ore(
@@ -333,6 +343,14 @@ crafting.register_craft(
       items = {
          "rp_default:book",
          "rp_gold:ingot_gold",
+      }
+})
+
+crafting.register_craft(
+   {
+      output = "rp_gold:block_gold",
+      items = {
+         "rp_gold:ingot_gold 9",
       }
 })
 
