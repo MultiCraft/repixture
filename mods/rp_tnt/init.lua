@@ -336,13 +336,6 @@ crafting.register_craft(
       }
 })
 
-minetest.register_craft(
-   {
-      type = "fuel",
-      recipe = "rp_tnt:tnt",
-      burntime = 13,
-})
-
 -- Achievements
 
 local title, desc
