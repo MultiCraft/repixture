@@ -208,7 +208,7 @@ partialblocks.register_material(
    "carbon_steel", S("Carbon Steel Slab"), S("Carbon Steel Stair"), "rp_default:block_carbon_steel", { cracky = 1 }, false, adv_slab_tex("rp_default:block_carbon_steel", "block_carbon_steel"), adv_stair_tex("rp_default:block_carbon_steel", "block_carbon_steel"))
 
 partialblocks.register_material(
-   "wrought_iron", S("Wrought Iron Slab"), S("Wrought Iron Stair"), "rp_default:block_wrought_iron", { cracky = 2 }, false, adv_slab_tex("rp_default:block_wrought_iron", "block_wrought_iron"), adv_stair_tex("rp_default:block_wrought_iron", "block_wrought_iron"))
+   "wrought_iron", S("Wrought Iron Slab"), S("Wrought Iron Stair"), "rp_default:block_wrought_iron", { cracky = 2, magnetic = 1 }, false, adv_slab_tex("rp_default:block_wrought_iron", "block_wrought_iron"), adv_stair_tex("rp_default:block_wrought_iron", "block_wrought_iron"))
 
 partialblocks.register_material(
    "bronze", S("Bronze Slab"), S("Bronze Stair"), "rp_default:block_bronze", { cracky = 1 }, false, adv_slab_tex("rp_default:block_bronze", "block_bronze"), adv_stair_tex("rp_default:block_bronze", "block_bronze"))
