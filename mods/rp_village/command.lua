@@ -14,6 +14,7 @@ minetest.register_chatcommand("villages", {
 			return true, S("No villages.")
 		end
 		local out = table.concat(list, "\n")
+		out = S("List of villages:") .. "\n" .. out
 		return true, out
 	end,
 })
