@@ -7,6 +7,13 @@ village.villages = {}
 
 -- Sidelength of the square of a village chunk, in nodes
 local VILLAGE_CHUNK_SIZE = 14
+-- Maximum height of village chunks (buildings)
+local VILLAGE_CHUNK_HEIGHT = 20
+
+-- Hill width and height
+local HILL_W, HILL_H = 24, 6
+-- Number of dirt nodes to extend below hill
+local HILL_EXTEND_BELOW = 15
 
 -- Savefile
 
@@ -262,8 +269,6 @@ function village.get_column_nodes(pos, scanheight, dirtnodes)
    end
 end
 
-local HILL_W, HILL_H = 24, 6
-
 function village.generate_hill(pos)
    local dirts = {}
    local dirts_with_grass = {}
@@ -317,7 +322,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
       -- in mid-air
       for z=pos.z-6, pos.z+17 do
       for x=pos.x-6, pos.x+17 do
-          village.get_column_nodes({x=x, y=py, z=z}, 15, dirtnodes)
+          village.get_column_nodes({x=x, y=py, z=z}, HILL_EXTEND_BELOW, dirtnodes)
       end
       end
       minetest.bulk_set_node(dirtnodes, {name="rp_default:dirt"})
@@ -671,8 +676,8 @@ end
 function village.spawn_village(pos, pr, force_place_well)
    local spread = VILLAGE_CHUNK_SIZE * village.max_village_spread
    local vspread = vector.new(spread, spread, spread)
-   local emerge_min = vector.subtract(pos, vspread)
-   local emerge_max = vector.add(pos, vspread)
+   local emerge_min = vector.add(pos, vector.new(-spread, -(HILL_H + HILL_EXTEND_BELOW + 1), -spread))
+   local emerge_max = vector.add(pos, vector.new(spread, VILLAGE_CHUNK_HEIGHT, spread))
    minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {pos=pos, pr=pr, force_place_well=force_place_well})
 
 end
