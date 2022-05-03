@@ -98,7 +98,7 @@ if minetest.get_modpath("mobs") ~= nil then
 
    }
    -- trading currency
-   if minetest.get_modpath("jewels") ~= nil then -- jewels/gold
+   if minetest.get_modpath("rp_jewels") ~= nil then -- jewels/gold
       --farmer
       table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 16", "", "rp_jewels:jewel"})
       table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 22", "", "rp_jewels:jewel 2"})

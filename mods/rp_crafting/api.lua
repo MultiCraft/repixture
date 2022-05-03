@@ -602,7 +602,7 @@ local function on_leaveplayer(player)
    crafting.userdata[name] = nil
 end
 
-if minetest.get_modpath("drop_items_on_die") ~= nil then
+if minetest.get_modpath("rp_drop_items_on_die") ~= nil then
    drop_items_on_die.register_listname("craft_in")
    drop_items_on_die.register_listname("craft_out")
 end

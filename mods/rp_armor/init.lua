@@ -180,7 +180,7 @@ local function on_respawnplayer(player)
    armor.update(player)
 end
 
-if minetest.get_modpath("drop_items_on_die") ~= nil then
+if minetest.get_modpath("rp_drop_items_on_die") ~= nil then
    drop_items_on_die.register_listname("armor")
 end
 
