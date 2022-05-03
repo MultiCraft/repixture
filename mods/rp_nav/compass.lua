@@ -105,12 +105,12 @@ local wield_imgs_magno = {
 
 local d = S("Compass")
 local t = S("It points to the North")
-local dm = S("Magnocompass")
+local dm = S("Magno Compass")
 local tm = S("It points to a position")
 
 for c=0,7 do
 	local magnetize_on_place = function(itemstack, placer, pointed_thing)
-		-- Magnetize compass
+		-- Magnetize compass when placing on a magnetic node
 		if pointed_thing.type ~= "node" then
 			return
 		end
@@ -145,6 +145,7 @@ for c=0,7 do
 	      stack_max = 1,
 	})
 
+	-- Magno compass, points to a position
 	not_creative = 1
 	minetest.register_craftitem(
 	   "rp_nav:magnocompass_"..c,
