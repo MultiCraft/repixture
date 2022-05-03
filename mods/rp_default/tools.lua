@@ -821,6 +821,7 @@ minetest.register_tool(
          local node = minetest.get_node(pos)
          local nodename = node.name
          local wear = false
+	 local torch_ignited = false
 
          if nodename == "rp_default:torch_weak" then
             minetest.set_node(
@@ -831,6 +832,7 @@ minetest.register_tool(
                   param2 = node.param2
             })
             wear = true
+	    torch_ignited = true
 
          elseif nodename == "rp_default:torch_weak_wall" then
             minetest.set_node(
@@ -841,6 +843,7 @@ minetest.register_tool(
                   param2 = node.param2
             })
             wear = true
+	    torch_ignited = true
 
          elseif nodename == "rp_default:torch_dead" then
             minetest.set_node(
@@ -851,6 +854,7 @@ minetest.register_tool(
                   param2 = node.param2
             })
             wear = true
+	    torch_ignited = true
 
          elseif nodename == "rp_default:torch_dead_wall" then
             minetest.set_node(
@@ -861,6 +865,7 @@ minetest.register_tool(
                   param2 = node.param2
             })
             wear = true
+	    torch_ignited = true
 
          elseif nodename == "rp_tnt:tnt" then
             local y = minetest.registered_nodes["rp_tnt:tnt"]
@@ -868,6 +873,9 @@ minetest.register_tool(
                y.on_punch(pos, node, user)
                wear = true
             end
+         end
+	 if torch_ignited then
+            minetest.sound_play({name="rp_default_ignite_torch", gain=0.4}, {pos=pos}, true)
          end
 
          if wear and not minetest.settings:get_bool("creative_mode") then
