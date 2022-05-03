@@ -108,9 +108,6 @@ if minetest.get_modpath("mobs") ~= nil then
       table.insert(gold.trades["farmer"], {"rp_jewels:jewel 2", "", "rp_gold:ingot_gold 20"})
       table.insert(gold.trades["farmer"], {"rp_jewels:jewel 4", "", "rp_gold:ingot_gold 32"})
 
-      -- carpenter
-      table.insert(gold.trades["carpenter"], {"rp_default:tree 2", "", "rp_gold:ingot_gold"})
-
       -- tavern keeper
       table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 14", "", "rp_jewels:jewel"})
       table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 20", "", "rp_jewels:jewel 2"})
@@ -122,7 +119,10 @@ if minetest.get_modpath("mobs") ~= nil then
       table.insert(gold.trades["blacksmith"], {"rp_default:ingot_steel 32", "", "rp_jewels:jewel 4"})
    end
 
-   -- butcher(no mod check)
+   -- carpenter (no mod check)
+   table.insert(gold.trades["carpenter"], {"rp_default:tree 2", "", "rp_gold:ingot_gold"})
+
+   -- butcher (no mod check)
    table.insert(gold.trades["butcher"], {"mobs:meat_raw 3", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"mobs:meat_raw 4", "", "rp_gold:ingot_gold 2"})
    table.insert(gold.trades["butcher"], {"mobs:meat_raw 5", "", "rp_gold:ingot_gold 4"})
