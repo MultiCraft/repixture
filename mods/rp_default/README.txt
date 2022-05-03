@@ -14,3 +14,4 @@ Sound licenses:
   * All other sounds: CC0
 Texture license: CC BY-SA 4.0
 Source license: LGPLv2.1
+	- Fence code based on Minetest Game 5.5.0
