@@ -34,6 +34,7 @@ dofile(minetest.get_modpath("rp_default").."/torch.lua")
 dofile(minetest.get_modpath("rp_default").."/furnace.lua")
 dofile(minetest.get_modpath("rp_default").."/container.lua") -- chest and bookshelf
 dofile(minetest.get_modpath("rp_default").."/sign.lua")
+dofile(minetest.get_modpath("rp_default").."/fence.lua")
 
 dofile(minetest.get_modpath("rp_default").."/craftitems.lua") -- simple craftitems
 dofile(minetest.get_modpath("rp_default").."/bucket.lua")

@@ -114,3 +114,5 @@ register_sign("sign", {
 	inv_image = "default_sign_inventory.png",
 	sounds = rp_sounds.node_sound_defaults(),
 })
+
+default.log("sign", "loaded")
