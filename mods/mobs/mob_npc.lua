@@ -180,6 +180,10 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                               say_random("happy", name)
                           end
+                      elseif minetest.get_item_group(iname, "nav_compass") == 1 then
+                          say(S("Try magnetizing it on a wrought iron block"), name)
+                      elseif iname == "rp_nav:map" then
+                          say(S("We live in a lovely place, don't we?"), name)
                       elseif iname == "mobs:lasso" then
                           say(S("It's used to capture large animals."), name)
                       elseif iname == "rp_locks:pick" then
