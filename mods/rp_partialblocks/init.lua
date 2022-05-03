@@ -219,6 +219,9 @@ partialblocks.register_material(
 partialblocks.register_material(
    "tin", S("Tin Slab"), S("Tin Stair"), "rp_default:block_tin", { cracky = 2 }, false, adv_slab_tex("rp_default:block_tin", "block_tin"), adv_stair_tex("rp_default:block_tin", "block_tin"))
 
+partialblocks.register_material(
+   "gold", S("Gold Slab"), S("Gold Stair"), "rp_gold:block_gold", { cracky = 2 }, false, adv_slab_tex("rp_gold:block_gold", "block_gold"), adv_stair_tex("rp_gold:block_gold", "block_gold"))
+
 
 local cs_stair_tiles = {
 	"default_compressed_sandstone.png",
