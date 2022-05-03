@@ -116,14 +116,25 @@ for c=0,7 do
 		end
 		local nodepos = pointed_thing.under
 		local node = minetest.get_node(nodepos)
+		-- demagnetize compass at magnetic node
 		if minetest.get_item_group(node.name, "magnetic") > 0 then
 			itemstack:set_name("rp_nav:magnocompass_"..c)
 			local meta = itemstack:get_meta()
 			meta:set_int("magno_x", nodepos.x)
 			meta:set_int("magno_y", nodepos.y)
 			meta:set_int("magno_z", nodepos.z)
+			minetest.sound_play({name="rp_nav_magnetize_compass", gain=0.2}, {pos=nodepos}, true)
 			return itemstack
-	      end
+		-- demagnetize magnocompass at "unmagnetic" node
+		elseif minetest.get_item_group(itemstack:get_name(), "nav_compass") == 2 and minetest.get_item_group(node.name, "unmagnetic") > 0 then
+			itemstack:set_name("rp_nav:compass_"..c)
+			local meta = itemstack:get_meta()
+			meta:set_string("magno_x", "")
+			meta:set_string("magno_y", "")
+			meta:set_string("magno_z", "")
+			minetest.sound_play({name="rp_nav_demagnetize_compass", gain=0.2}, {pos=nodepos}, true)
+			return itemstack
+		end
 	end
 
 	local not_creative
