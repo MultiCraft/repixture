@@ -50,8 +50,8 @@ minetest.register_node(
       description = S("Birch Fence"),
       drawtype = "fencelike",
       tiles = {"default_wood_birch.png^default_fence_overlay.png"},
-      inventory_image = "default_fence_oak.png",
-      wield_image = "default_fence_oak.png",
+      inventory_image = "default_fence_birch.png",
+      wield_image = "default_fence_birch.png",
       paramtype = "light",
       collision_box = {
 	 type = "fixed",
