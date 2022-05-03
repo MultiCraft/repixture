@@ -183,18 +183,18 @@ for _, npc_type_table in pairs(npc_types) do
                       elseif minetest.get_item_group(iname, "nav_compass") == 1 then
 			  local r = math.random(1,3)
 			  if r == 1 then
-                             say(S("Try magnetizing it on a wrought iron block"), name)
+                             say(S("Try magnetizing it on a wrought iron block."), name)
 		          elseif r == 2 then
-                             say(S("Try magnetizing it on a steel block"), name)
+                             say(S("Try magnetizing it on a steel block."), name)
 		          else
-                             say(S("Try magnetizing it on a carbon steel block"), name)
+                             say(S("Try magnetizing it on a carbon steel block."), name)
 		          end
                       elseif minetest.get_item_group(iname, "nav_compass") == 2 then
 			  local r = math.random(1,3)
 			  if r == 1 then
-                             say(S("If you use it on a cotton bale, it will point to the North again"), name)
+                             say(S("If you use it on a cotton bale, it will point to the North again."), name)
 		          else
-                             say(S("If you use it on wool, it will point to the North again"), name)
+                             say(S("If you use it on wool, it will point to the North again."), name)
 		          end
                       elseif iname == "rp_nav:map" then
                           say(S("We live in a lovely place, don't we?"), name)

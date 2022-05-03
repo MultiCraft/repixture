@@ -110,15 +110,20 @@ local tm = S("It points to a position") .. "\n" .. S("Can be demagnetized at unm
 
 -- Magnetize the compass item (`itemstack`) to point at position `magnet_pos`,
 -- playing a confirm sound at `sound_pos`.
+-- `achievement_player` is a player object if there is an associated player. It is used
+-- to trigger the "True Navigator" achievement.
 -- `itemstack` MUST be a compass.
 -- Returns the itemstack of the magnetized compass.
-nav.magnetize_compass = function(itemstack, magnet_pos, sound_pos)
+nav.magnetize_compass = function(itemstack, magnet_pos, sound_pos, achievement_player)
 	itemstack:set_name("rp_nav:magnocompass_0")
 	local meta = itemstack:get_meta()
 	meta:set_int("magno_x", magnet_pos.x)
 	meta:set_int("magno_y", magnet_pos.y)
 	meta:set_int("magno_z", magnet_pos.z)
 	minetest.sound_play({name="rp_nav_magnetize_compass", gain=0.2}, {pos=sound_pos}, true)
+	if achievement_player then
+		achievements.trigger_achievement(achievement_player, "true_navigator_v2")
+	end
 	return itemstack
 end
 
@@ -150,7 +155,7 @@ for c=0,7 do
 		local node = minetest.get_node(nodepos)
 		-- demagnetize compass at magnetic node
 		if minetest.get_item_group(node.name, "magnetic") > 0 then
-			itemstack = nav.magnetize_compass(itemstack, nodepos, placer:get_pos())
+			itemstack = nav.magnetize_compass(itemstack, nodepos, placer:get_pos(), placer)
 			return itemstack
 		-- demagnetize magnocompass at "unmagnetic" node
 		elseif minetest.get_item_group(itemstack:get_name(), "nav_compass") == 2 and minetest.get_item_group(node.name, "unmagnetic") > 0 then
@@ -214,12 +219,11 @@ crafting.register_craft(
 -- Achievements
 
 achievements.register_achievement(
-   "true_navigator",
+   "true_navigator_v2",
    {
       title = S("True Navigator"),
-      description = S("Craft a compass."),
+      description = S("Magnetize a compass."),
       times = 1,
-      craftitem = "rp_nav:compass_0",
 })
 
 minetest.register_alias("nav:compass", "rp_nav:compass_0")
