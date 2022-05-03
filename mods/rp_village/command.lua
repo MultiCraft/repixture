@@ -18,3 +18,21 @@ minetest.register_chatcommand("villages", {
 		return true, out
 	end,
 })
+
+minetest.register_chatcommand("find_village", {
+	description = S("Find closest known village"),
+	params = "",
+	privs = { debug = true },
+	func = function(name, param)
+		local player = minetest.get_player_by_name(name)
+		if not player then
+			return false, S("No player.")
+		end
+		local pos = player:get_pos()
+		local village = village.get_nearest_village(pos)
+		if not village then
+			return true, S("No villages.")
+		end
+		return true, S("Nearest village is @1 at @2.", village.fname, minetest.pos_to_string(village.pos))
+	end,
+})

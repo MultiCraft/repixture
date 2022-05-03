@@ -128,18 +128,23 @@ function village.load_waypoints()
 end
 
 function village.get_nearest_village(pos)
-   local nearest = 100000 -- big number
-   local name = nil
+   local nearest = math.huge
+   local npos = nil
+   local fname = nil
 
    for name, def in pairs(village.villages) do
       local dist = vector.distance(pos, def.pos)
       if dist < nearest then
 	 nearest = dist
 	 name = name
+	 fname = def.name
+	 npos = def.pos
       end
    end
-
-   return {dist = nearest, name = name}
+   if not fname then
+	   return nil
+   end
+   return {dist = nearest, pos = npos, name = name, fname = fname}
 end
 
 village.chunkdefs = {}

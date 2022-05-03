@@ -113,7 +113,7 @@ local function attempt_village_spawn(pos)
     if ((shortseed + spos.x + spos.y + spos.z) % 30) == 1 then
        local nearest = village.get_nearest_village(spos)
 
-       if nearest.dist > village.min_spawn_dist then
+       if not nearest or nearest.dist > village.min_spawn_dist then
           if vector.distance(spawn_pos, spos) > spawn_radius then
              minetest.log("action", "[rp_village] Spawning a grassland village at " .. "(" .. spos.x
                              .. ", " .. spos.y .. ", " .. spos.z .. ")")
