@@ -1,8 +1,10 @@
 # textdomain: rp_village
-Village Entity Spawner=
-Village Spawner=
-Mapgen Village Spawner=
-(Has chance of not spawning village)=
+List known villages=
+@1: @2=
+No villages.=
+List of villages:=
 You need the “maphack” privilege to use this.=
+Village Entity Spawner=
 Placeholder that marks a position at which to spawn an entity during village generation=
+Village Spawner=
 Generates a village when placed=
