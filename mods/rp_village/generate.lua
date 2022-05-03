@@ -95,6 +95,7 @@ function village.load_villages()
 	       name = fname,
 	       pos = minetest.get_position_from_hash(pos),
 	    }
+	    village.name.used[fname] = true
 	 end
       until f:read(0) == nil
 
