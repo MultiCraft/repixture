@@ -469,7 +469,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
    return true, state
 end
 
-function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace, dont_check_empty)
+function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace, dont_check_empty, dist_from_start)
    if not dont_check_empty and not check_empty(pos) then
       minetest.log("verbose", "[rp_village] Road not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
       return false, state
@@ -479,17 +479,22 @@ function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace
       local nextpos = {x = pos.x, y = pos.y, z = pos.z}
       local orient = "random"
 
+      local new_dist_from_start = vector.new(dist_from_start.x, dist_from_start.y, dist_from_start.z)
       if i == 1 then
 	 orient = "0"
+	 new_dist_from_start.z = new_dist_from_start.z - 1
 	 nextpos.z = nextpos.z - 12
       elseif i == 2 then
 	 orient = "90"
+	 new_dist_from_start.x = new_dist_from_start.x - 1
 	 nextpos.x = nextpos.x - 12
       elseif i == 3 then
 	 orient = "180"
+	 new_dist_from_start.z = new_dist_from_start.z + 1
 	 nextpos.z = nextpos.z + 12
       else
 	 orient = "270"
+	 new_dist_from_start.x = new_dist_from_start.x + 1
 	 nextpos.x = nextpos.x + 12
       end
 
@@ -498,7 +503,16 @@ function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace
       local chunk_ok
       if built[hnp] == nil then
 	 built[hnp] = true
-	 if depth <= 0 or pr:next(1, 8) < 6 then
+
+         -- True is the next position is at or beyond the maximum village boundaries.
+         -- This will ensure the village does not spread too far from the starting
+         -- point.
+         local is_at_village_border = math.abs(new_dist_from_start.x) >= village.max_village_spread or math.abs(new_dist_from_start.z) >= village.max_village_spread
+         if is_at_village_border then
+            minetest.log("verbose", "[rp_village] Border hit at "..minetest.pos_to_string(nextpos).." "..minetest.pos_to_string(new_dist_from_start))
+         end
+
+	 if depth <= 0 or is_at_village_border or pr:next(1, 8) < 6 then
 	    houses[hnp] = {pos = nextpos, front = pos}
 
 	    local structure = random_chunktype(pr)
@@ -508,7 +522,7 @@ function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace
             end
 	 else
 	    roads[hnp] = {pos = nextpos}
-	    chunk_ok, state = village.spawn_road(nextpos, state, houses, built, roads, depth - 1, pr, replace)
+	    chunk_ok, state = village.spawn_road(nextpos, state, houses, built, roads, depth - 1, pr, replace, false, new_dist_from_start)
             if not chunk_ok then
                roads[hnp] = false
             end
@@ -571,10 +585,10 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
 
    local wellpos = table.copy(pos)
 
-   -- Generate a road at the well. The road tries to grow in 4 directions
+   -- Generate a road below the well. The road tries to grow in 4 directions
    -- growing either recursively more roads or buildings (where the road
    -- terminates)
-   local _, state = village.spawn_road(pos, state, houses, built, roads, depth, pr, replace, true)
+   local _, state = village.spawn_road(pos, state, houses, built, roads, depth, pr, replace, true, vector.zero())
 
    local function connects(pos, nextpos)
       local hnp = minetest.hash_node_position(nextpos)
