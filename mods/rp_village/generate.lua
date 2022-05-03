@@ -5,6 +5,9 @@
 
 village.villages = {}
 
+-- Sidelength of the square of a village chunk, in nodes
+local VILLAGE_CHUNK_SIZE = 14
+
 -- Savefile
 
 local village_file = minetest.get_worldpath() .. "/villages.dat"
@@ -508,18 +511,20 @@ function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace
    return true, state
 end
 
-function village.spawn_village(pos, pr, force_place_well)
+function after_village_area_emerged(blockpos, action, calls_remaining, params)
+   local done = action == minetest.EMERGE_GENERATED or action == minetest.EMERGE_FROM_DISK or action == minetest.EMERGE_FROM_MEMORY
+   if not done or calls_remaining > 0 then
+      return
+   end
+   local pos = params.pos
+   local pr = params.pr
+   local force_place_well = params.force_place_well
+
+   minetest.log("error", "[rp_village] Village area emerged at startpos = "..minetest.pos_to_string(pos))
+
    local name = village.name.generate(pr)
 
    local depth = pr:next(village.min_size, village.max_size)
-
-   village.villages[village.get_id(name, pos)] = {
-      name = name,
-      pos = pos,
-   }
-
-   village.save_villages()
-   village.load_waypoints()
 
    local houses = {}
    local built = {}
@@ -545,12 +550,19 @@ function village.spawn_village(pos, pr, force_place_well)
    local chunk_ok, state = village.spawn_chunk(pos, nil, "0", replace, pr, "well", nil, force_place_well == true)
    if not chunk_ok then
       -- Oops! Not enough space for the well. Village generation fails.
+      minetest.log("action", "[rp_village] Village generation not done at "..mintest.pos_to_string(pos)..". Not enough space")
       return false
    end
 
-   local wellpos = table.copy(pos)
-
+   village.villages[village.get_id(name, pos)] = {
+      name = name,
+      pos = pos,
+   }
+   village.save_villages()
+   village.load_waypoints()
    built[minetest.hash_node_position(pos)] = true
+
+   local wellpos = table.copy(pos)
 
    -- Generate a road at the well. The road tries to grow in 4 directions
    -- growing either recursively more roads or buildings (where the road
@@ -652,6 +664,15 @@ function village.spawn_village(pos, pr, force_place_well)
    end
    minetest.log("action", string.format("[rp_village] Took %.2fms to generate village", (os.clock() - t1) * 1000))
    return true
+end
+
+function village.spawn_village(pos, pr, force_place_well)
+   local spread = VILLAGE_CHUNK_SIZE * village.max_village_spread
+   local vspread = vector.new(spread, spread, spread)
+   local emerge_min = vector.subtract(pos, vspread)
+   local emerge_max = vector.add(pos, vspread)
+   minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {pos=pos, pr=pr, force_place_well=force_place_well})
+
 end
 
 minetest.register_on_mods_loaded(village.load_villages)
