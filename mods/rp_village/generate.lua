@@ -521,7 +521,7 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
    local pr = params.pr
    local force_place_well = params.force_place_well
 
-   minetest.log("error", "[rp_village] Village area emerged at startpos = "..minetest.pos_to_string(pos))
+   minetest.log("info", "[rp_village] Village area emerged at startpos = "..minetest.pos_to_string(pos))
 
    local name = village.name.generate(pr)
 
@@ -551,7 +551,7 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
    local chunk_ok, state = village.spawn_chunk(pos, nil, "0", replace, pr, "well", nil, force_place_well == true)
    if not chunk_ok then
       -- Oops! Not enough space for the well. Village generation fails.
-      minetest.log("action", "[rp_village] Village generation not done at "..mintest.pos_to_string(pos)..". Not enough space")
+      minetest.log("action", "[rp_village] Village generation not done at "..minetest.pos_to_string(pos)..". Not enough space")
       return false
    end
 
@@ -663,7 +663,7 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
       end
    end
    end
-   minetest.log("action", string.format("[rp_village] Took %.2fms to generate village", (os.clock() - t1) * 1000))
+   minetest.log("action", string.format("[rp_village] Generated village '%s' at %s in %.2fms", name, minetest.pos_to_string(pos), (os.clock() - t1) * 1000))
    return true
 end
 
