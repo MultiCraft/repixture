@@ -44,6 +44,55 @@ minetest.register_craft(
       cooktime = 6,
 })
 
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_default:lump_copper",
+      recipe = "rp_default:stone_with_copper",
+      cooktime = 6,
+})
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_default:lump_sulfur",
+      recipe = "rp_default:stone_with_sulfur",
+      cooktime = 6,
+})
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_default:lump_coal",
+      recipe = "rp_default:stone_with_coal",
+      cooktime = 6,
+})
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_default:lump_iron",
+      recipe = "rp_default:stone_with_iron",
+      cooktime = 6,
+})
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_default:lump_tin",
+      recipe = "rp_default:stone_with_tin",
+      cooktime = 6,
+})
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_default:sheet_graphite",
+      recipe = "rp_default:stone_with_graphite",
+      cooktime = 6,
+})
+
+
+
+
+
+
+
 -- Metal smelting
 
 minetest.register_craft(

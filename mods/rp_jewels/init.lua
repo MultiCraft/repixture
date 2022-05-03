@@ -247,6 +247,7 @@ minetest.register_craftitem(
       stack_max = 10
 })
 
+
 -- Nodes
 
 local check_put = function(pos, listname, index, stack, player)
@@ -379,6 +380,14 @@ crafting.register_craft(
          "rp_default:ingot_carbon_steel 2",
          "rp_jewels:jewel",
       }
+})
+
+minetest.register_craft(
+{
+      type = "cooking",
+      output = "rp_jewels:jewel",
+      recipe = "rp_jewels:jewel_ore",
+      cooktime = 6,
 })
 
 -- Achievements

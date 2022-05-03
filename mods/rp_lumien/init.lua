@@ -205,6 +205,13 @@ crafting.register_craft(
       },
 })
 
+minetest.register_craft(
+{
+      type = "cooking",
+      output = "rp_lumien:crystal_off",
+      recipe = "rp_lumien:stone_with_lumien",
+      cooktime = 6,
+})
 
 -- Achievements
 

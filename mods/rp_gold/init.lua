@@ -369,6 +369,13 @@ minetest.register_craft(
       recipe = "rp_gold:lump_gold",
       cooktime = 7,
 })
+minetest.register_craft(
+{
+      type = "cooking",
+      output = "rp_gold:lump_gold",
+      recipe = "rp_gold:stone_with_gold",
+      cooktime = 6,
+})
 
 -- Achievements
 
