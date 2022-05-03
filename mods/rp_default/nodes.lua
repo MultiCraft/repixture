@@ -128,7 +128,7 @@ minetest.register_node(
    {
       description = S("Wrought Iron Block"),
       tiles = {"default_block_wrought_iron.png"},
-      groups = {cracky = 2},
+      groups = {cracky = 2, magnetic = 1},
       sounds = rp_sounds.node_sound_stone_defaults(),
       is_ground_content = false,
 })
@@ -138,7 +138,7 @@ minetest.register_node(
    {
       description = S("Steel Block"),
       tiles = {"default_block_steel.png"},
-      groups = {cracky = 2},
+      groups = {cracky = 2, magnetic = 1},
       sounds = rp_sounds.node_sound_stone_defaults(),
       is_ground_content = false,
 })
@@ -148,7 +148,7 @@ minetest.register_node(
    {
       description = S("Carbon Steel Block"),
       tiles = {"default_block_carbon_steel.png"},
-      groups = {cracky = 1},
+      groups = {cracky = 1, magnetic = 1},
       sounds = rp_sounds.node_sound_stone_defaults(),
       is_ground_content = false,
 })
