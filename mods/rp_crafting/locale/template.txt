@@ -1,5 +1,5 @@
-# textdomain:rp_crafting
-Show all recipes=
-Show only craftable recipes=
+# textdomain: rp_crafting
 Craft once=
 Craft 10 times=
+Show only craftable recipes=
+Show all recipes=

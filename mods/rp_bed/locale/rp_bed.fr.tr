@@ -1,11 +1,12 @@
 # textdomain: rp_bed
-Bed=Lit
-Bed Time=Heure du coucher
-Craft a bed.=Constuire un lit.
-Players have slept, rise and shine!=Les joueurs ont dormi, ils se lèvent et rayonnent !
 You have slept, rise and shine!=Vous avez dormi, vous avez la pêche!
+Players have slept, rise and shine!=Les joueurs ont dormi, ils se lèvent et rayonnent !
+Bed=Lit
+Use it to sleep and pass the night=
+Sleeping is disabled.=Le sommeil est désactivé.
+Not enough space to sleep!=Pas assez d'espace pour dormir!
+You have to stop moving before going to bed!=Vous devez arrêter de bouger avant d'aller au lit!
 In bed=Au lit
 You're in a bed=Vous êtes dans un lit
-You have to stop moving before going to bed!=Vous devez arrêter de bouger avant d'aller au lit!
-Not enough space to sleep!=Pas assez d'espace pour dormir!
-Sleeping is disabled.=Le sommeil est désactivé.
+Bed Time=Heure du coucher
+Craft a bed.=Constuire un lit.

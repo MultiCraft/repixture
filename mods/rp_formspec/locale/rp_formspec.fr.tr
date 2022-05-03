@@ -1,17 +1,23 @@
 # textdomain: rp_formspec
+Fuzzy=Vague
+Any fuzzy block=N'importe quel vague bloc
+Planks=
+Any planks=N'importe quelle planche
+Soil=Sol
+Any soil=N'importe quel sol
+Stone=
+Any stone=N'importe quelle pierre
+Green Grass Clump=Touffe d'herbe verte
+Any green grass clump=N'importe quel bouquet d'herbe verte
 Group: @1=Groupe: @1
 Crafting=Artisanat
 Armor=Armure
 Achievements=Réalisations
 Player Skins=Costume
-Write=Écrire
-Fuzzy=Vague
-Soil=Sol
-Any fuzzy block=N'importe quel vague bloc
-Any planks=N'importe quelle planche
-Any soil=N'importe quel sol
-Any stone=N'importe quelle pierre
-Any tree=N'importe quel arbre
 Creative Inventory=Inventaire créatif
-Green Grass Clump=Touffe d'herbe verte
-Any green grass clump=N'importe quel bouquet d'herbe verte
+Write=Écrire
+
+
+##### not used anymore #####
+
+Any tree=N'importe quel arbre

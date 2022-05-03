@@ -1,22 +1,22 @@
 # textdomain: rp_farming
 Wannabe Farmer=
-Wheat Farmer=
-Cotton Farmer=
 Plant a seed.=
+Wheat Farmer=
 Harvest a fully-grown wheat plant.=
+Cotton Farmer=
 Harvest a fully-grown cotton plant.=
 Cotton=
 Wheat=
 Flour=
 Bread=
 Wheat Seed=
+Grows on dirt and swamp dirt; it likes water=
 Wheat Plant (stage 1)=
 Wheat Plant (stage 2)=
 Wheat Plant (stage 3)=
 Cotton Seed=
+Grows on dirt, swamp dirt, dry dirt and sand; it likes water=
 Cotton Plant (stage 1)=
 Cotton Plant (stage 2)=
 Cotton Plant (stage 3)=
 Cotton Bale=
-Grows on dirt and swamp dirt; it likes water=
-Grows on dirt, swamp dirt, dry dirt and sand; it likes water=

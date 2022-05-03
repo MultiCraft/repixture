@@ -1,12 +1,13 @@
 # textdomain: rp_gold
 Farmer=
 Tavern Keeper=
+Carpenter=
 Blacksmith=
 Butcher=
-Carpenter=
-Cancel=
 Trade=
+Cancel=
 Trading Book=
+Show this to a villager to trade=
 Gold Lump=
 Gold Ingot=
 Stone with Gold=
@@ -14,4 +15,3 @@ Trader=
 Trade with a villager.=
 Gold Rush=
 Dig a gold ore.=
-Show this to a villager to trade=

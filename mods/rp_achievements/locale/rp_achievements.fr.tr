@@ -1,28 +1,33 @@
 # textdomain: rp_achievements
+@1 has earned the achievement “@2”.=@1 a réalisé avec succès "@2".
 Gotten=Obtenu
+@1/@2=@1/@2
 Missing=Manquant
 @1 of @2 achievements gotten, @3 in progress=@1 @2 réalisations obtenues, @3 en cours
-@1 has earned the achievement “@2”.=@1 a réalisé avec succès "@2".
-@1/@2=@1/@2
-Off to Battle=En route vers la bataille
-Craft a broadsword.=Constuire une épée.
-Hardened Miner=Mineur endurci
-Craft a carbon steel pickaxe.=Constuire une hache en acier carbone.
-Drain the Swamp=Assécher le marais
-Dig somme swamp dirt.=Extraire de la terre du marais.
-Mineority=Minoritaire
-Mine a stone.=Miner une pierre.
 Timber=Charpente
 Dig a tree trunk.=Extraire un tronc d'arbre.
+My First Pickaxe=Ma première pioche
+Craft a pickaxe.=Constuire une pioche.
+Hardened Miner=Mineur endurci
+Craft a carbon steel pickaxe.=Constuire une hache en acier carbone.
+Off to Battle=En route vers la bataille
+Craft a broadsword.=Constuire une épée.
+Mineority=Minoritaire
+Mine a stone.=Miner une pierre.
+Smelting Room=Salle de fonte
+Craft a furnace.=Constuire un four.
 Gardener=Jardinier
 Plant a flower.=Plantez une fleur.
 Dry Lands=Terres arides
 Collect dry grass.=Collecter de l'herbe sèche.
+Drain the Swamp=Assécher le marais
+Dig some swamp dirt.=
 Fertile=Fertile
 Craft a bag of fertilizer.=Constuire un sac d'engrais.
 Librarian=Bibliothécaire
 Craft a bookshelf.=Constuire une étagère.
-Smelting Room=Salle de fonte
-Craft a furnace.=Constuire un four.
-My First Pickaxe=Ma première pioche
-Craft a pickaxe.=Constuire une pioche.
+
+
+##### not used anymore #####
+
+Dig somme swamp dirt.=Extraire de la terre du marais.

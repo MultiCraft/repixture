@@ -1,8 +1,12 @@
 # textdomain: rp_music
-Music Player (off)=Musikbox (aus)
 Music Player (on)=Musikbox (an)
-Music Player=Musikbox
+Music Player (off)=Musikbox (aus)
 Music Player (disabled by server)=Musikbox (vom Server deaktiviert)
+Music Player=Musikbox
+
+
+##### not used anymore #####
+
 Musician=Musiker
 Sound Engineer=Tontechniker
 Craft a music player.=Fertigen Sie eine Musikbox.

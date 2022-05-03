@@ -1,8 +1,4 @@
 # textdomain: rp_armor
-Helmet=Helm
-Chestplate=Brustplatte
-Boots=Stiefel
-Chainmail Sheet=Kettenpanzerplane
 Wooden Helmet=Holzhelm
 Wooden Chestplate=Holzbrustplatte
 Wooden Boots=Holzstiefel
@@ -18,6 +14,10 @@ Carbon Steel Boots=Karbonstahlstiefel
 Bronze Helmet=Bronzehelm
 Bronze Chestplate=Bronzebrustplatte
 Bronze Boots=Bronzestiefel
+Helmet=Helm
+Chestplate=Brustplatte
+Boots=Stiefel
+Chainmail Sheet=Kettenpanzerplane
 Armored=Gerüstet
 Craft a piece of armor.=Fertigen Sie ein Rüstungsteil.
 Skin of Bronze=Haut aus Bronze

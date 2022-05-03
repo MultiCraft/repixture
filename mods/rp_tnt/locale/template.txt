@@ -1,9 +1,9 @@
 # textdomain: rp_tnt
 TNT=
-TNT (defused)=
-Boom!=
-Boom?=
-Ignite TNT.=
-Craft defused TNT.=
 Will explode when ignited by flint and steel=
+TNT (defused)=
 It's harmless=
+Boom!=
+Ignite TNT.=
+Boom?=
+Craft defused TNT.=

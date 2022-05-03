@@ -1,7 +1,11 @@
 # textdomain: rp_music
-Music Player (off)=Lecteur de musique (off)
 Music Player (on)=Lecteur de musique (on)
-Music Player=Lecteur de musique
+Music Player (off)=Lecteur de musique (off)
 Music Player (disabled by server)=Lecteur de musique (désactivé par serveur)
+Music Player=Lecteur de musique
+
+
+##### not used anymore #####
+
 Sound Engineer=Ingénieur du son
 Craft a music player.=Constuire un lecteur de musique.

@@ -1,7 +1,5 @@
 # textdomain: rp_music
-Music Player (off)=
 Music Player (on)=
-Music Player=
+Music Player (off)=
 Music Player (disabled by server)=
-Sound Engineer=
-Craft a music player.=
+Music Player=

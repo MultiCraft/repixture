@@ -1,8 +1,13 @@
-# textdomain: book
+# textdomain: rp_book
 Unnamed Book=Livre sans nom
+Write down some notes=
 Title:=Titre:
 Contents:=Contenu:
 Write=Écrire
+Book: “@1”=Livre: "@1"
+
+
+##### not used anymore #####
+
 Scribe=Scribe
 Craft a book.=Constuire un livre.
-Book: “@1”=Livre: "@1"

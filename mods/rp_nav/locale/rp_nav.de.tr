@@ -1,10 +1,19 @@
 # textdomain: rp_nav
 Compass=Kompass
+It points to the North=Er zeigt nach Norden
+Can be magnetized at magnetic blocks=
+Magno Compass=
+It points to a position=
+Can be demagnetized at unmagnetic blocks=
+True Navigator=Wahrer Navigator
+Magnetize a compass.=
 Map=Karte
+Keep this in your inventory and view the map with the 'minimap' key=Im Inventar behalten und Karte mit „Karte an/aus“-Taste öffnen
+Use the minimap key to show the map.=Taste „Karte an/aus“ benutzen, um die Karte zu betrachten.
 Navigator=Navigator
 Craft a map.=Fertigen Sie eine Karte.
-True Navigator=Wahrer Navigator
+
+
+##### not used anymore #####
+
 Craft a compass.=Fertigen Sie einen Kompass.
-Use the minimap key to show the map.=Taste „Karte an/aus“ benutzen, um die Karte zu betrachten.
-It points to the North=Er zeigt nach Norden
-Keep this in your inventory and view the map with the 'minimap' key=Im Inventar behalten und Karte mit „Karte an/aus“-Taste öffnen

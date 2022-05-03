@@ -1,9 +1,13 @@
-# textdomain: book
+# textdomain: rp_book
 Unnamed Book=Namenloses Buch
+Write down some notes=Zum Aufschreiben von Notizen
 Title:=Titel:
 Contents:=Inhalt:
 Write=Schreiben
+Book: “@1”=Buch: „@1“
+
+
+##### not used anymore #####
+
 Scribe=Schreiber
 Craft a book.=Fertigen Sie ein Buch.
-Book: “@1”=Buch: „@1“
-Write down some notes=Zum Aufschreiben von Notizen

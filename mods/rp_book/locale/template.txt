@@ -1,9 +1,7 @@
-# textdomain: book
+# textdomain: rp_book
 Unnamed Book=
+Write down some notes=
 Title:=
 Contents:=
 Write=
-Scribe=
-Craft a book.=
 Book: “@1”=
-Write down some notes=

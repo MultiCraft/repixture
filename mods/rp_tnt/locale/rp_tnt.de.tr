@@ -1,9 +1,9 @@
 # textdomain: rp_tnt
 TNT=TNT
-TNT (defused)=TNT (entschärft)
-Boom!=Bumm!
-Boom?=Bumm?
-Ignite TNT.=Entzünden Sie TNT.
-Craft defused TNT.=Fertigen Sie entschärftes TNT.
 Will explode when ignited by flint and steel=Wird explodieren, wenn mit Feuerstein und Stahl angezündet
+TNT (defused)=TNT (entschärft)
 It's harmless=Es ist harmlos
+Boom!=Bumm!
+Ignite TNT.=Entzünden Sie TNT.
+Boom?=Bumm?
+Craft defused TNT.=Fertigen Sie entschärftes TNT.

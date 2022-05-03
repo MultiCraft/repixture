@@ -1,12 +1,13 @@
 # textdomain: rp_gold
 Farmer=Bauer
 Tavern Keeper=Wirt
+Carpenter=Schreiner
 Blacksmith=Schmied
 Butcher=Fleischer
-Carpenter=Schreiner
-Cancel=Abbrechen
 Trade=Handeln
+Cancel=Abbrechen
 Trading Book=Handelsbuch
+Show this to a villager to trade=Einem Dorfbewohner zeigen, um Handel zu treiben
 Gold Lump=Goldklumpen
 Gold Ingot=Goldbarren
 Stone with Gold=Stein mit Gold
@@ -14,4 +15,3 @@ Trader=Händler
 Trade with a villager.=Handeln Sie mit einem Dorfbewohner.
 Gold Rush=Goldrausch
 Dig a gold ore.=Graben Sie ein Golderz.
-Show this to a villager to trade=Einem Dorfbewohner zeigen, um Handel zu treiben
