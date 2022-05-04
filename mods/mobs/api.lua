@@ -93,7 +93,7 @@ local function die_handler(self, killer)
       mob_sound(self, self.sounds.death)
    end
    -- Hunter achievement: If mob is a food-dropping animal, it counts.
-   if killer ~= nil and self.type == "animal" and drops_food then
+   if killer ~= nil and killer:is_player() and self.type == "animal" and drops_food then
       achievements.trigger_achievement(killer, "hunter")
    end
    if self.on_die then
@@ -1385,14 +1385,16 @@ function mobs:register_mob(name, def)
          end,
 
          on_punch = function(self, hitter, tflp, tool_capabilities, dir, damage)
-            -- weapon wear
-            local weapon = hitter:get_wielded_item()
-            if weapon:get_definition().tool_capabilities ~= nil then
-               local wear = ( (weapon:get_definition().tool_capabilities.full_punch_interval or 1.4) / 75 ) * 9000
-               if not minetest.is_creative_enabled(hitter:get_player_name()) then
-                  weapon:add_wear(wear)
+            if hitter:is_player() then
+               -- weapon wear
+               local weapon = hitter:get_wielded_item()
+               if weapon:get_definition().tool_capabilities ~= nil then
+                  local wear = ( (weapon:get_definition().tool_capabilities.full_punch_interval or 1.4) / 75 ) * 9000
+                  if not minetest.is_creative_enabled(hitter:get_player_name()) then
+                     weapon:add_wear(wear)
+                  end
+                  hitter:set_wielded_item(weapon)
                end
-               hitter:set_wielded_item(weapon)
             end
 
             -- punch sounds
@@ -1432,8 +1434,8 @@ function mobs:register_mob(name, def)
                self.pause_timer = r
             end
 
-            -- attack puncher and call other mobs for help
-            if self.passive == false
+            -- attack hitter and call other mobs for help
+            if self.passive == false and hitter:is_player()
             and not self.tamed then
                if self.state ~= "attack" then
                   self.do_attack(self, hitter, 1)

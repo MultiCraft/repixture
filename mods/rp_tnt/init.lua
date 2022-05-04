@@ -117,8 +117,6 @@ local function entity_physics(pos, radius)
    -- Make the damage radius larger than the destruction radius
    radius = radius * 2
 
-   local no_water = (minetest.find_node_near(pos, 1, {"group:water"}) == nil)
-
    local objs = minetest.get_objects_inside_radius(pos, radius)
    for _, obj in pairs(objs) do
       local obj_pos = obj:get_pos()
@@ -130,12 +128,9 @@ local function entity_physics(pos, radius)
 				       obj_vel, radius * 10))
       end
 
-      -- No damage if TNT was close to water
-      if no_water then
-	 local damage = (4 / dist) * radius
-	 obj:set_hp(obj:get_hp() - damage)
-      end
-   end
+      local damage = (4 / dist) * radius
+      local dir = vector.direction(pos, obj_pos)
+      obj:punch(obj, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, dir)
 end
 
 local function add_effects(pos, radius)
