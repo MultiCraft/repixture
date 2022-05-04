@@ -504,6 +504,39 @@ minetest.register_node(
       on_place = default.place_sapling,
 })
 
+minetest.register_node(
+   "rp_default:sapling_dry_bush",
+   {
+      description = S("Dry Bush Sapling"),
+      _tt_help = S("Grows into a dry bush"),
+      drawtype = "plantlike",
+      tiles = {"default_sapling_dry_bush.png"},
+      inventory_image = "default_sapling_dry_bush_inventory.png",
+      wield_image = "default_sapling_dry_bush_inventory.png",
+      paramtype = "light",
+      walkable = false,
+      floodable = true,
+      selection_box = {
+	 type = "fixed",
+	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
+      },
+      groups = {snappy = 2, handy = 1, attached_node = 1, sapling = 1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_defaults(),
+
+      on_timer = function(pos)
+         default.grow_sapling(pos, "dry_bush")
+      end,
+
+      on_construct = function(pos)
+         default.begin_growing_sapling(pos)
+      end,
+
+      on_place = default.place_sapling,
+})
+
+
+
 -- Trees
 
 minetest.register_node(
@@ -624,12 +657,12 @@ minetest.register_node(
 	 max_items = 1,
 	 items = {
 	    {
-	       items = {"rp_default:dry_leaves"},
+	       items = {"rp_default:sapling_dry_bush"},
+	       rarity = 15,
 	    },
 	    {
-	       items = {"rp_default:dry_grass"},
-	       rarity = 6,
-	    }
+	       items = {"rp_default:dry_leaves"},
+	    },
 	 }
       },
       sounds = rp_sounds.node_sound_leaves_defaults(),

@@ -72,6 +72,8 @@ function default.begin_growing_sapling(pos)
       minetest.get_node_timer(pos):start(math.random(700, 960))
    elseif node.name == "rp_default:sapling_birch" then
       minetest.get_node_timer(pos):start(math.random(480, 780))
+   elseif node.name == "rp_default:sapling_dry_bush" then
+      minetest.get_node_timer(pos):start(math.random(180, 400))
    end
 end
 
@@ -109,6 +111,15 @@ function default.grow_sapling(pos, variety)
                ["rp_default:tree"] = "rp_default:tree_birch",
                ["rp_default:apple"] = "air"
             }, false)
+    elseif variety == "dry_bush" then
+	 minetest.place_schematic(
+            {
+               x = pos.x - 1,
+               y = pos.y - 1,
+               z = pos.z - 1
+            },
+            minetest.get_modpath("rp_default")
+               .. "/schematics/default_dry_bush.mts", "0", {}, false)
       end
    end
 
