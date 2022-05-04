@@ -9,6 +9,24 @@ local nav_mod = minetest.get_modpath("rp_nav") ~= nil
 
 item_drop = {}
 
+-- Distance from player to item
+-- below which the item magnet kicks in
+-- and starts attracting the item.
+local ITEM_MAGNET_ACTIVE_DISTANCE = 1.5
+
+-- Distance from player to item
+-- below which the player's item magnet
+-- will collect the item into the inventory.
+local ITEM_MAGNET_COLLECT_DISTANCE = 0.5
+
+-- Distance above ground at which players
+-- will collect items
+local ITEM_MAGNET_HAND_HEIGHT = 0.5
+
+-- Movement speed at which the item
+-- magnet attracts items
+local ITEM_MAGNET_ATTRACT_SPEED = 5
+
 -- Time in seconds for which the item magnet is
 -- inactive after being dropped by a player
 local ITEM_MAGNET_DELAY_AFTER_DROP = 1.5
@@ -87,7 +105,7 @@ minetest.register_globalstep(
                and object:get_luaentity().name == "__builtin:item" and valid(object) then
                   local pos1 = table.copy(pos)
 
-                  pos1.y = pos1.y + 0.2
+                  pos1.y = pos1.y + ITEM_MAGNET_HAND_HEIGHT
 
                   local pos2 = object:get_pos()
 
@@ -106,16 +124,16 @@ minetest.register_globalstep(
                   end
 
 		  -- Item magnet handling
-                  if len < 1.35 and lua.item_magnet_timer <= 0 then
+                  if len < ITEM_MAGNET_ACTIVE_DISTANCE and lua.item_magnet_timer <= 0 then
                      -- Activate item magnet
                      if inv and inv:room_for_item("main", ItemStack(lua.itemstring)) then
-                        if len > 0.5 then
+                        if len >= ITEM_MAGNET_COLLECT_DISTANCE then
                            -- Attract item to player
                            vec = vector.divide(vec, len) -- It's a normalize but we have len yet (vector.normalize(vec))
 
-                           vec.x = vec.x*3
-                           vec.y = vec.y*3
-                           vec.z = vec.z*3
+                           vec.x = vec.x*ITEM_MAGNET_ATTRACT_SPEED
+                           vec.y = vec.y*ITEM_MAGNET_ATTRACT_SPEED
+                           vec.z = vec.z*ITEM_MAGNET_ATTRACT_SPEED
 
                            lua.item_magnet = true
                            object:set_velocity(vec)
