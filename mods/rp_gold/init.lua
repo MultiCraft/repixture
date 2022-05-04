@@ -385,6 +385,7 @@ achievements.register_achievement(
       title = S("Trader"),
       description = S("Trade with a villager."),
       times = 1,
+      item_icon = "rp_gold:trading_book",
 })
 
 achievements.register_achievement(

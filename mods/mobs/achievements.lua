@@ -13,6 +13,7 @@ achievements.register_achievement(
       title = S("Hunter"),
       description = S("Kill an animal for food."),
       times = 1,
+      item_icon = "mobs:meat_raw",
 })
 
 local peaceful_only = minetest.settings:get_bool("only_peaceful_mobs") or false
@@ -24,6 +25,7 @@ if not peaceful_only then
           title = S("Bomb has Been Defused!"),
           description = S("Kill a mine turtle."),
           times = 1,
+	  item_icon = "mobs:mineturtle",
     })
 end
 
@@ -33,6 +35,7 @@ achievements.register_achievement(
       title = S("Ranger"),
       description = S("Capture a tame animal."),
       times = 1,
+      item_icon = "mobs:lasso",
 })
 
 achievements.register_achievement(
@@ -41,6 +44,7 @@ achievements.register_achievement(
       title = S("Best Friends Forever"),
       description = S("Tame an animal."),
       times = 1,
+      item_icon = "rp_default:apple",
 })
 
 achievements.register_achievement(
@@ -49,6 +53,7 @@ achievements.register_achievement(
       title = S("Wonder of Life"),
       description = S("Get two animals to breed."),
       times = 1,
+      icon = "mobs_achievement_wonder_of_life.png",
 })
 
 achievements.register_achievement(
@@ -57,5 +62,6 @@ achievements.register_achievement(
       title = S("Smalltalk"),
       description = S("Have a friendly chat with a villager."),
       times = 1,
+      icon = "mobs_achievement_smalltalk.png",
 })
 

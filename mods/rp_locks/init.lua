@@ -365,6 +365,7 @@ achievements.register_achievement(
       title = S("Burglar"),
       description = S("Break into a locked chest."),
       times = 1,
+      item_icon = "rp_locks:pick",
 })
 
 -- Update node after the rename orgy after 1.5.3

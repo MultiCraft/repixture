@@ -398,6 +398,7 @@ achievements.register_achievement(
       title = S("Jeweler"),
       description = S("Jewel a tool."),
       times = 1,
+      item_icon = "rp_jewels:shovel_steel_uses",
 })
 
 achievements.register_achievement(

@@ -189,6 +189,7 @@ achievements.register_achievement(
       title = S("Skydiver"),
       description = S("Descend over 100 blocks with a parachute."),
       times = 1,
+      item_icon = "parachute:parachute",
 })
 
 default.log("mod:parachute", "loaded")

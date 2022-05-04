@@ -404,6 +404,7 @@ achievements.register_achievement(
       description = S("Craft a door."),
       times = 1,
       craftitem = "group:door",
+      item_icon = "rp_door:door_wood",
 })
 
 minetest.register_alias("door:door_stone", "rp_door:door_stone")

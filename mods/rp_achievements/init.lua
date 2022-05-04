@@ -54,6 +54,8 @@ function achievements.register_achievement(name, def)
       dignode = def.dignode or nil, -- digging this node also triggers the achievement
       placenode = def.placenode or nil, -- placing this node also triggers the achievement
       craftitem = def.craftitem or nil, -- crafting this item also triggers the achievement
+      icon = def.icon or nil, -- optional icon for achievement (texture)
+      item_icon = def.item_icon or nil, -- optional icon for achievement (itemstring)
    }
 
    achievements.registered_achievements[name] = def
@@ -263,8 +265,10 @@ function achievements.get_formspec(name, row)
    local progress = ""
    local title = def.title
    local description = def.description
+   local gotten = false
    if achievements.achievements[name][aname] then
       if achievements.achievements[name][aname] == -1 then
+	 gotten = true
 	 progress = minetest.colorize(COLOR_GOTTEN, S("Gotten"))
          title = minetest.colorize(COLOR_GOTTEN, title)
          description = minetest.colorize(COLOR_GOTTEN, description)
@@ -292,7 +296,37 @@ function achievements.get_formspec(name, row)
 
    -- TODO: Revert this back to a label
    -- Currently a textarea as a workaround for a bug in Minetest that makes labels too short when translated.
-   form = form .. "textarea[0.75,0.75;7.75,2;;;" .. minetest.formspec_escape(description) .. "]"
+   form = form .. "textarea[2.5,0.75;5.75,2;;;" .. minetest.formspec_escape(description) .. "]"
+
+   local icon, item_icon
+   if not gotten then
+      icon = "rp_achievements_icon_missing.png"
+   else
+      icon = def.icon
+      item_icon = def.item_icon
+   end
+   if not icon and not item_icon then
+      if def.craftitem then
+         item_icon = def.craftitem
+      elseif def.dignode then
+         item_icon = def.dignode
+      elseif def.placenode then
+         item_icon = def.placenode
+      end
+      if item_icon and string.sub(item_icon, 1, 6) == "group:" then
+         item_icon = nil
+      end
+   end
+   if not icon and not item_icon then
+      -- Fallback icon
+      icon = "rp_achievements_icon_default.png"
+   end
+
+   if icon then
+      form = form .. "image[0.25,0.75;1.8,1.8;" .. minetest.formspec_escape(icon) .. "]"
+   elseif item_icon then
+      form = form .. "item_image[0.25,0.75;1.8,1.8;" .. minetest.formspec_escape(item_icon) .. "]"
+   end
 
    return form
 end
@@ -350,6 +384,7 @@ achievements.register_achievement(
       description = S("Dig a tree trunk."),
       times = 1,
       dignode = "group:tree",
+      item_icon = "rp_default:tree",
 })
 
 -- Tools
@@ -361,6 +396,7 @@ achievements.register_achievement(
       description = S("Craft a pickaxe."),
       times = 1,
       craftitem = "group:pickaxe",
+      item_icon = "rp_default:pick_wood",
 })
 
 achievements.register_achievement(
@@ -428,6 +464,7 @@ achievements.register_achievement(
       description = S("Dig some swamp dirt."),
       times = 1,
       dignode = "group:swamp_dirt",
+      item_icon = "rp_default:swamp_dirt",
 })
 
 -- Farming

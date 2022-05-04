@@ -342,6 +342,7 @@ if tnt_enable then
          title = S("Boom!"),
          description = S("Ignite TNT."),
          times = 1,
+         item_icon = "rp_tnt:tnt_burning",
    })
 else
    achievements.register_achievement(

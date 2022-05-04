@@ -10,6 +10,7 @@ achievements.register_achievement(
       description = S("Plant a seed."),
       times = 1,
       placenode = "group:seed",
+      item_icon = "rp_farming:wheat_1",
    })
 
 achievements.register_achievement(

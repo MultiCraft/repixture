@@ -224,6 +224,7 @@ achievements.register_achievement(
       title = S("True Navigator"),
       description = S("Magnetize a compass."),
       times = 1,
+      item_icon = "rp_nav:magnocompass",
 })
 
 minetest.register_alias("nav:compass", "rp_nav:compass_0")
