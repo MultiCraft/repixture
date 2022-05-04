@@ -132,24 +132,6 @@ local function calc_velocity(pos1, pos2, old_vel, power)
    return vel
 end
 
--- modified from TNT mod
-local function entity_physics(pos, radius)
-   radius = radius * 2
-   local objs = minetest.get_objects_inside_radius(pos, radius)
-   local obj_pos, obj_vel, dist
-   for _, obj in pairs(objs) do
-      obj_pos = obj:get_pos()
-      obj_vel = obj:get_velocity()
-      dist = math.max(1, vector.distance(pos, obj_pos))
-      if obj_vel ~= nil then
-         obj:set_velocity(calc_velocity(pos, obj_pos, obj_vel, radius * 10))
-      end
-      local damage = (4 / dist) * radius
-      local dir = vector.direction(pos, obj_pos)
-      obj:punch(obj, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, dir)
-   end
-end
-
 function mobs:register_mob(name, def)
    minetest.register_entity(
       name,
@@ -1079,7 +1061,6 @@ function mobs:register_mob(name, def)
                   end
                   if self.timer > 3 then
                      local pos = vector.round(self.object:get_pos())
-                     entity_physics(pos, 3) -- hurt player/mobs caught in blast area
                      if minetest.find_node_near(pos, 1, {"group:water"}) or minetest.is_protected(pos, "") then
                         self.object:remove()
                         if self.sounds.explode ~= "" then
