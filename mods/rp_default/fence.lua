@@ -27,7 +27,7 @@ local function register_fence(name, def)
 			connect_back =  {-1/8, -1/2,  1/8,  1/8, 1/2 + fence_collision_extra,  1/2},
 			connect_right = { 1/8, -1/2, -1/8,  1/2, 1/2 + fence_collision_extra,  1/8}
 		},
-		connects_to = {"group:fence", "group:wood"},
+		connects_to = {"group:fence", "group:wood", "group:tree"},
 		inventory_image = def.inventory_image,
 		wield_image = def.wield_image,
 		tiles = {def.texture_top, def.texture_top, def.texture_side},
