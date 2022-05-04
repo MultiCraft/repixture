@@ -49,7 +49,7 @@ local function on_globalstep(dtime)
 		local magno_pos = vector.new(x,y,z)
 		local vdir = vector.direction(magno_pos, player:get_pos())
 		local magnoyaw = minetest.dir_to_yaw(vdir)
-		magnoyaw = (magnoyaw - player:get_look_horizontal() + math.pi) % (math.pi*2)
+		magnoyaw = (math.pi - magnoyaw + player:get_look_horizontal()) % (math.pi*2)
 		local dir = yaw_to_compass_dir(magnoyaw)
 	       itemstack:set_name("rp_nav:magnocompass_"..dir)
 	       inv:set_stack("main", i, itemstack)
@@ -64,43 +64,43 @@ minetest.register_globalstep(on_globalstep)
 -- Items
 local inv_imgs = {
 	[0] = "nav_compass_inventory_0.png",
-	"nav_compass_inventory_1.png^[transformR90",
-	"nav_compass_inventory_0.png^[transformR90",
-	"nav_compass_inventory_1.png^[transformR180",
-	"nav_compass_inventory_0.png^[transformR180",
-	"nav_compass_inventory_1.png^[transformR270",
-	"nav_compass_inventory_0.png^[transformR270",
 	"nav_compass_inventory_1.png",
+	"nav_compass_inventory_0.png^[transformR270",
+	"nav_compass_inventory_1.png^[transformR270",
+	"nav_compass_inventory_0.png^[transformR180",
+	"nav_compass_inventory_1.png^[transformR180",
+	"nav_compass_inventory_0.png^[transformR90",
+	"nav_compass_inventory_1.png^[transformR90",
 }
 local wield_imgs = {
 	[0] = wield_image_0,
-	wield_image_1 .. "^[transformR90",
-	wield_image_0 .. "^[transformR90",
-	wield_image_1 .. "^[transformR180",
-	wield_image_0 .. "^[transformR180",
-	wield_image_1 .. "^[transformR270",
-	wield_image_0 .. "^[transformR270",
 	wield_image_1,
+	wield_image_0 .. "^[transformR270",
+	wield_image_1 .. "^[transformR270",
+	wield_image_0 .. "^[transformR180",
+	wield_image_1 .. "^[transformR180",
+	wield_image_0 .. "^[transformR90",
+	wield_image_1 .. "^[transformR90",
 }
 local inv_imgs_magno = {
 	[0] = "rp_nav_magnocompass_inventory_0.png",
-	"rp_nav_magnocompass_inventory_1.png^[transformR90",
-	"rp_nav_magnocompass_inventory_0.png^[transformR90",
-	"rp_nav_magnocompass_inventory_1.png^[transformR180",
-	"rp_nav_magnocompass_inventory_0.png^[transformR180",
-	"rp_nav_magnocompass_inventory_1.png^[transformR270",
-	"rp_nav_magnocompass_inventory_0.png^[transformR270",
 	"rp_nav_magnocompass_inventory_1.png",
+	"rp_nav_magnocompass_inventory_0.png^[transformR270",
+	"rp_nav_magnocompass_inventory_1.png^[transformR270",
+	"rp_nav_magnocompass_inventory_0.png^[transformR180",
+	"rp_nav_magnocompass_inventory_1.png^[transformR180",
+	"rp_nav_magnocompass_inventory_0.png^[transformR90",
+	"rp_nav_magnocompass_inventory_1.png^[transformR90",
 }
 local wield_imgs_magno = {
 	[0] = magno_wield_image_0,
-	magno_wield_image_1 .. "^[transformR90",
-	magno_wield_image_0 .. "^[transformR90",
-	magno_wield_image_1 .. "^[transformR180",
-	magno_wield_image_0 .. "^[transformR180",
-	magno_wield_image_1 .. "^[transformR270",
-	magno_wield_image_0 .. "^[transformR270",
 	magno_wield_image_1,
+	magno_wield_image_0 .. "^[transformR270",
+	magno_wield_image_1 .. "^[transformR270",
+	magno_wield_image_0 .. "^[transformR180",
+	magno_wield_image_1 .. "^[transformR180",
+	magno_wield_image_0 .. "^[transformR90",
+	magno_wield_image_1 .. "^[transformR90",
 }
 
 local d = S("Compass")
