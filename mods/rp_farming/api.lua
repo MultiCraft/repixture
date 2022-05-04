@@ -70,13 +70,17 @@ function farming.place_plant(itemstack, placer, pointed_thing)
 
    local plant = farming.registered_plants[name]
 
-   local under = minetest.get_node(pointed_thing.under)
+   local place_in, place_on = util.pointed_thing_to_place_pos(pointed_thing)
+   if not place_in then
+      return itemstack
+   end
+   local place_on_node = minetest.get_node(place_on)
 
    for _, can_grow_on in ipairs(plant.grows_on) do
       local group = string.match(can_grow_on, "group:(.*)")
 
-      if (group ~= nil and minetest.get_item_group(under.name, group) > 0) or
-      (under.name == can_grow_on) then
+      if (group ~= nil and minetest.get_item_group(place_on_node.name, group) > 0) or
+      (place_on_node.name == can_grow_on) then
          itemstack = minetest.item_place(itemstack, placer, pointed_thing)
          break
       end
