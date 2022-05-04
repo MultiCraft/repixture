@@ -7,6 +7,7 @@ minetest.register_craftitem(
       _tt_help = S("Make plants grow instantly"),
       inventory_image = "rp_supertools_growth_tool.png",
       wield_image = "rp_supertools_growth_tool.png",
+      groups = { supertool = 1 },
       on_place = function(itemstack, user, pointed_thing)
 	 if pointed_thing.type ~= "node" then
              return itemstack
