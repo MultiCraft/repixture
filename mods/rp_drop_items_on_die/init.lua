@@ -15,6 +15,7 @@ end
 
 local function on_die(player)
    local pos = player:get_pos()
+   pos = vector.add(pos, {x=0,y=0.5,z=0})
 
    local inv = player:get_inventory()
 
