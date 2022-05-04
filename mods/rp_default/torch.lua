@@ -203,5 +203,3 @@ minetest.register_lbm({
 		end
 	end,
 })
-
-default.log("torch", "loaded")

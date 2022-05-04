@@ -1278,5 +1278,3 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_water_defaults(),
       is_ground_content = false,
 })
-
-default.log("nodes", "loaded")

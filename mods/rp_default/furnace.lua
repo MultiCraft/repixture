@@ -324,5 +324,3 @@ minetest.register_abm(
 		  meta:set_string("infotext", infotext)
 	       end,
    })
-
-default.log("furnace", "loaded")

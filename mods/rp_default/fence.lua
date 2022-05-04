@@ -80,5 +80,3 @@ register_fence("rp_default:fence_birch", {
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, fence = 1},
 	sounds = rp_sounds.node_sound_wood_defaults()
 })
-
-default.log("fence", "loaded")

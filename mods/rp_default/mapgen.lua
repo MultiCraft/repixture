@@ -971,5 +971,3 @@ minetest.register_ore( -- Large clusters
       y_min          = -230,
       y_max          = -180,
 })
-
-default.log("mapgen", "loaded")

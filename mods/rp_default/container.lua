@@ -123,5 +123,3 @@ form_bookshelf = form_bookshelf .. "list[current_name;main;2.25,1.25;4,2;]"
 form_bookshelf = form_bookshelf .. "listring[current_name;main]"
 form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(2.25, 1.25, 4, 2)
 rp_formspec.register_page("rp_default:bookshelf", form_bookshelf)
-
-default.log("container", "loaded")

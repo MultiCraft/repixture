@@ -140,5 +140,3 @@ minetest.register_craftitem(
          return itemstack
       end,
 })
-
-default.log("fertilizer", "loaded")

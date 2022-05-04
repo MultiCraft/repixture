@@ -885,5 +885,3 @@ minetest.register_tool(
          return itemstack
       end,
 })
-
-default.log("tools", "loaded")

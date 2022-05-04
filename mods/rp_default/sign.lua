@@ -133,5 +133,3 @@ register_sign("sign_birch", {
 	inv_image = "rp_default_sign_birch_inventory.png",
 	sounds = rp_sounds.node_sound_defaults(),
 })
-
-default.log("sign", "loaded")

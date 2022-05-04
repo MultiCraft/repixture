@@ -41,5 +41,3 @@ minetest.register_node(
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
 })
-
-default.log("ladder", "loaded")

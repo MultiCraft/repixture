@@ -1,7 +1,10 @@
 --
 -- Testing mod
 -- By Kaadmy, for Pixture
---
+
+local function dumpvec(v)
+   return v.x..":"..v.y..":"..v.z
+end
 
 if minetest.settings:get_bool("testing_enable") then
    local t1 = os.clock()
@@ -24,9 +27,9 @@ if minetest.settings:get_bool("testing_enable") then
 
    local t4 = os.clock()
    for i = 1, 10000 do
-      default.dumpvec({x=0,y=50,z=100})
+      dumpvec({x=0,y=50,z=100})
    end
-   minetest.log("action", string.format("10000 iterations with(custom function) default.dumpvec({x=0,y=50,z=100}) took %.2fms", (os.clock() - t4) * 1000))
+   minetest.log("action", string.format("10000 iterations with (custom function) dumpvec({x=0,y=50,z=100}) took %.2fms", (os.clock() - t4) * 1000))
 
    local t5 = os.clock()
    for i = 1, 10000 do

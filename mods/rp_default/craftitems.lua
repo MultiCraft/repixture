@@ -150,5 +150,3 @@ minetest.register_craftitem(
       wield_scale = {x=1,y=1,z=2},
       stack_max = 1,
 })
-
-default.log("craftitems", "loaded")

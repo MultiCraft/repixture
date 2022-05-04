@@ -476,5 +476,3 @@ minetest.register_abm( -- weak torchs burn out and die after ~3 minutes
          minetest.set_node(pos, {name = "rp_default:torch_dead", param = node.param, param2 = node.param2})
       end
 })
-
-default.log("functions", "loaded")

@@ -12,18 +12,6 @@ default.WATER_VISC = 1
 
 default.LIGHT_MAX = 14
 
-function default.log(text, type)
-   local level = "action"
-   if type == "loaded" then
-     level = "info"
-   end
-   minetest.log(level, "Repixture ["..type.."] "..text)
-end
-
-function default.dumpvec(v)
-   return v.x..":"..v.y..":"..v.z
-end
-
 minetest.nodedef_default.stack_max = 60
 minetest.craftitemdef_default.stack_max = 60
 
@@ -48,5 +36,3 @@ dofile(minetest.get_modpath("rp_default").."/achievements.lua")
 dofile(minetest.get_modpath("rp_default").."/mapgen.lua")
 
 dofile(minetest.get_modpath("rp_default").."/aliases.lua")
-
-default.log("mod:rp_default", "loaded")
