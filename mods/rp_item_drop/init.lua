@@ -9,6 +9,10 @@ local nav_mod = minetest.get_modpath("rp_nav") ~= nil
 
 item_drop = {}
 
+-- Time in seconds for which the item magnet is
+-- inactive after being dropped by a player
+local ITEM_MAGNET_DELAY_AFTER_DROP = 1.5
+
 function item_drop.drop_item(pos, itemstack)
    local rpos = {
       x = pos.x + math.random(-0.3, 0.3),
@@ -35,11 +39,38 @@ function item_drop.drop_item(pos, itemstack)
       vel.x = 1 / x
       vel.z = 1 / z
       drop:set_velocity(vel)
+      return drop
    end
 end
 
+-- Overwrite Minetest's item_drop function
+minetest.item_drop = function(itemstack, dropper, pos)
+	local dropper_is_player = dropper and dropper:is_player()
+	local dpos = vector.new(pos.x, pos.y, pos.z)
+	local cnt = itemstack:get_count()
+	if dropper_is_player then
+		dpos.y = dpos.y + 1.2
+	end
+	local item = itemstack:take_item(cnt)
+	local obj = minetest.add_item(dpos, item)
+	if obj then
+		if dropper_is_player then
+			local dir = dropper:get_look_dir()
+			dir.x = dir.x * 2
+			dir.y = dir.y * 2 + 2
+			dir.z = dir.z * 2
+			obj:set_velocity(dir)
+			local lua = obj:get_luaentity()
+			lua.dropped_by = dropper:get_player_name()
+			lua.item_magnet_timer = ITEM_MAGNET_DELAY_AFTER_DROP
+		end
+		return itemstack
+	end
+end
+
 local function valid(object)
-   return object:get_luaentity().timer ~= nil and object:get_luaentity().timer > 1
+   local ent = object:get_luaentity()
+   return ent.timer ~= nil and ent.item_magnet_timer ~= nil
 end
 
 minetest.register_globalstep(
@@ -68,26 +99,30 @@ minetest.register_globalstep(
 
                   local len = vector.length(vec)
 
-                  if len < 1.35 then
-                     if inv and inv:room_for_item("main", ItemStack(object:get_luaentity().itemstring)) then
+                  local lua = object:get_luaentity()
+
+                  if object == nil or lua == nil or lua.itemstring == nil then
+                    return
+                  end
+
+		  -- Item magnet handling
+                  if len < 1.35 and lua.item_magnet_timer <= 0 then
+                     -- Activate item magnet
+                     if inv and inv:room_for_item("main", ItemStack(lua.itemstring)) then
                         if len > 0.5 then
+                           -- Attract item to player
                            vec = vector.divide(vec, len) -- It's a normalize but we have len yet (vector.normalize(vec))
 
                            vec.x = vec.x*3
                            vec.y = vec.y*3
                            vec.z = vec.z*3
 
-                           object:get_luaentity().item_magnet = true
+                           lua.item_magnet = true
                            object:set_velocity(vec)
                            object:set_properties({ physical = false })
 
                         else
-                           local lua = object:get_luaentity()
-
-                           if object == nil or lua == nil or lua.itemstring == nil then
-                              return
-                           end
-
+                           -- Player collects item if close enough
                            if inv:room_for_item("main", ItemStack(lua.itemstring)) then
                               if minetest.is_creative_enabled(player:get_player_name()) then
                                   if not inv:contains_item("main", ItemStack(lua.itemstring), true) then
@@ -117,8 +152,11 @@ minetest.register_globalstep(
                         end
                      end
                   else
-                     object:set_velocity({x = 0, y = object:get_velocity().y, z = 0})
-                     object:get_luaentity().item_magnet = false
+                     -- Deactivate item magnet if out of range
+		     if lua.item_magnet then
+                        object:set_velocity({x = 0, y = object:get_velocity().y, z = 0})
+                        lua.item_magnet = false
+		     end
                   end
                end
             end

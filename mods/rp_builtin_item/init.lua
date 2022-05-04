@@ -31,6 +31,7 @@ minetest.register_entity(
 	 initial_sprite_basepos = {x=0, y=0},
 	 is_visible = false,
 	 timer = 0,
+	 item_magnet_timer = 0,
       },
       
       itemstring = "",
@@ -95,7 +96,6 @@ minetest.register_entity(
 			  self.itemstring = staticdata
 		       end
 		       self.object:set_armor_groups({immortal=1})
-		       self.object:set_velocity({x=0, y=2, z=0})
 		       self.object:set_acceleration({x=0, y=-GRAVITY, z=0})
 		       self:set_item(self.itemstring)
 		    end,
@@ -104,8 +104,12 @@ minetest.register_entity(
 		   local time_to_live = tonumber(minetest.settings:get("item_entity_ttl"))
 		   if not time_to_live then time_to_live = 900 end
 		   if not self.timer then self.timer = 0 end
+		   if not self.item_magnet_timer then self.item_magnet_timer = 0 end
 		   
 		   self.timer = self.timer + dtime
+		   if self.item_magnet_timer >= 0 then
+                      self.item_magnet_timer = self.item_magnet_timer - dtime
+		   end
 		   if time_to_live ~= -1 and (self.timer > time_to_live) then
 		      add_item_death_particle(self)
 		      minetest.log("action", "[rp_builtin_item] Item entity removed due to timeout at "..minetest.pos_to_string(self.object:get_pos()))
