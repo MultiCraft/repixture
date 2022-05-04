@@ -46,7 +46,50 @@ local function load_achievements()
    end
 end
 
+-- Returns true if itemstring exists or is a "group:" argument,
+-- for the error checks below. Also returns true if argument is
+-- nil for simplifying the testing code.
+local function check_item(itemstring)
+
+   if itemstring == nil then
+      return true
+   end
+   if string.sub(itemstring, 1, 6) == "group:" then
+      return true
+   end
+   local def_ok = minetest.registered_items[itemstring] ~= nil
+   if def_ok then
+      return true
+   else
+      local alias = minetest.registered_aliases[itemstring]
+      if alias and minetest.registered_items[alias] then
+         return true
+      end
+   end
+end
+
+-- Check all item names in the achievement definitions for validity,
+-- to make sure we don't accidentally break things.
+local verify_achievements = function()
+   for name,def in pairs(achievements.registered_achievements) do
+      if not check_item(def.dignode) then
+         error("[rp_achievements] Invalid dignode in achievement definition for "..name)
+         return
+      elseif not check_item(def.placenode) then
+         error("[rp_achievements] Invalid placenode in achievement definition for "..name)
+         return
+      elseif not check_item(def.craftitem) then
+         error("[rp_achievements] Invalid craftitem in achievement definition for "..name)
+         return
+      elseif not check_item(def.item_icon) then
+         error("[rp_achievements] Invalid item_icon in achievement definition for "..name)
+         return
+      end
+   end
+end
+
 function achievements.register_achievement(name, def)
+
    local rd = {
       title = def.title or name, -- good-looking name of the achievement
       description = def.description or "The " .. name .. " achievement", -- description of what the achievement is, and how to get it
@@ -111,6 +154,7 @@ end
 
 local function on_load()
    load_achievements()
+   verify_achievements()
 end
 
 -- Save achievements table
