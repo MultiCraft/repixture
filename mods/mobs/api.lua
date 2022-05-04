@@ -145,7 +145,8 @@ local function entity_physics(pos, radius)
          obj:set_velocity(calc_velocity(pos, obj_pos, obj_vel, radius * 10))
       end
       local damage = (4 / dist) * radius
-      obj:set_hp(obj:get_hp() - damage)
+      local dir = vector.direction(pos, obj_pos)
+      obj:punch(obj, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, dir)
    end
 end
 
