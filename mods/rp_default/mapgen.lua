@@ -520,6 +520,54 @@ minetest.register_decoration(
 
 end
 
+-- Bush/shrub decorations
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_dry_grass"},
+      sidelen = 16,
+      fill_ratio = 0.005,
+      biomes = {"Savanna", "Chaparral"},
+      flags = "place_center_x, place_center_z",
+      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_shrub.mts",
+      y_min = 3,
+      y_max = 32000,
+      rotation = "0",
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_dry_grass"},
+      sidelen = 16,
+      fill_ratio = 0.06,
+      biomes = {"Chaparral"},
+      flags = "place_center_x, place_center_z",
+      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_dry_bush.mts",
+      y_min = 0,
+      y_max = 32000,
+      rotation = "0",
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.004,
+      biomes = {"Wilderness", "Grove"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
+      y_min = 3,
+      y_max = 32000,
+      rotation = "0",
+})
+
+
+
 -- Papyrus decorations
 
 minetest.register_decoration(
@@ -696,52 +744,6 @@ minetest.register_decoration(
       y_min = 10,
       y_max = 500,
       rotation = "random",
-})
-
--- Shrub decorations
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_dry_grass"},
-      sidelen = 16,
-      fill_ratio = 0.005,
-      biomes = {"Savanna", "Chaparral"},
-      flags = "place_center_x, place_center_z",
-      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_shrub.mts",
-      y_min = 3,
-      y_max = 32000,
-      rotation = "0",
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_dry_grass"},
-      sidelen = 16,
-      fill_ratio = 0.06,
-      biomes = {"Chaparral"},
-      flags = "place_center_x, place_center_z",
-      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_dry_bush.mts",
-      y_min = 0,
-      y_max = 32000,
-      rotation = "0",
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.004,
-      biomes = {"Wilderness", "Grove"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
-      y_min = 3,
-      y_max = 32000,
-      rotation = "0",
 })
 
 -- Rock decorations
