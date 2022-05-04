@@ -44,15 +44,17 @@ end
 -- Saplings growing and placing
 
 function default.place_sapling(itemstack, placer, pointed_thing)
-   -- Check growability
+   local place_on, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
+   if place_on == nil then
+      return itemstack
+   end
+   local floornode = minetest.get_node(place_floor)
 
-   local underdef = minetest.get_node(pointed_thing.under)
-
-   if minetest.get_item_group(underdef.name, "soil") == 0 then
+   if minetest.get_item_group(floornode.name, "soil") == 0 then
       return itemstack
    end
 
-   minetest.set_node(pointed_thing.above, {name = itemstack:get_name()})
+   minetest.set_node(place_on, {name = itemstack:get_name()})
 
    if not minetest.is_creative_enabled(placer:get_player_name()) then
        itemstack:take_item()

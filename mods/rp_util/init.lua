@@ -217,3 +217,38 @@ function util.dig_down(pos, node, digger)
    end
 end
 
+-- Helper function to determine the correct position when
+-- the player places a "plant-like" node like a sapling.
+-- The goal is the node will end up on top of a "floor"
+-- node when possible, while also taking buildable_to
+-- into account.
+--
+-- Takes a pointed_thing from a on_place callback or similar.
+-- Returns <place_in>, <place_on> if success, nil otherwise
+-- * place_in: Where the node is suggested to be placed
+-- * place_on: Directly below place_in
+function util.pointed_thing_to_place_pos(pointed_thing)
+   if pointed_thing.type ~= "node" then
+      return nil
+   end
+   local place_in, place_on
+   local undernode = minetest.get_node(pointed_thing.under)
+   local underdef = minetest.registered_nodes[undernode.name]
+   if not underdef then
+      return nil
+   end
+   if underdef.buildable_to then
+      place_in = pointed_thing.under
+      place_on = vector.add(place_in, vector.new(0, -1, 0))
+   else
+      place_in = pointed_thing.above
+      place_on = vector.add(place_in, vector.new(0, -1, 0))
+      local inname = minetest.get_node(place_in).name
+      local indef = minetest.registered_nodes[inname]
+      if not indef or not indef.buildable_to then
+         return nil
+      end
+   end
+   return place_in, place_on
+end
+
