@@ -65,6 +65,13 @@ local function register_sign(id, def)
 			if pointed_thing.type ~= "node" then
 				return minetest.item_place_node(itemstack, placer, pointed_thing)
 			end
+			local node = minetest.get_node(pointed_thing.under)
+			local def = minetest.registered_nodes[node.name]
+			if def and def.on_rightclick and
+				((not placer) or (placer and not placer:get_player_control().sneak)) then
+				return def.on_rightclick(pointed_thing.under, node, placer, itemstack,
+					pointed_thing) or itemstack
+			end
 			if pointed_thing.under.y == pointed_thing.above.y then
 				return minetest.item_place_node(itemstack, placer, pointed_thing)
 			end
