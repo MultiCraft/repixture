@@ -9,6 +9,8 @@ local mod_storage = minetest.get_mod_storage()
 
 weather = {}
 weather.weather = "clear"
+weather.previous_weather = "clear"
+weather.last_weather_change = nil
 weather.types = {"storm", "clear"}
 
 local sound_handles = {}
@@ -65,19 +67,25 @@ end
 local stoptimer = 0
 local stoptimer_init = 15 -- minumum time between natural weather changes in seconds
 
-local function setweather_type(type, do_repeat)
+local function setweather_raw(new_weather)
+      weather.previous_weather = weather.weather
+      weather.weather = new_weather
+      weather.last_weather_change = minetest.get_us_time()
+end
+
+local function setweather_type(wtype, do_repeat)
    local valid = false
    for i = 1, #weather.types do
-      if weather.types[i] == type then
+      if weather.types[i] == wtype then
 	 valid = true
       end
    end
    if valid then
-      if weather.weather ~= type then
+      if weather.weather ~= wtype then
         -- Only reset stoptimer if weather actually changed
         stoptimer = stoptimer_init
       end
-      weather.weather = type
+      setweather_raw(wtype)
       mod_storage:set_string("rp_weather:weather", weather.weather)
       minetest.log("action", "[rp_weather] Weather set to: "..weather.weather)
       update_sounds(do_repeat)
@@ -85,6 +93,17 @@ local function setweather_type(type, do_repeat)
    else
       return false
    end
+end
+
+-- Returns a number telling how many µs the weather was changed before.
+-- Returns nil if weather was not changed before
+function weather.weather_last_changed_before()
+	local time = minetest.get_us_time()
+	if not weather.last_weather_change then
+		return nil
+	end
+	local diff = time - weather.last_weather_change
+	return diff
 end
 
 minetest.register_globalstep(
@@ -109,9 +128,9 @@ minetest.register_globalstep(
 
             local oldweather = weather.weather
 	    if weathertype < 13 then
-	       weather.weather = "clear"
+               setweather_raw("clear")
 	    else
-	       weather.weather = "storm"
+               setweather_raw("storm")
 	    end
             if oldweather ~= weather.weather then
                mod_storage:set_string("rp_weather:weather", weather.weather)

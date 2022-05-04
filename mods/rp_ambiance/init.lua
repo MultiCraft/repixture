@@ -6,8 +6,24 @@
 local mod_weather = minetest.get_modpath("rp_weather")
 
 ambiance = {}
-
 ambiance.sounds = {}
+
+-- When the weather changes, the mod will still use
+-- for a few seconds the old weather as the basis for
+-- ambience decision. This is so the birds don’t
+-- immediately start singing when the rain ends.
+local WEATHER_CONDITION_DELAY = 5000000 -- µs
+
+if mod_weather then
+	get_weather_lagged = function()
+		local time = weather.weather_last_changed_before()
+		if time and time < WEATHER_CONDITION_DELAY then
+			return weather.previous_weather
+		else
+			return weather.weather
+		end
+	end
+end
 
 ambiance.sounds["birds"] = {
    length = 5.0,
@@ -19,7 +35,7 @@ ambiance.sounds["birds"] = {
       local tod = (minetest.get_timeofday() or 1) * 2
 
       if mod_weather then
-         if weather.weather ~= "clear" then
+         if get_weather_lagged() ~= "clear" then
             return false
          end
       end
@@ -42,7 +58,7 @@ ambiance.sounds["crickets"] = {
       local tod = (minetest.get_timeofday() or 1) * 2
 
       if mod_weather then
-         if weather.weather ~= "clear" then
+         if get_weather_lagged() ~= "clear" then
             return false
          end
       end
@@ -65,7 +81,7 @@ ambiance.sounds["cricket_mountain"] = {
       local tod = (minetest.get_timeofday() or 1) * 2
 
       if mod_weather then
-         if weather.weather ~= "clear" then
+         if get_weather_lagged() ~= "clear" then
             return false
          end
       end
