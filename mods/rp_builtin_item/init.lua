@@ -23,8 +23,9 @@ minetest.register_entity(
 	 collisionbox = {-0.125, -0.125, -0.125, 0.125, 0.125, 0.125},
 	 collide_with_objects = false,
 	 pointable = false,
-	 visual = "sprite",
+	 visual = "wielditem",
 	 visual_size = {x=0.15, y=0.15},
+	 automatic_rotate = math.pi*0.5,
 	 textures = {""},
 	 spritediv = {x=1, y=1},
 	 initial_sprite_basepos = {x=0, y=0},
@@ -59,19 +60,8 @@ minetest.register_entity(
 		    end
 		    local prop = {
 		       is_visible = true,
-		       visual = "sprite",
-		       textures = {"unknown_item.png"}
+		       textures = {itemname},
 		    }
-		    if item_texture and item_texture ~= "" then
-		       prop.visual = "wielditem"
-		       prop.textures = {itemname}
-		       prop.visual_size = {x=0.15, y=0.15}
-		    else
-		       prop.visual = "wielditem"
-		       prop.textures = {itemname}
-		       prop.visual_size = {x=0.15, y=0.15}
-		    end
-		    prop.automatic_rotate = math.pi * 0.5
                     local ndef = minetest.registered_nodes[itemname]
                     if ndef then
                        prop.glow = ndef.light_source
