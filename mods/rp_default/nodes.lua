@@ -666,7 +666,7 @@ minetest.register_node(
       groups = {snappy = 2, choppy = 2, fall_damage_add_percent = 20, food = 2},
       sounds = rp_sounds.node_sound_wood_defaults(),
       after_dig_node = function(pos, node, metadata, digger)
-         default.dig_up(pos, node, digger)
+         util.dig_up(pos, node, digger)
       end,
       on_use = minetest.item_eat({hp = 2, sat = 5}),
 })
@@ -693,7 +693,7 @@ minetest.register_node(
       is_ground_content = false,
       sounds = rp_sounds.node_sound_leaves_defaults(),
       after_dig_node = function(pos, node, metadata, digger)
-         default.dig_down(pos, node, digger)
+         util.dig_down(pos, node, digger)
       end,
 })
 
@@ -729,7 +729,7 @@ minetest.register_node(
       groups = {snappy = 3},
       sounds = rp_sounds.node_sound_leaves_defaults(),
       after_dig_node = function(pos, node, metadata, digger)
-         default.dig_up(pos, node, digger)
+         util.dig_up(pos, node, digger)
       end,
 })
 
@@ -981,10 +981,10 @@ minetest.register_node(
       groups = {snappy = 3, dig_immediate = 3, falling_node = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
       after_dig_node = function(pos, node, metadata, digger)
-         default.dig_up(pos, node, digger)
+         util.dig_up(pos, node, digger)
       end,
       on_flood = function(pos, oldnode, newnode)
-         default.dig_up(pos, oldnode)
+         util.dig_up(pos, oldnode)
       end,
 })
 

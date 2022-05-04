@@ -170,26 +170,6 @@ minetest.register_lbm(
 
 -- Vertical plants
 
-function default.dig_up(pos, node, digger)
-   local np = {x = pos.x, y = pos.y + 1, z = pos.z}
-   local nn = minetest.get_node(np)
-   if nn.name == node.name then
-      if digger then
-         minetest.node_dig(np, nn, digger)
-      else
-         minetest.remove_node(np)
-      end
-   end
-end
-
-function default.dig_down(pos, node, digger)
-   local np = {x = pos.x, y = pos.y - 1, z = pos.z}
-   local nn = minetest.get_node(np)
-   if nn.name == node.name then
-      minetest.node_dig(np, nn, digger)
-   end
-end
-
 -- Leaf decay
 
 default.leafdecay_trunk_cache = {}

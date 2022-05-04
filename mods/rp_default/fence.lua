@@ -35,7 +35,7 @@ local function register_fence(name, def)
 		is_ground_content = false,
 		groups = {},
                 after_dig_node = function(pos, node, metadata, digger)
-			default.dig_up(pos, node, digger)
+			util.dig_up(pos, node, digger)
                 end,
 	}
 	for k, v in pairs(default_fields) do
