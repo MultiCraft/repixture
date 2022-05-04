@@ -14,7 +14,7 @@ ambiance.sounds["birds"] = {
    chance = 4,
    file = "ambiance_birds",
    dist = 8,
-   nodename = "group:leaves",
+   nodename = "group:lush_leaves",
    can_play = function(pos)
       local tod = (minetest.get_timeofday() or 1) * 2
 
@@ -54,6 +54,29 @@ ambiance.sounds["crickets"] = {
       return false
    end,
 }
+
+ambiance.sounds["cricket_mountain"] = {
+   length = 0.5,
+   chance = 100,
+   file = "ambiance_cricket_mountain",
+   dist = 8,
+   nodename = {"group:dry_leaves", "group:dry_grass"},
+   can_play = function(pos)
+      local tod = (minetest.get_timeofday() or 1) * 2
+
+      if mod_weather then
+         if weather.weather ~= "clear" then
+            return false
+         end
+      end
+
+      if tod > 0.5 or tod < 1.5 then
+         return true
+      end
+   end,
+}
+
+
 
 ambiance.sounds["frog"] = {
    length = 0.5,

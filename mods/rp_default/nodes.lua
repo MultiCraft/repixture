@@ -544,7 +544,7 @@ minetest.register_node(
       tiles = {"default_leaves.png"},
       paramtype = "light",
       waving = 1,
-      groups = {snappy = 3, leafdecay = 3, fall_damage_add_percent = -10, leaves = 1},
+      groups = {snappy = 3, leafdecay = 3, fall_damage_add_percent = -10, leaves = 1, lush_leaves = 1},
       drop = {
 	 max_items = 1,
 	 items = {
@@ -569,7 +569,7 @@ minetest.register_node(
       tiles = {"default_leaves_oak.png"},
       paramtype = "light",
       waving = 1,
-      groups = {snappy = 3, leafdecay = 4, fall_damage_add_percent = -5, leaves = 1},
+      groups = {snappy = 3, leafdecay = 4, fall_damage_add_percent = -5, leaves = 1, lush_leaves = 1},
       drop = {
 	 max_items = 1,
 	 items = {
@@ -594,7 +594,7 @@ minetest.register_node(
       tiles = {"default_leaves_birch.png"},
       paramtype = "light",
       waving = 1,
-      groups = {snappy = 3, leafdecay = 6, fall_damage_add_percent = -5, leaves = 1},
+      groups = {snappy = 3, leafdecay = 6, fall_damage_add_percent = -5, leaves = 1, lush_leaves = 1},
       drop = {
 	 max_items = 1,
 	 items = {
@@ -619,7 +619,7 @@ minetest.register_node(
       tiles = {"default_dry_leaves.png"},
       paramtype = "light",
       waving = 1,
-      groups = {snappy = 3, leafdecay = 3, fall_damage_add_percent = -20, leaves = 1},
+      groups = {snappy = 3, leafdecay = 3, fall_damage_add_percent = -20, leaves = 1, dry_leaves = 1},
       drop = {
 	 max_items = 1,
 	 items = {
