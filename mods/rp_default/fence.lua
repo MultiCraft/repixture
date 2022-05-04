@@ -32,7 +32,7 @@ local function register_fence(name, def)
 		connects_to = {"group:fence", "group:wood"},
 		inventory_image = def.inventory_image,
 		wield_image = def.wield_image,
-		tiles = {def.texture},
+		tiles = {fence_texture},
 		sunlight_propagates = true,
 		is_ground_content = false,
 		groups = {},
