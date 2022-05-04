@@ -199,7 +199,7 @@ else
       {
 	 type = "none",
 	 wield_image = "wieldhand.png",
-	 wield_scale = {x=1.0,y=1.0,z=2.0},
+	 wield_scale = {x=1.0,y=1.0,z=3.0},
 	 tool_capabilities = {
 	    full_punch_interval = 1.0,
 	    max_drop_level = 0,
