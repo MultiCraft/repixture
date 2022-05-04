@@ -43,6 +43,7 @@ dofile(minetest.get_modpath("rp_default").."/tools.lua")
 dofile(minetest.get_modpath("rp_default").."/fertilizer.lua")
 
 dofile(minetest.get_modpath("rp_default").."/crafting.lua")
+dofile(minetest.get_modpath("rp_default").."/achievements.lua")
 
 dofile(minetest.get_modpath("rp_default").."/mapgen.lua")
 
