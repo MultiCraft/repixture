@@ -37,7 +37,7 @@ local creative_digtable = {
 }
 
 -- Creative mode/hand defs
-if minetest.settings:get_bool("creative_mode") == true then
+if minetest.is_creative_enabled("") then
    tool_levels = {
       wood = creative_digtable,
       stone = creative_digtable,
@@ -878,7 +878,7 @@ minetest.register_tool(
             minetest.sound_play({name="rp_default_ignite_torch", gain=0.4}, {pos=pos}, true)
          end
 
-         if wear and not minetest.settings:get_bool("creative_mode") then
+         if wear and not minetest.is_creative_enabled(user:get_player_name()) then
             itemstack:add_wear(800)
          end
 

@@ -88,7 +88,7 @@ function door.register_door(name, def)
                minetest.sound_play(def.sounds.place, {pos=pt}, true)
             end
 
-            if not minetest.settings:get_bool("creative_mode") then
+            if not minetest.is_creative_enabled(placer:get_player_name()) then
                itemstack:take_item()
             end
 

@@ -61,7 +61,7 @@ minetest.register_craftitem(
 
             rp_player.player_attached[player:get_player_name()] = true
 
-            if not minetest.settings:get_bool("creative_mode") then
+            if not minetest.is_creative_enabled(name) then
                 itemstack:take_item()
             end
 

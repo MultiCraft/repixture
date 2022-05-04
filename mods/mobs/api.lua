@@ -1389,7 +1389,7 @@ function mobs:register_mob(name, def)
             local weapon = hitter:get_wielded_item()
             if weapon:get_definition().tool_capabilities ~= nil then
                local wear = ( (weapon:get_definition().tool_capabilities.full_punch_interval or 1.4) / 75 ) * 9000
-               if not minetest.settings:get_bool("creative_mode") then
+               if not minetest.is_creative_enabled(hitter:get_player_name()) then
                   weapon:add_wear(wear)
                end
                hitter:set_wielded_item(weapon)
@@ -1636,7 +1636,7 @@ function mobs:register_egg(mob, desc, background)
                   ent.owner = placer:get_player_name()
                   ent.tamed = true
                end
-               if not minetest.settings:get_bool("creative_mode") then
+               if not minetest.is_creative_enabled(placer:get_player_name()) then
                    itemstack:take_item()
                end
             end
@@ -1692,7 +1692,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
                pos = clicker:get_pos(),
                gain = 0.2, max_hear_distance = 16, pitch=1.25}, true)
 	    chance = chance_net
-            if not minetest.settings:get_bool("creative_mode") then
+            if not minetest.is_creative_enabled(name) then
 	        tool:add_wear(4000) -- 17 uses
             end
 	    clicker:set_wielded_item(tool)
@@ -1701,7 +1701,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
                pos = clicker:get_pos(),
                gain = 0.2, max_hear_distance = 16, pitch=1}, true)
 	    chance = chance_lasso
-            if not minetest.settings:get_bool("creative_mode") then
+            if not minetest.is_creative_enabled(name) then
 	        tool:add_wear(1500) -- 43 uses
             end
 	    clicker:set_wielded_item(tool)
@@ -1757,7 +1757,7 @@ function mobs:feed_tame(self, clicker, feed_count, breed, effect)
       if name ~= nil then
          -- Take item
 
-         if not minetest.settings:get_bool("creative_mode") then
+         if not minetest.is_creative_enabled(name) then
 	    item:take_item()
 
 	    clicker:set_wielded_item(item)

@@ -283,7 +283,7 @@ minetest.register_node(
                 minetest.record_protection_violation(pos, puncher:get_player_name())
                 return
             end
-            if not minetest.settings:get_bool("creative_mode") then
+	    if not minetest.is_creative_enabled(puncher:get_player_name()) then
                 item:add_wear(800)
                 puncher:set_wielded_item(item)
             end

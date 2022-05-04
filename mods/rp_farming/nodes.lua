@@ -223,7 +223,7 @@ local trim_cotton = function(pos, node, player, tool)
    end
 
    -- Add wear
-   if not minetest.settings:get_bool("creative_mode") then
+   if not minetest.is_creative_enabled(player:get_player_name()) then
       local def = tool:get_definition()
       tool:add_wear(math.ceil(65536 / def.tool_capabilities.groupcaps.snappy.uses))
    end

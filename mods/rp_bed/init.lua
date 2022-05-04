@@ -330,7 +330,7 @@ minetest.register_node(
               minetest.set_node(pos, {name = "rp_bed:bed_foot", param2 = dir})
               minetest.set_node(botpos, {name = "rp_bed:bed_head", param2 = dir})
 
-              if not minetest.settings:get_bool("creative_mode") then
+              if not minetest.is_creative_enabled(placer:get_player_name()) then
                      itemstack:take_item()
               end
               return itemstack

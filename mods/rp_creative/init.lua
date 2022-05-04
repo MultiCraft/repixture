@@ -24,7 +24,7 @@ local function create_creative_inventory(player)
 	local inv = minetest.create_detached_inventory("creative_"..player_name, {
 		allow_move = function(inv, from_list, from_index, to_list, to_index, count, player)
 			local name = player:get_player_name()
-			if minetest.settings:get_bool("creative_mode") and to_list ~= "main" then
+			if minetest.is_creative_enabled(player_name) and to_list ~= "main" then
 				return count
 			else
 				return 0
@@ -34,7 +34,7 @@ local function create_creative_inventory(player)
 			return 0
 		end,
 		allow_take = function(inv, listname, index, stack, player)
-			if minetest.settings:get_bool("creative_mode") then
+			if minetest.is_creative_enabled(player:get_player_name()) then
 				return -1
 			else
 				return 0
@@ -72,7 +72,7 @@ local trash = minetest.create_detached_inventory("creative!trash", {
 	-- Allow the stack to be placed and remove it in on_put()
 	-- This allows the creative inventory to restore the stack
 	allow_put = function(inv, listname, index, stack, player)
-		if minetest.settings:get_bool("creative_mode") then
+		if minetest.is_creative_enabled(player:get_player_name()) then
 			return stack:get_count()
 		else
 			return 0
@@ -123,7 +123,7 @@ local get_page_and_start_i = function(playername)
 end
 
 creative.get_formspec = function(playername)
-	if not minetest.settings:get_bool("creative_mode") then
+	if not minetest.is_creative_enabled(playername) then
 		return ""
 	end
 	local player = minetest.get_player_by_name(playername)
@@ -137,7 +137,7 @@ end
 
 minetest.register_on_joinplayer(function(player)
 	-- If in creative mode, modify player's inventory forms
-	if not minetest.settings:get_bool("creative_mode") then
+	if not minetest.is_creative_enabled(player:get_player_name()) then
 		return
 	end
 	init_playerdata(player:get_player_name())
@@ -151,7 +151,7 @@ minetest.register_on_leaveplayer(function(player)
 end)
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-	if not minetest.settings:get_bool("creative_mode") then
+	if not minetest.is_creative_enabled(player:get_player_name()) then
 		return
 	end
 	local playername = player:get_player_name()
@@ -195,17 +195,11 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 end)
 
--- Dummy implementation
--- TODO: Implement per-player creative mode
 creative.is_enabled_for = function(player)
-	if minetest.settings:get_bool("creative_mode") then
-		return true
-	else
-		return false
-	end
+	return minetest.is_creative_enabled(player:get_player_name())
 end
 
-if minetest.settings:get_bool("creative_mode") then
+if minetest.is_creative_enabled("") then
 	minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack)
 		-- Place infinite nodes, except for shulker boxes
 		local group = minetest.get_item_group(itemstack:get_name(), "shulker_box")

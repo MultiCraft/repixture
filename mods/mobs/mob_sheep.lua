@@ -127,7 +127,7 @@ mobs:register_mob(
                         z = math.random(-1,1)
                   })
                end
-               if not minetest.settings:get_bool("creative_mode") then
+               if not minetest.is_creative_enabled(clicker:get_player_name()) then
                    local def = item:get_definition()
                    local cuts = minetest.get_item_group(itemname, "sheep_cuts")
                    if cuts > 0 then

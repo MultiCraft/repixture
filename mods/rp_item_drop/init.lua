@@ -89,7 +89,7 @@ minetest.register_globalstep(
                            end
 
                            if inv:room_for_item("main", ItemStack(lua.itemstring)) then
-                              if minetest.settings:get_bool("creative_mode") then
+                              if minetest.is_creative_enabled(player:get_player_name()) then
                                   if not inv:contains_item("main", ItemStack(lua.itemstring), true) then
                                       inv:add_item("main", ItemStack(lua.itemstring))
                                   end
@@ -127,19 +127,18 @@ minetest.register_globalstep(
 end)
 
 function minetest.handle_node_drops(pos, drops, digger)
-   if minetest.settings:get_bool("creative_mode") then
-      if not digger or not digger:is_player() then
-         return
+   do
+      if digger and digger:is_player() and minetest.is_creative_enabled(digger:get_player_name()) then
+        local inv = digger:get_inventory()
+        if inv then
+           for _,item in ipairs(drops) do
+              if not inv:contains_item("main", item, true) then
+                 inv:add_item("main", item)
+              end
+           end
+        end
+        return
       end
-      local inv = digger:get_inventory()
-      if inv then
-         for _,item in ipairs(drops) do
-            if not inv:contains_item("main", item, true) then
-               inv:add_item("main", item)
-            end
-         end
-      end
-      return
    end
    for _,item in ipairs(drops) do
       local obj = minetest.add_item(pos, item)

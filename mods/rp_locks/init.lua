@@ -132,7 +132,7 @@ minetest.register_tool(
             minetest.sound_play({name="locks_pick",gain=0.5},{pos=pos, max_hear_distance=16}, true)
          end
 
-         if not minetest.settings:get_bool("creative_mode") then
+         if not minetest.is_creative_enabled(player:get_player_name()) then
              itemstack:add_wear(8200) -- about 8 uses
          end
          return itemstack
@@ -165,7 +165,13 @@ local put_lock = function(itemstack, putter, pointed_thing)
         else
            meta:set_string("infotext", S(INFOTEXT_PUBLIC))
         end
-        if not minetest.settings:get_bool("creative_mode") then
+	local creative_name
+	if not name or name == "" then
+           creative_name = ""
+        else
+           creative_name = name
+	end
+        if not minetest.is_creative_enabled(creative_name) then
            itemstack:take_item()
         end
     end

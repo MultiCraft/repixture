@@ -39,7 +39,7 @@ for b=1, #water_buckets do
             end
 
             if not above_nodedef.walkable then
-               if not minetest.settings:get_bool("creative_mode") then
+               if not minetest.is_creative_enabled(user:get_player_name()) then
                   if itemstack:get_count() == 1 then
                      itemstack:set_name("rp_default:bucket")
                   elseif inv:room_for_item("main", {name="rp_default:bucket"}) then
@@ -84,7 +84,7 @@ minetest.register_craftitem(
          local nodename=minetest.get_node(pointed_thing.under).name
 
          local replace_bucket = function(itemstack, new_bucket)
-            if minetest.settings:get_bool("creative_mode") then
+            if minetest.is_creative_enabled(user:get_player_name()) then
                 -- no-op
             elseif itemstack:get_count() == 1 then
                 itemstack:set_name(new_bucket)

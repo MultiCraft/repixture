@@ -336,7 +336,7 @@ minetest.register_node(
                -- Success
                inv:set_stack("main", 1, ItemStack(jewels.get_jeweled(itemname)))
 
-               if not minetest.settings:get_bool("creative_mode") then
+               if not minetest.is_creative_enabled(player:get_player_name()) then
                   itemstack:take_item()
                   itemstack_changed = true
                end

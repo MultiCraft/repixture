@@ -317,7 +317,7 @@ end
 if minetest.get_modpath("rp_player_skins") ~= nil then
    form_default_default = form_default_default .. rp_formspec.tab(-0.9, 2.84, "tab_player_skins", "ui_icon_player_skins.png", S("Player Skins"))
 end
-if minetest.get_modpath("rp_creative") ~= nil and minetest.settings:get_bool("creative_mode") then
+if minetest.get_modpath("rp_creative") ~= nil and minetest.is_creative_enabled("") then
    form_default_default = form_default_default .. rp_formspec.tab(-0.9, 3.64, "tab_creative", "ui_icon_creative.png", S("Creative Inventory"))
 end
 form_default_default = form_default_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
@@ -355,7 +355,7 @@ function rp_formspec.receive_fields(player, form_name, fields)
    elseif minetest.get_modpath("rp_player_skins") ~= nil and fields.tab_player_skins then
       formname = "player_skins:player_skins"
       form = player_skins.get_formspec(name)
-   elseif minetest.get_modpath("rp_creative") ~= nil and minetest.settings:get_bool("creative_mode") and fields.tab_creative then
+   elseif minetest.get_modpath("rp_creative") ~= nil and minetest.is_creative_enabled(name) and fields.tab_creative then
       formname = "rp_creative:creative"
       form = creative.get_formspec(name)
    end
@@ -375,7 +375,7 @@ minetest.register_on_joinplayer(
    function(player)
       player:set_formspec_prepend(formspec_prepend)
       local name = player:get_player_name()
-      if minetest.settings:get_bool("creative_mode") then
+      if minetest.is_creative_enabled(name) then
           player:set_inventory_formspec(creative.get_formspec(name))
           rp_formspec.current_page[name] = "rp_creative:creative"
       else

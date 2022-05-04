@@ -9,18 +9,11 @@ local S = minetest.get_translator("rp_nav")
 
 nav.map = {}
 
--- Cache creative mode setting
-
-local creative_mode_cache = minetest.settings:get_bool("creative_mode")
-
-
 -- Update HUD flags
 -- Global to allow overriding
 
 function nav.map.update_hud_flags(player)
-	local creative_enabled =
-		(minetest.global_exists("creative") and creative.is_enabled_for(player:get_player_name())) or
-		creative_mode_cache
+	local creative_enabled = minetest.is_creative_enabled(player:get_player_name())
 
 	local minimap_enabled = creative_enabled or
 		player:get_inventory():contains_item("main", "rp_nav:map")
