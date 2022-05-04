@@ -326,7 +326,7 @@ minetest.register_on_player_inventory_action(function(player, action, inventory,
        local slot = minetest.get_item_group(name, "armor_slot")
        if slot ~= inventory_info.to_index then
            inventory:set_stack("armor", inventory_info.index, "")
-           inventory:set_stack("armor", slot, stack)
+           inventory:set_stack("armor", slot, inventory_info.stack)
        end
        sound = 1
     end
