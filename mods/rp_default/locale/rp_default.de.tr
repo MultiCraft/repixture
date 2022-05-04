@@ -109,8 +109,8 @@ Oak Sapling=Eichensetzling
 Grows into an oak tree=Wächst zu einer Eiche
 Birch Sapling=Birkensetzling
 Grows into a birch tree=Wächst zu einer Birke
-Dry Bush Sapling=
-Grows into a dry bush=
+Dry Bush Sapling=Trockenbuschsetzling
+Grows into a dry bush=Wächst zu einem Trockenbusch
 Tree=Baum
 Oak Tree=Eichenbaum
 Birch Tree=Birkenbaum
@@ -198,8 +198,3 @@ Weak Torch=Schwache Fackel
 Provides a bit of light but it will eventually burn out=Leuchtet ein bisschen, aber sie wird bald ausbrennen
 Torch=Fackel
 It's bright and burns forever=Sie ist hell und brennt für immer
-
-
-##### not used anymore #####
-
-@1: @2=@1: @2
