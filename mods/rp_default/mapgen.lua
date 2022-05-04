@@ -724,7 +724,7 @@ minetest.register_decoration(
       biomes = {"Chaparral"},
       flags = "place_center_x, place_center_z",
       replacements = {["default:leaves"] = "rp_default:dry_leaves"},
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_dry_bush.mts",
       y_min = 0,
       y_max = 32000,
       rotation = "0",
