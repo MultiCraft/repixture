@@ -3,6 +3,8 @@
 -- By PilzAdam
 -- Tweaked by Kaadmy, for Pixture
 --
+--
+local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
 
 local function add_item_death_particle(ent)
     minetest.add_particle({
@@ -104,7 +106,7 @@ minetest.register_entity(
 		       end
 		       self.object:set_armor_groups({immortal=1})
 		       self.object:set_velocity({x=0, y=2, z=0})
-		       self.object:set_acceleration({x=0, y=-10, z=0})
+		       self.object:set_acceleration({x=0, y=-GRAVITY, z=0})
 		       self:set_item(self.itemstring)
 		    end,
       
@@ -156,7 +158,7 @@ minetest.register_entity(
 		   else
 		      if not self.physical_state then
 			 self.object:set_velocity({x=0,y=0,z=0})
-			 self.object:set_acceleration({x=0, y=-10, z=0})
+			 self.object:set_acceleration({x=0, y=-GRAVITY, z=0})
 			 self.physical_state = true
 			 self.object:set_properties(
 			    {
