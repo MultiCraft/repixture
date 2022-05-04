@@ -1,5 +1,7 @@
 # textdomain: rp_door
 Wooden Door=
+Oak Door=
+Birch Door=
 Stone Door=
 Adoorable=
 Craft a door.=

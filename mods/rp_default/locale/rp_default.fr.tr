@@ -30,6 +30,7 @@ Tin Ingot=Lingot d'étain
 Bronze Ingot=Lingot de bronze
 Flint Shard=Eclat de silex
 Book=Livre
+@1: @2=
 Wooden Fence=Clôture en bois
 Oak Fence=Clôture en chêne
 Birch Fence=Clôture en bouleau
@@ -40,7 +41,6 @@ Fertilized Swamp Dirt=Marais fertile
 Fertilized Sand=Sable fertile
 Fertilizer=Engrais
 Used to fertilize dirt and sand to speed up plant growth=
-"@1"=
 Furnace=Four
 Uses fuel to smelt a material into something else=
 Furnace (active)=Four (allumé)
@@ -125,7 +125,10 @@ Flowing Swamp Water=Eau vive de marais
 Swamp Water Source=Source d'eau de marais
 ""=
 Write a short message=
-Sign=Signature
+Wooden Sign=
+Oak Sign=
+Birch Sign=
+"@1"=
 Creative Tool=Outil créatif
 Can dig (nearly) every block=
 Digs hard, cracky blocks=
@@ -172,3 +175,8 @@ Weak Torch=Torche faible
 Provides a bit of light but it will eventually burn out=
 Torch=Torche
 It's bright and burns forever=
+
+
+##### not used anymore #####
+
+Sign=Signature

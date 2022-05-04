@@ -11,6 +11,7 @@ Show this to a villager to trade=
 Gold Lump=
 Gold Ingot=
 Stone with Gold=
+Gold Block=
 Trader=
 Trade with a villager.=
 Gold Rush=
