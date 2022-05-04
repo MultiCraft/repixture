@@ -131,6 +131,7 @@ local function entity_physics(pos, radius)
       local damage = (4 / dist) * radius
       local dir = vector.direction(pos, obj_pos)
       obj:punch(obj, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, dir)
+   end
 end
 
 local function add_effects(pos, radius)
