@@ -84,9 +84,13 @@ mobs:register_mob(
 
          -- Demagnetize magnocompass if sheep has wool
 	 if mod_nav then
-            if minetest.get_item_group(itemname, "nav_compass") == 2 and self.gotten == false then
-	       item = nav.demagnetize_compass(item, clicker:get_pos())
-               clicker:set_wielded_item(item)
+            local compass_group = minetest.get_item_group(itemname, "nav_compass")
+	    if compass_group > 0 then
+               if compass_group == 2 and self.gotten == false then
+	          item = nav.demagnetize_compass(item, clicker:get_pos())
+                  clicker:set_wielded_item(item)
+                  return
+               end
                return
             end
 	 end
