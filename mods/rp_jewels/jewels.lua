@@ -327,5 +327,3 @@ jewels.register_jewel(
 	 range = 1,
       }
 })
-
-default.log("jewels", "loaded")

@@ -398,5 +398,3 @@ minetest.register_lbm(
 minetest.register_alias("locks:chest", "rp_locks:chest")
 minetest.register_alias("locks:lock", "rp_locks:lock")
 minetest.register_alias("locks:pick", "rp_locks:pick")
-
-default.log("mod:rp_locks", "loaded")

@@ -26,5 +26,3 @@ farming.register_plant(
       light_max = 15,
    }
 )
-
-default.log("plants", "loaded")

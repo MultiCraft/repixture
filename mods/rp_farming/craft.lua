@@ -65,5 +65,3 @@ minetest.register_craft(
       recipe = "rp_farming:flour",
       cooktime = 15,
 })
-
-default.log("craft", "loaded")

@@ -191,5 +191,3 @@ achievements.register_achievement(
       times = 1,
       item_icon = "parachute:parachute",
 })
-
-default.log("mod:parachute", "loaded")

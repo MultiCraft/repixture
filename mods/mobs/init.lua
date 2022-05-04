@@ -30,5 +30,3 @@ dofile(path.."/mob_walker.lua") -- KaadmY
 -- NPC
 
 dofile(path.."/mob_npc.lua") -- TenPlus1
-
-default.log("mod:mobs", "loaded")

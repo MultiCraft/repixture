@@ -417,5 +417,3 @@ minetest.register_alias("door:door_wood_b_1", "rp_door:door_wood_b_1")
 minetest.register_alias("door:door_wood_b_2", "rp_door:door_wood_b_2")
 minetest.register_alias("door:door_wood_t_1", "rp_door:door_wood_t_1")
 minetest.register_alias("door:door_wood_t_2", "rp_door:door_wood_t_2")
-
-default.log("mod:rp_door", "loaded")

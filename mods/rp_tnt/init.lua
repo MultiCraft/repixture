@@ -357,5 +357,3 @@ end
 
 -- Load aliases
 dofile(minetest.get_modpath("rp_tnt").."/aliases.lua")
-
-default.log("mod:rp_tnt", "loaded")

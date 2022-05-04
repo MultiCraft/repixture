@@ -17,5 +17,3 @@ local function on_newplayer(player)
 end
 
 minetest.register_on_newplayer(on_newplayer)
-
-default.log("mod:rp_give_initial", "loaded")

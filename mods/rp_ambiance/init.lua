@@ -182,5 +182,3 @@ if minetest.settings:get_bool("ambiance_enable") == true then
    minetest.register_on_leaveplayer(on_leaveplayer)
    minetest.register_globalstep(step)
 end
-
-default.log("mod:rp_ambiance", "loaded")

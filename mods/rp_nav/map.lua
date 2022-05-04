@@ -102,5 +102,3 @@ achievements.register_achievement(
 })
 
 minetest.register_alias("nav:map", "rp_nav:map")
-
-default.log("map", "loaded")

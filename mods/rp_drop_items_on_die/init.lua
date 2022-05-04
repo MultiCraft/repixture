@@ -37,5 +37,3 @@ if enable_drop then
 
    drop_items_on_die.register_listname("main")
 end
-
-default.log("mod:rp_drop_items_on_die", "loaded")

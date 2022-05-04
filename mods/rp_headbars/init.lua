@@ -105,4 +105,3 @@ minetest.register_on_joinplayer(function(player)
 		end
 	end, player)
 end)
-default.log("mod:rp_headbars", "loaded")

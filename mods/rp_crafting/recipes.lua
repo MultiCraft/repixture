@@ -587,5 +587,3 @@ crafting.register_craft(
          "rp_default:fiber 3",
       }
 })
-
-default.log("recipes", "loaded")

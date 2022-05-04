@@ -416,5 +416,3 @@ minetest.register_alias("gold:ingot_gold", "rp_gold:ingot_gold")
 minetest.register_alias("gold:lump_gold", "rp_gold:lump_gold")
 minetest.register_alias("gold:stone_with_gold", "rp_gold:stone_with_gold")
 minetest.register_alias("gold:trading_book", "rp_gold:trading_book")
-
-default.log("mod:rp_gold", "loaded")

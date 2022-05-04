@@ -30,5 +30,3 @@ achievements.register_achievement(
       times = 1,
       dignode = "rp_farming:cotton_4",
    })
-
-default.log("achievements", "loaded")

@@ -612,5 +612,3 @@ end
 minetest.register_on_joinplayer(on_joinplayer)
 minetest.register_on_leaveplayer(on_leaveplayer)
 minetest.register_on_player_receive_fields(on_player_receive_fields)
-
-default.log("api", "loaded")

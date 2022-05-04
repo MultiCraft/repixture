@@ -38,5 +38,3 @@ minetest.register_decoration(
       y_min = 0,
       y_max = 32000,
 })
-
-default.log("mapgen", "loaded")

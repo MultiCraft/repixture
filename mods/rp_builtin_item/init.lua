@@ -162,5 +162,3 @@ minetest.register_entity(
 		   end
 		end,
    })
-
-default.log("mod:rp_builtin_item", "loaded")

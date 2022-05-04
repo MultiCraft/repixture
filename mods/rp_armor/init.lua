@@ -402,5 +402,3 @@ if minetest.get_modpath("tt") then
 end
 
 dofile(minetest.get_modpath("rp_armor").."/aliases.lua")
-
-default.log("mod:rp_armor", "loaded")

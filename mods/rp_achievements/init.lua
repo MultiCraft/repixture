@@ -122,8 +122,7 @@ function achievements.trigger_achievement(player, aname, times)
    achievements.achievements[name][aname] = achievements.achievements[name][aname] + times
 
    if not achievements.registered_achievements[aname] then
-      default.log("[mod:rp_achievements] Cannot find registered achievement "
-                     .. aname, "error")
+      minetest.log("error", "[rp_achievements] Cannot find registered achievement " .. aname)
       return
    end
 
@@ -532,5 +531,3 @@ achievements.register_achievement(
       times = 1,
       craftitem = "rp_default:bookshelf",
 })
-
-default.log("mod:rp_achievements", "loaded")

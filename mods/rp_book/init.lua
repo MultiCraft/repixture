@@ -73,5 +73,3 @@ minetest.register_on_player_receive_fields(
 
       player:set_wielded_item(itemstack)
 end)
-
-default.log("mod:rp_book", "loaded")

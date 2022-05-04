@@ -428,5 +428,3 @@ minetest.register_lbm(
 dofile(minetest.get_modpath("rp_jewels").."/jewels.lua")
 dofile(minetest.get_modpath("rp_jewels").."/mapgen.lua")
 dofile(minetest.get_modpath("rp_jewels").."/aliases.lua")
-
-default.log("mod:rp_jewels", "loaded")

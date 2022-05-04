@@ -231,5 +231,3 @@ minetest.register_alias("nav:compass", "rp_nav:compass_0")
 for i=0, 7 do
 	minetest.register_alias("nav:compass_"..i, "rp_nav:compass_"..i)
 end
-
-default.log("compass", "loaded")

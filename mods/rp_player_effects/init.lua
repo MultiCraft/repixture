@@ -87,7 +87,7 @@ function player_effects.get_registered_effect(ename)
    local e = player_effects.registered_effects[ename]
 
    if not e then
-      default.log("[rp_player_effects] Cannot find registered player effect " .. ename, "error")
+      minetest.log("error", "[rp_player_effects] Cannot find registered player effect " .. ename)
 
       return nil
    end
@@ -285,5 +285,3 @@ minetest.register_chatcommand(
          end
       end
 })
-
-default.log("mod:rp_player_effects", "loaded")

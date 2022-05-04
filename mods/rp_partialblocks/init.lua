@@ -285,5 +285,3 @@ partialblocks.register_material(
    "compressed_sandstone", S("Compressed Sandstone Slab"), S("Compressed Sandstone Stair"), "rp_default:compressed_sandstone", { cracky = 2 }, false, nil, cs_stair_tiles)
 
 dofile(minetest.get_modpath("rp_partialblocks").."/aliases.lua")
-
-default.log("mod:rp_partialblocks", "loaded")

@@ -22,5 +22,3 @@ dofile(minetest.get_modpath("rp_village") .. "/names.lua")
 dofile(minetest.get_modpath("rp_village") .. "/generate.lua")
 dofile(minetest.get_modpath("rp_village") .. "/mapgen.lua")
 dofile(minetest.get_modpath("rp_village") .. "/command.lua")
-
-default.log("mod:rp_village", "loaded")

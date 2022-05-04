@@ -142,5 +142,3 @@ function farming.grow_plant(pos, name)
       farming.next_stage(pos, under, underdef, name, plant)
    end
 end
-
-default.log("api", "loaded")

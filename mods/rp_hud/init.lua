@@ -171,5 +171,3 @@ end
 minetest.register_on_joinplayer(rp_hud.initialize_builtin_statbars)
 minetest.register_on_leaveplayer(rp_hud.cleanup_builtin_statbars)
 minetest.register_playerevent(rp_hud.player_event_handler)
-
-default.log("rp_hud", "loaded")

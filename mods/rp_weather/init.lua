@@ -240,5 +240,3 @@ minetest.register_chatcommand(
 minetest.register_on_leaveplayer(function(player)
     sound_handles[player:get_player_name()] = nil
 end)
-
-default.log("mod:rp_weather", "loaded")

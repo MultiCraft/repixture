@@ -118,5 +118,3 @@ minetest.register_on_joinplayer(on_joinplayer)
 minetest.register_on_leaveplayer(on_leaveplayer)
 
 minetest.register_globalstep(step)
-
-default.log("player", "loaded")

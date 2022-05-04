@@ -244,5 +244,3 @@ minetest.register_lbm(
 )
 
 minetest.register_alias("music:player", "rp_music:player")
-
-default.log("mod:rp_music", "loaded")

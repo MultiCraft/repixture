@@ -263,5 +263,3 @@ function player_skins.set_random_skin(name)
 
 	player_skins.set_skin(name, scol, ccol, bcol, hair, ecol)
 end
-
-default.log("mod:rp_player_skins", "loaded")

@@ -228,5 +228,3 @@ minetest.register_alias("lumien:block", "rp_lumien:block")
 minetest.register_alias("lumien:crystal_off", "rp_lumien:crystal_off")
 minetest.register_alias("lumien:crystal_on", "rp_lumien:crystal_on")
 minetest.register_alias("lumien:stone_with_lumien", "rp_lumien:stone_with_lumien")
-
-default.log("mod:rp_lumien", "loaded")

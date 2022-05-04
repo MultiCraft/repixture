@@ -280,5 +280,3 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_leaves_defaults(),
    }
 )
-
-default.log("nodes", "loaded")

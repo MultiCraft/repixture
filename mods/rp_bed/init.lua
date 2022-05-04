@@ -515,5 +515,3 @@ minetest.register_lbm({
 minetest.register_alias("bed:bed", "rp_bed:bed_foot")
 minetest.register_alias("bed:bed_foot", "rp_bed:bed_foot")
 minetest.register_alias("bed:bed_head", "rp_bed:bed_head")
-
-default.log("mod:rp_bed", "loaded")

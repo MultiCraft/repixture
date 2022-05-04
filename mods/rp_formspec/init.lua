@@ -291,7 +291,7 @@ function rp_formspec.get_page(name)
    local page= rp_formspec.registered_pages[name]
 
    if page == nil then
-      default.log("UI page '" .. name .. "' is not yet registered", "dev")
+      minetest.log("info", "[rp_formspec] UI page '" .. name .. "' is not yet registered")
       page = ""
    end
 
