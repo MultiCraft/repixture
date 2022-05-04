@@ -60,6 +60,8 @@ local village_replaces = {
       ["default:tree_oak"] = "rp_default:tree_birch",
       ["default:fence"] = "rp_default:fence_birch",
       ["default:fence_oak"] = "rp_default:fence_birch",
+      ["door:door_wood_t_1"] = "rp_door:door_wood_birch_t_1",
+      ["door:door_wood_b_1"] = "rp_door:door_wood_birch_b_1",
    },
    -- Oak wood only
    {
@@ -68,7 +70,9 @@ local village_replaces = {
       ["default:tree"] = "rp_default:tree_oak",
       ["default:tree_birch"] = "rp_default:tree_oak",
       ["default:fence"] = "rp_default:fence_oak",
-      ["default:fence_birch"] = "rp_default:fence_oak"
+      ["default:fence_birch"] = "rp_default:fence_oak",
+      ["door:door_wood_t_1"] = "rp_door:door_wood_oak_t_1",
+      ["door:door_wood_b_1"] = "rp_door:door_wood_oak_b_1",
    },
 }
 
