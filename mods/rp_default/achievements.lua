@@ -1,5 +1,8 @@
-local S = minetest.get_translator("rp_default")
+if not minetest.get_modpath("rp_achievements") then
+	return
+end
 
+local S = minetest.get_translator("rp_default")
 
 -- Digging wood
 
