@@ -4,8 +4,6 @@ local S = minetest.get_translator("rp_default")
 
 local fence_collision_extra = 1/2
 local function register_fence(name, def)
-	local fence_texture = def.texture .. "^default_fence_overlay.png"
-
 	local default_fields = {
 		paramtype = "light",
 		drawtype = "nodebox",
@@ -32,7 +30,7 @@ local function register_fence(name, def)
 		connects_to = {"group:fence", "group:wood"},
 		inventory_image = def.inventory_image,
 		wield_image = def.wield_image,
-		tiles = {fence_texture},
+		tiles = {def.texture_top, def.texture_top, def.texture_side},
 		sunlight_propagates = true,
 		is_ground_content = false,
 		groups = {},
@@ -57,7 +55,8 @@ end
 
 register_fence("rp_default:fence", {
 	description = S("Wooden Fence"),
-	texture = "default_wood.png",
+	texture_side = "rp_default_fence_side.png",
+	texture_top = "rp_default_fence_top.png",
 	inventory_image = "default_fence.png",
 	wield_image = "default_fence.png",
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, fence = 1},
@@ -65,7 +64,8 @@ register_fence("rp_default:fence", {
 })
 register_fence("rp_default:fence_oak", {
 	description = S("Oak Fence"),
-	texture = "default_wood_oak.png",
+	texture_side = "rp_default_fence_oak_side.png",
+	texture_top = "rp_default_fence_oak_top.png",
 	inventory_image = "default_fence_oak.png",
 	wield_image = "default_fence_oak.png",
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, fence = 1},
@@ -73,7 +73,8 @@ register_fence("rp_default:fence_oak", {
 })
 register_fence("rp_default:fence_birch", {
 	description = S("Birch Fence"),
-	texture = "default_wood_birch.png",
+	texture_side = "rp_default_fence_birch_side.png",
+	texture_top = "rp_default_fence_birch_top.png",
 	inventory_image = "default_fence_birch.png",
 	wield_image = "default_fence_birch.png",
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, fence = 1},
