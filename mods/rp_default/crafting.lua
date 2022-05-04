@@ -287,6 +287,19 @@ minetest.register_craft(
       recipe = "rp_default:sign",
       burntime = 6,
 })
+minetest.register_craft(
+   {
+      type = "fuel",
+      recipe = "rp_default:sign_birch",
+      burntime = 6,
+})
+minetest.register_craft(
+   {
+      type = "fuel",
+      recipe = "rp_default:sign_oak",
+      burntime = 6,
+})
+
 
 minetest.register_craft(
    {
