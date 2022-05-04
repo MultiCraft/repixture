@@ -114,8 +114,8 @@ function default.grow_sapling(pos, variety)
 
    minetest.after(0, grow)
 
-   default.log("A " .. variety .. " tree sapling grows at " ..
-                  minetest.pos_to_string(pos), "info")
+   minetest.log("action", "[rp_default] A " .. variety .. " tree sapling grows at " ..
+                  minetest.pos_to_string(pos))
 end
 
 -- Make preexisting trees restart the growing process
