@@ -77,7 +77,7 @@ function crafting.register_craft(def)
    minetest.log("info", "Registered recipe for " .. itemkey)
 end
 
-function crafting.get_crafts(player_inventory)
+function crafting.get_crafts(player_inventory, player_name)
    local results = {}
 
    local function get_filtered()
@@ -126,12 +126,14 @@ function crafting.get_crafts(player_inventory)
       get_filtered()
    end
 
+   local lang_code = minetest.get_player_information(player_name).lang_code
+
    local function sort_function(a, b)
       local a_itemn = ItemStack(a):get_name()
       local b_itemn = ItemStack(b):get_name()
 
-      local a_name = minetest.registered_items[a_itemn].description
-      local b_name = minetest.registered_items[b_itemn].description
+      local a_name = minetest.get_translated_string(lang_code, minetest.registered_items[a_itemn].description)
+      local b_name = minetest.get_translated_string(lang_code, minetest.registered_items[b_itemn].description)
 
       return a_name < b_name
    end
@@ -301,9 +303,9 @@ function crafting.get_formspec(name, select_item)
 
    local craftitems
    if crafting.userdata[name] and crafting.userdata[name].mode == MODE_GUIDE then
-       craftitems = crafting.get_crafts()
+       craftitems = crafting.get_crafts(nil, name)
    else
-       craftitems = crafting.get_crafts(inv)
+       craftitems = crafting.get_crafts(inv, name)
    end
    if select_item == nil then
        if row > #craftitems then
@@ -470,9 +472,9 @@ local function on_player_receive_fields(player, form_name, fields)
    if do_craft_1 or do_craft_10 then
       local craftitems
       if crafting.userdata[name] and crafting.userdata[name].mode == MODE_GUIDE then
-          craftitems = crafting.get_crafts()
+          craftitems = crafting.get_crafts(nil, name)
       else
-          craftitems = crafting.get_crafts(inv)
+          craftitems = crafting.get_crafts(inv, name)
       end
       local old_item = nil
       if crafting.userdata[name] then
@@ -527,9 +529,9 @@ local function on_player_receive_fields(player, form_name, fields)
    elseif fields.toggle_filter then
       local craftitems
       if crafting.userdata[name] and crafting.userdata[name].mode == MODE_GUIDE then
-          craftitems = crafting.get_crafts()
+          craftitems = crafting.get_crafts(nil, name)
       else
-          craftitems = crafting.get_crafts(inv)
+          craftitems = crafting.get_crafts(inv, name)
       end
       local old_item = craftitems[crafting.userdata[name].row]
       if crafting.userdata[name].mode == MODE_GUIDE then
