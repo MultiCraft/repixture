@@ -309,28 +309,69 @@ door.register_door(
    {
       description = S("Wooden Door"),
       inventory_image = "door_wood.png",
-      groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=2,door=1},
+      groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=2,door=1,door_wood=1},
       tiles_top = {"door_wood_a.png", "door_wood_side.png"},
       tiles_bottom = {"door_wood_b.png", "door_wood_side.png"},
       sounds = rp_sounds.node_sound_wood_defaults(),
       sunlight = false,
 })
-
 crafting.register_craft(
    {
       output = "rp_door:door_wood",
       items = {
          "rp_default:fiber 6",
          "rp_default:stick 7",
-         "group:planks 2",
+         "rp_default:planks 2",
       }
 })
 
+door.register_door(
+   "rp_door:door_wood_oak",
+   {
+      description = S("Oak Door"),
+      inventory_image = "rp_door_wood_oak.png",
+      groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=2,door=1,door_wood=1},
+      tiles_top = {"rp_door_wood_oak_a.png", "rp_door_wood_oak_side.png"},
+      tiles_bottom = {"rp_door_wood_oak_b.png", "rp_door_wood_oak_side.png"},
+      sounds = rp_sounds.node_sound_wood_defaults(),
+      sunlight = false,
+})
+crafting.register_craft(
+   {
+      output = "rp_door:door_wood_oak",
+      items = {
+         "rp_default:fiber 6",
+         "rp_default:stick 7",
+         "rp_default:planks_oak 2",
+      }
+})
+
+door.register_door(
+   "rp_door:door_wood_birch",
+   {
+      description = S("Birch Door"),
+      inventory_image = "rp_door_wood_birch.png",
+      groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=2,door=1,door_wood=1},
+      tiles_top = {"rp_door_wood_birch_a.png", "rp_door_wood_birch_side.png"},
+      tiles_bottom = {"rp_door_wood_birch_b.png", "rp_door_wood_birch_side.png"},
+      sounds = rp_sounds.node_sound_wood_defaults(),
+      sunlight = false,
+})
+crafting.register_craft(
+   {
+      output = "rp_door:door_wood_birch",
+      items = {
+         "rp_default:fiber 6",
+         "rp_default:stick 7",
+         "rp_default:planks_birch 2",
+      }
+})
 minetest.register_craft({
     type = "fuel",
-    recipe = "rp_door:door_wood",
+    recipe = "group:door_wood",
     burntime = 15
 })
+
 
 door.register_door(
    "rp_door:door_stone",
