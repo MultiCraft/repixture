@@ -56,7 +56,7 @@ minetest.register_alias("mapgen_river_water_source", "rp_default:river_water_sou
 
 minetest.register_alias("mapgen_lava_source", "rp_default:water_source")
 
--- Biome setup
+--[[ BIOMES ]]
 
 minetest.clear_registered_biomes()
 
@@ -393,6 +393,9 @@ minetest.register_ore( -- Marsh
 end
 
 
+--[[ DECORATIONS ]]
+-- The decorations are roughly ordered by size;
+-- largest decorations first.
 
 -- Tree decorations
 
@@ -520,6 +523,70 @@ minetest.register_decoration(
 
 end
 
+-- Cactus decorations
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:sand"},
+      sidelen = 16,
+      fill_ratio = 0.004,
+      biomes = {"Desert"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_cactus.mts",
+      y_min = 10,
+      y_max = 500,
+      rotation = "random",
+})
+
+-- Rock decorations
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.006,
+      biomes = {"Wasteland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_small_rock.mts",
+      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
+      y_min = 1,
+      y_max = 32000,
+      rotation = "random",
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.004,
+      biomes = {"Wasteland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_large_rock.mts",
+      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
+      y_min = 1,
+      y_max = 32000,
+      rotation = "random",
+})
+
+-- Sulfur decorations
+
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:dry_dirt",
+      sidelen = 16,
+      fill_ratio = 0.005,
+      biomes = {"Wasteland"},
+      decoration = {"rp_default:stone_with_sulfur"},
+      y_min = 2,
+      y_max = 14,
+})
+
 -- Bush/shrub decorations
 
 minetest.register_decoration(
@@ -566,7 +633,20 @@ minetest.register_decoration(
       rotation = "0",
 })
 
+-- Thistle decorations
 
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:dirt_with_grass",
+      sidelen = 16,
+      fill_ratio = 0.024,
+      biomes = {"Wilderness"},
+      decoration = {"rp_default:thistle"},
+      height = 2,
+      y_min = -32000,
+      y_max = 32000,
+})
 
 -- Papyrus decorations
 
@@ -701,21 +781,6 @@ minetest.register_decoration(
       y_max = 32000,
 })
 
--- Thistle decorations
-
-minetest.register_decoration(
-   {
-      deco_type = "simple",
-      place_on = "rp_default:dirt_with_grass",
-      sidelen = 16,
-      fill_ratio = 0.024,
-      biomes = {"Wilderness"},
-      decoration = {"rp_default:thistle"},
-      height = 2,
-      y_min = -32000,
-      y_max = 32000,
-})
-
 -- Fern decorations
 
 minetest.register_decoration(
@@ -728,70 +793,6 @@ minetest.register_decoration(
       decoration = {"rp_default:fern"},
       y_min = -32000,
       y_max = 32000,
-})
-
--- Cactus decorations
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:sand"},
-      sidelen = 16,
-      fill_ratio = 0.004,
-      biomes = {"Desert"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_cactus.mts",
-      y_min = 10,
-      y_max = 500,
-      rotation = "random",
-})
-
--- Rock decorations
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dry_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.006,
-      biomes = {"Wasteland"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_small_rock.mts",
-      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
-      y_min = 1,
-      y_max = 32000,
-      rotation = "random",
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dry_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.004,
-      biomes = {"Wasteland"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_large_rock.mts",
-      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
-      y_min = 1,
-      y_max = 32000,
-      rotation = "random",
-})
-
--- Sulfur decorations
-
-minetest.register_decoration(
-   {
-      deco_type = "simple",
-      place_on = "rp_default:dry_dirt",
-      sidelen = 16,
-      fill_ratio = 0.005,
-      biomes = {"Wasteland"},
-      decoration = {"rp_default:stone_with_sulfur"},
-      y_min = 2,
-      y_max = 14,
 })
 
 -- Clam decorations
@@ -807,6 +808,9 @@ minetest.register_decoration(
       y_min = 0,
       y_max = 1,
 })
+
+
+--[[ ORES ]]
 
 -- Graphite ore
 
