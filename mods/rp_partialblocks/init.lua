@@ -196,6 +196,9 @@ partialblocks.register_material(
    "stone", S("Stone Slab"), S("Stone Stair"), "rp_default:stone", {cracky=2}, false)
 
 partialblocks.register_material(
+   "sandstone", S("Sandstone Slab"), S("Sandstone Stair"), "rp_default:sandstone", {cracky=3}, false)
+
+partialblocks.register_material(
    "brick", S("Brick Slab"), S("Brick Stair"), "rp_default:brick", {cracky=2}, false)
 
 -- Woodlike
