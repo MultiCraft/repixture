@@ -1061,7 +1061,7 @@ function mobs:register_mob(name, def)
                   end
                   if self.timer > 3 then
                      local pos = vector.round(self.object:get_pos())
-                     if minetest.find_node_near(pos, 1, {"group:water"}) or minetest.is_protected(pos, "") then
+                     if minetest.is_protected(pos, "") then
                         self.object:remove()
                         if self.sounds.explode ~= "" then
                            minetest.sound_play(self.sounds.explode, {
