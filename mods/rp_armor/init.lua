@@ -57,7 +57,7 @@ function armor.is_armor(itemname)
 end
 
 function armor.is_slot(itemname, slot)
-   local match = string.find(itemname, "armor:" .. slot .. "_")
+   local match = string.find(itemname, "rp_armor:" .. slot .. "_")
    local matchbool = false
    if match ~= nil and match >= 1 then
       matchbool = true
@@ -106,7 +106,7 @@ function armor.get_groups(player)
       local itemstack = inv:get_stack("armor", slot_index)
       local itemname = itemstack:get_name()
 
-      if itemstack:get_name() ~= "armor:"..slot.."_bronze" then
+      if itemstack:get_name() ~= "rp_armor:"..slot.."_bronze" then
          ach_ok = false
       end
 
