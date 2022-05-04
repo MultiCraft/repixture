@@ -85,20 +85,26 @@ function farming.place_plant(itemstack, placer, pointed_thing)
    return itemstack
 end
 
-function farming.next_stage(pos, under, underdef, name, plant)
+-- Grow plant to next stage.
+-- Returns true if plant has grown, false if not (e.g. because of max stage)
+function farming.next_stage(pos, plant_name)
    local my_node = minetest.get_node(pos)
 
-   if my_node.name == name .. "_1" then
-      minetest.set_node(pos, {name = name .. "_2"})
-   elseif my_node.name == name .. "_2" then
-      minetest.set_node(pos, {name = name .. "_3"})
-   elseif my_node.name == name .. "_3" then
-      minetest.set_node(pos, {name = name .. "_4"})
+   if my_node.name == plant_name .. "_1" then
+      minetest.set_node(pos, {name = plant_name .. "_2"})
+      return true
+   elseif my_node.name == plant_name .. "_2" then
+      minetest.set_node(pos, {name = plant_name .. "_3"})
+      return true
+   elseif my_node.name == plant_name .. "_3" then
+      minetest.set_node(pos, {name = plant_name .. "_4"})
 
       -- Stop the timer on the node so no more growing occurs until needed
 
       minetest.get_node_timer(pos):stop()
+      return true
    end
+   return false
 end
 
 function farming.grow_plant(pos, name)
@@ -129,16 +135,13 @@ function farming.grow_plant(pos, name)
 
    -- Grow and check for rain and fertilizer
 
-   local under = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z})
-   local underdef = minetest.registered_nodes[under.name]
-
-   farming.next_stage(pos, under, underdef, name, plant)
+   farming.next_stage(pos, name)
 
    if minetest.get_item_group(under.name, "plantable_fertilizer") > 0 then
-      farming.next_stage(pos, under, underdef, name, plant)
+      farming.next_stage(pos, name)
    end
 
    if weather.weather == "storm" then
-      farming.next_stage(pos, under, underdef, name, plant)
+      farming.next_stage(pos, name)
    end
 end

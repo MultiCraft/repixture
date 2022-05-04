@@ -27,8 +27,9 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {snappy=3, handy=2, attached_node=1, seed=1},
-      sounds=rp_sounds.node_sound_leaves_defaults()
+      groups = {snappy=3, handy=2, attached_node=1, seed=1, farming_plant=1, plant_wheat=1},
+      sounds=rp_sounds.node_sound_leaves_defaults(),
+      _rp_farming_plant_name = "rp_farming:wheat",
    }
 )
 
@@ -54,8 +55,9 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=rp_sounds.node_sound_leaves_defaults()
+      groups = {snappy=3, handy=2, attached_node=1, farming_plant=1, plant_wheat=2, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+      sounds=rp_sounds.node_sound_leaves_defaults(),
+      _rp_farming_plant_name = "rp_farming:wheat",
    }
 )
 
@@ -81,8 +83,9 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=rp_sounds.node_sound_leaves_defaults()
+      groups = {snappy=3, handy=2, attached_node=1, farming_plant=1, plant_wheat=3, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+      sounds=rp_sounds.node_sound_leaves_defaults(),
+      _rp_farming_plant_name = "rp_farming:wheat",
    }
 )
 
@@ -111,8 +114,9 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=rp_sounds.node_sound_leaves_defaults()
+      groups = {snappy=3, handy=2, attached_node=1, farming_plant=1, plant_wheat=4, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+      sounds=rp_sounds.node_sound_leaves_defaults(),
+      _rp_farming_plant_name = "rp_farming:wheat",
    }
 )
 
@@ -140,8 +144,9 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {snappy=3, handy=2, attached_node=1, seed=1},
-      sounds=rp_sounds.node_sound_leaves_defaults()
+      groups = {snappy=3, handy=2, attached_node=1, farming_plant=1, plant_cotton=1, seed=1},
+      sounds=rp_sounds.node_sound_leaves_defaults(),
+      _rp_farming_plant_name = "rp_farming:cotton",
    }
 )
 
@@ -167,8 +172,9 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=rp_sounds.node_sound_leaves_defaults()
+      groups = {snappy=3, handy=2, attached_node=1, farming_plant=1, plant_cotton=2, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+      sounds=rp_sounds.node_sound_leaves_defaults(),
+      _rp_farming_plant_name = "rp_farming:cotton",
    }
 )
 
@@ -194,8 +200,9 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=rp_sounds.node_sound_leaves_defaults()
+      groups = {snappy=3, handy=2, attached_node=1, farming_plant=1, plant_cotton=3, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+      sounds=rp_sounds.node_sound_leaves_defaults(),
+      _rp_farming_plant_name = "rp_farming:cotton",
    }
 )
 
@@ -260,8 +267,9 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
       },
-      groups = {snappy=3, handy=2, attached_node=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+      groups = {snappy=3, handy=2, attached_node=1, farming_plant=1, plant_cotton=4, not_in_craft_guide = 1, not_in_creative_inventory = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
+      _rp_farming_plant_name = "rp_farming:cotton",
 
       -- Trim cotton with shears
       _on_trim = trim_cotton,
