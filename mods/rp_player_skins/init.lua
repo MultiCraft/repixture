@@ -240,7 +240,7 @@ function player_skins.set_random_skin(name)
 	local ccol = components.cloth_colors[cnum]
 
 	local bnum = math.random(1, #components.band_colors)
-	local bcol = components.band_colors[math.random(1, bnum)]
+	local bcol = components.band_colors[bnum]
 
 	local hnum = math.random(1, #components.hairs)
 	local hair = components.hairs[hnum]
