@@ -11,6 +11,7 @@ local enable_headbars = minetest.settings:get_bool("headbars_enable")
 if enable_headbars == nil then enable_headbars = true end
 
 local headbars_scale = tonumber(minetest.settings:get("headbars_scale")) or 1.0
+headbars_scale = math.max(0.25, headbars_scale)
 
 function headbars.get_sprite(icon, background, max, amt)
    local img = "[combine:" .. (max * 8) .. "x16:0,0=blank.png:0,0=blank.png"

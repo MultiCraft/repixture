@@ -21,9 +21,11 @@ hunger_enable (Enable hunger) bool true
 
 # This number specifies the interval in seconds
 # at which the hunger of players is updated.
+# Also affects the healing rate.
 # The lower this number, the faster players get hungry.
-# Very low numbers might cause performance problems!
-hunger_step (Hunger speed) float 3.0 0.1
+# At 0, hunger is updated at every server step,
+# which is really fast!
+hunger_step (Hunger frequency) float 3.0 0.0
 
 [World]
 # If enabled, the weather will change from time to time.
@@ -78,6 +80,12 @@ static_spawn_radius (Spawn point safety radius) int 256 0
 [Graphics and audio]
 # This will add an graphical effect that slightly darkens the edges of the screen.
 vignette_enable (Enable vignette) bool true
+
+# This will enable a health display over the head of each player.
+headbars_enable (Enable over-head health bars) bool true
+
+# Scale of the health display over the player heads.
+headbars_scale (Scale of over-head health bars) float 1.0 0.25
 
 # Enables blood particles when attacking mobs.
 # If disabled, there will be other, less “gruesome” particle effects.
