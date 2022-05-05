@@ -1,6 +1,10 @@
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
 local S = minetest.get_translator("rp_default")
 
+-- If a sapling fails to grow, check the sapling again after this many seconds
+local SAPLING_RECHECK_TIME_MIN = 60
+local SAPLING_RECHECK_TIME_MAX = 70
+
 --
 -- Functions/ABMs
 --
@@ -90,10 +94,18 @@ local tree_data = {
 	["apple"] = {
 		schem = "default_appletree.mts",
 		offset = vector.new(-2, -1, -2),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,2,0) },
+			{ vector.new(-2,3,-2), vector.new(2,5,2) },
+		},
 	},
 	["oak"] = {
 		schem = "default_oaktree.mts",
 		offset = vector.new(-2, -1, -2),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,2,0) },
+			{ vector.new(-1,3,-1), vector.new(1,5,1) },
+		},
 	},
 	["birch"] = {
 		schem = "default_squaretree.mts",
@@ -103,14 +115,46 @@ local tree_data = {
 			["rp_default:apple"] = "air"
 		},
 		offset = vector.new(-1, -1, -1),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,1,0) },
+			{ vector.new(-1,2,-1), vector.new(1,4,1) },
+		},
 	},
 	["dry_bush"] = {
 		schem = "default_dry_bush.mts",
 		offset = vector.new(-1, -1, -1),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,1,0) },
+		},
 	},
 }
 
 function default.check_sapling_space(pos, variety)
+	local tdata = tree_data[variety]
+	if not tdata then
+		return false
+	end
+	local space = tdata.space
+	for i=1, #space do
+		local min, max = space[i][1], space[i][2]
+		min = vector.add(pos, min)
+		max = vector.add(pos, max)
+
+		-- Every node of the volume needs to be air,
+		-- so we calculate the volume first
+		local required_airs = (max.x - min.x + 1) * (max.y - min.y + 1) * (max.z - min.z + 1)
+
+		-- If pos is inside the volume, don’t count it (cut it’s the sapling)
+		if pos.x >= min.x and pos.y >= min.y and pos.z >= min.z and pos.x <= max.x and pos.y <= max.y and pos.z <= max.z then
+			required_airs = required_airs - 1
+		end
+		local _, counts = minetest.find_nodes_in_area(min, max, {"air"}, false)
+		local counted_airs = counts.air
+		if counted_airs < required_airs then
+			return false
+		end
+	end
+	return true
 end
 
 -- Start the sapling grow timer of the sapling at pos.
@@ -151,6 +195,12 @@ function default.grow_sapling(pos)
       return false
    end
    local variety = sdata.grows_to
+
+   local enough_space = default.check_sapling_space(pos, variety)
+   if not enough_space then
+	   minetest.get_node_timer(pos):start(math.random(SAPLING_RECHECK_TIME_MIN, SAPLING_RECHECK_TIME_MAX))
+	   return false
+   end
 
    minetest.remove_node(pos)
 
