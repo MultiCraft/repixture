@@ -50,6 +50,9 @@ local components = {
 	skin_colors = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" },
 	cloth_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" },
 	band_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "turquoise", "lime", "green", "yellow", "orange" },
+	headband_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "turquoise", "lime", "green", "yellow", "orange" },
+	wristband_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "turquoise", "lime", "green", "yellow", "orange" },
+	shoe_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" },
 	hairs = {
 		"beard_brown", "beard_dark_brown", "beard_silver", "beard_black", "beard_red", "beard_orange",
 		"short_brown", "short_dark_brown", "short_silver", "short_black", "short_red", "short_orange",
@@ -57,21 +60,24 @@ local components = {
 	eye_colors = { "green", "blue", "brown" },
 }
 
-function player_skins.build_skin(skin, cloth, bands, hair, eyes)
+function player_skins.build_skin(skin, cloth, bands, hair, eyes, headband, wristbands, shoes)
 	local skin =
 		"player_skins_skin_"..skin..".png" .. "^" ..
 		"player_skins_eyes_"..eyes..".png" .. "^" ..
 		"player_skins_hair_"..hair..".png" .. "^" ..
 		"player_skins_clothes_"..cloth..".png" .. "^" ..
-		"player_skins_bands_"..bands..".png"
+		"player_skins_bands_"..bands..".png" .. "^" ..
+		"player_skins_headband_"..headband..".png" .. "^" ..
+		"player_skins_wristbands_"..wristbands..".png" .. "^" ..
+		"player_skins_shoes_"..shoes..".png"
 	return skin
 end
 
 -- NOTE: Skin data is saved in player meta under player_skins:skindata
 -- in comma-separated list, in this order:
--- skin, eye, hair, cloth, bands
+-- skin, eye, hair, cloth, bands, headband, wristbands, shoes
 
-function player_skins.set_skin(name, skin, cloth, bands, hair, eyes)
+function player_skins.set_skin(name, skin, cloth, bands, hair, eyes, headband, wristbands, shoes)
 	local skindata = player_skins.skindata_ids[name]
 	if not skindata then
 		return false
@@ -91,7 +97,16 @@ function player_skins.set_skin(name, skin, cloth, bands, hair, eyes)
 	if not eyes then
 		eyes = components.eye_colors[skindata.eye_colors]
 	end
-	local newskin = player_skins.build_skin(skin, cloth, bands, hair, eyes)
+	if not headband then
+		headband = components.headband_colors[skindata.headband_colors]
+	end
+	if not wristbands then
+		wristbands = components.wristband_colors[skindata.wristband_colors]
+	end
+	if not shoes then
+		shoes = components.shoe_colors[skindata.shoe_colors]
+	end
+	local newskin = player_skins.build_skin(skin, cloth, bands, hair, eyes, headband, wristbands, shoes)
 	local player = minetest.get_player_by_name(name)
 	if not player then
 		return false
@@ -103,7 +118,7 @@ function player_skins.set_skin(name, skin, cloth, bands, hair, eyes)
 	-- Update internal data
 	player_skins.skins[name] = newskin
 	local meta = player:get_meta()
-	local metastring = skin..","..eyes..","..hair..","..cloth..","..bands
+	local metastring = skin..","..eyes..","..hair..","..cloth..","..bands..","..headband..","..wristbands..","..shoes
 	meta:set_string("player_skins:skindata", metastring)
 
 	if minetest.global_exists("armor") then
@@ -123,12 +138,15 @@ local function on_joinplayer(player)
 	if skinstr ~= "" or legacy_skins[name] then
 		-- If no skin found in player meta, but a legacy skin (v.1.4.2 and before) is found,
 		-- use the legacy skin
-		local skin, eye, hair, cloth, bands
+		local skin, eye, hair, cloth, bands, headband, wristbands, shoes
 		if skinstr == "" and legacy_skins[name] then
 			skin = "1"
 			eye = "green"
 			cloth = "red"
 			bands = "green"
+			headband = "green"
+			wristbands = "green"
+			shoes = "red"
 			local legacy_skin = legacy_skins[name]
 			legacy_skins[name] = nil
 			-- Load skin from legacy version (v1.4.2 and before)
@@ -151,6 +169,9 @@ local function on_joinplayer(player)
 			hair = skindata[3]
 			cloth = skindata[4]
 			bands = skindata[5]
+			headband = skindata[6] or bands
+			wristbands = skindata[7] or bands
+			shoes = skindata[8] or cloth
 		end
 
 		-- Populate skindata_ids (needed for formspec to know which skin components are selected)
@@ -160,6 +181,9 @@ local function on_joinplayer(player)
 			hairs = hair,
 			cloth_colors = cloth,
 			band_colors = bands,
+			headband_colors = headband,
+			wristband_colors = wristbands,
+			shoe_colors = shoes,
 		}
 		for c,component in pairs(components) do
 			for i=1, #component do
@@ -170,7 +194,7 @@ local function on_joinplayer(player)
 		end
 
 		-- Set skin :-)
-		player_skins.set_skin(name, skin, cloth, bands, hair, eye)
+		player_skins.set_skin(name, skin, cloth, bands, hair, eye, headband, wristbands, shoes)
 	else
 		-- No skin found, set a random one
 		minetest.log("action", "[rp_player_skins] Player "..name.." appears to be new, setting initial random skin")
@@ -191,10 +215,13 @@ function player_skins.get_formspec(playername)
 	local form = rp_formspec.get_page("rp_default:default")
 	form = form .. "model[0.2,0.5;4,8;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0]"
 	form = form .. rp_formspec.button(3.5, 0.3, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
-	form = form .. rp_formspec.button(3.5, 1.3, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
+	form = form .. rp_formspec.button(3.5, 1.0, 3, 1, "player_skins_skin_select_headband_colors", S("Headband"))
+	form = form .. rp_formspec.button(3.5, 1.7, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
 	form = form .. rp_formspec.button(3.5, 3, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
+	form = form .. rp_formspec.button(3.5, 4, 3, 1, "player_skins_skin_select_wristband_colors", S("Wristbands"))
 	form = form .. rp_formspec.button(3.5, 5, 3, 1, "player_skins_skin_select_band_colors", S("Trousers"))
-	form = form .. rp_formspec.button(3.5, 6, 3, 1, "player_skins_skin_select_skin_colors", S("Skin"))
+	form = form .. rp_formspec.button(3.5, 6, 3, 1, "player_skins_skin_select_shoe_colors", S("Shoes"))
+	form = form .. rp_formspec.button(3.5, 7, 3, 1, "player_skins_skin_select_skin_colors", S("Skin"))
 	form = form .. rp_formspec.button(3.5, 7.75, 3, 1, "player_skins_skin_select_random", S("Random"))
 	return form
 end
@@ -206,7 +233,7 @@ minetest.register_on_player_receive_fields(function(player, form_name, fields)
 		player_skins.set_random_skin(name)
 		changed = true
 	else
-		local checks = {"hairs", "eye_colors", "cloth_colors", "band_colors", "skin_colors"}
+		local checks = {"hairs", "eye_colors", "cloth_colors", "band_colors", "skin_colors", "headband_colors", "wristband_colors", "shoe_colors"}
 		for c=1, #checks do
 			local check = checks[c]
 			if fields["player_skins_skin_select_"..check] then
@@ -239,8 +266,17 @@ function player_skins.set_random_skin(name)
 	local cnum = math.random(1, #components.cloth_colors)
 	local ccol = components.cloth_colors[cnum]
 
+	local henum = math.random(1, #components.headband_colors)
+	local hecol = components.headband_colors[henum]
+
+	local wnum = math.random(1, #components.wristband_colors)
+	local wcol = components.wristband_colors[wnum]
+
+	local shnum = math.random(1, #components.shoe_colors)
+	local shcol = components.shoe_colors[shnum]
+
 	local bnum = math.random(1, #components.band_colors)
-	local bcol = components.band_colors[math.random(1, bnum)]
+	local bcol = components.band_colors[bnum]
 
 	local hnum = math.random(1, #components.hairs)
 	local hair = components.hairs[hnum]
@@ -250,6 +286,9 @@ function player_skins.set_random_skin(name)
 
 	player_skins.skindata_ids[name].skin_colors = snum
 	player_skins.skindata_ids[name].cloth_colors = cnum
+	player_skins.skindata_ids[name].headband_colors = henum
+	player_skins.skindata_ids[name].wristband_colors = wnum
+	player_skins.skindata_ids[name].shoe_colors = shnum
 	player_skins.skindata_ids[name].band_colors = bnum
 	player_skins.skindata_ids[name].hairs = hnum
 	player_skins.skindata_ids[name].eye_colors = enum
@@ -258,8 +297,11 @@ function player_skins.set_random_skin(name)
 		"player_skins_skin_"..scol..".png" .. "^" ..
 		"player_skins_eyes_"..ecol..".png" .. "^" ..
 		"player_skins_hair_"..hair..".png" .. "^" ..
+		"player_skins_shoes_"..shcol..".png" .. "^" ..
+		"player_skins_wristbands_"..wcol..".png" .. "^" ..
 		"player_skins_clothes_"..ccol..".png" .. "^" ..
-		"player_skins_bands_"..bcol..".png"
+		"player_skins_bands_"..bcol..".png" .. "^" ..
+		"player_skins_headband_"..hecol..".png"
 
-	player_skins.set_skin(name, scol, ccol, bcol, hair, ecol)
+	player_skins.set_skin(name, scol, ccol, bcol, hair, ecol, hecol, wcol, shcol)
 end
