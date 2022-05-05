@@ -27,7 +27,7 @@ minetest.register_craftitem(
          local diff = vector.subtract(apos, upos)
 	 local used = false
          if minetest.get_item_group(unode.name, "sapling") ~= 0 then
-            minetest.get_node_timer(upos):start(0)
+            default.grow_sapling(upos)
 	    used = true
          elseif diff.y > 0 and unode.name == "rp_default:dirt_with_grass" and anode.name == "air" then
             minetest.set_node(apos, {name="rp_default:grass"})
