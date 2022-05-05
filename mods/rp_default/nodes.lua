@@ -433,7 +433,7 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_defaults(),
 
       on_timer = function(pos)
-         default.grow_sapling(pos, "apple")
+         default.grow_sapling(pos)
       end,
 
       on_construct = function(pos)
@@ -463,7 +463,7 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_defaults(),
 
       on_timer = function(pos)
-         default.grow_sapling(pos, "oak")
+         default.grow_sapling(pos)
       end,
 
       on_construct = function(pos)
@@ -494,7 +494,7 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_defaults(),
 
       on_timer = function(pos)
-         default.grow_sapling(pos, "birch")
+         default.grow_sapling(pos)
       end,
 
       on_construct = function(pos)
@@ -525,7 +525,7 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_defaults(),
 
       on_timer = function(pos)
-         default.grow_sapling(pos, "dry_bush")
+         default.grow_sapling(pos)
       end,
 
       on_construct = function(pos)

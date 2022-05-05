@@ -63,72 +63,103 @@ function default.place_sapling(itemstack, placer, pointed_thing)
    return itemstack
 end
 
+local sapling_data = {
+	["rp_default:sapling"] = {
+		grows_to = "apple",
+		grow_time_min = 300,
+		grow_time_max = 480,
+	},
+	["rp_default:sapling_oak"] = {
+		grows_to = "oak",
+		grow_time_min = 700,
+		grow_time_max = 960,
+	},
+	["rp_default:sapling_birch"] = {
+		grows_to = "birch",
+		grow_time_min = 480,
+		grow_time_max = 780,
+	},
+	["rp_default:sapling_dry_bush"] = {
+		grows_to = "dry_bush",
+		grow_time_min = 180,
+		grow_time_max = 400
+	}
+}
+
+local tree_data = {
+	["apple"] = {
+		schem = "default_appletree.mts",
+		offset = vector.new(-2, -1, -2),
+	},
+	["oak"] = {
+		schem = "default_oaktree.mts",
+		offset = vector.new(-2, -1, -2),
+	},
+	["birch"] = {
+		schem = "default_squaretree.mts",
+		replacements = {
+			["rp_default:leaves"] = "rp_default:leaves_birch",
+			["rp_default:tree"] = "rp_default:tree_birch",
+			["rp_default:apple"] = "air"
+		},
+		offset = vector.new(-1, -1, -1),
+	},
+	["dry_bush"] = {
+		schem = "default_dry_bush.mts",
+		offset = vector.new(-1, -1, -1),
+	},
+}
+
+function default.check_sapling_space(pos, variety)
+end
+
+-- Start the sapling grow timer of the sapling at pos.
+-- Returns true on success or false if it was not a sapling.
 function default.begin_growing_sapling(pos)
    local node = minetest.get_node(pos)
 
-   if node.name == "rp_default:sapling" then
-      minetest.get_node_timer(pos):start(math.random(300, 480))
-   elseif node.name == "rp_default:sapling_oak" then
-      minetest.get_node_timer(pos):start(math.random(700, 960))
-   elseif node.name == "rp_default:sapling_birch" then
-      minetest.get_node_timer(pos):start(math.random(480, 780))
-   elseif node.name == "rp_default:sapling_dry_bush" then
-      minetest.get_node_timer(pos):start(math.random(180, 400))
+   local sdata = sapling_data[node.name]
+   if not sdata then
+      return false
    end
+
+   local min, max = sdata.grow_time_min, sdata.grow_time_max
+
+   minetest.get_node_timer(pos):start(math.random(1, 5))
+   --minetest.get_node_timer(pos):start(math.random(min, max))
+   return true
 end
 
-function default.grow_sapling(pos, variety)
-   local function grow()
-      if variety == "apple" then
-	 minetest.place_schematic(
-            {
-               x = pos.x - 2,
-               y = pos.y - 1,
-               z = pos.z - 2
-            },
-            minetest.get_modpath("rp_default")
-               .. "/schematics/default_appletree.mts", "0", {}, false)
-      elseif variety == "oak" then
-	 minetest.place_schematic(
-            {
-               x = pos.x - 2,
-               y = pos.y - 1,
-               z = pos.z - 2
-            },
-            minetest.get_modpath("rp_default")
-               .. "/schematics/default_oaktree.mts", "0", {}, false)
-      elseif variety == "birch" then
-	 minetest.place_schematic(
-            {
-               x = pos.x - 1,
-               y = pos.y - 1,
-               z = pos.z - 1
-            },
-            minetest.get_modpath("rp_default")
-               .. "/schematics/default_squaretree.mts", "0",
-            {
-               ["rp_default:leaves"] = "rp_default:leaves_birch",
-               ["rp_default:tree"] = "rp_default:tree_birch",
-               ["rp_default:apple"] = "air"
-            }, false)
-    elseif variety == "dry_bush" then
-	 minetest.place_schematic(
-            {
-               x = pos.x - 1,
-               y = pos.y - 1,
-               z = pos.z - 1
-            },
-            minetest.get_modpath("rp_default")
-               .. "/schematics/default_dry_bush.mts", "0", {}, false)
+-- Grow a sapling at pos
+function default.grow_sapling(pos)
+   local function grow(variety)
+      local tdata = tree_data[variety]
+      if not tdata then
+	      minetest.log("error", "[rp_default] Unknown sapling variety in default.grow_sapling!")
+	      return
       end
+      local opos = vector.add(pos, tdata.offset)
+      local replacements = tdata.replacements or {}
+      minetest.place_schematic(
+         opos,
+         minetest.get_modpath("rp_default") .. "/schematics/" .. tdata.schem,
+	 "0", replacements, false)
    end
+
+   local node = minetest.get_node(pos)
+   local sdata = sapling_data[node.name]
+   if not sdata then
+      return false
+   end
+   local variety = sdata.grows_to
 
    minetest.remove_node(pos)
 
-   minetest.after(0, grow)
+   minetest.after(0, grow, variety)
 
    minetest.log("action", "[rp_default] A " .. variety .. " tree sapling grows at " ..
                   minetest.pos_to_string(pos))
+   return true
 end
 
 -- Make preexisting trees restart the growing process
