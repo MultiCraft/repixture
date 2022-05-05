@@ -125,8 +125,7 @@ function default.begin_growing_sapling(pos)
 
    local min, max = sdata.grow_time_min, sdata.grow_time_max
 
-   minetest.get_node_timer(pos):start(math.random(1, 5))
-   --minetest.get_node_timer(pos):start(math.random(min, max))
+   minetest.get_node_timer(pos):start(math.random(min, max))
    return true
 end
 
