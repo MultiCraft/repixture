@@ -141,6 +141,7 @@ function farming.grow_plant(pos, name)
 
    farming.next_stage(pos, name)
 
+   local under = vector.add(pos, vector.new(0, -1, 0))
    if minetest.get_item_group(under.name, "plantable_fertilizer") > 0 then
       farming.next_stage(pos, name)
    end
