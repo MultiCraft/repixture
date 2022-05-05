@@ -122,6 +122,7 @@ ambiance.sounds["flowing_water"] = {
 }
 
 local ambiance_volume = tonumber(minetest.settings:get("ambiance_volume")) or 1.0
+ambiance_volume = math.max(0.0, math.min(1.0, ambiance_volume))
 
 if minetest.settings:get_bool("ambiance_enable") == true then
    local soundspec = {}

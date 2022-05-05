@@ -22,6 +22,7 @@ local saving = false
 
 -- Seconds per hunger update, 2.0 is slightly fast
 local timer_interval = tonumber(minetest.settings:get("hunger_step")) or 3.0
+timer_interval = math.max(0, timer_interval)
 local timer = 0
 
 local function save_hunger()

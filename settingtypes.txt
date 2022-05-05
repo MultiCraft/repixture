@@ -15,6 +15,16 @@ give_initial_enable (Enable initial items) bool false
 # Comma-separated list of initial items to give to new players. You must use itemstrings as the item identifiers. This only works if give_initial_enable is active.
 give_initial_items (Initial items) string rp_default:pick_stone,rp_default:torch_weak 10
 
+# If enabled, players will get hungry over time.
+# Otherwise, the hunger level won’t reduce at all.
+hunger_enable (Enable hunger) bool true
+
+# This number specifies the interval in seconds
+# at which the hunger of players is updated.
+# The lower this number, the faster players get hungry.
+# Very low numbers might cause performance problems!
+hunger_step (Hunger speed) float 3.0 0.1
+
 [World]
 # If enabled, the weather will change from time to time.
 weather_enable (Enable dynamic weather) bool true
@@ -37,6 +47,17 @@ bed_enable (Enable sleeping in beds) bool true
 # If enabled, music players will be able to play music.
 # If disabled, music players will stay silent.
 music_enable (Enable music player playback) bool true
+
+# Volume of music players.
+music_volume (Music player volume) float 1.0 0.0 1.0
+
+# If enabled, locks (like those on locked chests)
+# won’t protect anything.
+locks_all_unlocked (Unlock all locks) bool false
+
+# Number of seconds a locked block stays unlocked
+# after cracking the lock open.
+locks_picked_time (Picked lock time) float 15 1.0
 
 [Mobs]
 # If enabled, only peaceful, non-hostile mobs will appear. Hostile mobs will disappear and cannot be spawned at all.
@@ -64,3 +85,6 @@ mobs_enable_blood (Enable blood) bool false
 
 # Enables ambient sounds, such as birds, crickets, etc.
 ambiance_enable (Enable ambient sounds) bool true
+
+# Volume of ambient sounds.
+ambiance_volume (Ambient volume) float 1.0 0.0 1.0

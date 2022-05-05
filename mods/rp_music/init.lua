@@ -17,6 +17,7 @@ music.tracks = {
 }
 
 music.volume = tonumber(minetest.settings:get("music_volume")) or 1.0
+music.volume = math.max(0.0, math.min(1.0, music.volume))
 
 -- Array of music players
 
