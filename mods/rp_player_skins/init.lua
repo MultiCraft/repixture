@@ -50,10 +50,11 @@ local components = {
 	skin_colors = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" },
 	cloth_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" },
 	band_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "turquoise", "lime", "green", "yellow", "orange" },
-	headband_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "turquoise", "lime", "green", "yellow", "orange" },
-	wristband_colors = { "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "turquoise", "lime", "green", "yellow", "orange" },
+	headband_colors = { "blank", "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "turquoise", "lime", "green", "yellow", "orange" },
+	wristband_colors = { "blank", "red", "redviolet", "magenta", "purple", "blue", "skyblue", "cyan", "turquoise", "lime", "green", "yellow", "orange" },
 	shoe_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" },
 	hairs = {
+		"blank",
 		"beard_brown", "beard_dark_brown", "beard_silver", "beard_black", "beard_red", "beard_orange",
 		"short_brown", "short_dark_brown", "short_silver", "short_black", "short_red", "short_orange",
 	},
@@ -61,15 +62,28 @@ local components = {
 }
 
 function player_skins.build_skin(skin, cloth, bands, hair, eyes, headband, wristbands, shoes)
-	local skin =
-		"player_skins_skin_"..skin..".png" .. "^" ..
-		"player_skins_eyes_"..eyes..".png" .. "^" ..
-		"player_skins_hair_"..hair..".png" .. "^" ..
-		"player_skins_clothes_"..cloth..".png" .. "^" ..
-		"player_skins_bands_"..bands..".png" .. "^" ..
-		"player_skins_headband_"..headband..".png" .. "^" ..
-		"player_skins_wristbands_"..wristbands..".png" .. "^" ..
-		"player_skins_shoes_"..shoes..".png"
+
+	local texes = {}
+	table.insert(texes, "player_skins_skin_"..skin..".png")
+	table.insert(texes, "player_skins_eyes_"..eyes..".png")
+
+	if hair ~= "blank" then
+		table.insert(texes, "player_skins_hair_"..hair..".png")
+	end
+
+	table.insert(texes, "player_skins_clothes_"..cloth..".png")
+	table.insert(texes, "player_skins_bands_"..bands..".png")
+
+	if headband ~= "blank" then
+		table.insert(texes, "player_skins_headband_"..headband..".png")
+	end
+	if wristbands ~= "blank" then
+		table.insert(texes, "player_skins_wristbands_"..wristbands..".png")
+	end
+	table.insert(texes, "player_skins_shoes_"..shoes..".png")
+
+	local skin = table.concat(texes, "^")
+
 	return skin
 end
 
