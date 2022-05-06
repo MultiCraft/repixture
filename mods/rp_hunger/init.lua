@@ -232,6 +232,25 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
    return itemstack
 end
 
+-- Healing routine for on_globalstep below
+-- Heals player if this function was called enough times and
+-- player has a high enough hunger value.
+-- * player: Player to heal
+-- * hunger: current player hunger or nil if hunger must be ignored
+local function health_step(player, hunger)
+   local name = player:get_player_name()
+   if player_health_step[name] == nil then
+      player_health_step[name] = 0
+   end
+
+   player_health_step[name] = player_health_step[name] + 1
+   local hp = player:get_hp()
+   if hp > 0 and hp < 20 and player_health_step[name] >= 5 and (hunger == nil or hunger >= 16) then
+      player_health_step[name] = 0
+      player:set_hp(hp+1)
+   end
+end
+
 local function on_globalstep(dtime)
    timer = timer + dtime
 
@@ -315,14 +334,7 @@ local function on_globalstep(dtime)
       hunger.userdata[name].active = 0
       hunger.update_bar(player)
 
-      if player_health_step[name] == nil then player_health_step[name] = 0 end
-
-      player_health_step[name] = player_health_step[name] + 1
-      if hp > 0 and hp < 20 and player_health_step[name] >= 5
-      and hunger.userdata[name].hunger >= 16 then
-         player_health_step[name] = 0
-         player:set_hp(hp+1)
-      end
+      health_step(player, hunger)
    end
 
    delayed_save()
@@ -347,6 +359,18 @@ local function fake_on_item_eat(hpdata, replace_with_item, itemstack,
    return itemstack
 end
 
+-- If hunger is disabled, just heal players over time
+local function on_globalstep_nohunger(dtime)
+   timer = timer + dtime
+   if timer < timer_interval then
+      return
+   end
+   timer = 0
+   for _,player in ipairs(minetest.get_connected_players()) do
+      health_step(player, nil)
+   end
+end
+
 if minetest.settings:get_bool("enable_damage") and minetest.settings:get_bool("hunger_enable") then
 
    minetest.after(0, on_load)
@@ -367,6 +391,7 @@ if minetest.settings:get_bool("enable_damage") and minetest.settings:get_bool("h
    minetest.register_globalstep(on_globalstep)
 else
    minetest.register_on_item_eat(fake_on_item_eat)
+   minetest.register_globalstep(on_globalstep_nohunger)
 end
 
 player_effects.register_effect(
