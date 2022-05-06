@@ -244,6 +244,15 @@ local function on_respawnplayer(player)
    delayed_save()
 end
 
+local function on_respawnplayer_nohunger(player)
+   local name = player:get_player_name()
+   player_health_step[name] = 0
+
+   if HUNGER_DEBUG then
+      hunger.update_bar(player)
+   end
+end
+
 local function on_item_eat(hpdata, replace_with_item, itemstack,
                            player, pointed_thing)
    if not player then return end
@@ -309,10 +318,11 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
 end
 
 -- Healing routine for on_globalstep below
--- Heals player if this function was called enough times and
--- player has a high enough hunger value.
+-- Heals player if this function was called enough times
+-- (HEAL_EVERY_N_HEALTH_STEPS to be precise)
+-- and player has a high enough hunger value (HUNGER_HEAL_LEVEL).
 -- * player: Player to heal
--- * phunger: current player hunger or nil if hunger must be ignored
+-- * phunger: current player hunger. Can be nil, then hunger will be ignored
 local function health_step(player, phunger)
    local name = player:get_player_name()
    if player_health_step[name] == nil then
@@ -321,9 +331,12 @@ local function health_step(player, phunger)
 
    player_health_step[name] = player_health_step[name] + 1
    local hp = player:get_hp()
-   if hp > 0 and hp < 20 and player_health_step[name] >= HEAL_EVERY_N_HEALTH_STEPS and (phunger == nil or phunger >= HUNGER_HEAL_LEVEL) then
-      player_health_step[name] = 0
-      player:set_hp(hp+1)
+   if player_health_step[name] >= HEAL_EVERY_N_HEALTH_STEPS then
+      player_health_step[name] = HEAL_EVERY_N_HEALTH_STEPS
+      if hp > 0 and hp < 20 and (phunger == nil or phunger >= HUNGER_HEAL_LEVEL) then
+         player_health_step[name] = 0
+         player:set_hp(hp+1)
+      end
    end
 end
 
@@ -417,6 +430,8 @@ local function on_globalstep(dtime)
    delayed_save()
 end
 
+-- Eating food when hunger is disabled.
+-- This just removes the food.
 local function fake_on_item_eat(hpdata, replace_with_item, itemstack,
                                 player, pointed_thing)
    local headpos  = player:get_pos()
@@ -470,7 +485,9 @@ if minetest.settings:get_bool("enable_damage") and minetest.settings:get_bool("h
 
    minetest.register_globalstep(on_globalstep)
 else
+   minetest.register_on_leaveplayer(on_leaveplayer)
    minetest.register_on_item_eat(fake_on_item_eat)
+   minetest.register_on_respawnplayer(on_respawnplayer_nohunger)
    minetest.register_globalstep(on_globalstep_nohunger)
 end
 
