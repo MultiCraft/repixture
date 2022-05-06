@@ -9,6 +9,10 @@ local SAPLING_RECHECK_TIME_MAX = 70
 local CACTUS_MAX_HEIGHT = 4
 -- Maximum growth height of cactus, fertilized
 local CACTUS_MAX_HEIGHT_PLUS = 6
+-- Maximum growth height of thistle, normally
+local THISTLE_MAX_HEIGHT = 2
+-- Maximum growth height of thistle, fertilized
+local THISTLE_MAX_HEIGHT_PLUS = 3
 -- Maximum growth height of papyrus, normally
 local PAPYRUS_MAX_HEIGHT = 3
 -- Maximum growth height of papyrus, fertilized
@@ -557,27 +561,37 @@ minetest.register_abm( -- papyrus grows
       action = function(pos, node)
          -- Papyrus grows upwards, up to a limit.
          -- The maximum height is on fertilized swamp dirt.
+
+         -- Check underground first
          pos.y = pos.y-1
          local name = minetest.get_node(pos).name
+         if minetest.get_item_group(name, "plantable_sandy") == 0 and minetest.get_item_group(name, "plantable_soil") == 0 then
+            return 0
+	 end
 
+         -- Needs water nearby
          if minetest.find_node_near(pos, 3, {"group:water"}) == nil then
             return
          end
          pos.y = pos.y+1
+
+         -- Determine growth height
          local height = 0
+         -- Maximum height is higher on fertilized
          local fertilized = minetest.get_item_group(name, "plantable_fertilizer") == 1
          local maxh
-         -- Maximum height is higher on fertilized
          if fertilized then
             maxh = PAPYRUS_MAX_HEIGHT_PLUS
          else
             maxh = PAPYRUS_MAX_HEIGHT
          end
-         local is_swampy = minetest.get_item_group(name, "swamp_dirt") == 1
          -- Bonus max. height on swamp dirt
+         local is_swampy = minetest.get_item_group(name, "swamp_dirt") == 1
          if is_swampy then
             maxh = maxh + PAPYRUS_SWAMP_HEIGHT_BONUS
          end
+
+         -- Find highest spot and grow
          while minetest.get_node(pos).name == "rp_default:papyrus" and height < maxh do
             height = height+1
             pos.y = pos.y+1
@@ -589,6 +603,46 @@ minetest.register_abm( -- papyrus grows
          end
       end,
 })
+
+minetest.register_abm( -- thistle grows (slowly)
+   {
+      label = "Growing thistle",
+      nodenames = {"rp_default:thistle"},
+      neighbors = {"group:normal_dirt"},
+      interval = 120,
+      chance = 20,
+      action = function(pos, node)
+         -- Thistle grows upwards, up to a limit.
+         -- Check ground first
+         pos.y = pos.y-1
+         local name = minetest.get_node(pos).name
+         if minetest.get_item_group(name, "normal_dirt") == 0 then
+            return
+         end
+         pos.y = pos.y+1
+         local height = 0
+         local fertilized = minetest.get_item_group(name, "plantable_fertilizer") == 1
+         local maxh
+         -- Maximum height is higher on fertilized
+         if fertilized then
+            maxh = THISTLE_MAX_HEIGHT_PLUS
+         else
+            maxh = THISTLE_MAX_HEIGHT
+         end
+         -- Get node above the highest node and grow, if possible
+         while minetest.get_node(pos).name == "rp_default:thistle" and height < maxh do
+            height = height+1
+            pos.y = pos.y+1
+         end
+         if height < maxh then
+            if minetest.get_node(pos).name == "air" then
+               minetest.set_node(pos, {name="rp_default:thistle"})
+            end
+         end
+      end,
+})
+
+
 
 minetest.register_abm( -- weak torchs burn out and die after ~3 minutes
    {
