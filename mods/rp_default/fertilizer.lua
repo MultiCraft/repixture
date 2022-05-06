@@ -109,28 +109,33 @@ minetest.register_craftitem(
          end
 
 	 -- Fertilize node (depending on node type)
-         local undernode = minetest.get_node(pointed_thing.under)
-         local diff = vector.subtract(pointed_thing.above, pointed_thing.under)
+	 local underpos = pointed_thing.under
+         local undernode = minetest.get_node(underpos)
+         if minetest.get_item_group(undernode.name, "plant") ~= 0 then
+            underpos = vector.add(underpos, vector.new(0,-1,0))
+            undernode = minetest.get_node(underpos)
+	 end
+         local diff = vector.subtract(pointed_thing.above, underpos)
 	 local fertilized = false
          if diff.y > 0 then
             if minetest.get_item_group(undernode.name, "plantable_fertilizer") ~= 0 then
                return itemstack
             elseif minetest.get_item_group(undernode.name, "normal_dirt") ~= 0 then
-               minetest.set_node(pointed_thing.under, {name = "rp_default:fertilized_dirt"})
+               minetest.set_node(underpos, {name = "rp_default:fertilized_dirt"})
 	       fertilized = true
             elseif minetest.get_item_group(undernode.name, "swamp_dirt") ~= 0 then
-               minetest.set_node(pointed_thing.under, {name = "rp_default:fertilized_swamp_dirt"})
+               minetest.set_node(underpos, {name = "rp_default:fertilized_swamp_dirt"})
 	       fertilized = true
             elseif minetest.get_item_group(undernode.name, "dry_dirt") ~= 0 then
-               minetest.set_node(pointed_thing.under, {name = "rp_default:fertilized_dry_dirt"})
+               minetest.set_node(underpos, {name = "rp_default:fertilized_dry_dirt"})
 	       fertilized = true
             elseif undernode.name == "rp_default:sand" then
-               minetest.set_node(pointed_thing.under, {name = "rp_default:fertilized_sand"})
+               minetest.set_node(underpos, {name = "rp_default:fertilized_sand"})
 	       fertilized = true
             end
 	    if fertilized then
-               minetest.sound_play({name="rp_default_fertilize", gain=1.0}, {pos=pointed_thing.under}, true)
-	       minetest.log("action", "[rp_default] " .. placer:get_player_name() .. " fertilizes " .. undernode.name .. " at " .. minetest.pos_to_string(pointed_thing.under, 0))
+               minetest.sound_play({name="rp_default_fertilize", gain=1.0}, {pos=underpos}, true)
+	       minetest.log("action", "[rp_default] " .. placer:get_player_name() .. " fertilizes " .. undernode.name .. " at " .. minetest.pos_to_string(underpos, 0))
 	    end
          end
 

@@ -428,7 +428,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
       },
-      groups = {snappy = 2, handy = 1, attached_node = 1, sapling = 1},
+      groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_defaults(),
 
@@ -459,7 +459,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
       },
-      groups = {snappy = 2, handy = 1, attached_node = 1, sapling = 1},
+      groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
       sounds = rp_sounds.node_sound_defaults(),
 
       on_timer = function(pos)
@@ -489,7 +489,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
       },
-      groups = {snappy = 2, handy = 1, attached_node = 1, sapling = 1},
+      groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_defaults(),
 
@@ -520,7 +520,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
       },
-      groups = {snappy = 2, handy = 1, attached_node = 1, sapling = 1},
+      groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_defaults(),
 
@@ -696,7 +696,7 @@ minetest.register_node(
       },
       tiles = {"default_cactus_top.png", "default_cactus_top.png", "default_cactus_sides.png"},
       --	damage_per_second = 1,
-      groups = {snappy = 2, choppy = 2, fall_damage_add_percent = 20, food = 2},
+      groups = {snappy = 2, choppy = 2, fall_damage_add_percent = 20, plant = 1, food = 2},
       sounds = rp_sounds.node_sound_wood_defaults(),
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_up(pos, node, digger)
@@ -759,7 +759,7 @@ minetest.register_node(
 	    {-1/16, -0.5, -1/16, 1/16, 0.5, 1/16},
 	 }
       },
-      groups = {snappy = 3},
+      groups = {snappy = 3, plant = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_up(pos, node, digger)
@@ -857,7 +857,7 @@ minetest.register_node(
       walkable = false,
       buildable_to = true,
       floodable = true,
-      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, fern = 1},
+      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, fern = 1, plant = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
 })
 
@@ -882,7 +882,7 @@ minetest.register_node(
       walkable = false,
       buildable_to = true,
       floodable = true,
-      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, flower = 1},
+      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, flower = 1, plant = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
 })
 
@@ -906,7 +906,7 @@ minetest.register_node(
       walkable = false,
       buildable_to = true,
       floodable = true,
-      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, swamp_grass = 1, green_grass = 1},
+      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, swamp_grass = 1, green_grass = 1, plant = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
 })
 
@@ -928,7 +928,7 @@ minetest.register_node(
       walkable = false,
       buildable_to = true,
       floodable = true,
-      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, dry_grass = 1},
+      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, dry_grass = 1, plant = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
 })
 
@@ -950,7 +950,7 @@ minetest.register_node(
       walkable = false,
       buildable_to = true,
       floodable = true,
-      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1, green_grass = 1},
+      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1, green_grass = 1, plant = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
 })
 
@@ -973,7 +973,7 @@ minetest.register_node(
       walkable = false,
       buildable_to = true,
       floodable = true,
-      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1, green_grass = 1},
+      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1, green_grass = 1, plant = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
       -- Trim tall grass with shears
       _on_trim = function(pos, node, player, itemstack)
@@ -1011,7 +1011,7 @@ minetest.register_node(
       walkable = false,
       floodable = true,
       damage_per_second = 1,
-      groups = {snappy = 3, dig_immediate = 3, falling_node = 1},
+      groups = {snappy = 3, dig_immediate = 3, falling_node = 1, plant = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_up(pos, node, digger)
