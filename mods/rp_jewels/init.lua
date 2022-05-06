@@ -345,7 +345,6 @@ minetest.register_node(
                -- TODO: Graphical effect
 
                achievements.trigger_achievement(player, "jeweler")
-               achievements.trigger_achievement(player, "master_jeweler")
             else
                -- Failure
                minetest.sound_play({name="jewels_jewelling_fail"}, {gain=0.8, pos=pos, max_hear_distance=8}, true)
