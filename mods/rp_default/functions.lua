@@ -4,6 +4,10 @@ local S = minetest.get_translator("rp_default")
 -- If a sapling fails to grow, check the sapling again after this many seconds
 local SAPLING_RECHECK_TIME_MIN = 60
 local SAPLING_RECHECK_TIME_MAX = 70
+-- If a sapling is placed on fertilized soil, the
+-- growth timer is multiplied by this number
+-- (reduced growth time)
+local SAPLING_FERTILIZER_TIME_FACTOR = 0.9
 
 -- Maximum growth height of cactus, normally
 local CACTUS_MAX_HEIGHT = 4
@@ -200,8 +204,16 @@ function default.begin_growing_sapling(pos)
    end
 
    local min, max = sdata.grow_time_min, sdata.grow_time_max
+   local below = minetest.get_node(vector.add(pos, vector.new(0,-1,0)))
+   local fertilized = minetest.get_item_group(below.name, "plantable_fertilizer") > 0
+   if fertilized then
+      min = math.floor(min * SAPLING_FERTILIZER_TIME_FACTOR)
+      max = math.floor(max * SAPLING_FERTILIZER_TIME_FACTOR)
+   end
+   local timer = math.random(min, max)
 
-   minetest.get_node_timer(pos):start(math.random(min, max))
+   minetest.get_node_timer(pos):start(timer)
+   minetest.log("action", "[rp_default] Sapling timer of "..node.name.. " started at "..minetest.pos_to_string(pos,0).." with "..timer.."s")
    return true
 end
 
