@@ -264,7 +264,7 @@ end
 --                        on_place handler
 -- Recommended usage is by putting this boilerplate code at the beginning of your function:
 --[[
-   local handled, handled_itemstack = on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+   local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
    if handled then
       return handled_itemstack
    end

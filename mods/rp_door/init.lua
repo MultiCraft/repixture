@@ -41,15 +41,21 @@ function door.register_door(name, def)
 	 groups = def.groups,
 
 	 on_place = function(itemstack, placer, pointed_thing)
-            if not pointed_thing.type == "node" then
-               return itemstack
+            -- Handle pointed node handlers first
+            local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+            if handled then
+               return handled_itemstack
             end
 
-            local ptu = pointed_thing.under
-            local nu = minetest.get_node(ptu)
-            if minetest.registered_nodes[nu.name].on_rightclick then
-               return minetest.registered_nodes[nu.name].on_rightclick(
-                  ptu, nu, placer, itemstack)
+	    -- Check protection
+            local pos_protected = minetest.get_pointed_thing_position(pointed_thing, true)
+	    for i=0, 1 do
+               local protpos = vector.add(pos_protected, vector.new(0, i, 0))
+               if minetest.is_protected(protpos, placer:get_player_name()) and
+                     not minetest.check_player_privs(placer, "protection_bypass") then
+                  minetest.record_protection_violation(protpos, placer:get_player_name())
+                  return itemstack
+               end
             end
 
             local pt = pointed_thing.above
