@@ -293,15 +293,5 @@ function player_skins.set_random_skin(name)
 	player_skins.skindata_ids[name].hairs = hnum
 	player_skins.skindata_ids[name].eye_colors = enum
 
-	local newskin =
-		"player_skins_skin_"..scol..".png" .. "^" ..
-		"player_skins_eyes_"..ecol..".png" .. "^" ..
-		"player_skins_hair_"..hair..".png" .. "^" ..
-		"player_skins_shoes_"..shcol..".png" .. "^" ..
-		"player_skins_wristbands_"..wcol..".png" .. "^" ..
-		"player_skins_clothes_"..ccol..".png" .. "^" ..
-		"player_skins_bands_"..bcol..".png" .. "^" ..
-		"player_skins_headband_"..hecol..".png"
-
 	player_skins.set_skin(name, scol, ccol, bcol, hair, ecol, hecol, wcol, shcol)
 end
