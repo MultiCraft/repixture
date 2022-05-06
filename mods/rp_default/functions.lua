@@ -5,6 +5,17 @@ local S = minetest.get_translator("rp_default")
 local SAPLING_RECHECK_TIME_MIN = 60
 local SAPLING_RECHECK_TIME_MAX = 70
 
+-- Maximum growth height of cactus, normally
+local CACTUS_MAX_HEIGHT = 4
+-- Maximum growth height of cactus, fertilized
+local CACTUS_MAX_HEIGHT_PLUS = 6
+-- Maximum growth height of papyrus, normally
+local PAPYRUS_MAX_HEIGHT = 3
+-- Maximum growth height of papyrus, fertilized
+local PAPYRUS_MAX_HEIGHT_PLUS = 4
+-- Bonus height for papyrus when growing on swamp dirt
+local PAPYRUS_SWAMP_HEIGHT_BONUS = 1
+
 --
 -- Functions/ABMs
 --
@@ -513,13 +524,21 @@ minetest.register_abm( -- cactus grows
          pos.y = pos.y-1
          local name = minetest.get_node(pos).name
          if minetest.get_item_group(name, "sand") ~= 0 then
+            local fertilized = minetest.get_item_group(name, "plantable_fertilizer") == 1
             pos.y = pos.y+1
             local height = 0
-            while minetest.get_node(pos).name == "rp_default:cactus" and height < 3 do
+            local maxh
+            -- Determine maximum height. Bonus height on fertilized node
+            if fertilized then
+               maxh = CACTUS_MAX_HEIGHT_PLUS
+            else
+               maxh = CACTUS_MAX_HEIGHT
+            end
+            while minetest.get_node(pos).name == "rp_default:cactus" and height < maxh do
                height = height+1
                pos.y = pos.y+1
             end
-            if height < 3 then
+            if height < maxh then
                if minetest.get_node(pos).name == "air" then
                   minetest.set_node(pos, {name="rp_default:cactus"})
                end
@@ -536,6 +555,8 @@ minetest.register_abm( -- papyrus grows
       interval = 20,
       chance = 10,
       action = function(pos, node)
+         -- Papyrus grows upwards, up to a limit.
+         -- The maximum height is on fertilized swamp dirt.
          pos.y = pos.y-1
          local name = minetest.get_node(pos).name
 
@@ -544,11 +565,24 @@ minetest.register_abm( -- papyrus grows
          end
          pos.y = pos.y+1
          local height = 0
-         while minetest.get_node(pos).name == "rp_default:papyrus" and height < 3 do
+         local fertilized = minetest.get_item_group(name, "plantable_fertilizer") == 1
+         local maxh
+         -- Maximum height is higher on fertilized
+         if fertilized then
+            maxh = PAPYRUS_MAX_HEIGHT_PLUS
+         else
+            maxh = PAPYRUS_MAX_HEIGHT
+         end
+         local is_swampy = minetest.get_item_group(name, "swamp_dirt") == 1
+         -- Bonus max. height on swamp dirt
+         if is_swampy then
+            maxh = maxh + PAPYRUS_SWAMP_HEIGHT_BONUS
+         end
+         while minetest.get_node(pos).name == "rp_default:papyrus" and height < maxh do
             height = height+1
             pos.y = pos.y+1
          end
-         if height < 3 then
+         if height < maxh then
             if minetest.get_node(pos).name == "air" then
                minetest.set_node(pos, {name="rp_default:papyrus"})
             end
