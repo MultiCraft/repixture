@@ -6,6 +6,9 @@
 --
 local S = minetest.get_translator("rp_tnt")
 
+-- Time in seconds before TNT explodes after ignited
+local TNT_TIMER = 2.0
+
 tnt = {}
 
 -- Default to enabled in singleplayer and disabled in multiplayer
@@ -158,13 +161,11 @@ function tnt.burn(pos)
    if tnt_enable and name == "rp_tnt:tnt" then
       minetest.sound_play("tnt_ignite", {pos = pos}, true)
       minetest.set_node(pos, {name = "rp_tnt:tnt_burning"})
-      minetest.get_node_timer(pos):start(2)
+      minetest.get_node_timer(pos):start(TNT_TIMER)
    end
 end
 
--- TNT ground removal
-
-function tnt.explode(pos, radius, sound)
+local function play_tnt_sound(pos, sound)
    minetest.sound_play(
       sound,
       {
@@ -172,6 +173,12 @@ function tnt.explode(pos, radius, sound)
          gain = 1.5,
          max_hear_distance = 128
    }, true)
+end
+
+-- TNT ground removal
+
+function tnt.explode(pos, radius, sound)
+   play_tnt_sound(pos, sound)
 
    local pos = vector.round(pos)
    local vm = VoxelManip()
@@ -211,6 +218,26 @@ end
 
 -- TNT node explosion
 
+local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
+   if is_tnt then
+      minetest.remove_node(pos)
+      if is_tnt and not tnt_enable then
+          minetest.check_for_falling({x=pos.x, y=pos.y, z=pos.z})
+          return
+      end
+   end
+   if remove_nodes then
+      local drops = tnt.explode(pos, tnt_radius, sound)
+      entity_physics(pos, tnt_radius)
+      eject_drops(drops, pos, tnt_radius)
+   else
+      entity_physics(pos, tnt_radius)
+      play_tnt_sound(pos, sound)
+   end
+   add_effects(pos, tnt_radius)
+end
+
+
 function tnt.boom(pos, radius, sound)
    if not radius then
       radius = tnt_radius
@@ -218,15 +245,20 @@ function tnt.boom(pos, radius, sound)
    if not sound then
       sound = "tnt_explode"
    end
-   minetest.remove_node(pos)
-   if tnt_enable then
-      local drops = tnt.explode(pos, tnt_radius, sound)
-      entity_physics(pos, tnt_radius)
-      eject_drops(drops, pos, tnt_radius)
-      add_effects(pos, tnt_radius)
-   else
-      minetest.check_for_falling({x=pos.x, y=pos.y, z=pos.z})
+   rawboom(pos, radius, sound, true, true)
+end
+
+function tnt.boom_notnt(pos, radius, sound, remove_nodes)
+   if not radius then
+      radius = tnt_radius
    end
+   if not sound then
+      sound = "tnt_explode"
+   end
+   if remove_nodes == nil then
+      remove_nodes = tnt_enable
+   end
+   rawboom(pos, radius, sound, remove_nodes, false)
 end
 
 -- On load register content IDs
@@ -294,6 +326,10 @@ minetest.register_node(
       end,
 })
 
+local tnt_burning_on_timer = function(pos)
+	tnt.boom(pos)
+end
+
 -- Nodes
 
 minetest.register_node(
@@ -315,7 +351,7 @@ minetest.register_node(
       is_ground_content = false,
       groups = {handy = 2},
       sounds = rp_sounds.node_sound_wood_defaults(),
-      on_timer = tnt.boom,
+      on_timer = tnt_burning_on_timer,
       -- unaffected by explosions
       on_blast = function() end,
 })

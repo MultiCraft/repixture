@@ -1080,7 +1080,7 @@ function mobs:register_mob(name, def)
                      minetest.log("action", "[mobs] Mob "..self.name.." exploded at "..minetest.pos_to_string(vector.round(pos)))
                      pos.y = pos.y - 1
 
-                     tnt.boom(pos, self.explode_radius, self.sounds.explode)
+                     tnt.boom_notnt(pos, self.explode_radius, self.sounds.explode)
                      return
                   end
                end
