@@ -251,7 +251,7 @@ minetest.register_node(
          "default_swamp_dirt.png^default_swamp_grass_side.png"
       },
       groups = {crumbly = 3, soil = 1, swamp_dirt = 1, plantable_soil = 1, grass_cover = 1,
-                fall_damage_add_percent = -5, not_in_craft_guide = 1},
+                fall_damage_add_percent = -10, not_in_craft_guide = 1},
       drop = {
 	 max_items = 3,
 	 items = {
