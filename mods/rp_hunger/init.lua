@@ -8,6 +8,34 @@ local S = minetest.get_translator("rp_hunger")
 
 hunger = {}
 
+-- If enabled, show advanced player hunger values
+local HUNGER_DEBUG = false
+
+-- Maximum possible hunger value
+local MAX_HUNGER = 20
+
+-- Maximum possible saturation value
+local MAX_SATURATION = 100
+
+-- Player heals if hunger is equal to or greater than this value
+local HUNGER_HEAL_LEVEL = 16
+
+-- Player starves (takes damage) if hunger is equal to or lower than this value
+local HUNGER_STARVE_LEVEL = 0
+
+-- Check if player needs healing every this number of hunger steps (see hunger_step setting below)
+-- E.g. if hunger_step is 3.0 and this value is 5, player can be healed every 15 seconds (3*5).
+local HEAL_EVERY_N_HEALTH_STEPS = 5
+
+-- Warng the player about being hungry if hunger level drops to one of these values
+local HUNGER_WARNING_1 = 5 -- first warning
+local HUNGER_WARNING_2 = 3 -- second warning, must be lower than the first one
+
+-- Player speed penalty when eating (speed multiplier)
+local EATING_SPEED = 0.6
+-- How long the speed penalty applies, in seconds
+local EATING_SPEED_DURATION = 2.0
+
 -- Per-player userdata
 
 hunger.userdata = {}
@@ -26,9 +54,6 @@ local saving = false
 local timer_interval = tonumber(minetest.settings:get("hunger_step")) or 3.0
 timer_interval = math.max(0.0, timer_interval)
 local timer = 0
-
--- If enabled, show advanced player hunger values
-local HUNGER_DEBUG = false
 
 local function save_hunger()
    local f = io.open(hunger_file, "w")
@@ -66,7 +91,7 @@ local function load_hunger()
 
          if not hunger.userdata[name] then
             hunger.userdata[name] = {
-               hunger = 20,
+               hunger = MAX_HUNGER,
                active = 0,
                moving = 0,
                saturation = 0,
@@ -186,7 +211,7 @@ local function on_joinplayer(player)
 
    if not hunger.userdata[name] then
       hunger.userdata[name] = {
-         hunger = 20,
+         hunger = MAX_HUNGER,
          active = 0,
          moving = 0,
          saturation = 0,
@@ -207,7 +232,7 @@ end
 local function on_respawnplayer(player)
    local name = player:get_player_name()
 
-   hunger.userdata[name].hunger = 20
+   hunger.userdata[name].hunger = MAX_HUNGER
    hunger.update_bar(player)
 
    delayed_save()
@@ -233,8 +258,8 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
    hunger.userdata[name].hunger = hunger.userdata[name].hunger + hp_change
 
 
-   hunger.userdata[name].hunger = math.min(20, hunger.userdata[name].hunger)
-   hunger.userdata[name].saturation = math.min(100, hunger.userdata[name].saturation
+   hunger.userdata[name].hunger = math.min(MAX_HUNGER, hunger.userdata[name].hunger)
+   hunger.userdata[name].saturation = math.min(MAX_SATURATION, hunger.userdata[name].saturation
                                                   + saturation)
 
    local headpos  = player:get_pos()
@@ -290,7 +315,7 @@ local function health_step(player, phunger)
 
    player_health_step[name] = player_health_step[name] + 1
    local hp = player:get_hp()
-   if hp > 0 and hp < 20 and player_health_step[name] >= 5 and (phunger == nil or phunger >= 16) then
+   if hp > 0 and hp < 20 and player_health_step[name] >= HEAL_EVERY_N_HEALTH_STEPS and (phunger == nil or phunger >= HUNGER_HEAL_LEVEL) then
       player_health_step[name] = 0
       player:set_hp(hp+1)
    end
@@ -335,7 +360,7 @@ local function on_globalstep(dtime)
 
       if hunger.userdata[name] == nil then
          hunger.userdata[name] = {
-            hunger = 20,
+            hunger = MAX_HUNGER,
             active = 0,
             moving = 0,
             saturation = 0,
@@ -359,12 +384,12 @@ local function on_globalstep(dtime)
             player_step[name] = 0
             local oldhng = hunger.userdata[name].hunger
             hunger.userdata[name].hunger = hunger.userdata[name].hunger - 1
-            if (oldhng == 5 or oldhng == 3) and hp >= 0 then
+            if (oldhng == HUNGER_WARNING_1 or oldhng == HUNGER_WARNING_2) and hp >= 0 then
                minetest.chat_send_player(name, minetest.colorize("#ff0", S("You are hungry.")))
                local pos_sound  = player:get_pos()
                minetest.sound_play({name="hunger_hungry"}, {pos=pos_sound, max_hear_distance=3, object=player}, true)
             end
-            if hunger.userdata[name].hunger <= 0 and hp >= 0 then
+            if hunger.userdata[name].hunger <= HUNGER_STARVE_LEVEL and hp >= 0 then
                player:set_hp(hp - 1)
                hunger.userdata[name].hunger = 0
                if hp > 1 then
@@ -448,9 +473,9 @@ player_effects.register_effect(
    {
       title = S("Eating"),
       description = S("You're eating food, which slows you down"),
-      duration = 2,
+      duration = EATING_SPEED_DURATION,
       physics = {
-         speed = 0.6,
+         speed = EATING_SPEED,
       },
       icon = "hunger_effect_eating.png",
 })
