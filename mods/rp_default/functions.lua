@@ -449,7 +449,93 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
 })
 
 minetest.register_abm({
-    label = "Grass expansion",
+    label = "Flower/fern expansion",
+    nodenames = {"rp_default:flower", "rp_default:fern"},
+    neighbors = {"rp_default:dirt_with_grass", "rp_default:fertilized_dirt"},
+    interval = 13,
+    chance = 300,
+    action = function(pos, node)
+        -- Spread flowers and fern planted on fertilized dirt
+        -- to neighboring nodes.
+	-- Fern: Spreads minimally on dirt with grass. Spreads greatly on fertilized dirt fields
+	-- Flowers: Spreads a few on dirt with grass with high range. Spreads quickly when on fertilized dirt
+	--          to dirt with grass, but more concentrated with low range. Never spreads on fertilized dirt
+	--          on its own.
+        local upos = vector.add(pos, vector.new(0,-1,0))
+        local under = minetest.get_node(upos)
+	local fertilized = false
+	if under.name == "rp_default:fertilized_dirt" then
+           fertilized = true
+	end
+	if not fertilized and under.name ~= "rp_default:dirt_with_grass" then
+           return
+	end
+
+
+	local offset, maxplants, maxplants_few
+	if node.name == "rp_default:fern" then
+		maxplants = 2
+		offset = vector.new(3,2,3)
+	else
+		maxplants = 3
+		offset = vector.new(4,1,4)
+	end
+	maxplants_few = maxplants
+
+	-- Overcrowding: Stop spreading if too many in area
+	if fertilized then
+		-- Higher limit if fertilized
+		if node.name == "rp_default:fern" then
+			maxplants = 7
+		else
+			offset = vector.new(1,1,1)
+			maxplants = 6
+		end
+	end
+
+	local pos0 = vector.subtract(pos, offset)
+	local pos1 = vector.add(pos, offset)
+        local same_plants = minetest.find_nodes_in_area(pos0, pos1, {"rp_default:flower", "rp_default:fern"})
+
+        -- If on fertilized dirt, can to other fertilized dirt with
+	-- higher overcrowding limit. Spreading to dirt with grass
+	-- still needs to be below the low maxplants_few limit to be
+	local can_grow_to_unfertilized = true
+        -- Flowers can't spread TO fertilized dirt,
+	-- but they can spread to dirt with grass FROM fertilized dirt.
+	local can_grow_to_fertilized = node.name == "rp_default:fern"
+	if #same_plants >= maxplants_few then
+           if fertilized then
+              if node.name == "rp_default:fern" then
+	         can_grow_to_unfertilized = false
+              end
+	      if #same_plants >= maxplants then
+                 return
+              end
+           else
+	      return
+           end
+	end
+        local airs = minetest.find_nodes_in_area(pos0, pos1, "air")
+	local spread_candidates = {}
+	for a=1, #airs do
+           local ground = vector.add(airs[a], vector.new(0,-1,0))
+           local gnode = minetest.get_node(ground)
+	   -- New flower/fern spawns on fertilized dirt or dirt with grass
+           if (can_grow_to_fertilized and gnode.name == "rp_default:fertilized_dirt") or (can_grow_to_unfertilized and gnode.name == "rp_default:dirt_with_grass") then
+              table.insert(spread_candidates, airs[a])
+           end
+	end
+	if #spread_candidates == 0 then
+           return
+	end
+	local s = math.random(1, #spread_candidates)
+	minetest.set_node(spread_candidates[s], node)
+    end,
+})
+
+minetest.register_abm({
+    label = "Grass clump expansion",
     nodenames = {"group:grass"},
     neighbors = {"group:grass_cover"},
     interval = 20,
