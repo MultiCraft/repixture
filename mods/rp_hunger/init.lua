@@ -15,7 +15,9 @@ hunger.userdata = {}
 local particlespawners = {}
 local player_step = {}
 local player_health_step = {}
+
 local player_bar = {}
+local player_debughud = {}
 
 local hunger_file = minetest.get_worldpath() .. "/hunger.dat"
 local saving = false
@@ -24,6 +26,9 @@ local saving = false
 local timer_interval = tonumber(minetest.settings:get("hunger_step")) or 3.0
 timer_interval = math.max(0.0, timer_interval)
 local timer = 0
+
+-- If enabled, show advanced player hunger values
+local HUNGER_DEBUG = false
 
 local function save_hunger()
    local f = io.open(hunger_file, "w")
@@ -97,6 +102,38 @@ function hunger.update_bar(player)
 
    local name = player:get_player_name()
 
+   if HUNGER_DEBUG then
+      if player_debughud[name] then
+          local text = "Hunger Debug:\n"
+          if minetest.settings:get_bool("hunger_enable", true) then
+             text = text .. "hunger = " .. tostring(hunger.userdata[name].hunger) .. "\n"
+             text = text .. "saturation = " .. tostring(hunger.userdata[name].saturation) .. "\n"
+             text = text .. "moving = " .. tostring(hunger.userdata[name].moving) .. "\n"
+             text = text .. "active = " .. tostring(hunger.userdata[name].active)
+          else
+             text = text .. "<hunger disabled>\n"
+	  end
+          text = text .. "health_step = " .. tostring(player_health_step[name])
+          player:hud_change(player_debughud[name], "text", text)
+      else
+         player_debughud[name] = player:hud_add(
+	 {
+	    hud_elem_type = "text",
+            position = {x=0.75,y=1.0},
+            text = "",
+            number = 0xFFFFFFFF,
+            alignment = {x=-1, y=-1},
+	    scale = {x=100, y=100},
+            size = {x=1, y=1},
+            offset = {x=-32, y=-32},
+            z_index = 1,
+         })
+      end
+      if minetest.settings:get_bool("hunger_enable", true) == false then
+         return
+      end
+   end
+
    if player_bar[name] then
       player:hud_change(player_bar[name], "number", hunger.userdata[name].hunger)
    else
@@ -126,6 +163,9 @@ local function on_dignode(pos, oldnode, player)
       return
    end
    hunger.userdata[name].active = hunger.userdata[name].active + 2
+   if HUNGER_DEBUG then
+      hunger.update_bar(player)
+   end
 end
 
 local function on_placenode(pos, node, player)
@@ -136,6 +176,9 @@ local function on_placenode(pos, node, player)
    local name = player:get_player_name()
 
    hunger.userdata[name].active = hunger.userdata[name].active + 2
+   if HUNGER_DEBUG then
+      hunger.update_bar(player)
+   end
 end
 
 local function on_joinplayer(player)
@@ -157,6 +200,8 @@ local function on_leaveplayer(player)
    local name = player:get_player_name()
 
    player_bar[name] = nil
+   player_debughud[name] = nil
+   hunger.userdata[name] = nil
 end
 
 local function on_respawnplayer(player)
@@ -236,8 +281,8 @@ end
 -- Heals player if this function was called enough times and
 -- player has a high enough hunger value.
 -- * player: Player to heal
--- * hunger: current player hunger or nil if hunger must be ignored
-local function health_step(player, hunger)
+-- * phunger: current player hunger or nil if hunger must be ignored
+local function health_step(player, phunger)
    local name = player:get_player_name()
    if player_health_step[name] == nil then
       player_health_step[name] = 0
@@ -245,7 +290,7 @@ local function health_step(player, hunger)
 
    player_health_step[name] = player_health_step[name] + 1
    local hp = player:get_hp()
-   if hp > 0 and hp < 20 and player_health_step[name] >= 5 and (hunger == nil or hunger >= 16) then
+   if hp > 0 and hp < 20 and player_health_step[name] >= 5 and (phunger == nil or phunger >= 16) then
       player_health_step[name] = 0
       player:set_hp(hp+1)
    end
@@ -332,9 +377,10 @@ local function on_globalstep(dtime)
       end
 
       hunger.userdata[name].active = 0
-      hunger.update_bar(player)
 
-      health_step(player, hunger)
+      health_step(player, hunger.userdata[name].hunger)
+
+      hunger.update_bar(player)
    end
 
    delayed_save()
@@ -368,10 +414,13 @@ local function on_globalstep_nohunger(dtime)
    timer = 0
    for _,player in ipairs(minetest.get_connected_players()) do
       health_step(player, nil)
+      if HUNGER_DEBUG then
+         hunger.update_bar(player)
+      end
    end
 end
 
-if minetest.settings:get_bool("enable_damage") and minetest.settings:get_bool("hunger_enable") then
+if minetest.settings:get_bool("enable_damage") and minetest.settings:get_bool("hunger_enable", true) then
 
    minetest.after(0, on_load)
 
