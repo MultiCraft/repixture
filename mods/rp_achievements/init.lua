@@ -138,6 +138,8 @@ function achievements.trigger_achievement(player, aname, times)
                   "*** " .. S("@1 has earned the achievement “@2”.",
                      name,
                      achievements.registered_achievements[aname].title)))
+
+	    minetest.log("action", "[rp_achievements] " .. name .. " got achievement '"..aname.."'")
       end, name, aname)
    end
 

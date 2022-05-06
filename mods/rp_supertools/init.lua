@@ -60,6 +60,8 @@ minetest.register_craftitem(
             if not minetest.is_creative_enabled(user:get_player_name()) then
                itemstack:add_wear(5400) -- 13 uses
             end
+
+            minetest.log("action", "[rp_supertools] " .. user:get_player_name() .. " used growth tool on "..unode.name.." at "..minetest.pos_to_string(upos))
          end
 
          return itemstack

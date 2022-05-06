@@ -156,10 +156,18 @@ local function add_effects(pos, radius)
    })
 end
 
-function tnt.burn(pos)
+-- Ignite TNT at pos.
+-- igniter: Optional player object of player who ignited it or nil if nobody
+function tnt.burn(pos, igniter)
    local name = minetest.get_node(pos).name
    if tnt_enable and name == "rp_tnt:tnt" then
       minetest.set_node(pos, {name = "rp_tnt:tnt_burning"})
+
+      if igniter then
+         minetest.log("action", "[rp_tnt] TNT ignited by "..igniter:get_player_name().." at "..minetest.pos_to_string(pos, 0))
+      else
+         minetest.log("action", "[rp_tnt] TNT ignited at "..minetest.pos_to_string(pos, 0))
+      end
    end
 end
 
@@ -226,6 +234,7 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
    end
    if remove_nodes then
       local drops = tnt.explode(pos, tnt_radius, sound)
+      minetest.log("action", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
       entity_physics(pos, tnt_radius)
       eject_drops(drops, pos, tnt_radius)
    else
@@ -313,7 +322,7 @@ minetest.register_node(
                 item:add_wear(800)
                 puncher:set_wielded_item(item)
             end
-            tnt.burn(pos)
+            tnt.burn(pos, puncher)
             achievements.trigger_achievement(puncher, "boom")
          end
       end,

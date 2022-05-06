@@ -106,7 +106,7 @@ minetest.register_tool(
             -- TODO: Add graphical effect to show success
 
             local burglar = player:get_player_name()
-            if owner then
+            if owner ~= nil and owner ~= "" then
                if owner ~= burglar then
                    minetest.chat_send_player(
                       owner,
@@ -120,10 +120,12 @@ minetest.register_tool(
                       burglar,
                       minetest.colorize("#0f0", S("You have broken into your own locked chest!")))
                end
+	       minetest.log("action", "[rp_locks] " .. burglar .. " cracked open a locked chest of " .. owner .. " at " .. minetest.pos_to_string(pos, 0))
             else
                minetest.chat_send_player(
                    burglar,
                    minetest.colorize("#0f0", S("You have broken the lock!")))
+	       minetest.log("action", "[rp_locks] " .. burglar .. " cracked open a locked chest at " .. minetest.pos_to_string(pos, 0))
             end
             achievements.trigger_achievement(player, "burglar")
             minetest.sound_play({name="locks_unlock",gain=0.8},{pos=pos, max_hear_distance=16}, true)
@@ -162,8 +164,10 @@ local put_lock = function(itemstack, putter, pointed_thing)
         if name ~= "" then
            meta:set_string("infotext", S(INFOTEXT_OWNED, name))
            meta:set_string("lock_owner", name)
+	   minetest.log("action", "[rp_locks] " .. name .. " puts a lock on a chest at " .. minetest.pos_to_string(pos, 0))
         else
            meta:set_string("infotext", S(INFOTEXT_PUBLIC))
+	   minetest.log("action", "[rp_locks] A lock was put on a chest at " .. minetest.pos_to_string(pos, 0))
         end
 	local creative_name
 	if not name or name == "" then
@@ -171,6 +175,7 @@ local put_lock = function(itemstack, putter, pointed_thing)
         else
            creative_name = name
 	end
+
         if not minetest.is_creative_enabled(creative_name) then
            itemstack:take_item()
         end

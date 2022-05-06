@@ -130,6 +130,7 @@ minetest.register_craftitem(
             end
 	    if fertilized then
                minetest.sound_play({name="rp_default_fertilize", gain=1.0}, {pos=pointed_thing.under}, true)
+	       minetest.log("action", "[rp_default] " .. user:get_player_name() .. " fertilizes " .. undernode.name .. " at " .. minetest.pos_to_string(pointed_thing.under, 0))
 	    end
          end
 

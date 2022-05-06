@@ -70,7 +70,7 @@ end
 -- Handle death (does not remove mob)
 local function die_handler(self, killer)
    local pos = self.object:get_pos()
-   minetest.log("action", "[mobs] "..self.name.." dies at "..minetest.pos_to_string(vector.round(pos)))
+   minetest.log("action", "[mobs] "..self.name.." dies at "..minetest.pos_to_string(pos, 1))
    local obj = nil
    local drops_food = false
    for _,drop in ipairs(self.drops) do
@@ -279,7 +279,7 @@ function mobs:register_mob(name, def)
             local yaw = self.rotate
 
             if tmpyaw ~= tmpyaw then -- It's a NaN value
-               minetest.log("warning", "[mobs] object:get_yaw(): NaN returned (pos="..minetest.pos_to_string(vector.round(self.object_get_pos())).."; entitystring="..self.name..")")
+               minetest.log("warning", "[mobs] object:get_yaw(): NaN returned (pos="..minetest.pos_to_string(self.object_get_pos(), 1).."; entitystring="..self.name..")")
             else
                yaw = yaw + tmpyaw
             end
@@ -371,7 +371,7 @@ function mobs:register_mob(name, def)
 
             if self.type == "monster"
             and peaceful_only then
-               minetest.log("action", "[mobs] Hostile mob "..self.name.." removed at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
+               minetest.log("action", "[mobs] Hostile mob "..self.name.." removed at "..minetest.pos_to_string(self.object:get_pos(), 1))
                self.object:remove()
                return
             end
@@ -390,7 +390,7 @@ function mobs:register_mob(name, def)
                         return
                      end
                   end
-                  minetest.log("action", "[mobs] Mob lifetimer expired, removed "..self.name.." at "..minetest.pos_to_string(self.object:get_pos()))
+                  minetest.log("action", "[mobs] Mob lifetimer expired, removed "..self.name.." at "..minetest.pos_to_string(self.object:get_pos(), 1))
                   effect(self.object:get_pos(), 15, "tnt_smoke.png")
                   self.object:remove()
                   return
@@ -1505,7 +1505,7 @@ function mobs:spawn_specific(name, nodes, neighbors, min_light, max_light, inter
             -- spawn mob half block higher
             pos.y = pos.y - 0.5
             minetest.add_entity(pos, name)
-            minetest.log("action", "[mobs] Spawned "..name.." at "..minetest.pos_to_string(pos).." on "..node.name.." near "..neighbors[1])
+            minetest.log("action", "[mobs] Spawned "..name.." at "..minetest.pos_to_string(pos, 1).." on "..node.name.." near "..neighbors[1])
 
          end
    })
@@ -1536,7 +1536,7 @@ function mobs:register_arrow(name, def)
          on_step = function(self, dtime)
             self.timer = (self.timer or 0) + 1
             if self.timer > 150 then
-                minetest.log("info", "[mobs] Arrow "..self.name.." removed due to timeout at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
+                minetest.log("info", "[mobs] Arrow "..self.name.." removed due to timeout at "..minetest.pos_to_string(self.object:get_pos(), 1))
                 self.object:remove()
                 return
             end
@@ -1555,7 +1555,7 @@ function mobs:register_arrow(name, def)
                   self.lastpos = (self.lastpos or pos)
                   minetest.add_item(self.lastpos, self.object:get_luaentity().name)
                end
-               minetest.log("info", "[mobs] Arrow "..self.name.." hit node at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
+               minetest.log("info", "[mobs] Arrow "..self.name.." hits node at "..minetest.pos_to_string(self.object:get_pos(), 1))
                self.object:remove()
                return
             end
@@ -1566,7 +1566,7 @@ function mobs:register_arrow(name, def)
                   if self.hit_player
                   and player:is_player() then
                      self.hit_player(self, player)
-                     minetest.log("info", "[mobs] Arrow "..self.name.." hit player at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
+                     minetest.log("info", "[mobs] Arrow "..self.name.." hits player at "..minetest.pos_to_string(self.object:get_pos(), 1))
                      self.object:remove()
                      return
                   end
@@ -1574,7 +1574,7 @@ function mobs:register_arrow(name, def)
                      and player:get_luaentity().name ~= self.object:get_luaentity().name
                   and player:get_luaentity().name ~= "__builtin:item" then
                      self.hit_mob(self, player)
-                     minetest.log("info", "[mobs] Arrow "..self.name.." hit mob at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
+                     minetest.log("info", "[mobs] Arrow "..self.name.." hits mob at "..minetest.pos_to_string(self.object:get_pos(), 1))
                      self.object:remove()
                      return
                   end
@@ -1586,41 +1586,43 @@ function mobs:register_arrow(name, def)
 end
 
 -- Spawn Egg
-function mobs:register_egg(mob, desc, background)
+function mobs:register_egg(mobname, desc, background)
    local invimg = background
    local place
-   if minetest.registered_entities[mob].type == "monster" and peaceful_only then
+   if minetest.registered_entities[mobname].type == "monster" and peaceful_only then
       desc = S("@1 (disabled)", desc)
       invimg = invimg .. "^[multiply:#FF0000"
    end
    minetest.register_craftitem(
-      mob,
+      mobname,
       {
          description = desc,
          inventory_image = invimg,
          groups = { spawn_egg = 1 },
          on_place = function(itemstack, placer, pointed_thing)
-            if peaceful_only and minetest.registered_entities[mob].type == "monster" then
-               minetest.chat_send_player(placer:get_player_name(), minetest.colorize("#FFFF00", S("Hostile mobs are disabled!")))
+            local pname = placer:get_player_name()
+            if peaceful_only and minetest.registered_entities[mobname].type == "monster" then
+               minetest.chat_send_player(pname, minetest.colorize("#FFFF00", S("Hostile mobs are disabled!")))
                return itemstack
             end
             local pos = pointed_thing.above
             if pointed_thing.above then
-               if minetest.is_protected(pos, placer:get_player_name()) and
+               if minetest.is_protected(pos, pname) and
                        not minetest.check_player_privs(placer, "protection_bypass") then
-                   minetest.record_protection_violation(pos, placer:get_player_name())
+                   minetest.record_protection_violation(pos, pname)
                    return itemstack
                end
 
                pos.y = pos.y + 0.5
-               local mob = minetest.add_entity(pos, mob)
+               local mob = minetest.add_entity(pos, mobname)
                local ent = mob:get_luaentity()
                if ent.type ~= "monster" then
                   -- set owner
-                  ent.owner = placer:get_player_name()
+                  ent.owner = pname
                   ent.tamed = true
                end
-               if not minetest.is_creative_enabled(placer:get_player_name()) then
+	       minetest.log("action", "[mobs] "..pname.." spawns "..mobname.." at "..minetest.pos_to_string(pos, 1))
+               if not minetest.is_creative_enabled(pname) then
                    itemstack:take_item()
                end
             end
@@ -1708,7 +1710,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
 	    -- Cuccessful capture.. add to inventory
 	    clicker:get_inventory():add_item("main", mobname)
 
-            minetest.log("action", "[mobs] Mob "..self.name.." captured at "..minetest.pos_to_string(vector.round(self.object:get_pos())))
+            minetest.log("action", "[mobs] Mob "..self.name.." captured by " .. name .. " at "..minetest.pos_to_string(self.object:get_pos(), 1))
 	    self.object:remove()
 
             achievements.trigger_achievement(clicker, "ranger")

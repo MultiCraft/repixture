@@ -212,7 +212,7 @@ function default.grow_sapling(pos)
 
    minetest.after(0, grow, variety)
 
-   minetest.log("action", "[rp_default] A " .. variety .. " tree sapling grows at " ..
+   minetest.log("action", "[rp_default] Sapling of type '" .. variety .. "' grows at " ..
                   minetest.pos_to_string(pos))
    return true
 end
