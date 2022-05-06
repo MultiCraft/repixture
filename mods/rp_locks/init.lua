@@ -144,8 +144,9 @@ minetest.register_tool(
 -- Use lock on chest to lock it
 local put_lock = function(itemstack, putter, pointed_thing)
     if pointed_thing.type ~= "node" then
-        return itemstack
+       return itemstack
     end
+
     local pos = pointed_thing.under
     local node = minetest.get_node(pos)
     if node.name == "rp_default:chest" then
@@ -183,6 +184,15 @@ local put_lock = function(itemstack, putter, pointed_thing)
     return itemstack
 end
 
+local put_lock_place = function(itemstack, putter, pointed_thing)
+    -- Handle pointed node handlers and protection
+    local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, putter, pointed_thing)
+    if handled then
+       return handled_itemstack
+    end
+    put_lock(itemstack, putter, pointed_thing)
+end
+
 minetest.register_craftitem(
    "rp_locks:lock",
    {
@@ -194,7 +204,7 @@ minetest.register_craftitem(
 
       -- Place or punch lock on chest to lock the chest
       on_use = put_lock,
-      on_place = put_lock,
+      on_place = put_lock_place,
 })
 
 minetest.register_node(

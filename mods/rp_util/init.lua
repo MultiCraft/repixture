@@ -252,3 +252,52 @@ function util.pointed_thing_to_place_pos(pointed_thing)
    return place_in, place_on
 end
 
+-- Use this function for the on_place handler of tools and similar items
+-- that are supposed to do something special when "placing" them on
+-- a node. This makes sure the on_rightclick handler of the node
+-- takes precedence, unless the player held down the sneak key.
+-- Parameters: Same as the on_place of nodes
+-- Returns <handled>, <handled_itemstack>
+-- * <handled>: true if the function handled the placement. Your on_place handler should return <handled_itemstack>.
+--              false if the function did not handle the placement. Your on_place handler can proceed normally.
+-- * <handled_itemstack>: Only set if <handled> is true. Contains the itemstack you should return in your
+--                        on_place handler
+-- Recommended usage is by putting this boilerplate code at the beginning of your function:
+--[[
+   local handled, handled_itemstack = on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+   if handled then
+      return handled_itemstack
+   end
+]]
+function util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+   if not placer or not placer:is_player() then
+      return true, itemstack
+   end
+   if pointed_thing.type ~= "node" then
+      return true, minetest.item_place_node(itemstack, placer, pointed_thing)
+   end
+   local node = minetest.get_node(pointed_thing.under)
+   local def = minetest.registered_nodes[node.name]
+   if def and def.on_rightclick and
+         ((not placer) or (placer and not placer:get_player_control().sneak)) then
+      return true, (def.on_rightclick(pointed_thing.under, node, placer, itemstack, pointed_thing) or itemstack)
+   end
+   return false
+end
+
+-- Check if pointed_thing is protected, if player is the "user" of that thing,
+-- and does the protection violation handling if needed.
+-- returns true if it was protected (and protection dealt with), false otherwise.
+-- Always returns false for non-nodes
+function util.handle_node_protection(player, pointed_thing)
+   if pointed_thing.type ~= "node" then
+      return false
+   end
+   local pos_protected = minetest.get_pointed_thing_position(pointed_thing, true)
+   if minetest.is_protected(pos_protected, player:get_player_name()) and
+         not minetest.check_player_privs(player, "protection_bypass") then
+      minetest.record_protection_violation(pos_protected, player:get_player_name())
+      return true
+   end
+   return false
+end

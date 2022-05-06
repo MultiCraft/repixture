@@ -99,27 +99,13 @@ minetest.register_craftitem(
       inventory_image = "default_fertilizer_inventory.png",
       wield_scale = {x=1,y=1,z=2},
       on_place = function(itemstack, placer, pointed_thing)
-         -- Boilerplace to handle pointed node's rightclick handler
-         if not placer or not placer:is_player() then
+         -- Boilerplate to handle pointed node and protection
+         local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+         if handled then
+            return handled_itemstack
+         end
+         if util.handle_node_protection(placer, pointed_thing) then
             return itemstack
-         end
-         if pointed_thing.type ~= "node" then
-            return minetest.item_place_node(itemstack, placer, pointed_thing)
-         end
-         local node = minetest.get_node(pointed_thing.under)
-         local def = minetest.registered_nodes[node.name]
-         if def and def.on_rightclick and
-               ((not placer) or (placer and not placer:get_player_control().sneak)) then
-            return def.on_rightclick(pointed_thing.under, node, placer, itemstack,
-               pointed_thing) or itemstack
-         end
-
-	 -- Check protection
-         local pos_protected = minetest.get_pointed_thing_position(pointed_thing, true)
-         if minetest.is_protected(pos_protected, placer:get_player_name()) and
-                 not minetest.check_player_privs(placer, "protection_bypass") then
-             minetest.record_protection_violation(pos_protected, placer:get_player_name())
-             return itemstack
          end
 
 	 -- Fertilize node (depending on node type)

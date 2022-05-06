@@ -706,37 +706,24 @@ minetest.register_tool(
 
 -- Trim node (as defined by node definition's _on_trim field)
 local trim = function(itemstack, placer, pointed_thing)
-    -- Boilerplace to handle pointed node's rightclick handler
-    if not placer or not placer:is_player() then
+    -- Handle pointed node handlers and protection
+    local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+    if handled then
+       return handled_itemstack
+    end
+    if util.handle_node_protection(placer, pointed_thing) then
        return itemstack
-    end
-    if pointed_thing.type ~= "node" then
-       return minetest.item_place_node(itemstack, placer, pointed_thing)
-    end
-    local node = minetest.get_node(pointed_thing.under)
-    local def = minetest.registered_nodes[node.name]
-    if def and def.on_rightclick and
-          ((not placer) or (placer and not placer:get_player_control().sneak)) then
-       return def.on_rightclick(pointed_thing.under, node, placer, itemstack,
-          pointed_thing) or itemstack
     end
 
     -- Trimming
-    do
-        local pos = pointed_thing.under
-        local node = minetest.get_node(pos)
-        local def = minetest.registered_nodes[node.name]
-        if def and def._on_trim then
-	    -- Check protection
-            if minetest.is_protected(pos, placer:get_player_name()) and
-                    not minetest.check_player_privs(placer, "protection_bypass") then
-                minetest.record_protection_violation(pos, placer:get_player_name())
-                return
-            end
-	    -- Trim node
-            return def._on_trim(pos, node, placer, itemstack, pointed_thing)
-        end
+    local pos = pointed_thing.under
+    local node = minetest.get_node(pos)
+    local def = minetest.registered_nodes[node.name]
+    if def and def._on_trim then
+       -- Trim node
+       return def._on_trim(pos, node, placer, itemstack, pointed_thing)
     end
+    return itemstack
 end
 
 minetest.register_tool(
