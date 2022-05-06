@@ -48,24 +48,44 @@ end
 -- Saplings growing and placing
 
 function default.place_sapling(itemstack, placer, pointed_thing)
+   -- Boilerplace to handle pointed node's rightclick handler
+   if not placer or not placer:is_player() then
+      return itemstack
+   end
+   if pointed_thing.type ~= "node" then
+      return minetest.item_place_node(itemstack, placer, pointed_thing)
+   end
+   local node = minetest.get_node(pointed_thing.under)
+   local def = minetest.registered_nodes[node.name]
+   if def and def.on_rightclick and
+         ((not placer) or (placer and not placer:get_player_control().sneak)) then
+      return def.on_rightclick(pointed_thing.under, node, placer, itemstack,
+         pointed_thing) or itemstack
+   end
+
+   -- Find position to place sapling at
    local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
    if place_in == nil then
       return itemstack
    end
    local floornode = minetest.get_node(place_floor)
 
+   -- Check protection
    if minetest.is_protected(place_in, placer:get_player_name()) and
            not minetest.check_player_privs(placer, "protection_bypass") then
        minetest.record_protection_violation(pos, placer:get_player_name())
        return itemstack
    end
 
+   -- Floor must be soil
    if minetest.get_item_group(floornode.name, "soil") == 0 then
       return itemstack
    end
 
+   -- Place sapling
    minetest.set_node(place_in, {name = itemstack:get_name()})
 
+   -- Reduce item count
    if not minetest.is_creative_enabled(placer:get_player_name()) then
        itemstack:take_item()
    end

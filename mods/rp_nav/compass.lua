@@ -147,10 +147,22 @@ end
 
 for c=0,7 do
 	local magnetize_on_place = function(itemstack, placer, pointed_thing)
+                -- Boilerplace to handle pointed node's rightclick handler
+                if not placer or not placer:is_player() then
+                   return itemstack
+                end
+                if pointed_thing.type ~= "node" then
+                   return minetest.item_place_node(itemstack, placer, pointed_thing)
+                end
+                local node = minetest.get_node(pointed_thing.under)
+                local def = minetest.registered_nodes[node.name]
+                if def and def.on_rightclick and
+                      ((not placer) or (placer and not placer:get_player_control().sneak)) then
+                   return def.on_rightclick(pointed_thing.under, node, placer, itemstack,
+                      pointed_thing) or itemstack
+                end
+
 		-- Magnetize compass when placing on a magnetic node
-		if pointed_thing.type ~= "node" then
-			return
-		end
 		local nodepos = pointed_thing.under
 		local node = minetest.get_node(nodepos)
 		-- demagnetize compass at magnetic node

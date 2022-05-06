@@ -8,17 +8,31 @@ minetest.register_craftitem(
       inventory_image = "rp_supertools_growth_tool.png",
       wield_image = "rp_supertools_growth_tool.png",
       groups = { supertool = 1 },
-      on_place = function(itemstack, user, pointed_thing)
-	 if pointed_thing.type ~= "node" then
-             return itemstack
-	 end
+      on_place = function(itemstack, placer, pointed_thing)
+         -- Boilerplace to handle pointed node's rightclick handler
+         if not placer or not placer:is_player() then
+            return itemstack
+         end
+         if pointed_thing.type ~= "node" then
+            return minetest.item_place_node(itemstack, placer, pointed_thing)
+         end
+         local node = minetest.get_node(pointed_thing.under)
+         local def = minetest.registered_nodes[node.name]
+         if def and def.on_rightclick and
+               ((not placer) or (placer and not placer:get_player_control().sneak)) then
+            return def.on_rightclick(pointed_thing.under, node, placer, itemstack,
+               pointed_thing) or itemstack
+         end
+
+	 -- Check protection
          local pos_protected = minetest.get_pointed_thing_position(pointed_thing, true)
-         if minetest.is_protected(pos_protected, user:get_player_name()) and
-                 not minetest.check_player_privs(user, "protection_bypass") then
-             minetest.record_protection_violation(pos_protected, user:get_player_name())
+         if minetest.is_protected(pos_protected, placer:get_player_name()) and
+                 not minetest.check_player_privs(placer, "protection_bypass") then
+             minetest.record_protection_violation(pos_protected, placer:get_player_name())
              return itemstack
          end
 
+	 -- Handle growing things
 	 local apos = pointed_thing.above
 	 local upos = pointed_thing.under
          local unode = minetest.get_node(upos)
@@ -57,11 +71,11 @@ minetest.register_craftitem(
 
 	 if used then
             minetest.sound_play({name="rp_default_fertilize", gain=1.0}, {pos=pointed_thing.under}, true)
-            if not minetest.is_creative_enabled(user:get_player_name()) then
+            if not minetest.is_creative_enabled(placer:get_player_name()) then
                itemstack:add_wear(5400) -- 13 uses
             end
 
-            minetest.log("action", "[rp_supertools] " .. user:get_player_name() .. " used growth tool on "..unode.name.." at "..minetest.pos_to_string(upos))
+            minetest.log("action", "[rp_supertools] " .. placer:get_player_name() .. " used growth tool on "..unode.name.." at "..minetest.pos_to_string(upos))
          end
 
          return itemstack

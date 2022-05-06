@@ -98,18 +98,32 @@ minetest.register_craftitem(
       _tt_help = S("Used to fertilize dirt and sand to speed up plant growth"),
       inventory_image = "default_fertilizer_inventory.png",
       wield_scale = {x=1,y=1,z=2},
-      on_place = function(itemstack, user, pointed_thing)
-         local pos = pointed_thing.above
+      on_place = function(itemstack, placer, pointed_thing)
+         -- Boilerplace to handle pointed node's rightclick handler
+         if not placer or not placer:is_player() then
+            return itemstack
+         end
+         if pointed_thing.type ~= "node" then
+            return minetest.item_place_node(itemstack, placer, pointed_thing)
+         end
+         local node = minetest.get_node(pointed_thing.under)
+         local def = minetest.registered_nodes[node.name]
+         if def and def.on_rightclick and
+               ((not placer) or (placer and not placer:get_player_control().sneak)) then
+            return def.on_rightclick(pointed_thing.under, node, placer, itemstack,
+               pointed_thing) or itemstack
+         end
 
+	 -- Check protection
          local pos_protected = minetest.get_pointed_thing_position(pointed_thing, true)
-         if minetest.is_protected(pos_protected, user:get_player_name()) and
-                 not minetest.check_player_privs(user, "protection_bypass") then
-             minetest.record_protection_violation(pos_protected, user:get_player_name())
+         if minetest.is_protected(pos_protected, placer:get_player_name()) and
+                 not minetest.check_player_privs(placer, "protection_bypass") then
+             minetest.record_protection_violation(pos_protected, placer:get_player_name())
              return itemstack
          end
 
+	 -- Fertilize node (depending on node type)
          local undernode = minetest.get_node(pointed_thing.under)
-
          local diff = vector.subtract(pointed_thing.above, pointed_thing.under)
 	 local fertilized = false
          if diff.y > 0 then
@@ -130,11 +144,12 @@ minetest.register_craftitem(
             end
 	    if fertilized then
                minetest.sound_play({name="rp_default_fertilize", gain=1.0}, {pos=pointed_thing.under}, true)
-	       minetest.log("action", "[rp_default] " .. user:get_player_name() .. " fertilizes " .. undernode.name .. " at " .. minetest.pos_to_string(pointed_thing.under, 0))
+	       minetest.log("action", "[rp_default] " .. placer:get_player_name() .. " fertilizes " .. undernode.name .. " at " .. minetest.pos_to_string(pointed_thing.under, 0))
 	    end
          end
 
-         if not minetest.is_creative_enabled(user:get_player_name()) then
+         -- Reduce item count
+         if not minetest.is_creative_enabled(placer:get_player_name()) then
             itemstack:take_item()
          end
 

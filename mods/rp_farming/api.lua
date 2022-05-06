@@ -66,16 +66,34 @@ function farming.begin_growing_plant(pos)
 end
 
 function farming.place_plant(itemstack, placer, pointed_thing)
+   -- Boilerplace to handle pointed node's rightclick handler
+   if not placer or not placer:is_player() then
+      return itemstack
+   end
+   if pointed_thing.type ~= "node" then
+      return minetest.item_place_node(itemstack, placer, pointed_thing)
+   end
+   local node = minetest.get_node(pointed_thing.under)
+   local def = minetest.registered_nodes[node.name]
+   if def and def.on_rightclick and
+         ((not placer) or (placer and not placer:get_player_control().sneak)) then
+      return def.on_rightclick(pointed_thing.under, node, placer, itemstack,
+         pointed_thing) or itemstack
+   end
+
+   -- Get plant ID
    local name = string.gsub(itemstack:get_name(), "_(%d+)", "")
 
    local plant = farming.registered_plants[name]
 
+   -- Find placement position
    local place_in, place_on = util.pointed_thing_to_place_pos(pointed_thing)
    if not place_in then
       return itemstack
    end
    local place_on_node = minetest.get_node(place_on)
 
+   -- Find plant definition and grow plant
    for _, can_grow_on in ipairs(plant.grows_on) do
       local group = string.match(can_grow_on, "group:(.*)")
 

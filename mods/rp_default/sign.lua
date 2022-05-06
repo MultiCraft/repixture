@@ -59,6 +59,7 @@ local function register_sign(id, def)
 		on_receive_fields = on_receive_fields,
 		on_destruct = on_destruct,
 		on_place = function(itemstack, placer, pointed_thing)
+			-- Boilerplace to handle pointed node's rightclick handler
 			if not placer or not placer:is_player() then
 				return itemstack
 			end
@@ -72,6 +73,8 @@ local function register_sign(id, def)
 				return def.on_rightclick(pointed_thing.under, node, placer, itemstack,
 					pointed_thing) or itemstack
 			end
+
+
 			if pointed_thing.under.y == pointed_thing.above.y then
 				return minetest.item_place_node(itemstack, placer, pointed_thing)
 			end
