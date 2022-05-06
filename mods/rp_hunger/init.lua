@@ -134,7 +134,7 @@ function hunger.update_bar(player)
              text = text .. "hunger = " .. tostring(hunger.userdata[name].hunger) .. "\n"
              text = text .. "saturation = " .. tostring(hunger.userdata[name].saturation) .. "\n"
              text = text .. "moving = " .. tostring(hunger.userdata[name].moving) .. "\n"
-             text = text .. "active = " .. tostring(hunger.userdata[name].active)
+             text = text .. "active = " .. tostring(hunger.userdata[name].active) .. "\n"
           else
              text = text .. "<hunger disabled>\n"
 	  end
