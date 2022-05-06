@@ -183,18 +183,23 @@ minetest.register_globalstep(
 end)
 
 function minetest.handle_node_drops(pos, drops, digger)
-   do
-      if digger and digger:is_player() and minetest.is_creative_enabled(digger:get_player_name()) then
-        local inv = digger:get_inventory()
-        if inv then
-           for _,item in ipairs(drops) do
-              if not inv:contains_item("main", item, true) then
-                 inv:add_item("main", item)
-              end
+   -- If digger is in Creative Mode, give items directly to digger
+   if digger and digger:is_player() and minetest.is_creative_enabled(digger:get_player_name()) then
+     local inv = digger:get_inventory()
+     if inv then
+        for _,item in ipairs(drops) do
+           if not inv:contains_item("main", item, true) then
+              inv:add_item("main", item)
            end
         end
-        return
-      end
+     end
+     return
+   end
+
+   -- Drop items on the ground, unless global Creative Mode
+   -- is enabled
+   if minetest.is_creative_enabled("") then
+      return
    end
    for _,item in ipairs(drops) do
       local obj = minetest.add_item(pos, item)
