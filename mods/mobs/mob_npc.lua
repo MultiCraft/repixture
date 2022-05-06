@@ -218,7 +218,12 @@ for _, npc_type_table in pairs(npc_types) do
                       elseif iname == "rp_default:pearl" then
                           say(S("Ooh, a shiny pearl! Unfortunately, I don't know what it's good for."), name)
                       elseif minetest.get_item_group(iname, "sapling") > 0 then
-                          say(S("Place it on the ground in sunlight and it will grow to a tree."), name)
+                          local r = math.random(1,2)
+			  if r == 1 then
+                             say(S("Just place it on the ground and it will grow after a while."), name)
+		          else
+                             say(S("If the sapling refuses to grow, make sure it has enough open space above it."), name)
+			  end
                       elseif minetest.get_item_group(iname, "shears") > 0 then
                           say(S("Use this to trim plants and get wool from sheep."), name)
                       elseif iname == "rp_default:papyrus" then
