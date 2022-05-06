@@ -135,6 +135,7 @@ function hunger.update_bar(player)
              text = text .. "saturation = " .. tostring(hunger.userdata[name].saturation) .. "\n"
              text = text .. "moving = " .. tostring(hunger.userdata[name].moving) .. "\n"
              text = text .. "active = " .. tostring(hunger.userdata[name].active) .. "\n"
+             text = text .. "step = " .. tostring(player_step[name]) .. "\n"
           else
              text = text .. "<hunger disabled>\n"
 	  end
@@ -233,6 +234,11 @@ local function on_respawnplayer(player)
    local name = player:get_player_name()
 
    hunger.userdata[name].hunger = MAX_HUNGER
+   hunger.userdata[name].saturation = 0
+   hunger.userdata[name].active = 0
+   hunger.userdata[name].moving = 0
+   player_step[name] = 0
+   player_health_step[name] = 0
    hunger.update_bar(player)
 
    delayed_save()
