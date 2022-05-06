@@ -46,7 +46,7 @@ local function create_creative_inventory(player)
 		end,
 		on_take = function(inv, listname, index, stack, player)
 			if stack then
-				minetest.log("action", player:get_player_name().." takes "..dump(stack:get_name()).." from creative inventory")
+				minetest.log("action", "[rp_creative] " .. player:get_player_name().." takes "..dump(stack:get_name()).." from creative inventory")
 			end
 		end,
 	}, player_name)

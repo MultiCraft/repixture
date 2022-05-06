@@ -94,7 +94,7 @@ function jewels.register_jewel(toolname, new_toolname, def)
 
    if not tooldef then
       minetest.log("warning",
-                   "Trying to register jewel " .. new_toolname
+                   "[rp_jewels] Trying to register jewel " .. new_toolname
                       .. " that has an unknown output item " .. toolname)
 
       return

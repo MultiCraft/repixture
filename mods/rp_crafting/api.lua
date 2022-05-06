@@ -37,7 +37,7 @@ crafting.default_craftdef = {
 function crafting.register_craft(def)
    if def.output == nil then
       minetest.log("warning",
-                   "No output for craft recipe")
+                   "[rp_crafting] No output for craft recipe")
       return
    end
 
@@ -50,7 +50,7 @@ function crafting.register_craft(def)
 
    if not minetest.registered_items[itemstack:get_name()] then
       minetest.log("warning",
-                   "Trying to register craft " .. itemkey
+                   "[rp_crafting] Trying to register craft " .. itemkey
                       .. " that has an unknown output item")
    end
 
@@ -62,7 +62,7 @@ function crafting.register_craft(def)
 
    if #craftdef.items > crafting.max_inputs then
       minetest.log("warning",
-                   "Attempting to register craft " .. itemkey .." with more than "
+                   "[rp_crafting] Attempting to register craft " .. itemkey .." with more than "
                       .. crafting.max_inputs .. " inputs, allowing")
    end
 
@@ -74,7 +74,7 @@ function crafting.register_craft(def)
 
    crafting.registered_crafts[itemkey] = craftdef
 
-   minetest.log("info", "Registered recipe for " .. itemkey)
+   minetest.log("info", "[rp_crafting] Registered recipe for " .. itemkey)
 end
 
 function crafting.get_crafts(player_inventory, player_name)
@@ -162,7 +162,7 @@ function crafting.craft(player, wanted, wanted_count, output, items)
 
    if craftdef == nil then
       minetest.log("warning",
-                   "Tried to craft an unregistered item " .. wanted:to_string())
+                   "[rp_crafting] Tried to craft an unregistered item " .. wanted:to_string())
 
       return nil
    end

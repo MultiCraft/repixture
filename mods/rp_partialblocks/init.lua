@@ -11,7 +11,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    local nodedef = minetest.registered_nodes[node]
 
    if nodedef == nil then
-      minetest.log("warning", "Cannot find node for partialblock: " .. node)
+      minetest.log("warning", "[rp_partialblocks] Cannot find node for partialblock: " .. node)
 
       return
    end
