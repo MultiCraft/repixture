@@ -170,7 +170,7 @@ function hunger.update_bar(player)
 	    text = "hunger.png",
 	    text2 = "hunger.png^[colorize:#666666:255",
 	    number = hunger.userdata[name].hunger,
-	    item = 20,
+	    item = MAX_HUNGER,
 	    dir = 0,
 	    size = {x=24, y=24},
 	    offset = {x=16, y=-(48+24+24)},
@@ -333,7 +333,7 @@ local function health_step(player, phunger)
    local hp = player:get_hp()
    if player_health_step[name] >= HEAL_EVERY_N_HEALTH_STEPS then
       player_health_step[name] = HEAL_EVERY_N_HEALTH_STEPS
-      if hp > 0 and hp < 20 and (phunger == nil or phunger >= HUNGER_HEAL_LEVEL) then
+      if hp > 0 and hp < minetest.PLAYER_MAX_HP_DEFAULT and (phunger == nil or phunger >= HUNGER_HEAL_LEVEL) then
          player_health_step[name] = 0
          player:set_hp(hp+1)
       end
