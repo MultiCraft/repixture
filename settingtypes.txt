@@ -38,6 +38,7 @@ mapgen_disable_villages (Disable villages) bool false
 [Blocks]
 # This enables TNT. TNT is a block that, when ignited, will explode, deal damage and destroy blocks around it.
 # If disabled, all TNTs will be defused and thus unable to explode.
+# Additionally, explosions from other sources will no longer destroy blocks.
 tnt_enable (Enable TNT) bool true
 
 # The radius in which blocks will be destroyed by a TNT explosion.
