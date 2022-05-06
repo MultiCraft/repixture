@@ -159,9 +159,7 @@ end
 function tnt.burn(pos)
    local name = minetest.get_node(pos).name
    if tnt_enable and name == "rp_tnt:tnt" then
-      minetest.sound_play("tnt_ignite", {pos = pos}, true)
       minetest.set_node(pos, {name = "rp_tnt:tnt_burning"})
-      minetest.get_node_timer(pos):start(TNT_TIMER)
    end
 end
 
@@ -347,13 +345,28 @@ minetest.register_node(
 	 },
 	 "tnt_bottom.png", "tnt_sides.png"},
       light_source = 5,
-      drop = "rp_tnt:tnt",
+      drop = "",
       is_ground_content = false,
       groups = {handy = 2},
       sounds = rp_sounds.node_sound_wood_defaults(),
       on_timer = tnt_burning_on_timer,
-      -- unaffected by explosions
-      on_blast = function() end,
+      on_construct = function(pos)
+	  if tnt_enable then
+             local timer = minetest.get_node_timer(pos)
+             minetest.sound_play("tnt_ignite", {pos = pos}, true)
+             timer:start(TNT_TIMER)
+          else
+             minetest.set_node(pos, {name="rp_tnt:tnt"})
+	  end
+      end,
+      on_blast = function(pos)
+	  -- Force timer to restart if the timer was halted for some reason
+          local timer = minetest.get_node_timer(pos)
+	  if not timer:is_started() then
+             minetest.sound_play("tnt_ignite", {pos = pos}, true)
+             timer:start(TNT_TIMER)
+	  end
+      end,
 })
 
 
