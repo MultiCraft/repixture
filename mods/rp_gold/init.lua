@@ -437,7 +437,7 @@ achievements.register_achievement(
       dignode = "rp_gold:stone_with_gold",
 })
 
-if minetest.settings:get_bool("pixture_debug", false) == true then
+if minetest.settings:get_bool("rp_testing_enable", false) == true then
     -- Check if all specified items are valid
     minetest.register_on_mods_loaded(function()
         for trader_name, trader in pairs(gold.trades) do
