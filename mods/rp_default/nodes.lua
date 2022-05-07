@@ -1073,16 +1073,14 @@ minetest.register_node(
       sunlight_propagates = true,
       walkable = false,
       floodable = true,
-      -- TODO: Enable the drop code below, when the pearl is useful.
-      -- The pearl is currently useless.
-      --[[drop = {
+      drop = {
 	 max_items = 3,
 	 items = {
 	    {items = {"rp_default:clam"}, rarity = 1},
 	    {items = {"rp_default:pearl"}, rarity = 60},
 	    {items = {"rp_default:pearl"}, rarity = 20},
 	 }
-      },]]
+      },
       groups = {fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, food = 2},
       on_use = minetest.item_eat({hp = 4, sat = 40}),
       sounds = rp_sounds.node_sound_defaults(),

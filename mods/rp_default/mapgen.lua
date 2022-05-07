@@ -322,16 +322,18 @@ minetest.register_biome(
 })
 end
 
-local spring_ore_np = {
-	offset  = 0,
-	scale   = 1,
-	spread  = {x=250, y=250, z=250},
-	seed    = 12345,
-	octaves = 3,
-	persist = 0.6,
-	lacunarity = 2,
-	flags = "defaults",
-}
+local function spring_ore_np(seed)
+	return {
+		offset  = 0,
+		scale   = 1,
+		spread  = {x=250, y=250, z=250},
+		seed    = seed or 12345,
+		octaves = 3,
+		persist = 0.6,
+		lacunarity = 2,
+		flags = "defaults",
+	}
+end
 
 -- Water
 
@@ -346,7 +348,7 @@ minetest.register_ore( -- Springs
       clust_size     = 1,
       y_min          = 20,
       y_max          = 31000,
-      noise_params   = spring_ore_np,
+      noise_params   = spring_ore_np(),
 })
 
 minetest.register_ore( -- Pools
@@ -360,21 +362,48 @@ minetest.register_ore( -- Pools
       clust_size     = 6,
       y_min          = 10,
       y_max          = 30,
-      noise_params   = spring_ore_np,
+      noise_params   = spring_ore_np(),
 })
 if mg_name ~= "v6" then
-minetest.register_ore( -- Swamp
+minetest.register_ore( -- Swamp (big springs)
    {
       ore_type       = "blob",
       ore            = "rp_default:swamp_water_source",
       wherein        = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
       biomes         = {"Swamp"},
-      clust_scarcity = 14*14*14,
+      clust_scarcity = 7*7*7,
       clust_num_ores = 10,
       clust_size     = 4,
       y_min          = -31000,
       y_max          = 31000,
-      noise_params   = spring_ore_np,
+      noise_params   = spring_ore_np(13943),
+})
+minetest.register_ore( -- Swamp (medium springs)
+   {
+      ore_type       = "blob",
+      ore            = "rp_default:swamp_water_source",
+      wherein        = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
+      biomes         = {"Swamp"},
+      clust_scarcity = 5*5*5,
+      clust_num_ores = 8,
+      clust_size     = 2,
+      y_min          = -31000,
+      y_max          = 31000,
+      noise_params   = spring_ore_np(49494),
+})
+
+minetest.register_ore( -- Swamp (small springs)
+   {
+      ore_type       = "blob",
+      ore            = "rp_default:swamp_water_source",
+      wherein        = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
+      biomes         = {"Swamp"},
+      clust_scarcity = 6*6*6,
+      clust_num_ores = 1,
+      clust_size     = 1,
+      y_min          = -31000,
+      y_max          = 31000,
+      noise_params   = spring_ore_np(59330),
 })
 
 minetest.register_ore( -- Marsh
@@ -388,7 +417,7 @@ minetest.register_ore( -- Marsh
       clust_size     = 6,
       y_min          = -31000,
       y_max          = 31000,
-      noise_params   = spring_ore_np,
+      noise_params   = spring_ore_np(),
 })
 end
 
@@ -503,6 +532,20 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/default_oaktree.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.0008,
+      biomes = {"Swamp"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_swamp_oak.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -650,6 +693,7 @@ minetest.register_decoration(
 
 -- Papyrus decorations
 
+-- Beach papyrus
 minetest.register_decoration(
    {
       deco_type = "simple",
@@ -663,6 +707,41 @@ minetest.register_decoration(
       height = 2,
       y_max = 3,
       y_min = 0,
+})
+
+-- Grassland papyrus
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:dirt_with_grass"},
+      spawn_by = {"group:water"},
+      num_spawn_by = 1,
+      sidelen = 16,
+      fill_ratio = 0.08,
+      biomes = {"Grassland", "Marsh", "Forest", "Deep Forest", "Wilderness"},
+      decoration = {"rp_default:papyrus"},
+      height = 2,
+      height_max = 3,
+      y_max = 30,
+      y_min = 4,
+})
+
+
+-- Swamp papyrus
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:swamp_dirt", "rp_default:dirt_with_swamp_grass"},
+      spawn_by = {"group:water"},
+      num_spawn_by = 1,
+      sidelen = 16,
+      fill_ratio = 0.30,
+      biomes = {"Swamp"},
+      decoration = {"rp_default:papyrus"},
+      height = 3,
+      height_max = 4,
+      y_max = 31000,
+      y_min = -100,
 })
 
 -- Flower decorations
