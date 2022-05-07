@@ -3,6 +3,23 @@
 -- Modded by KaadmY
 local S = minetest.get_translator("mobs")
 
+local get_item_fuel_burntime = function(itemstring)
+	local input = {
+		method = "fuel",
+		items = { itemstring },
+	}
+	local res = minetest.get_craft_result(input)
+	return res.time
+end
+local get_item_cooking_result = function(itemstring)
+	local input = {
+		method = "cooking",
+		items = { itemstring },
+	}
+	local res = minetest.get_craft_result(input)
+	return res.item
+end
+
 local npc_types = {
    { "farmer", S("Farmer") },
    { "tavernkeeper", S("Tavern Keeper") },
@@ -144,7 +161,7 @@ for _, npc_type_table in pairs(npc_types) do
             end
 
             local iname = item:get_name()
-            if minetest.get_item_group(iname, "sword") > 0 or minetest.get_item_group(iname, "spear") > 0 or iname == "rp_default:thistle" then
+            if npc_type ~= "blacksmith" and (minetest.get_item_group(iname, "sword") > 0 or minetest.get_item_group(iname, "spear") > 0) then
                say(S("Get this thing out of my face!"), name)
                return
             end
@@ -165,9 +182,77 @@ for _, npc_type_table in pairs(npc_types) do
                end
 
                if not gold.trade(self.npc_trade, self.npc_type, clicker) then
+                   -- Good mood: Give hint or funny text
                    if hp >= self.hp_max-7 then
+
+                      -- Fuel time / cooking hint by blacksmith
+                      if npc_type == "blacksmith" then
+			 -- First some hardcoded texts
+			 if iname == "rp_default:cactus" then
+                             say(S("Ah, a cactus. You'd be surprised how well they burn in a furnace."), name)
+			     return
+		         elseif iname == "rp_default:torch_dead" or iname == "rp_default:torch_weak" then
+                             say(S("You can quickly kindle it in the furnace."), name)
+			     return
+		         elseif iname == "rp_jewels:jewel_ore" then
+                             say(S("A truly amazing block!"), name)
+			     return
+		         elseif minetest.get_item_group(iname, "tree") > 0 then
+                             say(S("Trees are a classic furnace fuel, but you can also cook them to get coal lumps."), name)
+			     return
+			 end
+                         local cook = get_item_cooking_result(iname)
+                         local fuel = get_item_fuel_burntime(iname)
+                         if cook and not cook:is_empty() then
+                            local dname = cook:get_short_description()
+                            if fuel > 0 then
+                               say(S("You can cook it in the furnace to get: @1. But you can also use it as a furnace fuel.", dname), name)
+			    else
+                               say(S("Cook it in the furnace to get: @1.", dname), name)
+		            end
+                            return
+                         end
+
+                         if fuel > 0 then
+                            if fuel >= 180 then
+                               say(S("This is an amazing furnace fuel, it burns for a very, very, very long time."), name)
+                            elseif fuel >= 120 then
+                               say(S("This is a great furnace fuel, and it burns for a very, very long time."), name)
+                            elseif fuel >= 60 then
+                               say(S("This is a very good furnace fuel, and it burns for a very long time."), name)
+                            elseif fuel >= 30 then
+                               say(S("This is a good furnace fuel, it burns for a long time."), name)
+                            elseif fuel >= 20 then
+                               say(S("This is a nice furnace fuel."), name)
+                            elseif fuel >= 15 then
+                               say(S("You can use this as a furnace fuel, but it's meh."), name)
+                            elseif fuel >= 9 then
+                               say(S("You can use this as a furnace fuel, but it is gone quickly."), name)
+                            elseif fuel >= 3 then
+                               say(S("You can use this as a furnace fuel, but it is gone very quickly."), name)
+                            else
+                               say(S("You can theoretically use this as a furnace fuel, but it is gone almost instantly. You will need a large amount of these to cook anything."), name)
+                            end
+                            return
+                         end
+                      end
+
                       if iname == "rp_gold:ingot_gold" then
                           say_random("trade", name)
+		      elseif iname == "rp_jewels:serrated_broadsword" then
+			  if npc_type == "blacksmith" then
+                             say(S("I'm impressed! Your weapon is a true masterpiece."), name)
+		          else
+                             say_random("happy", name)
+		          end
+                      elseif iname == "rp_default:broadsword" then
+                          say(S("This is a mighty weapon, but have you considered upgrading it with jewels?"), name)
+                      elseif (minetest.get_item_group(iname, "sword") > 0) or (minetest.get_item_group(iname, "spear") > 0) then
+                          say(S("Offense is the best defense."), name)
+		      elseif minetest.get_item_group(iname, "is_armor") == 1 then
+                          say(S("If you equip a full set of armor made from the same material, you'll get a protection bonus."), name)
+                      elseif iname == "rp_default:bookshelf" then
+                          say(S("You can put anything inside a bookshelf, not just books.", name))
                       elseif iname == "rp_default:fertilizer" then
                           if npc_type == "farmer" then
                               say(S("This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."), name)
@@ -216,13 +301,19 @@ for _, npc_type_table in pairs(npc_types) do
                       elseif iname == "rp_default:book" then
                           say(S("A truly epic story!"), name)
                       elseif iname == "rp_default:pearl" then
-                          say(S("Ooh, a shiny pearl! Unfortunately, I don't know what it's good for."), name)
+			  if npc_type == "tavernkeeper" then
+                             say(S("Ooh, a shiny pearl! It's beautiful."), name)
+                          else
+                             say(S("I heard the tavernkeeper likes these."), name)
+                          end
                       elseif minetest.get_item_group(iname, "sapling") > 0 then
-                          local r = math.random(1,2)
+                          local r = math.random(1,3)
 			  if r == 1 then
                              say(S("Just place it on the ground and it will grow after a while."), name)
-		          else
+		          elseif r == 2 then
                              say(S("If the sapling refuses to grow, make sure it has enough open space above it."), name)
+                          else
+                             say(S("Try placing it on different grounds. It might grow differently."), name)
 			  end
                       elseif minetest.get_item_group(iname, "shears") > 0 then
                           say(S("Use this to trim plants and get wool from sheep."), name)
@@ -235,8 +326,8 @@ for _, npc_type_table in pairs(npc_types) do
                       elseif iname == "rp_default:cactus" then
                           if npc_type == "farmer" then
                               say(S("Cacti like to grow on sand. They are also a food source, if you're really desperate."), name)
-                          elseif npc_type == "blacksmith" then
-                              say(S("Ah, a cactus. You'd be surprised how well they burn in a furnace."), name)
+                          elseif npc_type == "tavernkeeper" then
+                              say(S("This is the secret ingredient for my special drink. But don't tell anyone!"), name)
                           else
                               say(S("Now what can you possibly do with a cactus? I don't know!"), name)
                           end
@@ -283,17 +374,50 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                              say(S("Apples are so tasty!"), name)
                           end
+                      elseif iname == "rp_default:reed_block" then
+                          say(S("Did you try to dry it in the furnace."), name)
+                      elseif iname == "rp_default:dirt" then
+                          if npc_type == "farmer" then
+                             say(S("Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized."), name)
+                          else
+                             say(S("You're dirty!"), name)
+                          end
+                      elseif iname == "rp_default:swamp_dirt" then
+                          if npc_type == "farmer" then
+                             say(S("Swamp dirt is really interesting. The famous swamp oak grows on it, and papyrus also grows exceptionally well."), name)
+                          else
+                             say(S("Disgusting!"), name)
+                          end
+                      elseif iname == "rp_default:dry_dirt" then
+                          if npc_type == "farmer" then
+                             say(S("Nothing grows on dry dirt. Well, almost nothing."), name)
+                          else
+                             say(S("This dirt is as dry as my jokes."), name)
+                          end
+                      elseif iname == "rp_default:sand" then
+                          if npc_type == "farmer" then
+                             say(S("You can use sand to grow cacti."), name)
+		          else
+                             say(S("Be careful not to let it fall on your head!"), name)
+                          end
+
+                      elseif minetest.get_item_group(iname, "stone") > 0 then
+                          if npc_type == "butcher" then
+                              say(S("This is like my ex-lover's heart. Made out of stone."), name)
+		          else
+                              say_random("happy", name)
+		          end
                       elseif minetest.get_item_group(iname, "food") > 0 then
                           say(S("Stay healthy!"), name)
                       else
-                          local r = math.random(1,3)
-                          if r == 1 then
-                              say_random("trade", name)
-                          elseif r == 2 then
-                              say(msgs.npc[npc_type], name)
-                          else
-                              say_random("happy", name)
-                          end
+                         local r = math.random(1,3)
+                         if r == 1 then
+                             say_random("trade", name)
+                         elseif r == 2 then
+                             say(msgs.npc[npc_type], name)
+                         else
+                             say_random("happy", name)
+                         end
                       end
                    elseif hp >= 5 then
                       say_random("exhausted", name)
