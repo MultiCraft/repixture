@@ -119,13 +119,39 @@ if minetest.get_modpath("mobs") ~= nil then
       table.insert(gold.trades["blacksmith"], {"rp_default:ingot_steel 32", "", "rp_jewels:jewel 4"})
    end
 
-   -- carpenter (no mod check)
-   table.insert(gold.trades["carpenter"], {"rp_default:tree 2", "", "rp_gold:ingot_gold"})
+   -- farmer
+   table.insert(gold.trades["farmer"], {"rp_farming:wheat 15", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["farmer"], {"rp_default:apple 12", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["farmer"], {"rp_default:flower 10", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["farmer"], {"rp_default:fern 10", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["farmer"], {"rp_default:lump_sulfur 6", "", "rp_gold:ingot_gold"})
 
-   -- butcher (no mod check)
-   table.insert(gold.trades["butcher"], {"mobs:meat_raw 3", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["butcher"], {"mobs:meat_raw 4", "", "rp_gold:ingot_gold 2"})
-   table.insert(gold.trades["butcher"], {"mobs:meat_raw 5", "", "rp_gold:ingot_gold 4"})
+   -- blacksmith
+   table.insert(gold.trades["blacksmith"], {"rp_default:tree 6", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["blacksmith"], {"rp_default:lump_coal 15", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["blacksmith"], {"rp_default:lump_iron 12", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["blacksmith"], {"rp_default:lump_tin 10", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["blacksmith"], {"rp_default:lump_gold 2", "", "rp_gold:ingot_gold"})
+
+   -- carpenter
+   table.insert(gold.trades["carpenter"], {"rp_default:tree 5", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["carpenter"], {"rp_default:tree_birch 5", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["carpenter"], {"rp_default:tree_oak 4", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["carpenter"], {"rp_default:fiber 50", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["carpenter"], {"mobs:wool 8", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["carpenter"], {"rp_farming:cotton_bale 10", "", "rp_gold:ingot_gold"})
+
+   -- butcher
+   table.insert(gold.trades["butcher"], {"mobs:meat_raw 4", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["butcher"], {"mobs:pork_raw 3", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["butcher"], {"rp_default:flint 12", "", "rp_gold:ingot_gold"})
+
+   -- tavernkeeper
+   table.insert(gold.trades["tavernkeeper"], {"rp_default:pearl 5", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["tavernkeeper"], {"rp_default:graphite_sheet 10", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["tavernkeeper"], {"rp_default:rope 10", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["tavernkeeper"], {"rp_farming:flour 4", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["tavernkeeper"], {"rp_default:glass 10", "", "rp_gold:ingot_gold"})
 
    gold.trade_names["farmer"] = S("Farmer")
    gold.trade_names["tavernkeeper"] = S("Tavern Keeper")
