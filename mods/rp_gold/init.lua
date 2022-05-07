@@ -82,7 +82,7 @@ if minetest.get_modpath("mobs") ~= nil then
       -- bronze lump: unique item, can't be crafted. Cheaper than crafting bronze ingots
       {"rp_default:lump_tin 1", "rp_default:lump_copper 4", "rp_default:lump_bronze"},
       -- chainmail sheet to steel
-      {"rp_default:ingot_gold", "rp_armor:chainmail_sheet", "rp_default:ingot_steel"},
+      {"rp_gold:ingot_gold", "rp_armor:chainmail_sheet", "rp_default:ingot_steel"},
 
       -- tool repair
       {"rp_gold:ingot_gold 1", "rp_default:pick_stone", "rp_default:pick_stone"},
@@ -139,7 +139,7 @@ if minetest.get_modpath("mobs") ~= nil then
    table.insert(gold.trades["blacksmith"], {"rp_default:lump_coal 15", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["blacksmith"], {"rp_default:lump_iron 12", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["blacksmith"], {"rp_default:lump_tin 10", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["blacksmith"], {"rp_default:lump_gold 2", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["blacksmith"], {"rp_gold:lump_gold 2", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["blacksmith"], {"rp_armor:chainmail_sheet 2", "", "rp_gold:ingot_gold"})
 
    -- carpenter
@@ -161,7 +161,7 @@ if minetest.get_modpath("mobs") ~= nil then
 
    -- tavernkeeper
    table.insert(gold.trades["tavernkeeper"], {"rp_default:pearl 5", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["tavernkeeper"], {"rp_default:graphite_sheet 10", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["tavernkeeper"], {"rp_default:sheet_graphite 10", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["tavernkeeper"], {"rp_lumien:block 4", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["tavernkeeper"], {"rp_farming:flour 4", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["tavernkeeper"], {"rp_default:cactus 24", "", "rp_gold:ingot_gold"})
