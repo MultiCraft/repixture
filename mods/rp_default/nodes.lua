@@ -837,6 +837,22 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_wood_defaults(),
 })
 
+-- Reed
+minetest.register_node(
+   "rp_default:reed_block",
+   {
+      description = S("Reed Block"),
+      tiles = {
+	     "rp_default_reed_block_top.png",
+	     "rp_default_reed_block_top.png",
+	     "rp_default_reed_block_side.png",
+      },
+      is_ground_content = false,
+      groups = {snappy=2, fall_damage_add_percent=-10},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_wood_defaults(),
+})
+
 -- Fern
 
 minetest.register_node(

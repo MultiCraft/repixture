@@ -206,6 +206,13 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
+      recipe = "rp_default:reed_block",
+      burntime = 10,
+})
+
+minetest.register_craft(
+   {
+      type = "fuel",
       recipe = "rp_default:book",
       burntime = 2,
 })
@@ -544,6 +551,15 @@ crafting.register_craft(
       output = "rp_default:paper",
       items = {
          "rp_default:papyrus 3",
+      }
+})
+
+crafting.register_craft(
+   {
+      output = "rp_default:reed_block",
+      items = {
+         "rp_default:swamp_grass 3",
+         "rp_default:papyrus 9",
       }
 })
 
