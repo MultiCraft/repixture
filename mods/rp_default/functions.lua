@@ -105,21 +105,35 @@ end
 
 local sapling_data = {
 	["rp_default:sapling"] = {
-		grows_to = "apple",
+		grows_to = {
+			["dry"] = "normal_tiny",
+			["default"] = "apple",
+		},
 		grow_time_min = 300,
 		grow_time_max = 480,
 	},
 	["rp_default:sapling_oak"] = {
-		grows_to = "oak",
+		grows_to = {
+			["dry"] = "oak_tiny",
+			["swamp"] = "oak_swamp",
+			["default"] = "oak",
+		},
 		grow_time_min = 700,
 		grow_time_max = 960,
 	},
 	["rp_default:sapling_birch"] = {
+		grows_to = {
+			["dry"] = "birch_tiny",
+			["default"] = "birch",
+		},
 		grows_to = "birch",
 		grow_time_min = 480,
 		grow_time_max = 780,
 	},
 	["rp_default:sapling_dry_bush"] = {
+		grows_to = {
+			["default"] = "dry_bush",
+		},
 		grows_to = "dry_bush",
 		grow_time_min = 180,
 		grow_time_max = 400
@@ -135,12 +149,36 @@ local tree_data = {
 			{ vector.new(-2,3,-2), vector.new(2,5,2) },
 		},
 	},
+	["normal_tiny"] = {
+		schem = "rp_default_tiny_normal_tree.mts",
+		offset = vector.new(-1, -1, -1),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,1,0) },
+			{ vector.new(-1,2,-1), vector.new(1,4,1) },
+		},
+	},
 	["oak"] = {
 		schem = "default_oaktree.mts",
 		offset = vector.new(-2, -1, -2),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,2,0) },
 			{ vector.new(-1,3,-1), vector.new(1,5,1) },
+		},
+	},
+	["oak_swamp"] = {
+		schem = "rp_default_swamp_oak.mts",
+		offset = vector.new(-3, -1, -3),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,2,0) },
+			{ vector.new(-2,3,-2), vector.new(2,5,2) },
+		},
+	},
+	["oak_tiny"] = {
+		schem = "rp_default_tiny_oak.mts",
+		offset = vector.new(-1, -1, -1),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,1,0) },
+			{ vector.new(-1,2,-1), vector.new(1,4,1) },
 		},
 	},
 	["birch"] = {
@@ -150,6 +188,14 @@ local tree_data = {
 			["rp_default:tree"] = "rp_default:tree_birch",
 			["rp_default:apple"] = "air"
 		},
+		offset = vector.new(-1, -1, -1),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,1,0) },
+			{ vector.new(-1,2,-1), vector.new(1,4,1) },
+		},
+	},
+	["birch_tiny"] = {
+		schem = "rp_default_tiny_birch.mts",
 		offset = vector.new(-1, -1, -1),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
@@ -238,9 +284,28 @@ function default.grow_sapling(pos)
    if not sdata then
       return false
    end
-   local variety = sdata.grows_to
-
+   local grows_to = sdata.grows_to
+   local belownode = minetest.get_node(vector.add(pos, vector.new(0,-1,0)))
+   local dirttype
+   if minetest.get_item_group(belownode.name, "normal_dirt") == 1 then
+	   dirttype = "normal"
+   elseif minetest.get_item_group(belownode.name, "swamp_dirt") == 1 then
+	   dirttype = "swamp"
+   elseif minetest.get_item_group(belownode.name, "dry_dirt") == 1 then
+	   dirttype = "dry"
+   end
+   local variety = grows_to[dirttype]
+   if not variety then
+	   dirttype = "default"
+	   variety = grows_to[dirttype]
+   end
    local enough_space = default.check_sapling_space(pos, variety)
+
+   if not enough_space and dirttype ~= "default" then
+	variety = grows_to["default"]
+        enough_space = default.check_sapling_space(pos, variety)
+   end
+
    if not enough_space then
 	   minetest.get_node_timer(pos):start(math.random(SAPLING_RECHECK_TIME_MIN, SAPLING_RECHECK_TIME_MAX))
 	   return false
