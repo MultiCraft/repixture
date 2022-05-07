@@ -850,7 +850,7 @@ minetest.register_node(
       is_ground_content = false,
       groups = {snappy=2, fall_damage_add_percent=-10},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_leaves_defaults(),
 })
 minetest.register_node(
    "rp_default:dried_reed_block",
@@ -864,7 +864,7 @@ minetest.register_node(
       is_ground_content = false,
       groups = {snappy=2, fall_damage_add_percent=-15},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_leaves_defaults(),
 })
 
 -- Fern
