@@ -215,6 +215,9 @@ partialblocks.register_material(
 partialblocks.register_material(
    "reed", S("Reed Slab"), S("Reed Stair"), "rp_default:reed_block", {snappy = 2, fall_damage_add_percent=-10}, true)
 
+partialblocks.register_material(
+   "dried_reed", S("Dried Reed Slab"), S("Dried Reed Stair"), "rp_default:dried_reed_block", {snappy = 2, fall_damage_add_percent=-15}, true)
+
 -- Frames
 
 partialblocks.register_material(
@@ -275,6 +278,21 @@ for m=1, #mats do
 		items = { "rp_partialblocks:stair_" .. mat[2] },
 	})
 end
+
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_partialblocks:slab_dried_reed",
+      recipe = "rp_partialblocks:slab_reed",
+      cooktime = 5,
+})
+minetest.register_craft(
+   {
+      type = "cooking",
+      output = "rp_partialblocks:stair_dried_reed",
+      recipe = "rp_partialblocks:stair_reed",
+      cooktime = 8,
+})
 
 
 local cs_stair_tiles = {

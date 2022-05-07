@@ -47,6 +47,14 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "cooking",
+      output = "rp_default:dried_reed_block",
+      recipe = "rp_default:reed_block",
+      cooktime = 10,
+})
+
+minetest.register_craft(
+   {
+      type = "cooking",
       output = "rp_default:lump_copper",
       recipe = "rp_default:stone_with_copper",
       cooktime = 6,
@@ -208,6 +216,12 @@ minetest.register_craft(
       type = "fuel",
       recipe = "rp_default:reed_block",
       burntime = 10,
+})
+minetest.register_craft(
+   {
+      type = "fuel",
+      recipe = "rp_default:dried_reed_block",
+      burntime = 12,
 })
 
 minetest.register_craft(

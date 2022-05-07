@@ -852,6 +852,20 @@ minetest.register_node(
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
 })
+minetest.register_node(
+   "rp_default:dried_reed_block",
+   {
+      description = S("Dried Reed Block"),
+      tiles = {
+	     "rp_default_dried_reed_block_top.png",
+	     "rp_default_dried_reed_block_top.png",
+	     "rp_default_dried_reed_block_side.png",
+      },
+      is_ground_content = false,
+      groups = {snappy=2, fall_damage_add_percent=-15},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_wood_defaults(),
+})
 
 -- Fern
 
