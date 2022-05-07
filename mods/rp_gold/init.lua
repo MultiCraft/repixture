@@ -14,7 +14,7 @@ gold.trade_names = {}
 
 if minetest.get_modpath("mobs") ~= nil then
    gold.trades["farmer"] = {
-      -- plants
+      -- seeds/plants
       {"rp_gold:ingot_gold", "", "rp_farming:wheat_1 6"},
       {"rp_gold:ingot_gold 3", "", "rp_farming:cotton_1 4"},
       {"rp_gold:ingot_gold 5", "", "rp_farming:cotton_1 8"},
@@ -22,10 +22,10 @@ if minetest.get_modpath("mobs") ~= nil then
       {"rp_gold:ingot_gold 2", "", "rp_default:cactus"},
 
       -- crafts
-      {"rp_gold:ingot_gold 7", "", "rp_farming:cotton_bale 3"},
+      {"rp_gold:ingot_gold 2", "", "rp_farming:cotton_bale 1"},
 
       -- tool repair
-      {"rp_gold:ingot_gold 6", "rp_default:shovel_stone", "rp_default:shovel_stone"},
+      {"rp_gold:ingot_gold 1", "rp_default:shovel_stone", "rp_default:shovel_stone"},
       {"rp_gold:ingot_gold 8", "rp_default:shovel_steel", "rp_default:shovel_steel"},
       {"rp_gold:ingot_gold 10", "rp_default:shovel_carbon_steel", "rp_default:shovel_carbon_steel"},
 
@@ -35,22 +35,23 @@ if minetest.get_modpath("mobs") ~= nil then
    gold.trades["carpenter"] = {
       -- materials
       {"rp_gold:ingot_gold", "", "rp_default:planks 6"},
-      {"rp_gold:ingot_gold", "", "rp_default:planks_birch 4"},
-      {"rp_gold:ingot_gold 3", "", "rp_default:planks_oak 10"},
+      {"rp_gold:ingot_gold", "", "rp_default:planks_birch 5"},
+      {"rp_gold:ingot_gold", "", "rp_default:planks_oak 3"},
       {"rp_gold:ingot_gold", "", "rp_default:frame 2"},
       {"rp_gold:ingot_gold", "", "rp_default:reinforced_frame"},
 
       -- useables
       {"rp_gold:ingot_gold 9", "", "rp_bed:bed"},
       {"rp_gold:ingot_gold 2", "", "rp_default:chest"},
+      {"rp_gold:ingot_gold 10", "", "rp_locks:chest"},
       {"rp_gold:ingot_gold 5", "mobs:wool 3", "rp_bed:bed"},
    }
    gold.trades["tavernkeeper"] = {
       -- edibles
-      {"rp_gold:ingot_gold", "", "rp_default:apple 3"},
-      {"rp_gold:ingot_gold", "", "rp_farming:bread"},
-      {"rp_gold:ingot_gold 2", "", "mobs:meat"},
-      {"rp_gold:ingot_gold 3", "", "mobs:pork"},
+      {"rp_gold:ingot_gold", "", "rp_default:apple 6"},
+      {"rp_gold:ingot_gold", "", "rp_farming:bread 2"},
+      {"rp_gold:ingot_gold", "", "mobs:meat"},
+      {"rp_gold:ingot_gold 2", "", "mobs:pork"},
 
       -- filling buckets
       {"rp_gold:ingot_gold", "rp_default:bucket", "rp_default:bucket_water"},
@@ -61,24 +62,30 @@ if minetest.get_modpath("mobs") ~= nil then
       {"rp_gold:ingot_gold 3", "", "rp_default:lump_iron"},
 
       -- materials
-      {"rp_gold:ingot_gold", "", "rp_default:cobble 5"},
-      {"rp_gold:ingot_gold 3", "", "rp_default:stone 10"},
+      {"rp_gold:ingot_gold", "", "rp_default:cobble 20"},
+      {"rp_gold:ingot_gold", "", "rp_default:stone 18"},
       {"rp_gold:ingot_gold", "", "rp_default:reinforced_cobble 2"},
+      -- much cheaper than 9 steel ingots, buying in bulk slashes the price
       {"rp_gold:ingot_gold 25", "", "rp_default:block_steel"},
       {"rp_gold:ingot_gold 6", "", "rp_default:glass 5"},
 
       -- usebles
-      {"rp_gold:ingot_gold 7", "", "rp_default:furnace"},
+      {"rp_gold:ingot_gold", "", "rp_default:furnace"},
 
       -- ingots
       {"rp_gold:ingot_gold 5", "", "rp_default:ingot_steel"},
       {"rp_gold:ingot_gold 8", "", "rp_default:ingot_carbon_steel"},
 
-      -- auto smelting
-      {"rp_gold:ingot_gold 2", "rp_default:lump_iron", "rp_default:ingot_steel"},
+      -- special trades
+      -- iron to steel
+      {"rp_gold:ingot_gold 2", "rp_default:lump_iron 2", "rp_default:ingot_steel"},
+      -- bronze lump: unique item, can't be crafted. Cheaper than crafting bronze ingots
+      {"rp_default:lump_tin 1", "rp_default:lump_copper 4", "rp_default:lump_bronze"},
+      -- chainmail sheet to steel
+      {"rp_default:ingot_gold", "rp_armor:chainmail_sheet", "rp_default:ingot_steel"},
 
       -- tool repair
-      {"rp_gold:ingot_gold 8", "rp_default:pick_stone", "rp_default:pick_stone"},
+      {"rp_gold:ingot_gold 1", "rp_default:pick_stone", "rp_default:pick_stone"},
       {"rp_gold:ingot_gold 12", "rp_default:pick_steel", "rp_default:pick_steel"},
       {"rp_gold:ingot_gold 16", "rp_default:pick_carbon_steel", "rp_default:pick_carbon_steel"},
    }
@@ -92,7 +99,7 @@ if minetest.get_modpath("mobs") ~= nil then
       {"rp_gold:ingot_gold 2", "mobs:pork_raw", "mobs:pork"},
 
       -- tool repair
-      {"rp_gold:ingot_gold 5", "rp_default:spear_stone", "rp_default:spear_stone"},
+      {"rp_gold:ingot_gold 1", "rp_default:spear_stone", "rp_default:spear_stone"},
       {"rp_gold:ingot_gold 7", "rp_default:spear_steel", "rp_default:spear_steel"},
       {"rp_gold:ingot_gold 11", "rp_default:spear_carbon_steel", "rp_default:spear_carbon_steel"},
 
