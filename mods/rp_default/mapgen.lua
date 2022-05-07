@@ -70,6 +70,7 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_cave_liquid = "rp_default:swamp_water_source",
 
       depth_filler = 0,
       depth_top = 1,
@@ -87,6 +88,7 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
+      node_cave_liquid = "rp_default:swamp_water_source",
 
       depth_filler = 7,
       depth_top = 1,
