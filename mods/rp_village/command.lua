@@ -6,9 +6,9 @@ minetest.register_chatcommand("villages", {
 	privs = { debug = true },
 	func = function(name, param)
 		local list = {}
-		for _, village in pairs(village.villages) do
+		for _, vill in pairs(village.villages) do
 			-- <Village name>: Coordinates>
-			table.insert(list, "• " .. S("@1: @2", village.name, minetest.pos_to_string(village.pos)))
+			table.insert(list, "• " .. S("@1: @2", vill.name, minetest.pos_to_string(vill.pos)))
 		end
 		if #list == 0 then
 			return true, S("No villages.")
@@ -29,10 +29,10 @@ minetest.register_chatcommand("find_village", {
 			return false, S("No player.")
 		end
 		local pos = player:get_pos()
-		local village = village.get_nearest_village(pos)
-		if not village then
+		local vill = village.get_nearest_village(pos)
+		if not vill then
 			return true, S("No villages.")
 		end
-		return true, S("Nearest village is @1 at @2.", village.fname, minetest.pos_to_string(village.pos))
+		return true, S("Nearest village is @1 at @2.", vill.fname, minetest.pos_to_string(vill.pos))
 	end,
 })

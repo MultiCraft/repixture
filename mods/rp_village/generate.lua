@@ -553,7 +553,7 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
 
    minetest.log("info", "[rp_village] Village area emerged at startpos = "..minetest.pos_to_string(pos))
 
-   local name = village.name.generate(pr)
+   local name = village.name.generate(pr, village.name.used)
 
    local depth = pr:next(village.min_size, village.max_size)
 

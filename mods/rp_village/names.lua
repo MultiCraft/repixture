@@ -10,7 +10,12 @@ village.name.disambiguators = {"nova", "vino", "gemo", "bira", "leno", "gata"}
 -- 	value = true if village name is used
 village.name.used = {}
 
-function village.name.generate(pr)
+-- Generates and returns a random village name.
+-- * pr: PseudoRandom object
+-- * used_names: Optional. If a table, is a name-index list of used names
+--
+-- Returns a village name. Sets used_names[<village name>] to true
+function village.name.generate(pr, used_names)
    local prefix = ""
    local middle = ""
    local postfix = ""
@@ -39,19 +44,21 @@ function village.name.generate(pr)
 
    name = name:gsub("^%l", string.upper)
 
-   -- If name is already taken, append random disambiguators
-   -- (extra suffixes) until the name is unique
-   -- Name will be of the form "<Old name>-<Disambiguator>",
-   -- e.g. "Iner" will become "Iner-Nova".
-   while village.name.used[name] do
-	   local rnd = pr:next(1, #village.name.disambiguators)
-	   local disambiguator = village.name.disambiguators[rnd]
-	   disambiguator = disambiguator:gsub("^%l", string.upper)
-	   local append = "-" .. disambiguator
-	   name = name .. append
-   end
+   if used_names then
+      -- If name is already taken, append random disambiguators
+      -- (extra suffixes) until the name is unique
+      -- Name will be of the form "<Old name>-<Disambiguator>",
+      -- e.g. "Iner" will become "Iner-Nova".
+      while village.name.used[name] do
+         local rnd = pr:next(1, #village.name.disambiguators)
+         local disambiguator = village.name.disambiguators[rnd]
+         disambiguator = disambiguator:gsub("^%l", string.upper)
+         local append = "-" .. disambiguator
+         name = name .. append
+      end
 
-   village.name.used[name] = true
+      used_names[name] = true
+   end
 
    return name
 end
