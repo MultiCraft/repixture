@@ -6,7 +6,7 @@
 village.villages = {}
 
 -- Sidelength of the square of a village chunk, in nodes
-local VILLAGE_CHUNK_SIZE = 14
+local VILLAGE_CHUNK_SIZE = 12
 -- Maximum height of village chunks (buildings)
 local VILLAGE_CHUNK_HEIGHT = 20
 
