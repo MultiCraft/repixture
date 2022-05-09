@@ -137,10 +137,10 @@ local function attempt_village_spawn(pos, village_type)
                  minetest.log("action", "[rp_village] Village spawn failed")
              end
           else
-             minetest.log("action", "[rp_village] Cannot spawn village, too near the static spawnpoint")
+             minetest.log("action", "[rp_village] Cannot spawn village at "..minetest.pos_to_string(spos)..", too near the static spawnpoint")
           end
        else
-          minetest.log("action", "[rp_village] Cannot spawn village, too near another village")
+          minetest.log("action", "[rp_village] Cannot spawn village at "..minetest.pos_to_string(spos)..", too near another village (dist="..nearest.dist..")")
        end
     end
 end
