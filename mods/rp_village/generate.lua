@@ -79,7 +79,7 @@ local village_replaces = {
 local village_replace_id
 
 function village.get_id(name, pos)
-   return name .. minetest.hash_node_position(pos)
+   return name .. string.format("%d", minetest.hash_node_position(pos))
 end
 
 function village.save_villages()
@@ -87,7 +87,7 @@ function village.save_villages()
 
    for name, def in pairs(village.villages) do
       f:write(name .. " " .. def.name .. " "
-                 .. minetest.hash_node_position(def.pos) .. "\n")
+                 .. string.format("%d", minetest.hash_node_position(def.pos)) .. "\n")
    end
 
    io.close(f)
