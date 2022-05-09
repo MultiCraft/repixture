@@ -15,6 +15,7 @@ minetest.register_node(
       groups = {
 	 crumbly = 3,
 	 soil = 1,
+	 dirt = 1,
 	 normal_dirt = 1,
 	 plantable_soil = 1,
 	 plantable_fertilizer = 1,
@@ -38,6 +39,7 @@ minetest.register_node(
       groups = {
 	 crumbly = 3,
 	 soil = 1,
+	 dirt = 1,
 	 dry_dirt = 1,
 	 plantable_dry = 1,
 	 plantable_fertilizer = 1,
@@ -61,6 +63,7 @@ minetest.register_node(
       groups = {
 	 crumbly = 3,
 	 soil = 1,
+	 dirt = 1,
 	 swamp_dirt = 1,
 	 plantable_soil = 1,
 	 plantable_fertilizer = 1,
