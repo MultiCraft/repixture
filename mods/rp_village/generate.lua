@@ -311,7 +311,7 @@ local function check_empty(pos)
    return #stones <= 15 and #leaves <= 2 and #trees == 0
 end
 
-function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill, dont_check_empty, ground, ground_top)
+function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, noclear, nofill, dont_check_empty, ground, ground_top)
    if not dont_check_empty and not check_empty(pos) then
       minetest.log("verbose", "[rp_village] Chunk not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
       return false, state
@@ -337,14 +337,15 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
       end
       minetest.bulk_set_node(dirtnodes, {name=ground})
 
-      minetest.place_schematic(
-	 pos,
-	 modpath .. "/schematics/village_empty.mts",
-	 "0",
-	 {},
-	 true
-      )
-
+      if noclear ~= true then
+         minetest.place_schematic(
+	    pos,
+	    modpath .. "/schematics/village_empty.mts",
+	    "0",
+	    {},
+	    true
+         )
+      end
    end
 
    local sreplace = table.copy(replace)
@@ -509,7 +510,7 @@ function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace
 	    houses[hnp] = {pos = nextpos, front = pos}
 
 	    local structure = random_chunktype(pr)
-	    chunk_ok, state = village.spawn_chunk(nextpos, state, orient, replace, pr, structure, nil, nil, ground, ground_top)
+	    chunk_ok, state = village.spawn_chunk(nextpos, state, orient, replace, pr, structure, nil, nil, nil, ground, ground_top)
             if not chunk_ok then
                houses[hnp] = false
             end
@@ -576,14 +577,6 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
       minetest.log("action", "[rp_village] Village generation not done at "..minetest.pos_to_string(pos)..". Not enough space for the first village chunk")
       return false
    end
-   -- Place the well at the start position
-   local chunk_ok
-   chunk_ok, state = village.spawn_chunk(pos, nil, "0", replace, pr, "well", nil, true, ground, ground_top)
-   if not chunk_ok then
-      -- Oops! Well placement unsuccessful. Village generation fails.
-      minetest.log("action", "[rp_village] Village generation not done at "..minetest.pos_to_string(pos)..". Placing the well failed")
-      return false
-   end
 
    -- Village generation can begin! Start init'ing stuff
    village.villages[village.get_id(name, pos)] = {
@@ -631,13 +624,7 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
    for _,road in pairs(roads) do
    if road ~= false then
 
-      -- The road schematic uses wooden planks and cobble nodes as dummy nodes
-      -- in place of the road to denote the 4 cardinal directions.
-      -- These nodes are to be replaced.
-
-      if not road.is_well then
-         _, state = village.spawn_chunk(road.pos, state, "0", {}, pr, "road", nil, nil, ground, ground_top)
-      end
+      _, state = village.spawn_chunk(road.pos, state, "0", {}, pr, "road", true, false, true, ground, ground_top)
 
       local amt_connections = 0
 
@@ -688,12 +675,20 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
 	    "lamppost",
 	    true,
 	    true,
+	    true,
 	    ground,
 	    ground_top
          )
       end
    end
    end
+
+   -- Place a well at the start position as the final step
+   local chunk_ok, state = village.spawn_chunk(pos, nil, "0", replace, pr, "well", nil, nil, true, ground, ground_top)
+   if not chunk_ok then
+      minetest.log("warning", string.format("[rp_village] Failed to generated village well %s", minetest.pos_to_string(pos)))
+   end
+
    minetest.log("action", string.format("[rp_village] Generated village '%s' at %s in %.2fms", name, minetest.pos_to_string(pos), (os.clock() - t1) * 1000))
    return true
 end
