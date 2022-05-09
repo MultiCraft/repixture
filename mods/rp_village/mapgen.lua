@@ -169,34 +169,13 @@ if not minetest.settings:get_bool("mapgen_disable_villages") then
          y_min = 1,
          y_max = 1000,
    })
-   minetest.register_decoration(
-      {
-         name = "village_savanna",
-         deco_type = "schematic",
-         place_on = "rp_default:dirt_with_dry_grass",
-         sidelen = 16,
-         fill_ratio = 0.005,
-         biomes = {
-            "Savanna",
-         },
-         -- empty schematic
-         schematic = {
-             size = { x = 1, y = 1, z = 1 },
-             data = {
-                 { name = "air", prob = 0 },
-             },
-         },
-         y_min = 1,
-         y_max = 1000,
-   })
 
    grassland_village_decoration_id = minetest.get_decoration_id("village_grassland")
-   savanna_village_decoration_id = minetest.get_decoration_id("village_savanna")
 
-   local decoration_ids = { grassland_village_decoration_id, savanna_village_decoration_id }
-   local village_types = { "grassland", "savanna" }
+   local decoration_ids = { grassland_village_decoration_id }
+   local village_types = { "grassland" }
 
-   if grassland_village_decoration_id and savanna_village_decoration_id then
+   if grassland_village_decoration_id then
        minetest.set_gen_notify({decoration=true}, decoration_ids)
        minetest.register_on_generated(function(minp, maxp, blockseed)
            local mgobj = minetest.get_mapgen_object("gennotify")
