@@ -279,7 +279,7 @@ function village.get_column_nodes(pos, scanheight, dirtnodes)
    end
 end
 
-function village.generate_hill(pos)
+function village.generate_hill(pos, ground, ground_top)
    local dirts = {}
    local dirts_with_grass = {}
    for y=0,HILL_H-1 do
@@ -298,8 +298,8 @@ function village.generate_hill(pos)
    end
    end
    end
-   minetest.bulk_set_node(dirts, {name="rp_default:dirt"})
-   minetest.bulk_set_node(dirts_with_grass, {name="rp_default:dirt_with_grass"})
+   minetest.bulk_set_node(dirts, {name=ground})
+   minetest.bulk_set_node(dirts_with_grass, {name=ground_top})
 end
 
 local function check_empty(pos)
@@ -311,7 +311,7 @@ local function check_empty(pos)
    return #stones <= 15 and #leaves <= 2 and #trees == 0
 end
 
-function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill, dont_check_empty)
+function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill, dont_check_empty, ground, ground_top)
    if not dont_check_empty and not check_empty(pos) then
       minetest.log("verbose", "[rp_village] Chunk not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
       return false, state
@@ -324,7 +324,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
 
    if nofill ~= true then
       -- Make a hill for the building to stand on
-      village.generate_hill({x=pos.x-6, y=pos.y-5, z=pos.z-6})
+      village.generate_hill({x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top)
 
       local py = pos.y-6
       local dirtnodes = {}
@@ -335,7 +335,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
           village.get_column_nodes({x=x, y=py, z=z}, HILL_EXTEND_BELOW, dirtnodes)
       end
       end
-      minetest.bulk_set_node(dirtnodes, {name="rp_default:dirt"})
+      minetest.bulk_set_node(dirtnodes, {name=ground})
 
       minetest.place_schematic(
 	 pos,
@@ -406,7 +406,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
 	    util.nodefunc(
 	       pos,
 	       {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-	       "village:entity_spawner",
+	       "rp_village:entity_spawner",
 	       function(pos)
 		  minetest.remove_node(pos)
             end)
@@ -418,7 +418,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
 	 util.nodefunc(
 	    pos,
 	    {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-	    "village:entity_spawner",
+	    "rp_village:entity_spawner",
 	    function(pos)
 	       table.insert(ent_spawns, pos)
 	    end, true)
@@ -462,7 +462,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
    return true, state
 end
 
-function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace, dont_check_empty, dist_from_start)
+function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace, dont_check_empty, dist_from_start, ground, ground_top)
    if not dont_check_empty and not check_empty(pos) then
       minetest.log("verbose", "[rp_village] Road not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
       return false, state
@@ -509,13 +509,13 @@ function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace
 	    houses[hnp] = {pos = nextpos, front = pos}
 
 	    local structure = random_chunktype(pr)
-	    chunk_ok, state = village.spawn_chunk(nextpos, state, orient, replace, pr, structure)
+	    chunk_ok, state = village.spawn_chunk(nextpos, state, orient, replace, pr, structure, nil, nil, ground, ground_top)
             if not chunk_ok then
                houses[hnp] = false
             end
 	 else
 	    roads[hnp] = {pos = nextpos}
-	    chunk_ok, state = village.spawn_road(nextpos, state, houses, built, roads, depth - 1, pr, replace, false, new_dist_from_start)
+	    chunk_ok, state = village.spawn_road(nextpos, state, houses, built, roads, depth - 1, pr, replace, false, new_dist_from_start, ground, ground_top)
             if not chunk_ok then
                roads[hnp] = false
             end
@@ -525,6 +525,11 @@ function village.spawn_road(pos, state, houses, built, roads, depth, pr, replace
    return true, state
 end
 
+local ROAD_NODE_NORTH = "rp_default:planks"
+local ROAD_NODE_EAST = "rp_default:cobble"
+local ROAD_NODE_SOUTH = "rp_default:planks_oak"
+local ROAD_NODE_WEST = "rp_default:planks_birch"
+
 function after_village_area_emerged(blockpos, action, calls_remaining, params)
    local done = action == minetest.EMERGE_GENERATED or action == minetest.EMERGE_FROM_DISK or action == minetest.EMERGE_FROM_MEMORY
    if not done or calls_remaining > 0 then
@@ -532,6 +537,8 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
    end
    local pos = params.pos
    local pr = params.pr
+   local ground = params.ground
+   local ground_top = params.ground_top
    local force_place_well = params.force_place_well
 
    minetest.log("info", "[rp_village] Village area emerged at startpos = "..minetest.pos_to_string(pos))
@@ -543,6 +550,7 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
    local houses = {}
    local built = {}
    local roads = {}
+   local state = { music_players = 0 }
 
    local spawnpos = pos
 
@@ -560,14 +568,24 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
    -- For measuring the generation time
    local t1 = os.clock()
 
-   -- Every village generation starts with a well.
-   local chunk_ok, state = village.spawn_chunk(pos, nil, "0", replace, pr, "well", nil, force_place_well == true)
+   -- Before we begin, make sure there is enough space for the first chunk
+   -- (unless force_place_well is true)
+   local empty = force_place_well or check_empty(pos)
+   if not empty then
+      -- Oops! Not enough space. Village generation fails.
+      minetest.log("action", "[rp_village] Village generation not done at "..minetest.pos_to_string(pos)..". Not enough space for the first village chunk")
+      return false
+   end
+   -- Place the well at the start position
+   local chunk_ok
+   chunk_ok, state = village.spawn_chunk(pos, nil, "0", replace, pr, "well", nil, true, ground, ground_top)
    if not chunk_ok then
-      -- Oops! Not enough space for the well. Village generation fails.
-      minetest.log("action", "[rp_village] Village generation not done at "..minetest.pos_to_string(pos)..". Not enough space")
+      -- Oops! Well placement unsuccessful. Village generation fails.
+      minetest.log("action", "[rp_village] Village generation not done at "..minetest.pos_to_string(pos)..". Placing the well failed")
       return false
    end
 
+   -- Village generation can begin! Start init'ing stuff
    village.villages[village.get_id(name, pos)] = {
       name = name,
       pos = pos,
@@ -576,12 +594,11 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
    village.load_waypoints()
    built[minetest.hash_node_position(pos)] = true
 
-   local wellpos = table.copy(pos)
-
-   -- Generate a road below the well. The road tries to grow in 4 directions
+   -- Generate a road below the starting position. The road tries to grow in 4 directions
    -- growing either recursively more roads or buildings (where the road
    -- terminates)
-   local _, state = village.spawn_road(pos, state, houses, built, roads, depth, pr, replace, true, vector.zero())
+   local _
+   _, state = village.spawn_road(pos, state, houses, built, roads, depth, pr, replace, true, vector.zero(), ground, ground_top)
 
    local function connects(pos, nextpos)
       local hnp = minetest.hash_node_position(nextpos)
@@ -603,8 +620,8 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
 
    -- Add position of well to roads list to connect it properly with
    -- the road network.
-   local hnp = minetest.hash_node_position(wellpos)
-   roads[hnp] = { pos = wellpos, is_well = true }
+   local hnp = minetest.hash_node_position(pos)
+   roads[hnp] = { pos = pos, is_well = true }
 
    -- Connect dirt paths with other village tiles.
    -- The dirt path schematic uses planks and cobble for each of the 4 cardinal
@@ -614,15 +631,12 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
    for _,road in pairs(roads) do
    if road ~= false then
 
-      local replaces = {
-	 ["rp_default:planks"]       = "rp_default:dirt_with_grass", -- north
-	 ["rp_default:cobble"]       = "rp_default:dirt_with_grass", -- east
-	 ["rp_default:planks_oak"]   = "rp_default:dirt_with_grass", -- south
-	 ["rp_default:planks_birch"] = "rp_default:dirt_with_grass"  -- west
-      }
+      -- The road schematic uses wooden planks and cobble nodes as dummy nodes
+      -- in place of the road to denote the 4 cardinal directions.
+      -- These nodes are to be replaced.
 
       if not road.is_well then
-         _, state = village.spawn_chunk(road.pos, state, "0", replaces, pr, "road")
+         _, state = village.spawn_chunk(road.pos, state, "0", {}, pr, "road", nil, nil, ground, ground_top)
       end
 
       local amt_connections = 0
@@ -630,37 +644,39 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
       for i = 1, 4 do
 	 local nextpos = {x = road.pos.x, y = road.pos.y, z = road.pos.z}
 
-	 if i == 1 then
+	 if i == 1 then -- North (planks)
 	    nextpos.z = nextpos.z + 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=8}), vector.add(road.pos, {x=7,y=0,z=11}), {"rp_default:dirt_with_grass"})
+               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=8}), vector.add(road.pos, {x=7,y=0,z=11}), {ROAD_NODE_NORTH})
                minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
-	 elseif i == 2 then
+	 elseif i == 2 then -- East (cobble)
 	    nextpos.x = nextpos.x + 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=8, y=0, z=4}), vector.add(road.pos, {x=11,y=0,z=7}), {"rp_default:dirt_with_grass"})
+               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=8, y=0, z=4}), vector.add(road.pos, {x=11,y=0,z=7}), {ROAD_NODE_EAST})
                minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
-	 elseif i == 3 then
+	 elseif i == 3 then -- South (oak planks)
 	    nextpos.z = nextpos.z - 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=0}), vector.add(road.pos, {x=7,y=0,z=3}), {"rp_default:dirt_with_grass"})
+               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=0}), vector.add(road.pos, {x=7,y=0,z=3}), {ROAD_NODE_SOUTH})
                minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 else
-	    nextpos.x = nextpos.x - 12
+	    nextpos.x = nextpos.x - 12 -- West (birch planks)
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=0, y=0, z=4}), vector.add(road.pos, {x=3,y=0,z=7}), {"rp_default:dirt_with_grass"})
+               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=0, y=0, z=4}), vector.add(road.pos, {x=3,y=0,z=7}), {ROAD_NODE_WEST})
                minetest.bulk_set_node(nodes, {name=dirt_path})
 	    end
 	 end
 
       end
+      local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=0, y=0, z=0}), vector.add(road.pos, {x=11,y=0,z=11}), {ROAD_NODE_NORTH, ROAD_NODE_EAST, ROAD_NODE_SOUTH, ROAD_NODE_WEST})
+      minetest.bulk_set_node(nodes, {name=ground_top})
 
       if amt_connections >= 2 and not road.is_well then
 	 village.spawn_chunk(
@@ -671,7 +687,9 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
 	    pr,
 	    "lamppost",
 	    true,
-	    true
+	    true,
+	    ground,
+	    ground_top
          )
       end
    end
@@ -680,13 +698,19 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
    return true
 end
 
-function village.spawn_village(pos, pr, force_place_well)
+function village.spawn_village(pos, pr, force_place_well, ground, ground_top)
+   if not ground then
+      ground = "rp_default:dirt"
+   end
+   if not ground_top then
+      ground_top = "rp_default:dirt_with_grass"
+   end
+
    local spread = VILLAGE_CHUNK_SIZE * village.max_village_spread
    local vspread = vector.new(spread, spread, spread)
    local emerge_min = vector.add(pos, vector.new(-spread, -(HILL_H + HILL_EXTEND_BELOW + 1), -spread))
    local emerge_max = vector.add(pos, vector.new(spread, VILLAGE_CHUNK_HEIGHT, spread))
-   minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {pos=pos, pr=pr, force_place_well=force_place_well})
-
+   minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {pos=pos, pr=pr, force_place_well=force_place_well, ground=ground, ground_top=ground_top})
 end
 
 minetest.register_on_mods_loaded(village.load_villages)

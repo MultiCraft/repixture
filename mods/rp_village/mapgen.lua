@@ -75,6 +75,11 @@ minetest.register_node(
       end,
 })
 
+local village_info = {
+   ["grassland"] = { ground = "rp_default:dirt", ground_top = "rp_default:dirt_with_grass" },
+   ["savanna"] = { ground = "rp_default:dry_dirt", ground_top = "rp_default:dirt_with_dry_grass" },
+}
+
 minetest.register_node(
    "rp_village:grassland_village",
    {
@@ -95,13 +100,21 @@ minetest.register_node(
 
          local pr = PseudoRandom(shortseed + pos.x + pos.y + pos.z)
 
+         local below = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
+         local vinfo
+	 if below.name == "rp_default:dirt_with_dry_grass" or minetest.get_item_group(below.name, "dry_dirt") == 1 then
+            vinfo = village_info["savanna"]
+	 else
+            vinfo = village_info["grassland"]
+	 end
+
          -- Spawn village on placement.
          -- Guarantee that at least the well is placed, to avoid confusion.
-         village.spawn_village({x=pos.x,y=pos.y-1,z=pos.z}, pr, true)
+         village.spawn_village({x=pos.x,y=pos.y-1,z=pos.z}, pr, true, vinfo.ground, vinfo.ground_top)
       end,
 })
 
-local function attempt_village_spawn(pos)
+local function attempt_village_spawn(pos, village_type)
     local spos = table.copy(pos)
     spos.y = spos.y + 1
     if minetest.settings:get_bool("mapgen_disable_villages") == true then
@@ -115,9 +128,11 @@ local function attempt_village_spawn(pos)
 
        if not nearest or nearest.dist > village.min_spawn_dist then
           if vector.distance(spawn_pos, spos) > spawn_radius then
-             minetest.log("action", "[rp_village] Spawning a grassland village at " .. "(" .. spos.x
+             minetest.log("action", "[rp_village] Spawning a village at " .. "(" .. spos.x
                              .. ", " .. spos.y .. ", " .. spos.z .. ")")
-             local ok = village.spawn_village({x=spos.x,y=spos.y-1,z=spos.z}, pr)
+             local ground = village_info[village_type].ground
+             local ground_top = village_info[village_type].ground_top
+             local ok = village.spawn_village({x=spos.x,y=spos.y-1,z=spos.z}, pr, false, ground, ground_top)
              if not ok then
                  minetest.log("action", "[rp_village] Village spawn failed")
              end
@@ -154,17 +169,44 @@ if not minetest.settings:get_bool("mapgen_disable_villages") then
          y_min = 1,
          y_max = 1000,
    })
-   village_decoration_id = minetest.get_decoration_id("village_grassland")
+   minetest.register_decoration(
+      {
+         name = "village_savanna",
+         deco_type = "schematic",
+         place_on = "rp_default:dirt_with_dry_grass",
+         sidelen = 16,
+         fill_ratio = 0.005,
+         biomes = {
+            "Savanna",
+         },
+         -- empty schematic
+         schematic = {
+             size = { x = 1, y = 1, z = 1 },
+             data = {
+                 { name = "air", prob = 0 },
+             },
+         },
+         y_min = 1,
+         y_max = 1000,
+   })
 
-   if village_decoration_id then
-       minetest.set_gen_notify({decoration=true}, {village_decoration_id})
+   grassland_village_decoration_id = minetest.get_decoration_id("village_grassland")
+   savanna_village_decoration_id = minetest.get_decoration_id("village_savanna")
+
+   local decoration_ids = { grassland_village_decoration_id, savanna_village_decoration_id }
+   local village_types = { "grassland", "savanna" }
+
+   if grassland_village_decoration_id and savanna_village_decoration_id then
+       minetest.set_gen_notify({decoration=true}, decoration_ids)
        minetest.register_on_generated(function(minp, maxp, blockseed)
            local mgobj = minetest.get_mapgen_object("gennotify")
-           local deco = mgobj["decoration#"..village_decoration_id]
-           if deco then
-               for d=1, #deco do
-                   attempt_village_spawn(deco[d])
-               end
+	   for i=1, #decoration_ids do
+              local decos = mgobj["decoration#"..decoration_ids[i]]
+              if decos then
+                 for d=1, #decos do
+                     attempt_village_spawn(decos[d], village_types[i])
+                 end
+              end
            end
        end)
    end
