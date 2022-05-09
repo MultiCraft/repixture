@@ -33,46 +33,46 @@ local village_replaces = {
    },
    -- Birch → Normal (Normal + Oak)
    {
-      ["default:planks_birch"] = "rp_default:planks",
-      ["default:tree_birch"] = "rp_default:tree",
-      ["default:fence_birch"] = "rp_default:fence",
+      ["rp_default:planks_birch"] = "rp_default:planks",
+      ["rp_default:tree_birch"] = "rp_default:tree",
+      ["rp_default:fence_birch"] = "rp_default:fence",
    },
    -- Oak → Normal (Normal + Birch)
    {
-      ["default:planks_oak"] = "rp_default:planks",
-      ["default:tree_oak"] = "rp_default:tree",
-      ["default:fence_oak"] = "rp_default:fence",
+      ["rp_default:planks_oak"] = "rp_default:planks",
+      ["rp_default:tree_oak"] = "rp_default:tree",
+      ["rp_default:fence_oak"] = "rp_default:fence",
    },
    -- Normal wood only
    {
-      ["default:planks_birch"] = "rp_default:planks",
-      ["default:planks_oak"] = "rp_default:planks",
-      ["default:tree_birch"] = "rp_default:tree",
-      ["default:tree_oak"] = "rp_default:tree",
-      ["default:fence_birch"] = "rp_default:fence",
-      ["default:fence_oak"] = "rp_default:fence",
+      ["rp_default:planks_birch"] = "rp_default:planks",
+      ["rp_default:planks_oak"] = "rp_default:planks",
+      ["rp_default:tree_birch"] = "rp_default:tree",
+      ["rp_default:tree_oak"] = "rp_default:tree",
+      ["rp_default:fence_birch"] = "rp_default:fence",
+      ["rp_default:fence_oak"] = "rp_default:fence",
    },
    -- Birch wood only
    {
-      ["default:planks"] = "rp_default:planks_birch",
-      ["default:planks_oak"] = "rp_default:planks_birch",
-      ["default:tree"] = "rp_default:tree_birch",
-      ["default:tree_oak"] = "rp_default:tree_birch",
-      ["default:fence"] = "rp_default:fence_birch",
-      ["default:fence_oak"] = "rp_default:fence_birch",
-      ["door:door_wood_t_1"] = "rp_door:door_wood_birch_t_1",
-      ["door:door_wood_b_1"] = "rp_door:door_wood_birch_b_1",
+      ["rp_default:planks"] = "rp_default:planks_birch",
+      ["rp_default:planks_oak"] = "rp_default:planks_birch",
+      ["rp_default:tree"] = "rp_default:tree_birch",
+      ["rp_default:tree_oak"] = "rp_default:tree_birch",
+      ["rp_default:fence"] = "rp_default:fence_birch",
+      ["rp_default:fence_oak"] = "rp_default:fence_birch",
+      ["rp_door:door_wood_t_1"] = "rp_door:door_wood_birch_t_1",
+      ["rp_door:door_wood_b_1"] = "rp_door:door_wood_birch_b_1",
    },
    -- Oak wood only
    {
-      ["default:planks"] = "rp_default:planks_oak",
-      ["default:planks_birch"] = "rp_default:planks_oak",
-      ["default:tree"] = "rp_default:tree_oak",
-      ["default:tree_birch"] = "rp_default:tree_oak",
-      ["default:fence"] = "rp_default:fence_oak",
-      ["default:fence_birch"] = "rp_default:fence_oak",
-      ["door:door_wood_t_1"] = "rp_door:door_wood_oak_t_1",
-      ["door:door_wood_b_1"] = "rp_door:door_wood_oak_b_1",
+      ["rp_default:planks"] = "rp_default:planks_oak",
+      ["rp_default:planks_birch"] = "rp_default:planks_oak",
+      ["rp_default:tree"] = "rp_default:tree_oak",
+      ["rp_default:tree_birch"] = "rp_default:tree_oak",
+      ["rp_default:fence"] = "rp_default:fence_oak",
+      ["rp_default:fence_birch"] = "rp_default:fence_oak",
+      ["rp_door:door_wood_t_1"] = "rp_door:door_wood_oak_t_1",
+      ["rp_door:door_wood_b_1"] = "rp_door:door_wood_oak_b_1",
    },
 }
 
@@ -349,7 +349,7 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
 
    local sreplace = table.copy(replace)
    if chunktype == "orchard" then
-      sreplace["default:tree"] = nil
+      sreplace["rp_default:tree"] = nil
    end
    minetest.place_schematic(
       pos,
@@ -398,23 +398,6 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, nofill,
 	    state.music_players = state.music_players + 1
 	 end
       end, true)
-
-   -- Replace legacy torches
-   -- TODO: Fix the torches in the schematic instead
-   util.nodefunc(
-      pos,
-      {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-      "rp_default:torch",
-      function(pos)
-	 local node = minetest.get_node(pos)
-         local dir = minetest.wallmounted_to_dir(node.param2)
-         if dir.x ~= 0 or dir.z ~= 0 then
-            node.name = "rp_default:torch_wall"
-            minetest.set_node(pos, node)
-         end
-      end, true)
-
-
 
    local chunkdef = village.chunkdefs[chunktype]
    if chunkdef ~= nil then
@@ -572,7 +555,7 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
       village_replace_id = vpr:next(1,#village_replaces)
    end
    local replace = village_replaces[village_replace_id]
-   local dirt_path = "rp_default:heated_dirt_path"
+   local dirt_path = "rp_default:dirt_path"
 
    -- For measuring the generation time
    local t1 = os.clock()
@@ -632,10 +615,10 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
    if road ~= false then
 
       local replaces = {
-	 ["default:planks"]       = "rp_default:dirt_with_grass", -- north
-	 ["default:cobble"]       = "rp_default:dirt_with_grass", -- east
-	 ["default:planks_oak"]   = "rp_default:dirt_with_grass", -- south
-	 ["default:planks_birch"] = "rp_default:dirt_with_grass"  -- west
+	 ["rp_default:planks"]       = "rp_default:dirt_with_grass", -- north
+	 ["rp_default:cobble"]       = "rp_default:dirt_with_grass", -- east
+	 ["rp_default:planks_oak"]   = "rp_default:dirt_with_grass", -- south
+	 ["rp_default:planks_birch"] = "rp_default:dirt_with_grass"  -- west
       }
 
       if not road.is_well then
@@ -681,7 +664,7 @@ function after_village_area_emerged(blockpos, action, calls_remaining, params)
 
       if amt_connections >= 2 and not road.is_well then
 	 village.spawn_chunk(
-	    {x = road.pos.x, y = road.pos.y+1, z = road.pos.z},
+	    {x = road.pos.x, y = road.pos.y, z = road.pos.z},
 	    state,
 	    "0",
 	    {},
