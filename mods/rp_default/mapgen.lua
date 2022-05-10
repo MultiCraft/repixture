@@ -1629,8 +1629,6 @@ minetest.register_decoration(
       },
 })
 
-]]
-
 minetest.register_biome(
    {
       name = "Poplar Plains",
@@ -1656,28 +1654,6 @@ minetest.register_decoration(
       biomes = {"Poplar Plains"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_poplar_small.mts",
-      y_min = 1,
-      y_max = 32000,
-      noise_params = {
-	      octaves = 2,
-              scale = 0.01,
-              offset = -0.001,
-	      spread = {x=50,y=50,z=50},
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 94325,
-      },
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      biomes = {"Poplar Plains"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_poplar_large.mts",
       y_min = 1,
       y_max = 32000,
@@ -1691,19 +1667,118 @@ minetest.register_decoration(
 	      seed = 94325,
       },
 })
-
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Poplar Plains"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_poplar_small.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+              scale = 0.01,
+              offset = -0.001,
+	      spread = {x=50,y=50,z=50},
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 94325,
+      },
+})
 minetest.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       fill_ratio = 0.0002,
       sidelen = 16,
-      biomes = {"Poplar Field"},
+      biomes = {"Poplar Plains"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_poplar_small.mts",
       y_min = 1,
       y_max = 32000,
+})
+
+]]
+
+minetest.register_biome(
+   {
+      name = "Baby Poplar Plains",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 4,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 38,
+      humidity_point = 48,
+})
+
+-- Small poplar tree blobs
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 8,
+      biomes = {"Baby Poplar Plains"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_poplar_small.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+              scale = 0.05,
+	      offset = -0.032,
+	      spread = {x=24,y=24,z=24},
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 94325,
+      },
+})
+
+-- Occasional lonely poplars
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0002,
+      biomes = {"Baby Poplar Plains"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_poplar_small.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Baby Poplar Plains"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
+      y_min = 1,
+      y_max = 32000,
+      rotation = "0",
+      noise_params = {
+	      octaves = 1,
+	      scale = 0.001,
+	      offset = -0.0000001,
+	      spread = { x = 50, y = 50, z = 50 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 98421,
+      },
 })
 
 
