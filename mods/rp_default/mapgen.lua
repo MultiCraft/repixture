@@ -270,6 +270,302 @@ minetest.register_biome(
       humidity_point = 20,
 })
 
+minetest.register_biome(
+   {
+      name = "Rocky Dryland",
+
+      node_top = "rp_default:dry_dirt",
+      node_filler = "rp_default:dry_dirt",
+
+      depth_filler = 0,
+      depth_top = 1,
+
+      y_min = -32000,
+      y_max = 32000,
+
+      heat_point = 70,
+      humidity_point = 25,
+})
+
+minetest.register_biome(
+   {
+      name = "Wooded Dryland",
+
+      node_top = "rp_default:dry_dirt",
+      node_filler = "rp_default:dry_dirt",
+
+      depth_filler = 4,
+      depth_top = 1,
+
+      y_min = -32000,
+      y_max = 32000,
+
+      heat_point = 68,
+      humidity_point = 30,
+})
+
+minetest.register_biome(
+   {
+      name = "Savannic Wasteland",
+
+      node_top = "rp_default:dry_dirt",
+      node_filler = "rp_default:sandstone",
+
+      depth_filler = 2,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 65,
+      humidity_point = 30,
+})
+
+minetest.register_biome(
+   {
+      name = "Thorny Shrubs",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 4,
+      depth_top = 1,
+
+      y_min = 2,
+      y_max = 200,
+
+      heat_point = 64,
+      humidity_point = 21,
+})
+
+minetest.register_biome(
+   {
+      name = "Mystery Forest",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 4,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 200,
+
+      heat_point = 80,
+      humidity_point = 80,
+})
+
+minetest.register_biome(
+   {
+      name = "Poplar Plains",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 4,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 40,
+      humidity_point = 40,
+})
+
+minetest.register_biome(
+   {
+      name = "Baby Poplar Plains",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 4,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 38,
+      humidity_point = 48,
+})
+
+minetest.register_biome(
+   {
+      name = "Tall Birch Forest",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 3,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 31,
+      humidity_point = 58,
+})
+
+minetest.register_biome(
+   {
+      name = "Birch Forest",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 3,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 31,
+      humidity_point = 64,
+})
+
+minetest.register_biome(
+   {
+      name = "Oak Shrubbery",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 3,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 61,
+      humidity_point = 44,
+})
+
+
+
+minetest.register_biome(
+   {
+      name = "Oak Forest",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 5,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 61,
+      humidity_point = 50,
+})
+minetest.register_biome(
+   {
+      name = "Tall Oak Forest",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 6,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 61,
+      humidity_point = 55,
+})
+
+minetest.register_biome(
+   {
+      name = "Dense Oak Forest",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 7,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 61,
+      humidity_point = 60,
+})
+minetest.register_biome(
+   {
+      name = "Swamp Meadows",
+
+      node_top = "rp_default:dirt_with_swamp_grass",
+      node_filler = "rp_default:swamp_dirt",
+      node_cave_liquid = "rp_default:swamp_water_source",
+
+      depth_filler = 7,
+      depth_top = 1,
+
+      y_min = 2,
+      y_max = 31000,
+
+      heat_point = 20,
+      humidity_point = 80,
+})
+
+minetest.register_biome(
+   {
+      name = "Swamp Forest",
+
+      node_top = "rp_default:dirt_with_swamp_grass",
+      node_filler = "rp_default:swamp_dirt",
+      node_cave_liquid = "rp_default:swamp_water_source",
+
+      depth_filler = 5,
+      depth_top = 1,
+
+      y_min = 2,
+      y_max = 31000,
+
+      heat_point = 20,
+      humidity_point = 85,
+})
+
+minetest.register_biome(
+   {
+      name = "Dry Swamp",
+
+      node_top = "rp_default:dirt_with_swamp_grass",
+      node_filler = "rp_default:swamp_dirt",
+
+      depth_filler = 6,
+      depth_top = 1,
+
+      y_min = 2,
+      y_max = 31000,
+
+      heat_point = 20,
+      humidity_point = 75,
+})
+
+
+minetest.register_biome(
+   {
+      name = "Papyrus Swamp",
+
+      node_top = "rp_default:dirt_with_swamp_grass",
+      node_filler = "rp_default:swamp_dirt",
+      node_cave_liquid = "rp_default:swamp_water_source",
+
+      depth_filler = 4,
+      depth_top = 1,
+
+      y_min = 2,
+      y_max = 31000,
+
+      heat_point = 20,
+      humidity_point = 88,
+})
+
+
+
+
 -- Oceans
 
 minetest.register_biome(
@@ -373,7 +669,7 @@ minetest.register_ore( -- Swamp (big springs)
       ore_type       = "blob",
       ore            = "rp_default:swamp_water_source",
       wherein        = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
-      biomes         = {"Mixed Swamp"},
+      biomes         = {"Mixed Swamp", "Papyrus Swamp", "Swamp Forest", "Swamp Meadow"},
       clust_scarcity = 7*7*7,
       clust_num_ores = 10,
       clust_size     = 4,
@@ -386,7 +682,7 @@ minetest.register_ore( -- Swamp (medium springs)
       ore_type       = "blob",
       ore            = "rp_default:swamp_water_source",
       wherein        = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
-      biomes         = {"Mixed Swamp"},
+      biomes         = {"Mixed Swamp", "Papyrus Swamp", "Swamp Forest", "Swamp Meadow"},
       clust_scarcity = 5*5*5,
       clust_num_ores = 8,
       clust_size     = 2,
@@ -400,7 +696,7 @@ minetest.register_ore( -- Swamp (small springs)
       ore_type       = "blob",
       ore            = "rp_default:swamp_water_source",
       wherein        = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
-      biomes         = {"Mixed Swamp"},
+      biomes         = {"Mixed Swamp", "Papyrus Swamp", "Swamp Forest", "Swamp Meadow"},
       clust_scarcity = 6*6*6,
       clust_num_ores = 1,
       clust_size     = 1,
@@ -422,6 +718,131 @@ minetest.register_ore( -- Marsh
       y_max          = 31000,
       noise_params   = spring_ore_np(),
 })
+
+minetest.register_ore(
+   {
+      ore_type       = "blob",
+      ore            = "rp_default:gravel",
+      wherein        = "rp_default:dry_dirt",
+      biomes = {"Rocky Dryland"},
+      clust_scarcity = 8*8*8,
+      clust_size     = 8,
+      y_min          = -31000,
+      y_max          = 31000,
+      noise_params = {
+	      octaves = 1,
+	      scale = 1,
+	      offset = 0,
+	      spread = { x = 100, y = 100, z = 100 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 43400,
+      },
+})
+minetest.register_ore(
+   {
+      ore_type       = "blob",
+      ore            = "rp_default:stone",
+      wherein        = "rp_default:dry_dirt",
+      biomes = {"Rocky Dryland"},
+      clust_scarcity = 8*8*8,
+      clust_size     = 7,
+      y_min          = -31000,
+      y_max          = 31000,
+      noise_params = {
+	      octaves = 1,
+	      scale = 1,
+	      offset = 0,
+	      spread = { x = 100, y = 100, z = 100 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 13940,
+      },
+})
+
+minetest.register_ore( -- Dry Swamp (dirt)
+   {
+      ore_type       = "blob",
+      ore            = "rp_default:dirt_with_grass",
+      wherein        = {"rp_default:dirt_with_swamp_grass"},
+      biomes         = {"Dry Swamp"},
+      clust_scarcity = 3*3*3,
+      clust_num_ores = 10,
+      clust_size     = 4,
+      y_min          = -31000,
+      y_max          = 31000,
+      noise_params   = spring_ore_np(13943),
+})
+minetest.register_ore( -- Dry Swamp (dirt)
+   {
+      ore_type       = "blob",
+      ore            = "rp_default:dirt",
+      wherein        = {"rp_default:swamp_dirt"},
+      biomes         = {"Dry Swamp"},
+      clust_scarcity = 3*3*3,
+      clust_num_ores = 10,
+      clust_size     = 4,
+      y_min          = -31000,
+      y_max          = 31000,
+      noise_params   = spring_ore_np(13943),
+})
+minetest.register_ore(
+   {
+      ore_type       = "scatter",
+      ore            = "rp_default:dirt_with_dry_grass",
+      wherein        = "rp_default:dry_dirt",
+      biomes = {"Savannic Wasteland"},
+      clust_scarcity = 6*6*6,
+      clust_size     = 6,
+      clust_num_ores = 40,
+      y_min          = 2,
+      y_max          = 31000,
+      noise_params = {
+	      octaves = 1,
+	      scale = 1,
+	      offset = 0.1,
+	      spread = { x = 100, y = 100, z = 100 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 12449,
+      },
+})
+
+minetest.register_ore(
+   {
+      ore_type       = "blob",
+      ore            = "rp_default:dirt_with_dry_grass",
+      wherein        = "rp_default:dry_dirt",
+      biomes = {"Savannic Wasteland"},
+      clust_scarcity = 7*7*7,
+      clust_size     = 4,
+      y_min          = 2,
+      y_max          = 31000,
+      noise_params = {
+	      octaves = 2,
+	      scale = 1,
+	      offset = 0.2,
+	      spread = { x = 100, y = 100, z = 100 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 12450,
+      },
+})
+
+minetest.register_ore(
+   {
+      ore_type       = "scatter",
+      ore            = "rp_default:stone_with_sulfur",
+      wherein        = "rp_default:stone",
+      biomes         = { "Rocky Dryland", "Wooded Dryland"},
+      clust_scarcity = 9*9*9,
+      clust_num_ores = 1,
+      clust_size     = 1,
+      y_min          = -8,
+      y_max          = 32,
+})
+
+
 end
 
 
@@ -450,6 +871,61 @@ minetest.register_decoration(
       y_min = -32000,
       y_max = 32000,
 })
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.015,
+      biomes = {"Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      replacements = {
+         ["default:leaves"] = "rp_default:leaves_birch",
+         ["default:tree"] = "rp_default:tree_birch",
+         ["default:apple"] = "air"
+      },
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_squaretree.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.004,
+      biomes = {"Dry Swamp"},
+      flags = "place_center_x, place_center_z",
+      replacements = {
+         ["default:leaves"] = "rp_default:leaves_birch",
+         ["default:tree"] = "rp_default:tree_birch",
+         ["default:apple"] = "air"
+      },
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_squaretree.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0001,
+      biomes = {"Thorny Shrubs"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_appletree.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+
 
 minetest.register_decoration(
    {
@@ -513,12 +989,444 @@ minetest.register_decoration(
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
+      fill_ratio = 0.0009,
+      biomes = {"Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_1.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0045,
+      biomes = {"Tall Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_1.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0045,
+      biomes = {"Tall Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_2.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.035,
+      biomes = {"Dense Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_1.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.035,
+      biomes = {"Dense Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_2.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.0008,
+      biomes = {"Mixed Swamp"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_swamp_oak.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.006,
+      biomes = {"Swamp Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_swamp_oak.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.0001,
+      biomes = {"Swamp Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_swamp_birch.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.003,
+      biomes = {"Dry Swamp"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_swamp_birch.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+
+
+local MYSTERY_FOREST_SPREAD = { x=500, y=500, z=500 }
+local MYSTERY_FOREST_OFFSET = 0.001
+local MYSTERY_FOREST_OFFSET_STAIRCASE = -0.001
+local MYSTERY_FOREST_OFFSET_APPLES = -0.0005
+local MYSTERY_FOREST_SCALE = 0.008
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Mystery Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_staircase_tree.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+	      scale = -MYSTERY_FOREST_SCALE,
+	      offset = MYSTERY_FOREST_OFFSET_STAIRCASE,
+	      spread = MYSTERY_FOREST_SPREAD,
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 49204,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Mystery Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_layer_birch.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+              scale = MYSTERY_FOREST_SCALE,
+              offset = MYSTERY_FOREST_OFFSET,
+	      spread = MYSTERY_FOREST_SPREAD,
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 49204,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Mystery Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_telephone_tree.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+	      scale = -MYSTERY_FOREST_SCALE,
+	      offset = MYSTERY_FOREST_OFFSET,
+	      spread = MYSTERY_FOREST_SPREAD,
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 49204,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Mystery Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_telephone_tree_apples.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+	      scale = -MYSTERY_FOREST_SCALE,
+	      offset = MYSTERY_FOREST_OFFSET_APPLES,
+	      spread = MYSTERY_FOREST_SPREAD,
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 49204,
+      },
+})
+
+
+
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Mystery Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_cross_birch.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+              scale = MYSTERY_FOREST_SCALE,
+              offset = MYSTERY_FOREST_OFFSET,
+	      spread = MYSTERY_FOREST_SPREAD,
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 49204,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Poplar Plains"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_poplar_large.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+              scale = 0.01,
+              offset = -0.004,
+	      spread = {x=50,y=50,z=50},
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 94325,
+      },
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Poplar Plains"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_poplar_small.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+              scale = 0.01,
+              offset = -0.001,
+	      spread = {x=50,y=50,z=50},
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 94325,
+      },
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      fill_ratio = 0.0002,
+      sidelen = 16,
+      biomes = {"Poplar Plains"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_poplar_small.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+-- Small poplar tree blobs
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 8,
+      biomes = {"Baby Poplar Plains"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_poplar_small.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+              scale = 0.05,
+	      offset = -0.032,
+	      spread = {x=24,y=24,z=24},
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 94325,
+      },
+})
+
+-- Occasional lonely poplars
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0002,
+      biomes = {"Baby Poplar Plains"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_poplar_small.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Baby Poplar Plains"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
+      y_min = 1,
+      y_max = 32000,
+      rotation = "0",
+      noise_params = {
+	      octaves = 1,
+	      scale = 0.001,
+	      offset = -0.0000001,
+	      spread = { x = 50, y = 50, z = 50 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 98421,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Thorny Shrubs"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
+      y_min = 3,
+      y_max = 32000,
+      rotation = "0",
+      noise_params = {
+	      octaves = 1,
+	      scale = -0.004,
+	      offset = 0.002,
+	      spread = { x = 82, y = 82, z = 82 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 43905,
+      },
+})
+
+
+
+
+
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.004,
+      biomes = {"Grove"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_talltree.mts",
+      y_min = 0,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.015,
+      biomes = {"Tall Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_birch_tall.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
       fill_ratio = 0.004,
       biomes = {"Wilderness"},
       flags = "place_center_x, place_center_z",
       replacements = {
          ["default:apple"] = "air",
       },
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_appletree.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass", "rp_default:dirt"},
+      sidelen = 16,
+      fill_ratio = 0.0001,
+      biomes = {"Dry Swamp"},
+      flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/default_appletree.mts",
       y_min = -32000,
@@ -539,17 +1447,18 @@ minetest.register_decoration(
       y_max = 32000,
 })
 
+
 minetest.register_decoration(
    {
       deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
+      place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
-      fill_ratio = 0.0008,
-      biomes = {"Mixed Swamp"},
+      fill_ratio = 0.001,
+      biomes = {"Oak Shrubbery"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_swamp_oak.mts",
-      y_min = -32000,
+         .. "/schematics/default_oaktree.mts",
+      y_min = 1,
       y_max = 32000,
 })
 
@@ -558,14 +1467,44 @@ minetest.register_decoration(
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
-      fill_ratio = 0.004,
-      biomes = {"Grove"},
+      fill_ratio = 0.02,
+      biomes = {"Dense Oak Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_talltree.mts",
-      y_min = 0,
+         .. "/schematics/default_oaktree.mts",
+      y_min = 1,
       y_max = 32000,
 })
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0225,
+      biomes = {"Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_oaktree.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0015,
+      biomes = {"Tall Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_oaktree.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+
 
 end
 
@@ -619,6 +1558,39 @@ minetest.register_decoration(
       rotation = "random",
 })
 
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:stone", "rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.003,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_small_rock.mts",
+      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
+      y_min = 1,
+      y_max = 32000,
+      rotation = "random",
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt", "rp_default:dirt_with_dry_grass"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Savannic Wasteland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_small_rock.mts",
+      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
+      y_min = 1,
+      y_max = 32000,
+      rotation = "random",
+})
+
+
 -- Sulfur decorations
 
 minetest.register_decoration(
@@ -633,7 +1605,196 @@ minetest.register_decoration(
       y_max = 14,
 })
 
+-- Tiny tree decorations
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.0001,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_tiny_birch.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.00025,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_tree_3layer.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.00025,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_tree_2layer.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.002,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_tiny_dry_tree.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.0001,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_tiny_birch.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.00025,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_tree_3layer.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.00025,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_tree_2layer.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.002,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_tiny_dry_tree.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.003,
+      biomes = {"Wooded Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_tiny_oak.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Wooded Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_tiny_birch.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.0002,
+      biomes = {"Savannic Wasteland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_tiny_dry_tree.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+
+
+
 -- Bush/shrub decorations
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0075,
+      biomes = {"Oak Shrubbery"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_bush_wide.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.03,
+      biomes = {"Dense Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_bush_wide.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_bush_wide.mts",
+      y_min = 1,
+      y_max = 32000,
+})
 
 minetest.register_decoration(
    {
@@ -655,6 +1816,35 @@ minetest.register_decoration(
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_dry_grass"},
       sidelen = 16,
+      fill_ratio = 0.0025,
+      biomes = {"Savannic Wasteland"},
+      flags = "place_center_x, place_center_z",
+      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_shrub.mts",
+      y_min = 3,
+      y_max = 32000,
+      rotation = "0",
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Rocky Dryland", "Wooded Dryland"},
+      flags = "place_center_x, place_center_z",
+      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_shrub.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_dry_grass"},
+      sidelen = 16,
       fill_ratio = 0.06,
       biomes = {"Chaparral"},
       flags = "place_center_x, place_center_z",
@@ -664,6 +1854,45 @@ minetest.register_decoration(
       y_max = 32000,
       rotation = "0",
 })
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Thorny Shrubs"},
+      flags = "place_center_x, place_center_z",
+      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_dry_bush.mts",
+      y_min = 5,
+      y_max = 32000,
+      rotation = "0",
+      noise_params = {
+	      octaves = 1,
+	      scale = -0.004,
+	      offset = -0.001,
+	      spread = { x = 82, y = 82, z = 82 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 493421,
+      },
+})
+
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0003,
+      biomes = {"Oak Shrubbery"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_normal_bush_small.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+
 
 minetest.register_decoration(
    {
@@ -693,7 +1922,26 @@ minetest.register_decoration(
       y_min = -32000,
       y_max = 32000,
 })
-
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:dirt_with_grass", "rp_default:dry_dirt"},
+      sidelen = 4,
+      biomes = {"Thorny Shrubs"},
+      decoration = {"rp_default:thistle"},
+      height = 2,
+      y_min = -32000,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+	      scale = 1,
+	      offset = -0.5,
+	      spread = { x = 12, y = 12, z = 12 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 43905,
+      },
+})
 -- Papyrus decorations
 
 -- Beach papyrus
@@ -721,7 +1969,7 @@ minetest.register_decoration(
       num_spawn_by = 1,
       sidelen = 16,
       fill_ratio = 0.08,
-      biomes = {"Grassland", "Marsh", "Forest", "Deep Forest", "Wilderness"},
+      biomes = {"Grassland", "Marsh", "Forest", "Deep Forest", "Wilderness", "Baby Poplar Plains"},
       decoration = {"rp_default:papyrus"},
       height = 2,
       height_max = 3,
@@ -747,6 +1995,22 @@ minetest.register_decoration(
       y_min = -100,
 })
 
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:swamp_dirt", "rp_default:dirt_with_swamp_grass"},
+      spawn_by = {"group:water"},
+      num_spawn_by = 1,
+      sidelen = 16,
+      fill_ratio = 0.60,
+      biomes = {"Papyrus Swamp"},
+      decoration = {"rp_default:papyrus"},
+      height = 4,
+      height_max = 4,
+      y_max = 31000,
+      y_min = -100,
+})
+
 -- Flower decorations
 
 minetest.register_decoration(
@@ -755,7 +2019,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.04,
-      biomes = {"Grassland", "Wilderness", "Orchard"},
+      biomes = {"Grassland", "Wilderness", "Orchard", "Baby Poplar Plains"},
       decoration = {"rp_default:flower"},
       y_min = -32000,
       y_max = 32000,
@@ -770,7 +2034,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.18,
-      biomes = {"Grassland", "Orchard"},
+      biomes = {"Grassland", "Orchard", "Swamp Meadow", "Baby Poplar Plains", "Poplar Plains", "Oak Shrubbery", "Thorny Shrubs"},
       decoration = {"rp_default:grass"},
       y_min = 10,
       y_max = 32000,
@@ -783,7 +2047,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_swamp_grass",
       sidelen = 16,
       fill_ratio = 0.04,
-      biomes = {"Mixed Swamp"},
+      biomes = {"Mixed Swamp", "Dry Swamp", "Swamp Meadow", "Swamp Papyrus", "Swamp Forest"},
       decoration = {"rp_default:swamp_grass"},
       y_min = 2,
       y_max = 40,
@@ -795,7 +2059,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_dry_grass",
       sidelen = 16,
       fill_ratio = 0.07,
-      biomes = {"Desert", "Savanna", "Chaparral"},
+      biomes = {"Desert", "Savanna", "Chaparral", "Savannic Wasteland"},
       decoration = {"rp_default:dry_grass"},
       y_min = 10,
       y_max = 500,
@@ -808,7 +2072,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.08,
-      biomes = {"Forest", "Deep Forest"},
+      biomes = {"Forest", "Deep Forest", "Birch Forest", "Tall Birch Forest", "Oak Forest", "Dense Oak Forest", "Mystery Forest"},
       decoration = {"rp_default:grass"},
       y_min = 0,
       y_max = 32000,
@@ -820,7 +2084,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.08,
-      biomes = {"Forest", "Marsh", "Grove"},
+      biomes = {"Forest", "Marsh", "Grove", "Oak Shrubbery"},
       decoration = {"rp_default:tall_grass"},
       y_min = 0,
       y_max = 32000,
@@ -832,11 +2096,35 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.15,
-      biomes = {"Deep Forest"},
+      biomes = {"Deep Forest", "Dense Oak Forest"},
       decoration = {"rp_default:tall_grass"},
       y_min = 0,
       y_max = 32000,
 })
+
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:dirt_with_grass",
+      sidelen = 16,
+      fill_ratio = 0.05,
+      biomes = {"Thorny Shrubs"},
+      decoration = {"rp_default:tall_grass"},
+      y_min = 0,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:dirt_with_grass",
+      sidelen = 16,
+      fill_ratio = 0.1,
+      biomes = {"Thorny Shrubs"},
+      decoration = {"rp_default:grass"},
+      y_min = 0,
+      y_max = 32000,
+})
+
 end
 
 minetest.register_decoration(
@@ -845,7 +2133,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.16,
-      biomes = {"Wilderness"},
+      biomes = {"Wilderness", "Thorny Shrubs"},
       decoration = {"rp_default:grass"},
       y_min = -32000,
       y_max = 32000,
@@ -857,7 +2145,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.12,
-      biomes = {"Wilderness"},
+      biomes = {"Wilderness", "Thorny Shrubs"},
       decoration = {"rp_default:tall_grass"},
       y_min = -32000,
       y_max = 32000,
@@ -871,7 +2159,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.02,
-      biomes = {"Wilderness", "Grove"},
+      biomes = {"Wilderness", "Grove", "Tall Oak Forest", "Mystery Forest"},
       decoration = {"rp_default:fern"},
       y_min = -32000,
       y_max = 32000,
@@ -1058,1253 +2346,6 @@ minetest.register_ore( -- Large clusters
       clust_size     = 10,
       y_min          = -230,
       y_max          = -180,
-})
-
--- EXPERIMENTAL BIOMES
-
-minetest.clear_registered_biomes()
-minetest.clear_registered_ores()
-minetest.clear_registered_decorations()
-
---[[
-minetest.register_biome(
-   {
-      name = "Rocky Dryland",
-
-      node_top = "rp_default:dry_dirt",
-      node_filler = "rp_default:dry_dirt",
-
-      depth_filler = 0,
-      depth_top = 1,
-
-      y_min = -32000,
-      y_max = 32000,
-
-      heat_point = 70,
-      humidity_point = 25,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dry_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.0001,
-      biomes = {"Rocky Dryland"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_tiny_birch.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dry_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.00025,
-      biomes = {"Rocky Dryland"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_tree_3layer.mts",
-      y_min = 3,
-      y_max = 32000,
-})
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dry_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.00025,
-      biomes = {"Rocky Dryland"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_tree_2layer.mts",
-      y_min = 3,
-      y_max = 32000,
-})
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dry_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.002,
-      biomes = {"Rocky Dryland"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_tiny_dry_tree.mts",
-      y_min = 3,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dry_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.001,
-      biomes = {"Rocky Dryland", "Wooded Dryland"},
-      flags = "place_center_x, place_center_z",
-      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_shrub.mts",
-      y_min = 3,
-      y_max = 32000,
-})
-
-
-
-
-
-minetest.register_ore(
-   {
-      ore_type       = "blob",
-      ore            = "rp_default:gravel",
-      wherein        = "rp_default:dry_dirt",
-      biomes = {"Rocky Dryland"},
-      clust_scarcity = 8*8*8,
-      clust_size     = 8,
-      y_min          = -31000,
-      y_max          = 31000,
-      noise_params = {
-	      octaves = 1,
-	      scale = 1,
-	      offset = 0,
-	      spread = { x = 100, y = 100, z = 100 },
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 43400,
-      },
-})
-minetest.register_ore(
-   {
-      ore_type       = "blob",
-      ore            = "rp_default:stone",
-      wherein        = "rp_default:dry_dirt",
-      biomes = {"Rocky Dryland"},
-      clust_scarcity = 8*8*8,
-      clust_size     = 7,
-      y_min          = -31000,
-      y_max          = 31000,
-      noise_params = {
-	      octaves = 1,
-	      scale = 1,
-	      offset = 0,
-	      spread = { x = 100, y = 100, z = 100 },
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 13940,
-      },
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:stone", "rp_default:dry_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.003,
-      biomes = {"Rocky Dryland"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_small_rock.mts",
-      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
-      y_min = 1,
-      y_max = 32000,
-      rotation = "random",
-})
-
-minetest.register_biome(
-   {
-      name = "Wooded Dryland",
-
-      node_top = "rp_default:dry_dirt",
-      node_filler = "rp_default:dry_dirt",
-
-      depth_filler = 4,
-      depth_top = 1,
-
-      y_min = -32000,
-      y_max = 32000,
-
-      heat_point = 68,
-      humidity_point = 30,
-})
-
-minetest.register_ore(
-   {
-      ore_type       = "scatter",
-      ore            = "rp_default:stone_with_sulfur",
-      wherein        = "rp_default:stone",
-      biomes         = { "Rocky Dryland", "Wooded Dryland"},
-      clust_scarcity = 9*9*9,
-      clust_num_ores = 1,
-      clust_size     = 1,
-      y_min          = -8,
-      y_max          = 32,
-})
-
-
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dry_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.003,
-      biomes = {"Wooded Dryland"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_tiny_oak.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dry_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.001,
-      biomes = {"Wooded Dryland"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_tiny_birch.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-
-minetest.register_biome(
-   {
-      name = "Savannic Wasteland",
-
-      node_top = "rp_default:dry_dirt",
-      node_filler = "rp_default:sandstone",
-
-      depth_filler = 2,
-      depth_top = 1,
-
-      y_min = 1,
-      y_max = 32000,
-
-      heat_point = 65,
-      humidity_point = 30,
-})
-
-minetest.register_ore(
-   {
-      ore_type       = "scatter",
-      ore            = "rp_default:dirt_with_dry_grass",
-      wherein        = "rp_default:dry_dirt",
-      biomes = {"Savannic Wasteland"},
-      clust_scarcity = 6*6*6,
-      clust_size     = 6,
-      clust_num_ores = 40,
-      y_min          = 2,
-      y_max          = 31000,
-      noise_params = {
-	      octaves = 1,
-	      scale = 1,
-	      offset = 0.1,
-	      spread = { x = 100, y = 100, z = 100 },
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 12449,
-      },
-})
-
-minetest.register_ore(
-   {
-      ore_type       = "blob",
-      ore            = "rp_default:dirt_with_dry_grass",
-      wherein        = "rp_default:dry_dirt",
-      biomes = {"Savannic Wasteland"},
-      clust_scarcity = 7*7*7,
-      clust_size     = 4,
-      y_min          = 2,
-      y_max          = 31000,
-      noise_params = {
-	      octaves = 2,
-	      scale = 1,
-	      offset = 0.2,
-	      spread = { x = 100, y = 100, z = 100 },
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 12450,
-      },
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dry_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.0002,
-      biomes = {"Savannic Wasteland"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_tiny_dry_tree.mts",
-      y_min = 3,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_dry_grass"},
-      sidelen = 16,
-      fill_ratio = 0.0025,
-      biomes = {"Savannic Wasteland"},
-      flags = "place_center_x, place_center_z",
-      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_shrub.mts",
-      y_min = 3,
-      y_max = 32000,
-      rotation = "0",
-})
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dry_dirt", "rp_default:dirt_with_dry_grass"},
-      sidelen = 16,
-      fill_ratio = 0.001,
-      biomes = {"Savannic Wasteland"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_small_rock.mts",
-      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
-      y_min = 1,
-      y_max = 32000,
-      rotation = "random",
-})
-
-minetest.register_biome(
-   {
-      name = "Thorny Shrubs",
-
-      node_top = "rp_default:dirt_with_grass",
-      node_filler = "rp_default:dirt",
-
-      depth_filler = 4,
-      depth_top = 1,
-
-      y_min = 2,
-      y_max = 200,
-
-      heat_point = 64,
-      humidity_point = 21,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.0001,
-      biomes = {"Thorny Shrubs"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_appletree.mts",
-      y_min = -32000,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      biomes = {"Thorny Shrubs"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
-      y_min = 3,
-      y_max = 32000,
-      rotation = "0",
-      noise_params = {
-	      octaves = 1,
-	      scale = -0.004,
-	      offset = 0.002,
-	      spread = { x = 82, y = 82, z = 82 },
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 43905,
-      },
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      biomes = {"Thorny Shrubs"},
-      flags = "place_center_x, place_center_z",
-      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_dry_bush.mts",
-      y_min = 5,
-      y_max = 32000,
-      rotation = "0",
-      noise_params = {
-	      octaves = 1,
-	      scale = -0.004,
-	      offset = -0.001,
-	      spread = { x = 82, y = 82, z = 82 },
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 493421,
-      },
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "simple",
-      place_on = {"rp_default:dirt_with_grass", "rp_default:dry_dirt"},
-      sidelen = 4,
-      biomes = {"Thorny Shrubs"},
-      decoration = {"rp_default:thistle"},
-      height = 2,
-      y_min = -32000,
-      y_max = 32000,
-      noise_params = {
-	      octaves = 2,
-	      scale = 1,
-	      offset = -0.5,
-	      spread = { x = 12, y = 12, z = 12 },
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 43905,
-      },
-})
-minetest.register_decoration(
-   {
-      deco_type = "simple",
-      place_on = "rp_default:dirt_with_grass",
-      sidelen = 16,
-      fill_ratio = 0.05,
-      biomes = {"Thorny Shrubs"},
-      decoration = {"rp_default:tall_grass"},
-      y_min = 0,
-      y_max = 32000,
-})
-minetest.register_decoration(
-   {
-      deco_type = "simple",
-      place_on = "rp_default:dirt_with_grass",
-      sidelen = 16,
-      fill_ratio = 0.1,
-      biomes = {"Thorny Shrubs"},
-      decoration = {"rp_default:grass"},
-      y_min = 0,
-      y_max = 32000,
-})
-
-local MYSTERY_FOREST_SPREAD = { x=500, y=500, z=500 }
-local MYSTERY_FOREST_OFFSET = 0.001
-local MYSTERY_FOREST_OFFSET_STAIRCASE = -0.001
-local MYSTERY_FOREST_OFFSET_APPLES = -0.0005
-local MYSTERY_FOREST_SCALE = 0.008
-
-minetest.register_biome(
-   {
-      name = "Mystery Forest",
-
-      node_top = "rp_default:dirt_with_grass",
-      node_filler = "rp_default:dirt",
-
-      depth_filler = 4,
-      depth_top = 1,
-
-      y_min = 1,
-      y_max = 200,
-
-      heat_point = 80,
-      humidity_point = 80,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      biomes = {"Mystery Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_telephone_tree.mts",
-      y_min = 1,
-      y_max = 32000,
-      noise_params = {
-	      octaves = 2,
-	      scale = -MYSTERY_FOREST_SCALE,
-	      offset = MYSTERY_FOREST_OFFSET,
-	      spread = MYSTERY_FOREST_SPREAD,
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 49204,
-      },
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      biomes = {"Mystery Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_telephone_tree_apples.mts",
-      y_min = 1,
-      y_max = 32000,
-      noise_params = {
-	      octaves = 2,
-	      scale = -MYSTERY_FOREST_SCALE,
-	      offset = MYSTERY_FOREST_OFFSET_APPLES,
-	      spread = MYSTERY_FOREST_SPREAD,
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 49204,
-      },
-})
-
-
-
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      biomes = {"Mystery Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_staircase_tree.mts",
-      y_min = 1,
-      y_max = 32000,
-      noise_params = {
-	      octaves = 2,
-	      scale = -MYSTERY_FOREST_SCALE,
-	      offset = MYSTERY_FOREST_OFFSET_STAIRCASE,
-	      spread = MYSTERY_FOREST_SPREAD,
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 49204,
-      },
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      biomes = {"Mystery Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_layer_birch.mts",
-      y_min = 1,
-      y_max = 32000,
-      noise_params = {
-	      octaves = 2,
-              scale = MYSTERY_FOREST_SCALE,
-              offset = MYSTERY_FOREST_OFFSET,
-	      spread = MYSTERY_FOREST_SPREAD,
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 49204,
-      },
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      biomes = {"Mystery Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_cross_birch.mts",
-      y_min = 1,
-      y_max = 32000,
-      noise_params = {
-	      octaves = 2,
-              scale = MYSTERY_FOREST_SCALE,
-              offset = MYSTERY_FOREST_OFFSET,
-	      spread = MYSTERY_FOREST_SPREAD,
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 49204,
-      },
-})
-
-minetest.register_biome(
-   {
-      name = "Poplar Plains",
-
-      node_top = "rp_default:dirt_with_grass",
-      node_filler = "rp_default:dirt",
-
-      depth_filler = 4,
-      depth_top = 1,
-
-      y_min = 1,
-      y_max = 32000,
-
-      heat_point = 40,
-      humidity_point = 40,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      biomes = {"Poplar Plains"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_poplar_large.mts",
-      y_min = 1,
-      y_max = 32000,
-      noise_params = {
-	      octaves = 2,
-              scale = 0.01,
-              offset = -0.004,
-	      spread = {x=50,y=50,z=50},
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 94325,
-      },
-})
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      biomes = {"Poplar Plains"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_poplar_small.mts",
-      y_min = 1,
-      y_max = 32000,
-      noise_params = {
-	      octaves = 2,
-              scale = 0.01,
-              offset = -0.001,
-	      spread = {x=50,y=50,z=50},
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 94325,
-      },
-})
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      fill_ratio = 0.0002,
-      sidelen = 16,
-      biomes = {"Poplar Plains"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_poplar_small.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_biome(
-   {
-      name = "Baby Poplar Plains",
-
-      node_top = "rp_default:dirt_with_grass",
-      node_filler = "rp_default:dirt",
-
-      depth_filler = 4,
-      depth_top = 1,
-
-      y_min = 1,
-      y_max = 32000,
-
-      heat_point = 38,
-      humidity_point = 48,
-})
-
--- Small poplar tree blobs
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 8,
-      biomes = {"Baby Poplar Plains"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_poplar_small.mts",
-      y_min = 1,
-      y_max = 32000,
-      noise_params = {
-	      octaves = 2,
-              scale = 0.05,
-	      offset = -0.032,
-	      spread = {x=24,y=24,z=24},
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 94325,
-      },
-})
-
--- Occasional lonely poplars
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.0002,
-      biomes = {"Baby Poplar Plains"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_poplar_small.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      biomes = {"Baby Poplar Plains"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
-      y_min = 1,
-      y_max = 32000,
-      rotation = "0",
-      noise_params = {
-	      octaves = 1,
-	      scale = 0.001,
-	      offset = -0.0000001,
-	      spread = { x = 50, y = 50, z = 50 },
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 98421,
-      },
-})
-
-minetest.register_biome(
-   {
-      name = "Tall Birch Forest",
-
-      node_top = "rp_default:dirt_with_grass",
-      node_filler = "rp_default:dirt",
-
-      depth_filler = 3,
-      depth_top = 1,
-
-      y_min = 1,
-      y_max = 32000,
-
-      heat_point = 31,
-      humidity_point = 58,
-})
-
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.015,
-      biomes = {"Tall Birch Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_birch_tall.mts",
-      y_min = -32000,
-      y_max = 32000,
-})
-
-
-minetest.register_biome(
-   {
-      name = "Birch Forest",
-
-      node_top = "rp_default:dirt_with_grass",
-      node_filler = "rp_default:dirt",
-
-      depth_filler = 3,
-      depth_top = 1,
-
-      y_min = 1,
-      y_max = 32000,
-
-      heat_point = 31,
-      humidity_point = 64,
-})
-
-
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.015,
-      biomes = {"Birch Forest"},
-      flags = "place_center_x, place_center_z",
-      replacements = {
-         ["default:leaves"] = "rp_default:leaves_birch",
-         ["default:tree"] = "rp_default:tree_birch",
-         ["default:apple"] = "air"
-      },
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_squaretree.mts",
-      y_min = -32000,
-      y_max = 32000,
-})
-
-
-minetest.register_biome(
-   {
-      name = "Oak Shrubbery",
-
-      node_top = "rp_default:dirt_with_grass",
-      node_filler = "rp_default:dirt",
-
-      depth_filler = 3,
-      depth_top = 1,
-
-      y_min = 1,
-      y_max = 32000,
-
-      heat_point = 61,
-      humidity_point = 44,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.001,
-      biomes = {"Oak Shrubbery"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_oaktree.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.0075,
-      biomes = {"Oak Shrubbery"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_oak_bush_wide.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.0003,
-      biomes = {"Oak Shrubbery"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_normal_bush_small.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_biome(
-   {
-      name = "Oak Forest",
-
-      node_top = "rp_default:dirt_with_grass",
-      node_filler = "rp_default:dirt",
-
-      depth_filler = 5,
-      depth_top = 1,
-
-      y_min = 1,
-      y_max = 32000,
-
-      heat_point = 61,
-      humidity_point = 50,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.0009,
-      biomes = {"Oak Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_oak_tree_big_1.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.0225,
-      biomes = {"Oak Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_oaktree.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.001,
-      biomes = {"Oak Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_oak_bush_wide.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_biome(
-   {
-      name = "Tall Oak Forest",
-
-      node_top = "rp_default:dirt_with_grass",
-      node_filler = "rp_default:dirt",
-
-      depth_filler = 6,
-      depth_top = 1,
-
-      y_min = 1,
-      y_max = 32000,
-
-      heat_point = 61,
-      humidity_point = 55,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.0045,
-      biomes = {"Tall Oak Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_oak_tree_big_1.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.0045,
-      biomes = {"Tall Oak Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_oak_tree_big_2.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.0015,
-      biomes = {"Tall Oak Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_oaktree.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_biome(
-   {
-      name = "Dense Oak Forest",
-
-      node_top = "rp_default:dirt_with_grass",
-      node_filler = "rp_default:dirt",
-
-      depth_filler = 7,
-      depth_top = 1,
-
-      y_min = 1,
-      y_max = 32000,
-
-      heat_point = 61,
-      humidity_point = 60,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.035,
-      biomes = {"Dense Oak Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_oak_tree_big_1.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.035,
-      biomes = {"Dense Oak Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_oak_tree_big_2.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.02,
-      biomes = {"Dense Oak Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_oaktree.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.03,
-      biomes = {"Dense Oak Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_oak_bush_wide.mts",
-      y_min = 1,
-      y_max = 32000,
-})
-
-
-minetest.register_biome(
-   {
-      name = "Swamp Meadows",
-
-      node_top = "rp_default:dirt_with_swamp_grass",
-      node_filler = "rp_default:swamp_dirt",
-      node_cave_liquid = "rp_default:swamp_water_source",
-
-      depth_filler = 7,
-      depth_top = 1,
-
-      y_min = 2,
-      y_max = 31000,
-
-      heat_point = 20,
-      humidity_point = 80,
-})
-
-minetest.register_biome(
-   {
-      name = "Swamp Forest",
-
-      node_top = "rp_default:dirt_with_swamp_grass",
-      node_filler = "rp_default:swamp_dirt",
-      node_cave_liquid = "rp_default:swamp_water_source",
-
-      depth_filler = 5,
-      depth_top = 1,
-
-      y_min = 2,
-      y_max = 31000,
-
-      heat_point = 20,
-      humidity_point = 85,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.006,
-      biomes = {"Swamp Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_swamp_oak.mts",
-      y_min = -32000,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.0001,
-      biomes = {"Swamp Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_swamp_birch.mts",
-      y_min = -32000,
-      y_max = 32000,
-})
-
-minetest.register_biome(
-   {
-      name = "Dry Swamp",
-
-      node_top = "rp_default:dirt_with_swamp_grass",
-      node_filler = "rp_default:swamp_dirt",
-
-      depth_filler = 6,
-      depth_top = 1,
-
-      y_min = 2,
-      y_max = 31000,
-
-      heat_point = 20,
-      humidity_point = 75,
-})
-
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
-      sidelen = 16,
-      fill_ratio = 0.003,
-      biomes = {"Dry Swamp"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_swamp_birch.mts",
-      y_min = -32000,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass", "rp_default:dirt"},
-      sidelen = 16,
-      fill_ratio = 0.0001,
-      biomes = {"Dry Swamp"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_appletree.mts",
-      y_min = -32000,
-      y_max = 32000,
-})
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.004,
-      biomes = {"Dry Swamp"},
-      flags = "place_center_x, place_center_z",
-      replacements = {
-         ["default:leaves"] = "rp_default:leaves_birch",
-         ["default:tree"] = "rp_default:tree_birch",
-         ["default:apple"] = "air"
-      },
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_squaretree.mts",
-      y_min = -32000,
-      y_max = 32000,
-})
-
-
-minetest.register_decoration(
-   {
-      deco_type = "simple",
-      place_on = {"rp_default:dirt_with_swamp_grass"},
-      sidelen = 16,
-      fill_ratio = 0.2,
-      biomes = {"Dry Swamp"},
-      flags = "place_center_x, place_center_z",
-      decoration = {"rp_default:swamp_grass"},
-      y_min = -32000,
-      y_max = 32000,
-})
-
-minetest.register_ore( -- Dry Swamp (dirt)
-   {
-      ore_type       = "blob",
-      ore            = "rp_default:dirt_with_grass",
-      wherein        = {"rp_default:dirt_with_swamp_grass"},
-      biomes         = {"Dry Swamp"},
-      clust_scarcity = 3*3*3,
-      clust_num_ores = 10,
-      clust_size     = 4,
-      y_min          = -31000,
-      y_max          = 31000,
-      noise_params   = spring_ore_np(13943),
-})
-minetest.register_ore( -- Dry Swamp (dirt)
-   {
-      ore_type       = "blob",
-      ore            = "rp_default:dirt",
-      wherein        = {"rp_default:swamp_dirt"},
-      biomes         = {"Dry Swamp"},
-      clust_scarcity = 3*3*3,
-      clust_num_ores = 10,
-      clust_size     = 4,
-      y_min          = -31000,
-      y_max          = 31000,
-      noise_params   = spring_ore_np(13943),
-})
-
-]]
-
-minetest.register_biome(
-   {
-      name = "Papyrus Swamp",
-
-      node_top = "rp_default:dirt_with_swamp_grass",
-      node_filler = "rp_default:swamp_dirt",
-      node_cave_liquid = "rp_default:swamp_water_source",
-
-      depth_filler = 4,
-      depth_top = 1,
-
-      y_min = 2,
-      y_max = 31000,
-
-      heat_point = 20,
-      humidity_point = 88,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "simple",
-      place_on = {"rp_default:swamp_dirt", "rp_default:dirt_with_swamp_grass"},
-      spawn_by = {"group:water"},
-      num_spawn_by = 1,
-      sidelen = 16,
-      fill_ratio = 0.60,
-      biomes = {"Papyrus Swamp"},
-      decoration = {"rp_default:papyrus"},
-      height = 4,
-      height_max = 4,
-      y_max = 31000,
-      y_min = -100,
 })
 
 
