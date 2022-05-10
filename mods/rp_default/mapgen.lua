@@ -1779,7 +1779,6 @@ minetest.register_decoration(
       },
 })
 
-]]
 minetest.register_biome(
    {
       name = "Tall Birch Forest",
@@ -1850,3 +1849,258 @@ minetest.register_decoration(
       y_min = -32000,
       y_max = 32000,
 })
+
+
+minetest.register_biome(
+   {
+      name = "Oak Shrubbery",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 3,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 61,
+      humidity_point = 44,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Oak Shrubbery"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_oaktree.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0075,
+      biomes = {"Oak Shrubbery"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_bush_wide.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0003,
+      biomes = {"Oak Shrubbery"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_normal_bush_small.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_biome(
+   {
+      name = "Oak Forest",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 5,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 61,
+      humidity_point = 50,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0009,
+      biomes = {"Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_1.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0225,
+      biomes = {"Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_oaktree.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_bush_wide.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_biome(
+   {
+      name = "Tall Oak Forest",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 6,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 61,
+      humidity_point = 55,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0045,
+      biomes = {"Tall Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_1.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0045,
+      biomes = {"Tall Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_2.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0015,
+      biomes = {"Tall Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_oaktree.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+]]
+
+minetest.register_biome(
+   {
+      name = "Dense Oak Forest",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 7,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 61,
+      humidity_point = 60,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.035,
+      biomes = {"Dense Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_1.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.035,
+      biomes = {"Dense Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_2.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.02,
+      biomes = {"Dense Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_oaktree.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.03,
+      biomes = {"Dense Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_bush_wide.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+
