@@ -78,8 +78,8 @@ minetest.register_biome(
       y_min = 2,
       y_max = 7,
 
-      heat_point = 35,
-      humidity_point = 55,
+      heat_point = 91,
+      humidity_point = 96,
 })
 
 minetest.register_biome(
@@ -96,8 +96,8 @@ minetest.register_biome(
       y_min = 2,
       y_max = 7,
 
-      heat_point = 30,
-      humidity_point = 42,
+      heat_point = 36,
+      humidity_point = 86,
 })
 
 minetest.register_biome(
@@ -113,8 +113,8 @@ minetest.register_biome(
       y_min = 30,
       y_max = 40,
 
-      heat_point = 33,
-      humidity_point = 40,
+      heat_point = 24,
+      humidity_point = 24,
 })
 
 minetest.register_biome(
@@ -130,8 +130,8 @@ minetest.register_biome(
       y_min = 2,
       y_max = 200,
 
-      heat_point = 35,
-      humidity_point = 40,
+      heat_point = 48,
+      humidity_point = 34,
 })
 
 minetest.register_biome(
@@ -147,8 +147,8 @@ minetest.register_biome(
       y_min = 3,
       y_max = 32000,
 
-      heat_point = 40,
-      humidity_point = 38,
+      heat_point = 45,
+      humidity_point = 19,
 })
 
 minetest.register_biome(
@@ -164,8 +164,8 @@ minetest.register_biome(
       y_min = 3,
       y_max = 32000,
 
-      heat_point = 46,
-      humidity_point = 35,
+      heat_point = 76,
+      humidity_point = 30,
 })
 
 minetest.register_biome(
@@ -181,8 +181,8 @@ minetest.register_biome(
       y_min = 3,
       y_max = 20,
 
-      heat_point = 50,
-      humidity_point = 33,
+      heat_point = 71,
+      humidity_point = 52,
 })
 
 minetest.register_biome(
@@ -198,8 +198,8 @@ minetest.register_biome(
       y_min = 21,
       y_max = 32000,
 
-      heat_point = 50,
-      humidity_point = 33,
+      heat_point = 34,
+      humidity_point = 5,
 })
 
 minetest.register_biome(
@@ -215,8 +215,8 @@ minetest.register_biome(
       y_min = 56,
       y_max = 32000,
 
-      heat_point = 60,
-      humidity_point = 30,
+      heat_point = 107,
+      humidity_point = 45,
 })
 
 minetest.register_biome(
@@ -232,7 +232,7 @@ minetest.register_biome(
       y_min = 1,
       y_max = 55,
 
-      heat_point = 60,
+      heat_point = 101,
       humidity_point = 25,
 })
 
@@ -249,8 +249,8 @@ minetest.register_biome(
       y_min = 1,
       y_max = 32000,
 
-      heat_point = 75,
-      humidity_point = 20,
+      heat_point = 112,
+      humidity_point = 32,
 })
 
 minetest.register_biome(
@@ -266,7 +266,7 @@ minetest.register_biome(
       y_min = -32000,
       y_max = 32000,
 
-      heat_point = 80,
+      heat_point = 95,
       humidity_point = 20,
 })
 
@@ -283,8 +283,8 @@ minetest.register_biome(
       y_min = -32000,
       y_max = 32000,
 
-      heat_point = 70,
-      humidity_point = 25,
+      heat_point = 79,
+      humidity_point = 1,
 })
 
 minetest.register_biome(
@@ -300,8 +300,8 @@ minetest.register_biome(
       y_min = -32000,
       y_max = 32000,
 
-      heat_point = 68,
-      humidity_point = 30,
+      heat_point = 78,
+      humidity_point = 9,
 })
 
 minetest.register_biome(
@@ -317,8 +317,8 @@ minetest.register_biome(
       y_min = 1,
       y_max = 32000,
 
-      heat_point = 65,
-      humidity_point = 30,
+      heat_point = 94,
+      humidity_point = 14,
 })
 
 minetest.register_biome(
@@ -334,8 +334,8 @@ minetest.register_biome(
       y_min = 2,
       y_max = 200,
 
-      heat_point = 64,
-      humidity_point = 21,
+      heat_point = 76,
+      humidity_point = 15,
 })
 
 minetest.register_biome(
@@ -351,8 +351,8 @@ minetest.register_biome(
       y_min = 1,
       y_max = 200,
 
-      heat_point = 80,
-      humidity_point = 80,
+      heat_point = 18,
+      humidity_point = 2,
 })
 
 minetest.register_biome(
@@ -368,8 +368,8 @@ minetest.register_biome(
       y_min = 1,
       y_max = 32000,
 
-      heat_point = 40,
-      humidity_point = 40,
+      heat_point = 47,
+      humidity_point = 0,
 })
 
 minetest.register_biome(
@@ -385,8 +385,8 @@ minetest.register_biome(
       y_min = 1,
       y_max = 32000,
 
-      heat_point = 38,
-      humidity_point = 48,
+      heat_point = 58,
+      humidity_point = 9,
 })
 
 minetest.register_biome(
@@ -402,8 +402,8 @@ minetest.register_biome(
       y_min = 1,
       y_max = 32000,
 
-      heat_point = 31,
-      humidity_point = 58,
+      heat_point = 6,
+      humidity_point = 14,
 })
 
 minetest.register_biome(
@@ -419,8 +419,8 @@ minetest.register_biome(
       y_min = 1,
       y_max = 32000,
 
-      heat_point = 31,
-      humidity_point = 64,
+      heat_point = 18,
+      humidity_point = 15,
 })
 
 minetest.register_biome(
@@ -436,7 +436,7 @@ minetest.register_biome(
       y_min = 1,
       y_max = 32000,
 
-      heat_point = 61,
+      heat_point = 22,
       humidity_point = 44,
 })
 
@@ -455,8 +455,8 @@ minetest.register_biome(
       y_min = 1,
       y_max = 32000,
 
-      heat_point = 61,
-      humidity_point = 50,
+      heat_point = 22,
+      humidity_point = 44,
 })
 minetest.register_biome(
    {
@@ -471,8 +471,8 @@ minetest.register_biome(
       y_min = 1,
       y_max = 32000,
 
-      heat_point = 61,
-      humidity_point = 55,
+      heat_point = 10,
+      humidity_point = 43,
 })
 
 minetest.register_biome(
@@ -488,8 +488,8 @@ minetest.register_biome(
       y_min = 1,
       y_max = 32000,
 
-      heat_point = 61,
-      humidity_point = 60,
+      heat_point = 0,
+      humidity_point = 43,
 })
 minetest.register_biome(
    {
@@ -505,8 +505,8 @@ minetest.register_biome(
       y_min = 2,
       y_max = 31000,
 
-      heat_point = 20,
-      humidity_point = 80,
+      heat_point = 62,
+      humidity_point = 93,
 })
 
 minetest.register_biome(
@@ -523,8 +523,8 @@ minetest.register_biome(
       y_min = 2,
       y_max = 31000,
 
-      heat_point = 20,
-      humidity_point = 85,
+      heat_point = 12,
+      humidity_point = 83,
 })
 
 minetest.register_biome(
@@ -540,8 +540,8 @@ minetest.register_biome(
       y_min = 2,
       y_max = 31000,
 
-      heat_point = 20,
-      humidity_point = 75,
+      heat_point = 0,
+      humidity_point = 67,
 })
 
 
@@ -559,8 +559,8 @@ minetest.register_biome(
       y_min = 2,
       y_max = 31000,
 
-      heat_point = 20,
-      humidity_point = 88,
+      heat_point = 49,
+      humidity_point = 89,
 })
 
 
@@ -581,8 +581,8 @@ minetest.register_biome(
       y_min = -32000,
       y_max = 2,
 
-      heat_point = 50,
-      humidity_point = 35,
+      heat_point = 71,
+      humidity_point = 52,
 })
 
 minetest.register_biome(
@@ -598,8 +598,8 @@ minetest.register_biome(
       y_min = -5,
       y_max = 1,
 
-      heat_point = 59,
-      humidity_point = 31,
+      heat_point = 79,
+      humidity_point = 1,
 })
 
 minetest.register_biome(
@@ -615,8 +615,8 @@ minetest.register_biome(
       y_min = -32000,
       y_max = 0,
 
-      heat_point = 60,
-      humidity_point = 30,
+      heat_point = 101,
+      humidity_point = 25,
 })
 
 end
