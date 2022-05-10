@@ -1063,6 +1063,7 @@ minetest.register_ore( -- Large clusters
 -- EXPERIMENTAL BIOMES
 
 minetest.clear_registered_biomes()
+minetest.clear_registered_ores()
 minetest.clear_registered_decorations()
 
 --[[
@@ -1269,7 +1270,6 @@ minetest.register_decoration(
       y_max = 32000,
 })
 
-]]
 
 minetest.register_biome(
    {
@@ -1372,6 +1372,126 @@ minetest.register_decoration(
       y_min = 1,
       y_max = 32000,
       rotation = "random",
+})
+]]
+
+minetest.register_biome(
+   {
+      name = "Thorny Shrubs",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 4,
+      depth_top = 1,
+
+      y_min = 2,
+      y_max = 200,
+
+      heat_point = 64,
+      humidity_point = 21,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0001,
+      biomes = {"Thorny Shrubs"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_appletree.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Thorny Shrubs"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
+      y_min = 3,
+      y_max = 32000,
+      rotation = "0",
+      noise_params = {
+	      octaves = 1,
+	      scale = -0.004,
+	      offset = 0.002,
+	      spread = { x = 82, y = 82, z = 82 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 43905,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Thorny Shrubs"},
+      flags = "place_center_x, place_center_z",
+      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_dry_bush.mts",
+      y_min = 5,
+      y_max = 32000,
+      rotation = "0",
+      noise_params = {
+	      octaves = 1,
+	      scale = -0.004,
+	      offset = -0.001,
+	      spread = { x = 82, y = 82, z = 82 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 493421,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:dirt_with_grass", "rp_default:dry_dirt"},
+      sidelen = 4,
+      biomes = {"Thorny Shrubs"},
+      decoration = {"rp_default:thistle"},
+      height = 2,
+      y_min = -32000,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+	      scale = 1,
+	      offset = -0.5,
+	      spread = { x = 12, y = 12, z = 12 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 43905,
+      },
+})
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:dirt_with_grass",
+      sidelen = 16,
+      fill_ratio = 0.05,
+      biomes = {"Thorny Shrubs"},
+      decoration = {"rp_default:tall_grass"},
+      y_min = 0,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:dirt_with_grass",
+      sidelen = 16,
+      fill_ratio = 0.1,
+      biomes = {"Thorny Shrubs"},
+      decoration = {"rp_default:grass"},
+      y_min = 0,
+      y_max = 32000,
 })
 
 
