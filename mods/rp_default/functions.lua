@@ -459,8 +459,17 @@ minetest.register_abm( -- leaf decay
       end
 })
 
+local dry_biomes = {
+   ["Charparral"] = true,
+   ["Savanna"] = true,
+   ["Savanna Ocean"] = true,
+   ["Desert"] = true,
+   ["Wasteland"] = true,
+   ["Rocky Dryland"] = true,
+}
+
 local is_dry_biome = function(biomename)
-   return biomename == "Charparral" or biomename == "Savanna" or biomename == "Savanna Ocean" or biomename == "Desert" or biomename == "Wasteland"
+   return dry_biomes[biomename] == true
 end
 
 minetest.register_abm( -- dirt and grass footsteps becomes dirt with grass if uncovered

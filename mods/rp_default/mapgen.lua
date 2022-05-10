@@ -322,6 +322,7 @@ minetest.register_biome(
       heat_point = 60,
       humidity_point = 30,
 })
+
 end
 
 local function spring_ore_np(seed)
@@ -1057,4 +1058,152 @@ minetest.register_ore( -- Large clusters
       clust_size     = 10,
       y_min          = -230,
       y_max          = -180,
+})
+
+-- EXPERIMENTAL BIOMES
+
+minetest.clear_registered_biomes()
+minetest.clear_registered_decorations()
+
+minetest.register_biome(
+   {
+      name = "Rocky Dryland",
+
+      node_top = "rp_default:dry_dirt",
+      node_filler = "rp_default:dry_dirt",
+
+      depth_filler = 0,
+      depth_top = 1,
+
+      y_min = -32000,
+      y_max = 32000,
+
+      heat_point = 70,
+      humidity_point = 25,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.0001,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_tiny_birch.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.00025,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_tree_3layer.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.00025,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_tree_2layer.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.002,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_tiny_dry_tree.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_shrub.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+
+
+
+
+
+minetest.register_ore(
+   {
+      ore_type       = "blob",
+      ore            = "rp_default:gravel",
+      wherein        = "rp_default:dry_dirt",
+      biomes = {"Rocky Dryland"},
+      clust_scarcity = 8*8*8,
+      clust_size     = 8,
+      y_min          = -31000,
+      y_max          = 31000,
+      noise_params = {
+	      octaves = 1,
+	      scale = 1,
+	      offset = 0,
+	      spread = { x = 100, y = 100, z = 100 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 43400,
+      },
+})
+minetest.register_ore(
+   {
+      ore_type       = "blob",
+      ore            = "rp_default:stone",
+      wherein        = "rp_default:dry_dirt",
+      biomes = {"Rocky Dryland"},
+      clust_scarcity = 8*8*8,
+      clust_size     = 7,
+      y_min          = -31000,
+      y_max          = 31000,
+      noise_params = {
+	      octaves = 1,
+	      scale = 1,
+	      offset = 0,
+	      spread = { x = 100, y = 100, z = 100 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 13940,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:stone", "rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.003,
+      biomes = {"Rocky Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_small_rock.mts",
+      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
+      y_min = 1,
+      y_max = 32000,
+      rotation = "random",
 })
