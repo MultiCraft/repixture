@@ -1373,7 +1373,6 @@ minetest.register_decoration(
       y_max = 32000,
       rotation = "random",
 })
-]]
 
 minetest.register_biome(
    {
@@ -1492,6 +1491,145 @@ minetest.register_decoration(
       decoration = {"rp_default:grass"},
       y_min = 0,
       y_max = 32000,
+})
+
+
+]]
+
+local MYSTERY_FOREST_SPREAD = { x=500, y=500, z=500 }
+local MYSTERY_FOREST_OFFSET = 0.001
+local MYSTERY_FOREST_OFFSET_STAIRCASE = -0.001
+local MYSTERY_FOREST_OFFSET_APPLES = -0.0005
+local MYSTERY_FOREST_SCALE = 0.008
+
+minetest.register_biome(
+   {
+      name = "Mystery Forest",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 4,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 200,
+
+      heat_point = 80,
+      humidity_point = 80,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Mystery Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_telephone_tree.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+	      scale = -MYSTERY_FOREST_SCALE,
+	      offset = MYSTERY_FOREST_OFFSET,
+	      spread = MYSTERY_FOREST_SPREAD,
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 49204,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Mystery Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_telephone_tree_apples.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+	      scale = -MYSTERY_FOREST_SCALE,
+	      offset = MYSTERY_FOREST_OFFSET_APPLES,
+	      spread = MYSTERY_FOREST_SPREAD,
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 49204,
+      },
+})
+
+
+
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Mystery Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_staircase_tree.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+	      scale = -MYSTERY_FOREST_SCALE,
+	      offset = MYSTERY_FOREST_OFFSET_STAIRCASE,
+	      spread = MYSTERY_FOREST_SPREAD,
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 49204,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Mystery Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_layer_birch.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+              scale = MYSTERY_FOREST_SCALE,
+              offset = MYSTERY_FOREST_OFFSET,
+	      spread = MYSTERY_FOREST_SPREAD,
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 49204,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Mystery Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_cross_birch.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+              scale = MYSTERY_FOREST_SCALE,
+              offset = MYSTERY_FOREST_OFFSET,
+	      spread = MYSTERY_FOREST_SPREAD,
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 49204,
+      },
 })
 
 
