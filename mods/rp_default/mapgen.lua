@@ -1208,7 +1208,6 @@ minetest.register_decoration(
       y_max = 32000,
       rotation = "random",
 })
-]]
 
 minetest.register_biome(
    {
@@ -1227,27 +1226,6 @@ minetest.register_biome(
       humidity_point = 30,
 })
 
-minetest.register_ore(
-   {
-      ore_type       = "scatter",
-      ore            = "rp_default:dry_dirt",
-      wherein        = "rp_default:dirt_with_dry_grass",
-      biomes = {"Wooded Dryland"},
-      clust_scarcity = 6*6*6,
-      clust_size     = 5,
-      clust_num_ores = 30,
-      y_min          = -31000,
-      y_max          = 31000,
-      noise_params = {
-	      octaves = 1,
-	      scale = 1,
-	      offset = 0,
-	      spread = { x = 100, y = 100, z = 100 },
-	      lacunarity = 2.0,
-	      persistence = 0.5,
-	      seed = 12440,
-      },
-})
 minetest.register_ore(
    {
       ore_type       = "scatter",
@@ -1290,4 +1268,110 @@ minetest.register_decoration(
       y_min = 1,
       y_max = 32000,
 })
+
+]]
+
+minetest.register_biome(
+   {
+      name = "Savannic Wasteland",
+
+      node_top = "rp_default:dry_dirt",
+      node_filler = "rp_default:sandstone",
+
+      depth_filler = 2,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 65,
+      humidity_point = 30,
+})
+
+minetest.register_ore(
+   {
+      ore_type       = "scatter",
+      ore            = "rp_default:dirt_with_dry_grass",
+      wherein        = "rp_default:dry_dirt",
+      biomes = {"Savannic Wasteland"},
+      clust_scarcity = 6*6*6,
+      clust_size     = 6,
+      clust_num_ores = 40,
+      y_min          = 2,
+      y_max          = 31000,
+      noise_params = {
+	      octaves = 1,
+	      scale = 1,
+	      offset = 0.1,
+	      spread = { x = 100, y = 100, z = 100 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 12449,
+      },
+})
+
+minetest.register_ore(
+   {
+      ore_type       = "blob",
+      ore            = "rp_default:dirt_with_dry_grass",
+      wherein        = "rp_default:dry_dirt",
+      biomes = {"Savannic Wasteland"},
+      clust_scarcity = 7*7*7,
+      clust_size     = 4,
+      y_min          = 2,
+      y_max          = 31000,
+      noise_params = {
+	      octaves = 2,
+	      scale = 1,
+	      offset = 0.2,
+	      spread = { x = 100, y = 100, z = 100 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 12450,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.0002,
+      biomes = {"Savannic Wasteland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_tiny_dry_tree.mts",
+      y_min = 3,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_dry_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0025,
+      biomes = {"Savannic Wasteland"},
+      flags = "place_center_x, place_center_z",
+      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_shrub.mts",
+      y_min = 3,
+      y_max = 32000,
+      rotation = "0",
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt", "rp_default:dirt_with_dry_grass"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Savannic Wasteland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_small_rock.mts",
+      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
+      y_min = 1,
+      y_max = 32000,
+      rotation = "random",
+})
+
 
