@@ -1702,8 +1702,6 @@ minetest.register_decoration(
       y_max = 32000,
 })
 
-]]
-
 minetest.register_biome(
    {
       name = "Baby Poplar Plains",
@@ -1781,4 +1779,74 @@ minetest.register_decoration(
       },
 })
 
+]]
+minetest.register_biome(
+   {
+      name = "Tall Birch Forest",
 
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 3,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 31,
+      humidity_point = 58,
+})
+
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.015,
+      biomes = {"Tall Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_birch_tall.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+
+minetest.register_biome(
+   {
+      name = "Birch Forest",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 3,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 31,
+      humidity_point = 64,
+})
+
+
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.015,
+      biomes = {"Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      replacements = {
+         ["default:leaves"] = "rp_default:leaves_birch",
+         ["default:tree"] = "rp_default:tree_birch",
+         ["default:apple"] = "air"
+      },
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/default_squaretree.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
