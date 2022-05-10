@@ -62,10 +62,40 @@ minetest.clear_registered_biomes()
 
 local mg_name = minetest.get_mapgen_setting("mg_name")
 
+local register_ocean_and_beach = function(biomename, node_ocean, beach_depth, node_beach)
+	local orig_biome = minetest.registered_biomes[biomename]
+	if not orig_biome then
+		return
+	end
+	local newdef = table.copy(orig_biome)
+	newdef.name = biomename .. " Ocean"
+	newdef.node_top = node_ocean or "rp_default:sand"
+	newdef.node_filler = newdef.node_top
+	newdef.y_min = -32000
+
+	if beach_depth and beach_depth > 0 then
+		newdef.y_max = orig_biome.y_min - beach_depth - 1
+	else
+		newdef.y_max = orig_biome.y_min - 1
+	end
+
+	minetest.register_biome(newdef)
+
+	if beach_depth and beach_depth > 0 then
+		local newdef2 = table.copy(orig_biome)
+		newdef2.name = biomename .. " Beach"
+		newdef2.node_top = node_beach or "rp_default:sand"
+		newdef2.node_filler = newdef2.node_top
+		newdef2.y_min = orig_biome.y_min - beach_depth
+		newdef2.y_max = orig_biome.y_min - 1
+		minetest.register_biome(newdef2)
+	end
+end
+
 if mg_name ~= "v6" then
 
 minetest.register_biome(
-   {
+{
       name = "Marsh",
 
       node_top = "rp_default:dirt_with_grass",
@@ -81,6 +111,7 @@ minetest.register_biome(
       heat_point = 91,
       humidity_point = 96,
 })
+register_ocean_and_beach("Marsh", "rp_default:dirt")
 
 minetest.register_biome(
    {
@@ -99,6 +130,7 @@ minetest.register_biome(
       heat_point = 36,
       humidity_point = 86,
 })
+register_ocean_and_beach("Mixed Swamp", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -117,6 +149,25 @@ minetest.register_biome(
       humidity_point = 24,
 })
 
+-- TODO: Replace with an actual biome
+minetest.register_biome(
+   {
+      name = "Deep Forest Lowland",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 6,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 29,
+
+      heat_point = 24,
+      humidity_point = 24,
+})
+register_ocean_and_beach("Deep Forest Lowland", "rp_default:dirt")
+
 minetest.register_biome(
    {
       name = "Forest",
@@ -133,6 +184,7 @@ minetest.register_biome(
       heat_point = 48,
       humidity_point = 34,
 })
+register_ocean_and_beach("Forest", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -150,6 +202,7 @@ minetest.register_biome(
       heat_point = 45,
       humidity_point = 19,
 })
+register_ocean_and_beach("Grove", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -167,6 +220,7 @@ minetest.register_biome(
       heat_point = 76,
       humidity_point = 30,
 })
+register_ocean_and_beach("Wilderness", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -184,6 +238,7 @@ minetest.register_biome(
       heat_point = 71,
       humidity_point = 52,
 })
+register_ocean_and_beach("Grassland", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -201,6 +256,24 @@ minetest.register_biome(
       heat_point = 34,
       humidity_point = 5,
 })
+-- TODO: Replace with an actual biome
+minetest.register_biome(
+   {
+      name = "Orchard Lowland",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 4,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 20,
+
+      heat_point = 34,
+      humidity_point = 5,
+})
+register_ocean_and_beach("Orchard Lowland", "rp_default:dirt")
 
 minetest.register_biome(
    {
@@ -218,6 +291,24 @@ minetest.register_biome(
       heat_point = 107,
       humidity_point = 45,
 })
+-- TODO: Replace with an actual biome
+minetest.register_biome(
+   {
+      name = "Chaparral Lowland",
+
+      node_top = "rp_default:dirt_with_dry_grass",
+      node_filler = "rp_default:dry_dirt",
+
+      depth_filler = 0,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 55,
+
+      heat_point = 107,
+      humidity_point = 45,
+})
+register_ocean_and_beach("Chaparral Lowland", "rp_default:dirt")
 
 minetest.register_biome(
    {
@@ -229,12 +320,13 @@ minetest.register_biome(
       depth_filler = 2,
       depth_top = 1,
 
-      y_min = 1,
+      y_min = 2,
       y_max = 55,
 
       heat_point = 101,
       humidity_point = 25,
 })
+register_ocean_and_beach("Savanna", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -252,6 +344,7 @@ minetest.register_biome(
       heat_point = 112,
       humidity_point = 32,
 })
+register_ocean_and_beach("Desert", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -263,12 +356,13 @@ minetest.register_biome(
       depth_filler = 3,
       depth_top = 1,
 
-      y_min = -32000,
+      y_min = 2,
       y_max = 32000,
 
       heat_point = 95,
       humidity_point = 20,
 })
+register_ocean_and_beach("Wasteland", "rp_default:dry_dirt", 5, "rp_default:gravel")
 
 minetest.register_biome(
    {
@@ -280,12 +374,13 @@ minetest.register_biome(
       depth_filler = 0,
       depth_top = 1,
 
-      y_min = -32000,
+      y_min = 3,
       y_max = 32000,
 
       heat_point = 79,
       humidity_point = 1,
 })
+register_ocean_and_beach("Rocky Dryland", "rp_default:gravel")
 
 minetest.register_biome(
    {
@@ -297,12 +392,13 @@ minetest.register_biome(
       depth_filler = 4,
       depth_top = 1,
 
-      y_min = -32000,
+      y_min = 1,
       y_max = 32000,
 
       heat_point = 78,
       humidity_point = 9,
 })
+register_ocean_and_beach("Wooded Dryland", "rp_default:dry_dirt")
 
 minetest.register_biome(
    {
@@ -314,12 +410,13 @@ minetest.register_biome(
       depth_filler = 2,
       depth_top = 1,
 
-      y_min = 1,
+      y_min = 2,
       y_max = 32000,
 
       heat_point = 94,
       humidity_point = 14,
 })
+register_ocean_and_beach("Savannic Wasteland", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -337,6 +434,7 @@ minetest.register_biome(
       heat_point = 76,
       humidity_point = 15,
 })
+register_ocean_and_beach("Thorny Shrubs", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -354,6 +452,7 @@ minetest.register_biome(
       heat_point = 18,
       humidity_point = 2,
 })
+register_ocean_and_beach("Mystery Forest", "rp_default:dirt")
 
 minetest.register_biome(
    {
@@ -371,6 +470,7 @@ minetest.register_biome(
       heat_point = 47,
       humidity_point = 0,
 })
+register_ocean_and_beach("Poplar Plains", "rp_default:dirt")
 
 minetest.register_biome(
    {
@@ -382,12 +482,13 @@ minetest.register_biome(
       depth_filler = 4,
       depth_top = 1,
 
-      y_min = 1,
+      y_min = 2,
       y_max = 32000,
 
       heat_point = 58,
       humidity_point = 9,
 })
+register_ocean_and_beach("Baby Poplar Plains", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -399,12 +500,13 @@ minetest.register_biome(
       depth_filler = 3,
       depth_top = 1,
 
-      y_min = 1,
+      y_min = 2,
       y_max = 32000,
 
       heat_point = 6,
       humidity_point = 14,
 })
+register_ocean_and_beach("Tall Birch Forest", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -422,6 +524,7 @@ minetest.register_biome(
       heat_point = 18,
       humidity_point = 15,
 })
+register_ocean_and_beach("Birch Forest", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -439,6 +542,7 @@ minetest.register_biome(
       heat_point = 22,
       humidity_point = 44,
 })
+register_ocean_and_beach("Oak Shrubbery", "rp_default:dirt")
 
 
 
@@ -458,6 +562,8 @@ minetest.register_biome(
       heat_point = 22,
       humidity_point = 44,
 })
+register_ocean_and_beach("Oak Forest", "rp_default:sand")
+
 minetest.register_biome(
    {
       name = "Tall Oak Forest",
@@ -474,6 +580,7 @@ minetest.register_biome(
       heat_point = 10,
       humidity_point = 43,
 })
+register_ocean_and_beach("Tall Oak Forest", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -491,6 +598,8 @@ minetest.register_biome(
       heat_point = 0,
       humidity_point = 43,
 })
+register_ocean_and_beach("Dense Oak Forest", "rp_default:sand")
+
 minetest.register_biome(
    {
       name = "Swamp Meadow",
@@ -508,6 +617,7 @@ minetest.register_biome(
       heat_point = 62,
       humidity_point = 93,
 })
+register_ocean_and_beach("Swamp Meadow", "rp_default:swamp_dirt")
 
 minetest.register_biome(
    {
@@ -526,6 +636,7 @@ minetest.register_biome(
       heat_point = 12,
       humidity_point = 83,
 })
+register_ocean_and_beach("Swamp Forest", "rp_default:swamp_dirt")
 
 minetest.register_biome(
    {
@@ -543,7 +654,7 @@ minetest.register_biome(
       heat_point = 0,
       humidity_point = 67,
 })
-
+register_ocean_and_beach("Dry Swamp", "rp_default:sand")
 
 minetest.register_biome(
    {
@@ -563,61 +674,8 @@ minetest.register_biome(
       humidity_point = 89,
 })
 
+register_ocean_and_beach("Papyrus Swamp", "rp_default:sand")
 
-
-
--- Oceans
-
-minetest.register_biome(
-   {
-      name = "Grassland Ocean",
-
-      node_top = "rp_default:sand",
-      node_filler = "rp_default:dirt",
-
-      depth_filler = 1,
-      depth_top = 3,
-
-      y_min = -32000,
-      y_max = 2,
-
-      heat_point = 71,
-      humidity_point = 52,
-})
-
-minetest.register_biome(
-   {
-      name = "Gravel Beach",
-
-      node_top = "rp_default:gravel",
-      node_filler = "rp_default:sand",
-
-      depth_filler = 2,
-      depth_top = 1,
-
-      y_min = -5,
-      y_max = 1,
-
-      heat_point = 79,
-      humidity_point = 1,
-})
-
-minetest.register_biome(
-   {
-      name = "Savanna Ocean",
-
-      node_top = "rp_default:dirt",
-      node_filler = "dfault:dirt",
-
-      depth_filler = 0,
-      depth_top = 1,
-
-      y_min = -32000,
-      y_max = 0,
-
-      heat_point = 101,
-      humidity_point = 25,
-})
 
 end
 
@@ -1953,7 +2011,7 @@ minetest.register_decoration(
       num_spawn_by = 1,
       sidelen = 16,
       fill_ratio = 0.08,
-      biomes = {"Grassland Ocean", "Grassland", "Forest", "Deep Forest", "Wilderness"},
+      biomes = {"Grassland Ocean", "Grassland", "Forest Ocean", "Forest", "Wilderness Ocean", "Wilderness", "Birch Forest Ocean", "Tall Birch Forest Ocean"},
       decoration = {"rp_default:papyrus"},
       height = 2,
       y_max = 3,
@@ -2173,7 +2231,7 @@ minetest.register_decoration(
       place_on = {"rp_default:sand", "rp_default:gravel"},
       sidelen = 16,
       fill_ratio = 0.02,
-      biomes = {"Grassland Ocean", "Gravel Beach"},
+      biomes = {"Grassland Ocean", "Wasteland Beach", "Forest Ocean", "Wilderness Ocean", "Grove Ocean", "Thorny Shrubs Ocean", "Birch Forest Ocean", "Tall Birch Forest Ocean", "Savanna Ocean", "Rocky Dryland Ocean", "Savannic Wasteland Ocean", "Desert Ocean", "Baby Poplar Plains"},
       decoration = {"rp_default:clam"},
       y_min = 0,
       y_max = 1,
