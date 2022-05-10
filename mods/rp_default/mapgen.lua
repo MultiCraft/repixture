@@ -1065,6 +1065,7 @@ minetest.register_ore( -- Large clusters
 minetest.clear_registered_biomes()
 minetest.clear_registered_decorations()
 
+--[[
 minetest.register_biome(
    {
       name = "Rocky Dryland",
@@ -1139,7 +1140,7 @@ minetest.register_decoration(
       place_on = {"rp_default:dry_dirt"},
       sidelen = 16,
       fill_ratio = 0.001,
-      biomes = {"Rocky Dryland"},
+      biomes = {"Rocky Dryland", "Wooded Dryland"},
       flags = "place_center_x, place_center_z",
       replacements = {["default:leaves"] = "rp_default:dry_leaves"},
       schematic = minetest.get_modpath("rp_default") .. "/schematics/default_shrub.mts",
@@ -1207,3 +1208,86 @@ minetest.register_decoration(
       y_max = 32000,
       rotation = "random",
 })
+]]
+
+minetest.register_biome(
+   {
+      name = "Wooded Dryland",
+
+      node_top = "rp_default:dry_dirt",
+      node_filler = "rp_default:dry_dirt",
+
+      depth_filler = 4,
+      depth_top = 1,
+
+      y_min = -32000,
+      y_max = 32000,
+
+      heat_point = 68,
+      humidity_point = 30,
+})
+
+minetest.register_ore(
+   {
+      ore_type       = "scatter",
+      ore            = "rp_default:dry_dirt",
+      wherein        = "rp_default:dirt_with_dry_grass",
+      biomes = {"Wooded Dryland"},
+      clust_scarcity = 6*6*6,
+      clust_size     = 5,
+      clust_num_ores = 30,
+      y_min          = -31000,
+      y_max          = 31000,
+      noise_params = {
+	      octaves = 1,
+	      scale = 1,
+	      offset = 0,
+	      spread = { x = 100, y = 100, z = 100 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 12440,
+      },
+})
+minetest.register_ore(
+   {
+      ore_type       = "scatter",
+      ore            = "rp_default:stone_with_sulfur",
+      wherein        = "rp_default:stone",
+      biomes         = { "Rocky Dryland", "Wooded Dryland"},
+      clust_scarcity = 9*9*9,
+      clust_num_ores = 1,
+      clust_size     = 1,
+      y_min          = -8,
+      y_max          = 32,
+})
+
+
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.003,
+      biomes = {"Wooded Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_tiny_oak.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Wooded Dryland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_tiny_birch.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+

@@ -466,6 +466,7 @@ local dry_biomes = {
    ["Desert"] = true,
    ["Wasteland"] = true,
    ["Rocky Dryland"] = true,
+   ["Wooded Dryland"] = true,
 }
 
 local is_dry_biome = function(biomename)
