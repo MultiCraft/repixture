@@ -1493,9 +1493,6 @@ minetest.register_decoration(
       y_max = 32000,
 })
 
-
-]]
-
 local MYSTERY_FOREST_SPREAD = { x=500, y=500, z=500 }
 local MYSTERY_FOREST_OFFSET = 0.001
 local MYSTERY_FOREST_OFFSET_STAIRCASE = -0.001
@@ -1630,6 +1627,83 @@ minetest.register_decoration(
 	      persistence = 0.5,
 	      seed = 49204,
       },
+})
+
+]]
+
+minetest.register_biome(
+   {
+      name = "Poplar Plains",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 4,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = 32000,
+
+      heat_point = 40,
+      humidity_point = 40,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Poplar Plains"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_poplar_small.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+              scale = 0.01,
+              offset = -0.001,
+	      spread = {x=50,y=50,z=50},
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 94325,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      biomes = {"Poplar Plains"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_poplar_large.mts",
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+	      octaves = 2,
+              scale = 0.01,
+              offset = -0.004,
+	      spread = {x=50,y=50,z=50},
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 94325,
+      },
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      fill_ratio = 0.0002,
+      sidelen = 16,
+      biomes = {"Poplar Field"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_poplar_small.mts",
+      y_min = 1,
+      y_max = 32000,
 })
 
 
