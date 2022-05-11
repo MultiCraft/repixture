@@ -287,6 +287,27 @@ minetest.register_biome(
 register_ocean_and_beach("Orchard Lowland", "rp_default:dirt")
 default.set_biome_info("Orchard Lowland", "grassy")
 
+-- Note: Shrubbery is below Chaparral
+minetest.register_biome(
+   {
+      name = "Shrubbery",
+
+      node_top = "rp_default:dirt_with_grass",
+      node_filler = "rp_default:dirt",
+
+      depth_filler = 3,
+      depth_top = 1,
+
+      y_min = 2,
+      y_max = 55,
+
+      heat_point = 107,
+      humidity_point = 45,
+})
+register_ocean_and_beach("Shrubbery", "rp_default:sand")
+default.set_biome_info("Shrubbery", "grassy")
+
+-- Note: High biome. This is the highland version of Shrubbery
 minetest.register_biome(
    {
       name = "Chaparral",
@@ -304,26 +325,6 @@ minetest.register_biome(
       humidity_point = 45,
 })
 default.set_biome_info("Chaparral", "savannic")
-
--- TODO: Replace with an actual biome
-minetest.register_biome(
-   {
-      name = "Chaparral Lowland",
-
-      node_top = "rp_default:dirt_with_dry_grass",
-      node_filler = "rp_default:dry_dirt",
-
-      depth_filler = 0,
-      depth_top = 1,
-
-      y_min = 1,
-      y_max = 55,
-
-      heat_point = 107,
-      humidity_point = 45,
-})
-register_ocean_and_beach("Chaparral Lowland", "rp_default:dirt")
-default.set_biome_info("Chaparral Lowland", "savannic")
 
 minetest.register_biome(
    {
@@ -1471,9 +1472,19 @@ minetest.register_decoration(
       },
 })
 
-
-
-
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.006,
+      biomes = {"Shrubbery"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
+      y_min = 1,
+      y_max = 32000,
+      rotation = "0",
+})
 
 
 minetest.register_decoration(
@@ -1994,6 +2005,20 @@ minetest.register_decoration(
       y_max = 32000,
 })
 
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.006,
+      biomes = {"Shrubbery"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_normal_bush_small.mts",
+      y_min = 1,
+      y_max = 32000,
+})
+
 
 
 minetest.register_decoration(
@@ -2136,7 +2161,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.18,
-      biomes = {"Grassland", "Orchard", "Swamp Meadow", "Baby Poplar Plains", "Poplar Plains", "Oak Shrubbery", "Thorny Shrubs", "Dry Swamp"},
+      biomes = {"Grassland", "Orchard", "Swamp Meadow", "Baby Poplar Plains", "Poplar Plains", "Shrubbery", "Oak Shrubbery", "Thorny Shrubs", "Dry Swamp"},
       decoration = {"rp_default:grass"},
       y_min = 10,
       y_max = 32000,
@@ -2186,7 +2211,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.08,
-      biomes = {"Forest", "Marsh", "Grove", "Oak Shrubbery"},
+      biomes = {"Forest", "Marsh", "Grove", "Shrubbery", "Oak Shrubbery"},
       decoration = {"rp_default:tall_grass"},
       y_min = 0,
       y_max = 32000,
@@ -2521,9 +2546,9 @@ local dirt_biomes = get_dirt_biomes("rp_default:dirt")
 local dry_dirt_biomes = get_dirt_biomes("rp_default:dry_dirt")
 local swamp_dirt_biomes = get_dirt_biomes("rp_default:swamp_dirt")
 
-minetest.log("error", "[rp_default] List of builtin biomes with Dirt blobs: "..dump(dirt_biomes))
-minetest.log("error", "[rp_default] List of builtin biomes with Dry Dirt blobs: "..dump(dry_dirt_biomes))
-minetest.log("error", "[rp_default] List of builtin biomes with Swamp Dirt blobs: "..dump(swamp_dirt_biomes))
+minetest.log("verbose", "[rp_default] List of builtin biomes with Dirt blobs: "..dump(dirt_biomes))
+minetest.log("verbose", "[rp_default] List of builtin biomes with Dry Dirt blobs: "..dump(dry_dirt_biomes))
+minetest.log("verbose", "[rp_default] List of builtin biomes with Swamp Dirt blobs: "..dump(swamp_dirt_biomes))
 
 local np_dirtlike = {
 	offset  = 0,
