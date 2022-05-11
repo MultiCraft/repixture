@@ -25,6 +25,8 @@ end
 minetest.register_on_generated(on_generated)
 --]]
 
+local UNDERGROUND_Y_MAX = -200
+
 -- Aliases for map generator outputs
 
 minetest.register_alias("mapgen_stone", "rp_default:stone")
@@ -71,7 +73,7 @@ local register_ocean_and_beach = function(biomename, node_ocean, beach_depth, no
 	newdef.name = biomename .. " Ocean"
 	newdef.node_top = node_ocean or "rp_default:sand"
 	newdef.node_filler = newdef.node_top
-	newdef.y_min = -32000
+	newdef.y_min = UNDERGROUND_Y_MAX + 1
 
 	if beach_depth and beach_depth > 0 then
 		newdef.y_max = orig_biome.y_min - beach_depth - 1
@@ -673,8 +675,19 @@ minetest.register_biome(
       heat_point = 49,
       humidity_point = 89,
 })
-
 register_ocean_and_beach("Papyrus Swamp", "rp_default:sand")
+
+-- Special Underground biome
+minetest.register_biome(
+   {
+      name = "Underground",
+
+      y_min = -31000,
+      y_max = UNDERGROUND_Y_MAX,
+
+      heat_point = 50,
+      humidity_point = 50,
+})
 
 
 end
