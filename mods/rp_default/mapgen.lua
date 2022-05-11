@@ -351,7 +351,7 @@ minetest.register_biome(
       y_max = 32000,
 
       heat_point = 95,
-      humidity_point = 20,
+      humidity_point = 0,
 })
 register_ocean_and_beach("Wasteland", "rp_default:dry_dirt", 5, "rp_default:gravel")
 default.set_biome_info("Wasteland", "drylandic")
@@ -560,8 +560,8 @@ minetest.register_biome(
       y_min = 1,
       y_max = 32000,
 
-      heat_point = 22,
-      humidity_point = 44,
+      heat_point = 37,
+      humidity_point = 55,
 })
 register_ocean_and_beach("Oak Shrubbery", "rp_default:dirt")
 default.set_biome_info("Oak Shrubbery", "grassy")
@@ -582,7 +582,7 @@ minetest.register_biome(
       y_max = 32000,
 
       heat_point = 22,
-      humidity_point = 44,
+      humidity_point = 52,
 })
 register_ocean_and_beach("Oak Forest", "rp_default:sand")
 default.set_biome_info("Oak Forest", "grassy")
@@ -669,7 +669,7 @@ minetest.register_biome(
       y_max = SWAMP_Y_MAX,
 
       heat_point = 36,
-      humidity_point = 86,
+      humidity_point = 87,
 })
 register_ocean_and_beach("Mixed Swamp", "rp_default:dirt", 5, "rp_default:swamp_dirt")
 default.set_biome_info("Mixed Swamp", "swamp")
