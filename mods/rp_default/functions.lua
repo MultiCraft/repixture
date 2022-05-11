@@ -459,25 +459,99 @@ minetest.register_abm( -- leaf decay
       end
 })
 
-local dry_biomes = {
-   ["Chaparral"] = true,
-   ["Chaparral Lowland Ocean"] = true,
-   ["Savanna"] = true,
-   ["Savanna Ocean"] = true,
-   ["Desert"] = true,
-   ["Desert Ocean"] = true,
-   ["Wasteland"] = true,
-   ["Wasteland Ocean"] = true,
-   ["Rocky Dryland"] = true,
-   ["Rocky Dryland Ocean"] = true,
-   ["Wooded Dryland"] = true,
-   ["Wooded Dryland Ocean"] = true,
-   ["Savannic Wasteland"] = true,
-   ["Savannic Wasteland Ocean"] = true,
-}
+local biome_data = {}
 
-local is_dry_biome = function(biomename)
-   return dry_biomes[biomename] == true
+-- Returns true if the given biome is considered to be
+-- a 'dry' biome (e.g. for dry grass). Custom or unknown
+-- biomes are never dry.
+default.is_dry_biome = function(biomename)
+   if biome_data[biomename] then
+      return biome_data[biomename].is_dry
+   end
+   return false
+end
+
+-- List of biomes registered with default.set_biome_info
+local core_biomes = {}
+-- Same as above, but without special sub-biomes like beach and ocean variants
+local main_biomes = {}
+
+-- Returns a list of names with all biomes registered with
+-- default.set_biome_info
+default.get_core_biomes = function()
+   return core_biomes
+end
+-- Returns a list of names with all main layer biomes registered with
+-- default.set_biome_info (no sub-biomes like ocean or beach)
+default.get_main_biomes = function()
+   return main_biomes
+end
+
+-- Sets biome metadata for a built-in biome.
+-- Must be called AFTER biome registration.
+-- * biome_name: Name of the *main* biome (not Ocean or Beach variant!)
+-- * biome_class: One of: savannic, drylandic, swampy, desertic, undergroundy
+default.set_biome_info = function(biomename, biome_class)
+   local is_dry = false
+   local dirt_blob = "rp_default:dirt"
+   local sand_blob = "rp_default:sand"
+   local gravel_blob = "rp_default:gravel"
+   if biome_class == "savannic" then
+      is_dry = true
+   elseif biome_class == "drylandic" then
+      dirt_blob = "rp_default:dry_dirt"
+      is_dry = true
+   elseif biome_class == "desertic" then
+      dirt_blob = "rp_default:dry_dirt"
+      is_dry = true
+   elseif biome_class == "swampy" then
+      dirt_blob = "rp_default:swamp_dirt"
+   elseif biome_class == "undergroundy" then
+      dirt_blob = nil
+   end
+   local data = {
+      main_biome = biomename,
+      layer = "main",
+      class = biome_class,
+      is_dry = is_dry,
+      dirt_blob = dirt_blob,
+      sand_blob = sand_blob,
+      gravel_blob = gravel_blob,
+   }
+   biome_data[biomename] = data
+   table.insert(main_biomes, biomename)
+   table.insert(core_biomes, biomename)
+
+   local ocean = biomename .. " Ocean"
+   if minetest.registered_biomes[ocean] then
+      local odata = table.copy(data)
+      odata.layer = "ocean"
+      biome_data[ocean] = odata
+      table.insert(core_biomes, ocean)
+   end
+   local beach = biomename .. " Beach"
+   if minetest.registered_biomes[beach] then
+      local bdata = table.copy(data)
+      bdata.layer = "beach"
+      biome_data[beach] = bdata
+      table.insert(core_biomes, beach)
+   end
+end
+
+-- Returns metadata for a builtin biome. Returns a table with these fields:
+-- * main_biome: Name of the main biome (useful if you have an ocean or beach biome variant)
+-- * layer: "main" for the core biome, "ocean" and "beach" for the special Ocean and Beach variants
+-- * class: Biome class that was assigned (see above)
+-- * is_dry: True if biome is considered dry (e.g. for dry grass)
+-- * dirt_blob: Name of dirt ore node or nil to suppress generation
+-- * sand_blob: Name of sand ore node or nil to suppress generation
+-- * gravel_blob: Name of gravel ore node or nil to suppress generation
+--
+-- Note: dirt_blob, sand_blob and gravel_blob are used to create ores after all builtin
+-- biomes were created. These fields are useless for biomes from
+-- external mods.
+default.get_biome_info = function(biomename)
+   return biome_data[biomename]
 end
 
 minetest.register_abm( -- dirt and grass footsteps becomes dirt with grass if uncovered
@@ -499,7 +573,7 @@ minetest.register_abm( -- dirt and grass footsteps becomes dirt with grass if un
                     minetest.set_node(pos, {name = "rp_default:dirt_with_swamp_grass"})
                 end
             else
-                if is_dry_biome(biomename) then
+                if default.is_dry_biome(biomename) then
                     minetest.set_node(pos, {name = "rp_default:dirt_with_dry_grass"})
                 else
                     minetest.set_node(pos, {name = "rp_default:dirt_with_grass"})

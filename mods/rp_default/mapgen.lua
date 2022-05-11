@@ -114,6 +114,7 @@ minetest.register_biome(
       humidity_point = 96,
 })
 register_ocean_and_beach("Marsh", "rp_default:dirt")
+default.set_biome_info("Marsh", "grassy")
 
 minetest.register_biome(
    {
@@ -133,6 +134,7 @@ minetest.register_biome(
       humidity_point = 86,
 })
 register_ocean_and_beach("Mixed Swamp", "rp_default:sand")
+default.set_biome_info("Mixed Swamp", "swamp")
 
 minetest.register_biome(
    {
@@ -150,6 +152,7 @@ minetest.register_biome(
       heat_point = 24,
       humidity_point = 24,
 })
+default.set_biome_info("Deep Forest", "grassy")
 
 -- TODO: Replace with an actual biome
 minetest.register_biome(
@@ -169,6 +172,7 @@ minetest.register_biome(
       humidity_point = 24,
 })
 register_ocean_and_beach("Deep Forest Lowland", "rp_default:dirt")
+default.set_biome_info("Deep Forest Lowland", "grassy")
 
 minetest.register_biome(
    {
@@ -187,6 +191,7 @@ minetest.register_biome(
       humidity_point = 34,
 })
 register_ocean_and_beach("Forest", "rp_default:sand")
+default.set_biome_info("Forest", "grassy")
 
 minetest.register_biome(
    {
@@ -205,6 +210,7 @@ minetest.register_biome(
       humidity_point = 19,
 })
 register_ocean_and_beach("Grove", "rp_default:sand")
+default.set_biome_info("Grove", "grassy")
 
 minetest.register_biome(
    {
@@ -223,6 +229,7 @@ minetest.register_biome(
       humidity_point = 30,
 })
 register_ocean_and_beach("Wilderness", "rp_default:sand")
+default.set_biome_info("Wilderness", "grassy")
 
 minetest.register_biome(
    {
@@ -241,6 +248,7 @@ minetest.register_biome(
       humidity_point = 52,
 })
 register_ocean_and_beach("Grassland", "rp_default:sand")
+default.set_biome_info("Grassland", "grassy")
 
 minetest.register_biome(
    {
@@ -258,6 +266,7 @@ minetest.register_biome(
       heat_point = 34,
       humidity_point = 5,
 })
+default.set_biome_info("Orchard", "grassy")
 -- TODO: Replace with an actual biome
 minetest.register_biome(
    {
@@ -276,6 +285,7 @@ minetest.register_biome(
       humidity_point = 5,
 })
 register_ocean_and_beach("Orchard Lowland", "rp_default:dirt")
+default.set_biome_info("Orchard Lowland", "grassy")
 
 minetest.register_biome(
    {
@@ -293,6 +303,8 @@ minetest.register_biome(
       heat_point = 107,
       humidity_point = 45,
 })
+default.set_biome_info("Chaparral", "savannic")
+
 -- TODO: Replace with an actual biome
 minetest.register_biome(
    {
@@ -311,6 +323,7 @@ minetest.register_biome(
       humidity_point = 45,
 })
 register_ocean_and_beach("Chaparral Lowland", "rp_default:dirt")
+default.set_biome_info("Chaparral Lowland", "savannic")
 
 minetest.register_biome(
    {
@@ -329,6 +342,7 @@ minetest.register_biome(
       humidity_point = 25,
 })
 register_ocean_and_beach("Savanna", "rp_default:sand")
+default.set_biome_info("Savanna", "savannic")
 
 minetest.register_biome(
    {
@@ -347,6 +361,7 @@ minetest.register_biome(
       humidity_point = 32,
 })
 register_ocean_and_beach("Desert", "rp_default:sand")
+default.set_biome_info("Desert", "desertic")
 
 minetest.register_biome(
    {
@@ -365,6 +380,7 @@ minetest.register_biome(
       humidity_point = 20,
 })
 register_ocean_and_beach("Wasteland", "rp_default:dry_dirt", 5, "rp_default:gravel")
+default.set_biome_info("Wasteland", "drylandic")
 
 minetest.register_biome(
    {
@@ -383,6 +399,7 @@ minetest.register_biome(
       humidity_point = 1,
 })
 register_ocean_and_beach("Rocky Dryland", "rp_default:gravel")
+default.set_biome_info("Rocky Dryland", "drylandic")
 
 minetest.register_biome(
    {
@@ -401,6 +418,7 @@ minetest.register_biome(
       humidity_point = 9,
 })
 register_ocean_and_beach("Wooded Dryland", "rp_default:dry_dirt")
+default.set_biome_info("Wooded Dryland", "drylandic")
 
 minetest.register_biome(
    {
@@ -419,6 +437,7 @@ minetest.register_biome(
       humidity_point = 14,
 })
 register_ocean_and_beach("Savannic Wasteland", "rp_default:sand")
+default.set_biome_info("Savannic Wasteland", "savannic")
 
 minetest.register_biome(
    {
@@ -437,6 +456,7 @@ minetest.register_biome(
       humidity_point = 15,
 })
 register_ocean_and_beach("Thorny Shrubs", "rp_default:sand")
+default.set_biome_info("Thorny Shrubs", "grassy")
 
 minetest.register_biome(
    {
@@ -455,6 +475,7 @@ minetest.register_biome(
       humidity_point = 2,
 })
 register_ocean_and_beach("Mystery Forest", "rp_default:dirt")
+default.set_biome_info("Mystery Forest", "grassy")
 
 minetest.register_biome(
    {
@@ -473,6 +494,7 @@ minetest.register_biome(
       humidity_point = 0,
 })
 register_ocean_and_beach("Poplar Plains", "rp_default:dirt")
+default.set_biome_info("Poplar Plains", "grassy")
 
 minetest.register_biome(
    {
@@ -491,6 +513,7 @@ minetest.register_biome(
       humidity_point = 9,
 })
 register_ocean_and_beach("Baby Poplar Plains", "rp_default:sand")
+default.set_biome_info("Baby Poplar Plains", "grassy")
 
 minetest.register_biome(
    {
@@ -509,6 +532,7 @@ minetest.register_biome(
       humidity_point = 14,
 })
 register_ocean_and_beach("Tall Birch Forest", "rp_default:sand")
+default.set_biome_info("Tall Birch Forest", "grassy")
 
 minetest.register_biome(
    {
@@ -527,6 +551,7 @@ minetest.register_biome(
       humidity_point = 15,
 })
 register_ocean_and_beach("Birch Forest", "rp_default:sand")
+default.set_biome_info("Birch Forest", "grassy")
 
 minetest.register_biome(
    {
@@ -545,8 +570,7 @@ minetest.register_biome(
       humidity_point = 44,
 })
 register_ocean_and_beach("Oak Shrubbery", "rp_default:dirt")
-
-
+default.set_biome_info("Oak Shrubbery", "grassy")
 
 minetest.register_biome(
    {
@@ -565,6 +589,7 @@ minetest.register_biome(
       humidity_point = 44,
 })
 register_ocean_and_beach("Oak Forest", "rp_default:sand")
+default.set_biome_info("Oak Forest", "grassy")
 
 minetest.register_biome(
    {
@@ -583,6 +608,7 @@ minetest.register_biome(
       humidity_point = 43,
 })
 register_ocean_and_beach("Tall Oak Forest", "rp_default:sand")
+default.set_biome_info("Tall Oak Forest", "grassy")
 
 minetest.register_biome(
    {
@@ -601,6 +627,7 @@ minetest.register_biome(
       humidity_point = 43,
 })
 register_ocean_and_beach("Dense Oak Forest", "rp_default:sand")
+default.set_biome_info("Dense Oak Forest", "grassy")
 
 minetest.register_biome(
    {
@@ -620,6 +647,7 @@ minetest.register_biome(
       humidity_point = 93,
 })
 register_ocean_and_beach("Swamp Meadow", "rp_default:swamp_dirt")
+default.set_biome_info("Swamp Meadow", "swampy")
 
 minetest.register_biome(
    {
@@ -639,6 +667,7 @@ minetest.register_biome(
       humidity_point = 83,
 })
 register_ocean_and_beach("Swamp Forest", "rp_default:swamp_dirt")
+default.set_biome_info("Swamp Forest", "swampy")
 
 minetest.register_biome(
    {
@@ -657,6 +686,7 @@ minetest.register_biome(
       humidity_point = 67,
 })
 register_ocean_and_beach("Dry Swamp", "rp_default:sand")
+default.set_biome_info("Dry Swamp", "swampy")
 
 minetest.register_biome(
    {
@@ -676,6 +706,7 @@ minetest.register_biome(
       humidity_point = 89,
 })
 register_ocean_and_beach("Papyrus Swamp", "rp_default:sand")
+default.set_biome_info("Papyrus Swamp", "swampy")
 
 -- Special Underground biome
 minetest.register_biome(
@@ -688,7 +719,7 @@ minetest.register_biome(
       heat_point = 50,
       humidity_point = 50,
 })
-
+default.set_biome_info("Underground", "undergroundy")
 
 end
 
@@ -2419,7 +2450,7 @@ minetest.register_ore( -- Large clusters
       y_max          = -180,
 })
 
--- Gravel, Sand and Dirt
+-- Small gravel blobs
 minetest.register_ore({
 	ore_type       = "blob",
 	ore            = "rp_default:gravel",
@@ -2440,6 +2471,8 @@ minetest.register_ore({
 		flags = "defaults",
 	},
 })
+
+-- Small sand blobs
 minetest.register_ore({
 	ore_type       = "blob",
 	ore            = "rp_default:sand",
@@ -2460,6 +2493,49 @@ minetest.register_ore({
 		flags = "defaults",
 	},
 })
+
+
+-- Dirt, Dry Dirt and Swamp Dirt blobs.
+-- These get generated depending on the biome.
+-- The following code is to generate the list
+-- of biomes that include either dirt, dry dirt or swamp dirt.
+
+-- Returns a list of biomes that use the specified nodename
+-- as its dirt blob, by using the data from
+-- default.get_biome_info.
+-- * nodename: A name of the node (a dirt node)
+local get_dirt_biomes = function(nodename)
+	local biomes = default.get_core_biomes()
+	local out_biomes = {}
+	for b=1, #biomes do
+		local biome_info = default.get_biome_info(biomes[b])
+		-- Add biome to list iff it uses the specified node as dirt blob
+		if biome_info.dirt_blob ~= nil and biome_info.dirt_blob == nodename then
+			table.insert(out_biomes, biomes[b])
+		end
+	end
+	return out_biomes
+end
+
+local dirt_biomes = get_dirt_biomes("rp_default:dirt")
+local dry_dirt_biomes = get_dirt_biomes("rp_default:dry_dirt")
+local swamp_dirt_biomes = get_dirt_biomes("rp_default:swamp_dirt")
+
+minetest.log("error", "[rp_default] List of builtin biomes with Dirt blobs: "..dump(dirt_biomes))
+minetest.log("error", "[rp_default] List of builtin biomes with Dry Dirt blobs: "..dump(dry_dirt_biomes))
+minetest.log("error", "[rp_default] List of builtin biomes with Swamp Dirt blobs: "..dump(swamp_dirt_biomes))
+
+local np_dirtlike = {
+	offset  = 0,
+	scale   = 1,
+	spread  = {x=150, y=150, z=150},
+	seed    = 98943,
+	octaves = 3,
+	persist = 0.5,
+	lacunarity = 2,
+	flags = "defaults",
+}
+
 minetest.register_ore({
 	ore_type       = "blob",
 	ore            = "rp_default:dirt",
@@ -2469,15 +2545,33 @@ minetest.register_ore({
 	clust_size     = 4,
 	y_min          = -31000,
 	y_max          = 31000,
-	noise_params   = {
-		offset  = 0,
-		scale   = 1,
-		spread  = {x=150, y=150, z=150},
-		seed    = 98943,
-		octaves = 3,
-		persist = 0.5,
-		lacunarity = 2,
-		flags = "defaults",
-	},
+	biomes         = dirt_biomes,
+	noise_params   = np_dirtlike,
+})
+
+minetest.register_ore({
+	ore_type       = "blob",
+	ore            = "rp_default:dry_dirt",
+	wherein        = "rp_default:stone",
+	clust_scarcity = 10*10*10,
+	clust_num_ores = 33,
+	clust_size     = 4,
+	y_min          = -31000,
+	y_max          = 31000,
+	biomes         = dry_dirt_biomes,
+	noise_params   = np_dirtlike,
+})
+
+minetest.register_ore({
+	ore_type       = "blob",
+	ore            = "rp_default:swamp_dirt",
+	wherein        = "rp_default:stone",
+	clust_scarcity = 10*10*10,
+	clust_num_ores = 33,
+	clust_size     = 4,
+	y_min          = -31000,
+	y_max          = 31000,
+	biomes         = swamp_dirt_biomes,
+	noise_params   = np_dirtlike,
 })
 
