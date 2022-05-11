@@ -2406,4 +2406,65 @@ minetest.register_ore( -- Large clusters
       y_max          = -180,
 })
 
+-- Gravel, Sand and Dirt
+minetest.register_ore({
+	ore_type       = "blob",
+	ore            = "rp_default:gravel",
+	wherein        = "rp_default:stone",
+	clust_scarcity = 10*10*10,
+	clust_num_ores = 33,
+	clust_size     = 4,
+	y_min          = -31000,
+	y_max          = 31000,
+	noise_params   = {
+		offset  = 0,
+		scale   = 1,
+		spread  = {x=150, y=150, z=150},
+		seed    = 58943,
+		octaves = 3,
+		persist = 0.5,
+		lacunarity = 2,
+		flags = "defaults",
+	},
+})
+minetest.register_ore({
+	ore_type       = "blob",
+	ore            = "rp_default:sand",
+	wherein        = "rp_default:stone",
+	clust_scarcity = 10*10*10,
+	clust_num_ores = 40,
+	clust_size     = 4,
+	y_min          = -31000,
+	y_max          = 31000,
+	noise_params   = {
+		offset  = 0,
+		scale   = 1,
+		spread  = {x=150, y=150, z=150},
+		seed    = 38943,
+		octaves = 3,
+		persist = 0.5,
+		lacunarity = 2,
+		flags = "defaults",
+	},
+})
+minetest.register_ore({
+	ore_type       = "blob",
+	ore            = "rp_default:dirt",
+	wherein        = "rp_default:stone",
+	clust_scarcity = 10*10*10,
+	clust_num_ores = 33,
+	clust_size     = 4,
+	y_min          = -31000,
+	y_max          = 31000,
+	noise_params   = {
+		offset  = 0,
+		scale   = 1,
+		spread  = {x=150, y=150, z=150},
+		seed    = 98943,
+		octaves = 3,
+		persist = 0.5,
+		lacunarity = 2,
+		flags = "defaults",
+	},
+})
 
