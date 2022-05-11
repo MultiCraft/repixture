@@ -2253,7 +2253,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.15,
-      biomes = {"Deep Forest", "Dense Oak Forest"},
+      biomes = {"Deep Forest", "Tall Oak Forest"},
       decoration = {"rp_default:tall_grass"},
       y_min = 0,
       y_max = 32000,
