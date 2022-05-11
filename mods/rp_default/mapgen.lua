@@ -64,6 +64,7 @@ local mg_name = minetest.get_mapgen_setting("mg_name")
 
 local UNDERGROUND_Y_MAX = -200
 local ORCHARD_Y_MIN = 20
+local SWAMP_Y_MAX = 7
 
 local register_ocean_and_beach = function(biomename, node_ocean, beach_depth, node_beach)
 	local orig_biome = minetest.registered_biomes[biomename]
@@ -109,7 +110,7 @@ minetest.register_biome(
       depth_top = 1,
 
       y_min = 2,
-      y_max = 7,
+      y_max = SWAMP_Y_MAX,
 
       heat_point = 91,
       humidity_point = 96,
@@ -129,7 +130,7 @@ minetest.register_biome(
       depth_top = 1,
 
       y_min = 2,
-      y_max = 7,
+      y_max = SWAMP_Y_MAX,
 
       heat_point = 36,
       humidity_point = 86,
@@ -626,7 +627,7 @@ minetest.register_biome(
       depth_top = 1,
 
       y_min = 2,
-      y_max = 31000,
+      y_max = SWAMP_Y_MAX,
 
       heat_point = 62,
       humidity_point = 93,
@@ -646,7 +647,7 @@ minetest.register_biome(
       depth_top = 1,
 
       y_min = 2,
-      y_max = 31000,
+      y_max = SWAMP_Y_MAX,
 
       heat_point = 12,
       humidity_point = 83,
@@ -665,7 +666,7 @@ minetest.register_biome(
       depth_top = 1,
 
       y_min = 2,
-      y_max = 31000,
+      y_max = SWAMP_Y_MAX,
 
       heat_point = 0,
       humidity_point = 67,
@@ -685,7 +686,7 @@ minetest.register_biome(
       depth_top = 1,
 
       y_min = 2,
-      y_max = 31000,
+      y_max = SWAMP_Y_MAX,
 
       heat_point = 49,
       humidity_point = 89,
