@@ -107,6 +107,7 @@ local sapling_data = {
 	["rp_default:sapling"] = {
 		grows_to = {
 			["dry"] = "normal_tiny",
+			["swamp"] = "apple_swamp",
 			["default"] = "apple",
 		},
 		grow_time_min = 300,
@@ -124,6 +125,7 @@ local sapling_data = {
 	["rp_default:sapling_birch"] = {
 		grows_to = {
 			["dry"] = "birch_tiny",
+			["swamp"] = "birch_swamp",
 			["default"] = "birch",
 		},
 		grows_to = "birch",
@@ -132,6 +134,8 @@ local sapling_data = {
 	},
 	["rp_default:sapling_dry_bush"] = {
 		grows_to = {
+			["dry"] = "dry_bush",
+			["swamp"] = "dry_bush_small",
 			["default"] = "dry_bush",
 		},
 		grows_to = "dry_bush",
@@ -155,6 +159,14 @@ local tree_data = {
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
 			{ vector.new(-1,2,-1), vector.new(1,4,1) },
+		},
+	},
+	["apple_swamp"] = {
+		schem = "rp_default_swamp_apple_tree.mts",
+		offset = vector.new(-2, -1, -2),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,2,0) },
+			{ vector.new(-2,3,-2), vector.new(2,4,2) },
 		},
 	},
 	["oak"] = {
@@ -194,6 +206,14 @@ local tree_data = {
 			{ vector.new(-1,2,-1), vector.new(1,4,1) },
 		},
 	},
+	["birch_swamp"] = {
+		schem = "rp_default_swamp_birch.mts",
+		offset = vector.new(-2, -1, -2),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,3,0) },
+			{ vector.new(-1,4,-1), vector.new(1,6,1) },
+		},
+	},
 	["birch_tiny"] = {
 		schem = "rp_default_tiny_birch.mts",
 		offset = vector.new(-1, -1, -1),
@@ -204,6 +224,14 @@ local tree_data = {
 	},
 	["dry_bush"] = {
 		schem = "default_dry_bush.mts",
+		offset = vector.new(-1, -1, -1),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,1,0) },
+		},
+	},
+	["dry_bush_small"] = {
+		schem = "default_shrub.mts",
+		replacements = {["default:leaves"] = "rp_default:dry_leaves"},
 		offset = vector.new(-1, -1, -1),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
@@ -276,7 +304,7 @@ function default.grow_sapling(pos)
       minetest.place_schematic(
          opos,
          minetest.get_modpath("rp_default") .. "/schematics/" .. tdata.schem,
-	 "0", replacements, false)
+	 "random", replacements, false)
    end
 
    local node = minetest.get_node(pos)
