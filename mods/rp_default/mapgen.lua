@@ -25,8 +25,6 @@ end
 minetest.register_on_generated(on_generated)
 --]]
 
-local UNDERGROUND_Y_MAX = -200
-
 -- Aliases for map generator outputs
 
 minetest.register_alias("mapgen_stone", "rp_default:stone")
@@ -63,6 +61,9 @@ minetest.register_alias("mapgen_lava_source", "rp_default:water_source")
 minetest.clear_registered_biomes()
 
 local mg_name = minetest.get_mapgen_setting("mg_name")
+
+local UNDERGROUND_Y_MAX = -200
+local ORCHARD_Y_MIN = 20
 
 local register_ocean_and_beach = function(biomename, node_ocean, beach_depth, node_beach)
 	local orig_biome = minetest.registered_biomes[biomename]
@@ -231,6 +232,7 @@ minetest.register_biome(
 register_ocean_and_beach("Wilderness", "rp_default:sand")
 default.set_biome_info("Wilderness", "grassy")
 
+-- Note: Grassland is below Orchard
 minetest.register_biome(
    {
       name = "Grassland",
@@ -242,7 +244,7 @@ minetest.register_biome(
       depth_top = 1,
 
       y_min = 3,
-      y_max = 20,
+      y_max = ORCHARD_Y_MIN - 1,
 
       heat_point = 71,
       humidity_point = 52,
@@ -250,6 +252,7 @@ minetest.register_biome(
 register_ocean_and_beach("Grassland", "rp_default:sand")
 default.set_biome_info("Grassland", "grassy")
 
+-- Note: Orchard is the 'highland' version of Grassland
 minetest.register_biome(
    {
       name = "Orchard",
@@ -260,32 +263,13 @@ minetest.register_biome(
       depth_filler = 4,
       depth_top = 1,
 
-      y_min = 21,
+      y_min = ORCHARD_Y_MIN,
       y_max = 32000,
 
-      heat_point = 34,
-      humidity_point = 5,
+      heat_point = 71,
+      humidity_point = 52,
 })
 default.set_biome_info("Orchard", "grassy")
--- TODO: Replace with an actual biome
-minetest.register_biome(
-   {
-      name = "Orchard Lowland",
-
-      node_top = "rp_default:dirt_with_grass",
-      node_filler = "rp_default:dirt",
-
-      depth_filler = 4,
-      depth_top = 1,
-
-      y_min = 1,
-      y_max = 20,
-
-      heat_point = 34,
-      humidity_point = 5,
-})
-register_ocean_and_beach("Orchard Lowland", "rp_default:dirt")
-default.set_biome_info("Orchard Lowland", "grassy")
 
 -- Note: Shrubbery is below Chaparral
 minetest.register_biome(
