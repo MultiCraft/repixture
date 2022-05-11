@@ -120,26 +120,6 @@ default.set_biome_info("Marsh", "grassy")
 
 minetest.register_biome(
    {
-      name = "Mixed Swamp",
-
-      node_top = "rp_default:dirt_with_swamp_grass",
-      node_filler = "rp_default:swamp_dirt",
-      node_cave_liquid = "rp_default:swamp_water_source",
-
-      depth_filler = 7,
-      depth_top = 1,
-
-      y_min = 2,
-      y_max = SWAMP_Y_MAX,
-
-      heat_point = 36,
-      humidity_point = 86,
-})
-register_ocean_and_beach("Mixed Swamp", "rp_default:sand")
-default.set_biome_info("Mixed Swamp", "swamp")
-
-minetest.register_biome(
-   {
       name = "Deep Forest",
 
       node_top = "rp_default:dirt_with_grass",
@@ -615,6 +595,7 @@ minetest.register_biome(
 register_ocean_and_beach("Dense Oak Forest", "rp_default:sand")
 default.set_biome_info("Dense Oak Forest", "grassy")
 
+-- Equivalent to Pixture's original 'Swamp' biome
 minetest.register_biome(
    {
       name = "Swamp Meadow",
@@ -626,14 +607,34 @@ minetest.register_biome(
       depth_filler = 7,
       depth_top = 1,
 
-      y_min = 2,
+      y_min = 1,
       y_max = SWAMP_Y_MAX,
 
       heat_point = 62,
       humidity_point = 93,
 })
-register_ocean_and_beach("Swamp Meadow", "rp_default:swamp_dirt")
+register_ocean_and_beach("Swamp Meadow", "rp_default:dirt", 5, "rp_default:swamp_dirt")
 default.set_biome_info("Swamp Meadow", "swampy")
+
+minetest.register_biome(
+   {
+      name = "Mixed Swamp",
+
+      node_top = "rp_default:dirt_with_swamp_grass",
+      node_filler = "rp_default:swamp_dirt",
+      node_cave_liquid = "rp_default:swamp_water_source",
+
+      depth_filler = 7,
+      depth_top = 1,
+
+      y_min = 1,
+      y_max = SWAMP_Y_MAX,
+
+      heat_point = 36,
+      humidity_point = 86,
+})
+register_ocean_and_beach("Mixed Swamp", "rp_default:dirt", 5, "rp_default:swamp_dirt")
+default.set_biome_info("Mixed Swamp", "swamp")
 
 minetest.register_biome(
    {
@@ -646,13 +647,13 @@ minetest.register_biome(
       depth_filler = 5,
       depth_top = 1,
 
-      y_min = 2,
+      y_min = 1,
       y_max = SWAMP_Y_MAX,
 
       heat_point = 12,
       humidity_point = 83,
 })
-register_ocean_and_beach("Swamp Forest", "rp_default:swamp_dirt")
+register_ocean_and_beach("Swamp Forest", "rp_default:dirt", 5, "rp_default:swamp_dirt")
 default.set_biome_info("Swamp Forest", "swampy")
 
 minetest.register_biome(
@@ -665,13 +666,13 @@ minetest.register_biome(
       depth_filler = 6,
       depth_top = 1,
 
-      y_min = 2,
+      y_min = 1,
       y_max = SWAMP_Y_MAX,
 
       heat_point = 0,
       humidity_point = 67,
 })
-register_ocean_and_beach("Dry Swamp", "rp_default:sand")
+register_ocean_and_beach("Dry Swamp", "rp_default:dirt", 5, "rp_default:dirt") -- force creation of beach sub-biome
 default.set_biome_info("Dry Swamp", "swampy")
 
 minetest.register_biome(
@@ -691,7 +692,7 @@ minetest.register_biome(
       heat_point = 49,
       humidity_point = 89,
 })
-register_ocean_and_beach("Papyrus Swamp", "rp_default:sand")
+register_ocean_and_beach("Papyrus Swamp", "rp_default:sand", 2, "rp_default_swamp_dirt")
 default.set_biome_info("Papyrus Swamp", "swampy")
 
 -- Special Underground biome
@@ -1149,11 +1150,11 @@ minetest.register_decoration(
       place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
       sidelen = 16,
       fill_ratio = 0.0008,
-      biomes = {"Mixed Swamp"},
+      biomes = {"Mixed Swamp", "Mixed Swamp Beach"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_swamp_oak.mts",
-      y_min = -32000,
+      y_min = 0,
       y_max = 32000,
 })
 
@@ -1163,38 +1164,38 @@ minetest.register_decoration(
       place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
       sidelen = 16,
       fill_ratio = 0.006,
-      biomes = {"Swamp Forest"},
+      biomes = {"Swamp Forest", "Swamp Forest Beach"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_swamp_oak.mts",
-      y_min = -32000,
+      y_min = 0,
       y_max = 32000,
 })
 
 minetest.register_decoration(
    {
       deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
+      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt", "rp_default:dirt"},
       sidelen = 16,
       fill_ratio = 0.0001,
-      biomes = {"Swamp Forest"},
+      biomes = {"Swamp Forest", "Swamp Forest Beach"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_swamp_birch.mts",
-      y_min = -32000,
+      y_min = 0,
       y_max = 32000,
 })
 minetest.register_decoration(
    {
       deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
+      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt", "rp_default:dirt"},
       sidelen = 16,
       fill_ratio = 0.003,
-      biomes = {"Dry Swamp"},
+      biomes = {"Dry Swamp", "Dry Swamp Beach"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_swamp_birch.mts",
-      y_min = -32000,
+      y_min = 0,
       y_max = 32000,
 })
 
