@@ -82,10 +82,10 @@ local register_ocean_and_beach = function(biomename, node_ocean, beach_depth, no
 	else
 		newdef.y_max = orig_biome.y_min - 1
 	end
-
 	minetest.register_biome(newdef)
 
 	if beach_depth and beach_depth > 0 then
+
 		local newdef2 = table.copy(orig_biome)
 		newdef2.name = biomename .. " Beach"
 		newdef2.node_top = node_beach or "rp_default:sand"
@@ -117,7 +117,7 @@ minetest.register_biome(
       heat_point = 91,
       humidity_point = 96,
 })
-register_ocean_and_beach("Marsh", "rp_default:dirt")
+register_ocean_and_beach("Marsh", "rp_default:dirt", 2, "rp_default:sand")
 default.set_biome_info("Marsh", "grassy")
 
 minetest.register_biome(
@@ -755,7 +755,7 @@ minetest.register_biome(
       heat_point = 49,
       humidity_point = 89,
 })
-register_ocean_and_beach("Papyrus Swamp", "rp_default:sand", 2, "rp_default_swamp_dirt")
+register_ocean_and_beach("Papyrus Swamp", "rp_default:swamp_dirt", 2, "rp_default:sand")
 default.set_biome_info("Papyrus Swamp", "swampy")
 
 -- Special Underground biome
@@ -2129,7 +2129,7 @@ minetest.register_decoration(
       num_spawn_by = 1,
       sidelen = 16,
       fill_ratio = 0.08,
-      biomes = {"Grassland Ocean", "Grassland", "Forest Ocean", "Forest", "Wilderness Ocean", "Wilderness", "Birch Forest Ocean", "Tall Birch Forest Ocean"},
+      biomes = {"Grassland Ocean", "Grassland", "Forest Ocean", "Forest", "Wilderness Ocean", "Wilderness", "Birch Forest Ocean", "Tall Birch Forest Ocean", "Marsh Beach"},
       decoration = {"rp_default:papyrus"},
       height = 2,
       y_max = 3,
