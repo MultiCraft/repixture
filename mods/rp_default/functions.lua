@@ -460,14 +460,20 @@ minetest.register_abm( -- leaf decay
 })
 
 local dry_biomes = {
-   ["Charparral"] = true,
+   ["Chaparral"] = true,
+   ["Chaparral Lowland Ocean"] = true,
    ["Savanna"] = true,
    ["Savanna Ocean"] = true,
    ["Desert"] = true,
+   ["Desert Ocean"] = true,
    ["Wasteland"] = true,
+   ["Wasteland Ocean"] = true,
    ["Rocky Dryland"] = true,
+   ["Rocky Dryland Ocean"] = true,
    ["Wooded Dryland"] = true,
+   ["Wooded Dryland Ocean"] = true,
    ["Savannic Wasteland"] = true,
+   ["Savannic Wasteland Ocean"] = true,
 }
 
 local is_dry_biome = function(biomename)
