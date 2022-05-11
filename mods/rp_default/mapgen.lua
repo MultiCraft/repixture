@@ -120,6 +120,9 @@ minetest.register_biome(
 register_ocean_and_beach("Marsh", "rp_default:dirt", 2, "rp_default:sand")
 default.set_biome_info("Marsh", "grassy")
 
+-- This special biome has the giant birch trees and is
+-- limited to a very specific height.
+-- It has no equivalent biome above or below.
 minetest.register_biome(
    {
       name = "Deep Forest",
@@ -139,28 +142,6 @@ minetest.register_biome(
       humidity_point = 24,
 })
 default.set_biome_info("Deep Forest", "grassy")
-
--- TODO: Replace with an actual biome
-minetest.register_biome(
-   {
-      name = "Deep Forest Lowland",
-
-      node_top = "rp_default:dirt_with_grass",
-      node_filler = "rp_default:dirt",
-      node_riverbed = "rp_default:sand",
-
-      depth_filler = 6,
-      depth_top = 1,
-      depth_riverbed = 3,
-
-      y_min = 1,
-      y_max = 29,
-
-      heat_point = 24,
-      humidity_point = 24,
-})
-register_ocean_and_beach("Deep Forest Lowland", "rp_default:dirt")
-default.set_biome_info("Deep Forest Lowland", "grassy")
 
 minetest.register_biome(
    {
