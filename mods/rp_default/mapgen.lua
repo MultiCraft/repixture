@@ -138,8 +138,8 @@ minetest.register_biome(
       y_min = 30,
       y_max = 40,
 
-      heat_point = 24,
-      humidity_point = 24,
+      heat_point = 49,
+      humidity_point = 33,
 })
 default.set_biome_info("Deep Forest", "grassy")
 
