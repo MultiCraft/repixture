@@ -339,6 +339,7 @@ minetest.register_biome(
       node_top = "rp_default:sand",
       node_filler = "rp_default:sandstone",
       node_riverbed = "rp_default:sand",
+      node_dungeon = "rp_default:sandstone",
 
       depth_filler = 8,
       depth_top = 3,
