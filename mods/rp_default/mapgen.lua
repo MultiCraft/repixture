@@ -105,9 +105,11 @@ minetest.register_biome(
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
       node_cave_liquid = "rp_default:swamp_water_source",
+      node_riverbed = "rp_default:dirt",
 
       depth_filler = 0,
       depth_top = 1,
+      depth_riverbed = 1,
 
       y_min = 2,
       y_max = SWAMP_Y_MAX,
@@ -124,9 +126,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 6,
       depth_top = 1,
+      depth_riverbed = 3,
 
       y_min = 30,
       y_max = 40,
@@ -143,9 +147,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 6,
       depth_top = 1,
+      depth_riverbed = 3,
 
       y_min = 1,
       y_max = 29,
@@ -162,9 +168,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 6,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 2,
       y_max = 200,
@@ -181,9 +189,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 4,
       depth_top = 1,
+      depth_riverbed = 4,
 
       y_min = 3,
       y_max = 32000,
@@ -200,9 +210,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 6,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 3,
       y_max = 32000,
@@ -220,9 +232,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 4,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 3,
       y_max = ORCHARD_Y_MIN - 1,
@@ -240,9 +254,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 4,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = ORCHARD_Y_MIN,
       y_max = 32000,
@@ -259,9 +275,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 3,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 2,
       y_max = 55,
@@ -279,9 +297,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_dry_grass",
       node_filler = "rp_default:dry_dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 0,
       depth_top = 1,
+      depth_riverbed = 4,
 
       y_min = 56,
       y_max = 32000,
@@ -297,9 +317,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_dry_grass",
       node_filler = "rp_default:dry_dirt",
+      node_riverbed = "rp_default:gravel",
 
       depth_filler = 2,
       depth_top = 1,
+      depth_riverbed = 3,
 
       y_min = 2,
       y_max = 55,
@@ -316,9 +338,11 @@ minetest.register_biome(
 
       node_top = "rp_default:sand",
       node_filler = "rp_default:sandstone",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 8,
       depth_top = 3,
+      depth_riverbed = 6,
 
       y_min = 1,
       y_max = 32000,
@@ -335,9 +359,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dry_dirt",
       node_filler = "rp_default:sandstone",
+      node_riverbed = "rp_default:sandstone",
 
       depth_filler = 3,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 2,
       y_max = 32000,
@@ -354,9 +380,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dry_dirt",
       node_filler = "rp_default:dry_dirt",
+      node_riverbed = "rp_default:gravel",
 
       depth_filler = 0,
       depth_top = 1,
+      depth_riverbed = 4,
 
       y_min = 3,
       y_max = 32000,
@@ -373,9 +401,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dry_dirt",
       node_filler = "rp_default:dry_dirt",
+      node_riverbed = "rp_default:gravel",
 
       depth_filler = 4,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 1,
       y_max = 32000,
@@ -392,9 +422,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dry_dirt",
       node_filler = "rp_default:sandstone",
+      node_riverbed = "rp_default:gravel",
 
       depth_filler = 2,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 2,
       y_max = 32000,
@@ -411,9 +443,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:gravel",
 
       depth_filler = 4,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 2,
       y_max = 200,
@@ -430,9 +464,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:gravel",
 
       depth_filler = 4,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 1,
       y_max = 200,
@@ -449,9 +485,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 4,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 1,
       y_max = 32000,
@@ -468,9 +506,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 4,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 2,
       y_max = 32000,
@@ -487,9 +527,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 3,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 2,
       y_max = 32000,
@@ -506,9 +548,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:sand",
 
       depth_filler = 3,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 1,
       y_max = 32000,
@@ -525,9 +569,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:gravel",
 
       depth_filler = 3,
       depth_top = 1,
+      depth_riverbed = 1,
 
       y_min = 1,
       y_max = 32000,
@@ -544,9 +590,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:gravel",
 
       depth_filler = 5,
       depth_top = 1,
+      depth_riverbed = 1,
 
       y_min = 1,
       y_max = 32000,
@@ -563,9 +611,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:gravel",
 
       depth_filler = 6,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 1,
       y_max = 32000,
@@ -582,9 +632,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
+      node_riverbed = "rp_default:gravel",
 
       depth_filler = 7,
       depth_top = 1,
+      depth_riverbed = 3,
 
       y_min = 1,
       y_max = 32000,
@@ -603,9 +655,11 @@ minetest.register_biome(
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
       node_cave_liquid = "rp_default:swamp_water_source",
+      node_riverbed = "rp_default:swamp_dirt",
 
       depth_filler = 7,
       depth_top = 1,
+      depth_riverbed = 4,
 
       y_min = 1,
       y_max = SWAMP_Y_MAX,
@@ -623,9 +677,11 @@ minetest.register_biome(
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
       node_cave_liquid = "rp_default:swamp_water_source",
+      node_riverbed = "rp_default:swamp_dirt",
 
       depth_filler = 7,
       depth_top = 1,
+      depth_riverbed = 3,
 
       y_min = 1,
       y_max = SWAMP_Y_MAX,
@@ -643,9 +699,11 @@ minetest.register_biome(
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
       node_cave_liquid = "rp_default:swamp_water_source",
+      node_riverbed = "rp_default:swamp_dirt",
 
       depth_filler = 5,
       depth_top = 1,
+      depth_riverbed = 4,
 
       y_min = 1,
       y_max = SWAMP_Y_MAX,
@@ -662,9 +720,11 @@ minetest.register_biome(
 
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
+      node_riverbed = "rp_default:swamp_dirt",
 
       depth_filler = 6,
       depth_top = 1,
+      depth_riverbed = 2,
 
       y_min = 1,
       y_max = SWAMP_Y_MAX,
@@ -682,9 +742,11 @@ minetest.register_biome(
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
       node_cave_liquid = "rp_default:swamp_water_source",
+      node_riverbed = "rp_default:swamp_dirt",
 
       depth_filler = 4,
       depth_top = 1,
+      depth_riverbed = 3,
 
       y_min = 2,
       y_max = SWAMP_Y_MAX,
