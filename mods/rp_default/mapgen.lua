@@ -1669,6 +1669,7 @@ minetest.register_decoration(
 
 -- Rock decorations
 
+if mg_name ~= "v6" then
 minetest.register_decoration(
    {
       deco_type = "schematic",
@@ -2099,6 +2100,7 @@ minetest.register_decoration(
 	      seed = 43905,
       },
 })
+end
 -- Papyrus decorations
 
 -- Beach papyrus
