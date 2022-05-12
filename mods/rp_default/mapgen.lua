@@ -1089,15 +1089,16 @@ minetest.register_decoration(
 
 minetest.register_decoration(
    {
-      name = "rp_default:gigatree",
+      name = "rp_default:giga_birch_tree",
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
       fill_ratio = 0.023,
-      biomes = {"Deep Forest"},
+      biomes = {"Deep Forest", "Grassland"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_giga_birch_tree.mts",
+      rotation = "random",
       y_min = -32000,
       y_max = 32000,
 })
