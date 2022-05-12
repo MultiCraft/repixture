@@ -1094,7 +1094,7 @@ minetest.register_decoration(
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
       fill_ratio = 0.023,
-      biomes = {"Deep Forest", "Grassland"},
+      biomes = {"Deep Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_giga_birch_tree.mts",
