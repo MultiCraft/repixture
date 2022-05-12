@@ -1061,7 +1061,7 @@ minetest.register_decoration(
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
-      fill_ratio = 0.0001,
+      fill_ratio = 0.000033,
       biomes = {"Thorny Shrubs"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
@@ -1069,7 +1069,19 @@ minetest.register_decoration(
       y_min = -32000,
       y_max = 32000,
 })
-
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.00067,
+      biomes = {"Thorny Shrubs"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_apple_tree_empty.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
 
 
 minetest.register_decoration(
