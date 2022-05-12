@@ -146,7 +146,7 @@ local sapling_data = {
 
 local tree_data = {
 	["apple"] = {
-		schem = "default_appletree.mts",
+		schem = "rp_default_apple_tree.mts",
 		offset = vector.new(-2, -1, -2),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,2,0) },
@@ -170,7 +170,7 @@ local tree_data = {
 		},
 	},
 	["oak"] = {
-		schem = "default_oaktree.mts",
+		schem = "rp_default_oak_tree.mts",
 		offset = vector.new(-2, -1, -2),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,2,0) },
@@ -194,12 +194,7 @@ local tree_data = {
 		},
 	},
 	["birch"] = {
-		schem = "default_squaretree.mts",
-		replacements = {
-			["rp_default:leaves"] = "rp_default:leaves_birch",
-			["rp_default:tree"] = "rp_default:tree_birch",
-			["rp_default:apple"] = "air"
-		},
+		schem = "rp_default_birch_tree.mts",
 		offset = vector.new(-1, -1, -1),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
@@ -223,15 +218,14 @@ local tree_data = {
 		},
 	},
 	["dry_bush"] = {
-		schem = "default_dry_bush.mts",
+		schem = "rp_default_dry_bush.mts",
 		offset = vector.new(-1, -1, -1),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
 		},
 	},
 	["dry_bush_small"] = {
-		schem = "default_shrub.mts",
-		replacements = {["default:leaves"] = "rp_default:dry_leaves"},
+		schem = "rp_default_dry_bush_small.mts",
 		offset = vector.new(-1, -1, -1),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
