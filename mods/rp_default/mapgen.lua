@@ -1530,15 +1530,29 @@ minetest.register_decoration(
       y_max = 32000,
 })
 
+-- Wilderness apple trees: 50/50 split between
+-- trees with apples and those without.
 minetest.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
-      fill_ratio = 0.004,
+      fill_ratio = 0.002,
       biomes = {"Wilderness"},
       flags = "place_center_x, place_center_z",
-      -- TODO: Spawn apples sometimes?
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_apple_tree.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.002,
+      biomes = {"Wilderness"},
+      flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree_empty.mts",
       y_min = -32000,
