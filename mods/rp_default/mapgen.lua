@@ -1028,6 +1028,33 @@ minetest.register_decoration(
       y_max = 32000,
 })
 
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.00035,
+      biomes = {"Orchard"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_apple_tree_big.mts",
+      y_min = 15,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.007,
+      biomes = {"Orchard"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_apple_tree.mts",
+      y_min = 10,
+      y_max = 32000,
+})
 
 minetest.register_decoration(
    {
@@ -1044,20 +1071,6 @@ minetest.register_decoration(
 })
 
 
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.007,
-      biomes = {"Orchard"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_apple_tree.mts",
-      y_min = 10,
-      y_max = 32000,
-})
 
 minetest.register_decoration(
    {
