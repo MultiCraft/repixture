@@ -994,13 +994,8 @@ minetest.register_decoration(
       fill_ratio = 0.004,
       biomes = {"Forest"},
       flags = "place_center_x, place_center_z",
-      replacements = {
-         ["default:leaves"] = "rp_default:leaves_birch",
-         ["default:tree"] = "rp_default:tree_birch",
-         ["default:apple"] = "air"
-      },
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_squaretree.mts",
+         .. "/schematics/rp_default_birch_tree.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1013,13 +1008,8 @@ minetest.register_decoration(
       fill_ratio = 0.015,
       biomes = {"Birch Forest"},
       flags = "place_center_x, place_center_z",
-      replacements = {
-         ["default:leaves"] = "rp_default:leaves_birch",
-         ["default:tree"] = "rp_default:tree_birch",
-         ["default:apple"] = "air"
-      },
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_squaretree.mts",
+         .. "/schematics/rp_default_birch_tree.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1032,13 +1022,8 @@ minetest.register_decoration(
       fill_ratio = 0.004,
       biomes = {"Dry Swamp"},
       flags = "place_center_x, place_center_z",
-      replacements = {
-         ["default:leaves"] = "rp_default:leaves_birch",
-         ["default:tree"] = "rp_default:tree_birch",
-         ["default:apple"] = "air"
-      },
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_squaretree.mts",
+         .. "/schematics/rp_default_birch_tree.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1053,7 +1038,7 @@ minetest.register_decoration(
       biomes = {"Thorny Shrubs"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_appletree.mts",
+         .. "/schematics/rp_default_apple_tree.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1069,7 +1054,7 @@ minetest.register_decoration(
       biomes = {"Orchard"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_appletree.mts",
+         .. "/schematics/rp_default_apple_tree.mts",
       y_min = 10,
       y_max = 32000,
 })
@@ -1083,7 +1068,7 @@ minetest.register_decoration(
       biomes = {"Forest", "Deep Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_appletree.mts",
+         .. "/schematics/rp_default_apple_tree.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1097,7 +1082,7 @@ minetest.register_decoration(
       biomes = {"Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_megatree.mts",
+         .. "/schematics/rp_default_coniferlike_tree.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1112,7 +1097,7 @@ minetest.register_decoration(
       biomes = {"Deep Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_gigatree.mts",
+         .. "/schematics/rp_default_giga_birch_tree.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1465,7 +1450,7 @@ minetest.register_decoration(
       sidelen = 16,
       biomes = {"Baby Poplar Plains"},
       flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_bush.mts",
       y_min = 1,
       y_max = 32000,
       rotation = "0",
@@ -1487,7 +1472,7 @@ minetest.register_decoration(
       sidelen = 16,
       biomes = {"Thorny Shrubs"},
       flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_bush.mts",
       y_min = 3,
       y_max = 32000,
       rotation = "0",
@@ -1510,7 +1495,7 @@ minetest.register_decoration(
       fill_ratio = 0.006,
       biomes = {"Shrubbery"},
       flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_bush.mts",
       y_min = 1,
       y_max = 32000,
       rotation = "0",
@@ -1526,7 +1511,7 @@ minetest.register_decoration(
       biomes = {"Grove"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_talltree.mts",
+         .. "/schematics/rp_default_tall_grove_tree.mts",
       y_min = 0,
       y_max = 32000,
 })
@@ -1553,11 +1538,9 @@ minetest.register_decoration(
       fill_ratio = 0.004,
       biomes = {"Wilderness"},
       flags = "place_center_x, place_center_z",
-      replacements = {
-         ["default:apple"] = "air",
-      },
+      -- TODO: Spawn apples sometimes?
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_appletree.mts",
+         .. "/schematics/rp_default_apple_tree_empty.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1571,7 +1554,7 @@ minetest.register_decoration(
       biomes = {"Dry Swamp"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_appletree.mts",
+         .. "/schematics/rp_default_apple_tree.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1585,7 +1568,7 @@ minetest.register_decoration(
       biomes = {"Wilderness"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_oaktree.mts",
+         .. "/schematics/rp_default_oak_tree.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1600,7 +1583,7 @@ minetest.register_decoration(
       biomes = {"Oak Shrubbery"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_oaktree.mts",
+         .. "/schematics/rp_default_oak_tree.mts",
       y_min = 1,
       y_max = 32000,
 })
@@ -1614,7 +1597,7 @@ minetest.register_decoration(
       biomes = {"Dense Oak Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_oaktree.mts",
+         .. "/schematics/rp_default_oak_tree.mts",
       y_min = 1,
       y_max = 32000,
 })
@@ -1628,7 +1611,7 @@ minetest.register_decoration(
       biomes = {"Oak Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_oaktree.mts",
+         .. "/schematics/rp_default_oak_tree.mts",
       y_min = 1,
       y_max = 32000,
 })
@@ -1642,7 +1625,7 @@ minetest.register_decoration(
       biomes = {"Tall Oak Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_oaktree.mts",
+         .. "/schematics/rp_default_oak_tree.mts",
       y_min = 1,
       y_max = 32000,
 })
@@ -1661,7 +1644,7 @@ minetest.register_decoration(
       fill_ratio = 0.004,
       biomes = {"Desert"},
       flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_cactus.mts",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_cactus.mts",
       y_min = 10,
       y_max = 500,
       rotation = "random",
@@ -1679,8 +1662,7 @@ minetest.register_decoration(
       biomes = {"Wasteland"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_small_rock.mts",
-      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
+         .. "/schematics/rp_default_small_rock.mts",
       y_min = 1,
       y_max = 32000,
       rotation = "random",
@@ -1695,8 +1677,7 @@ minetest.register_decoration(
       biomes = {"Wasteland"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_large_rock.mts",
-      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
+         .. "/schematics/rp_default_large_rock.mts",
       y_min = 1,
       y_max = 32000,
       rotation = "random",
@@ -1711,8 +1692,7 @@ minetest.register_decoration(
       biomes = {"Rocky Dryland"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_small_rock.mts",
-      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
+         .. "/schematics/rp_default_small_rock.mts",
       y_min = 1,
       y_max = 32000,
       rotation = "random",
@@ -1727,8 +1707,7 @@ minetest.register_decoration(
       biomes = {"Savannic Wasteland"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/default_small_rock.mts",
-      replacements = {["default:dirt"] = "rp_default:dry_dirt"},
+         .. "/schematics/rp_default_small_rock.mts",
       y_min = 1,
       y_max = 32000,
       rotation = "random",
@@ -1948,8 +1927,7 @@ minetest.register_decoration(
       fill_ratio = 0.005,
       biomes = {"Savanna", "Chaparral"},
       flags = "place_center_x, place_center_z",
-      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_shrub.mts",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_bush_small.mts",
       y_min = 3,
       y_max = 32000,
       rotation = "0",
@@ -1963,8 +1941,7 @@ minetest.register_decoration(
       fill_ratio = 0.0025,
       biomes = {"Savannic Wasteland"},
       flags = "place_center_x, place_center_z",
-      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_shrub.mts",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_bush_small.mts",
       y_min = 3,
       y_max = 32000,
       rotation = "0",
@@ -1978,8 +1955,7 @@ minetest.register_decoration(
       fill_ratio = 0.001,
       biomes = {"Rocky Dryland", "Wooded Dryland"},
       flags = "place_center_x, place_center_z",
-      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_shrub.mts",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_bush_small.mts",
       y_min = 3,
       y_max = 32000,
 })
@@ -1992,8 +1968,7 @@ minetest.register_decoration(
       fill_ratio = 0.06,
       biomes = {"Chaparral"},
       flags = "place_center_x, place_center_z",
-      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_dry_bush.mts",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_bush.mts",
       y_min = 0,
       y_max = 32000,
       rotation = "0",
@@ -2005,8 +1980,7 @@ minetest.register_decoration(
       sidelen = 16,
       biomes = {"Thorny Shrubs"},
       flags = "place_center_x, place_center_z",
-      replacements = {["default:leaves"] = "rp_default:dry_leaves"},
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_dry_bush.mts",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_bush.mts",
       y_min = 5,
       y_max = 32000,
       rotation = "0",
@@ -2060,7 +2034,7 @@ minetest.register_decoration(
       fill_ratio = 0.004,
       biomes = {"Wilderness", "Grove"},
       flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/default_bush.mts",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_bush.mts",
       y_min = 3,
       y_max = 32000,
       rotation = "0",
