@@ -2155,13 +2155,41 @@ minetest.register_decoration(
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
       fill_ratio = 0.004,
-      biomes = {"Wilderness", "Grove"},
+      biomes = {"Grove"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_bush.mts",
       y_min = 3,
       y_max = 32000,
       rotation = "0",
 })
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0004,
+      biomes = {"Wilderness"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_bush.mts",
+      y_min = 3,
+      y_max = 32000,
+      rotation = "0",
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0036,
+      biomes = {"Wilderness"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_bush.mts",
+      y_min = 3,
+      y_max = 32000,
+      rotation = "0",
+})
+
+
 
 -- Thistle decorations
 
