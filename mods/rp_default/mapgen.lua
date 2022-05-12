@@ -995,7 +995,7 @@ minetest.register_decoration(
       biomes = {"Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_birch_tree.mts",
+         .. "/schematics/rp_default_birch_cuboid_3x3_short.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1005,14 +1005,81 @@ minetest.register_decoration(
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
-      fill_ratio = 0.015,
+      fill_ratio = 0.0003,
       biomes = {"Birch Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_birch_tree.mts",
+         .. "/schematics/rp_default_birch_cuboid_5x4.mts",
       y_min = -32000,
       y_max = 32000,
 })
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_birch_cuboid_3x4.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.003,
+      biomes = {"Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_birch_cuboid_3x3_long.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_birch_cuboid_3x3_short.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0001,
+      biomes = {"Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_birch_plus.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0002,
+      biomes = {"Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_apple_tree_empty.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+
 
 minetest.register_decoration(
    {
@@ -1023,7 +1090,7 @@ minetest.register_decoration(
       biomes = {"Dry Swamp"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_birch_tree.mts",
+         .. "/schematics/rp_default_birch_cuboid_3x3_short.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1469,6 +1536,22 @@ minetest.register_decoration(
       y_max = 32000,
 })
 
+
+-- Bushes
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_birch_bush.mts",
+      y_min = 1,
+      y_max = 32000,
+      rotation = "0",
+})
+
 minetest.register_decoration(
    {
       deco_type = "schematic",
@@ -1551,7 +1634,7 @@ minetest.register_decoration(
       biomes = {"Tall Birch Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_birch_tall.mts",
+         .. "/schematics/rp_default_birch_cuboid_tall.mts",
       y_min = -32000,
       y_max = 32000,
 })
@@ -2192,7 +2275,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.04,
-      biomes = {"Grassland", "Wilderness", "Orchard", "Baby Poplar Plains"},
+      biomes = {"Grassland", "Wilderness", "Orchard", "Baby Poplar Plains", "Birch Forest"},
       decoration = {"rp_default:flower"},
       y_min = -32000,
       y_max = 32000,

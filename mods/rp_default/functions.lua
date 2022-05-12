@@ -126,7 +126,7 @@ local sapling_data = {
 		grows_to = {
 			["dry"] = "birch_tiny",
 			["swamp"] = "birch_swamp",
-			["default"] = "birch",
+			["default"] = "birch_cuboid",
 		},
 		grows_to = "birch",
 		grow_time_min = 480,
@@ -193,8 +193,8 @@ local tree_data = {
 			{ vector.new(-1,2,-1), vector.new(1,4,1) },
 		},
 	},
-	["birch"] = {
-		schem = "rp_default_birch_tree.mts",
+	["birch_cuboid"] = {
+		schem = "rp_default_birch_cuboid_3x3_short.mts",
 		offset = vector.new(-1, -1, -1),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
