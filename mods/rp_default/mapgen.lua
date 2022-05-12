@@ -988,6 +988,64 @@ end
 if mg_name ~= "v6" then
 minetest.register_decoration(
    {
+      name = "rp_default:giga_birch_tree",
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.023,
+      biomes = {"Deep Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_giga_birch_tree.mts",
+      rotation = "random",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.004,
+      biomes = {"Grove"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_tall_grove_tree.mts",
+      y_min = 0,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.008,
+      biomes = {"Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_coniferlike_tree.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.015,
+      biomes = {"Tall Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_birch_cuboid_tall.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
+minetest.register_decoration(
+   {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
@@ -1161,36 +1219,6 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree.mts",
-      y_min = -32000,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.008,
-      biomes = {"Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_coniferlike_tree.mts",
-      y_min = -32000,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      name = "rp_default:giga_birch_tree",
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.023,
-      biomes = {"Deep Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_giga_birch_tree.mts",
-      rotation = "random",
       y_min = -32000,
       y_max = 32000,
 })
@@ -1608,35 +1636,6 @@ minetest.register_decoration(
       y_min = 1,
       y_max = 32000,
       rotation = "0",
-})
-
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.004,
-      biomes = {"Grove"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_tall_grove_tree.mts",
-      y_min = 0,
-      y_max = 32000,
-})
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.015,
-      biomes = {"Tall Birch Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_birch_cuboid_tall.mts",
-      y_min = -32000,
-      y_max = 32000,
 })
 
 -- Wilderness apple trees: 50/50 split between
