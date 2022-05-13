@@ -536,7 +536,7 @@ minetest.register_biome(
       depth_top = 1,
       depth_riverbed = 2,
 
-      y_min = 1,
+      y_min = 2,
       y_max = 32000,
 
       heat_point = 18,
