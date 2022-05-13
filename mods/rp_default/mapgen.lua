@@ -1043,6 +1043,33 @@ minetest.register_decoration(
       y_min = -32000,
       y_max = 32000,
 })
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0001,
+      biomes = {"Tall Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_layer_birch_2.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.00075,
+      biomes = {"Tall Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_birch_candlestick.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+
 
 minetest.register_decoration(
    {
@@ -1571,8 +1598,35 @@ minetest.register_decoration(
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
+      fill_ratio = 0.00625,
+      biomes = {"Tall Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_birch_bush_big.mts",
+      y_min = 1,
+      y_max = 32000,
+      rotation = "0",
+})
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
       fill_ratio = 0.001,
       biomes = {"Birch Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_birch_bush.mts",
+      y_min = 1,
+      y_max = 32000,
+      rotation = "0",
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0001,
+      biomes = {"Tall Birch Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_birch_bush.mts",
       y_min = 1,
