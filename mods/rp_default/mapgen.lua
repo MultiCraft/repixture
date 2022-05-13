@@ -1903,6 +1903,17 @@ minetest.register_decoration(
       y_min = 2,
       y_max = 14,
 })
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:dry_dirt", "rp_default:stone"},
+      sidelen = 16,
+      fill_ratio = 0.0001,
+      biomes = {"Rocky Dryland"},
+      decoration = {"rp_default:stone_with_sulfur"},
+      y_min = 2,
+      y_max = 14,
+})
 
 -- Tiny tree decorations
 
