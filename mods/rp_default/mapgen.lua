@@ -1593,6 +1593,22 @@ minetest.register_decoration(
 
 
 -- Bushes
+--
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
+      sidelen = 16,
+      fill_ratio = 0.0015,
+      biomes = {"Mixed Swamp"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_swamp_oak_bush.mts",
+      y_min = 1,
+      y_max = 32000,
+      rotation = "0",
+})
+
+
 minetest.register_decoration(
    {
       deco_type = "schematic",
