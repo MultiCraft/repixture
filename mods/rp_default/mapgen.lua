@@ -2395,7 +2395,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_swamp_grass",
       sidelen = 16,
       fill_ratio = 0.04,
-      biomes = {"Mixed Swamp", "Dry Swamp", "Swamp Papyrus", "Swamp Forest"},
+      biomes = {"Mixed Swamp", "Dry Swamp", "Papyrus Swamp", "Swamp Forest"},
       decoration = {"rp_default:swamp_grass"},
       y_min = 1,
       y_max = 31000,
