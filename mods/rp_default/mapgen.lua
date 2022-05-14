@@ -643,13 +643,13 @@ minetest.register_biome(
       depth_top = 1,
       depth_riverbed = 4,
 
-      y_min = 1,
+      y_min = 2,
       y_max = SWAMP_Y_MAX,
 
       heat_point = 62,
       humidity_point = 93,
 })
-register_ocean_and_beach("Swamp Meadow", "rp_default:dirt", 5, "rp_default:swamp_dirt")
+register_ocean_and_beach("Swamp Meadow", "rp_default:swamp_dirt", 3, "rp_default:sand")
 default.set_biome_info("Swamp Meadow", "swampy")
 
 minetest.register_biome(
@@ -730,13 +730,13 @@ minetest.register_biome(
       depth_top = 1,
       depth_riverbed = 3,
 
-      y_min = 2,
+      y_min = 1,
       y_max = SWAMP_Y_MAX,
 
       heat_point = 49,
       humidity_point = 89,
 })
-register_ocean_and_beach("Papyrus Swamp", "rp_default:swamp_dirt", 2, "rp_default:sand")
+register_ocean_and_beach("Papyrus Swamp", "rp_default:swamp_dirt")
 default.set_biome_info("Papyrus Swamp", "swampy")
 
 -- Special Underground biome
@@ -2301,7 +2301,7 @@ minetest.register_decoration(
       num_spawn_by = 1,
       sidelen = 16,
       fill_ratio = 0.08,
-      biomes = {"Grassland Ocean", "Grassland", "Forest Ocean", "Forest", "Wilderness Ocean", "Wilderness", "Birch Forest Ocean", "Tall Birch Forest Ocean", "Marsh Beach"},
+      biomes = {"Grassland Ocean", "Grassland", "Forest Ocean", "Forest", "Wilderness Ocean", "Wilderness", "Birch Forest Ocean", "Tall Birch Forest Ocean", "Marsh Beach", "Swamp Meadow Beach"},
       decoration = {"rp_default:papyrus"},
       height = 2,
       y_max = 3,
@@ -2405,7 +2405,7 @@ minetest.register_decoration(
       deco_type = "simple",
       place_on = "rp_default:dirt_with_swamp_grass",
       sidelen = 16,
-      fill_ratio = 0.016,
+      fill_ratio = 0.16,
       biomes = {"Swamp Meadow"},
       decoration = {"rp_default:swamp_grass"},
       y_min = 1,
