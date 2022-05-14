@@ -691,7 +691,7 @@ minetest.register_biome(
       heat_point = 83,
       humidity_point = 84,
 })
-register_ocean_and_beach("Dry Swamp", "rp_default:dirt", 5, "rp_default:dirt") -- force creation of beach sub-biome
+register_ocean_and_beach("Dry Swamp", "rp_default:dirt", 3, "rp_default:swamp_dirt") -- force creation of beach sub-biome
 default.set_biome_info("Dry Swamp", "swampy")
 
 minetest.register_biome(
@@ -870,7 +870,7 @@ minetest.register_ore(
       },
 })
 
-minetest.register_ore( -- Dry Swamp (dirt)
+minetest.register_ore( -- Dry Swamp (dirt with grass)
    {
       ore_type       = "blob",
       ore            = "rp_default:dirt_with_grass",
@@ -888,7 +888,7 @@ minetest.register_ore( -- Dry Swamp (dirt)
       ore_type       = "blob",
       ore            = "rp_default:dirt",
       wherein        = {"rp_default:swamp_dirt"},
-      biomes         = {"Dry Swamp"},
+      biomes         = {"Dry Swamp", "Dry Swamp Beach"},
       clust_scarcity = 3*3*3,
       clust_num_ores = 10,
       clust_size     = 4,
@@ -2383,6 +2383,18 @@ minetest.register_decoration(
       y_min = 10,
       y_max = 32000,
 })
+
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:dirt_with_grass",
+      sidelen = 16,
+      fill_ratio = 0.08,
+      biomes = {"Forest", "Deep Forest", "Birch Forest", "Tall Birch Forest", "Oak Forest", "Dense Oak Forest", "Tall Oak Forest", "Mystery Forest", "Baby Poplar Plains", "Poplar Plains", "Dry Swamp"},
+      decoration = {"rp_default:grass"},
+      y_min = 0,
+      y_max = 32000,
+})
 end
 
 minetest.register_decoration(
@@ -2421,17 +2433,6 @@ minetest.register_decoration(
 })
 
 if mg_name ~= "v6" then
-minetest.register_decoration(
-   {
-      deco_type = "simple",
-      place_on = "rp_default:dirt_with_grass",
-      sidelen = 16,
-      fill_ratio = 0.08,
-      biomes = {"Forest", "Deep Forest", "Birch Forest", "Tall Birch Forest", "Oak Forest", "Dense Oak Forest", "Tall Oak Forest", "Mystery Forest"},
-      decoration = {"rp_default:grass"},
-      y_min = 0,
-      y_max = 32000,
-})
 
 minetest.register_decoration(
    {
