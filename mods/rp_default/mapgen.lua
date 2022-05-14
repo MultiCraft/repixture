@@ -1892,16 +1892,27 @@ minetest.register_decoration(
 minetest.register_decoration(
    {
       deco_type = "schematic",
-      place_on = {"rp_default:dry_dirt", "rp_default:dirt_with_dry_grass"},
+      place_on = {"rp_default:sand", "rp_default:dry_dirt", "rp_default:dirt_with_dry_grass"},
       sidelen = 16,
-      fill_ratio = 0.001,
-      biomes = {"Savannic Wasteland"},
+      fill_ratio = 0.0005,
+      biomes = {"Savannic Wasteland", "Savannic Wasteland Ocean"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_small_rock.mts",
+         .. "/schematics/rp_default_small_sandstone_rock.mts",
       y_min = 1,
       y_max = 32000,
-      rotation = "random",
+})
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:dry_dirt", "rp_default:dirt_with_dry_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0001,
+      biomes = {"Savannic Wasteland"},
+      flags = "place_center_x, place_center_z",
+      decoration = {"rp_default:stone"},
+      y_min = 1,
+      y_max = 32000,
 })
 
 
