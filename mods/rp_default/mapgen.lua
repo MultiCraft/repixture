@@ -2350,13 +2350,21 @@ minetest.register_decoration(
       spawn_by = {"group:water"},
       num_spawn_by = 1,
       sidelen = 16,
-      fill_ratio = 0.30,
       biomes = {"Mixed Swamp"},
       decoration = {"rp_default:papyrus"},
-      height = 3,
-      height_max = 4,
+      height = 4,
       y_max = 31000,
       y_min = -100,
+	noise_params   = {
+		offset  = 0,
+		scale   = 0.15,
+		spread  = {x=150, y=150, z=150},
+		seed    = 40499,
+		octaves = 3,
+		persist = 0.5,
+		lacunarity = 2,
+		flags = "defaults",
+	},
 })
 
 minetest.register_decoration(
