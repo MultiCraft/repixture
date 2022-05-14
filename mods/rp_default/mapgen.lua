@@ -315,28 +315,6 @@ default.set_biome_info("Savanna", "savannic")
 
 minetest.register_biome(
    {
-      name = "Desert",
-
-      node_top = "rp_default:sand",
-      node_filler = "rp_default:sandstone",
-      node_riverbed = "rp_default:sand",
-      node_dungeon = "rp_default:sandstone",
-
-      depth_filler = 8,
-      depth_top = 3,
-      depth_riverbed = 6,
-
-      y_min = 1,
-      y_max = 32000,
-
-      heat_point = 102,
-      humidity_point = 10,
-})
-register_ocean_and_beach("Desert", "rp_default:sand")
-default.set_biome_info("Desert", "desertic")
-
-minetest.register_biome(
-   {
       name = "Wasteland",
 
       node_top = "rp_default:dry_dirt",
@@ -1825,22 +1803,6 @@ minetest.register_decoration(
 
 end
 
--- Cactus decorations
-
-minetest.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:sand"},
-      sidelen = 16,
-      fill_ratio = 0.004,
-      biomes = {"Desert"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_cactus.mts",
-      y_min = 10,
-      y_max = 500,
-      rotation = "random",
-})
-
 -- Rock decorations
 
 if mg_name ~= "v6" then
@@ -2452,7 +2414,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_dry_grass",
       sidelen = 16,
       fill_ratio = 0.07,
-      biomes = {"Desert", "Savanna", "Chaparral", "Savannic Wasteland"},
+      biomes = {"Savanna", "Chaparral", "Savannic Wasteland"},
       decoration = {"rp_default:dry_grass"},
       y_min = 10,
       y_max = 500,
@@ -2566,7 +2528,7 @@ minetest.register_decoration(
       place_on = {"rp_default:sand", "rp_default:gravel"},
       sidelen = 16,
       fill_ratio = 0.02,
-      biomes = {"Grassland Ocean", "Wasteland Beach", "Forest Ocean", "Wilderness Ocean", "Grove Ocean", "Thorny Shrubs Ocean", "Birch Forest Ocean", "Tall Birch Forest Ocean", "Savanna Ocean", "Rocky Dryland Ocean", "Savannic Wasteland Ocean", "Desert Ocean", "Baby Poplar Plains"},
+      biomes = {"Grassland Ocean", "Wasteland Beach", "Forest Ocean", "Wilderness Ocean", "Grove Ocean", "Thorny Shrubs Ocean", "Birch Forest Ocean", "Tall Birch Forest Ocean", "Savanna Ocean", "Rocky Dryland Ocean", "Savannic Wasteland Ocean", "Baby Poplar Plains"},
       decoration = {"rp_default:clam"},
       y_min = 0,
       y_max = 1,

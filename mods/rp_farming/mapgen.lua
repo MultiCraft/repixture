@@ -40,7 +40,7 @@ minetest.register_decoration(
       place_on = {"rp_default:sand", "rp_default:dirt_with_dry_grass"},
       sidelen = 16,
       fill_ratio = 0.004,
-      biomes = {"Desert", "Savanna"},
+      biomes = {"Savanna"},
       decoration = {"rp_farming:cotton_4"},
       y_min = 1,
       y_max = 32000,
