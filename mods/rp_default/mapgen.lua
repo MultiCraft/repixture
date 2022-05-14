@@ -620,13 +620,12 @@ minetest.register_biome(
       depth_top = 1,
       depth_riverbed = 3,
 
-      y_min = 1,
+      y_min = 10,
       y_max = 32000,
 
       heat_point = 0,
       humidity_point = 43,
 })
-register_ocean_and_beach("Dense Oak Forest", "rp_default:sand")
 default.set_biome_info("Dense Oak Forest", "grassy")
 
 -- Equivalent to Pixture's original 'Swamp' biome
