@@ -2390,7 +2390,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.08,
-      biomes = {"Forest", "Deep Forest", "Birch Forest", "Tall Birch Forest", "Oak Forest", "Dense Oak Forest", "Tall Oak Forest", "Mystery Forest", "Baby Poplar Plains", "Poplar Plains", "Dry Swamp"},
+      biomes = {"Grassland", "Forest", "Deep Forest", "Birch Forest", "Tall Birch Forest", "Oak Forest", "Dense Oak Forest", "Tall Oak Forest", "Mystery Forest", "Baby Poplar Plains", "Poplar Plains", "Dry Swamp", "Shrubbery", "Oak Shrubbery"},
       decoration = {"rp_default:grass"},
       y_min = 0,
       y_max = 32000,
