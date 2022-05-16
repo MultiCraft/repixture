@@ -20,6 +20,24 @@ minetest.register_decoration(
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
+      fill_ratio = 0.002,
+      biomes = {"Dense Grassland"},
+      decoration = {"rp_farming:wheat_4"},
+      y_min = 1,
+      y_max = 32000,
+      noise_params = {
+          seed = 13,
+	  octaves = 2,
+	  scale = 0.001,
+	  offset = 0.0,
+	  spread = { x = 50, y = 50, z = 50 },
+      },
+})
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:dirt_with_grass",
+      sidelen = 16,
       fill_ratio = 0.001,
       biomes = {"Grassland"},
       decoration = {"rp_farming:wheat_4"},
