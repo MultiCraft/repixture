@@ -1,6 +1,6 @@
 local S = minetest.get_translator("rp_default")
 
-local SIGN_MAX_TEXT_LENGTH = 64
+local SIGN_MAX_TEXT_LENGTH = 500
 
 local on_construct = function(pos)
 	local meta = minetest.get_meta(pos)
