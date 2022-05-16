@@ -903,7 +903,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5 + (1 / 16), 0.5}
       },
-      tiles = {"default_flowers.png"},
+      tiles = {"default_flowers.png", "default_flowers.png^[transformFY", "blank.png"},
       use_texture_alpha = "clip",
       inventory_image = "default_flowers_inventory.png",
       wield_image = "default_flowers_inventory.png",
