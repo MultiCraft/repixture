@@ -820,7 +820,6 @@ minetest.register_node(
    {
       description = S("Frame"),
       tiles = {"default_frame.png"},
-      is_ground_content = false,
       groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
@@ -831,7 +830,6 @@ minetest.register_node(
    {
       description = S("Reinforced Frame"),
       tiles = {"default_reinforced_frame.png"},
-      is_ground_content = false,
       groups = {wood = 1, choppy = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
@@ -847,7 +845,6 @@ minetest.register_node(
 	     "rp_default_reed_block_top.png",
 	     "rp_default_reed_block_side.png",
       },
-      is_ground_content = false,
       groups = {snappy=2, fall_damage_add_percent=-10},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_leaves_defaults(),
@@ -861,7 +858,6 @@ minetest.register_node(
 	     "rp_default_dried_reed_block_top.png",
 	     "rp_default_dried_reed_block_side.png",
       },
-      is_ground_content = false,
       groups = {snappy=2, fall_damage_add_percent=-15},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_leaves_defaults(),
@@ -1144,7 +1140,7 @@ minetest.register_node(
       diggable = false,
       buildable_to = true,
       drowning = 1,
-      is_ground_content = false,
+      is_ground_content = true,
       liquidtype = "flowing",
       liquid_alternative_flowing = "rp_default:water_flowing",
       liquid_alternative_source = "rp_default:water_source",
@@ -1152,7 +1148,6 @@ minetest.register_node(
       post_effect_color = {a = 90, r = 40, g = 40, b = 100},
       groups = {water = 1, flowing_water = 1, liquid = 1, not_in_creative_inventory=1,},
       sounds = rp_sounds.node_sound_water_defaults(),
-      is_ground_content = false,
 })
 
 minetest.register_node(
@@ -1178,7 +1173,7 @@ minetest.register_node(
       diggable = false,
       buildable_to = true,
       drowning = 1,
-      is_ground_content = false,
+      is_ground_content = true,
       liquidtype = "source",
       liquid_alternative_flowing = "rp_default:water_flowing",
       liquid_alternative_source = "rp_default:water_source",
@@ -1186,7 +1181,6 @@ minetest.register_node(
       post_effect_color = {a=90, r=40, g=40, b=100},
       groups = {water=1, liquid=1},
       sounds = rp_sounds.node_sound_water_defaults(),
-      is_ground_content = false,
 })
 
 minetest.register_node(
@@ -1215,7 +1209,7 @@ minetest.register_node(
       diggable = false,
       buildable_to = true,
       drowning = 2,
-      is_ground_content = false,
+      is_ground_content = true,
       liquidtype = "flowing",
       liquid_alternative_flowing = "rp_default:river_water_flowing",
       liquid_alternative_source = "rp_default:river_water_source",
@@ -1225,7 +1219,6 @@ minetest.register_node(
       post_effect_color = {a=40, r=40, g=70, b=100},
       groups = {water=1, flowing_water = 1, river_water = 1, liquid=1, not_in_creative_inventory=1,},
       sounds = rp_sounds.node_sound_water_defaults(),
-      is_ground_content = false,
 })
 
 minetest.register_node(
@@ -1252,7 +1245,7 @@ minetest.register_node(
       diggable = false,
       buildable_to = true,
       drowning = 2,
-      is_ground_content = false,
+      is_ground_content = true,
       liquidtype = "source",
       liquid_alternative_flowing = "rp_default:river_water_flowing",
       liquid_alternative_source = "rp_default:river_water_source",
@@ -1262,7 +1255,6 @@ minetest.register_node(
       post_effect_color = {a=40, r=40, g=70, b=100},
       groups = {water = 1, river_water = 1, liquid = 1},
       sounds = rp_sounds.node_sound_water_defaults(),
-      is_ground_content = false,
 })
 
 minetest.register_node(
@@ -1291,7 +1283,7 @@ minetest.register_node(
       diggable = false,
       buildable_to = true,
       drowning = 3,
-      is_ground_content = false,
+      is_ground_content = true,
       liquidtype = "flowing",
       liquid_alternative_flowing = "rp_default:swamp_water_flowing",
       liquid_alternative_source = "rp_default:swamp_water_source",
@@ -1301,7 +1293,6 @@ minetest.register_node(
       post_effect_color = {a=220, r=50, g=40, b=70},
       groups = {water=1, flowing_water = 1, swamp_water = 1, liquid=1, not_in_creative_inventory=1,},
       sounds = rp_sounds.node_sound_water_defaults(),
-      is_ground_content = false,
 })
 
 minetest.register_node(
@@ -1327,7 +1318,7 @@ minetest.register_node(
       diggable = false,
       buildable_to = true,
       drowning = 3,
-      is_ground_content = false,
+      is_ground_content = true,
       liquidtype = "source",
       liquid_alternative_flowing = "rp_default:swamp_water_flowing",
       liquid_alternative_source = "rp_default:swamp_water_source",
@@ -1337,5 +1328,4 @@ minetest.register_node(
       post_effect_color = {a=220, r=50, g=40, b=70},
       groups = {water = 1, swamp_water = 1, liquid = 1},
       sounds = rp_sounds.node_sound_water_defaults(),
-      is_ground_content = false,
 })

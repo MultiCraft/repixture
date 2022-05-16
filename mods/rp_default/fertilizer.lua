@@ -90,7 +90,6 @@ minetest.register_node(
 	 not_in_craft_guide = 1,
       },
       drop = "rp_default:sand",
-      is_ground_content = false,
       sounds = rp_sounds.node_sound_sand_defaults(),
 })
 
