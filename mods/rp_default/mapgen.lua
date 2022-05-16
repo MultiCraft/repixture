@@ -1257,7 +1257,20 @@ minetest.register_decoration(
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
       fill_ratio = 0.004,
-      biomes = {"Dry Swamp", "Dry Swamp Highland"},
+      biomes = {"Dry Swamp"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_birch_cuboid_3x3_long.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.00133333,
+      biomes = {"Dry Swamp Highland"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_birch_cuboid_3x3_short.mts",
@@ -1453,14 +1466,26 @@ minetest.register_decoration(
       place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt", "rp_default:dirt"},
       sidelen = 16,
       fill_ratio = 0.003,
-      biomes = {"Dry Swamp", "Dry Swamp Beach", "Dry Swamp Highland"},
+      biomes = {"Dry Swamp", "Dry Swamp Beach"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_swamp_birch.mts",
       y_min = 0,
       y_max = 32000,
 })
-
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt", "rp_default:dirt"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      biomes = {"Dry Swamp Highland"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_swamp_birch.mts",
+      y_min = 0,
+      y_max = 32000,
+})
 
 
 local MYSTERY_FOREST_SPREAD = { x=500, y=500, z=500 }
@@ -1828,7 +1853,20 @@ minetest.register_decoration(
       place_on = {"rp_default:dirt_with_grass", "rp_default:dirt"},
       sidelen = 16,
       fill_ratio = 0.0001,
-      biomes = {"Dry Swamp", "Dry Swamp Highland"},
+      biomes = {"Dry Swamp"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_apple_tree.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass", "rp_default:dirt"},
+      sidelen = 16,
+      fill_ratio = 0.0002,
+      biomes = {"Dry Swamp Highland"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree.mts",
