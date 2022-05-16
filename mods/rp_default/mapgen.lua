@@ -583,7 +583,7 @@ minetest.register_biome(
       y_min = 1,
       y_max = 32000,
 
-      heat_point = 27,
+      heat_point = 32,
       humidity_point = 61,
 })
 register_ocean_and_beach("Oak Forest", "rp_default:sand")
