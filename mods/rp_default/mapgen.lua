@@ -662,9 +662,9 @@ minetest.register_biome(
       node_cave_liquid = "rp_default:swamp_water_source",
       node_riverbed = "rp_default:swamp_dirt",
 
-      depth_filler = 7,
+      depth_filler = 6,
       depth_top = 1,
-      depth_riverbed = 4,
+      depth_riverbed = 3,
 
       y_min = SWAMP_Y_MAX+1,
       y_max = SWAMP_HIGH_Y_MAX,
@@ -705,9 +705,9 @@ minetest.register_biome(
       node_cave_liquid = "rp_default:swamp_water_source",
       node_riverbed = "rp_default:swamp_dirt",
 
-      depth_filler = 7,
+      depth_filler = 6,
       depth_top = 1,
-      depth_riverbed = 3,
+      depth_riverbed = 2,
 
       y_min = SWAMP_Y_MAX + 1,
       y_max = SWAMP_HIGH_Y_MAX,
@@ -748,9 +748,9 @@ minetest.register_biome(
       node_cave_liquid = "rp_default:swamp_water_source",
       node_riverbed = "rp_default:swamp_dirt",
 
-      depth_filler = 5,
+      depth_filler = 4,
       depth_top = 1,
-      depth_riverbed = 4,
+      depth_riverbed = 3,
 
       y_min = SWAMP_Y_MAX + 1,
       y_max = SWAMP_HIGH_Y_MAX,
@@ -790,9 +790,9 @@ minetest.register_biome(
       node_filler = "rp_default:swamp_dirt",
       node_riverbed = "rp_default:swamp_dirt",
 
-      depth_filler = 6,
+      depth_filler = 5,
       depth_top = 1,
-      depth_riverbed = 2,
+      depth_riverbed = 1,
 
       y_min = SWAMP_Y_MAX + 1,
       y_max = SWAMP_HIGH_Y_MAX,
