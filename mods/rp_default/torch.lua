@@ -35,13 +35,49 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          groups = {choppy = 2, dig_immediate = 3, attached_node = 1, torch = 1},
          is_ground_content = false,
          sounds = rp_sounds.node_sound_defaults(),
-         on_construct = function(pos)
-             local node = minetest.get_node(pos)
-             local dir = minetest.wallmounted_to_dir(node.param2)
-             if dir.x ~= 0 or dir.z ~= 0 then
-                 minetest.set_node(pos, {name="rp_default:"..subname.."_wall", param2 = node.param2})
-             end
-         end,
+         on_place = function(itemstack, placer, pointed_thing)
+            if pointed_thing.type ~= "node" then
+               return itemstack
+            end
+            local under = pointed_thing.under
+            local node = minetest.get_node(under)
+            local def = minetest.registered_nodes[node.name]
+            if def and def.on_rightclick and
+                  not (placer and placer:is_player() and
+                  placer:get_player_control().sneak) then
+               return def.on_rightclick(under, node, placer, itemstack, pointed_thing) or itemstack
+            end
+
+            local above = pointed_thing.above
+            if minetest.is_protected(above, placer:get_player_name()) and
+                  not minetest.check_player_privs(placer, "protection_bypass") then
+               minetest.record_protection_violation(pos, placer:get_player_name())
+               return itemstack
+            end
+
+            local wdir = minetest.dir_to_wallmounted(vector.subtract(under, above))
+            local fakestack = itemstack
+            if wdir == 0 or wdir == 1 then
+               fakestack:set_name("rp_default:"..subname)
+            else
+               fakestack:set_name("rp_default:"..subname.."_wall")
+            end
+
+            local place_pos
+            itemstack, place_pos = minetest.item_place(fakestack, placer, pointed_thing, wdir)
+            if not place_pos then
+               wdir = 1
+               fakestack:set_name("rp_default:"..subname)
+               itemstack, place_pos = minetest.item_place(fakestack, placer, pointed_thing, wdir)
+            end
+            if place_pos then
+               local sounds = minetest.registered_nodes["rp_default:"..subname].sounds
+               minetest.sound_play(sounds.place, {pos = place_pos}, true)
+            end
+            itemstack:set_name("rp_default:"..subname)
+
+            return itemstack
+	end,
    })
    local copy, copy_o
    for i=1,6 do
