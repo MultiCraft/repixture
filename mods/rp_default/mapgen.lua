@@ -2614,6 +2614,18 @@ minetest.register_decoration(
       y_min = 10,
       y_max = 500,
 })
+minetest.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:dirt_with_dry_grass",
+      sidelen = 16,
+      fill_ratio = 0.007,
+      biomes = {"Savanna", "Savannic Wasteland"},
+      decoration = {"rp_default:dry_grass"},
+      y_min = -31000,
+      y_max = 9,
+})
+
 
 if mg_name ~= "v6" then
 
