@@ -8,6 +8,7 @@ minetest.register_craftitem(
       inventory_image = "rp_supertools_growth_tool.png",
       wield_image = "rp_supertools_growth_tool.png",
       groups = { supertool = 1 },
+      stack_max = 1,
       on_place = function(itemstack, placer, pointed_thing)
          -- Handle pointed node handlers and protection
          local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
