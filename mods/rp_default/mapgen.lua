@@ -1333,14 +1333,26 @@ minetest.register_decoration(
       y_max = 32000,
 })
 
-
 minetest.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
       fill_ratio = 0.009,
-      biomes = {"Forest", "Deep Forest"},
+      biomes = {"Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_apple_tree_chance_50.mts",
+      y_min = -32000,
+      y_max = 32000,
+})
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.009,
+      biomes = {"Deep Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree.mts",
