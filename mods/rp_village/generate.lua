@@ -288,7 +288,10 @@ function village.generate_hill(pos, ground, ground_top)
       local p = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
       local n = minetest.get_node(p)
       local def = minetest.registered_nodes[n.name]
-      if minetest.get_item_group(n.name, "dirt") == 0 and (n.name == "air" or n.name == "ignore" or (def and (def.liquidtype ~= "none" or (def.is_ground_content)))) then
+      local is_any_dirt = minetest.get_item_group(n.name, "dirt") == 1
+      local is_dirt = n.name == "rp_default:dirt"
+      local is_dry_dirt = n.name == "rp_default:dry_dirt"
+      if (not is_dry_dirt) and (is_dirt or (not is_any_dirt)) and (n.name == "air" or n.name == "ignore" or (def and (def.liquidtype ~= "none" or (def.is_ground_content)))) then
          if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
             table.insert(dirts_with_grass, p)
          else
