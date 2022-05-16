@@ -1190,12 +1190,14 @@ minetest.register_node(
       drawtype = "liquid",
       tiles = {
 	 {
-	    name = "default_water.png",
+	    name = "default_water_source_animated.png",
 	    backface_culling = false,
+	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
 	 {
-	    name = "default_water.png",
+	    name = "default_water_source_animated.png",
 	    backface_culling = false,
+	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
       },
       use_texture_alpha = "blend",
@@ -1261,12 +1263,14 @@ minetest.register_node(
       drawtype = "liquid",
       tiles = {
 	 {
-	    name = "default_river_water.png",
+	    name = "default_river_water_source_animated.png",
 	    backface_culling = false,
+	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
 	 {
-	    name = "default_river_water.png",
+	    name = "default_river_water_source_animated.png",
 	    backface_culling = false,
+	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
 
       },
@@ -1335,12 +1339,14 @@ minetest.register_node(
       drawtype = "liquid",
       tiles = {
 	 {
-	    name = "default_swamp_water.png",
+	    name = "default_swamp_water_source_animated.png",
 	    backface_culling = false,
+	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
 	 {
-	    name = "default_swamp_water.png",
+	    name = "default_swamp_water_source_animated.png",
 	    backface_culling = false,
+	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
       },
       use_texture_alpha = "blend",
