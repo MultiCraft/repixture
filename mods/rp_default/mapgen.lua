@@ -2545,7 +2545,7 @@ minetest.register_decoration(
       place_on = "rp_default:dirt_with_grass",
       sidelen = 16,
       fill_ratio = 0.003,
-      biomes = {"Dense Grassland"},
+      biomes = {"Dense Grassland", "Poplar Plains"},
       decoration = {"rp_default:flower"},
       y_min = -32000,
       y_max = 32000,
