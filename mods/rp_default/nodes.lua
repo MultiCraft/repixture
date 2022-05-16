@@ -1161,7 +1161,7 @@ minetest.register_node(
 	 },
 	 {
 	    name = "default_water_animated.png",
-	    backface_culling = false,
+	    backface_culling = true,
 	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
       },
@@ -1196,7 +1196,7 @@ minetest.register_node(
 	 },
 	 {
 	    name = "default_water_source_animated.png",
-	    backface_culling = false,
+	    backface_culling = true,
 	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
       },
@@ -1232,7 +1232,7 @@ minetest.register_node(
 	 },
 	 {
 	    name = "default_river_water_animated.png",
-	    backface_culling = false,
+	    backface_culling = true,
 	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
       },
@@ -1269,7 +1269,7 @@ minetest.register_node(
 	 },
 	 {
 	    name = "default_river_water_source_animated.png",
-	    backface_culling = false,
+	    backface_culling = true,
 	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
 
@@ -1308,7 +1308,7 @@ minetest.register_node(
 	 },
 	 {
 	    name = "default_swamp_water_animated.png",
-	    backface_culling = false,
+	    backface_culling = true,
 	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 1.8}
 	 },
       },
@@ -1345,7 +1345,7 @@ minetest.register_node(
 	 },
 	 {
 	    name = "default_swamp_water_source_animated.png",
-	    backface_culling = false,
+	    backface_culling = true,
 	    animation = {type = "vertical_frames", aspect_w= 16, aspect_h = 16, length = 0.8}
 	 },
       },
