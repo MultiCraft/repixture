@@ -1110,7 +1110,40 @@ minetest.register_node(
       groups = {fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, food = 2},
       on_use = minetest.item_eat({hp = 4, sat = 40}),
       sounds = rp_sounds.node_sound_defaults(),
+
+      -- Place node as the 'nopearl' clam to make sure the player can't
+      -- place the same clam over and over again to farm pearls.
+      node_placement_prediction = "rp_default:clam_nopearl",
+      after_place_node = function(pos, placer, itemstack, pointed_thing)
+         minetest.set_node(pos, {name="rp_default:clam_nopearl"})
+      end,
+
 })
+-- Same as clam, except it never drops pearls.
+-- To be used as node only, not for player inventory.
+minetest.register_node(
+   "rp_default:clam_nopearl",
+   {
+      drawtype = "nodebox",
+      tiles = {"default_clam.png"},
+      use_texture_alpha = "clip",
+      inventory_image = "default_clam_inventory.png^default_clam_nopearl_overlay.png",
+      wield_image = "default_clam_inventory.png",
+      paramtype = "light",
+      node_box = {
+	 type = "fixed",
+	 fixed = {
+	    {-3/16, -0.5, -3/16, 3/16, -6/16, 3/16},
+	 },
+      },
+      drop = "rp_default:clam",
+      sunlight_propagates = true,
+      walkable = false,
+      floodable = true,
+      groups = {fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, not_in_creative_inventory = 1},
+      sounds = rp_sounds.node_sound_defaults(),
+})
+
 
 -- Water
 
