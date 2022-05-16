@@ -65,7 +65,7 @@ local mg_name = minetest.get_mapgen_setting("mg_name")
 local UNDERGROUND_Y_MAX = -200
 local ORCHARD_Y_MIN = 20
 local SWAMP_Y_MAX = 7
-local SWAMP_HIGH_Y_MAX = 25
+local SWAMP_HIGH_Y_MAX = 24
 
 local register_ocean_and_beach = function(biomename, node_ocean, beach_depth, node_beach)
 	local orig_biome = minetest.registered_biomes[biomename]
