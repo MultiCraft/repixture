@@ -337,17 +337,17 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, noclear
       end
       end
       minetest.bulk_set_node(dirtnodes, {name=ground})
-
-      if noclear ~= true then
-         minetest.place_schematic(
-	    pos,
-	    modpath .. "/schematics/village_empty.mts",
-	    "0",
-	    {},
-	    true
-         )
-      end
    end
+   if noclear ~= true then
+      minetest.place_schematic(
+         pos,
+         modpath .. "/schematics/village_empty.mts",
+         "0",
+         {},
+         true
+      )
+   end
+
 
    local sreplace = table.copy(replace)
    if chunktype == "orchard" then
@@ -625,7 +625,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    for _,road in pairs(roads) do
    if road ~= false then
 
-      _, state = village.spawn_chunk(road.pos, state, "0", {}, pr, "road", true, false, true, ground, ground_top)
+      _, state = village.spawn_chunk(road.pos, state, "0", {}, pr, "road", false, false, true, ground, ground_top)
 
       local amt_connections = 0
 
@@ -685,7 +685,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    end
 
    -- Place a well at the start position as the final step
-   local chunk_ok, state = village.spawn_chunk(pos, nil, "0", replace, pr, "well", nil, nil, true, ground, ground_top)
+   local chunk_ok, state = village.spawn_chunk(pos, nil, "0", replace, pr, "well", true, nil, true, ground, ground_top)
    if not chunk_ok then
       minetest.log("warning", string.format("[rp_village] Failed to generated village well %s", minetest.pos_to_string(pos)))
    end
