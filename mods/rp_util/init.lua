@@ -58,17 +58,6 @@ function util.nodefunc(pos1, pos2, nodes, func, nomanip)
    end
 end
 
-function util.getvoxelmanip(pos1, pos2)
-   -- function based off fixlight
-   -- return a voxel manipulator
-   local pos1, pos2 = util.sort_pos(pos1, pos2)
-
-   local manip = minetest.get_voxel_manip()
-   manip:read_from_map(pos1, pos2)
-
-   return manip
-end
-
 function util.remove_area(pos1, pos2, nomanip)
    -- function based off fixlight
    -- call a function for every node of a single type

@@ -323,8 +323,6 @@ function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, noclear
       state = { music_players = 0 }
    end
 
-   util.getvoxelmanip(pos, {x = pos.x+12, y = pos.y+12, z = pos.z+12})
-
    if nofill ~= true then
       -- Make a hill for the building to stand on
       village.generate_hill({x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top)
