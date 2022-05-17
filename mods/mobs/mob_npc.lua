@@ -375,7 +375,7 @@ for _, npc_type_table in pairs(npc_types) do
                              say(S("Apples are so tasty!"), name)
                           end
                       elseif iname == "rp_default:reed_block" then
-                          say(S("Did you try to dry it in the furnace."), name)
+                          say(S("Did you try to dry it in the furnace?"), name)
                       elseif iname == "rp_default:dirt" then
                           if npc_type == "farmer" then
                              say(S("Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized."), name)
