@@ -301,6 +301,7 @@ function achievements.get_formspec(name, row)
 
    local form = rp_formspec.get_page("rp_achievements:achievements")
 
+   form = form .. "set_focus[achievement_list]"
    form = form .. "table[0.25,2.5;7.9,5.5;achievement_list;" .. achievement_list
       .. ";" .. row .. "]"
 
