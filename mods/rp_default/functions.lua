@@ -928,6 +928,12 @@ minetest.register_abm( -- weak torchs burn out and die after ~3 minutes
       interval = 3,
       chance = 60,
       action = function(pos, node)
-         minetest.set_node(pos, {name = "rp_default:torch_dead", param = node.param, param2 = node.param2})
+	 local newnode = { param2 = node.param2 }
+         if node.name == "rp_default:torch_weak_wall" then
+            newnode.name = "rp_default:torch_dead_wall"
+         else
+            newnode.name = "rp_default:torch_dead"
+         end
+         minetest.swap_node(pos, newnode)
       end
 })
