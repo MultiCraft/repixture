@@ -12,6 +12,13 @@ default.WATER_VISC = 1
 
 default.LIGHT_MAX = 14
 
+-- If a sapling is affected by fertilizer,
+-- the growth timer is reduced by this
+-- factor. E.g. if the timeout is 100s
+-- and the factor is 0.1, the growth time
+-- is reduced by 100s*0.1 = 10s.
+default.SAPLING_FERTILIZER_TIME_BONUS_FACTOR = 0.1
+
 minetest.nodedef_default.stack_max = 60
 minetest.craftitemdef_default.stack_max = 60
 

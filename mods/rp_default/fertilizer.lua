@@ -138,6 +138,27 @@ minetest.register_craftitem(
 	    if fertilized then
                minetest.sound_play({name="rp_default_fertilize", gain=1.0}, {pos=underpos}, true)
 	       minetest.log("action", "[rp_default] " .. placer:get_player_name() .. " fertilizes " .. undernode.name .. " at " .. minetest.pos_to_string(underpos, 0))
+
+	       local above_soil_pos = vector.add(underpos, vector.new(0,1,0))
+	       local above_soil_node = minetest.get_node(above_soil_pos)
+	       -- Add time bonus for sapling so it grows faster.
+	       -- Note this only has an effect if the sapling was not
+	       -- already fertilized.
+	       if minetest.get_item_group(above_soil_node.name, "sapling") == 1 then
+                  -- This increases the sapling's 'elapsed' timer by adding
+		  -- a fraction of the total growth time.
+		  -- It's possible this will instantly expire the timer.
+                  local sapling_meta = minetest.get_meta(above_soil_pos)
+		  local timer = minetest.get_node_timer(above_soil_pos)
+		  local timeout = timer:get_timeout()
+		  local elapsed = timer:get_elapsed()
+		  local bonus = timeout * default.SAPLING_FERTILIZER_TIME_BONUS_FACTOR
+		  local new_elapsed = elapsed + bonus
+		  timer:set(timeout, new_elapsed)
+	          minetest.log("action", "[rp_default] Fertilizer affects sapling! Sapling timer of " .. above_soil_node.name ..
+                          " at " .. minetest.pos_to_string(above_soil_pos, 0) .. " with timeout="..timeout.." set from elapsed="..elapsed..
+			  " to elapsed="..new_elapsed)
+	       end
 	    end
          end
 
