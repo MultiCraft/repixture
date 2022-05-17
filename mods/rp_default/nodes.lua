@@ -518,7 +518,7 @@ minetest.register_node(
       floodable = true,
       selection_box = {
 	 type = "fixed",
-	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
+	 fixed = {-4/16, -0.5, -4/16, 4/16, 3/16, 4/16},
       },
       groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
       is_ground_content = false,
