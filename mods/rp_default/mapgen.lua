@@ -66,6 +66,8 @@ local UNDERGROUND_Y_MAX = -200
 local ORCHARD_Y_MIN = 20
 local SWAMP_Y_MAX = 7
 local SWAMP_HIGH_Y_MAX = 24
+local GLOBAL_Y_MAX = 31000
+local GLOBAL_Y_MIN = -31000
 
 local register_ocean_and_beach = function(biomename, node_ocean, beach_depth, node_beach)
 	local orig_biome = minetest.registered_biomes[biomename]
@@ -136,7 +138,7 @@ minetest.register_biome(
       depth_riverbed = 3,
 
       y_min = SWAMP_Y_MAX + 1,
-      y_max = 31000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 81,
       humidity_point = 80,
@@ -201,7 +203,7 @@ minetest.register_biome(
       depth_riverbed = 4,
 
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 35,
       humidity_point = 19,
@@ -222,7 +224,7 @@ minetest.register_biome(
       depth_riverbed = 2,
 
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 55,
       humidity_point = 24,
@@ -266,7 +268,7 @@ minetest.register_biome(
       depth_riverbed = 2,
 
       y_min = ORCHARD_Y_MIN,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 55,
       humidity_point = 56,
@@ -309,7 +311,7 @@ minetest.register_biome(
       depth_riverbed = 4,
 
       y_min = 56,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 76,
       humidity_point = 50,
@@ -350,7 +352,7 @@ minetest.register_biome(
       depth_riverbed = 2,
 
       y_min = 2,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 100,
       humidity_point = 0,
@@ -371,7 +373,7 @@ minetest.register_biome(
       depth_riverbed = 4,
 
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 86,
       humidity_point = 7,
@@ -392,7 +394,7 @@ minetest.register_biome(
       depth_riverbed = 2,
 
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 94,
       humidity_point = 10,
@@ -413,7 +415,7 @@ minetest.register_biome(
       depth_riverbed = 2,
 
       y_min = 2,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 80,
       humidity_point = 10,
@@ -476,7 +478,7 @@ minetest.register_biome(
       depth_riverbed = 2,
 
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 100,
       humidity_point = 56,
@@ -497,7 +499,7 @@ minetest.register_biome(
       depth_riverbed = 2,
 
       y_min = 2,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 100,
       humidity_point = 42,
@@ -518,7 +520,7 @@ minetest.register_biome(
       depth_riverbed = 2,
 
       y_min = 2,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 0,
       humidity_point = 15,
@@ -539,7 +541,7 @@ minetest.register_biome(
       depth_riverbed = 2,
 
       y_min = 2,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 14,
       humidity_point = 16,
@@ -560,7 +562,7 @@ minetest.register_biome(
       depth_riverbed = 1,
 
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 33,
       humidity_point = 62,
@@ -581,7 +583,7 @@ minetest.register_biome(
       depth_riverbed = 1,
 
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 32,
       humidity_point = 61,
@@ -602,7 +604,7 @@ minetest.register_biome(
       depth_riverbed = 2,
 
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 10,
       humidity_point = 52,
@@ -623,7 +625,7 @@ minetest.register_biome(
       depth_riverbed = 3,
 
       y_min = 30,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 
       heat_point = 0,
       humidity_point = 52,
@@ -829,7 +831,7 @@ minetest.register_biome(
    {
       name = "Underground",
 
-      y_min = -31000,
+      y_min = GLOBAL_Y_MIN,
       y_max = UNDERGROUND_Y_MAX,
 
       heat_point = 50,
@@ -864,7 +866,7 @@ minetest.register_ore( -- Springs
       clust_num_ores = 1,
       clust_size     = 1,
       y_min          = 20,
-      y_max          = 31000,
+      y_max          = GLOBAL_Y_MAX,
       noise_params   = spring_ore_np(),
 })
 
@@ -891,8 +893,8 @@ minetest.register_ore( -- Swamp (big springs)
       clust_scarcity = 7*7*7,
       clust_num_ores = 10,
       clust_size     = 4,
-      y_min          = -31000,
-      y_max          = 31000,
+      y_min          = GLOBAL_Y_MIN,
+      y_max          = GLOBAL_Y_MAX,
       noise_params   = spring_ore_np(13943),
 })
 minetest.register_ore( -- Swamp (medium springs)
@@ -904,8 +906,8 @@ minetest.register_ore( -- Swamp (medium springs)
       clust_scarcity = 5*5*5,
       clust_num_ores = 8,
       clust_size     = 2,
-      y_min          = -31000,
-      y_max          = 31000,
+      y_min          = GLOBAL_Y_MIN,
+      y_max          = GLOBAL_Y_MAX,
       noise_params   = spring_ore_np(49494),
 })
 
@@ -918,8 +920,8 @@ minetest.register_ore( -- Swamp (small springs)
       clust_scarcity = 6*6*6,
       clust_num_ores = 1,
       clust_size     = 1,
-      y_min          = -31000,
-      y_max          = 31000,
+      y_min          = GLOBAL_Y_MIN,
+      y_max          = GLOBAL_Y_MAX,
       noise_params   = spring_ore_np(59330),
 })
 
@@ -932,8 +934,8 @@ minetest.register_ore( -- Marsh
       clust_scarcity = 8*8*8,
       clust_num_ores = 10,
       clust_size     = 6,
-      y_min          = -31000,
-      y_max          = 31000,
+      y_min          = GLOBAL_Y_MIN,
+      y_max          = GLOBAL_Y_MAX,
       noise_params   = spring_ore_np(),
 })
 
@@ -945,8 +947,8 @@ minetest.register_ore(
       biomes = {"Rocky Dryland"},
       clust_scarcity = 8*8*8,
       clust_size     = 8,
-      y_min          = -31000,
-      y_max          = 31000,
+      y_min          = GLOBAL_Y_MIN,
+      y_max          = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 1,
 	      scale = 1,
@@ -965,8 +967,8 @@ minetest.register_ore(
       biomes = {"Rocky Dryland"},
       clust_scarcity = 8*8*8,
       clust_size     = 7,
-      y_min          = -31000,
-      y_max          = 31000,
+      y_min          = GLOBAL_Y_MIN,
+      y_max          = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 1,
 	      scale = 1,
@@ -987,8 +989,8 @@ minetest.register_ore( -- Dry Swamp (dirt with grass)
       clust_scarcity = 3*3*3,
       clust_num_ores = 10,
       clust_size     = 4,
-      y_min          = -31000,
-      y_max          = 31000,
+      y_min          = GLOBAL_Y_MIN,
+      y_max          = GLOBAL_Y_MAX,
       noise_params   = spring_ore_np(13943),
 })
 minetest.register_ore( -- Dry Swamp (dirt)
@@ -1000,8 +1002,8 @@ minetest.register_ore( -- Dry Swamp (dirt)
       clust_scarcity = 3*3*3,
       clust_num_ores = 10,
       clust_size     = 4,
-      y_min          = -31000,
-      y_max          = 31000,
+      y_min          = GLOBAL_Y_MIN,
+      y_max          = GLOBAL_Y_MAX,
       noise_params   = spring_ore_np(13943),
 })
 minetest.register_ore(
@@ -1014,7 +1016,7 @@ minetest.register_ore(
       clust_size     = 6,
       clust_num_ores = 40,
       y_min          = 2,
-      y_max          = 31000,
+      y_max          = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 1,
 	      scale = 1,
@@ -1035,7 +1037,7 @@ minetest.register_ore(
       clust_scarcity = 7*7*7,
       clust_size     = 4,
       y_min          = 2,
-      y_max          = 31000,
+      y_max          = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 2,
 	      scale = 1,
@@ -1083,8 +1085,8 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_giga_birch_tree.mts",
       rotation = "random",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1098,7 +1100,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_tall_grove_tree.mts",
       y_min = 0,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1111,8 +1113,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_coniferlike_tree.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1125,8 +1127,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_birch_cuboid_tall.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1138,8 +1140,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_layer_birch_2.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1151,8 +1153,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_birch_candlestick.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 
@@ -1166,8 +1168,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_birch_cuboid_3x3_short.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1180,8 +1182,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_birch_cuboid_5x4.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1193,8 +1195,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_birch_cuboid_3x4.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1206,8 +1208,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_birch_cuboid_3x3_long.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1219,8 +1221,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_birch_cuboid_3x3_short.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1232,8 +1234,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_birch_plus.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1245,8 +1247,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree_empty.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 
@@ -1261,8 +1263,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_birch_cuboid_3x3_long.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1274,8 +1276,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_birch_cuboid_3x3_short.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1289,7 +1291,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree_big.mts",
       y_min = 15,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1303,7 +1305,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree.mts",
       y_min = 10,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1316,8 +1318,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1329,8 +1331,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree_empty.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1343,8 +1345,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree_chance_50.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1356,8 +1358,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1371,7 +1373,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_tree_big_1.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1385,7 +1387,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_tree_big_1.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1398,7 +1400,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_tree_big_2.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 
@@ -1413,7 +1415,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_tree_big_1.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1426,7 +1428,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_tree_big_2.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 
@@ -1442,7 +1444,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_swamp_oak.mts",
       y_min = 0,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1456,7 +1458,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_swamp_oak.mts",
       y_min = 0,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1470,7 +1472,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_swamp_birch.mts",
       y_min = 0,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1483,7 +1485,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_swamp_birch.mts",
       y_min = 0,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1496,7 +1498,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_swamp_birch.mts",
       y_min = 0,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 
@@ -1516,7 +1518,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_staircase_tree.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 2,
 	      scale = -MYSTERY_FOREST_SCALE,
@@ -1538,7 +1540,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_layer_birch.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 2,
               scale = MYSTERY_FOREST_SCALE,
@@ -1560,7 +1562,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_telephone_tree.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 2,
 	      scale = -MYSTERY_FOREST_SCALE,
@@ -1582,7 +1584,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_telephone_tree_apples.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 2,
 	      scale = -MYSTERY_FOREST_SCALE,
@@ -1607,7 +1609,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_cross_birch.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 2,
               scale = MYSTERY_FOREST_SCALE,
@@ -1629,7 +1631,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_poplar_large.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 2,
               scale = 0.01,
@@ -1650,7 +1652,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_poplar_small.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 2,
               scale = 0.01,
@@ -1672,7 +1674,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_poplar_small.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 -- Small poplar tree blobs
@@ -1686,7 +1688,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_poplar_small.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 2,
               scale = 0.05,
@@ -1710,7 +1712,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_poplar_small.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 
@@ -1726,7 +1728,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_swamp_oak_bush.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
 })
 
@@ -1741,7 +1743,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_birch_bush_big.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
 })
 
@@ -1755,7 +1757,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_birch_bush.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
 })
 minetest.register_decoration(
@@ -1768,7 +1770,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_birch_bush.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
 })
 
@@ -1781,7 +1783,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_bush.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
       noise_params = {
 	      octaves = 1,
@@ -1803,7 +1805,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_bush.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
       noise_params = {
 	      octaves = 1,
@@ -1826,7 +1828,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_bush.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
 })
 
@@ -1842,8 +1844,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1855,8 +1857,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree_empty.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1869,8 +1871,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -1882,8 +1884,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1897,7 +1899,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_apple_tree_chance_50.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1910,8 +1912,8 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_tree.mts",
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1925,7 +1927,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_tree.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1939,7 +1941,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_tree.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1953,7 +1955,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_tree.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -1967,7 +1969,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_tree.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 
@@ -1988,7 +1990,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_small_rock.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "random",
 })
 
@@ -2003,7 +2005,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_large_rock.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "random",
 })
 
@@ -2018,7 +2020,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_small_rock.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "random",
 })
 
@@ -2033,7 +2035,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_small_sandstone_rock.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -2045,7 +2047,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       decoration = {"rp_default:stone"},
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 
@@ -2087,7 +2089,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_tiny_birch.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2100,7 +2102,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_tree_3layer.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -2112,7 +2114,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_tree_2layer.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -2124,7 +2126,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_tiny_dry_tree.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -2137,7 +2139,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_tiny_birch.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2150,7 +2152,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_tree_3layer.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -2162,7 +2164,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_tree_2layer.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -2174,7 +2176,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_tiny_dry_tree.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2188,7 +2190,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_tiny_oak.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2202,7 +2204,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_tiny_birch.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 
@@ -2216,7 +2218,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_tiny_dry_tree.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 
@@ -2234,7 +2236,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_bush_wide.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2248,7 +2250,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_bush_wide.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2262,7 +2264,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_bush_wide.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2275,7 +2277,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_bush_small.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
 })
 
@@ -2289,7 +2291,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_bush_small.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
 })
 
@@ -2303,7 +2305,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_bush_small.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2316,7 +2318,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_bush.mts",
       y_min = 0,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
 })
 minetest.register_decoration(
@@ -2328,7 +2330,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_bush.mts",
       y_min = 5,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
       noise_params = {
 	      octaves = 1,
@@ -2353,7 +2355,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_normal_bush_small.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2367,7 +2369,7 @@ minetest.register_decoration(
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_normal_bush_small.mts",
       y_min = 1,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 
@@ -2382,7 +2384,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_bush.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
 })
 minetest.register_decoration(
@@ -2395,7 +2397,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_dry_bush.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
 })
 minetest.register_decoration(
@@ -2408,7 +2410,7 @@ minetest.register_decoration(
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_bush.mts",
       y_min = 3,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
       rotation = "0",
 })
 
@@ -2425,8 +2427,8 @@ minetest.register_decoration(
       biomes = {"Wilderness"},
       decoration = {"rp_default:thistle"},
       height = 2,
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -2436,8 +2438,8 @@ minetest.register_decoration(
       biomes = {"Thorny Shrubs"},
       decoration = {"rp_default:thistle"},
       height = 2,
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
       noise_params = {
 	      octaves = 2,
 	      scale = 1,
@@ -2496,7 +2498,7 @@ minetest.register_decoration(
       biomes = {"Mixed Swamp", "Mixed Swamp Highland"},
       decoration = {"rp_default:papyrus"},
       height = 4,
-      y_max = 31000,
+      y_max = GLOBAL_Y_MAX,
       y_min = -100,
 	noise_params   = {
 		offset  = 0,
@@ -2522,7 +2524,7 @@ minetest.register_decoration(
       decoration = {"rp_default:papyrus"},
       height = 4,
       height_max = 4,
-      y_max = 31000,
+      y_max = GLOBAL_Y_MAX,
       y_min = -100,
 })
 
@@ -2536,8 +2538,8 @@ minetest.register_decoration(
       fill_ratio = 0.04,
       biomes = {"Grassland", "Wilderness", "Orchard", "Baby Poplar Plains", "Birch Forest"},
       decoration = {"rp_default:flower"},
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -2547,8 +2549,8 @@ minetest.register_decoration(
       fill_ratio = 0.003,
       biomes = {"Dense Grassland", "Poplar Plains"},
       decoration = {"rp_default:flower"},
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 
@@ -2564,7 +2566,7 @@ minetest.register_decoration(
       biomes = {"Grassland", "Dense Grassland", "Orchard", "Swamp Meadow", "Swamp Meadow Highland", "Baby Poplar Plains", "Poplar Plains", "Shrubbery", "Oak Shrubbery", "Thorny Shrubs", "Dry Swamp", "Dry Swamp Highland"},
       decoration = {"rp_default:grass"},
       y_min = 10,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2576,7 +2578,7 @@ minetest.register_decoration(
       biomes = {"Grassland", "Dense Grassland", "Forest", "Deep Forest", "Birch Forest", "Tall Birch Forest", "Oak Forest", "Dense Oak Forest", "Tall Oak Forest", "Mystery Forest", "Baby Poplar Plains", "Poplar Plains", "Dry Swamp", "Dry Swamp Highland", "Shrubbery", "Oak Shrubbery"},
       decoration = {"rp_default:grass"},
       y_min = 0,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 end
 
@@ -2589,7 +2591,7 @@ minetest.register_decoration(
       biomes = {"Mixed Swamp", "Mixed Swamp Highland", "Dry Swamp", "Dry Swamp Highland", "Papyrus Swamp", "Swamp Forest", "Swamp Forest Highland"},
       decoration = {"rp_default:swamp_grass"},
       y_min = 1,
-      y_max = 31000,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -2600,7 +2602,7 @@ minetest.register_decoration(
       biomes = {"Swamp Meadow", "Swamp Meadow Highland"},
       decoration = {"rp_default:swamp_grass"},
       y_min = 1,
-      y_max = 31000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2622,7 +2624,7 @@ minetest.register_decoration(
       fill_ratio = 0.007,
       biomes = {"Savanna", "Savannic Wasteland"},
       decoration = {"rp_default:dry_grass"},
-      y_min = -31000,
+      y_min = GLOBAL_Y_MIN,
       y_max = 9,
 })
 
@@ -2638,7 +2640,7 @@ minetest.register_decoration(
       biomes = {"Forest", "Marsh", "Dense Grassland", "Grove", "Shrubbery", "Oak Shrubbery"},
       decoration = {"rp_default:tall_grass"},
       y_min = 0,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2650,7 +2652,7 @@ minetest.register_decoration(
       biomes = {"Deep Forest", "Tall Oak Forest"},
       decoration = {"rp_default:tall_grass"},
       y_min = 0,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2662,7 +2664,7 @@ minetest.register_decoration(
       biomes = {"Thorny Shrubs"},
       decoration = {"rp_default:tall_grass"},
       y_min = 0,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 minetest.register_decoration(
    {
@@ -2673,7 +2675,7 @@ minetest.register_decoration(
       biomes = {"Thorny Shrubs"},
       decoration = {"rp_default:grass"},
       y_min = 0,
-      y_max = 32000,
+      y_max = GLOBAL_Y_MAX,
 })
 
 end
@@ -2686,8 +2688,8 @@ minetest.register_decoration(
       fill_ratio = 0.16,
       biomes = {"Wilderness", "Thorny Shrubs"},
       decoration = {"rp_default:grass"},
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 minetest.register_decoration(
@@ -2698,8 +2700,8 @@ minetest.register_decoration(
       fill_ratio = 0.12,
       biomes = {"Wilderness", "Thorny Shrubs"},
       decoration = {"rp_default:tall_grass"},
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 -- Fern decorations
@@ -2712,8 +2714,8 @@ minetest.register_decoration(
       fill_ratio = 0.02,
       biomes = {"Wilderness", "Grove", "Tall Oak Forest", "Mystery Forest"},
       decoration = {"rp_default:fern"},
-      y_min = -32000,
-      y_max = 32000,
+      y_min = GLOBAL_Y_MIN,
+      y_max = GLOBAL_Y_MAX,
 })
 
 -- Clam decorations
@@ -2755,7 +2757,7 @@ minetest.register_ore( -- Slight scattering deeper down
       clust_scarcity = 13*13*13,
       clust_num_ores = 6,
       clust_size     = 8,
-      y_min          = -31000,
+      y_min          = GLOBAL_Y_MIN,
       y_max          = -32,
 })
 
@@ -2769,7 +2771,7 @@ minetest.register_ore( -- Even distribution
       clust_scarcity = 10*10*10,
       clust_num_ores = 8,
       clust_size     = 4,
-      y_min          = -31000,
+      y_min          = GLOBAL_Y_MIN,
       y_max          = 32,
 })
 
@@ -2807,7 +2809,7 @@ minetest.register_ore( -- Even distribution
       clust_scarcity = 12*12*12,
       clust_num_ores = 4,
       clust_size     = 3,
-      y_min          = -31000,
+      y_min          = GLOBAL_Y_MIN,
       y_max          = -8,
 })
 
@@ -2845,7 +2847,7 @@ minetest.register_ore( -- Even distribution
       clust_scarcity = 14*14*14,
       clust_num_ores = 8,
       clust_size     = 4,
-      y_min          = -31000,
+      y_min          = GLOBAL_Y_MIN,
       y_max          = -100,
 })
 
@@ -2883,7 +2885,7 @@ minetest.register_ore( -- Rare even distribution
       clust_scarcity = 13*13*13,
       clust_num_ores = 10,
       clust_size     = 5,
-      y_min          = -31000,
+      y_min          = GLOBAL_Y_MIN,
       y_max          = -90,
 })
 
@@ -2907,8 +2909,8 @@ minetest.register_ore({
 	clust_scarcity = 10*10*10,
 	clust_num_ores = 33,
 	clust_size     = 4,
-	y_min          = -31000,
-	y_max          = 31000,
+	y_min          = GLOBAL_Y_MIN,
+	y_max          = GLOBAL_Y_MAX,
 	noise_params   = {
 		offset  = 0,
 		scale   = 1,
@@ -2929,8 +2931,8 @@ minetest.register_ore({
 	clust_scarcity = 10*10*10,
 	clust_num_ores = 40,
 	clust_size     = 4,
-	y_min          = -31000,
-	y_max          = 31000,
+	y_min          = GLOBAL_Y_MIN,
+	y_max          = GLOBAL_Y_MAX,
 	noise_params   = {
 		offset  = 0,
 		scale   = 1,
@@ -2992,8 +2994,8 @@ minetest.register_ore({
 	clust_scarcity = 10*10*10,
 	clust_num_ores = 33,
 	clust_size     = 4,
-	y_min          = -31000,
-	y_max          = 31000,
+	y_min          = GLOBAL_Y_MIN,
+	y_max          = GLOBAL_Y_MAX,
 	biomes         = dirt_biomes,
 	noise_params   = np_dirtlike,
 })
@@ -3005,8 +3007,8 @@ minetest.register_ore({
 	clust_scarcity = 10*10*10,
 	clust_num_ores = 33,
 	clust_size     = 4,
-	y_min          = -31000,
-	y_max          = 31000,
+	y_min          = GLOBAL_Y_MIN,
+	y_max          = GLOBAL_Y_MAX,
 	biomes         = dry_dirt_biomes,
 	noise_params   = np_dirtlike,
 })
@@ -3018,8 +3020,8 @@ minetest.register_ore({
 	clust_scarcity = 10*10*10,
 	clust_num_ores = 33,
 	clust_size     = 4,
-	y_min          = -31000,
-	y_max          = 31000,
+	y_min          = GLOBAL_Y_MIN,
+	y_max          = GLOBAL_Y_MAX,
 	biomes         = swamp_dirt_biomes,
 	noise_params   = np_dirtlike,
 })
