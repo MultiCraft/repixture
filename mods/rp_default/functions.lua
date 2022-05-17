@@ -28,40 +28,20 @@ local PAPYRUS_SWAMP_HEIGHT_BONUS = 1
 -- Functions/ABMs
 --
 
--- Chest naming via signs
+-- Assign a name to a node
 
 function default.write_name(pos, text)
--- TODO: Allow container naming later
---[[
-   -- Check above, if allowed
-
-   if minetest.settings:get_bool("signs_allow_name_above") then
-      local above = {x = pos.x, y = pos.y + 1, z = pos.z}
-
-      local abovedef = nil
-
-      if minetest.registered_nodes[minetest.get_node(above).name] then
-	 abovedef = minetest.registered_nodes[minetest.get_node(above).name]
-      end
-      if abovedef and abovedef.write_name ~= nil then
-	 abovedef.write_name(above, text)
-      end
+   local node = minetest.get_node(pos)
+   local def
+   if minetest.registered_nodes[node.name] then
+      def = minetest.registered_nodes[node.name]
    end
 
-   -- Then below
-
-   local below = {x = pos.x, y = pos.y - 1, z = pos.z}
-
-   local belowdef = nil
-
-   if minetest.registered_nodes[minetest.get_node(below).name] then
-      belowdef = minetest.registered_nodes[minetest.get_node(below).name]
+   if def and def._rp_write_name ~= nil then
+      def._rp_write_name(pos, text)
+      return true
    end
-
-   if belowdef and belowdef.write_name ~= nil then
-      belowdef.write_name(below, text)
-   end
-]]
+   return false
 end
 
 -- Saplings growing and placing

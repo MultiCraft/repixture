@@ -14,6 +14,11 @@ local on_construct = function(pos)
 	meta:set_string("text", "")
 	default.refresh_sign(meta)
 end
+local write_name = function(pos, text)
+	local meta = minetest.get_meta(pos)
+	meta:set_string("text", text)
+	meta:set_string("infotext", S('"@1"', text))
+end
 local on_receive_fields = function(pos, formname, fields, sender)
 	if fields.text == nil then return end
 	if minetest.is_protected(pos, sender:get_player_name()) and
@@ -26,17 +31,12 @@ local on_receive_fields = function(pos, formname, fields, sender)
 	if string.len(text) > SIGN_MAX_TEXT_LENGTH then
 		text = string.sub(text, 1, SIGN_MAX_TEXT_LENGTH)
 	end
-	minetest.log("action", "[rp_default] " .. (sender:get_player_name() or "")..
-					" wrote \""..text.."\" to sign at "..
-					minetest.pos_to_string(pos))
-	meta:set_string("text", text)
-	-- Show sign text in quotation marks
-	meta:set_string("infotext", S('"@1"', text))
-
-	default.write_name(pos, meta:get_string("text"))
-end
-local on_destruct = function(pos)
-	default.write_name(pos, "")
+	local ok = default.write_name(pos, text)
+	if ok then
+	   minetest.log("action", "[rp_default] " .. (sender:get_player_name() or "")..
+                 " wrote \""..text.."\" to sign at "..
+                 minetest.pos_to_string(pos))
+        end
 end
 
 local function register_sign(id, def)
@@ -62,7 +62,6 @@ local function register_sign(id, def)
 		sounds = def.sounds,
 		on_construct = on_construct,
 		on_receive_fields = on_receive_fields,
-		on_destruct = on_destruct,
 		on_place = function(itemstack, placer, pointed_thing)
 			-- Boilerplace to handle pointed node's rightclick handler
 			if not placer or not placer:is_player() then
@@ -96,6 +95,7 @@ local function register_sign(id, def)
 			end
 			return itemstack
 		end,
+		_rp_write_name = write_name,
 	})
 
 	minetest.register_node("rp_default:"..id.."_r90", {
@@ -118,8 +118,8 @@ local function register_sign(id, def)
 		sounds = def.sounds,
 		on_construct = on_construct,
 		on_receive_fields = on_receive_fields,
-		on_destruct = on_destruct,
 		drop = "rp_default:"..id,
+		_rp_write_name = write_name,
 	})
 end
 

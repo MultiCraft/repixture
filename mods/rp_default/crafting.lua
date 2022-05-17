@@ -489,6 +489,17 @@ crafting.register_craft(
       }
 })
 
+-- Pencil
+
+crafting.register_craft(
+   {
+      output = "rp_default:pencil",
+      items = {
+         "rp_default:sheet_graphite",
+         "rp_default:stick",
+      }
+})
+
 -- Minerals
 
 crafting.register_craft(
