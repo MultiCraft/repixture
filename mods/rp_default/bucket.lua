@@ -6,6 +6,14 @@ local water_buckets = {
    { "swamp_water", S("Swamp Water Bucket"), "default_bucket_swamp_water.png", "rp_default:swamp_water_source", S("Places a swamp water source") },
 }
 
+local node_to_bucket = {}
+for b=1, #water_buckets do
+   local data = water_buckets[b]
+   local bucket = "rp_default:bucket_"..data[1]
+   local nodename = data[4]
+   node_to_bucket[nodename] = bucket
+end
+
 for b=1, #water_buckets do
    local bucket = water_buckets[b]
    minetest.register_craftitem(
@@ -92,12 +100,17 @@ minetest.register_craftitem(
 
                 local inv=user:get_inventory()
 
-                if inv:room_for_item("main", {name="rp_default:bucket_water"}) then
-                   inv:add_item("main", "rp_default:bucket_water")
+                local bucket = node_to_bucket[nodename]
+                if not bucket then
+                   return itemstack
+                end
+
+                if inv:room_for_item("main", {name=bucket}) then
+                   inv:add_item("main", bucket)
                 else
                    local pos = user:get_pos()
                    pos.y = math.floor(pos.y + 0.5)
-                   minetest.add_item(pos, "rp_default:bucket_water")
+                   minetest.add_item(pos, bucket)
                 end
              end
              minetest.remove_node(pointed_thing.under)
@@ -105,12 +118,9 @@ minetest.register_craftitem(
              return itemstack
          end
 
-         if nodename == "rp_default:water_source" then
-            itemstack = replace_bucket(itemstack, "rp_default:bucket_water")
-         elseif nodename == "rp_default:river_water_source" then
-            itemstack = replace_bucket(itemstack, "rp_default:bucket_river_water")
-         elseif nodename == "rp_default:swamp_water_source" then
-            itemstack = replace_bucket(itemstack, "rp_default:bucket_swamp_water")
+         local bucket = node_to_bucket[nodename]
+         if bucket then
+            itemstack = replace_bucket(itemstack, bucket)
          end
 
          return itemstack
