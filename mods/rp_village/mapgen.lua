@@ -171,7 +171,7 @@ if not minetest.settings:get_bool("mapgen_disable_villages") then
          y_max = 1000,
    })
 
-   grassland_village_decoration_id = minetest.get_decoration_id("village_grassland")
+   local grassland_village_decoration_id = minetest.get_decoration_id("village_grassland")
 
    local decoration_ids = { grassland_village_decoration_id }
    local village_types = { "grassland" }

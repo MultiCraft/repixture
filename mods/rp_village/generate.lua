@@ -534,7 +534,7 @@ local ROAD_NODE_EAST = "rp_default:cobble"
 local ROAD_NODE_SOUTH = "rp_default:planks_oak"
 local ROAD_NODE_WEST = "rp_default:planks_birch"
 
-function after_village_area_emerged(blockpos, action, calls_remaining, params)
+local function after_village_area_emerged(blockpos, action, calls_remaining, params)
    local done = action == minetest.EMERGE_GENERATED or action == minetest.EMERGE_FROM_DISK or action == minetest.EMERGE_FROM_MEMORY
    if not done or calls_remaining > 0 then
       return
