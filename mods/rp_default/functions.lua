@@ -355,19 +355,20 @@ minetest.register_lbm(
    }
 )
 
--- Update nodes after the rename orgy after 1.5.3
+-- Update sign formspecs/infotexts
 minetest.register_lbm(
    {
       label = "Update signs",
-      name = "rp_default:update_signs",
-      nodenames = {"rp_default:sign"},
+      name = "rp_default:update_signs_2_2_0",
+      nodenames = {"group:sign"},
       action = function(pos, node)
          local meta = minetest.get_meta(pos)
-         local text = meta:get_string("text")
-         meta:set_string("infotext", S('"@1"', text))
+         default.refresh_sign(meta)
       end
    }
 )
+
+-- Update nodes after the rename orgy after 1.5.3
 minetest.register_lbm(
    {
       label = "Update bookshelves",

@@ -2,12 +2,17 @@ local S = minetest.get_translator("rp_default")
 
 local SIGN_MAX_TEXT_LENGTH = 500
 
+default.refresh_sign = function(meta)
+	meta:set_string("formspec", rp_formspec.get_page("rp_default:field"))
+	local text = meta:get_string("text")
+	-- Show sign text in quotation marks
+	meta:set_string("infotext", S('"@1"', text))
+end
+
 local on_construct = function(pos)
 	local meta = minetest.get_meta(pos)
-	meta:set_string("formspec", rp_formspec.get_page("rp_default:field"))
-	-- Show empty sign text in quotation marks
-	meta:set_string("infotext", S('""'))
 	meta:set_string("text", "")
+	default.refresh_sign(meta)
 end
 local on_receive_fields = function(pos, formname, fields, sender)
 	if fields.text == nil then return end
