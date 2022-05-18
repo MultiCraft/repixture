@@ -41,8 +41,9 @@ Version 2: Major biome update introducing tons of new biomes and
 ]]
 local LATEST_BIOME_VERSION = 2
 local bv = minetest.get_mapgen_setting("rp_biome_version")
+minetest.log("verbose", "[rp_default] Mapgen: rp_biome_version = "..tostring(bv))
 if bv then
-	default.biome_version = tonumber(default.biome_version)
+	default.biome_version = tonumber(bv)
 end
 if default.biome_version ~= 1 and default.biome_version ~= 2 then
 	default.biome_version = LATEST_BIOME_VERSION
