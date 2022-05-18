@@ -22,6 +22,32 @@ default.SAPLING_FERTILIZER_TIME_BONUS_FACTOR = 0.1
 minetest.nodedef_default.stack_max = 60
 minetest.craftitemdef_default.stack_max = 60
 
+
+--[[ This game uses biome versions to allow backwards-compability
+of old maps. A biome version bump is neccessary whenever there's
+a drastic change in biome heat/humidity point that would
+lead to ugly discontinutities after a game update.
+
+Version 1: Closest to the original Pixture game.
+           Used till game version 2.1.0
+Version 2: Major biome update introducing tons of new biomes and
+           removing the Desert. Introduced more swamp biomes,
+	   swamp highland, dry land biomes, shrubbery, oak forests,
+	   birch forests,  "technical" ocean/beach biomes,
+	   Underground biome, and much more.
+	   Biome heat/humidity points of existing biomes had to be
+	   completely updated.
+	   Introduced in game version 2.2.0.
+]]
+local LATEST_BIOME_VERSION = 2
+local bv = minetest.get_mapgen_setting("rp_biome_version")
+if bv then
+	default.biome_version = tonumber(default.biome_version)
+end
+if default.biome_version ~= 1 and default.biome_version ~= 2 then
+	default.biome_version = LATEST_BIOME_VERSION
+end
+
 dofile(minetest.get_modpath("rp_default").."/functions.lua")
 
 dofile(minetest.get_modpath("rp_default").."/nodes.lua") -- simple nodes
@@ -41,7 +67,7 @@ dofile(minetest.get_modpath("rp_default").."/crafting.lua")
 dofile(minetest.get_modpath("rp_default").."/achievements.lua")
 
 dofile(minetest.get_modpath("rp_default").."/mapgen_core.lua")
-dofile(minetest.get_modpath("rp_default").."/mapgen_biomes_v2.lua")
+dofile(minetest.get_modpath("rp_default").."/mapgen_biomes_v"..default.biome_version..".lua")
 dofile(minetest.get_modpath("rp_default").."/mapgen_ores.lua")
 dofile(minetest.get_modpath("rp_default").."/mapgen_deco.lua")
 
