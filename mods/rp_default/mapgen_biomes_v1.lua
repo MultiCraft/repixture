@@ -25,7 +25,7 @@ minetest.register_biome(
 
 minetest.register_biome(
    {
-      name = "Swamp",
+      name = "Swamp Meadow",
 
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
