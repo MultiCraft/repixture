@@ -83,6 +83,9 @@ local function take_player_from_bed(player)
       player:set_pos(bed.userdata.saved[name].spawn_pos)
    end
 
+   bed.userdata.temp[name].in_bed = false
+   bed.userdata.temp[name].node_pos = nil
+
    player_effects.remove_effect(player, "inbed")
 
    player:set_eye_offset(vector.new(0, 0, 0), vector.new(0, 0, 0))
@@ -163,6 +166,16 @@ local function on_joinplayer(player)
    delayed_save()
 end
 
+-- Leaving player
+
+local function on_leaveplayer(player)
+   local name = player:get_player_name()
+   if bed.userdata.temp[name] then
+      bed.userdata.temp[name].in_bed = false
+      bed.userdata.temp[name].node_pos = nil
+   end
+end
+
 -- Respawning player
 
 local function on_respawnplayer(player)
@@ -173,11 +186,17 @@ local function on_respawnplayer(player)
          return
       end
 
-      bed.userdata.temp[name].in_bed = false
-
       take_player_from_bed(player)
 
       return true
+   end
+end
+
+local function on_dieplayer(player)
+   local name = player:get_player_name()
+   if bed.userdata.temp[name] then
+      bed.userdata.temp[name].in_bed = false
+      bed.userdata.temp[name].node_pos = nil
    end
 end
 
@@ -256,7 +275,11 @@ minetest.register_on_shutdown(on_shutdown)
 
 minetest.register_on_joinplayer(on_joinplayer)
 
+minetest.register_on_leaveplayer(on_joinplayer)
+
 minetest.register_on_respawnplayer(on_respawnplayer)
+
+minetest.register_on_dieplayer(on_respawnplayer)
 
 minetest.register_globalstep(on_globalstep)
 
@@ -345,7 +368,6 @@ minetest.register_node(
          local name = meta:get_string("player")
          local player = minetest.get_player_by_name(name)
          if name ~= "" and player then
-            bed.userdata.temp[name].in_bed = false
             take_player_from_bed(player)
          end
 
@@ -376,8 +398,6 @@ minetest.register_node(
          end
 
          if name == meta:get_string("player") then
-            bed.userdata.temp[name].in_bed = false
-
             take_player_from_bed(clicker)
 
             meta:set_string("player", "")
