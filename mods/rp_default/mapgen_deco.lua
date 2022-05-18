@@ -651,7 +651,7 @@ default.register_decoration(
 
 -- Cactus decorations (legacy Desert only)
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:sand"},
