@@ -64,3 +64,54 @@ minetest.register_alias("mapgen_river_water_source", "rp_default:river_water_sou
 
 minetest.register_alias("mapgen_lava_source", "rp_default:water_source")
 
+
+local biomes_list
+
+-- Wrapper around minetest.register_decoration, but register decoration only
+-- if biome exists.
+-- The biomes table (if present) MUST be a list of biome
+-- names. Biome IDs or biome definitions are not permitted.
+default.register_decoration = function(def)
+	-- Check if at least one of the bioms in the biomes table exists
+	local ok = false
+	if def.biomes then
+		for b=1, #def.biomes do
+			local biome = def.biomes[b]
+			if minetest.registered_biomes[biome] then
+				ok = true
+				break
+			end
+		end
+	else
+		-- If no biomes table exists, using the decoration everywhere is intentional
+		ok = true
+	end
+	if ok then
+		minetest.register_decoration(def)
+	end
+end
+
+-- Wrapper around minetest.register_ore, but register ore only
+-- if biome exists.
+-- The biomes table (if present) MUST be a list of biome
+-- names. Biome IDs or biome definitions are not permitted.
+default.register_ore = function(def)
+	-- Check if at least one of the bioms in the biomes table exists
+	local ok = false
+	if def.biomes then
+		for b=1, #def.biomes do
+			local biome = def.biomes[b]
+			if minetest.registered_biomes[biome] then
+				ok = true
+				break
+			end
+		end
+	else
+		-- If no biomes table exists, using the ore everywhere is intentional
+		ok = true
+	end
+	if ok then
+		minetest.register_ore(def)
+	end
+end
+

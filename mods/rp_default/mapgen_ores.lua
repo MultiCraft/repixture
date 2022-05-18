@@ -4,7 +4,7 @@ local mg_name = minetest.get_mapgen_setting("mg_name")
 
 -- Graphite ore
 
-minetest.register_ore( -- Common above sea level mainly
+default.register_ore( -- Common above sea level mainly
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_graphite",
@@ -16,7 +16,7 @@ minetest.register_ore( -- Common above sea level mainly
       y_max          = 32,
 })
 
-minetest.register_ore( -- Slight scattering deeper down
+default.register_ore( -- Slight scattering deeper down
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_graphite",
@@ -30,7 +30,7 @@ minetest.register_ore( -- Slight scattering deeper down
 
 -- Coal ore
 
-minetest.register_ore( -- Even distribution
+default.register_ore( -- Even distribution
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_coal",
@@ -42,7 +42,7 @@ minetest.register_ore( -- Even distribution
       y_max          = 32,
 })
 
-minetest.register_ore( -- Dense sheet
+default.register_ore( -- Dense sheet
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_coal",
@@ -54,7 +54,7 @@ minetest.register_ore( -- Dense sheet
       y_max          = -32,
 })
 
-minetest.register_ore( -- Deep ore sheet
+default.register_ore( -- Deep ore sheet
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_coal",
@@ -68,7 +68,7 @@ minetest.register_ore( -- Deep ore sheet
 
 -- Iron ore
 
-minetest.register_ore( -- Even distribution
+default.register_ore( -- Even distribution
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_iron",
@@ -80,7 +80,7 @@ minetest.register_ore( -- Even distribution
       y_max          = -8,
 })
 
-minetest.register_ore( -- Dense sheet
+default.register_ore( -- Dense sheet
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_iron",
@@ -92,7 +92,7 @@ minetest.register_ore( -- Dense sheet
       y_max          = -24,
 })
 
-minetest.register_ore( -- Dense sheet
+default.register_ore( -- Dense sheet
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_iron",
@@ -106,7 +106,7 @@ minetest.register_ore( -- Dense sheet
 
 -- Tin ore
 
-minetest.register_ore( -- Even distribution
+default.register_ore( -- Even distribution
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_tin",
@@ -118,7 +118,7 @@ minetest.register_ore( -- Even distribution
       y_max          = -100,
 })
 
-minetest.register_ore( -- Dense sheet
+default.register_ore( -- Dense sheet
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_tin",
@@ -132,7 +132,7 @@ minetest.register_ore( -- Dense sheet
 
 -- Copper ore
 
-minetest.register_ore( -- Begin sheet
+default.register_ore( -- Begin sheet
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_copper",
@@ -144,7 +144,7 @@ minetest.register_ore( -- Begin sheet
       y_max          = -80,
 })
 
-minetest.register_ore( -- Rare even distribution
+default.register_ore( -- Rare even distribution
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_copper",
@@ -156,7 +156,7 @@ minetest.register_ore( -- Rare even distribution
       y_max          = -90,
 })
 
-minetest.register_ore( -- Large clusters
+default.register_ore( -- Large clusters
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_copper",
@@ -169,7 +169,7 @@ minetest.register_ore( -- Large clusters
 })
 
 -- Small gravel blobs
-minetest.register_ore({
+default.register_ore({
 	ore_type       = "blob",
 	ore            = "rp_default:gravel",
 	wherein        = "rp_default:stone",
@@ -191,7 +191,7 @@ minetest.register_ore({
 })
 
 -- Small sand blobs
-minetest.register_ore({
+default.register_ore({
 	ore_type       = "blob",
 	ore            = "rp_default:sand",
 	wherein        = "rp_default:stone",
@@ -254,7 +254,7 @@ local np_dirtlike = {
 	flags = "defaults",
 }
 
-minetest.register_ore({
+default.register_ore({
 	ore_type       = "blob",
 	ore            = "rp_default:dirt",
 	wherein        = "rp_default:stone",
@@ -267,7 +267,7 @@ minetest.register_ore({
 	noise_params   = np_dirtlike,
 })
 
-minetest.register_ore({
+default.register_ore({
 	ore_type       = "blob",
 	ore            = "rp_default:dry_dirt",
 	wherein        = "rp_default:stone",
@@ -280,7 +280,7 @@ minetest.register_ore({
 	noise_params   = np_dirtlike,
 })
 
-minetest.register_ore({
+default.register_ore({
 	ore_type       = "blob",
 	ore            = "rp_default:swamp_dirt",
 	wherein        = "rp_default:stone",
@@ -311,7 +311,7 @@ end
 
 
 -- Water
-minetest.register_ore( -- Springs
+default.register_ore( -- Springs
    {
       ore_type       = "blob",
       ore            = "rp_default:water_source",
@@ -325,7 +325,7 @@ minetest.register_ore( -- Springs
       noise_params   = spring_ore_np(),
 })
 
-minetest.register_ore( -- Pools
+default.register_ore( -- Pools
    {
       ore_type       = "blob",
       ore            = "rp_default:water_source",
@@ -342,7 +342,7 @@ minetest.register_ore( -- Pools
 if mg_name ~= "v6" then
 
 -- Swamp Water
-minetest.register_ore( -- Swamp (big springs)
+default.register_ore( -- Swamp (big springs)
    {
       ore_type       = "blob",
       ore            = "rp_default:swamp_water_source",
@@ -355,7 +355,7 @@ minetest.register_ore( -- Swamp (big springs)
       y_max          = default.GLOBAL_Y_MAX,
       noise_params   = spring_ore_np(13943),
 })
-minetest.register_ore( -- Swamp (medium springs)
+default.register_ore( -- Swamp (medium springs)
    {
       ore_type       = "blob",
       ore            = "rp_default:swamp_water_source",
@@ -369,7 +369,7 @@ minetest.register_ore( -- Swamp (medium springs)
       noise_params   = spring_ore_np(49494),
 })
 
-minetest.register_ore( -- Swamp (small springs)
+default.register_ore( -- Swamp (small springs)
    {
       ore_type       = "blob",
       ore            = "rp_default:swamp_water_source",
@@ -383,7 +383,7 @@ minetest.register_ore( -- Swamp (small springs)
       noise_params   = spring_ore_np(59330),
 })
 
-minetest.register_ore( -- Marsh
+default.register_ore( -- Marsh
    {
       ore_type       = "blob",
       ore            = "rp_default:swamp_water_source",
@@ -398,7 +398,7 @@ minetest.register_ore( -- Marsh
 })
 
 -- Gravelly surface
-minetest.register_ore(
+default.register_ore(
    {
       ore_type       = "blob",
       ore            = "rp_default:gravel",
@@ -418,7 +418,7 @@ minetest.register_ore(
 	      seed = 43400,
       },
 })
-minetest.register_ore(
+default.register_ore(
    {
       ore_type       = "blob",
       ore            = "rp_default:stone",
@@ -441,7 +441,7 @@ minetest.register_ore(
 
 
 -- Landscape "ores"
-minetest.register_ore( -- Dry Swamp (dirt with grass)
+default.register_ore( -- Dry Swamp (dirt with grass)
    {
       ore_type       = "blob",
       ore            = "rp_default:dirt_with_grass",
@@ -454,7 +454,7 @@ minetest.register_ore( -- Dry Swamp (dirt with grass)
       y_max          = default.GLOBAL_Y_MAX,
       noise_params   = spring_ore_np(13943),
 })
-minetest.register_ore( -- Dry Swamp (dirt)
+default.register_ore( -- Dry Swamp (dirt)
    {
       ore_type       = "blob",
       ore            = "rp_default:dirt",
@@ -468,7 +468,7 @@ minetest.register_ore( -- Dry Swamp (dirt)
       noise_params   = spring_ore_np(13943),
 })
 
-minetest.register_ore(
+default.register_ore(
    {
       ore_type       = "scatter",
       ore            = "rp_default:dirt_with_dry_grass",
@@ -490,7 +490,7 @@ minetest.register_ore(
       },
 })
 
-minetest.register_ore(
+default.register_ore(
    {
       ore_type       = "blob",
       ore            = "rp_default:dirt_with_dry_grass",
@@ -511,7 +511,7 @@ minetest.register_ore(
       },
 })
 
-minetest.register_ore(
+default.register_ore(
    {
       ore_type       = "scatter",
       ore            = "rp_default:stone_with_sulfur",

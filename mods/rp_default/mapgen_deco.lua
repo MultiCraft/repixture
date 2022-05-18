@@ -7,7 +7,7 @@ local mg_name = minetest.get_mapgen_setting("mg_name")
 -- Tree decorations
 
 if mg_name ~= "v6" then
-minetest.register_decoration(
+default.register_decoration(
    {
       name = "rp_default:giga_birch_tree",
       deco_type = "schematic",
@@ -23,7 +23,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -37,7 +37,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -51,7 +51,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -64,7 +64,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -77,7 +77,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -92,7 +92,7 @@ minetest.register_decoration(
 })
 
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -106,7 +106,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -119,7 +119,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -132,7 +132,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -145,7 +145,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -158,7 +158,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -171,7 +171,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -187,7 +187,7 @@ minetest.register_decoration(
 
 
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -200,7 +200,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -214,7 +214,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -228,7 +228,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -242,7 +242,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -255,7 +255,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -269,7 +269,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -282,7 +282,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -296,7 +296,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -310,7 +310,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -323,7 +323,7 @@ minetest.register_decoration(
       y_min = 1,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -338,7 +338,7 @@ minetest.register_decoration(
 })
 
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -351,7 +351,7 @@ minetest.register_decoration(
       y_min = 1,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -367,7 +367,7 @@ minetest.register_decoration(
 
 
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
@@ -381,7 +381,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
@@ -395,7 +395,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt", "rp_default:dirt"},
@@ -408,7 +408,7 @@ minetest.register_decoration(
       y_min = 0,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt", "rp_default:dirt"},
@@ -421,7 +421,7 @@ minetest.register_decoration(
       y_min = 0,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt", "rp_default:dirt"},
@@ -442,7 +442,7 @@ local MYSTERY_FOREST_OFFSET_STAIRCASE = -0.001
 local MYSTERY_FOREST_OFFSET_APPLES = -0.0005
 local MYSTERY_FOREST_SCALE = 0.008
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -464,7 +464,7 @@ minetest.register_decoration(
       },
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -486,7 +486,7 @@ minetest.register_decoration(
       },
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -508,7 +508,7 @@ minetest.register_decoration(
       },
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -533,7 +533,7 @@ minetest.register_decoration(
 
 
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -555,7 +555,7 @@ minetest.register_decoration(
       },
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -576,7 +576,7 @@ minetest.register_decoration(
 	      seed = 94325,
       },
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -597,7 +597,7 @@ minetest.register_decoration(
 	      seed = 94325,
       },
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -612,7 +612,7 @@ minetest.register_decoration(
 })
 
 -- Small poplar tree blobs
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -635,7 +635,7 @@ minetest.register_decoration(
 })
 
 -- Occasional lonely poplars
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -652,7 +652,7 @@ minetest.register_decoration(
 
 -- Bushes
 --
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_swamp_grass", "rp_default:swamp_dirt"},
@@ -667,7 +667,7 @@ minetest.register_decoration(
 })
 
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -681,7 +681,7 @@ minetest.register_decoration(
       rotation = "0",
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -694,7 +694,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
       rotation = "0",
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -708,7 +708,7 @@ minetest.register_decoration(
       rotation = "0",
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -730,7 +730,7 @@ minetest.register_decoration(
       },
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -752,7 +752,7 @@ minetest.register_decoration(
       },
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -768,7 +768,7 @@ minetest.register_decoration(
 
 -- Wilderness apple trees: 50/50 split between
 -- trees with apples and those without.
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -781,7 +781,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -795,7 +795,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass", "rp_default:dirt"},
@@ -808,7 +808,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass", "rp_default:dirt"},
@@ -822,7 +822,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -836,7 +836,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -850,7 +850,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -864,7 +864,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -878,7 +878,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -892,7 +892,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -913,7 +913,7 @@ end
 -- Rock decorations
 
 if mg_name ~= "v6" then
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -928,7 +928,7 @@ minetest.register_decoration(
       rotation = "random",
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -943,7 +943,7 @@ minetest.register_decoration(
       rotation = "random",
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:stone", "rp_default:dry_dirt"},
@@ -958,7 +958,7 @@ minetest.register_decoration(
       rotation = "random",
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:sand", "rp_default:dry_dirt", "rp_default:dirt_with_dry_grass"},
@@ -971,7 +971,7 @@ minetest.register_decoration(
       y_min = 1,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = {"rp_default:dry_dirt", "rp_default:dirt_with_dry_grass"},
@@ -987,7 +987,7 @@ minetest.register_decoration(
 
 -- Sulfur decorations
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dry_dirt",
@@ -998,7 +998,7 @@ minetest.register_decoration(
       y_min = 2,
       y_max = 14,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = {"rp_default:dry_dirt", "rp_default:stone"},
@@ -1012,7 +1012,7 @@ minetest.register_decoration(
 
 -- Tiny tree decorations
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -1026,7 +1026,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -1038,7 +1038,7 @@ minetest.register_decoration(
       y_min = 3,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -1050,7 +1050,7 @@ minetest.register_decoration(
       y_min = 3,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -1062,7 +1062,7 @@ minetest.register_decoration(
       y_min = 3,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -1076,7 +1076,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -1088,7 +1088,7 @@ minetest.register_decoration(
       y_min = 3,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -1100,7 +1100,7 @@ minetest.register_decoration(
       y_min = 3,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -1113,7 +1113,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -1127,7 +1127,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -1142,7 +1142,7 @@ minetest.register_decoration(
 })
 
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -1159,7 +1159,7 @@ minetest.register_decoration(
 
 -- Bush/shrub decorations
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -1173,7 +1173,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -1187,7 +1187,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -1201,7 +1201,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_dry_grass"},
@@ -1215,7 +1215,7 @@ minetest.register_decoration(
       rotation = "0",
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_dry_grass"},
@@ -1229,7 +1229,7 @@ minetest.register_decoration(
       rotation = "0",
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dry_dirt"},
@@ -1242,7 +1242,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_dry_grass"},
@@ -1255,7 +1255,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
       rotation = "0",
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -1278,7 +1278,7 @@ minetest.register_decoration(
 })
 
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -1292,7 +1292,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -1308,7 +1308,7 @@ minetest.register_decoration(
 
 
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -1321,7 +1321,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
       rotation = "0",
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -1334,7 +1334,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
       rotation = "0",
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
@@ -1352,7 +1352,7 @@ minetest.register_decoration(
 
 -- Thistle decorations
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
@@ -1364,7 +1364,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = {"rp_default:dirt_with_grass", "rp_default:dry_dirt"},
@@ -1388,7 +1388,7 @@ end
 -- Papyrus decorations
 
 -- Beach papyrus
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = {"rp_default:sand", "rp_default:dirt", "rp_default:dirt_with_grass"},
@@ -1404,7 +1404,7 @@ minetest.register_decoration(
 })
 
 -- Grassland papyrus
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = {"rp_default:dirt_with_grass"},
@@ -1422,7 +1422,7 @@ minetest.register_decoration(
 
 
 -- Swamp papyrus
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = {"rp_default:swamp_dirt", "rp_default:dirt_with_swamp_grass"},
@@ -1446,7 +1446,7 @@ minetest.register_decoration(
 	},
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = {"rp_default:swamp_dirt", "rp_default:dirt_with_swamp_grass"},
@@ -1464,7 +1464,7 @@ minetest.register_decoration(
 
 -- Flower decorations
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
@@ -1475,7 +1475,7 @@ minetest.register_decoration(
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
@@ -1491,7 +1491,7 @@ minetest.register_decoration(
 -- Grass decorations
 
 if mg_name ~= "v6" then
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
@@ -1503,7 +1503,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
@@ -1516,7 +1516,7 @@ minetest.register_decoration(
 })
 end
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_swamp_grass",
@@ -1527,7 +1527,7 @@ minetest.register_decoration(
       y_min = 1,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_swamp_grass",
@@ -1539,7 +1539,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_dry_grass",
@@ -1550,7 +1550,7 @@ minetest.register_decoration(
       y_min = 10,
       y_max = 500,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_dry_grass",
@@ -1565,7 +1565,7 @@ minetest.register_decoration(
 
 if mg_name ~= "v6" then
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
@@ -1577,7 +1577,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
@@ -1589,7 +1589,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
@@ -1600,7 +1600,7 @@ minetest.register_decoration(
       y_min = 0,
       y_max = default.GLOBAL_Y_MAX,
 })
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
@@ -1614,7 +1614,7 @@ minetest.register_decoration(
 
 end
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
@@ -1626,7 +1626,7 @@ minetest.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
@@ -1640,7 +1640,7 @@ minetest.register_decoration(
 
 -- Fern decorations
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt_with_grass",
@@ -1654,7 +1654,7 @@ minetest.register_decoration(
 
 -- Clam decorations
 
-minetest.register_decoration(
+default.register_decoration(
    {
       deco_type = "simple",
       place_on = {"rp_default:sand", "rp_default:gravel"},
