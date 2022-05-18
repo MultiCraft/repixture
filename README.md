@@ -37,6 +37,20 @@ The original gameplay of Pixture will be (mostly) preserved,
 the focus lies on bugfixes and usability features.
 There will be no major changes to gameplay.
 
+## Compability notes
+### Using old biomes from before version 3.0.0
+Since Repixture 3.0.0, the game uses a completely revamped biome
+system. If you have a world that was created in an earlier
+version and start it now, there will be biome discontinuities in
+newly generated parts of the map, e.g. a Wasteland biome might
+border in a straignt line to Grassland. This is not a bug, but
+might look a bit strange.
+
+If you want to prevent this, you can manually edit the world file
+BEFORE starting Repixture.
+Edit `map_meta.txt` in a text editor and add the line
+`rp_biome_version = 1`.
+
 ## Credits
 
 Repixture was started by Wuzzy. It's a fork of Pixture.

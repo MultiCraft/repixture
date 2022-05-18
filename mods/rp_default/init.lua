@@ -37,7 +37,7 @@ Version 2: Major biome update introducing tons of new biomes and
            Underground biome, and much more.
            Biome heat/humidity points of existing biomes had to be
            completely updated.
-           Introduced in game version 2.2.0.
+           Introduced in game version 3.0.0.
 ]]
 local LATEST_BIOME_VERSION = 2
 local bv = minetest.get_mapgen_setting("rp_biome_version")
@@ -47,6 +47,7 @@ end
 if default.biome_version ~= 1 and default.biome_version ~= 2 then
 	default.biome_version = LATEST_BIOME_VERSION
 end
+minetest.log("action", "[rp_default] Mapgen: Using biome version "..default.biome_version)
 
 dofile(minetest.get_modpath("rp_default").."/functions.lua")
 
