@@ -29,15 +29,15 @@ a drastic change in biome heat/humidity point that would
 lead to ugly discontinutities after a game update.
 
 Version 1: Closest to the original Pixture game.
-           Used till game version 2.1.0
+           Official biomes till game version 2.1.0
 Version 2: Major biome update introducing tons of new biomes and
-           removing the Desert. Introduced more swamp biomes,
-	   swamp highland, dry land biomes, shrubbery, oak forests,
-	   birch forests,  "technical" ocean/beach biomes,
-	   Underground biome, and much more.
-	   Biome heat/humidity points of existing biomes had to be
-	   completely updated.
-	   Introduced in game version 2.2.0.
+           removing the Desert and Gravel Beach. Introduced more
+           swamp biomes, swamp highland, dry land biomes, shrubbery,
+           oak forests, birch forests, "technical" ocean/beach biomes,
+           Underground biome, and much more.
+           Biome heat/humidity points of existing biomes had to be
+           completely updated.
+           Introduced in game version 2.2.0.
 ]]
 local LATEST_BIOME_VERSION = 2
 local bv = minetest.get_mapgen_setting("rp_biome_version")

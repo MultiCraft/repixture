@@ -649,6 +649,21 @@ default.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
+-- Cactus decorations (legacy Desert only)
+
+minetest.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:sand"},
+      sidelen = 16,
+      fill_ratio = 0.004,
+      biomes = {"Desert"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default") .. "/schematics/rp_default_cactus.mts",
+      y_min = 10,
+      y_max = 500,
+      rotation = "random",
+})
 
 -- Bushes
 --
@@ -1660,7 +1675,7 @@ default.register_decoration(
       place_on = {"rp_default:sand", "rp_default:gravel"},
       sidelen = 16,
       fill_ratio = 0.02,
-      biomes = {"Grassland Ocean", "Wasteland Beach", "Forest Ocean", "Wilderness Ocean", "Grove Ocean", "Thorny Shrubs Ocean", "Birch Forest Ocean", "Tall Birch Forest Ocean", "Savanna Ocean", "Rocky Dryland Ocean", "Savannic Wasteland Ocean", "Baby Poplar Plains"},
+      biomes = {"Grassland Ocean", "Wasteland Beach", "Forest Ocean", "Wilderness Ocean", "Grove Ocean", "Thorny Shrubs Ocean", "Birch Forest Ocean", "Tall Birch Forest Ocean", "Savanna Ocean", "Rocky Dryland Ocean", "Savannic Wasteland Ocean", "Baby Poplar Plains", "Gravel Beach"},
       decoration = {"rp_default:clam"},
       y_min = 0,
       y_max = 1,
