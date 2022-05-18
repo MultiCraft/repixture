@@ -64,8 +64,7 @@ local function put_player_in_bed(player)
 
    local name = player:get_player_name()
 
-   if bed.userdata.temp[name].slept
-   and not is_bed_node(bed.userdata.temp[name].node_pos) then
+   if not is_bed_node(bed.userdata.temp[name].node_pos) then
       return
    end
 
@@ -179,13 +178,8 @@ local function on_joinplayer(player)
          spawn_pos = nil,
       }
    end
-   local slept = false
-   if bed.userdata.saved[name].spawn_pos then
-      slept = true
-   end
    bed.userdata.temp[name] = {
          in_bed = false,
-         slept = slept,
          node_pos = nil,
       }
    delayed_save()
@@ -210,10 +204,6 @@ local function on_respawnplayer(player)
    local name = player:get_player_name()
 
    if bed.userdata.temp[name] then
-      if not bed.userdata.temp[name].slept then
-         return
-      end
-
       take_player_from_bed(player)
 
       return true
@@ -279,12 +269,6 @@ local function on_globalstep(dtime)
                   delay_daytime = false
 
                   local players = minetest.get_connected_players()
-                  for _, player in ipairs(players) do
-                     if bed.userdata.temp[player:get_player_name()].in_bed then
-                        bed.userdata.temp[player:get_player_name()].slept = true
-                     end
-                  end
-
                   local msg
                   if #players == 1 then
                       msg = S("You have slept, rise and shine!")
