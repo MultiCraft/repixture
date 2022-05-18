@@ -151,9 +151,13 @@ local function on_joinplayer(player)
          spawn_pos = nil,
       }
    end
+   local slept = false
+   if bed.userdata.saved[name].spawn_pos then
+      slept = true
+   end
    bed.userdata.temp[name] = {
          in_bed = false,
-         slept = false,
+         slept = slept,
          node_pos = nil,
       }
    delayed_save()
