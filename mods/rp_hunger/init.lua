@@ -36,6 +36,8 @@ local EATING_SPEED = 0.6
 -- How long the speed penalty applies, in seconds
 local EATING_SPEED_DURATION = 2.0
 
+local mod_achievements = minetest.get_modpath("rp_achievements") ~= nil
+
 -- Per-player userdata
 
 hunger.userdata = {}
@@ -305,6 +307,9 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
          end
    end, name)
 
+   if mod_achievements then
+      achievements.trigger_subcondition(player, "eat_everything", itemstack:get_name())
+   end
    player_effects.apply_effect(player, "hunger_eating")
 
    hunger.update_bar(player)
@@ -444,6 +449,10 @@ local function fake_on_item_eat(hpdata, replace_with_item, itemstack,
          object = player,
    }, true)
 
+   if mod_achievements then
+      achievements.trigger_subcondition(player, "eat_everything", itemstack:get_name())
+   end
+
    if not minetest.is_creative_enabled(player:get_player_name()) then
        itemstack:take_item(1)
    end
@@ -502,3 +511,24 @@ player_effects.register_effect(
       },
       icon = "hunger_effect_eating.png",
 })
+
+if mod_achievements then
+	minetest.register_on_mods_loaded(function()
+		local all_foods = {}
+		for k,_ in pairs(minetest.registered_items) do
+			if minetest.get_item_group(k, "food") > 0 then
+				table.insert(all_foods, k)
+			end
+		end
+
+		achievements.register_achievement(
+		   "eat_everything",
+		   {
+		      title = S("Gourmet"),
+		      description = S("Eat everything that can be eaten."),
+		      subconditions = all_foods,
+		      times = 0,
+		})
+
+	end)
+end
