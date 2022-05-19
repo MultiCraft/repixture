@@ -67,10 +67,10 @@ local function display_effect_icons(player)
    end
 end
 
-function player_effects.register_effect(name, def)
+function player_effects.register_effect(ename, def)
    local rd = {
-      title = def.title or name, -- good-looking name of the effect
-      description = def.description or S("The @1 effect", name), -- description of what the effect does
+      title = def.title or ename, -- good-looking name of the effect
+      description = def.description or S("The @1 effect", ename), -- description of what the effect does
       duration = def.duration or 1, -- how long the effect lasts, <0 is infinite and has to be disabled manually
       physics = def.physics or {}, -- physics overrides for the player
       icon = def.icon, -- effect icon for HUD (optional)
@@ -80,7 +80,7 @@ function player_effects.register_effect(name, def)
       rd.save = true
    end
 
-   player_effects.registered_effects[name] = rd
+   player_effects.registered_effects[ename] = rd
 end
 
 function player_effects.get_registered_effect(ename)
