@@ -4,9 +4,11 @@
 
 util = {}
 
+-- Given two positions `pos1` and `pos2`,
+-- returns the two positions, but the
+-- one with the lower coordinates comes first.
 function util.sort_pos(pos1, pos2)
-   -- function taken from worldedit
-   -- ensure that pos2 has greater coords than pos1
+   -- (function taken from WorldEdit)
    pos1 = {x=pos1.x, y=pos1.y, z=pos1.z}
    pos2 = {x=pos2.x, y=pos2.y, z=pos2.z}
    if pos1.x > pos2.x then
@@ -21,9 +23,9 @@ function util.sort_pos(pos1, pos2)
    return pos1, pos2
 end
 
+-- Repair most lighting between positions `pos1` and `pos2`
 function util.fixlight(pos1, pos2)
-   -- function taken from worldedit
-   -- repair most lighting in a block
+   -- (function taken from WorldEdit)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
 
    --make area stay loaded
@@ -42,9 +44,16 @@ function util.fixlight(pos1, pos2)
    return #nodes
 end
 
+-- Call a function `func` for every node of a single type in
+-- a given area.
+-- * `pos1`: First corner of area
+-- * `pos2`: Second corner of area
+-- * `nodes`: List of node names (supports `group:<groupname>` syntax)
+-- * `func` Function to be called. Will be called for every positon
+--          between `pos1` and `pos2` with the argument `pos`
+-- * `nomanip`: If true, will not use VoxelManip (default: false)
 function util.nodefunc(pos1, pos2, nodes, func, nomanip)
-   -- function based off fixlight
-   -- call a function for every node of a single type
+   -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
 
    if not nomanip then
@@ -58,9 +67,12 @@ function util.nodefunc(pos1, pos2, nodes, func, nomanip)
    end
 end
 
+-- Remove every node between `pos1` and `pos2`.
+-- * `pos1`: First corner of area
+-- * `pos2`: Second corner of area
+-- * `nomanip`: If true, will not use VoxelManip (default: false)
 function util.remove_area(pos1, pos2, nomanip)
-   -- function based off fixlight
-   -- call a function for every node of a single type
+   -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
 
    if not nomanip then
@@ -79,9 +91,14 @@ function util.remove_area(pos1, pos2, nomanip)
    manip:write_to_map()
 end
 
+-- Call a function `func` for every node in a given area.
+-- * `pos1`: First corner of area
+-- * `pos2`: Second corner of area
+-- * `func` Function to be called. Will be called for every positon
+--          between `pos1` and `pos2` with the argument `pos`
+-- * `nomanip`: If true, will not use VoxelManip (default: false)
 function util.areafunc(pos1, pos2, func, nomanip)
-   -- function based off fixlight
-   -- call a function for every node of a single type
+   -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
 
    if not nomanip then
@@ -98,9 +115,14 @@ function util.areafunc(pos1, pos2, func, nomanip)
    end
 end
 
+-- Force a re-construction of a number of pre-defined node types (like chests)
+-- in an area, for fixing missing metadata in schematics.
+-- This means, `on_construct` for these nodes will be called.
+-- * `pos1`: First corner of area
+-- * `pos2`: Second corner of area
+-- * `nomanip`: If true, will not use VoxelManip (default: false)
 function util.reconstruct(pos1, pos2, nomanip)
-   -- function based off fixlight
-   -- force a re-construction of the nodes in an area, for fixing missing metadata in schematics
+   -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
 
    if not nomanip then
@@ -119,8 +141,10 @@ function util.reconstruct(pos1, pos2, nomanip)
    end
 end
 
+-- Returns a random index of the given table.
+-- * `tab`: Table with choices (in list form)
+-- * `pr`: PseudoRandom object (optional)
 function util.choice(tab, pr)
-   -- return a random index of the given table
 
    local choices = {}
 
@@ -137,10 +161,12 @@ function util.choice(tab, pr)
    end
 end
 
+-- Returns a random element of the given table.
+-- 2nd return value is index of chosen element.
+-- Returns nil if table is empty.
+-- * `tab`: Table with choices (in list form)
+-- * `pr`: PseudoRandom object (optional)
 function util.choice_element(tab, pr)
-   -- return a random element of the given table
-   -- 2nd return value is index of chosen element
-   -- Returns nil if table is empty
 
    local choices = {}
 
@@ -180,9 +206,10 @@ function util.split(str, tok)
    return arr
 end
 
--- Dig all the nodes above pos that have the same nodename
--- as the node as pos, until a different node is reached.
--- digger is a player object
+-- Dig the node above `pos` if nodename is equal to
+-- `node.name`.
+-- `digger` is a player object that will be treated as
+-- the 'digger' of said nodes.
 function util.dig_up(pos, node, digger)
    local np = {x = pos.x, y = pos.y + 1, z = pos.z}
    local nn = minetest.get_node(np)
@@ -195,9 +222,10 @@ function util.dig_up(pos, node, digger)
    end
 end
 
--- Dig all the nodes blow pos that have the same nodename
--- as the node as pos, until a different node is reached.
--- digger is a player object
+-- Dig the node below `pos` if nodename is equal to
+-- `node.name`.
+-- `digger` is a player object that will be treated as
+-- the 'digger' of said nodes.
 function util.dig_down(pos, node, digger)
    local np = {x = pos.x, y = pos.y - 1, z = pos.z}
    local nn = minetest.get_node(np)
@@ -213,9 +241,9 @@ end
 -- into account.
 --
 -- Takes a pointed_thing from a on_place callback or similar.
--- Returns <place_in>, <place_on> if success, nil otherwise
--- * place_in: Where the node is suggested to be placed
--- * place_on: Directly below place_in
+-- Returns `<place_in>, <place_on>` if successful, `nil` otherwise
+-- * `place_in`: Where the node is suggested to be placed
+-- * `place_on`: Directly below place_in
 function util.pointed_thing_to_place_pos(pointed_thing)
    if pointed_thing.type ~= "node" then
       return nil
@@ -246,10 +274,10 @@ end
 -- a node. This makes sure the on_rightclick handler of the node
 -- takes precedence, unless the player held down the sneak key.
 -- Parameters: Same as the on_place of nodes
--- Returns <handled>, <handled_itemstack>
--- * <handled>: true if the function handled the placement. Your on_place handler should return <handled_itemstack>.
+-- Returns `<handled>, <handled_itemstack>`
+-- * `<handled>`: true if the function handled the placement. Your on_place handler should return <handled_itemstack>.
 --              false if the function did not handle the placement. Your on_place handler can proceed normally.
--- * <handled_itemstack>: Only set if <handled> is true. Contains the itemstack you should return in your
+-- * `<handled_itemstack>`: Only set if `<handled>` is true. Contains the itemstack you should return in your
 --                        on_place handler
 -- Recommended usage is by putting this boilerplate code at the beginning of your function:
 --[[
@@ -274,10 +302,10 @@ function util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
    return false
 end
 
--- Check if pointed_thing is protected, if player is the "user" of that thing,
+-- Check if `pointed_thing` is protected, if `player` is the "user" of that thing,
 -- and does the protection violation handling if needed.
--- returns true if it was protected (and protection dealt with), false otherwise.
--- Always returns false for non-nodes
+-- Returns true if it was protected (and protection dealt with), false otherwise.
+-- Always returns false for non-nodes.
 function util.handle_node_protection(player, pointed_thing)
    if pointed_thing.type ~= "node" then
       return false
