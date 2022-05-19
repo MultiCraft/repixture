@@ -10,6 +10,8 @@ local S = minetest.get_translator("rp_achievements")
 achievements = {}
 
 achievements.achievements = {}
+achievements.achievements_subconditions = {}
+
 achievements.registered_achievements = {}
 achievements.registered_achievements_list = {}
 
@@ -94,6 +96,7 @@ function achievements.register_achievement(name, def)
       title = def.title or name, -- good-looking name of the achievement
       description = def.description or "The " .. name .. " achievement", -- description of what the achievement is, and how to get it
       times = def.times or 1, -- how many times to trigger before getting the achievement
+      subconditions = def.subconditions or nil, -- list of subconditions required to get achievement (optional)
       dignode = def.dignode or nil, -- digging this node also triggers the achievement
       placenode = def.placenode or nil, -- placing this node also triggers the achievement
       craftitem = def.craftitem or nil, -- crafting this item also triggers the achievement
@@ -101,33 +104,39 @@ function achievements.register_achievement(name, def)
       item_icon = def.item_icon or nil, -- optional icon for achievement (itemstring)
    }
 
-   achievements.registered_achievements[name] = def
+   achievements.registered_achievements[name] = rd
 
    table.insert(achievements.registered_achievements_list, name)
 end
 
-function achievements.trigger_achievement(player, aname, times)
+local function check_achievement_subconditions(player, aname)
+   local name = player:get_player_name()
+   local reg_subconds = achievements.registered_achievements[aname].subconditions
+   if reg_subconds then
+      local player_subconds = achievements.achievements_subconditions[name][aname]
+      -- Check if player has failed to meet any subcondition
+      for s=1, #reg_subconds do
+         local subcond = reg_subconds[s]
+	 if player_subconds[subcond] ~= true then
+            -- A subcondition failed! Failure!
+            return false
+	 end
+      end
+      -- All subconditions met! Success!
+      return true
+   else
+      -- Achievement does not have subconditions: Success!
+      return true
+   end
+end
+
+local function check_achievement_gotten(player, aname)
    local name = player:get_player_name()
 
-   times = times or 1
-
-   if achievements.achievements[name][aname] == nil then
-      achievements.achievements[name][aname] = 0
-   end
-
-   if achievements.achievements[name][aname] == -1 then
-      return
-   end
-
-   achievements.achievements[name][aname] = achievements.achievements[name][aname] + times
-
-   if not achievements.registered_achievements[aname] then
-      minetest.log("error", "[rp_achievements] Cannot find registered achievement " .. aname)
-      return
-   end
-
    if achievements.achievements[name][aname]
-   >= achievements.registered_achievements[aname].times then
+         >= achievements.registered_achievements[aname].times and
+	 check_achievement_subconditions(player, aname) then
+
       achievements.achievements[name][aname] = -1
       minetest.after(
          2.0,
@@ -151,6 +160,54 @@ function achievements.trigger_achievement(player, aname, times)
    delayed_save()
 end
 
+function achievements.trigger_subcondition(player, aname, subcondition)
+   if not achievements.registered_achievements[aname] then
+      minetest.log("error", "[rp_achievements] Cannot find registered achievement " .. aname)
+      return
+   end
+
+   local name = player:get_player_name()
+
+   if achievements.achievements[name][aname] == nil then
+      achievements.achievements[name][aname] = 0
+   end
+   if achievements.achievements[name][aname] == -1 then
+      return
+   end
+   if not achievements.achievements_subconditions[name][aname] then
+      achievements.achievements_subconditions[name][aname] = {}
+   end
+
+   achievements.achievements_subconditions[name][aname][subcondition] = true
+
+   check_achievement_gotten(player, aname)
+end
+
+function achievements.trigger_achievement(player, aname, times)
+   local name = player:get_player_name()
+
+   times = times or 1
+
+   if achievements.achievements[name][aname] == nil then
+      achievements.achievements[name][aname] = 0
+   end
+   if achievements.achievements[name][aname] == -1 then
+      return
+   end
+   if not achievements.achievements_subconditions[name][aname] then
+      achievements.achievements_subconditions[name][aname] = {}
+   end
+
+   achievements.achievements[name][aname] = achievements.achievements[name][aname] + times
+
+   if not achievements.registered_achievements[aname] then
+      minetest.log("error", "[rp_achievements] Cannot find registered achievement " .. aname)
+      return
+   end
+
+   check_achievement_gotten(player, aname)
+end
+
 -- Load achievements table
 
 local function on_load()
@@ -171,6 +228,9 @@ local function on_joinplayer(player)
 
    if not achievements.achievements[name] then
       achievements.achievements[name] = {}
+   end
+   if not achievements.achievements_subconditions[name] then
+      achievements.achievements_subconditions[name] = {}
    end
 end
 
