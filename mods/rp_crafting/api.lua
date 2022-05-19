@@ -32,7 +32,6 @@ local crafting.MAX_INPUTS = 4
 local default_craftdef = {
    output = nil,
    items = {},
-   groups = {},
 }
 
 function crafting.register_craft(def)
@@ -58,7 +57,6 @@ function crafting.register_craft(def)
    local craftdef = {
       output = itemstack,
       items = def.items or default_craftdef.items,
-      groups = def.groups or default_craftdef.groups,
    }
 
    if #craftdef.items > crafting.MAX_INPUTS then
