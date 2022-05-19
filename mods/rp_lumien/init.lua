@@ -208,7 +208,7 @@ crafting.register_craft(
 minetest.register_craft(
 {
       type = "cooking",
-      output = "rp_lumien:crystal_off",
+      output = "rp_lumien:block",
       recipe = "rp_lumien:stone_with_lumien",
       cooktime = 6,
 })
