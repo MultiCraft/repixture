@@ -70,7 +70,7 @@ achievements.register_achievement(
 
 
 
--- Biomes
+-- Flower
 
 achievements.register_achievement(
    "gardener",
@@ -79,25 +79,6 @@ achievements.register_achievement(
       description = S("Plant a flower."),
       times = 1,
       placenode = "rp_default:flower",
-})
-
-achievements.register_achievement(
-   "welcome_to_the_mountains",
-   {
-      title = S("Dry Lands"),
-      description = S("Collect dry grass."),
-      times = 1,
-      dignode = "rp_default:dry_grass",
-})
-
-achievements.register_achievement(
-   "drain_the_swamp",
-   {
-      title = S("Drain the Swamp"),
-      description = S("Dig some swamp dirt."),
-      times = 1,
-      dignode = "group:swamp_dirt",
-      item_icon = "rp_default:swamp_dirt",
 })
 
 -- Farming
