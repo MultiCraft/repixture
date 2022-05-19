@@ -25,7 +25,7 @@ local userdata = {}
 -- Crafting can only take a limited number of itemstacks as
 -- input for sanity/interface reasons
 
-local MAX_INPUTS = 4
+local crafting.MAX_INPUTS = 4
 
 -- Default crafting definition values
 
@@ -61,13 +61,13 @@ function crafting.register_craft(def)
       groups = def.groups or default_craftdef.groups,
    }
 
-   if #craftdef.items > MAX_INPUTS then
+   if #craftdef.items > crafting.MAX_INPUTS then
       minetest.log("warning",
                    "[rp_crafting] Attempting to register craft " .. itemkey .." with more than "
-                      .. MAX_INPUTS .. " inputs, allowing")
+                      .. crafting.MAX_INPUTS .. " inputs, allowing")
    end
 
-   for i = 1, MAX_INPUTS do
+   for i = 1, crafting.MAX_INPUTS do
       if craftdef.items[i] ~= nil then
          craftdef.items[i] = ItemStack(craftdef.items[i])
       end
@@ -172,14 +172,14 @@ function crafting.craft(player, wanted, wanted_count, output, items)
 
    local craft_count = wanted_count
 
-   for i = 1, MAX_INPUTS do
+   for i = 1, crafting.MAX_INPUTS do
       local required_itemstack = ItemStack(craftdef.items[i])
       local itemc = 0
 
       local group = string.match(required_itemstack:get_name(), "group:(.*)")
 
       if required_itemstack ~= nil and required_itemstack:get_count() ~= 0 then
-         for j = 1, MAX_INPUTS do
+         for j = 1, crafting.MAX_INPUTS do
             local input_itemstack = ItemStack(items[j])
 
             if (group ~= nil
@@ -223,7 +223,7 @@ function crafting.craft(player, wanted, wanted_count, output, items)
 
       local group = string.match(itemn, "group:(.*)")
 
-      for i = 1, MAX_INPUTS do
+      for i = 1, crafting.MAX_INPUTS do
          local input_itemstack = ItemStack(items[i])
 
          if (group ~= nil
@@ -246,7 +246,7 @@ function crafting.craft(player, wanted, wanted_count, output, items)
       end
    end
 
-   for i = 1, MAX_INPUTS do
+   for i = 1, crafting.MAX_INPUTS do
       local required_itemstack = ItemStack(craftdef.items[i])
 
       if craftdef.items[i] ~= nil then
