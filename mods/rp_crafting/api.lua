@@ -20,15 +20,16 @@ crafting.registered_crafts = {}
 
 -- User table of last selected row etc.
 
-crafting.userdata = {}
+local userdata = {}
 
--- Crafting can only take 4 itemstacks as input for sanity/interface reasons
+-- Crafting can only take a limited number of itemstacks as
+-- input for sanity/interface reasons
 
-crafting.max_inputs = 4
+local MAX_INPUTS = 4
 
 -- Default crafting definition values
 
-crafting.default_craftdef = {
+local default_craftdef = {
    output = nil,
    items = {},
    groups = {},
@@ -56,17 +57,17 @@ function crafting.register_craft(def)
 
    local craftdef = {
       output = itemstack,
-      items = def.items or crafting.default_craftdef.items,
-      groups = def.groups or crafting.default_craftdef.groups,
+      items = def.items or default_craftdef.items,
+      groups = def.groups or default_craftdef.groups,
    }
 
-   if #craftdef.items > crafting.max_inputs then
+   if #craftdef.items > MAX_INPUTS then
       minetest.log("warning",
                    "[rp_crafting] Attempting to register craft " .. itemkey .." with more than "
-                      .. crafting.max_inputs .. " inputs, allowing")
+                      .. MAX_INPUTS .. " inputs, allowing")
    end
 
-   for i = 1, crafting.max_inputs do
+   for i = 1, MAX_INPUTS do
       if craftdef.items[i] ~= nil then
          craftdef.items[i] = ItemStack(craftdef.items[i])
       end
@@ -171,14 +172,14 @@ function crafting.craft(player, wanted, wanted_count, output, items)
 
    local craft_count = wanted_count
 
-   for i = 1, crafting.max_inputs do
+   for i = 1, MAX_INPUTS do
       local required_itemstack = ItemStack(craftdef.items[i])
       local itemc = 0
 
       local group = string.match(required_itemstack:get_name(), "group:(.*)")
 
       if required_itemstack ~= nil and required_itemstack:get_count() ~= 0 then
-         for j = 1, crafting.max_inputs do
+         for j = 1, MAX_INPUTS do
             local input_itemstack = ItemStack(items[j])
 
             if (group ~= nil
@@ -222,7 +223,7 @@ function crafting.craft(player, wanted, wanted_count, output, items)
 
       local group = string.match(itemn, "group:(.*)")
 
-      for i = 1, crafting.max_inputs do
+      for i = 1, MAX_INPUTS do
          local input_itemstack = ItemStack(items[i])
 
          if (group ~= nil
@@ -245,7 +246,7 @@ function crafting.craft(player, wanted, wanted_count, output, items)
       end
    end
 
-   for i = 1, crafting.max_inputs do
+   for i = 1, MAX_INPUTS do
       local required_itemstack = ItemStack(craftdef.items[i])
 
       if craftdef.items[i] ~= nil then
@@ -293,8 +294,8 @@ rp_formspec.register_page("rp_crafting:crafting", form)
 function crafting.get_formspec(name, select_item)
    local row = 1
 
-   if crafting.userdata[name] ~= nil then
-      row = crafting.userdata[name].row
+   if userdata[name] ~= nil then
+      row = userdata[name].row
    end
 
    local inv = minetest.get_player_by_name(name):get_inventory()
@@ -302,7 +303,7 @@ function crafting.get_formspec(name, select_item)
    local craft_list = ""
 
    local craftitems
-   if crafting.userdata[name] and crafting.userdata[name].mode == MODE_GUIDE then
+   if userdata[name] and userdata[name].mode == MODE_GUIDE then
        craftitems = crafting.get_crafts(nil, name)
    else
        craftitems = crafting.get_crafts(inv, name)
@@ -310,13 +311,13 @@ function crafting.get_formspec(name, select_item)
    if select_item == nil then
        if row > #craftitems then
            row = #craftitems
-           if crafting.userdata[name] ~= nil then
-               crafting.userdata[name].row = row
+           if userdata[name] ~= nil then
+               userdata[name].row = row
            end
        elseif row < 1 and #craftitems >= 1 then
            row = 1
-           if crafting.userdata[name] ~= nil then
-               crafting.userdata[name].row = row
+           if userdata[name] ~= nil then
+               userdata[name].row = row
            end
        end
    end
@@ -333,8 +334,8 @@ function crafting.get_formspec(name, select_item)
          if itemn == select_item then
             selected_craftdef = crafting.registered_crafts[itemn]
             row = i
-            if crafting.userdata[name] ~= nil then
-                crafting.userdata[name].row = row
+            if userdata[name] ~= nil then
+                userdata[name].row = row
             end
          end
       elseif i == row then
@@ -366,8 +367,8 @@ function crafting.get_formspec(name, select_item)
    if select_item and (not selected_craftdef) and #craftitems > 0 then
       row = 1
       selected_craftdef = crafting.registered_crafts[craftitems[row]]
-      if crafting.userdata[name] ~= nil then
-          crafting.userdata[name].row = row
+      if userdata[name] ~= nil then
+          userdata[name].row = row
       end
    end
 
@@ -402,7 +403,7 @@ function crafting.get_formspec(name, select_item)
    end
 
    local guide_icon, guide_tip
-   if crafting.userdata[name] and crafting.userdata[name].mode == MODE_GUIDE then
+   if userdata[name] and userdata[name].mode == MODE_GUIDE then
       guide_icon = "ui_icon_craftingguide_active.png"
       guide_tip = S("Show only craftable recipes")
    else
@@ -471,17 +472,17 @@ local function on_player_receive_fields(player, form_name, fields)
    do_craft_10 = fields.do_craft_10 ~= nil
    if do_craft_1 or do_craft_10 then
       local craftitems
-      if crafting.userdata[name] and crafting.userdata[name].mode == MODE_GUIDE then
+      if userdata[name] and userdata[name].mode == MODE_GUIDE then
           craftitems = crafting.get_crafts(nil, name)
       else
           craftitems = crafting.get_crafts(inv, name)
       end
       local old_item = nil
-      if crafting.userdata[name] then
-          old_item = craftitems[crafting.userdata[name].row]
+      if userdata[name] then
+          old_item = craftitems[userdata[name].row]
       end
 
-      local wanted_itemstack = ItemStack(craftitems[crafting.userdata[name].row])
+      local wanted_itemstack = ItemStack(craftitems[userdata[name].row])
       local output_itemstack = inv:get_stack("craft_out", 1)
 
       if output_itemstack:get_name() ~= wanted_itemstack:get_name()
@@ -521,23 +522,23 @@ local function on_player_receive_fields(player, form_name, fields)
       local selection = minetest.explode_table_event(fields.craft_list)
 
       if selection.type == "CHG" then
-         crafting.userdata[name].row = selection.row
+         userdata[name].row = selection.row
 
          minetest.show_formspec(name, "rp_crafting:crafting",
                                 crafting.get_formspec(name))
       end
    elseif fields.toggle_filter then
       local craftitems
-      if crafting.userdata[name] and crafting.userdata[name].mode == MODE_GUIDE then
+      if userdata[name] and userdata[name].mode == MODE_GUIDE then
           craftitems = crafting.get_crafts(nil, name)
       else
           craftitems = crafting.get_crafts(inv, name)
       end
-      local old_item = craftitems[crafting.userdata[name].row]
-      if crafting.userdata[name].mode == MODE_GUIDE then
-          crafting.userdata[name].mode = MODE_CRAFTABLE
+      local old_item = craftitems[userdata[name].row]
+      if userdata[name].mode == MODE_GUIDE then
+          userdata[name].mode = MODE_CRAFTABLE
       else
-          crafting.userdata[name].mode = MODE_GUIDE
+          userdata[name].mode = MODE_GUIDE
       end
 
       minetest.show_formspec(name, "rp_crafting:crafting",
@@ -583,8 +584,8 @@ local function on_joinplayer(player)
 
    local inv = player:get_inventory()
 
-   if crafting.userdata[name] == nil then
-      crafting.userdata[name] = {row = 1, mode = MODE_CRAFTABLE}
+   if userdata[name] == nil then
+      userdata[name] = {row = 1, mode = MODE_CRAFTABLE}
    end
 
    if inv:get_size("craft_in") ~= 4 then
@@ -601,7 +602,7 @@ end
 local function on_leaveplayer(player)
    local name = player:get_player_name()
 
-   crafting.userdata[name] = nil
+   userdata[name] = nil
 end
 
 if minetest.get_modpath("rp_drop_items_on_die") ~= nil then
