@@ -36,9 +36,9 @@ local default_craftdef = {
 }
 
 function crafting.register_craft(def)
-   if def.output == nil then
-      minetest.log("warning",
-                   "[rp_crafting] No output for craft recipe")
+   if def.output == nil or def.output == "" then
+      minetest.log("error",
+                   "[rp_crafting] No output for craft recipe, ignoring")
       return
    end
 
@@ -51,8 +51,8 @@ function crafting.register_craft(def)
 
    if not minetest.registered_items[itemstack:get_name()] then
       minetest.log("warning",
-                   "[rp_crafting] Trying to register craft " .. itemkey
-                      .. " that has an unknown output item")
+                   "[rp_crafting] Trying to register craft '" .. itemkey
+                      .. "' that has an unknown output item, allowing")
    end
 
    local craftdef = {
@@ -608,6 +608,20 @@ end
 if minetest.get_modpath("rp_drop_items_on_die") ~= nil then
    drop_items_on_die.register_listname("craft_in")
    drop_items_on_die.register_listname("craft_out")
+end
+
+if minetest.settings:get_bool("rp_testing_enable", false) == true then
+    -- Check if all input items of crafting recipes are known
+    minetest.register_on_mods_loaded(function()
+        for id, craftdef in pairs(crafting.registered_crafts) do
+           for i=1, #craftdef.items do
+              local iname = craftdef.items[i]:get_name()
+	      if string.sub(iname, 1, 6) ~= "group:" and not minetest.registered_items[iname] then
+                 minetest.log("error", "[rp_crafting] Unknown input item in craft '"..id.."': "..tostring(iname))
+              end
+	   end
+        end
+    end)
 end
 
 minetest.register_on_joinplayer(on_joinplayer)
