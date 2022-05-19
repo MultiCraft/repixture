@@ -25,7 +25,7 @@ local userdata = {}
 -- Crafting can only take a limited number of itemstacks as
 -- input for sanity/interface reasons
 
-local crafting.MAX_INPUTS = 4
+crafting.MAX_INPUTS = 4
 
 -- Default crafting definition values
 
