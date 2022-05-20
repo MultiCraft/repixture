@@ -1,8 +1,11 @@
 # Group reference
 
-This file is developer documentation that documents all the groups used in this game.
+This file is developer documentation that documents all the non-special groups (i.e. not special according to
+`lua_api.txt`) used in this game.
 
 ## Item groups
+
+This is the list of all groups used for items. Note: If no number/rating is specified, use 1 as rating.
 
 ## Interactive item groups
 * `not_in_creative_inventory`: Item won't show up in Creative Inventory
@@ -22,28 +25,30 @@ This file is developer documentation that documents all the groups used in this 
 * `is_armor`: Item is an armor piece
 * `armor`: Item is an armor piece and rating specifies armor percentage
 * `armor_material`: Rating specifies armor material; number is assigned dynamically. Equal number means equal material.
-* `armor_slot`: Which slots the armor piece belongs to. 1 = Helmet, 2 = Chestplate, 3 = Boots
+* `armor_slot`: Rating says which slot the armor piece belongs to: 1 = Helmet, 2 = Chestplate, 3 = Boots
 
 ### Other item categorizations
 * `stick`: Stick
 * `bucket`: Any bucket
 * `bucket_water`: Bucket with water
-* `food`: Can be eaten. 2 = eatable. 3 = drinkable
-* `nav_compass`: Is a compass. Rating = current pointing direction (1 to 8)
+* `food`: Can be eaten by player. Rating: 2 = eatable, 3 = drinkable, 1 = unknown food type
+* `nav_compass`: Compass. Rating: 1 = normal compass, 2 = magnocompass
 * `spawn_egg`: Item that spawns mobs
 
 
 
 ## Node groups
 
+This is the list of all groups used for nodes. Note: If no number/rating is specified, use 1 as rating.
+
 ### Digging groups
 * `choppy`: Can be dug by brute force, like wood
 * `cracky`: Hard material like stone
 * `crumbly`: Soft material like dirt
 * `snappy`: Can be dug with fine tools like shears
-* `fleshy`: Node represents some kind of (semi-)living organism
+* `fleshy`: Node represents some kind of (semi-)living organism, so it can be "dug" easily by weapons
 * `handy`: Can be dug with bare hand
-* `oddly_breakable_by_hand`: Can be dug with bare hand
+* `oddly_breakable_by_hand`: Can be dug with bare hand, but for nodes where it seems unrealistic
 
 ### Interactive node groups:
 * `soil`: For blocks that allow several plants to grow
@@ -125,4 +130,6 @@ This file is developer documentation that documents all the groups used in this 
 
 ## Damage groups
 
-* `fleshy`: The damage group used for everything that takes damage
+This is the list of damage groups.
+
+* `fleshy`: This is the damage group used for everything that takes damage.
