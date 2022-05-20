@@ -161,3 +161,24 @@ function goodies.fill(pos, ctype, pr, listname, keepchance)
       end
    end
 end
+
+-- In testing mode, verify if all goodies are known, valid and registered items
+local function goodies_verify()
+   for location, ldata in pairs(goodies.types_all) do
+      for goodie, gdata in pairs(ldata) do
+	 if type(goodie) ~= "string" then
+            minetest.log("error", "[rp_goodies] Malformed goodie found: "..tostring(goodie).." (type="..type(goodie)..")")
+         elseif goodie == "" then
+            minetest.log("error", "[rp_goodies] Empty string goodie found")
+         elseif not minetest.registered_items[goodie] then
+            local alias = minetest.registered_aliases[goodie]
+	    if not alias or not minetest.registered_items[alias] then
+               minetest.log("error", "[rp_goodies] Unknown goodie found: "..tostring(goodie))
+            end
+	 end
+      end
+   end
+end
+if minetest.settings:get_bool("rp_testing_enable", false) then
+   goodies_verify()
+end
