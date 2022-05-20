@@ -381,11 +381,11 @@ minetest.register_lbm(
    }
 )
 
--- Update nodes after the rename orgy after 1.5.3
+-- Force nodes to update infotext/formspec
 minetest.register_lbm(
    {
       label = "Update bookshelves",
-      name = "rp_default:update_bookshelves",
+      name = "rp_default:update_bookshelves_3_0_1",
       nodenames = {"rp_default:bookshelf"},
       action = function(pos, node)
          local def = minetest.registered_nodes[node.name]
@@ -396,7 +396,7 @@ minetest.register_lbm(
 minetest.register_lbm(
    {
       label = "Update chests",
-      name = "rp_default:update_chests",
+      name = "rp_default:update_chests_3_0_1",
       nodenames = {"rp_default:chest"},
       action = function(pos, node)
          local def = minetest.registered_nodes[node.name]

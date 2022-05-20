@@ -244,7 +244,7 @@ minetest.register_node(
 
          if not locks.is_locked(meta, player) then
             local np = pos.x .. "," .. pos.y .. "," .. pos.z
-            local form = rp_formspec.get_page("rp_default:2part")
+            local form = rp_formspec.get_page("rp_default:notabs_2part")
             form = form .. "list[nodemeta:" .. np .. ";main;0.25,0.25;8,4;]"
             form = form .. "listring[nodemeta:" .. np .. ";main]"
             form = form .. rp_formspec.get_itemslot_bg(0.25, 0.25, 8, 4)

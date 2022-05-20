@@ -18,7 +18,7 @@ jewels.registered_jewel_parents = {}
 
 -- Formspec
 
-local form_bench = rp_formspec.get_page("rp_default:2part")
+local form_bench = rp_formspec.get_page("rp_default:notabs_2part")
 
 form_bench = form_bench .. "list[current_name;main;2.25,1.75;1,1;]"
 form_bench = form_bench .. "listring[current_name;main]"
@@ -409,11 +409,11 @@ achievements.register_achievement(
       dignode = "rp_jewels:jewel_ore",
 })
 
--- Update node after the rename orgy after 1.5.3
+-- Force node to update infotext/formspec
 minetest.register_lbm(
    {
       label = "Update jeweler's workbench",
-      name = "rp_jewels:update_bench",
+      name = "rp_jewels:update_bench_3_0_1",
       nodenames = {"rp_jewels:bench"},
       action = function(pos, node)
          local def = minetest.registered_nodes[node.name]

@@ -176,7 +176,7 @@ end
 
 local form_trading = ""
 
-form_trading = form_trading .. rp_formspec.get_page("rp_default:2part")
+form_trading = form_trading .. rp_formspec.get_page("rp_default:notabs_2part")
 
 form_trading = form_trading .. "list[current_player;gold_trade_out;4.75,2.25;1,1;]"
 
