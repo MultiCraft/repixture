@@ -57,6 +57,7 @@ local function open_parachute_for_player(player)
       lua.attached = name
 
       rp_player.player_attached[name] = true
+
       minetest.log("action", "[parachute] "..name.." opens a parachute at "..minetest.pos_to_string(obj:get_pos(), 1))
       return true
    else
@@ -75,16 +76,18 @@ minetest.register_craftitem(
          self.object:set_armor_groups({immortal=1})
       end,
       on_use = function(itemstack, player, pointed_thing)
-         local ok = open_parachute_for_player(player)
+         local ok, fail_reason = open_parachute_for_player(player)
          if ok then
             if not minetest.is_creative_enabled(player:get_player_name()) then
                itemstack:take_item()
             end
             return itemstack
          else
-            minetest.chat_send_player(
-            player:get_player_name(),
-            minetest.colorize("#FFFF00", S("Cannot open parachute on ground!")))
+            if fail_reason == "on_ground" then
+               minetest.chat_send_player(
+                 player:get_player_name(),
+                 minetest.colorize("#FFFF00", S("Cannot open parachute on ground!")))
+            end
          end
          return itemstack
       end,
@@ -118,8 +121,6 @@ minetest.register_entity(
 
             local vel = self.object:get_velocity()
 
-            local accel = {x = 0, y = 0, z = 0}
-
             local lookyaw = math.pi - player:get_look_horizontal()
 
             if lookyaw < 0 then
@@ -139,6 +140,8 @@ minetest.register_entity(
             local controls = player:get_player_control()
 
             local speed = 4.0
+
+            local accel = {x = 0, y = 0, z = 0}
 
             if controls.down then
                accel.x = s * speed
@@ -171,25 +174,36 @@ minetest.register_entity(
                rp_player.player_attached[self.attached] = false
 
                player = minetest.get_player_by_name(self.attached)
-               if player and self.start_y ~= nil then
-                  if self.start_y - self.object:get_pos().y > 100 then
+               if player then
+                  if self.start_y ~= nil and self.start_y - self.object:get_pos().y > 100 then
                      achievements.trigger_achievement(player, "sky_diver")
                   end
                end
-               self.object:set_detach()
             end
 
             minetest.sound_play({name="parachute_close", pos=self.object:get_pos()}, {gain=0.5}, true)
 
             local final_pos_str = minetest.pos_to_string(self.object:get_pos(), 1)
             if player then
-               minetest.log("action", "[parachute] Parachute of "..player:get_player_name().." destroyed at "..final_pos_str)
+               minetest.log("action", "[parachute] Parachute of "..player:get_player_name().." getting destroyed at "..final_pos_str)
             else
-               minetest.log("action", "[parachute] Parachute destroyed at "..final_pos_str)
+               minetest.log("action", "[parachute] Parachute getting destroyed at "..final_pos_str)
             end
             self.object:remove()
          end
-      end
+      end,
+      on_deactivate = function(self)
+         minetest.log("info", "[parachute] Parachute at "..minetest.pos_to_string(self.object:get_pos(), 1).." about to get removed")
+         if self.attached ~= nil then
+	    if rp_player.player_attached[self.attached] then
+               local player = minetest.get_player_by_name(self.attached)
+	       if player then
+                  rp_player.player_attached[self.attached] = false
+                  player:set_detach()
+               end
+            end
+         end
+      end,
 })
 
 -- Crafting
