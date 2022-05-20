@@ -113,7 +113,7 @@ local function register_sign(id, def)
 			wall_bottom = {-0.5+(4/16), -0.5, -0.5+(1/16), 0.5-(4/16), -0.5+(1/16), 0.5-(1/16)},
 			wall_side = {-0.5, -0.5+(1/16), -0.5+(4/16), -0.5+(1/16), 0.5-(1/16), 0.5-(4/16)},
 		},
-		groups = {choppy = 2,handy = 2,attached_node = 1, sign=2, not_in_creative_inventory=1},
+		groups = {choppy = 2,handy = 2,attached_node = 1, sign=1, not_in_creative_inventory=1},
 		is_ground_content = false,
 		sounds = def.sounds,
 		on_construct = on_construct,
