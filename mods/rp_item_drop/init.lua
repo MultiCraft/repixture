@@ -79,8 +79,10 @@ minetest.item_drop = function(itemstack, dropper, pos)
 			dir.z = dir.z * 2
 			obj:set_velocity(dir)
 			local lua = obj:get_luaentity()
-			lua.dropped_by = dropper:get_player_name()
-			lua.item_magnet_timer = ITEM_MAGNET_DELAY_AFTER_DROP
+			if lua then
+				lua.dropped_by = dropper:get_player_name()
+				lua.item_magnet_timer = ITEM_MAGNET_DELAY_AFTER_DROP
+			end
 		end
 		return itemstack
 	end
