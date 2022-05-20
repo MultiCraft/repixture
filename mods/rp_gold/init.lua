@@ -254,11 +254,54 @@ function gold.trade(trade, trade_type, player)
    return true
 end
 
+-- In the inventory `inv`, move all items of the trading slots
+-- in the "gold_trade_out" and "gold_trade_in" inventory lists
+-- to the "main" inventory list. Items that can't be moved
+-- will be dropped on the floor at `drop_pos`.
+-- If `drop_all` is true (false by default), then all items
+-- will be dropped, not moved to "main".
+local function clear_trading_slots(inv, drop_pos, drop_all)
+   if drop_all == nil then
+      drop_all = false
+   end
+   -- Collect items from trading slots
+   local items = {}
+   local list = inv:get_list("gold_trade_out")
+   for i=1, #list do
+      if not list[i]:is_empty() then
+         table.insert(items, list[i])
+      end
+   end
+   list = inv:get_list("gold_trade_in")
+   for i=1, #list do
+      if not list[i]:is_empty() then
+         table.insert(items, list[i])
+      end
+   end
+   -- Copy them to "main" list or drop them
+   for i=1, #items do
+      if (not drop_all) and inv:room_for_item("main", items[i]) then
+          inv:add_item("main", items[i])
+      else
+          minetest.add_item(drop_pos, items[i])
+      end
+   end
+   -- Clear the trading slots
+   inv:set_list("gold_trade_out", {})
+   inv:set_list("gold_trade_in", {})
+end
+
 minetest.register_on_player_receive_fields(
    function(player, form_name, fields)
-      if form_name ~= "rp_gold:trading_book" or fields.cancel then return end
+      if form_name ~= "rp_gold:trading_book" then
+         return
+      end
 
       local inv = player:get_inventory()
+      if fields.cancel or fields.quit then
+         clear_trading_slots(inv, player:get_pos())
+         return
+      end
 
       if fields.trade then
 	 local item = player:get_wielded_item()
@@ -312,6 +355,24 @@ minetest.register_on_player_receive_fields(
 	 end
       end
 end)
+
+-- Make sure to clean up the trading slots properly
+-- on rejoining, respawning and dying
+local function clear_trading_slots_move_main(player)
+   local inv = player:get_inventory()
+   local pos = player:get_pos()
+   clear_trading_slots(inv, pos, false)
+end
+minetest.register_on_joinplayer(clear_trading_slots_move_main)
+minetest.register_on_respawnplayer(clear_trading_slots_move_main)
+
+-- Death = drop all items in trading slots
+local function clear_trading_slots_drop(player)
+   local inv = player:get_inventory()
+   local pos = player:get_pos()
+   clear_trading_slots(inv, pos, true)
+end
+minetest.register_on_dieplayer(clear_trading_slots_drop)
 
 -- Items
 
