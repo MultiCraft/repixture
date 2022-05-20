@@ -257,6 +257,17 @@ function default.check_sapling_space(pos, variety)
 	return true
 end
 
+-- Returns true if node at pos is a sapling and
+-- the sapling growth timer is activated.
+function default.is_sapling_growing(pos)
+   local node = minetest.get_node(pos)
+   if minetest.get_item_group(node.name, "sapling") == 0 then
+	   return false
+   end
+   local timer = minetest.get_node_timer(pos)
+   return timer:is_started()
+end
+
 -- Start the sapling grow timer of the sapling at pos.
 -- Returns true on success or false if it was not a sapling.
 function default.begin_growing_sapling(pos)
@@ -342,7 +353,7 @@ function default.grow_sapling(pos)
    return true
 end
 
--- Make preexisting trees restart the growing process
+-- Make preexisting sapling restart the growing process
 
 minetest.register_lbm(
    {
@@ -350,7 +361,9 @@ minetest.register_lbm(
       name = "rp_default:grow_legacy_trees",
       nodenames = {"rp_default:sapling", "rp_default:sapling_oak", "rp_default:sapling_birch"},
       action = function(pos, node)
-         default.begin_growing_sapling(pos)
+         if not default.is_sapling_growing(pos) then
+            default.begin_growing_sapling(pos)
+         end
       end
    }
 )
