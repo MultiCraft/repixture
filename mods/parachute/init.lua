@@ -86,7 +86,7 @@ minetest.register_craftitem(
             if fail_reason == "on_ground" then
                minetest.chat_send_player(
                  player:get_player_name(),
-                 minetest.colorize("#FFFF00", S("Cannot open parachute on ground!")))
+                 minetest.colorize("#FFFF00", S("You can open the parachute only in air!")))
             end
          end
          return itemstack
