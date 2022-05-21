@@ -301,6 +301,12 @@ local attempt_bed_respawn = function(player)
 	local name = player:get_player_name()
 	local pos, yaw = bed.get_spawn(player)
 	if pos then
+		-- Load area around spawn pos to make sure
+		-- we don't get ignore nodes.
+		local load_offset = vector.new(1,1,1)
+		local load_min = vector.subtract(pos, load_offset)
+		local load_max = vector.add(pos, load_offset)
+		minetest.load_area(load_min, load_max)
 		-- Check if position is safe, if not, try to spawn to one of the
 		-- neighbor blocks
 		for n=1, #respawn_check_posses do
