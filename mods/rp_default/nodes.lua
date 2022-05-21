@@ -1037,7 +1037,7 @@ minetest.register_node(
       walkable = false,
       floodable = true,
       damage_per_second = 1,
-      groups = {snappy = 3, dig_immediate = 3, falling_node = 1, plant = 1},
+      groups = {snappy = 3, dig_immediate = 3, falling_node = 1, plant = 1, immortal_item = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_up(pos, node, digger)

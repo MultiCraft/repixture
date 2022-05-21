@@ -11,6 +11,7 @@ This is the list of all groups used for items. Note: If no number/rating is spec
 * `not_in_creative_inventory`: Item won't show up in Creative Inventory
 * `not_in_craft_guide`: Item won't show up in crafting guide
 * `no_item_drop`: This item can't exist as a dropped item on the ground. When dropping it, it is deleted instantly
+* `immortal_item`: In entity form, this item withstands damage and won't be destroyed by nodes that deal damage
 
 ### Tools
 * `axe`: Axe

@@ -144,15 +144,19 @@ minetest.register_entity(
 
 		   local nodename = minetest.get_node(itempos).name
                    local def = minetest.registered_nodes[nodename]
-                   -- Destroy item in damaging node
+
+
+                   -- Destroy item in damaging node (unless it has 'immortal_item' group set
 		   if def and def.damage_per_second > 0 then
-                      if minetest.get_item_group(nodename, "lava") ~= 0 or minetest.get_item_group(nodename, "fire") ~= 0 then
-		          minetest.sound_play("builtin_item_lava", {pos = itempos, gain = 0.45})
-                      end
-		      add_item_death_particle(self)
-		      minetest.log("action", "[rp_builtin_item] Item entity destroyed in damaging node at "..minetest.pos_to_string(itempos))
-		      self.object:remove()
-		      return
+		      if minetest.get_item_group(ItemStack(self.itemstring):get_name(), "immortal_item") == 0 then
+                         if minetest.get_item_group(nodename, "lava") ~= 0 or minetest.get_item_group(nodename, "fire") ~= 0 then
+		            minetest.sound_play("builtin_item_lava", {pos = itempos, gain = 0.45})
+                         end
+		         add_item_death_particle(self)
+		         minetest.log("action", "[rp_builtin_item] Item entity destroyed in damaging node at "..minetest.pos_to_string(itempos))
+		         self.object:remove()
+		         return
+		      end
 		   end
 
 		   -- Item magnet: Attract item to closest living player
