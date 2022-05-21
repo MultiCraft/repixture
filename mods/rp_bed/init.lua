@@ -18,6 +18,35 @@ bed.userdata.temp = {}
 -- List of occupied beds, indexed by node position hash
 bed.occupied_beds = {}
 
+-- Returns <spawn position>, <spawn yaw> of `player` or
+-- nil if if there is no spawn active
+bed.get_spawn = function(player)
+   local name = player:get_player_name()
+   local spawn, yaw
+   if bed.userdata.saved[name].spawn_pos then
+      spawn = bed.userdata.saved[name].spawn_pos
+   end
+   if bed.userdata.saved[name].spawn_yaw then
+      yaw = bed.userdata.saved[name].spawn_yaw
+   end
+   return spawn, yaw
+end
+
+-- Sets the bed spawn position for `player`
+bed.set_spawn = function(player, spawn_pos, yaw)
+   local name = player:get_player_name()
+   bed.userdata.saved[name].spawn_pos = table.copy(spawn_pos)
+   bed.userdata.saved[name].spawn_yaw = yaw or 0
+   minetest.log("action", "[rp_bed] Respawn position of "..name.." set to "..minetest.pos_to_string(spawn_pos, 1))
+end
+
+-- Unsets the bed spawn position of `player`
+bed.unset_spawn = function(player)
+   local name = player:get_player_name()
+   bed.userdata.saved[name].spawn_pos = nil
+   bed.userdata.saved[name].spawn_yaw = nil
+end
+
 -- Savefile
 
 local bed_file = minetest.get_worldpath() .. "/bed.dat"
@@ -68,8 +97,9 @@ local function put_player_in_bed(player)
       return
    end
 
-   player:set_look_horizontal(bed.userdata.saved[name].spawn_yaw)
-   player:set_pos(bed.userdata.saved[name].spawn_pos)
+   local _, spawn_yaw = bed.get_spawn(player)
+   player:set_look_horizontal(spawn_yaw)
+   player:set_pos(bed.userdata.temp[name].sleep_pos)
 
    player_effects.apply_effect(player, "inbed")
 
@@ -99,8 +129,12 @@ local function take_player_from_bed(player)
    if was_in_bed then
       minetest.log("action", "[rp_bed] "..name.." was taken from bed")
    end
-   if bed.userdata.saved[name].spawn_pos then
-      player:set_pos(bed.userdata.saved[name].spawn_pos)
+   local spawn_pos, spawn_yaw = bed.get_spawn(player)
+   if spawn_pos then
+      player:set_pos(spawn_pos)
+      if spawn_yaw then
+         player:set_look_horizontal(spawn_yaw)
+      end
    end
 
    bed.userdata.temp[name].in_bed = false
@@ -181,6 +215,7 @@ local function on_joinplayer(player)
    bed.userdata.temp[name] = {
          in_bed = false,
          node_pos = nil,
+	 sleep_pos = nil,
       }
    delayed_save()
 end
@@ -198,17 +233,97 @@ local function on_leaveplayer(player)
    end
 end
 
--- Respawning player
-
-local function on_respawnplayer(player)
-   local name = player:get_player_name()
-
-   if bed.userdata.temp[name] then
-      take_player_from_bed(player)
-
-      return true
-   end
+-- Returns true if players can spawn into the given node safely.
+local function node_is_spawnable_in(node, is_upper)
+	-- All non-walkable, non-damaging, non-drowning nodes are safe.
+	-- Also the bed as a special case for the lower check.
+	if not node then
+		return false
+	end
+	if not is_upper and minetest.get_item_group(node.name, "bed") ~= 0 then
+		return true
+	end
+	local def = minetest.registered_nodes[node.name]
+	if not def.walkable and def.drowning <= 0 and def.damage_per_second <= 0 then
+		return true
+	end
+	return false
 end
+
+-- Returns true if players can spawn on given node safely (without falling).
+local function node_is_spawnable_on(node)
+	-- All walkable full cube nodes that don't disable jump are accepted
+	if not node then
+		return false
+	end
+	local def = minetest.registered_nodes[node.name]
+	if def.walkable and
+			((def.collision_box == nil and def.node_box == nil) or
+			(not def.collision_box and def.node_box and def.node_box.type == "regular") or
+			(not def.node_box and def.collision_box and def.collision_box.type == "regular")) and
+			(minetest.get_item_group(node.name, "disable_jump") == 0) then
+		return true
+	end
+	return false
+end
+
+local respawn_check_posses = {
+	vector.new(0, 0, 0 ),
+	vector.new(0, 0, -1 ),
+	vector.new(0, 0, 1 ),
+	vector.new(-1,0, 0 ),
+	vector.new(1, 0, 0 ),
+	vector.new(-1,0, -1 ),
+	vector.new(-1,0, 1 ),
+	vector.new(1, 0, -1 ),
+	vector.new(1, 0, 1 ),
+}
+
+local attempt_bed_respawn = function(player)
+	-- Place player on respawn position if set
+	local name = player:get_player_name()
+	local pos, yaw = bed.get_spawn(player)
+	if pos then
+		-- Check if position is safe, if not, try to spawn to one of the
+		-- neighbor blocks
+		for n=1, #respawn_check_posses do
+			local cpos = vector.add(pos, respawn_check_posses[n])
+			local node = minetest.get_node(cpos)
+			if node_is_spawnable_in(node, false) then
+				local is_bed = minetest.get_item_group(node.name, "bed") ~= 0
+				-- Check posses above (must be free)
+				-- and below (must be walkable)
+				-- If bed, 2 posses must be free above
+				local acpos = { x=cpos.x, y=cpos.y+1, z=cpos.z }
+				local aacpos = { x=cpos.x, y=cpos.y+2, z=cpos.z }
+				local abpos = { x=cpos.x, y=cpos.y-1, z=cpos.z }
+				local anode = minetest.get_node(acpos)
+				local aanode = minetest.get_node(aacpos)
+				local bnode = minetest.get_node(abpos)
+				if node_is_spawnable_in(anode, true) and
+						((n == 1 and is_bed) or node_is_spawnable_on(bnode)) and
+						(not is_bed or node_is_spawnable_in(aanode, false)) then
+					local spos = cpos
+					if not is_bed then
+						spos.y = spos.y - 0.5
+					end
+					player:set_pos(spos)
+					if yaw then
+						player:set_look_horizontal(yaw)
+				        end
+					return true
+				end
+			end
+		end
+		bed.unset_spawn(player)
+		minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Your respawn position was blocked or dangerous. You've lost your old respawn position.")))
+		return false
+	end
+	return false
+end
+
+local on_respawnplayer = attempt_bed_respawn
+
 
 local function on_dieplayer(player)
    local name = player:get_player_name()
@@ -403,7 +518,6 @@ minetest.register_node(
          end
 
          local clicker_name = clicker:get_player_name()
-         local put_pos = vector.add(pos, vector.divide(minetest.facedir_to_dir(node.param2), 2))
 
 	 local sleeper_name = get_player_in_bed(pos)
 
@@ -439,7 +553,7 @@ minetest.register_node(
                return itemstack
             end
 
-            put_pos.y = put_pos.y + 0.6
+            local put_pos = table.copy(pos)
 
             local yaw = 0
 
@@ -449,12 +563,11 @@ minetest.register_node(
 
             bed.userdata.temp[clicker_name].in_bed = true
 
-            bed.userdata.saved[clicker_name].spawn_yaw = yaw
-            bed.userdata.saved[clicker_name].spawn_pos = put_pos
-
-	    minetest.log("action", "[rp_bed] Respawn position of "..clicker_name.." set to "..minetest.pos_to_string(put_pos, 1))
+            bed.set_spawn(clicker, put_pos, yaw)
 
             bed.userdata.temp[clicker_name].node_pos = pos
+            local sleep_pos = vector.add(pos, vector.divide(minetest.facedir_to_dir(node.param2), 2))
+            bed.userdata.temp[clicker_name].sleep_pos = sleep_pos
 
             set_bed_occupier(pos, clicker_name)
 
@@ -480,7 +593,7 @@ minetest.register_node(
       diggable = false,
       tiles = {"bed_head.png", "default_wood.png", "bed_side.png"},
       use_texture_alpha = "clip",
-      groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+      groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1},
       sounds = rp_sounds.node_sound_wood_defaults(),
       node_box = {
 	 type = "fixed",

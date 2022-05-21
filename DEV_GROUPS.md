@@ -101,7 +101,7 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `door_wood`: Wooden door
 * `fence`: Fence
 * `sign`: Sign
-* `bed`: Bed
+* `bed`: Bed segment
 * `torch`: Torch
 
 ### Node material groups (used for full nodes only):
