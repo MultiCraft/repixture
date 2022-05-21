@@ -245,7 +245,7 @@ local function node_is_spawnable_in(node, is_upper)
 	-- All non-walkable, non-damaging, non-drowning nodes are safe.
 	-- Also the bed as a special case for the lower check.
 	if not node then
-		return false
+		return false, "no_node"
 	end
 	if not is_upper and minetest.get_item_group(node.name, "bed") ~= 0 then
 		return true
@@ -254,7 +254,17 @@ local function node_is_spawnable_in(node, is_upper)
 	if not def.walkable and def.drowning <= 0 and def.damage_per_second <= 0 then
 		return true
 	end
-	return false
+	local fail_reason
+	if def.walkable then
+		fail_reason = "blocked"
+	elseif def.damage_per_second > 0 then
+		fail_reason = "damage"
+	elseif def.drowning > 0 then
+		fail_reason = "drowning"
+	else
+		fail_reason = "blocked"
+	end
+	return false, fail_reason
 end
 
 -- Returns true if players can spawn on given node safely (without falling).
@@ -550,9 +560,19 @@ minetest.register_node(
             for a=1,#above_posses do
                 local apos = above_posses[a]
                 local anode = minetest.get_node(apos)
-                local adef = minetest.registered_nodes[anode.name]
-                if adef.walkable then
-                    minetest.chat_send_player(clicker_name, minetest.colorize("#FFFF00", S("Not enough space to sleep!")))
+		local is_spawnable, fail_reason = node_is_spawnable_in(anode)
+                if not is_spawnable then
+                    local msg
+                    if fail_reason == "damage" then
+                        msg = S("It’s too painful to sleep here!")
+		    elseif fail_reason == "drowning" then
+                        msg = S("You can’t sleep while holding your breath!")
+		    elseif fail_reason == "blocked" then
+                        msg = S("Not enough space to sleep!")
+		    else
+                        msg = S("You can’t sleep here!")
+		    end
+                    minetest.chat_send_player(clicker_name, minetest.colorize("#FFFF00", msg))
                     return itemstack
                 end
             end
