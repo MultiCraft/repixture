@@ -118,24 +118,11 @@ local function put_player_in_bed(player)
    minetest.log("action", "[rp_bed] "..name.." was put into bed")
 end
 
-local function take_player_from_bed(player)
+local function clear_bed_status(player)
    if player == nil then
       return
    end
-
    local name = player:get_player_name()
-
-   local was_in_bed = bed.userdata.temp[name].in_bed == true
-   if was_in_bed then
-      minetest.log("action", "[rp_bed] "..name.." was taken from bed")
-   end
-   local spawn_pos, spawn_yaw = bed.get_spawn(player)
-   if spawn_pos then
-      player:set_pos(spawn_pos)
-      if spawn_yaw then
-         player:set_look_horizontal(spawn_yaw)
-      end
-   end
 
    bed.userdata.temp[name].in_bed = false
    if bed.userdata.temp[name].node_pos then
@@ -156,7 +143,27 @@ local function take_player_from_bed(player)
    rp_player.player_set_animation(player, "stand", rp_player.player_animation_speed)
 
    rp_player.player_attached[name] = false
+end
 
+local function take_player_from_bed(player)
+   if player == nil then
+      return
+   end
+   local name = player:get_player_name()
+
+   local was_in_bed = bed.userdata.temp[name].in_bed == true
+   if was_in_bed then
+      minetest.log("action", "[rp_bed] "..name.." was taken from bed")
+   end
+   local spawn_pos, spawn_yaw = bed.get_spawn(player)
+   if spawn_pos then
+      player:set_pos(spawn_pos)
+      if spawn_yaw then
+         player:set_look_horizontal(spawn_yaw)
+      end
+   end
+
+   clear_bed_status(player)
 end
 
 local function save_bed()
@@ -322,7 +329,10 @@ local attempt_bed_respawn = function(player)
 	return false
 end
 
-local on_respawnplayer = attempt_bed_respawn
+local on_respawnplayer = function(player)
+	clear_bed_status(player)
+	return attempt_bed_respawn(player)
+end
 
 
 local function on_dieplayer(player)
