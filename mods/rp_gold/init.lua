@@ -267,12 +267,18 @@ local function clear_trading_slots(inv, drop_pos, drop_all)
    -- Collect items from trading slots
    local items = {}
    local list = inv:get_list("gold_trade_out")
+   if not list then
+	   return
+   end
    for i=1, #list do
       if not list[i]:is_empty() then
          table.insert(items, list[i])
       end
    end
    list = inv:get_list("gold_trade_in")
+   if not list then
+	   return
+   end
    for i=1, #list do
       if not list[i]:is_empty() then
          table.insert(items, list[i])
