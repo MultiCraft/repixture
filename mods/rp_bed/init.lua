@@ -431,7 +431,7 @@ minetest.register_node(
       inventory_image = "bed_bed_inventory.png",
       tiles = {"bed_foot.png", "default_wood.png", "bed_side.png"},
       use_texture_alpha = "clip",
-      groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1},
+      groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15 },
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
       node_box = {
@@ -589,7 +589,7 @@ minetest.register_node(
       diggable = false,
       tiles = {"bed_head.png", "default_wood.png", "bed_side.png"},
       use_texture_alpha = "clip",
-      groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1},
+      groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15 },
       sounds = rp_sounds.node_sound_wood_defaults(),
       node_box = {
 	 type = "fixed",
