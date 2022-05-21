@@ -555,11 +555,7 @@ minetest.register_node(
 
             local put_pos = table.copy(pos)
 
-            local yaw = 0
-
-            if node.param2 ~= 2 then
-               yaw = (node.param2 / 2.0) * math.pi
-            end
+            local yaw = (-(node.param2 / 2.0) * math.pi) + math.pi
 
             bed.userdata.temp[clicker_name].in_bed = true
 
