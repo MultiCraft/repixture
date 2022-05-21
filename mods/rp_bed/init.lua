@@ -323,7 +323,7 @@ local attempt_bed_respawn = function(player)
 			end
 		end
 		bed.unset_spawn(player)
-		minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Your respawn position was blocked or dangerous. You've lost your old respawn position.")))
+		minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Your respawn position was blocked or dangerous. You’ve lost your old respawn position.")))
 		return false
 	end
 	return false
