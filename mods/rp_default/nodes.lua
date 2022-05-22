@@ -294,12 +294,13 @@ minetest.register_node(
       }),
 })
 
+-- Legacy node. TODO: Remove it
 minetest.register_node(
    "rp_default:dirt_with_grass_footsteps",
    {
       description = S("Dirt with Grass and Footsteps"),
       tiles = {"default_grass_footstep.png", "default_dirt.png", "default_dirt.png^default_grass_side.png"},
-      groups = {crumbly = 3, soil = 1, dirt = 1, normal_dirt = 1, plantable_soil = 1, grass_cover = 1, fall_damage_add_percent = -5, not_in_craft_guide = 1},
+      groups = {crumbly = 3, soil = 1, dirt = 1, normal_dirt = 1, plantable_soil = 1, grass_cover = 1, fall_damage_add_percent = -5, not_in_craft_guide = 1, not_in_creative_inventory = 1},
       drop = {
 	 max_items = 3,
 	 items = {
