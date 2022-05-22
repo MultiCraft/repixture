@@ -385,15 +385,6 @@ local function on_globalstep(dtime)
          end
       end
    end
-   for p=1, #in_bed do
-      local data = bed.userdata.saved[in_bed[p]]
-      if data then
-          local player = minetest.get_player_by_name(in_bed[p])
-          if vector.distance(player:get_pos(), data.spawn_pos) > 2 then
-              player:move_to(data.spawn_pos)
-          end
-      end
-   end
 
    local players = minetest.get_connected_players()
    local player_count = #players
@@ -426,6 +417,28 @@ local function on_globalstep(dtime)
    end
 end
 
+-- Force player to wake up when punched
+local function on_punchplayer(player)
+	if player:get_hp() <= 0 then
+		return
+	end
+	local name = player:get_player_name()
+	if bed.userdata.temp[name].in_bed then
+		take_player_from_bed(player)
+	end
+end
+
+-- Force player to wake up when taking damage
+local function on_player_hpchange(player, hp_change)
+	if player:get_hp() <= 0 or hp_change >= 0 then
+		return
+	end
+	local name = player:get_player_name()
+	if bed.userdata.temp[name].in_bed then
+		take_player_from_bed(player)
+	end
+end
+
 minetest.register_on_mods_loaded(on_load)
 
 minetest.register_on_shutdown(on_shutdown)
@@ -437,6 +450,10 @@ minetest.register_on_leaveplayer(on_joinplayer)
 minetest.register_on_respawnplayer(on_respawnplayer)
 
 minetest.register_on_dieplayer(on_dieplayer)
+
+minetest.register_on_punchplayer(on_punchplayer)
+
+minetest.register_on_player_hpchange(on_player_hpchange)
 
 minetest.register_globalstep(on_globalstep)
 
