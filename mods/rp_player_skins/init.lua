@@ -223,7 +223,6 @@ minetest.register_on_player_receive_fields(function(player, form_name, fields)
 	if changed then
 		local form = player_skins.get_formspec(name)
 		player:set_inventory_formspec(form)
-		minetest.show_formspec(name, "", form)
 	end
 end)
 

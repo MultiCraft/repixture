@@ -460,7 +460,6 @@ end
 local function on_player_receive_fields(player, form_name, fields)
    local inv = player:get_inventory()
 
-
    if fields.quit then
       clear_craft_slots(player)
    end
@@ -535,9 +534,6 @@ local function on_player_receive_fields(player, form_name, fields)
 
       if selection.type == "CHG" then
          userdata[name].row = selection.row
-
-         minetest.show_formspec(name, "rp_crafting:crafting",
-                                crafting.get_formspec(name))
       end
    elseif fields.toggle_filter then
       local craftitems
@@ -552,9 +548,6 @@ local function on_player_receive_fields(player, form_name, fields)
       else
           userdata[name].mode = MODE_GUIDE
       end
-
-      minetest.show_formspec(name, "rp_crafting:crafting",
-                             crafting.get_formspec(name, old_item))
    end
 
    player:set_inventory_formspec(crafting.get_formspec(name))
@@ -563,7 +556,6 @@ end
 function crafting.update_crafting_formspec(player, old_item)
    local name = player:get_player_name()
    local newform = crafting.get_formspec(name, old_item)
-   minetest.show_formspec(name, "rp_crafting:crafting", newform)
    player:set_inventory_formspec(newform)
 end
 

@@ -406,11 +406,6 @@ local function receive_fields(player, form_name, fields)
    end
    if in_achievements_menu then
       local form = achievements.get_formspec(name, selected)
-      minetest.show_formspec(
-         name,
-         "rp_achievements:achievements",
-         form
-      )
       player:set_inventory_formspec(form)
    end
 end

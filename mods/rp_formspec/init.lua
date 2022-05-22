@@ -362,7 +362,6 @@ function rp_formspec.receive_fields(player, form_name, fields)
    end
    if formname and form then
       player:set_inventory_formspec(form)
-      minetest.show_formspec(name, formname, form)
       rp_formspec.current_page[name] = formname
    end
 end
