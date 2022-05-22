@@ -1079,6 +1079,36 @@ minetest.register_node(
 })
 
 minetest.register_node(
+   "rp_default:acorn",
+   {
+      description = S("Acorn"),
+      _tt_food = true,
+      _tt_food_hp = 1,
+      _tt_food_satiation = 5,
+      drawtype = "nodebox",
+      tiles = {"rp_default_acorn_top.png", "rp_default_acorn_bottom.png", "rp_default_acorn_side.png"},
+      use_texture_alpha = "clip",
+      inventory_image = "rp_default_acorn.png",
+      wield_image = "rp_default_acorn.png",
+      paramtype = "light",
+      node_box = {
+         type = "fixed",
+         fixed = {
+            {-1/16, 7/16, -1/16, 1/16, 0.5, 1/16}, -- cap top
+            {-4/16, 6/16, -4/16, 4/16, 7/16, 4/16}, -- cap
+            {-3/16, 1/16, -3/16, 3/16, 6/16, 3/16}, -- body top
+            {-2/16, 0/16, -2/16, 2/16, 1/16, 2/16}, -- body bottom
+         }
+      },
+      sunlight_propagates = true,
+      walkable = false,
+      floodable = true,
+      groups = {snappy = 3, handy = 2, leafdecay = 3, leafdecay_drop = 1, food = 2},
+      on_use = minetest.item_eat({hp = 1, sat = 5}),
+      sounds = rp_sounds.node_sound_defaults(),
+})
+
+minetest.register_node(
    "rp_default:clam",
    {
       description = S("Clam"),
