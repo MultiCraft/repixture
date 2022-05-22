@@ -29,6 +29,18 @@ minetest.register_craftitem(
 	 local used = false
          if minetest.get_item_group(unode.name, "sapling") ~= 0 then
             used = default.grow_sapling(upos)
+         elseif diff.y > 0 and unode.name == "rp_default:dirt" and anode.name == "air" then
+            local biomedata = minetest.get_biome_data(upos)
+	    local biome = minetest.get_biome_name(biomedata.biome)
+	    if default.is_dry_biome(biome) then
+               minetest.set_node(upos, {name="rp_default:dirt_with_dry_grass"})
+            else
+               minetest.set_node(upos, {name="rp_default:dirt_with_grass"})
+            end
+	    used = true
+         elseif diff.y > 0 and unode.name == "rp_default:swamp_dirt" and anode.name == "air" then
+            minetest.set_node(upos, {name="rp_default:dirt_with_swamp_grass"})
+	    used = true
          elseif diff.y > 0 and unode.name == "rp_default:dirt_with_grass" and anode.name == "air" then
             minetest.set_node(apos, {name="rp_default:grass"})
 	    used = true
