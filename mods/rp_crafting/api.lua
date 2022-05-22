@@ -76,6 +76,12 @@ function crafting.register_craft(def)
    minetest.log("info", "[rp_crafting] Registered recipe for " .. itemkey)
 end
 
+-- Cache the crafting list for the crafting guide for a much faster
+-- loading time.
+-- The crafting guide list only needs to be generated once because
+-- it will never change.
+local all_crafts_cached
+
 function crafting.get_crafts(player_inventory, player_name)
    local results = {}
 
@@ -119,25 +125,33 @@ function crafting.get_crafts(player_inventory, player_name)
       end
    end
 
+   local function sort_crafts()
+      local lang_code = minetest.get_player_information(player_name).lang_code
+
+      local function sort_function(a, b)
+         local a_itemn = ItemStack(a):get_name()
+         local b_itemn = ItemStack(b):get_name()
+
+         local a_name = minetest.get_translated_string(lang_code, minetest.registered_items[a_itemn].description)
+         local b_name = minetest.get_translated_string(lang_code, minetest.registered_items[b_itemn].description)
+
+         return a_name < b_name
+      end
+      table.sort(results, sort_function)
+   end
+
    if player_inventory == nil then
-      get_all()
+      if all_crafts_cached then
+         results = all_crafts_cached
+      else
+         get_all()
+	 sort_crafts()
+	 all_crafts_cached = table.copy(results)
+      end
    else
       get_filtered()
+      sort_crafts()
    end
-
-   local lang_code = minetest.get_player_information(player_name).lang_code
-
-   local function sort_function(a, b)
-      local a_itemn = ItemStack(a):get_name()
-      local b_itemn = ItemStack(b):get_name()
-
-      local a_name = minetest.get_translated_string(lang_code, minetest.registered_items[a_itemn].description)
-      local b_name = minetest.get_translated_string(lang_code, minetest.registered_items[b_itemn].description)
-
-      return a_name < b_name
-   end
-
-   table.sort(results, sort_function)
 
    return results
 end
