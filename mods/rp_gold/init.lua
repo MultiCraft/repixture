@@ -160,7 +160,7 @@ if minetest.get_modpath("mobs") ~= nil then
    table.insert(gold.trades["butcher"], {"rp_default:ingot_wrought_iron 11", "", "rp_gold:ingot_gold"})
 
    -- tavernkeeper
-   table.insert(gold.trades["tavernkeeper"], {"rp_default:pearl 5", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["tavernkeeper"], {"rp_default:pearl 2", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["tavernkeeper"], {"rp_default:sheet_graphite 10", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["tavernkeeper"], {"rp_lumien:block 4", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["tavernkeeper"], {"rp_farming:flour 4", "", "rp_gold:ingot_gold"})
