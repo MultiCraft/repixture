@@ -315,7 +315,7 @@ default.register_decoration(
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
-      fill_ratio = 0.0045,
+      fill_ratio = 0.00415,
       biomes = {"Tall Oak Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
@@ -328,11 +328,38 @@ default.register_decoration(
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
-      fill_ratio = 0.0045,
+      fill_ratio = 0.00045,
+      biomes = {"Tall Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_1_acorns_chance_50.mts",
+      y_min = 1,
+      y_max = default.GLOBAL_Y_MAX,
+})
+
+default.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.004375,
       biomes = {"Tall Oak Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
          .. "/schematics/rp_default_oak_tree_big_2.mts",
+      y_min = 1,
+      y_max = default.GLOBAL_Y_MAX,
+})
+default.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.000225,
+      biomes = {"Tall Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_2_acorns_chance_50.mts",
       y_min = 1,
       y_max = default.GLOBAL_Y_MAX,
 })
@@ -343,7 +370,7 @@ default.register_decoration(
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
-      fill_ratio = 0.035,
+      fill_ratio = 0.0325,
       biomes = {"Dense Oak Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
@@ -356,7 +383,21 @@ default.register_decoration(
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
-      fill_ratio = 0.035,
+      fill_ratio = 0.0035,
+      biomes = {"Dense Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_1_acorns_chance_50.mts",
+      y_min = 1,
+      y_max = default.GLOBAL_Y_MAX,
+})
+
+default.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0325,
       biomes = {"Dense Oak Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
@@ -364,6 +405,20 @@ default.register_decoration(
       y_min = 1,
       y_max = default.GLOBAL_Y_MAX,
 })
+default.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.0035,
+      biomes = {"Dense Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_big_2_acorns_chance_50.mts",
+      y_min = 1,
+      y_max = default.GLOBAL_Y_MAX,
+})
+
 
 
 
@@ -884,7 +939,7 @@ default.register_decoration(
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
-      fill_ratio = 0.02,
+      fill_ratio = 0.018,
       biomes = {"Dense Oak Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
@@ -892,13 +947,26 @@ default.register_decoration(
       y_min = 1,
       y_max = default.GLOBAL_Y_MAX,
 })
+default.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.002,
+      biomes = {"Dense Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_acorns_chance_50.mts",
+      y_min = 1,
+      y_max = default.GLOBAL_Y_MAX,
+})
 
 default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
-      fill_ratio = 0.0225,
+      fill_ratio = 0.02035,
       biomes = {"Oak Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
@@ -906,13 +974,28 @@ default.register_decoration(
       y_min = 1,
       y_max = default.GLOBAL_Y_MAX,
 })
+default.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.00225,
+      biomes = {"Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_acorns_chance_50.mts",
+      y_min = 1,
+      y_max = default.GLOBAL_Y_MAX,
+})
+
+
 
 default.register_decoration(
    {
       deco_type = "schematic",
       place_on = {"rp_default:dirt_with_grass"},
       sidelen = 16,
-      fill_ratio = 0.0015,
+      fill_ratio = 0.00145,
       biomes = {"Tall Oak Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
@@ -920,6 +1003,20 @@ default.register_decoration(
       y_min = 1,
       y_max = default.GLOBAL_Y_MAX,
 })
+default.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt_with_grass"},
+      sidelen = 16,
+      fill_ratio = 0.00015,
+      biomes = {"Tall Oak Forest"},
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_oak_tree_acorns_chance_50.mts",
+      y_min = 1,
+      y_max = default.GLOBAL_Y_MAX,
+})
+
 
 
 
