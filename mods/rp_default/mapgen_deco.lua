@@ -901,7 +901,7 @@ default.register_decoration(
       biomes = {"Oak Forest", "Tall Oak Forest"},
       flags = "place_center_x, place_center_z",
       schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_apple_tree_chance_50.mts",
+         .. "/schematics/rp_default_apple_tree_empty.mts",
       y_min = 1,
       y_max = default.GLOBAL_Y_MAX,
 })
