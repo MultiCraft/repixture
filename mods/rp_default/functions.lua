@@ -113,6 +113,7 @@ local sapling_data = {
 		grows_to = {
 			["dry"] = "oak_tiny",
 			["swamp"] = "oak_swamp",
+			["normal"] = "oak_acorns",
 			["default"] = "oak",
 		},
 		grow_time_min = 700,
@@ -167,6 +168,14 @@ local tree_data = {
 	},
 	["oak"] = {
 		schem = "rp_default_oak_tree.mts",
+		offset = vector.new(-2, -1, -2),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,2,0) },
+			{ vector.new(-1,3,-1), vector.new(1,5,1) },
+		},
+	},
+	["oak_acorns"] = {
+		schem = "rp_default_oak_tree_acorns.mts",
 		offset = vector.new(-2, -1, -2),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,2,0) },
