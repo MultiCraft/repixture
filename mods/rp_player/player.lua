@@ -80,14 +80,6 @@ local function step(dtime)
 	 end
       end
 
-      local grass_pos=minetest.find_node_near(player_pos, 1, {"rp_default:dirt_with_grass"})
-
-      if grass_pos ~= nil and math.random(1, 500) == 1 then
-	 if grass_pos.x == player_pos.x and grass_pos.z == player_pos.z then
-	    minetest.set_node(grass_pos, {name = "rp_default:dirt_with_grass_footsteps"})
-	 end
-      end
-
       table.insert(player_positions, player_pos)
    end
 end
