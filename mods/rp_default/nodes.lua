@@ -1103,7 +1103,7 @@ minetest.register_node(
       sunlight_propagates = true,
       walkable = false,
       floodable = true,
-      groups = {snappy = 3, handy = 2, leafdecay = 3, leafdecay_drop = 1, food = 2},
+      groups = {snappy = 3, handy = 3, leafdecay = 3, leafdecay_drop = 1, food = 2},
       on_use = minetest.item_eat({hp = 1, sat = 5}),
       sounds = rp_sounds.node_sound_defaults(),
 })
