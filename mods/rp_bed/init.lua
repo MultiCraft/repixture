@@ -32,12 +32,20 @@ bed.get_spawn = function(player)
    return spawn, yaw
 end
 
--- Sets the bed spawn position for `player`
+-- Sets the bed spawn position for `player`.
+-- Returns true if spawn position was set and changed.
+-- Returns false if spawn position was not changed because
+-- it's already used by the player.
 bed.set_spawn = function(player, spawn_pos, yaw)
    local name = player:get_player_name()
+   local old_spawn_pos = bed.userdata.saved[name].spawn_pos
+   if old_spawn_pos and vector.equals(spawn_pos, old_spawn_pos) then
+	   return false
+   end
    bed.userdata.saved[name].spawn_pos = table.copy(spawn_pos)
    bed.userdata.saved[name].spawn_yaw = yaw or 0
    minetest.log("action", "[rp_bed] Respawn position of "..name.." set to "..minetest.pos_to_string(spawn_pos, 1))
+   return true
 end
 
 -- Unsets the bed spawn position of `player`
@@ -612,7 +620,10 @@ minetest.register_node(
 
             bed.userdata.temp[clicker_name].in_bed = true
 
-            bed.set_spawn(clicker, put_pos, yaw)
+            local changed = bed.set_spawn(clicker, put_pos, yaw)
+            if changed then
+               minetest.chat_send_player(clicker_name, minetest.colorize("#00FFFF", S("Respawn position set!")))
+            end
 
             bed.userdata.temp[clicker_name].node_pos = pos
             local sleep_pos = vector.add(pos, vector.divide(minetest.facedir_to_dir(node.param2), 2))
