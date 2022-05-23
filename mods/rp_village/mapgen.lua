@@ -109,7 +109,7 @@ minetest.register_node(
 	 end
 
          -- Spawn village on placement.
-         -- Guarantee that at least the well is placed, to avoid confusion.
+         -- Guarantee that at least the starter villagechunk is placed, to avoid confusion.
          village.spawn_village({x=pos.x,y=pos.y-1,z=pos.z}, pr, true, vinfo.ground, vinfo.ground_top)
       end,
 })

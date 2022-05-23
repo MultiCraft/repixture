@@ -580,7 +580,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    local pr = params.pr
    local ground = params.ground
    local ground_top = params.ground_top
-   local force_place_well = params.force_place_well
+   local force_place_starter = params.force_place_starter
    local village_name = params.village_name
 
    minetest.log("info", "[rp_village] Village area emerged at startpos = "..minetest.pos_to_string(pos))
@@ -634,10 +634,10 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       end
    end
 
-   -- Add position of well to roads list to connect it properly with
+   -- Add position of starter chunk to roads list to connect it properly with
    -- the road network.
    local hnp = minetest.hash_node_position(pos)
-   roads[hnp] = { pos = pos, is_well = true }
+   roads[hnp] = { pos = pos, is_starter = true }
 
    -- Connect dirt paths with other village tiles.
    -- The dirt path schematic uses planks and cobble for each of the 4 cardinal
@@ -688,7 +688,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=0, y=0, z=0}), vector.add(road.pos, {x=11,y=0,z=11}), {ROAD_NODE_NORTH, ROAD_NODE_EAST, ROAD_NODE_SOUTH, ROAD_NODE_WEST})
       minetest.bulk_set_node(nodes, {name=ground_top})
 
-      if amt_connections >= 2 and not road.is_well then
+      if amt_connections >= 2 and not road.is_starter then
 	 village.spawn_chunk(
 	    {x = road.pos.x, y = road.pos.y, z = road.pos.z},
 	    state,
@@ -719,19 +719,21 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    if has_house then
       chunk_ok, state = village.spawn_chunk(pos, nil, "0", replace, pr, "well", true, nil, true, ground, ground_top)
    else
-      -- Place a fallback building instead of the well if the village does not have any buildings yet
+      -- Place a fallback building instead of the well if the village does not have any buildings yet.
+      -- A nice side-effect of this is that this will create 'lonely huts'.
       local structure = random_chunktype(pr, village.chunktypes_start_fallback)
       chunk_ok, state = village.spawn_chunk(pos, nil, "random", replace, pr, structure, true, nil, true, ground, ground_top)
+      minetest.log("info", "[rp_village] Village generated with fallback building instead of well")
    end
    if not chunk_ok then
-      minetest.log("warning", string.format("[rp_village] Failed to generated village well %s", minetest.pos_to_string(pos)))
+      minetest.log("warning", string.format("[rp_village] Failed to generated starter chunk at %s", minetest.pos_to_string(pos)))
    end
 
    minetest.log("action", string.format("[rp_village] Generated village '%s' at %s in %.2fms", village_name, minetest.pos_to_string(pos), (os.clock() - t1) * 1000))
    return true
 end
 
-function village.spawn_village(pos, pr, force_place_well, ground, ground_top)
+function village.spawn_village(pos, pr, force_place_starter, ground, ground_top)
    if not ground then
       ground = "rp_default:dirt"
    end
@@ -740,8 +742,8 @@ function village.spawn_village(pos, pr, force_place_well, ground, ground_top)
    end
 
    -- Before we begin, make sure there is enough space for the first chunk
-   -- (unless force_place_well is true)
-   local empty = force_place_well or check_empty(pos)
+   -- (unless force_place_starter is true)
+   local empty = force_place_starter or check_empty(pos)
    if not empty then
       -- Oops! Not enough space. Village generation fails.
       minetest.log("action", "[rp_village] Village generation not done at "..minetest.pos_to_string(pos)..". Not enough space for the first village chunk")
@@ -762,7 +764,7 @@ function village.spawn_village(pos, pr, force_place_well, ground, ground_top)
    local vspread = vector.new(spread, spread, spread)
    local emerge_min = vector.add(pos, vector.new(-spread, -(HILL_H + HILL_EXTEND_BELOW + 1), -spread))
    local emerge_max = vector.add(pos, vector.new(spread, VILLAGE_CHUNK_HEIGHT, spread))
-   minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {pos=pos, pr=pr, force_place_well=force_place_well, ground=ground, ground_top=ground_top, village_name=village_name})
+   minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {pos=pos, pr=pr, force_place_starter=force_place_starter, ground=ground, ground_top=ground_top, village_name=village_name})
    return true
 end
 
