@@ -159,6 +159,8 @@ if not minetest.settings:get_bool("mapgen_disable_villages") then
          biomes = {
             "Grassland",
             "Dense Grassland",
+            "Poplar Plains",
+            "Baby Poplar Plains",
          },
          -- empty schematic
          schematic = {
