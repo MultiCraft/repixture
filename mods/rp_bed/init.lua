@@ -18,7 +18,7 @@ bed.userdata.temp = {}
 -- List of occupied beds, indexed by node position hash
 bed.occupied_beds = {}
 
--- Returns <spawn position>, <spawn yaw> of `player` or
+-- Returns <spawn position> of `player` or
 -- nil if if there is no spawn active
 bed.get_spawn = function(player)
    local name = player:get_player_name()
@@ -26,10 +26,7 @@ bed.get_spawn = function(player)
    if bed.userdata.saved[name].spawn_pos then
       spawn = bed.userdata.saved[name].spawn_pos
    end
-   if bed.userdata.saved[name].spawn_yaw then
-      yaw = bed.userdata.saved[name].spawn_yaw
-   end
-   return spawn, yaw
+   return spawn
 end
 
 -- Sets the bed spawn position for `player`.
@@ -43,7 +40,6 @@ bed.set_spawn = function(player, spawn_pos, yaw)
 	   return false
    end
    bed.userdata.saved[name].spawn_pos = table.copy(spawn_pos)
-   bed.userdata.saved[name].spawn_yaw = yaw or 0
    minetest.log("action", "[rp_bed] Respawn position of "..name.." set to "..minetest.pos_to_string(spawn_pos, 1))
    return true
 end
@@ -52,7 +48,6 @@ end
 bed.unset_spawn = function(player)
    local name = player:get_player_name()
    bed.userdata.saved[name].spawn_pos = nil
-   bed.userdata.saved[name].spawn_yaw = nil
 end
 
 -- Savefile
@@ -105,8 +100,6 @@ local function put_player_in_bed(player)
       return
    end
 
-   local _, spawn_yaw = bed.get_spawn(player)
-   player:set_look_horizontal(spawn_yaw)
    player:set_pos(bed.userdata.temp[name].sleep_pos)
 
    player_effects.apply_effect(player, "inbed")
@@ -163,12 +156,9 @@ local function take_player_from_bed(player)
    if was_in_bed then
       minetest.log("action", "[rp_bed] "..name.." was taken from bed")
    end
-   local spawn_pos, spawn_yaw = bed.get_spawn(player)
+   local spawn_pos = bed.get_spawn(player)
    if spawn_pos then
       player:set_pos(spawn_pos)
-      if spawn_yaw then
-         player:set_look_horizontal(spawn_yaw)
-      end
    end
 
    clear_bed_status(player)
@@ -223,7 +213,6 @@ local function on_joinplayer(player)
 
    if not bed.userdata.saved[name] then
       bed.userdata.saved[name] = {
-         spawn_yaw = 0,
          spawn_pos = nil,
       }
    end
