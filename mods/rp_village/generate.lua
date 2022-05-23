@@ -308,10 +308,25 @@ end
 local function check_empty(pos)
    local min = { x = pos.x, y = pos.y + 1, z = pos.z }
    local max = { x = pos.x+12, y = pos.y+12, z = pos.z+12 }
+   local ignores = minetest.find_nodes_in_area(min, max, "ignore")
+   -- Treat an area of ignore nodes as non-empty (we err on the side of caution)
+   if #ignores > 0 then
+       minetest.log("action", "[rp_village] check_empty: Ignore found! pos="..minetest.pos_to_string(pos, 0).."; number of ignores="..(#ignores))
+       return false
+   end
    local stones = minetest.find_nodes_in_area(min, max, "group:stone")
+   if #stones > 15 then
+      return false
+   end
    local leaves = minetest.find_nodes_in_area(min, max, "group:leaves")
+   if #leaves > 2 then
+      return false
+   end
    local trees = minetest.find_nodes_in_area(min, max, "group:tree")
-   return #stones <= 15 and #leaves <= 2 and #trees == 0
+   if #trees > 0 then
+      return false
+   end
+   return true
 end
 
 function village.spawn_chunk(pos, state, orient, replace, pr, chunktype, noclear, nofill, dont_check_empty, ground, ground_top)
@@ -542,10 +557,9 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    local ground = params.ground
    local ground_top = params.ground_top
    local force_place_well = params.force_place_well
+   local village_name = params.village_name
 
    minetest.log("info", "[rp_village] Village area emerged at startpos = "..minetest.pos_to_string(pos))
-
-   local name = village.name.generate(pr, village.name.used)
 
    local depth = pr:next(village.min_size, village.max_size)
 
@@ -570,22 +584,6 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    -- For measuring the generation time
    local t1 = os.clock()
 
-   -- Before we begin, make sure there is enough space for the first chunk
-   -- (unless force_place_well is true)
-   local empty = force_place_well or check_empty(pos)
-   if not empty then
-      -- Oops! Not enough space. Village generation fails.
-      minetest.log("action", "[rp_village] Village generation not done at "..minetest.pos_to_string(pos)..". Not enough space for the first village chunk")
-      return false
-   end
-
-   -- Village generation can begin! Start init'ing stuff
-   village.villages[village.get_id(name, pos)] = {
-      name = name,
-      pos = pos,
-   }
-   village.save_villages()
-   village.load_waypoints()
    built[minetest.hash_node_position(pos)] = true
 
    -- Generate a road below the starting position. The road tries to grow in 4 directions
@@ -690,7 +688,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       minetest.log("warning", string.format("[rp_village] Failed to generated village well %s", minetest.pos_to_string(pos)))
    end
 
-   minetest.log("action", string.format("[rp_village] Generated village '%s' at %s in %.2fms", name, minetest.pos_to_string(pos), (os.clock() - t1) * 1000))
+   minetest.log("action", string.format("[rp_village] Generated village '%s' at %s in %.2fms", village_name, minetest.pos_to_string(pos), (os.clock() - t1) * 1000))
    return true
 end
 
@@ -702,11 +700,31 @@ function village.spawn_village(pos, pr, force_place_well, ground, ground_top)
       ground_top = "rp_default:dirt_with_grass"
    end
 
+   -- Before we begin, make sure there is enough space for the first chunk
+   -- (unless force_place_well is true)
+   local empty = force_place_well or check_empty(pos)
+   if not empty then
+      -- Oops! Not enough space. Village generation fails.
+      minetest.log("action", "[rp_village] Village generation not done at "..minetest.pos_to_string(pos)..". Not enough space for the first village chunk")
+      return false
+   end
+
+   -- Village generation can start!
+   -- Set village init stuff
+   local village_name = village.name.generate(pr, village.name.used)
+   village.villages[village.get_id(village_name, pos)] = {
+      name = village_name,
+      pos = pos,
+   }
+   village.save_villages()
+   village.load_waypoints()
+
    local spread = VILLAGE_CHUNK_SIZE * village.max_village_spread
    local vspread = vector.new(spread, spread, spread)
    local emerge_min = vector.add(pos, vector.new(-spread, -(HILL_H + HILL_EXTEND_BELOW + 1), -spread))
    local emerge_max = vector.add(pos, vector.new(spread, VILLAGE_CHUNK_HEIGHT, spread))
-   minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {pos=pos, pr=pr, force_place_well=force_place_well, ground=ground, ground_top=ground_top})
+   minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {pos=pos, pr=pr, force_place_well=force_place_well, ground=ground, ground_top=ground_top, village_name=village_name})
+   return true
 end
 
 minetest.register_on_mods_loaded(village.load_villages)
