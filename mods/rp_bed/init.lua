@@ -473,7 +473,7 @@ minetest.register_node(
    "rp_bed:bed_foot",
    {
       description = S("Bed"),
-      _tt_help = S("Use it to sleep and pass the night"),
+      _tt_help = S("Sets the respawn position and allows to pass the night"),
       drawtype = "nodebox",
       paramtype = "light",
       paramtype2 = "facedir",
