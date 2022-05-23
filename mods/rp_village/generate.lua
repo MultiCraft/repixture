@@ -240,23 +240,47 @@ village.chunktypes = {
    { "orchard", 3 },
 }
 
--- Calculate cumulated absolute frequency and put it in index 3
-local chunksum = 0
-for i=1, #village.chunktypes do
-   chunksum = chunksum + village.chunktypes[i][2]
-   village.chunktypes[i][3] = chunksum
+-- List of chunktypes to be used as fallback for the starting
+-- village chunk if the village failed to place any buildings
+-- outside the starting point.
+-- In this case, the "starter well" will be a house
+-- instead. This will create nice "lonely huts".
+village.chunktypes_start_fallback = {
+   -- chunktype, absolute frequency
+   { "house", 10 },
+   { "tavern", 5 },
+   { "forge", 2 },
+}
+
+-- Calculate cumulated absolute frequency of a chunktypes
+-- table and put it in index 3 of each entry. Puts the sum
+-- of all absolute frequencies in `chunksum`.
+local write_absolute_frequencies = function(chunktypes)
+   local chunksum = 0
+   for i=1, #chunktypes do
+      chunksum = chunksum + chunktypes[i][2]
+      chunktypes[i][3] = chunksum
+   end
+   chunktypes.chunksum = chunksum
 end
+write_absolute_frequencies(village.chunktypes)
+write_absolute_frequencies(village.chunktypes_start_fallback)
 
 -- Select a random chunk. The probability of a chunk being selected is
--- <absolute frequency> / <sum of all absolute frequencies>
-local function random_chunktype(pr)
-   local rnd = pr:next(1, chunksum)
-   for i=1, #village.chunktypes do
-      if rnd <= village.chunktypes[i][3] then
-         return village.chunktypes[i][1]
+-- <absolute frequency> / <sum of all absolute frequencies>.
+-- * `pr`: PseudoRandom object
+-- * `chunktypes`: A table of chunktypes (see above) (default: `village.chunktypes`)
+local function random_chunktype(pr, chunktypes)
+   if not chunktypes then
+      chunktypes = village.chunktypes
+   end
+   local rnd = pr:next(1, chunktypes.chunksum)
+   for i=1, #chunktypes do
+      if rnd <= chunktypes[i][3] then
+         return chunktypes[i][1]
       end
    end
-   return village.chunktypes[#village.chunktypes][1]
+   return chunktypes[#chunktypes][1]
 end
 
 function village.get_column_nodes(pos, scanheight, dirtnodes)
@@ -682,8 +706,23 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    end
    end
 
-   -- Place a well at the start position as the final step
-   local chunk_ok, state = village.spawn_chunk(pos, nil, "0", replace, pr, "well", true, nil, true, ground, ground_top)
+   -- Check if this village has created any houses so far
+   local has_house = false
+   for k,v in pairs(houses) do
+      if v ~= false then
+         has_house = true
+      end
+   end
+   local chunk_ok
+   -- Place a building at the start position as the final step.
+   -- Normally this is the well
+   if has_house then
+      chunk_ok, state = village.spawn_chunk(pos, nil, "0", replace, pr, "well", true, nil, true, ground, ground_top)
+   else
+      -- Place a fallback building instead of the well if the village does not have any buildings yet
+      local structure = random_chunktype(pr, village.chunktypes_start_fallback)
+      chunk_ok, state = village.spawn_chunk(pos, nil, "random", replace, pr, structure, true, nil, true, ground, ground_top)
+   end
    if not chunk_ok then
       minetest.log("warning", string.format("[rp_village] Failed to generated village well %s", minetest.pos_to_string(pos)))
    end
