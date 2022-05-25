@@ -349,6 +349,31 @@ minetest.register_node(
       groups = {crumbly = 3, slab = 2, fall_damage_add_percent = -10},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_dirt_defaults(),
+      on_place = function(itemstack, placer, pointed_thing)
+         -- Path slab on path slab placement creates full dirt path block
+         if not (pointed_thing.above.y > pointed_thing.under.y) then
+            itemstack = minetest.item_place(itemstack, placer, pointed_thing)
+            return itemstack
+         end
+         local pos = pointed_thing.under
+         local shift = false
+         if placer:is_player() then
+            -- Place node normally when sneak is pressed
+            shift = placer:get_player_control().sneak
+         end
+         if (not shift) and minetest.get_node(pos).name == itemstack:get_name()
+         and itemstack:get_count() >= 1 then
+            minetest.set_node(pos, {name = "rp_default:dirt_path"})
+
+            if not minetest.is_creative_enabled(placer:get_player_name()) then
+                itemstack:take_item()
+            end
+
+         else
+            itemstack = minetest.item_place(itemstack, placer, pointed_thing)
+         end
+         return itemstack
+      end,
 })
 
 minetest.register_node(
