@@ -194,9 +194,13 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 end)
 
-if minetest.is_creative_enabled("") then
-	minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack)
+minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack)
+	local pname = ""
+	if placer and placer:is_player() then
+		pname = placer:get_player_name()
+	end
+	if minetest.is_creative_enabled(pname) then
 		-- Place infinite nodes
 		return true
-	end)
+	end
 end
