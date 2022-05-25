@@ -1,6 +1,5 @@
 --
 -- Gives initial stuff
--- By Kaadmy, for Pixture
 --
 
 local give_initial_enable = minetest.settings:get_bool("give_initial_enable")

@@ -1,7 +1,7 @@
 Armor mod
 =========
 
-By Kaadmy, for Pixture
+By KaadmY and Wuzzy, for Repixture
 
 Adds craftable and wearable armor
 

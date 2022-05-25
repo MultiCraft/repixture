@@ -1,6 +1,5 @@
 --
 -- Goodies mod
--- By Kaadmy, for Pixture
 --
 
 goodies = {}

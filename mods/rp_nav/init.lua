@@ -1,6 +1,5 @@
 --
 -- Nav mod
--- By Kaadmy, for Pixture
 --
 
 nav = {}

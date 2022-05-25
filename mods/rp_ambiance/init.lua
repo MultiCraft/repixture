@@ -1,6 +1,5 @@
 --
 -- Ambiance mod
--- By Kaadmy, for Pixture
 --
 
 local mod_weather = minetest.get_modpath("rp_weather")

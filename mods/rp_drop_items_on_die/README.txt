@@ -1,6 +1,6 @@
 Drop items on die mod
 =====================
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture
 
 Players drop their inventory when they die
 

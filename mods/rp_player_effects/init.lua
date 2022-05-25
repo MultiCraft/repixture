@@ -1,6 +1,5 @@
 --
 -- Player effects mod
--- By Kaadmy, for Pixture
 --
 
 local S = minetest.get_translator("rp_player_effects")

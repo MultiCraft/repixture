@@ -1,6 +1,6 @@
 Wielditem mod
 ==============
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
 Shows the wield item in 3rd person view
 

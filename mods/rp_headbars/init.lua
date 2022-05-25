@@ -1,6 +1,5 @@
 --
 -- Headbars mod
--- By Kaadmy, for Pixture
 --
 
 headbars = {}

@@ -1,6 +1,6 @@
 Locks mod
 =========
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
 Adds locked stuff, like locked chests.
 

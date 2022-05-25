@@ -1,7 +1,5 @@
 --
 -- Player skins mod
--- By Kaadmy, for Pixture
--- updated by Wuzzy, for Repixture
 --
 
 local S = minetest.get_translator("rp_player_skins")

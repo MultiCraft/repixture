@@ -1,6 +1,6 @@
 Music player mod
 ================
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
 Music license:
     music_catsong: Dan Knoflicek(CC0)

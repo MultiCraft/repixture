@@ -1,8 +1,7 @@
 
 --
 -- Mobs mod
--- By PilzAdam, KrupnovPavel, Zeg9, TenPlus1
--- Tweaked by KaadmY, for Pixture
+-- By PilzAdam, KrupnovPavel, Zeg9, TenPlus1.
 --
 
 local path = minetest.get_modpath("mobs")

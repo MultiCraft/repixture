@@ -1,9 +1,5 @@
---
 -- Builtin item mod
--- By PilzAdam
--- Tweaked by Kaadmy, for Pixture
---
---
+
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
 
 local nav_mod = minetest.get_modpath("rp_nav") ~= nil

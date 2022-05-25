@@ -1,7 +1,5 @@
 --
 -- Editable books
--- Code based off the books_plus mod
--- By Kaadmy, for Pixture
 --
 
 --[[ Get translation function. The 'book' name is used

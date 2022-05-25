@@ -1,6 +1,6 @@
 Weather mod
 ===========
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture
 
 Texture license: CC BY-SA 4.0
 Sound license:

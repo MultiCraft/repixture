@@ -1,6 +1,6 @@
 Navigation mod
 ==============
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
 Navigation, compass and waypoint API
 

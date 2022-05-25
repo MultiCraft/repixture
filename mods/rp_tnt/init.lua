@@ -1,8 +1,6 @@
 
 --
 -- TNT mod
--- By PilzAdam and ShadowNinja
--- Tweaked by Kaadmy, for Pixture
 --
 local S = minetest.get_translator("rp_tnt")
 

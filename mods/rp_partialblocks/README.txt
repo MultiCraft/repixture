@@ -1,6 +1,6 @@
 Partial blocks mod
 ==================
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
 Adds partial blocks, like slabs, stairs and such.
 

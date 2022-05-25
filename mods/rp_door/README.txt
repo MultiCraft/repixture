@@ -1,7 +1,7 @@
 Door mod
 ========
-By PilzAdam
-Tweaked by Kaadmy, for Pixture
+By PilzAdam.
+Tweaked by Kaadmy and Wuzzy, for Repixture.
 
 Use the 'place' key on doors to open/close them.
 

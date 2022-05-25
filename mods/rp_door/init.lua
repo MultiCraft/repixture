@@ -1,6 +1,5 @@
 --
 -- Door mod
--- By Kaadmy, for Pixture
 --
 
 local S = minetest.get_translator("rp_door")

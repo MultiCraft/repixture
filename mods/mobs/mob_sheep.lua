@@ -1,5 +1,5 @@
 
--- Sheep by PilzAdam; tweaked for Pixture by KaadmY
+-- Sheep by PilzAdam; tweaked by Kaadmy
 
 local S = minetest.get_translator("mobs")
 

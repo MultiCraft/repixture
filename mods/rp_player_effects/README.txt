@@ -1,6 +1,6 @@
 Player effects mod
 ==================
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
 Adds functions to handle multiple physics overrides at the same time.
 

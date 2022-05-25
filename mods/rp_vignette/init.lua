@@ -1,6 +1,5 @@
 --
 -- Vignette mod
--- By KaadmY, for Pixture
 --
 
 local enable_vignette = minetest.settings:get_bool("vignette_enable")

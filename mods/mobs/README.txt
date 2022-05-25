@@ -1,7 +1,7 @@
 Mobs mod
 ========
 By PilzAdam, KrupnovPavel, Zeg9, TenPlus1
-Tweaked by KaadmY, for Pixture
+Tweaked by Kaadmy and Wuzzy, for Repixture.
 
 Media file license: CC BY-SA 4.0
 * mobs_skunk_hiss.ogg: by Reitanna, CC0 <https://freesound.org/people/Reitanna/sounds/343927/>

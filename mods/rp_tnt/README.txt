@@ -1,7 +1,7 @@
 TNT mod
 =======
-By PilzAdam and ShadowNinja
-Tweaked by Kaadmy, for Pixture
+By PilzAdam and ShadowNinja.
+Tweaked by Kaadmy and Wuzzy, for Repixture.
 
 Adds explodable TNT
 Place a block of TNT, then click on it with flint and steel

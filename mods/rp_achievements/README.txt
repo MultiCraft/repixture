@@ -1,6 +1,6 @@
 Achievements mod
 ================
-By Kaadmy, for Pixture
+By KaadmY and Wuzzy, for Repixture
 
 Adds achievements attainable by interaction. An achievement is awarded
 to the player for completing a certain task or challenge.

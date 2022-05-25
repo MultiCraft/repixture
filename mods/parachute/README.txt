@@ -1,7 +1,7 @@
 Parachute mod
 =============
-By webdesigner97
-Tweaked by Kaadmy and, for Pixture/Repixture
+Originally by webdesigner97.
+Tweaked by Kaadmy and Wuzzy for Repixture.
 
 Model license: CC BY-SA 4.0
 Texture license: CC BY-SA 4.0

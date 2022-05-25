@@ -1,8 +1,6 @@
 
 --
 -- Parachute mod
--- By webdesigner97 (license of original mod: WTFPL)
--- Tweaked by Kaadmy, for Pixture
 --
 
 local S = minetest.get_translator("parachute")

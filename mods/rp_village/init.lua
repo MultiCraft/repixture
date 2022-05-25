@@ -1,6 +1,5 @@
 --
 -- Villages mod
--- By Kaadmy, for Pixture
 --
 
 village = {}

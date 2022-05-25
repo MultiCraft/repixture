@@ -1,7 +1,6 @@
 
 --
 -- Wielditem mod
--- By Kaadmy, for Pixture
 --
 
 local wielditem = {}

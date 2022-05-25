@@ -1,6 +1,6 @@
 Crafting mod
 ============
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
 Custom crafting method, uses a list of possible items to craft instead of a grid
 recipe. This mod provides an API for adding crafting recipes, see `API.md`.

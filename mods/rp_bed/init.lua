@@ -1,8 +1,6 @@
 
 --
 -- Bed mod
--- By PilzAdam, thefamilygrog66
--- Tweaked by Kaadmy, for Pixture
 --
 
 local S = minetest.get_translator("rp_bed")

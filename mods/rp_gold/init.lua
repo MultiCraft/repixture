@@ -1,6 +1,5 @@
 --
 -- Gold and NPC Trading
--- By Kaadmy, for Pixture
 --
 local S = minetest.get_translator("rp_gold")
 

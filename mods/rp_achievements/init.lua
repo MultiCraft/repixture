@@ -1,6 +1,5 @@
 --
 -- Achivements mod
--- By Kaadmy, for Pixture
 --
 
 local COLOR_GOTTEN = "#00FF00"
