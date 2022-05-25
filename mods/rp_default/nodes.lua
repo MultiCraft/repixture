@@ -1100,7 +1100,57 @@ minetest.register_node(
       floodable = true,
       groups = {snappy = 3, handy = 2, leafdecay = 3, leafdecay_drop = 1, food = 2},
       on_use = minetest.item_eat({hp = 2, sat = 10}),
+      on_place = function(itemstack, placer, pointed_thing)
+         -- Boilerplate to handle pointed node handlers
+         local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+         if handled then
+            return handled_itemstack
+         end
+
+         if pointed_thing.type ~= "node" then
+            return itemstack
+         end
+
+	 local pos = minetest.get_pointed_thing_position(pointed_thing)
+         -- Check protection
+         if minetest.is_protected(pos, placer:get_player_name()) and
+                 not minetest.check_player_privs(placer, "protection_bypass") then
+             minetest.record_protection_violation(pos, placer:get_player_name())
+             return itemstack
+         end
+
+         if pointed_thing.above.y > pointed_thing.under.y then
+             itemstack:set_name("rp_default:apple_floor")
+	 end
+         itemstack = minetest.item_place_node(itemstack, placer, pointed_thing)
+         itemstack:set_name("rp_default:apple")
+	 return itemstack
+      end,
       sounds = rp_sounds.node_sound_defaults(),
+})
+
+-- Same as apple, but with the nodebox on the "floor".
+-- Nice for decoration.
+minetest.register_node(
+   "rp_default:apple_floor",
+   {
+      drawtype = "nodebox",
+      tiles = {"default_apple_top.png", "default_apple_bottom.png", "rp_default_apple_floor_side.png"},
+      use_texture_alpha = "clip",
+      paramtype = "light",
+      node_box = {
+	 type = "fixed",
+	 fixed = {
+	    {-0.25, -0.5, -0.25, 0.25, 0, 0.25},
+	    {-1/8, 0, -1/8, 1/8, 0.25, 1/8},
+	 },
+      },
+      sunlight_propagates = true,
+      walkable = false,
+      floodable = true,
+      groups = {snappy = 3, handy = 2},
+      sounds = rp_sounds.node_sound_defaults(),
+      drop = "rp_default:apple",
 })
 
 minetest.register_node(
