@@ -203,4 +203,4 @@ minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack
 		-- Place infinite nodes
 		return true
 	end
-end
+end)
