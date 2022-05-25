@@ -514,10 +514,11 @@ player_effects.register_effect(
 
 if mod_achievements then
 	minetest.register_on_mods_loaded(function()
-		local all_foods = {}
-		for k,_ in pairs(minetest.registered_items) do
+		local all_foods, all_foods_readable = {}, {}
+		for k, v in pairs(minetest.registered_items) do
 			if minetest.get_item_group(k, "food") > 0 then
 				table.insert(all_foods, k)
+				table.insert(all_foods_readable, ItemStack(v):get_short_description())
 			end
 		end
 
@@ -527,6 +528,7 @@ if mod_achievements then
 		      title = S("Gourmet"),
 		      description = S("Eat everything that can be eaten."),
 		      subconditions = all_foods,
+		      subconditions_readable = all_foods_readable,
 		      times = 0,
 		})
 

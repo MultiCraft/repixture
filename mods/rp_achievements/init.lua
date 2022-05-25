@@ -97,6 +97,7 @@ function achievements.register_achievement(name, def)
       description = def.description or "The " .. name .. " achievement", -- description of what the achievement is, and how to get it
       times = def.times or 1, -- how many times to trigger before getting the achievement
       subconditions = def.subconditions or nil, -- list of subconditions required to get achievement (optional)
+      subconditions_readable = def.subconditions_readable or nil, -- list of subcondition names to be shown in HUD (optional)
       dignode = def.dignode or nil, -- digging this node also triggers the achievement
       placenode = def.placenode or nil, -- placing this node also triggers the achievement
       craftitem = def.craftitem or nil, -- crafting this item also triggers the achievement
@@ -107,6 +108,29 @@ function achievements.register_achievement(name, def)
    achievements.registered_achievements[name] = rd
 
    table.insert(achievements.registered_achievements_list, name)
+end
+
+local function get_completed_subconditions(player_name, aname)
+   local reg_subconds = achievements.registered_achievements[aname].subconditions
+   local reg_subconds_readable = achievements.registered_achievements[aname].subconditions_readable
+   local completed_subconds = {}
+   if reg_subconds then
+      local player_subconds = achievements.achievements_subconditions[player_name][aname]
+      if not player_subconds then
+         return completed_subconds
+      end
+      for s=1, #reg_subconds do
+         local subcond = reg_subconds[s]
+	 if player_subconds[subcond] == true then
+            local subcond_read = subcond
+	    if reg_subconds_readable and reg_subconds_readable[s] then
+               subcond_read = reg_subconds_readable[s]
+	    end
+            table.insert(completed_subconds, subcond_read)
+	 end
+      end
+   end
+   return completed_subconds
 end
 
 local function check_achievement_subconditions(player, aname)
@@ -372,14 +396,15 @@ function achievements.get_formspec(name, row)
    local title = def.title
    local description = def.description
    local gotten = false
-   if achievements.achievements[name][aname] then
-      if achievements.achievements[name][aname] == -1 then
+   local achievement = achievements.achievements[name][aname]
+   if achievement then
+      if achievement == -1 then
 	 gotten = true
 	 progress = minetest.colorize(COLOR_GOTTEN, S("Gotten"))
          title = minetest.colorize(COLOR_GOTTEN, title)
          description = minetest.colorize(COLOR_GOTTEN, description)
       else
-	 progress = S("@1/@2", achievements.achievements[name][aname], def.times)
+	 progress = S("@1/@2", achievement, def.times)
       end
    else
       progress = S("Missing")
@@ -393,6 +418,15 @@ function achievements.get_formspec(name, row)
    if amt_gotten == #achievements.registered_achievements_list then
       progress_total = minetest.colorize(COLOR_GOTTEN, progress_total)
    end
+   if def.subconditions then
+      local progress_subconds = get_completed_subconditions(name, aname)
+      if #progress_subconds > 0 then
+         local progress_subconds_str = table.concat(progress_subconds, S(", "))
+         description = description .. "\n\n" .. S("Completed: @1", progress_subconds_str)
+      end
+   end
+
+
    form = form .. "label[0.25,8.15;"
       .. minetest.formspec_escape(progress_total)
       .. "]"
