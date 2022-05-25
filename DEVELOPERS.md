@@ -21,9 +21,12 @@ file named `API.md`.
 
 Mods with documented APIs:
 
-* `rp_crafting`: Add crafting recipes
 * `rp_achievements`: Add and trigger achievements
+* `rp_bed`: Get, set and unset (re)spwan position
+* `rp_crafting`: Add crafting recipes
+* `rp_default`: Sapling helpers, biome information
 * `rp_door`: Add doors
+* `rp_hunger`: Get and set hunger
 * `rp_player_effects`: Add player effects (required if you want to modify player physics)
 * `tt`: Custom tooltips
 
