@@ -1073,8 +1073,40 @@ minetest.register_node(
       end,
 })
 
--- Food
+-- Returns an on_place function to handle placement of fruit.
+-- Placing a "floor" version when placed on floor.
+local create_on_place_fruit_function = function(fruitnode)
+   return function(itemstack, placer, pointed_thing)
+      -- Boilerplate to handle pointed node handlers
+      local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+      if handled then
+         return handled_itemstack
+      end
 
+      if pointed_thing.type ~= "node" then
+         return itemstack
+      end
+
+      local pos = minetest.get_pointed_thing_position(pointed_thing)
+      -- Check protection
+      if minetest.is_protected(pos, placer:get_player_name()) and
+              not minetest.check_player_privs(placer, "protection_bypass") then
+          minetest.record_protection_violation(pos, placer:get_player_name())
+          return itemstack
+      end
+
+      -- Place the "floor" node variant when placed on floor
+      if pointed_thing.above.y > pointed_thing.under.y then
+          itemstack:set_name(fruitnode.."_floor")
+      end
+      itemstack = minetest.item_place_node(itemstack, placer, pointed_thing)
+      itemstack:set_name(fruitnode)
+      return itemstack
+   end
+end
+
+-- Food
+--
 minetest.register_node(
    "rp_default:apple",
    {
@@ -1100,32 +1132,7 @@ minetest.register_node(
       floodable = true,
       groups = {snappy = 3, handy = 2, leafdecay = 3, leafdecay_drop = 1, food = 2},
       on_use = minetest.item_eat({hp = 2, sat = 10}),
-      on_place = function(itemstack, placer, pointed_thing)
-         -- Boilerplate to handle pointed node handlers
-         local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
-         if handled then
-            return handled_itemstack
-         end
-
-         if pointed_thing.type ~= "node" then
-            return itemstack
-         end
-
-	 local pos = minetest.get_pointed_thing_position(pointed_thing)
-         -- Check protection
-         if minetest.is_protected(pos, placer:get_player_name()) and
-                 not minetest.check_player_privs(placer, "protection_bypass") then
-             minetest.record_protection_violation(pos, placer:get_player_name())
-             return itemstack
-         end
-
-         if pointed_thing.above.y > pointed_thing.under.y then
-             itemstack:set_name("rp_default:apple_floor")
-	 end
-         itemstack = minetest.item_place_node(itemstack, placer, pointed_thing)
-         itemstack:set_name("rp_default:apple")
-	 return itemstack
-      end,
+      on_place = create_on_place_fruit_function("rp_default:apple"),
       sounds = rp_sounds.node_sound_defaults(),
 })
 
@@ -1180,8 +1187,34 @@ minetest.register_node(
       floodable = true,
       groups = {snappy = 3, handy = 3, leafdecay = 3, leafdecay_drop = 1, food = 2},
       on_use = minetest.item_eat({hp = 1, sat = 5}),
+      on_place = create_on_place_fruit_function("rp_default:acorn"),
       sounds = rp_sounds.node_sound_defaults(),
 })
+
+minetest.register_node(
+   "rp_default:acorn_floor",
+   {
+      drawtype = "nodebox",
+      tiles = {"rp_default_acorn_top.png", "rp_default_acorn_bottom.png", "rp_default_acorn_floor_side.png"},
+      use_texture_alpha = "clip",
+      paramtype = "light",
+      node_box = {
+         type = "fixed",
+         fixed = {
+            {-1/16, -1/16, -1/16, 1/16, 0, 1/16}, -- cap top
+            {-4/16, -2/16, -4/16, 4/16, -1/16, 4/16}, -- cap
+            {-3/16, -7/16, -3/16, 3/16, -2/16, 3/16}, -- body top
+            {-2/16, -8/16, -2/16, 2/16, -7/16, 2/16}, -- body bottom
+         }
+      },
+      sunlight_propagates = true,
+      walkable = false,
+      floodable = true,
+      groups = {snappy = 3, handy = 3},
+      sounds = rp_sounds.node_sound_defaults(),
+      drop = "rp_default:acorn",
+})
+
 
 minetest.register_node(
    "rp_default:clam",
