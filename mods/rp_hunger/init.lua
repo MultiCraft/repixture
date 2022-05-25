@@ -12,10 +12,10 @@ hunger = {}
 local HUNGER_DEBUG = false
 
 -- Maximum possible hunger value
-local MAX_HUNGER = 20
+hunger.MAX_HUNGER = 20
 
 -- Maximum possible saturation value
-local MAX_SATURATION = 100
+hunger.MAX_SATURATION = 100
 
 -- Player heals if hunger is equal to or greater than this value
 local HUNGER_HEAL_LEVEL = 16
@@ -55,6 +55,8 @@ local timer_interval = tonumber(minetest.settings:get("hunger_step")) or 3.0
 timer_interval = math.max(0.0, timer_interval)
 local timer = 0
 
+-- Loading and saving
+
 local function save_hunger()
    local f = io.open(hunger_file, "w")
 
@@ -91,7 +93,7 @@ local function load_hunger()
 
          if not userdata[name] then
             userdata[name] = {
-               hunger = MAX_HUNGER,
+               hunger = hunger.MAX_HUNGER,
                active = 0,
                moving = 0,
                saturation = 0,
@@ -170,7 +172,7 @@ local function update_bar(player)
 	    text = "hunger.png",
 	    text2 = "hunger.png^[colorize:#666666:255",
 	    number = userdata[name].hunger,
-	    item = MAX_HUNGER,
+	    item = hunger.MAX_HUNGER,
 	    dir = 0,
 	    size = {x=24, y=24},
 	    offset = {x=16, y=-(48+24+24)},
@@ -212,7 +214,7 @@ local function on_joinplayer(player)
 
    if not userdata[name] then
       userdata[name] = {
-         hunger = MAX_HUNGER,
+         hunger = hunger.MAX_HUNGER,
          active = 0,
          moving = 0,
          saturation = 0,
@@ -233,7 +235,7 @@ end
 local function on_respawnplayer(player)
    local name = player:get_player_name()
 
-   userdata[name].hunger = MAX_HUNGER
+   userdata[name].hunger = hunger.MAX_HUNGER
    userdata[name].saturation = 0
    userdata[name].active = 0
    userdata[name].moving = 0
@@ -273,8 +275,8 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
    userdata[name].hunger = userdata[name].hunger + hp_change
 
 
-   userdata[name].hunger = math.min(MAX_HUNGER, userdata[name].hunger)
-   userdata[name].saturation = math.min(MAX_SATURATION, userdata[name].saturation
+   userdata[name].hunger = math.min(hunger.MAX_HUNGER, userdata[name].hunger)
+   userdata[name].saturation = math.min(hunger.MAX_SATURATION, userdata[name].saturation
                                                   + saturation)
 
    local headpos  = player:get_pos()
@@ -379,7 +381,7 @@ local function on_globalstep(dtime)
 
       if userdata[name] == nil then
          userdata[name] = {
-            hunger = MAX_HUNGER,
+            hunger = hunger.MAX_HUNGER,
             active = 0,
             moving = 0,
             saturation = 0,
@@ -484,11 +486,36 @@ if minetest.settings:get_bool("enable_damage") and minetest.settings:get_bool("h
    minetest.register_on_item_eat(on_item_eat)
 
    minetest.register_globalstep(on_globalstep)
+
+  -- Public API functions.
+  -- Note this mod itself sets the hunger and saturation directly
+  function hunger.get_hunger(playername)
+     return userdata[playername].hunger
+  end
+  function hunger.get_saturation(playername)
+     return userdata[playername].saturation
+  end
+  function hunger.set_hunger(playername, hnger)
+     userdata[playername].hunger = math.floor(math.max(0, math.min(hunger.MAX_HUNGER, hnger)))
+     local player = minetest.get_player_by_name(playername)
+     update_bar(player)
+  end
+  function hunger.set_saturation(playername, saturation)
+     userdata[playername].saturation = math.floor(math.max(0, math.min(hunger.MAX_SATURATION, saturation)))
+     local player = minetest.get_player_by_name(playername)
+     update_bar(player)
+  end
 else
    minetest.register_on_leaveplayer(on_leaveplayer)
    minetest.register_on_item_eat(fake_on_item_eat)
    minetest.register_on_respawnplayer(on_respawnplayer_nohunger)
    minetest.register_globalstep(on_globalstep_nohunger)
+
+   -- Public API functions are no-op if hunger disabled
+   function hunger.get_hunger() return nil end
+   function hunger.get_saturation() return nil end
+   function hunger.set_hunger() return end
+   function hunger.set_saturation() return end
 end
 
 player_effects.register_effect(
@@ -502,3 +529,6 @@ player_effects.register_effect(
       },
       icon = "hunger_effect_eating.png",
 })
+
+
+
