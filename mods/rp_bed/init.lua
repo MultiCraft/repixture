@@ -20,7 +20,7 @@ bed.occupied_beds = {}
 -- nil if if there is no spawn active
 bed.get_spawn = function(player)
    local name = player:get_player_name()
-   local spawn, yaw
+   local spawn
    if bed.userdata.saved[name].spawn_pos then
       spawn = bed.userdata.saved[name].spawn_pos
    end
@@ -31,7 +31,7 @@ end
 -- Returns true if spawn position was set and changed.
 -- Returns false if spawn position was not changed because
 -- it's already used by the player.
-bed.set_spawn = function(player, spawn_pos, yaw)
+bed.set_spawn = function(player, spawn_pos)
    local name = player:get_player_name()
    local old_spawn_pos = bed.userdata.saved[name].spawn_pos
    if old_spawn_pos and vector.equals(spawn_pos, old_spawn_pos) then
@@ -294,7 +294,7 @@ local respawn_check_posses = {
 local attempt_bed_respawn = function(player)
 	-- Place player on respawn position if set
 	local name = player:get_player_name()
-	local pos, yaw = bed.get_spawn(player)
+	local pos = bed.get_spawn(player)
 	if pos then
 		-- Load area around spawn pos to make sure
 		-- we don't get ignore nodes.
@@ -326,9 +326,6 @@ local attempt_bed_respawn = function(player)
 						spos.y = spos.y - 0.5
 					end
 					player:set_pos(spos)
-					if yaw then
-						player:set_look_horizontal(yaw)
-				        end
 					return true
 				end
 			end
@@ -607,7 +604,7 @@ minetest.register_node(
 
             bed.userdata.temp[clicker_name].in_bed = true
 
-            local changed = bed.set_spawn(clicker, put_pos, yaw)
+            local changed = bed.set_spawn(clicker, put_pos)
             if changed then
                minetest.chat_send_player(clicker_name, minetest.colorize("#00FFFF", S("Respawn position set!")))
             end
