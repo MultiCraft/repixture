@@ -38,7 +38,7 @@ local EATING_SPEED_DURATION = 2.0
 
 -- Per-player userdata
 
-hunger.userdata = {}
+local userdata = {}
 
 local particlespawners = {}
 local player_step = {}
@@ -58,7 +58,7 @@ local timer = 0
 local function save_hunger()
    local f = io.open(hunger_file, "w")
 
-   for name, data in pairs(hunger.userdata) do
+   for name, data in pairs(userdata) do
       f:write(data.hunger .. " " .. data.saturation .. " " .. name .. "\n")
    end
 
@@ -89,8 +89,8 @@ local function load_hunger()
 
 	 name = name:sub(2)
 
-         if not hunger.userdata[name] then
-            hunger.userdata[name] = {
+         if not userdata[name] then
+            userdata[name] = {
                hunger = MAX_HUNGER,
                active = 0,
                moving = 0,
@@ -99,10 +99,10 @@ local function load_hunger()
          end
 
          if hnger then
-            hunger.userdata[name].hunger = hnger
+            userdata[name].hunger = hnger
          end
          if sat then
-            hunger.userdata[name].saturation = sat
+            userdata[name].saturation = sat
          end
 
       until f:read(0) == nil
@@ -120,7 +120,7 @@ local function on_shutdown()
    save_hunger()
 end
 
-function hunger.update_bar(player)
+local function update_bar(player)
    if not player then
       return
    end
@@ -131,10 +131,10 @@ function hunger.update_bar(player)
       if player_debughud[name] then
           local text = "Hunger Debug:\n"
           if minetest.settings:get_bool("hunger_enable", true) then
-             text = text .. "hunger = " .. tostring(hunger.userdata[name].hunger) .. "\n"
-             text = text .. "saturation = " .. tostring(hunger.userdata[name].saturation) .. "\n"
-             text = text .. "moving = " .. tostring(hunger.userdata[name].moving) .. "\n"
-             text = text .. "active = " .. tostring(hunger.userdata[name].active) .. "\n"
+             text = text .. "hunger = " .. tostring(userdata[name].hunger) .. "\n"
+             text = text .. "saturation = " .. tostring(userdata[name].saturation) .. "\n"
+             text = text .. "moving = " .. tostring(userdata[name].moving) .. "\n"
+             text = text .. "active = " .. tostring(userdata[name].active) .. "\n"
              text = text .. "step = " .. tostring(player_step[name]) .. "\n"
           else
              text = text .. "<hunger disabled>\n"
@@ -161,7 +161,7 @@ function hunger.update_bar(player)
    end
 
    if player_bar[name] then
-      player:hud_change(player_bar[name], "number", hunger.userdata[name].hunger)
+      player:hud_change(player_bar[name], "number", userdata[name].hunger)
    else
       player_bar[name] = player:hud_add(
 	 {
@@ -169,7 +169,7 @@ function hunger.update_bar(player)
 	    position = {x=0.5,y=1.0},
 	    text = "hunger.png",
 	    text2 = "hunger.png^[colorize:#666666:255",
-	    number = hunger.userdata[name].hunger,
+	    number = userdata[name].hunger,
 	    item = MAX_HUNGER,
 	    dir = 0,
 	    size = {x=24, y=24},
@@ -185,12 +185,12 @@ local function on_dignode(pos, oldnode, player)
    end
 
    local name = player:get_player_name()
-   if not hunger.userdata[name] then
+   if not userdata[name] then
       return
    end
-   hunger.userdata[name].active = hunger.userdata[name].active + 2
+   userdata[name].active = userdata[name].active + 2
    if HUNGER_DEBUG then
-      hunger.update_bar(player)
+      update_bar(player)
    end
 end
 
@@ -201,17 +201,17 @@ local function on_placenode(pos, node, player)
 
    local name = player:get_player_name()
 
-   hunger.userdata[name].active = hunger.userdata[name].active + 2
+   userdata[name].active = userdata[name].active + 2
    if HUNGER_DEBUG then
-      hunger.update_bar(player)
+      update_bar(player)
    end
 end
 
 local function on_joinplayer(player)
    local name = player:get_player_name()
 
-   if not hunger.userdata[name] then
-      hunger.userdata[name] = {
+   if not userdata[name] then
+      userdata[name] = {
          hunger = MAX_HUNGER,
          active = 0,
          moving = 0,
@@ -219,7 +219,7 @@ local function on_joinplayer(player)
       }
    end
 
-   hunger.update_bar(player)
+   update_bar(player)
 end
 
 local function on_leaveplayer(player)
@@ -227,19 +227,19 @@ local function on_leaveplayer(player)
 
    player_bar[name] = nil
    player_debughud[name] = nil
-   hunger.userdata[name] = nil
+   userdata[name] = nil
 end
 
 local function on_respawnplayer(player)
    local name = player:get_player_name()
 
-   hunger.userdata[name].hunger = MAX_HUNGER
-   hunger.userdata[name].saturation = 0
-   hunger.userdata[name].active = 0
-   hunger.userdata[name].moving = 0
+   userdata[name].hunger = MAX_HUNGER
+   userdata[name].saturation = 0
+   userdata[name].active = 0
+   userdata[name].moving = 0
    player_step[name] = 0
    player_health_step[name] = 0
-   hunger.update_bar(player)
+   update_bar(player)
 
    delayed_save()
 end
@@ -249,7 +249,7 @@ local function on_respawnplayer_nohunger(player)
    player_health_step[name] = 0
 
    if HUNGER_DEBUG then
-      hunger.update_bar(player)
+      update_bar(player)
    end
 end
 
@@ -270,11 +270,11 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
 
    local name = player:get_player_name()
 
-   hunger.userdata[name].hunger = hunger.userdata[name].hunger + hp_change
+   userdata[name].hunger = userdata[name].hunger + hp_change
 
 
-   hunger.userdata[name].hunger = math.min(MAX_HUNGER, hunger.userdata[name].hunger)
-   hunger.userdata[name].saturation = math.min(MAX_SATURATION, hunger.userdata[name].saturation
+   userdata[name].hunger = math.min(MAX_HUNGER, userdata[name].hunger)
+   userdata[name].saturation = math.min(MAX_SATURATION, userdata[name].saturation
                                                   + saturation)
 
    local headpos  = player:get_pos()
@@ -307,7 +307,7 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
 
    player_effects.apply_effect(player, "hunger_eating")
 
-   hunger.update_bar(player)
+   update_bar(player)
    delayed_save()
 
    if not minetest.is_creative_enabled(name) then
@@ -370,15 +370,15 @@ local function on_globalstep(dtime)
          moving = moving + 3
       end
 
-      hunger.userdata[name].moving = math.max(0, moving)
+      userdata[name].moving = math.max(0, moving)
    end
 
    for _,player in ipairs(minetest.get_connected_players()) do
       local name = player:get_player_name()
       local hp = player:get_hp()
 
-      if hunger.userdata[name] == nil then
-         hunger.userdata[name] = {
+      if userdata[name] == nil then
+         userdata[name] = {
             hunger = MAX_HUNGER,
             active = 0,
             moving = 0,
@@ -390,27 +390,27 @@ local function on_globalstep(dtime)
          player_step[name] = 0
       end
 
-      hunger.userdata[name].active = hunger.userdata[name].active +
-         hunger.userdata[name].moving
+      userdata[name].active = userdata[name].active +
+         userdata[name].moving
 
-      player_step[name] = player_step[name] + hunger.userdata[name].active + 1
+      player_step[name] = player_step[name] + userdata[name].active + 1
 
-      hunger.userdata[name].saturation = hunger.userdata[name].saturation - 1
+      userdata[name].saturation = userdata[name].saturation - 1
 
-      if hunger.userdata[name].saturation <= 0 then
-         hunger.userdata[name].saturation = 0
+      if userdata[name].saturation <= 0 then
+         userdata[name].saturation = 0
          if player_step[name] >= 24 then -- how much the player has been active
             player_step[name] = 0
-            local oldhng = hunger.userdata[name].hunger
-            hunger.userdata[name].hunger = hunger.userdata[name].hunger - 1
+            local oldhng = userdata[name].hunger
+            userdata[name].hunger = userdata[name].hunger - 1
             if (oldhng == HUNGER_WARNING_1 or oldhng == HUNGER_WARNING_2) and hp >= 0 then
                minetest.chat_send_player(name, minetest.colorize("#ff0", S("You are hungry.")))
                local pos_sound  = player:get_pos()
                minetest.sound_play({name="hunger_hungry"}, {pos=pos_sound, max_hear_distance=3, object=player}, true)
             end
-            if hunger.userdata[name].hunger <= HUNGER_STARVE_LEVEL and hp >= 0 then
+            if userdata[name].hunger <= HUNGER_STARVE_LEVEL and hp >= 0 then
                player:set_hp(hp - 1)
-               hunger.userdata[name].hunger = 0
+               userdata[name].hunger = 0
                if hp > 1 then
                   minetest.chat_send_player(name, minetest.colorize("#f00", S("You are starving.")))
                else
@@ -420,11 +420,11 @@ local function on_globalstep(dtime)
          end
       end
 
-      hunger.userdata[name].active = 0
+      userdata[name].active = 0
 
-      health_step(player, hunger.userdata[name].hunger)
+      health_step(player, userdata[name].hunger)
 
-      hunger.update_bar(player)
+      update_bar(player)
    end
 
    delayed_save()
@@ -461,7 +461,7 @@ local function on_globalstep_nohunger(dtime)
    for _,player in ipairs(minetest.get_connected_players()) do
       health_step(player, nil)
       if HUNGER_DEBUG then
-         hunger.update_bar(player)
+         update_bar(player)
       end
    end
 end
