@@ -396,15 +396,24 @@ function achievements.get_formspec(name, row)
    local title = def.title
    local description = def.description
    local gotten = false
-   local achievement = achievements.achievements[name][aname]
-   if achievement then
-      if achievement == -1 then
+   local achievement_times = achievements.achievements[name][aname]
+   if achievement_times then
+      if achievement_times == -1 then
 	 gotten = true
 	 progress = minetest.colorize(COLOR_GOTTEN, S("Gotten"))
          title = minetest.colorize(COLOR_GOTTEN, title)
          description = minetest.colorize(COLOR_GOTTEN, description)
       else
-	 progress = S("@1/@2", achievement, def.times)
+         local part, total
+         if def.subconditions then
+		 local completed = get_completed_subconditions(name, aname)
+		 part = #completed
+		 total = #def.subconditions
+	 else
+		 part = achievement_times
+		 total = def.times
+	 end
+	 progress = S("@1/@2", part, total)
       end
    else
       progress = S("Missing")
