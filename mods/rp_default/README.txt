@@ -4,6 +4,12 @@ By Kaadmy and Wuzzy, for Repixture
 
 The core mod of Repixture.
 
+## Developers
+
+See `API.md`
+
+## Licensing
+
 Sound licenses:
   * default_shears_cut.ogg:
     * Source: https://freesound.org/people/SmartWentCody/sounds/179015/
