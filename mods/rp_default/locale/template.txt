@@ -141,6 +141,7 @@ Tall Grass Clump=
 Thistle=
 Careful, it stings!=
 Apple=
+Acorn=
 Clam=
 Flowing Water=
 Water Source=

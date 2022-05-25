@@ -1,6 +1,11 @@
 # textdomain: parachute
 Parachute=Parachute
 Lets you glide safely to the ground when falling=
-Cannot open parachute on ground!=Impossible d'ouvrir le parachute au sol!
+You can open the parachute only in air!=
 Skydiver=Parachutiste
 Descend over 100 blocks with a parachute.=Descendez 100 blocs ou plus avec un parachute.
+
+
+##### not used anymore #####
+
+Cannot open parachute on ground!=Impossible d'ouvrir le parachute au sol!
