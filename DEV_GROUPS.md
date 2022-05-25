@@ -95,7 +95,7 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 
 #### Shaped
 
-* `slab`: Slab
+* `slab`: Slab (1 = normal slab, 2 = path slab)
 * `stair`: Stair
 * `path`: A path node like the Dirt Path
 * `door`: Any door
