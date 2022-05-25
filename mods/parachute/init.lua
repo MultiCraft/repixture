@@ -119,6 +119,7 @@ minetest.register_entity(
       physical = false,
       pointable = false,
       automatic_face_movement_dir = -90,
+      static_save = false,
 
       attached = nil,
       start_y = nil,
