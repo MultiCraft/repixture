@@ -194,10 +194,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 end)
 
-creative.is_enabled_for = function(player)
-	return minetest.is_creative_enabled(player:get_player_name())
-end
-
 if minetest.is_creative_enabled("") then
 	minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack)
 		-- Place infinite nodes
