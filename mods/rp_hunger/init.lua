@@ -9,7 +9,7 @@ local S = minetest.get_translator("rp_hunger")
 hunger = {}
 
 -- If enabled, show advanced player hunger values
-local HUNGER_DEBUG = false
+local HUNGER_DEBUG = minetest.settings:get_bool("hunger_debug", false)
 
 -- Maximum possible hunger value
 hunger.MAX_HUNGER = 20
