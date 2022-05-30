@@ -7,6 +7,19 @@ Note the focus of Repixture is not to be a "base for modding", but to be a stand
 game in its own right. That having said, Repixture also doesn't actively oppose
 modding.
 
+## Core development
+
+### Testing
+
+There are some hidden testing/debug settings. Add them into `minetest.conf` to activate:
+
+* `rp_testing_enable=true`: Enables Testing Mode. Performs some simple benchmarks on startup
+  (See the log file / console) and also enables testing the validity of crafting
+  recipes, gold trades, and more (printing errors if any errors were found).
+  This also enables a few helper chat commands (see `/help`).
+* `hunger_debug=true`: Enables Hunger Debug. This displays the internal hunger values on
+  the screen.
+
 ## Some modding rules
 
 * Crafting recipes (except cooking and fuel recipes) **MUST**
