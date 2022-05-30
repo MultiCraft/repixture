@@ -388,6 +388,7 @@ minetest.register_craftitem(
       _tt_help = S("Show this to a villager to trade"),
       inventory_image = "default_book.png^gold_bookribbon.png",
       stack_max = 1,
+      groups = { tool = 1 },
 })
 
 minetest.register_craftitem(

@@ -57,7 +57,49 @@ local function create_creative_inventory(player)
 			table.insert(creative_list, name)
 		end
 	end
-	table.sort(creative_list)
+	local function creative_sort(item1, item2)
+		local def1 = minetest.registered_items[item1]
+		local def2 = minetest.registered_items[item2]
+		local groups1 = def1.groups or {}
+		local groups2 = def2.groups or {}
+
+		if def1.tool_capabilities and not def2.tool_capabilities then
+			return true
+		elseif not def1.tool_capabilities and def2.tool_capabilities then
+			return false
+		elseif groups1.is_armor and not groups2.is_armor then
+			return true
+		elseif not groups1.is_armor and groups2.is_armor then
+			return false
+		elseif (def1.type == "tool" or groups1.tool) and (def2.type ~= "tool" and not groups2.tool) then
+			return true
+		elseif (def1.type ~= "tool" and not groups1.tool) and (def2.type == "tool" or groups2.tool) then
+			return false
+		elseif groups1.food and not groups2.food then
+			return true
+		elseif not groups1.food and groups2.food then
+			return false
+		elseif groups1.spawn_egg and not groups2.spawn_egg then
+			return true
+		elseif not groups1.spawn_egg and groups2.spawn_egg then
+			return false
+		elseif (def1.type == "craftitem" or groups1.craftitem) and (def2.type ~= "craftitem" and not groups2.craftitem) then
+			return true
+		elseif (def1.type ~= "craftitem" and not groups1.craftitem) and (def2.type == "craftitem" or groups2.craftitem) then
+			return false
+		elseif (def1.type == "node" or groups1.node) and (def2.type ~= "node" and not groups2.node) then
+			return true
+		elseif (def1.type ~= "node" and not groups1.node) and (def2.type == "node" or groups2.node) then
+			return false
+		elseif groups1.water and not groups2.water then
+			return true
+		elseif not groups1.water and groups2.water then
+			return false
+		else
+			return item1 < item2
+		end
+	end
+	table.sort(creative_list, creative_sort)
 	inv:set_size("main", #creative_list)
 	for _,itemstring in ipairs(creative_list) do
 		inv:add_item("main", ItemStack(itemstring))

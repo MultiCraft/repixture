@@ -60,6 +60,8 @@ minetest.register_tool(
       description = S("Lock Pick"),
       _tt_help = S("Cracks locked chests"),
 
+      groups = { tool = 1 },
+
       inventory_image = "locks_pick.png",
       wield_image = "locks_pick.png",
 
@@ -197,6 +199,7 @@ minetest.register_craftitem(
    {
       description = S("Lock"),
       _tt_help = S("Used to craft locked chests"),
+      groups = { tool = 1 },
 
       inventory_image = "locks_lock.png",
       wield_image = "locks_lock.png",

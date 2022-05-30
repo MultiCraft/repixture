@@ -13,6 +13,21 @@ This is the list of all groups used for items. Note: If no number/rating is spec
 * `no_item_drop`: This item can't exist as a dropped item on the ground. When dropping it, it is deleted instantly
 * `immortal_item`: In entity form, this item withstands damage and won't be destroyed by nodes that deal damage
 
+## Creative categorization
+These groups are mainly used for a better item sorting in Creative Mode.
+
+* `node`: Add this group for items that are considered nodes *in a gameplay* sense.
+          Rarely needed, use this for items that are technically not nodes themselves, but they behave like
+          placable nodes from the player-point of view. Example: Door craftitems.
+          Implied if it was registered with `minetest.register_node`.
+* `tool`: Add this group for items that are considered tools *in a gameplay* sense.
+          That’s an item that the player can use to perform a direct action, like digging, igniting blocks.
+          Implied if item was registered with `minetest.register_tool`.
+* `craftitems`: Add this group for items that are considered craftitems *in a gameplay* sense.
+          That’s an item that is neither a node nor tool. Usually for items only used for crafting with
+          no inherent direct use.
+          Implied if it was registered with `minetest.register_craftitem`.
+
 ### Tools
 * `axe`: Axe
 * `shears`: Shears

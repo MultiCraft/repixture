@@ -182,7 +182,7 @@ for c=0,7 do
 
 	      on_place = magnetize_on_place,
 
-	      groups = {nav_compass = 1, not_in_creative_inventory = not_creative },
+	      groups = {nav_compass = 1, tool=1, not_in_creative_inventory = not_creative },
 	      stack_max = 1,
 	})
 
@@ -199,7 +199,7 @@ for c=0,7 do
 
 	      on_place = magnetize_on_place,
 
-	      groups = {nav_compass = 2, not_in_creative_inventory = not_creative },
+	      groups = {nav_compass = 2, tool=1, not_in_creative_inventory = not_creative },
 	      stack_max = 1,
 	})
 

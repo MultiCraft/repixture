@@ -89,6 +89,7 @@ minetest.register_craftitem(
       inventory_image = "parachute_inventory.png",
       wield_image = "parachute_inventory.png",
       stack_max = 1,
+      groups = { tool = 1 },
       on_activate = function(self)
          self.object:set_armor_groups({immortal=1})
       end,

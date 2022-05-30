@@ -26,6 +26,7 @@ minetest.register_craftitem(
       _tt_help = S("Write down some notes"),
       inventory_image = "default_book.png",
       stack_max = 1,
+      groups = { tool = 1 },
 
       on_use = function(itemstack, player, pointed_thing)
          local name = player:get_player_name()
