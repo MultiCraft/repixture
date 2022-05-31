@@ -3,6 +3,9 @@
 -- Modded by KaadmY
 local S = minetest.get_translator("mobs")
 
+-- How many different trades an NPC offers
+local NPC_TRADES_COUNT = 4
+
 local get_item_fuel_burntime = function(itemstring)
 	local input = {
 		method = "fuel",
@@ -160,6 +163,8 @@ for _, npc_type_table in pairs(npc_types) do
               return
             end
 
+	    local npc_type = self.npc_type
+
             local iname = item:get_name()
             if npc_type ~= "blacksmith" and (minetest.get_item_group(iname, "sword") > 0 or minetest.get_item_group(iname, "spear") > 0) then
                say(S("Get this thing out of my face!"), name)
@@ -176,12 +181,25 @@ for _, npc_type_table in pairs(npc_types) do
                   return
                end
 
-               if not self.npc_trade then
-                  self.npc_trade = util.choice_element(
-                     gold.trades[self.npc_type], gold.pr)
+               if not self.npc_trades or not self.npc_trade or not self.npc_trade_index then
+                  self.npc_trades = {}
+		  local possible_trades = table.copy(gold.trades[npc_type])
+		  for t=1, NPC_TRADES_COUNT do
+                     if #possible_trades == 0 then
+                        break
+                     end
+                     local trade, index = util.choice_element(possible_trades, gold.pr)
+		     table.insert(self.npc_trades, trade)
+		     possible_trades[index] = nil
+		  end
+                  self.npc_trade_index = 1
+		  if not self.npc_trade then
+                     self.npc_trade = self.npc_trades[self.npc_trade_index]
+                  end
+		  minetest.log("action", "[mobs] NPC trades of NPC at "..minetest.pos_to_string(self.object:get_pos(), 1).." initialized")
                end
 
-               if not gold.trade(self.npc_trade, self.npc_type, clicker) then
+               if not gold.trade(self.npc_trade, npc_type, clicker, self.npc_trade_index, self.npc_trades) then
                    -- Good mood: Give hint or funny text
                    if hp >= self.hp_max-7 then
 

@@ -11,6 +11,9 @@ gold.pr = PseudoRandom(mapseed+8732)
 gold.trades = {}
 gold.trade_names = {}
 
+local TRADE_FORMSPEC_OFFSET = 2
+local GOLD_COLOR = "#FFFF00FF"
+
 if minetest.get_modpath("mobs") ~= nil then
    gold.trades["farmer"] = {
       -- seeds/plants
@@ -177,13 +180,13 @@ local form_trading = ""
 
 form_trading = form_trading .. rp_formspec.get_page("rp_default:notabs_2part")
 
-form_trading = form_trading .. "list[current_player;gold_trade_out;4.75,2.25;1,1;]"
-
-form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(4.75, 2.25, 1, 1)
-
 form_trading = form_trading .. "list[current_player;main;0.25,4.75;8,4;]"
 form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form_trading = form_trading .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+
+form_trading = form_trading .. "container["..TRADE_FORMSPEC_OFFSET..",0]"
+form_trading = form_trading .. "list[current_player;gold_trade_out;4.75,2.25;1,1;]"
+form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(4.75, 2.25, 1, 1)
 
 form_trading = form_trading .. "list[current_player;gold_trade_in;1.25,2.25;2,1;]"
 form_trading = form_trading .. rp_formspec.get_itemslot_bg(1.25, 2.25, 2, 1)
@@ -197,17 +200,29 @@ form_trading = form_trading .. "image[3.5,1.25;1,1;ui_arrow_bg.png^[transformR27
 form_trading = form_trading .. "image[3.5,2.25;1,1;ui_arrow.png^[transformR270]"
 
 form_trading = form_trading .. rp_formspec.button(1.25, 3.25, 2, 1, "trade", S("Trade"))
-form_trading = form_trading .. rp_formspec.button_exit(5.25, 3.25, 2, 1, "cancel", S("Cancel"))
+form_trading = form_trading .. rp_formspec.button_exit(4.25, 3.25, 2, 1, "cancel", S("Cancel"))
+form_trading = form_trading .. "container_end[]"
 
 rp_formspec.register_page("rp_gold_trading_book", form_trading)
 
-function gold.trade(trade, trade_type, player)
+-- Remember with which traders the players trade
+local active_tradings = {}
+
+-- Open the trading formspec that allows players to trade with NPCs.
+-- * trade: Single trade table from gold.trades table
+-- * trade_type: Trader type name
+-- * player: Player object of player who trades
+-- * trade_index: Index of current active trade in all of the available trades for this trader
+-- * all_trades: List of all trades available by this trader
+function gold.trade(trade, trade_type, player, trade_index, all_trades)
    local name = player:get_player_name()
    local item = player:get_wielded_item()
 
    local itemname = item:get_name()
    local item_alias = minetest.registered_aliases[itemname]
    if itemname ~= "rp_gold:trading_book" and item_alias ~= "rp_gold:trading_book" then return end
+
+   active_tradings[name] = { all_trades = all_trades, trade_index = trade_index, trade_type = trade_type }
 
    local inv = player:get_inventory()
 
@@ -239,9 +254,46 @@ function gold.trade(trade, trade_type, player)
    local form = rp_formspec.get_page("rp_gold_trading_book")
    form = form .. "label[0.25,0.25;"..minetest.formspec_escape(trade_name).."]"
 
+   local trades_listed = {}
+   local print_item = function(itemstring)
+      local stack = ItemStack(itemstring)
+      local name = stack:get_short_description()
+      if stack:get_name() == "rp_gold:ingot_gold" then
+         -- Short for "Gold Ingot"
+         name = S("G")
+         name = minetest.colorize("#FF0000", name)
+      end
+      local count = stack:get_count()
+      local out
+      if stack:get_name() == "rp_gold:ingot_gold" then
+         out = S("@1 @2", count, name)
+      elseif count > 1 then
+         out = S("@1×@2", count, name)
+      else
+         out = name
+      end
+      return out
+   end
+   for t=1, #all_trades do
+      local take, give
+      if all_trades[t][2] == "" then
+         take = print_item(all_trades[t][1])
+      else
+         take = S("@1 + @2", print_item(all_trades[t][1]), print_item(all_trades[t][2]))
+      end
+      give = print_item(all_trades[t][3])
+      local entry = S("@1 → @2", take, give)
+      table.insert(trades_listed, minetest.formspec_escape(entry))
+   end
+   local trades_listed_str = table.concat(trades_listed, ",")
+   form = form .. "tablecolumns[text]"
+   form = form .. "table[0.15,1.25;3,2.5;tradelist;"..trades_listed_str..";"..trade_index.."]"
+
+   form = form .. "container["..TRADE_FORMSPEC_OFFSET..",0]"
    form = form .. rp_formspec.fake_itemstack(1.25, 1.25, trade_wanted1)
    form = form .. rp_formspec.fake_itemstack(2.25, 1.25, trade_wanted2)
    form = form .. rp_formspec.fake_itemstack(4.75, 1.25, ItemStack(trade[3]))
+   form = form .. "container_end[]"
 
    minetest.show_formspec(name, "rp_gold:trading_book", form)
 
@@ -298,16 +350,32 @@ end
 
 minetest.register_on_player_receive_fields(
    function(player, form_name, fields)
+      local name = player:get_player_name()
       if form_name ~= "rp_gold:trading_book" then
+         active_tradings[name] = nil
          return
       end
 
       local inv = player:get_inventory()
       if fields.cancel or fields.quit then
          clear_trading_slots(inv, player:get_pos())
+         active_tradings[name] = nil
          return
       end
 
+      if fields.tradelist then
+	 local tdata = minetest.explode_table_event(fields.tradelist)
+	 if tdata.type == "CHG" or tdata.type == "DCL" then
+            if active_tradings[name] ~= nil then
+               local trade_index = tdata.row
+               local all_trades = active_tradings[name].all_trades
+               local trade_type = active_tradings[name].trade_type
+               local trade = all_trades[trade_index]
+               gold.trade(trade, trade_type, player, trade_index, all_trades)
+	    end
+	 end
+	 return
+      end
       if fields.trade then
 	 local item = player:get_wielded_item()
 
@@ -502,6 +570,11 @@ achievements.register_achievement(
       times = 1,
       dignode = "rp_gold:stone_with_gold",
 })
+
+minetest.register_on_leaveplayer(function(player)
+   local name = player:get_player_name()
+   active_tradings[name] = nil
+end)
 
 if minetest.settings:get_bool("rp_testing_enable", false) == true then
     -- Check if all specified items are valid
