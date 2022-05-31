@@ -649,6 +649,28 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
       end
 })
 
+minetest.register_abm( -- seagrass dies if not underwater
+   {
+      label = "Sea grass death",
+      nodenames = {"group:sea_grass"},
+      interval = 10,
+      chance = 20,
+      action = function(pos, node)
+	 local dir = minetest.wallmounted_to_dir(node.param2)
+         local plantpos = vector.subtract(pos, dir)
+         local name = minetest.get_node(plantpos).name
+         local water = minetest.get_item_group(name, "water") ~= 0
+         if not water then
+            if node.name == "rp_default:sea_grass_on_dirt" then
+                minetest.set_node(pos, {name = "rp_default:dirt"})
+	    elseif node.name == "rp_default:sea_grass_on_swamp_dirt" then
+                minetest.set_node(pos, {name = "rp_default:swamp_dirt"})
+            end
+         end
+      end
+})
+
+
 minetest.register_abm({
     label = "Flower/fern expansion",
     nodenames = {"rp_default:flower", "rp_default:fern"},
