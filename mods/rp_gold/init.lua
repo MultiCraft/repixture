@@ -270,7 +270,6 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
       if stack:get_name() == "rp_gold:ingot_gold" then
          -- Short for "Gold Ingot"
          name = S("G")
-         name = minetest.colorize("#FF0000", name)
       end
       local count = stack:get_count()
       local out
