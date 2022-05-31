@@ -43,10 +43,10 @@ if minetest.get_modpath("mobs") ~= nil then
       {"rp_gold:ingot_gold", "", "rp_default:reinforced_frame"},
 
       -- useables
-      {"rp_gold:ingot_gold 9", "", "rp_bed:bed"},
+      {"rp_gold:ingot_gold 5", "", "rp_bed:bed"},
       {"rp_gold:ingot_gold 2", "", "rp_default:chest"},
       {"rp_gold:ingot_gold 10", "", "rp_locks:chest"},
-      {"rp_gold:ingot_gold 5", "mobs:wool 3", "rp_bed:bed"},
+      {"rp_gold:ingot_gold", "mobs:wool 3", "rp_bed:bed"},
    }
    gold.trades["tavernkeeper"] = {
       -- edibles
