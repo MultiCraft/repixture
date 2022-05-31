@@ -362,7 +362,8 @@ function crafting.get_formspec(name, select_item)
          end
 
          if itemstack:get_count() ~= 1 then
-            craft_list = craft_list .. minetest.formspec_escape(itemstack:get_count())
+            local cnt = tostring(itemstack:get_count())
+            craft_list = craft_list .. minetest.formspec_escape(cnt)
          end
 
          local desc = itemdef.description
