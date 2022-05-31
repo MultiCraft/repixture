@@ -11,7 +11,7 @@ gold.pr = PseudoRandom(mapseed+8732)
 gold.trades = {}
 gold.trade_names = {}
 
-local TRADE_FORMSPEC_OFFSET = 2
+local TRADE_FORMSPEC_OFFSET = 2.5
 local GOLD_COLOR = "#FFFF00FF"
 
 if minetest.get_modpath("mobs") ~= nil then
@@ -200,7 +200,6 @@ form_trading = form_trading .. "image[3.5,1.25;1,1;ui_arrow_bg.png^[transformR27
 form_trading = form_trading .. "image[3.5,2.25;1,1;ui_arrow.png^[transformR270]"
 
 form_trading = form_trading .. rp_formspec.button(1.25, 3.25, 2, 1, "trade", S("Trade"))
-form_trading = form_trading .. rp_formspec.button_exit(4.25, 3.25, 2, 1, "cancel", S("Cancel"))
 form_trading = form_trading .. "container_end[]"
 
 rp_formspec.register_page("rp_gold_trading_book", form_trading)
@@ -256,12 +255,13 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    meta.trade = trade
 
    local trade_name = gold.trade_names[trade_type]
+   local label = S("Trading with @1", trade_name)
 
    local trade_wanted1 = inv:get_stack("gold_trade_wanted", 1)
    local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
 
    local form = rp_formspec.get_page("rp_gold_trading_book")
-   form = form .. "label[0.25,0.25;"..minetest.formspec_escape(trade_name).."]"
+   form = form .. "label[0.25,0.25;"..minetest.formspec_escape(label).."]"
 
    local trades_listed = {}
    local print_item = function(itemstring)
@@ -296,7 +296,7 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    end
    local trades_listed_str = table.concat(trades_listed, ",")
    form = form .. "tablecolumns[text]"
-   form = form .. "table[0.15,1.25;3,2.5;tradelist;"..trades_listed_str..";"..trade_index.."]"
+   form = form .. "table[0.15,1.25;3.5,2.5;tradelist;"..trades_listed_str..";"..trade_index.."]"
 
    form = form .. "container["..TRADE_FORMSPEC_OFFSET..",0]"
    form = form .. rp_formspec.fake_itemstack(1.25, 1.25, trade_wanted1)
