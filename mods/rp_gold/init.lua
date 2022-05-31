@@ -212,17 +212,26 @@ local active_tradings = {}
 -- * trade: Single trade table from gold.trades table
 -- * trade_type: Trader type name
 -- * player: Player object of player who trades
+-- * trader: Trader object that player trades with
 -- * trade_index: Index of current active trade in all of the available trades for this trader
 -- * all_trades: List of all trades available by this trader
-function gold.trade(trade, trade_type, player, trade_index, all_trades)
+function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    local name = player:get_player_name()
    local item = player:get_wielded_item()
 
+   -- Player must hold trading book in hand
    local itemname = item:get_name()
    local item_alias = minetest.registered_aliases[itemname]
-   if itemname ~= "rp_gold:trading_book" and item_alias ~= "rp_gold:trading_book" then return end
+   if itemname ~= "rp_gold:trading_book" and item_alias ~= "rp_gold:trading_book" then
+      return
+   end
 
-   active_tradings[name] = { all_trades = all_trades, trade_index = trade_index, trade_type = trade_type }
+   -- Trader must exist
+   if not trader or not trader.object:get_luaentity() then
+      return
+   end
+
+   active_tradings[name] = { all_trades = all_trades, trade_index = trade_index, trade_type = trade_type, trader = trader }
 
    local inv = player:get_inventory()
 
@@ -363,15 +372,30 @@ minetest.register_on_player_receive_fields(
          return
       end
 
+      if not active_tradings[name] then
+         -- No trading possible if active_tradings table is empty (mustn't happen)
+	 minetest.log("error", "[rp_gold] active_tradings["..tostring(name).."] was nil after receiving trading book fields!")
+         return
+      end
+
+      local trader = active_tradings[name].trader
+      if not trader or not trader.object:get_luaentity() then
+         -- No trading possible if trader is gone
+         clear_trading_slots(inv, player:get_pos())
+	 minetest.close_formspec(name, "rp_gold:trading_book")
+	 return
+      end
+
       if fields.tradelist then
 	 local tdata = minetest.explode_table_event(fields.tradelist)
 	 if tdata.type == "CHG" or tdata.type == "DCL" then
-            if active_tradings[name] ~= nil then
+            do
                local trade_index = tdata.row
                local all_trades = active_tradings[name].all_trades
                local trade_type = active_tradings[name].trade_type
+               local trader = active_tradings[name].trader
                local trade = all_trades[trade_index]
-               gold.trade(trade, trade_type, player, trade_index, all_trades)
+               gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
 	    end
 	 end
 	 return

@@ -200,7 +200,7 @@ for _, npc_type_table in pairs(npc_types) do
 		  minetest.log("action", "[mobs] NPC trades of NPC at "..minetest.pos_to_string(self.object:get_pos(), 1).." initialized")
                end
 
-               if not gold.trade(self.npc_trade, npc_type, clicker, self.npc_trade_index, self.npc_trades) then
+               if not gold.trade(self.npc_trade, npc_type, clicker, self, self.npc_trade_index, self.npc_trades) then
                    -- Good mood: Give hint or funny text
                    if hp >= self.hp_max-7 then
 
