@@ -188,9 +188,10 @@ for _, npc_type_table in pairs(npc_types) do
                      if #possible_trades == 0 then
                         break
                      end
-                     local trade, index = util.choice_element(possible_trades, gold.pr)
-		     table.insert(self.npc_trades, trade)
-		     possible_trades[index] = nil
+                     local index = util.choice(possible_trades, gold.pr)
+                     local trade = possible_trades[index]
+                     table.insert(self.npc_trades, trade)
+                     table.remove(possible_trades, index)
 		  end
                   self.npc_trade_index = 1
 		  if not self.npc_trade then
