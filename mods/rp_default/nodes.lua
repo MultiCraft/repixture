@@ -1044,6 +1044,102 @@ minetest.register_node(
       end,
 })
 
+local function sea_plant_on_place(itemstack, placer, pointed_thing)
+	if pointed_thing.type ~= "node" or not placer then
+		return itemstack
+	end
+
+	local player_name = placer:get_player_name()
+	local pos_under = pointed_thing.under
+	local pos_above = pointed_thing.above
+	local node_under = minetest.get_node(pos_under)
+	local def_under = minetest.registered_nodes[node_under.name]
+
+	if def_under and def_under.on_rightclick and not placer:get_player_control().sneak then
+		return def_under.on_rightclick(pos_under, node_under,
+				placer, itemstack, pointed_thing) or itemstack
+	end
+
+	if pos_under.y > pos_above.y then
+		node_under.param2 = 0
+	elseif pos_under.y < pos_above.y then
+		node_under.param2 = 1
+	else
+		return itemstack
+	end
+	if minetest.get_node(pos_above).name ~= "rp_default:water_source" then
+		return itemstack
+	end
+	if node_under.name == "rp_default:dirt" then
+		node_under.name = "rp_default:sea_grass_on_dirt"
+	elseif node_under.name == "rp_default:swamp_dirt" then
+		node_under.name = "rp_default:sea_grass_on_swamp_dirt"
+	else
+		return itemstack
+	end
+
+	if minetest.is_protected(pos_under, player_name) or
+			minetest.is_protected(pos_above, player_name) then
+		minetest.record_protection_violation(pos_under, player_name)
+		return itemstack
+	end
+
+
+	minetest.set_node(pos_under, node_under)
+	if not minetest.is_creative_enabled(player_name) then
+		itemstack:take_item()
+	end
+
+	return itemstack
+end
+
+-- Seagrass
+
+local register_sea_grass = function(append, basenode, basenode_tiles)
+   minetest.register_node(
+      "rp_default:sea_grass_on_"..append,
+      {
+         drawtype = "plantlike_rooted",
+         selection_box = {
+	    type = "fixed",
+	    fixed = {
+		    {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+		    {-0.5, 0.5, -0.5, 0.5, 12/8, 0.5},
+	    },
+         },
+         collision_box = {
+            type = "regular",
+         },
+	 paramtype2 = "wallmounted",
+         visual_scale = 1.15,
+         tiles = basenode_tiles,
+         special_tiles = {"rp_default_sea_grass_clump.png"},
+         inventory_image = "rp_default_sea_grass_on_"..append..".png",
+         wield_image = "rp_default_sea_grass_on_"..append..".png",
+         waving = 1,
+         walkable = true,
+         groups = {snappy = 2, dig_immediate = 3, grass = 1, sea_grass = 1, green_grass = 1, plant = 1},
+         sounds = rp_sounds.node_sound_leaves_defaults(),
+	 node_dig_prediction = basenode,
+         after_destruct = function(pos)
+	         minetest.set_node(pos, {name=basenode})
+         end,
+	 drop = "rp_default:sea_grass",
+   })
+end
+
+minetest.register_craftitem("rp_default:sea_grass", {
+   description = S("Sea Grass Clump"),
+   _tt_help = S("Grows underwater on dirt or swamp dirt"),
+   inventory_image = "rp_default_sea_grass_clump_inventory.png",
+   wield_image = "rp_default_sea_grass_clump_inventory.png",
+   on_place = sea_plant_on_place,
+   groups = { green_grass = 1, sea_grass = 1, plant = 1, grass = 1 },
+})
+
+register_sea_grass("dirt", "rp_default:dirt", {"default_dirt.png"})
+register_sea_grass("swamp_dirt", "rp_default:swamp_dirt", {"default_swamp_dirt.png"})
+
 -- Thistle
 
 minetest.register_node(

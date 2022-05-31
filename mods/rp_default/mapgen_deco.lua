@@ -1626,6 +1626,58 @@ default.register_decoration(
       y_min = 0,
       y_max = default.GLOBAL_Y_MAX,
 })
+
+-- Sea grass (all biomes)
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:dirt",
+      sidelen = 16,
+      fill_ratio = 0.04,
+      decoration = {"rp_default:sea_grass_on_dirt"},
+      y_min = default.GLOBAL_Y_MIN,
+      y_max = 50,
+      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+      num_spawn_by = 1,
+      place_offset_y = -1,
+      flags = "force_placement",
+      param2 = 1,
+})
+
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:swamp_dirt",
+      sidelen = 16,
+      fill_ratio = 0.08,
+      decoration = {"rp_default:sea_grass_on_swamp_dirt"},
+      y_min = default.GLOBAL_Y_MIN,
+      y_max = 50,
+      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+      num_spawn_by = 1,
+      place_offset_y = -1,
+      flags = "force_placement",
+      param2 = 1,
+})
+
+-- Extra sea grass in swamp meadow biomes
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:swamp_dirt",
+      sidelen = 16,
+      fill_ratio = 0.16,
+      decoration = {"rp_default:sea_grass_on_swamp_dirt"},
+      biomes = {"Swamp Meadow", "Swamp Meadow Ocean", "Swamp Meadow Beach"},
+      y_min = default.GLOBAL_Y_MIN,
+      y_max = 50,
+      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+      num_spawn_by = 1,
+      place_offset_y = -1,
+      flags = "force_placement",
+      param2 = 1,
+})
+
 end
 
 default.register_decoration(
