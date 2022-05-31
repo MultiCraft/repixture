@@ -113,9 +113,9 @@ if minetest.get_modpath("mobs") ~= nil then
       table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 22", "", "rp_jewels:jewel 2"})
       table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 34", "", "rp_jewels:jewel 4"})
 
-      table.insert(gold.trades["farmer"], {"rp_jewels:jewel", "", "rp_gold:ingot_gold 14"})
-      table.insert(gold.trades["farmer"], {"rp_jewels:jewel 2", "", "rp_gold:ingot_gold 20"})
-      table.insert(gold.trades["farmer"], {"rp_jewels:jewel 4", "", "rp_gold:ingot_gold 32"})
+      table.insert(gold.trades["farmer"], {"rp_jewels:jewel", "", "rp_gold:ingot_gold 7"})
+      table.insert(gold.trades["farmer"], {"rp_jewels:jewel 2", "", "rp_gold:ingot_gold 15"})
+      table.insert(gold.trades["farmer"], {"rp_jewels:jewel 4", "", "rp_gold:ingot_gold 31"})
 
       -- tavern keeper
       table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 14", "", "rp_jewels:jewel"})
