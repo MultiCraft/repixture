@@ -1044,7 +1044,8 @@ minetest.register_node(
       end,
 })
 
-local function sea_plant_on_place(itemstack, placer, pointed_thing)
+local function get_sea_plant_on_place(base)
+return function(itemstack, placer, pointed_thing)
 	if pointed_thing.type ~= "node" or not placer then
 		return itemstack
 	end
@@ -1067,13 +1068,15 @@ local function sea_plant_on_place(itemstack, placer, pointed_thing)
 	else
 		return itemstack
 	end
-	if minetest.get_node(pos_above).name ~= "rp_default:water_source" then
+	local name_above = minetest.get_node(pos_above).name
+	local def_above = minetest.registered_nodes[name_above]
+	if not (minetest.get_item_group(name_above, "water") > 0 and def_above.liquidtype == "source") then
 		return itemstack
 	end
 	if node_under.name == "rp_default:dirt" then
-		node_under.name = "rp_default:sea_grass_on_dirt"
+		node_under.name = "rp_default:"..base.."_on_dirt"
 	elseif node_under.name == "rp_default:swamp_dirt" then
-		node_under.name = "rp_default:sea_grass_on_swamp_dirt"
+		node_under.name = "rp_default:"..base.."_on_swamp_dirt"
 	else
 		return itemstack
 	end
@@ -1092,30 +1095,26 @@ local function sea_plant_on_place(itemstack, placer, pointed_thing)
 
 	return itemstack
 end
+end
 
 -- Seagrass
 
-local register_sea_grass = function(append, basenode, basenode_tiles)
+
+local register_sea_grass = function(plant_id, selection_box, drop, append, basenode, basenode_tiles)
    minetest.register_node(
-      "rp_default:sea_grass_on_"..append,
+      "rp_default:"..plant_id.."_on_"..append,
       {
          drawtype = "plantlike_rooted",
-         selection_box = {
-	    type = "fixed",
-	    fixed = {
-		    {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-		    {-0.5, 0.5, -0.5, 0.5, 12/8, 0.5},
-	    },
-         },
+	 selection_box = selection_box,
          collision_box = {
             type = "regular",
          },
 	 paramtype2 = "wallmounted",
          visual_scale = 1.15,
          tiles = basenode_tiles,
-         special_tiles = {"rp_default_sea_grass_clump.png"},
-         inventory_image = "rp_default_sea_grass_on_"..append..".png",
-         wield_image = "rp_default_sea_grass_on_"..append..".png",
+         special_tiles = {"rp_default_"..plant_id.."_clump.png"},
+         inventory_image = "rp_default_"..plant_id.."_on_"..append..".png",
+         wield_image = "rp_default_"..plant_id.."_on_"..append..".png",
          waving = 1,
          walkable = true,
          groups = {snappy = 2, dig_immediate = 3, grass = 1, sea_grass = 1, green_grass = 1, plant = 1},
@@ -1124,21 +1123,44 @@ local register_sea_grass = function(append, basenode, basenode_tiles)
          after_destruct = function(pos)
 	         minetest.set_node(pos, {name=basenode})
          end,
-	 drop = "rp_default:sea_grass",
+	 drop = drop,
    })
 end
+local register_sea_grass_on = function(append, basenode, basenode_tiles)
+   register_sea_grass("sea_grass",
+      { type = "fixed",
+        fixed = {
+           {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+           {-0.5, 0.5, -0.5, 0.5, 17/16, 0.5},
+      }}, "rp_default:sea_grass", append, basenode, basenode_tiles)
+   register_sea_grass("tall_sea_grass",
+      { type = "fixed",
+        fixed = {
+           {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+           {-0.5, 0.5, -0.5, 0.5, 1.5, 0.5},
+      }}, "rp_default:sea_grass", append, basenode, basenode_tiles)
 
+end
+
+minetest.register_craftitem("rp_default:tall_sea_grass", {
+   description = S("Tall Sea Grass Clump"),
+   _tt_help = S("Grows underwater on dirt or swamp dirt"),
+   inventory_image = "rp_default_tall_sea_grass_clump_inventory.png",
+   wield_image = "rp_default_tall_sea_grass_clump_inventory.png",
+   on_place = get_sea_plant_on_place("tall_sea_grass"),
+   groups = { green_grass = 1, sea_grass = 1, plant = 1, grass = 1 },
+})
 minetest.register_craftitem("rp_default:sea_grass", {
    description = S("Sea Grass Clump"),
    _tt_help = S("Grows underwater on dirt or swamp dirt"),
    inventory_image = "rp_default_sea_grass_clump_inventory.png",
    wield_image = "rp_default_sea_grass_clump_inventory.png",
-   on_place = sea_plant_on_place,
+   on_place = get_sea_plant_on_place("sea_grass"),
    groups = { green_grass = 1, sea_grass = 1, plant = 1, grass = 1 },
 })
 
-register_sea_grass("dirt", "rp_default:dirt", {"default_dirt.png"})
-register_sea_grass("swamp_dirt", "rp_default:swamp_dirt", {"default_swamp_dirt.png"})
+register_sea_grass_on("dirt", "rp_default:dirt", {"default_dirt.png"})
+register_sea_grass_on("swamp_dirt", "rp_default:swamp_dirt", {"default_swamp_dirt.png"})
 
 -- Thistle
 

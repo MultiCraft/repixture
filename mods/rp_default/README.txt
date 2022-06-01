@@ -21,7 +21,7 @@ Sound licenses:
 Texture license: CC BY-SA 4.0
   * rp_default_reed*:
      * Author: Wuzzy
-  * rp_default_sea_grass*:
+  * rp_default_sea_grass*, rp_default_tall_sea_grass*:
      * Author: kilbith (with some modifications by Wuzzy)
   * Everything else
      * Author: Kaadmy
