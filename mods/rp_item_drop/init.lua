@@ -81,8 +81,20 @@ function minetest.handle_node_drops(pos, drops, digger)
    if minetest.is_creative_enabled("") then
       return
    end
+   local node = minetest.get_node(pos)
+   local def = minetest.registered_nodes[node.name]
+   local droppos = table.copy(pos)
+   if def and def.drawtype == "plantlike_rooted" then
+      local dir
+      if def.paramtype2 == "wallmounted" then
+         dir = vector.multiply(minetest.wallmounted_to_dir(node.param2), -1)
+      else
+         dir = vector.new(0, 1, 0)
+      end
+      droppos = vector.add(pos, dir)
+   end
    for _,item in ipairs(drops) do
-      local obj = minetest.add_item(pos, item)
+      local obj = minetest.add_item(droppos, item)
       if obj ~= nil then
          local x = math.random(1, 5)
          if math.random(1,2) == 1 then
