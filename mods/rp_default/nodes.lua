@@ -1100,7 +1100,7 @@ end
 -- Seagrass
 
 
-local register_sea_grass = function(plant_id, selection_box, drop, append, basenode, basenode_tiles)
+local register_sea_grass = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, _on_trim)
    minetest.register_node(
       "rp_default:"..plant_id.."_on_"..append,
       {
@@ -1121,8 +1121,12 @@ local register_sea_grass = function(plant_id, selection_box, drop, append, basen
          sounds = rp_sounds.node_sound_leaves_defaults(),
 	 node_dig_prediction = basenode,
          after_destruct = function(pos)
-	         minetest.set_node(pos, {name=basenode})
+            local newnode = minetest.get_node(pos)
+            if minetest.get_item_group(newnode.name, "sea_grass") == 0 then
+               minetest.set_node(pos, {name=basenode})
+            end
          end,
+	 _on_trim = _on_trim,
 	 drop = drop,
    })
 end
@@ -1133,12 +1137,31 @@ local register_sea_grass_on = function(append, basenode, basenode_tiles)
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 17/16, 0.5},
       }}, "rp_default:sea_grass", append, basenode, basenode_tiles)
+
+    -- Trim tall sea grass with shears
+    local _on_trim = function(pos, node, player, itemstack)
+       local param2 = node.param2
+       -- This turns it to a normal sea grass clump and drops one bonus sea grass clump
+       minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8}, true)
+       minetest.set_node(pos, {name = "rp_default:sea_grass_on_"..append, param2 = param2})
+
+       local dir = vector.multiply(minetest.wallmounted_to_dir(param2), -1)
+       local droppos = vector.add(pos, dir)
+       item_drop.drop_item(droppos, "rp_default:sea_grass")
+
+       -- Add wear
+       if not minetest.is_creative_enabled(player:get_player_name()) then
+          local def = itemstack:get_definition()
+          itemstack:add_wear(math.ceil(65536 / def.tool_capabilities.groupcaps.snappy.uses))
+       end
+       return itemstack
+   end
    register_sea_grass("tall_sea_grass",
       { type = "fixed",
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 1.5, 0.5},
-      }}, "rp_default:sea_grass", append, basenode, basenode_tiles)
+      }}, "rp_default:sea_grass", append, basenode, basenode_tiles, _on_trim)
 
 end
 
