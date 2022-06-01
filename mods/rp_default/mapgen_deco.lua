@@ -1025,6 +1025,71 @@ end
 -- Rock decorations
 
 if mg_name ~= "v6" then
+-- Underwater
+default.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt", "rp_default:dirt", "rp_default:gravel"},
+      sidelen = 16,
+      fill_ratio = 0.006,
+      flags = "place_center_x, place_center_z",
+      biomes = { "Wasteland Ocean", "Wasteland Beach", "Savannic Wasteland Ocean", "Rocky Dryland Ocean", "Grassland Ocean", "Savanna Ocean" },
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_boulder_small.mts",
+      y_min = -200,
+      y_max = -2,
+      rotation = "random",
+      flags = "force_placement",
+})
+default.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt", "rp_default:dirt"},
+      sidelen = 16,
+      fill_ratio = 0.001,
+      flags = "place_center_x, place_center_z",
+      biomes = { "Wasteland Ocean", "Savannic Wasteland Ocean", "Rocky Dryland Ocean" },
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_boulder.mts",
+      y_min = -200,
+      y_max = -10,
+      rotation = "random",
+      flags = "force_placement",
+})
+default.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dirt"},
+      sidelen = 16,
+      fill_ratio = 0.003,
+      flags = "place_center_x, place_center_z",
+      biomes = { "Mystery Forest Ocean" },
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_boulder.mts",
+      y_min = -200,
+      y_max = -3,
+      rotation = "random",
+      flags = "force_placement",
+})
+
+default.register_decoration(
+   {
+      deco_type = "schematic",
+      place_on = {"rp_default:dry_dirt", "rp_default:sand"},
+      sidelen = 16,
+      biomes = { "Savannic Wasteland Ocean", "Wilderness Ocean" },
+      fill_ratio = 0.003,
+      flags = "place_center_x, place_center_z",
+      schematic = minetest.get_modpath("rp_default")
+         .. "/schematics/rp_default_sandstone_mound.mts",
+      y_min = -200,
+      y_max = 2,
+      rotation = "random",
+      flags = "force_placement",
+})
+
+
+-- Overwater
 default.register_decoration(
    {
       deco_type = "schematic",
