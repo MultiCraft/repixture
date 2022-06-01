@@ -19,5 +19,11 @@ Sound licenses:
     * Author: JustInvoke (CC BY 3.0)
   * All other sounds: CC0
 Texture license: CC BY-SA 4.0
+  * rp_default_reed*:
+     * Author: Wuzzy
+  * rp_default_sea_grass*:
+     * Author: kilbith (with some modifications by Wuzzy)
+  * Everything else
+     * Author: Kaadmy
 Source license: LGPLv2.1
 	- Fence code based on Minetest Game 5.5.0
