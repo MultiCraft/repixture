@@ -1044,7 +1044,7 @@ minetest.register_node(
       end,
 })
 
-local function get_sea_plant_on_place(base)
+local function get_sea_plant_on_place(base, paramtype2)
 return function(itemstack, placer, pointed_thing)
 	if pointed_thing.type ~= "node" or not placer then
 		return itemstack
@@ -1061,24 +1061,41 @@ return function(itemstack, placer, pointed_thing)
 				placer, itemstack, pointed_thing) or itemstack
 	end
 
-	if pos_under.y > pos_above.y then
-		node_under.param2 = 0
-	elseif pos_under.y < pos_above.y then
-		node_under.param2 = 1
-	else
-		return itemstack
-	end
 	local name_above = minetest.get_node(pos_above).name
 	local def_above = minetest.registered_nodes[name_above]
 	if not (minetest.get_item_group(name_above, "water") > 0 and def_above.liquidtype == "source") then
 		return itemstack
 	end
+
+	local leveled_grown = false
 	if node_under.name == "rp_default:dirt" then
 		node_under.name = "rp_default:"..base.."_on_dirt"
 	elseif node_under.name == "rp_default:swamp_dirt" then
 		node_under.name = "rp_default:"..base.."_on_swamp_dirt"
+	elseif base == "alga" and node_under.name == "rp_default:alga_block" then
+		node_under.name = "rp_default:"..base.."_on_alga_block"
+	-- Grow leveled node by 1 "node length"
+	elseif def_under.paramtype2 == "leveled" and pos_under.y < pos_above.y then
+		local leveled_max = def_under.leveled_max or 240
+		node_under.param2 = math.min(leveled_max, node_under.param2 + 16)
+		leveled_grown = true
 	else
 		return itemstack
+	end
+
+	if not leveled_grown then
+		def_under = minetest.registered_nodes[node_under.name]
+		if def_under and def_under.place_param2 then
+			node_under.param2 = def_under.place_param2
+		elseif paramtype2 == "wallmounted" then
+			if pos_under.y > pos_above.y then
+				node_under.param2 = 0
+			elseif pos_under.y < pos_above.y then
+				node_under.param2 = 1
+			else
+				return itemstack
+			end
+		end
 	end
 
 	if minetest.is_protected(pos_under, player_name) or
@@ -1170,7 +1187,7 @@ minetest.register_craftitem("rp_default:tall_sea_grass", {
    _tt_help = S("Grows underwater on dirt or swamp dirt"),
    inventory_image = "rp_default_tall_sea_grass_clump_inventory.png",
    wield_image = "rp_default_tall_sea_grass_clump_inventory.png",
-   on_place = get_sea_plant_on_place("tall_sea_grass"),
+   on_place = get_sea_plant_on_place("tall_sea_grass", "wallmounted"),
    groups = { green_grass = 1, sea_grass = 1, plant = 1, grass = 1 },
 })
 minetest.register_craftitem("rp_default:sea_grass", {
@@ -1178,12 +1195,100 @@ minetest.register_craftitem("rp_default:sea_grass", {
    _tt_help = S("Grows underwater on dirt or swamp dirt"),
    inventory_image = "rp_default_sea_grass_clump_inventory.png",
    wield_image = "rp_default_sea_grass_clump_inventory.png",
-   on_place = get_sea_plant_on_place("sea_grass"),
+   on_place = get_sea_plant_on_place("sea_grass", "wallmounted"),
    groups = { green_grass = 1, sea_grass = 1, plant = 1, grass = 1 },
 })
 
 register_sea_grass_on("dirt", "rp_default:dirt", {"default_dirt.png"})
 register_sea_grass_on("swamp_dirt", "rp_default:swamp_dirt", {"default_swamp_dirt.png"})
+
+-- Alga
+local register_alga_on = function(append, basenode, basenode_tiles, max_height)
+   if not max_height then
+      max_height = 15
+   end
+   minetest.register_node(
+      "rp_default:alga_on_"..append,
+      {
+         drawtype = "plantlike_rooted",
+	 selection_box = {
+            type = "fixed",
+	    fixed = {
+               { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5 }, -- base
+               { -6/16, 0.5, -6/16, 6/16, 1.5, 6/16 }, -- plant
+	    },
+	 },
+         collision_box = {
+            type = "regular",
+         },
+	 waving = 1,
+	 paramtype2 = "leveled",
+	 place_param2 = 16,
+	 leveled_max = 16 * max_height,
+         tiles = basenode_tiles,
+         special_tiles = {{name="rp_default_alga.png", tileable_vertical=true}},
+         inventory_image = "rp_default_alga_on_"..append..".png",
+         wield_image = "rp_default_alga_on_"..append..".png",
+         walkable = true,
+         groups = {snappy = 2, dig_immediate = 3, alga = 1, plant = 1},
+         sounds = rp_sounds.node_sound_leaves_defaults(),
+	 node_dig_prediction = basenode,
+	 drop = "rp_default:alga",
+         after_destruct = function(pos)
+            local newnode = minetest.get_node(pos)
+            if minetest.get_item_group(newnode.name, "alga") == 0 then
+               minetest.set_node(pos, {name=basenode})
+            end
+         end,
+	 _on_trim = function(pos, node, player, itemstack)
+            local param2 = node.param2
+            -- This reduces the alga height
+            minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8}, true)
+            minetest.set_node(pos, {name = "rp_default:alga_on_"..append, param2 = param2})
+
+            local dir = vector.multiply(minetest.wallmounted_to_dir(param2), -1)
+            local droppos = vector.add(pos, vector.new(0,1,0))
+            item_drop.drop_item(droppos, "rp_default:alga")
+
+            -- Add wear
+            if not minetest.is_creative_enabled(player:get_player_name()) then
+               local def = itemstack:get_definition()
+               itemstack:add_wear(math.ceil(65536 / def.tool_capabilities.groupcaps.snappy.uses))
+            end
+            return itemstack
+         end,
+   })
+end
+
+minetest.register_craftitem("rp_default:alga", {
+   description = S("Alga"),
+   _tt_help = S("Grows underwater on dirt or swamp dirt"),
+   inventory_image = "rp_default_alga_inventory.png",
+   wield_image = "rp_default_alga_inventory.png",
+   on_place = get_sea_plant_on_place("alga", "leveled"),
+   groups = { plant = 1, alga = 1 },
+})
+
+local alga_block_tiles = {
+   "rp_default_alga_block_top.png",
+   "rp_default_alga_block_top.png",
+   "rp_default_alga_block_side.png",
+}
+
+register_alga_on("dirt", "rp_default:dirt", {"default_dirt.png"}, 5)
+register_alga_on("swamp_dirt", "rp_default:swamp_dirt", {"default_swamp_dirt.png"}, 7)
+register_alga_on("alga_block", "rp_default:alga_block", alga_block_tiles, 10)
+
+-- Alga Block
+minetest.register_node(
+   "rp_default:alga_block",
+   {
+      description = S("Alga Block"),
+      tiles = alga_block_tiles,
+      groups = {snappy=2, fall_damage_add_percent=-10, slippery=2},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_leaves_defaults(),
+})
 
 -- Thistle
 
@@ -1448,6 +1553,7 @@ minetest.register_node(
       use_texture_alpha = "blend",
       drop = "",
       paramtype = "light",
+      sunlight_propagates = false,
       walkable = false,
       pointable = false,
       diggable = false,
@@ -1481,6 +1587,7 @@ minetest.register_node(
 	 },
       },
       use_texture_alpha = "blend",
+      sunlight_propagates = false,
       drop = "",
       paramtype = "light",
       walkable = false,

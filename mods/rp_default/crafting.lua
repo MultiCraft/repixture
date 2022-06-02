@@ -535,6 +535,14 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
+      output = "rp_default:alga_block",
+      items = {
+         "rp_default:alga 9",
+      }
+})
+
+crafting.register_craft(
+   {
       output = "rp_default:book",
       items = {
          "rp_default:paper 3",
