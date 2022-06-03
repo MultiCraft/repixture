@@ -1255,6 +1255,32 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height)
                minetest.set_node(pos, {name=basenode})
             end
          end,
+	 on_dig = function(pos, node, digger)
+            local dname = ""
+            if digger:is_player() then
+               dname = digger:get_player_name()
+            end
+            -- Check protection
+            if minetest.is_protected(pos, digger:get_player_name()) and
+                    not minetest.check_player_privs(digger, "protection_bypass") then
+                minetest.record_protection_violation(pos, digger:get_player_name())
+                return itemstack
+            end
+            local height = math.floor(node.param2 / 16)
+	    -- Destroy alga
+	    local def = minetest.registered_nodes[node.name]
+	    node.name = def.node_dig_prediction
+	    node.param2 = 0
+	    minetest.set_node(pos, node)
+	    -- Drop items
+            if not minetest.is_creative_enabled(digger:get_player_name()) then
+               for i=2, height+1 do
+	          local droppos = vector.new(pos.x, pos.y + i, pos.z)
+                  item_drop.drop_item(droppos, "rp_default:alga")
+               end
+	    end
+	    return true
+	 end,
 	 _on_trim = function(pos, node, player, itemstack)
             local param2 = node.param2
             if param2 <= 16 then
@@ -1277,9 +1303,8 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height)
 	    end
 	    if not minetest.is_creative_enabled(player:get_player_name()) then
                local dir = vector.multiply(minetest.wallmounted_to_dir(param2), -1)
-               local droppos = vector.new(pos, vector.new(0,1,0))
-	       for i=1, cut_height do
-	          droppos.y = pos.y + i
+               for i=3, cut_height+2 do
+                  local droppos = vector.new(pos.x, pos.y + i, pos.z)
                   item_drop.drop_item(droppos, "rp_default:alga")
                end
             end
