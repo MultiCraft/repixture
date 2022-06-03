@@ -83,6 +83,8 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `fern`: Fern
 * `flower`: Flower
 * `seed`: Seed
+* `seagrass`: Seagrass
+* `alga`: Alga
 
 * `leaves`: Any leaves
 * `dry_leaves`: Dry leaves
