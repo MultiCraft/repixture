@@ -1093,14 +1093,6 @@ return function(itemstack, placer, pointed_thing)
 	def_under = minetest.registered_nodes[node_under.name]
 	if def_under and def_under.place_param2 then
 		node_under.param2 = def_under.place_param2
-	elseif paramtype2 == "wallmounted" then
-		if pos_under.y > pos_above.y then
-			node_under.param2 = 0
-		elseif pos_under.y < pos_above.y then
-			node_under.param2 = 1
-		else
-			return itemstack
-		end
 	end
 
 
@@ -1125,7 +1117,6 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
          collision_box = {
             type = "regular",
          },
-	 paramtype2 = "wallmounted",
          visual_scale = 1.15,
          tiles = basenode_tiles,
          special_tiles = {"rp_default_"..plant_id.."_clump.png"},

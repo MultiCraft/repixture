@@ -1706,7 +1706,6 @@ default.register_decoration(
       num_spawn_by = 1,
       place_offset_y = -1,
       flags = "force_placement",
-      param2 = 1,
 })
 default.register_decoration(
    {
@@ -1721,7 +1720,6 @@ default.register_decoration(
       num_spawn_by = 1,
       place_offset_y = -1,
       flags = "force_placement",
-      param2 = 1,
 })
 default.register_decoration(
    {
@@ -1736,7 +1734,6 @@ default.register_decoration(
       num_spawn_by = 1,
       place_offset_y = -1,
       flags = "force_placement",
-      param2 = 1,
 })
 default.register_decoration(
    {
@@ -1751,7 +1748,6 @@ default.register_decoration(
       num_spawn_by = 1,
       place_offset_y = -1,
       flags = "force_placement",
-      param2 = 1,
 })
 
 -- Extra sea grass in swamp meadow biomes
@@ -1769,7 +1765,6 @@ default.register_decoration(
       num_spawn_by = 1,
       place_offset_y = -1,
       flags = "force_placement",
-      param2 = 1,
 })
 default.register_decoration(
    {
@@ -1785,7 +1780,6 @@ default.register_decoration(
       num_spawn_by = 1,
       place_offset_y = -1,
       flags = "force_placement",
-      param2 = 1,
 })
 
 end
