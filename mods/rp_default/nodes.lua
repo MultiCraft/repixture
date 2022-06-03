@@ -1047,56 +1047,81 @@ minetest.register_node(
 local function get_sea_plant_on_place(base, paramtype2)
 return function(itemstack, placer, pointed_thing)
 	if pointed_thing.type ~= "node" or not placer then
-		return itemstack
+           return itemstack
 	end
+
+        -- Boilerplate to handle pointed node handlers
+        local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+        if handled then
+           return handled_itemstack
+        end
 
 	local player_name = placer:get_player_name()
-	local pos_under = pointed_thing.under
-	local pos_above = pointed_thing.above
-	local node_under = minetest.get_node(pos_under)
-	local def_under = minetest.registered_nodes[node_under.name]
+        local undernode = minetest.get_node(pointed_thing.under)
+	local underdef = minetest.registered_nodes[undernode.name]
+	-- Grow leveled plantlike_rooted node by 1 "node length"
+	if paramtype2 == "leveled" and underdef and underdef.paramtype2 == "leveled" and pointed_thing.under.y < pointed_thing.above.y and pointed_thing.under.x == pointed_thing.above.x and pointed_thing.under.z == pointed_thing.above.z then
+           if minetest.is_protected(pointed_thing.under, player_name) or
+                 minetest.is_protected(pointed_thing.above, player_name) then
+              minetest.record_protection_violation(pointed_thing.under, player_name)
+              return itemstack
+           end
+           local grown, top = default.grow_underwater_leveled_plant(pointed_thing.under, undernode)
+           if grown then
+              local snd = underdef.sounds.place
+              if snd and top then
+                 minetest.sound_play(snd, {pos = top}, true)
+              end
+              if not minetest.is_creative_enabled(player_name) then
+                 itemstack:take_item()
+              end
+           end
+           return itemstack
+        end
 
-	if def_under and def_under.on_rightclick and not placer:get_player_control().sneak then
-		return def_under.on_rightclick(pos_under, node_under,
-				placer, itemstack, pointed_thing) or itemstack
-	end
+        -- Find position to place plant at
+        local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
+        if place_in == nil then
+           return itemstack
+        end
+        local floornode = minetest.get_node(place_floor)
 
-	local name_above = minetest.get_node(pos_above).name
-	local def_above = minetest.registered_nodes[name_above]
-	if not (minetest.get_item_group(name_above, "water") > 0 and def_above.liquidtype == "source") then
+        -- Check protection
+        if minetest.is_protected(place_in, player_name) or
+              minetest.is_protected(place_floor, player_name) then
+           minetest.record_protection_violation(place_floor, player_name)
+           return itemstack
+        end
+
+	local node_floor = minetest.get_node(place_floor)
+	local def_floor = minetest.registered_nodes[node_floor.name]
+
+	local name_in = minetest.get_node(place_in).name
+	local def_in = minetest.registered_nodes[name_in]
+	if not (minetest.get_item_group(name_in, "water") > 0 and def_in.liquidtype == "source") then
 		return itemstack
 	end
 
-	if minetest.is_protected(pos_under, player_name) or
-			minetest.is_protected(pos_above, player_name) then
-		minetest.record_protection_violation(pos_under, player_name)
-		return itemstack
-	end
-
-	if node_under.name == "rp_default:dirt" then
-		node_under.name = "rp_default:"..base.."_on_dirt"
-	elseif node_under.name == "rp_default:swamp_dirt" then
-		node_under.name = "rp_default:"..base.."_on_swamp_dirt"
-	elseif base == "alga" and node_under.name == "rp_default:alga_block" then
-		node_under.name = "rp_default:"..base.."_on_alga_block"
-	-- Grow leveled node by 1 "node length"
-	elseif def_under.paramtype2 == "leveled" and pos_under.y < pos_above.y then
-		local grown = default.grow_underwater_leveled_plant(pos_under, node_under)
-		if grown and not minetest.is_creative_enabled(player_name) then
-			itemstack:take_item()
-		end
-		return itemstack
+	if node_floor.name == "rp_default:dirt" then
+		node_floor.name = "rp_default:"..base.."_on_dirt"
+	elseif node_floor.name == "rp_default:swamp_dirt" then
+		node_floor.name = "rp_default:"..base.."_on_swamp_dirt"
+	elseif base == "alga" and node_floor.name == "rp_default:alga_block" then
+		node_floor.name = "rp_default:"..base.."_on_alga_block"
 	else
 		return itemstack
 	end
 
-	def_under = minetest.registered_nodes[node_under.name]
-	if def_under and def_under.place_param2 then
-		node_under.param2 = def_under.place_param2
+	def_floor = minetest.registered_nodes[node_floor.name]
+	if def_floor and def_floor.place_param2 then
+		node_floor.param2 = def_floor.place_param2
 	end
 
-
-	minetest.set_node(pos_under, node_under)
+	minetest.set_node(place_floor, node_floor)
+        local snd = def_floor.sounds.place
+        if snd then
+           minetest.sound_play(snd, {pos = place_in}, true)
+        end
 	if not minetest.is_creative_enabled(player_name) then
 		itemstack:take_item()
 	end
