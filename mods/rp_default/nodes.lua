@@ -1096,9 +1096,7 @@ return function(itemstack, placer, pointed_thing)
 	local node_floor = minetest.get_node(place_floor)
 	local def_floor = minetest.registered_nodes[node_floor.name]
 
-	local name_in = minetest.get_node(place_in).name
-	local def_in = minetest.registered_nodes[name_in]
-	if not (minetest.get_item_group(name_in, "water") > 0 and def_in.liquidtype == "source") then
+	if not util.is_water_source_or_waterfall(place_in) then
 		return itemstack
 	end
 

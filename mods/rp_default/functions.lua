@@ -396,9 +396,7 @@ function default.grow_underwater_leveled_plant(pos, node, add)
 	local height = math.ceil(new_level / 16)
 	for i = 1, height do
 		local pos2 = vector.new(pos.x, pos.y + i, pos.z)
-		local node2 = minetest.get_node(pos2)
-		local def2 = minetest.registered_nodes[node2.name]
-		if not (minetest.get_item_group(node2.name, "water") > 0 and def2.liquidtype == "source") then
+		if not util.is_water_source_or_waterfall(pos2) then
 			return false
 		end
 	end
@@ -720,9 +718,8 @@ minetest.register_abm( -- seagrass dies if not underwater
       action = function(pos, node)
          local dir = vector.new(0,1,0)
          local plantpos = vector.add(pos, dir)
-         local name = minetest.get_node(plantpos).name
-         local water = minetest.get_item_group(name, "water") ~= 0
-         if not water then
+         local is_water = util.is_water_source_or_waterfall(plantpos)
+         if not is_water then
             if node.name == "rp_default:seagrass_on_dirt" or node.name == "rp_default:tall_seagrass_on_dirt" then
                 minetest.set_node(pos, {name = "rp_default:dirt"})
             elseif node.name == "rp_default:seagrass_on_swamp_dirt" or node.name == "rp_default:tall_seagrass_on_swamp_dirt" then
@@ -744,9 +741,8 @@ minetest.register_abm( -- algae die/become smaller if not fully underwater
 	 local height_ok = 0
 	 for h=1, height do
             segmentpos.y = pos.y + h
-            local name = minetest.get_node(segmentpos).name
-            local water = minetest.get_item_group(name, "water") ~= 0
-            if not water then
+            local is_water = util.is_water_source_or_waterfall(segmentpos)
+            if not is_water then
                break
             end
             height_ok = h

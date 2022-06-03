@@ -318,3 +318,32 @@ function util.handle_node_protection(player, pointed_thing)
    end
    return false
 end
+
+-- Returns true if node at given pos is water AND either a source or a "waterfall"
+-- (water flowing downwards)
+function util.is_water_source_or_waterfall(pos)
+   local node = minetest.get_node(pos)
+   local is_water = minetest.get_item_group(node.name, "water") > 0
+   if not is_water then
+      return false
+   end
+   local def = minetest.registered_nodes[node.name]
+   if not def then
+      return false
+   end
+   if def.liquidtype == "source" then
+      return true
+   elseif def.liquidtype == "flowing" then
+      local bits = node.param2 % 16
+      if bits >= 8 then
+         return true
+      else
+         local above = vector.add(pos, vector.new(0,1,0))
+	 local anode = minetest.get_node(above)
+	 if minetest.get_item_group(anode.name, "water") > 0 then
+            return true
+	 end
+      end
+   end
+   return false
+end
