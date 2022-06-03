@@ -1214,8 +1214,8 @@ minetest.register_craftitem("rp_default:seagrass", {
    groups = { green_grass = 1, seagrass = 1, plant = 1, grass = 1 },
 })
 
-register_seagrass_on("dirt", "rp_default:dirt", {"default_dirt.png"})
-register_seagrass_on("swamp_dirt", "rp_default:swamp_dirt", {"default_swamp_dirt.png"})
+register_seagrass_on("dirt", "rp_default:dirt", {{name="default_dirt.png",backface_culling=true}})
+register_seagrass_on("swamp_dirt", "rp_default:swamp_dirt", {{name="default_swamp_dirt.png", backface_culling=true}})
 
 -- Alga
 local register_alga_on = function(append, basenode, basenode_tiles, max_height)
@@ -1323,13 +1323,13 @@ minetest.register_craftitem("rp_default:alga", {
 })
 
 local alga_block_tiles = {
-   "rp_default_alga_block_top.png",
-   "rp_default_alga_block_top.png",
-   "rp_default_alga_block_side.png",
+   { name="rp_default_alga_block_top.png", backface_culling=true },
+   { name="rp_default_alga_block_top.png", backface_culling=true },
+   { name="rp_default_alga_block_side.png", backface_culling=true },
 }
 
-register_alga_on("dirt", "rp_default:dirt", {"default_dirt.png"}, 5)
-register_alga_on("swamp_dirt", "rp_default:swamp_dirt", {"default_swamp_dirt.png"}, 7)
+register_alga_on("dirt", "rp_default:dirt", {{name="default_dirt.png",backface_culling=true}}, 5)
+register_alga_on("swamp_dirt", "rp_default:swamp_dirt", {{name="default_swamp_dirt.png",backface_culling=true}}, 7)
 register_alga_on("alga_block", "rp_default:alga_block", alga_block_tiles, 10)
 
 -- Alga Block
