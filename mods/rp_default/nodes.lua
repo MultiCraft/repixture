@@ -1257,18 +1257,31 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height)
          end,
 	 _on_trim = function(pos, node, player, itemstack)
             local param2 = node.param2
+            if param2 <= 16 then
+               return itemstack
+            end
+            local cut_height = math.floor((node.param2 - 16) / 16)
             -- This reduces the alga height
             minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8}, true)
-            minetest.set_node(pos, {name = "rp_default:alga_on_"..append, param2 = param2})
-
-            local dir = vector.multiply(minetest.wallmounted_to_dir(param2), -1)
-            local droppos = vector.add(pos, vector.new(0,1,0))
-            item_drop.drop_item(droppos, "rp_default:alga")
+            minetest.set_node(pos, {name=node.name, param2=16})
 
             -- Add wear
             if not minetest.is_creative_enabled(player:get_player_name()) then
                local def = itemstack:get_definition()
                itemstack:add_wear(math.ceil(65536 / def.tool_capabilities.groupcaps.snappy.uses))
+            end
+
+	    -- Drop items
+	    if cut_height < 1 then
+               return itemstack
+	    end
+	    if not minetest.is_creative_enabled(player:get_player_name()) then
+               local dir = vector.multiply(minetest.wallmounted_to_dir(param2), -1)
+               local droppos = vector.new(pos, vector.new(0,1,0))
+	       for i=1, cut_height do
+	          droppos.y = pos.y + i
+                  item_drop.drop_item(droppos, "rp_default:alga")
+               end
             end
             return itemstack
          end,
