@@ -699,8 +699,8 @@ minetest.register_abm( -- seagrass dies if not underwater
       interval = 10,
       chance = 20,
       action = function(pos, node)
-	 local dir = minetest.wallmounted_to_dir(node.param2)
-         local plantpos = vector.subtract(pos, dir)
+	 local dir = vector.new(0,1,0)
+         local plantpos = vector.add(pos, dir)
          local name = minetest.get_node(plantpos).name
          local water = minetest.get_item_group(name, "water") ~= 0
          if not water then
@@ -713,6 +713,40 @@ minetest.register_abm( -- seagrass dies if not underwater
       end
 })
 
+minetest.register_abm( -- algae dies/becomes smaller if not fully underwater
+   {
+      label = "Algae decay",
+      nodenames = {"group:alga"},
+      interval = 10,
+      chance = 20,
+      action = function(pos, node)
+         local height = math.ceil(node.param2 / 16)
+         local segmentpos = vector.new(pos.x,pos.y,pos.z)
+	 local height_ok = 0
+	 for h=1, height do
+            segmentpos.y = pos.y + h
+            local name = minetest.get_node(segmentpos).name
+            local water = minetest.get_item_group(name, "water") ~= 0
+            if not water then
+               break
+            end
+            height_ok = h
+         end
+
+	 if height_ok < 1 then
+            if node.name == "rp_default:alga_on_dirt" then
+               minetest.set_node(pos, {name = "rp_default:dirt"})
+            elseif node.name == "rp_default:alga_on_swamp_dirt" then
+               minetest.set_node(pos, {name = "rp_default:swamp_dirt"})
+            elseif node.name == "rp_default:alga_on_alga_block" then
+               minetest.set_node(pos, {name = "rp_default:alga_block"})
+            end
+         else
+            local param2 = height_ok * 16
+	    minetest.set_node(pos, {name=node.name, param2=param2})
+         end
+      end,
+})
 
 minetest.register_abm({
     label = "Flower/fern expansion",
