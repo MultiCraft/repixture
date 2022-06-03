@@ -50,8 +50,20 @@ minetest.register_craftitem(
          elseif diff.y > 0 and unode.name == "rp_default:dirt_with_swamp_grass" and anode.name == "air" then
             minetest.set_node(apos, {name="rp_default:swamp_grass"})
 	    used = true
+         elseif diff.y > 0 and unode.name == "rp_default:alga_block" and anode.name == "air" then
+            minetest.set_node(upos, {name="rp_default:alga_on_alga_block", param2 = 16})
+	    used = true
+         elseif minetest.get_item_group(unode.name, "alga") == 1 then
+            local grown = default.grow_underwater_leveled_plant(upos, unode)
+	    used = grown == true
          elseif unode.name == "rp_default:grass" then
             minetest.set_node(upos, {name="rp_default:tall_grass"})
+	    used = true
+         elseif unode.name == "rp_default:sea_grass_on_dirt" then
+            minetest.set_node(upos, {name="rp_default:tall_sea_grass_on_dirt", param2 = unode.param2})
+	    used = true
+         elseif unode.name == "rp_default:sea_grass_on_swamp_dirt" then
+            minetest.set_node(upos, {name="rp_default:tall_sea_grass_on_swamp_dirt", param2 = unode.param2})
 	    used = true
          elseif minetest.get_item_group(unode.name, "farming_plant") == 1 then
             local udef = minetest.registered_nodes[unode.name]
