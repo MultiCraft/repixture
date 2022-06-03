@@ -113,6 +113,10 @@ minetest.register_craftitem(
 	 -- Fertilize node (depending on node type)
 	 local underpos = pointed_thing.under
          local undernode = minetest.get_node(underpos)
+         -- No fertilizer available for underwater plants
+         if minetest.get_item_group(undernode.name, "alga") == 0 or minetest.get_item_group(undernode.name, "seagrass") then
+            return itemstack
+         end
          if minetest.get_item_group(undernode.name, "plant") ~= 0 then
             underpos = vector.add(underpos, vector.new(0,-1,0))
             undernode = minetest.get_node(underpos)
