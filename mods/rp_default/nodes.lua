@@ -1067,7 +1067,12 @@ return function(itemstack, placer, pointed_thing)
 		return itemstack
 	end
 
-	local leveled_grown = false
+	if minetest.is_protected(pos_under, player_name) or
+			minetest.is_protected(pos_above, player_name) then
+		minetest.record_protection_violation(pos_under, player_name)
+		return itemstack
+	end
+
 	if node_under.name == "rp_default:dirt" then
 		node_under.name = "rp_default:"..base.."_on_dirt"
 	elseif node_under.name == "rp_default:swamp_dirt" then
@@ -1076,32 +1081,26 @@ return function(itemstack, placer, pointed_thing)
 		node_under.name = "rp_default:"..base.."_on_alga_block"
 	-- Grow leveled node by 1 "node length"
 	elseif def_under.paramtype2 == "leveled" and pos_under.y < pos_above.y then
-		local leveled_max = def_under.leveled_max or 240
-		node_under.param2 = math.min(leveled_max, node_under.param2 + 16)
-		leveled_grown = true
+		local grown = default.grow_underwater_leveled_plant(pos_under, node_under)
+		if grown and not minetest.is_creative_enabled(player_name) then
+			itemstack:take_item()
+		end
+		return itemstack
 	else
 		return itemstack
 	end
 
-	if not leveled_grown then
-		def_under = minetest.registered_nodes[node_under.name]
-		if def_under and def_under.place_param2 then
-			node_under.param2 = def_under.place_param2
-		elseif paramtype2 == "wallmounted" then
-			if pos_under.y > pos_above.y then
-				node_under.param2 = 0
-			elseif pos_under.y < pos_above.y then
-				node_under.param2 = 1
-			else
-				return itemstack
-			end
+	def_under = minetest.registered_nodes[node_under.name]
+	if def_under and def_under.place_param2 then
+		node_under.param2 = def_under.place_param2
+	elseif paramtype2 == "wallmounted" then
+		if pos_under.y > pos_above.y then
+			node_under.param2 = 0
+		elseif pos_under.y < pos_above.y then
+			node_under.param2 = 1
+		else
+			return itemstack
 		end
-	end
-
-	if minetest.is_protected(pos_under, player_name) or
-			minetest.is_protected(pos_above, player_name) then
-		minetest.record_protection_violation(pos_under, player_name)
-		return itemstack
 	end
 
 

@@ -362,6 +362,41 @@ function default.grow_sapling(pos)
    return true
 end
 
+-- Grows a plantlike_rooted plant that lives underwater by `add` node lengths
+-- (default: 1)
+function default.grow_underwater_leveled_plant(pos, node, add)
+	local def = minetest.registered_nodes[node.name]
+	if not def then
+		return false
+	end
+	if not add then
+		add = 1
+	end
+	local new_level = node.param2 + (16 * add)
+	if new_level % 16 > 0 then
+		new_level = new_level - new_level % 16
+	end
+	local max_level = def.leveled_max
+	if new_level > max_level then
+		new_level = max_level
+	end
+	if new_level < 0 then
+		new_level = 0
+	end
+	local height = math.ceil(new_level / 16)
+	for i = 1, height do
+		local pos2 = vector.new(pos.x, pos.y + i, pos.z)
+		local node2 = minetest.get_node(pos2)
+		local def2 = minetest.registered_nodes[node2.name]
+		if not (minetest.get_item_group(node2.name, "water") > 0 and def2.liquidtype == "source") then
+			return false
+		end
+	end
+	node.param2 = new_level
+	minetest.set_node(pos, node)
+	return true
+end
+
 -- Make preexisting sapling restart the growing process
 
 minetest.register_lbm(
