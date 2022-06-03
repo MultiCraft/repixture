@@ -695,18 +695,18 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
 minetest.register_abm( -- seagrass dies if not underwater
    {
       label = "Sea grass death",
-      nodenames = {"group:sea_grass"},
+      nodenames = {"group:seagrass"},
       interval = 10,
       chance = 20,
       action = function(pos, node)
-	 local dir = vector.new(0,1,0)
+         local dir = vector.new(0,1,0)
          local plantpos = vector.add(pos, dir)
          local name = minetest.get_node(plantpos).name
          local water = minetest.get_item_group(name, "water") ~= 0
          if not water then
-            if node.name == "rp_default:sea_grass_on_dirt" then
+            if node.name == "rp_default:seagrass_on_dirt" or node.name == "rp_default:tall_seagrass_on_dirt" then
                 minetest.set_node(pos, {name = "rp_default:dirt"})
-	    elseif node.name == "rp_default:sea_grass_on_swamp_dirt" then
+            elseif node.name == "rp_default:seagrass_on_swamp_dirt" or node.name == "rp_default:tall_seagrass_on_swamp_dirt" then
                 minetest.set_node(pos, {name = "rp_default:swamp_dirt"})
             end
          end
@@ -732,6 +732,9 @@ minetest.register_abm( -- algae dies/becomes smaller if not fully underwater
             end
             height_ok = h
          end
+         if height_ok == height then
+            return
+         end
 
 	 if height_ok < 1 then
             if node.name == "rp_default:alga_on_dirt" then
@@ -745,6 +748,23 @@ minetest.register_abm( -- algae dies/becomes smaller if not fully underwater
             local param2 = height_ok * 16
 	    minetest.set_node(pos, {name=node.name, param2=param2})
          end
+         minetest.add_particlespawner({
+            amount = math.random(10*height, 20*height),
+            time = 0.1,
+            minpos = vector.add(pos, {x=-0.4, y=0.6, z=-0.4}),
+            maxpos = vector.add(pos, {x=0.4, y=0.4+height, z=0.4}),
+            minvel = {x=-0.2, y=-0.2, z=-0.2},
+            maxvel = {x=0.2, y=0.1, z=0.2},
+            minacc = {x=0, y=-9.81, z=0},
+            maxacc = {x=0, y=-9.81, z=0},
+            minexptime = 0.1,
+            maxexptime = 0.5,
+            minsize = 0.5,
+            maxsize = 1.5,
+            collisiondetection = true,
+            vertical = false,
+            node = {name="rp_default:alga_block"},
+         })
       end,
 })
 
