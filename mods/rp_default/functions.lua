@@ -5,6 +5,8 @@ local S = minetest.get_translator("rp_default")
 local SAPLING_RECHECK_TIME_MIN = 60
 local SAPLING_RECHECK_TIME_MAX = 70
 
+local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
+
 -- Maximum growth height of cactus, normally
 local CACTUS_MAX_HEIGHT = 4
 -- Maximum growth height of cactus, fertilized
@@ -543,6 +545,23 @@ minetest.register_abm( -- leaf decay
             end
             -- Remove node
             minetest.remove_node(p0)
+            minetest.add_particlespawner({
+               amount = math.random(10, 20),
+               time = 0.1,
+               minpos = vector.add(p0, {x=-0.4, y=-0.4, z=-0.4}),
+               maxpos = vector.add(p0, {x=0.4, y=0.4, z=0.4}),
+               minvel = {x=-0.2, y=-0.2, z=-0.2},
+               maxvel = {x=0.2, y=0.1, z=0.2},
+               minacc = {x=0, y=-GRAVITY, z=0},
+               maxacc = {x=0, y=-GRAVITY, z=0},
+               minexptime = 0.1,
+               maxexptime = 0.5,
+               minsize = 0.5,
+               maxsize = 1.5,
+               collisiondetection = true,
+               vertical = false,
+               node = n0,
+            })
          end
       end
 })
@@ -694,7 +713,7 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
 
 minetest.register_abm( -- seagrass dies if not underwater
    {
-      label = "Sea grass death",
+      label = "Sea grass decay",
       nodenames = {"group:seagrass"},
       interval = 10,
       chance = 20,
@@ -713,12 +732,12 @@ minetest.register_abm( -- seagrass dies if not underwater
       end
 })
 
-minetest.register_abm( -- algae dies/becomes smaller if not fully underwater
+minetest.register_abm( -- algae die/become smaller if not fully underwater
    {
-      label = "Algae decay",
+      label = "Alga decay",
       nodenames = {"group:alga"},
-      interval = 10,
-      chance = 20,
+      interval = 1,
+      chance = 2,
       action = function(pos, node)
          local height = math.ceil(node.param2 / 16)
          local segmentpos = vector.new(pos.x,pos.y,pos.z)
@@ -751,16 +770,16 @@ minetest.register_abm( -- algae dies/becomes smaller if not fully underwater
          minetest.add_particlespawner({
             amount = math.random(10*height, 20*height),
             time = 0.1,
-            minpos = vector.add(pos, {x=-0.4, y=0.6, z=-0.4}),
-            maxpos = vector.add(pos, {x=0.4, y=0.4+height, z=0.4}),
+            minpos = vector.add(pos, {x=-0.3, y=0.6, z=-0.3}),
+            maxpos = vector.add(pos, {x=0.3, y=0.4+height, z=0.3}),
             minvel = {x=-0.2, y=-0.2, z=-0.2},
             maxvel = {x=0.2, y=0.1, z=0.2},
-            minacc = {x=0, y=-9.81, z=0},
-            maxacc = {x=0, y=-9.81, z=0},
+            minacc = {x=0, y=-GRAVITY, z=0},
+            maxacc = {x=0, y=-GRAVITY, z=0},
             minexptime = 0.1,
             maxexptime = 0.5,
             minsize = 0.5,
-            maxsize = 1.5,
+            maxsize = 0.75,
             collisiondetection = true,
             vertical = false,
             node = {name="rp_default:alga_block"},
