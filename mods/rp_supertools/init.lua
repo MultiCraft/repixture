@@ -50,7 +50,7 @@ minetest.register_craftitem(
          elseif diff.y > 0 and unode.name == "rp_default:dirt_with_swamp_grass" and anode.name == "air" then
             minetest.set_node(apos, {name="rp_default:swamp_grass"})
 	    used = true
-         elseif diff.y > 0 and unode.name == "rp_default:alga_block" and anode.name == "air" then
+         elseif diff.y > 0 and unode.name == "rp_default:alga_block" and minetest.get_item_group(anode.name, "water") > 0 then
             minetest.set_node(upos, {name="rp_default:alga_on_alga_block", param2 = 16})
 	    used = true
          elseif minetest.get_item_group(unode.name, "alga") == 1 then
