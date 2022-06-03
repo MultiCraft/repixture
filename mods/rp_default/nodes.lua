@@ -1116,7 +1116,7 @@ end
 -- Seagrass
 
 
-local register_sea_grass = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, _on_trim)
+local register_seagrass = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, _on_trim)
    minetest.register_node(
       "rp_default:"..plant_id.."_on_"..append,
       {
@@ -1133,12 +1133,12 @@ local register_sea_grass = function(plant_id, selection_box, drop, append, basen
          wield_image = "rp_default_"..plant_id.."_on_"..append..".png",
          waving = 1,
          walkable = true,
-         groups = {snappy = 2, dig_immediate = 3, grass = 1, sea_grass = 1, green_grass = 1, plant = 1},
+         groups = {snappy = 2, dig_immediate = 3, grass = 1, seagrass = 1, green_grass = 1, plant = 1},
          sounds = rp_sounds.node_sound_leaves_defaults(),
 	 node_dig_prediction = basenode,
          after_destruct = function(pos)
             local newnode = minetest.get_node(pos)
-            if minetest.get_item_group(newnode.name, "sea_grass") == 0 then
+            if minetest.get_item_group(newnode.name, "seagrass") == 0 then
                minetest.set_node(pos, {name=basenode})
             end
          end,
@@ -1146,24 +1146,24 @@ local register_sea_grass = function(plant_id, selection_box, drop, append, basen
 	 drop = drop,
    })
 end
-local register_sea_grass_on = function(append, basenode, basenode_tiles)
-   register_sea_grass("sea_grass",
+local register_seagrass_on = function(append, basenode, basenode_tiles)
+   register_seagrass("seagrass",
       { type = "fixed",
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 17/16, 0.5},
-      }}, "rp_default:sea_grass", append, basenode, basenode_tiles)
+      }}, "rp_default:seagrass", append, basenode, basenode_tiles)
 
     -- Trim tall sea grass with shears
     local _on_trim = function(pos, node, player, itemstack)
        local param2 = node.param2
        -- This turns it to a normal sea grass clump and drops one bonus sea grass clump
        minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8}, true)
-       minetest.set_node(pos, {name = "rp_default:sea_grass_on_"..append, param2 = param2})
+       minetest.set_node(pos, {name = "rp_default:seagrass_on_"..append, param2 = param2})
 
        local dir = vector.multiply(minetest.wallmounted_to_dir(param2), -1)
        local droppos = vector.add(pos, dir)
-       item_drop.drop_item(droppos, "rp_default:sea_grass")
+       item_drop.drop_item(droppos, "rp_default:seagrass")
 
        -- Add wear
        if not minetest.is_creative_enabled(player:get_player_name()) then
@@ -1172,34 +1172,34 @@ local register_sea_grass_on = function(append, basenode, basenode_tiles)
        end
        return itemstack
    end
-   register_sea_grass("tall_sea_grass",
+   register_seagrass("tall_seagrass",
       { type = "fixed",
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 1.5, 0.5},
-      }}, "rp_default:sea_grass", append, basenode, basenode_tiles, _on_trim)
+      }}, "rp_default:seagrass", append, basenode, basenode_tiles, _on_trim)
 
 end
 
-minetest.register_craftitem("rp_default:tall_sea_grass", {
-   description = S("Tall Sea Grass Clump"),
+minetest.register_craftitem("rp_default:tall_seagrass", {
+   description = S("Tall Seagrass Clump"),
    _tt_help = S("Grows underwater on dirt or swamp dirt"),
-   inventory_image = "rp_default_tall_sea_grass_clump_inventory.png",
-   wield_image = "rp_default_tall_sea_grass_clump_inventory.png",
-   on_place = get_sea_plant_on_place("tall_sea_grass", "wallmounted"),
-   groups = { green_grass = 1, sea_grass = 1, plant = 1, grass = 1 },
+   inventory_image = "rp_default_tall_seagrass_clump_inventory.png",
+   wield_image = "rp_default_tall_seagrass_clump_inventory.png",
+   on_place = get_sea_plant_on_place("tall_seagrass", "wallmounted"),
+   groups = { green_grass = 1, seagrass = 1, plant = 1, grass = 1 },
 })
-minetest.register_craftitem("rp_default:sea_grass", {
-   description = S("Sea Grass Clump"),
+minetest.register_craftitem("rp_default:seagrass", {
+   description = S("Seagrass Clump"),
    _tt_help = S("Grows underwater on dirt or swamp dirt"),
-   inventory_image = "rp_default_sea_grass_clump_inventory.png",
-   wield_image = "rp_default_sea_grass_clump_inventory.png",
-   on_place = get_sea_plant_on_place("sea_grass", "wallmounted"),
-   groups = { green_grass = 1, sea_grass = 1, plant = 1, grass = 1 },
+   inventory_image = "rp_default_seagrass_clump_inventory.png",
+   wield_image = "rp_default_seagrass_clump_inventory.png",
+   on_place = get_sea_plant_on_place("seagrass", "wallmounted"),
+   groups = { green_grass = 1, seagrass = 1, plant = 1, grass = 1 },
 })
 
-register_sea_grass_on("dirt", "rp_default:dirt", {"default_dirt.png"})
-register_sea_grass_on("swamp_dirt", "rp_default:swamp_dirt", {"default_swamp_dirt.png"})
+register_seagrass_on("dirt", "rp_default:dirt", {"default_dirt.png"})
+register_seagrass_on("swamp_dirt", "rp_default:swamp_dirt", {"default_swamp_dirt.png"})
 
 -- Alga
 local register_alga_on = function(append, basenode, basenode_tiles, max_height)

@@ -59,11 +59,11 @@ minetest.register_craftitem(
          elseif unode.name == "rp_default:grass" then
             minetest.set_node(upos, {name="rp_default:tall_grass"})
 	    used = true
-         elseif unode.name == "rp_default:sea_grass_on_dirt" then
-            minetest.set_node(upos, {name="rp_default:tall_sea_grass_on_dirt", param2 = unode.param2})
+         elseif unode.name == "rp_default:seagrass_on_dirt" then
+            minetest.set_node(upos, {name="rp_default:tall_seagrass_on_dirt", param2 = unode.param2})
 	    used = true
-         elseif unode.name == "rp_default:sea_grass_on_swamp_dirt" then
-            minetest.set_node(upos, {name="rp_default:tall_sea_grass_on_swamp_dirt", param2 = unode.param2})
+         elseif unode.name == "rp_default:seagrass_on_swamp_dirt" then
+            minetest.set_node(upos, {name="rp_default:tall_seagrass_on_swamp_dirt", param2 = unode.param2})
 	    used = true
          elseif minetest.get_item_group(unode.name, "farming_plant") == 1 then
             local udef = minetest.registered_nodes[unode.name]
