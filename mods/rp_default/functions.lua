@@ -733,8 +733,8 @@ minetest.register_abm( -- algae die/become smaller if not fully underwater
    {
       label = "Alga decay",
       nodenames = {"group:alga"},
-      interval = 1,
-      chance = 2,
+      interval = 10,
+      chance = 20,
       action = function(pos, node)
          local height = math.ceil(node.param2 / 16)
          local segmentpos = vector.new(pos.x,pos.y,pos.z)
