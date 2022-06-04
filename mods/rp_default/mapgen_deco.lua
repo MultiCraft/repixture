@@ -1692,23 +1692,149 @@ default.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
+
 -- Algae (selected biomes)
+default.register_decoration(
+  {
+     deco_type = "schematic",
+     place_on = {"rp_default:swamp_dirt", "rp_default:dirt", "rp_default:sand"},
+     sidelen = 16,
+     fill_ratio = 0.005,
+     schematic = minetest.get_modpath("rp_default").."/schematics/rp_default_algae_blocks_big.mts",
+     rotation = "random",
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -9,
+     place_offset_y = 0,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source", "rp_default:swamp_water_source" },
+     num_spawn_by = 1,
+     flags = "force_placement,place_center_x,place_center_z",
+})
+default.register_decoration(
+  {
+     deco_type = "schematic",
+     place_on = {"rp_default:swamp_dirt", "rp_default:dirt", "rp_default:sand"},
+     sidelen = 16,
+     fill_ratio = 0.005,
+     schematic = minetest.get_modpath("rp_default").."/schematics/rp_default_algae_blocks_diamond.mts",
+     rotation = "random",
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -5,
+     place_offset_y = 0,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source", "rp_default:swamp_water_source" },
+     num_spawn_by = 1,
+     flags = "force_placement,place_center_x,place_center_z",
+})
+default.register_decoration(
+  {
+     deco_type = "schematic",
+     place_on = {"rp_default:swamp_dirt", "rp_default:dirt", "rp_default:sand"},
+     sidelen = 16,
+     fill_ratio = 0.005,
+     schematic = minetest.get_modpath("rp_default").."/schematics/rp_default_algae_blocks_4x4.mts",
+     rotation = "random",
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -4,
+     place_offset_y = 0,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source", "rp_default:swamp_water_source" },
+     num_spawn_by = 1,
+     flags = "force_placement,place_center_x,place_center_z",
+})
+default.register_decoration(
+  {
+     deco_type = "schematic",
+     place_on = {"rp_default:swamp_dirt", "rp_default:dirt", "rp_default:sand"},
+     sidelen = 16,
+     fill_ratio = 0.005,
+     schematic = minetest.get_modpath("rp_default").."/schematics/rp_default_algae_blocks_cross.mts",
+     rotation = "random",
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -2,
+     place_offset_y = 0,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source", "rp_default:swamp_water_source" },
+     num_spawn_by = 1,
+     flags = "force_placement,place_center_x,place_center_z",
+})
+default.register_decoration(
+  {
+     deco_type = "schematic",
+     place_on = {"rp_default:swamp_dirt", "rp_default:dirt", "rp_default:sand"},
+     sidelen = 16,
+     fill_ratio = 0.005,
+     schematic = minetest.get_modpath("rp_default").."/schematics/rp_default_algae_blocks_3x3.mts",
+     rotation = "random",
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -2,
+     place_offset_y = 0,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source", "rp_default:swamp_water_source" },
+     num_spawn_by = 1,
+     flags = "force_placement,place_center_x,place_center_z",
+})
+default.register_decoration(
+  {
+     deco_type = "schematic",
+     place_on = {"rp_default:swamp_dirt", "rp_default:dirt", "rp_default:sand"},
+     sidelen = 16,
+     fill_ratio = 0.005,
+     schematic = minetest.get_modpath("rp_default").."/schematics/rp_default_algae_blocks_3step.mts",
+     rotation = "random",
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -3,
+     place_offset_y = 0,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source", "rp_default:swamp_water_source" },
+     num_spawn_by = 1,
+     flags = "force_placement,place_center_x,place_center_z",
+})
+
+
 for h=1,5 do
    default.register_decoration(
       {
          deco_type = "simple",
          place_on = "rp_default:dirt",
          sidelen = 16,
-         fill_ratio = 0.04,
+         fill_ratio = 0.01,
          decoration = {"rp_default:alga_on_dirt"},
          y_min = default.GLOBAL_Y_MIN,
-         y_max = -1,
+         y_max = -h + 1,
          spawn_by = { "rp_default:water_source", "rp_default:river_water_source", "rp_default:swamp_water_source" },
          num_spawn_by = 1,
          place_offset_y = -1,
-         param2 = 1*16,
+         param2 = h*16,
          flags = "force_placement",
    })
+
+   default.register_decoration(
+      {
+         deco_type = "simple",
+         place_on = "rp_default:swamp_dirt",
+         sidelen = 16,
+         fill_ratio = 0.01,
+         decoration = {"rp_default:alga_on_swamp_dirt"},
+         y_min = default.GLOBAL_Y_MIN,
+         y_max = -(h+2) + 1,
+         spawn_by = { "rp_default:water_source", "rp_default:river_water_source", "rp_default:swamp_water_source" },
+         num_spawn_by = 1,
+         place_offset_y = -1,
+         param2 = (h+2)*16,
+         flags = "force_placement",
+   })
+
+   default.register_decoration(
+      {
+         deco_type = "simple",
+         place_on = {"rp_default:alga_block"},
+         sidelen = 16,
+         fill_ratio = 0.005,
+         decoration = {"rp_default:alga_on_alga_block"},
+         y_min = default.GLOBAL_Y_MIN,
+         y_max = -h,
+         spawn_by = { "rp_default:water_source", "rp_default:river_water_source", "rp_default:swamp_water_source" },
+	 place_offset = -1,
+         num_spawn_by = 1,
+         param2 = h*16,
+         flags = "force_placement",
+   })
+
 end
 
 
