@@ -9,7 +9,6 @@ minetest.register_node(
       _tt_help = S("Speeds up the growth of plants"),
       tiles = {
          "default_dirt.png^default_fertilizer.png",
-         "default_dirt.png",
          "default_dirt.png"
       },
       groups = {
@@ -33,7 +32,6 @@ minetest.register_node(
       _tt_help = S("Speeds up the growth of plants"),
       tiles = {
          "default_dry_dirt.png^default_fertilizer.png",
-         "default_dry_dirt.png",
          "default_dry_dirt.png"
       },
       groups = {
@@ -57,7 +55,6 @@ minetest.register_node(
       _tt_help = S("Speeds up the growth of plants"),
       tiles = {
          "default_swamp_dirt.png^default_fertilizer.png",
-         "default_swamp_dirt.png",
          "default_swamp_dirt.png"
       },
       groups = {
@@ -79,7 +76,7 @@ minetest.register_node(
    {
       description = S("Fertilized Sand"),
       _tt_help = S("Speeds up the growth of plants"),
-      tiles = {"default_sand.png^default_fertilizer.png", "default_sand.png", "default_sand.png"},
+      tiles = {"default_sand.png^default_fertilizer.png", "default_sand.png"},
       groups = {
 	 crumbly = 3,
 	 falling_node = 1,
@@ -113,11 +110,7 @@ minetest.register_craftitem(
 	 -- Fertilize node (depending on node type)
 	 local underpos = pointed_thing.under
          local undernode = minetest.get_node(underpos)
-         -- No fertilizer available for underwater plants
-         if minetest.get_item_group(undernode.name, "alga") == 0 or minetest.get_item_group(undernode.name, "seagrass") then
-            return itemstack
-         end
-         if minetest.get_item_group(undernode.name, "plant") ~= 0 then
+         if minetest.get_item_group(undernode.name, "plant") ~= 0 and minetest.get_item_group(undernode.name, "rooted_plant") == 0 then
             underpos = vector.add(underpos, vector.new(0,-1,0))
             undernode = minetest.get_node(underpos)
 	 end
@@ -126,18 +119,12 @@ minetest.register_craftitem(
          if diff.y > 0 then
             if minetest.get_item_group(undernode.name, "plantable_fertilizer") ~= 0 then
                return itemstack
-            elseif minetest.get_item_group(undernode.name, "normal_dirt") ~= 0 then
-               minetest.set_node(underpos, {name = "rp_default:fertilized_dirt"})
-	       fertilized = true
-            elseif minetest.get_item_group(undernode.name, "swamp_dirt") ~= 0 then
-               minetest.set_node(underpos, {name = "rp_default:fertilized_swamp_dirt"})
-	       fertilized = true
-            elseif minetest.get_item_group(undernode.name, "dry_dirt") ~= 0 then
-               minetest.set_node(underpos, {name = "rp_default:fertilized_dry_dirt"})
-	       fertilized = true
-            elseif undernode.name == "rp_default:sand" then
-               minetest.set_node(underpos, {name = "rp_default:fertilized_sand"})
-	       fertilized = true
+            else
+               local underdef = minetest.registered_nodes[undernode.name]
+               if underdef and underdef._fertilized_node then
+                  minetest.set_node(underpos, {name = underdef._fertilized_node, param2 = undernode.param2})
+	          fertilized = true
+               end
             end
 	    if fertilized then
                minetest.sound_play({name="rp_default_fertilize", gain=1.0}, {pos=underpos}, true)

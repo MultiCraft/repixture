@@ -193,6 +193,7 @@ minetest.register_node(
       stack_max = 240,
       groups = {crumbly = 3, soil = 1, dirt = 1, normal_dirt = 1, plantable_soil = 1, fall_damage_add_percent = -5},
       sounds = rp_sounds.node_sound_dirt_defaults(),
+      _fertilized_node = "rp_default:fertilized_dirt",
 })
 
 minetest.register_node(
@@ -203,6 +204,7 @@ minetest.register_node(
       stack_max = 240,
       groups = {crumbly = 3, soil = 1, dirt = 1, dry_dirt = 1, plantable_dry = 1, fall_damage_add_percent = -10},
       sounds = rp_sounds.node_sound_dirt_defaults(),
+      _fertilized_node = "rp_default:fertilized_dry_dirt",
 })
 
 minetest.register_node(
@@ -213,6 +215,7 @@ minetest.register_node(
       stack_max = 240,
       groups = {crumbly = 3, soil = 1, dirt = 1, swamp_dirt = 1, plantable_soil = 1, fall_damage_add_percent = -10},
       sounds = rp_sounds.node_sound_dirt_defaults(),
+      _fertilized_node = "rp_default:fertilized_swamp_dirt",
 })
 
 minetest.register_node(
@@ -239,6 +242,7 @@ minetest.register_node(
 	 {
 	    footstep = {name = "default_soft_footstep", gain = 0.3},
       }),
+      _fertilized_node = "rp_default:fertilized_dirt",
 })
 
 minetest.register_node(
@@ -265,6 +269,7 @@ minetest.register_node(
 	 {
 	    footstep = {name = "default_soft_footstep", gain = 0.5},
       }),
+      _fertilized_node = "rp_default:fertilized_swamp_dirt",
 })
 
 minetest.register_node(
@@ -292,6 +297,7 @@ minetest.register_node(
 	 {
 	    footstep = {name = "default_soft_footstep", gain = 0.4},
       }),
+      _fertilized_node = "rp_default:fertilized_dirt",
 })
 
 -- Legacy node. TODO: Remove it
@@ -315,6 +321,7 @@ minetest.register_node(
 	 {
 	    footstep = {name = "default_soft_footstep", gain = 0.4},
       }),
+      _fertilized_node = "rp_default:fertilized_dirt",
 })
 
 -- Paths
@@ -414,6 +421,7 @@ minetest.register_node(
       tiles = {"default_sand.png"},
       groups = {crumbly = 3, falling_node = 1, sand = 1, plantable_sandy = 1, fall_damage_add_percent = -10},
       sounds = rp_sounds.node_sound_sand_defaults(),
+      _fertilized_node = "rp_default:fertilized_sand",
 })
 
 minetest.register_node(
@@ -1104,6 +1112,10 @@ return function(itemstack, placer, pointed_thing)
 		node_floor.name = "rp_default:"..base.."_on_dirt"
 	elseif node_floor.name == "rp_default:swamp_dirt" then
 		node_floor.name = "rp_default:"..base.."_on_swamp_dirt"
+	elseif node_floor.name == "rp_default:fertilized_dirt" then
+		node_floor.name = "rp_default:"..base.."_on_fertilized_dirt"
+	elseif node_floor.name == "rp_default:fertilized_swamp_dirt" then
+		node_floor.name = "rp_default:"..base.."_on_fertilized_swamp_dirt"
 	elseif base == "alga" and node_floor.name == "rp_default:alga_block" then
 		node_floor.name = "rp_default:"..base.."_on_alga_block"
 	else
@@ -1131,7 +1143,14 @@ end
 -- Seagrass
 
 
-local register_seagrass = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, _on_trim)
+local register_seagrass = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, _on_trim, fertilize_info)
+   local groups = {snappy = 2, dig_immediate = 3, seagrass = 1, grass = 1, green_grass = 1, plant = 1, rooted_plant = 1}
+   local _fertilized_node
+   if fertilize_info == true then
+      groups.plantable_fertilize_info = 1
+   elseif type(fertilize_info) == "string" then
+      _fertilized_node = "rp_default:"..plant_id.."_on_"..fertilize_info
+   end
    minetest.register_node(
       "rp_default:"..plant_id.."_on_"..append,
       {
@@ -1143,11 +1162,11 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
          visual_scale = 1.15,
          tiles = basenode_tiles,
          special_tiles = {"rp_default_"..plant_id.."_clump.png"},
-         inventory_image = "rp_default_"..plant_id.."_on_"..append..".png",
-         wield_image = "rp_default_"..plant_id.."_on_"..append..".png",
+         inventory_image = "rp_default_plantlike_rooted_inv_"..append..".png^rp_default_plantlike_rooted_inv_"..plant_id..".png",
+         wield_image = "rp_default_plantlike_rooted_inv_"..append..".png^rp_default_plantlike_rooted_inv_"..plant_id..".png",
          waving = 1,
          walkable = true,
-         groups = {snappy = 2, dig_immediate = 3, grass = 1, seagrass = 1, green_grass = 1, plant = 1},
+         groups = groups,
          sounds = rp_sounds.node_sound_leaves_defaults(),
 	 node_dig_prediction = basenode,
          after_destruct = function(pos)
@@ -1157,16 +1176,17 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
             end
          end,
 	 _on_trim = _on_trim,
+	 _fertilized_node = _fertilized_node,
 	 drop = drop,
    })
 end
-local register_seagrass_on = function(append, basenode, basenode_tiles)
+local register_seagrass_on = function(append, basenode, basenode_tiles, fertilize_info)
    register_seagrass("seagrass",
       { type = "fixed",
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 17/16, 0.5},
-      }}, "rp_default:seagrass", append, basenode, basenode_tiles)
+      }}, "rp_default:seagrass", append, basenode, basenode_tiles, nil, fertilize_info)
 
     -- Trim tall sea grass with shears
     local _on_trim = function(pos, node, player, itemstack)
@@ -1191,7 +1211,7 @@ local register_seagrass_on = function(append, basenode, basenode_tiles)
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 1.5, 0.5},
-      }}, "rp_default:seagrass", append, basenode, basenode_tiles, _on_trim)
+      }}, "rp_default:seagrass", append, basenode, basenode_tiles, _on_trim, nil, fertilize_info)
 
 end
 
@@ -1212,13 +1232,26 @@ minetest.register_craftitem("rp_default:seagrass", {
    groups = { green_grass = 1, seagrass = 1, plant = 1, grass = 1 },
 })
 
-register_seagrass_on("dirt", "rp_default:dirt", {{name="default_dirt.png",backface_culling=true}})
-register_seagrass_on("swamp_dirt", "rp_default:swamp_dirt", {{name="default_swamp_dirt.png", backface_culling=true}})
+register_seagrass_on("dirt", "rp_default:dirt", {{name="default_dirt.png",backface_culling=true}}, "fertilized_dirt")
+register_seagrass_on("swamp_dirt", "rp_default:swamp_dirt", {{name="default_swamp_dirt.png", backface_culling=true}}, "fertilized_swamp_dirt")
+register_seagrass_on("fertilized_dirt", "rp_default:fertilized_dirt",
+	{{name="default_dirt.png^default_fertilizer.png", backface_culling=true},
+	{name="default_dirt.png",backface_culling=true}}, true)
+register_seagrass_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt",
+	{{name="default_swamp_dirt.png^default_fertilizer.png", backface_culling=true},
+	{name="default_swamp_dirt.png",backface_culling=true}}, true)
 
 -- Alga
-local register_alga_on = function(append, basenode, basenode_tiles, max_height)
+local register_alga_on = function(append, basenode, basenode_tiles, max_height, fertilize_info)
    if not max_height then
       max_height = 15
+   end
+   local groups = {snappy = 2, dig_immediate = 3, alga = 1, plant = 1, rooted_plant = 1}
+   local _fertilized_node, _unfertilized_node
+   if fertilize_info == true then
+      groups.plantable_fertilize_info = 1
+   elseif type(fertilize_info) == "string" then
+      _fertilized_node = "rp_default:alga_on_"..fertilize_info
    end
    minetest.register_node(
       "rp_default:alga_on_"..append,
@@ -1240,10 +1273,10 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height)
 	 leveled_max = 16 * max_height,
          tiles = basenode_tiles,
          special_tiles = {{name="rp_default_alga.png", tileable_vertical=true}},
-         inventory_image = "rp_default_alga_on_"..append..".png",
-         wield_image = "rp_default_alga_on_"..append..".png",
+         inventory_image = "rp_default_plantlike_rooted_inv_"..append..".png^rp_default_plantlike_rooted_inv_alga.png",
+         wield_image = "rp_default_plantlike_rooted_inv_"..append..".png^rp_default_plantlike_rooted_inv_alga.png",
          walkable = true,
-         groups = {snappy = 2, dig_immediate = 3, alga = 1, plant = 1},
+         groups = groups,
          sounds = rp_sounds.node_sound_leaves_defaults(),
 	 node_dig_prediction = basenode,
 	 drop = "rp_default:alga",
@@ -1308,6 +1341,7 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height)
             end
             return itemstack
          end,
+	 _fertilized_node = _fertilized_node,
    })
 end
 
@@ -1326,9 +1360,17 @@ local alga_block_tiles = {
    { name="rp_default_alga_block_side.png", backface_culling=true },
 }
 
-register_alga_on("dirt", "rp_default:dirt", {{name="default_dirt.png",backface_culling=true}}, 5)
-register_alga_on("swamp_dirt", "rp_default:swamp_dirt", {{name="default_swamp_dirt.png",backface_culling=true}}, 7)
+register_alga_on("dirt", "rp_default:dirt", {{name="default_dirt.png",backface_culling=true}}, 5, "fertilized_dirt")
+register_alga_on("swamp_dirt", "rp_default:swamp_dirt", {{name="default_swamp_dirt.png",backface_culling=true}}, 7, "fertilized_swamp_dirt")
 register_alga_on("alga_block", "rp_default:alga_block", alga_block_tiles, 10)
+register_alga_on("fertilized_dirt", "rp_default:fertilized_dirt",
+	{{name="default_dirt.png^default_fertilizer.png",backface_culling=true},
+	{name="default_dirt.png",backface_culling=true}},
+	7, true)
+register_alga_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt",
+	{{name="default_swamp_dirt.png^default_fertilizer.png",backface_culling=true},
+	{name="default_swamp_dirt.png",backface_culling=true}},
+	9, true)
 
 -- Alga Block
 minetest.register_node(

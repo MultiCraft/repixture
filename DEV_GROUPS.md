@@ -75,7 +75,8 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `dry_grass`: Dry grass clump
 * `swamp_grass`: Swamp grass clump
 
-* `plant`: Any node that is a plant
+* `plant`: Any node that is a plant (also for rooted plants)
+* `rooted_plant`: Node is a plant/full block hybrid using `plantlike_rooted` drawtype
 * `farming_plant`: Any plant used for farming
 * `plant_cotton`: Cotton plant (rating = growth stage)
 * `plant_wheat`: Wheat plant (rating = growth stage)
