@@ -2,6 +2,11 @@
 1. Place tool here=
 2. Hold a jewel and punch the bench=
 Jeweled @1=
+Range: @1=
+Drop level: @1=
+Dig time: @1 s=
+Uses: @1=
+Dig level: @1=
 Jewel=
 Jeweler's Workbench=
 Tools can be upgraded with jewels here=
