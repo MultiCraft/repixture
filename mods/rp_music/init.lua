@@ -148,7 +148,7 @@ if minetest.settings:get_bool("music_enable") then
             music.toggle(pos)
          end,
 
-	 groups = {oddly_breakable_by_hand = 3, attached_node = 1}
+	 groups = {oddly_breakable_by_hand = 3, attached_node = 1, creative_decoblock = 1}
    })
 
    local function step(dtime)
@@ -208,7 +208,7 @@ else
             meta:set_string("infotext", INFOTEXT_DISABLED)
          end,
 
-	 groups = {oddly_breakable_by_hand = 3, attached_node = 1}
+	 groups = {oddly_breakable_by_hand = 3, attached_node = 1, interactive_node = 1}
    })
 end
 

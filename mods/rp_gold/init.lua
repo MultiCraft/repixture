@@ -412,7 +412,7 @@ minetest.register_node(
    {
       description = S("Stone with Gold"),
       tiles ={"default_stone.png^gold_mineral_gold.png"},
-      groups = {cracky=1, stone=1},
+      groups = {cracky=1, stone=1, ore=1},
       drop = "rp_gold:lump_gold",
       is_ground_content = true,
       sounds = rp_sounds.node_sound_stone_defaults(),

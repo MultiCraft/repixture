@@ -36,6 +36,8 @@ function door.register_door(name, def)
    end
    local groups_craftitem = table.copy(def.groups)
    groups_craftitem.node = 1
+   groups_craftitem.creative_decoblock = 1
+   groups_craftitem.interactive_node = 1
 
    minetest.register_craftitem(
       name, {

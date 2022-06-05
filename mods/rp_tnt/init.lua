@@ -300,7 +300,7 @@ minetest.register_node(
       _tt_help = tt,
       tiles = {top_tex, "tnt_bottom.png", "tnt_sides.png"},
       is_ground_content = false,
-      groups = {handy = 2},
+      groups = {handy = 2, interactive_node=1},
       sounds = rp_sounds.node_sound_wood_defaults(),
 
       on_punch = function(pos, node, puncher)

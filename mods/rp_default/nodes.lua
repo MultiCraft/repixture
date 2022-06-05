@@ -12,7 +12,7 @@ minetest.register_node(
    {
       description = S("Stone with Sulfur"),
       tiles = {"default_stone.png^default_mineral_sulfur.png"},
-      groups = {cracky = 2, stone = 1, not_in_craft_guide = 1},
+      groups = {cracky = 2, stone = 1, ore = 1, not_in_craft_guide = 1},
       drop = "rp_default:lump_sulfur",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -22,7 +22,7 @@ minetest.register_node(
    {
       description = S("Stone with Graphite"),
       tiles = {"default_stone.png^default_mineral_graphite.png"},
-      groups = {cracky = 2, stone = 1, not_in_craft_guide = 1},
+      groups = {cracky = 2, stone = 1, ore = 1, not_in_craft_guide = 1},
       drop = "rp_default:sheet_graphite",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -32,7 +32,7 @@ minetest.register_node(
    {
       description = S("Stone with Coal"),
       tiles = {"default_stone.png^default_mineral_coal.png"},
-      groups = {cracky = 2, stone = 1, not_in_craft_guide = 1},
+      groups = {cracky = 2, stone = 1, ore = 1, not_in_craft_guide = 1},
       drop = "rp_default:lump_coal",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -42,7 +42,7 @@ minetest.register_node(
    {
       description = S("Stone with Iron"),
       tiles = {"default_stone.png^default_mineral_iron.png"},
-      groups = {cracky = 2, stone = 1, magnetic = 1, not_in_craft_guide = 1},
+      groups = {cracky = 2, stone = 1, magnetic = 1, ore = 1, not_in_craft_guide = 1},
       drop = "rp_default:lump_iron",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -52,7 +52,7 @@ minetest.register_node(
    {
       description = S("Stone with Tin"),
       tiles = {"default_stone.png^default_mineral_tin.png"},
-      groups = {cracky = 1, stone = 1, not_in_craft_guide = 1},
+      groups = {cracky = 1, stone = 1, ore = 1, not_in_craft_guide = 1},
       drop = "rp_default:lump_tin",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -62,7 +62,7 @@ minetest.register_node(
    {
       description = S("Stone with Copper"),
       tiles = {"default_stone.png^default_mineral_copper.png"},
-      groups = {cracky = 1, stone = 1, not_in_craft_guide = 1},
+      groups = {cracky = 1, stone = 1, ore = 1, not_in_craft_guide = 1},
       drop = "rp_default:lump_copper",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -105,7 +105,7 @@ minetest.register_node(
    {
       description = S("Gravel"),
       tiles = {"default_gravel.png"},
-      groups = {crumbly = 2, falling_node = 1},
+      groups = {crumbly = 2, falling_node = 1, gravel = 1},
       sounds = rp_sounds.node_sound_dirt_defaults(
 	 {
 	    footstep = {name = "default_crunch_footstep", gain = 0.45},
@@ -346,7 +346,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -2/16, 0.5}
       },
       tiles = {"default_dirt.png"},
-      groups = {crumbly = 3, slab = 2, fall_damage_add_percent = -10},
+      groups = {crumbly = 3, path = 2, slab = 2, creative_decoblock = 1, fall_damage_add_percent = -10},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_dirt_defaults(),
       on_place = function(itemstack, placer, pointed_thing)
@@ -388,7 +388,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 0.5-2/16, 0.5}
       },
       tiles = {"default_dirt.png"},
-      groups = {crumbly = 3, path = 1, fall_damage_add_percent = -10},
+      groups = {crumbly = 3, path = 1, creative_decoblock = 1, fall_damage_add_percent = -10},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_dirt_defaults(),
 })
@@ -748,7 +748,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-1/16, -0.5, -1/16, 1/16, 0.5, 1/16},
       },
-      groups = {snappy = 3},
+      groups = {snappy = 3, creative_decoblock = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_leaves_defaults(),
       after_dig_node = function(pos, node, metadata, digger)

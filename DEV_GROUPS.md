@@ -28,6 +28,8 @@ These groups are mainly used for a better item sorting in Creative Mode.
           no inherent direct use.
           Implied if it was registered with `minetest.register_craftitem`.
 
+* `creative_decoblock`: Classifies nodes as "decorative node". This is for non-full cubes except slabs and stairs
+
 ### Tools
 * `axe`: Axe
 * `shears`: Shears
@@ -75,6 +77,8 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `magnetic`: Node is magnetic and can magnetize stuff (like compass)
 * `unmagnetic`: Node is "unmagnetic", this means it can de-magnetize stuff
 * `locked`: Node is considered to be locked
+* `container`: Node has an inventory to store item(s)
+* `interactive_node`: Node can be interacted with (excluding pure container nodes)
 
 ### Node categorization
 
@@ -112,7 +116,7 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 
 * `slab`: Slab (1 = normal slab, 2 = path slab)
 * `stair`: Stair
-* `path`: A path node like the Dirt Path
+* `path`: A path node like the Dirt Path (1 = normal path, 2 = path slab)
 * `door`: Any door
 * `door_wood`: Wooden door
 * `fence`: Fence
@@ -126,7 +130,9 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `wood`: Made out of wood
 * `tree`: Tree trunks
 * `stone`: Stone
+* `ore`: Ore
 * `sand`: Sand
+* `gravel`: Gravel
 * `sandstone`: Sandstone
 * `glass`: Glass
 * `fuzzy`: Wool, cotton bale, etc.

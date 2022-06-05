@@ -46,6 +46,7 @@ local function register_fence(name, def)
 
 	-- Always add to the fence group, even if no group provided
 	def.groups.fence = 1
+	def.groups.creative_decoblock = 1
 
 	def.texture = nil
 	def.material = nil
