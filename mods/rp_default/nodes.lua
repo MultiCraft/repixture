@@ -1112,10 +1112,14 @@ return function(itemstack, placer, pointed_thing)
 		node_floor.name = "rp_default:"..base.."_on_dirt"
 	elseif node_floor.name == "rp_default:swamp_dirt" then
 		node_floor.name = "rp_default:"..base.."_on_swamp_dirt"
+	elseif node_floor.name == "rp_default:sand" then
+		node_floor.name = "rp_default:"..base.."_on_sand"
 	elseif node_floor.name == "rp_default:fertilized_dirt" then
 		node_floor.name = "rp_default:"..base.."_on_fertilized_dirt"
 	elseif node_floor.name == "rp_default:fertilized_swamp_dirt" then
 		node_floor.name = "rp_default:"..base.."_on_fertilized_swamp_dirt"
+	elseif node_floor.name == "rp_default:fertilized_sand" then
+		node_floor.name = "rp_default:"..base.."_on_fertilized_sand"
 	elseif base == "alga" and node_floor.name == "rp_default:alga_block" then
 		node_floor.name = "rp_default:"..base.."_on_alga_block"
 	else
@@ -1146,6 +1150,10 @@ end
 local register_seagrass = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, _on_trim, fertilize_info)
    local groups = {snappy = 2, dig_immediate = 3, seagrass = 1, grass = 1, green_grass = 1, plant = 1, rooted_plant = 1}
    local _fertilized_node
+   local def_base = minetest.registered_nodes[basenode]
+   if minetest.get_item_group(basenode, "fall_damage_add_percent") ~= 0 then
+      groups.fall_damage_add_percent = def_base.groups.fall_damage_add_percent
+   end
    if fertilize_info == true then
       groups.plantable_fertilize_info = 1
    elseif type(fertilize_info) == "string" then
@@ -1217,7 +1225,7 @@ end
 
 minetest.register_craftitem("rp_default:tall_seagrass", {
    description = S("Tall Seagrass Clump"),
-   _tt_help = S("Grows underwater on dirt or swamp dirt"),
+   _tt_help = S("Grows underwater on dirt, swamp dirt or sand"),
    inventory_image = "rp_default_tall_seagrass_clump_inventory.png",
    wield_image = "rp_default_tall_seagrass_clump_inventory.png",
    on_place = get_sea_plant_on_place("tall_seagrass", "wallmounted"),
@@ -1225,7 +1233,7 @@ minetest.register_craftitem("rp_default:tall_seagrass", {
 })
 minetest.register_craftitem("rp_default:seagrass", {
    description = S("Seagrass Clump"),
-   _tt_help = S("Grows underwater on dirt or swamp dirt"),
+   _tt_help = S("Grows underwater on dirt, swamp dirt or sand"),
    inventory_image = "rp_default_seagrass_clump_inventory.png",
    wield_image = "rp_default_seagrass_clump_inventory.png",
    on_place = get_sea_plant_on_place("seagrass", "wallmounted"),
@@ -1234,12 +1242,16 @@ minetest.register_craftitem("rp_default:seagrass", {
 
 register_seagrass_on("dirt", "rp_default:dirt", {{name="default_dirt.png",backface_culling=true}}, "fertilized_dirt")
 register_seagrass_on("swamp_dirt", "rp_default:swamp_dirt", {{name="default_swamp_dirt.png", backface_culling=true}}, "fertilized_swamp_dirt")
+register_seagrass_on("sand", "rp_default:sand", {{name="default_sand.png",backface_culling=true}}, "fertilized_sand")
 register_seagrass_on("fertilized_dirt", "rp_default:fertilized_dirt",
 	{{name="default_dirt.png^default_fertilizer.png", backface_culling=true},
 	{name="default_dirt.png",backface_culling=true}}, true)
 register_seagrass_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt",
 	{{name="default_swamp_dirt.png^default_fertilizer.png", backface_culling=true},
 	{name="default_swamp_dirt.png",backface_culling=true}}, true)
+register_seagrass_on("fertilized_sand", "rp_default:fertilized_sand",
+	{{name="default_sand.png^default_fertilizer.png", backface_culling=true},
+	{name="default_sand.png",backface_culling=true}}, true)
 
 -- Alga
 local register_alga_on = function(append, basenode, basenode_tiles, max_height, fertilize_info)
@@ -1247,6 +1259,10 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
       max_height = 15
    end
    local groups = {snappy = 2, dig_immediate = 3, alga = 1, plant = 1, rooted_plant = 1}
+   local def_base = minetest.registered_nodes[basenode]
+   if minetest.get_item_group(basenode, "fall_damage_add_percent") ~= 0 then
+      groups.fall_damage_add_percent = def_base.groups.fall_damage_add_percent
+   end
    local _fertilized_node, _unfertilized_node
    if fertilize_info == true then
       groups.plantable_fertilize_info = 1
@@ -1347,7 +1363,7 @@ end
 
 minetest.register_craftitem("rp_default:alga", {
    description = S("Alga"),
-   _tt_help = S("Grows underwater on dirt or swamp dirt"),
+   _tt_help = S("Grows underwater on dirt, swamp dirt, sand or alga block"),
    inventory_image = "rp_default_alga_inventory.png",
    wield_image = "rp_default_alga_inventory.png",
    on_place = get_sea_plant_on_place("alga", "leveled"),
@@ -1362,6 +1378,7 @@ local alga_block_tiles = {
 
 register_alga_on("dirt", "rp_default:dirt", {{name="default_dirt.png",backface_culling=true}}, 5, "fertilized_dirt")
 register_alga_on("swamp_dirt", "rp_default:swamp_dirt", {{name="default_swamp_dirt.png",backface_culling=true}}, 7, "fertilized_swamp_dirt")
+register_alga_on("sand", "rp_default:sand", {{name="default_sand.png",backface_culling=true}}, 3, "fertilized_sand")
 register_alga_on("alga_block", "rp_default:alga_block", alga_block_tiles, 10)
 register_alga_on("fertilized_dirt", "rp_default:fertilized_dirt",
 	{{name="default_dirt.png^default_fertilizer.png",backface_culling=true},
@@ -1371,6 +1388,10 @@ register_alga_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt",
 	{{name="default_swamp_dirt.png^default_fertilizer.png",backface_culling=true},
 	{name="default_swamp_dirt.png",backface_culling=true}},
 	9, true)
+register_alga_on("fertilized_sand", "rp_default:fertilized_sand",
+	{{name="default_sand.png^default_fertilizer.png", backface_culling=true},
+	{name="default_sand.png",backface_culling=true}},
+	4, true)
 
 -- Alga Block
 minetest.register_node(

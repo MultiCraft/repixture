@@ -724,6 +724,8 @@ minetest.register_abm( -- seagrass dies if not underwater
                 minetest.set_node(pos, {name = "rp_default:dirt"})
             elseif node.name == "rp_default:seagrass_on_swamp_dirt" or node.name == "rp_default:tall_seagrass_on_swamp_dirt" then
                 minetest.set_node(pos, {name = "rp_default:swamp_dirt"})
+            elseif node.name == "rp_default:seagrass_on_sand" or node.name == "rp_default:tall_seagrass_on_sand" then
+                minetest.set_node(pos, {name = "rp_default:sand"})
             end
          end
       end
@@ -756,6 +758,8 @@ minetest.register_abm( -- algae die/become smaller if not fully underwater
                minetest.set_node(pos, {name = "rp_default:dirt"})
             elseif node.name == "rp_default:alga_on_swamp_dirt" then
                minetest.set_node(pos, {name = "rp_default:swamp_dirt"})
+            elseif node.name == "rp_default:alga_on_sand" then
+               minetest.set_node(pos, {name = "rp_default:sand"})
             elseif node.name == "rp_default:alga_on_alga_block" then
                minetest.set_node(pos, {name = "rp_default:alga_block"})
             end
