@@ -1,4 +1,9 @@
 # textdomain: rp_locks
+Locked Chest=Abgeschlossene Truhe
+Locked Chest (Owned by @1)=Abgeschlossene Truhe (Eigentümer: @1)
+Locked Chest (cracked open)=Abgeschlossene Truhe (geknackt)
+Locked Chest (cracked open) (Owned by @1)=Abgeschlossene Truhe (geknackt) (Eigentümer: @1)
+@1 (Owned by @2)=@1 (Eigentümer: @2)
 Lock Pick=Dietrich
 Cracks locked chests=Knackt abgeschlossene Truhen
 @1 has broken into your locked chest!=@1 hat Ihre abgeschlossene Truhe geknackt!
@@ -6,18 +11,9 @@ You have broken the lock!=Sie haben das Schloss geknackt!
 You have broken into your own locked chest!=Sie haben Ihre eigene abgeschlossene Truhe geknackt!
 Lock=Schloss
 Used to craft locked chests=Benutzt, um abgeschlossene Truhen zu fertigen
-Locked Chest=Abgeschlossene Truhe
 Provides 32 inventory slots=Enthält 32 Inventarplätze
 Can only be opened by its owner and those who have a lockpick=Kann nur von ihrem Eigentümer und Besitzern eines Dietrichs geöffnet werden
 Locksmith=Schlossmacher
 Craft a lock.=Fertigen Sie ein Schloss.
 Burglar=Räuber
 Break into a locked chest.=Knacken Sie eine abgeschlossene Truhe.
-
-
-##### not used anymore #####
-
-Locked Chest (Owned by @1)=Abgeschlossene Truhe (Eigentümer: @1)
-Locked Chest (cracked open)=Abgeschlossene Truhe (geknackt)
-Locked Chest (cracked open) (Owned by @1)=Abgeschlossene Truhe (geknackt) (Eigentümer: @1)
-@1 (Owned by @2)=@1 (Eigentümer: @2)

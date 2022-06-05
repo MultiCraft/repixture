@@ -5,7 +5,12 @@ Carpenter=Schreiner
 Blacksmith=Schmied
 Butcher=Fleischer
 Trade=Handeln
-Cancel=Abbrechen
+Trading with @1=
+G=
+@1 @2=
+@1×@2=
+@1 + @2=
+@1 → @2=
 Trading Book=Handelsbuch
 Show this to a villager to trade=Einem Dorfbewohner zeigen, um Handel zu treiben
 Gold Lump=Goldklumpen
@@ -16,3 +21,8 @@ Trader=Händler
 Trade with a villager.=Handeln Sie mit einem Dorfbewohner.
 Gold Rush=Goldrausch
 Dig a gold ore.=Graben Sie ein Golderz.
+
+
+##### not used anymore #####
+
+Cancel=Abbrechen
