@@ -1167,7 +1167,7 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
          collision_box = {
             type = "regular",
          },
-         visual_scale = 1.15,
+         visual_scale = 1.14,
          tiles = basenode_tiles,
          special_tiles = {"rp_default_"..plant_id.."_clump.png"},
          inventory_image = "rp_default_plantlike_rooted_inv_"..append..".png^rp_default_plantlike_rooted_inv_"..plant_id..".png",
