@@ -36,7 +36,7 @@ Returns a list of names with all builtin biomes.
 
 ### `default.get_main_biomes()`
 Returns a list of names with all main layer biomes registered for this game.
-This means, there will be no sub-biomes like ocean or beach biomes.
+This means, there will be no sub-biomes like underwater or beach biomes.
 
 ### `default.set_biome_info`
 For internal use of this mod only.
@@ -44,8 +44,8 @@ For internal use of this mod only.
 ### `default.get_biome_info(biomename)`
 Returns metadata for a builtin biome. Returns a table with these fields:
 
-* `main_biome`: Name of the main biome (useful if you have an ocean or beach biome variant)
-* `layer`: "main" for the core biome, "ocean" and "beach" for the special Ocean and Beach variants
+* `main_biome`: Name of the main biome (useful if you have an underwater or beach biome variant)
+* `layer`: "main" for the core biome, "underwater" and "beach" for the special Underwater and Beach variants
 * `class`: Biome class that was assigned (see above)
 * `is_dry`: True if biome is considered dry (e.g. for dry grass)
 * `dirt_blob`: Name of dirt ore node or nil to suppress generation

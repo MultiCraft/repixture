@@ -210,11 +210,11 @@ minetest.register_biome(
       humidity_point = 20,
 })
 
--- Oceans
+-- Underwater biomes (previously Ocean)
 
 minetest.register_biome(
    {
-      name = "Grassland Ocean",
+      name = "Grassland Underwater",
 
       node_top = "rp_default:sand",
       node_filler = "rp_default:dirt",
@@ -248,7 +248,7 @@ minetest.register_biome(
 
 minetest.register_biome(
    {
-      name = "Savanna Ocean",
+      name = "Savanna Underwater",
 
       node_top = "rp_default:dirt",
       node_filler = "dfault:dirt",

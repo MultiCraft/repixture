@@ -549,7 +549,7 @@ default.register_ore({
 	ore_type       = "blob",
 	ore            = "rp_default:swamp_dirt",
 	wherein        = {"rp_default:dirt"},
-	biomes = { "Mixed Swamp Ocean", "Papyrus Swamp Ocean", "Swamp Forest Ocean", "Swamp Meadow Ocean", "Dry Swamp Ocean" },
+	biomes = { "Mixed Swamp Underwater", "Papyrus Swamp Underwater", "Swamp Forest Underwater", "Swamp Meadow Underwater", "Dry Swamp Underwater" },
 	clust_scarcity = 8*8*8,
 	clust_num_ores = 40,
 	clust_size     = 5,

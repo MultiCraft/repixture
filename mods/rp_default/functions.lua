@@ -578,7 +578,7 @@ end
 
 -- List of biomes registered with default.set_biome_info
 local core_biomes = {}
--- Same as above, but without special sub-biomes like beach and ocean variants
+-- Same as above, but without special sub-biomes like beach and underwater variants
 local main_biomes = {}
 
 -- Returns a list of names with all biomes registered with
@@ -587,14 +587,14 @@ default.get_core_biomes = function()
    return core_biomes
 end
 -- Returns a list of names with all main layer biomes registered with
--- default.set_biome_info (no sub-biomes like ocean or beach)
+-- default.set_biome_info (no sub-biomes like underwater or beach)
 default.get_main_biomes = function()
    return main_biomes
 end
 
 -- Sets biome metadata for a built-in biome.
 -- Must be called AFTER biome registration.
--- * biome_name: Name of the *main* biome (not Ocean or Beach variant!)
+-- * biome_name: Name of the *main* biome (not Underwater or Beach variant!)
 -- * biome_class: One of: savannic, drylandic, swampy, desertic, undergroundy
 default.set_biome_info = function(biomename, biome_class)
    local is_dry = false
@@ -627,12 +627,12 @@ default.set_biome_info = function(biomename, biome_class)
    table.insert(main_biomes, biomename)
    table.insert(core_biomes, biomename)
 
-   local ocean = biomename .. " Ocean"
-   if minetest.registered_biomes[ocean] then
+   local underwater = biomename .. " Underwater"
+   if minetest.registered_biomes[underwater] then
       local odata = table.copy(data)
-      odata.layer = "ocean"
-      biome_data[ocean] = odata
-      table.insert(core_biomes, ocean)
+      odata.layer = "underwater"
+      biome_data[underwater] = odata
+      table.insert(core_biomes, underwater)
    end
    local beach = biomename .. " Beach"
    if minetest.registered_biomes[beach] then
@@ -644,8 +644,8 @@ default.set_biome_info = function(biomename, biome_class)
 end
 
 -- Returns metadata for a builtin biome. Returns a table with these fields:
--- * main_biome: Name of the main biome (useful if you have an ocean or beach biome variant)
--- * layer: "main" for the core biome, "ocean" and "beach" for the special Ocean and Beach variants
+-- * main_biome: Name of the main biome (useful if you have an underwater or beach biome variant)
+-- * layer: "main" for the core biome, "underwater" and "beach" for the special Underwater and Beach variants
 -- * class: Biome class that was assigned (see above)
 -- * is_dry: True if biome is considered dry (e.g. for dry grass)
 -- * dirt_blob: Name of dirt ore node or nil to suppress generation

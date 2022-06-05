@@ -33,7 +33,7 @@ Version 1: Closest to the original Pixture game.
 Version 2: Major biome update introducing tons of new biomes and
            removing the Desert and Gravel Beach. Introduced more
            swamp biomes, swamp highland, dry land biomes, shrubbery,
-           oak forests, birch forests, "technical" ocean/beach biomes,
+           oak forests, birch forests, "technical" underwater/beach biomes,
            Underground biome, and much more.
            Biome heat/humidity points of existing biomes had to be
            completely updated.
