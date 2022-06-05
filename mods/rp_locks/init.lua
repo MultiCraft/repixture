@@ -60,6 +60,8 @@ minetest.register_tool(
       description = S("Lock Pick"),
       _tt_help = S("Cracks locked chests"),
 
+      groups = { tool = 1 },
+
       inventory_image = "locks_pick.png",
       wield_image = "locks_pick.png",
 
@@ -197,6 +199,7 @@ minetest.register_craftitem(
    {
       description = S("Lock"),
       _tt_help = S("Used to craft locked chests"),
+      groups = { tool = 1 },
 
       inventory_image = "locks_lock.png",
       wield_image = "locks_lock.png",
@@ -220,7 +223,7 @@ minetest.register_node(
          "locks_chest_front.png"
       },
       paramtype2 = "facedir",
-      groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, locked = 1},
+      groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, locked = 1, container = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
       on_construct = function(pos)

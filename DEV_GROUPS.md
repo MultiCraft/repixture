@@ -13,6 +13,23 @@ This is the list of all groups used for items. Note: If no number/rating is spec
 * `no_item_drop`: This item can't exist as a dropped item on the ground. When dropping it, it is deleted instantly
 * `immortal_item`: In entity form, this item withstands damage and won't be destroyed by nodes that deal damage
 
+## Creative categorization
+These groups are mainly used for a better item sorting in Creative Mode.
+
+* `node`: Add this group for items that are considered nodes *in a gameplay* sense.
+          Rarely needed, use this for items that are technically not nodes themselves, but they behave like
+          placable nodes from the player-point of view. Example: Door craftitems.
+          Implied if it was registered with `minetest.register_node`.
+* `tool`: Add this group for items that are considered tools *in a gameplay* sense.
+          That’s an item that the player can use to perform a direct action, like digging, igniting blocks.
+          Implied if item was registered with `minetest.register_tool`.
+* `craftitems`: Add this group for items that are considered craftitems *in a gameplay* sense.
+          That’s an item that is neither a node nor tool. Usually for items only used for crafting with
+          no inherent direct use.
+          Implied if it was registered with `minetest.register_craftitem`.
+
+* `creative_decoblock`: Classifies nodes as "decorative node". This is for non-full cubes except slabs and stairs
+
 ### Tools
 * `axe`: Axe
 * `shears`: Shears
@@ -60,6 +77,8 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `magnetic`: Node is magnetic and can magnetize stuff (like compass)
 * `unmagnetic`: Node is "unmagnetic", this means it can de-magnetize stuff
 * `locked`: Node is considered to be locked
+* `container`: Node has an inventory to store item(s)
+* `interactive_node`: Node can be interacted with (excluding pure container nodes)
 
 ### Node categorization
 
@@ -100,7 +119,7 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 
 * `slab`: Slab (1 = normal slab, 2 = path slab)
 * `stair`: Stair
-* `path`: A path node like the Dirt Path
+* `path`: A path node like the Dirt Path (1 = normal path, 2 = path slab)
 * `door`: Any door
 * `door_wood`: Wooden door
 * `fence`: Fence
@@ -114,7 +133,9 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `wood`: Made out of wood
 * `tree`: Tree trunks
 * `stone`: Stone
+* `ore`: Ore
 * `sand`: Sand
+* `gravel`: Gravel
 * `sandstone`: Sandstone
 * `glass`: Glass
 * `fuzzy`: Wool, cotton bale, etc.

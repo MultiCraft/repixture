@@ -97,6 +97,7 @@ minetest.register_craftitem(
       _tt_help = S("Used to fertilize dirt and sand to speed up plant growth"),
       inventory_image = "default_fertilizer_inventory.png",
       wield_scale = {x=1,y=1,z=2},
+      groups = { tool = 1 },
       on_place = function(itemstack, placer, pointed_thing)
          -- Boilerplate to handle pointed node and protection
          local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)

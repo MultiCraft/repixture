@@ -32,7 +32,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
 	    wall_bottom = {-2/16, -0.5, -2/16, 2/16, 0, 2/16},
 	    wall_side = {-0.5, -8/16, -2/16, -0.5+4/16, 0, 2/16},
          },
-         groups = {choppy = 2, dig_immediate = 3, attached_node = 1, torch = 1},
+         groups = {choppy = 2, dig_immediate = 3, attached_node = 1, torch = 1, creative_decoblock = 1},
          is_ground_content = false,
          sounds = rp_sounds.node_sound_defaults(),
          on_place = function(itemstack, placer, pointed_thing)

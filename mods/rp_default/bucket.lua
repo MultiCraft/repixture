@@ -25,7 +25,7 @@ for b=1, #water_buckets do
          stack_max = 1,
          wield_scale = {x=1,y=1,z=2},
          liquids_pointable = true,
-         groups = { bucket = 2, bucket_water = 1 },
+         groups = { bucket = 2, bucket_water = 1, tool = 1 },
          on_place = function(itemstack, placer, pointed_thing)
             local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
             if handled then
@@ -77,7 +77,7 @@ minetest.register_craftitem(
       stack_max = 10,
       wield_scale = {x=1,y=1,z=2},
       liquids_pointable = true,
-      groups = { bucket = 1 },
+      groups = { bucket = 1, tool = 1 },
       on_use = function(itemstack, user, pointed_thing)
          if pointed_thing.type ~= "node" then return end
 

@@ -7,7 +7,7 @@ minetest.register_craftitem(
       _tt_help = S("Make plants grow instantly"),
       inventory_image = "rp_supertools_growth_tool.png",
       wield_image = "rp_supertools_growth_tool.png",
-      groups = { supertool = 1 },
+      groups = { supertool = 1, tool = 1 },
       stack_max = 1,
       on_place = function(itemstack, placer, pointed_thing)
          -- Handle pointed node handlers and protection

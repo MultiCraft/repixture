@@ -29,7 +29,7 @@ minetest.register_node(
       tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_sides.png",
 	      "default_chest_sides.png", "default_chest_sides.png", "default_chest_front.png"},
       paramtype2 = "facedir",
-      groups = {snappy = 2,choppy = 2,oddly_breakable_by_hand = 2},
+      groups = {snappy = 2,choppy = 2,oddly_breakable_by_hand = 2,container=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
       on_construct = function(pos)
@@ -82,7 +82,7 @@ minetest.register_node(
       _tt_help = S("Provides 8 inventory slots"),
       tiles = {"default_wood.png", "default_wood.png", "default_bookshelf.png"},
       paramtype2 = "facedir",
-      groups = {snappy = 2,choppy = 3,oddly_breakable_by_hand = 2},
+      groups = {snappy = 2,choppy = 3,oddly_breakable_by_hand = 2,container=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
       on_construct = function(pos)

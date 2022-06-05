@@ -98,7 +98,7 @@ minetest.register_node(
          wall_bottom = {-4/16, -0.5, -4/16, 4/16, -0.5+(4/16), 4/16}
       },
 
-      groups = {crumbly = 3},
+      groups = {crumbly = 3, creative_decoblock = 1},
       light_source = 2,
       sounds = rp_sounds.node_sound_glass_defaults(),
 })
@@ -121,7 +121,7 @@ minetest.register_node(
    {
       description = S("Stone with Lumien"),
       tiles = {"default_stone.png^lumien_mineral_lumien.png"},
-      groups = {cracky = 1, stone = 1},
+      groups = {cracky = 1, stone = 1, ore=1},
       drop = "rp_lumien:block",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })

@@ -479,6 +479,7 @@ minetest.register_craftitem(
       _tt_help = S("Show this to a villager to trade"),
       inventory_image = "default_book.png^gold_bookribbon.png",
       stack_max = 1,
+      groups = { tool = 1 },
 })
 
 minetest.register_craftitem(
@@ -502,7 +503,7 @@ minetest.register_node(
    {
       description = S("Stone with Gold"),
       tiles ={"default_stone.png^gold_mineral_gold.png"},
-      groups = {cracky=1, stone=1},
+      groups = {cracky=1, stone=1, ore=1},
       drop = "rp_gold:lump_gold",
       is_ground_content = true,
       sounds = rp_sounds.node_sound_stone_defaults(),

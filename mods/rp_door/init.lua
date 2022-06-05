@@ -31,13 +31,20 @@ function door.register_door(name, def)
       def.sound_open_door = "door_open"
    end
 
+   if not def.groups then
+      def.groups = {}
+   end
+   local groups_craftitem = table.copy(def.groups)
+   groups_craftitem.node = 1
+   groups_craftitem.creative_decoblock = 1
+   groups_craftitem.interactive_node = 1
 
    minetest.register_craftitem(
       name, {
 	 description = def.description,
 	 inventory_image = def.inventory_image,
 
-	 groups = def.groups,
+	 groups = groups_craftitem,
 
 	 on_place = function(itemstack, placer, pointed_thing)
             -- Handle pointed node handlers first

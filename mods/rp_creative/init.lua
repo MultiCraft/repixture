@@ -57,7 +57,127 @@ local function create_creative_inventory(player)
 			table.insert(creative_list, name)
 		end
 	end
-	table.sort(creative_list)
+	local get_type = function(def)
+		if not def.groups then
+			return "craftitem" -- fallback
+		end
+		if def.groups.craftitem then
+			return "craftitem"
+		elseif def.groups.tool then
+			return "tool"
+		elseif def.groups.node then
+			return "node"
+		end
+		if def.type == "craft" then
+			return "craftitem"
+		elseif def.type == "tool" then
+			return "tool"
+		elseif def.type == "node" then
+			return "node"
+		end
+		return "craftitem" -- fallback
+	end
+	local function creative_sort(item1, item2)
+		local def1 = minetest.registered_items[item1]
+		local def2 = minetest.registered_items[item2]
+		local groups1 = def1.groups or {}
+		local groups2 = def2.groups or {}
+		local type1 = get_type(def1)
+		local type2 = get_type(def2)
+
+		if (type1 == "tool" and type2 ~= "tool") then
+			return true
+		elseif (type1 ~= "tool" and type2 == "tool") then
+			return false
+		elseif (type1 == "craftitem" and type2 ~= "craftitem") then
+			return true
+		elseif (type1 ~= "craftitem" and type2 == "craftitem") then
+			return false
+		elseif (type1 == "node" and type2 ~= "node") then
+			return true
+		elseif (type1 ~= "node" and type2 == "node") then
+			return false
+		elseif def1.tool_capabilities and not def2.tool_capabilities then
+			return true
+		elseif not def1.tool_capabilities and def2.tool_capabilities then
+			return false
+		elseif groups1.is_armor and not groups2.is_armor then
+			return true
+		elseif not groups1.is_armor and groups2.is_armor then
+			return false
+		elseif groups1.food and not groups2.food then
+			return true
+		elseif not groups1.food and groups2.food then
+			return false
+		elseif groups1.spawn_egg and not groups2.spawn_egg then
+			return true
+		elseif not groups1.spawn_egg and groups2.spawn_egg then
+			return false
+		elseif groups1.plant and not groups2.plant then
+			return true
+		elseif not groups1.plant and groups2.plant then
+			return false
+		elseif groups1.dirt and not groups2.dirt then
+			return true
+		elseif not groups1.dirt and groups2.dirt then
+			return false
+		elseif groups1.sand and not groups2.sand then
+			return true
+		elseif not groups1.sand and groups2.sand then
+			return false
+		elseif groups1.sandstone and not groups2.sandstone then
+			return true
+		elseif not groups1.sandstone and groups2.sandstone then
+			return false
+		elseif groups1.gravel and not groups2.gravel then
+			return true
+		elseif not groups1.gravel and groups2.gravel then
+			return false
+		elseif groups1.stone and not groups2.stone then
+			return true
+		elseif not groups1.stone and groups2.stone then
+			return false
+		elseif groups1.ore and not groups2.ore then
+			return true
+		elseif not groups1.ore and groups2.ore then
+			return false
+		elseif groups1.tree and not groups2.tree then
+			return true
+		elseif not groups1.tree and groups2.tree then
+			return false
+		elseif groups1.leaves and not groups2.leaves then
+			return true
+		elseif not groups1.leaves and groups2.leaves then
+			return false
+		elseif groups1.wood and not groups2.wood then
+			return true
+		elseif not groups1.wood and groups2.wood then
+			return false
+		elseif groups1.water and not groups2.water then
+			return true
+		elseif not groups1.water and groups2.water then
+			return false
+		elseif groups1.path and not groups2.path then
+			return true
+		elseif not groups1.path and groups2.path then
+			return false
+		elseif groups1.creative_decoblock and not groups2.creative_decoblock then
+			return true
+		elseif not groups1.creative_decoblock and groups2.creative_decoblock then
+			return false
+		elseif groups1.container and not groups2.container then
+			return true
+		elseif not groups1.container and groups2.container then
+			return false
+		elseif groups1.interactive_node and not groups2.interactive_node then
+			return true
+		elseif not groups1.interactive_node and groups2.interactive_node then
+			return false
+		else
+			return item1 < item2
+		end
+	end
+	table.sort(creative_list, creative_sort)
 	inv:set_size("main", #creative_list)
 	for _,itemstring in ipairs(creative_list) do
 		inv:add_item("main", ItemStack(itemstring))
