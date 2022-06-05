@@ -1211,7 +1211,7 @@ local register_seagrass_on = function(append, basenode, basenode_tiles, fertiliz
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 1.5, 0.5},
-      }}, "rp_default:seagrass", append, basenode, basenode_tiles, _on_trim, nil, fertilize_info)
+      }}, "rp_default:seagrass", append, basenode, basenode_tiles, _on_trim, fertilize_info)
 
 end
 
