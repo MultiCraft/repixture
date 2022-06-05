@@ -1088,6 +1088,18 @@ default.register_decoration(
       flags = "force_placement",
 })
 
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:dirt", "rp_default:stone"},
+      sidelen = 16,
+      fill_ratio = 0.0005,
+      biomes = {"Grove Ocean", "Poplar Plains Ocean"},
+      decoration = {"rp_default:stone"},
+      y_min = default.UNDERGROUND_Y_MAX + 1,
+      y_max = -2,
+      flags = "force_placement",
+})
 
 -- Overwater
 default.register_decoration(

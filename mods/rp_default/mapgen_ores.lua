@@ -524,4 +524,89 @@ default.register_ore(
       y_max          = 32,
 })
 
+-- Underwater ground variations
+default.register_ore({
+	ore_type       = "blob",
+	ore            = "rp_default:gravel",
+	wherein        = {"rp_default:sand"},
+	clust_scarcity = 10*10*10,
+	clust_num_ores = 33,
+	clust_size     = 4,
+	y_min          = default.UNDERGROUND_Y_MAX+1,
+	y_max          = 0,
+	noise_params   = {
+		offset  = 0,
+		scale   = 1,
+		spread  = {x=150, y=150, z=150},
+		seed    = 39393,
+		octaves = 3,
+		persist = 0.5,
+		lacunarity = 2,
+		flags = "defaults",
+	},
+})
+default.register_ore({
+	ore_type       = "blob",
+	ore            = "rp_default:swamp_dirt",
+	wherein        = {"rp_default:dirt"},
+	biomes = { "Mixed Swamp Ocean", "Papyrus Swamp Ocean", "Swamp Forest Ocean", "Swamp Meadow Ocean", "Dry Swamp Ocean" },
+	clust_scarcity = 8*8*8,
+	clust_num_ores = 40,
+	clust_size     = 5,
+	y_min          = -30,
+	y_max          = 0,
+	noise_params   = {
+		offset  = 0,
+		scale   = 1,
+		spread  = {x=150, y=150, z=150},
+		seed    = 39393,
+		octaves = 3,
+		persist = 0.5,
+		lacunarity = 2,
+		flags = "defaults",
+	},
+})
+
+default.register_ore({
+	ore_type       = "blob",
+	ore            = "rp_default:sand",
+	wherein        = "rp_default:dirt",
+	clust_scarcity = 10*10*10,
+	clust_num_ores = 40,
+	clust_size     = 4,
+	y_min          = default.UNDERGROUND_Y_MAX+1,
+	y_max          = 0,
+	noise_params   = {
+		offset  = 0,
+		scale   = 1,
+		spread  = {x=150, y=150, z=150},
+		seed    = 40440,
+		octaves = 3,
+		persist = 0.5,
+		lacunarity = 2,
+		flags = "defaults",
+	},
+})
+default.register_ore({
+	ore_type       = "blob",
+	ore            = "rp_default:dirt",
+	wherein        = "rp_default:sand",
+	clust_scarcity = 15*15*15,
+	clust_num_ores = 40,
+	clust_size     = 4,
+	y_min          = default.UNDERGROUND_Y_MAX+1,
+	y_max          = -3,
+	noise_params   = {
+		offset  = 0,
+		scale   = 1,
+		spread  = {x=150, y=150, z=150},
+		seed    = 40440,
+		octaves = 3,
+		persist = 0.5,
+		lacunarity = 2,
+		flags = "defaults",
+	},
+})
+
+
 end
