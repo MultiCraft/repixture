@@ -5,11 +5,11 @@
 local ITEM_MAGNET_DELAY_AFTER_DROP = 1.5
 
 item_drop = {}
-function item_drop.drop_item(pos, itemstack)
+function item_drop.drop_item(pos, itemstack, spread)
    local rpos = {
-      x = pos.x + math.random(-0.3, 0.3),
+      x = pos.x + math.random(-100, 100)*0.003,
       y = pos.y,
-      z = pos.z + math.random(-0.3, 0.3)
+      z = pos.z + math.random(-100, 100)*0.003,
    }
 
    local drop = minetest.add_item(rpos, itemstack)
