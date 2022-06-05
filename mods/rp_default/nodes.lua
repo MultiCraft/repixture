@@ -1186,6 +1186,7 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
          end,
 	 _on_trim = _on_trim,
 	 _fertilized_node = _fertilized_node,
+	 _waterplant_base_node = basenode,
 	 drop = drop,
    })
 end
@@ -1367,6 +1368,7 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
             return itemstack
          end,
 	 _fertilized_node = _fertilized_node,
+         _waterplant_base_node = basenode,
    })
 end
 

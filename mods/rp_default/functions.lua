@@ -720,12 +720,12 @@ minetest.register_abm( -- seagrass dies if not underwater
          local plantpos = vector.add(pos, dir)
          local is_water = util.is_water_source_or_waterfall(plantpos)
          if not is_water then
-            if node.name == "rp_default:seagrass_on_dirt" or node.name == "rp_default:tall_seagrass_on_dirt" then
-                minetest.set_node(pos, {name = "rp_default:dirt"})
-            elseif node.name == "rp_default:seagrass_on_swamp_dirt" or node.name == "rp_default:tall_seagrass_on_swamp_dirt" then
-                minetest.set_node(pos, {name = "rp_default:swamp_dirt"})
-            elseif node.name == "rp_default:seagrass_on_sand" or node.name == "rp_default:tall_seagrass_on_sand" then
-                minetest.set_node(pos, {name = "rp_default:sand"})
+            local def = minetest.registered_nodes[node.name]
+            if def._waterplant_base_node then
+                minetest.set_node(pos, {name = def._waterplant_base_node})
+            else
+                minetest.log("error", "[rp_default] Missing _waterplant_base_node for "..node.name)
+                minetest.remove_node(pos)
             end
          end
       end
@@ -754,14 +754,12 @@ minetest.register_abm( -- algae die/become smaller if not fully underwater
          end
 
 	 if height_ok < 1 then
-            if node.name == "rp_default:alga_on_dirt" then
-               minetest.set_node(pos, {name = "rp_default:dirt"})
-            elseif node.name == "rp_default:alga_on_swamp_dirt" then
-               minetest.set_node(pos, {name = "rp_default:swamp_dirt"})
-            elseif node.name == "rp_default:alga_on_sand" then
-               minetest.set_node(pos, {name = "rp_default:sand"})
-            elseif node.name == "rp_default:alga_on_alga_block" then
-               minetest.set_node(pos, {name = "rp_default:alga_block"})
+            local def = minetest.registered_nodes[node.name]
+            if def and def._waterplant_base_node then
+                minetest.set_node(pos, {name = def._waterplant_base_node})
+            else
+                minetest.log("error", "[rp_default] Missing _waterplant_base_node for "..node.name)
+                minetest.remove_node(pos)
             end
          else
             local param2 = height_ok * 16
