@@ -1181,6 +1181,7 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
             local newnode = minetest.get_node(pos)
             if minetest.get_item_group(newnode.name, "seagrass") == 0 then
                minetest.set_node(pos, {name=basenode})
+               minetest.check_for_falling(pos)
             end
          end,
 	 _on_trim = _on_trim,
@@ -1307,6 +1308,7 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
             local newnode = minetest.get_node(pos)
             if minetest.get_item_group(newnode.name, "alga") == 0 then
                minetest.set_node(pos, {name=basenode})
+               minetest.check_for_falling(pos)
             end
          end,
 	 on_dig = function(pos, node, digger)
