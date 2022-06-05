@@ -1915,7 +1915,7 @@ default.register_decoration(
       place_on = "rp_default:sand",
       sidelen = 16,
       fill_ratio = 0.008,
-      biomes = { "Forest Ocean", "Marsh Ocean", "Dense Grassland Ocean", "Grove Ocean", "Shrubbery Ocean", "Oak Shrubbery Ocean", "Mystery Forest Ocean" },
+      biomes = { "Forest Ocean", "Marsh Ocean", "Dense Grassland Ocean", "Grove Ocean", "Shrubbery Ocean", "Oak Shrubbery Ocean", "Mystery Forest Ocean", "Wilderness Ocean", "Thorny Shrubs Ocean", "Shrubbery Ocean" },
       decoration = {"rp_default:tall_seagrass_on_sand"},
       y_min = default.GLOBAL_Y_MIN,
       y_max = 0,
