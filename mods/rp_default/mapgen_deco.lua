@@ -1680,32 +1680,70 @@ default.register_decoration(
 -- Grass decorations
 
 if mg_name ~= "v6" then
+
+-- Sea grass
 default.register_decoration(
    {
       deco_type = "simple",
-      place_on = "rp_default:dirt_with_grass",
+      place_on = "rp_default:dirt",
       sidelen = 16,
-      fill_ratio = 0.18,
-      biomes = {"Grassland", "Dense Grassland", "Orchard", "Swamp Meadow", "Swamp Meadow Highland", "Baby Poplar Plains", "Poplar Plains", "Shrubbery", "Oak Shrubbery", "Thorny Shrubs", "Dry Swamp", "Dry Swamp Highland"},
-      decoration = {"rp_default:grass"},
-      y_min = 10,
-      y_max = default.GLOBAL_Y_MAX,
+      fill_ratio = 0.06,
+      decoration = {"rp_default:seagrass_on_dirt"},
+      y_min = default.GLOBAL_Y_MIN,
+      y_max = 0,
+      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+      num_spawn_by = 1,
+      place_offset_y = -1,
+      flags = "force_placement",
 })
-
 default.register_decoration(
    {
       deco_type = "simple",
-      place_on = "rp_default:dirt_with_grass",
+      place_on = "rp_default:dirt",
       sidelen = 16,
-      fill_ratio = 0.08,
-      biomes = {"Grassland", "Dense Grassland", "Forest", "Deep Forest", "Birch Forest", "Tall Birch Forest", "Oak Forest", "Dense Oak Forest", "Tall Oak Forest", "Mystery Forest", "Baby Poplar Plains", "Poplar Plains", "Dry Swamp", "Dry Swamp Highland", "Shrubbery", "Oak Shrubbery"},
-      decoration = {"rp_default:grass"},
-      y_min = 0,
-      y_max = default.GLOBAL_Y_MAX,
+      fill_ratio = 0.02,
+      biomes = { "Forest Underwater", "Marsh Underwater", "Dense Grassland Underwater", "Grove Underwater", "Shrubbery Underwater", "Oak Shrubbery Underwater", "Mystery Forest Underwater", "Baby Poplar Plains Underwater", "Mixed Swamp Underwater" },
+      decoration = {"rp_default:tall_seagrass_on_dirt"},
+      y_min = default.GLOBAL_Y_MIN,
+      y_max = 0,
+      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+      num_spawn_by = 1,
+      place_offset_y = -1,
+      flags = "force_placement",
+})
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:sand",
+      sidelen = 16,
+      fill_ratio = 0.04,
+      decoration = {"rp_default:seagrass_on_sand"},
+      y_min = default.GLOBAL_Y_MIN,
+      y_max = 0,
+      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+      num_spawn_by = 1,
+      place_offset_y = -1,
+      flags = "force_placement",
+})
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:sand",
+      sidelen = 16,
+      fill_ratio = 0.008,
+      biomes = { "Forest Underwater", "Marsh Underwater", "Dense Grassland Underwater", "Grove Underwater", "Shrubbery Underwater", "Oak Shrubbery Underwater", "Mystery Forest Underwater", "Wilderness Underwater", "Thorny Shrubs Underwater", "Shrubbery Underwater" },
+      decoration = {"rp_default:tall_seagrass_on_sand"},
+      y_min = default.GLOBAL_Y_MIN,
+      y_max = 0,
+      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+      num_spawn_by = 1,
+      place_offset_y = -1,
+      flags = "force_placement",
 })
 
 
--- Algae (selected biomes)
+
+-- Algae
 default.register_decoration(
   {
      deco_type = "schematic",
@@ -1877,67 +1915,6 @@ for h=1,5 do
 end
 
 
--- Sea grass
-default.register_decoration(
-   {
-      deco_type = "simple",
-      place_on = "rp_default:dirt",
-      sidelen = 16,
-      fill_ratio = 0.06,
-      decoration = {"rp_default:seagrass_on_dirt"},
-      y_min = default.GLOBAL_Y_MIN,
-      y_max = 0,
-      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
-      num_spawn_by = 1,
-      place_offset_y = -1,
-      flags = "force_placement",
-})
-default.register_decoration(
-   {
-      deco_type = "simple",
-      place_on = "rp_default:dirt",
-      sidelen = 16,
-      fill_ratio = 0.02,
-      biomes = { "Forest Underwater", "Marsh Underwater", "Dense Grassland Underwater", "Grove Underwater", "Shrubbery Underwater", "Oak Shrubbery Underwater", "Mystery Forest Underwater", "Baby Poplar Plains Underwater", "Mixed Swamp Underwater" },
-      decoration = {"rp_default:tall_seagrass_on_dirt"},
-      y_min = default.GLOBAL_Y_MIN,
-      y_max = 0,
-      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
-      num_spawn_by = 1,
-      place_offset_y = -1,
-      flags = "force_placement",
-})
-default.register_decoration(
-   {
-      deco_type = "simple",
-      place_on = "rp_default:sand",
-      sidelen = 16,
-      fill_ratio = 0.04,
-      decoration = {"rp_default:seagrass_on_sand"},
-      y_min = default.GLOBAL_Y_MIN,
-      y_max = 0,
-      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
-      num_spawn_by = 1,
-      place_offset_y = -1,
-      flags = "force_placement",
-})
-default.register_decoration(
-   {
-      deco_type = "simple",
-      place_on = "rp_default:sand",
-      sidelen = 16,
-      fill_ratio = 0.008,
-      biomes = { "Forest Underwater", "Marsh Underwater", "Dense Grassland Underwater", "Grove Underwater", "Shrubbery Underwater", "Oak Shrubbery Underwater", "Mystery Forest Underwater", "Wilderness Underwater", "Thorny Shrubs Underwater", "Shrubbery Underwater" },
-      decoration = {"rp_default:tall_seagrass_on_sand"},
-      y_min = default.GLOBAL_Y_MIN,
-      y_max = 0,
-      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
-      num_spawn_by = 1,
-      place_offset_y = -1,
-      flags = "force_placement",
-})
-
-
 
 default.register_decoration(
    {
@@ -2002,6 +1979,32 @@ default.register_decoration(
 })
 
 end
+
+-- Grass
+
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:dirt_with_grass",
+      sidelen = 16,
+      fill_ratio = 0.18,
+      biomes = {"Grassland", "Dense Grassland", "Orchard", "Swamp Meadow", "Swamp Meadow Highland", "Baby Poplar Plains", "Poplar Plains", "Shrubbery", "Oak Shrubbery", "Thorny Shrubs", "Dry Swamp", "Dry Swamp Highland"},
+      decoration = {"rp_default:grass"},
+      y_min = 10,
+      y_max = default.GLOBAL_Y_MAX,
+})
+
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:dirt_with_grass",
+      sidelen = 16,
+      fill_ratio = 0.08,
+      biomes = {"Grassland", "Dense Grassland", "Forest", "Deep Forest", "Birch Forest", "Tall Birch Forest", "Oak Forest", "Dense Oak Forest", "Tall Oak Forest", "Mystery Forest", "Baby Poplar Plains", "Poplar Plains", "Dry Swamp", "Dry Swamp Highland", "Shrubbery", "Oak Shrubbery"},
+      decoration = {"rp_default:grass"},
+      y_min = 0,
+      y_max = default.GLOBAL_Y_MAX,
+})
 
 default.register_decoration(
    {
