@@ -117,6 +117,10 @@ local function create_creative_inventory(player)
 			return true
 		elseif not groups1.plant and groups2.plant then
 			return false
+		elseif groups1.grass and not groups2.grass then
+			return true
+		elseif not groups1.grass and groups2.grass then
+			return false
 		elseif groups1.dirt and not groups2.dirt then
 			return true
 		elseif not groups1.dirt and groups2.dirt then

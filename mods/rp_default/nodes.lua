@@ -1231,7 +1231,7 @@ minetest.register_craftitem("rp_default:tall_seagrass", {
    inventory_image = "rp_default_tall_seagrass_clump_inventory.png",
    wield_image = "rp_default_tall_seagrass_clump_inventory.png",
    on_place = get_sea_plant_on_place("tall_seagrass", "wallmounted"),
-   groups = { green_grass = 1, seagrass = 1, plant = 1, grass = 1 },
+   groups = { node = 1, green_grass = 1, seagrass = 1, plant = 1, grass = 1 },
 })
 minetest.register_craftitem("rp_default:seagrass", {
    description = S("Seagrass Clump"),
@@ -1239,7 +1239,7 @@ minetest.register_craftitem("rp_default:seagrass", {
    inventory_image = "rp_default_seagrass_clump_inventory.png",
    wield_image = "rp_default_seagrass_clump_inventory.png",
    on_place = get_sea_plant_on_place("seagrass", "wallmounted"),
-   groups = { green_grass = 1, seagrass = 1, plant = 1, grass = 1 },
+   groups = { node = 1, green_grass = 1, seagrass = 1, plant = 1, grass = 1 },
 })
 
 local waterplant_base_tiles = function(basetexture, plant_id, is_fertilized)
@@ -1378,7 +1378,7 @@ minetest.register_craftitem("rp_default:alga", {
    inventory_image = "rp_default_alga_inventory.png",
    wield_image = "rp_default_alga_inventory.png",
    on_place = get_sea_plant_on_place("alga", "leveled"),
-   groups = { plant = 1, alga = 1 },
+   groups = { node = 1, plant = 1, alga = 1 },
 })
 
 local alga_block_tiles = {
