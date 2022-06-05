@@ -1331,7 +1331,7 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
 	    minetest.set_node(pos, node)
 	    -- Drop items
             if not minetest.is_creative_enabled(digger:get_player_name()) then
-               for i=2, height+1 do
+               for i=1, height do
 	          local droppos = vector.new(pos.x, pos.y + i, pos.z)
                   item_drop.drop_item(droppos, "rp_default:alga")
                end
