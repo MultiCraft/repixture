@@ -1240,18 +1240,25 @@ minetest.register_craftitem("rp_default:seagrass", {
    groups = { green_grass = 1, seagrass = 1, plant = 1, grass = 1 },
 })
 
-register_seagrass_on("dirt", "rp_default:dirt", {{name="default_dirt.png",backface_culling=true}}, "fertilized_dirt")
-register_seagrass_on("swamp_dirt", "rp_default:swamp_dirt", {{name="default_swamp_dirt.png", backface_culling=true}}, "fertilized_swamp_dirt")
-register_seagrass_on("sand", "rp_default:sand", {{name="default_sand.png",backface_culling=true}}, "fertilized_sand")
-register_seagrass_on("fertilized_dirt", "rp_default:fertilized_dirt",
-	{{name="default_dirt.png^default_fertilizer.png", backface_culling=true},
-	{name="default_dirt.png",backface_culling=true}}, true)
-register_seagrass_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt",
-	{{name="default_swamp_dirt.png^default_fertilizer.png", backface_culling=true},
-	{name="default_swamp_dirt.png",backface_culling=true}}, true)
-register_seagrass_on("fertilized_sand", "rp_default:fertilized_sand",
-	{{name="default_sand.png^default_fertilizer.png", backface_culling=true},
-	{name="default_sand.png",backface_culling=true}}, true)
+local waterplant_base_tiles = function(basetexture, plant_id, is_fertilized)
+	local fert = basetexture
+	if is_fertilized then
+		fert = basetexture.."^default_fertilizer.png"
+	end
+	return {
+		{name=fert,backface_culling=true},
+		{name=basetexture.."^rp_default_plantlike_rooted_"..plant_id.."_roots.png",backface_culling=true},
+		{name=basetexture,backface_culling=true},
+	}
+end
+
+register_seagrass_on("dirt", "rp_default:dirt", waterplant_base_tiles("default_dirt.png", "seagrass", false), "fertilized_dirt")
+register_seagrass_on("swamp_dirt", "rp_default:swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "seagrass", false), "fertilized_swamp_dirt")
+register_seagrass_on("sand", "rp_default:sand", waterplant_base_tiles("default_sand.png", "seagrass", false), "fertilized_sand")
+register_seagrass_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_base_tiles("default_dirt.png", "seagrass", true), true)
+register_seagrass_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "seagrass", true), true)
+register_seagrass_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "seagrass", true), true)
+
 
 -- Alga
 local register_alga_on = function(append, basenode, basenode_tiles, max_height, fertilize_info)
@@ -1375,23 +1382,14 @@ local alga_block_tiles = {
    { name="rp_default_alga_block_top.png", backface_culling=true },
    { name="rp_default_alga_block_side.png", backface_culling=true },
 }
-
-register_alga_on("dirt", "rp_default:dirt", {{name="default_dirt.png",backface_culling=true}}, 5, "fertilized_dirt")
-register_alga_on("swamp_dirt", "rp_default:swamp_dirt", {{name="default_swamp_dirt.png",backface_culling=true}}, 7, "fertilized_swamp_dirt")
-register_alga_on("sand", "rp_default:sand", {{name="default_sand.png",backface_culling=true}}, 3, "fertilized_sand")
 register_alga_on("alga_block", "rp_default:alga_block", alga_block_tiles, 10)
-register_alga_on("fertilized_dirt", "rp_default:fertilized_dirt",
-	{{name="default_dirt.png^default_fertilizer.png",backface_culling=true},
-	{name="default_dirt.png",backface_culling=true}},
-	7, true)
-register_alga_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt",
-	{{name="default_swamp_dirt.png^default_fertilizer.png",backface_culling=true},
-	{name="default_swamp_dirt.png",backface_culling=true}},
-	9, true)
-register_alga_on("fertilized_sand", "rp_default:fertilized_sand",
-	{{name="default_sand.png^default_fertilizer.png", backface_culling=true},
-	{name="default_sand.png",backface_culling=true}},
-	4, true)
+
+register_alga_on("dirt", "rp_default:dirt", waterplant_base_tiles("default_dirt.png", "alga", false), 5, "fertilized_dirt")
+register_alga_on("swamp_dirt", "rp_default:swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", false), 7, "fertilized_swamp_dirt")
+register_alga_on("sand", "rp_default:sand", waterplant_base_tiles("default_sand.png", "alga", false), 3, "fertilized_sand")
+register_alga_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_base_tiles("default_dirt.png", "alga", true), 7, true)
+register_alga_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", true), 9, true)
+register_alga_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "alga", true), 4, true)
 
 -- Alga Block
 minetest.register_node(
