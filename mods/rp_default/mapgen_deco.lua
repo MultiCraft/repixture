@@ -1802,13 +1802,31 @@ for h=1,5 do
 	 biomes = { "Birch Forest Ocean", "Tall Birch Forest Ocean", "Tall Oak Forest Ocean", "Baby Poplar Plains Ocean", "Poplar Plains Ocean", "Shrubbery Ocean", "Thorny Shrubs Ocean", "Wilderness Ocean"  },
          decoration = {"rp_default:alga_on_dirt"},
          y_min = default.GLOBAL_Y_MIN,
-         y_max = -h + 1,
+         y_max = -h,
          spawn_by = { "rp_default:water_source" },
          num_spawn_by = 1,
          place_offset_y = -1,
          param2 = h*16,
          flags = "force_placement",
    })
+   if h <= 3 then
+      default.register_decoration(
+         {
+            deco_type = "simple",
+            place_on = "rp_default:sand",
+            sidelen = 16,
+            fill_ratio = 0.01,
+	    biomes = { "Birch Forest Ocean", "Tall Birch Forest Ocean", "Tall Oak Forest Ocean", "Baby Poplar Plains Ocean", "Poplar Plains Ocean", "Shrubbery Ocean", "Thorny Shrubs Ocean", "Wilderness Ocean"  },
+            decoration = {"rp_default:alga_on_sand"},
+            y_min = default.GLOBAL_Y_MIN,
+            y_max = -h,
+            spawn_by = { "rp_default:water_source" },
+            num_spawn_by = 1,
+            place_offset_y = -1,
+            param2 = h*16,
+            flags = "force_placement",
+      })
+   end
 
    default.register_decoration(
       {
@@ -1819,7 +1837,7 @@ for h=1,5 do
 	 biomes = { "Papyrus Swamp Ocean", "Mixed Swamp Ocean" },
          decoration = {"rp_default:alga_on_swamp_dirt"},
          y_min = default.GLOBAL_Y_MIN,
-         y_max = -(h+2) + 1,
+         y_max = -(h+2),
          spawn_by = { "rp_default:water_source" },
          num_spawn_by = 1,
          place_offset_y = -1,
@@ -1847,16 +1865,16 @@ for h=1,5 do
 end
 
 
--- Sea grass (all biomes)
+-- Sea grass
 default.register_decoration(
    {
       deco_type = "simple",
       place_on = "rp_default:dirt",
       sidelen = 16,
-      fill_ratio = 0.04,
+      fill_ratio = 0.06,
       decoration = {"rp_default:seagrass_on_dirt"},
       y_min = default.GLOBAL_Y_MIN,
-      y_max = 50,
+      y_max = 0,
       spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
       num_spawn_by = 1,
       place_offset_y = -1,
@@ -1867,15 +1885,48 @@ default.register_decoration(
       deco_type = "simple",
       place_on = "rp_default:dirt",
       sidelen = 16,
-      fill_ratio = 0.01,
+      fill_ratio = 0.02,
+      biomes = { "Forest Ocean", "Marsh Ocean", "Dense Grassland Ocean", "Grove Ocean", "Shrubbery Ocean", "Oak Shrubbery Ocean", "Mystery Forest Ocean", "Baby Poplar Plains Ocean", "Mixed Swamp Ocean" },
       decoration = {"rp_default:tall_seagrass_on_dirt"},
       y_min = default.GLOBAL_Y_MIN,
-      y_max = 50,
+      y_max = 0,
       spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
       num_spawn_by = 1,
       place_offset_y = -1,
       flags = "force_placement",
 })
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:sand",
+      sidelen = 16,
+      fill_ratio = 0.04,
+      decoration = {"rp_default:seagrass_on_sand"},
+      y_min = default.GLOBAL_Y_MIN,
+      y_max = 0,
+      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+      num_spawn_by = 1,
+      place_offset_y = -1,
+      flags = "force_placement",
+})
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = "rp_default:sand",
+      sidelen = 16,
+      fill_ratio = 0.008,
+      biomes = { "Forest Ocean", "Marsh Ocean", "Dense Grassland Ocean", "Grove Ocean", "Shrubbery Ocean", "Oak Shrubbery Ocean", "Mystery Forest Ocean" },
+      decoration = {"rp_default:tall_seagrass_on_sand"},
+      y_min = default.GLOBAL_Y_MIN,
+      y_max = 0,
+      spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+      num_spawn_by = 1,
+      place_offset_y = -1,
+      flags = "force_placement",
+})
+
+
+
 default.register_decoration(
    {
       deco_type = "simple",
@@ -1884,7 +1935,7 @@ default.register_decoration(
       fill_ratio = 0.08,
       decoration = {"rp_default:seagrass_on_swamp_dirt"},
       y_min = default.GLOBAL_Y_MIN,
-      y_max = 50,
+      y_max = 0,
       spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
       num_spawn_by = 1,
       place_offset_y = -1,
@@ -1896,9 +1947,10 @@ default.register_decoration(
       place_on = "rp_default:swamp_dirt",
       sidelen = 16,
       fill_ratio = 0.06,
+      biomes = { "Swamp Meadow Beach", "Swamp Meadow Ocean", "Papyrus Swamp Ocean", "Mixed Swamp Ocean", "Mixed Swamp Beach", "Swamp Forest Ocean" },
       decoration = {"rp_default:tall_seagrass_on_swamp_dirt"},
       y_min = default.GLOBAL_Y_MIN,
-      y_max = 50,
+      y_max = 0,
       spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
       num_spawn_by = 1,
       place_offset_y = -1,
@@ -1915,7 +1967,7 @@ default.register_decoration(
       decoration = {"rp_default:seagrass_on_swamp_dirt"},
       biomes = {"Swamp Meadow", "Swamp Meadow Ocean", "Swamp Meadow Beach"},
       y_min = default.GLOBAL_Y_MIN,
-      y_max = 50,
+      y_max = 0,
       spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
       num_spawn_by = 1,
       place_offset_y = -1,
@@ -1930,7 +1982,7 @@ default.register_decoration(
       decoration = {"rp_default:tall_seagrass_on_swamp_dirt"},
       biomes = {"Swamp Meadow", "Swamp Meadow Ocean", "Swamp Meadow Beach"},
       y_min = default.GLOBAL_Y_MIN,
-      y_max = 50,
+      y_max = 0,
       spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
       num_spawn_by = 1,
       place_offset_y = -1,
