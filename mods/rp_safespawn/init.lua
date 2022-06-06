@@ -2,13 +2,26 @@ local SPAWNRADIUS = 21
 local MAX_SPAWN_HEIGHT = 2
 
 -- Cache spawnable blocks
-local spawnable_blocks = {}
+local spawnable_blocks = { ignore = false }
+local spawnable_blocks_in = { air = true, ignore = false }
+
+-- Returns true if the node can be spawned into
+local can_spawn_in = function(nodename)
+	-- Check cache
+	if spawnable_blocks_in[nodename] ~= nil then
+		return spawnable_blocks_in[nodename]
+	end
+	spawnable_blocks_in[nodename] = false
+	if minetest.get_item_group(nodename, "spawn_allowed_in") > 0 then
+		spawnable_blocks_in[nodename] = true
+		return true
+	end
+	return false
+end
+
 
 -- Returns true if the node with the given nodename can be spawned on
 local can_spawn_on = function(nodename)
-	if nodename == "ignore" then
-		return false
-	end
 	-- Check cache
 	if spawnable_blocks[nodename] ~= nil then
 		return spawnable_blocks[nodename]
@@ -59,7 +72,7 @@ local is_valid_spawn_pos = function(pos1)
 	if node0.name == "ignore" then
 		return false
 	end
-	if node1.name == "air" and node2.name == "air" and can_spawn_on(node0.name) then
+	if can_spawn_in(node1.name) and can_spawn_in(node2.name) and can_spawn_on(node0.name) then
 		return true
 	end
 	return false
@@ -151,7 +164,7 @@ local function emerge_callback(blockpos, action, calls_remaining, param)
 				minetest.log("action", "[rp_safespawn] Failed to find new spawn position for "..param.player:get_player_name()..". Not moving player.")
 			end
 		else
-			minetest.log("info", "[rp_safespawn] Player spawn for "..param.player:get_player_name().." was OK. Not moving player.")
+			minetest.log("action", "[rp_safespawn] Player spawn for "..param.player:get_player_name().." was OK. Not moving player.")
 		end
 	end
 end
