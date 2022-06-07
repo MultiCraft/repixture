@@ -4,7 +4,7 @@
 
 local mod_weather = minetest.get_modpath("rp_weather")
 
-ambiance = {}
+local ambiance = {}
 ambiance.sounds = {}
 
 -- When the weather changes, the mod will still use
