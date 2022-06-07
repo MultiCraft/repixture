@@ -576,6 +576,16 @@ default.is_dry_biome = function(biomename)
    return false
 end
 
+-- Returns true if the given biome is considered to be
+-- a swamp biome. Custom or unknown biomes are not
+-- part of the swamp.
+default.is_swamp_biome = function(biomename)
+   if biome_data[biomename] then
+      return biome_data[biomename].class == "swampy"
+   end
+   return false
+end
+
 -- List of biomes registered with default.set_biome_info
 local core_biomes = {}
 -- Same as above, but without special sub-biomes like beach and underwater variants
@@ -674,7 +684,7 @@ minetest.register_abm( -- dirt and grass footsteps becomes dirt with grass if un
             local biomedata = minetest.get_biome_data(pos)
             local biomename = minetest.get_biome_name(biomedata.biome)
             if node.name == "rp_default:swamp_dirt" then
-                if biomename == "Swamp" then
+                if default.is_swamp_biome(biomename) then
                     minetest.set_node(pos, {name = "rp_default:dirt_with_swamp_grass"})
                 end
             else
