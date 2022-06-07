@@ -2,6 +2,8 @@ if not minetest.get_modpath("rp_achievements") then
 	return
 end
 
+local mg_name = minetest.get_mapgen_setting("mg_name")
+
 local S = minetest.get_translator("rp_default")
 
 -- Digging wood
@@ -68,7 +70,7 @@ achievements.register_achievement(
 
 
 
--- Biomes
+-- Flower
 
 achievements.register_achievement(
    "gardener",
@@ -77,25 +79,6 @@ achievements.register_achievement(
       description = S("Plant a flower."),
       times = 1,
       placenode = "rp_default:flower",
-})
-
-achievements.register_achievement(
-   "welcome_to_the_mountains",
-   {
-      title = S("Dry Lands"),
-      description = S("Collect dry grass."),
-      times = 1,
-      dignode = "rp_default:dry_grass",
-})
-
-achievements.register_achievement(
-   "drain_the_swamp",
-   {
-      title = S("Drain the Swamp"),
-      description = S("Dig some swamp dirt."),
-      times = 1,
-      dignode = "group:swamp_dirt",
-      item_icon = "rp_default:swamp_dirt",
 })
 
 -- Farming
@@ -119,3 +102,41 @@ achievements.register_achievement(
       times = 1,
       craftitem = "rp_default:bookshelf",
 })
+
+
+if mg_name ~= "v6" then
+	-- All biomes
+
+	achievements.register_achievement(
+	   "find_all_biomes",
+	   {
+	      title = S("Explorer"),
+	      description = S("Visit all biomes"),
+	      subconditions = default.get_main_biomes(),
+	      times = 0,
+	})
+
+	local timer = 0
+	local BIOME_CHECK_TIME = 1
+	minetest.register_globalstep(function(dtime)
+		timer = timer + dtime
+		if timer < BIOME_CHECK_TIME then
+			return
+		end
+		timer = 0
+
+		local players = minetest.get_connected_players()
+		for p=1, #players do
+			local player = players[p]
+			local biomedata = minetest.get_biome_data(player:get_pos())
+			if biomedata then
+				local biome = minetest.get_biome_name(biomedata.biome)
+				local biomeinfo = default.get_biome_info(biome)
+				if biomeinfo then
+					local main_biome = biomeinfo.main_biome
+					achievements.trigger_subcondition(player, "find_all_biomes", main_biome)
+				end
+			end
+		end
+	end)
+end
