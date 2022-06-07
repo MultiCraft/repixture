@@ -890,7 +890,7 @@ minetest.register_abm({
     action = function(pos, node)
        local below = vector.add(pos, vector.new(0,-1,0))
        local belownode = minetest.get_node(below)
-       local fert = minetest.get_item_group(belownode.name, "plantable_fertilizer") > 0
+       local fert = belownode.name == "rp_default:fertilized_dirt"
        if fert then
           minetest.set_node(pos, {name="rp_default:tall_grass", param2=node.param2})
        end
