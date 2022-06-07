@@ -205,13 +205,16 @@ function achievements.trigger_subcondition(player, aname, subcondition)
    end
    if states[aname] == nil then
       states[aname] = 0
+      set_achievement_states(player, states)
    end
    if not subconds[aname] then
       subconds[aname] = {}
    end
+   if subconds[aname][subcondition] == true then
+      return
+   end
    subconds[aname][subcondition] = true
 
-   set_achievement_states(player, states)
    set_achievement_subconditions(player, subconds)
 
    check_achievement_gotten(player, aname)
