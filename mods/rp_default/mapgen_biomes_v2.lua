@@ -2,6 +2,8 @@
 -- Mapgen
 --
 
+local S = minetest.get_translator("rp_default")
+
 --[[ BIOMES ]]
 
 minetest.clear_registered_biomes()
@@ -14,7 +16,9 @@ local register_underwater_and_beach = function(biomename, node_underwater, beach
 		return
 	end
 	local newdef = table.copy(orig_biome)
+	local orig_description = orig_biome._description or biomename
 	newdef.name = biomename .. " Underwater"
+	newdef._description = S("@1 Underwater", orig_description)
 	newdef.node_top = node_underwater or "rp_default:sand"
 	newdef.node_filler = newdef.node_top
 	newdef.y_min = default.UNDERGROUND_Y_MAX + 1
@@ -30,6 +34,7 @@ local register_underwater_and_beach = function(biomename, node_underwater, beach
 
 		local newdef2 = table.copy(orig_biome)
 		newdef2.name = biomename .. " Beach"
+		newdef2._description = S("@1 Beach", orig_description)
 		newdef2.node_top = node_beach or "rp_default:sand"
 		newdef2.node_filler = newdef2.node_top
 		newdef2.y_min = orig_biome.y_min - beach_depth
@@ -44,6 +49,7 @@ if mg_name ~= "v6" then
 minetest.register_biome(
 {
       name = "Marsh",
+      _description = S("Marsh"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -67,6 +73,7 @@ default.set_biome_info("Marsh", "grassy")
 minetest.register_biome(
 {
       name = "Dense Grassland",
+      _description = S("Dense Grassland"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -91,6 +98,7 @@ default.set_biome_info("Dense Grassland", "grassy")
 minetest.register_biome(
    {
       name = "Deep Forest",
+      _description = S("Giga Birch Forest"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -111,6 +119,7 @@ default.set_biome_info("Deep Forest", "grassy")
 minetest.register_biome(
    {
       name = "Forest",
+      _description = S("Mixed Forest"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -132,6 +141,7 @@ default.set_biome_info("Forest", "grassy")
 minetest.register_biome(
    {
       name = "Grove",
+      _description = S("Grove"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -153,6 +163,7 @@ default.set_biome_info("Grove", "grassy")
 minetest.register_biome(
    {
       name = "Wilderness",
+      _description = S("Wilderness"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -175,6 +186,7 @@ default.set_biome_info("Wilderness", "grassy")
 minetest.register_biome(
    {
       name = "Grassland",
+      _description = S("Grassland"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -197,6 +209,7 @@ default.set_biome_info("Grassland", "grassy")
 minetest.register_biome(
    {
       name = "Orchard",
+      _description = S("Orchard"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -218,6 +231,7 @@ default.set_biome_info("Orchard", "grassy")
 minetest.register_biome(
    {
       name = "Shrubbery",
+      _description = S("Shrubbery"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -240,6 +254,7 @@ default.set_biome_info("Shrubbery", "grassy")
 minetest.register_biome(
    {
       name = "Chaparral",
+      _description = S("Chaparral"),
 
       node_top = "rp_default:dirt_with_dry_grass",
       node_filler = "rp_default:dry_dirt",
@@ -260,6 +275,7 @@ default.set_biome_info("Chaparral", "savannic")
 minetest.register_biome(
    {
       name = "Savanna",
+      _description = S("Savanna"),
 
       node_top = "rp_default:dirt_with_dry_grass",
       node_filler = "rp_default:dry_dirt",
@@ -281,6 +297,7 @@ default.set_biome_info("Savanna", "savannic")
 minetest.register_biome(
    {
       name = "Wasteland",
+      _description = S("Wasteland"),
 
       node_top = "rp_default:dry_dirt",
       node_filler = "rp_default:sandstone",
@@ -302,6 +319,7 @@ default.set_biome_info("Wasteland", "drylandic")
 minetest.register_biome(
    {
       name = "Rocky Dryland",
+      _description = S("Rocky Dryland"),
 
       node_top = "rp_default:dry_dirt",
       node_filler = "rp_default:dry_dirt",
@@ -323,6 +341,7 @@ default.set_biome_info("Rocky Dryland", "drylandic")
 minetest.register_biome(
    {
       name = "Wooded Dryland",
+      _description = S("Wooded Dryland"),
 
       node_top = "rp_default:dry_dirt",
       node_filler = "rp_default:dry_dirt",
@@ -344,6 +363,7 @@ default.set_biome_info("Wooded Dryland", "drylandic")
 minetest.register_biome(
    {
       name = "Savannic Wasteland",
+      _description = S("Savannic Wasteland"),
 
       node_top = "rp_default:dry_dirt",
       node_filler = "rp_default:sandstone",
@@ -365,6 +385,7 @@ default.set_biome_info("Savannic Wasteland", "savannic")
 minetest.register_biome(
    {
       name = "Thorny Shrubs",
+      _description = S("Thorny Shrubs"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -386,6 +407,7 @@ default.set_biome_info("Thorny Shrubs", "grassy")
 minetest.register_biome(
    {
       name = "Mystery Forest",
+      _description = S("Mystery Forest"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -407,6 +429,7 @@ default.set_biome_info("Mystery Forest", "grassy")
 minetest.register_biome(
    {
       name = "Poplar Plains",
+      _description = S("Poplar Plains"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -428,6 +451,7 @@ default.set_biome_info("Poplar Plains", "grassy")
 minetest.register_biome(
    {
       name = "Baby Poplar Plains",
+      _description = S("Baby Poplar Plains"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -449,6 +473,7 @@ default.set_biome_info("Baby Poplar Plains", "grassy")
 minetest.register_biome(
    {
       name = "Tall Birch Forest",
+      _description = S("Tall Birch Forest"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -470,6 +495,7 @@ default.set_biome_info("Tall Birch Forest", "grassy")
 minetest.register_biome(
    {
       name = "Birch Forest",
+      _description = S("Birch Forest"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -491,6 +517,7 @@ default.set_biome_info("Birch Forest", "grassy")
 minetest.register_biome(
    {
       name = "Oak Shrubbery",
+      _description = S("Oak Shrubbery"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -512,6 +539,7 @@ default.set_biome_info("Oak Shrubbery", "grassy")
 minetest.register_biome(
    {
       name = "Oak Forest",
+      _description = S("Oak Forest"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -533,6 +561,7 @@ default.set_biome_info("Oak Forest", "grassy")
 minetest.register_biome(
    {
       name = "Tall Oak Forest",
+      _description = S("Tall Oak Forest"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -554,6 +583,7 @@ default.set_biome_info("Tall Oak Forest", "grassy")
 minetest.register_biome(
    {
       name = "Dense Oak Forest",
+      _description = S("Dense Oak Forest"),
 
       node_top = "rp_default:dirt_with_grass",
       node_filler = "rp_default:dirt",
@@ -575,6 +605,7 @@ default.set_biome_info("Dense Oak Forest", "grassy")
 minetest.register_biome(
    {
       name = "Swamp Meadow",
+      _description = S("Swamp Meadow"),
 
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
@@ -597,6 +628,7 @@ default.set_biome_info("Swamp Meadow", "swampy")
 minetest.register_biome(
    {
       name = "Swamp Meadow Highland",
+      _description = S("Swamp Meadow Highland"),
 
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
@@ -618,6 +650,7 @@ default.set_biome_info("Swamp Meadow Highland", "swampy")
 minetest.register_biome(
    {
       name = "Mixed Swamp",
+      _description = S("Mixed Swamp"),
 
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
@@ -640,6 +673,7 @@ default.set_biome_info("Mixed Swamp", "swampy")
 minetest.register_biome(
    {
       name = "Mixed Swamp Highland",
+      _description = S("Mixed Swamp Highland"),
 
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
@@ -661,6 +695,7 @@ default.set_biome_info("Mixed Swamp Highland", "swampy")
 minetest.register_biome(
    {
       name = "Swamp Forest",
+      _description = S("Swamp Forest"),
 
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
@@ -683,6 +718,7 @@ default.set_biome_info("Swamp Forest", "swampy")
 minetest.register_biome(
    {
       name = "Swamp Forest Highland",
+      _description = S("Swamp Forest Highland"),
 
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
@@ -705,6 +741,7 @@ default.set_biome_info("Swamp Forest Highland", "swampy")
 minetest.register_biome(
    {
       name = "Dry Swamp",
+      _description = S("Dry Swamp"),
 
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
@@ -726,6 +763,7 @@ default.set_biome_info("Dry Swamp", "swampy")
 minetest.register_biome(
    {
       name = "Dry Swamp Highland",
+      _description = S("Dry Swamp Highland"),
 
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
@@ -746,6 +784,7 @@ default.set_biome_info("Dry Swamp Highland", "swampy")
 minetest.register_biome(
    {
       name = "Papyrus Swamp",
+      _description = S("Papyrus Swamp"),
 
       node_top = "rp_default:dirt_with_swamp_grass",
       node_filler = "rp_default:swamp_dirt",
@@ -769,6 +808,7 @@ default.set_biome_info("Papyrus Swamp", "swampy")
 minetest.register_biome(
    {
       name = "Underground",
+      _description = S("Underground"),
 
       y_min = default.GLOBAL_Y_MIN,
       y_max = default.UNDERGROUND_Y_MAX,

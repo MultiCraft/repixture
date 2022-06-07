@@ -105,14 +105,24 @@ achievements.register_achievement(
 
 
 if mg_name ~= "v6" then
-	-- All biomes
+	-- Visit all biomes
+
+	local biomes = default.get_main_biomes()
+	local biomes_readable = {}
+	for b=1, #biomes do
+		local biome = minetest.registered_biomes[biomes[b]]
+		if biome then
+			biomes_readable[b] = biome._description
+		end
+	end
 
 	achievements.register_achievement(
 	   "find_all_biomes",
 	   {
 	      title = S("Explorer"),
-	      description = S("Visit all biomes"),
-	      subconditions = default.get_main_biomes(),
+	      description = S("Visit all land biomes."),
+	      subconditions = biomes,
+	      subconditions_readable = biomes_readable,
 	      times = 0,
 	})
 
