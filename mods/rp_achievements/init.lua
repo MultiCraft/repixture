@@ -9,43 +9,47 @@ local S = minetest.get_translator("rp_achievements")
 
 achievements = {}
 
-achievements.achievements = {}
-achievements.achievements_subconditions = {}
-
 achievements.registered_achievements = {}
 achievements.registered_achievements_list = {}
 
-local achievements_file = minetest.get_worldpath() .. "/achievements.dat"
-local saving = false
+local legacy_achievements_file = minetest.get_worldpath() .. "/achievements.dat"
 
-local function save_achievements()
-   local f = io.open(achievements_file, "w")
+local legacy_achievements_states = {}
 
-   f:write(minetest.serialize(achievements.achievements))
-
-   io.close(f)
-
-   saving = false
-end
-
-local function delayed_save()
-   if not saving then
-      saving = true
-
-      minetest.after(40, save_achievements)
-   end
-end
-
-local function load_achievements()
-   local f = io.open(achievements_file, "r")
+local function load_legacy_achievements()
+   local f = io.open(legacy_achievements_file, "r")
 
    if f then
-      achievements.achievements = minetest.deserialize(f:read("*all"))
-
+      legacy_achievements_states = minetest.deserialize(f:read("*all"))
       io.close(f)
-   else
-      save_achievements()
    end
+end
+
+local function set_achievement_states(player, states)
+    local meta = player:get_meta()
+    meta:set_string("rp_achievements:achievement_states", minetest.serialize(states))
+end
+local function get_achievement_states(player)
+    local meta = player:get_meta()
+    local data = meta:get_string("rp_achievements:achievement_states")
+    if data ~= "" then
+       return minetest.deserialize(data)
+    else
+       return {}
+    end
+end
+local function set_achievement_subconditions(player, subconditions)
+    local meta = player:get_meta()
+    meta:set_string("rp_achievements:achievement_subconditions", minetest.serialize(subconditions))
+end
+local function get_achievement_subconditions(player)
+    local meta = player:get_meta()
+    local data = meta:get_string("rp_achievements:achievement_subconditions")
+    if data ~= "" then
+       return minetest.deserialize(data)
+    else
+       return {}
+    end
 end
 
 -- Returns true if itemstring exists or is a "group:" argument,
@@ -110,12 +114,13 @@ function achievements.register_achievement(name, def)
    table.insert(achievements.registered_achievements_list, name)
 end
 
-local function get_completed_subconditions(player_name, aname)
+local function get_completed_subconditions(player, aname)
    local reg_subconds = achievements.registered_achievements[aname].subconditions
    local reg_subconds_readable = achievements.registered_achievements[aname].subconditions_readable
    local completed_subconds = {}
    if reg_subconds then
-      local player_subconds = achievements.achievements_subconditions[player_name][aname]
+      local player_subconds_all = get_achievement_subconditions(player)
+      local player_subconds = player_subconds_all[aname]
       if not player_subconds then
          return completed_subconds
       end
@@ -137,7 +142,11 @@ local function check_achievement_subconditions(player, aname)
    local name = player:get_player_name()
    local reg_subconds = achievements.registered_achievements[aname].subconditions
    if reg_subconds then
-      local player_subconds = achievements.achievements_subconditions[name][aname]
+      local player_subconds_all = get_achievement_subconditions(player)
+      local player_subconds = player_subconds_all[aname]
+      if not player_subconds then
+         return false
+      end
       -- Check if player has failed to meet any subcondition
       for s=1, #reg_subconds do
          local subcond = reg_subconds[s]
@@ -157,11 +166,13 @@ end
 local function check_achievement_gotten(player, aname)
    local name = player:get_player_name()
 
-   if achievements.achievements[name][aname]
+   local states = get_achievement_states(player)
+   if states[aname]
          >= achievements.registered_achievements[aname].times and
 	 check_achievement_subconditions(player, aname) then
 
-      achievements.achievements[name][aname] = -1
+      states[aname] = -1
+      set_achievement_states(player, states)
       minetest.after(
          2.0,
          function(name, aname)
@@ -180,8 +191,6 @@ local function check_achievement_gotten(player, aname)
       local form = achievements.get_formspec(name)
       player:set_inventory_formspec(form)
    end
-
-   delayed_save()
 end
 
 function achievements.trigger_subcondition(player, aname, subcondition)
@@ -190,44 +199,48 @@ function achievements.trigger_subcondition(player, aname, subcondition)
       return
    end
 
-   local name = player:get_player_name()
-
-   if achievements.achievements[name][aname] == nil then
-      achievements.achievements[name][aname] = 0
-   end
-   if achievements.achievements[name][aname] == -1 then
+   local states = get_achievement_states(player)
+   local subconds = get_achievement_subconditions(player)
+   if states[aname] == -1 then
       return
    end
-   if not achievements.achievements_subconditions[name][aname] then
-      achievements.achievements_subconditions[name][aname] = {}
+   if states[aname] == nil then
+      states[aname] = 0
    end
+   if not subconds[aname] then
+      subconds[aname] = {}
+   end
+   subconds[aname][subcondition] = true
 
-   achievements.achievements_subconditions[name][aname][subcondition] = true
+   set_achievement_states(player, states)
+   set_achievement_subconditions(player, subconds)
 
    check_achievement_gotten(player, aname)
 end
 
 function achievements.trigger_achievement(player, aname, times)
-   local name = player:get_player_name()
-
-   times = times or 1
-
-   if achievements.achievements[name][aname] == nil then
-      achievements.achievements[name][aname] = 0
-   end
-   if achievements.achievements[name][aname] == -1 then
-      return
-   end
-   if not achievements.achievements_subconditions[name][aname] then
-      achievements.achievements_subconditions[name][aname] = {}
-   end
-
-   achievements.achievements[name][aname] = achievements.achievements[name][aname] + times
-
    if not achievements.registered_achievements[aname] then
       minetest.log("error", "[rp_achievements] Cannot find registered achievement " .. aname)
       return
    end
+
+   times = times or 1
+
+   local states = get_achievement_states(player)
+   local subconds = get_achievement_subconditions(player)
+   if states[aname] == -1 then
+      return
+   end
+   if states[aname] == nil then
+      states[aname] = 0
+   end
+   if not subconds[aname] then
+      subconds[aname] = {}
+   end
+   states[aname] = states[aname] + times
+
+   set_achievement_states(player, states)
+   set_achievement_subconditions(player, subconds)
 
    check_achievement_gotten(player, aname)
 end
@@ -235,27 +248,8 @@ end
 -- Load achievements table
 
 local function on_load()
-   load_achievements()
+   load_legacy_achievements()
    verify_achievements()
-end
-
--- Save achievements table
-
-local function on_shutdown()
-   save_achievements()
-end
-
--- Joining player
-
-local function on_joinplayer(player)
-   local name = player:get_player_name()
-
-   if not achievements.achievements[name] then
-      achievements.achievements[name] = {}
-   end
-   if not achievements.achievements_subconditions[name] then
-      achievements.achievements_subconditions[name] = {}
-   end
 end
 
 -- Interaction callbacks
@@ -318,11 +312,28 @@ local function on_place(pos, newnode, player, oldnode, itemstack, pointed_thing)
    end
 end
 
+local function on_joinplayer(player)
+   local meta = player:get_meta()
+   -- Get version number of data format.
+   -- Version 0: old file-based storage (achievements.dat)
+   -- Version 1: Player metadata-based storage
+   local v = meta:get_int("rp_achievements:version")
+   if v == 0 then
+      -- Load achievements from legacy file
+      local name = player:get_player_name()
+      local legacy_states = legacy_achievements_states[name]
+      if legacy_states then
+         set_achievements_states(player, legacy_states)
+      end
+      -- Upgrade version to 1, so the player achievements in
+      -- file will be ignored on the next join.
+      meta:set_int("rp_achievements:version", 1)
+   end
+end
+
 -- Add callback functions
 
 minetest.register_on_mods_loaded(on_load)
-
-minetest.register_on_shutdown(on_shutdown)
 
 minetest.register_on_joinplayer(on_joinplayer)
 
@@ -346,9 +357,11 @@ rp_formspec.register_page("rp_achievements:achievements", form)
 function achievements.get_formspec(name, row)
    row = row or 1
 
-   if not achievements.achievements[name] then
-      achievements.achievements[name] = {}
+   local player = minetest.get_player_by_name(name)
+   if not player then
+      return
    end
+   local states = get_achievement_states(player)
 
    local achievement_list = ""
 
@@ -360,8 +373,8 @@ function achievements.get_formspec(name, row)
 
       local progress = ""
       local color = ""
-      if achievements.achievements[name][aname] then
-	 if achievements.achievements[name][aname] == -1 then
+      if states[aname] then
+	 if states[aname] == -1 then
 	    progress = "0"
             color = COLOR_GOTTEN
 	    amt_gotten = amt_gotten + 1
@@ -396,7 +409,7 @@ function achievements.get_formspec(name, row)
    local title = def.title
    local description = def.description
    local gotten = false
-   local achievement_times = achievements.achievements[name][aname]
+   local achievement_times = states[aname]
    if achievement_times then
       if achievement_times == -1 then
 	 gotten = true
@@ -406,7 +419,7 @@ function achievements.get_formspec(name, row)
       else
          local part, total
          if def.subconditions then
-		 local completed = get_completed_subconditions(name, aname)
+		 local completed = get_completed_subconditions(player, aname)
 		 part = #completed
 		 total = #def.subconditions
 	 else
@@ -428,7 +441,7 @@ function achievements.get_formspec(name, row)
       progress_total = minetest.colorize(COLOR_GOTTEN, progress_total)
    end
    if def.subconditions then
-      local progress_subconds = get_completed_subconditions(name, aname)
+      local progress_subconds = get_completed_subconditions(player, aname)
       if #progress_subconds > 0 then
          local progress_subconds_str = table.concat(progress_subconds, S(", "))
          description = description .. "\n\n" .. S("Completed: @1", progress_subconds_str)
