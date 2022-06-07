@@ -41,6 +41,9 @@ Mods with documented APIs:
 * `rp_door`: Add doors
 * `rp_hunger`: Get and set hunger
 * `rp_player_effects`: Add player effects (required if you want to modify player physics)
+* `rp_drop_items_on_die`: You only need this mod if you added an inventory list to the player
+                          and you want its contents to be dropped on death.
+* `rp_farming`: Add farmable plants (beware, the API is clunky)
 * `tt`: Custom tooltips
 
 Beware: Calling functions that are not documented are NOT guaranted to be stable

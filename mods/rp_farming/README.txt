@@ -1,9 +1,15 @@
-rp_farming mod
-==============
+`rp_farming` mod
+================
 By Kaadmy and Wuzzy, for Repixture
 
-Place wheat/cotton seeds near water
-When they become stage 4, they can be harvested
+Place wheat/cotton seeds on the ground near water, or wait for rain.
+When they become stage 4, they can be harvested.
 
-Asset license: CC BY-SA 4.0
-Source license: LGPLv2.1
+## For developers
+
+See `API.md`
+
+## Licensing
+
+Media license: CC BY-SA 4.0
+Source code license: LGPLv2.1

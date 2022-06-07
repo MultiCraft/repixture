@@ -2,6 +2,12 @@ Drop items on die mod
 =====================
 By Kaadmy and Wuzzy, for Repixture
 
-Players drop their inventory when they die
+Players drop their inventory when they die.
 
-Source license: LGPLv2.1
+## For developers
+
+See `API.md`.
+
+## Licensing
+
+Source code license: LGPLv2.1
