@@ -323,7 +323,7 @@ local function on_joinplayer(player)
       local name = player:get_player_name()
       local legacy_states = legacy_achievements_states[name]
       if legacy_states then
-         set_achievements_states(player, legacy_states)
+         set_achievement_states(player, legacy_states)
       end
       -- Upgrade version to 1, so the player achievements in
       -- file will be ignored on the next join.
