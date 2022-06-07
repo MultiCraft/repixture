@@ -344,7 +344,7 @@ for _, npc_type_table in pairs(npc_types) do
                           end
                       elseif iname == "rp_default:cactus" then
                           if npc_type == "farmer" then
-                              say(S("Cacti like to grow on sand. They are also a food source, if you're really desperate."), name)
+                              say(S("Cacti grow best on sand. They are also a food source, if you're really desperate."), name)
                           elseif npc_type == "tavernkeeper" then
                               say(S("This is the secret ingredient for my special drink. But don't tell anyone!"), name)
                           else
@@ -409,7 +409,7 @@ for _, npc_type_table in pairs(npc_types) do
                           end
                       elseif iname == "rp_default:dry_dirt" then
                           if npc_type == "farmer" then
-                             say(S("Nothing grows on dry dirt. Well, almost nothing."), name)
+                             say(S("Not much grows on dry dirt."), name)
                           else
                              say(S("This dirt is as dry as my jokes."), name)
                           end

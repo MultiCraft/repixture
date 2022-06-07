@@ -708,7 +708,7 @@ minetest.register_node(
    "rp_default:cactus",
    {
       description = S("Cactus"),
-      _tt_help = S("Grows on sand"),
+      _tt_help = S("Grows on sand and dry dirt"),
       _tt_food = true,
       _tt_food_hp = 2,
       _tt_food_satiation = 5,

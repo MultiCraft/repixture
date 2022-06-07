@@ -7,10 +7,14 @@ local SAPLING_RECHECK_TIME_MAX = 70
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
 
--- Maximum growth height of cactus, normally
-local CACTUS_MAX_HEIGHT = 4
--- Maximum growth height of cactus, fertilized
-local CACTUS_MAX_HEIGHT_PLUS = 6
+-- Maximum growth height of cactus on dry dirt, normally
+local CACTUS_MAX_HEIGHT_DDIRT = 2
+-- Maximum growth height of cactus on dry dirt, fertilized
+local CACTUS_MAX_HEIGHT_DDIRT_PLUS = 3
+-- Maximum growth height of cactus on sand, normally
+local CACTUS_MAX_HEIGHT_SAND = 4
+-- Maximum growth height of cactus on sand, fertilized
+local CACTUS_MAX_HEIGHT_SAND_PLUS = 6
 -- Maximum growth height of thistle, normally
 local THISTLE_MAX_HEIGHT = 2
 -- Maximum growth height of thistle, fertilized
@@ -1005,22 +1009,32 @@ minetest.register_abm( -- cactus grows
    {
       label = "Growing cacti",
       nodenames = {"rp_default:cactus"},
-      neighbors = {"group:sand"},
+      neighbors = {"group:sand", "group:dry_dirt"},
       interval = 20,
       chance = 10,
       action = function(pos, node)
          pos.y = pos.y-1
          local name = minetest.get_node(pos).name
-         if minetest.get_item_group(name, "sand") ~= 0 then
+         local is_sand = minetest.get_item_group(name, "sand") ~= 0
+         local is_ddirt = minetest.get_item_group(name, "dry_dirt") ~= 0
+         if is_sand or is_ddirt then
             local fertilized = minetest.get_item_group(name, "plantable_fertilizer") == 1
             pos.y = pos.y+1
             local height = 0
             local maxh
             -- Determine maximum height. Bonus height on fertilized node
-            if fertilized then
-               maxh = CACTUS_MAX_HEIGHT_PLUS
+	    if is_sand then
+               if fertilized then
+                  maxh = CACTUS_MAX_HEIGHT_SAND_PLUS
+               else
+                  maxh = CACTUS_MAX_HEIGHT_SAND
+               end
             else
-               maxh = CACTUS_MAX_HEIGHT
+               if fertilized then
+                  maxh = CACTUS_MAX_HEIGHT_DDIRT_PLUS
+               else
+                  maxh = CACTUS_MAX_HEIGHT_DDIRT
+               end
             end
             while minetest.get_node(pos).name == "rp_default:cactus" and height < maxh do
                height = height+1
