@@ -300,30 +300,6 @@ minetest.register_node(
       _fertilized_node = "rp_default:fertilized_dirt",
 })
 
--- Legacy node. TODO: Remove it
-minetest.register_node(
-   "rp_default:dirt_with_grass_footsteps",
-   {
-      description = S("Dirt with Grass and Footsteps"),
-      tiles = {"default_grass_footstep.png", "default_dirt.png", "default_dirt.png^default_grass_side.png"},
-      groups = {crumbly = 3, soil = 1, dirt = 1, normal_dirt = 1, plantable_soil = 1, grass_cover = 1, fall_damage_add_percent = -5, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      drop = {
-	 max_items = 3,
-	 items = {
-	    {items = {"rp_default:dirt"}, rarity = 1},
-	    {items = {"rp_default:grass 10"}, rarity = 30},
-	    {items = {"rp_default:grass 3"}, rarity = 9},
-	    {items = {"rp_default:grass 2"}, rarity = 6},
-	    {items = {"rp_default:grass 1"}, rarity = 3},
-	 }
-      },
-      sounds = rp_sounds.node_sound_dirt_defaults(
-	 {
-	    footstep = {name = "default_soft_footstep", gain = 0.4},
-      }),
-      _fertilized_node = "rp_default:fertilized_dirt",
-})
-
 -- Paths
 
 minetest.register_node(
