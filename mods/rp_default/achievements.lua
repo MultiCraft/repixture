@@ -69,18 +69,6 @@ achievements.register_achievement(
 })
 
 
-
--- Flower
-
-achievements.register_achievement(
-   "gardener",
-   {
-      title = S("Gardener"),
-      description = S("Plant a flower."),
-      times = 1,
-      placenode = "rp_default:flower",
-})
-
 -- Farming
 
 achievements.register_achievement(
