@@ -29,18 +29,36 @@ local check_priv = function(player)
     return true
 end
 
-local place_priv = function(itemstack, placer, pointed_thing)
+local place_entity_spawner = function(itemstack, placer, pointed_thing)
     if not check_priv(placer) then
         return itemstack
     end
-    return minetest.item_place(itemstack, placer, pointed_thing)
+    if pointed_thing.type ~= "node" then
+       return itemstack
+    end
+    if util.handle_node_protection(placer, pointed_thing) then
+       return itemstack
+    end
+    local place_pos
+    itemstack, place_pos = minetest.item_place(itemstack, placer, pointed_thing)
+    if placer and placer:is_player() then
+       minetest.add_particle({
+          pos = place_pos,
+          expirationtime = 3,
+          size = 5,
+          texture = "village_entity.png",
+          playername = placer:get_player_name(),
+       })
+    end
+    return itemstack
 end
 
 minetest.register_node(
    "rp_village:entity_spawner",
    {
       description = S("Village Entity Spawner"),
-      _tt_help = S("Placeholder that marks a position at which to spawn an entity during village generation"),
+      _tt_help = S("Placeholder that marks a position at which to spawn an entity during village generation").."\n"..
+                 S("Punch to reveal village entity spawners nearby"),
       drawtype = "airlike",
       pointable = false,
       inventory_image = "village_entity.png",
@@ -53,8 +71,26 @@ minetest.register_node(
       buildable_to = true,
       drop = "",
       groups = {dig_immediate = 3, not_in_creative_inventory = 1},
-      sounds = rp_sounds.node_sound_defaults(),
-      on_place = place_priv,
+      on_place = place_entity_spawner,
+      on_use = function(itemstack, player, pointed_thing)
+         if not check_priv(player) then
+            return itemstack
+	 end
+	 local pos = vector.round(player:get_pos())
+	 local offset = vector.new(18, 18, 18)
+	 local nodes = minetest.find_nodes_in_area(vector.subtract(pos, offset), vector.add(pos, offset), "rp_village:entity_spawner")
+	 for n=1, #nodes do
+             local nodepos = nodes[n]
+             minetest.add_particle({
+                pos = nodepos,
+                expirationtime = 3,
+                size = 5,
+                texture = "village_entity.png",
+                playername = player:get_player_name(),
+            })
+         end
+	 return itemstack
+      end,
       on_timer = function(pos, elapsed)
           -- Wait until some objects are nearby ...
           local objs_around = minetest.get_objects_inside_radius(pos, 12)
