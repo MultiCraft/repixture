@@ -872,6 +872,45 @@ minetest.register_abm({
 })
 
 minetest.register_abm({
+    label = "Grass clump growth",
+    nodenames = {"rp_default:grass"},
+    neighbors = {"group:plantable_fertilizer"},
+    interval = 20,
+    chance = 160,
+    action = function(pos, node)
+       local below = vector.add(pos, vector.new(0,-1,0))
+       local belownode = minetest.get_node(below)
+       local fert = minetest.get_item_group(belownode.name, "plantable_fertilizer") > 0
+       if fert then
+          minetest.set_node(pos, {name="rp_default:tall_grass", param2=node.param2})
+       end
+    end,
+})
+
+minetest.register_abm({
+    label = "Sea grass clump growth",
+    nodenames = {"group:seagrass"},
+    neighbors = {"group:water"},
+    interval = 20,
+    chance = 160,
+    action = function(pos, node)
+       local fert = minetest.get_item_group(node.name, "plantable_fertilizer") > 0
+       local above = vector.add(pos, vector.new(0,1,0))
+       local abovenode = minetest.get_node(above)
+       local in_water = minetest.get_item_group(abovenode.name, "water") > 0
+       if in_water and fert then
+          if node.name == "rp_default:seagrass_on_fertilized_dirt" then
+              minetest.set_node(pos, {name="rp_default:tall_seagrass_on_fertilized_dirt", param2=node.param2})
+          elseif node.name == "rp_default:seagrass_on_fertilized_swamp_dirt" then
+              minetest.set_node(pos, {name="rp_default:tall_seagrass_on_fertilized_swamp_dirt", param2=node.param2})
+          elseif node.name == "rp_default:seagrass_on_fertilized_sand" then
+              minetest.set_node(pos, {name="rp_default:tall_seagrass_on_fertilized_sand", param2=node.param2})
+          end
+       end
+    end,
+})
+
+minetest.register_abm({
     label = "Grass clump expansion",
     nodenames = {"group:grass"},
     neighbors = {"group:grass_cover"},
