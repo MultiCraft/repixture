@@ -21,9 +21,16 @@ local shortseed = bitwise_and(mapseed, 0xFFFFFF)
 
 -- Nodes
 
+local check_priv = function(player)
+    if not minetest.get_player_privs(player:get_player_name()).maphack then
+        minetest.chat_send_player(player:get_player_name(), minetest.colorize("#FF0000", S("You need the “maphack” privilege to use this.")))
+        return false
+    end
+    return true
+end
+
 local place_priv = function(itemstack, placer, pointed_thing)
-    if not minetest.get_player_privs(placer:get_player_name()).maphack then
-        minetest.chat_send_player(placer:get_player_name(), minetest.colorize("#FF0000", S("You need the “maphack” privilege to use this.")))
+    if not check_priv(placer) then
         return itemstack
     end
     return minetest.item_place(itemstack, placer, pointed_thing)
@@ -80,38 +87,53 @@ local village_info = {
    ["savanna"] = { ground = "rp_default:dry_dirt", ground_top = "rp_default:dirt_with_dry_grass" },
 }
 
-minetest.register_node(
+local use_village_spawner = function(itemstack, placer, pointed_thing)
+    if not check_priv(placer) then
+       return itemstack
+    end
+    if not pointed_thing.type == "node" then
+       return itemstack
+    end
+    if util.handle_node_protection(placer, pointed_thing) then
+       return itemstack
+    end
+
+    local pos = pointed_thing.above
+
+    minetest.add_particle({
+       pos = pos,
+       expirationtime = 3,
+       size = 8,
+       texture = "village_gen.png",
+       playername = placer:get_player_name(),
+    })
+
+    local pr = PseudoRandom(shortseed + pos.x + pos.y + pos.z)
+
+    local below = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
+    local vinfo
+    if below.name == "rp_default:dirt_with_dry_grass" or minetest.get_item_group(below.name, "dry_dirt") == 1 then
+       vinfo = village_info["savanna"]
+    else
+       vinfo = village_info["grassland"]
+    end
+
+    -- Spawn village on placement.
+    -- Guarantee that at least the starter villagechunk is placed, to avoid confusion.
+    village.spawn_village({x=pos.x,y=pos.y-1,z=pos.z}, pr, true, vinfo.ground, vinfo.ground_top)
+
+    return itemstack
+end
+
+minetest.register_tool(
    "rp_village:grassland_village",
    {
       description = S("Village Spawner"),
       _tt_help = S("Generates a village when placed"),
-      tiles = {
-          "village_gen.png", "village_gen.png", "village_gen.png",
-          "village_gen.png", "village_gen.png^[transformFX", "village_gen.png^[transformFX",
-      },
-      is_ground_content = false,
-      groups = {dig_immediate = 2},
-      sounds = rp_sounds.node_sound_dirt_defaults(),
-      drop = "",
-
-      on_place = place_priv,
-      on_construct = function(pos)
-         minetest.remove_node(pos)
-
-         local pr = PseudoRandom(shortseed + pos.x + pos.y + pos.z)
-
-         local below = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
-         local vinfo
-	 if below.name == "rp_default:dirt_with_dry_grass" or minetest.get_item_group(below.name, "dry_dirt") == 1 then
-            vinfo = village_info["savanna"]
-	 else
-            vinfo = village_info["grassland"]
-	 end
-
-         -- Spawn village on placement.
-         -- Guarantee that at least the starter villagechunk is placed, to avoid confusion.
-         village.spawn_village({x=pos.x,y=pos.y-1,z=pos.z}, pr, true, vinfo.ground, vinfo.ground_top)
-      end,
+      inventory_image = "village_gen.png",
+      wield_image = "village_gen.png",
+      groups = { supertool = 1, disable_repair = 1},
+      on_place = use_village_spawner,
 })
 
 local function attempt_village_spawn(pos, village_type)
