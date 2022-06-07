@@ -1155,7 +1155,7 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
       groups.fall_damage_add_percent = def_base.groups.fall_damage_add_percent
    end
    if fertilize_info == true then
-      groups.plantable_fertilize_info = 1
+      groups.plantable_fertilizer = 1
    elseif type(fertilize_info) == "string" then
       _fertilized_node = "rp_default:"..plant_id.."_on_"..fertilize_info
    end
@@ -1274,7 +1274,7 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
    end
    local _fertilized_node, _unfertilized_node
    if fertilize_info == true then
-      groups.plantable_fertilize_info = 1
+      groups.plantable_fertilizer = 1
    elseif type(fertilize_info) == "string" then
       _fertilized_node = "rp_default:alga_on_"..fertilize_info
    end
