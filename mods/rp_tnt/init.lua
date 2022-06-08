@@ -9,6 +9,8 @@ local TNT_TIMER = 2.0
 
 tnt = {}
 
+local particlespawners = {}
+
 -- Default to enabled in singleplayer and disabled in multiplayer
 
 local singleplayer = minetest.is_singleplayer()
@@ -135,7 +137,7 @@ local function entity_physics(pos, radius)
    end
 end
 
-local function add_effects(pos, radius)
+local function add_explosion_effects(pos, radius)
    minetest.add_particlespawner(
       {
 	 amount = 128,
@@ -152,6 +154,30 @@ local function add_effects(pos, radius)
 	 maxsize = 24,
 	 texture = "tnt_smoke.png",
    })
+end
+
+local function emit_fuse_smoke(pos)
+	local minpos = vector.add(pos, vector.new(1/16, 0.5, 4/16))
+	local maxpos = vector.add(pos, vector.new(2/16, 0.5, 5/16))
+	local minvel = vector.new(0.2 - 0.1, 2.0, 0.2 - 0.1)
+	local maxvel = vector.new(-0.2 - 0.1, 0.0, -0.2 - 0.1)
+	local acc = vector.new(0, -0.1, 0)
+	return minetest.add_particlespawner({
+		time = TNT_TIMER,
+		amount = 40,
+		minpos = minpos,
+		maxpos = maxpos,
+		minvel = minvel,
+		maxvel = maxvel,
+		minacc = acc,
+		maxacc = acc,
+		minexptime = 0.15 - 0.25,
+		maxexptime = 0.15 + 0.25,
+		minsize = 0.25,
+		maxsize = 2.0,
+		collisiondetection = false,
+		texture = "tnt_smoke_fuse.png"
+	})
 end
 
 -- Ignite TNT at pos.
@@ -239,7 +265,7 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
       entity_physics(pos, tnt_radius)
       play_tnt_sound(pos, sound)
    end
-   add_effects(pos, tnt_radius)
+   add_explosion_effects(pos, tnt_radius)
 end
 
 
@@ -363,10 +389,28 @@ minetest.register_node(
 	  if tnt_enable then
              local timer = minetest.get_node_timer(pos)
              minetest.sound_play("tnt_ignite", {pos = pos}, true)
+             local id = emit_fuse_smoke(pos)
+	     if id ~= -1 then
+                local hash = minetest.hash_node_position(pos)
+                particlespawners[hash] = id
+                minetest.after(TNT_TIMER, function()
+                   if particlespawners[hash] == id then
+                      particlespawners[hash] = nil
+	           end
+                end)
+             end
              timer:start(TNT_TIMER)
           else
              minetest.set_node(pos, {name="rp_tnt:tnt"})
 	  end
+      end,
+      after_destruct = function(pos)
+         local hash = minetest.hash_node_position(pos)
+         local id = particlespawners[hash]
+	 if id then
+            minetest.delete_particlespawner(id)
+            particlespawners[hash] = nil
+	 end
       end,
       on_blast = function(pos)
 	  -- Force timer to restart if the timer was halted for some reason
