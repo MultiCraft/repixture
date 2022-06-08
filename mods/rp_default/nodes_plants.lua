@@ -72,6 +72,76 @@ minetest.register_node(
       end,
 })
 
+-- Vine
+
+minetest.register_node(
+   "rp_default:vine",
+   {
+      description = S("Vine"),
+      _tt_help = S("Hangs from stone or dirt"),
+      drawtype = "plantlike",
+      tiles = {"rp_default_vine.png"},
+      use_texture_alpha = "clip",
+      inventory_image = "rp_default_vine_inventory.png",
+      wield_image = "rp_default_vine_inventory.png",
+      paramtype = "light",
+      sunlight_propagates = true,
+      walkable = false,
+      climbable = true,
+      selection_box = {
+	 type = "fixed",
+	 fixed = {-2/16, -0.5, -2/16, 2/16, 0.5, 2/16 },
+      },
+      floodable = true,
+      groups = {_attached_node_top = 1, snappy = 3, plant = 1, vine = 1},
+      sounds = rp_sounds.node_sound_leaves_defaults(),
+      after_dig_node = function(pos, node, metadata, digger)
+         util.dig_down(pos, node, digger)
+      end,
+      after_destruct = function(pos, oldnode)
+	 util.dig_down(pos, oldnode)
+      end,
+      on_flood = function(pos, oldnode, newnode)
+	 util.dig_down(pos, oldnode)
+      end,
+      on_place = function(itemstack, placer, pointed_thing)
+         -- Boilerplate to handle pointed node handlers
+         local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+         if handled then
+            return handled_itemstack
+         end
+
+         -- Find position to place vine at
+         local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing, true)
+         if place_in == nil then
+            return itemstack
+         end
+         local ceilingnode = minetest.get_node(place_floor)
+
+         -- Ceiling must be stone, dirt or another vine
+         if minetest.get_item_group(ceilingnode.name, "dirt") == 0 and ceilingnode.name ~= "rp_default:stone" and ceilingnode.name ~= "rp_default:vine" then
+            return itemstack
+         end
+
+         -- Check protection
+         if minetest.is_protected(place_in, placer:get_player_name()) and
+               not minetest.check_player_privs(placer, "protection_bypass") then
+            minetest.record_protection_violation(pos, placer:get_player_name())
+            return itemstack
+         end
+
+         -- Place vine
+         minetest.set_node(place_in, {name = itemstack:get_name()})
+
+         -- Reduce item count
+         if not minetest.is_creative_enabled(placer:get_player_name()) then
+             itemstack:take_item()
+         end
+
+	 return itemstack
+      end,
+})
+
 -- Fern
 
 minetest.register_node(

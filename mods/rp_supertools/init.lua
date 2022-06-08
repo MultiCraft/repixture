@@ -90,6 +90,12 @@ minetest.register_craftitem(
                minetest.set_node(top, {name=unode.name})
 	       used = true
             end
+         elseif (unode.name == "rp_default:vine") then
+            local top = vector.add(upos, vector.new(0,-1,0))
+	    if minetest.get_node(top).name == "air" then
+               minetest.set_node(top, {name=unode.name})
+	       used = true
+            end
 	 end
 
 	 if used then

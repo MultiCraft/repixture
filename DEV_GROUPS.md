@@ -81,6 +81,7 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `interactive_node`: Node can be interacted with (excluding pure container nodes)
 * `no_spawn_allowed_on`: If set, players can not (initially) spawn on this block
 * `spawn_allowed_in`: If set, players can spawn into this block (note: this group is ignored for the 'air' and 'ignore' nodes)
+* `_attached_node_top=1`: Node attaches to the top of another node. If the node above disappears, the node itself detaches
 
 ### Node categorization
 

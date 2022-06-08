@@ -1573,6 +1573,80 @@ default.register_decoration(
 	      seed = 43905,
       },
 })
+
+-- Vine decorations
+--
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:stone", "group:dirt"},
+      sidelen = 16,
+      fill_ratio = 0.02,
+      biomes = { "Birch Forest", "Birch Forest Underwater", "Dense Oak Forest", "Forest", "Forest Underwater", "Grassland", "Grassland Underwater", "Grove", "Grove Underwater", "Oak Forest", "Oak Forest Underwater", "Tall Birch Forest", "Tall Birch Forest Underwater", "Tall Oak Forest", "Tall Oak Forest Underwater", },
+      decoration = {"rp_default:vine"},
+      y_min = -30,
+      y_max = default.GLOBAL_Y_MAX,
+      height = 1,
+      height_max = 5,
+      flags = "all_ceilings",
+})
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:stone", "group:dirt"},
+      sidelen = 16,
+      fill_ratio = 0.03,
+      biomes = { "Dense Grassland", "Shrubbery", "Shrubbery Underwater", "Oak Shrubbery", "Oak Shrubbery Underwater" },
+      decoration = {"rp_default:vine"},
+      y_min = -30,
+      y_max = default.GLOBAL_Y_MAX,
+      height = 1,
+      height_max = 10,
+      flags = "all_ceilings",
+})
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:stone", "group:dirt"},
+      sidelen = 16,
+      fill_ratio = 0.04,
+      biomes = { "Dense Grassland", "Dense Oak Forest", "Grove", "Grove Underwater" },
+      decoration = {"rp_default:vine"},
+      y_min = -30,
+      y_max = default.GLOBAL_Y_MAX,
+      height = 1,
+      height_max = 7,
+      flags = "all_ceilings",
+})
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:stone", "group:dirt"},
+      sidelen = 16,
+      fill_ratio = 0.2,
+      biomes = { "Wilderness", "Wilderness Underwater", },
+      decoration = {"rp_default:vine"},
+      y_min = -30,
+      y_max = default.GLOBAL_Y_MAX,
+      height = 1,
+      height_max = 7,
+      flags = "all_ceilings",
+})
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:stone", "group:dirt"},
+      sidelen = 16,
+      fill_ratio = 0.08,
+      biomes = { "Marsh", "Marsh Beach", "Marsh Underwater", "Deep Forest", "Dense Oak Forest", "Mystery Forest", "Mystery Forest Underwater" },
+      decoration = {"rp_default:vine"},
+      y_min = -30,
+      y_max = default.GLOBAL_Y_MAX,
+      height = 1,
+      height_max = 20,
+      flags = "all_ceilings",
+})
+
 end
 -- Papyrus decorations
 
@@ -2155,5 +2229,4 @@ default.register_decoration(
       y_min = 0,
       y_max = 1,
 })
-
 

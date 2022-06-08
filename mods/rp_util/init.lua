@@ -211,13 +211,20 @@ end
 -- `digger` is a player object that will be treated as
 -- the 'digger' of said nodes.
 function util.dig_up(pos, node, digger)
+   if node.name == "ignore" then
+      return
+   end
    local np = {x = pos.x, y = pos.y + 1, z = pos.z}
    local nn = minetest.get_node(np)
    if nn.name == node.name then
       if digger then
-         minetest.node_dig(np, nn, digger)
+          minetest.node_dig(np, nn, digger)
       else
-         minetest.remove_node(np)
+	  while nn.name == node.name do
+	     minetest.remove_node(np)
+	     np.y = np.y + 1
+	     nn = minetest.get_node(np)
+          end
       end
    end
 end
@@ -227,10 +234,21 @@ end
 -- `digger` is a player object that will be treated as
 -- the 'digger' of said nodes.
 function util.dig_down(pos, node, digger)
+   if node.name == "ignore" then
+      return
+   end
    local np = {x = pos.x, y = pos.y - 1, z = pos.z}
    local nn = minetest.get_node(np)
    if nn.name == node.name then
-      minetest.node_dig(np, nn, digger)
+      if digger then
+          minetest.node_dig(np, nn, digger)
+      else
+	  while nn.name == node.name do
+	     minetest.remove_node(np)
+	     np.y = np.y - 1
+	     nn = minetest.get_node(np)
+          end
+      end
    end
 end
 
@@ -241,12 +259,20 @@ end
 -- into account.
 --
 -- Takes a pointed_thing from a on_place callback or similar.
+-- * `pointed_thing`: A pointed thing
+-- * `top`: (optional): If true, is for plant placement at ceiling
+--   instead (default: false)
+--
 -- Returns `<place_in>, <place_on>` if successful, `nil` otherwise
 -- * `place_in`: Where the node is suggested to be placed
 -- * `place_on`: Directly below place_in
-function util.pointed_thing_to_place_pos(pointed_thing)
+function util.pointed_thing_to_place_pos(pointed_thing, top)
    if pointed_thing.type ~= "node" then
       return nil
+   end
+   local offset = -1
+   if top then
+      offset = 1
    end
    local place_in, place_on
    local undernode = minetest.get_node(pointed_thing.under)
@@ -256,10 +282,10 @@ function util.pointed_thing_to_place_pos(pointed_thing)
    end
    if underdef.buildable_to then
       place_in = pointed_thing.under
-      place_on = vector.add(place_in, vector.new(0, -1, 0))
+      place_on = vector.add(place_in, vector.new(0, offset, 0))
    else
       place_in = pointed_thing.above
-      place_on = vector.add(place_in, vector.new(0, -1, 0))
+      place_on = vector.add(place_in, vector.new(0, offset, 0))
       local inname = minetest.get_node(place_in).name
       local indef = minetest.registered_nodes[inname]
       if not indef or not indef.buildable_to then
