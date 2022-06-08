@@ -52,7 +52,11 @@ minetest.log("action", "[rp_default] Mapgen: Using biome version "..default.biom
 
 dofile(minetest.get_modpath("rp_default").."/functions.lua")
 
-dofile(minetest.get_modpath("rp_default").."/nodes.lua") -- simple nodes
+dofile(minetest.get_modpath("rp_default").."/nodes_base.lua") -- simple nodes
+dofile(minetest.get_modpath("rp_default").."/nodes_liquids.lua") -- liquids
+dofile(minetest.get_modpath("rp_default").."/nodes_trees.lua") -- tree-related nodes
+dofile(minetest.get_modpath("rp_default").."/nodes_plants.lua") -- small plant nodes
+dofile(minetest.get_modpath("rp_default").."/nodes_waterlife.lua") -- small underwater plant nodes and beach nodes
 dofile(minetest.get_modpath("rp_default").."/torch.lua")
 dofile(minetest.get_modpath("rp_default").."/furnace.lua")
 dofile(minetest.get_modpath("rp_default").."/container.lua") -- chest and bookshelf
