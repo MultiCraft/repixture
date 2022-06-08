@@ -36,7 +36,7 @@ minetest.register_node(
 minetest.register_node(
    "rp_farming:wheat_2",
    {
-      description = S("Wheat Plant (stage 1)"),
+      description = S("Wheat Plant (stage @1)", 2),
       drawtype = "plantlike",
       tiles = {"farming_wheat_2.png"},
       inventory_image = "farming_wheat_2.png",
@@ -64,7 +64,7 @@ minetest.register_node(
 minetest.register_node(
    "rp_farming:wheat_3",
    {
-      description = S("Wheat Plant (stage 2)"),
+      description = S("Wheat Plant (stage @1)", 3),
       drawtype = "plantlike",
       tiles = {"farming_wheat_3.png"},
       inventory_image = "farming_wheat_3.png",
@@ -92,7 +92,7 @@ minetest.register_node(
 minetest.register_node(
    "rp_farming:wheat_4",
    {
-      description = S("Wheat Plant (stage 3)"),
+      description = S("Wheat Plant (stage @1)", 4),
       drawtype = "plantlike",
       tiles = {"farming_wheat_4.png"},
       inventory_image = "farming_wheat_4.png",
@@ -153,7 +153,7 @@ minetest.register_node(
 minetest.register_node(
    "rp_farming:cotton_2",
    {
-      description = S("Cotton Plant (stage 1)"),
+      description = S("Cotton Plant (stage @1)", 2),
       drawtype = "plantlike",
       tiles = {"farming_cotton_2.png"},
       inventory_image = "farming_cotton_2.png",
@@ -181,7 +181,7 @@ minetest.register_node(
 minetest.register_node(
    "rp_farming:cotton_3",
    {
-      description = S("Cotton Plant (stage 2)"),
+      description = S("Cotton Plant (stage @1)", 3),
       drawtype = "plantlike",
       tiles = {"farming_cotton_3.png"},
       inventory_image = "farming_cotton_3.png",
@@ -245,7 +245,7 @@ end
 minetest.register_node(
    "rp_farming:cotton_4",
    {
-      description = S("Cotton Plant (stage 3)"),
+      description = S("Cotton Plant (stage @1)", 4),
       drawtype = "plantlike",
       tiles = {"farming_cotton_4.png"},
       inventory_image = "farming_cotton_4.png",
