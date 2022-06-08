@@ -340,6 +340,8 @@ end
 minetest.register_node(
    "rp_tnt:tnt_burning",
    {
+      description = S("TNT (ignited)"),
+      _tt_help = S("Will explode after being placed"),
       tiles = {
 	 {
 	    name = "tnt_top_burning.png",
@@ -354,7 +356,7 @@ minetest.register_node(
       light_source = 5,
       drop = "",
       is_ground_content = false,
-      groups = {handy = 2},
+      groups = {handy = 2, not_in_creative_inventory=1},
       sounds = rp_sounds.node_sound_wood_defaults(),
       on_timer = tnt_burning_on_timer,
       on_construct = function(pos)
