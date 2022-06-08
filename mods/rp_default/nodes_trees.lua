@@ -141,7 +141,7 @@ minetest.register_node(
    {
       description = S("Oak Tree"),
       tiles = {"default_tree_oak_top.png", "default_tree_oak_top.png", "default_tree_oak.png"},
-      groups = {choppy = 1, tree = 1, oddly_breakable_by_hand = 1},
+      groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1},
       sounds = rp_sounds.node_sound_wood_defaults(),
 })
 
