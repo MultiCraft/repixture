@@ -106,7 +106,7 @@ local function check_for_death(self, hitter, damage)
    if damage == nil then
       damage = 0
    end
-   local hp = self.object:get_hp() - damage
+   local hp = self.health - damage
    if hp > 0 then
       self.health = hp
       if self.sounds.damage ~= nil then
@@ -452,7 +452,7 @@ function mobs:register_mob(name, def)
                   and self.object:get_velocity().y == 0 then
                      local d = (self.old_y or 0) - self.object:get_pos().y
                      if d > 5 then
-                        self.object:set_hp(self.object:get_hp() - math.floor(d - 5))
+                        self.health = self.health - math.floor(d - 5)
                         effect(self.object:get_pos(), 5, "tnt_smoke.png")
                         if check_for_death(self) then return true end
                      end
@@ -497,7 +497,7 @@ function mobs:register_mob(name, def)
                   and tod > 0.2
                   and tod < 0.8
                and (minetest.get_node_light(pos) or 0) > 12 then
-                  self.object:set_hp(self.object:get_hp() - self.light_damage)
+                  self.health = self.health - self.light_damage
                   effect(pos, 5, "tnt_smoke.png")
                   if check_for_death(self) then return true end
                end
@@ -511,7 +511,7 @@ function mobs:register_mob(name, def)
                -- node damage
                if self.takes_node_damage == true
                and nodef.damage_per_second > 0 then
-                  self.object:set_hp(self.object:get_hp() - nodef.damage_per_second)
+                  self.health = self.health - nodef.damage_per_second
                   if enable_blood then
                      effect(pos, self.blood_amount, self.blood_texture)
                   else
@@ -529,7 +529,7 @@ function mobs:register_mob(name, def)
                       self.breath = self.breath - 1
                       if self.breath < 0 then
                           self.breath = 0
-                          self.object:set_hp(self.object:get_hp() - nodef.drowning)
+                          self.health = self.health - nodef.drowning
                           effect(pos, 5, "bubble.png")
                       end
                       if check_for_death(self) then return true end
@@ -544,7 +544,7 @@ function mobs:register_mob(name, def)
                -- water damage
                if self.water_damage ~= 0
                and nodef.groups.water then
-                  self.object:set_hp(self.object:get_hp() - self.water_damage)
+                  self.health = self.health - self.water_damage
                   effect(pos, 5, "bubble.png")
                   if check_for_death(self) then return true end
                end
@@ -552,7 +552,7 @@ function mobs:register_mob(name, def)
                -- lava damage
                if self.lava_damage ~= 0
                and nodef.groups.lava then
-                  self.object:set_hp(self.object:get_hp() - self.lava_damage)
+                  self.health = self.health - self.lava_damage
                   effect(pos, 5, "mobs_flame.png", 8)
                   if check_for_death(self) then return true end
                end
@@ -1318,10 +1318,15 @@ function mobs:register_mob(name, def)
                }
             end
 
+            -- Initialize health. We use the 'health' field
+            -- for the mob health, not get_hp/set_hp!
             if self.health == 0 then
                self.health = math.random (self.hp_min, self.hp_max)
             end
 
+            -- Note: set_hp is only used once in init time to
+            -- set it to a dummy value. get_hp/set_hp must
+            -- be ignored apart from that.
             self.object:set_hp( self.health )
             self.object:set_armor_groups({fleshy = self.armor})
             self.state = "stand"
