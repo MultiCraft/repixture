@@ -452,9 +452,10 @@ function mobs:register_mob(name, def)
                   and self.object:get_velocity().y == 0 then
                      local d = (self.old_y or 0) - self.object:get_pos().y
                      if d > 5 then
-                        self.object:set_hp(self.object:get_hp() - math.floor(d - 5))
                         effect(self.object:get_pos(), 5, "tnt_smoke.png")
-                        if check_for_death(self) then return true end
+                        if mobs:hurt(self, math.floor(d - 5)) then
+                           return true
+                        end
                      end
                      self.old_y = self.object:get_pos().y
                   end
@@ -497,9 +498,10 @@ function mobs:register_mob(name, def)
                   and tod > 0.2
                   and tod < 0.8
                and (minetest.get_node_light(pos) or 0) > 12 then
-                  self.object:set_hp(self.object:get_hp() - self.light_damage)
                   effect(pos, 5, "tnt_smoke.png")
-                  if check_for_death(self) then return true end
+                  if mobs:hurt(self, self.light_damage) then
+                     return true
+                  end
                end
 
                pos.y = pos.y + self.collisionbox[2] -- foot level
@@ -511,13 +513,14 @@ function mobs:register_mob(name, def)
                -- node damage
                if self.takes_node_damage == true
                and nodef.damage_per_second > 0 then
-                  self.object:set_hp(self.object:get_hp() - nodef.damage_per_second)
                   if enable_blood then
                      effect(pos, self.blood_amount, self.blood_texture)
                   else
                      effect(pos, self.blood_amount, "mobs_damage.png")
                   end
-                  if check_for_death(self) then return true end
+                  if mobs:hurt(self, nodef.damage_per_second) then
+                     return true
+                  end
                end
 
                -- drowning damage
@@ -529,10 +532,11 @@ function mobs:register_mob(name, def)
                       self.breath = self.breath - 1
                       if self.breath < 0 then
                           self.breath = 0
-                          self.object:set_hp(self.object:get_hp() - nodef.drowning)
                           effect(pos, 5, "bubble.png")
+                          if mobs:hurt(self, nodef.drowning) then
+                             return true
+                          end
                       end
-                      if check_for_death(self) then return true end
                   else
                       self.breath = self.breath + 1
                       if self.breath > self.breath_max then
@@ -544,17 +548,19 @@ function mobs:register_mob(name, def)
                -- water damage
                if self.water_damage ~= 0
                and nodef.groups.water then
-                  self.object:set_hp(self.object:get_hp() - self.water_damage)
                   effect(pos, 5, "bubble.png")
-                  if check_for_death(self) then return true end
+                  if mobs:hurt(self, self.water_damage) then
+                     return true
+                  end
                end
 
                -- lava damage
                if self.lava_damage ~= 0
                and nodef.groups.lava then
-                  self.object:set_hp(self.object:get_hp() - self.lava_damage)
                   effect(pos, 5, "mobs_flame.png", 8)
-                  if check_for_death(self) then return true end
+                  if mobs:hurt(self, self.lava_damage) then
+                     return true
+                  end
                end
 
             end
@@ -1318,11 +1324,15 @@ function mobs:register_mob(name, def)
                }
             end
 
+            -- health var is only used temporarily
             if self.health == 0 then
                self.health = math.random (self.hp_min, self.hp_max)
             end
 
+            -- Set initial HP
             self.object:set_hp( self.health )
+            -- Note: To change mob health from now on,
+            -- ONLY use mobs:heal and mobs:hurt!
             self.object:set_armor_groups({fleshy = self.armor})
             self.state = "stand"
             self.order = "stand"
@@ -1443,6 +1453,26 @@ function mobs:register_mob(name, def)
 end
 
 mobs.spawning_mobs = {}
+
+-- Damage mob by `damage` HP and check for death.
+-- Returns true if mob died.
+function mobs:hurt(self, damage)
+   local ret = check_for_death(self, nil, damage)
+   if ret then
+      return true
+   end
+   self.object:set_hp(self.object:get_hp() - damage)
+   return false
+end
+
+-- Heal mob by `heal` HP
+function mobs:heal(self, heal)
+   local hp = self.object:get_hp() + heal
+   if hp > self.hp_max then
+      hp = self.hp_max
+   end
+   self.object:set_hp(hp)
+end
 
 function mobs:spawn_specific(name, nodes, neighbors, min_light, max_light, interval, chance, active_object_count, min_height, max_height)
    mobs.spawning_mobs[name] = true
