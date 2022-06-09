@@ -2230,3 +2230,31 @@ default.register_decoration(
       y_max = 1,
 })
 
+-- Prevent hanging sand and gravel
+default.register_decoration(
+-- Replace hanging sand with sandstone
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:sand"},
+      sidelen = 16,
+      fill_ratio = 11.0,
+      decoration = {"rp_default:sandstone"},
+      y_min = default.GLOBAL_Y_MIN,
+      y_max = default.GLOBAL_Y_MAX,
+      place_offset_y = -1,
+      flags = "all_ceilings,force_placement",
+})
+default.register_decoration(
+-- Replace hanging gravel with stone
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:gravel"},
+      sidelen = 16,
+      fill_ratio = 11.0,
+      decoration = {"rp_default:stone"},
+      y_min = default.GLOBAL_Y_MIN,
+      y_max = default.GLOBAL_Y_MAX,
+      place_offset_y = -1,
+      flags = "all_ceilings,force_placement",
+})
+
