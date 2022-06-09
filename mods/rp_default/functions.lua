@@ -535,8 +535,9 @@ minetest.register_abm( -- leaf decay
          if not do_preserve then
             -- Drop stuff other than the node itself
             local itemstacks = minetest.get_node_drops(n0.name)
+            local leafdecay_drop = minetest.get_item_group(n0.name, "leafdecay_drop") ~= 0
             for _, itemname in ipairs(itemstacks) do
-               if minetest.get_item_group(n0.name, "leafdecay_drop") ~= 0 or itemname ~= n0.name then
+               if leafdecay_drop or itemname ~= n0.name then
                   local p_drop = {
                      x = p0.x - 0.5 + math.random(),
                      y = p0.y - 0.5 + math.random(),
@@ -547,23 +548,25 @@ minetest.register_abm( -- leaf decay
             end
             -- Remove node
             minetest.remove_node(p0)
-            minetest.add_particlespawner({
-               amount = math.random(10, 20),
-               time = 0.1,
-               minpos = vector.add(p0, {x=-0.4, y=-0.4, z=-0.4}),
-               maxpos = vector.add(p0, {x=0.4, y=0.4, z=0.4}),
-               minvel = {x=-0.2, y=-0.2, z=-0.2},
-               maxvel = {x=0.2, y=0.1, z=0.2},
-               minacc = {x=0, y=-GRAVITY, z=0},
-               maxacc = {x=0, y=-GRAVITY, z=0},
-               minexptime = 0.1,
-               maxexptime = 0.5,
-               minsize = 0.5,
-               maxsize = 1.5,
-               collisiondetection = true,
-               vertical = false,
-               node = n0,
-            })
+	    if not leafdecay_drop then
+               minetest.add_particlespawner({
+                  amount = math.random(10, 20),
+                  time = 0.1,
+                  minpos = vector.add(p0, {x=-0.4, y=-0.4, z=-0.4}),
+                  maxpos = vector.add(p0, {x=0.4, y=0.4, z=0.4}),
+                  minvel = {x=-0.2, y=-0.2, z=-0.2},
+                  maxvel = {x=0.2, y=0.1, z=0.2},
+                  minacc = {x=0, y=-GRAVITY, z=0},
+                  maxacc = {x=0, y=-GRAVITY, z=0},
+                  minexptime = 0.1,
+                  maxexptime = 0.5,
+                  minsize = 0.5,
+                  maxsize = 1.5,
+                  collisiondetection = true,
+                  vertical = false,
+                  node = n0,
+               })
+            end
          end
       end
 })
