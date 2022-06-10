@@ -17,8 +17,8 @@ Features:
   the item entity will be instantly deleted
 
 ## Licensing
-Credits: Originally by PilzAdam (released under the name `builtin_item`),
-then tweaked by Kaadmy for Pixture and then later Wuzzy for Repixture.
+Credits: Originally by Minetest developers (from the `builtin` part of Minetest)
+with tweaks by Kaadmy and Wuzzy.
 
 Source code license: LGPLv2.1
 Media license: CC BY-SA 4.0
