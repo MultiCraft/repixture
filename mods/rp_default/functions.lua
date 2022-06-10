@@ -716,7 +716,7 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
          local name = minetest.get_node(above).name
          local partialblock = minetest.get_item_group(name, "path") ~= 0 or minetest.get_item_group(name, "slab") ~= 0 or minetest.get_item_group(name, "stair") ~= 0
          local nodedef = minetest.registered_nodes[name]
-         if nodedef and (name ~= "ignore" and (partialblock) or (not ((nodedef.sunlight_propagates or nodedef.paramtype == "light") and nodedef.liquidtype == "none"))) then
+         if name ~= "ignore" and nodedef and (partialblock or nodedef.paramtype ~= "light" or nodedef.liquidtype ~= "none") then
             if node.name == "rp_default:dirt_with_swamp_grass" then
                 minetest.set_node(pos, {name = "rp_default:swamp_dirt"})
             else
