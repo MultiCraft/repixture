@@ -55,14 +55,24 @@ Edit `map_meta.txt` in a text editor and add the line
 
 Repixture was started by Wuzzy. It's a fork of Pixture.
 
-Pixture is Copyright (C) 2015-2017 Kaadmy.
+Pixture is Copyright (C) 2015-2017 [Kaadmy](https://github.com/kaadmy).
 
-By [Kaadmy](https://github.com/kaadmy)
-Inspiration by [Kenney](http://kenney.nl)
+Pixture was inspired by [Kenney](http://kenney.nl)
 
-- [Kenney](http://kenney.nl) for the inspiration, most of the aesthetic.
-- Sounds in the `rp_default` mod are all by Kenney (CC0)
-- All textures/models by Kaadmy (CC BY-SA 4.0)
+### Core developers
+
+* Wuzzy: Core development of Repixture
+* Kaadmy: Core development of Pixture 2015-2017
+
+### Textures
+
+* Sounds in the `rp_default` mod are all by Kenney (CC0)
+* All textures/models by Kaadmy, with some additions/changes by Wuzzy (CC BY-SA 4.0)
+   * Exception: Seagrass by jp (CC0)
+
+### Special thanks
+
+* [Kenney](http://kenney.nl) for the inspiration, most of the aesthetic.
 
 ## Licenses
 
@@ -71,7 +81,7 @@ This game is free software, licensed 100% under free software licenses.
 See *LICENSE.txt* or the links below for the full license texts.
 
 - Media files: all licensed under CC BY-SA 4.0 or CC0, with one exception:
-    - The exception: Sounds in the `weather` mod are under GPLv2 (these sounds should be replaced later)
+    - The exception: Sounds in the `rp_weather` mod are under GPLv2 (these sounds should be replaced later)
     - See per-mod READMEs for details
 - Source code: all licensed under LGPLv2.1 (or later versions of the LGPL), or MIT License, see per-mod READMEs.
 
