@@ -200,7 +200,7 @@ minetest.register_node(
    "rp_default:dry_dirt",
    {
       description = S("Dry Dirt"),
-      tiles = {"default_dry_dirt.png"},
+      tiles = { "default_dry_dirt.png" },
       stack_max = 240,
       groups = {crumbly = 3, soil = 1, dirt = 1, dry_dirt = 1, plantable_dry = 1, fall_damage_add_percent = -10},
       sounds = rp_sounds.node_sound_dirt_defaults(),
@@ -211,7 +211,7 @@ minetest.register_node(
    "rp_default:swamp_dirt",
    {
       description = S("Swamp Dirt"),
-      tiles = {"default_swamp_dirt.png"},
+      tiles = { "default_swamp_dirt.png" },
       stack_max = 240,
       groups = {crumbly = 3, soil = 1, dirt = 1, swamp_dirt = 1, plantable_wet = 1, fall_damage_add_percent = -10},
       sounds = rp_sounds.node_sound_dirt_defaults(),
@@ -223,8 +223,8 @@ minetest.register_node(
    {
       description = S("Dirt with Dry Grass"),
       tiles = {
-         "default_dry_grass.png",
-         "default_dirt.png",
+	 { name = "rp_default_dry_grass_4x4.png", align_style = "world", scale = 4 },
+	 "default_dirt.png",
          "default_dirt.png^default_dry_grass_side.png"
       },
       groups = {crumbly = 3, soil = 1, dirt = 1, normal_dirt = 1, plantable_soil = 1, grass_cover = 1,
@@ -250,8 +250,8 @@ minetest.register_node(
    {
       description = S("Swamp Dirt with Swamp Grass"),
       tiles = {
-         "default_swamp_grass.png",
-         "default_swamp_dirt.png",
+	 { name = "rp_default_swamp_grass_4x4.png", align_style = "world", scale = 4 },
+	 "default_swamp_dirt.png",
          "default_swamp_dirt.png^default_swamp_grass_side.png"
       },
       groups = {crumbly = 3, soil = 1, dirt = 1, swamp_dirt = 1, plantable_wet = 1, grass_cover = 1,
@@ -277,9 +277,9 @@ minetest.register_node(
    {
       description = S("Dirt with Grass"),
       tiles = {
-         "default_grass.png",
-         "default_dirt.png",
-         "default_dirt.png^default_grass_side.png"
+	 { name = "rp_default_grass_4x4.png", align_style = "world", scale = 4 },
+	 "default_dirt.png",
+	 "default_dirt.png^default_grass_side.png",
       },
       groups = {crumbly = 3, soil = 1, dirt = 1, normal_dirt = 1, plantable_soil = 1, grass_cover = 1,
                 fall_damage_add_percent = -5, not_in_craft_guide = 1},
@@ -312,7 +312,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 0.5-2/16, 0.5}
       },
-      tiles = {"default_dirt.png"},
+      tiles = { "default_dirt.png" },
       groups = {crumbly = 3, path = 1, fall_damage_add_percent = -10},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_dirt_defaults(),
@@ -328,7 +328,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -2/16, 0.5}
       },
-      tiles = {"default_dirt.png"},
+      tiles = { "default_dirt.png" },
       groups = {crumbly = 3, path = 2, slab = 2, creative_decoblock = 1, fall_damage_add_percent = -10},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_dirt_defaults(),
@@ -370,7 +370,7 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 0.5-2/16, 0.5}
       },
-      tiles = {"default_dirt.png"},
+      tiles = { "default_dirt.png" },
       groups = {crumbly = 3, path = 1, creative_decoblock = 1, fall_damage_add_percent = -10},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_dirt_defaults(),
