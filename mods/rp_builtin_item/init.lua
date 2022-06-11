@@ -210,7 +210,7 @@ minetest.register_entity(":__builtin:item", {
 			return
 		end
 
-		local def = minetest.registered_nodes[node.name]
+		local def = node and minetest.registered_nodes[node.name]
 		-- Destroy item in damaging node (unless it has 'immortal_item' group set)
 		if def and def.damage_per_second > 0 then
 			if minetest.get_item_group(ItemStack(self.itemstring):get_name(), "immortal_item") == 0 then
