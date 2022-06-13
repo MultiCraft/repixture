@@ -309,7 +309,7 @@ form = form .. "tablecolumns[text,align=left,width=2;text,align=left,width=40]"
 
 rp_formspec.register_page("rp_crafting:crafting", form)
 
-function crafting.get_formspec(name, select_item)
+function crafting.get_formspec(name, select_craft_id)
    local row = 1
 
    if userdata[name] ~= nil then
@@ -326,7 +326,7 @@ function crafting.get_formspec(name, select_item)
    else
        craftitems = crafting.get_crafts(inv, name)
    end
-   if select_item == nil then
+   if select_craft_id == nil then
        if row > #craftitems then
            row = #craftitems
            if userdata[name] ~= nil then
@@ -348,9 +348,9 @@ function crafting.get_formspec(name, select_item)
       local itemname = itemstack:get_name()
       local itemdef = minetest.registered_items[itemname]
 
-      if select_item then
-         if itemstack:to_string() == select_item then
-            selected_craftdef = crafting.registered_crafts[itemn]
+      if select_craft_id then
+         if craft_id == select_craft_id then
+            selected_craftdef = crafting.registered_crafts[craft_id]
             row = i
             if userdata[name] ~= nil then
                 userdata[name].row = row
@@ -361,8 +361,6 @@ function crafting.get_formspec(name, select_item)
       end
 
       if itemdef ~= nil then
-         local craftdef = crafting.registered_crafts[craft_id]
-
          if craft_list ~= "" then
             craft_list = craft_list .. ","
          end
@@ -378,7 +376,7 @@ function crafting.get_formspec(name, select_item)
          craft_count = craft_count + 1
       end
    end
-   if select_item and (not selected_craftdef) and #craftitems > 0 then
+   if select_craft_id and (not selected_craftdef) and #craftitems > 0 then
       row = 1
       selected_craftdef = crafting.registered_crafts[craftitems[row]]
       if userdata[name] ~= nil then
@@ -495,9 +493,9 @@ local function on_player_receive_fields(player, form_name, fields)
       else
           craftitems = crafting.get_crafts(inv, name)
       end
-      local old_item = nil
+      local old_craft_id = nil
       if userdata[name] then
-          old_item = craftitems[userdata[name].row]
+	  old_craft_id = craftitems[userdata[name].row]
       end
 
       local wanted_id = craftitems[userdata[name].row]
@@ -537,7 +535,7 @@ local function on_player_receive_fields(player, form_name, fields)
             end
             inv:set_list("craft_in", new_list)
 
-            crafting.update_crafting_formspec(player, old_item)
+            crafting.update_crafting_formspec(player, old_craft_id)
          end
       end
    elseif fields.craft_list then
@@ -559,9 +557,9 @@ local function on_player_receive_fields(player, form_name, fields)
    player:set_inventory_formspec(crafting.get_formspec(name))
 end
 
-function crafting.update_crafting_formspec(player, old_item)
+function crafting.update_crafting_formspec(player, old_craft_id)
    local name = player:get_player_name()
-   local newform = crafting.get_formspec(name, old_item)
+   local newform = crafting.get_formspec(name, old_craft_id)
    player:set_inventory_formspec(newform)
 end
 
