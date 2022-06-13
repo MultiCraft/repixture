@@ -18,7 +18,6 @@ Registers a crafting recipe.
 All crafting recipes have to follow some rules:
 * There can only be one output itemstack per recipe
 * No more than `crafting.MAX_INPUTS` input itemstacks (see `api.lua`)
-* There can't be two recipes with the exact same output (e.g. itemname + count)
 * All of the specified items must have been registered before
   registering the recipe.
 
