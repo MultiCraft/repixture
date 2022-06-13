@@ -464,6 +464,7 @@ local function on_player_receive_fields(player, form_name, fields)
 
    if fields.quit then
       clear_craft_slots(player)
+      return
    end
 
    if fields.crafting_tracker == nil then
@@ -471,6 +472,10 @@ local function on_player_receive_fields(player, form_name, fields)
    end
 
    local name = player:get_player_name()
+
+   if not userdata[name].row then
+      return
+   end
 
    local do_craft_1, do_craft_10 = false, false
    if fields.craft_list then
@@ -496,6 +501,9 @@ local function on_player_receive_fields(player, form_name, fields)
       end
 
       local wanted_id = craftitems[userdata[name].row]
+      if not wanted_id then
+         return
+      end
       local wanted_itemstack = crafting.registered_crafts[wanted_id].output
       local output_itemstack = inv:get_stack("craft_out", 1)
 
@@ -537,6 +545,8 @@ local function on_player_receive_fields(player, form_name, fields)
 
       if selection.type == "CHG" then
          userdata[name].row = selection.row
+      elseif selection.type == "INV" then
+         userdata[name].row = nil
       end
    elseif fields.toggle_filter then
       if userdata[name].mode == MODE_GUIDE then
