@@ -27,6 +27,9 @@ local userdata = {}
 
 crafting.MAX_INPUTS = 4
 
+-- Unique ID for crafting recipes
+local max_craft_id = 0
+
 -- Default crafting definition values
 
 local default_craftdef = {
@@ -42,26 +45,25 @@ function crafting.register_craft(def)
    end
 
    local itemstack = ItemStack(def.output)
-   local itemkey = itemstack:to_string()
-
-   -- Each output item may only be used once. There can't be 2 recipes with
-   -- the exact same output
-   assert(crafting.registered_crafts[itemkey] == nil, "Crafting recipe collision! itemkey="..itemkey.." def="..dump(def))
+   local output = itemstack:to_string()
+   max_craft_id = max_craft_id + 1
+   local itemkey = max_craft_id
 
    if not minetest.registered_items[itemstack:get_name()] then
       minetest.log("warning",
-                   "[rp_crafting] Trying to register craft '" .. itemkey
-                      .. "' that has an unknown output item, allowing")
+                   "[rp_crafting] Trying to register craft #"..itemkey.." ('" .. output 
+                      .. "') that has an unknown output item, allowing")
    end
 
    local craftdef = {
       output = itemstack,
+      output_str = output,
       items = def.items or default_craftdef.items,
    }
 
    if #craftdef.items > crafting.MAX_INPUTS then
       minetest.log("warning",
-                   "[rp_crafting] Attempting to register craft " .. itemkey .." with more than "
+                   "[rp_crafting] Attempting to register craft #" .. itemkey .." ("..output..") with more than "
                       .. crafting.MAX_INPUTS .. " inputs, allowing")
    end
 
@@ -73,7 +75,9 @@ function crafting.register_craft(def)
 
    crafting.registered_crafts[itemkey] = craftdef
 
-   minetest.log("info", "[rp_crafting] Registered recipe for " .. itemkey)
+   minetest.log("info", "[rp_crafting] Registered craft #" .. itemkey .." for " .. output)
+
+   return itemkey
 end
 
 -- Cache the crafting list for the crafting guide for a much faster
@@ -86,7 +90,7 @@ function crafting.get_crafts(player_inventory, player_name)
    local results = {}
 
    local function get_filtered()
-      for craftname, craftdef in pairs(crafting.registered_crafts) do
+      for craft_id, craftdef in pairs(crafting.registered_crafts) do
          local contains_all = true
          for c=1, #craftdef.items do
              local name = craftdef.items[c]:get_name()
@@ -114,14 +118,14 @@ function crafting.get_crafts(player_inventory, player_name)
              end
          end
          if contains_all then
-             table.insert(results, craftname)
+             table.insert(results, craft_id)
          end
       end
    end
 
    local function get_all()
-      for craftname, _ in pairs(crafting.registered_crafts) do
-         table.insert(results, craftname)
+      for craft_id in pairs(crafting.registered_crafts) do
+         table.insert(results, craft_id)
       end
    end
 
@@ -129,8 +133,11 @@ function crafting.get_crafts(player_inventory, player_name)
       local lang_code = minetest.get_player_information(player_name).lang_code
 
       local function sort_function(a, b)
-         local a_itemn = ItemStack(a):get_name()
-         local b_itemn = ItemStack(b):get_name()
+	 local a_item = crafting.registered_crafts[a].output
+	 local b_item = crafting.registered_crafts[b].output
+
+         local a_itemn = a_item:get_name()
+         local b_itemn = b_item:get_name()
 
          local a_name = minetest.get_translated_string(lang_code, minetest.registered_items[a_itemn].description)
          local b_name = minetest.get_translated_string(lang_code, minetest.registered_items[b_itemn].description)
@@ -164,19 +171,18 @@ function crafting.register_on_craft(func)
    table.insert(crafting.callbacks.on_craft, func)
 end
 
-function crafting.craft(player, wanted, wanted_count, output, items)
+function crafting.craft(player, wanted, wanted_count, output, items, craft_id)
    -- `output` can be any ItemStack value
    -- Duplicate items in `items` should work correctly
    if wanted:is_empty() then
       return nil
    end
 
-   local craftdef = crafting.registered_crafts[wanted:to_string()]
+   local craftdef = crafting.registered_crafts[craft_id]
 
    if craftdef == nil then
-      minetest.log("warning",
-                   "[rp_crafting] Tried to craft an unregistered item " .. wanted:to_string())
-
+      minetest.log("error",
+                   "[rp_crafting] Tried to craft unknown recipe #"..craft_id)
       return nil
    end
 
@@ -337,13 +343,13 @@ function crafting.get_formspec(name, select_item)
    local selected_craftdef = nil
 
    local craft_count = 0
-   for i, itemn in ipairs(craftitems) do
-      local itemstack = ItemStack(itemn)
+   for i, craft_id in ipairs(craftitems) do
+      local itemstack = crafting.registered_crafts[craft_id].output
       local itemname = itemstack:get_name()
       local itemdef = minetest.registered_items[itemname]
 
       if select_item then
-         if itemn == select_item then
+         if itemstack:to_string() == select_item then
             selected_craftdef = crafting.registered_crafts[itemn]
             row = i
             if userdata[name] ~= nil then
@@ -351,11 +357,11 @@ function crafting.get_formspec(name, select_item)
             end
          end
       elseif i == row then
-         selected_craftdef = crafting.registered_crafts[itemn]
+         selected_craftdef = crafting.registered_crafts[craft_id]
       end
 
       if itemdef ~= nil then
-        local craftdef = crafting.registered_crafts[itemn]
+         local craftdef = crafting.registered_crafts[craft_id]
 
          if craft_list ~= "" then
             craft_list = craft_list .. ","
@@ -366,12 +372,7 @@ function crafting.get_formspec(name, select_item)
             craft_list = craft_list .. minetest.formspec_escape(cnt)
          end
 
-         local desc = itemdef.description
-         -- Cut off item description after first newline
-         local firstnewline = string.find(desc, "\n")
-         if firstnewline then
-             desc = string.sub(desc, 1, firstnewline-1)
-         end
+         local desc = itemstack:get_short_description()
 
          craft_list = craft_list .. "," .. minetest.formspec_escape(desc)
          craft_count = craft_count + 1
@@ -494,7 +495,8 @@ local function on_player_receive_fields(player, form_name, fields)
           old_item = craftitems[userdata[name].row]
       end
 
-      local wanted_itemstack = ItemStack(craftitems[userdata[name].row])
+      local wanted_id = craftitems[userdata[name].row]
+      local wanted_itemstack = crafting.registered_crafts[wanted_id].output
       local output_itemstack = inv:get_stack("craft_out", 1)
 
       if output_itemstack:get_name() ~= wanted_itemstack:get_name()
@@ -513,7 +515,7 @@ local function on_player_receive_fields(player, form_name, fields)
       end
 
       local crafted = crafting.craft(player, wanted_itemstack, count,
-                                     output_itemstack, inv:get_list("craft_in"))
+                                     output_itemstack, inv:get_list("craft_in"), wanted_id)
 
       if crafted then
          inv:set_stack("craft_out", 1, "")
@@ -537,13 +539,6 @@ local function on_player_receive_fields(player, form_name, fields)
          userdata[name].row = selection.row
       end
    elseif fields.toggle_filter then
-      local craftitems
-      if userdata[name] and userdata[name].mode == MODE_GUIDE then
-          craftitems = crafting.get_crafts(nil, name)
-      else
-          craftitems = crafting.get_crafts(inv, name)
-      end
-      local old_item = craftitems[userdata[name].row]
       if userdata[name].mode == MODE_GUIDE then
           userdata[name].mode = MODE_CRAFTABLE
       else
