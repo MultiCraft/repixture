@@ -175,13 +175,20 @@ local function check_achievement_gotten(player, aname)
       minetest.after(
          2.0,
          function(name, aname)
-            minetest.chat_send_all(
-               minetest.colorize(
-                  "#0f0",
-                  "*** " .. S("@1 has earned the achievement “@2”.",
-                     name,
-                     achievements.registered_achievements[aname].title)))
-
+            if not minetest.is_singleplayer() then
+               minetest.chat_send_all(
+                  minetest.colorize(
+                     "#0f0",
+                     "*** " .. S("@1 has earned the achievement “@2”.",
+                        name,
+                        achievements.registered_achievements[aname].title)))
+            else
+               minetest.chat_send_player(name,
+                  minetest.colorize(
+                     "#0f0",
+                     "*** " .. S("You have earned the achievement “@1”.",
+                        achievements.registered_achievements[aname].title)))
+            end
 	    minetest.log("action", "[rp_achievements] " .. name .. " got achievement '"..aname.."'")
       end, name, aname)
    end
