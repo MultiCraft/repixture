@@ -3,6 +3,7 @@
 --
 
 local COLOR_GOTTEN = "#00FF00"
+local COLOR_GOTTEN_MSG = "#00FF00"
 
 local S = minetest.get_translator("rp_achievements")
 
@@ -175,22 +176,25 @@ local function check_achievement_gotten(player, aname)
       minetest.after(
          2.0,
          function(name, aname)
-            if not minetest.is_singleplayer() then
+            local notify_all = minetest.settings:get_bool("rp_achievements_notify_all", false)
+            if notify_all and (not minetest.is_singleplayer()) then
+               -- Notify all players
                minetest.chat_send_all(
                   minetest.colorize(
-                     "#0f0",
+                     COLOR_GOTTEN_MSG,
                      "*** " .. S("@1 has earned the achievement “@2”.",
                         name,
                         achievements.registered_achievements[aname].title)))
             else
+               -- Only notify the player who got the achievement
                minetest.chat_send_player(name,
                   minetest.colorize(
-                     "#0f0",
+                     COLOR_GOTTEN_MSG,
                      "*** " .. S("You have earned the achievement “@1”.",
                         achievements.registered_achievements[aname].title)))
             end
-	    minetest.log("action", "[rp_achievements] " .. name .. " got achievement '"..aname.."'")
       end, name, aname)
+      minetest.log("action", "[rp_achievements] " .. name .. " got achievement '"..aname.."'")
    end
 
    if rp_formspec.current_page[name] == "rp_achievements:achievements" then

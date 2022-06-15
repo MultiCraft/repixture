@@ -3,8 +3,6 @@
 ## Menu settings for this game
 ##
 
-## Multiplayer settings
-
 [Player]
 # If enabled, players drop their items when they die.
 drop_items_on_die (Drop items on death) bool true
@@ -27,6 +25,11 @@ hunger_enable (Enable hunger) bool true
 # At 0, hunger is updated at every server step,
 # which is really fast!
 hunger_step (Hunger frequency) float 3.0 0.0
+
+# If enabled, all players will get a notification in chat when a player
+# earned an achievement. If disabled, only the achiever will get a
+# notification.
+rp_achievements_notify_all (Announce achievements to all) bool false
 
 [World]
 # If enabled, the weather will change from time to time.
