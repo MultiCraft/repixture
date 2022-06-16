@@ -98,9 +98,6 @@ minetest.register_node(
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_down(pos, node, digger)
       end,
-      after_destruct = function(pos, oldnode)
-	 util.dig_down(pos, oldnode)
-      end,
       on_flood = function(pos, oldnode, newnode)
 	 util.dig_down(pos, oldnode)
       end,
