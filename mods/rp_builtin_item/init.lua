@@ -198,17 +198,7 @@ minetest.register_entity(":__builtin:item", {
 		end
 
 		local pos = self.object:get_pos()
-		local node = minetest.get_node_or_nil({
-			x = pos.x,
-			y = pos.y + self._collisionbox[2] - 0.05,
-			z = pos.z
-		})
-		-- Delete in 'ignore' nodes
-		if node and node.name == "ignore" then
-			self.itemstring = ""
-			self.object:remove()
-			return
-		end
+		local node = minetest.get_node_or_nil(pos)
 
 		local def = node and minetest.registered_nodes[node.name]
 		-- Destroy item in damaging node (unless it has 'immortal_item' group set)
