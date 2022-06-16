@@ -271,7 +271,7 @@ minetest.register_entity(":__builtin:item", {
 					vec.z = vec.z*ITEM_MAGNET_ATTRACT_SPEED
 
 					object:set_velocity(vec)
-					object:set_properties({ physical = false })
+					self:disable_physics()
 					self.item_magnet = true
 					return
 				else
@@ -310,8 +310,9 @@ minetest.register_entity(":__builtin:item", {
 		else
 			-- Deactivate item magnet if out of range
 			if lua.item_magnet then
-				object:set_velocity({x = 0, y = object:get_velocity().y, z = 0})
+				self:enable_physics()
 				lua.item_magnet = false
+				return
 			end
 		end
 
