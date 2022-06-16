@@ -147,7 +147,7 @@ function jewels.register_jewel(toolname, new_toolname, def)
       if data.stats.digspeed then
 	 for group, cap in pairs(new_tooldef.tool_capabilities.groupcaps) do
 	    for i, _ in ipairs(cap.times) do
-	       cap.times[i] = cap.times[i] + data.stats.digspeed
+	       cap.times[i] = math.max(0, cap.times[i] + data.stats.digspeed)
 	    end
 
 	    if data.stats.maxlevel and cap.maxlevel then
