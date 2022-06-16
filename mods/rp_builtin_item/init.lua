@@ -214,7 +214,7 @@ minetest.register_entity(":__builtin:item", {
 		-- Destroy item in damaging node (unless it has 'immortal_item' group set)
 		if def and def.damage_per_second > 0 then
 			if minetest.get_item_group(ItemStack(self.itemstring):get_name(), "immortal_item") == 0 then
-				if minetest.get_item_group(nodename, "lava") ~= 0 or minetest.get_item_group(nodename, "fire") ~= 0 then
+				if minetest.get_item_group(node.name, "lava") ~= 0 or minetest.get_item_group(node.name, "fire") ~= 0 then
 					minetest.sound_play("builtin_item_lava", {pos = pos, gain = 0.45})
 				end
 				add_item_death_particle(self)
