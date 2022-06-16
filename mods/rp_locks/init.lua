@@ -268,7 +268,7 @@ minetest.register_node(
          meta:set_int("lock_cracked", 0)
          local owner = meta:get_string("lock_owner")
          if owner == "" then
-            meta:set_string("infotext", INFOTEXT_PUBLIC)
+            meta:set_string("infotext", S(INFOTEXT_PUBLIC))
          else
             meta:set_string("infotext", S(INFOTEXT_OWNED, owner))
          end
