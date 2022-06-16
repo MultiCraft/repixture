@@ -1,5 +1,7 @@
 local S = minetest.get_translator("rp_default")
 
+local ALGA_BLOCK_SLIPPERY = 2
+
 local function get_sea_plant_on_place(base, paramtype2)
 return function(itemstack, placer, pointed_thing)
 	if pointed_thing.type ~= "node" or not placer then
@@ -226,6 +228,9 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
    elseif type(fertilize_info) == "string" then
       _fertilized_node = "rp_default:alga_on_"..fertilize_info
    end
+   if basenode == "rp_default:alga_block" then
+      groups.slippery = ALGA_BLOCK_SLIPPERY
+   end
    minetest.register_node(
       "rp_default:alga_on_"..append,
       {
@@ -349,7 +354,7 @@ minetest.register_node(
    {
       description = S("Alga Block"),
       tiles = alga_block_tiles,
-      groups = {snappy=2, fall_damage_add_percent=-10, slippery=2},
+      groups = {snappy=2, fall_damage_add_percent=-10, slippery=ALGA_BLOCK_SLIPPERY},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_leaves_defaults(),
 })
