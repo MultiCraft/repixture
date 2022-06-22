@@ -1,9 +1,9 @@
 # textdomain: rp_achievements
 @1 has earned the achievement “@2”.=@1 hat die Errungenschaft „@2“ erhalten.
-You have earned the achievement “@1”.=
+You have earned the achievement “@1”.=Sie haben die Errungenschaft „@1“ erhalten.
 Gotten=Erhalten
 @1/@2=@1/@2
 Missing=Fehlt
 @1 of @2 achievements gotten, @3 in progress=@1 von @2 Errungenschaften erhalten, @3 in Arbeit
-, =
-Completed: @1=
+, =, 
+Completed: @1=Fertig: @1
