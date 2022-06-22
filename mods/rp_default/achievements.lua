@@ -118,6 +118,7 @@ if mg_name ~= "v6" then
 	      subconditions = biomes,
 	      subconditions_readable = biomes_readable,
 	      times = 0,
+	      item_icon = "rp_armor:boots_steel",
 	})
 
 	local timer = 0

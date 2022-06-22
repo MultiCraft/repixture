@@ -536,7 +536,7 @@ player_effects.register_effect(
       physics = {
          speed = EATING_SPEED,
       },
-      icon = "hunger_effect_eating.png",
+      icon = "rp_hunger_effect_eating.png",
 })
 
 if mod_achievements then
@@ -557,6 +557,7 @@ if mod_achievements then
 		      subconditions = all_foods,
 		      subconditions_readable = all_foods_readable,
 		      times = 0,
+		      icon = "rp_hunger_achievement_eat_everything.png",
 		})
 
 	end)
