@@ -100,7 +100,7 @@ Try placing it on different grounds. It might grow differently.=
 Use this to trim plants and get wool from sheep.=
 Papyrus likes to grow next to water.=
 When I was I kid, I always liked to climb on the papyrus.=
-Cacti like to grow on sand. They are also a food source, if you're really desperate.=
+Cacti grow best on sand. They are also a food source, if you're really desperate.=
 This is the secret ingredient for my special drink. But don't tell anyone!=
 Now what can you possibly do with a cactus? I don't know!=
 Jewels are great! If you have a jeweller's workbench, you can enhance your tools.=
@@ -124,7 +124,7 @@ Many wild plants as well as wheat and cotton grow on dirt, but they grow better 
 You're dirty!=
 Swamp dirt is really interesting. The famous swamp oak grows on it, and papyrus also grows exceptionally well.=
 Disgusting!=
-Nothing grows on dry dirt. Well, almost nothing.=
+Not much grows on dry dirt.=
 This dirt is as dry as my jokes.=
 You can use sand to grow cacti.=
 Be careful not to let it fall on your head!=

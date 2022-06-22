@@ -9,5 +9,6 @@ Nearest village is @1 at @2.=
 You need the “maphack” privilege to use this.=
 Village Entity Spawner=
 Placeholder that marks a position at which to spawn an entity during village generation=
+Punch to reveal village entity spawners nearby=
 Village Spawner=
 Generates a village when placed=

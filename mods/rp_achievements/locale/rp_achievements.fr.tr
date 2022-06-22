@@ -1,6 +1,9 @@
 # textdomain: rp_achievements
 @1 has earned the achievement “@2”.=@1 a réalisé avec succès "@2".
+You have earned the achievement “@1”.=
 Gotten=Obtenu
 @1/@2=@1/@2
 Missing=Manquant
 @1 of @2 achievements gotten, @3 in progress=@1 @2 réalisations obtenues, @3 en cours
+, =
+Completed: @1=

@@ -11,12 +11,18 @@ Flour=Mehl
 Bread=Brot
 Wheat Seed=Weizensamen
 Grows on dirt and swamp dirt; it likes water=Wächst auf Erde und Sumpferde; mag Wasser
+Wheat Plant (stage @1)=
+Cotton Seed=Baumwollsamen
+Grows on dirt, swamp dirt, dry dirt and sand; it likes water=Wächst auf Erde, Sumpferde, trockener Erde und Sand; mag Wasser
+Cotton Plant (stage @1)=
+Cotton Bale=Baumwollballen
+
+
+##### not used anymore #####
+
 Wheat Plant (stage 1)=Weizenpflanze (1. Stufe)
 Wheat Plant (stage 2)=Weizenpflanze (2. Stufe)
 Wheat Plant (stage 3)=Weizenpflanze (3. Stufe)
-Cotton Seed=Baumwollsamen
-Grows on dirt, swamp dirt, dry dirt and sand; it likes water=Wächst auf Erde, Sumpferde, trockener Erde und Sand; mag Wasser
 Cotton Plant (stage 1)=Baumwollpflanze (1. Stufe)
 Cotton Plant (stage 2)=Baumwollpflanze (2. Stufe)
 Cotton Plant (stage 3)=Baumwollpflanze (3. Stufe)
-Cotton Bale=Baumwollballen
