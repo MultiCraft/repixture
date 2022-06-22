@@ -114,7 +114,7 @@ if mg_name ~= "v6" then
 	   "find_all_biomes",
 	   {
 	      title = S("Explorer"),
-	      description = S("Visit all land biomes."),
+	      description = S("Visit all surface biomes."),
 	      subconditions = biomes,
 	      subconditions_readable = biomes_readable,
 	      times = 0,
