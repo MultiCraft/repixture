@@ -6,7 +6,7 @@ unique graphics and sounds.
 This is a revival of Pixture 0.1.1, a game for Minetest 0.4.
 
 ## Version
-3.2.1
+3.3.0
 
 Designed for use with Minetest 5.4.0 or later.
 
