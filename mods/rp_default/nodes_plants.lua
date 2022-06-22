@@ -101,6 +101,10 @@ minetest.register_node(
       on_flood = function(pos, oldnode, newnode)
 	 util.dig_down(pos, oldnode)
       end,
+      on_blast = function(pos)
+         local oldnode = minetest.get_node(pos)
+         util.dig_down(pos, oldnode)
+      end,
       on_place = function(itemstack, placer, pointed_thing)
          -- Boilerplate to handle pointed node handlers
          local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
