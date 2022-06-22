@@ -95,12 +95,18 @@ achievements.register_achievement(
 if mg_name ~= "v6" then
 	-- Visit all biomes
 
-	local biomes = default.get_main_biomes()
+	local main_biomes = default.get_main_biomes()
+	local biomes = {}
 	local biomes_readable = {}
-	for b=1, #biomes do
-		local biome = minetest.registered_biomes[biomes[b]]
-		if biome then
-			biomes_readable[b] = biome._description
+	for b=1, #main_biomes do
+		local biomename = main_biomes[b]
+                local binfo = default.get_biome_info(biomename)
+		if binfo and binfo.class ~= "undergroundy" then
+			local biome = minetest.registered_biomes[biomename]
+			if biome then
+				table.insert(biomes, biomename)
+				table.insert(biomes_readable, biome._description)
+			end
 		end
 	end
 
