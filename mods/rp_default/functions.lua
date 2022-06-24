@@ -75,6 +75,8 @@ function default.place_sapling(itemstack, placer, pointed_thing)
       return handled_itemstack
    end
 
+   local sapling_name = itemstack:get_name()
+
    -- Find position to place sapling at
    local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
    if place_in == nil then
@@ -100,6 +102,11 @@ function default.place_sapling(itemstack, placer, pointed_thing)
    -- Reduce item count
    if not minetest.is_creative_enabled(placer:get_player_name()) then
        itemstack:take_item()
+   end
+
+   -- Update achievement
+   if placer and placer:is_player() then
+      achievements.trigger_subcondition(placer, "forester", sapling_name)
    end
 
    return itemstack

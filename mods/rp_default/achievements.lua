@@ -92,6 +92,28 @@ achievements.register_achievement(
       craftitem = "rp_default:bookshelf",
 })
 
+-- Plant all saplings
+
+do
+	local saplings = {}
+	local saplings_readable = {}
+	for k,v in pairs(minetest.registered_nodes) do
+		if minetest.get_item_group(k, "sapling") > 0 then
+			table.insert(saplings, k)
+			table.insert(saplings_readable, v.description)
+		end
+	end
+
+	achievements.register_achievement("forester",
+	{
+		title = S("Forester"),
+		description = S("Plant one of every sapling."),
+		times = 0,
+		item_icon = "rp_default:sapling",
+		subconditions = saplings,
+		subconditions_readable = saplings_readable,
+	})
+end
 
 if mg_name ~= "v6" then
 	-- Visit all biomes
