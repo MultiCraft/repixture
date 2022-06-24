@@ -416,11 +416,12 @@ local function on_globalstep(dtime)
                minetest.sound_play({name="hunger_hungry"}, {pos=pos_sound, max_hear_distance=3, object=player}, true)
             end
             if userdata[name].hunger <= HUNGER_STARVE_LEVEL and hp >= 0 then
+               local old_hp = hp
                player:set_hp(hp - 1)
                userdata[name].hunger = 0
                if hp > 1 then
                   minetest.chat_send_player(name, minetest.colorize("#f00", S("You are starving.")))
-               else
+               elseif old_hp > 0 then
                   minetest.chat_send_player(name, minetest.colorize("#f00", S("You starved to death.")))
                end
             end
