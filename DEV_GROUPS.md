@@ -36,6 +36,7 @@ These groups are mainly used for a better item sorting in Creative Mode.
 * `shovel`: Shovel
 * `sword`: Sword
 * `spear`: Spear
+* `weapon`: Weapon (item that is *primarily* used for attacks)
 * `supertool`: Super tool, i.e. a powerful tool for Creative Mode use only
 * `sheep_cuts`: For shears. Rating specifies how often it can shear sheep
 

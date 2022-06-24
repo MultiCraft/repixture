@@ -43,9 +43,10 @@ achievements.register_achievement(
    "off_to_battle",
    {
       title = S("Off to Battle"),
-      description = S("Craft a broadsword."),
+      description = S("Craft a weapon."),
       times = 1,
-      craftitem = "rp_default:broadsword",
+      craftitem = "group:weapon",
+      item_icon = "rp_default:spear_wrought_iron",
 })
 
 -- Stone

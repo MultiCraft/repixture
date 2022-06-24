@@ -333,8 +333,16 @@ minetest.register_node(
             local itemname = iitem:get_name()
 
             if jewels.can_jewel(itemname) then
+               local new_item = jewels.get_jeweled(itemname)
+	       if not new_item then
+                  return
+	       end
+	       new_item = ItemStack(new_item)
+	       if not new_item then
+                  return
+	       end
                -- Success
-               inv:set_stack("main", 1, ItemStack(jewels.get_jeweled(itemname)))
+               inv:set_stack("main", 1, new_item)
 
                if not minetest.is_creative_enabled(player:get_player_name()) then
                   itemstack:take_item()
@@ -345,6 +353,10 @@ minetest.register_node(
                -- TODO: Graphical effect
 
                achievements.trigger_achievement(player, "jeweler")
+
+               if new_item:get_name() == "rp_jewels:serrated_broadsword" then
+                  achievements.trigger_achievement(player, "true_mighty_weapon")
+               end
             else
                -- Failure
                minetest.sound_play({name="jewels_jewelling_fail"}, {gain=0.8, pos=pos, max_hear_distance=8}, true)
@@ -398,6 +410,15 @@ achievements.register_achievement(
       description = S("Jewel a tool."),
       times = 1,
       item_icon = "rp_jewels:shovel_steel_uses",
+})
+
+achievements.register_achievement(
+   "true_mighty_weapon",
+   {
+      title = S("True Mighty Weapon"),
+      description = S("Use jewels to create a serrated broadsword."),
+      times = 1,
+      item_icon = "rp_jewels:serrated_broadsword",
 })
 
 achievements.register_achievement(

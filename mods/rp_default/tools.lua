@@ -585,7 +585,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 4}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { spear = 1 },
+      groups = { weapon = 1, spear = 1 },
 })
 
 minetest.register_tool(
@@ -604,7 +604,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 5}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { spear = 1 },
+      groups = { weapon = 1, spear = 1 },
 })
 
 minetest.register_tool(
@@ -623,7 +623,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 6}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { spear = 1 },
+      groups = { weapon = 1, spear = 1 },
 })
 
 minetest.register_tool(
@@ -642,7 +642,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 10}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { spear = 1 },
+      groups = { weapon = 1, spear = 1 },
 })
 
 minetest.register_tool(
@@ -661,7 +661,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 10}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { spear = 1 },
+      groups = { weapon = 1, spear = 1 },
 })
 
 minetest.register_tool(
@@ -680,7 +680,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 10}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { spear = 1 },
+      groups = { weapon = 1, spear = 1 },
 })
 
 -- Broadsword
@@ -698,7 +698,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 12}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { sword = 1 },
+      groups = { weapon = 1, sword = 1 },
 })
 
 -- Other
