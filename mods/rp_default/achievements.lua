@@ -76,9 +76,9 @@ achievements.register_achievement(
    "fertile",
    {
       title = S("Fertile"),
-      description = S("Craft a bag of fertilizer."),
+      description = S("Use fertilizer to fertilize a plant."),
       times = 1,
-      craftitem = "rp_default:fertilizer",
+      item_icon = "rp_default:fertilizer",
 })
 
 -- Literature
