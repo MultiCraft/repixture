@@ -563,3 +563,39 @@ if mod_achievements then
 
 	end)
 end
+
+minetest.register_chatcommand("hunger", {
+	description = S("Set hunger level of player or yourself"),
+	privs = { server = true },
+	params = S("[<player>] <hunger>"),
+	func = function(playername, param)
+		-- Set hunger of specified target player
+		local target, hungr = string.match(param, "^([a-zA-Z0-9-_]+) ([0-9]+)$")
+		if target and hungr then
+			hungr = tonumber(hungr)
+			if not hungr then
+				return false
+			end
+			local player = minetest.get_player_by_name(target)
+			if not player then
+				return false, S("Player is not online.")
+			end
+			hunger.set_hunger(target, hungr)
+			return true
+		end
+
+		-- Set hunger of commander
+		local hungr = string.match(param, "^([0-9]+)$")
+		hungr = tonumber(hungr)
+		if not hungr then
+			return false
+		end
+		local player = minetest.get_player_by_name(playername)
+		if not player then
+			return false, S("No player.")
+		end
+		hunger.set_hunger(playername, hungr)
+		return true
+	end
+})
+
