@@ -363,28 +363,12 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
    end
 
    if nofill ~= true then
-      local vdata = vmanip:get_data()
-      -- Make a hill for the buildings to stand on
-      village.generate_hill(vmanip, vdata, {x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top)
-
-      local py = pos.y-6
-      local dirtnodes = {}
-      local vmin, vmax = vmanip:get_emerged_area()
-      local varea = VoxelArea:new({MinEdge=vmin, MaxEdge=vmax})
-      local c_ground = minetest.get_content_id(ground)
-      -- Extend the dirt below the hill, in case the hill is floating
-      -- in mid-air
-      for z=pos.z-6, pos.z+17 do
-      for x=pos.x-6, pos.x+17 do
-         village.get_column_nodes({x=x, y=py, z=z}, HILL_EXTEND_BELOW, dirtnodes)
-         for d=1, #dirtnodes do
-            local vindex = varea:index(dirtnodes[d].x, dirtnodes[d].y, dirtnodes[d].z)
-            vdata[vindex] = c_ground
-         end
+      if not state.hills then
+         state.hills = {}
       end
-      end
-      vmanip:set_data(vdata)
+      table.insert(state.hills, {pos=pos, ground=ground, ground_top=ground_top})
    end
+
    if noclear ~= true then
       local ok = minetest.place_schematic_on_vmanip(
          vmanip,
@@ -687,15 +671,48 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       minetest.log("warning", string.format("[rp_village] Failed to generated starter chunk at %s", minetest.pos_to_string(pos)))
    end
 
+   -- Generate hills
+   if state.hills then
+   local vdata = vmanip:get_data()
+   for h=1, #state.hills do
+      local hill = state.hills[h]
+      local pos = hill.pos
+      local ground = hill.ground
+      local ground_top = hill.ground_top
+      -- Make a hill for the buildings to stand on
+      village.generate_hill(vmanip, vdata, {x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top)
+
+      local py = pos.y-6
+      local dirtnodes = {}
+      local vmin, vmax = vmanip:get_emerged_area()
+      local varea = VoxelArea:new({MinEdge=vmin, MaxEdge=vmax})
+      local c_ground = minetest.get_content_id(ground)
+      -- Extend the dirt below the hill, in case the hill is floating
+      -- in mid-air
+      for z=pos.z-6, pos.z+17 do
+      for x=pos.x-6, pos.x+17 do
+         village.get_column_nodes({x=x, y=py, z=z}, HILL_EXTEND_BELOW, dirtnodes)
+         for d=1, #dirtnodes do
+            local vindex = varea:index(dirtnodes[d].x, dirtnodes[d].y, dirtnodes[d].z)
+            vdata[vindex] = c_ground
+         end
+      end
+      end
+   end
+   vmanip:set_data(vdata)
+   end
+
    -- The main village generation is complete here
    vmanip:write_to_map()
    vmanip:update_liquids()
+
+   local csize = vector.new(VILLAGE_CHUNK_SIZE, VILLAGE_CHUNK_SIZE, VILLAGE_CHUNK_SIZE)
 
    -- Final step: set node metadata (stuff that cannot be done in VManip)
    if state.nodeupdates then
    for u=1, #state.nodeupdates do
       local upos = state.nodeupdates[u].pos
-      local upos2 = vector.add(upos, vector.new(VILLAGE_CHUNK_SIZE, VILLAGE_CHUNK_SIZE, VILLAGE_CHUNK_SIZE))
+      local upos2 = vector.add(upos, csize)
       local chunktype = state.nodeupdates[u].chunktype
       -- Replace some chests with locked chests
       if mod_locks then
