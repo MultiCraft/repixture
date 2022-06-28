@@ -595,10 +595,15 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
 
    for _,road in pairs(roads) do
    if road ~= false then
-
       village.spawn_chunk(vmanip, road.pos, state, "0", {}, pr, "road", false, false, true, ground, ground_top)
-      local vdata = vmanip:get_data()
+   end
+   end
 
+   local vdata = vmanip:get_data()
+   local lamps = {}
+
+   for _,road in pairs(roads) do
+   if road ~= false then
       local amt_connections = 0
       local all_nodes = {}
       for i = 1, 4 do
@@ -633,25 +638,30 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       end
       vdata_bulk_set_node(vdata, varea, road.pos, vector.add(road.pos, {x=11,y=0,z=11}), c_ground_top, true)
 
-      vmanip:set_data(vdata)
 
       if amt_connections >= 2 and not road.is_starter then
-	 village.spawn_chunk(
-            vmanip,
-	    {x = road.pos.x, y = road.pos.y, z = road.pos.z},
-	    state,
-	    "0",
-	    {},
-	    pr,
-	    "lamppost",
-	    true,
-	    true,
-	    true,
-	    ground,
-	    ground_top
-         )
+         table.insert(lamps, {x=road.pos.x, y=road.pos.y, z=road.pos.z})
       end
    end
+   end
+
+   vmanip:set_data(vdata)
+
+   for l=1, #lamps do
+      village.spawn_chunk(
+         vmanip,
+         lamps[l],
+         state,
+         "0",
+         {},
+         pr,
+         "lamppost",
+         true,
+         true,
+         true,
+         ground,
+         ground_top
+         )
    end
 
    -- Check if this village has created any houses so far
