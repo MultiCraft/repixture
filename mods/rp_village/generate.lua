@@ -359,10 +359,7 @@ end
 function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype, noclear, nofill, dont_check_empty, ground, ground_top)
    if not dont_check_empty and not check_empty(pos) then
       minetest.log("verbose", "[rp_village] Chunk not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
-      return false, state
-   end
-   if not state then
-      state = { music_players = 0 }
+      return false
    end
 
    if nofill ~= true then
@@ -419,120 +416,19 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
       minetest.log("warning", "[rp_village] Could not fully place village chunk in village at "..minetest.pos_to_string(pos, 0))
    end
 
-
-
-   --[[
-   TODO
-   util.fixlight(pos, {x = pos.x+12, y = pos.y+12, z = pos.z+12})
-
-   -- Replace some chests with locked chests
-   if mod_locks then
-      util.nodefunc(
-         pos,
-         {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-         "rp_default:chest",
-         function(pos)
-            if pr:next(1,4) == 1 then
-               local node = minetest.get_node(pos)
-               node.name = "rp_locks:chest"
-               minetest.swap_node(pos, node)
-            end
-         end, true)
+   if not state.nodeupdates then
+      state.nodeupdates = {}
    end
+   table.insert(state.nodeupdates, {pos=pos, chunktype=chunktype})
 
-   util.reconstruct(pos, {x = pos.x+12, y = pos.y+12, z = pos.z+12})
-
-   util.nodefunc(
-      pos,
-      {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-      {"rp_default:chest", "rp_locks:chest"},
-      function(pos)
-         goodies.fill(pos, chunktype, pr, "main", 3)
-      end, true)
-
-   -- Maximum of 1 music player per village
-   util.nodefunc(
-      pos,
-      {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-      "rp_music:player",
-      function(pos)
-	 if state.music_players >= 1 or pr:next(1,8) > 1 then
-	    minetest.remove_node(pos)
-	 else
-	    state.music_players = state.music_players + 1
-	 end
-      end, true)
-
-
-   local chunkdef = village.chunkdefs[chunktype]
-   if chunkdef ~= nil then
-      if chunkdef.entities ~= nil then
-	 if chunkdef.entity_chance ~= nil and pr:next(1, chunkdef.entity_chance) == 1 then
-	    util.nodefunc(
-	       pos,
-	       {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-	       "rp_village:entity_spawner",
-	       function(pos)
-		  minetest.remove_node(pos)
-            end)
-	    return true, state
-	 end
-
-	 local ent_spawns = {}
-
-	 util.nodefunc(
-	    pos,
-	    {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-	    "rp_village:entity_spawner",
-	    function(pos)
-	       table.insert(ent_spawns, pos)
-	    end, true)
-
-	 if #ent_spawns > 0 then
-	    for ent, amt in pairs(chunkdef.entities) do
-	       for j = 1, pr:next(1, amt) do
-                  if #ent_spawns == 0 then
-                     break
-                  end
-		  local spawn, index = util.choice_element(ent_spawns, pr)
-		  if spawn ~= nil then
-                     local meta = minetest.get_meta(spawn)
-	             meta:set_string("entity", ent)
-	             minetest.get_node_timer(spawn):start(1)
-                     -- Prevent spawning on same tile
-                     table.remove(ent_spawns, index)
-		  end
-	       end
-	    end
-	 end
-         -- Remove unused entity spawners
-         for e=1, #ent_spawns do
-             minetest.remove_node(ent_spawns[e])
-         end
-      end
-   end
-
-   if chunktype == "forge" then
-      util.nodefunc(
-	 pos,
-	 {x = pos.x+12, y = pos.y+12, z = pos.z+12},
-	 "rp_default:furnace",
-	 function(pos)
-	    goodies.fill(pos, "FURNACE_SRC", pr, "src", 1)
-	    goodies.fill(pos, "FURNACE_DST", pr, "dst", 1)
-	    goodies.fill(pos, "FURNACE_FUEL", pr, "fuel", 1)
-	 end, true)
-   end
-
-   ]]
    minetest.log("verbose", "[rp_village] Chunk generated at "..minetest.pos_to_string(pos))
-   return true, state
+   return true
 end
 
 function village.spawn_road(vmanip, pos, state, houses, built, roads, depth, pr, replace, dont_check_empty, dist_from_start, ground, ground_top)
    if not dont_check_empty and not check_empty(pos) then
       minetest.log("verbose", "[rp_village] Road not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
-      return false, state
+      return false
    end
 
    for i=1,4 do
@@ -576,20 +472,20 @@ function village.spawn_road(vmanip, pos, state, houses, built, roads, depth, pr,
 	    houses[hnp] = {pos = nextpos, front = pos}
 
 	    local structure = random_chunktype(pr)
-	    chunk_ok, state = village.spawn_chunk(vmanip, nextpos, state, orient, replace, pr, structure, nil, nil, nil, ground, ground_top)
+	    chunk_ok = village.spawn_chunk(vmanip, nextpos, state, orient, replace, pr, structure, nil, nil, nil, ground, ground_top)
             if not chunk_ok then
                houses[hnp] = false
             end
 	 else
 	    roads[hnp] = {pos = nextpos}
-	    chunk_ok, state = village.spawn_road(vmanip, nextpos, state, houses, built, roads, depth - 1, pr, replace, false, new_dist_from_start, ground, ground_top)
+	    chunk_ok = village.spawn_road(vmanip, nextpos, state, houses, built, roads, depth - 1, pr, replace, false, new_dist_from_start, ground, ground_top)
             if not chunk_ok then
                roads[hnp] = false
             end
 	 end
       end
    end
-   return true, state
+   return true
 end
 
 local ROAD_NODE_NORTH = "rp_default:planks"
@@ -619,7 +515,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    local houses = {}
    local built = {}
    local roads = {}
-   local state = { music_players = 0 }
+   local state = {}
 
    local spawnpos = pos
 
@@ -642,8 +538,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    -- Generate a road below the starting position. The road tries to grow in 4 directions
    -- growing either recursively more roads or buildings (where the road
    -- terminates)
-   local _
-   _, state = village.spawn_road(vmanip, pos, state, houses, built, roads, depth, pr, replace, true, vector.zero(), ground, ground_top)
+   village.spawn_road(vmanip, pos, state, houses, built, roads, depth, pr, replace, true, vector.zero(), ground, ground_top)
 
    local function connects(pos, nextpos)
       local hnp = minetest.hash_node_position(nextpos)
@@ -701,7 +596,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    for _,road in pairs(roads) do
    if road ~= false then
 
-      _, state = village.spawn_chunk(vmanip, road.pos, state, "0", {}, pr, "road", false, false, true, ground, ground_top)
+      village.spawn_chunk(vmanip, road.pos, state, "0", {}, pr, "road", false, false, true, ground, ground_top)
       local vdata = vmanip:get_data()
 
       local amt_connections = 0
@@ -741,7 +636,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       vmanip:set_data(vdata)
 
       if amt_connections >= 2 and not road.is_starter then
-	 _, state = village.spawn_chunk(
+	 village.spawn_chunk(
             vmanip,
 	    {x = road.pos.x, y = road.pos.y, z = road.pos.z},
 	    state,
@@ -770,20 +665,128 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    -- Place a building at the start position as the final step.
    -- Normally this is the well
    if has_house then
-      chunk_ok, state = village.spawn_chunk(vmanip, pos, nil, "0", replace, pr, "well", true, nil, true, ground, ground_top)
+      chunk_ok = village.spawn_chunk(vmanip, pos, state, "0", replace, pr, "well", true, nil, true, ground, ground_top)
    else
       -- Place a fallback building instead of the well if the village does not have any buildings yet.
       -- A nice side-effect of this is that this will create 'lonely huts'.
       local structure = random_chunktype(pr, village.chunktypes_start_fallback)
-      chunk_ok, state = village.spawn_chunk(vmanip, pos, nil, "random", replace, pr, structure, true, nil, true, ground, ground_top)
+      chunk_ok = village.spawn_chunk(vmanip, pos, state, "random", replace, pr, structure, true, nil, true, ground, ground_top)
       minetest.log("info", "[rp_village] Village generated with fallback building instead of well")
    end
    if not chunk_ok then
       minetest.log("warning", string.format("[rp_village] Failed to generated starter chunk at %s", minetest.pos_to_string(pos)))
    end
 
+   -- The main village generation is complete here
    vmanip:write_to_map()
    vmanip:update_liquids()
+
+   -- Final step: set node metadata (stuff that cannot be done in VManip)
+   if state.nodeupdates then
+   for u=1, #state.nodeupdates do
+      local upos = state.nodeupdates[u].pos
+      local upos2 = vector.add(upos, vector.new(VILLAGE_CHUNK_SIZE, VILLAGE_CHUNK_SIZE, VILLAGE_CHUNK_SIZE))
+      local chunktype = state.nodeupdates[u].chunktype
+      -- Replace some chests with locked chests
+      if mod_locks then
+         util.nodefunc(
+            upos, upos2,
+            "rp_default:chest",
+            function(pos)
+               if pr:next(1,4) == 1 then
+                  local node = minetest.get_node(pos)
+                  node.name = "rp_locks:chest"
+                  minetest.swap_node(pos, node)
+               end
+            end, true)
+      end
+
+      -- Force on_construct to be called
+      util.reconstruct(upos, upos2)
+
+      -- Populate chests
+      util.nodefunc(
+         upos, upos2,
+         {"rp_default:chest", "rp_locks:chest"},
+         function(pos)
+            goodies.fill(pos, chunktype, pr, "main", 3)
+         end, true)
+
+      -- Populate furnaces
+      if chunktype == "forge" then
+         util.nodefunc(
+            upos, upos2,
+            "rp_default:furnace",
+            function(pos)
+               goodies.fill(pos, "FURNACE_SRC", pr, "src", 1)
+               goodies.fill(pos, "FURNACE_DST", pr, "dst", 1)
+               goodies.fill(pos, "FURNACE_FUEL", pr, "fuel", 1)
+            end, true)
+      end
+
+      -- Maximum of 1 music player per village
+      local music_players = 0
+      util.nodefunc(
+         upos, upos2,
+         "rp_music:player",
+         function(pos)
+           if music_players >= 1 or pr:next(1,8) > 1 then
+              minetest.remove_node(pos)
+           else
+              music_players = music_players + 1
+           end
+         end, true)
+
+      -- Set entity spawner metadata
+      local chunkdef = village.chunkdefs[chunktype]
+      if chunkdef ~= nil then
+         if chunkdef.entities ~= nil then
+	    if chunkdef.entity_chance ~= nil and pr:next(1, chunkdef.entity_chance) == 1 then
+               -- Remove some entity spawners
+	       util.nodefunc(
+	          upos, upos2,
+	          "rp_village:entity_spawner",
+	          function(pos)
+		     minetest.remove_node(pos)
+                  end)
+            else
+               local ent_spawns = {}
+
+               -- Collect entitiy spawners
+               util.nodefunc(
+                  upos, upos2,
+                  "rp_village:entity_spawner",
+                  function(pos)
+                     table.insert(ent_spawns, pos)
+                  end, true)
+
+               -- Initialize entity spawners
+	       if #ent_spawns > 0 then
+	          for ent, amt in pairs(chunkdef.entities) do
+                     for j = 1, pr:next(1, amt) do
+                        if #ent_spawns == 0 then
+                           break
+                        end
+                        local spawn, index = util.choice_element(ent_spawns, pr)
+                        if spawn ~= nil then
+                           local meta = minetest.get_meta(spawn)
+                           meta:set_string("entity", ent)
+                           minetest.get_node_timer(spawn):start(1)
+                           -- Prevent spawning on same tile
+                           table.remove(ent_spawns, index)
+                        end
+                     end
+                  end
+               end
+               -- Remove unused entity spawners
+               for e=1, #ent_spawns do
+                  minetest.remove_node(ent_spawns[e])
+               end
+            end
+          end
+       end
+   end
+   end
 
    minetest.log("action", string.format("[rp_village] Generated village '%s' at %s in %.2fms", village_name, minetest.pos_to_string(pos), (os.clock() - t1) * 1000))
    return true
