@@ -603,6 +603,8 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       return
    end
    local vmanip = VoxelManip(params.emin, params.emax)
+   local vmin, vmax = vmanip:get_emerged_area()
+   local varea = VoxelArea:new({MinEdge=vmin, MaxEdge=vmax})
    local pos = params.pos
    local pr = params.pr
    local ground = params.ground
@@ -671,13 +673,39 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    -- directions and it will be replaced either with a dirt path or
    -- the ground.
 
+   local c_path = minetest.get_content_id(dirt_path)
+   local c_ground_top = minetest.get_content_id(ground_top)
+   local c_road_north = minetest.get_content_id(ROAD_NODE_NORTH)
+   local c_road_west = minetest.get_content_id(ROAD_NODE_WEST)
+   local c_road_south = minetest.get_content_id(ROAD_NODE_SOUTH)
+   local c_road_east = minetest.get_content_id(ROAD_NODE_EAST)
+
+   local vdata_bulk_set_node = function(vdata, varea, minpos, maxpos, content_id, check_for_road)
+      for z=minpos.z, maxpos.z do
+      for y=minpos.y, maxpos.y do
+      for x=minpos.x, maxpos.x do
+         local vindex = varea:index(x, y, z)
+	 if check_for_road then
+            local content = vdata[vindex]
+	    if content == c_road_north or content == c_road_west or content == c_road_south or content == c_road_east then
+               vdata[vindex] = content_id
+            end
+	 else
+            vdata[vindex] = content_id
+         end
+      end
+      end
+      end
+   end
+
    for _,road in pairs(roads) do
    if road ~= false then
 
       _, state = village.spawn_chunk(vmanip, road.pos, state, "0", {}, pr, "road", false, false, true, ground, ground_top)
+      local vdata = vmanip:get_data()
 
       local amt_connections = 0
-
+      local all_nodes = {}
       for i = 1, 4 do
 	 local nextpos = {x = road.pos.x, y = road.pos.y, z = road.pos.z}
 
@@ -685,35 +713,32 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
 	    nextpos.z = nextpos.z + 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=8}), vector.add(road.pos, {x=7,y=0,z=11}), {ROAD_NODE_NORTH})
-               --TODO minetest.bulk_set_node(nodes, {name=dirt_path})
+               vdata_bulk_set_node(vdata, varea, vector.add(road.pos, {x=4,y=0,z=8}), vector.add(road.pos, {x=7,y=0,z=11}), c_path)
 	    end
 	 elseif i == 2 then -- East (cobble)
 	    nextpos.x = nextpos.x + 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=8, y=0, z=4}), vector.add(road.pos, {x=11,y=0,z=7}), {ROAD_NODE_EAST})
-               --TODO minetest.bulk_set_node(nodes, {name=dirt_path})
+               vdata_bulk_set_node(vdata, varea, vector.add(road.pos, {x=8,y=0,z=4}), vector.add(road.pos, {x=11,y=0,z=7}), c_path)
 	    end
 	 elseif i == 3 then -- South (oak planks)
 	    nextpos.z = nextpos.z - 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=4, y=0, z=0}), vector.add(road.pos, {x=7,y=0,z=3}), {ROAD_NODE_SOUTH})
-               --TODO minetest.bulk_set_node(nodes, {name=dirt_path})
+               vdata_bulk_set_node(vdata, varea, vector.add(road.pos, {x=4,y=0,z=0}), vector.add(road.pos, {x=7,y=0,z=3}), c_path)
 	    end
 	 else
 	    nextpos.x = nextpos.x - 12 -- West (birch planks)
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=0, y=0, z=4}), vector.add(road.pos, {x=3,y=0,z=7}), {ROAD_NODE_WEST})
-               --TODO minetest.bulk_set_node(nodes, {name=dirt_path})
+               vdata_bulk_set_node(vdata, varea, vector.add(road.pos, {x=0,y=0,z=4}), vector.add(road.pos, {x=3,y=0,z=7}), c_path)
 	    end
 	 end
 
       end
-      local nodes = minetest.find_nodes_in_area(vector.add(road.pos, {x=0, y=0, z=0}), vector.add(road.pos, {x=11,y=0,z=11}), {ROAD_NODE_NORTH, ROAD_NODE_EAST, ROAD_NODE_SOUTH, ROAD_NODE_WEST})
-      --TODO minetest.bulk_set_node(nodes, {name=ground_top})
+      vdata_bulk_set_node(vdata, varea, road.pos, vector.add(road.pos, {x=11,y=0,z=11}), c_ground_top, true)
+
+      vmanip:set_data(vdata)
 
       if amt_connections >= 2 and not road.is_starter then
 	 _, state = village.spawn_chunk(
