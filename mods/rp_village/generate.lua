@@ -314,13 +314,14 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top)
    for z=y,HILL_W-1-y do
    for x=y,HILL_W-1-y do
       local p = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
-      local n = vmanip:get_node_at(p)
-      local def = minetest.registered_nodes[n.name]
-      local is_any_dirt = minetest.get_item_group(n.name, "dirt") == 1
-      local is_dirt = n.name == "rp_default:dirt"
-      local is_dry_dirt = n.name == "rp_default:dry_dirt"
       local vindex = varea:index(p.x,p.y,p.z)
-      if (not is_dry_dirt) and (is_dirt or (not is_any_dirt)) and (n.name == "air" or n.name == "ignore" or (def and (def.liquidtype ~= "none" or (def.is_ground_content)))) then
+      local n_content = vdata[vindex]
+      local nname = minetest.get_name_from_content_id(n_content)
+      local def = minetest.registered_nodes[nname]
+      local is_any_dirt = minetest.get_item_group(nname, "dirt") == 1
+      local is_dirt = nname == "rp_default:dirt"
+      local is_dry_dirt = nname == "rp_default:dry_dirt"
+      if (not is_dry_dirt) and (is_dirt or (not is_any_dirt)) and (nname == "air" or nname == "ignore" or (def and (def.liquidtype ~= "none" or (def.is_ground_content)))) then
          if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
             vdata[vindex] = c_ground_top
          else
