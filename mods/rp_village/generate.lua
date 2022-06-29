@@ -283,8 +283,8 @@ local function random_chunktype(pr, chunktypes)
    return chunktypes[#chunktypes][1]
 end
 
-function village.get_column_nodes(pos, scanheight, dirtnodes)
-   local nn = minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name
+function village.get_column_nodes(vmanip, pos, scanheight, dirtnodes)
+   local nn = vmanip:get_node_at({x=pos.x,y=pos.y+1,z=pos.z}).name
    local nd = minetest.registered_nodes[nn]
    if (not nd) or (not nd.is_ground_content and minetest.registered_nodes[nn].liquidtype == "none" and nn ~= "ignore") then
        return
@@ -293,7 +293,7 @@ function village.get_column_nodes(pos, scanheight, dirtnodes)
    for y = pos.y, pos.y - scanheight, -1 do
       local p = {x = pos.x, y = y, z = pos.z}
 
-      nn = minetest.get_node(p).name
+      nn = vmanip:get_node_at(p).name
       nd = minetest.registered_nodes[nn]
       if (not nd) or (not nd.is_ground_content and minetest.registered_nodes[nn].liquidtype == "none" and nn ~= "ignore") then
          break
@@ -377,7 +377,7 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
       -- in mid-air
       for z=pos.z-6, pos.z+17 do
       for x=pos.x-6, pos.x+17 do
-         village.get_column_nodes({x=x, y=py, z=z}, HILL_EXTEND_BELOW, dirtnodes)
+         village.get_column_nodes(vmanip, {x=x, y=py, z=z}, HILL_EXTEND_BELOW, dirtnodes)
          for d=1, #dirtnodes do
             local vindex = varea:index(dirtnodes[d].x, dirtnodes[d].y, dirtnodes[d].z)
             vdata[vindex] = c_ground
