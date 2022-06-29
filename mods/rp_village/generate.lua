@@ -283,10 +283,14 @@ local function random_chunktype(pr, chunktypes)
    return chunktypes[#chunktypes][1]
 end
 
+local function check_column_end(nn)
+   local nd = minetest.registered_nodes[nn]
+   return (not nd) or nn == "ignore" or (not (nn == "air" or (not nd.walkable) or ((minetest.get_item_group(nn, "dirt") > 0) and minetest.get_item_group(nn, "grass_cover") > 0)))
+end
+
 function village.get_column_nodes(vmanip, pos, scanheight, dirtnodes)
    local nn = vmanip:get_node_at({x=pos.x,y=pos.y+1,z=pos.z}).name
-   local nd = minetest.registered_nodes[nn]
-   if (not nd) or nn == "ignore" or (not (nn == "air" or (not nd.walkable) or minetest.get_item_group(nn, "dirt") > 0)) then
+   if check_column_end(nn) then
        return
    end
 
@@ -294,8 +298,7 @@ function village.get_column_nodes(vmanip, pos, scanheight, dirtnodes)
       local p = {x = pos.x, y = y, z = pos.z}
 
       nn = vmanip:get_node_at(p).name
-      nd = minetest.registered_nodes[nn]
-      if (not nd) or nn == "ignore" or (not (nn == "air" or (not nd.walkable) or minetest.get_item_group(nn, "dirt") > 0)) then
+      if check_column_end(nn) then
          break
       else
          table.insert(dirtnodes, p)
