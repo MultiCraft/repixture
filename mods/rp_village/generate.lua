@@ -286,7 +286,7 @@ end
 function village.get_column_nodes(vmanip, pos, scanheight, dirtnodes)
    local nn = vmanip:get_node_at({x=pos.x,y=pos.y+1,z=pos.z}).name
    local nd = minetest.registered_nodes[nn]
-   if (not nd) or (not nd.is_ground_content and minetest.registered_nodes[nn].liquidtype == "none" and nn ~= "ignore") then
+   if (not nd) or nn == "ignore" or (not (nn == "air" or (not nd.walkable) or minetest.get_item_group(nn, "dirt") > 0)) then
        return
    end
 
@@ -295,7 +295,7 @@ function village.get_column_nodes(vmanip, pos, scanheight, dirtnodes)
 
       nn = vmanip:get_node_at(p).name
       nd = minetest.registered_nodes[nn]
-      if (not nd) or (not nd.is_ground_content and minetest.registered_nodes[nn].liquidtype == "none" and nn ~= "ignore") then
+      if (not nd) or nn == "ignore" or (not (nn == "air" or (not nd.walkable) or minetest.get_item_group(nn, "dirt") > 0)) then
          break
       else
          table.insert(dirtnodes, p)
@@ -316,16 +316,18 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top)
       local p = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
       local vindex = varea:index(p.x,p.y,p.z)
       local n_content = vdata[vindex]
-      local nname = minetest.get_name_from_content_id(n_content)
-      local def = minetest.registered_nodes[nname]
-      local is_any_dirt = minetest.get_item_group(nname, "dirt") == 1
-      local is_dirt = nname == "rp_default:dirt"
-      local is_dry_dirt = nname == "rp_default:dry_dirt"
-      if (not is_dry_dirt) and (is_dirt or (not is_any_dirt)) and (nname == "air" or nname == "ignore" or (def and (def.liquidtype ~= "none" or (def.is_ground_content)))) then
-         if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
-            vdata[vindex] = c_ground_top
-         else
-            vdata[vindex] = c_ground
+      if n_content then
+         local nname = minetest.get_name_from_content_id(n_content)
+         local def = minetest.registered_nodes[nname]
+         local is_any_dirt = minetest.get_item_group(nname, "dirt") == 1
+         local is_dirt = nname == "rp_default:dirt"
+         local is_dry_dirt = nname == "rp_default:dry_dirt"
+         if (not is_dry_dirt) and (is_dirt or (not is_any_dirt)) and (nname == "air" or nname == "ignore" or (def and (def.liquidtype ~= "none" or (def.is_ground_content)))) then
+            if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
+               vdata[vindex] = c_ground_top
+            else
+               vdata[vindex] = c_ground
+            end
          end
       end
    end
