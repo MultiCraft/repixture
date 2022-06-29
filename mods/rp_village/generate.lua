@@ -324,7 +324,12 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top)
          local is_dry_dirt = nname == "rp_default:dry_dirt"
          if (not is_dry_dirt) and (is_dirt or (not is_any_dirt)) and (nname == "air" or nname == "ignore" or (def and (def.liquidtype ~= "none" or (def.is_ground_content)))) then
             if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
-               vdata[vindex] = c_ground_top
+               local vindex_above = varea:index(p.x,p.y+1,p.z)
+               if vdata[vindex_above] == minetest.CONTENT_AIR then
+                  vdata[vindex] = c_ground_top
+               else
+                  vdata[vindex] = c_ground
+               end
             else
                vdata[vindex] = c_ground
             end
