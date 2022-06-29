@@ -313,7 +313,9 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top)
    local dirts_with_grass = {}
    local vmin, vmax = vmanip:get_emerged_area()
    local varea = VoxelArea:new({MinEdge = vmin, MaxEdge = vmax})
-   for y=0,HILL_H-1 do
+   for y=HILL_H-1, 0, -1 do
+   -- Count number of nodes that were actually changed on this layer
+   local nodes_set = 0
    for z=y,HILL_W-1-y do
    for x=y,HILL_W-1-y do
       local p = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
@@ -326,6 +328,7 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top)
          local is_dirt = nname == "rp_default:dirt"
          local is_dry_dirt = nname == "rp_default:dry_dirt"
          if (not is_dry_dirt) and (is_dirt or (not is_any_dirt)) and (nname == "air" or nname == "ignore" or (def and (def.liquidtype ~= "none" or (def.is_ground_content)))) then
+            local prev_was_ground = n_content == c_ground or n_content == c_ground_top
             if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
                local vindex_above = varea:index(p.x,p.y+1,p.z)
                if vdata[vindex_above] == minetest.CONTENT_AIR then
@@ -336,11 +339,22 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top)
             else
                vdata[vindex] = c_ground
             end
+            if not prev_was_ground then
+               nodes_set = nodes_set + 1
+            end
          end
       end
    end
    end
+   -- Stop hill generation if no nodes were changed in this layer,
+   -- because the building already has a foundation.
+   if nodes_set == 0 then
+      -- Partial / no hill generated (because not neccessary)
+      return false
    end
+   end
+   -- Full hill generated
+   return true
 end
 
 local function check_empty(pos)
@@ -376,23 +390,25 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
    if nofill ~= true then
       local vdata = vmanip:get_data()
       -- Make a hill for the buildings to stand on
-      village.generate_hill(vmanip, vdata, {x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top)
+      local full_hill = village.generate_hill(vmanip, vdata, {x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top)
 
-      local py = pos.y-6
-      local dirtnodes = {}
-      local vmin, vmax = vmanip:get_emerged_area()
-      local varea = VoxelArea:new({MinEdge=vmin, MaxEdge=vmax})
-      local c_ground = minetest.get_content_id(ground)
-      -- Extend the dirt below the hill, in case the hill is floating
-      -- in mid-air
-      for z=pos.z-6, pos.z+17 do
-      for x=pos.x-6, pos.x+17 do
-         village.get_column_nodes(vmanip, {x=x, y=py, z=z}, HILL_EXTEND_BELOW, dirtnodes)
-         for d=1, #dirtnodes do
-            local vindex = varea:index(dirtnodes[d].x, dirtnodes[d].y, dirtnodes[d].z)
-            vdata[vindex] = c_ground
+      if full_hill then
+         -- Extend the dirt below the hill, in case the hill is floating
+         -- in mid-air
+         local py = pos.y-6
+         local dirtnodes = {}
+         local vmin, vmax = vmanip:get_emerged_area()
+         local varea = VoxelArea:new({MinEdge=vmin, MaxEdge=vmax})
+         local c_ground = minetest.get_content_id(ground)
+         for z=pos.z-6, pos.z+17 do
+         for x=pos.x-6, pos.x+17 do
+            village.get_column_nodes(vmanip, {x=x, y=py, z=z}, HILL_EXTEND_BELOW, dirtnodes)
+            for d=1, #dirtnodes do
+               local vindex = varea:index(dirtnodes[d].x, dirtnodes[d].y, dirtnodes[d].z)
+               vdata[vindex] = c_ground
+            end
          end
-      end
+         end
       end
       vmanip:set_data(vdata)
    end
