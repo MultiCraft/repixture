@@ -331,11 +331,7 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top)
             local prev_was_ground = n_content == c_ground or n_content == c_ground_top
             if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
                local vindex_above = varea:index(p.x,p.y+1,p.z)
-               if vdata[vindex_above] == minetest.CONTENT_AIR then
-                  vdata[vindex] = c_ground_top
-               else
-                  vdata[vindex] = c_ground
-               end
+               vdata[vindex] = c_ground_top
             else
                vdata[vindex] = c_ground
             end
