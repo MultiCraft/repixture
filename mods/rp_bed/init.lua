@@ -517,8 +517,10 @@ minetest.register_node(
                      return itemstack
               end
 
-              local botdef = minetest.registered_nodes[minetest.get_node(botpos).name]
-              if not botdef or not botdef.buildable_to then
+              local botname = minetest.get_node(botpos).name
+              local botdef = minetest.registered_nodes[botname]
+              -- Check if the 2nd node for the bed is free or already a bed head.
+              if botname ~= "rp_bed:bed_head" and (not botdef or not botdef.buildable_to) then
                      return itemstack
               end
 
