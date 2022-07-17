@@ -115,6 +115,8 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `dry_leaves`: Dry leaves
 * `lush_leaves`: Any non-dry leaves
 
+* `spikes`: Spikes
+
 * `plantable_dry`: You can plant farming plants on it and this node is considered to be dry
 * `plantable_sandy`: You can plant farming plants on it and this node is considered to be made out of sand
 * `plantable_soil`: You can plant farming plants on it and this node is considered to be "normal" soil
