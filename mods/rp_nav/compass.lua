@@ -287,6 +287,11 @@ for c=0,7 do
 				place_item = "rp_nav:magnocompass_rotating"
 			end
 		end
+
+		local node_floor = minetest.get_node(place_floor)
+		if minetest.get_item_group(node_floor.name, "attached_node") == 1 then
+			return itemstack
+		end
 		-- Place node
 		minetest.set_node(place_in, {name = place_item})
 
