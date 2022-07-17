@@ -85,17 +85,21 @@ local drop_item = function(pos, node, creative)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local item = inv:get_stack("main", 1)
+	local dropped = false
 	if not item:is_empty() then
 		if creative then
 			-- Don't drop item
 		elseif node.name == "rp_itemshow:frame" then
 			minetest.add_item(pos, item)
+			dropped = true
 		elseif minetest.get_item_group(node.name, "item_showcase") == 1 then
 			minetest.add_item({x=pos.x, y=pos.y+0.75, z=pos.z}, item)
+			dropped = true
 		end
 		inv:set_stack("main", 1, "")
 	end
 	remove_item(pos, node)
+	return dropped
 end
 
 
@@ -110,10 +114,16 @@ local on_rightclick = function(pos, node, clicker, itemstack)
 	local inv = meta:get_inventory()
 	local creative = minetest.is_creative_enabled(name)
 	if not inv:get_stack("main", 1):is_empty() then
-		drop_item(pos, node, creative)
+		local dropped = drop_item(pos, node, creative)
+		if dropped then
+			minetest.sound_play({name="rp_itemshow_take_item", gain=0.5}, {pos=pos}, true)
+		end
 	else
 		inv:set_stack("main", 1, itemstack)
 		update_item(pos, node)
+		if not itemstack:is_empty() then
+			minetest.sound_play({name="rp_itemshow_put_item", gain=0.5}, {pos=pos}, true)
+		end
 		if not creative then
 			itemstack:take_item()
 		end
