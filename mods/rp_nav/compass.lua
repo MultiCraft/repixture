@@ -274,8 +274,20 @@ for c=0,7 do
 			return itemstack
 		end
 
+		local place_item = handle_itemstack:get_name()
+		local itemmeta = handle_itemstack:get_meta()
+		local mx = itemmeta:get_int("magno_x")
+		local my = itemmeta:get_int("magno_y")
+		local mz = itemmeta:get_int("magno_z")
+		if is_magno then
+			local mpos = vector.new(mx, 0, mz)
+			local ppos = vector.new(place_in.x, 0, place_in.z)
+			if vector.distance(mpos, ppos) < 0.1 then
+				place_item = "rp_nav:magnocompass_rotating"
+			end
+		end
 		-- Place node
-		minetest.set_node(place_in, {name = handle_itemstack:get_name()})
+		minetest.set_node(place_in, {name = place_item})
 
 		-- Set node metadata (magnocompass position)
 		if is_magno then
@@ -339,6 +351,34 @@ for c=0,7 do
 	      stack_max = 1,
 	})
 
+        local after_dig_magnocompass = function(pos, oldnode, oldmetadata, digger)
+                local dname = ""
+                local is_digger = false
+                if digger and digger:is_player() then
+                        is_digger = true
+                        dname = digger:get_player_name()
+                end
+
+                local item = ItemStack(oldnode.name)
+                -- Don't drop item if digger is in Creative Mode and already has an
+                -- identical item (including metadata) in inventory.
+                if minetest.is_creative_enabled(dname) and is_digger then
+                        local inv = digger:get_inventory()
+                        if inv:contains_item("main", item:get_name()) then
+                         return
+                        end
+                end
+                local itemmeta = item:get_meta()
+
+                local mx = tonumber(oldmetadata.fields.magno_x) or 0
+                local my = tonumber(oldmetadata.fields.magno_y) or 0
+                local mz = tonumber(oldmetadata.fields.magno_z) or 0
+                itemmeta:set_int("magno_x", mx)
+                itemmeta:set_int("magno_y", my)
+                itemmeta:set_int("magno_z", mz)
+                minetest.add_item(pos, item)
+        end
+
 	-- Magno compass, points to a position
 	not_creative = 1
 	minetest.register_node(
@@ -349,20 +389,8 @@ for c=0,7 do
 	      _rp_canonical_item = "rp_nav:magnocompass_0",
 
               drawtype = "nodebox",
-	      node_box = {
-		      type = "fixed",
-		      fixed = {
-			      {-5/16, -0.5, -4/16, 5/16, -7/16, 4/16},
-			      {-4/16, -0.5, 4/16, 4/16, -7/16, 5/16},
-			      {-4/16, -0.5, -5/16, 4/16, -7/16, -4/16},
-		      },
-	      },
-	      selection_box = {
-		      type = "fixed",
-		      fixed = {
-			      {-5/16, -0.5, -5/16, 5/16, -7/16, 5/16},
-		      },
-	      },
+	      node_box = compass_node_box,
+	      selection_box = compass_selection_box,
               paramtype = "light",
               sunlight_propagates = true,
               tiles = {
@@ -380,37 +408,49 @@ for c=0,7 do
 	      on_place = magnetize_on_place,
 
 	      drop = "",
-              after_dig_node = function(pos, oldnode, oldmetadata, digger)
-                      local dname = ""
-                      local is_digger = false
-                      if digger and digger:is_player() then
-                              is_digger = true
-                              dname = digger:get_player_name()
-                      end
-
-                      local item = ItemStack(oldnode.name)
-                      -- Don't drop item if digger is in Creative Mode and already has an
-                      -- identical item (including metadata) in inventory.
-                      if minetest.is_creative_enabled(dname) and is_digger then
-                              local inv = digger:get_inventory()
-                              if inv:contains_item("main", item:get_name()) then
-	                              return
-                              end
-                      end
-                      local itemmeta = item:get_meta()
-
-                      local mx = tonumber(oldmetadata.fields.magno_x) or 0
-                      local my = tonumber(oldmetadata.fields.magno_y) or 0
-                      local mz = tonumber(oldmetadata.fields.magno_z) or 0
-                      itemmeta:set_int("magno_x", mx)
-                      itemmeta:set_int("magno_y", my)
-                      itemmeta:set_int("magno_z", mz)
-                      minetest.add_item(pos, item)
-              end,
+              after_dig_node = after_dig_magnocompass,
 
 	      groups = {nav_compass = 2, tool=1, attached_node=1, dig_immediate=3, not_in_creative_inventory = not_creative },
 	      stack_max = 1,
 	})
+
+	-- Special magnocompass node if it is exactly (or nearly exactly) placed
+	-- at the magnetized X/Z position. The needle rotates in this special case.
+	minetest.register_node(
+	   "rp_nav:magnocompass_rotating",
+	   {
+	      _rp_canonical_item = "rp_nav:magnocompass_0",
+
+              drawtype = "nodebox",
+	      node_box = compass_node_box,
+	      selection_box = compass_selection_box,
+              paramtype = "light",
+              sunlight_propagates = true,
+	      -- The rotating needle is a simple animation
+              tiles = {
+                      {
+                         name="rp_nav_magnocompass_rotating.png",
+                         animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 1.6 }
+                      },
+                      {
+                         name="rp_nav_magnocompass_rotating_below.png",
+                         animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 1.6 }
+                      },
+		      "rp_nav_magnocompass_side.png",
+              },
+              use_texture_alpha = "clip",
+	      sounds = rp_sounds.node_sound_defaults(),
+
+	      inventory_image = "rp_nav_magnocompass_inventory_0.png",
+	      wield_image = "rp_nav_magnocompass_inventory_0.png",
+
+	      drop = "",
+              after_dig_node = after_dig_magnocompass,
+
+	      groups = {nav_compass = 2, tool=1, attached_node=1, dig_immediate=3, not_in_creative_inventory=1 },
+	      stack_max = 1,
+	})
+
 
 end
 
