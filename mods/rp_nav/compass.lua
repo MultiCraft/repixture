@@ -42,8 +42,9 @@ local update_compass_itemstack = function(itemstack, pos, lookyaw)
 			-- Fallback pos
 				x, y, z = 0, 0, 0
 			end
-			local magno_pos = vector.new(x,y,z)
-			local vdir = vector.direction(magno_pos, pos)
+			local magno_pos = vector.new(x, 0, z)
+			local check_pos = vector.new(pos.x, 0, pos.z)
+			local vdir = vector.direction(magno_pos, check_pos)
 			local magnoyaw = minetest.dir_to_yaw(vdir)
 			magnoyaw = (math.pi - magnoyaw + lookyaw) % (math.pi*2)
 			local dir = yaw_to_compass_dir(magnoyaw)
