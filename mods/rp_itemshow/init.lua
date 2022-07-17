@@ -90,7 +90,12 @@ local drop_item = function(pos, node, creative)
 		if creative then
 			-- Don't drop item
 		elseif node.name == "rp_itemshow:frame" then
-			minetest.add_item(pos, item)
+			local ent = minetest.add_item(pos, item)
+			if ent and ent:get_luaentity() then
+				-- Set initial yaw of entity according to frame rotation
+				local yaw = minetest.dir_to_yaw(minetest.facedir_to_dir(node.param2))
+				ent:set_yaw(yaw)
+			end
 			dropped = true
 		elseif minetest.get_item_group(node.name, "item_showcase") == 1 then
 			minetest.add_item({x=pos.x, y=pos.y+0.75, z=pos.z}, item)
