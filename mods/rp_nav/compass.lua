@@ -330,6 +330,7 @@ for c=0,7 do
 	      _rp_canonical_item = "rp_nav:compass_0",
 
               drawtype = "nodebox",
+	      walkable = false,
 	      node_box = compass_node_box,
 	      selection_box = compass_selection_box,
               paramtype = "light",
@@ -390,6 +391,7 @@ for c=0,7 do
 	      _rp_canonical_item = "rp_nav:magnocompass_0",
 
               drawtype = "nodebox",
+	      walkable = false,
 	      node_box = compass_node_box,
 	      selection_box = compass_selection_box,
               paramtype = "light",
@@ -423,6 +425,7 @@ for c=0,7 do
 	      _rp_canonical_item = "rp_nav:magnocompass_0",
 
               drawtype = "nodebox",
+	      walkable = false,
 	      node_box = compass_node_box,
 	      selection_box = compass_selection_box,
               paramtype = "light",
