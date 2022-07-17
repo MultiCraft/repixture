@@ -183,6 +183,13 @@ for c=0,7 do
 				elseif nodedef and nodedef.paramtype2 == "facedir" or nodedef.paramtype2 == "colorfacedir" then
 					nodeyaw = minetest.dir_to_yaw(minetest.facedir_to_dir(node.param2))
 				end
+				-- Special case: Item frame. Add a little offset for nodepos as
+				-- the compass entity is at the side of the node rather than the center.
+				if node.name == "rp_itemshow:frame" then
+					local nodedir = minetest.facedir_to_dir(node.param2)
+					local offset = 7/16
+					nodepos = vector.add(nodepos, vector.multiply(nodedir, offset))
+				end
 				handle_itemstack = update_compass_itemstack(itemstack, nodepos, nodeyaw)
 			end
 		end
