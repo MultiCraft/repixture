@@ -119,11 +119,14 @@ local on_rightclick = function(pos, node, clicker, itemstack)
 			minetest.sound_play({name="rp_itemshow_take_item", gain=0.5}, {pos=pos}, true)
 		end
 	else
-		inv:set_stack("main", 1, itemstack)
-		update_item(pos, node)
-		if not itemstack:is_empty() then
-			minetest.sound_play({name="rp_itemshow_put_item", gain=0.5}, {pos=pos}, true)
+		if itemstack:is_empty() then
+			return itemstack
 		end
+		local put_itemstack = ItemStack(itemstack)
+		put_itemstack:set_count(1)
+		inv:set_stack("main", 1, put_itemstack)
+		update_item(pos, node)
+		minetest.sound_play({name="rp_itemshow_put_item", gain=0.5}, {pos=pos}, true)
 		if not creative then
 			itemstack:take_item()
 		end
