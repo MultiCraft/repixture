@@ -5,8 +5,11 @@
 
 local S = minetest.get_translator("rp_lumien")
 
-local lumien_on_radius = 2
-local lumien_off_radius = 4
+local LUMIEN_ON_RADIUS = 2
+local LUMIEN_OFF_RADIUS = 4
+local LUMIEN_CRYSTAL_LIGHT_MIN = 2
+local LUMIEN_CRYSTAL_LIGHT_MAX = 12
+local LUMIEN_BLOCK_LIGHT = 14
 
 local timer_interval = 1
 local timer = 0
@@ -27,14 +30,14 @@ local function on_globalstep(dtime)
 
       util.nodefunc(
 	 {
-            x = pos.x-lumien_on_radius,
-            y = pos.y-lumien_on_radius,
-            z = pos.z-lumien_on_radius
+            x = pos.x-LUMIEN_ON_RADIUS,
+            y = pos.y-LUMIEN_ON_RADIUS,
+            z = pos.z-LUMIEN_ON_RADIUS
          },
 	 {
-            x = pos.x+lumien_on_radius,
-            y = pos.y+lumien_on_radius,
-            z = pos.z+lumien_on_radius
+            x = pos.x+LUMIEN_ON_RADIUS,
+            y = pos.y+LUMIEN_ON_RADIUS,
+            z = pos.z+LUMIEN_ON_RADIUS
          },
 	 "rp_lumien:crystal_off",
 	 function(pos)
@@ -75,7 +78,7 @@ minetest.register_node(
       },
 
       groups = {crumbly = 3, not_in_creative_inventory = 1},
-      light_source = 12,
+      light_source = LUMIEN_CRYSTAL_LIGHT_MAX,
       drop = "rp_lumien:crystal_off",
       sounds = rp_sounds.node_sound_glass_defaults(),
 })
@@ -99,7 +102,8 @@ minetest.register_node(
       },
 
       groups = {crumbly = 3, creative_decoblock = 1},
-      light_source = 2,
+      light_source = LUMIEN_CRYSTAL_LIGHT_MIN,
+      _tt_light_source_max = LUMIEN_CRYSTAL_LIGHT_MAX,
       sounds = rp_sounds.node_sound_glass_defaults(),
 })
 
@@ -110,7 +114,7 @@ minetest.register_node(
       _tt_help = S("It shines so bright"),
       tiles = {"lumien_block.png"},
       groups = {cracky = 1},
-      light_source = 14,
+      light_source = LUMIEN_BLOCK_LIGHT,
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
 
@@ -159,7 +163,7 @@ minetest.register_abm(
 
          local ok = true
 
-         for _,object in ipairs(minetest.get_objects_inside_radius(pos, lumien_off_radius)) do
+         for _,object in ipairs(minetest.get_objects_inside_radius(pos, LUMIEN_OFF_RADIUS)) do
             if object:is_player() then
                ok = false
             end
