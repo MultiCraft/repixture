@@ -79,6 +79,7 @@ minetest.register_node(
 
       groups = {crumbly = 3, not_in_creative_inventory = 1},
       light_source = LUMIEN_CRYSTAL_LIGHT_MAX,
+      _rp_itemshow_offset = vector.new(-0.2, 0, -0.2),
       drop = "rp_lumien:crystal_off",
       sounds = rp_sounds.node_sound_glass_defaults(),
 })
@@ -104,6 +105,7 @@ minetest.register_node(
       groups = {crumbly = 3, creative_decoblock = 1},
       light_source = LUMIEN_CRYSTAL_LIGHT_MIN,
       _tt_light_source_max = LUMIEN_CRYSTAL_LIGHT_MAX,
+      _rp_itemshow_offset = vector.new(-0.2, 0, -0.2),
       sounds = rp_sounds.node_sound_glass_defaults(),
 })
 
