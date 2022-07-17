@@ -296,7 +296,7 @@ minetest.register_node("rp_itemshow:showcase", {
 	tiles = {"rp_itemshow_showcase.png"},
 	use_texture_alpha = "clip",
 	paramtype = "light",
-	groups = { item_showcase = 1, cracky = 3, oddly_breakable_by_hand = 2 },
+	groups = { item_showcase = 1, cracky = 3, oddly_breakable_by_hand = 2, uses_canonical_compass = 1 },
 	sounds = rp_sounds.node_sound_glass_defaults(),
 	is_ground_content = false,
 

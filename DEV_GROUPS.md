@@ -83,6 +83,9 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `no_spawn_allowed_on`: If set, players can not (initially) spawn on this block
 * `spawn_allowed_in`: If set, players can spawn into this block (note: this group is ignored for the 'air' and 'ignore' nodes)
 * `destroys_items`: If set, node will destroy any item that is inside this node (unless the item has `immortal_item` set)
+* `uses_canonical_compass`: This is used for nodes that can carry a compass. If this group is set, the compass will be
+                            added to the node in "canonical" form, i.e. the needle always faces upwards. Otherwise,
+                            the compass needle is adjusted according to the node position and rotation (wallmounted/facedir).
 * `_attached_node_top=1`: Node attaches to the top of another node. If the node above disappears, the node itself detaches
 
 ### Node categorization

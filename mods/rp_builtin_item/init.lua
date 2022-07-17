@@ -67,6 +67,14 @@ minetest.register_entity(":__builtin:item", {
 			return
 		end
 
+		-- If item definition mentions a canonical item, use this item
+		-- for the itemstack used by the entity instead.
+		local def = stack:get_definition()
+		if def and def._rp_canonical_item then
+			stack:set_name(def._rp_canonical_item)
+			self.itemstring = stack:to_string()
+		end
+
 		-- Backwards compatibility: old clients use the texture
 		-- to get the type of the item
 		local itemname = stack:is_known() and stack:get_name() or "unknown"

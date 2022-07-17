@@ -22,41 +22,55 @@ local yaw_to_compass_dir = function(yaw)
       return dir
 end
 
+local update_compass_itemstack = function(itemstack, pos, lookyaw)
+	local item = minetest.registered_items[itemstack:get_name()]
+	local new_itemstack = ItemStack(itemstack)
+	local changed = false
+
+	local lookdir = yaw_to_compass_dir(lookyaw)
+
+	if item ~= nil then
+		-- normal compass
+		if item.groups.nav_compass == 1 then
+			new_itemstack:set_name("rp_nav:compass_"..lookdir)
+			changed = true
+		-- magnocompass
+		elseif item.groups.nav_compass == 2 then
+			local meta = itemstack:get_meta()
+			local x, y, z = meta:get_int("magno_x"), meta:get_int("magno_y"), meta:get_int("magno_z")
+			if not x or not y or not z then
+			-- Fallback pos
+				x, y, z = 0, 0, 0
+			end
+			local magno_pos = vector.new(x,y,z)
+			local vdir = vector.direction(magno_pos, pos)
+			local magnoyaw = minetest.dir_to_yaw(vdir)
+			magnoyaw = (math.pi - magnoyaw + lookyaw) % (math.pi*2)
+			local dir = yaw_to_compass_dir(magnoyaw)
+			new_itemstack:set_name("rp_nav:magnocompass_"..dir)
+			changed = true
+		end
+	end
+	return new_itemstack, changed
+end
+
 local function on_globalstep(dtime)
-   for _, player in pairs(minetest.get_connected_players()) do
-      local inv = player:get_inventory()
+	for _, player in pairs(minetest.get_connected_players()) do
+		local inv = player:get_inventory()
 
-      local northyaw = player:get_look_horizontal()
-      local northdir = yaw_to_compass_dir(northyaw)
+		local yaw = player:get_look_horizontal()
+		local pos = player:get_pos()
 
-      -- Cycle through hotbar slots
-      for i = 1, 8 do
-	 local itemstack = inv:get_stack("main", i)
-	 local item = minetest.registered_items[itemstack:get_name()]
-
-	 if item ~= nil then
-	    -- normal compass
-	    if item.groups.nav_compass == 1 then
-	       inv:set_stack("main", i, ItemStack("rp_nav:compass_"..northdir))
-	    -- magnocompass
-            elseif item.groups.nav_compass == 2 then
-	        local meta = itemstack:get_meta()
-	        local x, y, z = meta:get_int("magno_x"), meta:get_int("magno_y"), meta:get_int("magno_z")
-	        if not x or not y or not z then
-	               -- Fallback pos
-		       x, y, z = 0, 0, 0
-	        end
-		local magno_pos = vector.new(x,y,z)
-		local vdir = vector.direction(magno_pos, player:get_pos())
-		local magnoyaw = minetest.dir_to_yaw(vdir)
-		magnoyaw = (math.pi - magnoyaw + player:get_look_horizontal()) % (math.pi*2)
-		local dir = yaw_to_compass_dir(magnoyaw)
-	       itemstack:set_name("rp_nav:magnocompass_"..dir)
-	       inv:set_stack("main", i, itemstack)
-	    end
-	 end
-      end
-   end
+		-- Cycle through hotbar slots
+		for i = 1, 8 do
+			local itemstack = inv:get_stack("main", i)
+			local changed
+			itemstack, changed = update_compass_itemstack(itemstack, pos, yaw)
+			if changed then
+				inv:set_stack("main", i, itemstack)
+			end
+		end
+	end
 end
 
 minetest.register_globalstep(on_globalstep)
@@ -147,10 +161,35 @@ end
 
 for c=0,7 do
 	local magnetize_on_place = function(itemstack, placer, pointed_thing)
+		local handle_itemstack = itemstack
+		if pointed_thing.type == "node" then
+			-- Change the itemstack for node placement so the correct
+			-- compass orientation is shown. Important for the rp_itemshow mod
+			local nodepos = pointed_thing.under
+			local node = minetest.get_node(nodepos)
+			-- If this group is set, compass needle always faces upwards
+			if minetest.get_item_group(node.name, "uses_canonical_compass") == 1 then
+				if minetest.get_item_group(itemstack:get_name(), "nav_compass") == 1 then
+					handle_itemstack:set_name("rp_nav:compass_0")
+				elseif minetest.get_item_group(itemstack:get_name(), "nav_compass") == 2 then
+					handle_itemstack:set_name("rp_nav:magnocompass_0")
+				end
+			-- Otherwise, adjust the compass needle so it shows to the correct direction
+			else
+				local nodedef = minetest.registered_nodes[node.name]
+				local nodeyaw = 0
+				if nodedef and nodedef.paramtype2 == "wallmounted" or nodedef.paramtype2 == "colorwallmounted" then
+					nodeyaw = minetest.dir_to_yaw(minetest.wallmounted_to_dir(node.param2))
+				elseif nodedef and nodedef.paramtype2 == "facedir" or nodedef.paramtype2 == "colorfacedir" then
+					nodeyaw = minetest.dir_to_yaw(minetest.facedir_to_dir(node.param2))
+				end
+				handle_itemstack = update_compass_itemstack(itemstack, nodepos, nodeyaw)
+			end
+		end
                 -- Handle pointed node handlers
-                local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+                local handled, handled_itemstack = util.on_place_pointed_node_handler(handle_itemstack, placer, pointed_thing)
                 if handled then
-                   return handled_itemstack
+			return handled_itemstack
                 end
 
 		-- Magnetize compass when placing on a magnetic node
@@ -176,6 +215,7 @@ for c=0,7 do
 	   {
 	      description = d,
 	      _tt_help = t,
+	      _rp_canonical_item = "rp_nav:compass_0",
 
 	      inventory_image = inv_imgs[c],
 	      wield_image = wield_imgs[c],
@@ -193,6 +233,7 @@ for c=0,7 do
 	   {
 	      description = dm,
 	      _tt_help = tm,
+	      _rp_canonical_item = "rp_nav:magnocompass_0",
 
 	      inventory_image = inv_imgs_magno[c],
 	      wield_image = wield_imgs_magno[c],
