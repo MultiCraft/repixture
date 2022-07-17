@@ -200,15 +200,14 @@ minetest.register_entity(":__builtin:item", {
 		local pos = self.object:get_pos()
 		local node = minetest.get_node_or_nil(pos)
 
-		local def = node and minetest.registered_nodes[node.name]
-		-- Destroy item in damaging node (unless it has 'immortal_item' group set)
-		if def and def.damage_per_second > 0 then
+		-- Destroy item in 'destroys_items' nodes (unless the item has the 'immortal_item' group set)
+		if node and minetest.get_item_group(node.name, "destroys_items") == 1 then
 			if minetest.get_item_group(ItemStack(self.itemstring):get_name(), "immortal_item") == 0 then
 				if minetest.get_item_group(node.name, "lava") ~= 0 or minetest.get_item_group(node.name, "fire") ~= 0 then
 					minetest.sound_play("builtin_item_lava", {pos = pos, gain = 0.45})
 				end
 				add_item_death_particle(self)
-				minetest.log("action", "[rp_builtin_item] Item entity destroyed in damaging node at "..minetest.pos_to_string(pos))
+				minetest.log("action", "[rp_builtin_item] Item entity destroyed in item-destroying node at "..minetest.pos_to_string(pos))
 				self.object:remove()
 			return
 			end

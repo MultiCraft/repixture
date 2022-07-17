@@ -11,7 +11,7 @@ This is the list of all groups used for items. Note: If no number/rating is spec
 * `not_in_creative_inventory`: Item won't show up in Creative Inventory
 * `not_in_craft_guide`: Item won't show up in crafting guide
 * `no_item_drop`: This item can't exist as a dropped item on the ground. When dropping it, it is deleted instantly
-* `immortal_item`: In entity form, this item withstands damage and won't be destroyed by nodes that deal damage
+* `immortal_item`: In entity form, this item withstands damage and won't be destroyed by nodes with `destroys_items` group
 
 ## Creative categorization
 These groups are mainly used for a better item sorting in Creative Mode.
@@ -82,6 +82,7 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `interactive_node`: Node can be interacted with (excluding pure container nodes)
 * `no_spawn_allowed_on`: If set, players can not (initially) spawn on this block
 * `spawn_allowed_in`: If set, players can spawn into this block (note: this group is ignored for the 'air' and 'ignore' nodes)
+* `destroys_items`: If set, node will destroy any item that is inside this node (unless the item has `immortal_item` set)
 * `_attached_node_top=1`: Node attaches to the top of another node. If the node above disappears, the node itself detaches
 
 ### Node categorization
