@@ -22,7 +22,7 @@ local register_spikes = function(name, def)
 		move_resistance = move_resistance,
 		sunlight_propagates = false,
 		is_ground_content = false,
-		groups = { spikes = 1, disable_jump = disable_jump, attached_node = 1, cracky = 3, },
+		groups = { spikes = 1, disable_jump = disable_jump, attached_node = 1, cracky = 3, creative_decoblock = 1 },
 		damage_per_second = def.damage_per_second,
 		sounds = rp_sounds.node_sound_stone_defaults(),
 	}
