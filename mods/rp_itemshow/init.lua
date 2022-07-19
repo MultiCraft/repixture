@@ -119,10 +119,8 @@ local on_rightclick = function(pos, node, clicker, itemstack)
 	local inv = meta:get_inventory()
 	local creative = minetest.is_creative_enabled(name)
 	if not inv:get_stack("main", 1):is_empty() then
-		local dropped = drop_item(pos, node, creative)
-		if dropped then
-			minetest.sound_play({name="rp_itemshow_take_item", gain=0.5}, {pos=pos}, true)
-		end
+		drop_item(pos, node, creative)
+		minetest.sound_play({name="rp_itemshow_take_item", gain=0.5}, {pos=pos}, true)
 	else
 		if itemstack:is_empty() then
 			return itemstack
