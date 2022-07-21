@@ -44,6 +44,9 @@ function player_skins.get_skin(name)
 	end
 end
 
+-- The names of all skin components.
+-- Note: The 'blank' component is a special case in which no texture is added.
+--       If present, it MUST be the first one.
 local components = {
 	skin_colors = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" },
 	cloth_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" },
@@ -286,30 +289,72 @@ function player_skins.set_random_skin(name)
 		return false
 	end
 
+	-- Skin
 	local snum = math.random(1, #components.skin_colors)
 	local scol = components.skin_colors[snum]
 
+	-- Shirt
 	local cnum = math.random(1, #components.cloth_colors)
 	local ccol = components.cloth_colors[cnum]
 
-	local henum = math.random(1, #components.headband_colors)
-	local hecol = components.headband_colors[henum]
+	-- Headband
+	-- 50% chance for no headband (blank)
+	-- (similar for other components below)
+	local rnd = math.random(1, 2)
+	local henum, hecol
+	if rnd == 1 then
+		-- Component no. 1 is blank
+		henum = 1
+	else
+		henum = math.random(2, #components.headband_colors)
+	end
+	hecol = components.headband_colors[henum]
 
-	local wnum = math.random(1, #components.wristband_colors)
-	local wcol = components.wristband_colors[wnum]
+	-- Wristbands
+	rnd = math.random(1, 2)
+	local wnum, wcol
+	if rnd == 1 then
+		wnum = 1
+	else
+		wnum = math.random(2, #components.wristband_colors)
+	end
+	wcol = components.wristband_colors[wnum]
 
+	-- Shoes
 	local shnum = math.random(1, #components.shoe_colors)
 	local shcol = components.shoe_colors[shnum]
 
-	local bnum = math.random(1, #components.band_colors)
-	local bcol = components.band_colors[bnum]
+	-- Trousers
+	rnd = math.random(1, 2)
+	local bnum, bcol
+	if rnd == 1 then
+		bnum = 1
+	else
+		bnum = math.random(2, #components.band_colors)
+	end
+	bcol = components.band_colors[bnum]
 
-	local hnum = math.random(1, #components.hairs)
-	local hair = components.hairs[hnum]
+	-- Hair
+	rnd = math.random(1, 3)
+	local hnum, hair
+	if rnd == 1 then
+		hnum = 1
+	else
+		hnum = math.random(2, #components.hairs)
+	end
+	hair = components.hairs[hnum]
 
-	local benum = math.random(1, #components.beards)
-	local becol = components.beards[benum]
+	-- Beard
+	rnd = math.random(1, 2)
+	local benum, becol
+	if rnd == 1 then
+		benum = 1
+	else
+		benum = math.random(2, #components.beards)
+	end
+	becol = components.beards[benum]
 
+	-- Eyes
 	local enum = math.random(1, #components.eye_colors)
 	local ecol = components.eye_colors[enum]
 
