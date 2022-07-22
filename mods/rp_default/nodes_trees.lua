@@ -341,7 +341,7 @@ minetest.register_node(
       floodable = true,
       groups = {snappy = 3, handy = 3},
       sounds = rp_sounds.node_sound_defaults(),
-      drop = "rp_default:acorn",
+      drop = "rp_default:apple",
 })
 
 minetest.register_node(
