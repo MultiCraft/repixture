@@ -73,11 +73,11 @@ function player_skins.build_skin(skin, cloth, bands, hair, eyes, headband, wrist
 	table.insert(texes, "player_skins_skin_"..skin..".png")
 	table.insert(texes, "player_skins_eyes_"..eyes..".png")
 
-	if hair ~= "blank" then
-		table.insert(texes, "player_skins_hair_"..hair..".png")
-	end
 	if beard ~= "blank" then
 		table.insert(texes, "player_skins_beard_"..beard..".png")
+	end
+	if hair ~= "blank" then
+		table.insert(texes, "player_skins_hair_"..hair..".png")
 	end
 	table.insert(texes, "player_skins_clothes_"..cloth..".png")
 	table.insert(texes, "player_skins_bands_"..bands..".png")
