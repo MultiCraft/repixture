@@ -44,6 +44,9 @@ function player_skins.get_skin(name)
 	end
 end
 
+-- The names of all skin components.
+-- Note: The 'blank' component is a special case in which no texture is added.
+--       If present, it MUST be the first one.
 local components = {
 	skin_colors = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" },
 	cloth_colors = { "red", "redviolet", "magenta", "purple", "blue", "cyan", "green", "yellow", "orange" },
@@ -56,19 +59,26 @@ local components = {
 		"beard_brown", "beard_dark_brown", "beard_silver", "beard_black", "beard_red", "beard_orange",
 		"short_brown", "short_dark_brown", "short_silver", "short_black", "short_red", "short_orange",
 	},
+	beards = {
+		"blank",
+		"chin_brown", "chin_dark_brown", "chin_silver", "chin_black", "chin_red", "chin_orange",
+		"mini_brown", "mini_dark_brown", "mini_silver", "mini_black", "mini_red", "mini_orange",
+	},
 	eye_colors = { "green", "blue", "brown" },
 }
 
-function player_skins.build_skin(skin, cloth, bands, hair, eyes, headband, wristbands, shoes)
+function player_skins.build_skin(skin, cloth, bands, hair, eyes, headband, wristbands, shoes, beard)
 
 	local texes = {}
 	table.insert(texes, "player_skins_skin_"..skin..".png")
 	table.insert(texes, "player_skins_eyes_"..eyes..".png")
 
+	if beard ~= "blank" then
+		table.insert(texes, "player_skins_beard_"..beard..".png")
+	end
 	if hair ~= "blank" then
 		table.insert(texes, "player_skins_hair_"..hair..".png")
 	end
-
 	table.insert(texes, "player_skins_clothes_"..cloth..".png")
 	table.insert(texes, "player_skins_bands_"..bands..".png")
 
@@ -87,9 +97,9 @@ end
 
 -- NOTE: Skin data is saved in player meta under player_skins:skindata
 -- in comma-separated list, in this order:
--- skin, eye, hair, cloth, bands, headband, wristbands, shoes
+-- skin, eye, hair, cloth, bands, headband, wristbands, shoes, beard
 
-function player_skins.set_skin(name, skin, cloth, bands, hair, eyes, headband, wristbands, shoes)
+function player_skins.set_skin(name, skin, cloth, bands, hair, eyes, headband, wristbands, shoes, beard)
 	local skindata = player_skins.skindata_ids[name]
 	if not skindata then
 		return false
@@ -106,6 +116,9 @@ function player_skins.set_skin(name, skin, cloth, bands, hair, eyes, headband, w
 	if not hair then
 		hair = components.hairs[skindata.hairs]
 	end
+	if not beard then
+		beard = components.beards[skindata.beards]
+	end
 	if not eyes then
 		eyes = components.eye_colors[skindata.eye_colors]
 	end
@@ -118,7 +131,7 @@ function player_skins.set_skin(name, skin, cloth, bands, hair, eyes, headband, w
 	if not shoes then
 		shoes = components.shoe_colors[skindata.shoe_colors]
 	end
-	local newskin = player_skins.build_skin(skin, cloth, bands, hair, eyes, headband, wristbands, shoes)
+	local newskin = player_skins.build_skin(skin, cloth, bands, hair, eyes, headband, wristbands, shoes, beard)
 	local player = minetest.get_player_by_name(name)
 	if not player then
 		return false
@@ -130,7 +143,7 @@ function player_skins.set_skin(name, skin, cloth, bands, hair, eyes, headband, w
 	-- Update internal data
 	player_skins.skins[name] = newskin
 	local meta = player:get_meta()
-	local metastring = skin..","..eyes..","..hair..","..cloth..","..bands..","..headband..","..wristbands..","..shoes
+	local metastring = skin..","..eyes..","..hair..","..cloth..","..bands..","..headband..","..wristbands..","..shoes..","..beard
 	meta:set_string("player_skins:skindata", metastring)
 
 	if minetest.global_exists("armor") then
@@ -150,7 +163,7 @@ local function on_joinplayer(player)
 	if skinstr ~= "" or legacy_skins[name] then
 		-- If no skin found in player meta, but a legacy skin (v.1.4.2 and before) is found,
 		-- use the legacy skin
-		local skin, eye, hair, cloth, bands, headband, wristbands, shoes
+		local skin, eye, hair, cloth, bands, headband, wristbands, shoes, beard
 		if skinstr == "" and legacy_skins[name] then
 			skin = "1"
 			eye = "green"
@@ -165,9 +178,11 @@ local function on_joinplayer(player)
 			if legacy_skin == "female" then
 				minetest.log("action", "[rp_player_skins] Converting legacy skin 'female' for player "..name)
 				hair = "short_brown"
+				beard = "mini_brown"
 			elseif legacy_skin == "male" then
 				minetest.log("action", "[rp_player_skins] Converting legacy skin 'male' for player "..name)
 				hair = "beard_brown"
+				beard = "chin_brown"
 			else
 				minetest.log("action", "[rp_player_skins] Unknown legacy skin '"..tostring(legacy_skin).."' detected for player "..name..", setting a random skin")
 				player_skins.set_random_skin(name)
@@ -184,6 +199,7 @@ local function on_joinplayer(player)
 			headband = skindata[6] or bands
 			wristbands = skindata[7] or bands
 			shoes = skindata[8] or cloth
+			beard = skindata[9] or "chin_brown"
 		end
 
 		-- Populate skindata_ids (needed for formspec to know which skin components are selected)
@@ -196,6 +212,7 @@ local function on_joinplayer(player)
 			headband_colors = headband,
 			wristband_colors = wristbands,
 			shoe_colors = shoes,
+			beards = beard,
 		}
 		for c,component in pairs(components) do
 			for i=1, #component do
@@ -206,7 +223,7 @@ local function on_joinplayer(player)
 		end
 
 		-- Set skin :-)
-		player_skins.set_skin(name, skin, cloth, bands, hair, eye, headband, wristbands, shoes)
+		player_skins.set_skin(name, skin, cloth, bands, hair, eye, headband, wristbands, shoes, beard)
 	else
 		-- No skin found, set a random one
 		minetest.log("action", "[rp_player_skins] Player "..name.." appears to be new, setting initial random skin")
@@ -226,10 +243,11 @@ minetest.register_on_leaveplayer(on_leaveplayer)
 function player_skins.get_formspec(playername)
 	local form = rp_formspec.get_page("rp_default:default")
 	form = form .. "model[0.2,0.2;4.6,9.2;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0]"
-	form = form .. rp_formspec.button(4.5, 0.3, 3, 1, "player_skins_skin_select_headband_colors", S("Headband"))
-	form = form .. rp_formspec.button(4.5, 1.1, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
-	form = form .. rp_formspec.button(4.5, 1.9, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
-	form = form .. rp_formspec.button(4.5, 3.25, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
+	form = form .. rp_formspec.button(4.5, 0.2, 3, 1, "player_skins_skin_select_headband_colors", S("Headband"))
+	form = form .. rp_formspec.button(4.5, 1.0, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
+	form = form .. rp_formspec.button(4.5, 1.8, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
+	form = form .. rp_formspec.button(4.5, 2.55, 3, 1, "player_skins_skin_select_beards", S("Beard"))
+	form = form .. rp_formspec.button(4.5, 3.3, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
 	form = form .. rp_formspec.button(4.5, 4.25, 3, 1, "player_skins_skin_select_wristband_colors", S("Wristbands"))
 	form = form .. rp_formspec.button(4.5, 5.25, 3, 1, "player_skins_skin_select_band_colors", S("Trousers"))
 	form = form .. rp_formspec.button(4.5, 6.25, 3, 1, "player_skins_skin_select_skin_colors", S("Skin"))
@@ -245,7 +263,7 @@ minetest.register_on_player_receive_fields(function(player, form_name, fields)
 		player_skins.set_random_skin(name)
 		changed = true
 	else
-		local checks = {"hairs", "eye_colors", "cloth_colors", "band_colors", "skin_colors", "headband_colors", "wristband_colors", "shoe_colors"}
+		local checks = {"hairs", "beards", "eye_colors", "cloth_colors", "band_colors", "skin_colors", "headband_colors", "wristband_colors", "shoe_colors"}
 		for c=1, #checks do
 			local check = checks[c]
 			if fields["player_skins_skin_select_"..check] then
@@ -271,27 +289,72 @@ function player_skins.set_random_skin(name)
 		return false
 	end
 
+	-- Skin
 	local snum = math.random(1, #components.skin_colors)
 	local scol = components.skin_colors[snum]
 
+	-- Shirt
 	local cnum = math.random(1, #components.cloth_colors)
 	local ccol = components.cloth_colors[cnum]
 
-	local henum = math.random(1, #components.headband_colors)
-	local hecol = components.headband_colors[henum]
+	-- Headband
+	-- 50% chance for no headband (blank)
+	-- (similar for other components below)
+	local rnd = math.random(1, 2)
+	local henum, hecol
+	if rnd == 1 then
+		-- Component no. 1 is blank
+		henum = 1
+	else
+		henum = math.random(2, #components.headband_colors)
+	end
+	hecol = components.headband_colors[henum]
 
-	local wnum = math.random(1, #components.wristband_colors)
-	local wcol = components.wristband_colors[wnum]
+	-- Wristbands
+	rnd = math.random(1, 2)
+	local wnum, wcol
+	if rnd == 1 then
+		wnum = 1
+	else
+		wnum = math.random(2, #components.wristband_colors)
+	end
+	wcol = components.wristband_colors[wnum]
 
+	-- Shoes
 	local shnum = math.random(1, #components.shoe_colors)
 	local shcol = components.shoe_colors[shnum]
 
-	local bnum = math.random(1, #components.band_colors)
-	local bcol = components.band_colors[bnum]
+	-- Trousers
+	rnd = math.random(1, 2)
+	local bnum, bcol
+	if rnd == 1 then
+		bnum = 1
+	else
+		bnum = math.random(2, #components.band_colors)
+	end
+	bcol = components.band_colors[bnum]
 
-	local hnum = math.random(1, #components.hairs)
-	local hair = components.hairs[hnum]
+	-- Hair
+	rnd = math.random(1, 3)
+	local hnum, hair
+	if rnd == 1 then
+		hnum = 1
+	else
+		hnum = math.random(2, #components.hairs)
+	end
+	hair = components.hairs[hnum]
 
+	-- Beard
+	rnd = math.random(1, 2)
+	local benum, becol
+	if rnd == 1 then
+		benum = 1
+	else
+		benum = math.random(2, #components.beards)
+	end
+	becol = components.beards[benum]
+
+	-- Eyes
 	local enum = math.random(1, #components.eye_colors)
 	local ecol = components.eye_colors[enum]
 
@@ -302,7 +365,8 @@ function player_skins.set_random_skin(name)
 	player_skins.skindata_ids[name].shoe_colors = shnum
 	player_skins.skindata_ids[name].band_colors = bnum
 	player_skins.skindata_ids[name].hairs = hnum
+	player_skins.skindata_ids[name].beards = benum
 	player_skins.skindata_ids[name].eye_colors = enum
 
-	player_skins.set_skin(name, scol, ccol, bcol, hair, ecol, hecol, wcol, shcol)
+	player_skins.set_skin(name, scol, ccol, bcol, hair, ecol, hecol, wcol, shcol, becol)
 end
