@@ -216,9 +216,9 @@ for c=0,7 do
 			else
 				local nodedef = minetest.registered_nodes[node.name]
 				local nodeyaw = 0
-				if nodedef and nodedef.paramtype2 == "wallmounted" or nodedef.paramtype2 == "colorwallmounted" then
+				if nodedef and (nodedef.paramtype2 == "wallmounted" or nodedef.paramtype2 == "colorwallmounted") then
 					nodeyaw = minetest.dir_to_yaw(minetest.wallmounted_to_dir(node.param2))
-				elseif nodedef and nodedef.paramtype2 == "facedir" or nodedef.paramtype2 == "colorfacedir" then
+				elseif nodedef and (nodedef.paramtype2 == "facedir" or nodedef.paramtype2 == "colorfacedir") then
 					nodeyaw = minetest.dir_to_yaw(minetest.facedir_to_dir(node.param2))
 				end
 				-- Special case: Item frame. Add a little offset for nodepos as
