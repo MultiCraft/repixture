@@ -58,6 +58,8 @@ local components = {
 		"blank",
 		"beard_brown", "beard_dark_brown", "beard_silver", "beard_black", "beard_red", "beard_orange",
 		"short_brown", "short_dark_brown", "short_silver", "short_black", "short_red", "short_orange",
+		"spots_brown", "spots_dark_brown", "spots_silver", "spots_black", "spots_red", "spots_orange",
+		"rocker_brown", "rocker_dark_brown", "rocker_silver", "rocker_black", "rocker_red", "rocker_orange",
 	},
 	beards = {
 		"blank",
