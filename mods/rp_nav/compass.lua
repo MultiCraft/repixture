@@ -286,6 +286,8 @@ for c=0,7 do
 			if vector.distance(mpos, ppos) < 0.1 then
 				place_item = "rp_nav:magnocompass_rotating"
 			end
+		else
+			place_item = "rp_nav:compass_0"
 		end
 
 		local node_floor = minetest.get_node(place_floor)
@@ -323,40 +325,58 @@ for c=0,7 do
 		return itemstack
 	end
 
-	local not_creative
-	if c ~= 0 then
-		not_creative = 1
+	if c == 0 then
+		-- Compass 0 points to North and is a placable node
+		minetest.register_node(
+		   "rp_nav:compass_0",
+		   {
+		      description = d,
+		      _tt_help = t,
+		      _rp_canonical_item = "rp_nav:compass_0",
+
+		      drawtype = "nodebox",
+		      walkable = false,
+		      node_box = compass_node_box,
+		      selection_box = compass_selection_box,
+		      paramtype = "light",
+		      sunlight_propagates = true,
+		      tiles = {
+			      node_imgs[c],
+			      "("..node_imgs[c]..")^[transformR180",
+			      "rp_nav_compass_side.png",
+		      },
+		      use_texture_alpha = "clip",
+		      sounds = rp_sounds.node_sound_defaults(),
+
+		      inventory_image = inv_imgs[c],
+		      wield_image = wield_imgs[c],
+
+		      node_placement_prediction = "",
+		      on_place = magnetize_on_place,
+
+		      groups = {nav_compass = 1, tool=1, attached_node=1, dig_immediate=3 },
+		      stack_max = 1,
+		})
+	else
+		-- Compass 1 and higher points to the other cardinal directions.
+		-- They aren't nodes since the placed compass must always
+		-- point North.
+		minetest.register_craftitem(
+		   "rp_nav:compass_"..c,
+		   {
+		      description = d,
+		      _tt_help = t,
+		      _rp_canonical_item = "rp_nav:compass_0",
+
+		      inventory_image = inv_imgs[c],
+		      wield_image = wield_imgs[c],
+
+		      on_place = magnetize_on_place,
+
+		      groups = {nav_compass = 1, tool=1, not_in_creative_inventory = 1 },
+		      stack_max = 1,
+		})
 	end
-	minetest.register_node(
-	   "rp_nav:compass_"..c,
-	   {
-	      description = d,
-	      _tt_help = t,
-	      _rp_canonical_item = "rp_nav:compass_0",
-
-              drawtype = "nodebox",
-	      walkable = false,
-	      node_box = compass_node_box,
-	      selection_box = compass_selection_box,
-              paramtype = "light",
-              sunlight_propagates = true,
-              tiles = {
-                      node_imgs[c],
-		      "("..node_imgs[c]..")^[transformR180",
-		      "rp_nav_compass_side.png",
-              },
-              use_texture_alpha = "clip",
-	      sounds = rp_sounds.node_sound_defaults(),
-
-	      inventory_image = inv_imgs[c],
-	      wield_image = wield_imgs[c],
-
-	      node_placement_prediction = "",
-	      on_place = magnetize_on_place,
-
-	      groups = {nav_compass = 1, tool=1, attached_node=1, dig_immediate=3, not_in_creative_inventory = not_creative },
-	      stack_max = 1,
-	})
 
         local after_dig_magnocompass = function(pos, oldnode, oldmetadata, digger)
                 local dname = ""
@@ -386,8 +406,9 @@ for c=0,7 do
                 minetest.add_item(pos, item)
         end
 
-	-- Magno compass, points to a position
-	not_creative = 1
+	-- Magno compass, points to a position.
+	-- Unlike the normal compass, all magnocompass directions are
+	-- placable nodes since a magno compass might point to any position.
 	minetest.register_node(
 	   "rp_nav:magnocompass_"..c,
 	   {
@@ -418,7 +439,7 @@ for c=0,7 do
 	      drop = "",
               after_dig_node = after_dig_magnocompass,
 
-	      groups = {nav_compass = 2, tool=1, attached_node=1, dig_immediate=3, not_in_creative_inventory = not_creative },
+	      groups = {nav_compass = 2, tool=1, attached_node=1, dig_immediate=3, not_in_creative_inventory = 1 },
 	      stack_max = 1,
 	})
 
