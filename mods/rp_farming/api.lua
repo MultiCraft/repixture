@@ -1,3 +1,4 @@
+local S = minetest.get_translator("rp_farming")
 
 --
 -- Farming and plant growing API
@@ -54,6 +55,84 @@ function farming.register_plant(name, plant)
    add_callbacks(name .. "_1")
    add_callbacks(name .. "_2")
    add_callbacks(name .. "_3")
+end
+
+function farming.register_plant_nodes(name, def)
+   local selbox = {
+      type = "fixed",
+      fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
+   }
+
+   local defs = {}
+   defs[1] = {
+         description = def.description_stage_1,
+         _tt_help = def.tooltip_stage_1,
+         drawtype = "plantlike",
+         tiles = {def.texture_prefix.."_1.png"},
+         inventory_image = def.texture_prefix.."_seed.png",
+         wield_image = def.texture_prefix.."_seed.png",
+         paramtype = "light",
+         waving = 1,
+         walkable = false,
+         floodable = true,
+         buildable_to = true,
+         is_ground_content = true,
+         drop = def.drop_stages[1],
+         selection_box = selbox,
+         groups = {snappy=3, handy=2, attached_node=1, seed=1, plant=1, farming_plant=1, ["plant_"..name]=1},
+         sounds=rp_sounds.node_sound_leaves_defaults(),
+         _rp_farming_plant_name = name,
+   }
+
+   for s=2, 4 do
+         defs[s] = {
+            description = S(def.description_general, s),
+            drawtype = "plantlike",
+            tiles = {def.texture_prefix.."_"..s..".png"},
+            inventory_image = def.texture_prefix.."_"..s..".png",
+            wield_image = def.texture_prefix.."_"..s..".png",
+            paramtype = "light",
+            waving = 1,
+            walkable = false,
+            floodable = true,
+            buildable_to = true,
+            is_ground_content = true,
+            drop = def.drop_stages[s],
+            selection_box = selbox,
+            groups = {snappy=3, handy=2, attached_node=1, plant=1, farming_plant=1, ["plant_"..name]=s, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+            sounds=rp_sounds.node_sound_leaves_defaults(),
+            _rp_farming_plant_name = name,
+      }
+   end
+
+   -- Add custom node definition additions
+   if def.stage_extras then
+      for e=1, 4 do
+         if def.stage_extras[e] then
+            local extra = def.stage_extras[e]
+	    for k,v in pairs(extra) do
+               defs[e][k] = v
+	    end
+	 end
+      end
+   end
+   -- Add custom group definition additions
+   if def.stage_extra_groups then
+      for e=1, 4 do
+         if def.stage_extra_groups[e] then
+            local extra = def.stage_extra_groups[e]
+	    for k,v in pairs(extra) do
+               defs[e].groups[k] = v
+	    end
+	 end
+      end
+   end
+
+   -- Register plants
+   for s=1, 4 do
+      minetest.register_node(name.."_"..s, defs[s])
+   end
+
 end
 
 function farming.begin_growing_plant(pos)

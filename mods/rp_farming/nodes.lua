@@ -1,210 +1,40 @@
 local S = minetest.get_translator("rp_farming")
+local N = function(s) return s end
 --
 -- Nodes
 --
 
-minetest.register_node(
-   "rp_farming:wheat_1",
-   {
-      description = S("Wheat Seed"),
-      _tt_help = S("Grows on dirt and swamp dirt; it likes water"),
-      drawtype = "plantlike",
-      tiles = {"farming_wheat_1.png"},
-      inventory_image = "farming_wheat_seed.png",
-      wield_image = "farming_wheat_seed.png",
-      paramtype = "light",
-      waving = 1,
-      walkable = false,
-      floodable = true,
-      buildable_to = true,
-      is_ground_content = true,
-      drop = {
-	 items = {
-	    {items = {"rp_farming:wheat"}, rarity = 3}
-	 }
+farming.register_plant_nodes("rp_farming:wheat", {
+   description_stage_1 = S("Wheat Seed"),
+   description_general = N("Wheat Plant (stage @1)"),
+   tooltip_stage_1 = S("Grows on dirt and swamp dirt; it likes water"),
+   texture_prefix = "farming_wheat",
+   drop_stages = {
+      [1] = {
+         items = {
+            {items = {"rp_farming:wheat"}, rarity = 3}
+         }
       },
-      selection_box = {
-	 type = "fixed",
-	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
+      [2] = {
+         items = {
+            {items = {"rp_farming:wheat"}, rarity = 2}
+         },
       },
-      groups = {snappy=3, handy=2, attached_node=1, seed=1, plant=1, farming_plant=1, plant_wheat=1},
-      sounds=rp_sounds.node_sound_leaves_defaults(),
-      _rp_farming_plant_name = "rp_farming:wheat",
-   }
-)
-
-minetest.register_node(
-   "rp_farming:wheat_2",
-   {
-      description = S("Wheat Plant (stage @1)", 2),
-      drawtype = "plantlike",
-      tiles = {"farming_wheat_2.png"},
-      inventory_image = "farming_wheat_2.png",
-      paramtype = "light",
-      waving = 1,
-      walkable = false,
-      floodable = true,
-      buildable_to = true,
-      is_ground_content = true,
-      drop = {
-	 items = {
-	    {items = {"rp_farming:wheat"}, rarity = 2}
-	 }
+      [3] = {
+         items = {
+            {items = {"rp_farming:wheat"}, rarity = 1}
+         },
       },
-      selection_box = {
-	 type = "fixed",
-	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
+      [4] = {
+         items = {
+            {items = {"rp_farming:wheat"}, rarity = 1},
+            {items = {"rp_farming:wheat 2"}, rarity = 4},
+            {items = {"rp_farming:wheat_1"}, rarity = 1},
+            {items = {"rp_farming:wheat_1"}, rarity = 2},
+         }
       },
-      groups = {snappy=3, handy=2, attached_node=1, plant=1, farming_plant=1, plant_wheat=2, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=rp_sounds.node_sound_leaves_defaults(),
-      _rp_farming_plant_name = "rp_farming:wheat",
-   }
-)
-
-minetest.register_node(
-   "rp_farming:wheat_3",
-   {
-      description = S("Wheat Plant (stage @1)", 3),
-      drawtype = "plantlike",
-      tiles = {"farming_wheat_3.png"},
-      inventory_image = "farming_wheat_3.png",
-      paramtype = "light",
-      waving = 1,
-      walkable = false,
-      floodable = true,
-      buildable_to = true,
-      is_ground_content = true,
-      drop = {
-	 items = {
-	    {items = {"rp_farming:wheat"}, rarity = 1}
-	 }
-      },
-      selection_box = {
-	 type = "fixed",
-	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
-      },
-      groups = {snappy=3, handy=2, attached_node=1, plant=1, farming_plant=1, plant_wheat=3, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=rp_sounds.node_sound_leaves_defaults(),
-      _rp_farming_plant_name = "rp_farming:wheat",
-   }
-)
-
-minetest.register_node(
-   "rp_farming:wheat_4",
-   {
-      description = S("Wheat Plant (stage @1)", 4),
-      drawtype = "plantlike",
-      tiles = {"farming_wheat_4.png"},
-      inventory_image = "farming_wheat_4.png",
-      paramtype = "light",
-      waving = 1,
-      walkable = false,
-      floodable = true,
-      buildable_to = true,
-      is_ground_content = true,
-      drop = {
-	 items = {
-	    {items = {"rp_farming:wheat"}, rarity = 1},
-	    {items = {"rp_farming:wheat 2"}, rarity = 4},
-	    {items = {"rp_farming:wheat_1"}, rarity = 1},
-	    {items = {"rp_farming:wheat_1"}, rarity = 2},
-	 }
-      },
-      selection_box = {
-	 type = "fixed",
-	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
-      },
-      groups = {snappy=3, handy=2, attached_node=1, plant=1, farming_plant=1, plant_wheat=4, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=rp_sounds.node_sound_leaves_defaults(),
-      _rp_farming_plant_name = "rp_farming:wheat",
-   }
-)
-
-minetest.register_node(
-   "rp_farming:cotton_1",
-   {
-      description = S("Cotton Seed"),
-      _tt_help = S("Grows on dirt, swamp dirt, dry dirt and sand; it likes water"),
-      drawtype = "plantlike",
-      tiles = {"farming_cotton_1.png"},
-      inventory_image = "farming_cotton_seed.png",
-      wield_image = "farming_cotton_seed.png",
-      paramtype = "light",
-      waving = 1,
-      walkable = false,
-      floodable = true,
-      buildable_to = true,
-      is_ground_content = true,
-      drop = {
-	 items = {
-	    {items = {"rp_farming:cotton"}, rarity = 3}
-	 }
-      },
-      selection_box = {
-	 type = "fixed",
-	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
-      },
-      groups = {snappy=3, handy=2, attached_node=1, plant=1, farming_plant=1, plant_cotton=1, seed=1},
-      sounds=rp_sounds.node_sound_leaves_defaults(),
-      _rp_farming_plant_name = "rp_farming:cotton",
-   }
-)
-
-minetest.register_node(
-   "rp_farming:cotton_2",
-   {
-      description = S("Cotton Plant (stage @1)", 2),
-      drawtype = "plantlike",
-      tiles = {"farming_cotton_2.png"},
-      inventory_image = "farming_cotton_2.png",
-      paramtype = "light",
-      waving = 1,
-      walkable = false,
-      floodable = true,
-      buildable_to = true,
-      is_ground_content = true,
-      drop = {
-	 items = {
-	    {items = {"rp_farming:cotton"}, rarity = 2}
-	 }
-      },
-      selection_box = {
-	 type = "fixed",
-	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
-      },
-      groups = {snappy=3, handy=2, attached_node=1, plant=1, farming_plant=1, plant_cotton=2, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=rp_sounds.node_sound_leaves_defaults(),
-      _rp_farming_plant_name = "rp_farming:cotton",
-   }
-)
-
-minetest.register_node(
-   "rp_farming:cotton_3",
-   {
-      description = S("Cotton Plant (stage @1)", 3),
-      drawtype = "plantlike",
-      tiles = {"farming_cotton_3.png"},
-      inventory_image = "farming_cotton_3.png",
-      paramtype = "light",
-      waving = 1,
-      walkable = false,
-      floodable = true,
-      buildable_to = true,
-      is_ground_content = true,
-      drop = {
-	 items = {
-	    {items = {"rp_farming:cotton"}, rarity = 1}
-	 }
-      },
-      selection_box = {
-	 type = "fixed",
-	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
-      },
-      groups = {snappy=3, handy=2, attached_node=1, plant=1, farming_plant=1, plant_cotton=3, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds=rp_sounds.node_sound_leaves_defaults(),
-      _rp_farming_plant_name = "rp_farming:cotton",
-   }
-)
+   },
+})
 
 local trim_cotton = function(pos, node, player, tool)
    -- This cuts down the cotton plant to stage 1 and might drop some bonus goodies
@@ -242,40 +72,49 @@ local trim_cotton = function(pos, node, player, tool)
    return tool
 end
 
-minetest.register_node(
-   "rp_farming:cotton_4",
-   {
-      description = S("Cotton Plant (stage @1)", 4),
-      drawtype = "plantlike",
-      tiles = {"farming_cotton_4.png"},
-      inventory_image = "farming_cotton_4.png",
-      paramtype = "light",
-      waving = 1,
-      walkable = false,
-      floodable = true,
-      buildable_to = true,
-      is_ground_content = true,
-      drop = {
-	 items = {
-	    {items = {"rp_farming:cotton"}, rarity = 1},
-	    {items = {"rp_farming:cotton 2"}, rarity = 4},
-	    {items = {"rp_farming:cotton_1"}, rarity = 1},
-	    {items = {"rp_farming:cotton_1"}, rarity = 2},
-	 }
+farming.register_plant_nodes("rp_farming:cotton", {
+   description_stage_1 = S("Cotton Seed"),
+   description_general = N("Cotton Plant (stage @1)"),
+   tooltip_stage_1 = S("Grows on dirt, swamp dirt, dry dirt and sand; it likes water"),
+   texture_prefix = "farming_cotton",
+   drop_stages = {
+      [1] = {
+         items = {
+            {items = {"rp_farming:cotton"}, rarity = 3}
+         }
       },
-      selection_box = {
-	 type = "fixed",
-	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
+      [2] = {
+         items = {
+            {items = {"rp_farming:cotton"}, rarity = 2}
+         },
       },
-      -- Last-stage cotton has special group 'unmagnetic'
-      groups = {snappy=3, handy=2, attached_node=1, plant=1, farming_plant=1, plant_cotton=4, unmagnetic=1, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
-      _rp_farming_plant_name = "rp_farming:cotton",
+      [3] = {
+         items = {
+            {items = {"rp_farming:cotton"}, rarity = 1}
+         },
+      },
+      [4] = {
+         items = {
+            {items = {"rp_farming:cotton"}, rarity = 1},
+            {items = {"rp_farming:cotton 2"}, rarity = 4},
+            {items = {"rp_farming:cotton_1"}, rarity = 1},
+            {items = {"rp_farming:cotton_1"}, rarity = 2},
+         }
+      },
+   },
+   stage_extras = {
+      [4] = {
+         _on_trim = trim_cotton,
+      },
+   },
+   stage_extra_groups = {
+      [4] = {
+         unmagnetic = 1,
+      },
+   },
 
-      -- Trim cotton with shears
-      _on_trim = trim_cotton,
-   }
-)
+})
+
 
 minetest.register_node(
    "rp_farming:cotton_bale",
