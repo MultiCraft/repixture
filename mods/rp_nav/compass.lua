@@ -291,7 +291,8 @@ for c=0,7 do
 		end
 
 		local node_floor = minetest.get_node(place_floor)
-		if minetest.get_item_group(node_floor.name, "attached_node") == 1 then
+		local def_floor = minetest.registered_nodes[node_floor.name]
+		if (not def_floor) or (not def_floor.walkable) or minetest.get_item_group(node_floor.name, "attached_node") == 1 then
 			return itemstack
 		end
 		-- Place node
