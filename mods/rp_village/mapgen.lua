@@ -30,15 +30,20 @@ local check_priv = function(player)
 end
 
 local place_entity_spawner = function(itemstack, placer, pointed_thing)
-    if not check_priv(placer) then
-        return itemstack
-    end
     if pointed_thing.type ~= "node" then
        return itemstack
     end
     if util.handle_node_protection(placer, pointed_thing) then
        return itemstack
     end
+    local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+    if handled then
+       return handled_itemstack
+    end
+    if not check_priv(placer) then
+        return itemstack
+    end
+
     local place_pos
     itemstack, place_pos = minetest.item_place(itemstack, placer, pointed_thing)
     if placer and placer:is_player() then
@@ -124,13 +129,17 @@ local village_info = {
 }
 
 local use_village_spawner = function(itemstack, placer, pointed_thing)
-    if not check_priv(placer) then
-       return itemstack
-    end
     if not pointed_thing.type == "node" then
        return itemstack
     end
     if util.handle_node_protection(placer, pointed_thing) then
+       return itemstack
+    end
+    local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+    if handled then
+       return handled_itemstack
+    end
+    if not check_priv(placer) then
        return itemstack
     end
 

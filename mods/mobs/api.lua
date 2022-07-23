@@ -1630,13 +1630,17 @@ function mobs:register_egg(mobname, desc, background)
          inventory_image = invimg,
          groups = { spawn_egg = 1 },
          on_place = function(itemstack, placer, pointed_thing)
+            local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+            if handled then
+               return handled_itemstack
+            end
             local pname = placer:get_player_name()
             if peaceful_only and minetest.registered_entities[mobname].type == "monster" then
                minetest.chat_send_player(pname, minetest.colorize("#FFFF00", S("Hostile mobs are disabled!")))
                return itemstack
             end
-            local pos = pointed_thing.above
-            if pointed_thing.above then
+            if pointed_thing.type == "node" then
+               local pos = pointed_thing.above
                if minetest.is_protected(pos, pname) and
                        not minetest.check_player_privs(placer, "protection_bypass") then
                    minetest.record_protection_violation(pos, pname)
