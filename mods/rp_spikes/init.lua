@@ -9,6 +9,12 @@ local register_spikes = function(name, def)
 	if def.move_resistance then
 		move_resistance = def.move_resistance
 	end
+	local groups = { spikes = 1, disable_jump = disable_jump, attached_node = 1, cracky = 3, creative_decoblock = 1 }
+	if def.groups_plus then
+		for k,v in pairs(def.groups_plus) do
+			groups[k] = v
+		end
+	end
 	local spikedef = {
 		description = def.description,
 		drawtype = "plantlike",
@@ -22,7 +28,7 @@ local register_spikes = function(name, def)
 		move_resistance = move_resistance,
 		sunlight_propagates = false,
 		is_ground_content = false,
-		groups = { spikes = 1, disable_jump = disable_jump, attached_node = 1, cracky = 3, creative_decoblock = 1 },
+		groups = groups,
 		damage_per_second = def.damage_per_second,
 		sounds = rp_sounds.node_sound_stone_defaults(),
 	}
@@ -53,6 +59,7 @@ register_spikes("rp_spikes:spikes_wrought_iron", {
 	image = "rp_spikes_spikes_wrought_iron_inventory.png",
 	damage_per_second = 3,
 	craftitem = "rp_default:ingot_wrought_iron",
+	groups_plus = { magnetic = 1 },
 })
 register_spikes("rp_spikes:spikes_steel", {
 	description = S("Steel Spikes"),
