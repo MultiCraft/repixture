@@ -30,6 +30,7 @@ These are the arguments (note that most arguments are required):
    * `tooltip_stage_1`: Translatable tooltip for the stage 1 node (describe here how the seed grows)
    * `description_general`: Description for other stage nodes (2-4). This string must have "@1" in it which will be replaced with the stage number.
      The recommended writing style is `"Whatever Plant (stage @1)"`.
+   * `meshoptions`: If set, set the `paramtype2` to `"meshoptions"` and `place_param2` to the value of this argument
    * `drop_stages`: Optional. Table indexed by stage. Each of these keys has a value which is an optional node drop definition table.
    * `stage_extras`: Optional. Table indexed by stage numbers. Each of these keys has a table as a value. In that table, you can list
      things you would like to add to a node definition table for that stage, for example, adding `walkable = true`.

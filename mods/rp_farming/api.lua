@@ -62,6 +62,11 @@ function farming.register_plant_nodes(name, def)
       type = "fixed",
       fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
    }
+   local paramtype2, place_param2
+   if def.meshoptions then
+      paramtype2 = "meshoptions"
+      place_param2 = def.meshoptions
+   end
 
    local defs = {}
    defs[1] = {
@@ -72,6 +77,8 @@ function farming.register_plant_nodes(name, def)
          inventory_image = def.texture_prefix.."_seed.png",
          wield_image = def.texture_prefix.."_seed.png",
          paramtype = "light",
+         paramtype2 = paramtype2,
+         place_param2 = place_param2,
          waving = 1,
          walkable = false,
          floodable = true,
@@ -92,6 +99,8 @@ function farming.register_plant_nodes(name, def)
             inventory_image = def.texture_prefix.."_"..s..".png",
             wield_image = def.texture_prefix.."_"..s..".png",
             paramtype = "light",
+            paramtype2 = paramtype2,
+            place_param2 = place_param2,
             waving = 1,
             walkable = false,
             floodable = true,
@@ -190,15 +199,16 @@ end
 -- Returns true if plant has grown, false if not (e.g. because of max stage)
 function farming.next_stage(pos, plant_name)
    local my_node = minetest.get_node(pos)
+   local p2 = my_node.param2
 
    if my_node.name == plant_name .. "_1" then
-      minetest.set_node(pos, {name = plant_name .. "_2"})
+      minetest.set_node(pos, {name = plant_name .. "_2", param2 = p2})
       return true
    elseif my_node.name == plant_name .. "_2" then
-      minetest.set_node(pos, {name = plant_name .. "_3"})
+      minetest.set_node(pos, {name = plant_name .. "_3", param2 = p2})
       return true
    elseif my_node.name == plant_name .. "_3" then
-      minetest.set_node(pos, {name = plant_name .. "_4"})
+      minetest.set_node(pos, {name = plant_name .. "_4", param2 = p2})
 
       -- Stop the timer on the node so no more growing occurs until needed
 
