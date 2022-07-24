@@ -16,6 +16,18 @@ farming.register_plant(
 )
 
 farming.register_plant(
+   "rp_farming:potato",
+   {
+      grow_time = 600,
+      grows_near = {"group:water"},
+      growing_distance = 2,
+      grows_on = {"group:plantable_soil"},
+      light_min = 8,
+      light_max = 15,
+   }
+)
+
+farming.register_plant(
    "rp_farming:cotton",
    {
       grow_time = 780,

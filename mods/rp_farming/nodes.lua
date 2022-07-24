@@ -4,6 +4,7 @@ local N = function(s) return s end
 -- Nodes
 --
 
+-- Wheat
 farming.register_plant_nodes("rp_farming:wheat", {
    description_stage_1 = S("Wheat Seed"),
    description_general = N("Wheat Plant (stage @1)"),
@@ -36,6 +37,58 @@ farming.register_plant_nodes("rp_farming:wheat", {
    },
 })
 
+-- Potato
+farming.register_plant_nodes("rp_farming:potato", {
+   description_stage_1 = S("Potato"),
+   description_general = N("Potato Plant (stage @1)"),
+   tooltip_stage_1 = S("Grows on dirt and swamp dirt; it likes water"),
+   texture_prefix = "farming_potato",
+   meshoptions = 1,
+   drop_stages = {
+      [1] = {
+         items = {
+            {items = {"rp_farming:potato_1"}, rarity = 1}
+         }
+      },
+      [2] = {
+         items = {
+            {items = {"rp_farming:potato_1"}, rarity = 1}
+         },
+      },
+      [3] = {
+         items = {
+            {items = {"rp_farming:potato_1"}, rarity = 1}
+         },
+      },
+      [4] = {
+         items = {
+            {items = {"rp_farming:potato_1"}, rarity = 1},
+            {items = {"rp_farming:potato_1"}, rarity = 4},
+            {items = {"rp_farming:potato_1"}, rarity = 4},
+            {items = {"rp_farming:potato_1"}, rarity = 4},
+         }
+      },
+   },
+
+   stage_extras = {
+      [1] = {
+         _tt_food = true,
+         _tt_food_hp = 3,
+         _tt_food_satiation = 30,
+         on_use = minetest.item_eat({hp = 3, sat = 30}),
+      },
+   },
+   stage_extra_groups = {
+      [1] = {
+         food = 2,
+      },
+   },
+
+})
+
+
+
+-- Cotton
 local trim_cotton = function(pos, node, player, tool)
    -- This cuts down the cotton plant to stage 1 and might drop some bonus goodies
 
