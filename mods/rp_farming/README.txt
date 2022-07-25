@@ -9,7 +9,11 @@ When they become stage 4, they can be harvested.
 
 See `API.md`
 
-## Licensing
+## Licensing and credits
 
 Media license: CC BY-SA 4.0
+  * Authors for all textures except potato: Kaadmy
+  * Authoor for all potato textures: Auke Kok (sofar) <sofar@foo-projects.org>
+
 Source code license: LGPLv2.1
+  * Coders: Kaadmy and Wuzzy
