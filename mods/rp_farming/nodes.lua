@@ -62,9 +62,10 @@ farming.register_plant_nodes("rp_farming:potato", {
       },
       [4] = {
          items = {
-            {items = {"rp_farming:potato_1"}, rarity = 1},
-            {items = {"rp_farming:potato_1"}, rarity = 4},
-            {items = {"rp_farming:potato_1"}, rarity = 4},
+            -- 2-5 potatos
+            {items = {"rp_farming:potato_1 2"}, rarity = 1},
+            {items = {"rp_farming:potato_1"}, rarity = 2},
+            {items = {"rp_farming:potato_1"}, rarity = 3},
             {items = {"rp_farming:potato_1"}, rarity = 4},
          }
       },
