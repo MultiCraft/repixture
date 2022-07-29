@@ -18,10 +18,12 @@ if minetest.get_modpath("mobs") ~= nil then
    gold.trades["farmer"] = {
       -- seeds/plants
       {"rp_gold:ingot_gold", "", "rp_farming:wheat_1 6"},
-      {"rp_gold:ingot_gold 3", "", "rp_farming:cotton_1 4"},
-      {"rp_gold:ingot_gold 5", "", "rp_farming:cotton_1 8"},
+      {"rp_gold:ingot_gold", "", "rp_farming:potato_1 7"},
+      {"rp_gold:ingot_gold", "", "rp_farming:cotton_1 2"},
       {"rp_gold:ingot_gold", "", "rp_default:papyrus 4"},
-      {"rp_gold:ingot_gold 2", "", "rp_default:cactus"},
+      {"rp_gold:ingot_gold 2", "", "rp_farming:carrot_1"},
+      {"rp_gold:ingot_gold 2", "", "rp_farming:asparagus_1"},
+      {"rp_gold:ingot_gold 3", "", "rp_default:cactus"},
 
       -- crafts
       {"rp_gold:ingot_gold 2", "", "rp_farming:cotton_bale 1"},
@@ -133,6 +135,9 @@ if minetest.get_modpath("mobs") ~= nil then
    table.insert(gold.trades["farmer"], {"rp_default:apple 12", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["farmer"], {"rp_default:flower 10", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["farmer"], {"rp_default:fern 10", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["farmer"], {"rp_farming:carrot_1 10", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["farmer"], {"rp_farming:asparagus_1 12", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["farmer"], {"rp_farming:potato_1 14", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["farmer"], {"rp_default:lump_sulfur 6", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["farmer"], {"rp_default:thistle 13", "", "rp_gold:ingot_gold"})
 
