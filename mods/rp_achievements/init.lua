@@ -4,6 +4,8 @@
 
 local COLOR_GOTTEN = "#00FF00"
 local COLOR_GOTTEN_MSG = "#00FF00"
+local COLOR_REVERT_MSG = "#FFFF00"
+local MSG_PRE = "*** "
 
 local S = minetest.get_translator("rp_achievements")
 
@@ -171,6 +173,7 @@ local function check_achievement_gotten(player, aname)
          >= achievements.registered_achievements[aname].times and
 	 check_achievement_subconditions(player, aname) then
 
+      -- The state of -1 means the achievement has been completed
       states[aname] = -1
       set_achievement_states(player, states)
       minetest.after(
@@ -182,7 +185,7 @@ local function check_achievement_gotten(player, aname)
                minetest.chat_send_all(
                   minetest.colorize(
                      COLOR_GOTTEN_MSG,
-                     "*** " .. S("@1 has earned the achievement “@2”.",
+                     MSG_PRE .. S("@1 has earned the achievement “@2”.",
                         name,
                         achievements.registered_achievements[aname].title)))
             else
@@ -190,7 +193,7 @@ local function check_achievement_gotten(player, aname)
                minetest.chat_send_player(name,
                   minetest.colorize(
                      COLOR_GOTTEN_MSG,
-                     "*** " .. S("You have earned the achievement “@1”.",
+                     MSG_PRE .. S("You have earned the achievement “@1”.",
                         achievements.registered_achievements[aname].title)))
             end
       end, name, aname)
@@ -341,6 +344,29 @@ local function on_joinplayer(player)
       -- Upgrade version to 1, so the player achievements in
       -- file will be ignored on the next join.
       meta:set_int("rp_achievements:version", 1)
+   end
+
+   -- Mark subcondition achievement that are marked as complete
+   -- as incomplete again if it no longer meets all subconditions.
+   -- This can happen if the player joins in a new version
+   -- with updated achievements.
+   local states = get_achievement_states(player)
+   local changed = false
+   local pname = player:get_player_name()
+   for aname, def in pairs(achievements.registered_achievements) do
+      if def.subconditions and states[aname] == -1 and not check_achievement_subconditions(player, aname) then
+         states[aname] = 0
+	 changed = true
+         -- Notify player about the new goals
+         minetest.chat_send_player(pname,
+            minetest.colorize(
+            COLOR_REVERT_MSG,
+            MSG_PRE .. S("The achievement “@1” has new goals.",
+            achievements.registered_achievements[aname].title)))
+      end
+   end
+   if changed then
+      set_achievement_states(player, states)
    end
 end
 
