@@ -100,7 +100,7 @@ Try placing it on different grounds. It might grow differently.=Probiere verschi
 Use this to trim plants and get wool from sheep.=Damit kannst du Pflanzen abschneiden und Wolle von Schafen erhalten.
 Papyrus likes to grow next to water.=Papyrus wächst gerne in der Nähe von Wasser.
 When I was I kid, I always liked to climb on the papyrus.=Als ich ein Kind war, kletterte ich gerne den Papyrus rauf.
-Cacti like to grow on sand. They are also a food source, if you're really desperate.=Kakteen wachsen am Besten auf dem Sand. Sie sind auch eine Nahrungsquelle, wenn du wirklich verzweifelt bist.
+Cacti grow best on sand. They are also a food source, if you're really desperate.=
 This is the secret ingredient for my special drink. But don't tell anyone!=Dies ist die Geheimzutat für meinen besonderen Drink. Aber sagt das keinem!
 Now what can you possibly do with a cactus? I don't know!=Was kann man nur mit einem Kaktus anstellen? Keine Ahnung!
 Jewels are great! If you have a jeweller's workbench, you can enhance your tools.=Juwelen sind großartig! Wenn du eine Juwelierswerkbank hast, kannst du deine Werkzeuge aufwerten!
@@ -117,8 +117,8 @@ For some reason, TNT can't be ignited. Strange.=Aus irgendeinem Grund kann TNT n
 Isn't it stressful to carry this heavy bed around?=Ist es nicht anstrengend, dieses schwere Bett mit dir herumzuschleppen?
 Sleeping makes the night go past in the blink of an eye.=Im Schlaf vergeht die Nacht wie im Fluge.
 Hole in dirt, put bronze in. Bell’s complete, bim, bim, bim!=Loch in Erde, Bronze rin. Glocke fertig, bim, bim, bim!
-Boars love to eat apples, too! If you feed enough of these to them, they will multiply.=Wildschweine lieben Äpfel ebenfalls! Wenn du sie ausreichend mit Äpfeln fütterst, werden sie sich vermehren.
 Apples are so tasty!=Äpfel sind so lecker!
+Boars love to eat acorns! If you feed enough of these to them, they will multiply.=
 Did you try to dry it in the furnace?=Hast du probiert, es im Ofen zu trocknen?
 Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized.=Viele Wildpflanzen so wie Weizen und Baumwolle wachsen auf Erde, aber sie wachsen besser, wenn sie gedüngt ist.
 You're dirty!=Du bist dreckig!
@@ -133,3 +133,9 @@ Stay healthy!=Bleib gesund!
 Sheep=Schaf
 Skunk=Stinktier
 Walker=Läufer
+
+
+##### not used anymore #####
+
+Cacti like to grow on sand. They are also a food source, if you're really desperate.=Kakteen wachsen am Besten auf dem Sand. Sie sind auch eine Nahrungsquelle, wenn du wirklich verzweifelt bist.
+Boars love to eat apples, too! If you feed enough of these to them, they will multiply.=Wildschweine lieben Äpfel ebenfalls! Wenn du sie ausreichend mit Äpfeln fütterst, werden sie sich vermehren.

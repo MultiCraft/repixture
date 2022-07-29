@@ -6,15 +6,17 @@ Craft a pickaxe.=Fertigen Sie eine Spitzhacke.
 Hardened Miner=Harte Bergarbeit
 Craft a carbon steel pickaxe.=Fertigen Sie eine Karbonstahlspitzhacke.
 Off to Battle=Auf in die Schlacht
-Craft a broadsword.=Fertigen Sie ein Breitschwert.
+Craft a weapon.=
 Mineority=Bergbaby
 Mine a stone.=Graben Sie einen Stein.
 Smelting Room=Schmelzraum
 Craft a furnace.=Fertigen Sie einen Ofen.
 Fertile=Fruchtbar
-Craft a bag of fertilizer.=Fertigen Sie einen Beutel mit Dünger.
+Use fertilizer to fertilize the ground.=
 Librarian=Bibliothekar
 Craft a bookshelf.=Fertigen Sie ein Bücherregal.
+Forester=
+Plant one of every sapling.=
 Explorer=Entdecker
 Visit all surface biomes.=Besuchen Sie alle Biome an der Oberfläche.
 Water Bucket=Wassereimer
@@ -240,3 +242,9 @@ Weak Torch=Schwache Fackel
 Provides a bit of light but it will eventually burn out=Leuchtet ein bisschen, aber sie wird bald ausbrennen
 Torch=Fackel
 It's bright and burns forever=Sie ist hell und brennt für immer
+
+
+##### not used anymore #####
+
+Craft a broadsword.=Fertigen Sie ein Breitschwert.
+Craft a bag of fertilizer.=Fertigen Sie einen Beutel mit Dünger.

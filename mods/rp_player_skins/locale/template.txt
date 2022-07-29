@@ -2,6 +2,7 @@
 Headband=
 Eyes=
 Hair=
+Beard=
 Shirt=
 Wristbands=
 Trousers=

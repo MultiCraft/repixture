@@ -6,3 +6,7 @@ Eating=Essen
 You're eating food, which slows you down=Sie essen etwas und sind langsamer
 Gourmet=Feinschmecker
 Eat everything that can be eaten.=Essen Sie alles, was man essen kann.
+Set hunger level of player or yourself=
+[<player>] <hunger>=
+Player is not online.=
+No player.=

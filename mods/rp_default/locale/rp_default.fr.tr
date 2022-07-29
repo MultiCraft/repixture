@@ -6,15 +6,17 @@ Craft a pickaxe.=Constuire une pioche.
 Hardened Miner=Mineur endurci
 Craft a carbon steel pickaxe.=Constuire une hache en acier carbone.
 Off to Battle=En route vers la bataille
-Craft a broadsword.=Constuire une épée.
+Craft a weapon.=
 Mineority=Minoritaire
 Mine a stone.=Miner une pierre.
 Smelting Room=Salle de fonte
 Craft a furnace.=Constuire un four.
 Fertile=Fertile
-Craft a bag of fertilizer.=Constuire un sac d'engrais.
+Use fertilizer to fertilize the ground.=
 Librarian=Bibliothécaire
 Craft a bookshelf.=Constuire une étagère.
+Forester=
+Plant one of every sapling.=
 Explorer=
 Visit all surface biomes.=
 Water Bucket=Seau d'eau
@@ -244,6 +246,8 @@ It's bright and burns forever=
 
 ##### not used anymore #####
 
+Craft a broadsword.=Constuire une épée.
+Craft a bag of fertilizer.=Constuire un sac d'engrais.
 Gardener=Jardinier
 Plant a flower.=Plantez une fleur.
 Dry Lands=Terres arides

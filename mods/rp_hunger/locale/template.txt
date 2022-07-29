@@ -6,3 +6,7 @@ Eating=
 You're eating food, which slows you down=
 Gourmet=
 Eat everything that can be eaten.=
+Set hunger level of player or yourself=
+[<player>] <hunger>=
+Player is not online.=
+No player.=

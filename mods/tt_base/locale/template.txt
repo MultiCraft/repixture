@@ -19,4 +19,5 @@ Climbable (only downwards)=
 Climbable=
 Slippery=
 Bouncy (@1%)=
+Luminance: @1-@2=
 Luminance: @1=
