@@ -152,9 +152,7 @@ minetest.register_craftitem(
 			  " to elapsed="..new_elapsed)
 	       end
                if placer and placer:is_player() then
-                  if minetest.get_item_group(above_soil_node.name, "plant") == 1 then
-                     achievements.trigger_achievement(placer, "fertile")
-                  end
+                  achievements.trigger_achievement(placer, "fertile")
                end
 	    end
          end

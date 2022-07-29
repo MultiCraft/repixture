@@ -76,7 +76,7 @@ achievements.register_achievement(
    "fertile",
    {
       title = S("Fertile"),
-      description = S("Use fertilizer to fertilize a plant."),
+      description = S("Use fertilizer to fertilize the ground."),
       times = 1,
       item_icon = "rp_default:fertilizer",
 })
