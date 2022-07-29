@@ -385,8 +385,10 @@ for _, npc_type_table in pairs(npc_types) do
                           -- Classic parody of Friedrich Schiller’s “Das Lied von der Glocke” (works best in German)
                           say(S("Hole in dirt, put bronze in. Bell’s complete, bim, bim, bim!"), name)
                       elseif iname == "rp_default:apple" then
+                          say(S("Apples are so tasty!"), name)
+                      elseif iname == "rp_default:acorn" then
                           if npc_type == "farmer" then
-                             say(S("Boars love to eat apples, too! If you feed enough of these to them, they will multiply."), name)
+                             say(S("Boars love to eat acorns! If you feed enough of these to them, they will multiply."), name)
                           else
                              say(S("Apples are so tasty!"), name)
                           end

@@ -33,7 +33,7 @@ mobs:register_mob(
       walk_velocity = 2,
       run_velocity = 3,
       jump = false,
-      follow = "rp_default:apple",
+      follow = "rp_default:acorn",
       view_range = 10,
       drops = {
 	 {name = "mobs:pork_raw",
