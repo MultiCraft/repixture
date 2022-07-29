@@ -365,7 +365,7 @@ minetest.register_node(
       description = S("Clam"),
       _tt_food = true,
       _tt_food_hp = 4,
-      _tt_food_satiation = 40,
+      _tt_food_satiation = 10,
       drawtype = "nodebox",
       tiles = {"default_clam.png"},
       use_texture_alpha = "clip",
@@ -390,7 +390,7 @@ minetest.register_node(
 	 }
       },
       groups = {fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, food = 2},
-      on_use = minetest.item_eat({hp = 4, sat = 40}),
+      on_use = minetest.item_eat({hp = 4, sat = 10}),
       sounds = rp_sounds.node_sound_defaults(),
 
       -- Place node as the 'nopearl' clam to make sure the player can't
