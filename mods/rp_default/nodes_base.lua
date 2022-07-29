@@ -119,8 +119,8 @@ minetest.register_node(
    {
       description = S("Coal Block"),
       tiles = {"default_block_coal.png"},
-      groups = {cracky = 3, oddly_breakable_by_hand = 3},
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      groups = {cracky = 3},
+      sounds = rp_sounds.node_sound_stone_defaults(),
 })
 
 minetest.register_node(
