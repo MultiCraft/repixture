@@ -12,8 +12,11 @@ See `API.md`
 ## Licensing and credits
 
 Media license: CC BY-SA 4.0
-  * Authors for all textures except potato: Kaadmy
-  * Authoor for all potato textures: Auke Kok (sofar) <sofar@foo-projects.org>, modified by Wuzzy
+  * Authors for all textures except those below: Kaadmy
+  * Author for all potato textures: Auke Kok (sofar) <sofar@foo-projects.org>, modified by Wuzzy
+  * Author for asparagus plant textures: TenPlus (onion textures, modified by Wuzzy)
+  * Author for asparagus textures: Wuzzy
+  * Author for all carrot textures: Gambit, modified by Wuzzy
 
 Source code license: LGPLv2.1
   * Coders: Kaadmy and Wuzzy

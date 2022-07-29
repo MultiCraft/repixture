@@ -213,7 +213,7 @@ minetest.register_node(
       description = S("Swamp Dirt"),
       tiles = {"default_swamp_dirt.png"},
       stack_max = 240,
-      groups = {crumbly = 3, soil = 1, dirt = 1, swamp_dirt = 1, plantable_soil = 1, fall_damage_add_percent = -10},
+      groups = {crumbly = 3, soil = 1, dirt = 1, swamp_dirt = 1, plantable_wet = 1, fall_damage_add_percent = -10},
       sounds = rp_sounds.node_sound_dirt_defaults(),
       _fertilized_node = "rp_default:fertilized_swamp_dirt",
 })
@@ -227,7 +227,7 @@ minetest.register_node(
          "default_dirt.png",
          "default_dirt.png^default_dry_grass_side.png"
       },
-      groups = {crumbly = 3, soil = 1, dirt = 1, normal_dirt = 1, plantable_sandy = 1, grass_cover = 1,
+      groups = {crumbly = 3, soil = 1, dirt = 1, normal_dirt = 1, plantable_soil = 1, grass_cover = 1,
                 fall_damage_add_percent = -5, not_in_craft_guide = 1},
       drop = {
 	 max_items = 3,
@@ -254,7 +254,7 @@ minetest.register_node(
          "default_swamp_dirt.png",
          "default_swamp_dirt.png^default_swamp_grass_side.png"
       },
-      groups = {crumbly = 3, soil = 1, dirt = 1, swamp_dirt = 1, plantable_soil = 1, grass_cover = 1,
+      groups = {crumbly = 3, soil = 1, dirt = 1, swamp_dirt = 1, plantable_wet = 1, grass_cover = 1,
                 fall_damage_add_percent = -10, not_in_craft_guide = 1},
       drop = {
 	 max_items = 3,

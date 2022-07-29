@@ -122,6 +122,7 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `item_showcase`: Item showcase
 
 * `plantable_dry`: You can plant farming plants on it and this node is considered to be dry
+* `plantable_wet`: You can plant farming plants on it and this node is considered to be wet
 * `plantable_sandy`: You can plant farming plants on it and this node is considered to be made out of sand
 * `plantable_soil`: You can plant farming plants on it and this node is considered to be "normal" soil
 * `plantable_fertilizer`: This node is fertilized

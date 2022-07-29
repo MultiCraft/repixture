@@ -1063,7 +1063,7 @@ minetest.register_abm( -- papyrus grows
    {
       label = "Growing papyrus",
       nodenames = {"rp_default:papyrus"},
-      neighbors = {"group:plantable_sandy", "group:plantable_soil"},
+      neighbors = {"group:plantable_sandy", "group:plantable_soil", "group:plantable_wet"},
       interval = 20,
       chance = 10,
       action = function(pos, node)
@@ -1073,7 +1073,7 @@ minetest.register_abm( -- papyrus grows
          -- Check underground first
          pos.y = pos.y-1
          local name = minetest.get_node(pos).name
-         if minetest.get_item_group(name, "plantable_sandy") == 0 and minetest.get_item_group(name, "plantable_soil") == 0 then
+         if minetest.get_item_group(name, "plantable_sandy") == 0 and minetest.get_item_group(name, "plantable_soil") == 0 and minetest.get_item_group(name, "plantable_wet") == 0 then
             return 0
 	 end
 

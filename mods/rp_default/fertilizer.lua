@@ -62,7 +62,7 @@ minetest.register_node(
 	 soil = 1,
 	 dirt = 1,
 	 swamp_dirt = 1,
-	 plantable_soil = 1,
+	 plantable_wet = 1,
 	 plantable_fertilizer = 1,
 	 fall_damage_add_percent = -10,
 	 not_in_craft_guide = 1,

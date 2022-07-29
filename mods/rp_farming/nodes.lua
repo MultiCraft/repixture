@@ -8,7 +8,7 @@ local N = function(s) return s end
 farming.register_plant_nodes("rp_farming:wheat", {
    description_stage_1 = S("Wheat Seed"),
    description_general = N("Wheat Plant (stage @1)"),
-   tooltip_stage_1 = S("Grows on dirt and swamp dirt; it likes water"),
+   tooltip_stage_1 = S("Grows on dirt; it likes water"),
    texture_prefix = "farming_wheat",
    drop_stages = {
       [1] = {
@@ -28,6 +28,7 @@ farming.register_plant_nodes("rp_farming:wheat", {
       },
       [4] = {
          items = {
+            -- 1-3 wheat, 1-2 wheat seed
             {items = {"rp_farming:wheat"}, rarity = 1},
             {items = {"rp_farming:wheat 2"}, rarity = 4},
             {items = {"rp_farming:wheat_1"}, rarity = 1},
@@ -62,15 +63,15 @@ farming.register_plant_nodes("rp_farming:potato", {
       },
       [4] = {
          items = {
-            -- 2-5 potatos
+            -- 2-4 potatos
             {items = {"rp_farming:potato_1 2"}, rarity = 1},
             {items = {"rp_farming:potato_1"}, rarity = 2},
-            {items = {"rp_farming:potato_1"}, rarity = 3},
-            {items = {"rp_farming:potato_1"}, rarity = 4},
+            {items = {"rp_farming:potato_1"}, rarity = 5},
          }
       },
    },
 
+   -- Potato is both a "seed" and food item at the same time
    stage_extras = {
       [1] = {
          _tt_food = true,
@@ -85,6 +86,94 @@ farming.register_plant_nodes("rp_farming:potato", {
       },
    },
 
+})
+
+-- Carrot
+farming.register_plant_nodes("rp_farming:carrot", {
+   description_stage_1 = S("Carrot"),
+   description_general = N("Carrot Plant (stage @1)"),
+   tooltip_stage_1 = S("Grows on dry dirt; it likes water"),
+   texture_prefix = "farming_carrot",
+   meshoptions = 2,
+   drop_stages = {
+      [1] = {
+         items = {
+            {items = {"rp_farming:carrot_1"}, rarity = 1}
+         }
+      },
+      [2] = {
+         items = {
+            {items = {"rp_farming:carrot_1"}, rarity = 1}
+         },
+      },
+      [3] = {
+         items = {
+            {items = {"rp_farming:carrot_1"}, rarity = 1}
+         },
+      },
+      [4] = {
+         items = {
+            -- 2-5 carrots
+            {items = {"rp_farming:carrot_1 2"}, rarity = 1},
+            {items = {"rp_farming:carrot_1"}, rarity = 2},
+            {items = {"rp_farming:carrot_1"}, rarity = 3},
+            {items = {"rp_farming:carrot_1"}, rarity = 4},
+         }
+      },
+   },
+
+   -- Carrot is both a "seed" and food item at the same time
+   stage_extras = {
+      [1] = {
+         _tt_food = true,
+         _tt_food_hp = 2,
+         _tt_food_satiation = 20,
+         on_use = minetest.item_eat({hp = 2, sat = 20}),
+      },
+   },
+   stage_extra_groups = {
+      [1] = {
+         food = 2,
+      },
+   },
+
+})
+
+-- Asparagus
+farming.register_plant_nodes("rp_farming:asparagus", {
+   description_stage_1 = S("Asparagus Seed"),
+   description_general = N("Asparagus Plant (stage @1)"),
+   tooltip_stage_1 = S("Grows on swamp dirt; it likes water"),
+   texture_prefix = "farming_asparagus",
+   drop_stages = {
+      [1] = {
+         items = {
+            {items = {"rp_farming:asparagus_1"}, rarity = 4}
+         }
+      },
+      [2] = {
+         items = {
+            {items = {"rp_farming:asparagus_1"}, rarity = 3}
+         },
+      },
+      [3] = {
+         items = {
+            {items = {"rp_farming:asparagus_1"}, rarity = 2}
+         },
+      },
+      [4] = {
+         items = {
+            -- 1-4 asparagus, 1-3 asparagus seed
+            {items = {"rp_farming:asparagus"}, rarity = 1},
+            {items = {"rp_farming:asparagus"}, rarity = 2},
+            {items = {"rp_farming:asparagus"}, rarity = 3},
+            {items = {"rp_farming:asparagus"}, rarity = 4},
+            {items = {"rp_farming:asparagus_1"}, rarity = 1},
+            {items = {"rp_farming:asparagus_1"}, rarity = 3},
+            {items = {"rp_farming:asparagus_1"}, rarity = 3},
+         }
+      },
+   },
 })
 
 
@@ -129,7 +218,7 @@ end
 farming.register_plant_nodes("rp_farming:cotton", {
    description_stage_1 = S("Cotton Seed"),
    description_general = N("Cotton Plant (stage @1)"),
-   tooltip_stage_1 = S("Grows on dirt, swamp dirt, dry dirt and sand; it likes water"),
+   tooltip_stage_1 = S("Grows on dirt, dry dirt and sand; it likes water"),
    texture_prefix = "farming_cotton",
    drop_stages = {
       [1] = {
@@ -149,6 +238,7 @@ farming.register_plant_nodes("rp_farming:cotton", {
       },
       [4] = {
          items = {
+            -- 1-3 cotton, 1-2 cotton seed
             {items = {"rp_farming:cotton"}, rarity = 1},
             {items = {"rp_farming:cotton 2"}, rarity = 4},
             {items = {"rp_farming:cotton_1"}, rarity = 1},
