@@ -86,6 +86,8 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `uses_canonical_compass`: This is used for nodes that can carry a compass. If this group is set, the compass will be
                             added to the node in "canonical" form, i.e. the needle always faces upwards. Otherwise,
                             the compass needle is adjusted according to the node position and rotation (wallmounted/facedir).
+* `seed`: A farming item that can be planted on the ground to spawn a plant that will grow over time.
+          Usually this is a seed, but it does not have to be.
 * `_attached_node_top=1`: Node attaches to the top of another node. If the node above disappears, the node itself detaches
 
 ### Node categorization
@@ -110,7 +112,6 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `sapling`: Sapling
 * `fern`: Fern
 * `flower`: Flower
-* `seed`: Seed
 * `seagrass`: Seagrass
 * `alga`: Alga
 
