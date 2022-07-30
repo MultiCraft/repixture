@@ -416,7 +416,7 @@ achievements.register_achievement(
    "true_mighty_weapon",
    {
       title = S("True Mighty Weapon"),
-      description = S("Use jewels to create a serrated broadsword."),
+      description = S("Use jewels to create a serrated jewel broadsword."),
       times = 1,
       item_icon = "rp_jewels:serrated_broadsword",
 })

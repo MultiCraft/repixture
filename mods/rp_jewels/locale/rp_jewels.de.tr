@@ -8,8 +8,8 @@ Tools can be upgraded with jewels here=Werkzeuge können hier mit Juwelen aufgew
 Jewel Ore=Juwelenerz
 Jeweler=Juwelier
 Jewel a tool.=Besetzen Sie ein Werkzeug mit einem Juwel.
-True Mighty Weapon=
-Use jewels to create a serrated broadsword.=
+True Mighty Weapon=Wahrhaft mächtige Waffe
+Use jewels to create a serrated jewel broadsword.=Benutzen Sie Juwelen, um ein gezacktes Juwelenbreitschwert zu erschaffen.
 Secret of Jewels=Juwelengeheimnis
 Discover the origin of jewels.=Entdecken Sie den Ursprung der Juwelen.
 Swift Jewel Steel Pickaxe=Schnelle Juwelenstahlspitzhacke
@@ -57,10 +57,6 @@ Durable Jewel Bronze Shears=Haltbare Juwelenbronzeschere
 Pommel Jewel Broadsword=Prügeljuwelenbreitschwert
 Pommel&Guard Jewel Broadsword=Prügel- und Wächterjuwelenbreitschwert
 Serrated Jewel Broadsword=Gezacktes Juwelenbreitschwert
-
-
-##### not used anymore #####
-
 Range: @1=Reichweite: @1
 Drop level: @1=Abwurfstufe: @1
 Dig time: @1 s=Grabezeit: @1 s
