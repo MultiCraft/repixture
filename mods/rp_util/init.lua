@@ -1,12 +1,10 @@
 --
--- Utility functions
+-- Utility functions.
+-- See API.md for documentation.
 --
 
 util = {}
 
--- Given two positions `pos1` and `pos2`,
--- returns the two positions, but the
--- one with the lower coordinates comes first.
 function util.sort_pos(pos1, pos2)
    -- (function taken from WorldEdit)
    pos1 = {x=pos1.x, y=pos1.y, z=pos1.z}
@@ -23,7 +21,6 @@ function util.sort_pos(pos1, pos2)
    return pos1, pos2
 end
 
--- Repair most lighting between positions `pos1` and `pos2`
 function util.fixlight(pos1, pos2)
    -- (function taken from WorldEdit)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
@@ -44,14 +41,6 @@ function util.fixlight(pos1, pos2)
    return #nodes
 end
 
--- Call a function `func` for every node of a single type in
--- a given area.
--- * `pos1`: First corner of area
--- * `pos2`: Second corner of area
--- * `nodes`: List of node names (supports `group:<groupname>` syntax)
--- * `func` Function to be called. Will be called for every positon
---          between `pos1` and `pos2` with the argument `pos`
--- * `nomanip`: If true, will not use VoxelManip (default: false)
 function util.nodefunc(pos1, pos2, nodes, func, nomanip)
    -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
@@ -67,10 +56,6 @@ function util.nodefunc(pos1, pos2, nodes, func, nomanip)
    end
 end
 
--- Remove every node between `pos1` and `pos2`.
--- * `pos1`: First corner of area
--- * `pos2`: Second corner of area
--- * `nomanip`: If true, will not use VoxelManip (default: false)
 function util.remove_area(pos1, pos2, nomanip)
    -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
@@ -91,12 +76,6 @@ function util.remove_area(pos1, pos2, nomanip)
    manip:write_to_map()
 end
 
--- Call a function `func` for every node in a given area.
--- * `pos1`: First corner of area
--- * `pos2`: Second corner of area
--- * `func` Function to be called. Will be called for every positon
---          between `pos1` and `pos2` with the argument `pos`
--- * `nomanip`: If true, will not use VoxelManip (default: false)
 function util.areafunc(pos1, pos2, func, nomanip)
    -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
@@ -115,12 +94,6 @@ function util.areafunc(pos1, pos2, func, nomanip)
    end
 end
 
--- Force a re-construction of a number of pre-defined node types (like chests)
--- in an area, for fixing missing metadata in schematics.
--- This means, `on_construct` for these nodes will be called.
--- * `pos1`: First corner of area
--- * `pos2`: Second corner of area
--- * `nomanip`: If true, will not use VoxelManip (default: false)
 function util.reconstruct(pos1, pos2, nomanip)
    -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
@@ -141,9 +114,6 @@ function util.reconstruct(pos1, pos2, nomanip)
    end
 end
 
--- Returns a random index of the given table.
--- * `tab`: Table with choices (in list form)
--- * `pr`: PseudoRandom object (optional)
 function util.choice(tab, pr)
 
    local choices = {}
@@ -161,11 +131,6 @@ function util.choice(tab, pr)
    end
 end
 
--- Returns a random element of the given table.
--- 2nd return value is index of chosen element.
--- Returns nil if table is empty.
--- * `tab`: Table with choices (in list form)
--- * `pr`: PseudoRandom object (optional)
 function util.choice_element(tab, pr)
 
    local choices = {}
@@ -185,8 +150,6 @@ function util.choice_element(tab, pr)
    return choices[rnd], rnd
 end
 
--- util.split function taken from a StackOverflow answer.
--- http://stackoverflow.com/questions/12709205/split-a-string-and-store-in-an-array-in-lua
 function util.split(str, tok)
    -- Source: http://lua-users.org/wiki/MakingLuaLikePhp
    -- Credit: http://richard.warburton.it/
@@ -206,10 +169,6 @@ function util.split(str, tok)
    return arr
 end
 
--- Dig the node above `pos` if nodename is equal to
--- `node.name`.
--- `digger` is a player object that will be treated as
--- the 'digger' of said nodes.
 function util.dig_up(pos, node, digger)
    if node.name == "ignore" then
       return
@@ -229,10 +188,6 @@ function util.dig_up(pos, node, digger)
    end
 end
 
--- Dig the node below `pos` if nodename is equal to
--- `node.name`.
--- `digger` is a player object that will be treated as
--- the 'digger' of said nodes.
 function util.dig_down(pos, node, digger)
    if node.name == "ignore" then
       return
@@ -252,20 +207,6 @@ function util.dig_down(pos, node, digger)
    end
 end
 
--- Helper function to determine the correct position when
--- the player places a "plant-like" node like a sapling.
--- The goal is the node will end up on top of a "floor"
--- node when possible, while also taking buildable_to
--- into account.
---
--- Takes a pointed_thing from a on_place callback or similar.
--- * `pointed_thing`: A pointed thing
--- * `top`: (optional): If true, is for plant placement at ceiling
---   instead (default: false)
---
--- Returns `<place_in>, <place_on>` if successful, `nil` otherwise
--- * `place_in`: Where the node is suggested to be placed
--- * `place_on`: Directly below place_in
 function util.pointed_thing_to_place_pos(pointed_thing, top)
    if pointed_thing.type ~= "node" then
       return nil
@@ -295,23 +236,6 @@ function util.pointed_thing_to_place_pos(pointed_thing, top)
    return place_in, place_on
 end
 
--- Use this function for the on_place handler of tools and similar items
--- that are supposed to do something special when "placing" them on
--- a node. This makes sure the on_rightclick handler of the node
--- takes precedence, unless the player held down the sneak key.
--- Parameters: Same as the on_place of nodes
--- Returns `<handled>, <handled_itemstack>`
--- * `<handled>`: true if the function handled the placement. Your on_place handler should return <handled_itemstack>.
---              false if the function did not handle the placement. Your on_place handler can proceed normally.
--- * `<handled_itemstack>`: Only set if `<handled>` is true. Contains the itemstack you should return in your
---                        on_place handler
--- Recommended usage is by putting this boilerplate code at the beginning of your function:
---[[
-   local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
-   if handled then
-      return handled_itemstack
-   end
-]]
 function util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
    if not placer or not placer:is_player() then
       return true, itemstack
@@ -328,10 +252,6 @@ function util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
    return false
 end
 
--- Check if `pointed_thing` is protected, if `player` is the "user" of that thing,
--- and does the protection violation handling if needed.
--- Returns true if it was protected (and protection dealt with), false otherwise.
--- Always returns false for non-nodes.
 function util.handle_node_protection(player, pointed_thing)
    if pointed_thing.type ~= "node" then
       return false
@@ -345,8 +265,6 @@ function util.handle_node_protection(player, pointed_thing)
    return false
 end
 
--- Returns true if node at given pos is water AND either a source or a "waterfall"
--- (water flowing downwards)
 function util.is_water_source_or_waterfall(pos)
    local node = minetest.get_node(pos)
    local is_water = minetest.get_item_group(node.name, "water") > 0
