@@ -92,13 +92,6 @@ Parameters:
 
 
 
-## `util.split(str, tok)`
-
-util.split function taken from a StackOverflow answer.
-http://stackoverflow.com/questions/12709205/split-a-string-and-store-in-an-array-in-lua
-
-
-
 ## `util.dig_up(pos, node, digger)`
 
 Dig the node above `pos` if nodename is equal to `node.name`.

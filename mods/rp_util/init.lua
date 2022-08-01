@@ -150,25 +150,6 @@ function util.choice_element(tab, pr)
    return choices[rnd], rnd
 end
 
-function util.split(str, tok)
-   -- Source: http://lua-users.org/wiki/MakingLuaLikePhp
-   -- Credit: http://richard.warburton.it/
-
-   if not tok then return {} end
-
-   local pos = 0
-   local arr = {}
-
-   for st, sp in function() return string.find(str, tok, pos, true) end do
-      table.insert(arr, string.sub(str, pos, st - 1))
-      pos = sp + 1
-   end
-
-   table.insert(arr, string.sub(str, pos))
-
-   return arr
-end
-
 function util.dig_up(pos, node, digger)
    if node.name == "ignore" then
       return
