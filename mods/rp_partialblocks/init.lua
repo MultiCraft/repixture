@@ -6,6 +6,18 @@ local S = minetest.get_translator("rp_partialblocks")
 
 partialblocks = {}
 
+local adv_slab_tex = function(name, tex_prefix)
+	local t1 = minetest.registered_nodes[name].tiles[1]
+	local t2 = tex_prefix.."_slab.png"
+	return { t1, t1, t2 }
+end
+local adv_stair_tex = function(name, tex_prefix)
+	local t1 = minetest.registered_nodes[name].tiles[1]
+	local t2 = tex_prefix.."_stair.png"
+	local t3 = tex_prefix.."_slab.png"
+	return { t3, t1, t2.."^[transformFX", t2, t1, t3 }
+end
+
 function partialblocks.register_material(name, desc_slab, desc_stair, node, groups, is_fuel, tiles_slab, tiles_stair)
    local nodedef = minetest.registered_nodes[node]
 
@@ -18,8 +30,16 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    -- Slab
    local tiles
    if tiles_slab then
-      tiles = tiles_slab
+      -- Advanced slab tiles
+      if type(tiles_slab) == "string" and string.sub(tiles_slab, 1, 2) == "a|" then
+          local texpref = string.sub(tiles_slab, 3)
+	  tiles = adv_slab_tex(node, texpref)
+      else
+      -- Explicit slab tiles
+          tiles = tiles_slab
+      end
    else
+      -- Slab tiles from base node
       tiles = nodedef.tiles
    end
    local groups_slab
@@ -112,13 +132,20 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 
    local tiles
    if tiles_stair then
-      if tiles_stair == "world" then
+      if type(tiles_stair) == "string" and string.sub(tiles_stair, 1, 2) == "a|" then
+      -- Advanced stair tiles
+          local texpref = string.sub(tiles_stair, 3)
+	  tiles = adv_stair_tex(node, texpref)
+      elseif tiles_stair == "w" then
+      -- World-aligned stair textures
           local texname = minetest.registered_nodes[node].tiles[1]
-          tiles_stair = {{ name = texname, align_style = "world" }}
+          tiles = {{ name = texname, align_style = "world" }}
       else
+      -- Explicit stair tiles
           tiles = tiles_stair
       end
    else
+      -- Stair tiles from base node
       tiles = nodedef.tiles
    end
 
@@ -179,85 +206,75 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    end
 end
 
-local adv_slab_tex = function(name, texname)
-	local t1 = minetest.registered_nodes[name].tiles[1]
-	local t2 = "partialblocks_"..texname.."_slab.png"
-	return { t1, t1, t2 }
-end
-local adv_stair_tex = function(name, texname)
-	local t1 = minetest.registered_nodes[name].tiles[1]
-	local t2 = "partialblocks_"..texname.."_stair.png"
-	local t3 = "partialblocks_"..texname.."_slab.png"
-	return { t3, t1, t2.."^[transformFX", t2, t1, t3 }
-end
+local pbp = "partialblocks_" -- partial blocks texture prefix
 
 -- Stonelike materials
 
 partialblocks.register_material(
-   "cobble", S("Cobble Slab"), S("Cobble Stair"), "rp_default:cobble", {cracky=3}, false, nil, "world")
+   "cobble", S("Cobble Slab"), S("Cobble Stair"), "rp_default:cobble", {cracky=3}, false, nil, "w")
 
 partialblocks.register_material(
-   "stone", S("Stone Slab"), S("Stone Stair"), "rp_default:stone", {cracky=2}, false, nil, "world")
+   "stone", S("Stone Slab"), S("Stone Stair"), "rp_default:stone", {cracky=2}, false, nil, "w")
 
 partialblocks.register_material(
-   "sandstone", S("Sandstone Slab"), S("Sandstone Stair"), "rp_default:sandstone", {cracky=3}, false, nil, "world")
+   "sandstone", S("Sandstone Slab"), S("Sandstone Stair"), "rp_default:sandstone", {cracky=3}, false, nil, "w")
 
 partialblocks.register_material(
-   "brick", S("Brick Slab"), S("Brick Stair"), "rp_default:brick", {cracky=2}, false, nil, "world")
+   "brick", S("Brick Slab"), S("Brick Stair"), "rp_default:brick", {cracky=2}, false, nil, "w")
 
 -- Woodlike
 
 partialblocks.register_material(
-   "wood", S("Wooden Slab"), S("Wooden Stair"), "rp_default:planks", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "world")
+   "wood", S("Wooden Slab"), S("Wooden Stair"), "rp_default:planks", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
 
 partialblocks.register_material(
-   "oak", S("Oak Slab"), S("Oak Stair"), "rp_default:planks_oak", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "world")
+   "oak", S("Oak Slab"), S("Oak Stair"), "rp_default:planks_oak", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
 
 partialblocks.register_material(
-   "birch", S("Birch Slab"), S("Birch Stair"), "rp_default:planks_birch", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "world")
+   "birch", S("Birch Slab"), S("Birch Stair"), "rp_default:planks_birch", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
 
 partialblocks.register_material(
-   "reed", S("Reed Slab"), S("Reed Stair"), "rp_default:reed_block", {snappy = 2, fall_damage_add_percent=-10}, true, nil, "world")
+   "reed", S("Reed Slab"), S("Reed Stair"), "rp_default:reed_block", {snappy = 2, fall_damage_add_percent=-10}, true, nil, "w")
 
 partialblocks.register_material(
-   "dried_reed", S("Dried Reed Slab"), S("Dried Reed Stair"), "rp_default:dried_reed_block", {snappy = 2, fall_damage_add_percent=-15}, true, nil, "world")
+   "dried_reed", S("Dried Reed Slab"), S("Dried Reed Stair"), "rp_default:dried_reed_block", {snappy = 2, fall_damage_add_percent=-15}, true, nil, "w")
 
 -- Frames
 
 partialblocks.register_material(
-   "frame", S("Frame Slab"), S("Frame Stair"), "rp_default:frame", {choppy = 2, oddly_breakable_by_hand = 1}, true, adv_slab_tex("rp_default:frame", "frame"), adv_stair_tex("rp_default:frame", "frame"))
+   "frame", S("Frame Slab"), S("Frame Stair"), "rp_default:frame", {choppy = 2, oddly_breakable_by_hand = 1}, true, "a|"..pbp.."frame", "a|"..pbp.."frame")
 
 partialblocks.register_material(
-   "reinforced_frame", S("Reinforced Frame Slab"), S("Reinforced Frame Stair"), "rp_default:reinforced_frame", {choppy = 1}, true, adv_slab_tex("rp_default:reinforced_frame", "reinforced_frame"), adv_stair_tex("rp_default:reinforced_frame", "reinforced_frame"))
+   "reinforced_frame", S("Reinforced Frame Slab"), S("Reinforced Frame Stair"), "rp_default:reinforced_frame", {choppy = 1}, true, "a|"..pbp.."reinforced_frame", "a|"..pbp.."reinforced_frame")
 
 partialblocks.register_material(
-   "reinforced_cobble", S("Reinforced Cobble Slab"), S("Reinforced Cobble Stair"), "rp_default:reinforced_cobble", {cracky = 1}, false, adv_slab_tex("rp_default:reinforced_cobble", "reinforced_cobbles"), adv_stair_tex("rp_default:reinforced_cobble", "reinforced_cobbles"))
+   "reinforced_cobble", S("Reinforced Cobble Slab"), S("Reinforced Cobble Stair"), "rp_default:reinforced_cobble", {cracky = 1}, false, "a|"..pbp.."reinforced_cobbles", "a|"..pbp.."reinforced_cobbles")
 
 -- Misc. blocks
 
 partialblocks.register_material(
-   "coal", S("Coal Slab"), S("Coal Stair"), "rp_default:block_coal", { cracky = 3 }, true, adv_slab_tex("rp_default:block_coal", "block_coal"), adv_stair_tex("rp_default:block_coal", "block_coal"))
+   "coal", S("Coal Slab"), S("Coal Stair"), "rp_default:block_coal", { cracky = 3 }, true, "a|"..pbp.."block_coal", "a|"..pbp.."block_coal")
 
 partialblocks.register_material(
-   "steel", S("Steel Slab"), S("Steel Stair"), "rp_default:block_steel", { cracky = 2 }, false, adv_slab_tex("rp_default:block_steel", "block_steel"), adv_stair_tex("rp_default:block_steel", "block_steel"))
+   "steel", S("Steel Slab"), S("Steel Stair"), "rp_default:block_steel", { cracky = 2 }, false, "a|"..pbp.."block_steel", "a|"..pbp.."block_steel")
 
 partialblocks.register_material(
-   "carbon_steel", S("Carbon Steel Slab"), S("Carbon Steel Stair"), "rp_default:block_carbon_steel", { cracky = 1 }, false, adv_slab_tex("rp_default:block_carbon_steel", "block_carbon_steel"), adv_stair_tex("rp_default:block_carbon_steel", "block_carbon_steel"))
+   "carbon_steel", S("Carbon Steel Slab"), S("Carbon Steel Stair"), "rp_default:block_carbon_steel", { cracky = 1 }, false, "a|"..pbp.."block_carbon_steel", "a|"..pbp.."block_carbon_steel")
 
 partialblocks.register_material(
-   "wrought_iron", S("Wrought Iron Slab"), S("Wrought Iron Stair"), "rp_default:block_wrought_iron", { cracky = 2, magnetic = 1 }, false, adv_slab_tex("rp_default:block_wrought_iron", "block_wrought_iron"), adv_stair_tex("rp_default:block_wrought_iron", "block_wrought_iron"))
+   "wrought_iron", S("Wrought Iron Slab"), S("Wrought Iron Stair"), "rp_default:block_wrought_iron", { cracky = 2, magnetic = 1 }, false, "a|"..pbp.."block_wrought_iron", "a|"..pbp.."block_wrought_iron")
 
 partialblocks.register_material(
-   "bronze", S("Bronze Slab"), S("Bronze Stair"), "rp_default:block_bronze", { cracky = 1 }, false, adv_slab_tex("rp_default:block_bronze", "block_bronze"), adv_stair_tex("rp_default:block_bronze", "block_bronze"))
+   "bronze", S("Bronze Slab"), S("Bronze Stair"), "rp_default:block_bronze", { cracky = 1 }, false, "a|"..pbp.."block_bronze", "a|"..pbp.."block_bronze")
 
 partialblocks.register_material(
-   "copper", S("Copper Slab"), S("Copper Stair"), "rp_default:block_copper", { cracky = 2 }, false, adv_slab_tex("rp_default:block_copper", "block_copper"), adv_stair_tex("rp_default:block_copper", "block_copper"))
+   "copper", S("Copper Slab"), S("Copper Stair"), "rp_default:block_copper", { cracky = 2 }, false, "a|"..pbp.."block_copper", "a|"..pbp.."block_copper")
 
 partialblocks.register_material(
-   "tin", S("Tin Slab"), S("Tin Stair"), "rp_default:block_tin", { cracky = 2 }, false, adv_slab_tex("rp_default:block_tin", "block_tin"), adv_stair_tex("rp_default:block_tin", "block_tin"))
+   "tin", S("Tin Slab"), S("Tin Stair"), "rp_default:block_tin", { cracky = 2 }, false, "a|"..pbp.."block_tin", "a|"..pbp.."block_tin")
 
 partialblocks.register_material(
-   "gold", S("Gold Slab"), S("Gold Stair"), "rp_gold:block_gold", { cracky = 2 }, false, adv_slab_tex("rp_gold:block_gold", "block_gold"), adv_stair_tex("rp_gold:block_gold", "block_gold"))
+   "gold", S("Gold Slab"), S("Gold Stair"), "rp_gold:block_gold", { cracky = 2 }, false, "a|"..pbp.."block_gold", "a|"..pbp.."block_gold")
 
 -- Recipes to craft metal and coal stairs/slabs back to ingots/lumps
 -- at a small loss.
