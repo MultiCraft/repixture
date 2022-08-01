@@ -18,7 +18,11 @@ Parameters:
 * `groups`: List of groups for the new nodes
 * `is_fuel`: If true, partial blocks can be used as furnace fuel. (default: false)
 * `tiles_slab`: Tiles definition for slab
+    * Special: `nil` automatically creates tiles from the base node
 * `tiles_stair`: Tiles definition for stair
+    * Special: `nil` automatically creates tiles from the base node
+    * Special: `"world"` automatically creates world-aligned textures
+      from the first base node tile
 
 If `is_fuel` is true, the burning time of the partial blocks is based on the burning
 time of the base node. It’s 75% of the base node burn time for the stair and 50%

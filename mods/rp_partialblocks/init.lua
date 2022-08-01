@@ -112,7 +112,12 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 
    local tiles
    if tiles_stair then
-      tiles = tiles_stair
+      if tiles_stair == "world" then
+          local texname = minetest.registered_nodes[node].tiles[1]
+          tiles_stair = {{ name = texname, align_style = "world" }}
+      else
+          tiles = tiles_stair
+      end
    else
       tiles = nodedef.tiles
    end
@@ -185,41 +190,37 @@ local adv_stair_tex = function(name, texname)
 	local t3 = "partialblocks_"..texname.."_slab.png"
 	return { t3, t1, t2.."^[transformFX", t2, t1, t3 }
 end
-local world_stair_tex = function(name)
-	local texname = minetest.registered_nodes[name].tiles[1]
-	return {{ name = texname, align_style = "world" }}
-end
 
 -- Stonelike materials
 
 partialblocks.register_material(
-   "cobble", S("Cobble Slab"), S("Cobble Stair"), "rp_default:cobble", {cracky=3}, false, nil, world_stair_tex("rp_default:cobble"))
+   "cobble", S("Cobble Slab"), S("Cobble Stair"), "rp_default:cobble", {cracky=3}, false, nil, "world")
 
 partialblocks.register_material(
-   "stone", S("Stone Slab"), S("Stone Stair"), "rp_default:stone", {cracky=2}, false, nil, world_stair_tex("rp_default:stone"))
+   "stone", S("Stone Slab"), S("Stone Stair"), "rp_default:stone", {cracky=2}, false, nil, "world")
 
 partialblocks.register_material(
-   "sandstone", S("Sandstone Slab"), S("Sandstone Stair"), "rp_default:sandstone", {cracky=3}, false, nil, world_stair_tex("rp_default:sandstone"))
+   "sandstone", S("Sandstone Slab"), S("Sandstone Stair"), "rp_default:sandstone", {cracky=3}, false, nil, "world")
 
 partialblocks.register_material(
-   "brick", S("Brick Slab"), S("Brick Stair"), "rp_default:brick", {cracky=2}, false, nil, world_stair_tex("rp_default:brick"))
+   "brick", S("Brick Slab"), S("Brick Stair"), "rp_default:brick", {cracky=2}, false, nil, "world")
 
 -- Woodlike
 
 partialblocks.register_material(
-   "wood", S("Wooden Slab"), S("Wooden Stair"), "rp_default:planks", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, world_stair_tex("rp_default:planks"))
+   "wood", S("Wooden Slab"), S("Wooden Stair"), "rp_default:planks", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "world")
 
 partialblocks.register_material(
-   "oak", S("Oak Slab"), S("Oak Stair"), "rp_default:planks_oak", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, world_stair_tex("rp_default:planks_oak"))
+   "oak", S("Oak Slab"), S("Oak Stair"), "rp_default:planks_oak", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "world")
 
 partialblocks.register_material(
-   "birch", S("Birch Slab"), S("Birch Stair"), "rp_default:planks_birch", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, world_stair_tex("rp_default:planks_birch"))
+   "birch", S("Birch Slab"), S("Birch Stair"), "rp_default:planks_birch", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "world")
 
 partialblocks.register_material(
-   "reed", S("Reed Slab"), S("Reed Stair"), "rp_default:reed_block", {snappy = 2, fall_damage_add_percent=-10}, true, nil, world_stair_tex("rp_default:reed_block"))
+   "reed", S("Reed Slab"), S("Reed Stair"), "rp_default:reed_block", {snappy = 2, fall_damage_add_percent=-10}, true, nil, "world")
 
 partialblocks.register_material(
-   "dried_reed", S("Dried Reed Slab"), S("Dried Reed Stair"), "rp_default:dried_reed_block", {snappy = 2, fall_damage_add_percent=-15}, true, nil, world_stair_tex("rp_default:dried_reed_block"))
+   "dried_reed", S("Dried Reed Slab"), S("Dried Reed Stair"), "rp_default:dried_reed_block", {snappy = 2, fall_damage_add_percent=-15}, true, nil, "world")
 
 -- Frames
 
