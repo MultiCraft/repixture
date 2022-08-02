@@ -502,6 +502,14 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
+      output = "rp_default:fiber",
+      items = {
+         "rp_default:vine 2",
+      }
+})
+
+crafting.register_craft(
+   {
       output = "rp_default:stick 4",
       items = {
          "group:planks",
