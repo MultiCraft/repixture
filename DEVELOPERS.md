@@ -34,16 +34,20 @@ file named `API.md`.
 
 Mods with documented APIs:
 
+* `rp_armor`: Armor information
 * `rp_achievements`: Add and trigger achievements
 * `rp_bed`: Get, set and unset (re)spwan position
 * `rp_crafting`: Add crafting recipes
 * `rp_default`: Sapling helpers, biome information
 * `rp_door`: Add doors
-* `rp_hunger`: Get and set hunger
-* `rp_player_effects`: Add player effects (required if you want to modify player physics)
 * `rp_drop_items_on_die`: You only need this mod if you added an inventory list to the player
                           and you want its contents to be dropped on death.
-* `rp_farming`: Add farmable plants (beware, the API is clunky)
+* `rp_farming`: Add farmable plants
+* `rp_goodies`: Fill container nodes with random loot
+* `rp_hunger`: Get and set hunger
+* `rp_itemshow`: Needed when your item needs a custom appearance in the item frame / item showcase
+* `rp_partialblocks`: Register partial blocks (slabs, stairs)
+* `rp_player_effects`: Add player effects (required if you want to modify player physics)
 * `rp_util`: Helper functions for Repixture
 * `tt`: Custom tooltips
 
