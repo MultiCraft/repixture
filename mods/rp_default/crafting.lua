@@ -305,7 +305,7 @@ minetest.register_craft(
    {
       type = "fuel",
       recipe = "group:tree",
-      burntime = 22,
+      burntime = 20,
 })
 
 minetest.register_craft(
@@ -326,14 +326,14 @@ minetest.register_craft(
    {
       type = "fuel",
       recipe = "rp_default:lump_coal",
-      burntime = 20,
+      burntime = 30,
 })
 
 minetest.register_craft(
    {
       type = "fuel",
       recipe = "rp_default:block_coal",
-      burntime = 180,
+      burntime = 270,
 })
 
 --
