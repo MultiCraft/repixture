@@ -4,6 +4,8 @@ By Kaadmy and Wuzzy, for Repixture.
 
 Adds locked stuff, like locked chests.
 
+Developers: See `API.md` for a few Lua functions to interface with.
+
 Media file license: CC BY-SA 4.0
 Source code license: LGPLv2.1
 
