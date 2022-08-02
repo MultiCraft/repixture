@@ -187,11 +187,11 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 	 is_ground_content = nodedef.is_ground_content,
    })
 
-   crafting.register_craft( -- Craft to stair
+   crafting.register_craft( -- 3 blocks --> 4 stairs
       {
-	 output = "rp_partialblocks:stair_" .. name,
+	 output = "rp_partialblocks:stair_" .. name .. " 4",
 	 items = {
-            node,
+            node .. " 3",
 	 },
    })
 
