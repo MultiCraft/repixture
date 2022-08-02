@@ -86,9 +86,9 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "rp_farming:cotton_bale 2",
+      output = "rp_farming:cotton_bale",
       items = {
-         "rp_farming:cotton 2",
+         "rp_farming:cotton 3",
       }
 })
 
