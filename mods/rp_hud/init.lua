@@ -1,6 +1,6 @@
 -- Based off MT's core builtin/game/statbars.lua, changed a lot to add statbar background and better layout
 
-rp_hud={}
+local rp_hud={}
 
 local health_bar_definition = {
    hud_elem_type = "statbar",
