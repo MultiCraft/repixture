@@ -92,13 +92,23 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
          end,
    })
 
-   crafting.register_craft( -- Craft to slab
+   crafting.register_craft( -- 1 block --> 2 slabs
       {
 	 output = "rp_partialblocks:slab_" .. name .. " 2",
 	 items = {
 	    node,
 	 },
    })
+
+   crafting.register_craft( -- 2 slabs --> 1 block
+      {
+	 output = node,
+	 items = {
+	    "rp_partialblocks:slab_" .. name .. " 2",
+	 },
+   })
+
+
 
    local full_node_burntime
    local output = minetest.get_craft_result({
@@ -182,6 +192,14 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 	 output = "rp_partialblocks:stair_" .. name,
 	 items = {
             node,
+	 },
+   })
+
+   crafting.register_craft( -- 2 stairs --> 3 slabs
+      {
+	 output = "rp_partialblocks:slab_" .. name .. " 3",
+	 items = {
+            "rp_partialblocks:stair_" .. name .. " 2",
 	 },
    })
 
