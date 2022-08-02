@@ -6,6 +6,8 @@ local S = minetest.get_translator("rp_armor")
 
 armor = {}
 
+local armor_local = {}
+
 -- Wear is wear per HP of damage taken
 
 armor.materials = {
@@ -72,7 +74,9 @@ function armor.get_base_skin(player)
    end
 end
 
-function armor.get_texture(player, base)
+-- Returns the full skin texture for `player`.
+-- `base` is the player's base skin (without armor).
+function armor_local.get_texture(player, base)
    local inv = player:get_inventory()
 
    local image = base
@@ -92,7 +96,9 @@ function armor.get_texture(player, base)
    return image
 end
 
-function armor.get_groups(player)
+-- Returns the correct and relevant armor groups of player.
+-- Also checks the `full_armor` achievement.
+function armor_local.get_groups(player)
    local groups = {fleshy = 100}
 
    local match_mat = nil
@@ -147,7 +153,8 @@ function armor.get_groups(player)
    return groups
 end
 
-function armor.init(player)
+-- Initialize armor for player
+function armor_local.init(player)
    local inv = player:get_inventory()
 
    if inv:get_size("armor") ~= 3 then
@@ -157,21 +164,21 @@ end
 
 -- This function must be called whenever the armor inventory has been changed
 function armor.update(player)
-   local groups = armor.get_groups(player)
+   local groups = armor_local.get_groups(player)
    player:set_armor_groups({fleshy = groups.fleshy, immortal = groups.immortal})
 
-   local image = armor.get_texture(player, armor.get_base_skin(player))
+   local image = armor_local.get_texture(player, armor.get_base_skin(player))
    if image ~= rp_player.player_get_textures(player)[1] then
       rp_player.player_set_textures(player, {image})
    end
 end
 
 local function on_newplayer(player)
-   armor.init(player)
+   armor_local.init(player)
 end
 
 local function on_joinplayer(player)
-   armor.init(player)
+   armor_local.init(player)
    armor.update(player)
 end
 
