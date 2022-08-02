@@ -2,7 +2,7 @@
 -- Headbars mod
 --
 
-headbars = {}
+local headbars = {}
 
 local enable_damage = minetest.settings:get_bool("enable_damage")
 
