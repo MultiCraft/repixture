@@ -8,7 +8,7 @@ local INFOTEXT_ON = S("Music Player (on)")
 local INFOTEXT_OFF = S("Music Player (off)")
 local INFOTEXT_DISABLED = S("Music Player (disabled by server)")
 
-music = {}
+local music = {}
 
 music.tracks = {
    { name = "music_catsong", length = 30.0 },
