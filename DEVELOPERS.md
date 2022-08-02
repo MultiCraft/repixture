@@ -46,6 +46,7 @@ Mods with documented APIs:
 * `rp_goodies`: Fill container nodes with random loot
 * `rp_hunger`: Get and set hunger
 * `rp_itemshow`: Needed when your item needs a custom appearance in the item frame / item showcase
+* `rp_jewels`: Register jeweled tools, and more
 * `rp_locks`: Get info about lockable nodes
 * `rp_partialblocks`: Register partial blocks (slabs, stairs)
 * `rp_player_effects`: Add player effects (required if you want to modify player physics)
