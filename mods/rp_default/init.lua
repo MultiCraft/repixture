@@ -5,12 +5,11 @@
 default = {}
 
 default.SWAMP_WATER_VISC = 4
-
 default.RIVER_WATER_VISC = 2
-
 default.WATER_VISC = 1
-
 default.LIGHT_MAX = 14
+default.WEAK_TORCH_MIN_TIMER = 240
+default.WEAK_TORCH_MAX_TIMER = 360
 
 -- If a sapling is affected by fertilizer,
 -- the growth timer is reduced by this

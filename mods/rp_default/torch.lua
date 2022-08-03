@@ -4,7 +4,7 @@ local S = minetest.get_translator("rp_default")
 
 
 
-local function register_torch(subname, description, tt_help, tiles, overlay_tiles, overlay_side_R90, inv_image, light)
+local function register_torch(subname, description, tt_help, tiles, overlay_tiles, overlay_side_R90, inv_image, light, on_construct, on_timer)
    minetest.register_node(
       "rp_default:"..subname,
       {
@@ -35,6 +35,8 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          groups = {choppy = 2, dig_immediate = 3, attached_node = 1, torch = 1, creative_decoblock = 1},
          is_ground_content = false,
          sounds = rp_sounds.node_sound_defaults(),
+	 on_construct = on_construct,
+	 on_timer = on_timer,
          on_place = function(itemstack, placer, pointed_thing)
             if pointed_thing.type ~= "node" then
                return itemstack
@@ -149,6 +151,8 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          groups = {choppy = 2, dig_immediate = 3, attached_node = 1, not_in_creative_inventory = 1, torch = 2},
          is_ground_content = false,
          sounds = rp_sounds.node_sound_defaults(),
+	 on_construct = on_construct,
+	 on_timer = on_timer,
    })
 
 
@@ -223,8 +227,28 @@ local overlayR90_normal = {
     },
 }
 
+local start_weak_torch_timer = function(pos)
+   local time = math.random(default.WEAK_TORCH_MIN_TIMER, default.WEAK_TORCH_MAX_TIMER)
+   local timer = minetest.get_node_timer(pos)
+   timer:start(time)
+   minetest.log("action", "[rp_default] Weak torch timer at "..minetest.pos_to_string(pos).." started at "..time.."s")
+end
+
+local on_construct_weak = function(pos)
+   start_weak_torch_timer(pos)
+end
+local on_timer_weak = function(pos)
+   local node = minetest.get_node(pos)
+   if node.name == "rp_default:torch_weak" then
+      minetest.swap_node(pos, {name="rp_default:torch_dead", param2 = node.param2})
+   elseif node.name == "rp_default:torch_weak_wall" then
+      minetest.swap_node(pos, {name="rp_default:torch_dead_wall", param2 = node.param2})
+   end
+   minetest.log("action", "[rp_default] Weak torch at "..minetest.pos_to_string(pos).." burns out")
+end
+
 register_torch("torch_dead", S("Dead Torch"), S("Doesn't provide any light"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, nil, nil, "default_torch_dead_inventory.png")
-register_torch("torch_weak", S("Weak Torch"), S("Provides a bit of light but it will eventually burn out"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, overlay_tiles_weak, overlayR90_weak, "default_torch_weak_inventory.png", default.LIGHT_MAX-4)
+register_torch("torch_weak", S("Weak Torch"), S("Provides a bit of light but it will eventually burn out"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, overlay_tiles_weak, overlayR90_weak, "default_torch_weak_inventory.png", default.LIGHT_MAX-4, on_construct_weak, on_timer_weak)
 register_torch("torch", S("Torch"), S("It's bright and burns forever"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, overlay_tiles_normal, overlayR90_normal, "default_torch_inventory.png", default.LIGHT_MAX-1)
 
 minetest.register_lbm({
@@ -238,4 +262,18 @@ minetest.register_lbm({
 			minetest.set_node(pos, node)
 		end
 	end,
+})
+
+minetest.register_lbm(
+   {
+      label = "Start weak torch timer",
+      name = "rp_default:start_weak_torch_timer",
+      nodenames = {"rp_default:torch_weak", "rp_default:torch_weak_wall"},
+      run_at_every_load = true,
+      action = function(pos, node)
+         local timer = minetest.get_node_timer(pos)
+         if not timer:is_started() then
+             start_weak_torch_timer(pos)
+	 end
+      end
 })
