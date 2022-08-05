@@ -233,11 +233,15 @@ minetest.register_entity(
       on_deactivate = function(self, removal)
          minetest.log("info", "[parachute] Parachute at "..minetest.pos_to_string(self.object:get_pos(), 1).." is deactivating (removal="..tostring(removal)..")")
          if self.attached ~= nil then
-	    if rp_player.player_attached[self.attached] then
+            if rp_player.player_attached[self.attached] then
                local player = minetest.get_player_by_name(self.attached)
-	       if player then
+               if player then
                   rp_player.player_attached[self.attached] = false
                   player:set_detach()
+                  if removal == true then
+                     local meta = player:get_meta()
+                     meta:set_int("parachute:active", 0)
+                  end
                end
             end
          end
