@@ -20,11 +20,12 @@ end
 -- or if player is too close to the ground.
 -- * `player`: Player to open the parachute for
 -- * `play_sound`: If true, will play a sound for opening the parachute (default: true)
+-- * `load_area`: If true, will load the area before spawning the parachute
 -- Returns true on success or
 -- false, <failure_reason> on failure.
 -- * <failure_reason> = "already_attached" if player was attached
 -- * <failure_reason> = "on_ground" if player already on ground
-local function open_parachute_for_player(player, play_sound)
+local function open_parachute_for_player(player, play_sound, load_area)
    local name = player:get_player_name()
    if play_sound == nil then
       play_sound = true
@@ -41,6 +42,14 @@ local function open_parachute_for_player(player, play_sound)
    if on.name == "air" or on.name == "ignore" then
       -- Spawn parachute
       local ppos = vector.new(pos.x, pos.y + 3, pos.z)
+
+      if load_area then
+         -- Load area around parachute to make sure it doesn't spawn into ignore
+         local offset = vector.new(2,2,2)
+         local load1 = vector.subtract(ppos, offset)
+         local load2 = vector.add(ppos, offset)
+         minetest.load_area(load1, load2)
+      end
 
       local obj = minetest.add_entity(ppos, "parachute:entity")
       if play_sound then
@@ -90,9 +99,6 @@ minetest.register_craftitem(
       wield_image = "parachute_inventory.png",
       stack_max = 1,
       groups = { tool = 1 },
-      on_activate = function(self)
-         self.object:set_armor_groups({immortal=1})
-      end,
       on_use = function(itemstack, player, pointed_thing)
          local ok, fail_reason = open_parachute_for_player(player)
          if ok then
@@ -127,6 +133,8 @@ minetest.register_entity(
       ignore_mode = false,
 
       on_activate = function(self, staticdata, dtime_s)
+         minetest.log("info", "[parachute] Parachute at "..minetest.pos_to_string(self.object:get_pos(), 1).." is activating (dtime_s="..dtime_s..")")
+         self.object:set_armor_groups({immortal=1})
          if dtime_s == 0 then
            local pos = self.object:get_pos()
            self.start_y = pos.y
@@ -222,8 +230,8 @@ minetest.register_entity(
             self.object:remove()
          end
       end,
-      on_deactivate = function(self)
-         minetest.log("info", "[parachute] Parachute at "..minetest.pos_to_string(self.object:get_pos(), 1).." about to get removed")
+      on_deactivate = function(self, removal)
+         minetest.log("info", "[parachute] Parachute at "..minetest.pos_to_string(self.object:get_pos(), 1).." is deactivating (removal="..tostring(removal)..")")
          if self.attached ~= nil then
 	    if rp_player.player_attached[self.attached] then
                local player = minetest.get_player_by_name(self.attached)
@@ -245,7 +253,11 @@ minetest.register_on_joinplayer(function(player)
    -- better than nothing.
    if meta:get_int("parachute:active") == 1 then
       minetest.log("action", "[parachute] Trying to open parachute for reconnected player "..player:get_player_name().." ...")
-      open_parachute_for_player(player, false)
+      local pos = player:get_pos()
+      local ok, fail_reason = open_parachute_for_player(player, false, true)
+      if not ok then
+         minetest.log("error", "[parachute] Parachute opening failed because: "..fail_reason)
+      end
    end
 end)
 
