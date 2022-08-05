@@ -292,7 +292,7 @@ minetest.register_node(
           -- Add wear
           if not minetest.is_creative_enabled(player:get_player_name()) then
              local def = itemstack:get_definition()
-             itemstack:add_wear(math.ceil(65536 / def.tool_capabilities.groupcaps.snappy.uses))
+             itemstack:add_wear_by_uses(def.tool_capabilities.groupcaps.snappy.uses)
           end
           return itemstack
       end,

@@ -131,9 +131,9 @@ mobs:register_mob(
                    local def = item:get_definition()
                    local cuts = minetest.get_item_group(itemname, "sheep_cuts")
                    if cuts > 0 then
-                      item:add_wear(math.floor(65535 / cuts))
+                      item:add_wear_by_uses(cuts)
                    else
-                      item:add_wear(math.floor(65535 / def.tool_capabilities.snappy.uses))
+                      item:add_wear_by_uses(def.tool_capabilities.snappy.uses)
                    end
                end
                clicker:set_wielded_item(item)

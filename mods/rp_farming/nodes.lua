@@ -205,7 +205,7 @@ local trim_cotton = function(pos, node, player, tool)
    -- Add wear
    if not minetest.is_creative_enabled(player:get_player_name()) then
       local def = tool:get_definition()
-      tool:add_wear(math.ceil(65536 / def.tool_capabilities.groupcaps.snappy.uses))
+      tool:add_wear_by_uses(def.tool_capabilities.groupcaps.snappy.uses)
    end
 
    -- Keep it growing

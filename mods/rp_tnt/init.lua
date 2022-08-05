@@ -343,7 +343,7 @@ minetest.register_node(
                 return
             end
 	    if not minetest.is_creative_enabled(puncher:get_player_name()) then
-                item:add_wear(800)
+                item:add_wear_by_uses(82)
                 puncher:set_wielded_item(item)
             end
             tnt.burn(pos, puncher)

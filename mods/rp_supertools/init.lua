@@ -101,7 +101,7 @@ minetest.register_craftitem(
 	 if used then
             minetest.sound_play({name="rp_default_fertilize", gain=1.0}, {pos=pointed_thing.under}, true)
             if not minetest.is_creative_enabled(placer:get_player_name()) then
-               itemstack:add_wear(5400) -- 13 uses
+               itemstack:add_wear_by_uses(13)
             end
 
             minetest.log("action", "[rp_supertools] " .. placer:get_player_name() .. " used growth tool on "..unode.name.." at "..minetest.pos_to_string(upos))

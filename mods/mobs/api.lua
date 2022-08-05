@@ -1713,7 +1713,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
                gain = 0.2, max_hear_distance = 16, pitch=1.25}, true)
 	    chance = chance_net
             if not minetest.is_creative_enabled(name) then
-	        tool:add_wear(4000) -- 17 uses
+	        tool:add_wear_by_uses(17)
             end
 	    clicker:set_wielded_item(tool)
          elseif tool:get_name() == "mobs:lasso" then
@@ -1722,7 +1722,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
                gain = 0.2, max_hear_distance = 16, pitch=1}, true)
 	    chance = chance_lasso
             if not minetest.is_creative_enabled(name) then
-	        tool:add_wear(1500) -- 43 uses
+	        tool:add_wear_by_uses(43)
             end
 	    clicker:set_wielded_item(tool)
          end
