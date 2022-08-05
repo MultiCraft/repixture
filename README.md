@@ -8,7 +8,7 @@ This is a revival of Pixture 0.1.1, a game for Minetest 0.4.
 ## Version
 3.4.1
 
-Designed for use with Minetest 5.5.0 or later.
+Designed for use with Minetest 5.6.0 or later.
 
 ## Features
 
