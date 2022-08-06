@@ -45,9 +45,8 @@ local function open_parachute_for_player(player, play_sound, load_area)
 
       if load_area then
          -- Load area around parachute to make sure it doesn't spawn into ignore
-         local offset = vector.new(2,2,2)
-         local load1 = vector.subtract(ppos, offset)
-         local load2 = vector.add(ppos, offset)
+         local load1 = vector.add(ppos, vector.new(-2, -2, -2))
+         local load2 = vector.add(ppos, vector.new(2, 4, 2))
          minetest.load_area(load1, load2)
       end
 
@@ -123,8 +122,15 @@ minetest.register_entity(
       visual = "mesh",
       mesh = "parachute.b3d",
       textures = {"parachute_mesh.png"},
-      physical = false,
       pointable = false,
+      physical = true,
+      collide_with_objects = true,
+      -- This collisionbox ranges from the feet of the player up to the top of the parachute.
+      -- That way, the parachute will collide when either the player feet touch the ground
+      -- or the parachute collides.
+      -- This collisionbox MUST be re-checked whenever the player model or collisionbox
+      -- was changed
+      collisionbox = {-0.5, -0.8, -0.5, 0.5, 2.8, 0.5},
       automatic_face_movement_dir = -90,
       static_save = false,
 
@@ -139,13 +145,37 @@ minetest.register_entity(
            local pos = self.object:get_pos()
            self.start_y = pos.y
          end
+               self.object:set_acceleration({x=0,y=0,z=0})
       end,
-      on_step = function(self, dtime)
-         local pos = self.object:get_pos()
-         local under = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z})
-	 if under.name ~= "ignore" then
+      on_step = function(self, dtime, moveresult)
+	 local is_ignore = false
+	 local collides = false
+	 -- Check for regular collision
+	 if moveresult and moveresult.collides then
+            collides = true
+            local nodes = 0
+            for m=1, #moveresult.collisions do
+               local col = moveresult.collisions[m]
+               if col.type == "node" then
+                  nodes = nodes + 1
+               end
+           end
+	   if nodes == 0 then
+              is_ignore = true
+	   end
+         end
+	 if not collides then
+             -- Check for special collision in liquids and nodes that slow players (e.g. water, spikes)
+             local pos = self.object:get_pos()
+             local node = minetest.get_node(pos)
+	     local def = minetest.registered_nodes[node.name]
+             if def and (def.liquidtype ~= "none" or def.liquid_move_physics == true or (def.move_resistance and def.move_resistance > 0)) then
+                collides = true
+             end
+         end
+         if not is_ignore then
             self.ignore_mode = false
-	 end
+         end
 
          if self.attached ~= nil then
             local player = minetest.get_player_by_name(self.attached)
@@ -192,19 +222,21 @@ minetest.register_entity(
 
             accel.y = accel.y + air_physics(vel.y) * 0.25
 
-	    if under.name ~= "ignore" then
+            if not is_ignore then
                self.object:set_acceleration(accel)
             else
                self.object:set_acceleration(vector.zero())
                self.object:set_velocity(vector.zero())
             end
 
-            if under.name ~= "air" and (self.ignore_mode == false or under.name ~= "ignore") then
+            -- Destroy parachute if colliding
+            if collides and (self.ignore_mode == false or not is_ignore) then
                rp_player.player_attached[self.attached] = false
             end
          end
 
-         if under.name ~= "air" and (self.ignore_mode == false or under.name ~= "ignore") then
+         -- Destroy parachute if colliding
+         if collides and (self.ignore_mode == false or not is_ignore) then
             local player
             if self.attached ~= nil then
                rp_player.player_attached[self.attached] = false
