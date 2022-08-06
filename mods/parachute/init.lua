@@ -22,6 +22,55 @@ local function air_physics(v)
    return ((m * g + 0.5 * cw * rho * A * v * v) / m)
 end
 
+-- Checks if pos is suitable for a parachute to spawn in
+-- for player
+local check_parachute_spawnable = function(pos, player)
+   -- We do 5 raycasts, which are all vertical.
+   -- 4 raycasts for the 4 vertical edges of the
+   -- (soon-to-exist) parachute collisionbox and
+   -- 1 raycast for the center.
+   -- The position is only treated as OK
+   -- when all raycasts find nothing except the player.
+
+   -- Tiny number added to the coordinates to make
+   -- the checked area slightly bigger than the expected
+   -- collision box to make sure the collisionbox
+   -- definitely won't overlap with nodes or objects when
+   -- spawned.
+   local tiny = 0.01
+   local side = CBOX_SIDE + tiny
+   local offsets = {
+	   -- for testing the middle
+	   { 0, 0 },
+	   -- for testing the 4 edges of the collisionbox
+	   { -side, -side },
+	   { -side,  side },
+	   {  side, -side },
+	   {  side,  side },
+   }
+   local y_extend = 1 -- Check a little bit below the potential collisionbox as well
+                      -- so the parachute isn't spawned when standing on the ground
+   -- Finally check the rays
+   for i=1, #offsets do
+      local off_start = vector.new(offsets[i][1], CBOX_BOTTOM - y_extend - tiny, offsets[i][2])
+      local off_end = vector.new(offsets[i][1], CBOX_TOP + tiny, offsets[i][2])
+      local ray_start = vector.add(pos, off_start)
+      local ray_end = vector.add(pos, off_end)
+      local ray = minetest.raycast(ray_start, ray_end, true, true)
+      while true do
+         local thing = ray:next()
+         if not thing then
+            break
+         end
+         -- Any collision counts, EXCEPT with the parachuting player
+         if not (thing.type == "object" and thing.ref == player) then
+            return false
+         end
+      end
+   end
+   return true
+end
+
 -- Tries to spawn a parachute entity and attaches it to player.
 -- Will fail if player is already attached to something
 -- or if player is too close to the ground.
@@ -40,13 +89,18 @@ local function open_parachute_for_player(player, play_sound, load_area)
 
    local pos = player:get_pos()
 
-   local on = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z})
-
    if rp_player.player_attached[name] then
       return false, "already_attached"
    end
 
-   if on.name == "air" or on.name == "ignore" then
+   local spawnable = check_parachute_spawnable(pos, player)
+
+
+   local in_node = minetest.get_node(pos)
+   if in_node.name == "ignore" then
+      return false, "on_ground"
+   end
+   if spawnable then
       -- Spawn parachute
       local ppos = vector.new(pos.x, pos.y + CBOX_BOTTOM, pos.z)
 
@@ -62,16 +116,12 @@ local function open_parachute_for_player(player, play_sound, load_area)
          minetest.sound_play({name="parachute_open", pos=ppos}, {gain=0.5}, true)
       end
 
-      if on.name ~= "ignore" then
-         obj:set_velocity(
-            {
-               x = 0,
-               y = math.min(0, player:get_velocity().y),
-               z = 0
-         })
-      else
-	 obj:set_velocity(vector.zero())
-      end
+      obj:set_velocity(
+         {
+            x = 0,
+            y = math.min(0, player:get_velocity().y),
+            z = 0
+      })
 
       player:set_attach(obj, "", {x = 0, y = -8, z = 0}, {x = 0, y = 0, z = 0}, true)
 
@@ -79,9 +129,6 @@ local function open_parachute_for_player(player, play_sound, load_area)
 
       local lua = obj:get_luaentity()
       lua.attached = name
-
-      local in_node = minetest.get_node(pos)
-      lua.ignore_mode = in_node.name == "ignore"
 
       rp_player.player_attached[name] = true
 
