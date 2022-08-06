@@ -5,9 +5,11 @@
 
 local S = minetest.get_translator("parachute")
 
+local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
+
 local function air_physics(v)
    local m = 80    -- Weight of player, kg
-   local g = -9.81 -- Earth Acceleration, m/s^2
+   local g = -GRAVITY  -- Earth Acceleration, m/s^2
    local cw = 1.25 -- Drag coefficient
    local rho = 1.2 -- Density of air (on ground, not accurate), kg/m^3
    local A = 25    -- Surface of the parachute, m^2
