@@ -7,6 +7,11 @@ local S = minetest.get_translator("parachute")
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
 
+-- Parachute collisionbox values
+local CBOX_BOTTOM = 0.8
+local CBOX_TOP = 2.8
+local CBOX_SIDE = 0.5
+
 local function air_physics(v)
    local m = 80    -- Weight of player, kg
    local g = -GRAVITY  -- Earth Acceleration, m/s^2
@@ -43,7 +48,7 @@ local function open_parachute_for_player(player, play_sound, load_area)
 
    if on.name == "air" or on.name == "ignore" then
       -- Spawn parachute
-      local ppos = vector.new(pos.x, pos.y + 3, pos.z)
+      local ppos = vector.new(pos.x, pos.y + CBOX_BOTTOM, pos.z)
 
       if load_area then
          -- Load area around parachute to make sure it doesn't spawn into ignore
@@ -132,7 +137,7 @@ minetest.register_entity(
       -- or the parachute collides.
       -- This collisionbox MUST be re-checked whenever the player model or collisionbox
       -- was changed
-      collisionbox = {-0.5, -0.8, -0.5, 0.5, 2.8, 0.5},
+      collisionbox = {-CBOX_SIDE, -CBOX_BOTTOM, -CBOX_SIDE, CBOX_SIDE, CBOX_TOP, CBOX_SIDE},
       automatic_face_movement_dir = -90,
       static_save = false,
 
