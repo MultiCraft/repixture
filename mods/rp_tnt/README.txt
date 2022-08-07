@@ -4,7 +4,12 @@ By PilzAdam and ShadowNinja.
 Tweaked by Kaadmy and Wuzzy, for Repixture.
 
 Adds explodable TNT
-Place a block of TNT, then click on it with flint and steel
+Place a block of TNT, then punch it with flint and steel.
+
+Developers: See `API.md` for a function reference. You can ignore and blow up TNT.
+You can also create arbitrary explosions.
+
+## Credits
 
 Source code license: LGPLv2.1
 Sound license: CC0

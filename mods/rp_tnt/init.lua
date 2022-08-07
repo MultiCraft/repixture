@@ -180,6 +180,7 @@ local function emit_fuse_smoke(pos)
 	})
 end
 
+
 -- Ignite TNT at pos.
 -- igniter: Optional player object of player who ignited it or nil if nobody
 function tnt.burn(pos, igniter)
@@ -258,7 +259,11 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
    end
    if remove_nodes then
       local drops = tnt.explode(pos, tnt_radius, sound)
-      minetest.log("action", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
+      if is_tnt then
+          minetest.log("action", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
+      else
+          minetest.log("action", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
+      end
       entity_physics(pos, tnt_radius)
       eject_drops(drops, pos, tnt_radius)
    else

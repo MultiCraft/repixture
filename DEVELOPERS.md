@@ -54,6 +54,7 @@ Mods with documented APIs:
 * `rp_player_effects`: Add player effects (required if you want to modify player physics)
 * `rp_sounds`: Node sounds
 * `rp_util`: Helper functions for Repixture
+* `rp_tnt`: Ignite and blow up TNT, also spawn TNT-less explosions
 * `tt`: Custom tooltips
 
 Beware: Calling functions that are not documented are NOT guaranted to be stable
