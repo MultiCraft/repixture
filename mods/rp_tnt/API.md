@@ -16,13 +16,14 @@ Note: The `igniter` is only used for logging purposes.
 
 ## `tnt.boom(pos, radius, sound)`
 
-High-level TNT explosion.
-Immediately blows up a TNT node at `pos`,
-removes nodes, drops items, damages entities, spawns particles.
+Blows up a TNT node.
+This will remove the TNT node, cause an explosion at `pos`,
+removes nodes around it, drops items, damages entities, spawns particles
+and plays a sound effect.
 
 Parameters:
 
-* `pos`: Position of TNT node. The TNT node is required!
+* `pos`: Position of the TNT node. The TNT node is required!
 * `radius`: Explosion radius (default: read from `tnt_radius` setting)
 * `sound`: Sound name for explosion (default: `tnt_explode`)
 
@@ -30,8 +31,8 @@ Parameters:
 
 ## `tnt.boom_notnt(pos, radius, sound, remove_nodes)`
 
-High-level explosion.
-Same as `tnt.boom` but works at any position. No TNT required.
+Does an explosion.
+Same as `tnt.boom` but works for non-TNT nodes as well. No TNT required.
 
 Parameters:
 
@@ -41,14 +42,12 @@ Parameters:
 * `remove_nodes`: If true, will remove nodes, otherwise won't. (default: false)
 
 
-## `tnt.explode(pos, radius, sound)`
+## `tnt.explode(pos, radius)`
 
 Low-level explosion.
-Immediately removes and drops nodes at `pos`
-with a radius `radius` and plays a `sound`.
-There are no particle effects nor is ther entity damage or
-anything else.
+Does a "raw" explosion that only removes nodes and drops items.
+There are no particle effects, sounds, entity damage or anything else.
+Useful if you want to customize the explosion effects.
 
 * `pos`: Center of the explosion
-* `radius`: Explosion radius
-* `sound`: Explosion sound (NOT optional)
+* `radius`: Explosion radius (NO default value!)

@@ -208,9 +208,7 @@ end
 
 -- TNT ground removal
 
-function tnt.explode(pos, radius, sound)
-   play_tnt_sound(pos, sound)
-
+function tnt.explode(pos, radius)
    local pos = vector.round(pos)
    local vm = VoxelManip()
    local pr = PseudoRandom(os.time())
@@ -259,6 +257,7 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
    end
    if remove_nodes then
       local drops = tnt.explode(pos, tnt_radius, sound)
+      play_tnt_sound(pos, sound)
       if is_tnt then
           minetest.log("action", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
       else
