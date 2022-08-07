@@ -52,6 +52,7 @@ Mods with documented APIs:
 * `rp_partialblocks`: Register partial blocks (slabs, stairs)
 * `rp_player`: Player model handling, model animation, textures
 * `rp_player_effects`: Add player effects (required if you want to modify player physics)
+* `rp_sounds`: Node sounds
 * `rp_util`: Helper functions for Repixture
 * `tt`: Custom tooltips
 
