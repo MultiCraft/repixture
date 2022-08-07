@@ -31,7 +31,13 @@ local function air_physics(v)
 end
 
 -- Checks if pos is suitable for a parachute to spawn in
--- for player
+-- for player.
+-- Returns <success>, <fail_reason>.
+-- * <success> is true on success
+-- * <fail_reason> is the reason for failure
+--    * `nil`: not failed
+--    * `"on_ground"`: Player standing on ground
+--    * `"no_space"`: Not enough space
 local check_parachute_spawnable = function(pos, player)
    -- We do 5 raycasts, which are all vertical.
    -- 4 raycasts for the 4 vertical edges of the
@@ -72,7 +78,13 @@ local check_parachute_spawnable = function(pos, player)
          end
          -- Any collision counts, EXCEPT with the parachuting player
          if not (thing.type == "object" and thing.ref == player) then
-            return false
+            local fail_reason
+            if thing.intersection_point.y < pos.y then
+               fail_reason = "on_ground"
+            else
+               fail_reason = "no_space"
+            end
+            return false, fail_reason
          end
       end
    end
@@ -102,7 +114,7 @@ local function open_parachute_for_player(player, play_sound, load_area)
       return false, "already_attached"
    end
 
-   local spawnable = check_parachute_spawnable(pos, player)
+   local spawnable, fail_reason = check_parachute_spawnable(pos, player)
 
    if spawnable then
       -- Spawn parachute
@@ -149,7 +161,7 @@ local function open_parachute_for_player(player, play_sound, load_area)
       minetest.log("action", "[parachute] "..name.." opens a parachute at "..minetest.pos_to_string(obj:get_pos(), 1))
       return true
    else
-      return false, "on_ground"
+      return false, fail_reason
    end
 end
 
@@ -173,6 +185,10 @@ minetest.register_craftitem(
                minetest.chat_send_player(
                  player:get_player_name(),
                  minetest.colorize("#FFFF00", S("You can open the parachute only in air!")))
+	    elseif fail_reason == "no_space" then
+               minetest.chat_send_player(
+                 player:get_player_name(),
+                 minetest.colorize("#FFFF00", S("Not enough space to open parachute!")))
             elseif fail_reason == "ignore" then
                -- If we're in ignore, we might either be in an unloaded area or outside the map
                minetest.chat_send_player(
