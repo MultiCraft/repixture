@@ -81,6 +81,7 @@ end
 -- false, <failure_reason> on failure.
 -- * <failure_reason> = "already_attached" if player was attached
 -- * <failure_reason> = "on_ground" if player already on ground
+-- * <failure_reason> = "ignore" if player is in ignore
 local function open_parachute_for_player(player, play_sound, load_area)
    local name = player:get_player_name()
    if play_sound == nil then
@@ -95,11 +96,6 @@ local function open_parachute_for_player(player, play_sound, load_area)
 
    local spawnable = check_parachute_spawnable(pos, player)
 
-
-   local in_node = minetest.get_node(pos)
-   if in_node.name == "ignore" then
-      return false, "on_ground"
-   end
    if spawnable then
       -- Spawn parachute
       local ppos = vector.new(pos.x, pos.y + CBOX_BOTTOM, pos.z)
@@ -109,6 +105,11 @@ local function open_parachute_for_player(player, play_sound, load_area)
          local load1 = vector.add(ppos, vector.new(-2, -2, -2))
          local load2 = vector.add(ppos, vector.new(2, 4, 2))
          minetest.load_area(load1, load2)
+      end
+
+      local in_node = minetest.get_node(pos)
+      if in_node.name == "ignore" then
+         return false, "ignore"
       end
 
       local obj = minetest.add_entity(ppos, "parachute:entity")
@@ -164,7 +165,13 @@ minetest.register_craftitem(
                minetest.chat_send_player(
                  player:get_player_name(),
                  minetest.colorize("#FFFF00", S("You can open the parachute only in air!")))
-            end
+            elseif fail_reason == "ignore" then
+               -- If we're in ignore, we might either be in an unloaded area or outside the map
+               minetest.chat_send_player(
+                 player:get_player_name(),
+                 -- Intentionally vague message
+                 minetest.colorize("#FFFF00", S("The parachute fails to open for some reason.")))
+	    end
          end
          return itemstack
       end,
