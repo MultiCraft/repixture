@@ -353,7 +353,7 @@ minetest.register_on_joinplayer(function(player)
       local pos = player:get_pos()
       local ok, fail_reason = open_parachute_for_player(player, false, true)
       if not ok then
-         minetest.log("error", "[parachute] Parachute opening failed because: "..fail_reason)
+         minetest.log("action", "[parachute] Parachute opening failed because: "..fail_reason)
       end
    end
 end)
