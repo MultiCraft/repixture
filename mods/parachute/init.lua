@@ -12,6 +12,12 @@ local CBOX_BOTTOM = 0.8
 local CBOX_TOP = 2.8
 local CBOX_SIDE = 0.5
 
+local VELOCITY_H_DAMP = 8.0  -- Above this horiztonal velocity it will get quickly forced below this value
+local VELOCITY_H_MAX = 8.5  -- Above this horizontal velocity the player controls get disabled
+local ACCEL_Y_DAMP = 0.25   -- Y acceleration is multiplied with that every step
+local ACCEL_H_DAMP = 1.0   -- Horizontal acceleration is multiplied with that if too fast
+local ACCEL_CONTROL = 4.0   -- Acceleration to apply when pushing the movement controls
+
 local function air_physics(v)
    local m = 80    -- Weight of player, kg
    local g = -GRAVITY  -- Earth Acceleration, m/s^2
@@ -261,27 +267,45 @@ minetest.register_entity(
 
             local controls = player:get_player_control()
 
-            local speed = 4.0
+            local speed = ACCEL_CONTROL
 
             local accel = {x = 0, y = 0, z = 0}
 
-            if controls.down then
-               accel.x = s * speed
-               accel.z = c * speed
-            elseif controls.up then
-               accel.x = s * -speed
-               accel.z = c * -speed
+            local vel = self.object:get_velocity()
+            vel.y = 0
+            local maxed = vector.length(vel) >= VELOCITY_H_MAX
+            -- Control horizontal velocity with the Up/Left/Right/Down keys,
+            -- but ignore if a max. horizontal velocity is reached
+            if not maxed then
+               if controls.down then
+                  accel.x = s * speed
+                  accel.z = c * speed
+               elseif controls.up then
+                  accel.x = s * -speed
+                  accel.z = c * -speed
+               end
+
+               if controls.right then
+                  accel.x = sr * speed
+                  accel.z = cr * speed
+               elseif controls.left then
+                  accel.x = sr * -speed
+                  accel.z = cr * -speed
+               end
+            else
+               if vel.x > 0 then
+                  accel.x = -ACCEL_H_DAMP
+               elseif vel.x < 0 then
+                  accel.x = ACCEL_H_DAMP
+               end
+               if vel.z > 0 then
+                  accel.z = -ACCEL_H_DAMP
+               elseif vel.z < 0 then
+                  accel.z = ACCEL_H_DAMP
+               end
             end
 
-            if controls.right then
-               accel.x = sr * speed
-               accel.z = cr * speed
-            elseif controls.left then
-               accel.x = sr * -speed
-               accel.z = cr * -speed
-            end
-
-            accel.y = accel.y + air_physics(vel.y) * 0.25
+            accel.y = accel.y + air_physics(vel.y) * ACCEL_Y_DAMP
 
             if not is_ignore then
                self.object:set_acceleration(accel)
