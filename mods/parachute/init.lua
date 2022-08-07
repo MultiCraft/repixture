@@ -162,7 +162,7 @@ minetest.register_craftitem(
       stack_max = 1,
       groups = { tool = 1 },
       on_use = function(itemstack, player, pointed_thing)
-         local ok, fail_reason = open_parachute_for_player(player)
+         local ok, fail_reason = open_parachute_for_player(player, true, true)
          if ok then
             if not minetest.is_creative_enabled(player:get_player_name()) then
                itemstack:take_item()
