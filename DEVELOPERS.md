@@ -45,6 +45,7 @@ Mods with documented APIs:
 * `rp_farming`: Add farmable plants
 * `rp_goodies`: Fill container nodes with random loot
 * `rp_hunger`: Get and set hunger
+* `rp_item_drop`: Add a function to simulate an item drop
 * `rp_itemshow`: Needed when your item needs a custom appearance in the item frame / item showcase
 * `rp_jewels`: Register jeweled tools, and more
 * `rp_locks`: Get info about lockable nodes

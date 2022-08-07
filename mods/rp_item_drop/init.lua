@@ -5,7 +5,7 @@
 local ITEM_MAGNET_DELAY_AFTER_DROP = 1.5
 
 item_drop = {}
-function item_drop.drop_item(pos, itemstack, spread)
+function item_drop.drop_item(pos, itemstack)
    local rpos = {
       x = pos.x + math.random(-100, 100)*0.003,
       y = pos.y,
