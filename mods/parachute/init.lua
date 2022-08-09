@@ -20,6 +20,8 @@ local AIR_PHYSICS_DAMP = 0.25 -- air_physics() value is multiplied with this
 local ACCEL_H_DAMP = 1.0   -- Horizontal acceleration is multiplied with that if too fast
 local ACCEL_CONTROL = 4.0   -- Acceleration to apply when pushing the movement controls
 
+local SKY_DIVER_DEPTH = 100 -- how many nodes to sink to get the sky_diver achievement
+
 local function air_physics(v)
    local m = 80    -- Weight of player, kg
    local g = -GRAVITY  -- Earth Acceleration, m/s^2
@@ -154,9 +156,15 @@ local function open_parachute_for_player(player, play_sound, load_area)
       rp_player.player_attached[name] = true
 
       local meta = player:get_meta()
-      -- Save parachute state in player meta. Used to re-open the parachute when
-      -- leaving the server and then re-joining.
-      meta:set_int("parachute:active", 1)
+      if meta:get_int("parachute:active") == 0 then
+         -- Save parachute state in player meta. Used to re-open the parachute when
+         -- leaving the server and then re-joining.
+         meta:set_int("parachute:active", 1)
+         -- Remember the initial Y position of the parachute for sky_diver achievement
+         meta:set_float("parachute:start_y", obj:get_pos().y)
+         -- This marks that parachute:start_y has been set (1 = set, 0 = unset)
+         meta:set_int("parachute:start_y_set", 1)
+      end
 
       minetest.log("action", "[parachute] "..name.." opens a parachute at "..minetest.pos_to_string(obj:get_pos(), 1))
       return true
@@ -220,7 +228,6 @@ minetest.register_entity(
       static_save = false,
 
       attached = nil,
-      start_y = nil,
       ignore_mode = false,
 
       on_activate = function(self, staticdata, dtime_s)
@@ -228,7 +235,6 @@ minetest.register_entity(
          self.object:set_armor_groups({immortal=1})
          if dtime_s == 0 then
            local pos = self.object:get_pos()
-           self.start_y = pos.y
          end
                self.object:set_acceleration({x=0,y=0,z=0})
       end,
@@ -355,10 +361,16 @@ minetest.register_entity(
                player = minetest.get_player_by_name(self.attached)
                if player then
                   local meta = player:get_meta()
-                  meta:set_int("parachute:active", 0)
-                  if self.start_y ~= nil and self.start_y - self.object:get_pos().y > 100 then
+                  -- award sky_diver achievement
+                  local start_y_set = meta:get_int("parachute:start_y_set")
+                  local start_y = meta:get_float("parachute:start_y", start_y)
+                  if start_y_set == 1 and start_y - self.object:get_pos().y >= SKY_DIVER_DEPTH then
                      achievements.trigger_achievement(player, "sky_diver")
                   end
+                  -- reset metadata
+                  meta:set_int("parachute:active", 0)
+                  meta:set_int("parachute:start_y_set", 0)
+                  meta:set_string("parachute:start_y", "")
                end
             end
 
