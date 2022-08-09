@@ -41,10 +41,9 @@ end
 --    * `"on_ground"`: Player standing on ground
 --    * `"no_space"`: Not enough space
 local check_parachute_spawnable = function(pos, player)
-   -- We do multiple raycasts, each testing
-   -- an edge of the (soon-to-exist) parachute collisionbox.
-   -- The position is only treated as OK
-   -- when all raycasts find nothing except the player.
+   -- We do a few raycasts which go vertically
+   -- to test potential collision with the (soon-to-exist)
+   -- parachute collisionbox.
 
    -- Tiny number added to the coordinates to make
    -- the checked area slightly bigger than the expected
@@ -67,16 +66,6 @@ local check_parachute_spawnable = function(pos, player)
            { -side, bottom,  side, -side, top,  side },
            {  side, bottom, -side,  side, top, -side },
            {  side, bottom,  side,  side, top,  side },
-           -- bottom edges
-           { -side, bottom, -side, -side, bottom,  side }, -- 00 --> 01
-           { -side, bottom, -side,  side, bottom, -side }, -- 00 --> 10
-           {  side, bottom, -side,  side, bottom,  side }, -- 10 --> 11
-           { -side, bottom,  side,  side, bottom,  side }, -- 01 --> 11
-           -- top edges
-           { -side, top, -side, -side, top,  side }, -- 00 --> 01
-           { -side, top, -side,  side, top, -side }, -- 00 --> 10
-           {  side, top, -side,  side, top,  side }, -- 10 --> 11
-           { -side, top,  side,  side, top,  side }, -- 01 --> 11
    }
    -- Finally check the rays
    for i=1, #offsets do
@@ -103,7 +92,7 @@ local check_parachute_spawnable = function(pos, player)
       end
    end
 
-   -- We also check a few nodes at the player directly, just in case
+   -- Finally, check nodes at the player feet to be extra sure
    local node1 = minetest.get_node(pos)
    local node2 = minetest.get_node(vector.new(pos.x, pos.y-1, pos.z))
    local def1 = minetest.registered_nodes[node1.name]
