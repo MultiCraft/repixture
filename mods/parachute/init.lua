@@ -54,22 +54,36 @@ local check_parachute_spawnable = function(pos, player)
    -- definitely won't overlap with nodes or objects when
    -- spawned.
    local tiny = 0.01
-   local side = CBOX_SIDE + tiny
-   local offsets = {
-	   -- for testing the middle
-	   { 0, 0 },
-	   -- for testing the 4 edges of the collisionbox
-	   { -side, -side },
-	   { -side,  side },
-	   {  side, -side },
-	   {  side,  side },
-   }
    local y_extend = 1 -- Check a little bit below the potential collisionbox as well
                       -- so the parachute isn't spawned when standing on the ground
+   local side = CBOX_SIDE + tiny
+   local bottom = CBOX_BOTTOM - y_extend - tiny
+   local top = CBOX_TOP + tiny
+
+   local offsets = {
+           -- Xmin, Ymin, Zmin, Xmax, Ymax, Zmax
+           -- for testing the middle
+           { 0, bottom, 0, 0, top, 0 },
+           -- for testing the 4 vertical edges of the collisionbox
+           { -side, bottom, -side, -side, top, -side },
+           { -side, bottom,  side, -side, top,  side },
+           {  side, bottom, -side,  side, top, -side },
+           {  side, bottom,  side,  side, top,  side },
+           -- bottom edges
+           { -side, bottom, -side, -side, bottom,  side }, -- 00 --> 01
+           { -side, bottom, -side,  side, bottom, -side }, -- 00 --> 10
+           {  side, bottom, -side,  side, bottom,  side }, -- 10 --> 11
+           { -side, bottom,  side,  side, bottom,  side }, -- 01 --> 11
+           -- top edges
+           { -side, top, -side, -side, top,  side }, -- 00 --> 01
+           { -side, top, -side,  side, top, -side }, -- 00 --> 10
+           {  side, top, -side,  side, top,  side }, -- 10 --> 11
+           { -side, top,  side,  side, top,  side }, -- 01 --> 11
+   }
    -- Finally check the rays
    for i=1, #offsets do
-      local off_start = vector.new(offsets[i][1], CBOX_BOTTOM - y_extend - tiny, offsets[i][2])
-      local off_end = vector.new(offsets[i][1], CBOX_TOP + tiny, offsets[i][2])
+      local off_start = vector.new(offsets[i][1], offsets[i][2], offsets[i][3])
+      local off_end = vector.new(offsets[i][4], offsets[i][5], offsets[i][6])
       local ray_start = vector.add(pos, off_start)
       local ray_end = vector.add(pos, off_end)
       local ray = minetest.raycast(ray_start, ray_end, true, true)
