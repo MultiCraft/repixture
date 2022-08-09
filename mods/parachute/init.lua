@@ -74,6 +74,8 @@ local check_parachute_spawnable = function(pos, player)
       local ray_start = vector.add(pos, off_start)
       local ray_end = vector.add(pos, off_end)
       local ray = minetest.raycast(ray_start, ray_end, true, true)
+      local on_ground_only = true
+      local collide = false
       while true do
          local thing = ray:next()
          if not thing then
@@ -82,12 +84,17 @@ local check_parachute_spawnable = function(pos, player)
          -- Any collision counts, EXCEPT with the parachuting player
          if not (thing.type == "object" and thing.ref == player) then
             local fail_reason
-            if thing.intersection_point.y < pos.y then
-               fail_reason = "on_ground"
-            else
-               fail_reason = "no_space"
+            collide = true
+            if thing.intersection_point.y >= pos.y then
+               on_ground_only = false
             end
-            return false, fail_reason
+         end
+      end
+      if collide then
+         if on_ground_only then
+            return false, "on_ground"
+         else
+            return false, "no_space"
          end
       end
    end
@@ -103,6 +110,7 @@ local check_parachute_spawnable = function(pos, player)
       return false, "on_ground"
    end
 
+   -- All checks passed!
    return true
 end
 
