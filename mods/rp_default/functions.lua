@@ -997,7 +997,7 @@ minetest.register_abm({
         end
         local pos0 = vector.add(pos, {x=-5, y=0, z=-5})
         local pos1 = vector.add(pos, {x=5, y=2, z=5})
-        if #minetest.find_nodes_in_area(pos0, pos1, "rp_default:clam") >= 1 then
+        if #minetest.find_nodes_in_area(pos0, pos1, "group:clam") >= 1 then
             return
         end
 

@@ -389,7 +389,7 @@ minetest.register_node(
 	    {items = {"rp_default:pearl"}, rarity = 20},
 	 }
       },
-      groups = {fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, food = 2},
+      groups = {clam = 1, fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, food = 2},
       on_use = minetest.item_eat({hp = 4, sat = 10}),
       sounds = rp_sounds.node_sound_defaults(),
 
@@ -422,7 +422,7 @@ minetest.register_node(
       sunlight_propagates = true,
       walkable = false,
       floodable = true,
-      groups = {fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, not_in_creative_inventory = 1},
+      groups = {clam = 1, fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, not_in_creative_inventory = 1},
       sounds = rp_sounds.node_sound_defaults(),
 })
 

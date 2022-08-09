@@ -114,6 +114,7 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `flower`: Flower
 * `seagrass`: Seagrass
 * `alga`: Alga
+* `clam`: Clam
 
 * `leaves`: Any leaves
 * `dry_leaves`: Dry leaves
