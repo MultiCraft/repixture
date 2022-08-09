@@ -59,7 +59,9 @@ local check_parachute_spawnable = function(pos, player)
    local top = (CBOX_TOP - CBOX_BOTTOM) + tiny
 
    local offsets = {
-           -- Xmin, Ymin, Zmin, Xmax, Ymax, Zmax
+           -- Format: { Xmin, Ymin, Zmin, Xmax, Ymax, Zmax }
+           -- middle vertical ray
+           { 0, bottom, 0, 0, top, 0 },
            -- for testing the 4 vertical edges of the collisionbox
            { -side, bottom, -side, -side, top, -side },
            { -side, bottom,  side, -side, top,  side },
@@ -100,6 +102,18 @@ local check_parachute_spawnable = function(pos, player)
          end
       end
    end
+
+   -- We also check a few nodes at the player directly, just in case
+   local node1 = minetest.get_node(pos)
+   local node2 = minetest.get_node(vector.new(pos.x, pos.y-1, pos.z))
+   local def1 = minetest.registered_nodes[node1.name]
+   local def2 = minetest.registered_nodes[node2.name]
+   if not def1 or def1.walkable then
+      return false, "on_ground"
+   elseif not def2 or def2.walkable then
+      return false, "on_ground"
+   end
+
    return true
 end
 
