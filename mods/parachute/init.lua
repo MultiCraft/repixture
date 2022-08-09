@@ -41,10 +41,8 @@ end
 --    * `"on_ground"`: Player standing on ground
 --    * `"no_space"`: Not enough space
 local check_parachute_spawnable = function(pos, player)
-   -- We do 5 raycasts, which are all vertical.
-   -- 4 raycasts for the 4 vertical edges of the
-   -- (soon-to-exist) parachute collisionbox and
-   -- 1 raycast for the center.
+   -- We do multiple raycasts, each testing
+   -- an edge of the (soon-to-exist) parachute collisionbox.
    -- The position is only treated as OK
    -- when all raycasts find nothing except the player.
 
@@ -57,13 +55,11 @@ local check_parachute_spawnable = function(pos, player)
    local y_extend = 1 -- Check a little bit below the potential collisionbox as well
                       -- so the parachute isn't spawned when standing on the ground
    local side = CBOX_SIDE + tiny
-   local bottom = CBOX_BOTTOM - y_extend - tiny
-   local top = CBOX_TOP + tiny
+   local bottom = - y_extend - tiny
+   local top = (CBOX_TOP - CBOX_BOTTOM) + tiny
 
    local offsets = {
            -- Xmin, Ymin, Zmin, Xmax, Ymax, Zmax
-           -- for testing the middle
-           { 0, bottom, 0, 0, top, 0 },
            -- for testing the 4 vertical edges of the collisionbox
            { -side, bottom, -side, -side, top, -side },
            { -side, bottom,  side, -side, top,  side },
