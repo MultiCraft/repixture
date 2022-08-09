@@ -152,6 +152,13 @@ function village.get_nearest_village(pos)
    return {dist = nearest, pos = npos, name = name, fname = fname}
 end
 
+local farmchunkdef = {
+   entity_chance = 2,
+   entities = {
+      ["mobs:npc_farmer"] = 1,
+   }
+}
+
 village.chunkdefs = {}
 
 village.chunkdefs["livestock_pen"] = {
@@ -197,30 +204,16 @@ village.chunkdefs["orchard"] = {
       ["mobs:npc_farmer"] = 1,
    },
 }
-village.chunkdefs["farm"] = {
-   entity_chance = 2,
-   entities = {
-      ["mobs:npc_farmer"] = 1,
-   },
-}
-village.chunkdefs["farm_wheat"] = {
-   entity_chance = 2,
-   entities = {
-      ["mobs:npc_farmer"] = 1,
-   },
-}
-village.chunkdefs["farm_cotton"] = {
-   entity_chance = 2,
-   entities = {
-      ["mobs:npc_farmer"] = 1,
-   },
-}
-village.chunkdefs["farm_papyrus"] = {
-   entity_chance = 2,
-   entities = {
-      ["mobs:npc_farmer"] = 1,
-   },
-}
+village.chunkdefs["farm_v24_potato"] = farmchunkdef
+village.chunkdefs["farm_v24_potato_wheat"] = farmchunkdef
+village.chunkdefs["farm_v24_wheat"] = farmchunkdef
+village.chunkdefs["farm_v24_wheat_cotton"] = farmchunkdef
+village.chunkdefs["farm_v24_cotton"] = farmchunkdef
+village.chunkdefs["farm_h246_potato"] = farmchunkdef
+village.chunkdefs["farm_h246_wheat"] = farmchunkdef
+village.chunkdefs["farm_h246_cotton"] = farmchunkdef
+village.chunkdefs["farm_c4_papyrus"] = farmchunkdef
+village.chunkdefs["farm_o4_papyrus"] = farmchunkdef
 
 -- List of chunk types. Chunk types are structurs and buildings
 -- that are not the well and are placed next to roads.
@@ -228,16 +221,38 @@ village.chunkdefs["farm_papyrus"] = {
 -- the more likely it will occur.
 -- The well is not listed here because it acts as the start point.
 village.chunktypes = {
-   -- chunktype, absolute frequency
-   { "house", 12 },
-   { "tavern", 6 },
-   { "forge", 6 },
-   { "farm_wheat", 2 },
-   { "farm_cotton", 2 },
-   { "farm", 2 },
-   { "farm_papyrus", 3 },
-   { "livestock_pen", 3 },
-   { "orchard", 3 },
+   -- { chunktype, absolute frequency }
+
+   -- houses
+   { "house", 240 },
+   { "tavern", 120 },
+   { "forge", 120 },
+   -- other
+   { "livestock_pen", 60 },
+   { "orchard", 60 },
+
+   -- farms
+   -- naming scheme: farm_<water><lines>_<plants>
+   -- * <water>: water position:
+   --    * "v": vertical lines
+   --    * "h": horizontal lines
+   --    * "c": center
+   --    * "o": outwards
+   -- * <lines>:
+   --    * for v/h: list of numbers at where the water will be
+   --    * for c/o: how much water in total
+   -- * <plants>: List of plants (from left to right)
+   { "farm_v24_potato", 20 },
+   { "farm_v24_potato_wheat", 10 },
+   { "farm_v24_wheat", 20 },
+   { "farm_v24_wheat_cotton", 10 },
+   { "farm_v24_cotton", 10 },
+   { "farm_h246_potato", 20 },
+   { "farm_h246_wheat", 20 },
+   { "farm_h246_cotton", 10 },
+   { "farm_c4_papyrus", 60 },
+   { "farm_o4_papyrus", 60 },
+
 }
 
 -- List of chunktypes to be used as fallback for the starting
