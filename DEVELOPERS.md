@@ -43,6 +43,7 @@ Mods with documented APIs:
 * `rp_drop_items_on_die`: You only need this mod if you added an inventory list to the player
                           and you want its contents to be dropped on death.
 * `rp_farming`: Add farmable plants
+* `rp_formspec`: Build formspecs
 * `rp_goodies`: Fill container nodes with random loot
 * `rp_hunger`: Get and set hunger
 * `rp_item_drop`: Add a function to simulate an item drop
