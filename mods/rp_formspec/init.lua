@@ -215,28 +215,6 @@ function rp_formspec.fake_itemstack(x, y, itemstack)
    return result
 end
 
-function rp_formspec.fake_simple_itemstack(x, y, itemname, name)
-   local name = name or "fake_simple_itemstack"
-
-   local itemdesc = ""
-   if minetest.registered_items[itemname]
-   and minetest.registered_items[itemname].description ~= nil then
-      itemdesc = minetest.registered_items[itemname].description
-   end
-
-   local result = ""
-   if itemname ~= "" then
-      result = result .. "image_button["..x..","..y..";1,1;blank.png;"
-         ..name..";;false;false;blank.png]"
-      result = result .. "item_image["..x..","..y..";1,1;"
-         ..minetest.formspec_escape(itemname).."]"
-      result = result .. "tooltip["..name..";"
-         ..minetest.formspec_escape(itemdesc).."]"
-   end
-
-   return result
-end
-
 function rp_formspec.item_group(x, y, group, count, name)
    local name = name or "fake_itemgroup"
 

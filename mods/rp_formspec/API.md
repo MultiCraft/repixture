@@ -119,19 +119,6 @@ the item’s tooltip.
 
 
 
-### `rp_formspec.fake_simple_itemstack(x, y, itemname, name)`
-
-Adds an item image that shows the given item. Unlike
-`rp_formspec.fake_itemstack`, this accepts an itemstring
-instead of an itemstack.
-A tooltip for the image will be added as well, showing `name`.
-
-* `x`, `y`: Position
-* `itemname`: Itemstring of the item to represent
-* `name`: Internal name to use for the formspec element, also the tooltip
-
-
-
 ### `rp_formspec.fake_itemstack_any(x, y, itemstack, name)`
 
 Convenience function that either uses `rp_formspec.fake_itemstack` or
