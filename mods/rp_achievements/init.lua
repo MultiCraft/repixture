@@ -200,7 +200,7 @@ local function check_achievement_gotten(player, aname)
       minetest.log("action", "[rp_achievements] " .. name .. " got achievement '"..aname.."'")
    end
 
-   if rp_formspec.current_page[name] == "rp_achievements:achievements" then
+   if rp_formspec.get_invpage(player) == "rp_achievements:achievements" then
       local form = achievements.get_formspec(name)
       player:set_inventory_formspec(form)
    end
@@ -383,7 +383,7 @@ crafting.register_on_craft(on_craft)
 
 -- Formspecs
 
-local form = rp_formspec.get_page("rp_default:default")
+local form = rp_formspec.get_page("rp_formspec:default")
 
 -- column 1: status image (0=gotten, 1=partial, 2=missing)
 -- column 2: achievement name
