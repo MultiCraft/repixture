@@ -433,6 +433,11 @@ rp_formspec.register_invpage("rp_crafting:crafting", {
 	get_formspec = crafting.get_formspec,
 })
 
+rp_formspec.register_invtab("rp_crafting:crafting", {
+   icon = "ui_icon_crafting.png",
+   tooltip = S("Crafting"),
+})
+
 local function clear_craft_slots(player)
    local inv = player:get_inventory()
    -- Move items out of input and output slots

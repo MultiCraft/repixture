@@ -393,6 +393,11 @@ form = form .. "tablecolumns[color;image,align=left,width=1,0=ui_checkmark.png^[
 
 rp_formspec.register_page("rp_achievements:achievements", form)
 
+rp_formspec.register_invtab("rp_achievements:achievements", {
+   icon = "ui_icon_achievements.png",
+   tooltip = S("Achivements"),
+})
+
 function achievements.get_formspec(name, row)
    row = row or 1
 

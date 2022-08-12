@@ -263,14 +263,42 @@ function rp_formspec.fake_itemstack_any(x, y, itemstack, name)
    end
 end
 
+-- Inventory tabs (invtabs)
+
+rp_formspec.registered_invtabs = {}
+local registered_invtabs_order = {}
+
+-- Register an inventory tab
+function rp_formspec.register_invtab(name, def)
+   local rdef = table.copy(def)
+   rp_formspec.registered_invtabs[name] = def
+   table.insert(registered_invtabs_order, name)
+end
+
+-- Returns a formspec string for all the inventory tabs
+local function get_invtabs()
+   local form = ""
+   local tabx = -0.9
+   local taby = 0.5
+   local tabplus = 0.78
+   for o=1, #registered_invtabs_order do
+      local tabname = registered_invtabs_order[o]
+      local def = rp_formspec.registered_invtabs[tabname]
+      form = form .. rp_formspec.tab(tabx, taby, "_rp_formspec_tab_"..tabname, def.icon, def.tooltip)
+      taby = taby + tabplus
+   end
+   return form
+end
+
+
 -- Pages
 
 function rp_formspec.get_page(name)
-   local page= rp_formspec.registered_pages[name]
+   local page = rp_formspec.registered_pages[name]
 
    if page == nil then
-      minetest.log("info", "[rp_formspec] UI page '" .. name .. "' is not yet registered")
-      page = ""
+      minetest.log("warning", "[rp_formspec] UI page '" .. name .. "' is not yet registered")
+      return ""
    end
 
    return page
@@ -282,33 +310,22 @@ end
 
 -- Default formspec boilerplates
 
-local form_default_default = ""
-form_default_default = form_default_default .. "size[8.5,9]"
-form_default_default = form_default_default .. rp_formspec.default.bg
-form_default_default = form_default_default .. rp_formspec.tab(-0.9, 0.5, "_rp_formspec_tab_rp_crafting:crafting", "ui_icon_crafting.png", S("Crafting"))
-if minetest.get_modpath("rp_armor") ~= nil then
-   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 1.28, "_rp_formspec_tab_rp_armor:armor", "ui_icon_armor.png", S("Armor"))
-end
-if minetest.get_modpath("rp_achievements") ~= nil then
-   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 2.06, "_rp_formspec_tab_rp_achievements:achievements", "ui_icon_achievements.png", S("Achievements"))
-end
-if minetest.get_modpath("rp_player_skins") ~= nil then
-   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 2.84, "_rp_formspec_tab_rp_player_skins:player_skins", "ui_icon_player_skins.png", S("Player Skins"))
-end
-if minetest.get_modpath("rp_creative") ~= nil and minetest.is_creative_enabled("") then
-   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 3.64, "_rp_formspec_tab_rp_creative:creative", "ui_icon_creative.png", S("Creative Inventory"))
-end
-form_default_default = form_default_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
-rp_formspec.register_page("rp_formspec:default", form_default_default)
-rp_formspec.register_page("rp_formspec:2part", form_default_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
+local form_default = ""
+form_default = form_default .. "size[8.5,9]"
+form_default = form_default .. rp_formspec.default.bg
+form_default = form_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
+local form_2part = form_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
 
-local form_default_notabs = ""
-form_default_notabs = form_default_notabs .. "size[8.5,9]"
-form_default_notabs = form_default_notabs .. rp_formspec.default.bg
-form_default_notabs = form_default_notabs .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
-rp_formspec.register_page("rp_formspec:notabs", form_default_notabs)
-rp_formspec.register_page("rp_formspec:notabs_2part", form_default_notabs .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
+-- 1-part frame
+rp_formspec.register_page("rp_formspec:default", form_default)
+-- 2-part frame
+rp_formspec.register_page("rp_formspec:2part", form_2part)
+-- 1-part frame (legacy). TODO: remove
+rp_formspec.register_page("rp_formspec:notabs", form_default)
+-- 2-part frame (legacy). TODO: remove
+rp_formspec.register_page("rp_formspec:notabs_2part", form_2part)
 
+-- Simple text input field
 local form_default_field = ""
 form_default_field = form_default_field .. "size[8.5,5]"
 form_default_field = form_default_field .. rp_formspec.default.bg
@@ -346,7 +363,11 @@ function rp_formspec.receive_fields(player, form_name, fields)
 end
 
 function rp_formspec.register_invpage(name, def)
-   rp_formspec.registered_invpages[name] = def
+   local rdef = table.copy(def)
+   if rdef.with_invtabs == nil then
+      rdef.with_invtabs = true
+   end
+   rp_formspec.registered_invpages[name] = rdef
 end
 
 function rp_formspec.set_invpage(player, page)
@@ -357,6 +378,9 @@ function rp_formspec.set_invpage(player, page)
        formspec = def.get_formspec(pname)
     else
        formspec = rp_formspec.registered_pages[page]
+    end
+    if def.with_invtabs then
+       formspec = formspec .. get_invtabs()
     end
     player:set_inventory_formspec(formspec)
     current_invpage[pname] = page

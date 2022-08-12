@@ -50,6 +50,11 @@ rp_formspec.register_invpage("rp_armor:armor", {
 	get_formspec = armor.get_formspec,
 })
 
+rp_formspec.register_invtab("rp_armor:armor", {
+   icon = "ui_icon_armor.png",
+   tooltip = S("Armor"),
+})
+
 function armor.is_armor(itemname)
    local item = minetest.registered_items[itemname]
 

@@ -260,6 +260,10 @@ form = form .. rp_formspec.button(4.5, 7.75, 3, 1, "player_skins_skin_select_ran
 
 rp_formspec.register_page("rp_player_skins:player_skins", form)
 rp_formspec.register_invpage("rp_player_skins:player_skins", {get_formspec = get_formspec})
+rp_formspec.register_invtab("rp_player_skins:player_skins", {
+	icon = "ui_icon_player_skins.png",
+	tooltip = S("Player Skins"),
+})
 
 minetest.register_on_player_receive_fields(function(player, form_name, fields)
 	local name = player:get_player_name()

@@ -261,6 +261,12 @@ rp_formspec.register_page("rp_creative:creative", form)
 rp_formspec.register_invpage("rp_creative:creative", {
 	get_formspec = creative.get_formspec,
 })
+if minetest.is_creative_enabled("") then
+	rp_formspec.register_invtab("rp_creative:creative", {
+		icon = "ui_icon_creative.png",
+		tooltip = S("Creative Inventory"),
+	})
+end
 
 minetest.register_on_joinplayer(function(player)
 	-- If in creative mode, modify player's inventory forms
