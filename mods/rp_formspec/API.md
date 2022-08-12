@@ -140,6 +140,24 @@ In that case, it can only be reached by a function call.
 
 
 
+### `rp_formspec.set_invtab_order(order)`
+
+Overrides the order in which the invtabs are shown, starting
+with the top tab.
+
+* `order`: List of invtab IDs to order.
+
+`order` can contain unknown invtab IDs, they will be ignored.
+Any invtab not listed in `order` will be added at the end
+in a non-predictable order.
+
+If this function is called multiple times, the last
+time this function is called is the one that actually
+takes effect. If you want to override the order set
+by another mod, depend on this mod first.
+
+
+
 ### `rp_formspec.registered_invpages`
 
 Table which lists all registered invpages.

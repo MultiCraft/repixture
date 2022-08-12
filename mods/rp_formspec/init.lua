@@ -291,13 +291,27 @@ local function get_invtabs()
    for o=1, #registered_invtabs_order do
       local tabname = registered_invtabs_order[o]
       local def = rp_formspec.registered_invtabs[tabname]
-      form = form .. rp_formspec.tab(tabx, taby, "_rp_formspec_tab_"..tabname, def.icon, def.tooltip)
-      taby = taby + tabplus
+      if def then
+         form = form .. rp_formspec.tab(tabx, taby, "_rp_formspec_tab_"..tabname, def.icon, def.tooltip)
+         taby = taby + tabplus
+      end
    end
    invtabs_cached = form
    return form
 end
 
+function rp_formspec.set_invtab_order(order)
+  registered_invtabs_order = table.copy(order)
+  local already_ordered = {}
+  for o=1, #order do
+    already_ordered[order[o]] = true
+  end
+  for k,v in pairs(rp_formspec.registered_invtabs) do
+    if not already_ordered[k] then
+       table.insert(registered_invtabs_order, k)
+    end
+  end
+end
 
 -- Pages
 
