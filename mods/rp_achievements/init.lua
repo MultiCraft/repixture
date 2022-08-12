@@ -566,8 +566,7 @@ local function receive_fields(player, form_name, fields)
 
    end
    if in_achievements_menu then
-      local form = achievements.get_formspec(name, selected)
-      player:set_inventory_formspec(form)
+      rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
    end
 end
 

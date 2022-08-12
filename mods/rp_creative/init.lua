@@ -327,10 +327,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		page = 1
 	end
 
-	local form = rp_formspec.get_page("rp_creative:creative", true)
-	form = form .. creative.get_creative_formspec(player, start_i, start_i / (creative.slots_num) + 1)
 	if changed then
-		player:set_inventory_formspec(form)
+		rp_formspec.refresh_invpage(player, "rp_creative:creative")
 	end
 end)
 
