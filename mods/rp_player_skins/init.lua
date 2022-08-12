@@ -229,6 +229,8 @@ local function on_joinplayer(player)
 		minetest.log("action", "[rp_player_skins] Player "..name.." appears to be new, setting initial random skin")
 		player_skins.set_random_skin(name)
 	end
+
+	rp_formspec.refresh_invpage(player, "rp_player_skins:player_skins")
 end
 
 local function on_leaveplayer(player)

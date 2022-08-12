@@ -200,10 +200,7 @@ local function check_achievement_gotten(player, aname)
       minetest.log("action", "[rp_achievements] " .. name .. " got achievement '"..aname.."'")
    end
 
-   if rp_formspec.get_current_invpage(player) == "rp_achievements:achievements" then
-      local form = achievements.get_formspec(name)
-      player:set_inventory_formspec(form)
-   end
+   rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
 end
 
 function achievements.trigger_subcondition(player, aname, subcondition)

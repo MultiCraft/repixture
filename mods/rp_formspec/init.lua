@@ -400,6 +400,13 @@ function rp_formspec.set_current_invpage(player, page)
     current_invpage[pname] = page
 end
 
+function rp_formspec.refresh_invpage(player, invpage)
+    local current = rp_formspec.get_current_invpage(player)
+    if invpage == current then
+        rp_formspec.set_current_invpage(player, invpage)
+    end
+end
+
 function rp_formspec.get_current_invpage(player)
     local pname = player:get_player_name()
     return current_invpage[pname]

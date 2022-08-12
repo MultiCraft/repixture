@@ -113,9 +113,10 @@ The regular page then *becomes* an invpage by doing this.
 
 
 
-### `rp_formspec.set_current_invpage(player, page)`
+### `rp_formspec.set_current_invpage(player, invpage)`
 
 Set the current invpage of `player` to the invpage with the name `page`.
+If the player is already at this invpage, the invpage is refreshed.
 
 
 
@@ -123,6 +124,19 @@ Set the current invpage of `player` to the invpage with the name `page`.
 
 Returns the name of the current invpage of `player`.
 
+
+
+### `rp_formspec.refresh_invpage(player, invpage)`
+
+Regenerates the formspec for the `invpage` of player.
+Call this whenever you need to report to `rp_formspec`
+the formspec of an invpage had some changes (i.e. new
+elements).
+For example, on an achievements page, when the list
+of achievments has changed.
+
+Note: The invpage is automatically rebuilt when the current
+invpage is selected manually.
 
 
 ### `rp_formspec.register_invtab(name, def)`
