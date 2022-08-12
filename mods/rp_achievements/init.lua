@@ -14,6 +14,8 @@ achievements = {}
 achievements.registered_achievements = {}
 achievements.registered_achievements_list = {}
 
+local selected_row = {} -- current selected row, per-player
+
 local legacy_achievements_file = minetest.get_worldpath() .. "/achievements.dat"
 
 local legacy_achievements_states = {}
@@ -367,11 +369,17 @@ local function on_joinplayer(player)
    end
 end
 
+local function on_leaveplayer(player)
+   local name = player:get_player_name()
+   selected_row[name] = nil
+end
+
 -- Add callback functions
 
 minetest.register_on_mods_loaded(on_load)
 
 minetest.register_on_joinplayer(on_joinplayer)
+minetest.register_on_leaveplayer(on_leaveplayer)
 
 minetest.register_on_dignode(on_dig)
 minetest.register_on_placenode(on_place)
@@ -395,12 +403,15 @@ rp_formspec.register_invtab("rp_achievements:achievements", {
    tooltip = S("Achievements"),
 })
 
-function achievements.get_formspec(name, row)
-   row = row or 1
+function achievements.get_formspec(name)
+   local row = 1
 
    local player = minetest.get_player_by_name(name)
    if not player then
       return
+   end
+   if selected_row[name] then
+      row = selected_row[name]
    end
    local states = get_achievement_states(player)
 
@@ -535,7 +546,7 @@ function achievements.get_formspec(name, row)
 end
 
 rp_formspec.register_invpage("rp_achievements:achievements", {
-	get_formspec = achievements.get_formspec,
+   get_formspec = achievements.get_formspec,
 })
 
 local function receive_fields(player, form_name, fields)
@@ -562,6 +573,9 @@ local function receive_fields(player, form_name, fields)
 
       if selection.type == "CHG" or selection.type == "DCL" then
 	 selected = selection.row
+	 selected_row[name] = selected
+      elseif selection.type == "INV" then
+	 selected_row[name] = nil
       end
 
    end
