@@ -1,5 +1,5 @@
 --
--- Achivements mod
+-- Achievements mod
 --
 
 local COLOR_GOTTEN = "#00FF00"
@@ -395,7 +395,7 @@ rp_formspec.register_page("rp_achievements:achievements", form)
 
 rp_formspec.register_invtab("rp_achievements:achievements", {
    icon = "ui_icon_achievements.png",
-   tooltip = S("Achivements"),
+   tooltip = S("Achievements"),
 })
 
 function achievements.get_formspec(name, row)
