@@ -9,3 +9,4 @@ Trousers=
 Skin=
 Shoes=
 Random=
+Player Skins=

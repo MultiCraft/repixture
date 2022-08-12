@@ -2,6 +2,7 @@
 @1 has earned the achievement “@2”.=
 You have earned the achievement “@1”.=
 The achievement “@1” has new goals.=
+Achievements=
 Gotten=
 @1/@2=
 Missing=
