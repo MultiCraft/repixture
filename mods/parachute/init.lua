@@ -384,7 +384,7 @@ minetest.register_entity(
                   local meta = player:get_meta()
                   -- award sky_diver achievement
                   local start_y_set = meta:get_int("parachute:start_y_set")
-                  local start_y = meta:get_float("parachute:start_y", start_y)
+                  local start_y = meta:get_float("parachute:start_y", "start_y")
                   if start_y_set == 1 and start_y - self.object:get_pos().y >= SKY_DIVER_DEPTH then
                      achievements.trigger_achievement(player, "sky_diver")
                   end
