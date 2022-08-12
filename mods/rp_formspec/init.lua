@@ -318,6 +318,14 @@ form_default_field = form_default_field .. "set_focus[text;true]"
 form_default_field = form_default_field .. "field[1,1.75;7,0;text;;${text}]"
 rp_formspec.register_page("rp_formspec:field", form_default_field)
 
+-- A page (and invpage) with only the player inventory, used as fallback
+local form_inventory = ""
+form_inventory = form_inventory .. rp_formspec.get_page("rp_formspec:default")
+form_inventory = form_inventory .. "list[current_player;main;0.25,4.75;8,4;]"
+form_inventory = form_inventory .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
+form_inventory = form_inventory .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+rp_formspec.register_page("rp_formspec:inventory", form_inventory)
+
 function rp_formspec.receive_fields(player, form_name, fields)
    local pname = player:get_player_name()
 
@@ -325,7 +333,11 @@ function rp_formspec.receive_fields(player, form_name, fields)
    for k,def in pairs(rp_formspec.registered_invpages) do
       if fields["_rp_formspec_tab_"..k] then
          invpagename = k
-	 form = def.get_formspec(pname)
+         if def.get_formspec then
+            form = def.get_formspec(pname)
+         else
+            form = rp_formspec.registered_pages[k]
+         end
       end
    end
    if invpagename and form then
@@ -333,27 +345,20 @@ function rp_formspec.receive_fields(player, form_name, fields)
    end
 end
 
-minetest.register_on_player_receive_fields(
-   function(player, form_name, fields)
-      rp_formspec.receive_fields(player, form_name, fields)
-end)
-
-minetest.register_on_joinplayer(
-   function(player)
-      player:set_formspec_prepend(formspec_prepend)
-      local pname = player:get_player_name()
-      for invpagename,def in pairs(rp_formspec.registered_invpages) do
-          if def.is_startpage and def.is_startpage(pname) then
-             player:set_inventory_formspec(def.get_formspec(pname))
-             current_invpage[pname] = invpagename
-          end
-      end
-end)
+function rp_formspec.register_invpage(name, def)
+   rp_formspec.registered_invpages[name] = def
+end
 
 function rp_formspec.set_invpage(player, page)
     local def = rp_formspec.registered_invpages[page]
     local pname = player:get_player_name()
-    player:set_inventory_formspec(def.get_formspec(pname))
+    local formspec
+    if def.get_formspec then
+       formspec = def.get_formspec(pname)
+    else
+       formspec = rp_formspec.registered_pages[page]
+    end
+    player:set_inventory_formspec(formspec)
     current_invpage[pname] = page
 end
 
@@ -362,9 +367,28 @@ function rp_formspec.get_invpage(player)
     return current_invpage[pname]
 end
 
-function rp_formspec.register_invpage(name, def)
-   rp_formspec.registered_invpages[name] = def
-end
+rp_formspec.register_invpage("rp_formspec:inventory", {})
+
+minetest.register_on_player_receive_fields(
+   function(player, form_name, fields)
+      rp_formspec.receive_fields(player, form_name, fields)
+end)
+
+minetest.register_on_joinplayer(
+   function(player)
+      -- Initialize player formspec and set initial invpage
+      player:set_formspec_prepend(formspec_prepend)
+      local pname = player:get_player_name()
+      for invpagename,def in pairs(rp_formspec.registered_invpages) do
+          if def.is_startpage and def.is_startpage(pname) then
+             rp_formspec.set_invpage(player, invpagename)
+          end
+      end
+      -- Fallback invpage
+      if not rp_formspec.get_invpage(player) then
+         rp_formspec.set_invpage(player, "rp_formspec:inventory")
+      end
+end)
 
 minetest.register_on_leaveplayer(
    function(player)
