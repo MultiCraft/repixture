@@ -1,11 +1,10 @@
 # `rp_formspec` API
 
 The `rp_formspec` API provides functions to help building formspecs.
-Note the mod adds tabs in the player inventory for things like
-crafting, achievements, etc. This is hardcoded and support for
-custom player inventory tabs is not possible yet.
-The API is currently mostly for templates to ensure a consistent style
-in the game.
+You can use this to get templates for making simple formspecs
+and you can also register new pages/tabs.
+There are also some functions for adding special
+formspec elements, some of them are required.
 
 ## Formspec version
 
@@ -13,10 +12,159 @@ Formspec version 1 is used (sorry …).
 
 ## Recommended usage
 
-Normally, you want to use one of the default pages below as a starting point,
-then populate it with formspec elements. There are many helper functions
-you should use for formspec elements (see below) to ensure a consistent
-style.
+If you want to build a formspec that is unrelated to the player inventory
+menu, you can register pages to act as templates and use the formspec
+element functions to add the `rp_formspec`-specific formspec elements
+to your formspec.
+
+Things get more complicated if you want to add a page for the player inventory
+menu (i.e. an invpage). First, you register a page with `rp_formspec.register_page`,
+then you also need to call `rp_formspec.register_invpage` and
+optionally `rp_formspec.register_invtab` for the tab. See the function
+reference below for details.
+
+
+
+## Pages
+
+Pages are basically just named formspec strings that this mod remembers
+and can be called later.
+Pages can be used as templates, but they can also be “promoted” to invpages (see below).
+
+### Built-in pages
+
+This mod offers a few built-in pages for mods to use:
+
+* `"rp_formspec:default"`: A simple empty formspec frame
+* `"rp_formspec:2part"`: An empty frame with two parts, separated by a horizontal line in the middle
+* `"rp_formspec:field"`: A small page containing a single text input field and a button “Write” (the text field ID is `"text"`)
+
+Especially the first two are very useful for many pages. You can call `rp_formspec.get_page`
+to get one of these and use the returned formspec string as a basis to add more elements
+and register the result as a new page.
+
+`rp_formspec:field` is useful for writable signs.
+
+
+
+### `rp_formspec.register_page(name, form)`
+
+Registers a page with the identifier `name` and formspec string `form`.
+`form` **must not** be the empty string.
+
+
+
+### `rp_formspec.get_page(name, with_invtabs)`
+
+Returns the formspec string of the page by name `name`.
+If the page does not exist, `""` is returned.
+
+* `name`: Identifier
+* `with_invtabs`: (optional) If true, invtabs (see below) will be attached to the page (default: false)
+  This works for the built-in pages `rp_formspec_default` and
+  `rp_formspec:2part`. Other pages are only guaranteed to work if they have
+  the exact same size as these.
+
+
+
+### `rp_formspec.registered_pages`
+
+Table which lists all registered pages.
+
+* Key: Page name
+* Value: Formspec string of the page
+
+Use `rp_formspec.get_page` to access a specific page! Read-only!
+
+
+
+## Invpages and invtabs
+
+“Invpages” is short for “inventory pages”. These are pages for the player inventory
+menu that can be changed by the player with the little tab buttons (the “invtabs”).
+An invpage is always based on a regular page, but it adds functionality specific
+to the player inventory menu.
+
+Invtabs are *not* automatically registered with an invpage, they must be
+registered separately (if desired).
+
+The player always has an “current invpage”, i.e. an invpage that is
+currently active. The current invpage can be changed by the player with the
+invtabs (if they exist), but it can also be changed with `rp_formspec.set_current_invpage`.
+
+There is a built-in invpage called `rp_formspec:inventory` which only contains
+the player inventory. This page is used as a fallback when no other invpage was
+registered.
+
+### `rp_formspec.register_invpage(name, def)`
+
+Registers an invpage and associates it with a regular page.
+This function **must** be called after a regular page of the same `name` was registered.
+The regular page then *becomes* an invpage by doing this.
+
+* `name`: Identifier for the invpage
+* `def`: Definition table with these optional fields:
+   * `get_formspec(player_name)`: (optional): This function gets called when the player
+     with name `player_name` changes their current invpage to this one. It must
+     return the full formspec string for this invpage. Hint: Call
+     `rp_formspec.get_page(name, true)` for the static part, then append the
+     dynamic part to that.
+     If this function is not called, the formspec of the associated regular page is used.
+
+
+
+### `rp_formspec.set_current_invpage(player, page)`
+
+Set the current invpage of `player` to the invpage with the name `page`.
+
+
+
+### `rp_formspec.get_current_invpage(player)`
+
+Returns the name of the current invpage of `player`.
+
+
+
+### `rp_formspec.register_invtab(name, def)`
+
+Registers an invtab and associates it with an invpage.
+`name` must be the name of an invpage that already exists.
+
+* `name`: Identifier for the invtab/invpage
+* `def`: Definition table with these fields:
+    * `icon`: Tab icon
+    * `tooltip`: Tooltip when hovering the tab
+
+Note: It is allowed to register an invpage without an invtab.
+In that case, it can only be reached by a function call.
+
+
+
+### `rp_formspec.registered_invpages`
+
+Table which lists all registered invpages.
+
+* Key: Invpage name
+* Value: Definition table
+
+Read-only!
+
+
+### `rp_formspec.registered_invtabs`
+
+Table which lists all registered invtabs.
+
+* Key: Invtab name
+* Value: Definition table
+
+Read-only!
+
+
+
+## Formspec element functions
+
+These functions are helper functions to generate a special formspec element.
+Each of these return a string that can be inserted into a formspec string.
 
 Some rules:
 
@@ -24,11 +172,6 @@ Some rules:
 * For buttons, use one of the “button” functions.
 * For item images, use one of the item functions.
 * “tabs” attach to the left and right side.
-
-## Formspec element functions
-
-These functions are helper functions to generate a special formspec element.
-Each of these return a string that can be inserted into a formspec string.
 
 ### `rp_formspec.get_itemslot_bg(x, y, w, h)`
 
@@ -99,6 +242,7 @@ the formspec is not closed.
 ### `rp_formspec.tab(x, y, name, icon, tooltip, side)`
 
 A sideways tab that is either at the left or right side.
+(Note: Internally, this is a button.)
 
 * `x`, `y`: Position
 * `name`: Internal identifier
@@ -148,57 +292,7 @@ the crafting guide. The group **must** exist in `rp_formspec.group_names`.
 
 
 
-## Pages
-
-Pages are basically just named formspec strings that this mod remembers
-and can be called later.
-Pages can be used as templates, but this mod also uses some special
-pages to build the player inventory.
-
-### Built-in pages
-
-This mod offers a few built-in pages for mods to use:
-
-* `"rp_formspec:default"`: A simple empty formspec frame
-* `"rp_formspec:2part"`: An empty frame with two parts, separated by a horizontal line in the middle
-* `"rp_formspec:field"`: A small page containing a single text input field and a button “Write” (the text field ID is `"text"`)
-
-
-### `rp_formspec.register_page(name, form)`
-
-Registers a page with the identifier `name` and formspec string `form`.
-`form` **must not** be the empty string.
-
-
-
-### `rp_formspec.get_page(name)`
-
-Returns the formspec string of the page by name `name`.
-If the page does not exist, `""` is returned.
-
-
-
-### `rp_formspec.registered_pages`
-
-Table which lists all registered pages.
-
-* Key: Page name
-* Value: Formspec string of the page
-
-Use `rp_formspec.get_page` to access a specific page! Read-only!
-
-
-
-### `rp_formspec.current_page`
-
-Table containing the current page for each connected player.
-
-* Key: Player name
-* Value: Name of current page or `nil` if none
-
-Read-only!
-
-## Other stuff
+## Other features
 
 ### `rp_formspec.default.bg`
 
