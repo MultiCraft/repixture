@@ -8,7 +8,7 @@ creative.creative_sizes = {}
 
 local playerdata = {}
 
-local form = rp_formspec.get_page("rp_default:2part")
+local form = rp_formspec.get_page("rp_formspec:2part")
 
 form = form .. "list[current_player;main;0.25,4.75;8,4;]"
 form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)

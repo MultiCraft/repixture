@@ -18,7 +18,7 @@ jewels.registered_jewel_parents = {}
 
 -- Formspec
 
-local form_bench = rp_formspec.get_page("rp_default:notabs_2part")
+local form_bench = rp_formspec.get_page("rp_formspec:notabs_2part")
 
 form_bench = form_bench .. "list[current_name;main;2.25,1.75;1,1;]"
 form_bench = form_bench .. "listring[current_name;main]"
@@ -32,7 +32,7 @@ form_bench = form_bench .. "listring[current_player;main]"
 form_bench = form_bench .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form_bench = form_bench .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
-rp_formspec.register_page("rp_jewels_bench", form_bench)
+rp_formspec.register_page("rp_jewels:bench", form_bench)
 
 local function plus_power(i)
    if i >= 0 then
@@ -299,7 +299,7 @@ minetest.register_node(
 
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
-         meta:set_string("formspec", rp_formspec.get_page("rp_jewels_bench"))
+         meta:set_string("formspec", rp_formspec.get_page("rp_jewels:bench"))
          meta:set_string("infotext", S("Jeweler's Workbench"))
 
          local inv = meta:get_inventory()

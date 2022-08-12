@@ -299,15 +299,15 @@ if minetest.get_modpath("rp_creative") ~= nil and minetest.is_creative_enabled("
    form_default_default = form_default_default .. rp_formspec.tab(-0.9, 3.64, "_rp_formspec_tab_rp_creative:creative", "ui_icon_creative.png", S("Creative Inventory"))
 end
 form_default_default = form_default_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
-rp_formspec.register_page("rp_default:default", form_default_default)
-rp_formspec.register_page("rp_default:2part", form_default_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
+rp_formspec.register_page("rp_formspec:default", form_default_default)
+rp_formspec.register_page("rp_formspec:2part", form_default_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
 
 local form_default_notabs = ""
 form_default_notabs = form_default_notabs .. "size[8.5,9]"
 form_default_notabs = form_default_notabs .. rp_formspec.default.bg
 form_default_notabs = form_default_notabs .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
-rp_formspec.register_page("rp_default:notabs", form_default_notabs)
-rp_formspec.register_page("rp_default:notabs_2part", form_default_notabs .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
+rp_formspec.register_page("rp_formspec:notabs", form_default_notabs)
+rp_formspec.register_page("rp_formspec:notabs_2part", form_default_notabs .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
 
 local form_default_field = ""
 form_default_field = form_default_field .. "size[8.5,5]"
@@ -316,7 +316,7 @@ form_default_field = form_default_field .. "background[0,0;8.5,4.5;ui_formspec_b
 form_default_field = form_default_field .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 form_default_field = form_default_field .. "set_focus[text;true]"
 form_default_field = form_default_field .. "field[1,1.75;7,0;text;;${text}]"
-rp_formspec.register_page("rp_default:field", form_default_field)
+rp_formspec.register_page("rp_formspec:field", form_default_field)
 
 function rp_formspec.receive_fields(player, form_name, fields)
    local pname = player:get_player_name()

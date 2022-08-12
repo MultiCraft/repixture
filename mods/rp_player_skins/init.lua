@@ -246,7 +246,7 @@ local function get_formspec(playername)
 	return form
 end
 
-local form = rp_formspec.get_page("rp_default:default")
+local form = rp_formspec.get_page("rp_formspec:default")
 form = form .. rp_formspec.button(4.5, 0.2, 3, 1, "player_skins_skin_select_headband_colors", S("Headband"))
 form = form .. rp_formspec.button(4.5, 1.0, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
 form = form .. rp_formspec.button(4.5, 1.8, 3, 1, "player_skins_skin_select_hairs", S("Hair"))

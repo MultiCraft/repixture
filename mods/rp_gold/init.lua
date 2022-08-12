@@ -183,7 +183,7 @@ end
 
 local form_trading = ""
 
-form_trading = form_trading .. rp_formspec.get_page("rp_default:notabs_2part")
+form_trading = form_trading .. rp_formspec.get_page("rp_formspec:notabs_2part")
 
 form_trading = form_trading .. "list[current_player;main;0.25,4.75;8,4;]"
 form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
@@ -207,7 +207,7 @@ form_trading = form_trading .. "image[3.5,2.25;1,1;ui_arrow.png^[transformR270]"
 form_trading = form_trading .. rp_formspec.button(1.25, 3.25, 2, 1, "trade", S("Trade"))
 form_trading = form_trading .. "container_end[]"
 
-rp_formspec.register_page("rp_gold_trading_book", form_trading)
+rp_formspec.register_page("rp_gold:trading_book", form_trading)
 
 -- Remember with which traders the players trade
 local active_tradings = {}
@@ -265,7 +265,7 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    local trade_wanted1 = inv:get_stack("gold_trade_wanted", 1)
    local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
 
-   local form = rp_formspec.get_page("rp_gold_trading_book")
+   local form = rp_formspec.get_page("rp_gold:trading_book")
    form = form .. "label[0.25,0.25;"..minetest.formspec_escape(label).."]"
 
    local trades_listed = {}

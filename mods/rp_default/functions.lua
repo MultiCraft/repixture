@@ -435,7 +435,7 @@ minetest.register_lbm(
 minetest.register_lbm(
    {
       label = "Update signs",
-      name = "rp_default:update_signs_2_2_0",
+      name = "rp_default:update_signs_3_5_0",
       nodenames = {"group:sign"},
       action = function(pos, node)
          local meta = minetest.get_meta(pos)
@@ -448,7 +448,7 @@ minetest.register_lbm(
 minetest.register_lbm(
    {
       label = "Update bookshelves",
-      name = "rp_default:update_bookshelves_3_0_1",
+      name = "rp_default:update_bookshelves_3_5_0",
       nodenames = {"rp_default:bookshelf"},
       action = function(pos, node)
          local def = minetest.registered_nodes[node.name]
@@ -459,7 +459,7 @@ minetest.register_lbm(
 minetest.register_lbm(
    {
       label = "Update chests",
-      name = "rp_default:update_chests_3_0_1",
+      name = "rp_default:update_chests_3_5_0",
       nodenames = {"rp_default:chest"},
       action = function(pos, node)
          local def = minetest.registered_nodes[node.name]

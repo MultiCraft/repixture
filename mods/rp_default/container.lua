@@ -63,7 +63,7 @@ minetest.register_node(
       end,
 })
 
-local form_chest = rp_formspec.get_page("rp_default:notabs_2part")
+local form_chest = rp_formspec.get_page("rp_formspec:notabs_2part")
 form_chest = form_chest .. "list[current_name;main;0.25,0.25;8,4;]"
 form_chest = form_chest .. "listring[current_name;main]"
 form_chest = form_chest .. rp_formspec.get_itemslot_bg(0.25, 0.25, 8, 4)
@@ -113,7 +113,7 @@ minetest.register_node(
       end,
 })
 
-local form_bookshelf = rp_formspec.get_page("rp_default:notabs_2part")
+local form_bookshelf = rp_formspec.get_page("rp_formspec:notabs_2part")
 form_bookshelf = form_bookshelf .. "list[current_player;main;0.25,4.75;8,4;]"
 form_bookshelf = form_bookshelf .. "listring[current_player;main]"
 form_bookshelf = form_bookshelf .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)

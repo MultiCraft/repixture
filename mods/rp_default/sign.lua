@@ -3,7 +3,7 @@ local S = minetest.get_translator("rp_default")
 local SIGN_MAX_TEXT_LENGTH = 500
 
 default.refresh_sign = function(meta)
-	meta:set_string("formspec", rp_formspec.get_page("rp_default:field"))
+	meta:set_string("formspec", rp_formspec.get_page("rp_formspec:field"))
 	local text = meta:get_string("text")
 	-- Show sign text in quotation marks
 	meta:set_string("infotext", S('"@1"', text))
