@@ -240,21 +240,26 @@ end
 minetest.register_on_joinplayer(on_joinplayer)
 minetest.register_on_leaveplayer(on_leaveplayer)
 
-function player_skins.get_formspec(playername)
-	local form = rp_formspec.get_page("rp_default:default")
+local function get_formspec(playername)
+	local form = rp_formspec.get_page("rp_player_skins:player_skins")
 	form = form .. "model[0.2,0.2;4.6,9.2;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0]"
-	form = form .. rp_formspec.button(4.5, 0.2, 3, 1, "player_skins_skin_select_headband_colors", S("Headband"))
-	form = form .. rp_formspec.button(4.5, 1.0, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
-	form = form .. rp_formspec.button(4.5, 1.8, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
-	form = form .. rp_formspec.button(4.5, 2.55, 3, 1, "player_skins_skin_select_beards", S("Beard"))
-	form = form .. rp_formspec.button(4.5, 3.3, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
-	form = form .. rp_formspec.button(4.5, 4.25, 3, 1, "player_skins_skin_select_wristband_colors", S("Wristbands"))
-	form = form .. rp_formspec.button(4.5, 5.25, 3, 1, "player_skins_skin_select_band_colors", S("Trousers"))
-	form = form .. rp_formspec.button(4.5, 6.25, 3, 1, "player_skins_skin_select_skin_colors", S("Skin"))
-	form = form .. rp_formspec.button(4.5, 7, 3, 1, "player_skins_skin_select_shoe_colors", S("Shoes"))
-	form = form .. rp_formspec.button(4.5, 7.75, 3, 1, "player_skins_skin_select_random", S("Random"))
 	return form
 end
+
+local form = rp_formspec.get_page("rp_default:default")
+form = form .. rp_formspec.button(4.5, 0.2, 3, 1, "player_skins_skin_select_headband_colors", S("Headband"))
+form = form .. rp_formspec.button(4.5, 1.0, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
+form = form .. rp_formspec.button(4.5, 1.8, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
+form = form .. rp_formspec.button(4.5, 2.55, 3, 1, "player_skins_skin_select_beards", S("Beard"))
+form = form .. rp_formspec.button(4.5, 3.3, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
+form = form .. rp_formspec.button(4.5, 4.25, 3, 1, "player_skins_skin_select_wristband_colors", S("Wristbands"))
+form = form .. rp_formspec.button(4.5, 5.25, 3, 1, "player_skins_skin_select_band_colors", S("Trousers"))
+form = form .. rp_formspec.button(4.5, 6.25, 3, 1, "player_skins_skin_select_skin_colors", S("Skin"))
+form = form .. rp_formspec.button(4.5, 7, 3, 1, "player_skins_skin_select_shoe_colors", S("Shoes"))
+form = form .. rp_formspec.button(4.5, 7.75, 3, 1, "player_skins_skin_select_random", S("Random"))
+
+rp_formspec.register_page("rp_player_skins:player_skins", form)
+rp_formspec.register_invpage("rp_player_skins:player_skins", {get_formspec = get_formspec})
 
 minetest.register_on_player_receive_fields(function(player, form_name, fields)
 	local name = player:get_player_name()
@@ -278,7 +283,7 @@ minetest.register_on_player_receive_fields(function(player, form_name, fields)
 		end
 	end
 	if changed then
-		local form = player_skins.get_formspec(name)
+		local form = get_formspec(name)
 		player:set_inventory_formspec(form)
 	end
 end)

@@ -14,8 +14,6 @@ form = form .. "list[current_player;main;0.25,4.75;8,4;]"
 form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
-rp_formspec.register_page("rp_creative:creative", form)
-
 creative.slots_num = 7*4
 
 -- Create detached creative inventory for player
@@ -258,6 +256,11 @@ creative.get_formspec = function(playername)
 		return form
 	end
 end
+
+rp_formspec.register_page("rp_creative:creative", form)
+rp_formspec.register_invpage("rp_creative:creative", {
+	get_formspec = creative.get_formspec,
+})
 
 minetest.register_on_joinplayer(function(player)
 	-- If in creative mode, modify player's inventory forms

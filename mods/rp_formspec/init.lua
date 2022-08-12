@@ -9,14 +9,14 @@ end
 
 -- Registered UI pages
 
-rp_formspec.registered_pages = {
-}
+rp_formspec.registered_pages = {}
+rp_formspec.registered_invpages = {}
 
 -- UI defaults
 
 rp_formspec.default = {}
 
-rp_formspec.current_page = {}
+local current_invpage = {}
 
 -- Colors
 
@@ -285,18 +285,18 @@ end
 local form_default_default = ""
 form_default_default = form_default_default .. "size[8.5,9]"
 form_default_default = form_default_default .. rp_formspec.default.bg
-form_default_default = form_default_default .. rp_formspec.tab(-0.9, 0.5, "tab_crafting", "ui_icon_crafting.png", S("Crafting"))
+form_default_default = form_default_default .. rp_formspec.tab(-0.9, 0.5, "_rp_formspec_tab_rp_crafting:crafting", "ui_icon_crafting.png", S("Crafting"))
 if minetest.get_modpath("rp_armor") ~= nil then
-   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 1.28, "tab_armor", "ui_icon_armor.png", S("Armor"))
+   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 1.28, "_rp_formspec_tab_rp_armor:armor", "ui_icon_armor.png", S("Armor"))
 end
 if minetest.get_modpath("rp_achievements") ~= nil then
-   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 2.06, "tab_achievements", "ui_icon_achievements.png", S("Achievements"))
+   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 2.06, "_rp_formspec_tab_rp_achievements:achievements", "ui_icon_achievements.png", S("Achievements"))
 end
 if minetest.get_modpath("rp_player_skins") ~= nil then
-   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 2.84, "tab_player_skins", "ui_icon_player_skins.png", S("Player Skins"))
+   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 2.84, "_rp_formspec_tab_rp_player_skins:player_skins", "ui_icon_player_skins.png", S("Player Skins"))
 end
 if minetest.get_modpath("rp_creative") ~= nil and minetest.is_creative_enabled("") then
-   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 3.64, "tab_creative", "ui_icon_creative.png", S("Creative Inventory"))
+   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 3.64, "_rp_formspec_tab_rp_creative:creative", "ui_icon_creative.png", S("Creative Inventory"))
 end
 form_default_default = form_default_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
 rp_formspec.register_page("rp_default:default", form_default_default)
@@ -319,28 +319,17 @@ form_default_field = form_default_field .. "field[1,1.75;7,0;text;;${text}]"
 rp_formspec.register_page("rp_default:field", form_default_field)
 
 function rp_formspec.receive_fields(player, form_name, fields)
-   local name = player:get_player_name()
+   local pname = player:get_player_name()
 
-   local formname, form
-   if fields.tab_crafting then
-      formname = "rp_crafting:crafting"
-      form = crafting.get_formspec(name)
-   elseif minetest.get_modpath("rp_armor") ~= nil and fields.tab_armor then
-      formname = "rp_armor:armor"
-      form = armor.get_formspec(name)
-   elseif minetest.get_modpath("rp_achievements") ~= nil and fields.tab_achievements then
-      formname = "rp_achievements:achievements"
-      form = achievements.get_formspec(name)
-   elseif minetest.get_modpath("rp_player_skins") ~= nil and fields.tab_player_skins then
-      formname = "player_skins:player_skins"
-      form = player_skins.get_formspec(name)
-   elseif minetest.get_modpath("rp_creative") ~= nil and minetest.is_creative_enabled(name) and fields.tab_creative then
-      formname = "rp_creative:creative"
-      form = creative.get_formspec(name)
+   local invpagename, form
+   for k,def in pairs(rp_formspec.registered_invpages) do
+      if fields["_rp_formspec_tab_"..k] then
+         invpagename = k
+	 form = def.get_formspec(pname)
+      end
    end
-   if formname and form then
-      player:set_inventory_formspec(form)
-      rp_formspec.current_page[name] = formname
+   if invpagename and form then
+      rp_formspec.set_invpage(player, invpagename)
    end
 end
 
@@ -352,17 +341,32 @@ end)
 minetest.register_on_joinplayer(
    function(player)
       player:set_formspec_prepend(formspec_prepend)
-      local name = player:get_player_name()
-      if minetest.is_creative_enabled(name) then
-          player:set_inventory_formspec(creative.get_formspec(name))
-          rp_formspec.current_page[name] = "rp_creative:creative"
-      else
-          player:set_inventory_formspec(crafting.get_formspec(name))
-          rp_formspec.current_page[name] = "rp_crafting:crafting"
+      local pname = player:get_player_name()
+      for invpagename,def in pairs(rp_formspec.registered_invpages) do
+          if def.is_startpage and def.is_startpage(pname) then
+             player:set_inventory_formspec(def.get_formspec(pname))
+             current_invpage[pname] = invpagename
+          end
       end
 end)
 
+function rp_formspec.set_invpage(player, page)
+    local def = rp_formspec.registered_invpages[page]
+    local pname = player:get_player_name()
+    player:set_inventory_formspec(def.get_formspec(pname))
+    current_invpage[pname] = page
+end
+
+function rp_formspec.get_invpage(player)
+    local pname = player:get_player_name()
+    return current_invpage[pname]
+end
+
+function rp_formspec.register_invpage(name, def)
+   rp_formspec.registered_invpages[name] = def
+end
+
 minetest.register_on_leaveplayer(
    function(player)
-      rp_formspec.current_page[player:get_player_name()] = nil
+      current_invpage[player:get_player_name()] = nil
 end)

@@ -532,6 +532,10 @@ function achievements.get_formspec(name, row)
    return form
 end
 
+rp_formspec.register_invpage("rp_achievements:achievements", {
+	get_formspec = achievements.get_formspec,
+})
+
 local function receive_fields(player, form_name, fields)
    local name = player:get_player_name()
 

@@ -307,8 +307,6 @@ form = form .. rp_formspec.button(7.25, 2.25, 1, 1, "do_craft_10", "10", nil, S(
 
 form = form .. "tablecolumns[text,align=left,width=2;text,align=left,width=40]"
 
-rp_formspec.register_page("rp_crafting:crafting", form)
-
 function crafting.get_formspec(name, select_craft_id)
    local row = 1
 
@@ -426,6 +424,14 @@ function crafting.get_formspec(name, select_craft_id)
 
    return form
 end
+
+rp_formspec.register_page("rp_crafting:crafting", form)
+rp_formspec.register_invpage("rp_crafting:crafting", {
+	is_startpage = function(pname)
+		return true
+	end,
+	get_formspec = crafting.get_formspec,
+})
 
 local function clear_craft_slots(player)
    local inv = player:get_inventory()

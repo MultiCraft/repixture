@@ -40,12 +40,15 @@ form_armor = form_armor .. "list[current_player;armor;2.25,0.75;1,3;]"
 form_armor = form_armor .. "listring[current_player;armor]"
 form_armor = form_armor .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 3)
 
-rp_formspec.register_page("rp_armor:armor", form_armor)
-
 function armor.get_formspec(name)
    local form = rp_formspec.get_page("rp_armor:armor")
    return form
 end
+
+rp_formspec.register_page("rp_armor:armor", form_armor)
+rp_formspec.register_invpage("rp_armor:armor", {
+	get_formspec = armor.get_formspec,
+})
 
 function armor.is_armor(itemname)
    local item = minetest.registered_items[itemname]
