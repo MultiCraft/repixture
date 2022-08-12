@@ -41,7 +41,7 @@ form_armor = form_armor .. "listring[current_player;armor]"
 form_armor = form_armor .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 3)
 
 function armor.get_formspec(name)
-   local form = rp_formspec.get_page("rp_armor:armor")
+   local form = rp_formspec.get_page("rp_armor:armor", true)
    return form
 end
 

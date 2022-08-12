@@ -273,10 +273,17 @@ function rp_formspec.register_invtab(name, def)
    local rdef = table.copy(def)
    rp_formspec.registered_invtabs[name] = def
    table.insert(registered_invtabs_order, name)
+   invtabs_cached_needs_update = true
 end
+
+local invtabs_cached
+local invtabs_cached_needs_update = true
 
 -- Returns a formspec string for all the inventory tabs
 local function get_invtabs()
+   if not invtabs_cached_needs_update then
+      return invtabs_cached
+   end
    local form = ""
    local tabx = -0.9
    local taby = 0.5
@@ -287,18 +294,22 @@ local function get_invtabs()
       form = form .. rp_formspec.tab(tabx, taby, "_rp_formspec_tab_"..tabname, def.icon, def.tooltip)
       taby = taby + tabplus
    end
+   invtabs_cached = form
    return form
 end
 
 
 -- Pages
 
-function rp_formspec.get_page(name)
+function rp_formspec.get_page(name, with_invtabs)
    local page = rp_formspec.registered_pages[name]
 
    if page == nil then
       minetest.log("warning", "[rp_formspec] UI page '" .. name .. "' is not yet registered")
       return ""
+   end
+   if with_invtabs then
+      page = page .. get_invtabs()
    end
 
    return page
@@ -358,19 +369,15 @@ function rp_formspec.receive_fields(player, form_name, fields)
       end
    end
    if invpagename and form then
-      rp_formspec.set_invpage(player, invpagename)
+      rp_formspec.set_current_invpage(player, invpagename)
    end
 end
 
 function rp_formspec.register_invpage(name, def)
-   local rdef = table.copy(def)
-   if rdef.with_invtabs == nil then
-      rdef.with_invtabs = true
-   end
-   rp_formspec.registered_invpages[name] = rdef
+   rp_formspec.registered_invpages[name] = def
 end
 
-function rp_formspec.set_invpage(player, page)
+function rp_formspec.set_current_invpage(player, page)
     local def = rp_formspec.registered_invpages[page]
     local pname = player:get_player_name()
     local formspec
@@ -379,14 +386,11 @@ function rp_formspec.set_invpage(player, page)
     else
        formspec = rp_formspec.registered_pages[page]
     end
-    if def.with_invtabs then
-       formspec = formspec .. get_invtabs()
-    end
     player:set_inventory_formspec(formspec)
     current_invpage[pname] = page
 end
 
-function rp_formspec.get_invpage(player)
+function rp_formspec.get_current_invpage(player)
     local pname = player:get_player_name()
     return current_invpage[pname]
 end
@@ -405,12 +409,12 @@ minetest.register_on_joinplayer(
       local pname = player:get_player_name()
       for invpagename,def in pairs(rp_formspec.registered_invpages) do
           if def.is_startpage and def.is_startpage(pname) then
-             rp_formspec.set_invpage(player, invpagename)
+             rp_formspec.set_current_invpage(player, invpagename)
           end
       end
       -- Fallback invpage
-      if not rp_formspec.get_invpage(player) then
-         rp_formspec.set_invpage(player, "rp_formspec:inventory")
+      if not rp_formspec.get_current_invpage(player) then
+         rp_formspec.set_current_invpage(player, "rp_formspec:inventory")
       end
 end)
 

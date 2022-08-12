@@ -382,7 +382,7 @@ function crafting.get_formspec(name, select_craft_id)
       end
    end
 
-   local form = rp_formspec.get_page("rp_crafting:crafting")
+   local form = rp_formspec.get_page("rp_crafting:crafting", true)
 
    if craft_count > 0 then
        form = form .. "table[2.25,0.25;4.75,3.75;craft_list;" .. craft_list

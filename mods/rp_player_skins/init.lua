@@ -241,7 +241,7 @@ minetest.register_on_joinplayer(on_joinplayer)
 minetest.register_on_leaveplayer(on_leaveplayer)
 
 local function get_formspec(playername)
-	local form = rp_formspec.get_page("rp_player_skins:player_skins")
+	local form = rp_formspec.get_page("rp_player_skins:player_skins", true)
 	form = form .. "model[0.2,0.2;4.6,9.2;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0]"
 	return form
 end

@@ -200,7 +200,7 @@ local function check_achievement_gotten(player, aname)
       minetest.log("action", "[rp_achievements] " .. name .. " got achievement '"..aname.."'")
    end
 
-   if rp_formspec.get_invpage(player) == "rp_achievements:achievements" then
+   if rp_formspec.get_current_invpage(player) == "rp_achievements:achievements" then
       local form = achievements.get_formspec(name)
       player:set_inventory_formspec(form)
    end
@@ -440,7 +440,7 @@ function achievements.get_formspec(name, row)
       achievement_list = achievement_list .. minetest.formspec_escape(def.description)
    end
 
-   local form = rp_formspec.get_page("rp_achievements:achievements")
+   local form = rp_formspec.get_page("rp_achievements:achievements", true)
 
    form = form .. "set_focus[achievement_list]"
    form = form .. "table[0.25,2.5;7.9,5.5;achievement_list;" .. achievement_list
