@@ -430,7 +430,7 @@ minetest.register_on_joinplayer(
       local pname = player:get_player_name()
       local first_page
       for invpagename,def in pairs(rp_formspec.registered_invpages) do
-          if not first_page then
+          if not first_page and invpagename ~= "rp_formspec:inventory" then
              first_page = invpagename
           end
           -- _is_startpage returns true if this page
