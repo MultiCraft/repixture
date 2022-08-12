@@ -210,7 +210,8 @@ Adds a button. When the button is pressed, the formspec
 is not closed.
 
 * `x`, `y`: Position
-* `w`, `h`: Width and height
+* `w`: Button width. 1, 2 and 3 are fully supported, other widths might be weirdly stretched
+* `h`: Button height
 * `name`: Internal identifier
 * `label`: Same as for `button[]` formspec element
 * `noclip`: Same as for `button[]` formspec element
@@ -231,7 +232,8 @@ Adds a button with an image. When the button is pressed,
 the formspec is not closed.
 
 * `x`, `y`: Position
-* `w`, `h`: Width and height
+* `w`: Button width. 1, 2 and 3 are fully supported, other widths might be weirdly stretched
+* `h`: Button height
 * `name`: Internal identifier
 * `image`: Same as for `image_button[]` formspec element
 * `noclip`: Same as for `image_button[]` formspec element
