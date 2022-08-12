@@ -268,6 +268,9 @@ end
 rp_formspec.registered_invtabs = {}
 local registered_invtabs_order = {}
 
+local invtabs_cached
+local invtabs_cached_needs_update = true
+
 -- Register an inventory tab
 function rp_formspec.register_invtab(name, def)
    local rdef = table.copy(def)
@@ -275,9 +278,6 @@ function rp_formspec.register_invtab(name, def)
    table.insert(registered_invtabs_order, name)
    invtabs_cached_needs_update = true
 end
-
-local invtabs_cached
-local invtabs_cached_needs_update = true
 
 -- Returns a formspec string for all the inventory tabs
 local function get_invtabs()
