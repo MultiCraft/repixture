@@ -183,7 +183,7 @@ end
 
 local form_trading = ""
 
-form_trading = form_trading .. rp_formspec.get_page("rp_formspec:notabs_2part")
+form_trading = form_trading .. rp_formspec.get_page("rp_formspec:2part")
 
 form_trading = form_trading .. "list[current_player;main;0.25,4.75;8,4;]"
 form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)

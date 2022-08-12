@@ -331,10 +331,6 @@ local form_2part = form_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.
 rp_formspec.register_page("rp_formspec:default", form_default)
 -- 2-part frame
 rp_formspec.register_page("rp_formspec:2part", form_2part)
--- 1-part frame (legacy). TODO: remove
-rp_formspec.register_page("rp_formspec:notabs", form_default)
--- 2-part frame (legacy). TODO: remove
-rp_formspec.register_page("rp_formspec:notabs_2part", form_2part)
 
 -- Simple text input field
 local form_default_field = ""

@@ -159,16 +159,9 @@ pages to build the player inventory.
 
 This mod offers a few built-in pages for mods to use:
 
-* `"rp_formspec:default"`: A simple empty formspec frame, about the size of an inventory. With tabs.
-* `"rp_formspec:notabs"`: A simple empty formspec frame, about the size of an inventory. Without tabs.
-* `"rp_formspec:2part"`: A page with two parts, separated by a horizontal line in the middle. With tabs.
-* `"rp_formspec:notabs_2part"`: A page with two parts, separated by a horizontal line in the middle. Without tabs.
+* `"rp_formspec:default"`: A simple empty formspec frame
+* `"rp_formspec:2part"`: An empty frame with two parts, separated by a horizontal line in the middle
 * `"rp_formspec:field"`: A small page containing a single text input field and a button “Write” (the text field ID is `"text"`)
-
-“Tabs” here means whether the tabs for the player inventory pages like crafting, armor, achievements, etc.
-are shown. Using a page with tabs is only recommended for the player inventory. Outside the
-player inventory, these tabs are buggy.
-
 
 
 ### `rp_formspec.register_page(name, form)`

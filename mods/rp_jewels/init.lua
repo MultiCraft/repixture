@@ -18,7 +18,7 @@ jewels.registered_jewel_parents = {}
 
 -- Formspec
 
-local form_bench = rp_formspec.get_page("rp_formspec:notabs_2part")
+local form_bench = rp_formspec.get_page("rp_formspec:2part")
 
 form_bench = form_bench .. "list[current_name;main;2.25,1.75;1,1;]"
 form_bench = form_bench .. "listring[current_name;main]"

@@ -6,7 +6,7 @@ local S = minetest.get_translator("rp_default")
 local F = minetest.formspec_escape
 
 function default.furnace_active_formspec(percent, item_percent)
-   local form = rp_formspec.get_page("rp_formspec:notabs_2part")
+   local form = rp_formspec.get_page("rp_formspec:2part")
    form = form .. "list[current_player;main;0.25,4.75;8,4;]"
    form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
    form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
@@ -35,7 +35,7 @@ function default.furnace_active_formspec(percent, item_percent)
    return form
 end
 
-local form_furnace = rp_formspec.get_page("rp_formspec:notabs_2part")
+local form_furnace = rp_formspec.get_page("rp_formspec:2part")
 form_furnace = form_furnace .. "list[current_player;main;0.25,4.75;8,4;]"
 form_furnace = form_furnace .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form_furnace = form_furnace .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
