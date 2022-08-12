@@ -405,7 +405,11 @@ function rp_formspec.get_current_invpage(player)
     return current_invpage[pname]
 end
 
-rp_formspec.register_invpage("rp_formspec:inventory", {})
+rp_formspec.register_invpage("rp_formspec:inventory", {
+	get_formspec = function(pname)
+		return rp_formspec.get_page("rp_formspec:inventory", true)
+	end,
+})
 
 minetest.register_on_player_receive_fields(
    function(player, form_name, fields)
