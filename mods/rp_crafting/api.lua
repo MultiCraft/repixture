@@ -4,6 +4,8 @@ local S = minetest.get_translator("rp_crafting")
 local MODE_CRAFTABLE = 1 -- crafting guide mode, show all recipes (default)
 local MODE_GUIDE = 2 -- craftable mode, only show recipes craftable from input slots
 
+local mod_creative = minetest.get_modpath("rp_creative") ~= nil
+
 --
 -- API
 --
@@ -424,13 +426,16 @@ function crafting.get_formspec(name, select_craft_id)
 
    return form
 end
-
 rp_formspec.register_page("rp_crafting:crafting", form)
 rp_formspec.register_invpage("rp_crafting:crafting", {
-	is_startpage = function(pname)
-		return true
-	end,
 	get_formspec = crafting.get_formspec,
+	_is_startpage = function(pname)
+		if mod_creative and minetest.is_creative_enabled(pname) then
+			return false
+		else
+			return true
+		end
+	end,
 })
 
 rp_formspec.register_invtab("rp_crafting:crafting", {

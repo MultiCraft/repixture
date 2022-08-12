@@ -260,6 +260,13 @@ end
 rp_formspec.register_page("rp_creative:creative", form)
 rp_formspec.register_invpage("rp_creative:creative", {
 	get_formspec = creative.get_formspec,
+	_is_startpage = function(pname)
+		if minetest.is_creative_enabled(pname) then
+			return true
+		else
+			return false
+		end
+	end,
 })
 if minetest.is_creative_enabled("") then
 	rp_formspec.register_invtab("rp_creative:creative", {

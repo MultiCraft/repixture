@@ -403,14 +403,29 @@ minetest.register_on_joinplayer(
       -- Initialize player formspec and set initial invpage
       player:set_formspec_prepend(formspec_prepend)
       local pname = player:get_player_name()
+      local first_page
       for invpagename,def in pairs(rp_formspec.registered_invpages) do
-          if def.is_startpage and def.is_startpage(pname) then
+          if not first_page then
+             first_page = invpagename
+          end
+          -- _is_startpage returns true if this page
+          -- is a startpage, false otherwise.
+          -- As this function only makes sense within the context of a game,
+          -- it is undocumented in API.md.
+          if def._is_startpage and def._is_startpage(pname) then
              rp_formspec.set_current_invpage(player, invpagename)
+             break
           end
       end
       -- Fallback invpage
       if not rp_formspec.get_current_invpage(player) then
-         rp_formspec.set_current_invpage(player, "rp_formspec:inventory")
+         if first_page then
+            -- First invpage of the pairs() above (kinda unpredicable tho)
+            rp_formspec.set_current_invpage(player, first_page)
+	 else
+            -- Empty inventory fallback page if no invpages registered
+            rp_formspec.set_current_invpage(player, "rp_formspec:inventory")
+         end
       end
 end)
 
