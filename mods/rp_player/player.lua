@@ -34,25 +34,32 @@ local function step(dtime)
 	    {
 	       amount = 2,
 	       time = 0.1,
-	       minpos = {
-                  x = head_pos.x - 0.2,
-                  y = head_pos.y - 0.3,
-                  z = head_pos.z - 0.3
+	       pos = {
+                  min = {
+                     x = head_pos.x - 0.2,
+                     y = head_pos.y - 0.3,
+                     z = head_pos.z - 0.3
+                  },
+	          max = {
+                     x = head_pos.x + 0.3,
+                     y = head_pos.y + 0.3,
+                     z = head_pos.z + 0.3
+                  },
                },
-	       maxpos = {
-                  x = head_pos.x + 0.3,
-                  y = head_pos.y + 0.3,
-                  z = head_pos.z + 0.3
+               vel = {
+                  min = {x = -0.5, y = 0, z = -0.5},
+                  max = {x = 0.5, y = 0, z = 0.5},
                },
-               minvel = {x = -0.5, y = 0, z = -0.5},
-               maxvel = {x = 0.5, y = 0, z = 0.5},
-               minacc = {x = -0.5, y = 4, z = -0.5},
-               maxacc = {x = 0.5, y = 1, z = 0.5},
-               minexptime = 0.3,
-               maxexptime = 0.8,
-               minsize = 0.7,
-               maxsize = 2.4,
-               texture = "bubble.png"
+               acc = {
+                  min = {x = -0.5, y = 4, z = -0.5},
+                  max = {x = 0.5, y = 1, z = 0.5},
+               },
+               exptime = {min=0.3,max=0.8},
+               size = {min=0.7, max=2.4},
+               texture = {
+                  name = "bubble.png",
+                  alpha_tween = { 1, 0, start = 0.75 }
+               }
          })
 
 	 minetest.after(0.15, function(name)
