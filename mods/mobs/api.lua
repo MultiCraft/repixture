@@ -1801,7 +1801,10 @@ function mobs:feed_tame(self, clicker, feed_count, breed, effect)
             maxexptime = 1,
             minsize = 0.5,
             maxsize = 2,
-            texture = "magicpuff.png"
+            texture = {
+               name = "magicpuff.png",
+               scale_tween = { 1, 0, start = 0.75 },
+            },
          })
       end
 
