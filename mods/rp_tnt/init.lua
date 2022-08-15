@@ -322,20 +322,20 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
       end
    end
    if remove_nodes then
-      local drops = tnt.explode(pos, tnt_radius, sound)
+      local drops = tnt.explode(pos, radius, sound)
       play_tnt_sound(pos, sound)
       if is_tnt then
           minetest.log("action", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
       else
           minetest.log("action", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
       end
-      entity_physics(pos, tnt_radius)
-      eject_drops(drops, pos, tnt_radius)
+      entity_physics(pos, radius)
+      eject_drops(drops, pos, radius)
    else
-      entity_physics(pos, tnt_radius)
+      entity_physics(pos, radius)
       play_tnt_sound(pos, sound)
    end
-   add_explosion_effects(pos, tnt_radius)
+   add_explosion_effects(pos, radius)
 end
 
 
