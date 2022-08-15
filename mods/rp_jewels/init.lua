@@ -350,7 +350,33 @@ minetest.register_node(
                end
 
                minetest.sound_play({name="jewels_jewelling_a_tool"}, {gain=0.8, pos=pos, max_hear_distance=8}, true)
-               -- TODO: Graphical effect
+
+	       -- Show the new tool above the bench
+               local part = "jewels_jewel.png" -- fallback texture
+               local idef = new_item:get_definition()
+               if idef and idef.inventory_image then
+                  part = idef.inventory_image
+               end
+               minetest.add_particlespawner({
+                   amount = 1,
+                   time = 0.01,
+                   pos = {
+                      min = vector.add(pos, vector.new(-0.01, 0.7, -0.01)),
+                      max = vector.add(pos, vector.new(0.01, 0.7, 0.01)),
+                   },
+                   vel = {
+                      min = vector.new(-0.1, 1, -0.1),
+                      max = vector.new(0.1, 1, 0.1),
+                   },
+                   exptime = 1.4,
+                   size = 6,
+	           drag = vector.new(2,2,2),
+                   texture = {
+	              name = part,
+                      alpha_tween = { 0.8, 0, start = 0.75 },
+                   },
+               })
+
 
                achievements.trigger_achievement(player, "jeweler")
 
