@@ -23,6 +23,9 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          walkable = false,
          floodable = true,
          on_flood = function(pos, oldnode, newnode)
+            if light and light > 0 then
+               minetest.sound_play({name="rp_default_torch_burnout", gain=0.1, max_hear_distance = 8}, {pos=pos}, true)
+            end
             minetest.add_item(pos, "rp_default:torch_dead")
          end,
          node_placement_prediction = "",
@@ -139,6 +142,9 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          walkable = false,
          floodable = true,
          on_flood = function(pos, oldnode, newnode)
+            if light and light > 0 then
+               minetest.sound_play({name="rp_default_torch_burnout", gain=0.1, max_hear_distance = 8}, {pos=pos}, true)
+            end
             minetest.add_item(pos, "rp_default:torch_dead")
          end,
          node_box = {
@@ -244,7 +250,34 @@ local on_timer_weak = function(pos)
    elseif node.name == "rp_default:torch_weak_wall" then
       minetest.swap_node(pos, {name="rp_default:torch_dead_wall", param2 = node.param2})
    end
+   minetest.sound_play({name="rp_default_torch_burnout", gain=0.1, max_hear_distance = 8}, {pos=pos}, true)
    minetest.log("action", "[rp_default] Weak torch at "..minetest.pos_to_string(pos).." burns out")
+
+   -- Spawn burnout particle
+   local ppos, vel
+   local vel = vector.new(0, 0.6, 0)
+   local dir = minetest.wallmounted_to_dir(node.param2)
+   if dir.y < 0 then
+      ppos = vector.add(pos, vector.new(0, -0.05, 0))
+   elseif dir.y > 0 then
+      ppos = vector.add(pos, vector.new(0, -0.1, 0))
+      vel = vector.new(math.random(-10, 10)*0.01, 0, math.random(-10, 10)*0.01)
+   else
+      ppos = vector.add(pos, vector.new((6/16)*dir.x, -0.05, (6/16)*dir.z))
+   end
+   local anim = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 }
+   minetest.add_particlespawner({
+      amount = 1,
+      time = 0.001,
+      pos = ppos,
+      vel = vel,
+      exptime = 1,
+      size = 2.75,
+      texpool = {
+         {name = "rp_default_torch_smoke_anim.png", animation = anim},
+         {name = "rp_default_torch_smoke_anim.png^[transformFX", animation = anim},
+      },
+   })
 end
 
 register_torch("torch_dead", S("Dead Torch"), S("Doesn't provide any light"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, nil, nil, "default_torch_dead_inventory.png")
