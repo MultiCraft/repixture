@@ -884,7 +884,7 @@ minetest.register_tool(
          end
 
          if wear and not minetest.is_creative_enabled(user:get_player_name()) then
-            itemstack:add_wear(800)
+            itemstack:add_wear_by_uses(81)
          end
 
          return itemstack
