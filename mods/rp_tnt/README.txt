@@ -12,6 +12,7 @@ You can also create arbitrary explosions.
 ## Credits
 
 Source code license: LGPLv2.1
+Texture license: CC BY-SA 4.0
 Sound license: CC0
 
 Sound credits:

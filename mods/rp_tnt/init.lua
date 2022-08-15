@@ -137,23 +137,89 @@ local function entity_physics(pos, radius)
    end
 end
 
+local function add_node_break_effects(pos, node, node_tile)
+   minetest.add_particlespawner(
+      {
+         amount = 40,
+         time = 0.1,
+         pos = {
+            min = vector.subtract(pos, 0.4),
+            max = vector.add(pos, 0.4),
+         },
+         vel = {
+            min = vector.new(-5, -5, -5),
+            max = vector.new(5, 5, 5),
+         },
+         acc = vector.new(0, -9.81, 0),
+         exptime = { min = 0.2, max = 0.6 },
+         size = { min = 1.0, max = 1.5 },
+         node = node,
+	 node_tile = node_tile,
+   })
+
+end
+
 local function add_explosion_effects(pos, radius)
    minetest.add_particlespawner(
       {
-	 amount = 128,
-	 time = 1,
-	 minpos = vector.subtract(pos, radius / 2),
-	 maxpos = vector.add(pos, radius / 2),
-	 minvel = {x = -20, y = -20, z = -20},
-	 maxvel = {x = 20,  y = 20,  z = 20},
-	 minacc = vector.new(),
-	 maxacc = vector.new(),
-	 minexptime = 0.2,
-	 maxexptime = 1,
-	 minsize = 16,
-	 maxsize = 24,
-	 texture = "tnt_smoke.png",
+         amount = 128,
+         time = 0.6,
+         pos = {
+            min = vector.subtract(pos, radius / 2),
+            max = vector.add(pos, radius / 2),
+         },
+         vel = {
+            min = vector.new(-20, -20, -20),
+            max = vector.new(20, 20, 20),
+         },
+         acc = vector.zero(),
+         exptime = { min = 0.2, max = 1.0 },
+         size = { min = 16, max = 24 },
+	 drag = vector.new(1,1,1),
+         texture = {
+	    name = "rp_tnt_smoke_anim_1.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+	    name = "rp_tnt_smoke_anim_2.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+	    name = "rp_tnt_smoke_anim_1.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+	    name = "rp_tnt_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+         },
    })
+   minetest.add_particlespawner({
+         amount = 1,
+         time = 0.01,
+         pos = pos,
+         vel = vector.zero(),
+         acc = vector.zero(),
+         exptime = 1,
+         size = radius*10,
+         texture = "rp_tnt_smoke_ball_big.png",
+         animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
+   })
+   minetest.add_particlespawner({
+         amount = 4,
+         time = 0.25,
+         pos = pos,
+         vel = vector.zero(),
+         acc = vector.zero(),
+         exptime = { min = 0.6, max = 0.9 },
+         size = { min = 8, max = 12 },
+	 radius = { min = 0.5, max = math.max(0.6, radius*0.75) },
+         texture = "rp_tnt_smoke_ball_medium.png",
+         animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
+   })
+   minetest.add_particlespawner({
+         amount = 28,
+         time = 0.5,
+         pos = pos,
+         vel = vector.zero(),
+         acc = vector.zero(),
+         exptime = { min = 0.5, max = 0.8 },
+         size = { min = 6, max = 8 },
+	 radius = { min = 1, max = math.max(1.1, radius+1) },
+         texture = "rp_tnt_smoke_ball_small.png",
+         animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
+   })
+
+
 end
 
 local function emit_fuse_smoke(pos)
@@ -165,18 +231,16 @@ local function emit_fuse_smoke(pos)
 	return minetest.add_particlespawner({
 		time = TNT_TIMER,
 		amount = 40,
-		minpos = minpos,
-		maxpos = maxpos,
-		minvel = minvel,
-		maxvel = maxvel,
-		minacc = acc,
-		maxacc = acc,
-		minexptime = 0.15 - 0.25,
-		maxexptime = 0.15 + 0.25,
-		minsize = 0.25,
-		maxsize = 2.0,
+		pos = { min = minpos, max = maxpos },
+		vel = { min = minvel, max = maxvel },
+		acc = acc,
+		exptime = { min = 0.05, max = 0.6 },
+		size = { min = 0.25, max = 2.0 },
 		collisiondetection = false,
-		texture = "tnt_smoke_fuse.png"
+		texture = {
+			name = "tnt_smoke_fuse.png",
+			alpha_tween = { 1, 0, start = 0.75 },
+		},
 	})
 end
 
@@ -249,7 +313,9 @@ end
 
 local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
    if is_tnt then
+      local node = minetest.get_node(pos)
       minetest.remove_node(pos)
+      add_node_break_effects(pos, node, 0)
       if is_tnt and not tnt_enable then
           minetest.check_for_falling({x=pos.x, y=pos.y, z=pos.z})
           return
