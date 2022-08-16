@@ -179,8 +179,15 @@ function farming.place_plant(itemstack, placer, pointed_thing)
    if not place_in then
       return itemstack
    end
-   local place_on_node = minetest.get_node(place_on)
 
+   -- Can't place plant on itself to prevent wasting seeds
+   local place_in_node = minetest.get_node(place_in)
+   local pidef = minetest.registered_nodes[place_in_node.name]
+   if pidef and pidef._rp_farming_plant_name == name then
+      return itemstack
+   end
+
+   local place_on_node = minetest.get_node(place_on)
    -- Find plant definition and grow plant
    for _, can_grow_on in ipairs(plant.grows_on) do
       local group = string.match(can_grow_on, "group:(.*)")
