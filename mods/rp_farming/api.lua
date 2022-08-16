@@ -79,6 +79,7 @@ function farming.register_plant_nodes(name, def)
          paramtype = "light",
          paramtype2 = paramtype2,
          place_param2 = place_param2,
+         node_placement_prediction = "",
          waving = 1,
          walkable = false,
          floodable = true,
@@ -101,6 +102,7 @@ function farming.register_plant_nodes(name, def)
             paramtype = "light",
             paramtype2 = paramtype2,
             place_param2 = place_param2,
+            node_placement_prediction = "",
             waving = 1,
             walkable = false,
             floodable = true,
@@ -194,7 +196,11 @@ function farming.place_plant(itemstack, placer, pointed_thing)
 
       if (group ~= nil and minetest.get_item_group(place_on_node.name, group) > 0) or
       (place_on_node.name == can_grow_on) then
+         local idef = itemstack:get_definition()
          itemstack = minetest.item_place(itemstack, placer, pointed_thing)
+         if idef and idef.sounds and idef.sounds.place then
+            minetest.sound_play(idef.sounds.place, {pos=place_on}, true)
+         end
          break
       end
    end
