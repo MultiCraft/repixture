@@ -51,7 +51,9 @@ minetest.register_craftitem(
 
 minetest.register_on_player_receive_fields(
    function(player, form_name, fields)
-      if form_name ~= "rp_book:book" or not fields.write then return end
+      if form_name ~= "rp_book:book" or (not fields.write and not fields.key_enter) then
+         return
+      end
 
       local itemstack = player:get_wielded_item()
 
