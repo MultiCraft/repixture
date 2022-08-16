@@ -29,7 +29,7 @@ local tnt_radius = tonumber(minetest.settings:get("tnt_radius") or 3)
 
 local loss_prob = {
    ["rp_default:cobble"] = 3,
-   ["rp_default:dirt"] = 4,
+   ["group:dirt"] = 4,
 }
 
 -- Fill a list with data for content IDs, after all nodes are registered
@@ -65,10 +65,31 @@ local function eject_drops(drops, pos, radius)
    end
 end
 
+-- Checks if the given item would be lost
+local check_loss = function(itemname)
+   if loss_prob[itemname] ~= nil then
+      if math.random(1, loss_prob[itemname]) == 1 then
+         return true
+      end
+   else
+      for k,v in pairs(loss_prob) do
+         if string.sub(k, 1, 6) == "group:" then
+            local group = string.sub(k, 7)
+            if minetest.get_item_group(itemname, group) ~= 0 then
+               if math.random(1, v) == 1 then
+                  return true
+	       end
+	    end
+	 end
+      end
+   end
+   return false
+end
+
 local function add_drop(drops, item)
    item = ItemStack(item)
    local name = item:get_name()
-   if loss_prob[name] ~= nil and math.random(1, loss_prob[name]) == 1 then
+   if check_loss(name) then
       return
    end
 
