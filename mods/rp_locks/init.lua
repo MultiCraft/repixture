@@ -205,6 +205,7 @@ local put_lock = function(itemstack, putter, pointed_thing)
         end
         node.name = "rp_locks:chest"
         minetest.swap_node(pos, node)
+        minetest.sound_play({name="locks_lock",gain=0.5},{pos=pos, max_hear_distance=16}, true)
         local meta = minetest.get_meta(pos)
         if name ~= "" then
            meta:set_string("infotext", S(INFOTEXT_OWNED, name))

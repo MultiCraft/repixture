@@ -12,5 +12,7 @@ Source code license: LGPLv2.1
 Sound credits:
 * locks_unlock.ogg: qubodup (CC0)
     Source: <https://freesound.org/people/qubodup/sounds/160215/>
+* locks_lock.ogg: kenneyl(CC0)
+    Source: <https://opengameart.org/content/50-rpg-sound-effects>
 * locks_pick.1.ogg to locks_pick.4.ogg: SpaceJoe (CC0)
     Source: <https://freesound.org/people/SpaceJoe/sounds/342621/>
