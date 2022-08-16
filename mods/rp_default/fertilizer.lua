@@ -1,6 +1,7 @@
 -- Fertilizer
 
 local S = minetest.get_translator("rp_default")
+local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
 
 minetest.register_node(
    "rp_default:fertilized_dirt",
@@ -128,11 +129,47 @@ minetest.register_craftitem(
                end
             end
 	    if fertilized then
-               minetest.sound_play({name="rp_default_fertilize", gain=1.0}, {pos=underpos}, true)
 	       minetest.log("action", "[rp_default] " .. placer:get_player_name() .. " fertilizes " .. undernode.name .. " at " .. minetest.pos_to_string(underpos, 0))
+               local above_soil_pos = vector.add(underpos, vector.new(0,1,0))
+               local above_soil_node = minetest.get_node(above_soil_pos)
 
-	       local above_soil_pos = vector.add(underpos, vector.new(0,1,0))
-	       local above_soil_node = minetest.get_node(above_soil_pos)
+               minetest.sound_play({name="rp_default_fertilize", gain=1.0}, {pos=underpos}, true)
+
+	       local pymin, pymax = 0.6, 0.65
+               local abovedef = minetest.registered_nodes[above_soil_node.name]
+               local yacc = -GRAVITY
+               if abovedef then
+                  if abovedef.move_resistance and abovedef.move_resistance > 0 then
+                     yacc = yacc / (abovedef.move_resistance + 1)
+                  elseif abovedef.liquid_viscosity and abovedef.liquid_viscosity > 0 then
+                     yacc = yacc / (abovedef.liquid_viscosity + 1)
+                  else
+                     if minetest.get_item_group(above_soil_node.name, "plant") ~= 0 then
+                        pymin, pymax = 0.75, 1.2
+                     end
+                  end
+               end
+               minetest.add_particlespawner({
+                  amount = 16,
+                  time = 0.001,
+                  pos = {
+                     min = vector.add(underpos, vector.new(-0.4, pymin, -0.4)),
+                     max = vector.add(underpos, vector.new(0.4, pymax, 0.4)),
+                  },
+                  vel = { min = vector.new(-0.5, 0, -0.5), max = vector.new(0.5, 0.5, 0.5) },
+                  acc = vector.new(0, yacc, 0),
+                  collisiondetection = true,
+                  exptime = 1.0,
+                  drag = vector.new(3.5, 0, 3.5),
+                  size = 1,
+                  texpool = {
+                     { name="rp_default_fertilize_particle_1.png", alpha_tween={ 1, 0, start = 0.8} },
+                     { name="rp_default_fertilize_particle_2.png", alpha_tween={ 1, 0, start = 0.8} },
+                     { name="rp_default_fertilize_particle_3.png", alpha_tween={ 1, 0, start = 0.8} },
+                     { name="rp_default_fertilize_particle_4.png", alpha_tween={ 1, 0, start = 0.8} },
+                  },
+               })
+
 	       -- Add time bonus for sapling so it grows faster.
 	       -- Note this only has an effect if the sapling was not
 	       -- already fertilized.

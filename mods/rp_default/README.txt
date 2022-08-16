@@ -19,7 +19,7 @@ Sound licenses:
     * Author: JustInvoke (CC BY 3.0)
   * All other sounds: CC0
 Texture license: CC BY-SA 4.0
-  * rp_default_reed*:
+  * rp_default_reed*, rp_default_fertilize_particle*, rp_default_torch_smoke_anim.png:
      * Author: Wuzzy
   * rp_default_sea_grass*, rp_default_tall_sea_grass*:
      * Author: kilbith (with some modifications by Wuzzy)
