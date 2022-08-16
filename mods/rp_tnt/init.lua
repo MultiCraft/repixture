@@ -57,7 +57,6 @@ local function eject_drops(drops, pos, radius)
 	 local obj = minetest.add_item(drop_pos, item)
 	 if obj then
 	    obj:get_luaentity().collect = true
-	    obj:set_acceleration({x=0, y=-10, z=0})
 	    obj:set_velocity({x=math.random(-3, 3), y=10,
 			     z=math.random(-3, 3)})
 	 end
