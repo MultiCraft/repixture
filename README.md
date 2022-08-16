@@ -1,41 +1,35 @@
 # Repixture
 
-Repixture is a sandbox survival crafting game focusing on low-tech and
-unique graphics and sounds.
-
-This is a revival of Pixture 0.1.1, a game for Minetest 0.4.
+Repixture is a sandbox survival crafting and building game focusing on low-tech.
+Explore random worlds in a temperate climate and gather resources to
+survive, create tools, build a home and explore the various possibilities of
+the world.
 
 ## Version
-3.4.1
+
+3.5.0
 
 Designed for use with Minetest 5.6.0 or later.
 
 ## Features
 
 * Animals and monsters
-* Villages and trading
+* Villages
+* Village people: They give you hints and want to trade
+* Farming and animal breeding
 * Upgradable tools via jeweling
 * Hunger
-* Custom inventories
 * Armor
-* Simplified crafting with crafting guide
-* A variety of trees
+* Simple crafting system with crafting guide
+* A variety of trees and biomes
 * Weather
 * Beds (skip the night)
-* New and better player models
 * Change your player appearance
 * Achievements
 * Multi-language support
-* Creative Mode
-
-## Project Notes
-
-Repixture works for Minetest 5.0.0. It's a fork of Pixture 0.1.1.
-The goal of Repixture is to make Pixture work properly in
-latest Minetest versions and to fix bugs and improve usability.
-The original gameplay of Pixture will be (mostly) preserved,
-the focus lies on bugfixes and usability features.
-There will be no major changes to gameplay.
+    * German translation
+* Creative Mode (unlimited building)
+* Over 250 items in total
 
 ## Compability notes
 ### Using old biomes from before version 3.0.0
@@ -54,10 +48,11 @@ Edit `map_meta.txt` in a text editor and add the line
 ## Credits
 
 Repixture was started by Wuzzy. It's a fork of Pixture.
+Repixture is a revival of Pixture 0.1.1, a game for Minetest 0.4.
 
 Pixture is Copyright (C) 2015-2017 [Kaadmy](https://github.com/kaadmy).
 
-Pixture was inspired by [Kenney](http://kenney.nl)
+Pixture was inspired by [Kenney](http://kenney.nl).
 
 ### Core developers
 
