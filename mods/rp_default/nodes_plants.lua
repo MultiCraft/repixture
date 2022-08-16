@@ -103,6 +103,7 @@ minetest.register_node(
       end,
       on_blast = function(pos)
          local oldnode = minetest.get_node(pos)
+         minetest.remove_node(pos)
          util.dig_down(pos, oldnode)
       end,
       on_place = function(itemstack, placer, pointed_thing)
