@@ -12,6 +12,8 @@ local INFOTEXT_CRACKED_PUBLIC = N("Locked Chest (cracked open)")
 local INFOTEXT_CRACKED_OWNED = N("Locked Chest (cracked open) (Owned by @1)")
 local INFOTEXT_NAMED_OWNED = N("@1 (Owned by @2)")
 
+local GRAVITY = minetest.settings:get("movement_gravity") or 9.81
+
 locks = {}
 
 -- Settings
@@ -130,6 +132,47 @@ minetest.register_tool(
             end
             achievements.trigger_achievement(player, "burglar")
             minetest.sound_play({name="locks_unlock",gain=0.8},{pos=pos, max_hear_distance=16}, true)
+
+            -- Spawn particles at lock to indicate lock break
+            local dir = minetest.facedir_to_dir(node.param2)
+            local w = 1/16
+            local k = 11/16
+            local l = 7/16
+            local vup, vdn, vs, v0 = 0.1, -0.2, 0.5, 0
+            local minoff, maxoff, minvel, maxvel
+            if dir.x > 0 then
+               minoff = vector.new(-k, -w, -w)
+               maxoff = vector.new(-l, w, w)
+               minvel = vector.new(-vs, vdn, -vs)
+               maxvel = vector.new(v0, vup, vs)
+            elseif dir.x < 0 then
+               minoff = vector.new(l, -w, -w)
+               maxoff = vector.new(k, w, w)
+               minvel = vector.new(v0, vdn, -vs)
+               maxvel = vector.new(vs, vup, vs)
+            elseif dir.z > 0 then
+               minoff = vector.new(-w, -w, -k)
+               maxoff = vector.new(w, w, -l)
+               minvel = vector.new(-vs, vdn, v0)
+               maxvel = vector.new(vs, vup, vs)
+            elseif dir.z < 0 then
+               minoff = vector.new(-w, -w, l)
+               maxoff = vector.new(w, w, k)
+               minvel = vector.new(-vs, vdn, -vs)
+               maxvel = vector.new(vs, vup, v0)
+            end
+            if minoff then
+               minetest.add_particlespawner({
+                  amount = 12,
+                  time = 0.001,
+                  pos = { min = vector.add(pos, minoff), max = vector.add(pos, maxoff) },
+                  vel = { min = minvel, max = maxvel },
+                  acc = { min = vector.new(0, 0, 0), max = vector.new(0, -GRAVITY, 0) },
+                  size = 1.2,
+                  exptime = { min = 0.60, max = 0.65 },
+                  texture = "rp_locks_particle_lock.png",
+               })
+            end
          else
             -- Failure!
             minetest.sound_play({name="locks_pick",gain=0.5},{pos=pos, max_hear_distance=16}, true)
