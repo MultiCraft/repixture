@@ -320,7 +320,7 @@ local attempt_bed_respawn = function(player)
 				local bnode = minetest.get_node(abpos)
 				if node_is_spawnable_in(anode, true) and
 						((n == 1 and is_bed) or node_is_spawnable_on(bnode)) and
-						(not is_bed or node_is_spawnable_in(aanode, false)) then
+						(not is_bed or node_is_spawnable_in(aanode, true)) then
 					local spos = cpos
 					if not is_bed then
 						spos.y = spos.y - 0.5
@@ -577,7 +577,7 @@ minetest.register_node(
             for a=1,#above_posses do
                 local apos = above_posses[a]
                 local anode = minetest.get_node(apos)
-		local is_spawnable, fail_reason = node_is_spawnable_in(anode)
+		local is_spawnable, fail_reason = node_is_spawnable_in(anode, true)
                 if not is_spawnable then
                     local msg
                     if fail_reason == "damage" then
