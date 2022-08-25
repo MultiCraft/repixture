@@ -35,6 +35,38 @@ function item_drop.drop_item(pos, itemstack)
    end
 end
 
+function item_drop.drop_items_from_container(pos, invlists)
+   local meta = minetest.get_meta(pos)
+   local inv = meta:get_inventory()
+   for l=1, #invlists do
+      local list = invlists[l]
+      for i=1, inv:get_size(list) do
+         local item = inv:get_stack(list, i)
+         if not item:is_empty() then
+            item_drop.drop_item(pos, item)
+         end
+      end
+   end
+end
+
+function item_drop.drop_items_from_container_meta_table(pos, invlists, meta_table)
+   if not meta_table or not meta_table.inventory then
+      return
+   end
+   for l=1, #invlists do
+      local list = invlists[l]
+      local list_table = meta_table.inventory[list]
+      if list_table then
+         for i=1, #list_table do
+            local item = ItemStack(list_table[i])
+            if not item:is_empty() then
+               item_drop.drop_item(pos, item)
+            end
+         end
+      end
+   end
+end
+
 -- Overwrite Minetest's item_drop function
 minetest.item_drop = function(itemstack, dropper, pos)
 	local dropper_is_player = dropper and dropper:is_player()

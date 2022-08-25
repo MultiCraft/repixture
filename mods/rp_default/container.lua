@@ -42,13 +42,8 @@ minetest.register_node(
 
          inv:set_size("main", 8 * 4)
       end,
-      -- Unlike other inventory nodes in this game, chests are NOT subject to protection.
-      -- This is done to allow something like "public chests" in protected areas.
-      -- To protect their belongings, players are supposed locked chests instead.
-      can_dig = function(pos, player)
-         local meta = minetest.get_meta(pos)
-         local inv = meta:get_inventory()
-         return inv:is_empty("main")
+      on_destruct = function(pos)
+         item_drop.drop_items_from_container(pos, {"main"})
       end,
       write_name = function(pos, text)
 --[[ TODO: Bring back container naming
@@ -95,10 +90,8 @@ minetest.register_node(
       allow_metadata_inventory_move = protection_check_move,
       allow_metadata_inventory_put = protection_check_put_take,
       allow_metadata_inventory_take = protection_check_put_take,
-      can_dig = function(pos,player)
-         local meta = minetest.get_meta(pos);
-         local inv = meta:get_inventory()
-         return inv:is_empty("main")
+      on_destruct = function(pos)
+         item_drop.drop_items_from_container(pos, {"main"})
       end,
       write_name = function(pos, text)
 --[[ TODO: Bring back container naming

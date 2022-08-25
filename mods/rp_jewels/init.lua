@@ -305,11 +305,8 @@ minetest.register_node(
          local inv = meta:get_inventory()
          inv:set_size("main", 1)
       end,
-      can_dig = function(pos, player)
-         local meta = minetest.get_meta(pos)
-         local inv = meta:get_inventory()
-
-         return inv:is_empty("main")
+      on_destruct = function(pos)
+         item_drop.drop_items_from_container(pos, {"main"})
       end,
       allow_metadata_inventory_move = check_move,
       allow_metadata_inventory_put = check_put,

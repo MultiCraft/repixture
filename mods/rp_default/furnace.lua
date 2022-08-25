@@ -61,6 +61,15 @@ form_furnace = form_furnace .. "image[3.25,1.75;1,1;ui_arrow_bg.png^[transformR2
 
 rp_formspec.register_page("rp_default:furnace_inactive", form_furnace)
 
+local after_dig_node = function(pos, nodenode, oldmetadata, digger)
+    item_drop.drop_items_from_container_meta_table(pos, {"fuel", "src", "dst"}, oldmetadata)
+end
+
+local on_blast = function(pos)
+    item_drop.drop_items_from_container(pos, {"fuel", "src", "dst"})
+    minetest.remove_node(pos)
+end
+
 local check_put = function(pos, listname, index, stack, player)
     if minetest.is_protected(pos, player:get_player_name()) and
             not minetest.check_player_privs(player, "protection_bypass") then
@@ -123,18 +132,8 @@ minetest.register_node(
       allow_metadata_inventory_move = check_move,
       allow_metadata_inventory_put = check_put,
       allow_metadata_inventory_take = check_take,
-      can_dig = function(pos,player)
-		   local meta = minetest.get_meta(pos);
-		   local inv = meta:get_inventory()
-		   if not inv:is_empty("fuel") then
-		      return false
-		   elseif not inv:is_empty("dst") then
-		      return false
-		   elseif not inv:is_empty("src") then
-		      return false
-		   end
-		   return true
-		end,
+      after_dig_node = after_dig_node,
+      on_blast = on_blast,
    })
 
 minetest.register_node(
@@ -163,18 +162,8 @@ minetest.register_node(
       allow_metadata_inventory_move = check_move,
       allow_metadata_inventory_put = check_put,
       allow_metadata_inventory_take = check_take,
-      can_dig = function(pos,player)
-		   local meta = minetest.get_meta(pos);
-		   local inv = meta:get_inventory()
-		   if not inv:is_empty("fuel") then
-		      return false
-		   elseif not inv:is_empty("dst") then
-		      return false
-		   elseif not inv:is_empty("src") then
-		      return false
-		   end
-		   return true
-		end,
+      after_dig_node = after_dig_node,
+      on_blast = on_blast,
    })
 
 local function swap_node(pos, name)
