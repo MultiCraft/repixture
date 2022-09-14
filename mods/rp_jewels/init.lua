@@ -183,7 +183,7 @@ local function get_stat(format_text, stats_key, parent, stats)
       disp_val = disp_val + parent.stats[stats_key]
    end
    if disp_val ~= 0 then
-      return S(format_text, plus_power(disp_val))
+      return S(format_text, loc.num(plus_power(disp_val)))
    end
    return nil
 end

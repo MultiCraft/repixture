@@ -64,7 +64,7 @@ tt.register_snippet(function(itemstring)
 				full_punch_interval = 1
 			end
 			desc = newline(desc)
-			desc = desc .. S("Full punch interval: @1s", string.format("%.2f", full_punch_interval))
+			desc = desc .. S("Full punch interval: @1s", loc.num(string.format("%.2f", full_punch_interval)))
 		end
 	end
 	if desc == "" then
@@ -115,7 +115,7 @@ tt.register_snippet(function(itemstring)
 		desc = desc .. minetest.colorize(tt.COLOR_GOOD, S("No fall damage"))
 	elseif tmp < 0 then
 		desc = newline(desc)
-		desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("Fall damage: @1%", tmp))
+		desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("Fall damage: @1%", loc.num(tmp)))
 	end
 
 	-- Movement-related node facts

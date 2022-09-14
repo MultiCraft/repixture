@@ -49,6 +49,7 @@ Mods with documented APIs:
 * `rp_item_drop`: Add a function to simulate an item drop
 * `rp_itemshow`: Needed when your item needs a custom appearance in the item frame / item showcase
 * `rp_jewels`: Register jeweled tools, and more
+* `rp_loalize`: Localize numbers
 * `rp_locks`: Get info about lockable nodes
 * `rp_partialblocks`: Register partial blocks (slabs, stairs)
 * `rp_player`: Player model handling, model animation, textures
