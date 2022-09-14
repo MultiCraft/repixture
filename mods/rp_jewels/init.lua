@@ -189,11 +189,11 @@ local function get_stat(format_text, stats_key, parent, stats)
 end
 
 local amendments = {
-   { "range", NS("Range: @1") },
-   { "maxdrop", NS("Drop level: @1") },
-   { "digspeed", NS("Dig time: @1 s") },
-   { "uses", NS("Uses: @1") },
-   { "maxlevel", NS("Dig level: @1") },
+   { "range", NS("Range bonus: @1") },
+   { "maxdrop", NS("Drop level bonus: @1") },
+   { "digspeed", NS("Dig time bonus: @1 s") },
+   { "uses", NS("Durability bonus: @1") },
+   { "maxlevel", NS("Dig level bonus: @1") },
 }
 
 for a=1, #amendments do
