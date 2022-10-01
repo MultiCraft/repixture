@@ -294,15 +294,11 @@ form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
 form = form .. "list[current_player;craft_in;0.25,0.25;1,4;]"
 
-form = form .. "list[current_player;craft_out;7.25,3.25;1,1;]"
-
 form = form .. "listring[current_player;main]"
 form = form .. "listring[current_player;craft_in]"
 form = form .. "listring[current_player;main]"
-form = form .. "listring[current_player;craft_out]"
 
 form = form .. rp_formspec.get_itemslot_bg(0.25, 0.25, 1, 4)
-form = form .. rp_formspec.get_output_itemslot_bg(7.25, 3.25, 1, 1)
 
 form = form .. rp_formspec.button(7.25, 1.25, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
 form = form .. rp_formspec.button(7.25, 2.25, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
@@ -448,7 +444,7 @@ local function clear_craft_slots(player)
    -- Move items out of input and output slots
    local items_moved = false
    local pos = player:get_pos()
-   local lists = { "craft_out", "craft_in" }
+   local lists = { "craft_in" }
    for l = 1, #lists do
       local list = lists[l]
       for i = 1, inv:get_size(list) do
@@ -519,13 +515,7 @@ local function on_player_receive_fields(player, form_name, fields)
          return
       end
       local wanted_itemstack = crafting.registered_crafts[wanted_id].output
-      local output_itemstack = inv:get_stack("craft_out", 1)
-
-      if output_itemstack:get_name() ~= wanted_itemstack:get_name()
-      and output_itemstack:get_count() ~= 0 then
-         return -- Different item type in output already
-      end
-
+      local output_itemstack
       local count = 1
 
       if do_craft_1 then
@@ -536,24 +526,30 @@ local function on_player_receive_fields(player, form_name, fields)
          return
       end
 
-      local crafted = crafting.craft(player, wanted_itemstack, count,
-                                     output_itemstack, inv:get_list("craft_in"), wanted_id)
+      -- Do the craft
+      repeat
+         -- Check if there is enough inventory space for this craft.
+	 -- If not, reduce crafting count by 1 and try again.
+         output_itemstack = ItemStack("")
+         local crafted = crafting.craft(player, wanted_itemstack, count,
+                                         output_itemstack, inv:get_list("craft_in"), wanted_id)
+	 count = count - 1
+         if crafted then
+            if inv:room_for_item("main", crafted.output) then
+               -- Move result directly into the player inventory
+               inv:add_item("main", crafted.output)
 
-      if crafted then
-         inv:set_stack("craft_out", 1, "")
+               local new_list = {}
+               for i=1, #crafted.items do
+                   new_list[i] = ItemStack(crafted.items[i])
+               end
+               inv:set_list("craft_in", new_list)
 
-         if inv:room_for_item("craft_out", crafted.output) then
-            inv:set_stack("craft_out", 1, crafted.output)
-
-            local new_list = {}
-            for i=1, #crafted.items do
-                new_list[i] = ItemStack(crafted.items[i])
+               crafting.update_crafting_formspec(player, old_craft_id)
+	       break
             end
-            inv:set_list("craft_in", new_list)
-
-            crafting.update_crafting_formspec(player, old_craft_id)
          end
-      end
+      until count < 1
    elseif fields.craft_list then
       local selection = minetest.explode_table_event(fields.craft_list)
 
@@ -578,18 +574,6 @@ function crafting.update_crafting_formspec(player, old_craft_id)
    local newform = crafting.get_formspec(name, old_craft_id)
    player:set_inventory_formspec(newform)
 end
-
-minetest.register_allow_player_inventory_action(function(player, action, inventory, inventory_info)
-   if action == "put" then
-      if inventory_info.listname == "craft_out" then
-          return 0
-      end
-   elseif action == "move" then
-      if inventory_info.to_list == "craft_out" then
-          return 0
-      end
-   end
-end)
 
 minetest.register_on_player_inventory_action(function(player, action, inventory, inventory_info)
    if action == "move" then
@@ -616,10 +600,6 @@ local function on_joinplayer(player)
       inv:set_size("craft_in", 4)
    end
 
-   if inv:get_size("craft_out") ~= 1 then
-      inv:set_size("craft_out", 1)
-   end
-
    clear_craft_slots(player)
 end
 
@@ -631,7 +611,6 @@ end
 
 if minetest.get_modpath("rp_drop_items_on_die") ~= nil then
    drop_items_on_die.register_listname("craft_in")
-   drop_items_on_die.register_listname("craft_out")
 end
 
 if minetest.settings:get_bool("rp_testing_enable", false) == true then
