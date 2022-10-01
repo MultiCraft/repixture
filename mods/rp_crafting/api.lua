@@ -528,12 +528,10 @@ local function on_player_receive_fields(player, form_name, fields)
 
       -- Do the craft
       repeat
-         -- Check if there is enough inventory space for this craft.
-	 -- If not, reduce crafting count by 1 and try again.
+         -- Repeat the craft count times or until materials or space run out
          output_itemstack = ItemStack("")
-         local crafted = crafting.craft(player, wanted_itemstack, count,
+         local crafted = crafting.craft(player, wanted_itemstack, 1,
                                          output_itemstack, inv:get_list("craft_in"), wanted_id)
-	 count = count - 1
          if crafted then
             if inv:room_for_item("main", crafted.output) then
                -- Move result directly into the player inventory
@@ -546,9 +544,11 @@ local function on_player_receive_fields(player, form_name, fields)
                inv:set_list("craft_in", new_list)
 
                crafting.update_crafting_formspec(player, old_craft_id)
-	       break
             end
+         else
+            break
          end
+         count = count - 1
       until count < 1
    elseif fields.craft_list then
       local selection = minetest.explode_table_event(fields.craft_list)
