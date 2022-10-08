@@ -62,7 +62,7 @@ end
 
 -- This timer prevents the weather from changing naturally too fast
 local stoptimer = 0
-local stoptimer_init = 15 -- minumum time between natural weather changes in seconds
+local stoptimer_init = 300 -- minimum time between natural weather changes in seconds
 
 local function setweather_raw(new_weather)
       weather.previous_weather = weather.weather
