@@ -17,7 +17,7 @@ local function addvec(v1, v2)
 end
 
 local mapseed = minetest.get_mapgen_setting("seed")
-local weather_pr=PseudoRandom(mapseed + 2387)
+local weather_pr = PseudoRandom(mapseed + 2387 + minetest.get_us_time())
 
 local sound_min_height = -20 -- Below -20m you can't hear weather
 
