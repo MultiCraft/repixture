@@ -308,6 +308,27 @@ minetest.register_node(
       on_destruct = function(pos)
          item_drop.drop_items_from_container(pos, {"main"})
       end,
+      can_dig = function(pos, player)
+         -- Player can't dig if bench has an item and
+         -- player wields a jewel.
+         -- Needed to avoid accidental digging in Creative Mode
+         -- when jewelling a tool.
+         if player and player:is_player() then
+            local meta = minetest.get_meta(pos)
+            local inv = meta:get_inventory()
+            if inv:get_stack("main", 1):is_empty() then
+               return true
+            else
+               local wield = player:get_wielded_item()
+               if wield:get_name() == "rp_jewels:jewel" then
+                  return false
+               else
+                  return true
+               end
+            end
+         end
+	 return true
+      end,
       allow_metadata_inventory_move = check_move,
       allow_metadata_inventory_put = check_put,
       allow_metadata_inventory_take = check_take,
