@@ -195,6 +195,7 @@ end
 function rp_formspec.fake_itemstack(x, y, itemstack)
    local itemname = itemstack:get_name()
    local itemamt = itemstack:get_count()
+   local itemwear = itemstack:get_wear()
 
    local itemdesc = ""
    if minetest.registered_items[itemname]
@@ -202,12 +203,12 @@ function rp_formspec.fake_itemstack(x, y, itemstack)
       itemdesc = minetest.registered_items[itemname].description
    end
 
-   if itemamt <= 1 then itemamt = "" end
+   local itemstring = itemname .. " " .. itemamt .. " " .. itemwear
 
    local result = ""
    if itemname ~= "" then
       result = result .. "item_image["..x..","..y..";1,1;"
-         ..minetest.formspec_escape(itemname .. " " .. itemamt).."]"
+         ..minetest.formspec_escape(itemstring).."]"
 
       result = result .. "tooltip["..x..","..y..";0.8,0.8;"..minetest.formspec_escape(itemdesc).."]"
    end
