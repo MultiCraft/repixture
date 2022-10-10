@@ -290,11 +290,6 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    inv:set_stack("gold_trade_wanted", 1, trade[1])
    inv:set_stack("gold_trade_wanted", 2, trade[2])
 
-   local meta = minetest.deserialize(item:get_metadata())
-
-   if not meta then meta = {} end
-   meta.trade = trade
-
    local trade_name = gold.trade_names[trade_type]
    local label = S("Trading with @1", trade_name)
 
@@ -354,11 +349,6 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    form = form .. "container_end[]"
 
    minetest.show_formspec(name, "rp_gold:trading_book", form)
-
-   meta.trade_type = trade_type
-
-   item:set_metadata(minetest.serialize(meta))
-   player:set_wielded_item(item)
 
    return true
 end
@@ -423,7 +413,7 @@ minetest.register_on_player_receive_fields(
 
       if not active_tradings[name] then
          -- No trading possible if active_tradings table is empty (mustn't happen)
-	 minetest.log("error", "[rp_gold] active_tradings["..tostring(name).."] was nil after receiving trading book fields!")
+	 minetest.log("error", "[rp_gold] active_tradings["..tostring(name).."] was nil after receiving trading formspec fields!")
          return
       end
 
@@ -450,8 +440,6 @@ minetest.register_on_player_receive_fields(
 	 return
       end
       if fields.trade then
-	 local item = player:get_wielded_item()
-
 	 local trade_wanted1 = inv:get_stack("gold_trade_wanted", 1)
 	 local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
 	 local trade_wanted1_n = trade_wanted1:get_name()
@@ -481,14 +469,14 @@ minetest.register_on_player_receive_fields(
 	    end
 	 end
 
-	 local meta = minetest.deserialize(item:get_metadata())
-
-	 local trade = {"rp_gold:ingot_gold", "rp_gold:ingot_gold", "rp_default:stick"}
-	 local trade_type = ""
-
-	 if meta then
-	    trade = meta.trade
-	    trade_type = meta.trade_type
+	 local trade
+	 local active_trade = active_tradings[name]
+	 if active_trade then
+	    trade = active_trade.all_trades[active_trade.trade_index]
+	 end
+	 if not trade then
+	    minetest.log("error", "[rp_gold] "..player:get_player_name().." tried to trade with invalid/unknown active trade!")
+	    return
 	 end
 
 	 if matches then
