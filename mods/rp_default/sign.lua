@@ -141,3 +141,9 @@ register_sign("sign_birch", {
 	inv_image = "rp_default_sign_birch_inventory.png",
 	sounds = rp_sounds.node_sound_defaults(),
 })
+register_sign("sign_fir", {
+	description = S("Fir Sign"),
+	tile = "rp_default_sign_fir.png",
+	inv_image = "rp_default_sign_fir_inventory.png",
+	sounds = rp_sounds.node_sound_defaults(),
+})

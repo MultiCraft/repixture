@@ -378,6 +378,28 @@ crafting.register_craft(
          "rp_default:planks_birch 2",
       }
 })
+
+door.register_door(
+   "rp_door:door_wood_fir",
+   {
+      description = S("Fir Door"),
+      inventory_image = "rp_door_wood_fir.png",
+      groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=2,door=1,door_wood=1},
+      tiles_top = {"rp_door_wood_fir_a.png", "rp_door_wood_fir_side.png"},
+      tiles_bottom = {"rp_door_wood_fir_b.png", "rp_door_wood_fir_side.png"},
+      sounds = rp_sounds.node_sound_wood_defaults(),
+      sunlight = false,
+})
+crafting.register_craft(
+   {
+      output = "rp_door:door_wood_fir",
+      items = {
+         "rp_default:fiber 6",
+         "rp_default:stick 7",
+         "rp_default:planks_fir 2",
+      }
+})
+
 minetest.register_craft({
     type = "fuel",
     recipe = "group:door_wood",

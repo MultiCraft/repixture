@@ -95,6 +95,38 @@ minetest.register_node(
 })
 
 minetest.register_node(
+   "rp_default:sapling_fir",
+   {
+      description = S("Fir Sapling"),
+      _tt_help = S("Grows into a fir tree"),
+      drawtype = "plantlike",
+      tiles = {"rp_default_sapling_fir.png"},
+      inventory_image = "rp_default_sapling_fir_inventory.png",
+      wield_image = "rp_default_sapling_fir_inventory.png",
+      paramtype = "light",
+      walkable = false,
+      floodable = true,
+      selection_box = {
+	 type = "fixed",
+	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
+      },
+      groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_defaults(),
+
+      on_timer = function(pos)
+         default.grow_sapling(pos)
+      end,
+
+      on_construct = function(pos)
+         default.begin_growing_sapling(pos)
+      end,
+
+      on_place = default.place_sapling,
+})
+
+
+minetest.register_node(
    "rp_default:sapling_dry_bush",
    {
       description = S("Dry Bush Sapling"),
@@ -153,6 +185,16 @@ minetest.register_node(
       groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1},
       sounds = rp_sounds.node_sound_wood_defaults(),
 })
+
+minetest.register_node(
+   "rp_default:tree_fir",
+   {
+      description = S("Fir Tree"),
+      tiles = {"rp_default_tree_fir_top.png", "rp_default_tree_fir_top.png", "rp_default_tree_fir.png"},
+      groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1},
+      sounds = rp_sounds.node_sound_wood_defaults(),
+})
+
 
 -- Leaves
 
@@ -225,6 +267,31 @@ minetest.register_node(
 	    },
 	    {
 	       items = {"rp_default:leaves_birch"},
+	    }
+	 }
+      },
+      sounds = rp_sounds.node_sound_leaves_defaults(),
+})
+
+minetest.register_node(
+   "rp_default:leaves_fir",
+   {
+      description = S("Fir Needles"),
+      _tt_help = S("Decays when not near a tree block"),
+      drawtype = "allfaces_optional",
+      tiles = {"rp_default_leaves_fir.png"},
+      paramtype = "light",
+      waving = 1,
+      groups = {snappy = 3, leafdecay = 4, leaves = 1, lush_leaves = 1},
+      drop = {
+	 max_items = 1,
+	 items = {
+	    {
+	       items = {"rp_default:sapling_fir"},
+	       rarity = 10,
+	    },
+	    {
+	       items = {"rp_default:leaves_fir"},
 	    }
 	 }
       },

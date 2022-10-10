@@ -142,6 +142,14 @@ local sapling_data = {
 		grow_time_min = 480,
 		grow_time_max = 780,
 	},
+	["rp_default:sapling_fir"] = {
+		-- TODO: Trees
+		grows_to = {
+			["default"] = "apple",
+		},
+		grow_time_min = 700,
+		grow_time_max = 960,
+	},
 	["rp_default:sapling_dry_bush"] = {
 		grows_to = {
 			["dry"] = "dry_bush",

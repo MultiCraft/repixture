@@ -30,6 +30,9 @@ partialblocks.register_material(
 partialblocks.register_material(
    "birch", S("Birch Slab"), S("Birch Stair"), "rp_default:planks_birch", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
 
+partialblocks.register_material(
+   "fir", S("Fir Slab"), S("Fir Stair"), "rp_default:planks_fir", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
+
 -- Reed
 
 partialblocks.register_material(

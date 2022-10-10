@@ -81,3 +81,12 @@ register_fence("rp_default:fence_birch", {
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, fence = 1},
 	sounds = rp_sounds.node_sound_wood_defaults()
 })
+register_fence("rp_default:fence_fir", {
+	description = S("Fir Fence"),
+	texture_side = "rp_default_fence_fir_side.png",
+	texture_top = "rp_default_fence_fir_top.png",
+	inventory_image = "rp_default_fence_fir.png",
+	wield_image = "rp_default_fence_fir.png",
+	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, fence = 1},
+	sounds = rp_sounds.node_sound_wood_defaults()
+})

@@ -468,6 +468,18 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_wood_defaults(),
 })
 
+minetest.register_node(
+   "rp_default:planks_fir",
+   {
+      description = S("Fir Planks"),
+      tiles = {"rp_default_wood_fir.png"},
+      groups = {planks = 1, wood = 1, snappy = 3, choppy = 3, oddly_breakable_by_hand = 3},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_wood_defaults(),
+})
+
+
+
 -- Frames
 
 minetest.register_node(
