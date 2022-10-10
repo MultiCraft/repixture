@@ -75,6 +75,21 @@ local village_replaces = {
    },
 }
 
+local schematic_cache = {}
+-- Wrapper around minetest.read_schematic to
+-- speed up loading time on subsequent reads.
+-- returns a schematic specifier for the schematic
+-- assigned to `chunktype`.
+local function read_cached_chunk_schematic(chunktype)
+   if schematic_cache[chunktype] then
+      return schematic_cache[chunktype], true
+   end
+   local schem_path = modpath .. "/schematics/village_" .. chunktype .. ".mts"
+   local schem_spec = minetest.read_schematic(schem_path, {})
+   schematic_cache[chunktype] = schem_spec
+   return schem_spec, false
+end
+
 function village.get_id(name, pos)
    return name .. string.format("%d", minetest.hash_node_position(pos))
 end
@@ -420,7 +435,9 @@ end
 -- * pos: pos to spawn chunk in
 -- * state: table for internal state (call-by-reference)
 -- * orient: orientation (for minetest.place_schematic)
--- * replace: node replacements (for minetest.place_schematic)
+-- * replace: one of these:
+--    * node replacements table (for minetest.place_schematic)
+--    * number of village replacements ID (from village_replacements table)
 -- * pr: PseudoRandom object for random stuff
 -- * chunktype: village chunk type ID
 -- * noclear: If true, won't delete nodes before spawning
@@ -475,7 +492,9 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
       end
    end
 
-
+   if type(replace) == "number" then
+      replace = village_replaces[replace]
+   end
    local sreplace = table.copy(replace)
    if chunktype == "orchard" then
       sreplace["rp_default:tree"] = nil
@@ -483,16 +502,18 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
    local schem_path = modpath .. "/schematics/village_" .. chunktype .. ".mts"
    local schem_spec
    if village.chunkdefs[chunktype] and village.chunkdefs[chunktype].can_cache then
-      -- caching is allowed for this chunktype, so we call the schematic place function
+      -- Minetest's caching is allowed for this chunktype, so we call the schematic place function
       -- in the normal way (schematics are cached by Minetest if the schematic path is
       -- specified in the place function)
       schem_spec = schem_path
    else
-      -- no caching:
-      -- if the schematic is specified by table, this forces Minetest to skip caching
-      -- and load the schematic every time. This is necessary so the schematic
-      -- placements work properly.
-      schem_spec = minetest.read_schematic(schem_path, {})
+      -- load schematic from table definition (read_schematic). This will force Minetest
+      -- to skip its schematic cache and guarantee that node replacements are
+      -- applied every time.
+      -- However, this mod still caches the result of read_schematic itself to save
+      -- a bit of time.
+      local cached
+      schem_spec, cached = read_cached_chunk_schematic(chunktype)
    end
    local ok = minetest.place_schematic_on_vmanip(
       vmanip,
