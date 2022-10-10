@@ -818,6 +818,19 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
             end, true)
       end
 
+      -- Maximum of 1 music player per village
+      local music_players = 0
+      util.nodefunc(
+         upos, upos2,
+         "rp_music:player",
+         function(pos)
+           if music_players >= 1 or pr:next(1,8) > 1 then
+              minetest.remove_node(pos)
+           else
+              music_players = music_players + 1
+           end
+         end, true)
+
       -- Force on_construct to be called
       util.reconstruct(upos, upos2)
 
@@ -840,19 +853,6 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
                goodies.fill(pos, "FURNACE_FUEL", pr, "fuel", 1)
             end, true)
       end
-
-      -- Maximum of 1 music player per village
-      local music_players = 0
-      util.nodefunc(
-         upos, upos2,
-         "rp_music:player",
-         function(pos)
-           if music_players >= 1 or pr:next(1,8) > 1 then
-              minetest.remove_node(pos)
-           else
-              music_players = music_players + 1
-           end
-         end, true)
 
       -- Set entity spawner metadata
       local chunkdef = village.chunkdefs[chunktype]
