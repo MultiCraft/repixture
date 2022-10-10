@@ -25,8 +25,7 @@ local mapseed = minetest.get_mapgen_setting("seed")
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
 
 --[[ List of village wood materials (schematic replacements)
-One of these will be chosen at random and it applies
-for the whole world. ]]
+One of these will be chosen at random per village. ]]
 local village_replaces = {
    -- Default (Birch + Oak, as specified in schematics)
    {
@@ -75,8 +74,6 @@ local village_replaces = {
       ["rp_door:door_wood_b_1"] = "rp_door:door_wood_oak_b_1",
    },
 }
-
-local village_replace_id
 
 function village.get_id(name, pos)
    return name .. string.format("%d", minetest.hash_node_position(pos))
@@ -161,6 +158,21 @@ local farmchunkdef = {
 
 village.chunkdefs = {}
 
+--[[ village chunk definition:
+{
+   -- every field is optional
+   can_cache = <bool>, -- if true, schematic can be cached by Minetest
+                       -- use this if no random node replacements (like wood)
+                       -- are required (default: false)
+   entities = {
+      [entity_1] = <number>,
+      ...
+      [entity_n] = <number>,
+   }, -- list of entities that can spawn (needs entity spawner node in schematic)
+   entity_chance = <number>,
+}
+]]
+
 village.chunkdefs["livestock_pen"] = {
    entities = {
       ["mobs:sheep"] = 3,
@@ -168,6 +180,7 @@ village.chunkdefs["livestock_pen"] = {
    },
 }
 village.chunkdefs["lamppost"] = { -- not road because of road height limit of 1 nodes
+   can_cache = true,
    entity_chance = 2,
    entities = {
       ["mobs:npc_carpenter"] = 1,
@@ -199,11 +212,16 @@ village.chunkdefs["forge"] = {
    },
 }
 village.chunkdefs["orchard"] = {
+   can_cache = true,
    entity_chance = 2,
    entities = {
       ["mobs:npc_farmer"] = 1,
    },
 }
+village.chunkdefs["road"] = {
+   can_cache = true,
+}
+
 village.chunkdefs["farm_v24_potato"] = farmchunkdef
 village.chunkdefs["farm_v24_potato_wheat"] = farmchunkdef
 village.chunkdefs["farm_v24_wheat"] = farmchunkdef
@@ -392,6 +410,26 @@ local function check_empty(pos)
    return true
 end
 
+-- Spawns a village chunk. This is a section of a village.
+-- By default, this checks for empty space first (fails if no space),
+-- then it generates a foundation of ground nodes, then it deletes
+-- nodes above, then places the building as specified in chunktype.
+--
+-- Parameters:
+-- * vmanip: VoxelManip object
+-- * pos: pos to spawn chunk in
+-- * state: table for internal state (call-by-reference)
+-- * orient: orientation (for minetest.place_schematic)
+-- * replace: node replacements (for minetest.place_schematic)
+-- * pr: PseudoRandom object for random stuff
+-- * chunktype: village chunk type ID
+-- * noclear: If true, won't delete nodes before spawning
+-- * nofill: If true, won't build a dirt foundation
+-- * dont_check_empty: If true, don't fail if there is no empty space
+-- * ground: ground node below surface
+-- * ground_top: ground node on surface
+--
+-- returns true if chunk was placed, false otherwise.
 function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype, noclear, nofill, dont_check_empty, ground, ground_top)
    if not dont_check_empty and not check_empty(pos) then
       minetest.log("verbose", "[rp_village] Chunk not generated (too many stone/leaves/trees in the way) at "..minetest.pos_to_string(pos))
@@ -442,10 +480,24 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
    if chunktype == "orchard" then
       sreplace["rp_default:tree"] = nil
    end
+   local schem_path = modpath .. "/schematics/village_" .. chunktype .. ".mts"
+   local schem_spec
+   if village.chunkdefs[chunktype] and village.chunkdefs[chunktype].can_cache then
+      -- caching is allowed for this chunktype, so we call the schematic place function
+      -- in the normal way (schematics are cached by Minetest if the schematic path is
+      -- specified in the place function)
+      schem_spec = schem_path
+   else
+      -- no caching:
+      -- if the schematic is specified by table, this forces Minetest to skip caching
+      -- and load the schematic every time. This is necessary so the schematic
+      -- placements work properly.
+      schem_spec = minetest.read_schematic(schem_path, {})
+   end
    local ok = minetest.place_schematic_on_vmanip(
       vmanip,
       pos,
-      modpath .. "/schematics/village_" .. chunktype .. ".mts",
+      schem_spec,
       orient,
       sreplace,
       true
@@ -540,6 +592,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    local vmin, vmax = vmanip:get_emerged_area()
    local varea = VoxelArea:new({MinEdge=vmin, MaxEdge=vmax})
    local pos = params.pos
+   local poshash = minetest.hash_node_position(pos)
    local pr = params.pr
    local ground = params.ground
    local ground_top = params.ground_top
@@ -557,21 +610,17 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
 
    local spawnpos = pos
 
-   -- Get village wood type based on mapseed. All villages in the world
-   -- will have the same style.
-   -- This is done because the schematic replacements cannot be changed
-   -- once the schematic was loaded.
-   if not village_replace_id then
-      local vpr = PseudoRandom(mapseed)
-      village_replace_id = vpr:next(1,#village_replaces)
-   end
+   -- Get random village wood type for this village
+   local vpr = PcgRandom(mapseed + poshash)
+   local village_replace_id = vpr:next(1,#village_replaces)
+   minetest.log("verbose", "[rp_village] village_replace_id="..village_replace_id)
    local replace = village_replaces[village_replace_id]
    local dirt_path = "rp_default:dirt_path"
 
    -- For measuring the generation time
    local t1 = os.clock()
 
-   built[minetest.hash_node_position(pos)] = true
+   built[poshash] = true
 
    -- Generate a road below the starting position. The road tries to grow in 4 directions
    -- growing either recursively more roads or buildings (where the road
@@ -598,8 +647,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
 
    -- Add position of starter chunk to roads list to connect it properly with
    -- the road network.
-   local hnp = minetest.hash_node_position(pos)
-   roads[hnp] = { pos = pos, is_starter = true }
+   roads[poshash] = { pos = pos, is_starter = true }
 
    -- Connect dirt paths with other village tiles.
    -- The dirt path schematic uses planks and cobble for each of the 4 cardinal
