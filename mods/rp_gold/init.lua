@@ -8,7 +8,38 @@ gold = {}
 local mapseed = minetest.get_mapgen_setting("seed")
 gold.pr = PseudoRandom(mapseed+8732)
 
+--[[
+Table of trades offered by villagers.
+Format:
+
+   gold.trades = {
+      -- List of trades for this villager type
+      ["villager_type_1"] = {
+         -- first trade table (see below)
+         trade_1,
+         -- second trade table (see below)
+         trade_2,
+         -- ...
+      },
+      ["villager_type_1"] = {
+         -- ...
+      },
+      -- ...
+   },
+
+A trade table is a list of 3 itemstrings:
+
+   { wanted_item_1, wanted_item_2, given_item }
+
+The first 2 items are the items you give to the villager.
+`wanted_item_2` can be the empty string.
+`given_item` is the item you get.
+If `wanted_item_2` and `given_item` are equal and tools
+(via `minetest.registered_tool`), this trade is considered
+to be a repair trade
+]]
 gold.trades = {}
+
 gold.trade_names = {}
 
 local TRADE_FORMSPEC_OFFSET = 2.5
@@ -209,6 +240,11 @@ form_trading = form_trading .. "container_end[]"
 
 rp_formspec.register_page("rp_gold:trading_book", form_trading)
 
+-- Returns true if the given trade is a repair trade
+local is_repair_trade = function(trade)
+   return trade[2] == trade[3] and ItemStack(trade[2]):get_definition().type == "tool"
+end
+
 -- Remember with which traders the players trade
 local active_tradings = {}
 
@@ -294,7 +330,11 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
       else
          take = S("@1 + @2", print_item(all_trades[t][1]), print_item(all_trades[t][2]))
       end
-      give = print_item(all_trades[t][3])
+      if is_repair_trade(all_trades[t]) then
+         give = S("(repair)")
+      else
+         give = print_item(all_trades[t][3])
+      end
       local entry = S("@1 → @2", take, give)
       table.insert(trades_listed, minetest.formspec_escape(entry))
    end
@@ -303,6 +343,11 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    form = form .. "table[0.15,1.25;3.5,2.5;tradelist;"..trades_listed_str..";"..trade_index.."]"
 
    form = form .. "container["..TRADE_FORMSPEC_OFFSET..",0]"
+   if is_repair_trade(trade) then
+      -- Display repairable tool as damaged so the purpose of
+      -- repair trades is more obvious
+      trade_wanted2:set_wear(58982) -- ca. 90% wear
+   end
    form = form .. rp_formspec.fake_itemstack(1.25, 1.25, trade_wanted1)
    form = form .. rp_formspec.fake_itemstack(2.25, 1.25, trade_wanted2)
    form = form .. rp_formspec.fake_itemstack(4.75, 1.25, ItemStack(trade[3]))
