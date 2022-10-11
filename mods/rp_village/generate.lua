@@ -865,6 +865,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    local ground = params.ground
    local ground_top = params.ground_top
    local force_place_starter = params.force_place_starter
+   local is_abandoned = params.is_abandoned
    local village_name = params.village_name
 
    minetest.log("info", "[rp_village] Village area emerged at startpos = "..minetest.pos_to_string(pos))
@@ -1060,9 +1061,9 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       -- Maximum of 1 music player per village
       village_modify_limit_music_players(upos, upos2, pr)
 
-      if false then
       -- Village modifier: Abandoned village
-      village_modify_abandoned_village(upos, upos2, pr, {path=dirt_path, path_slab=dirt_path_slab, ground_top=ground_top})
+      if is_abandoned then
+         village_modify_abandoned_village(upos, upos2, pr, {path=dirt_path, path_slab=dirt_path_slab, ground_top=ground_top})
       end
 
       -- Force on_construct to be called on all nodes
@@ -1071,12 +1072,16 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       -- Fill containers with goodies
       village_modify_populate_containers(upos, upos2, pr, {chunktype=chunktype})
 
-      -- Set entity spawner metadata
+      -- Handle entity spawner nodes.
+      -- In abandoned villages, remove all spawners and don't spawn anything.
+      -- Otherwise, randomly spawn an entity at each
+      -- spawner (chance of 1:chunkdef.entity_chance), then
+      -- remove the spawner nodes.
       local chunkdef = village.chunkdefs[chunktype]
       if chunkdef ~= nil then
          if chunkdef.entities ~= nil then
-	    if chunkdef.entity_chance ~= nil and pr:next(1, chunkdef.entity_chance) == 1 then
-               -- Remove some entity spawners
+	    if is_abandoned or (chunkdef.entity_chance ~= nil and pr:next(1, chunkdef.entity_chance) == 1) then
+               -- Remove entity spawners
 	       util.nodefunc(
 	          upos, upos2,
 	          "rp_village:entity_spawner",
@@ -1157,7 +1162,17 @@ function village.spawn_village(pos, pr, force_place_starter, ground, ground_top)
    local vspread = vector.new(spread, spread, spread)
    local emerge_min = vector.add(pos, vector.new(-spread, -(HILL_H + HILL_EXTEND_BELOW + 1), -spread))
    local emerge_max = vector.add(pos, vector.new(spread, VILLAGE_CHUNK_HEIGHT, spread))
-   minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {pos=pos, pr=pr, force_place_starter=force_place_starter, ground=ground, ground_top=ground_top, village_name=village_name, emin=emerge_min, emax=emerge_max})
+   -- 1:25 chance for village to be abandoned
+   local is_abandoned = pr:next(1,25) == 1
+   minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {
+      pos=pos,
+      pr=pr,
+      force_place_starter=force_place_starter,
+      ground=ground,ground_top=ground_top,
+      village_name=village_name,
+      emin=emerge_min,
+      emax=emerge_max,
+      is_abandoned=is_abandoned})
    return true
 end
 
