@@ -812,8 +812,31 @@ local function village_modify_populate_containers(upos, upos2, pr, extras)
             "rp_default:furnace",
             function(pos)
                goodies.fill(pos, "FURNACE_SRC", pr, "src", 1)
-               goodies.fill(pos, "FURNACE_DST", pr, "dst", 1)
                goodies.fill(pos, "FURNACE_FUEL", pr, "fuel", 1)
+               goodies.fill(pos, "FURNACE_DST", pr, "dst", 1)
+               -- If both the src and fuel slots have an item,
+               -- simulate the cooking process.
+               -- We convert the src item into its cooked version,,,,
+               -- put it into dst and reduce the fuel itemstack by 1.
+               -- This prevents the furnace from going into
+               -- active state when the village generates.
+               local inv = minetest.get_meta(pos):get_inventory()
+               local src = inv:get_stack("src", 1)
+               local fuel = inv:get_stack("fuel", 1)
+               if not src:is_empty() and not fuel:is_empty() then
+                  local output = minetest.get_craft_result({method="cooking", items={src:get_name()}, width=1})
+                  if output and not output.item:is_empty() then
+                     local cooked = output.item
+                     cooked:set_count(src:get_count()*cooked:get_count())
+                     if cooked:get_count() > cooked:get_stack_max() then
+                        cooked:set_count(cooked:set_stack_max())
+                     end
+                     inv:set_stack("src", 1, "")
+                     inv:add_item("dst", cooked)
+                     fuel:set_count(fuel:get_count()-1)
+                     inv:set_stack("fuel", 1, fuel)
+                  end
+               end
             end, true)
       end
 end
