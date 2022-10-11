@@ -768,26 +768,26 @@ local function village_modify_abandoned_village(upos, upos2, pr, extras)
       -- Place seagrass or alga underwater
       util.nodefunc(
          upos, upos2,
-	 {"rp_default:water_source", "rp_default:swamp_water_source"},
+         {"rp_default:water_source", "rp_default:swamp_water_source"},
          function(pos)
             if pr:next(1,2) == 1 then
                local posdn = vector.add(pos, vector.new(0,-1,0))
                local posup = vector.add(pos, vector.new(0,1,0))
-	       local ndn = minetest.get_node(posdn)
-	       local nup = minetest.get_node(posup)
-	       -- Alga may replaces seagrass if water is at least 2 nodes deep and if we're VERY lucky
+               local ndn = minetest.get_node(posdn)
+               local nup = minetest.get_node(posup)
+               -- Alga may replaces seagrass if water is at least 2 nodes deep and if we're VERY lucky
                local alga = pr:next(1,100) == 1 and minetest.get_item_group(nup.name, "water") ~= 0
-	       local plant, p2
-	       if alga then
+               local plant, p2
+               if alga then
                   plant = "alga"
                   p2 = 16
-	       else
+               else
                   plant = "seagrass"
                   p2 = 0
                end
-	       if ndn.name == "rp_default:dirt" or "rp_default:dirt_with_grass" or "rp_default:dirt_with_dry_grass" then
+               if ndn.name == "rp_default:dirt" or ndn.name == "rp_default:dirt_with_grass" or ndn.name == "rp_default:dirt_with_dry_grass" then
                   minetest.set_node(posdn, {name="rp_default:"..plant.."_on_dirt", param2=p2})
-               elseif ndn.name == "rp_default:swamp_dirt" or "rp_default:dirt_with_swamp_grass" then
+               elseif ndn.name == "rp_default:swamp_dirt" or ndn.name == "rp_default:dirt_with_swamp_grass" then
                   minetest.set_node(posdn, {name="rp_default:"..plant.."_on_swamp_dirt", param2=p2})
                end
             end
