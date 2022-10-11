@@ -604,6 +604,253 @@ local ROAD_NODE_EAST = "rp_default:cobble"
 local ROAD_NODE_SOUTH = "rp_default:planks_oak"
 local ROAD_NODE_WEST = "rp_default:planks_birch"
 
+-- Village modifiy functions: These are called after the VManip has placed
+-- the village for further changes like setting metadata or tweak
+-- nodes.
+--
+-- Parameters for all village_modify_* functions:
+-- * upos, upos2: Lower and upper bounds of the village
+-- * pr: PseudoRandom object used for randomness
+-- * extras: Table with extra infos (function-specific, not always used)
+
+-- Village modifier: Abandoned village. A complex modifier that
+-- makes a village look like it was abandoned. It does these things:
+-- * Turns all torches into dead torches
+-- * Removes music players
+-- * Makes grass overgrow on floor
+-- * Randomly destroys farming plants, fences, glass, doors
+-- * Generates seagrass and algae in water
+--
+-- The `extras` parameter must specify:
+-- {
+--    path = <itemname of path node>,
+--    path_slab = <itemname of path node slab>,
+--    ground_top = <itemname of top surface node outdoors (e.g. rp_default:dirt_with_grass>>,
+-- }
+local function village_modify_abandoned_village(upos, upos2, pr, extras)
+      -- Replace all torches with dead torches
+      util.nodefunc(
+         upos, upos2,
+	 {"rp_default:torch", "rp_default:torch_weak"},
+         function(pos)
+           local node = minetest.get_node(pos)
+           minetest.set_node(pos, {name="rp_default:torch_dead", param2=node.param2})
+         end, true)
+      util.nodefunc(
+         upos, upos2,
+	 {"rp_default:torch_wall", "rp_default:torch_weak_wall"},
+         function(pos)
+           local node = minetest.get_node(pos)
+           minetest.set_node(pos, {name="rp_default:torch_dead_wall", param2=node.param2})
+         end, true)
+
+      -- Remove all music players
+      util.nodefunc(
+         upos, upos2,
+         "rp_music:player",
+         function(pos)
+           minetest.remove_node(pos)
+         end, true)
+
+      -- Remove 99% of farming plants
+      util.nodefunc(
+         upos, upos2,
+	 "group:farming_plant",
+         function(pos)
+           if pr:next(1,100) <= 95 then
+              local plant = pr:next(1,10)
+              if plant == 1 then
+                 minetest.set_node(pos, {name="rp_default:tall_grass"})
+              elseif plant == 2 or plant == 3 then
+                 minetest.set_node(pos, {name="rp_default:grass"})
+              else
+                 minetest.remove_node(pos)
+              end
+           end
+         end, true)
+
+      -- Remove 25% of glass
+      util.nodefunc(
+         upos, upos2,
+	 "group:glass",
+         function(pos)
+           if pr:next(1,4) == 1 then
+              minetest.remove_node(pos)
+           end
+         end, true)
+
+      -- Replace 25% of path nodes
+      util.nodefunc(
+         upos, upos2,
+	 {extras.path},
+         function(pos)
+           if pr:next(1,4) == 1 then
+              minetest.set_node(pos, {name=extras.ground_top})
+           end
+         end, true)
+      -- Remove 25% of path slab nodes
+      util.nodefunc(
+         upos, upos2,
+	 {extras.path_slab},
+         function(pos)
+           if pr:next(1,4) == 1 then
+              minetest.remove_node(pos)
+	      local below = vector.add(pos, vector.new(0,-1,0))
+	      if minetest.get_node(below).name == "rp_default:dirt" then
+                 if pr:next(1,3) == 1 then
+                    minetest.set_node(below, {name=extras.path})
+                 else
+                    minetest.set_node(below, {name=extras.ground_top})
+                 end
+              end
+           end
+         end, true)
+
+      -- Replace 25% of brick/cobble floor with ground
+      util.nodefunc(
+         upos, upos2,
+	 {"rp_default:cobble", "rp_default:brick"},
+         function(pos)
+           if pr:next(1,4) == 1 then
+	      local below = vector.add(pos, vector.new(0,-1,0))
+	      local above = vector.add(pos, vector.new(0,1,0))
+	      local nbelow = minetest.get_node(below)
+	      local nabove = minetest.get_node(above)
+	      if nabove.name == "air" and (nbelow.name == "rp_default:dirt" or nbelow.name == "rp_default:stone") then
+                 minetest.set_node(pos, {name=extras.ground_top})
+                 local plant = pr:next(1,5)
+                 if plant == 1 then
+                    minetest.set_node(above, {name="rp_default:grass"})
+                 end
+              end
+           end
+         end, true)
+
+      -- Remove 50% of doors
+      util.nodefunc(
+         upos, upos2,
+	 "group:door",
+         function(pos)
+           if pr:next(1,2) == 1 then
+              local posup = vector.add(pos, vector.new(0,1,0))
+              local posdn = vector.add(pos, vector.new(0,-1,0))
+
+              local nup = minetest.get_node(posup)
+              local ndn = minetest.get_node(posdn)
+              if minetest.get_item_group(ndn.name, "door") == 1 then
+                 return
+              end
+              minetest.remove_node(pos)
+              if minetest.get_item_group(nup.name, "door") == 1 then
+                 minetest.remove_node(posup)
+              end
+           end
+         end, true)
+
+      -- Remove 10% of fences
+      util.nodefunc(
+         upos, upos2,
+	 "group:fence",
+         function(pos)
+            if pr:next(1,10) == 1 then
+               local posup = vector.add(pos, vector.new(0,1,0))
+               local posdn = vector.add(pos, vector.new(0,-1,0))
+	       local nup = minetest.get_node(posup)
+	       local ndn = minetest.get_node(posdn)
+               -- make sure only fences on floor and below air are removed so we don't
+               -- leave floating fences behind
+	       if nup.name == "air" and minetest.get_item_group(ndn.name, "group:fence") == 0 then
+                  minetest.remove_node(pos)
+               end
+            end
+         end, true)
+
+      -- Place seagrass or alga underwater
+      util.nodefunc(
+         upos, upos2,
+	 {"rp_default:water_source", "rp_default:swamp_water_source"},
+         function(pos)
+            if pr:next(1,2) == 1 then
+               local posdn = vector.add(pos, vector.new(0,-1,0))
+               local posup = vector.add(pos, vector.new(0,1,0))
+	       local ndn = minetest.get_node(posdn)
+	       local nup = minetest.get_node(posup)
+	       -- Alga may replaces seagrass if water is at least 2 nodes deep and if we're VERY lucky
+               local alga = pr:next(1,100) == 1 and minetest.get_item_group(nup.name, "water") ~= 0
+	       local plant, p2
+	       if alga then
+                  plant = "alga"
+                  p2 = 16
+	       else
+                  plant = "seagrass"
+                  p2 = 0
+               end
+	       if ndn.name == "rp_default:dirt" or "rp_default:dirt_with_grass" or "rp_default:dirt_with_dry_grass" then
+                  minetest.set_node(posdn, {name="rp_default:"..plant.."_on_dirt", param2=p2})
+               elseif ndn.name == "rp_default:swamp_dirt" or "rp_default:dirt_with_swamp_grass" then
+                  minetest.set_node(posdn, {name="rp_default:"..plant.."_on_swamp_dirt", param2=p2})
+               end
+            end
+      end, true)
+end
+
+-- Village modifier: Fills containers with goodies
+local function village_modify_populate_containers(upos, upos2, pr, extras)
+      -- Populate chests
+      -- TODO: Damaged tools in abandoned villages
+      util.nodefunc(
+         upos, upos2,
+         {"rp_default:chest", "rp_locks:chest"},
+         function(pos)
+            goodies.fill(pos, extras.chunktype, pr, "main", 3)
+         end, true)
+
+      if extras.chunktype == "forge" then
+         -- Populate furnaces
+         util.nodefunc(
+            upos, upos2,
+            "rp_default:furnace",
+            function(pos)
+               goodies.fill(pos, "FURNACE_SRC", pr, "src", 1)
+               goodies.fill(pos, "FURNACE_DST", pr, "dst", 1)
+               goodies.fill(pos, "FURNACE_FUEL", pr, "fuel", 1)
+            end, true)
+      end
+end
+
+-- Village modifier: Limit number of music players in village to 1
+local function village_modify_limit_music_players(upos, upos2, pr)
+      -- Maximum of 1 music player per village; remove excess music players
+      local music_players = 0
+      util.nodefunc(
+         upos, upos2,
+         "rp_music:player",
+         function(pos)
+           if music_players >= 1 or pr:next(1,8) > 1 then
+              minetest.remove_node(pos)
+           else
+              music_players = music_players + 1
+           end
+         end, true)
+end
+
+-- Village modifier: Randomly turn some chests into locked chests
+local function village_modify_lock_chests(upos, upos2, pr)
+      -- Replace 25% of chests with locked chests
+      if mod_locks then
+         util.nodefunc(
+            upos, upos2,
+            "rp_default:chest",
+            function(pos)
+               if pr:next(1,4) == 1 then
+                  local node = minetest.get_node(pos)
+                  node.name = "rp_locks:chest"
+                  minetest.swap_node(pos, node)
+               end
+            end, true)
+      end
+end
+
 local function after_village_area_emerged(blockpos, action, calls_remaining, params)
    local done = action == minetest.EMERGE_GENERATED or action == minetest.EMERGE_FROM_DISK or action == minetest.EMERGE_FROM_MEMORY
    if not done or calls_remaining > 0 then
@@ -637,6 +884,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    minetest.log("verbose", "[rp_village] village_replace_id="..village_replace_id)
    local replace = village_replaces[village_replace_id]
    local dirt_path = "rp_default:dirt_path"
+   local dirt_path_slab = "rp_default:path_slab"
 
    -- For measuring the generation time
    local t1 = os.clock()
@@ -799,60 +1047,29 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    vmanip:update_liquids()
 
    -- Final step: set node metadata (stuff that cannot be done in VManip)
+   -- and perform other manipulations
    if state.nodeupdates then
    for u=1, #state.nodeupdates do
+      local chunktype = state.nodeupdates[u].chunktype
       local upos = state.nodeupdates[u].pos
       local upos2 = vector.add(upos, vector.new(VILLAGE_CHUNK_SIZE, VILLAGE_CHUNK_SIZE, VILLAGE_CHUNK_SIZE))
-      local chunktype = state.nodeupdates[u].chunktype
-      -- Replace some chests with locked chests
-      if mod_locks then
-         util.nodefunc(
-            upos, upos2,
-            "rp_default:chest",
-            function(pos)
-               if pr:next(1,4) == 1 then
-                  local node = minetest.get_node(pos)
-                  node.name = "rp_locks:chest"
-                  minetest.swap_node(pos, node)
-               end
-            end, true)
-      end
+
+      -- Replace random chests with locked chests
+      village_modify_lock_chests(upos, upos2, pr)
 
       -- Maximum of 1 music player per village
-      local music_players = 0
-      util.nodefunc(
-         upos, upos2,
-         "rp_music:player",
-         function(pos)
-           if music_players >= 1 or pr:next(1,8) > 1 then
-              minetest.remove_node(pos)
-           else
-              music_players = music_players + 1
-           end
-         end, true)
+      village_modify_limit_music_players(upos, upos2, pr)
 
-      -- Force on_construct to be called
-      util.reconstruct(upos, upos2)
-
-      -- Populate chests
-      util.nodefunc(
-         upos, upos2,
-         {"rp_default:chest", "rp_locks:chest"},
-         function(pos)
-            goodies.fill(pos, chunktype, pr, "main", 3)
-         end, true)
-
-      -- Populate furnaces
-      if chunktype == "forge" then
-         util.nodefunc(
-            upos, upos2,
-            "rp_default:furnace",
-            function(pos)
-               goodies.fill(pos, "FURNACE_SRC", pr, "src", 1)
-               goodies.fill(pos, "FURNACE_DST", pr, "dst", 1)
-               goodies.fill(pos, "FURNACE_FUEL", pr, "fuel", 1)
-            end, true)
+      if false then
+      -- Village modifier: Abandoned village
+      village_modify_abandoned_village(upos, upos2, pr, {path=dirt_path, path_slab=dirt_path_slab, ground_top=ground_top})
       end
+
+      -- Force on_construct to be called on all nodes
+      util.reconstruct(upos, upos2, pr)
+
+      -- Fill containers with goodies
+      village_modify_populate_containers(upos, upos2, pr, {chunktype=chunktype})
 
       -- Set entity spawner metadata
       local chunkdef = village.chunkdefs[chunktype]
