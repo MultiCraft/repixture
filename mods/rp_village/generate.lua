@@ -669,12 +669,12 @@ local function village_modify_abandoned_village(upos, upos2, pr, extras)
            end
          end, true)
 
-      -- Remove 25% of glass
+      -- Remove 80% of glass
       util.nodefunc(
          upos, upos2,
 	 "group:glass",
          function(pos)
-           if pr:next(1,4) == 1 then
+           if pr:next(1,5) >= 4 then
               minetest.remove_node(pos)
            end
          end, true)
