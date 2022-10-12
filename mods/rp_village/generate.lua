@@ -15,8 +15,15 @@ local HILL_W, HILL_H = 24, 6
 -- Number of dirt nodes to extend below hill
 local HILL_EXTEND_BELOW = 15
 
--- Chance that a ground node has a decor node (grass, etc.) is 1:DECOR_CHANCE
+-- Chance values. Each chance is provided in a 1:x value,
+-- e.g. a value of 8 means a chance of 1:8.
+-- Only positive integers are allowed.
+
+-- Chance that a ground node has a decor node on top (grass, etc.)
 local DECOR_CHANCE = 8
+
+-- Chance that a village is abandoned
+local ABANDONED_CHANCE = 25
 
 -- Savefile
 
@@ -466,6 +473,12 @@ local function check_empty(pos)
    return true
 end
 
+local decors_from_ground = {
+   ["rp_default:dirt_with_grass"] = { "rp_default:grass" },
+   ["rp_default:dirt_with_dry_grass"] = { "rp_default:dry_grass" },
+   ["rp_default:dirt_with_swamp_grass"] = { "rp_default:swamp_grass" },
+}
+
 -- Spawns a village chunk. This is a section of a village.
 -- By default, this checks for empty space first (fails if no space),
 -- then it generates a foundation of ground nodes, then it deletes
@@ -511,14 +524,7 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
    if nofill ~= true then
       local vdata = vmanip:get_data()
       -- Make a hill for the buildings to stand on
-      local decors
-      if ground_top == "rp_default:dirt_with_grass" then
-         decors = {"rp_default:grass"}
-      elseif ground_top == "rp_default:dirt_with_dry_grass" then
-         decors = {"rp_default:dry_grass"}
-      elseif ground_top == "rp_default:dirt_with_swamp_grass" then
-         decors = {"rp_default:swamp_grass"}
-      end
+      local decors = decors_from_ground[ground_top] or {}
       if not state.decors_to_place then
          state.decors_to_place = {}
       end
@@ -734,6 +740,15 @@ local function village_modify_abandoned_village(upos, upos2, pr, extras)
          function(pos)
            if pr:next(1,4) == 1 then
               minetest.set_node(pos, {name=extras.ground_top})
+              local above = {x=pos.x,y=pos.y+1,z=pos.z}
+              local abovenode = minetest.get_node(above)
+              if abovenode.name == "air" and pr:next(1,DECOR_CHANCE) == 1 then
+                 local decors = decors_from_ground[extras.ground_top]
+		 if decors then
+		    local decor = decors[pr:next(1, #decors)]
+                    minetest.set_node(above, {name=decor})
+                 end
+              end
            end
          end, true)
       -- Remove 25% of path slab nodes
@@ -1257,8 +1272,8 @@ function village.spawn_village(pos, pr, force_place_starter, ground, ground_top)
    local vspread = vector.new(spread, spread, spread)
    local emerge_min = vector.add(pos, vector.new(-spread, -(HILL_H + HILL_EXTEND_BELOW + 1), -spread))
    local emerge_max = vector.add(pos, vector.new(spread, VILLAGE_CHUNK_HEIGHT, spread))
-   -- 1:25 chance for village to be abandoned
-   local is_abandoned = pr:next(1,25) == 1
+   -- chance for village to be abandoned
+   local is_abandoned = pr:next(1,ABANDONED_CHANCE) == 1
    minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {
       pos=pos,
       pr=pr,
