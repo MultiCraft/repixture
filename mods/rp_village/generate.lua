@@ -700,7 +700,7 @@ local function village_modify_abandoned_village(upos, upos2, pr, extras)
            minetest.remove_node(pos)
          end, true)
 
-      -- Remove 99% of farming plants
+      -- Remove 95% of farming plants
       util.nodefunc(
          upos, upos2,
 	 "group:farming_plant",
