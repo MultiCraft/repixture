@@ -652,11 +652,6 @@ function village.spawn_road(vmanip, pos, state, houses, built, roads, depth, pr,
    return true
 end
 
-local ROAD_NODE_NORTH = "rp_default:planks"
-local ROAD_NODE_EAST = "rp_default:cobble"
-local ROAD_NODE_SOUTH = "rp_default:planks_oak"
-local ROAD_NODE_WEST = "rp_default:planks_birch"
-
 -- Village modifiy functions: These are called after the VManip has placed
 -- the village for further changes like setting metadata or tweak
 -- nodes.
@@ -996,43 +991,29 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    roads[poshash] = { pos = pos, is_starter = true }
 
    -- Connect dirt paths with other village tiles.
-   -- The dirt path schematic uses planks and cobble for each of the 4 cardinal
+   -- The road schematic uses planks and cobble for each of the 4 cardinal
    -- directions and it will be replaced either with a dirt path or
    -- the ground.
 
    local c_path = minetest.get_content_id(dirt_path)
    local c_ground_top = minetest.get_content_id(ground_top)
-   local c_road_north = minetest.get_content_id(ROAD_NODE_NORTH)
-   local c_road_west = minetest.get_content_id(ROAD_NODE_WEST)
-   local c_road_south = minetest.get_content_id(ROAD_NODE_SOUTH)
-   local c_road_east = minetest.get_content_id(ROAD_NODE_EAST)
 
-   local vdata_bulk_set_node = function(vdata, varea, minpos, maxpos, content_id, check_for_road)
-      for z=minpos.z, maxpos.z do
-      for y=minpos.y, maxpos.y do
-      for x=minpos.x, maxpos.x do
-         local vindex = varea:index(x, y, z)
-	 if check_for_road then
-            local content = vdata[vindex]
-	    if content == c_road_north or content == c_road_west or content == c_road_south or content == c_road_east then
-               vdata[vindex] = content_id
-            end
-	 else
-            vdata[vindex] = content_id
-         end
-      end
-      end
-      end
-   end
-
+   -- Generate road center tiles
    for _,road in pairs(roads) do
-   if road ~= false then
-      village.spawn_chunk(vmanip, road.pos, state, "0", {}, pr, "road", false, false, true, ground, ground_top)
-   end
+      -- No road center tile for starter chunk since we expect it to occupy the center
+      if road ~= false and not road.is_starter then
+         -- This only places the center of the road, the connections will be manually placed
+         village.spawn_chunk(vmanip, road.pos, state, "0", {}, pr, "road", false, false, true, ground, ground_top)
+      end
    end
 
-   local vdata = vmanip:get_data()
+   -- Iterate through the road tiles and determine where to place dirt path nodes and lamps
+
+   -- Lamp positions
    local lamps = {}
+   -- Store positions of nodes to replace, they will be set after the last village chunk
+   -- was generated
+   local road_bulk_set = {}
 
    for _,road in pairs(roads) do
    if road ~= false then
@@ -1045,30 +1026,28 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
 	    nextpos.z = nextpos.z + 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               vdata_bulk_set_node(vdata, varea, vector.add(road.pos, {x=4,y=0,z=8}), vector.add(road.pos, {x=7,y=0,z=11}), c_path)
+               table.insert(road_bulk_set, {vector.add(road.pos, {x=4, y=0, z=8}), vector.add(road.pos, {x=7,y=0,z=11}), c_path})
 	    end
 	 elseif i == 2 then -- East (cobble)
 	    nextpos.x = nextpos.x + 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               vdata_bulk_set_node(vdata, varea, vector.add(road.pos, {x=8,y=0,z=4}), vector.add(road.pos, {x=11,y=0,z=7}), c_path)
+               table.insert(road_bulk_set, {vector.add(road.pos, {x=8, y=0, z=4}), vector.add(road.pos, {x=11, y=0, z=7}), c_path})
 	    end
 	 elseif i == 3 then -- South (oak planks)
 	    nextpos.z = nextpos.z - 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               vdata_bulk_set_node(vdata, varea, vector.add(road.pos, {x=4,y=0,z=0}), vector.add(road.pos, {x=7,y=0,z=3}), c_path)
+               table.insert(road_bulk_set, {vector.add(road.pos, {x=4, y=0, z=0}), vector.add(road.pos, {x=7, y=0, z=3}), c_path})
 	    end
 	 else
 	    nextpos.x = nextpos.x - 12 -- West (birch planks)
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               vdata_bulk_set_node(vdata, varea, vector.add(road.pos, {x=0,y=0,z=4}), vector.add(road.pos, {x=3,y=0,z=7}), c_path)
+               table.insert(road_bulk_set, {vector.add(road.pos, {x=0, y=0, z=4}), vector.add(road.pos, {x=3, y=0, z=7}), c_path})
 	    end
 	 end
-
       end
-      vdata_bulk_set_node(vdata, varea, road.pos, vector.add(road.pos, {x=11,y=0,z=11}), c_ground_top, true)
 
 
       if amt_connections >= 2 and not road.is_starter then
@@ -1077,8 +1056,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    end
    end
 
-   vmanip:set_data(vdata)
-
+   -- Place lamp posts
    for l=1, #lamps do
       village.spawn_chunk(
          vmanip,
@@ -1096,16 +1074,19 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
          )
    end
 
+   -- <<< FINAL VILLAGE CHUNK! >>>
+
    -- Check if this village has created any houses so far
    local has_house = false
    for k,v in pairs(houses) do
       if v ~= false then
          has_house = true
+         break
       end
    end
-   local chunk_ok
    -- Place a building at the start position as the final step.
-   -- Normally this is the well
+   -- Normally, this is the well.
+   local chunk_ok
    if has_house then
       chunk_ok = village.spawn_chunk(vmanip, pos, state, "0", replace, pr, "well", true, nil, true, ground, ground_top)
    else
@@ -1119,8 +1100,29 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       minetest.log("warning", string.format("[rp_village] Failed to generated starter chunk at %s", minetest.pos_to_string(pos)))
    end
 
-   -- We need to get the vdata again because village.spawn_chunk changed the vmanip data
-   vdata = vmanip:get_data()
+   -- <<< END OF VILLAGE CHUNK GENERATION >>>
+
+   -- All village chunks have been generated!
+   -- Now we apply changes to the VoxelManip data
+   local vdata = vmanip:get_data()
+
+   local vdata_bulk_set_node = function(vdata, varea, minpos, maxpos, content_id)
+      for z=minpos.z, maxpos.z do
+      for y=minpos.y, maxpos.y do
+      for x=minpos.x, maxpos.x do
+         local vindex = varea:index(x, y, z)
+         vdata[vindex] = content_id
+      end
+      end
+      end
+   end
+
+   -- Apply the road node replacements that were calculated above
+   for r=1, #road_bulk_set do
+      local rdata = road_bulk_set[r]
+      vdata_bulk_set_node(vdata, varea, rdata[1], rdata[2], rdata[3])
+   end
+
    -- Generate ground decorations (like grass)
    for d=1, #state.decors_to_place do
       -- We just iterate through the positions we have collected earlier
@@ -1131,11 +1133,14 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
           vdata[decor_info.index_decor] = decor_info.content_decor
       end
    end
+
    vmanip:set_data(vdata)
 
    -- The main village generation is complete here
    vmanip:write_to_map()
    vmanip:update_liquids()
+
+   -- <<< END OF VOXELMANIP CHANGES >>>
 
    -- Final step: set node metadata (stuff that cannot be done in VManip)
    -- and perform other manipulations
