@@ -354,9 +354,16 @@ function village.get_column_nodes(vmanip, pos, scanheight, dirtnodes)
    end
 end
 
-function village.generate_hill(vmanip, vdata, pos, ground, ground_top)
+function village.generate_hill(vmanip, vdata, pos, ground, ground_top, top_decors)
    local c_ground = minetest.get_content_id(ground)
    local c_ground_top = minetest.get_content_id(ground_top)
+   local c_decors = {}
+   local decor_pr = PseudoRandom(13)
+   if top_decors then
+      for d=1, #top_decors do
+         c_decors[d] = minetest.get_content_id(top_decors[d])
+      end
+   end
    local dirts = {}
    local dirts_with_grass = {}
    local vmin, vmax = vmanip:get_emerged_area()
@@ -368,6 +375,7 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top)
    for x=y,HILL_W-1-y do
       local p = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
       local vindex = varea:index(p.x,p.y,p.z)
+      local vindex_above = varea:index(p.x,p.y+1,p.z)
       local n_content = vdata[vindex]
       if n_content then
          local nname = minetest.get_name_from_content_id(n_content)
@@ -380,6 +388,10 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top)
             if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
                local vindex_above = varea:index(p.x,p.y+1,p.z)
                vdata[vindex] = c_ground_top
+               -- chance to spawn a decor node (like grass) on top
+               if top_decors and vdata[vindex_above] == minetest.CONTENT_AIR and decor_pr:next(1,8) == 1 then
+                  vdata[vindex_above] = c_decors[decor_pr:next(1, #c_decors)]
+               end
             else
                vdata[vindex] = c_ground
             end
@@ -456,7 +468,15 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
    if nofill ~= true then
       local vdata = vmanip:get_data()
       -- Make a hill for the buildings to stand on
-      local full_hill = village.generate_hill(vmanip, vdata, {x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top)
+      local decors
+      if ground_top == "rp_default:dirt_with_grass" then
+         decors = {"rp_default:grass"}
+      elseif ground_top == "rp_default:dirt_with_dry_grass" then
+         decors = {"rp_default:dry_grass"}
+      elseif ground_top == "rp_default:dirt_with_swamp_grass" then
+         decors = {"rp_default:swamp_grass"}
+      end
+      local full_hill = village.generate_hill(vmanip, vdata, {x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top, decors)
 
       if full_hill then
          -- Extend the dirt below the hill, in case the hill is floating
