@@ -15,6 +15,9 @@ local HILL_W, HILL_H = 24, 6
 -- Number of dirt nodes to extend below hill
 local HILL_EXTEND_BELOW = 15
 
+-- Chance that a ground node has a decor node (grass, etc.) is 1:DECOR_CHANCE
+local DECOR_CHANCE = 8
+
 -- Savefile
 
 local village_file = minetest.get_worldpath() .. "/villages.dat"
@@ -354,7 +357,17 @@ function village.get_column_nodes(vmanip, pos, scanheight, dirtnodes)
    end
 end
 
-function village.generate_hill(vmanip, vdata, pos, ground, ground_top, top_decors)
+-- Generate a hill.
+--
+-- * vmanip: VoxelMapnip object
+-- * vdata: VoxelManip data table
+-- * pos: Hill position
+-- * ground: Ground nodename (below surface)
+-- * ground_top: Ground nodename (surface)
+-- * top_decors: Optional table of possible decorations to place on top of ground_top
+-- * decors_to_place: Table in which positions of decor nodes will be stored (call-by-reference)
+--                    Must be provided if `top_decors` is set
+function village.generate_hill(vmanip, vdata, pos, ground, ground_top, top_decors, decors_to_place)
    local c_ground = minetest.get_content_id(ground)
    local c_ground_top = minetest.get_content_id(ground_top)
    local c_decors = {}
@@ -386,18 +399,34 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top, top_decor
          if (not is_dry_dirt) and (is_dirt or (not is_any_dirt)) and (nname == "air" or nname == "ignore" or (def and (def.liquidtype ~= "none" or (def.is_ground_content)))) then
             local prev_was_ground = n_content == c_ground or n_content == c_ground_top
             if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
-               local vindex_above = varea:index(p.x,p.y+1,p.z)
+               -- set surface node (e.g. dirt-with-grass)
                vdata[vindex] = c_ground_top
-               -- chance to spawn a decor node (like grass) on top
-               if top_decors and vdata[vindex_above] == minetest.CONTENT_AIR and decor_pr:next(1,8) == 1 then
-                  vdata[vindex_above] = c_decors[decor_pr:next(1, #c_decors)]
-               end
             else
+               -- set 'below ground' node (e.g. dirt)
                vdata[vindex] = c_ground
             end
             if not prev_was_ground then
                nodes_set = nodes_set + 1
             end
+         end
+         -- chance to spawn a decor node (like grass) above ground_top
+         local vindex_above = varea:index(p.x,p.y+1,p.z)
+         if top_decors and vdata[vindex] == c_ground_top and vdata[vindex_above] == minetest.CONTENT_AIR and decor_pr:next(1,DECOR_CHANCE) == 1 then
+            local decor = c_decors[decor_pr:next(1, #c_decors)]
+            -- Don't place the decor immediately, instead remember this position and decor nodename
+            -- and place all decorations at the end. This makes it easier to avoid conflicts
+            -- with the rest of the generation algorithm.
+            table.insert(decors_to_place, {
+               -- VManip data index of decor position
+               index_decor = vindex_above,
+               -- content ID of decor node
+               content_decor = c_decors[decor_pr:next(1, #c_decors)],
+               -- VManip data index of floor position (on which decor will be placed)
+               index_floor = vindex,
+               -- content ID of floor node
+               content_floor = vdata[vindex],
+            })
+            -- decors_to_place is call-by-reference, the caller can use this table afterwards
          end
       end
    end
@@ -465,6 +494,20 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
       return false
    end
 
+   if noclear ~= true then
+       local ok = minetest.place_schematic_on_vmanip(
+         vmanip,
+         pos,
+         modpath .. "/schematics/village_empty.mts",
+         "0",
+         {},
+         true
+      )
+      if not ok then
+         minetest.log("warning", "[rp_village] Could not fully place empty schematic in village at "..minetest.pos_to_string(pos, 0))
+      end
+   end
+
    if nofill ~= true then
       local vdata = vmanip:get_data()
       -- Make a hill for the buildings to stand on
@@ -476,7 +519,10 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
       elseif ground_top == "rp_default:dirt_with_swamp_grass" then
          decors = {"rp_default:swamp_grass"}
       end
-      local full_hill = village.generate_hill(vmanip, vdata, {x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top, decors)
+      if not state.decors_to_place then
+         state.decors_to_place = {}
+      end
+      local full_hill = village.generate_hill(vmanip, vdata, {x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top, decors, state.decors_to_place)
 
       if full_hill then
          -- Extend the dirt below the hill, in case the hill is floating
@@ -497,19 +543,6 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
          end
       end
       vmanip:set_data(vdata)
-   end
-   if noclear ~= true then
-      local ok = minetest.place_schematic_on_vmanip(
-         vmanip,
-         pos,
-         modpath .. "/schematics/village_empty.mts",
-         "0",
-         {},
-         true
-      )
-      if not ok then
-         minetest.log("warning", "[rp_village] Could not fully place empty schematic in village at "..minetest.pos_to_string(pos, 0))
-      end
    end
 
    if type(replace) == "number" then
@@ -1085,6 +1118,20 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    if not chunk_ok then
       minetest.log("warning", string.format("[rp_village] Failed to generated starter chunk at %s", minetest.pos_to_string(pos)))
    end
+
+   -- We need to get the vdata again because village.spawn_chunk changed the vmanip data
+   vdata = vmanip:get_data()
+   -- Generate ground decorations (like grass)
+   for d=1, #state.decors_to_place do
+      -- We just iterate through the positions we have collected earlier
+      local decor_info = state.decors_to_place[d]
+      -- Check if this position is still valid for the decor. Prevents placing decorations
+      -- in non-air nodes and if the floor node has changed (e.g. dirt path).
+      if vdata[decor_info.index_decor] == minetest.CONTENT_AIR and vdata[decor_info.index_floor] == decor_info.content_floor then
+          vdata[decor_info.index_decor] = decor_info.content_decor
+      end
+   end
+   vmanip:set_data(vdata)
 
    -- The main village generation is complete here
    vmanip:write_to_map()
