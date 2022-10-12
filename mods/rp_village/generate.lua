@@ -473,11 +473,19 @@ local function check_empty(pos)
    return true
 end
 
+-- Map ground nodes with appropiate decor nodes to place on top
+-- (e.g. grass)
+-- Decors for normal villages
 local decors_from_ground = {
    ["rp_default:dirt_with_grass"] = { "rp_default:grass" },
    ["rp_default:dirt_with_dry_grass"] = { "rp_default:dry_grass" },
    ["rp_default:dirt_with_swamp_grass"] = { "rp_default:swamp_grass" },
 }
+-- Decors for abandoned villages
+local decors_from_ground_abandoned = table.copy(decors_from_ground)
+-- Same as normal villages, except there's also tall grass
+decors_from_ground_abandoned["rp_default:dirt_with_grass"] =
+   {"rp_default:grass", "rp_default:grass", "rp_default:grass", "rp_default:tall_grass"}
 
 -- Spawns a village chunk. This is a section of a village.
 -- By default, this checks for empty space first (fails if no space),
@@ -524,7 +532,12 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
    if nofill ~= true then
       local vdata = vmanip:get_data()
       -- Make a hill for the buildings to stand on
-      local decors = decors_from_ground[ground_top] or {}
+      local decors
+      if state.is_abandoned then
+         decors = decors_from_ground_abandoned[ground_top] or {}
+      else
+         decors = decors_from_ground[ground_top] or {}
+      end
       if not state.decors_to_place then
          state.decors_to_place = {}
       end
@@ -743,7 +756,7 @@ local function village_modify_abandoned_village(upos, upos2, pr, extras)
               local above = {x=pos.x,y=pos.y+1,z=pos.z}
               local abovenode = minetest.get_node(above)
               if abovenode.name == "air" and pr:next(1,DECOR_CHANCE) == 1 then
-                 local decors = decors_from_ground[extras.ground_top]
+                 local decors = decors_from_ground_abandoned[extras.ground_top]
 		 if decors then
 		    local decor = decors[pr:next(1, #decors)]
                     minetest.set_node(above, {name=decor})
@@ -951,7 +964,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    local ground = params.ground
    local ground_top = params.ground_top
    local force_place_starter = params.force_place_starter
-   local is_abandoned = params.is_abandoned
+   local is_abandoned = params.is_abandoned == true
    local village_name = params.village_name
 
    minetest.log("info", "[rp_village] Village area emerged at startpos = "..minetest.pos_to_string(pos))
@@ -962,6 +975,8 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    local built = {}
    local roads = {}
    local state = {}
+
+   state.is_abandoned = is_abandoned
 
    local spawnpos = pos
 
@@ -1172,7 +1187,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       village_modify_limit_music_players(upos, upos2, pr)
 
       -- Village modifier: Abandoned village
-      if is_abandoned then
+      if state.is_abandoned then
          village_modify_abandoned_village(upos, upos2, pr, {path=dirt_path, path_slab=dirt_path_slab, ground_top=ground_top})
       end
 
@@ -1190,7 +1205,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       local chunkdef = village.chunkdefs[chunktype]
       if chunkdef ~= nil then
          if chunkdef.entities ~= nil then
-	    if is_abandoned or (chunkdef.entity_chance ~= nil and pr:next(1, chunkdef.entity_chance) == 1) then
+	    if state.is_abandoned or (chunkdef.entity_chance ~= nil and pr:next(1, chunkdef.entity_chance) == 1) then
                -- Remove entity spawners
 	       util.nodefunc(
 	          upos, upos2,
