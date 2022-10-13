@@ -25,6 +25,12 @@ local DECOR_CHANCE = 8
 -- Chance that a village is abandoned
 local ABANDONED_CHANCE = 25
 
+-- Chance a non-starter building in an abandoned village spawns as a ruin
+local ABANDONED_RUINS_CHANCE = 2
+
+-- Chance the starter building in an abandoned village spawns as a ruin
+local ABANDONED_STARTER_RUINS_CHANCE = 4
+
 -- Savefile
 
 local village_file = minetest.get_worldpath() .. "/villages.dat"
@@ -205,6 +211,7 @@ village.chunkdefs["livestock_pen"] = {
    },
 }
 village.chunkdefs["lamppost"] = { -- not road because of road height limit of 1 nodes
+   ruins = {"lamppost_ruins"},
    can_cache = true,
    entity_chance = 2,
    entities = {
@@ -212,18 +219,21 @@ village.chunkdefs["lamppost"] = { -- not road because of road height limit of 1 
    },
 }
 village.chunkdefs["well"] = {
+   ruins = {"well_ruins"},
    entities = {
       ["mobs:npc_farmer"] = 1,
       ["mobs:npc_tavernkeeper"] = 1,
    },
 }
 village.chunkdefs["house"] = {
+   ruins = {"house_ruins", "house_ruins_2"},
    entity_chance = 2,
    entities = {
       ["mobs:npc_carpenter"] = 1,
    },
 }
 village.chunkdefs["tavern"] = {
+   ruins = {"tavern_ruins"},
    entity_chance = 2,
    entities = {
       ["mobs:npc_tavernkeeper"] = 1,
@@ -231,12 +241,14 @@ village.chunkdefs["tavern"] = {
 }
 
 village.chunkdefs["forge"] = {
+   ruins = {"forge_ruins", "rubble"},
    entity_chance = 2,
    entities = {
       ["mobs:npc_blacksmith"] = 1,
    },
 }
 village.chunkdefs["orchard"] = {
+   ruins = {"orchard_ragged"},
    can_cache = true,
    entity_chance = 2,
    entities = {
@@ -339,6 +351,24 @@ local function random_chunktype(pr, chunktypes)
       end
    end
    return chunktypes[#chunktypes][1]
+end
+
+-- Given a chunktype, returns a random 'ruins' version
+-- for that chunktype if one is available. Otherwise,
+-- returns `chunktype`.
+-- If `chunktype` does not exist, returns `nil`.
+-- * `pr`: PseudoRandom object
+-- * `chunktype`: Chunktype identifier
+local function get_ruined_chunktype(pr, chunktype)
+   local ctd = village.chunkdefs[chunktype]
+   if not ctd then
+      return nil
+   end
+   if ctd.ruins then
+      return ctd.ruins[pr:next(1, #ctd.ruins)]
+   else
+      return chunktype
+   end
 end
 
 local function check_column_end(nn)
@@ -568,7 +598,7 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
       replace = village_replaces[replace]
    end
    local sreplace = table.copy(replace)
-   if chunktype == "orchard" then
+   if chunktype == "orchard" or chunktype == "orchard_ragged" then
       sreplace["rp_default:tree"] = nil
    end
    local schem_path = modpath .. "/schematics/village_" .. chunktype .. ".mts"
@@ -655,6 +685,9 @@ function village.spawn_road(vmanip, pos, state, houses, built, roads, depth, pr,
 	    houses[hnp] = {pos = nextpos, front = pos}
 
 	    local structure = random_chunktype(pr)
+	    if state.is_abandoned and pr:next(1, ABANDONED_RUINS_CHANCE) == 1 then
+               structure = get_ruined_chunktype(pr, structure)
+	    end
 	    chunk_ok = village.spawn_chunk(vmanip, nextpos, state, orient, replace, pr, structure, nil, nil, nil, ground, ground_top)
             if not chunk_ok then
                houses[hnp] = false
@@ -1088,6 +1121,10 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
 
    -- Place lamp posts
    for l=1, #lamps do
+      local lampchunk = "lamppost"
+      if state.is_abandoned and pr:next(1, ABANDONED_RUINS_CHANCE) == 1 then
+         lampchunk = get_ruined_chunktype(pr, lampchunk)
+      end
       village.spawn_chunk(
          vmanip,
          lamps[l],
@@ -1095,7 +1132,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
          "0",
          {},
          pr,
-         "lamppost",
+         lampchunk,
          true,
          true,
          true,
@@ -1118,11 +1155,18 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    -- Normally, this is the well.
    local chunk_ok
    if has_house then
-      chunk_ok = village.spawn_chunk(vmanip, pos, state, "0", replace, pr, "well", true, nil, true, ground, ground_top)
+      local well = "well"
+      if state.is_abandoned and pr:next(1, ABANDONED_STARTER_RUINS_CHANCE) == 1 then
+         well = get_ruined_chunktype(pr, well)
+      end
+      chunk_ok = village.spawn_chunk(vmanip, pos, state, "0", replace, pr, well, true, nil, true, ground, ground_top)
    else
       -- Place a fallback building instead of the well if the village does not have any buildings yet.
       -- A nice side-effect of this is that this will create 'lonely huts'.
       local structure = random_chunktype(pr, village.chunktypes_start_fallback)
+      if state.is_abandoned and pr:next(1, ABANDONED_STARTER_RUINS_CHANCE) == 1 then
+         structure = get_ruined_chunktype(pr, structure)
+      end
       chunk_ok = village.spawn_chunk(vmanip, pos, state, "random", replace, pr, structure, true, nil, true, ground, ground_top)
       minetest.log("info", "[rp_village] Village generated with fallback building instead of well")
    end
