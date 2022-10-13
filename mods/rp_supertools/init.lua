@@ -1,5 +1,17 @@
 local S = minetest.get_translator("rp_supertools")
 
+local grow_tall = function(pos, y_dir, nodename)
+    local newpos
+    for i=1, 10 do
+        newpos = vector.add(pos, vector.new(0,i*y_dir,0))
+        if minetest.get_node(newpos).name == "air" then
+            minetest.set_node(newpos, {name=nodename})
+            return true
+        end
+    end
+    return false
+end
+
 minetest.register_craftitem(
    "rp_supertools:growth_tool",
    {
@@ -85,16 +97,14 @@ minetest.register_craftitem(
                used = true
 	    end
          elseif (unode.name == "rp_default:papyrus" or unode.name == "rp_default:cactus" or unode.name == "rp_default:thistle") then
-            local top = vector.add(upos, vector.new(0,1,0))
-	    if minetest.get_node(top).name == "air" then
-               minetest.set_node(top, {name=unode.name})
-	       used = true
+            local grown = grow_tall(upos, 1, unode.name)
+            if grown then
+               used = true
             end
          elseif (unode.name == "rp_default:vine") then
-            local top = vector.add(upos, vector.new(0,-1,0))
-	    if minetest.get_node(top).name == "air" then
-               minetest.set_node(top, {name=unode.name})
-	       used = true
+            local grown = grow_tall(upos, -1, unode.name)
+            if grown then
+               used = true
             end
 	 end
 
