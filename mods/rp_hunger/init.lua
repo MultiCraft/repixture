@@ -57,6 +57,19 @@ local timer_interval = tonumber(minetest.settings:get("hunger_step")) or 3.0
 timer_interval = math.max(0.0, timer_interval)
 local timer = 0
 
+-- play eating sound
+-- * pos: Position
+-- * player: Sound attached to player
+-- * is_full: If true, play a different sound when the sound
+--   should symbolize fullness (hunger and saturation at max)
+local function play_eat_sound(pos, player, is_full)
+   local pitch
+   if is_full then
+      pitch = 0.9
+   end
+   minetest.sound_play("hunger_eat", {pos = pos, max_hear_distance = 8, object=player, pitch=pitch}, true)
+end
+
 -- Loading and saving
 
 local function save_hunger()
@@ -284,7 +297,14 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
    local headpos  = player:get_pos()
 
    headpos.y = headpos.y + 1
-   minetest.sound_play("hunger_eat", {pos = headpos, max_hear_distance = 8, object=player}, true)
+   local full = userdata[name].saturation >= hunger.MAX_SATURATION and userdata[name].hunger >= hunger.MAX_HUNGER
+   play_eat_sound(headpos, player, full)
+   local particle
+   if full then
+      particle = "magicpuff2.png"
+   else
+      particle = "magicpuff.png"
+   end
 
    particlespawners[name] = minetest.add_particlespawner(
       {
@@ -301,7 +321,7 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
          minsize = 0.5,
          maxsize = 2,
          texture = {
-            name = "magicpuff.png",
+            name = particle,
             scale_tween = { 1, 0, start = 0.75 },
          },
    })
@@ -447,14 +467,7 @@ local function fake_on_item_eat(hpdata, replace_with_item, itemstack,
                                 player, pointed_thing)
    local headpos  = player:get_pos()
    headpos.y = headpos.y + 1
-   minetest.sound_play(
-      "hunger_eat",
-      {
-         pos = headpos,
-         max_hear_distance = 8,
-         object = player,
-   }, true)
-
+   play_eat_sound(headpos, player, true)
    if mod_achievements then
       achievements.trigger_subcondition(player, "eat_everything", itemstack:get_name())
    end
@@ -598,6 +611,7 @@ minetest.register_chatcommand("hunger", {
 			return false, S("No player.")
 		end
 		hunger.set_hunger(playername, hungr)
+		hunger.set_saturation(playername, 0)
 		return true
 	end
 })
