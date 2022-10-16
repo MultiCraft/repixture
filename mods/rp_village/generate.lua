@@ -232,6 +232,25 @@ village.chunkdefs["house"] = {
       ["mobs:npc_carpenter"] = 1,
    },
 }
+village.chunkdefs["workshop"] = {
+   ruins = {"workshop_ruins", "rubble"},
+   entity_chance = 2,
+   entities = {
+      ["mobs:npc_carpenter"] = 1,
+   },
+}
+village.chunkdefs["townhall"] = {
+   ruins = {"townhall_ruins", "rubble"},
+   entity_chance = 1,
+   entities = {
+      ["mobs:npc_tavernkeeper"] = 1,
+      ["mobs:npc_farmer"] = 1,
+      ["mobs:npc_blacksmith"] = 1,
+      ["mobs:npc_carpenter"] = 1,
+   },
+}
+
+
 village.chunkdefs["tavern"] = {
    ruins = {"tavern_ruins"},
    entity_chance = 2,
@@ -239,6 +258,30 @@ village.chunkdefs["tavern"] = {
       ["mobs:npc_tavernkeeper"] = 1,
    },
 }
+village.chunkdefs["library"] = {
+   ruins = {"library_ruins"},
+   entity_chance = 3,
+   entities = {
+      ["mobs:npc_carpenter"] = 1,
+   },
+}
+village.chunkdefs["reading_club"] = {
+   ruins = {"house_ruins", "house_ruins_2"},
+   entity_chance = 3,
+   entities = {
+      ["mobs:npc_farmer"] = 1,
+      ["mobs:npc_blacksmith"] = 1,
+   },
+}
+
+village.chunkdefs["bakery"] = {
+   ruins = {"bakery_ruins"},
+   entity_chance = 2,
+   entities = {
+      ["mobs:npc_farmer"] = 1,
+   },
+}
+
 
 village.chunkdefs["forge"] = {
    ruins = {"forge_ruins", "rubble"},
@@ -258,6 +301,10 @@ village.chunkdefs["orchard"] = {
 village.chunkdefs["road"] = {
    can_cache = true,
 }
+
+for i=2,7 do
+   village.chunkdefs["house_"..i] = village.chunkdefs["house"]
+end
 
 village.chunkdefs["farm_v24_potato"] = farmchunkdef
 village.chunkdefs["farm_v24_potato_wheat"] = farmchunkdef
@@ -279,9 +326,22 @@ village.chunktypes = {
    -- { chunktype, absolute frequency }
 
    -- houses
-   { "house", 240 },
+   { "house", 30 },
+   { "house_2", 30 },
+   { "house_3", 30 },
+   { "house_4", 30 },
+   { "house_5", 30 },
+   { "house_6", 30 },
+   { "house_7", 30 },
+   -- meeting rooms
    { "tavern", 120 },
-   { "forge", 120 },
+   { "townhall", 60 },
+   { "library", 10 },
+   { "reading_club", 10 },
+   -- workplaces
+   { "forge", 100 },
+   { "workshop", 100 },
+   { "bakery", 60 },
    -- other
    { "livestock_pen", 60 },
    { "orchard", 60 },
@@ -317,9 +377,15 @@ village.chunktypes = {
 -- instead. This will create nice "lonely huts".
 village.chunktypes_start_fallback = {
    -- chunktype, absolute frequency
-   { "house", 10 },
-   { "tavern", 5 },
-   { "forge", 2 },
+   { "house", 2 },
+   { "house_2", 2 },
+   { "house_3", 2 },
+   { "house_4", 2 },
+   { "house_5", 2 },
+   { "house_6", 2 },
+   { "house_7", 2 },
+   { "tavern", 7 },
+   { "forge", 3 },
 }
 
 -- Calculate cumulated absolute frequency of a chunktypes
@@ -356,13 +422,12 @@ end
 -- Given a chunktype, returns a random 'ruins' version
 -- for that chunktype if one is available. Otherwise,
 -- returns `chunktype`.
--- If `chunktype` does not exist, returns `nil`.
 -- * `pr`: PseudoRandom object
 -- * `chunktype`: Chunktype identifier
 local function get_ruined_chunktype(pr, chunktype)
    local ctd = village.chunkdefs[chunktype]
    if not ctd then
-      return nil
+      return chunktype
    end
    if ctd.ruins then
       return ctd.ruins[pr:next(1, #ctd.ruins)]
