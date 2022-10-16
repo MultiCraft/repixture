@@ -979,15 +979,33 @@ local function village_modify_populate_containers(upos, upos2, pr, extras)
             goodies.fill(pos, extras.chunktype, pr, "main", 3)
          end, true)
 
-      if extras.chunktype == "forge" then
-         -- Populate furnaces
+      -- Populate bookshelves
+      util.nodefunc(
+         upos, upos2,
+         {"rp_default:bookshelf"},
+         function(pos)
+            goodies.fill(pos, "BOOKSHELF", pr, "main", 1)
+         end, true)
+
+      -- Populate furnaces
+      if extras.chunktype == "forge" or extras.chunktype == "bakery" then
+         local g_src, g_fuel, g_dst
+         if extras.chunktype == "bakery" then
+            g_src = "FURNACE_SRC_bakery"
+            g_fuel = "FURNACE_FUEL_bakery"
+            g_dst = "FURNACE_DST_bakery"
+         else
+            g_src = "FURNACE_SRC_general"
+            g_fuel = "FURNACE_FUEL_general"
+            g_dst = "FURNACE_DST_general"
+         end
          util.nodefunc(
             upos, upos2,
             "rp_default:furnace",
             function(pos)
-               goodies.fill(pos, "FURNACE_SRC", pr, "src", 1)
-               goodies.fill(pos, "FURNACE_FUEL", pr, "fuel", 1)
-               goodies.fill(pos, "FURNACE_DST", pr, "dst", 1)
+               goodies.fill(pos, g_src, pr, "src", 1)
+               goodies.fill(pos, g_fuel, pr, "fuel", 1)
+               goodies.fill(pos, g_dst, pr, "dst", 1)
                -- If both the src and fuel slots have an item,
                -- simulate the cooking process.
                -- We convert the src item into its cooked version,,,,
