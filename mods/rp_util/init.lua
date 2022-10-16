@@ -104,7 +104,10 @@ function util.reconstruct(pos1, pos2, nomanip)
    end
 
    -- Fix chests, locked chests, music players, furnaces
-   local nodetypes = { "rp_default:chest", "rp_locks:chest", "rp_music:player", "rp_default:furnace", "rp_jewels:bench" }
+   local nodetypes = {
+      "rp_default:chest", "rp_locks:chest", "rp_music:player", "rp_default:furnace",
+      "rp_jewels:bench", "rp_default:bookshelf", "rp_itemshow:frame", "rp_itemshow:showcase",
+   }
    for n=1, #nodetypes do
        local nodes = minetest.find_nodes_in_area(pos1, pos2, nodetypes[n])
        local node = minetest.registered_nodes[nodetypes[n]]
