@@ -1802,7 +1802,7 @@ function mobs:feed_tame(self, clicker, feed_count, breed, effect)
             minsize = 0.5,
             maxsize = 2,
             texture = {
-               name = "magicpuff.png",
+               name = "rp_hud_particle_eatpuff.png",
                scale_tween = { 1, 0, start = 0.75 },
             },
          })

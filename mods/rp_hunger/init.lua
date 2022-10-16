@@ -301,9 +301,9 @@ local function on_item_eat(hpdata, replace_with_item, itemstack,
    play_eat_sound(headpos, player, full)
    local particle
    if full then
-      particle = "magicpuff2.png"
+      particle = "rp_hud_particle_eatpuff_full.png"
    else
-      particle = "magicpuff.png"
+      particle = "rp_hud_particle_eatpuff.png"
    end
 
    particlespawners[name] = minetest.add_particlespawner(
