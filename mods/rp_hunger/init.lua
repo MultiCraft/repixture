@@ -141,6 +141,9 @@ local function update_bar(player)
    if not player then
       return
    end
+   if minetest.settings:get_bool("enable_damage") == false then
+      return
+   end
 
    local name = player:get_player_name()
 
