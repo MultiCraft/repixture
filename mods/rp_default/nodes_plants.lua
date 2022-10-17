@@ -176,11 +176,26 @@ minetest.register_node(
       description = S("Flower"),
       _tt_help = S("It looks beautiful"),
       drawtype = "nodebox",
-      node_box = {
-	 type = "fixed",
-	 fixed = {-0.5, -0.5, -0.5, 0.5, -0.5 + (1 / 16), 0.5}
+      selection_box = {
+         type = "fixed",
+         fixed = {
+            {-0.5, -0.5, -0.5, 0.5, -0.5 + 1/16, 0.5},
+         }
       },
-      tiles = {"default_flowers.png", "default_flowers.png^[transformFY", "blank.png"},
+      node_box = {
+         type = "fixed",
+         fixed = {
+            {-0.5, -0.5 + 1/16, -0.5, 0.5, -0.5 + 1/16 + 0.0001, 0.5}, -- flower petals
+            {-3/16, -0.5, -3/16, -4/16, -7/16, -4/16}, -- flower stem 1
+            {-2/16, -0.5, 3/16, -1/16, -0.5 + 1/16, 4/16}, -- flower stem 2
+            {4/16, -0.5, -6/16, 5/16, -0.5 + 1/16, -5/16}, -- flower stem 3
+         }
+      },
+      tiles = {
+	      "default_flowers.png",
+	      "default_flowers_below.png",
+	      "default_flowers_side.png",
+      },
       use_texture_alpha = "clip",
       inventory_image = "default_flowers_inventory.png",
       wield_image = "default_flowers_inventory.png",
