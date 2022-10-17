@@ -85,20 +85,17 @@ form_bookshelf = form_bookshelf .. "list[current_player;main;0.25,4.75;8,4;]"
 form_bookshelf = form_bookshelf .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
-form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(0.25, 0.15, 1, 4)
-form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(4.25, 0.15, 1, 4)
-for i=1,4 do
-   local yoff = i-1
-   form_bookshelf = form_bookshelf .. rp_formspec.image_button(1.25, 0.15+yoff, 1, 1, "open_"..i, "ui_icon_view.png", S("Read book"))
-   form_bookshelf = form_bookshelf .. rp_formspec.image_button(5.25, 0.15+yoff, 1, 1, "open_"..(i+4), "ui_icon_view.png", S("Read book"))
+form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(0.25, 1.5, 8, 1)
+for i=1,8 do
+   local xoff = i-1
+   form_bookshelf = form_bookshelf .. rp_formspec.image_button(0.25+xoff, 2.5, 1, 1, "open_"..i, "ui_icon_view.png", S("Read book"))
 end
 
 local function get_bookshelf_formspec(pos)
    local x, y, z = pos.x, pos.y, pos.z
    local context = "nodemeta:"..x..","..y..","..z
    local form = form_bookshelf
-   form = form .. "list["..context..";main;0.25,0.15;1,4;]"
-   form = form .. "list["..context..";main;4.25,0.15;1,4;4]"
+   form = form .. "list["..context..";main;0.25,1.5;8,1;]"
    form = form .. "listring["..context..";main]"
    form = form .. "listring[current_player;main]"
    return form
