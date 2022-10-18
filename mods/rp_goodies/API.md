@@ -28,6 +28,10 @@ How `keepchance` works: a virtual `keepchance`-sided dice with the numbers
 from 1 to `keepchance` will be rolled.
 If a 1 is rolled, the node is kept, otherwise the node is removed.
 
+Note: If the container node is below a falling node and has been selected
+for removal, it will be replaced by a copy of the falling node or
+wooden planks in order to prevent the falling node to float.
+
 ## Available treasure types
 
 These are the possible goodie types, usable for the `ctype` argument above:

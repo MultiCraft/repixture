@@ -183,7 +183,28 @@ function goodies.fill(pos, ctype, pr, listname, keepchance)
 
    if goodies.types_all[ctype] == nil then return end
 
+   -- Remove/replace node with a certain chance
    if pr:next(1, keepchance) ~= 1 then
+      -- Check if node above is a falling node
+      local above = vector.add(pos, vector.new(0, 1, 0))
+      local anode = minetest.get_node(above)
+      if minetest.get_item_group(anode.name, "falling_node") >= 1 then
+         -- If yes, make sure we don't end up with a floating
+	 -- falling node.
+         local below = vector.add(pos, vector.new(0, -1, 0))
+         local bnode = minetest.get_node(below)
+         local bdef = minetest.registered_nodes[bnode.name]
+	 -- If node below is walkable, copy the falling node to the container pos
+	 if bdef.walkable then
+            minetest.set_node(pos, anode)
+         else
+            -- Wooden planks are the final fallback for the container
+	    -- (this is just a block to stop the fall)
+            minetest.set_node(pos, {name="rp_default:planks"})
+         end
+	 return
+      end
+      -- Regular case: Just remove the node
       minetest.remove_node(pos)
       return
    end
