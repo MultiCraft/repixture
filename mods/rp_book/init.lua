@@ -19,33 +19,51 @@ local F = minetest.formspec_escape
 local BOOK_MAX_TITLE_LENGTH = 64
 local BOOK_MAX_TEXT_LENGTH = 4500
 
+local on_use = function(itemstack, player, pointed_thing)
+   local name = player:get_player_name()
+   local data = itemstack:get_meta()
+
+   local title = ""
+   local text = ""
+
+   if data then
+      text = data:get_string("book:text")
+      title = data:get_string("book:title")
+   end
+
+   local form = rp_formspec.get_page("rp_formspec:default")
+   form = form .. "field[0.5,1.25;8,0;title;"..F(S("Title:"))..";"..F(title).."]"
+   form = form .. "textarea[0.5,1.75;8,6.75;text;"..F(S("Contents:"))..";"..F(text).."]"
+   form = form .. rp_formspec.button_exit(2.75, 7.75, 3, 1, "write", S("Write"))
+
+   minetest.show_formspec(name, "rp_book:book", form)
+end
+
+-- Unwritten book (stackable)
+minetest.register_craftitem(
+   ":rp_default:book_empty",
+   {
+      description = S("Book"),
+      _tt_help = S("Write down some notes"),
+      inventory_image = "rp_book_book_empty.png",
+      groups = { book = 2, tool = 1 },
+
+      on_use = function(itemstack, player, pointed_thing)
+         on_use(itemstack, player, pointed_thing)
+      end,
+})
+
+-- Writable book (not stackable)
 minetest.register_craftitem(
    ":rp_default:book",
    {
       description = S("Unnamed Book"),
-      _tt_help = S("Write down some notes"),
       inventory_image = "default_book.png",
       stack_max = 1,
-      groups = { tool = 1 },
+      groups = { book = 2, tool = 1, not_in_creative_inventory = 1 },
 
       on_use = function(itemstack, player, pointed_thing)
-         local name = player:get_player_name()
-         local data = itemstack:get_meta()
-
-         local title = ""
-         local text = ""
-
-         if data then
-            text = data:get_string("book:text")
-            title = data:get_string("book:title")
-         end
-
-         local form = rp_formspec.get_page("rp_formspec:default")
-         form = form .. "field[0.5,1.25;8,0;title;"..F(S("Title:"))..";"..F(title).."]"
-         form = form .. "textarea[0.5,1.75;8,6.75;text;"..F(S("Contents:"))..";"..F(text).."]"
-         form = form .. rp_formspec.button_exit(2.75, 7.75, 3, 1, "write", S("Write"))
-
-         minetest.show_formspec(name, "rp_book:book", form)
+         on_use(itemstack, player, pointed_thing)
       end,
 })
 
@@ -55,22 +73,79 @@ minetest.register_on_player_receive_fields(
          return
       end
 
-      local itemstack = player:get_wielded_item()
+      local wieldstack = player:get_wielded_item()
+      local iname = wieldstack:get_name()
+      if minetest.get_item_group(iname, "book") ~= 2 then
+         return
+      end
 
-      local meta = itemstack:get_meta()
+      local title = fields.title
+      local text = fields.text
 
       -- Limit title and text length
-      if string.len(fields.title) > BOOK_MAX_TITLE_LENGTH then
-          fields.title = string.sub(fields.title, 1, BOOK_MAX_TITLE_LENGTH)
+      if string.len(title) > BOOK_MAX_TITLE_LENGTH then
+          title = string.sub(title, 1, BOOK_MAX_TITLE_LENGTH)
       end
-      if string.len(fields.text) > BOOK_MAX_TEXT_LENGTH then
-          fields.text= string.sub(fields.text, 1, BOOK_MAX_TEXT_LENGTH)
+      if string.len(text) > BOOK_MAX_TEXT_LENGTH then
+          text= string.sub(text, 1, BOOK_MAX_TEXT_LENGTH)
       end
 
-      meta:set_string("description", S("Book: “@1”", minetest.colorize("#ffff00", fields.title))) -- Set the item description
+      local function set_book_meta(item, title, text)
+         local meta = item:get_meta()
+	 if title ~= "" then
+            meta:set_string("description", S("Book: “@1”", minetest.colorize("#ffff00", title))) -- Set the item description
+         else
+            meta:set_string("description", "")
+         end
+         meta:set_string("book:title", title)
+         meta:set_string("book:text", text)
+      end
 
-      meta:set_string("book:title", fields.title)
-      meta:set_string("book:text", fields.text)
-
-      player:set_wielded_item(itemstack)
+      if wieldstack:get_name() ~= "rp_default:book" then
+	 if wieldstack:get_count() == 1 then
+            wieldstack:set_name("rp_default:book")
+	    set_book_meta(wieldstack, title, text)
+            player:set_wielded_item(wieldstack)
+         else
+	    local newstack = wieldstack:take_item()
+	    newstack:set_count(1)
+	    newstack:set_name("rp_default:book")
+	    set_book_meta(newstack, title, text)
+            local inv = player:get_inventory()
+	    if inv:room_for_item("main", newstack) then
+               inv:add_item("main", newstack)
+	    else
+               minetest.add_item(player:get_pos(), newstack)
+	    end
+            player:set_wielded_item(wieldstack)
+	 end
+      else
+	 set_book_meta(wieldstack, title, text)
+         player:set_wielded_item(wieldstack)
+      end
 end)
+
+minetest.register_craft(
+   {
+      type = "fuel",
+      recipe = "rp_default:book_empty",
+      burntime = 2,
+})
+
+minetest.register_craft(
+   {
+      type = "fuel",
+      recipe = "rp_default:book",
+      burntime = 2,
+})
+
+crafting.register_craft(
+   {
+      output = "rp_default:book_empty",
+      items = {
+         "rp_default:paper 3",
+         "rp_default:stick",
+         "rp_default:fiber",
+      }
+})
+

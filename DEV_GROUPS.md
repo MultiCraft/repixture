@@ -53,6 +53,7 @@ These groups are mainly used for a better item sorting in Creative Mode.
 * `food`: Can be eaten by player. Rating: 2 = eatable, 3 = drinkable, 1 = unknown food type
 * `nav_compass`: Compass. Rating: 1 = normal compass, 2 = magnocompass
 * `spawn_egg`: Item that spawns mobs
+* `book`: Book. Rating: 1 = unspecific book, 2 = writable book
 
 
 

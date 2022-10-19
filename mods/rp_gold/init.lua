@@ -515,9 +515,9 @@ minetest.register_craftitem(
    {
       description = S("Trading Book"),
       _tt_help = S("Show this to a villager to trade"),
-      inventory_image = "default_book.png^gold_bookribbon.png",
+      inventory_image = "gold_book.png^gold_bookribbon.png",
       stack_max = 1,
-      groups = { tool = 1 },
+      groups = { book = 1, tool = 1 },
 })
 
 minetest.register_craftitem(
@@ -577,7 +577,7 @@ crafting.register_craft(
    {
       output = "rp_gold:trading_book",
       items = {
-         "rp_default:book",
+         "rp_default:book_empty",
          "rp_gold:ingot_gold",
       }
 })

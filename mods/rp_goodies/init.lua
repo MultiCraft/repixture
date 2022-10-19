@@ -27,7 +27,7 @@ goodies.types["FURNACE_DST_general"] = {
 }
 
 goodies.types["BOOKSHELF"] = {
-   ["rp_default:book"] = { chance = 4, max_stack = 1 },
+   ["rp_default:book_empty"] = { chance = 4, max_stack = 1 },
    ["rp_default:paper"] = 16,
 }
 

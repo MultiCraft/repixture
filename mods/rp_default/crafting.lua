@@ -183,13 +183,6 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "rp_default:book",
-      burntime = 2,
-})
-
-minetest.register_craft(
-   {
-      type = "fuel",
       recipe = "rp_default:ladder",
       burntime = 5,
 })
@@ -551,16 +544,6 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "rp_default:book",
-      items = {
-         "rp_default:paper 3",
-         "rp_default:stick",
-         "rp_default:fiber",
-      }
-})
-
-crafting.register_craft(
-   {
       output = "rp_default:flint_and_steel",
       items = {
          "rp_default:ingot_steel",
@@ -907,7 +890,7 @@ crafting.register_craft(
    {
       output = "rp_default:bookshelf",
       items = {
-         "rp_default:book 3",
+         "rp_default:book_empty 3",
          "group:planks 6",
       }
 })
