@@ -86,11 +86,6 @@ form_bookshelf = form_bookshelf .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75
 form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
 form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(0.25, 1.5, 8, 1)
-for i=1,8 do
-   local xoff = i-1
-   form_bookshelf = form_bookshelf .. rp_formspec.image_button(0.25+xoff, 2.5, 1, 1, "open_"..i, "ui_icon_view.png", S("Read book"))
-end
-
 local function get_bookshelf_formspec(pos)
    local x, y, z = pos.x, pos.y, pos.z
    local context = "nodemeta:"..x..","..y..","..z
@@ -98,7 +93,40 @@ local function get_bookshelf_formspec(pos)
    form = form .. "list["..context..";main;0.25,1.5;8,1;]"
    form = form .. "listring["..context..";main]"
    form = form .. "listring[current_player;main]"
+   local meta = minetest.get_meta(pos)
+   local inv = meta:get_inventory()
+   for i=1,8 do
+      if inv:get_stack("main", i):get_name() == "rp_default:book" then
+         local xoff = i-1
+         form = form .. rp_formspec.image_button(0.25+xoff, 2.5, 1, 1, "open_"..i, "ui_icon_view.png", S("Read book"))
+      end
+   end
    return form
+end
+
+local bookshelf_meta_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+   if not (player and player:is_player()) then
+      return
+   end
+   local meta = minetest.get_meta(pos)
+   local inv = meta:get_inventory()
+   local stack1 = inv:get_stack(from_list, from_index)
+   local stack2 = inv:get_stack(to_list, to_index)
+   if stack1:get_name() == "rp_default:book" or stack2:get_name() == "rp_default:book" then
+      local pname = player:get_player_name()
+      reading_bookshelves[pname] = table.copy(pos)
+      minetest.show_formspec(pname, "rp_default:bookshelf", get_bookshelf_formspec(pos))
+   end
+end
+local bookshelf_meta_puttake = function(pos, listname, index, stack, player)
+   if not (player and player:is_player()) then
+      return
+   end
+   if stack:get_name() == "rp_default:book" then
+      local pname = player:get_player_name()
+      reading_bookshelves[pname] = table.copy(pos)
+      minetest.show_formspec(pname, "rp_default:bookshelf", get_bookshelf_formspec(pos))
+   end
 end
 
 minetest.register_node(
@@ -120,6 +148,9 @@ minetest.register_node(
       allow_metadata_inventory_move = protection_check_move,
       allow_metadata_inventory_put = protection_check_put_take,
       allow_metadata_inventory_take = protection_check_put_take,
+      on_metadata_inventory_move = bookshelf_meta_move,
+      on_metadata_inventory_put = bookshelf_meta_puttake,
+      on_metadata_inventory_take = bookshelf_meta_puttake,
       on_destruct = function(pos)
          item_drop.drop_items_from_container(pos, {"main"})
       end,
