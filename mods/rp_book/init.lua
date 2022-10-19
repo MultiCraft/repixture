@@ -101,11 +101,24 @@ minetest.register_on_player_receive_fields(
          meta:set_string("book:text", text)
       end
 
+      -- Revert book back to stackable book if empty contents
+      if title == "" and text == "" then
+         if wieldstack:get_name() == "rp_default:book" then
+            wieldstack:set_name("rp_default:book_empty")
+            set_book_meta(wieldstack, title, text)
+            player:set_wielded_item(wieldstack)
+            return
+         end
+      end
+
+      -- Contents written: Update the player inventory
       if wieldstack:get_name() ~= "rp_default:book" then
+         -- 1 book: Replace with written book
 	 if wieldstack:get_count() == 1 then
             wieldstack:set_name("rp_default:book")
 	    set_book_meta(wieldstack, title, text)
             player:set_wielded_item(wieldstack)
+         -- Book stack
          else
 	    local newstack = wieldstack:take_item()
 	    newstack:set_count(1)
@@ -113,12 +126,16 @@ minetest.register_on_player_receive_fields(
 	    set_book_meta(newstack, title, text)
             local inv = player:get_inventory()
 	    if inv:room_for_item("main", newstack) then
+               -- If space available: Add written book in inventory
                inv:add_item("main", newstack)
+               player:set_wielded_item(wieldstack)
 	    else
+               -- Inventory overflow: Drop the written book
                minetest.add_item(player:get_pos(), newstack)
+               player:set_wielded_item(wieldstack)
 	    end
-            player:set_wielded_item(wieldstack)
 	 end
+      -- Update an existing written book
       else
 	 set_book_meta(wieldstack, title, text)
          player:set_wielded_item(wieldstack)
