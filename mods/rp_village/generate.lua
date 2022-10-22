@@ -25,11 +25,9 @@ local DECOR_CHANCE = 8
 -- Chance that a village is abandoned
 local ABANDONED_CHANCE = 25
 
--- Chance a non-starter building in an abandoned village spawns as a ruin
+-- Chance a village chunk in an abandoned village spawns using
+-- a 'ruins' variant (if one is available)
 local ABANDONED_RUINS_CHANCE = 2
-
--- Chance the starter building in an abandoned village spawns as a ruin
-local ABANDONED_STARTER_RUINS_CHANCE = 4
 
 -- Savefile
 
@@ -94,15 +92,14 @@ local village_replaces = {
 local schematic_cache = {}
 -- Wrapper around minetest.read_schematic to
 -- speed up loading time on subsequent reads.
--- returns a schematic specifier for the schematic
--- assigned to `chunktype`.
-local function read_cached_chunk_schematic(chunktype)
-   if schematic_cache[chunktype] then
-      return schematic_cache[chunktype], true
+-- returns a schematic specifier.
+local function read_cached_chunk_schematic(subchunktype)
+   if schematic_cache[subchunktype] then
+      return schematic_cache[subchunktype], true
    end
-   local schem_path = modpath .. "/schematics/village_" .. chunktype .. ".mts"
+   local schem_path = modpath .. "/schematics/village_" .. subchunktype .. ".mts"
    local schem_spec = minetest.read_schematic(schem_path, {})
-   schematic_cache[chunktype] = schem_spec
+   schematic_cache[subchunktype] = schem_spec
    return schem_spec, false
 end
 
@@ -180,21 +177,31 @@ function village.get_nearest_village(pos)
    return {dist = nearest, pos = npos, name = name, fname = fname}
 end
 
-local farmchunkdef = {
-   entity_chance = 2,
-   entities = {
-      ["mobs:npc_farmer"] = 1,
-   }
-}
-
 village.chunkdefs = {}
 
---[[ village chunk definition:
+--[[
+Village chunks are the square sections of a village. This includes buildings,
+farms, roads, and the like.
+
+village chunk definition:
 {
    -- every field is optional
    can_cache = <bool>, -- if true, schematic can be cached by Minetest
                        -- use this if no random node replacements (like wood)
-                       -- are required (default: false)
+                      -- are required (default: false)
+   variants = { "variant_1", ..., "variant_n" },
+   -- list of chunktype variants. One random variatn will be picked at random
+   -- on placement. Each name must correspond to a file
+   -- in `schematics/village_<variant_name>.mts`. By default, a chunktype has
+   -- 1 variant with the name equal to the chunktype identifier
+
+   ruins = { "ruins_1", ..., "ruins_n" },
+   -- Like variants, but for a ruined version of this chunktype. In abandoned
+   -- villages, one random ruined variant MAY be chosen from the list, or the
+   -- 'intact' schematic is placed (but "generic" ruinations like broken glass
+   -- still apply).
+   -- If unused, the 'intact' schematic will be placed.
+
    entities = {
       [entity_1] = <number>,
       ...
@@ -226,6 +233,7 @@ village.chunkdefs["well"] = {
    },
 }
 village.chunkdefs["house"] = {
+   variants = {"house", "house_2", "house_3", "house_4", "house_5", "house_6", "house_7"},
    ruins = {"house_ruins", "house_ruins_2"},
    entity_chance = 2,
    entities = {
@@ -302,20 +310,49 @@ village.chunkdefs["road"] = {
    can_cache = true,
 }
 
-for i=2,7 do
-   village.chunkdefs["house_"..i] = village.chunkdefs["house"]
-end
+-- Farm chunktypes.
+--
+-- Farm chunktype naming scheme:
+-- 
+--    farm_<water><lines>_<plants>
+--
+-- * <water>: water position:
+--    * "v": vertical lines
+--    * "h": horizontal lines
+--    * "c": center
+--    * "o": outwards
+-- * <lines>:
+--    * for v/h: list of numbers at where the water will be
+--    * for c/o: how much water in total
+-- * <plants>: List of plants (from left to right)
 
-village.chunkdefs["farm_v24_potato"] = farmchunkdef
-village.chunkdefs["farm_v24_potato_wheat"] = farmchunkdef
-village.chunkdefs["farm_v24_wheat"] = farmchunkdef
-village.chunkdefs["farm_v24_wheat_cotton"] = farmchunkdef
-village.chunkdefs["farm_v24_cotton"] = farmchunkdef
-village.chunkdefs["farm_h246_potato"] = farmchunkdef
-village.chunkdefs["farm_h246_wheat"] = farmchunkdef
-village.chunkdefs["farm_h246_cotton"] = farmchunkdef
-village.chunkdefs["farm_c4_papyrus"] = farmchunkdef
-village.chunkdefs["farm_o4_papyrus"] = farmchunkdef
+village.chunkdefs["farm_small_plants"] = {
+   variants = {
+      "farm_v24_potato",
+      "farm_v24_potato_wheat",
+      "farm_v24_wheat",
+      "farm_v24_wheat_cotton",
+      "farm_v24_cotton",
+      "farm_h246_potato",
+      "farm_h246_wheat",
+      "farm_h246_cotton",
+   },
+   entity_chance = 2,
+   entities = {
+      ["mobs:npc_farmer"] = 1,
+   }
+}
+
+village.chunkdefs["farm_papyrus"] = {
+   variants = {
+      "farm_c4_papyrus",
+      "farm_o4_papyrus",
+   },
+   entity_chance = 2,
+   entities = {
+      ["mobs:npc_farmer"] = 1,
+   }
+}
 
 -- List of chunk types. Chunk types are structurs and buildings
 -- that are not the well and are placed next to roads.
@@ -326,48 +363,21 @@ village.chunktypes = {
    -- { chunktype, absolute frequency }
 
    -- houses
-   { "house", 30 },
-   { "house_2", 30 },
-   { "house_3", 30 },
-   { "house_4", 30 },
-   { "house_5", 30 },
-   { "house_6", 30 },
-   { "house_7", 30 },
+   { "house", 210 },
    -- meeting rooms
    { "tavern", 120 },
    { "townhall", 60 },
-   { "library", 10 },
-   { "reading_club", 10 },
+   { "library", 20 },
+   { "reading_club", 30 },
    -- workplaces
    { "forge", 100 },
    { "workshop", 100 },
    { "bakery", 60 },
-   -- other
-   { "livestock_pen", 60 },
+   -- farming
+   { "farm_small_plants", 120 },
+   { "farm_papyrus", 120 },
    { "orchard", 60 },
-
-   -- farms
-   -- naming scheme: farm_<water><lines>_<plants>
-   -- * <water>: water position:
-   --    * "v": vertical lines
-   --    * "h": horizontal lines
-   --    * "c": center
-   --    * "o": outwards
-   -- * <lines>:
-   --    * for v/h: list of numbers at where the water will be
-   --    * for c/o: how much water in total
-   -- * <plants>: List of plants (from left to right)
-   { "farm_v24_potato", 20 },
-   { "farm_v24_potato_wheat", 10 },
-   { "farm_v24_wheat", 20 },
-   { "farm_v24_wheat_cotton", 10 },
-   { "farm_v24_cotton", 10 },
-   { "farm_h246_potato", 20 },
-   { "farm_h246_wheat", 20 },
-   { "farm_h246_cotton", 10 },
-   { "farm_c4_papyrus", 60 },
-   { "farm_o4_papyrus", 60 },
-
+   { "livestock_pen", 60 },
 }
 
 -- List of chunktypes to be used as fallback for the starting
@@ -377,13 +387,7 @@ village.chunktypes = {
 -- instead. This will create nice "lonely huts".
 village.chunktypes_start_fallback = {
    -- chunktype, absolute frequency
-   { "house", 2 },
-   { "house_2", 2 },
-   { "house_3", 2 },
-   { "house_4", 2 },
-   { "house_5", 2 },
-   { "house_6", 2 },
-   { "house_7", 2 },
+   { "house", 14 },
    { "tavern", 7 },
    { "forge", 3 },
 }
@@ -419,6 +423,18 @@ local function random_chunktype(pr, chunktypes)
    return chunktypes[#chunktypes][1]
 end
 
+local function get_chunktype_variant(pr, chunktype)
+   local ctd = village.chunkdefs[chunktype]
+   if not ctd then
+      return chunktype
+   end
+   if ctd.variants then
+      return ctd.variants[pr:next(1, #ctd.variants)]
+   else
+      return chunktype
+   end
+end
+
 -- Given a chunktype, returns a random 'ruins' version
 -- for that chunktype if one is available. Otherwise,
 -- returns `chunktype`.
@@ -432,7 +448,7 @@ local function get_ruined_chunktype(pr, chunktype)
    if ctd.ruins then
       return ctd.ruins[pr:next(1, #ctd.ruins)]
    else
-      return chunktype
+      return get_chunktype_variant(pr, chunktype)
    end
 end
 
@@ -666,13 +682,21 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
    if chunktype == "orchard" or chunktype == "orchard_ragged" then
       sreplace["rp_default:tree"] = nil
    end
-   local schem_path = modpath .. "/schematics/village_" .. chunktype .. ".mts"
+
+   -- Select random variant (ruins or normal) for schematic name
+   local schem_segment = chunktype
+   if state.is_abandoned and pr:next(1, ABANDONED_RUINS_CHANCE) == 1 then
+      schem_segment = get_ruined_chunktype(pr, chunktype)
+   else
+      schem_segment = get_chunktype_variant(pr, chunktype)
+   end
+
    local schem_spec
    if village.chunkdefs[chunktype] and village.chunkdefs[chunktype].can_cache then
       -- Minetest's caching is allowed for this chunktype, so we call the schematic place function
       -- in the normal way (schematics are cached by Minetest if the schematic path is
       -- specified in the place function)
-      schem_spec = schem_path
+      schem_spec = modpath .. "/schematics/village_" .. schem_segment .. ".mts"
    else
       -- load schematic from table definition (read_schematic). This will force Minetest
       -- to skip its schematic cache and guarantee that node replacements are
@@ -680,7 +704,7 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
       -- However, this mod still caches the result of read_schematic itself to save
       -- a bit of time.
       local cached
-      schem_spec, cached = read_cached_chunk_schematic(chunktype)
+      schem_spec, cached = read_cached_chunk_schematic(schem_segment)
    end
    local ok = minetest.place_schematic_on_vmanip(
       vmanip,
@@ -750,9 +774,6 @@ function village.spawn_road(vmanip, pos, state, houses, built, roads, depth, pr,
 	    houses[hnp] = {pos = nextpos, front = pos}
 
 	    local structure = random_chunktype(pr)
-	    if state.is_abandoned and pr:next(1, ABANDONED_RUINS_CHANCE) == 1 then
-               structure = get_ruined_chunktype(pr, structure)
-	    end
 	    chunk_ok = village.spawn_chunk(vmanip, nextpos, state, orient, replace, pr, structure, nil, nil, nil, ground, ground_top)
             if not chunk_ok then
                houses[hnp] = false
@@ -1204,10 +1225,6 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
 
    -- Place lamp posts
    for l=1, #lamps do
-      local lampchunk = "lamppost"
-      if state.is_abandoned and pr:next(1, ABANDONED_RUINS_CHANCE) == 1 then
-         lampchunk = get_ruined_chunktype(pr, lampchunk)
-      end
       village.spawn_chunk(
          vmanip,
          lamps[l],
@@ -1215,7 +1232,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
          "0",
          {},
          pr,
-         lampchunk,
+         "lamppost",
          true,
          true,
          true,
@@ -1238,18 +1255,11 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    -- Normally, this is the well.
    local chunk_ok
    if has_house then
-      local well = "well"
-      if state.is_abandoned and pr:next(1, ABANDONED_STARTER_RUINS_CHANCE) == 1 then
-         well = get_ruined_chunktype(pr, well)
-      end
-      chunk_ok = village.spawn_chunk(vmanip, pos, state, "0", replace, pr, well, true, nil, true, ground, ground_top)
+      chunk_ok = village.spawn_chunk(vmanip, pos, state, "0", replace, pr, "well", true, nil, true, ground, ground_top)
    else
       -- Place a fallback building instead of the well if the village does not have any buildings yet.
       -- A nice side-effect of this is that this will create 'lonely huts'.
       local structure = random_chunktype(pr, village.chunktypes_start_fallback)
-      if state.is_abandoned and pr:next(1, ABANDONED_STARTER_RUINS_CHANCE) == 1 then
-         structure = get_ruined_chunktype(pr, structure)
-      end
       chunk_ok = village.spawn_chunk(vmanip, pos, state, "random", replace, pr, structure, true, nil, true, ground, ground_top)
       minetest.log("info", "[rp_village] Village generated with fallback building instead of well")
    end

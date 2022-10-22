@@ -112,24 +112,6 @@ if minetest.get_modpath("rp_village") ~= nil then
    }
    goodies.types_valuable["house"] = {}
 
-   goodies.types["rubble"] = {
-      ["rp_default:gravel"] = 1,
-      ["rp_default:sand"] = 2,
-      ["rp_default:planks"] = 2,
-      ["rp_default:tree"] = 3,
-      ["rp_farming:wheat_1"] = 8,
-      ["rp_farming:cotton_1"] = 8,
-      ["rp_default:stick"] = 2,
-      ["rp_default:torch_dead"] = 16,
-      ["rp_default:shovel_stone"] = 10,
-      ["rp_default:shovel_wrought_iron"] = 20,
-   }
-   goodies.types_valuable["rubble"] = {
-      ["rp_default:gravel"] = 4,
-      ["rp_farming:asparagus_1"] = 4,
-      ["rp_default:shovel_steel"] = 10,
-   }
-
    -- jewels and gold
    if minetest.get_modpath("rp_jewels") ~= nil then
       goodies.types_valuable["house"]["rp_jewels:bench"] = { chance = 24, max_stack = 1 }
@@ -137,7 +119,6 @@ if minetest.get_modpath("rp_village") ~= nil then
       goodies.types_valuable["tavern"]["rp_jewels:jewel"] = 32
       goodies.types_valuable["forge"]["rp_jewels:jewel"] = 30
       goodies.types_valuable["workshop"]["rp_jewels:jewel"] = 28
-      goodies.types_valuable["rubble"]["rp_jewels:jewel"] = 30
    end
    if minetest.get_modpath("rp_gold") ~= nil then
       goodies.types["forge"]["rp_gold:ingot_gold"] = { chance = 24, max_stack = 2 }
@@ -146,20 +127,6 @@ if minetest.get_modpath("rp_village") ~= nil then
       goodies.types_valuable["tavern"]["rp_gold:ingot_gold"] = 10
       goodies.types_valuable["forge"]["rp_gold:ingot_gold"] = 8
       goodies.types_valuable["bakery"]["rp_gold:ingot_gold"] = 11
-      goodies.types_valuable["rubble"]["rp_gold:lump_gold"] = 7
-   end
-
-   for i=2, 7 do
-      goodies.types["house_"..i] = goodies.types["house"]
-      goodies.types_valuable["house_"..i] = goodies.types_valuable["house"]
-   end
-
-   local ruinable = {
-	   "house", "forge", "bakery", "workshop", "tavern",
-   }
-   for r=1, #ruinable do
-      goodies.types[ruinable[r].."_ruins"] = goodies.types[ruinable[r]]
-      goodies.types_valuable[ruinable[r].."_ruins"] = goodies.types_valuable[ruinable[r]]
    end
 end
 
