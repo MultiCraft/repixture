@@ -92,6 +92,14 @@ crafting.register_craft(
       }
 })
 
+crafting.register_craft(
+   {
+      output = "rp_farming:straw",
+      items = {
+         "rp_farming:wheat 3",
+      }
+})
+
 -- Cooking
 
 minetest.register_craft(
@@ -117,3 +125,12 @@ minetest.register_craft(
       recipe = "rp_farming:potato_1",
       cooktime = 7,
 })
+
+minetest.register_craft(
+   {
+      type = "fuel",
+      recipe = "rp_farming:straw",
+      burntime = 4,
+})
+
+

@@ -163,6 +163,13 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
+      recipe = "rp_default:hay",
+      burntime = 3,
+})
+
+minetest.register_craft(
+   {
+      type = "fuel",
       recipe = "rp_default:papyrus",
       burntime = 2,
 })
@@ -531,6 +538,14 @@ crafting.register_craft(
       items = {
          "rp_default:swamp_grass 3",
          "rp_default:papyrus 9",
+      }
+})
+
+crafting.register_craft(
+   {
+      output = "rp_default:hay",
+      items = {
+         "rp_default:dry_grass 9",
       }
 })
 

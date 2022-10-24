@@ -272,3 +272,14 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_leaves_defaults(),
    }
 )
+
+minetest.register_node(
+   "rp_farming:straw",
+   {
+      description = S("Straw"),
+      tiles = {"rp_farming_straw.png"},
+      is_ground_content = false,
+      groups = {snappy = 3, fall_damage_add_percent = -15},
+      sounds = rp_sounds.node_sound_leaves_defaults(),
+   }
+)

@@ -518,6 +518,19 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_leaves_defaults(),
 })
 
+-- Hay
+minetest.register_node(
+   "rp_default:hay",
+   {
+      description = S("Hay"),
+      tiles = {
+	     "rp_default_hay.png",
+      },
+      groups = {snappy=3, fall_damage_add_percent=-30},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_leaves_defaults(),
+})
+
 -- Rope
 
 minetest.register_node(

@@ -38,6 +38,12 @@ partialblocks.register_material(
 partialblocks.register_material(
    "dried_reed", S("Dried Reed Slab"), S("Dried Reed Stair"), "rp_default:dried_reed_block", {snappy = 2, fall_damage_add_percent=-15}, true, nil, "w")
 
+partialblocks.register_material(
+   "straw", S("Straw Slab"), S("Straw Stair"), "rp_farming:straw", {snappy = 3, fall_damage_add_percent=-15}, true, nil, "w")
+
+partialblocks.register_material(
+   "hay", S("Hay Slab"), S("Hay Stair"), "rp_default:hay", {snappy = 3, fall_damage_add_percent=-30}, true, nil, "w")
+
 -- Frames
 
 partialblocks.register_material(
