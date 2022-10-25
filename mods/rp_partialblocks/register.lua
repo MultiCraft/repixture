@@ -93,3 +93,6 @@ local cs_stair_tiles = {
 	"default_compressed_sandstone.png" }
 partialblocks.register_material(
    "compressed_sandstone", S("Compressed Sandstone Slab"), S("Compressed Sandstone Stair"), "rp_default:compressed_sandstone", { cracky = 2 }, false, nil, cs_stair_tiles)
+
+partialblocks.register_material(
+   "reinforced_compressed_sandstone", S("Reinforced Compressed Sandstone Slab"), S("Reinforced Compressed Sandstone Stair"), "rp_default:reinforced_compressed_sandstone", { cracky = 2 }, false, "a|"..pbp.."reinforced_compressed_sandstone", "a|"..pbp.."reinforced_compressed_sandstone")

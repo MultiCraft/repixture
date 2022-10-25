@@ -120,6 +120,17 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
 
+minetest.register_node(
+   "rp_lumien:reinforced_block",
+   {
+      description = S("Reinforced Lumien Block"),
+      _tt_help = S("It shines so bright"),
+      tiles = {"rp_lumien_reinforced_block.png"},
+      groups = {cracky = 1},
+      light_source = LUMIEN_BLOCK_LIGHT,
+      sounds = rp_sounds.node_sound_stone_defaults(),
+})
+
 -- Ores
 
 minetest.register_node(
@@ -198,6 +209,16 @@ crafting.register_craft(
       output = "rp_lumien:block",
       items = {
 	 "rp_lumien:crystal_off 9",
+      },
+})
+
+crafting.register_craft(
+   {
+      output = "rp_lumien:reinforced_block",
+      items = {
+	 "rp_default:fiber 8",
+	 "rp_default:stick 6",
+	 "rp_lumien:block",
       },
 })
 

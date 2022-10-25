@@ -789,6 +789,16 @@ crafting.register_craft(
       }
 })
 
+crafting.register_craft(
+   {
+      output = "rp_default:reinforced_compressed_sandstone",
+      items = {
+         "rp_default:fiber 8",
+         "rp_default:stick 6",
+         "rp_default:compressed_sandstone",
+      }
+})
+
 -- Fence nodes
 
 crafting.register_craft(

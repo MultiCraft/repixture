@@ -420,6 +420,16 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
 
+minetest.register_node(
+   "rp_default:reinforced_compressed_sandstone",
+   {
+      description = S("Reinforced Compressed Sandstone"),
+      tiles = {"rp_default_reinforced_compressed_sandstone.png"},
+      groups = {cracky = 2, sandstone = 1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_stone_defaults(),
+})
+
 -- Glass
 
 minetest.register_node(
