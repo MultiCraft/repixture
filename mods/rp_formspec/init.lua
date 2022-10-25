@@ -20,10 +20,15 @@ local current_invpage = {}
 
 -- Colors
 
-local prepend = "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]" ..
+local prepend = "" ..
+    "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]" ..
     "tableoptions[background=#DDDDDD30;highlight=#539646]" ..
     "style_type[button,image_button,item_image_button,checkbox,tabheader;sound=default_gui_button]" ..
-    "style_type[button:pressed,image_button:pressed,item_image_button:pressed;content_offset=0]"
+    "style_type[image_button:pressed,item_image_button:pressed;content_offset=0]" ..
+    "style_type[button;bgimg=ui_button_esc_inactive.png;border=false;bgimg_middle=4,4,4,6;content_offset=0,-5]" ..
+    "style_type[button:pressed;bgimg=ui_button_esc_active.png;bgimg_middle=4,4,4,6;content_offset=0,-3]" ..
+    "bgcolor[#8c7c5bF0]"
+
 rp_formspec.default.bg = "bgcolor[#00000000]"
 
 -- bgcolor intentionally not included because it would make pause menu transparent, too :(
