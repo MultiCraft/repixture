@@ -20,7 +20,8 @@ local current_invpage = {}
 
 -- Colors
 
-local prepend = "" ..
+local prepend = "formspec_version[6]" ..
+    "real_coordinates[false]" ..
     "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]" ..
     "tableoptions[background=#DDDDDD30;highlight=#539646]" ..
     "style_type[button,image_button,item_image_button,checkbox,tabheader;sound=default_gui_button]" ..

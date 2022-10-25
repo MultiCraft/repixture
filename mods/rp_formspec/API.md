@@ -8,7 +8,7 @@ formspec elements, some of them are required.
 
 ## Formspec version
 
-Formspec version 1 is used (sorry …).
+Formspec version 6 is used, but `real_coordinates` is set to `false`.
 
 ## Recommended usage
 
