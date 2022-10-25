@@ -314,6 +314,30 @@ minetest.register_node(
       end,
 })
 
+minetest.register_node(
+   "rp_default:sand_grass",
+   {
+      description = S("Sand Grass Clump"),
+      drawtype = "plantlike",
+      paramtype2 = "meshoptions",
+      place_param2 = 2,
+      selection_box = {
+	 type = "fixed",
+	 fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5}
+      },
+      visual_scale = 1.15,
+      tiles = {"rp_default_sand_grass_clump.png"},
+      inventory_image = "rp_default_sand_grass_clump_inventory.png",
+      wield_image = "rp_default_sand_grass_clump_inventory.png",
+      paramtype = "light",
+      waving = 1,
+      walkable = false,
+      buildable_to = true,
+      floodable = true,
+      groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, sand_grass = 1, green_grass = 1, plant = 1, spawn_allowed_in = 1},
+      sounds = rp_sounds.node_sound_leaves_defaults(),
+})
+
 -- Thistle
 
 minetest.register_node(

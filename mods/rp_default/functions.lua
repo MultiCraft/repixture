@@ -986,6 +986,45 @@ minetest.register_abm({
 })
 
 minetest.register_abm({
+    label = "Sand Grass clump expansion",
+    nodenames = {"group:sand_grass"},
+    neighbors = {"group:sand"},
+    interval = 21,
+    chance = 160,
+    action = function(pos, node)
+        pos.y = pos.y - 1
+        local under = minetest.get_node(pos)
+        pos.y = pos.y + 1
+
+        if minetest.get_item_group(under.name, "plantable_sandy") == 0 then
+            return
+        end
+
+        local pos0 = vector.add(pos, vector.new(-4, 0, -4))
+        local pos1 = vector.add(pos, vector.new(4, 1, 4))
+        -- Testing shows that a threshold of 3 results in an appropriate maximum
+        -- density of approximately 7 nodes per 9x9 area.
+        if #minetest.find_nodes_in_area(pos0, pos1, {"group:sand_grass"}) > 3 then
+            return
+        end
+
+	-- Sand grass can spread to sand on the same level
+	-- and on the level above, but it can't spread downwards
+        pos0 = vector.add(pos, vector.new(-4, -1, -4))
+        pos1 = vector.add(pos, vector.new(4, 0, 4))
+        local soils = minetest.find_nodes_in_area_under_air( pos0, pos1, "group:plantable_sandy")
+        local num_soils = #soils
+        if num_soils >= 1 then
+            for si = 1, math.min(3, num_soils) do
+                local soil = soils[math.random(num_soils)]
+                local soil_above = {x = soil.x, y = soil.y + 1, z = soil.z}
+                minetest.set_node(soil_above, {name = node.name})
+            end
+        end
+    end
+})
+
+minetest.register_abm({
     label = "Growing clams",
     nodenames = {"rp_default:sand", "rp_default:gravel"},
     neighbors = {"rp_default:water_source"},

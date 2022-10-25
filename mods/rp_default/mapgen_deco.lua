@@ -2216,6 +2216,42 @@ default.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
+-- Sand Grass decorations
+
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:sand"},
+      sidelen = 16,
+      fill_ratio = 0.045,
+      biomes = {"Wilderness Underwater", "Thorny Shrubs Underwater"},
+      decoration = {"rp_default:sand_grass"},
+      y_min = 2,
+      y_max = 3,
+      param2 = 2,
+})
+default.register_decoration(
+   {
+      deco_type = "simple",
+      place_on = {"rp_default:sand"},
+      sidelen = 16,
+      biomes = {"Grassland Underwater", "Forest Underwater", "Grove Underwater", "Birch Forest Underwater", "Tall Birch Forest Underwater", "Savanna Underwater", "Savannic Wasteland Underwater", "Baby Poplar Plains"},
+      decoration = {"rp_default:sand_grass"},
+      noise_params = {
+	      octaves = 3,
+	      scale = 0.03,
+	      offset = 0.0,
+	      spread = { x = 50, y = 50, z = 50 },
+	      lacunarity = 2.0,
+	      persistence = 0.5,
+	      seed = 95363,
+      },
+      y_min = 2,
+      y_max = 3,
+      param2 = 2,
+})
+
+
 -- Clam decorations
 
 default.register_decoration(
