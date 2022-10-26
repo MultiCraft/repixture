@@ -194,6 +194,19 @@ village chunk definition:
    -- on placement. Each name must correspond to a file
    -- in `schematics/village_<variant_name>.mts`. By default, a chunktype has
    -- 1 variant with the name equal to the chunktype identifier
+   groundclass_variants = {
+      [ "groundclass_1"] = { "variant_1", ... "variant_n" },
+      ...,
+      [ "groundclass_n"] = { "another_variant_1", ... "another_variant_n" },
+   },
+   -- An alternative way to specify variants. Instead of a single list of
+   -- variants, this specifies multiple lists of variants, each assigned
+   -- a groundclass. In this case, the chunktype can only be placed if
+   -- the village has this given groundclass. If it has that groundclass,
+   -- a random variant in that groundclass is selected.
+
+   -- Note: either variants, groundclass_variants or neither can be specified,
+   -- but not both.
 
    ruins = { "ruins_1", ..., "ruins_n" },
    -- Like variants, but for a ruined version of this chunktype. In abandoned
@@ -212,6 +225,9 @@ village chunk definition:
 ]]
 
 village.chunkdefs["livestock_pen"] = {
+   groundclass_variants = {
+      ["grassland"] = {"livestock_pen"},
+   },
    entities = {
       ["mobs:sheep"] = 3,
       ["mobs:boar"] = 1,
@@ -299,6 +315,9 @@ village.chunkdefs["forge"] = {
    },
 }
 village.chunkdefs["orchard"] = {
+   groundclass_variants = {
+      ["grassland"] = {"orchard"},
+   },
    ruins = {"orchard_ragged"},
    can_cache = true,
    entity_chance = 2,
@@ -327,15 +346,29 @@ village.chunkdefs["road"] = {
 -- * <plants>: List of plants (from left to right)
 
 village.chunkdefs["farm_small_plants"] = {
-   variants = {
-      "farm_v24_potato",
-      "farm_v24_potato_wheat",
-      "farm_v24_wheat",
-      "farm_v24_wheat_cotton",
-      "farm_v24_cotton",
-      "farm_h246_potato",
-      "farm_h246_wheat",
-      "farm_h246_cotton",
+   groundclass_variants = {
+      ["grassland"] = {
+         "farm_v24_potato",
+         "farm_v24_potato_wheat",
+         "farm_v24_wheat",
+         "farm_v24_wheat_cotton",
+         "farm_v24_cotton",
+         "farm_h246_potato",
+         "farm_h246_wheat",
+         "farm_h246_cotton",
+      },
+      ["swamp"] = {
+         "farm_swamp_v24_asparagus",
+         "farm_swamp_h246_asparagus",
+      },
+      ["savanna"] = {
+         "farm_dry_v24_cotton",
+         "farm_dry_h246_cotton",
+      },
+      ["dry"] = {
+         "farm_dryd_v24_carrot",
+         "farm_dryd_h246_carrot",
+      },
    },
    entity_chance = 2,
    entities = {
@@ -344,9 +377,15 @@ village.chunkdefs["farm_small_plants"] = {
 }
 
 village.chunkdefs["farm_papyrus"] = {
-   variants = {
-      "farm_c4_papyrus",
-      "farm_o4_papyrus",
+   groundclass_variants = {
+      ["grassland"] = {
+         "farm_c4_papyrus",
+         "farm_o4_papyrus",
+      },
+      ["swamp"] = {
+         "farm_swamp_c4_papyrus",
+         "farm_swamp_o4_papyrus",
+      },
    },
    entity_chance = 2,
    entities = {
@@ -410,26 +449,39 @@ write_absolute_frequencies(village.chunktypes_start_fallback)
 -- <absolute frequency> / <sum of all absolute frequencies>.
 -- * `pr`: PseudoRandom object
 -- * `chunktypes`: A table of chunktypes (see above) (default: `village.chunktypes`)
-local function random_chunktype(pr, chunktypes)
+-- * `groundclass`: Restrict chunktypes to this ground class
+local function random_chunktype(pr, chunktypes, groundclass)
    if not chunktypes then
       chunktypes = village.chunktypes
    end
-   local rnd = pr:next(1, chunktypes.chunksum)
-   for i=1, #chunktypes do
-      if rnd <= chunktypes[i][3] then
-         return chunktypes[i][1]
+   local check_chunktypes = table.copy(chunktypes)
+   while #check_chunktypes > 0 do
+      local rnd = pr:next(1, check_chunktypes.chunksum)
+      for i=1, #check_chunktypes do
+         if rnd <= check_chunktypes[i][3] then
+            local chunktype = check_chunktypes[i][1]
+            if groundclass and village.chunkdefs[chunktype].groundclass_variants and village.chunkdefs[chunktype].groundclass_variants[groundclass] == nil then
+               table.remove(check_chunktypes, i)
+               break
+            else
+               return chunktype
+            end
+         end
       end
    end
-   return chunktypes[#chunktypes][1]
+   minetest.log("error", "[rp_village] random_chunktype: Failed to find a chunktype, using a fallback")
+   return "house" -- fallback
 end
 
-local function get_chunktype_variant(pr, chunktype)
+local function get_chunktype_variant(pr, chunktype, groundclass)
    local ctd = village.chunkdefs[chunktype]
    if not ctd then
       return chunktype
    end
    if ctd.variants then
       return ctd.variants[pr:next(1, #ctd.variants)]
+   elseif groundclass and ctd.groundclass_variants and ctd.groundclass_variants[groundclass] then
+      return ctd.groundclass_variants[groundclass][pr:next(1, #ctd.groundclass_variants[groundclass])]
    else
       return chunktype
    end
@@ -440,7 +492,8 @@ end
 -- returns `chunktype`.
 -- * `pr`: PseudoRandom object
 -- * `chunktype`: Chunktype identifier
-local function get_ruined_chunktype(pr, chunktype)
+-- * `groundclass`: Restrict chunktypes to this ground class
+local function get_ruined_chunktype(pr, chunktype, groundclass)
    local ctd = village.chunkdefs[chunktype]
    if not ctd then
       return chunktype
@@ -448,7 +501,7 @@ local function get_ruined_chunktype(pr, chunktype)
    if ctd.ruins then
       return ctd.ruins[pr:next(1, #ctd.ruins)]
    else
-      return get_chunktype_variant(pr, chunktype)
+      return get_chunktype_variant(pr, chunktype, groundclass)
    end
 end
 
@@ -686,9 +739,9 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
    -- Select random variant (ruins or normal) for schematic name
    local schem_segment = chunktype
    if state.is_abandoned and pr:next(1, ABANDONED_RUINS_CHANCE) == 1 then
-      schem_segment = get_ruined_chunktype(pr, chunktype)
+      schem_segment = get_ruined_chunktype(pr, chunktype, state.groundclass)
    else
-      schem_segment = get_chunktype_variant(pr, chunktype)
+      schem_segment = get_chunktype_variant(pr, chunktype, state.groundclass)
    end
 
    local schem_spec
@@ -773,7 +826,7 @@ function village.spawn_road(vmanip, pos, state, houses, built, roads, depth, pr,
 	 if depth <= 0 or is_at_village_border or pr:next(1, 8) < 6 then
 	    houses[hnp] = {pos = nextpos, front = pos}
 
-	    local structure = random_chunktype(pr)
+	    local structure = random_chunktype(pr, nil, state.groundclass)
 	    chunk_ok = village.spawn_chunk(vmanip, nextpos, state, orient, replace, pr, structure, nil, nil, nil, ground, ground_top)
             if not chunk_ok then
                houses[hnp] = false
@@ -1114,6 +1167,14 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    local state = {}
 
    state.is_abandoned = is_abandoned
+   state.groundclass = "grassland"
+   if ground_top == "rp_default:dirt_with_swamp_grass" or ground_top == "rp_default:swamp_dirt" then
+      state.groundclass = "swamp"
+   elseif ground_top == "rp_default:dirt_with_dry_grass" then
+      state.groundclass = "savanna"
+   elseif ground_top == "rp_default:dry_dirt" then
+      state.groundclass = "dry"
+   end
 
    local spawnpos = pos
 
@@ -1259,7 +1320,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    else
       -- Place a fallback building instead of the well if the village does not have any buildings yet.
       -- A nice side-effect of this is that this will create 'lonely huts'.
-      local structure = random_chunktype(pr, village.chunktypes_start_fallback)
+      local structure = random_chunktype(pr, village.chunktypes_start_fallback, state.groundclass)
       chunk_ok = village.spawn_chunk(vmanip, pos, state, "random", replace, pr, structure, true, nil, true, ground, ground_top)
       minetest.log("info", "[rp_village] Village generated with fallback building instead of well")
    end
