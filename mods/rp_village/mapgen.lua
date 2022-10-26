@@ -220,38 +220,50 @@ end
 
 local village_decoration_id
 if not minetest.settings:get_bool("mapgen_disable_villages") then
-   -- Dummy decoration to find possible village spawn points
+   -- Register dummy decorations to find possible village spawn points
    -- via gennotify.
-   minetest.register_decoration(
-      {
-         name = "village_grassland",
-         deco_type = "schematic",
-         place_on = "rp_default:dirt_with_grass",
-         sidelen = 16,
-         fill_ratio = 0.005,
-         biomes = {
-            "Grassland",
-            "Dense Grassland",
-            "Poplar Plains",
-            "Baby Poplar Plains",
-         },
-         -- empty schematic
-         schematic = {
-             size = { x = 1, y = 1, z = 1 },
-             data = {
-                 { name = "air", prob = 0 },
-             },
-         },
-         y_min = 1,
-         y_max = 1000,
-   })
 
-   local grassland_village_decoration_id = minetest.get_decoration_id("village_grassland")
+   local decoration_ids = {}
+   local village_types = {}
+   -- decoration template
+   local function new_decoration(name, place_on, biomes, fill_ratio)
+      if not fill_ratio then
+         fill_ratio = 0.005
+      end
+      local deconame = "village_"..name
+      minetest.register_decoration(
+         {
+            name = deconame,
+            deco_type = "schematic",
+            place_on = place_on,
+            sidelen = 16,
+            fill_ratio = fill_ratio,
+            biomes = biomes,
+            -- empty schematic
+            schematic = {
+                size = { x = 1, y = 1, z = 1 },
+                data = {
+                    { name = "air", prob = 0 },
+                },
+            },
+            y_min = 1,
+            y_max = 1000,
+      })
 
-   local decoration_ids = { grassland_village_decoration_id }
-   local village_types = { "grassland" }
+      local decoration_id = minetest.get_decoration_id(deconame)
+      if decoration_id then
+         table.insert(decoration_ids, decoration_id)
+         table.insert(village_types, name)
+      else
+         minetest.log("error", "[rp_village] Decoration ID could not be found for village dummy decoration '"..deconame.."'")
+      end
+   end
 
-   if grassland_village_decoration_id then
+   new_decoration("grassland", "rp_default:dirt_with_grass", {"Grassland","Dense Grassland","Poplar Plains","Baby Poplar Plains"})
+   new_decoration("swamp", "rp_default:dirt_with_swamp_grass", {"Swamp Meadow", "Swamp Meadow Highland", "Papyrus Swamp"})
+   new_decoration("savanna", "rp_default:dirt_with_dry_grass", {"Savanna", "Savannic Wasteland"})
+
+   if #decoration_ids > 0 then
        minetest.set_gen_notify({decoration=true}, decoration_ids)
        minetest.register_on_generated(function(minp, maxp, blockseed)
            local mgobj = minetest.get_mapgen_object("gennotify")
