@@ -529,7 +529,7 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top, top_decor
          end
          -- chance to spawn a decor node (like grass) above ground_top
          local vindex_above = varea:index(p.x,p.y+1,p.z)
-         if top_decors and vdata[vindex] == c_ground_top and vdata[vindex_above] == minetest.CONTENT_AIR and decor_pr:next(1,DECOR_CHANCE) == 1 then
+         if top_decors and #c_decors > 0 and vdata[vindex] == c_ground_top and vdata[vindex_above] == minetest.CONTENT_AIR and decor_pr:next(1,DECOR_CHANCE) == 1 then
             local decor = c_decors[decor_pr:next(1, #c_decors)]
             -- Don't place the decor immediately, instead remember this position and decor nodename
             -- and place all decorations at the end. This makes it easier to avoid conflicts

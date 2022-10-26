@@ -125,7 +125,9 @@ minetest.register_node(
 
 local village_info = {
    ["grassland"] = { ground = "rp_default:dirt", ground_top = "rp_default:dirt_with_grass" },
+   ["swamp"] = { ground = "rp_default:swamp_dirt", ground_top = "rp_default:dirt_with_swamp_grass" },
    ["savanna"] = { ground = "rp_default:dry_dirt", ground_top = "rp_default:dirt_with_dry_grass" },
+   ["dry"] = { ground = "rp_default:dry_dirt", ground_top = "rp_default:dry_dirt" },
 }
 
 local use_village_spawner = function(itemstack, placer, pointed_thing)
@@ -157,8 +159,12 @@ local use_village_spawner = function(itemstack, placer, pointed_thing)
 
     local below = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
     local vinfo
-    if below.name == "rp_default:dirt_with_dry_grass" or minetest.get_item_group(below.name, "dry_dirt") == 1 then
+    if below.name == "rp_default:dirt_with_dry_grass" then
        vinfo = village_info["savanna"]
+    elseif minetest.get_item_group(below.name, "dry_dirt") ~= 0 then
+       vinfo = village_info["dry"]
+    elseif below.name == "rp_default:dirt_with_swamp_grass" or below.name == "rp_default:swamp_dirt" then
+       vinfo = village_info["swamp"]
     else
        vinfo = village_info["grassland"]
     end
