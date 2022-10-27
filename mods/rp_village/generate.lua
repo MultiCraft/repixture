@@ -627,7 +627,8 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top, top_decor
    local c_ground = minetest.get_content_id(ground)
    local c_ground_top = minetest.get_content_id(ground_top)
    local c_decors = {}
-   local decor_pr = PseudoRandom(13)
+   local seed = 13 + minetest.hash_node_position(pos) + mapseed
+   local decor_pr = PcgRandom(seed)
    if top_decors then
       for d=1, #top_decors do
          c_decors[d] = minetest.get_content_id(top_decors[d])
