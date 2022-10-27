@@ -66,6 +66,16 @@ if minetest.get_modpath("rp_village") ~= nil then
       ["rp_default:bucket"] = 8,
       ["rp_default:bucket_water"] = 12,
    }
+   goodies.types["hut"] = {
+      ["rp_default:stick"] = 2,
+      ["rp_farming:asparagus_cooked"] = 6,
+      ["rp_farming:asparagus_1"] = 9,
+      ["rp_default:axe_stone"] = 13,
+      ["rp_default:shovel_stone"] = 13,
+      ["rp_default:acorn"] = 3,
+      ["rp_default:bucket"] = 8,
+      ["rp_default:bucket_swamp_water"] = 12,
+   }
    goodies.types["workshop"] = {
       ["rp_default:stick"] = 2,
       ["rp_default:fiber"] = 2,
@@ -111,11 +121,14 @@ if minetest.get_modpath("rp_village") ~= nil then
       ["rp_locks:lock"] = 20,
    }
    goodies.types_valuable["house"] = {}
+   goodies.types_valuable["hut"] = {}
 
    -- jewels and gold
    if minetest.get_modpath("rp_jewels") ~= nil then
       goodies.types_valuable["house"]["rp_jewels:bench"] = { chance = 24, max_stack = 1 }
       goodies.types_valuable["house"]["rp_jewels:jewel"] = 34
+      goodies.types_valuable["hut"]["rp_jewels:bench"] = { chance = 24, max_stack = 1 }
+      goodies.types_valuable["hut"]["rp_jewels:jewel"] = 34
       goodies.types_valuable["tavern"]["rp_jewels:jewel"] = 32
       goodies.types_valuable["forge"]["rp_jewels:jewel"] = 30
       goodies.types_valuable["workshop"]["rp_jewels:jewel"] = 28
@@ -124,6 +137,7 @@ if minetest.get_modpath("rp_village") ~= nil then
       goodies.types["forge"]["rp_gold:ingot_gold"] = { chance = 24, max_stack = 2 }
       goodies.types["forge"]["rp_gold:lump_gold"] = { chance = 18, max_stack = 6 }
       goodies.types_valuable["house"]["rp_gold:ingot_gold"] = 12
+      goodies.types_valuable["hut"]["rp_gold:ingot_gold"] = 12
       goodies.types_valuable["tavern"]["rp_gold:ingot_gold"] = 10
       goodies.types_valuable["forge"]["rp_gold:ingot_gold"] = 8
       goodies.types_valuable["bakery"]["rp_gold:ingot_gold"] = 11

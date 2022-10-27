@@ -234,6 +234,12 @@ village.chunkdefs["livestock_pen"] = {
    },
 }
 village.chunkdefs["lamppost"] = { -- not road because of road height limit of 1 nodes
+   groundclass_variants = {
+      ["grassland"] = {"lamppost"},
+      ["dry"] = {"lamppost"},
+      ["savanna"] = {"lamppost"},
+      ["swamp"] = {"swamp_lamppost"},
+   },
    ruins = {"lamppost_ruins"},
    can_cache = true,
    entity_chance = 2,
@@ -256,6 +262,15 @@ village.chunkdefs["house"] = {
       ["mobs:npc_carpenter"] = 1,
    },
 }
+village.chunkdefs["hut"] = {
+   groundclass_variants = {
+      ["swamp"] = {"reed_hut_s_1", "reed_hut_m_1"},
+   },
+   entitity_chance = 2,
+   entities = {
+      ["mobs:npc_farmer"] = 1,
+   },
+}
 village.chunkdefs["workshop"] = {
    ruins = {"workshop_ruins", "rubble"},
    entity_chance = 2,
@@ -264,6 +279,11 @@ village.chunkdefs["workshop"] = {
    },
 }
 village.chunkdefs["townhall"] = {
+   groundclass_variants = {
+      grassland = {"bakery"},
+      dry = {"bakery"},
+      savanna = {"bakery"},
+   },
    ruins = {"townhall_ruins", "rubble"},
    entity_chance = 1,
    entities = {
@@ -276,6 +296,12 @@ village.chunkdefs["townhall"] = {
 
 
 village.chunkdefs["tavern"] = {
+   groundclass_variants = {
+      grassland = {"tavern"},
+      dry = {"tavern"},
+      savanna = {"tavern"},
+      swamp = {"reed_tavern_1"},
+   },
    ruins = {"tavern_ruins"},
    entity_chance = 2,
    entities = {
@@ -299,6 +325,11 @@ village.chunkdefs["reading_club"] = {
 }
 
 village.chunkdefs["bakery"] = {
+   groundclass_variants = {
+      grassland = {"bakery"},
+      dry = {"bakery"},
+      savanna = {"bakery"},
+   },
    ruins = {"bakery_ruins"},
    entity_chance = 2,
    entities = {
@@ -308,6 +339,12 @@ village.chunkdefs["bakery"] = {
 
 
 village.chunkdefs["forge"] = {
+   groundclass_variants = {
+      grassland = {"forge"},
+      dry = {"forge"},
+      savanna = {"forge"},
+      swamp = {"reed_forge"},
+   },
    ruins = {"forge_ruins", "rubble"},
    entity_chance = 2,
    entities = {
@@ -403,6 +440,7 @@ village.chunktypes = {
 
    -- houses
    { "house", 210 },
+   { "hut", 210 },
    -- meeting rooms
    { "tavern", 120 },
    { "townhall", 60 },
