@@ -262,16 +262,34 @@ village.chunkdefs["house"] = {
       ["mobs:npc_carpenter"] = 1,
    },
 }
-village.chunkdefs["hut"] = {
+village.chunkdefs["hut_s"] = {
    groundclass_variants = {
-      ["swamp"] = {"reed_hut_s_1", "reed_hut_m_1"},
+      ["swamp"] = {"reed_hut_s_1","reed_hut_s_2","reed_hut_s_3","reed_hut_s_4","reed_hut_s_5","reed_hut_s_6","reed_hut_s_7"},
    },
+   ruins = {"reed_hut_s_ruins", "reed_hut_s_ruins_2"},
    entitity_chance = 2,
    entities = {
       ["mobs:npc_farmer"] = 1,
    },
 }
+village.chunkdefs["hut_m"] = {
+   groundclass_variants = {
+      ["swamp"] = {"reed_hut_m_1","reed_hut_m_2","reed_hut_m_3","reed_hut_m_4","reed_hut_m_5","reed_hut_m_6","reed_hut_m_7"},
+   },
+   ruins = {"reed_hut_m_ruins", "reed_hut_m_ruins_2"},
+   entitity_chance = 2,
+   entities = {
+      ["mobs:npc_farmer"] = 1,
+   },
+}
+
 village.chunkdefs["workshop"] = {
+   groundclass_variants = {
+      grassland = {"workshop"},
+      dry = {"workshop"},
+      savanna = {"workshop"},
+      swamp = {"reed_workshop"},
+   },
    ruins = {"workshop_ruins", "rubble"},
    entity_chance = 2,
    entities = {
@@ -280,9 +298,10 @@ village.chunkdefs["workshop"] = {
 }
 village.chunkdefs["townhall"] = {
    groundclass_variants = {
-      grassland = {"bakery"},
-      dry = {"bakery"},
-      savanna = {"bakery"},
+      grassland = {"townhall"},
+      dry = {"townhall"},
+      savanna = {"townhall"},
+      swamp = {"reed_townhall"},
    },
    ruins = {"townhall_ruins", "rubble"},
    entity_chance = 1,
@@ -309,6 +328,12 @@ village.chunkdefs["tavern"] = {
    },
 }
 village.chunkdefs["library"] = {
+   groundclass_variants = {
+      grassland = {"library"},
+      dry = {"library"},
+      savanna = {"library"},
+      swamp = {"reed_library"},
+   },
    ruins = {"library_ruins"},
    entity_chance = 3,
    entities = {
@@ -316,6 +341,11 @@ village.chunkdefs["library"] = {
    },
 }
 village.chunkdefs["reading_club"] = {
+   groundclass_variants = {
+      grassland = {"reading_club"},
+      dry = {"reading_club"},
+      savanna = {"reading_club"},
+   },
    ruins = {"house_ruins", "house_ruins_2"},
    entity_chance = 3,
    entities = {
@@ -440,7 +470,8 @@ village.chunktypes = {
 
    -- houses
    { "house", 210 },
-   { "hut", 210 },
+   { "hut_s", 105 },
+   { "hut_m", 105 },
    -- meeting rooms
    { "tavern", 120 },
    { "townhall", 60 },
