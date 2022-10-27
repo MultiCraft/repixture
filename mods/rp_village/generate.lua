@@ -966,11 +966,17 @@ local function village_modify_abandoned_village(upos, upos2, pr, extras)
 	 "group:farming_plant",
          function(pos)
            if pr:next(1,100) <= 95 then
-              local plant = pr:next(1,10)
-              if plant == 1 then
-                 minetest.set_node(pos, {name="rp_default:tall_grass"})
-              elseif plant == 2 or plant == 3 then
-                 minetest.set_node(pos, {name="rp_default:grass"})
+              -- 30% chance to replace with a decor (grass), if the ground type allows it
+              if pr:next(1,10) <= 3 then
+                 local below = vector.add(pos, vector.new(0,-1,0))
+                 local belownode = minetest.get_node(below)
+                 local decors = decors_from_ground_abandoned[belownode.name]
+                 if decors then
+                    local plant = decors[pr:next(1, #decors)]
+                    minetest.set_node(pos, {name=plant})
+                 else
+                    minetest.remove_node(pos)
+                 end
               else
                  minetest.remove_node(pos)
               end
