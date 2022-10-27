@@ -47,12 +47,16 @@ local village_replaces = {
    -- Birch → Normal (Normal + Oak)
    {
       ["rp_default:planks_birch"] = "rp_default:planks",
+      ["rp_partialblocks:stair_birch"] = "rp_partialblocks:stair_wood",
+      ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_wood",
       ["rp_default:tree_birch"] = "rp_default:tree",
       ["rp_default:fence_birch"] = "rp_default:fence",
    },
    -- Oak → Normal (Normal + Birch)
    {
       ["rp_default:planks_oak"] = "rp_default:planks",
+      ["rp_partialblocks:stair_oak"] = "rp_partialblocks:stair_wood",
+      ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_wood",
       ["rp_default:tree_oak"] = "rp_default:tree",
       ["rp_default:fence_oak"] = "rp_default:fence",
    },
@@ -60,6 +64,10 @@ local village_replaces = {
    {
       ["rp_default:planks_birch"] = "rp_default:planks",
       ["rp_default:planks_oak"] = "rp_default:planks",
+      ["rp_partialblocks:stair_birch"] = "rp_partialblocks:stair_wood",
+      ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_wood",
+      ["rp_partialblocks:stair_oak"] = "rp_partialblocks:stair_wood",
+      ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_wood",
       ["rp_default:tree_birch"] = "rp_default:tree",
       ["rp_default:tree_oak"] = "rp_default:tree",
       ["rp_default:fence_birch"] = "rp_default:fence",
@@ -69,6 +77,10 @@ local village_replaces = {
    {
       ["rp_default:planks"] = "rp_default:planks_birch",
       ["rp_default:planks_oak"] = "rp_default:planks_birch",
+      ["rp_partialblocks:stair_wood"] = "rp_partialblocks:stair_birch",
+      ["rp_partialblocks:slab_wood"] = "rp_partialblocks:slab_birch",
+      ["rp_partialblocks:stair_oak"] = "rp_partialblocks:stair_birch",
+      ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_birch",
       ["rp_default:tree"] = "rp_default:tree_birch",
       ["rp_default:tree_oak"] = "rp_default:tree_birch",
       ["rp_default:fence"] = "rp_default:fence_birch",
@@ -80,6 +92,10 @@ local village_replaces = {
    {
       ["rp_default:planks"] = "rp_default:planks_oak",
       ["rp_default:planks_birch"] = "rp_default:planks_oak",
+      ["rp_partialblocks:stair_wood"] = "rp_partialblocks:stair_oak",
+      ["rp_partialblocks:slab_wood"] = "rp_partialblocks:slab_oak",
+      ["rp_partialblocks:stair_birch"] = "rp_partialblocks:stair_oak",
+      ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_oak",
       ["rp_default:tree"] = "rp_default:tree_oak",
       ["rp_default:tree_birch"] = "rp_default:tree_oak",
       ["rp_default:fence"] = "rp_default:fence_oak",
