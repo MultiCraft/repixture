@@ -170,11 +170,10 @@ for k,v in pairs(goodies.types_valuable) do
   end
 end
 
-function goodies.fill(pos, ctype, pr, listname, keepchance)
-   -- fill an inventory with a specified type's goodies
-
-   if goodies.types_all[ctype] == nil then return end
-
+-- Remove node at pos with a certain chance.
+-- Takes falling nodes into account.
+-- Returns true if node was kept.
+local apply_keepchance = function(pos, pr, keepchance)
    -- Remove/replace node with a certain chance
    if pr:next(1, keepchance) ~= 1 then
       -- Check if node above is a falling node
@@ -194,10 +193,23 @@ function goodies.fill(pos, ctype, pr, listname, keepchance)
 	    -- (this is just a block to stop the fall)
             minetest.set_node(pos, {name="rp_default:planks"})
          end
-	 return
+	 return false
       end
       -- Regular case: Just remove the node
       minetest.remove_node(pos)
+      return false
+   end
+   return true
+end
+
+function goodies.fill(pos, ctype, pr, listname, keepchance)
+   -- fill an inventory with a specified type's goodies
+
+   if goodies.types_all[ctype] == nil then return end
+
+   -- Remove/replace node with a certain chance
+   local keep = apply_keepchance(pos, pr, keepchance)
+   if not keep then
       return
    end
 
