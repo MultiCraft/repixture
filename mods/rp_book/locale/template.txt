@@ -1,7 +1,8 @@
 # textdomain: book
-Unnamed Book=
-Write down some notes=
 Title:=
 Contents:=
 Write=
+Book=
+Write down some notes=
+Unnamed Book=
 Book: “@1”=

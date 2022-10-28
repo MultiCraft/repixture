@@ -1,13 +1,8 @@
 # textdomain: book
-Unnamed Book=Livre sans nom
-Write down some notes=
 Title:=Titre:
 Contents:=Contenu:
 Write=Écrire
+Book=
+Write down some notes=
+Unnamed Book=Livre sans nom
 Book: “@1”=Livre: "@1"
-
-
-##### not used anymore #####
-
-Scribe=Scribe
-Craft a book.=Constuire un livre.

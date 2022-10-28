@@ -10,6 +10,7 @@ G=
 @1 @2=
 @1×@2=
 @1 + @2=
+(repair)=
 @1 → @2=
 Trading Book=
 Show this to a villager to trade=
