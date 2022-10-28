@@ -231,6 +231,13 @@ village chunk definition:
    -- still apply).
    -- If unused, the 'intact' schematic will be placed.
 
+   groundclass_ruins = {
+      [ "groundclass_1"] = { "ruins_1", ... "ruins_n" },
+      ...,
+      [ "groundclass_n"] = { "another_ruins_1", ... "another_ruins_n" },
+   },
+   -- Like groundclass_variants, but for ruins.
+
    entities = {
       [entity_1] = <number>,
       ...
@@ -256,7 +263,12 @@ village.chunkdefs["lamppost"] = { -- not road because of road height limit of 1 
       ["savanna"] = {"lamppost"},
       ["swamp"] = {"swamp_lamppost"},
    },
-   ruins = {"lamppost_ruins"},
+   groundclass_ruins = {
+      ["grassland"] = {"lamppost_ruins"},
+      ["dry"] = {"lamppost_ruins"},
+      ["savanna"] = {"lamppost_ruins"},
+      ["swamp"] = {"swamp_lamppost_ruins", "swamp_lamppost_ruins_2"},
+   },
    can_cache = true,
    entity_chance = 2,
    entities = {
@@ -271,7 +283,11 @@ village.chunkdefs["well"] = {
    },
 }
 village.chunkdefs["house"] = {
-   variants = {"house", "house_2", "house_3", "house_4", "house_5", "house_6", "house_7", "house_8", "house_9"},
+   groundclass_variants = {
+      ["grassland"] = {"house", "house_2", "house_3", "house_4", "house_5", "house_6", "house_7", "house_8", "house_9"},
+      ["dry"] = {"house", "house_2", "house_3", "house_4", "house_5", "house_6", "house_7", "house_8", "house_9"},
+      ["savanna"] = {"house", "house_2", "house_3", "house_4", "house_5", "house_6", "house_7", "house_8", "house_9"},
+   },
    ruins = {"house_ruins", "house_ruins_2"},
    entity_chance = 2,
    entities = {
@@ -306,7 +322,12 @@ village.chunkdefs["workshop"] = {
       savanna = {"workshop"},
       swamp = {"reed_workshop"},
    },
-   ruins = {"workshop_ruins", "rubble"},
+   groundclass_ruins = {
+      grassland = {"workshop_ruins", "rubble"},
+      dry = {"workshop_ruins", "rubble"},
+      savanna = {"workshop_ruins", "rubble"},
+      swamp = {"reed_workshop_ruins"},
+   },
    entity_chance = 2,
    entities = {
       ["mobs:npc_carpenter"] = 1,
@@ -319,7 +340,12 @@ village.chunkdefs["townhall"] = {
       savanna = {"townhall"},
       swamp = {"reed_townhall"},
    },
-   ruins = {"townhall_ruins", "rubble"},
+   groundclass_ruins = {
+      grassland = {"townhall_ruins", "rubble"},
+      dry = {"townhall_ruins", "rubble"},
+      savanna = {"townhall_ruins", "rubble"},
+      swamp = {"reed_townhall_ruins"},
+   },
    entity_chance = 1,
    entities = {
       ["mobs:npc_tavernkeeper"] = 1,
@@ -337,7 +363,12 @@ village.chunkdefs["tavern"] = {
       savanna = {"tavern"},
       swamp = {"reed_tavern_1"},
    },
-   ruins = {"tavern_ruins"},
+   groundclass_ruins = {
+      grassland = {"tavern_ruins"},
+      dry = {"tavern_ruins"},
+      savanna = {"tavern_ruins"},
+      swamp = {"reed_tavern_ruins_1", "reed_tavern_ruins_2"},
+   },
    entity_chance = 2,
    entities = {
       ["mobs:npc_tavernkeeper"] = 1,
@@ -350,7 +381,12 @@ village.chunkdefs["library"] = {
       savanna = {"library"},
       swamp = {"reed_library"},
    },
-   ruins = {"library_ruins"},
+   groundclass_ruins = {
+      grassland = {"library_ruins"},
+      dry = {"library_ruins"},
+      savanna = {"library_ruins"},
+      swamp = {"reed_library_ruins"},
+   },
    entity_chance = 3,
    entities = {
       ["mobs:npc_carpenter"] = 1,
@@ -391,7 +427,12 @@ village.chunkdefs["forge"] = {
       savanna = {"forge"},
       swamp = {"reed_forge"},
    },
-   ruins = {"forge_ruins", "rubble"},
+   groundclass_ruins = {
+      grassland = {"forge_ruins", "rubble"},
+      dry = {"forge_ruins", "rubble"},
+      savanna = {"forge_ruins", "rubble"},
+      swamp = {"reed_forge_ruins"},
+   },
    entity_chance = 2,
    entities = {
       ["mobs:npc_blacksmith"] = 1,
@@ -415,7 +456,7 @@ village.chunkdefs["road"] = {
 -- Farm chunktypes.
 --
 -- Farm chunktype naming scheme:
--- 
+--
 --    farm_<water><lines>_<plants>
 --
 -- * <water>: water position:
@@ -585,6 +626,8 @@ local function get_ruined_chunktype(pr, chunktype, groundclass)
    end
    if ctd.ruins then
       return ctd.ruins[pr:next(1, #ctd.ruins)]
+   elseif groundclass and ctd.groundclass_ruins and ctd.groundclass_ruins[groundclass] then
+      return ctd.groundclass_ruins[groundclass][pr:next(1, #ctd.groundclass_ruins[groundclass])]
    else
       return get_chunktype_variant(pr, chunktype, groundclass)
    end
