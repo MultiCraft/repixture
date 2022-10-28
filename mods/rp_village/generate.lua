@@ -1313,9 +1313,16 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
 
    local spawnpos = pos
 
-   -- Get random village wood type for this village
+   -- Get village wood type for this village
    local vpr = PcgRandom(mapseed + poshash)
-   local village_replace_id = vpr:next(1,#village_replaces)
+   local village_replace_id
+   if state.groundclass == "swamp" then
+      -- swamp village: always oak wood
+      village_replace_id = 6
+   else
+      -- other villages: random
+      village_replace_id = vpr:next(1,#village_replaces)
+   end
    minetest.log("verbose", "[rp_village] village_replace_id="..village_replace_id)
    local replace = village_replaces[village_replace_id]
    local dirt_path = "rp_default:dirt_path"
