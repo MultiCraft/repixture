@@ -271,7 +271,7 @@ village.chunkdefs["well"] = {
    },
 }
 village.chunkdefs["house"] = {
-   variants = {"house", "house_2", "house_3", "house_4", "house_5", "house_6"},
+   variants = {"house", "house_2", "house_3", "house_4", "house_5", "house_6", "house_7", "house_8", "house_9"},
    ruins = {"house_ruins", "house_ruins_2"},
    entity_chance = 2,
    entities = {
