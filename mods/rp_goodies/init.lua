@@ -5,7 +5,6 @@
 goodies = {}
 
 goodies.max_stack_default = 6
-goodies.max_items = 20
 
 goodies.types = {}
 goodies.types_valuable = {}
