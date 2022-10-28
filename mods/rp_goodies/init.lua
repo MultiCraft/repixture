@@ -66,6 +66,9 @@ if minetest.get_modpath("rp_village") ~= nil then
       ["rp_default:bucket"] = 8,
       ["rp_default:bucket_water"] = 12,
    }
+   goodies.types["reading_club"] = {
+      ["rp_default:paper"] = 2,
+   }
    goodies.types["hut_s"] = {
       ["rp_default:stick"] = 2,
       ["rp_farming:asparagus_cooked"] = 6,
@@ -122,6 +125,9 @@ if minetest.get_modpath("rp_village") ~= nil then
    }
    goodies.types_valuable["house"] = {}
    goodies.types_valuable["hut_s"] = {}
+   goodies.types_valuable["reading_club"] = {
+      ["rp_default:pearl"] = 10,
+   }
 
    -- jewels and gold
    if minetest.get_modpath("rp_jewels") ~= nil then
@@ -131,6 +137,7 @@ if minetest.get_modpath("rp_village") ~= nil then
       goodies.types_valuable["hut_s"]["rp_jewels:jewel"] = 34
       goodies.types_valuable["tavern"]["rp_jewels:jewel"] = 32
       goodies.types_valuable["forge"]["rp_jewels:jewel"] = 30
+      goodies.types_valuable["reading_club"]["rp_jewels:jewel"] = 29
       goodies.types_valuable["workshop"]["rp_jewels:jewel"] = 28
    end
    if minetest.get_modpath("rp_gold") ~= nil then
@@ -140,6 +147,7 @@ if minetest.get_modpath("rp_village") ~= nil then
       goodies.types_valuable["hut_s"]["rp_gold:ingot_gold"] = 12
       goodies.types_valuable["tavern"]["rp_gold:ingot_gold"] = 10
       goodies.types_valuable["forge"]["rp_gold:ingot_gold"] = 8
+      goodies.types_valuable["reading_club"]["rp_gold:ingot_gold"] = 9
       goodies.types_valuable["bakery"]["rp_gold:ingot_gold"] = 11
    end
 end
