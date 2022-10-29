@@ -20,11 +20,11 @@ end
 function rp_sounds.node_sound_stone_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
-      {name="default_hard_footstep", gain=0.6}
+      {name="rp_sounds_footstep_stone", gain=0.6}
    table.dig = table.dig or
-      {name="default_dig_hard", gain=0.3}
+      {name="rp_sounds_footstep_stone", gain=0.3}
    table.dug = table.dug or
-      {name="default_hard_footstep", gain=1.0}
+      {name="rp_sounds_footstep_stone", gain=1.0}
    rp_sounds.node_sound_defaults(table)
    return table
 end
@@ -32,11 +32,11 @@ end
 function rp_sounds.node_sound_dirt_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
-      {name="default_crunch_footstep", gain=1.0}
+      {name="rp_sounds_footstep_dirt", gain=1.0}
    table.dug = table.dug or
-      {name="default_crunch_footstep", gain=1.0}
+      {name="rp_sounds_dig_dirt", gain=1.0}
    table.dig = table.dig or
-      {name="default_dig_soft", gain=0.3}
+      {name="rp_sounds_dig_dirt", gain=0.3}
    table.place = table.place or
       {name="default_place_node_hard", gain=1.0}
    rp_sounds.node_sound_defaults(table)
@@ -46,13 +46,27 @@ end
 function rp_sounds.node_sound_sand_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
-      {name="default_soft_footstep", gain=0.2}
+      {name="rp_sounds_footstep_dirt", gain=0.2}
    table.dug = table.dug or
-      {name="default_soft_footstep", gain=0.4}
+      {name="rp_sounds_dig_dirt", gain=0.4}
    table.dig = table.dig or
-      {name="default_dig_soft", gain=0.2}
+      {name="rp_sounds_dig_dirt", gain=0.2}
    table.place = table.place or
       {name="default_place_node_hard", gain=1.0}
+   rp_sounds.node_sound_defaults(table)
+   return table
+end
+
+function rp_sounds.node_sound_gravel_defaults(table)
+   table = table or {}
+   table.footstep = table.footstep or
+      {name="rp_sounds_footstep_gravel", gain=0.2}
+   table.dug = table.dug or
+      {name="rp_sounds_dig_dirt", gain=0.4}
+   table.dig = table.dig or
+      {name="rp_sounds_dig_dirt", gain=0.2}
+   table.place = table.place or
+      {name="rp_sounds_footstep_gravel", gain=1.0}
    rp_sounds.node_sound_defaults(table)
    return table
 end
@@ -60,11 +74,13 @@ end
 function rp_sounds.node_sound_wood_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
-      {name="default_hard_footstep", gain=0.5}
+      {name="rp_sounds_footstep_wood", gain=0.5}
    table.dig = table.dig or
-      {name="default_dig_hard", gain=0.2}
+      {name="rp_sounds_dig_wood", gain=0.2}
    table.dug = table.dug or
-      {name="default_hard_footstep", gain=1.0}
+      {name="rp_sounds_dig_wood", gain=0.7}
+   table.place = table.place or
+      {name="rp_sounds_place_wood", gain=1.0}
    rp_sounds.node_sound_defaults(table)
    return table
 end
@@ -72,13 +88,27 @@ end
 function rp_sounds.node_sound_leaves_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
-      {name="default_soft_footstep", gain=0.35}
+      {name="rp_sounds_footstep_leaves", gain=0.95}
    table.dug = table.dug or
-      {name="default_soft_footstep", gain=0.7}
+      {name="rp_sounds_dug_grass", gain=0.7}
    table.dig = table.dig or
-      {name="default_dig_soft", gain=0.3}
+      {name="rp_sounds_dug_grass", gain=0.3}
    table.place = table.place or
-      {name="default_place_node_hard", gain=1.0}
+      {name="rp_sounds_dug_grass", gain=1.0}
+   rp_sounds.node_sound_defaults(table)
+   return table
+end
+
+function rp_sounds.node_sound_grass_defaults(table)
+   table = table or {}
+   table.footstep = table.footstep or
+      {name="rp_sounds_footstep_leaves", gain=0.95}
+   table.dug = table.dug or
+      {name="rp_sounds_dug_grass", gain=0.7}
+   table.dig = table.dig or
+      {name="rp_sounds_dug_grass", gain=0.3}
+   table.place = table.place or
+      {name="rp_sounds_dug_grass", gain=1.0}
    rp_sounds.node_sound_defaults(table)
    return table
 end
@@ -86,11 +116,13 @@ end
 function rp_sounds.node_sound_glass_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
-      {name="default_hard_footstep", gain=0.5}
+      {name="rp_sounds_footstep_glass", gain=0.5}
    table.dig = table.dig or
-      {name="default_dig_hard", gain=0.5}
+      {name="rp_sounds_dig_glass", gain=0.5}
    table.dug = table.dug or
-      {name="default_dug_node", gain=1.0}
+      {name="rp_sounds_dig_glass", gain=1.0}
+   table.place = table.place or
+      {name="rp_sounds_place_glass", gain=1.0}
    rp_sounds.node_sound_defaults(table)
    return table
 end

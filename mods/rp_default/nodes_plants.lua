@@ -66,7 +66,7 @@ minetest.register_node(
 	 }
       },
       groups = {snappy = 3, plant = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_up(pos, node, digger)
       end,
@@ -165,7 +165,7 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, fern = 1, plant = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
 })
 
 -- Flowers
@@ -205,7 +205,7 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, flower = 1, plant = 1, spawn_allowed_in = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
 })
 
 -- Grasses
@@ -229,7 +229,7 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, swamp_grass = 1, green_grass = 1, plant = 1, spawn_allowed_in = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
 })
 
 minetest.register_node(
@@ -251,7 +251,7 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, dry_grass = 1, plant = 1, spawn_allowed_in = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
 })
 
 minetest.register_node(
@@ -273,7 +273,7 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1, green_grass = 1, plant = 1, spawn_allowed_in = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
 })
 
 minetest.register_node(
@@ -296,7 +296,7 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1, green_grass = 1, plant = 1, spawn_allowed_in = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
       -- Trim tall grass with shears
       _on_trim = function(pos, node, player, itemstack)
           -- This turns it to a normal grass clump and drops one bonus grass clump
@@ -335,7 +335,7 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, sand_grass = 1, green_grass = 1, plant = 1, spawn_allowed_in = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
 })
 
 -- Thistle
@@ -358,7 +358,7 @@ minetest.register_node(
       floodable = true,
       damage_per_second = 1,
       groups = {snappy = 3, dig_immediate = 3, falling_node = 1, plant = 1, immortal_item = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_up(pos, node, digger)
       end,

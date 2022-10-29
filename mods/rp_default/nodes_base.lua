@@ -106,10 +106,7 @@ minetest.register_node(
       description = S("Gravel"),
       tiles = {"default_gravel.png"},
       groups = {crumbly = 2, falling_node = 1, gravel = 1},
-      sounds = rp_sounds.node_sound_dirt_defaults(
-	 {
-	    footstep = {name = "default_crunch_footstep", gain = 0.45},
-      }),
+      sounds = rp_sounds.node_sound_gravel_defaults(),
 })
 
 -- Material blocks
@@ -238,10 +235,7 @@ minetest.register_node(
 	    {items = {"rp_default:dry_grass 1"}, rarity = 2},
 	 }
       },
-      sounds = rp_sounds.node_sound_dirt_defaults(
-	 {
-	    footstep = {name = "default_soft_footstep", gain = 0.3},
-      }),
+      sounds = rp_sounds.node_sound_dirt_defaults(),
       _fertilized_node = "rp_default:fertilized_dirt",
 })
 
@@ -265,10 +259,7 @@ minetest.register_node(
 	    {items = {"rp_default:swamp_grass 2"}, rarity = 3},
 	 }
       },
-      sounds = rp_sounds.node_sound_dirt_defaults(
-	 {
-	    footstep = {name = "default_soft_footstep", gain = 0.5},
-      }),
+      sounds = rp_sounds.node_sound_dirt_defaults(),
       _fertilized_node = "rp_default:fertilized_swamp_dirt",
 })
 
@@ -293,10 +284,7 @@ minetest.register_node(
 	    {items = {"rp_default:grass 1"}, rarity = 3},
 	 }
       },
-      sounds = rp_sounds.node_sound_dirt_defaults(
-	 {
-	    footstep = {name = "default_soft_footstep", gain = 0.4},
-      }),
+      sounds = rp_sounds.node_sound_dirt_defaults(),
       _fertilized_node = "rp_default:fertilized_dirt",
 })
 
@@ -538,7 +526,7 @@ minetest.register_node(
       },
       groups = {snappy=3, fall_damage_add_percent=-30},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
 })
 
 -- Rope

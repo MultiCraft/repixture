@@ -269,7 +269,7 @@ minetest.register_node(
       groups = {snappy = 2, oddly_breakable_by_hand = 3,
                 fall_damage_add_percent = -15, fuzzy = 1,
 		unmagnetic = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
    }
 )
 
@@ -280,6 +280,6 @@ minetest.register_node(
       tiles = {"rp_farming_straw.png"},
       is_ground_content = false,
       groups = {snappy = 3, fall_damage_add_percent = -15},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
    }
 )

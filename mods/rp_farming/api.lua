@@ -88,7 +88,7 @@ function farming.register_plant_nodes(name, def)
          drop = def.drop_stages[1],
          selection_box = selbox,
          groups = {snappy=3, handy=2, attached_node=1, seed=1, plant=1, farming_plant=1, ["plant_"..name]=1},
-         sounds=rp_sounds.node_sound_leaves_defaults(),
+         sounds=rp_sounds.node_sound_grass_defaults(),
          _rp_farming_plant_name = name,
    }
 
@@ -111,7 +111,7 @@ function farming.register_plant_nodes(name, def)
             drop = def.drop_stages[s],
             selection_box = selbox,
             groups = {snappy=3, handy=2, attached_node=1, plant=1, farming_plant=1, ["plant_"..name]=s, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-            sounds=rp_sounds.node_sound_leaves_defaults(),
+            sounds=rp_sounds.node_sound_grass_defaults(),
             _rp_farming_plant_name = name,
       }
    end
