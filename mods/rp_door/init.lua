@@ -42,6 +42,7 @@ function door.register_door(name, def)
    groups_craftitem.creative_decoblock = 1
    groups_craftitem.interactive_node = 1
 
+   -- Door item (for the players)
    minetest.register_craftitem(
       name, {
 	 description = def.description,
@@ -165,12 +166,17 @@ function door.register_door(name, def)
       local pn = player:get_player_name()
    end
 
+   --[[ Register door segments
+   (internal use, should not be obtainable by player) ]]
+
    local groups_node = table.copy(def.groups)
    groups_node.not_in_creative_inventory = 1
 
+   -- Door segment: bottom, state 1
    minetest.register_node(
       name.."_b_1",
       {
+         inventory_image = tb[1] .. "^rp_door_overlay_state_1.png",
 	 tiles = {tb[2], tb[2], tb[2], tb[2], tb[1], tb[1].."^[transformfx"},
          use_texture_alpha = "clip",
 	 paramtype = "light",
@@ -207,9 +213,11 @@ function door.register_door(name, def)
 	 sunlight_propagates = def.sunlight
    })
 
+   -- Door segment: top, state 1
    minetest.register_node(
       name.."_t_1",
       {
+         inventory_image = tt[1] .. "^rp_door_overlay_state_1.png",
 	 tiles = {tt[2], tt[2], tt[2], tt[2], tt[1], tt[1].."^[transformfx"},
          use_texture_alpha = "clip",
 	 paramtype = "light",
@@ -245,9 +253,11 @@ function door.register_door(name, def)
 	 sunlight_propagates = def.sunlight,
    })
 
+   -- Door segment: bottom, state 2
    minetest.register_node(
       name.."_b_2",
       {
+         inventory_image = "("..tb[1] .. "^[transformfx)^rp_door_overlay_state_2.png",
 	 tiles = {tb[2], tb[2], tb[2], tb[2], tb[1].."^[transformfx", tb[1]},
          use_texture_alpha = "clip",
 	 paramtype = "light",
@@ -283,9 +293,11 @@ function door.register_door(name, def)
 	 sunlight_propagates = def.sunlight
    })
 
+   -- Door segment: top, state 2
    minetest.register_node(
       name.."_t_2",
       {
+         inventory_image = "("..tt[1] .. "^[transformfx)^rp_door_overlay_state_2.png",
 	 tiles = {tt[2], tt[2], tt[2], tt[2], tt[1].."^[transformfx", tt[1]},
          use_texture_alpha = "clip",
 	 paramtype = "light",
