@@ -30,6 +30,9 @@ function door.register_door(name, def)
    if not def.sound_open_door then
       def.sound_open_door = "door_open"
    end
+   if not def.sound_blocked then
+      def.sound_blocked = "door_blocked"
+   end
 
    if not def.groups then
       def.groups = {}
@@ -112,42 +115,46 @@ function door.register_door(name, def)
    local tb = def.tiles_bottom
 
    local function on_rightclick(pos, dir, check_name, replace, replace_dir, params)
-      pos.y = pos.y+dir
-      if not minetest.get_node(pos).name == check_name then
-	 return
+      local other_pos = table.copy(pos)
+      other_pos.y = pos.y+dir
+      -- Check for the other door segment.
+      -- If it's is missing, it doesn't budge.
+      if minetest.get_node(other_pos).name ~= check_name then
+         minetest.sound_play(
+            def.sound_blocked,
+            {
+               pos = pos,
+               gain = 0.8,
+               max_hear_distance = 10
+            }, true)
+         return
       end
       local p2 = minetest.get_node(pos).param2
       p2 = params[p2+1]
 
-      minetest.swap_node(pos, {name=replace_dir, param2=p2})
+      minetest.swap_node(other_pos, {name=replace_dir, param2=p2})
 
-      pos.y = pos.y-dir
       minetest.swap_node(pos, {name=replace, param2=p2})
 
       local snd_1 = def.sound_close_door
       local snd_2 = def.sound_open_door
       if params[1] == 3 then
-	 snd_1 = def.sound_open_door
-	 snd_2 = def.sound_close_door
+	 snd_1, snd_2 = snd_2, snd_1
       end
 
+      local snd
       if minetest.get_meta(pos):get_int("right") ~= 0 then
-	 minetest.sound_play(
-            snd_1,
-            {
-               pos = pos,
-               gain = 0.8,
-               max_hear_distance = 10
-         }, true)
+         snd = snd_1
       else
-	 minetest.sound_play(
-            snd_2,
-            {
-               pos = pos,
-               gain = 0.8,
-               max_hear_distance = 10
-         }, true)
+         snd = snd_2
       end
+      minetest.sound_play(
+         snd,
+         {
+            pos = pos,
+            gain = 0.8,
+            max_hear_distance = 10
+         }, true)
    end
 
    local function check_player_priv(pos, player)

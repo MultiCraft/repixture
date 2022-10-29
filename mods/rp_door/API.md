@@ -22,6 +22,7 @@ Also adds a craftitem (with identifier `name`) which the players can use.
     * `sunlight`: If true, will set `sunlight_propagates` of door nodes to true
     * `sound_close_door`: Sound to play when door closes (optional, has a default sound)
     * `sound_open_door`: Sound to play when door opens (optional, has a default sound)
+    * `sound_blocked`: Sound to play when the door cannot be opened/closed for some reason (optional, has a default sound)
     * `node_box_top`: Custom node box table for top door segment (optional)
     * `node_box_bottom`: Custom node box table for bottom door segment (optional)
     * `selection_box_top`: Custom selection box table for top door segment (optional)
