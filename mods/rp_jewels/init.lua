@@ -5,7 +5,7 @@
 --
 
 local S = minetest.get_translator("rp_jewels")
-local NS = function(s) return s end
+local N = function(s) return s end
 local F = minetest.formspec_escape
 
 jewels = {}
@@ -189,11 +189,11 @@ local function get_stat(format_text, stats_key, parent, stats)
 end
 
 local amendments = {
-   { "range", NS("Range bonus: @1") },
-   { "maxdrop", NS("Drop level bonus: @1") },
-   { "digspeed", NS("Dig time bonus: @1 s") },
-   { "uses", NS("Durability bonus: @1") },
-   { "maxlevel", NS("Dig level bonus: @1") },
+   { "range", N("Range bonus: @1") },
+   { "maxdrop", N("Drop level bonus: @1") },
+   { "digspeed", N("Dig time bonus: @1 s") },
+   { "uses", N("Durability bonus: @1") },
+   { "maxlevel", N("Dig level bonus: @1") },
 }
 
 for a=1, #amendments do
