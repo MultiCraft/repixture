@@ -80,6 +80,9 @@ function door.register_door(name, def)
                return itemstack
             end
 
+            -- Check if there's already a door left from this door.
+            -- If yes, the door hinge will be right, otherwise it will be left.
+            -- This allows to build double doors.
             local p2 = minetest.dir_to_facedir(placer:get_look_dir())
             local pt3 = {x=pt.x, y=pt.y, z=pt.z}
             if p2 == 0 then
@@ -97,6 +100,9 @@ function door.register_door(name, def)
             else
                minetest.set_node(pt, {name=name.."_b_2", param2=p2})
                minetest.set_node(pt2, {name=name.."_t_2", param2=p2})
+	       -- the meta key "right" stores the door hinge:
+	       -- * 0: hinge is left
+	       -- * 1: hinge is right
                minetest.get_meta(pt):set_int("right", 1)
                minetest.get_meta(pt2):set_int("right", 1)
             end
