@@ -15,6 +15,7 @@ local particlespawners = {}
 
 local singleplayer = minetest.is_singleplayer()
 local setting = minetest.settings:get_bool("tnt_enable")
+local mod_attached = minetest.get_modpath("rp_attached") ~= nil
 
 local tnt_enable
 if (not singleplayer and setting ~= true) or (singleplayer and setting == false) then
@@ -318,7 +319,11 @@ function tnt.explode(pos, radius)
 	       p.z = pos.z + z
 	       if cid ~= c_air then
 		  destroy(drops, p, cid)
-		  minetest.check_for_falling({x=p.x, y=p.y, z=p.z})
+		  local pp = {x=p.x, y=p.y, z=p.z}
+		  minetest.check_for_falling(pp)
+                  if mod_attached then
+                     rp_attached.detach_from_node(pp)
+                  end
 	       end
 	    end
 	    vi = vi + 1
@@ -337,7 +342,11 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
       minetest.remove_node(pos)
       add_node_break_effects(pos, node, 0)
       if is_tnt and not tnt_enable then
-          minetest.check_for_falling({x=pos.x, y=pos.y, z=pos.z})
+          local pp = {x=pos.x, y=pos.y, z=pos.z}
+          minetest.check_for_falling(pp)
+          if mod_attached then
+             rp_attached.detach_from_node(pp)
+          end
           return
       end
    end
