@@ -275,18 +275,6 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
 
    local inv = player:get_inventory()
 
-   if inv:get_size("gold_trade_wanted") ~= 2 then
-      inv:set_size("gold_trade_wanted", 2)
-   end
-
-   if inv:get_size("gold_trade_out") ~= 1 then
-      inv:set_size("gold_trade_out", 1)
-   end
-
-   if inv:get_size("gold_trade_in") ~= 2 then
-      inv:set_size("gold_trade_in", 2)
-   end
-
    inv:set_stack("gold_trade_wanted", 1, trade[1])
    inv:set_stack("gold_trade_wanted", 2, trade[2])
 
@@ -490,6 +478,20 @@ minetest.register_on_player_receive_fields(
       end
 end)
 
+local function init_inventory(player)
+   local inv = player:get_inventory()
+   if inv:get_size("gold_trade_wanted") ~= 2 then
+      inv:set_size("gold_trade_wanted", 2)
+   end
+
+   if inv:get_size("gold_trade_out") ~= 1 then
+      inv:set_size("gold_trade_out", 1)
+   end
+
+   if inv:get_size("gold_trade_in") ~= 2 then
+      inv:set_size("gold_trade_in", 2)
+   end
+end
 -- Make sure to clean up the trading slots properly
 -- on rejoining, respawning and dying
 local function clear_trading_slots_move_main(player)
@@ -497,6 +499,7 @@ local function clear_trading_slots_move_main(player)
    local pos = player:get_pos()
    clear_trading_slots(inv, pos, false)
 end
+minetest.register_on_joinplayer(init_inventory)
 minetest.register_on_joinplayer(clear_trading_slots_move_main)
 minetest.register_on_respawnplayer(clear_trading_slots_move_main)
 
