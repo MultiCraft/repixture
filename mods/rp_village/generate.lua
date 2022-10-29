@@ -1275,6 +1275,18 @@ local function village_modify_lock_chests(upos, upos2, pr)
       end
 end
 
+-- Village modifier: Inizialize doors
+local function village_modify_init_doors(upos, upos2, pr)
+     util.nodefunc(
+          upos, upos2,
+          "group:door",
+          function(pos)
+             -- The `is_open` parameter is false because we assume all
+             -- doors in the village chunks are closed
+             door.init_segment(pos, false)
+          end, true)
+end
+
 local function after_village_area_emerged(blockpos, action, calls_remaining, params)
    local done = action == minetest.EMERGE_GENERATED or action == minetest.EMERGE_FROM_DISK or action == minetest.EMERGE_FROM_MEMORY
    if not done or calls_remaining > 0 then
@@ -1533,6 +1545,9 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
 
       -- Force on_construct to be called on all nodes
       util.reconstruct(upos, upos2, pr)
+
+      -- Initialize doors (required by rp_doors mod)
+      village_modify_init_doors(upos, upos2, pr)
 
       -- Fill containers with goodies
       village_modify_populate_containers(upos, upos2, pr, {chunktype=chunktype})

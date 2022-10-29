@@ -137,6 +137,8 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `path`: A path node like the Dirt Path (1 = normal path, 2 = path slab)
 * `door`: Any door
 * `door_wood`: Wooden door
+* `door_state`: Door segment, internal state (1 or 2) (see `rp_door` mod)
+* `door_position`: Door segment, position (1 = bottom, 2 = top)
 * `fence`: Fence
 * `sign`: Sign
 * `bed`: Bed segment

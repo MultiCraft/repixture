@@ -6,6 +6,16 @@ local S = minetest.get_translator("rp_door")
 
 door = {}
 
+-- Mark the door segment at pos as having a right hinge.
+-- This function assumes that there is a door segment at pos.
+local function set_segment_hinge_right(pos)
+   local meta = minetest.get_meta(pos)
+   -- the meta key "right" stores the door hinge:
+   -- * 0: hinge is left
+   -- * 1: hinge is right
+   meta:set_int("right", 1)
+end
+
 -- Registers a door
 
 function door.register_door(name, def)
@@ -100,11 +110,8 @@ function door.register_door(name, def)
             else
                minetest.set_node(pt, {name=name.."_b_2", param2=p2})
                minetest.set_node(pt2, {name=name.."_t_2", param2=p2})
-	       -- the meta key "right" stores the door hinge:
-	       -- * 0: hinge is left
-	       -- * 1: hinge is right
-               minetest.get_meta(pt):set_int("right", 1)
-               minetest.get_meta(pt2):set_int("right", 1)
+               set_segment_hinge_right(pt)
+               set_segment_hinge_right(pt2)
             end
             if def.sounds and def.sounds.place then
                minetest.sound_play(def.sounds.place, {pos=pt}, true)
@@ -178,6 +185,23 @@ function door.register_door(name, def)
    local groups_node = table.copy(def.groups)
    groups_node.not_in_creative_inventory = 1
 
+   local groups_node_b_1 = table.copy(groups_node)
+   -- door position: 1 = bottom, 2 = top
+   groups_node_b_1.door_position = 1
+   groups_node_b_1.door_state = 1
+
+   local groups_node_b_2 = table.copy(groups_node)
+   groups_node_b_2.door_position = 1
+   groups_node_b_2.door_state = 2
+
+   local groups_node_t_1 = table.copy(groups_node)
+   groups_node_t_1.door_position = 2
+   groups_node_t_1.door_state = 1
+
+   local groups_node_t_2 = table.copy(groups_node)
+   groups_node_t_2.door_position = 2
+   groups_node_t_2.door_state = 2
+
    -- Door segment: bottom, state 1
    minetest.register_node(
       name.."_b_1",
@@ -198,7 +222,7 @@ function door.register_door(name, def)
 	    fixed = def.selection_box_bottom
 	 },
 
-	 groups = groups_node,
+	 groups = groups_node_b_1,
 
 	 on_rightclick = function(pos, node, clicker)
             if check_player_priv(pos, clicker) then
@@ -238,7 +262,7 @@ function door.register_door(name, def)
 	    type = "fixed",
 	    fixed = def.selection_box_top
 	 },
-	 groups = groups_node,
+	 groups = groups_node_t_1,
 
 	 on_rightclick = function(pos, node, clicker)
             if check_player_priv(pos, clicker) then
@@ -278,7 +302,7 @@ function door.register_door(name, def)
 	    type = "fixed",
 	    fixed = def.selection_box_bottom
 	 },
-	 groups = groups_node,
+	 groups = groups_node_b_2,
 
 	 on_rightclick = function(pos, node, clicker)
             if check_player_priv(pos, clicker) then
@@ -318,7 +342,7 @@ function door.register_door(name, def)
 	    type = "fixed",
 	    fixed = def.selection_box_top
 	 },
-	 groups = groups_node,
+	 groups = groups_node_t_2,
 
 	 on_rightclick = function(pos, node, clicker)
             if check_player_priv(pos, clicker) then
@@ -339,6 +363,20 @@ function door.register_door(name, def)
 	 sunlight_propagates = def.sunlight
    })
 
+end
+
+function door.init_segment(pos, is_open)
+   local node = minetest.get_node(pos)
+   local state = minetest.get_item_group(node.name, "door_state")
+   if state == 0 then
+      return
+   end
+   if is_open == nil then
+      is_open = false
+   end
+   if (state == 2 and is_open == false) or (state == 1 and is_open == true) then
+      set_segment_hinge_right(pos)
+   end
 end
 
 door.register_door(

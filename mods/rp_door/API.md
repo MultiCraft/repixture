@@ -28,3 +28,18 @@ Also adds a craftitem (with identifier `name`) which the players can use.
     * `selection_box_top`: Custom selection box table for top door segment (optional)
     * `selection_box_bottom`: Custom selection box table for bottom door segment (optional)
 
+
+### `door.init_segment(pos, is_open)`
+This initializes a door segment to set the correct internal state.
+
+You only need this function is the door segment was generated
+procedurally (e.g. via VManip or a schematic). Doors placed
+by the player don't need this function.
+
+This currently sets the correct hinge state which is required
+for this mod to know about the open/close state.
+
+* `pos`: Position of door segment
+* `is_open`: (optional) `true` if this door segment is open,
+             `false` otherwise (default: `false`)
+
