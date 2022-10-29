@@ -694,7 +694,7 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top, top_decor
          local nname = minetest.get_name_from_content_id(n_content)
          local def = minetest.registered_nodes[nname]
          local is_any_dirt = minetest.get_item_group(nname, "dirt") == 1
-         local is_dirt = nname == "rp_default:dirt"
+         local is_dirt = nname == "rp_default:dirt" or nname == "rp_default:swamp_dirt"
          local is_dry_dirt = nname == "rp_default:dry_dirt"
          if (not is_dry_dirt) and (is_dirt or (not is_any_dirt)) and (nname == "air" or nname == "ignore" or (def and (def.liquidtype ~= "none" or (def.is_ground_content)))) then
             local prev_was_ground = n_content == c_ground or n_content == c_ground_top
