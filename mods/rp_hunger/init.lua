@@ -589,29 +589,31 @@ minetest.register_chatcommand("hunger", {
 	params = S("[<player>] <hunger>"),
 	func = function(playername, param)
 		-- Set hunger of specified target player
-		local target, hungr = string.match(param, "^([a-zA-Z0-9-_]+) ([0-9]+)$")
+		local target, hungr = string.match(param, "^([a-zA-Z0-9-_]+) (~?-?[0-9]+)$")
 		if target and hungr then
-			hungr = tonumber(hungr)
-			if not hungr then
-				return false
-			end
 			local player = minetest.get_player_by_name(target)
 			if not player then
 				return false, S("Player is not online.")
+			end
+			local current_hungr = hunger.get_hunger(target)
+			hungr = minetest.parse_relative_number(hungr, current_hungr)
+			if not hungr then
+				return false
 			end
 			hunger.set_hunger(target, hungr)
 			return true
 		end
 
 		-- Set hunger of commander
-		local hungr = string.match(param, "^([0-9]+)$")
-		hungr = tonumber(hungr)
-		if not hungr then
-			return false
-		end
 		local player = minetest.get_player_by_name(playername)
 		if not player then
 			return false, S("No player.")
+		end
+		hungr = string.match(param, "^(~?-?[0-9]+)$")
+		local current_hungr = hunger.get_hunger(playername)
+		hungr = minetest.parse_relative_number(hungr, current_hungr)
+		if not hungr then
+			return false
 		end
 		hunger.set_hunger(playername, hungr)
 		hunger.set_saturation(playername, 0)
