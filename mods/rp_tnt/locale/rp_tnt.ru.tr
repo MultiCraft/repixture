@@ -1,0 +1,11 @@
+# textdomain: rp_tnt
+TNT=Динамит
+Will explode when ignited by flint and steel=
+TNT (defused)=Динамит (обезврежен)
+It's harmless=Он не представляет опасности
+TNT (ignited)=Динамит (подожжён)
+Will explode after being placed=Взорвётся после того, как будет поставлен
+Boom!=Бум!
+Ignite TNT.=Подожгите динамит.
+Boom?=Бум?
+Craft defused TNT.=Скрафтите обезвреженный динамит.
