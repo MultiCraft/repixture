@@ -1,0 +1,10 @@
+# textdomain:rp_localize
+; Symbol for infinity
+∞=∞
+; Translation of the decimal point. @1 and @2 are the number parts
+; in front and behind the decimal point.
+@1.@2=@1,@2
+; Same as above, but with a minus sign in front
+−@1.@2=-@1,@2
+; Negative number
+−@1=-@1

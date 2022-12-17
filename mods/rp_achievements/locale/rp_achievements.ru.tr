@@ -1,0 +1,11 @@
+# textdomain: rp_achievements
+@1 has earned the achievement “@2”.=@1 выполнил достижение "@2".
+You have earned the achievement “@1”.=Вы выполнили достижение "@1".
+The achievement “@1” has new goals.=Достижение "@1" получило новые цели.
+Achievements=Достижения
+Gotten=Выполнено
+@1/@2=@1/@2
+Missing=Отсутствует
+@1 of @2 achievements gotten, @3 in progress=@1 из @2 достижений выполнено, @3 в процессе
+, =, 
+Completed: @1=Выполнено: @1
