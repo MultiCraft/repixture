@@ -1,0 +1,8 @@
+# textdomain: book
+Title:=Заголовок:
+Contents:=Содержание:
+Write=Записать
+Book=Книга
+Write down some notes=Напишите чего-нибудь
+Unnamed Book=Безымянная книга
+Book: “@1”=Книга: «@1»

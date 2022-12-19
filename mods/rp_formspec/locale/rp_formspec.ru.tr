@@ -1,0 +1,13 @@
+# textdomain: rp_formspec
+Fuzzy=Пушистый блок
+Any fuzzy block=Любой пушистый блок
+Planks=Доски
+Any planks=Любые доски
+Soil=Почва
+Any soil=Любая почва
+Stone=Камень
+Any stone=Любой камень
+Green Grass Clump=Пучок зелёной травы
+Any green grass clump=Любой пучок зелёной травы
+Group: @1=Группа: @1
+Write=Записать

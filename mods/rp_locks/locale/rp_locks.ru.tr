@@ -1,0 +1,19 @@
+# textdomain: rp_locks
+Locked Chest=Запертый сундук
+Locked Chest (Owned by @1)=Запертый сундук (принадлежит @1)
+Locked Chest (cracked open)=Запертый сундук (взломан)
+Locked Chest (cracked open) (Owned by @1)=Запертый сундук (взломан) (принадлежит @1)
+@1 (Owned by @2)=@1 (принадлежит @2)
+Lock Pick=Отмычка
+Cracks locked chests=Взламывает запертые сундуки
+@1 has broken into your locked chest!=@1 взломал
+You have broken the lock!=Вы взломали замок!
+You have broken into your own locked chest!=Вы взломали свой же запертый сундук!
+Lock=Замок
+Used to craft locked chests=Используется для крафта запертых сундуков
+Provides 32 inventory slots=Содержит 32 слота
+Can only be opened by its owner and those who have a lockpick=
+Locksmith=Слесарь
+Craft a lock.=Скрафтите замок.
+Burglar=Грабитель
+Break into a locked chest.=Вломайте чей-то запертый сундук.

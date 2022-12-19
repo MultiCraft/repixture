@@ -1,0 +1,7 @@
+# textdomain: rp_player_effects
+The @1 effect=Эффект @1
+Show your current player effects=Показать свои эффекты на данный момент
+Current player effects:=Эффекты на данный момент:
+@1: unlimited=@1: неограничен
+@1: @2 s remaining=@1: @2сек остаётся
+You currently have no effects.=На данный момент на вас нету эффектов.
