@@ -65,6 +65,11 @@ Pixture was inspired by [Kenney](http://kenney.nl).
 * All textures/models by Kaadmy, with some additions/changes by Wuzzy (CC BY-SA 4.0)
    * Exception: Seagrass by jp (CC0)
 
+### Translators
+
+* Wuzzy: German
+* rudzik8: Russian
+
 ### Special thanks
 
 * [Kenney](http://kenney.nl) for the inspiration, most of the aesthetic.
