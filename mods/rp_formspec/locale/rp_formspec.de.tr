@@ -1,11 +1,11 @@
 # textdomain: rp_formspec
 Fuzzy=Flausch
 Any fuzzy block=Beliebiger flauschiger Block
-Planks=
+Planks=Planken
 Any planks=Beliebige Planken
 Soil=Boden
 Any soil=Beliebiger Boden
-Stone=
+Stone=Stein
 Any stone=Beliebiger Stein
 Green Grass Clump=Grünes Grasbüschel
 Any green grass clump=Beliebiges grünes Grasbüschel
