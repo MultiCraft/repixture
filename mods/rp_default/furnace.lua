@@ -142,7 +142,9 @@ minetest.register_node(
       description = S("Furnace (active)"),
       _tt_help = S("Uses fuel to smelt a material into something else"),
       tiles ={"default_furnace_top.png", "default_furnace_top.png", "default_furnace_sides.png",
-	      "default_furnace_sides.png", "default_furnace_sides.png", "default_furnace_front.png^default_furnace_flame.png"},
+	      "default_furnace_sides.png", "default_furnace_sides.png",
+	      { name = "rp_default_furnace_active_anim.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 1.0 }}
+      },
       paramtype2 = "facedir",
       light_source = 8,
       drop = "rp_default:furnace",
