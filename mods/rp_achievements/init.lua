@@ -200,7 +200,7 @@ local function check_achievement_gotten(player, aname)
       set_achievement_states(player, states)
       minetest.after(2.0, function(param)
          achievement_gotten_message(param.name, param.aname)
-      end, param)
+      end, {name=name, aname=aname})
       minetest.log("action", "[rp_achievements] " .. name .. " got achievement '"..aname.."'")
    end
 
