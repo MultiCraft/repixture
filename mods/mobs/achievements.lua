@@ -25,7 +25,7 @@ if not peaceful_only then
           title = S("Bomb has Been Defused!"),
           description = S("Kill a mine turtle."),
           times = 1,
-	  item_icon = "mobs:mineturtle",
+	  icon = "mobs_achievement_bomb_has_been_defused.png",
     })
 end
 

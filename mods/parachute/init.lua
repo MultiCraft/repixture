@@ -461,5 +461,5 @@ achievements.register_achievement(
       title = S("Skydiver"),
       description = S("Descend over 100 blocks with a parachute."),
       times = 1,
-      item_icon = "parachute:parachute",
+      icon = "rp_parachute_achievement_sky_diver.png",
 })

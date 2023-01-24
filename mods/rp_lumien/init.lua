@@ -248,6 +248,7 @@ achievements.register_achievement(
       description = S("Place a lumien crystal."),
       times = 1,
       placenode = "rp_lumien:crystal_off",
+      icon = "rp_lumien_achievement_enlightened.png",
 })
 
 minetest.register_alias("lumien:block", "rp_lumien:block")

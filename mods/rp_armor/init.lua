@@ -403,7 +403,7 @@ achievements.register_achievement(
       title = S("Skin of Bronze"),
       description = S("Equip a full suit of bronze armor."),
       times = 1,
-      item_icon = "rp_armor:chestplate_bronze",
+      icon = "rp_armor_achievement_full_armor.png",
 })
 
 if minetest.get_modpath("tt") then

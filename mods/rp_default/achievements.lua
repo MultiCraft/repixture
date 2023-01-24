@@ -109,7 +109,7 @@ do
 		title = S("Forester"),
 		description = S("Plant one of every sapling."),
 		times = 0,
-		item_icon = "rp_default:sapling",
+		icon = "rp_default_achievement_forester.png",
 		subconditions = saplings,
 		subconditions_readable = saplings_readable,
 	})
