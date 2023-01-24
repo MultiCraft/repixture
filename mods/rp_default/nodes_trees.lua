@@ -12,6 +12,7 @@ minetest.register_node(
       inventory_image = "default_sapling_inventory.png",
       wield_image = "default_sapling_inventory.png",
       paramtype = "light",
+      sunlight_propagates = true,
       walkable = false,
       floodable = true,
       selection_box = {
@@ -43,6 +44,7 @@ minetest.register_node(
       inventory_image = "default_sapling_oak_inventory.png",
       wield_image = "default_sapling_oak_inventory.png",
       paramtype = "light",
+      sunlight_propagates = true,
       walkable = false,
       floodable = true,
       selection_box = {
@@ -73,6 +75,7 @@ minetest.register_node(
       inventory_image = "default_sapling_birch_inventory.png",
       wield_image = "default_sapling_birch_inventory.png",
       paramtype = "light",
+      sunlight_propagates = true,
       walkable = false,
       floodable = true,
       selection_box = {
@@ -104,6 +107,7 @@ minetest.register_node(
       inventory_image = "default_sapling_dry_bush_inventory.png",
       wield_image = "default_sapling_dry_bush_inventory.png",
       paramtype = "light",
+      sunlight_propagates = true,
       walkable = false,
       floodable = true,
       selection_box = {
