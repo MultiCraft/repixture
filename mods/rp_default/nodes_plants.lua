@@ -192,13 +192,13 @@ minetest.register_node(
          }
       },
       tiles = {
-	      "default_flowers.png",
-	      "default_flowers_below.png",
-	      "default_flowers_side.png",
+	      "rp_default_flowers.png",
+	      "rp_default_flowers_below.png",
+	      "rp_default_flowers_side.png",
       },
       use_texture_alpha = "clip",
-      inventory_image = "default_flowers_inventory.png",
-      wield_image = "default_flowers_inventory.png",
+      inventory_image = "rp_default_flowers_inventory.png",
+      wield_image = "rp_default_flowers_inventory.png",
       paramtype = "light",
       sunlight_propagates = true,
       walkable = false,
