@@ -10,3 +10,6 @@ Set hunger level of player or yourself=Установить уровень го�
 [<player>] <hunger>=[<игрок>] <голод>
 Player is not online.=Игрок не в сети.
 No player.=Нет игрока.
+Food item=Еда
++@1 food points=+@1ед. сытости
++@1 saturation points=

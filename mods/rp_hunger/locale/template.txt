@@ -10,3 +10,6 @@ Set hunger level of player or yourself=
 [<player>] <hunger>=
 Player is not online.=
 No player.=
+Food item=
++@1 food points=
++@1 saturation points=

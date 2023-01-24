@@ -10,3 +10,6 @@ Set hunger level of player or yourself=Setzen Sie den Hungerpegel eines Spielers
 [<player>] <hunger>=[<Spieler>] <Hunger>
 Player is not online.=Spieler ist nicht online.
 No player.=Kein Spieler.
+Food item=Lebensmittel
++@1 food points=+@1 Nahrungspunkte
++@1 saturation points=+@1 Sättigungspunkte
