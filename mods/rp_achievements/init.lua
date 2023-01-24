@@ -29,6 +29,26 @@ local function load_legacy_achievements()
    end
 end
 
+local achievement_gotten_message = function(name, aname)
+   local notify_all = minetest.settings:get_bool("rp_achievements_notify_all", false)
+   if notify_all and (not minetest.is_singleplayer()) then
+      -- Notify all players
+      minetest.chat_send_all(
+         minetest.colorize(
+            COLOR_GOTTEN_MSG,
+            MSG_PRE .. S("@1 has earned the achievement “@2”.",
+               name,
+               achievements.registered_achievements[aname].title)))
+   else
+      -- Only notify the player who got the achievement
+      minetest.chat_send_player(name,
+         minetest.colorize(
+            COLOR_GOTTEN_MSG,
+            MSG_PRE .. S("You have earned the achievement “@1”.",
+               achievements.registered_achievements[aname].title)))
+   end
+end
+
 local function set_achievement_states(player, states)
     local meta = player:get_meta()
     meta:set_string("rp_achievements:achievement_states", minetest.serialize(states))
@@ -178,27 +198,9 @@ local function check_achievement_gotten(player, aname)
       -- The state of -1 means the achievement has been completed
       states[aname] = -1
       set_achievement_states(player, states)
-      minetest.after(
-         2.0,
-         function(name, aname)
-            local notify_all = minetest.settings:get_bool("rp_achievements_notify_all", false)
-            if notify_all and (not minetest.is_singleplayer()) then
-               -- Notify all players
-               minetest.chat_send_all(
-                  minetest.colorize(
-                     COLOR_GOTTEN_MSG,
-                     MSG_PRE .. S("@1 has earned the achievement “@2”.",
-                        name,
-                        achievements.registered_achievements[aname].title)))
-            else
-               -- Only notify the player who got the achievement
-               minetest.chat_send_player(name,
-                  minetest.colorize(
-                     COLOR_GOTTEN_MSG,
-                     MSG_PRE .. S("You have earned the achievement “@1”.",
-                        achievements.registered_achievements[aname].title)))
-            end
-      end, name, aname)
+      minetest.after(2.0, function(param)
+         achievement_gotten_message(param.name, param.aname)
+      end, param)
       minetest.log("action", "[rp_achievements] " .. name .. " got achievement '"..aname.."'")
    end
 
@@ -353,15 +355,25 @@ local function on_joinplayer(player)
    local changed = false
    local pname = player:get_player_name()
    for aname, def in pairs(achievements.registered_achievements) do
-      if def.subconditions and states[aname] == -1 and not check_achievement_subconditions(player, aname) then
-         states[aname] = 0
-	 changed = true
-         -- Notify player about the new goals
-         minetest.chat_send_player(pname,
-            minetest.colorize(
-            COLOR_REVERT_MSG,
-            MSG_PRE .. S("The achievement “@1” has new goals.",
-            achievements.registered_achievements[aname].title)))
+      if def.subconditions then
+         local subconds_done = check_achievement_subconditions(player, aname)
+         if states[aname] == -1 and not subconds_done then
+            states[aname] = 0
+	    changed = true
+            -- Notify player about the new goals
+            minetest.chat_send_player(pname,
+               minetest.colorize(
+               COLOR_REVERT_MSG,
+               MSG_PRE .. S("The achievement “@1” has new goals.",
+               achievements.registered_achievements[aname].title)))
+            minetest.log("action", "[rp_achievements] " .. pname .. " lost the achievement '"..aname.."' on join because of new unfulfilled subconditions")
+         elseif states[aname] ~= -1 and subconds_done then
+            -- Also give an achievement in case subconditions have been reduced
+            states[aname] = -1
+            changed = true
+            achievement_gotten_message(pname, aname)
+            minetest.log("action", "[rp_achievements] " .. pname .. " got achievement '"..aname.."' on join because all subconditions are already met")
+         end
       end
    end
    if changed then
