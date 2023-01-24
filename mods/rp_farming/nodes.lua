@@ -74,10 +74,9 @@ farming.register_plant_nodes("rp_farming:potato", {
    -- Potato is both a "seed" and food item at the same time
    stage_extras = {
       [1] = {
-         _tt_food = true,
-         _tt_food_hp = 3,
-         _tt_food_satiation = 30,
-         on_use = minetest.item_eat({hp = 3, sat = 30}),
+         _rp_hunger_food = 3,
+         _rp_hunger_sat = 30,
+         on_use = minetest.item_eat("auto"),
       },
    },
    stage_extra_groups = {
@@ -125,10 +124,9 @@ farming.register_plant_nodes("rp_farming:carrot", {
    -- Carrot is both a "seed" and food item at the same time
    stage_extras = {
       [1] = {
-         _tt_food = true,
-         _tt_food_hp = 2,
-         _tt_food_satiation = 20,
-         on_use = minetest.item_eat({hp = 2, sat = 20}),
+         _rp_hunger_food = 2,
+         _rp_hunger_sat = 20,
+         on_use = minetest.item_eat("auto"),
       },
    },
    stage_extra_groups = {

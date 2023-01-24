@@ -7,9 +7,8 @@ minetest.register_node(
    {
       description = S("Cactus"),
       _tt_help = S("Grows on sand and dry dirt"),
-      _tt_food = true,
-      _tt_food_hp = 2,
-      _tt_food_satiation = 5,
+      _rp_hunger_food = 2,
+      _rp_hunger_sat = 5,
       drawtype = "nodebox",
       paramtype = "light",
       node_box = {
@@ -33,7 +32,7 @@ minetest.register_node(
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_up(pos, node, digger)
       end,
-      on_use = minetest.item_eat({hp = 2, sat = 5}),
+      on_use = minetest.item_eat("auto"),
 })
 
 -- Papyrus

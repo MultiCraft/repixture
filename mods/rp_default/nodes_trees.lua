@@ -299,9 +299,8 @@ minetest.register_node(
    "rp_default:apple",
    {
       description = S("Apple"),
-      _tt_food = true,
-      _tt_food_hp = 2,
-      _tt_food_satiation = 10,
+      _rp_hunger_food = 2,
+      _rp_hunger_sat = 10,
       drawtype = "nodebox",
       tiles = {"default_apple_top.png", "default_apple_bottom.png", "default_apple_side.png"},
       use_texture_alpha = "clip",
@@ -319,7 +318,7 @@ minetest.register_node(
       walkable = false,
       floodable = true,
       groups = {snappy = 3, handy = 2, leafdecay = 3, leafdecay_drop = 1, food = 2},
-      on_use = minetest.item_eat({hp = 2, sat = 10}),
+      on_use = minetest.item_eat("auto"),
       on_place = create_on_place_fruit_function("rp_default:apple"),
       sounds = rp_sounds.node_sound_defaults(),
 })
@@ -352,9 +351,8 @@ minetest.register_node(
    "rp_default:acorn",
    {
       description = S("Acorn"),
-      _tt_food = true,
-      _tt_food_hp = 1,
-      _tt_food_satiation = 5,
+      _rp_hunger_food = 1,
+      _rp_hunger_sat = 5,
       drawtype = "nodebox",
       tiles = {"rp_default_acorn_top.png", "rp_default_acorn_bottom.png", "rp_default_acorn_side.png"},
       use_texture_alpha = "clip",
@@ -374,7 +372,7 @@ minetest.register_node(
       walkable = false,
       floodable = true,
       groups = {snappy = 3, handy = 3, leafdecay = 3, leafdecay_drop = 1, food = 2},
-      on_use = minetest.item_eat({hp = 1, sat = 5}),
+      on_use = minetest.item_eat("auto"),
       on_place = create_on_place_fruit_function("rp_default:acorn"),
       sounds = rp_sounds.node_sound_defaults(),
 })

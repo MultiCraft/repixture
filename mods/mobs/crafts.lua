@@ -22,12 +22,11 @@ minetest.register_craftitem(
    "mobs:meat_raw",
    {
       description = S("Raw Meat"),
-      _tt_food = true,
-      _tt_food_hp = 3,
-      _tt_food_satiation = 30,
+      _rp_hunger_food = 3,
+      _rp_hunger_sat = 30,
       inventory_image = "mobs_meat_raw.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat({hp = 3, sat = 30}),
+      on_use = minetest.item_eat("auto"),
 })
 
 -- Cooked meat
@@ -36,12 +35,11 @@ minetest.register_craftitem(
    "mobs:meat",
    {
       description = S("Cooked Meat"),
-      _tt_food = true,
-      _tt_food_hp = 7,
-      _tt_food_satiation = 70,
+      _rp_hunger_food = 7,
+      _rp_hunger_sat = 70,
       inventory_image = "mobs_meat_cooked.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat({hp = 7, sat = 70}),
+      on_use = minetest.item_eat("auto"),
 })
 
 minetest.register_craft(

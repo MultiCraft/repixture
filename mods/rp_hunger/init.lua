@@ -294,22 +294,42 @@ end
 
 local function on_item_eat(hpdata, replace_with_item, itemstack,
                            player, pointed_thing)
-   if not player then return end
-   if not hpdata then return end
+   if not player then
+      return
+   end
 
-   local hp_change = 0
-   local saturation = 2
+   local food = 0
+   local saturation = 0
 
    if type(hpdata) == "number" then
-      hp_change = hpdata
-   else
-      hp_change = hpdata.hp
+      -- Legacy method for compability with Minetest API: number changes food points
+      food = hpdata
+      saturation = 2 -- add a small default saturation
+   elseif type(hpdata) == "table" then
+      -- Legacy support for old Repixture versions: table form:
+      -- { hp = <food points>, sat = <saturation }
+      food = hpdata.hp
       saturation = hpdata.sat
+   elseif hpdata == "auto" then
+      -- Recommended method: automatic; take food data from item definition
+      local def = itemstack:get_definition()
+      if def then
+         food = def._rp_hunger_food
+         saturation = def._rp_hunger_sat
+	 if not food or not saturation then
+            minetest.log("error", "[rp_hunger] Missing _rp_hunger_food and/or _rp_hunger_sat field in item definition (item="..itemstack:get_name()..")!")
+	    -- Fallback
+	    food = 0
+	    saturation = 0
+         end
+      end
+   else
+      minetest.log("error", "[rp_hunger] minetest.item_eat called with invalid hp_change (item="..itemstack:get_name()..")!")
    end
 
    local name = player:get_player_name()
 
-   userdata[name].hunger = userdata[name].hunger + hp_change
+   userdata[name].hunger = userdata[name].hunger + food
 
 
    userdata[name].hunger = math.min(hunger.MAX_HUNGER, userdata[name].hunger)
@@ -640,11 +660,20 @@ minetest.register_chatcommand("hunger", {
 	end
 })
 
-if HUNGER_DEBUG and minetest.get_modpath("tt") ~= nil then
+if minetest.get_modpath("tt") ~= nil then
 	tt.register_snippet(function(itemstring)
 		local def = minetest.registered_items[itemstring]
-		if def and def._tt_food and def._tt_food_satiation then
-			return S("+@1 saturation", def._tt_food_satiation)
+		local msg
+		local is_food = minetest.get_item_group(itemstring, "food") > 0
+		if def and is_food then
+			msg = ""
+			if def._rp_hunger_food then
+				msg = S("+@1 food points", def._rp_hunger_food)
+			end
+			if HUNGER_DEBUG and def._rp_hunger_sat then
+				msg = msg .. "\n" .. S("+@1 saturation", def._rp_hunger_sat)
+			end
 		end
+		return msg
 	end)
 end

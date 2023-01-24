@@ -9,14 +9,32 @@ Each player has a hunger level from 0 to `hunger.MAX_HUNGER`
 and a saturation level from 0 to `hunger.MAX_SATURATION`.
 
 The hunger level is the player-facing hunger level shown
-by a statbar. Player loses health when it reaches 0,
-food increases the hunger level.
+by a statbar. Player loses health when it reaches 0.
+The food points of food items increases the hunger level.
 
 The saturation level is a hidden value. The saturation level
 goes down over time and for performing various tasks like
 digging or building. It increases by eating food. When
 saturation is 0, the player will slowly have their
 hunger level reduced.
+
+## How to add a food item
+
+To add a new food item that is compatible with this mod, you have
+to do the following:
+
+* Add these fields of type `number` in the item definitions:
+   * `_rp_hunger_food`: How many food points this item has
+   * `_rp_hunger_sat`: How many saturation points this item restores
+* When calling `minetest.item_eat` or `minetest.do_item_eat`,
+  set `hp_change` to `"auto"`. This signals to `rp_hunger` that
+  the item definition fields should be used.
+
+Legacy support: For compability reasons, calling `minetest.item_eat`
+or `minetest.do_item_eat` with a numeric value for `hp_change` still
+works, but this is not recommended.
+If `hp_change` is a number, it will be interpreted as the food points
+and the saturation is always 2.
 
 ## Functions
 
@@ -53,4 +71,5 @@ Read-only!
 
 A number which stands for the maximum possible saturation level,
 Read-only!
+
 

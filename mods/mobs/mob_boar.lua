@@ -79,12 +79,11 @@ minetest.register_craftitem(
    "mobs:pork_raw",
    {
       description = S("Raw Porkchop"),
-      _tt_food = true,
-      _tt_food_hp = 4,
-      _tt_food_satiation = 30,
+      _rp_hunger_food = 4,
+      _rp_hunger_sat = 30,
       inventory_image = "mobs_pork_raw.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat({hp = 4, sat = 30}),
+      on_use = minetest.item_eat("auto"),
 })
 
 -- Cooked porkchop
@@ -93,12 +92,11 @@ minetest.register_craftitem(
    "mobs:pork",
    {
       description = S("Cooked Porkchop"),
-      _tt_food = true,
-      _tt_food_hp = 8,
-      _tt_food_satiation = 50,
+      _rp_hunger_food = 8,
+      _rp_hunger_sat = 50,
       inventory_image = "mobs_pork_cooked.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat({hp = 8, sat = 50}),
+      on_use = minetest.item_eat("auto"),
 })
 
 minetest.register_craft(
