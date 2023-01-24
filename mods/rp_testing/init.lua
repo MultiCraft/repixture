@@ -8,7 +8,7 @@ if not minetest.settings:get_bool("rp_testing_enable", false) then
    return
 end
 
--- Note: Intentionally NOT translated. This is a mod for development.
+local S = minetest.get_translator("rp_testing")
 
 local function dumpvec(v)
    return v.x..":"..v.y..":"..v.z
@@ -48,7 +48,7 @@ do
 
    -- List fuel recipes
    minetest.register_chatcommand("list_fuels", {
-	   description = "List all furnace fuels and their burntime",
+	   description = S("List all furnace fuels and their burntime"),
 	   privs = { debug = true },
 	   func = function(name, param)
 		   local fuels = {}
@@ -67,14 +67,15 @@ do
 		   end
 		   table.sort(fuels, sort_by_time)
 		   for f=1, #fuels do
-			   minetest.chat_send_player(name, fuels[f][1]..": "..fuels[f][2])
+			   minetest.chat_send_player(name, S("@1: @2", fuels[f][1], fuels[f][2]))
 		   end
+		   return true
 	   end,
    })
 
    -- List fuel recipes
    minetest.register_chatcommand("list_cookings", {
-	   description = "List all cooking recipes",
+	   description = S("List all cooking recipes"),
 	   privs = { debug = true },
 	   func = function(name, param)
 		   local recipes = {}
@@ -93,8 +94,9 @@ do
 		   end
 		   table.sort(recipes, sort_by_input)
 		   for r=1, #recipes do
-			   minetest.chat_send_player(name, recipes[r][1].." → "..recipes[r][2]:to_string().. " (time="..recipes[r][3]..")")
+			   minetest.chat_send_player(name, S("@1 → @2 (time=@3)", recipes[r][1], recipes[r][2]:to_string(), recipes[r][3]))
 		   end
+		   return true
 	   end,
    })
 end

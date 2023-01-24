@@ -160,16 +160,18 @@ local function update_bar(player)
          end
          return tostring(val)
       end
-      local text = "Hunger Debug:\n"
+      local text = S("Hunger Debug:").."\n"
       if minetest.settings:get_bool("hunger_enable", true) then
+         -- Intentionally untranslated as these are technical values
          text = text .. "hunger = " .. getval("hunger") .. "\n"
          text = text .. "saturation = " .. getval("saturation") .. "\n"
          text = text .. "moving = " .. getval("moving") .. "\n"
          text = text .. "active = " .. getval("active") .. "\n"
          text = text .. "step = " .. getval("step") .. "\n"
       else
-         text = text .. "<hunger disabled>\n"
+         text = text .. S("<hunger disabled>").."\n"
       end
+      -- Intentionally untranslated as this is a technical value
       text = text .. "health_step = " .. getval("health_step")
 
       if player_debughud[name] then
