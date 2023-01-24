@@ -113,8 +113,8 @@ minetest.register_node(
    {
       description = S("Furnace"),
       _tt_help = S("Uses fuel to smelt a material into something else"),
-      tiles ={"default_furnace_top.png", "default_furnace_top.png", "default_furnace_sides.png",
-	      "default_furnace_sides.png", "default_furnace_sides.png", "default_furnace_front.png"},
+      tiles ={"rp_default_furnace_top.png", "rp_default_furnace_top.png", "rp_default_furnace_sides.png",
+	      "rp_default_furnace_sides.png", "rp_default_furnace_sides.png", "rp_default_furnace_front.png"},
       paramtype2 = "facedir",
       groups = {cracky = 2,container=1,interactive_node=1},
       is_ground_content = false,
@@ -141,8 +141,8 @@ minetest.register_node(
    {
       description = S("Furnace (active)"),
       _tt_help = S("Uses fuel to smelt a material into something else"),
-      tiles ={"default_furnace_top.png", "default_furnace_top.png", "default_furnace_sides.png",
-	      "default_furnace_sides.png", "default_furnace_sides.png",
+      tiles ={"rp_default_furnace_top.png", "rp_default_furnace_top.png", "rp_default_furnace_sides.png",
+	      "rp_default_furnace_sides.png", "rp_default_furnace_sides.png",
 	      { name = "rp_default_furnace_active_anim.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 1.0 }}
       },
       paramtype2 = "facedir",
