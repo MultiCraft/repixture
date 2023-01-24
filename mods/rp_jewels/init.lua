@@ -237,18 +237,29 @@ function jewels.get_jeweled(toolname)
    end
 end
 
--- Items
+-- Nodes
 
-minetest.register_craftitem(
+minetest.register_node(
    "rp_jewels:jewel",
    {
       description = S("Jewel"),
       inventory_image = "jewels_jewel.png",
-      stack_max = 10
+      wield_image  = "jewels_jewel.png",
+      tiles = {"rp_jewels_node_top.png", "rp_jewels_node_top.png", "rp_jewels_node_side.png"},
+      use_texture_alpha = "clip",
+      paramtype = "light",
+      sunlight_propagates = true,
+      is_ground_content = false,
+      drawtype = "nodebox",
+      walkable = false,
+      floodable = true,
+      node_box = {
+         type = "fixed",
+         fixed = {-4/16, -0.5, -4/16, 4/16, -0.5+(3/16), 4/16}
+      },
+      groups = {dig_immediate = 3, craftitem = 1, attached_node = 1},
+      sounds = rp_sounds.node_sound_defaults(),
 })
-
-
--- Nodes
 
 local check_put = function(pos, listname, index, stack, player)
     if minetest.is_protected(pos, player:get_player_name()) and
