@@ -34,7 +34,7 @@ minetest.register_craftitem(
       _rp_hunger_sat = 50,
       inventory_image = "farming_bread.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat("auto"),
+      on_use = minetest.item_eat(0),
 })
 
 minetest.register_craftitem(
@@ -45,7 +45,7 @@ minetest.register_craftitem(
       _rp_hunger_sat = 15,
       inventory_image = "farming_asparagus.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat("auto"),
+      on_use = minetest.item_eat(0),
 })
 
 minetest.register_craftitem(
@@ -56,7 +56,7 @@ minetest.register_craftitem(
       _rp_hunger_sat = 40,
       inventory_image = "farming_asparagus_cooked.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat("auto"),
+      on_use = minetest.item_eat(0),
 })
 
 minetest.register_craftitem(
@@ -67,7 +67,7 @@ minetest.register_craftitem(
       _rp_hunger_sat = 35,
       inventory_image = "farming_potato_baked.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat("auto"),
+      on_use = minetest.item_eat(0),
 })
 
 -- Craft recipes

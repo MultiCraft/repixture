@@ -26,7 +26,7 @@ minetest.register_craftitem(
       _rp_hunger_sat = 30,
       inventory_image = "mobs_meat_raw.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat("auto"),
+      on_use = minetest.item_eat(0),
 })
 
 -- Cooked meat
@@ -39,7 +39,7 @@ minetest.register_craftitem(
       _rp_hunger_sat = 70,
       inventory_image = "mobs_meat_cooked.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat("auto"),
+      on_use = minetest.item_eat(0),
 })
 
 minetest.register_craft(

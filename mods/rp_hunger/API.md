@@ -27,14 +27,8 @@ to do the following:
    * `_rp_hunger_food`: How many food points this item has
    * `_rp_hunger_sat`: How many saturation points this item restores
 * When calling `minetest.item_eat` or `minetest.do_item_eat`,
-  set `hp_change` to `"auto"`. This signals to `rp_hunger` that
-  the item definition fields should be used.
-
-Legacy support: For compability reasons, calling `minetest.item_eat`
-or `minetest.do_item_eat` with a numeric value for `hp_change` still
-works, but this is not recommended.
-If `hp_change` is a number, it will be interpreted as the food points
-and the saturation is always 2.
+  always set `hp_change` to `0`. This is required for
+  compability reasons.
 
 ## Functions
 

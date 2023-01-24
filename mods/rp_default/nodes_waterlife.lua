@@ -391,7 +391,7 @@ minetest.register_node(
 	 }
       },
       groups = {clam = 1, fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, food = 2},
-      on_use = minetest.item_eat("auto"),
+      on_use = minetest.item_eat(0),
       sounds = rp_sounds.node_sound_defaults(),
 
       -- Place node as the 'nopearl' clam to make sure the player can't

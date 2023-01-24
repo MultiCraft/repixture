@@ -292,39 +292,46 @@ local function on_respawnplayer_nohunger(player)
    end
 end
 
-local function on_item_eat(hpdata, replace_with_item, itemstack,
+local function on_item_eat(hp_change, replace_with_item, itemstack,
                            player, pointed_thing)
    if not player then
+      return
+   end
+   if not hp_change then
+      minetest.log("error", "[rp_hunger] minetest.item_eat called with nil hp_change (item="..itemstack:get_name()..")!")
       return
    end
 
    local food = 0
    local saturation = 0
 
-   if type(hpdata) == "number" then
-      -- Legacy method for compability with Minetest API: number changes food points
-      food = hpdata
-      saturation = 2 -- add a small default saturation
-   elseif type(hpdata) == "table" then
+   if type(hp_change) == "table" then
       -- Legacy support for old Repixture versions: table form:
       -- { hp = <food points>, sat = <saturation }
-      food = hpdata.hp
-      saturation = hpdata.sat
-   elseif hpdata == "auto" then
-      -- Recommended method: automatic; take food data from item definition
+      food = hp_change.hp
+      saturation = hp_change.sat
+   elseif type(hp_change) == "number" then
+      -- Recommended method: Try to take food data from item definition
       local def = itemstack:get_definition()
       if def then
          food = def._rp_hunger_food
          saturation = def._rp_hunger_sat
-	 if not food or not saturation then
+         if not food or not saturation then
             minetest.log("error", "[rp_hunger] Missing _rp_hunger_food and/or _rp_hunger_sat field in item definition (item="..itemstack:get_name()..")!")
-	    -- Fallback
-	    food = 0
-	    saturation = 0
+            return
+         end
+      else
+         -- Fallback
+         if not food then
+            food = 0
+         end
+         if not saturation then
+            saturation = 0
          end
       end
    else
       minetest.log("error", "[rp_hunger] minetest.item_eat called with invalid hp_change (item="..itemstack:get_name()..")!")
+      return
    end
 
    local name = player:get_player_name()
@@ -505,7 +512,7 @@ end
 
 -- Eating food when hunger is disabled.
 -- This just removes the food.
-local function fake_on_item_eat(hpdata, replace_with_item, itemstack,
+local function fake_on_item_eat(hp_change, replace_with_item, itemstack,
                                 player, pointed_thing)
    local headpos  = player:get_pos()
    headpos.y = headpos.y + 1

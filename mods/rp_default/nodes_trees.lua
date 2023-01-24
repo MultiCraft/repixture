@@ -318,7 +318,7 @@ minetest.register_node(
       walkable = false,
       floodable = true,
       groups = {snappy = 3, handy = 2, leafdecay = 3, leafdecay_drop = 1, food = 2},
-      on_use = minetest.item_eat("auto"),
+      on_use = minetest.item_eat(0),
       on_place = create_on_place_fruit_function("rp_default:apple"),
       sounds = rp_sounds.node_sound_defaults(),
 })
@@ -372,7 +372,7 @@ minetest.register_node(
       walkable = false,
       floodable = true,
       groups = {snappy = 3, handy = 3, leafdecay = 3, leafdecay_drop = 1, food = 2},
-      on_use = minetest.item_eat("auto"),
+      on_use = minetest.item_eat(0),
       on_place = create_on_place_fruit_function("rp_default:acorn"),
       sounds = rp_sounds.node_sound_defaults(),
 })

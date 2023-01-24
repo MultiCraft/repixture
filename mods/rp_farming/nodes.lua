@@ -76,7 +76,7 @@ farming.register_plant_nodes("rp_farming:potato", {
       [1] = {
          _rp_hunger_food = 3,
          _rp_hunger_sat = 30,
-         on_use = minetest.item_eat("auto"),
+         on_use = minetest.item_eat(0),
       },
    },
    stage_extra_groups = {
@@ -126,7 +126,7 @@ farming.register_plant_nodes("rp_farming:carrot", {
       [1] = {
          _rp_hunger_food = 2,
          _rp_hunger_sat = 20,
-         on_use = minetest.item_eat("auto"),
+         on_use = minetest.item_eat(0),
       },
    },
    stage_extra_groups = {

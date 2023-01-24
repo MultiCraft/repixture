@@ -32,7 +32,7 @@ minetest.register_node(
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_up(pos, node, digger)
       end,
-      on_use = minetest.item_eat("auto"),
+      on_use = minetest.item_eat(0),
 })
 
 -- Papyrus
