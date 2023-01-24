@@ -668,10 +668,10 @@ if minetest.get_modpath("tt") ~= nil then
 		if def and is_food then
 			msg = S("Food item")
 			if def._rp_hunger_food then
-				msg = msg .."\n" .. S("+@1 food points", def._rp_hunger_food)
+				msg = msg .."\n" .. S("Food points: +@1", def._rp_hunger_food)
 			end
 			if HUNGER_DEBUG and def._rp_hunger_sat then
-				msg = msg .. "\n" .. S("+@1 saturation points", def._rp_hunger_sat)
+				msg = msg .. "\n" .. S("Saturation points: +@1", def._rp_hunger_sat)
 			end
 		end
 		return msg
