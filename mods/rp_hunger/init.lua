@@ -8,7 +8,8 @@ local S = minetest.get_translator("rp_hunger")
 
 hunger = {}
 
--- If enabled, show advanced player hunger values
+-- If enabled, show advanced player hunger values in the HUD
+-- and the saturation value of foods in their item tooltips
 local HUNGER_DEBUG = minetest.settings:get_bool("hunger_debug", false)
 
 -- Maximum possible hunger value
@@ -621,3 +622,11 @@ minetest.register_chatcommand("hunger", {
 	end
 })
 
+if HUNGER_DEBUG and minetest.get_modpath("tt") ~= nil then
+	tt.register_snippet(function(itemstring)
+		local def = minetest.registered_items[itemstring]
+		if def and def._tt_food and def._tt_food_satiation then
+			return S("+@1 saturation", def._tt_food_satiation)
+		end
+	end)
+end
