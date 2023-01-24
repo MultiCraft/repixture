@@ -251,6 +251,8 @@ local function on_joinplayer(player)
          saturation = 0,
       }
    end
+   player_step[name] = 0
+   player_health_step[name] = 0
 
    update_bar(player)
 end
@@ -261,6 +263,8 @@ local function on_leaveplayer(player)
    player_bar[name] = nil
    player_debughud[name] = nil
    userdata[name] = nil
+   player_step[name] = nil
+   player_health_step[name] = nil
 end
 
 local function on_respawnplayer(player)
