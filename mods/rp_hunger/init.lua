@@ -149,25 +149,37 @@ local function update_bar(player)
    local name = player:get_player_name()
 
    if HUNGER_DEBUG then
+      local getval = function(valtype)
+         local val
+         if valtype == "step" then
+            val = player_step[name]
+         elseif valtype == "health_step" then
+            val = player_health_step[name]
+         else
+            val = userdata[name][valtype]
+         end
+         return tostring(val)
+      end
+      local text = "Hunger Debug:\n"
+      if minetest.settings:get_bool("hunger_enable", true) then
+         text = text .. "hunger = " .. getval("hunger") .. "\n"
+         text = text .. "saturation = " .. getval("saturation") .. "\n"
+         text = text .. "moving = " .. getval("moving") .. "\n"
+         text = text .. "active = " .. getval("active") .. "\n"
+         text = text .. "step = " .. getval("step") .. "\n"
+      else
+         text = text .. "<hunger disabled>\n"
+      end
+      text = text .. "health_step = " .. getval("health_step")
+
       if player_debughud[name] then
-          local text = "Hunger Debug:\n"
-          if minetest.settings:get_bool("hunger_enable", true) then
-             text = text .. "hunger = " .. tostring(userdata[name].hunger) .. "\n"
-             text = text .. "saturation = " .. tostring(userdata[name].saturation) .. "\n"
-             text = text .. "moving = " .. tostring(userdata[name].moving) .. "\n"
-             text = text .. "active = " .. tostring(userdata[name].active) .. "\n"
-             text = text .. "step = " .. tostring(player_step[name]) .. "\n"
-          else
-             text = text .. "<hunger disabled>\n"
-	  end
-          text = text .. "health_step = " .. tostring(player_health_step[name])
           player:hud_change(player_debughud[name], "text", text)
       else
          player_debughud[name] = player:hud_add(
 	 {
 	    hud_elem_type = "text",
             position = {x=0.75,y=1.0},
-            text = "",
+            text = text,
             number = 0xFFFFFFFF,
             alignment = {x=-1, y=-1},
 	    scale = {x=100, y=100},
