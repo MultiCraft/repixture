@@ -113,6 +113,7 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
       "rp_default:"..plant_id.."_on_"..append,
       {
          drawtype = "plantlike_rooted",
+         paramtype = "light",
 	 selection_box = selection_box,
          collision_box = {
             type = "regular",
@@ -235,6 +236,7 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
       "rp_default:alga_on_"..append,
       {
          drawtype = "plantlike_rooted",
+         paramtype = "light",
 	 selection_box = {
             type = "fixed",
 	    fixed = {
