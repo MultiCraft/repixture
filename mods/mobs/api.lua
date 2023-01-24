@@ -77,7 +77,11 @@ local function die_handler(self, killer)
       if minetest.get_item_group(drop.name, "food") ~= 0 then
          drops_food = true
       end
-      if math.random(1, drop.chance) == 1 then
+      local gotten_ok = true
+      if self.gotten and drop.no_drop_if_gotten then
+         gotten_ok = false
+      end
+      if gotten_ok and math.random(1, drop.chance) == 1 then
          obj = minetest.add_item(pos, ItemStack(drop.name.." "..math.random(drop.min, drop.max)))
          if obj then
 	    obj:set_velocity(

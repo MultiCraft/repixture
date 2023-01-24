@@ -46,7 +46,7 @@ mobs:register_mob(
 	 {name = "mobs:meat_raw",
 	  chance = 1, min = 2, max = 4},
 	 {name = "mobs:wool",
-	  chance = 1, min = 1, max = 2},
+	  chance = 1, min = 1, max = 2, no_drop_if_gotten = true},
       },
       water_damage = 0,
       lava_damage = 5,
