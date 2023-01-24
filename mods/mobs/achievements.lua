@@ -57,6 +57,15 @@ achievements.register_achievement(
 })
 
 achievements.register_achievement(
+   "shear_time",
+   {
+      title = S("Shear Time"),
+      description = S("Shear a sheep."),
+      times = 1,
+      icon = "mobs_achievement_shear_time.png",
+})
+
+achievements.register_achievement(
    "smalltalk",
    {
       title = S("Smalltalk"),

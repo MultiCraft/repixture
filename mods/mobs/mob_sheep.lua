@@ -142,6 +142,7 @@ mobs:register_mob(
                      textures = {"mobs_sheep_shaved.png"},
                      mesh = "mobs_sheep.x",
                })
+               achievements.trigger_achievement(clicker, "shear_time")
             end
 
             return

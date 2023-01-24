@@ -152,6 +152,7 @@ function mobs:register_mob(name, def)
 	 lifetimer = def.lifetimer or 180, -- 3 minutes
 	 hp_min = def.hp_min or 5,
 	 hp_max = def.hp_max or 10,
+	 shaded = true,
 	 breath_max = def.breath_max or -1, -- how many seconds the mob can breathe in drowning nodes. -1 = no drowning damage
 	 breath = def.breath_max,
 	 physical = true,
