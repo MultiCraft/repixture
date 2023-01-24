@@ -68,12 +68,13 @@ mobs:register_mob(
          minetest.set_node(pos, {name = self.replace_with})
 
          if mobs:feed_tame(self, self.follow, 8, false, false) then
-            if self.gotten == false then
+            if self.gotten == true then
                self.object:set_properties(
                   {
                      textures = {"mobs_sheep.png"},
                      mesh = "mobs_sheep.x",
                })
+	       self.gotten = false
             end
          end
       end,
@@ -99,12 +100,13 @@ mobs:register_mob(
          if mobs:feed_tame(self, clicker, 8, true) then
             -- If full grow, add fuzz
 
-            if self.gotten == false then
+            if self.gotten == true then
                self.object:set_properties(
                   {
                      textures = {"mobs_sheep.png"},
                      mesh = "mobs_sheep.x",
                })
+	       self.gotten = false
             end
 
             return
