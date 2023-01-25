@@ -6,6 +6,7 @@ mobs:register_mob(
    "mobs:walker",
    {
       type = "monster",
+      mob_name = S("Walker"),
       passive = false,
       attack_type = "dogfight",
       damage = 3,

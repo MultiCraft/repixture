@@ -16,6 +16,7 @@ mobs:register_mob(
    "mobs:sheep",
    {
       type = "animal",
+      mob_name = S("Sheep"),
       passive = true,
       hp_min = 10,
       hp_max = 14,

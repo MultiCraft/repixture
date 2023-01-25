@@ -141,6 +141,7 @@ function mobs:register_mob(name, def)
       name,
       {
 	 _cmi_is_mob = true,
+	 mob_name = def.mob_name,
 	 stepheight = def.stepheight or 0.6,
 	 name = name,
 	 fly = def.fly,
@@ -1787,6 +1788,13 @@ function mobs:feed_tame(self, clicker, feed_count, breed, effect)
 
 	    clicker:set_wielded_item(item)
          end
+
+	 -- Update achievement
+         local entdef = minetest.registered_entities[self.name]
+         if entdef and entdef.type == "animal" then
+            achievements.trigger_subcondition(clicker, "gonna_feed_em_all", self.name)
+         end
+
       end
 
       if effect ~= false then

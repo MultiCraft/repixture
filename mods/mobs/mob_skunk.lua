@@ -6,6 +6,7 @@ mobs:register_mob(
    "mobs:skunk",
    {
       type = "animal",
+      mob_name = S("Skunk"),
       passive = false,
       attack_type = "dogfight",
       damage = 1,

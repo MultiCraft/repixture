@@ -8,6 +8,7 @@ mobs:register_mob(
    "mobs:boar",
    {
       type = "animal",
+      mob_name = S("Boar"),
       passive = false,
       attack_type = "dogfight",
       damage = 2,

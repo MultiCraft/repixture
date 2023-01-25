@@ -84,6 +84,7 @@ for _, npc_type_table in pairs(npc_types) do
       "mobs:npc_" .. npc_type,
       {
 	 type = "npc",
+	 mob_name = S("Villager"),
 	 passive = false,
 	 collides_with_objects = false,
 	 damage = 3,
