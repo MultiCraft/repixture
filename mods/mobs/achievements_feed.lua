@@ -24,5 +24,5 @@ achievements.register_achievement(
       times = 0,
       subconditions = animals,
       subconditions_readable = animal_names,
-      item_icon = "rp_default:acorn",
+      icon = "mobs_achievement_gonna_feed_em_all.png",
 })

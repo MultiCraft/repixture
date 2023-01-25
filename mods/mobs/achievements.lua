@@ -44,7 +44,7 @@ achievements.register_achievement(
       title = S("Best Friends Forever"),
       description = S("Tame an animal."),
       times = 1,
-      item_icon = "rp_default:apple",
+      icon = "mobs_achievement_best_friends_forever.png",
 })
 
 achievements.register_achievement(
