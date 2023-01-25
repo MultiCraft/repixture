@@ -1685,10 +1685,15 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
          mobname = replacewith
       end
 
+      -- Using a capture tool?
       local name = clicker:get_player_name()
+      local tool = clicker:get_wielded_item()
+      local toolname = tool:get_name()
+      if not (toolname == "mobs:net" or toolname == "mobs:lasso") then
+          return
+      end
 
       -- Is mob tamed?
-
       if self.tamed == false and force_take == false then
          minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Not tamed!")))
 
@@ -1696,7 +1701,6 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
       end
 
       -- Cannot pick up if not owner
-
       if self.owner ~= "" and self.owner ~= nil and self.owner ~= name and force_take == false then
          minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("@1 is owner!", self.owner)))
 
@@ -1706,10 +1710,9 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
       if clicker:get_inventory():room_for_item("main", mobname) then
          -- Was mob clicked with net, or lasso?
 
-         local tool = clicker:get_wielded_item()
          local chance = 0
 
-         if tool:get_name() == "mobs:net" then
+         if toolname == "mobs:net" then
             -- Net
             chance = chance_net
             minetest.sound_play("mobs_lasso_swing", {
@@ -1719,7 +1722,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
 	        tool:add_wear_by_uses(17)
             end
 	    clicker:set_wielded_item(tool)
-         elseif tool:get_name() == "mobs:lasso" then
+         elseif toolname == "mobs:lasso" then
             -- Lasso
             chance = chance_lasso
             minetest.sound_play("mobs_lasso_swing", {
