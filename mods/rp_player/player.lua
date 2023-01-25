@@ -9,9 +9,10 @@ local function step(dtime)
    local player_positions = {}
 
    for _, player in ipairs(minetest.get_connected_players()) do
-      local player_pos=player:get_pos()
-      local head_pos = player_pos
-      local name=player:get_player_name()
+      local player_pos = player:get_pos()
+      local head_pos = table.copy(player_pos)
+      local bubble_pos = table.copy(player_pos)
+      local name = player:get_player_name()
 
       player_lastpos[name] = player:get_pos()
 
@@ -20,6 +21,8 @@ local function step(dtime)
       head_pos.x=math.floor(head_pos.x+0.5)
       head_pos.y=math.ceil(head_pos.y+1.0)
       head_pos.z=math.floor(head_pos.z+0.5)
+
+      bubble_pos.y=bubble_pos.y+1.5
 
       player_pos.x=math.floor(player_pos.x+0.5)
       player_pos.y=math.ceil(player_pos.y-0.3)
@@ -36,14 +39,14 @@ local function step(dtime)
 	       time = 0.1,
 	       pos = {
                   min = {
-                     x = head_pos.x - 0.2,
-                     y = head_pos.y - 0.3,
-                     z = head_pos.z - 0.3
+                     x = bubble_pos.x - 0.2,
+                     y = bubble_pos.y - 0.3,
+                     z = bubble_pos.z - 0.3
                   },
 	          max = {
-                     x = head_pos.x + 0.3,
-                     y = head_pos.y + 0.3,
-                     z = head_pos.z + 0.3
+                     x = bubble_pos.x + 0.3,
+                     y = bubble_pos.y + 0.3,
+                     z = bubble_pos.z + 0.3
                   },
                },
                vel = {
