@@ -1672,6 +1672,7 @@ function mobs:register_egg(mobname, desc, background)
 end
 
 -- Capture critter (thanks to blert2112 for idea)
+-- note: chance_hand is ignored
 
 function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
                           force_take, replacewith)
@@ -1703,41 +1704,40 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
       end
 
       if clicker:get_inventory():room_for_item("main", mobname) then
-         -- Was mob clicked with hand, net, or lasso?
+         -- Was mob clicked with net, or lasso?
 
          local tool = clicker:get_wielded_item()
          local chance = 0
 
-         if tool:is_empty() then
-	    chance = chance_hand
-            minetest.sound_play("mobs_lasso_swing", {
-               pos = clicker:get_pos(),
-               gain = 0.2, max_hear_distance = 8, pitch=1.5}, true)
-         elseif tool:get_name() == "mobs:net" then
+         if tool:get_name() == "mobs:net" then
+            -- Net
+            chance = chance_net
             minetest.sound_play("mobs_lasso_swing", {
                pos = clicker:get_pos(),
                gain = 0.2, max_hear_distance = 16, pitch=1.25}, true)
-	    chance = chance_net
             if not minetest.is_creative_enabled(name) then
 	        tool:add_wear_by_uses(17)
             end
 	    clicker:set_wielded_item(tool)
          elseif tool:get_name() == "mobs:lasso" then
+            -- Lasso
+            chance = chance_lasso
             minetest.sound_play("mobs_lasso_swing", {
                pos = clicker:get_pos(),
                gain = 0.2, max_hear_distance = 16, pitch=1}, true)
-	    chance = chance_lasso
             if not minetest.is_creative_enabled(name) then
 	        tool:add_wear_by_uses(43)
             end
 	    clicker:set_wielded_item(tool)
+         else
+            -- Something else, no catch attempt
+            return
          end
 
          -- Return if no chance
-
          if chance == 0 then
-		minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Missed!")))
-		return
+            minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Missed!")))
+            return
 	 end
 
          -- Calculate chance.. was capture successful?
