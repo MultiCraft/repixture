@@ -76,7 +76,7 @@ rp_formspec.register_page("rp_default:chest", form_chest)
 local reading_bookshelves = {}
 
 minetest.register_on_leaveplayer(function(player)
-   local name = player:get_playr_name()
+   local name = player:get_player_name()
    reading_bookshelves[name] = nil
 end)
 
