@@ -54,6 +54,8 @@ These groups are mainly used for a better item sorting in Creative Mode.
 * `nav_compass`: Compass. Rating: 1 = normal compass, 2 = magnocompass
 * `spawn_egg`: Item that spawns mobs
 * `book`: Book. Rating: 1 = unspecific book, 2 = writable book
+* `mineral_lump`: A lump of a mineral, like coal lump, iron lump, etc.
+* `ingot`: Ingot
 
 
 
