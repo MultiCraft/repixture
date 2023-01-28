@@ -69,6 +69,14 @@ achievements.register_achievement(
       craftitem = "rp_default:furnace",
 })
 
+achievements.register_achievement(
+   "metal_age",
+   {
+      title = S("Metal Age"),
+      description = S("Put a mineral and some fuel in a furnace to smelt an ingot."),
+      times = 1,
+      craftitem = "rp_default:ingot_wrought_iron",
+})
 
 -- Farming
 
