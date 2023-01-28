@@ -25,5 +25,8 @@ Texture license: CC BY-SA 4.0
      * Author: kilbith (with some modifications by Wuzzy)
   * Everything else
      * Author: Kaadmy
+Model license: CC BY-SA 4.0
+  * rp_default_bucket.blend, rp_default_bucket.obj:
+     * Author: Wuzzy
 Source license: LGPLv2.1
 	- Fence code based on Minetest Game 5.5.0

@@ -11,21 +11,48 @@ for b=1, #water_buckets do
    local data = water_buckets[b]
    local bucket = "rp_default:bucket_"..data[1]
    local nodename = data[4]
-   node_to_bucket[nodename] = bucket
+   node_to_bucket[nodename] = bucket -- water source
+   node_to_bucket["rp_default:bucket_"..data[1]] = bucket -- filled bucket node
 end
 
 for b=1, #water_buckets do
    local bucket = water_buckets[b]
-   minetest.register_craftitem(
+   local waterdef = minetest.registered_nodes[bucket[4]]
+   local watertile = waterdef.tiles[1]
+   minetest.register_node(
       "rp_default:bucket_"..bucket[1],
       {
          description = bucket[2],
          _tt_help = bucket[5],
+
+         drawtype = "mesh",
+         mesh = "rp_default_bucket.obj",
+         tiles = {
+            {name="rp_default_bucket_node_side_1.png",backface_culling=true},
+            {name="rp_default_bucket_node_side_2.png",backface_culling=true},
+            {name="rp_default_bucket_node_top_handle.png",backface_culling=true},
+            {name="rp_default_bucket_node_bottom_inside.png",backface_culling=true},
+            {name="rp_default_bucket_node_bottom_outside.png",backface_culling=true},
+            watertile,
+         },
+	 use_texture_alpha = "blend",
+	 paramtype = "light",
+         paramtype2 = "facedir",
+	 is_ground_content = false,
+         selection_box = {
+            type = "fixed",
+            fixed = { -6/16, -0.5, -6/16, 6/16, 5/16, 6/16 },
+         },
+         sounds = rp_sounds.node_sound_wood_defaults(),
+         walkable = false,
+	 node_placement_prediction = "",
+
          inventory_image = bucket[3],
+         wield_image = bucket[3],
          stack_max = 1,
          wield_scale = {x=1,y=1,z=2},
          liquids_pointable = true,
-         groups = { bucket = 2, bucket_water = 1, tool = 1 },
+         groups = { bucket = 2, bucket_water = 1, tool = 1, dig_immediate = 3, attached_node = 1 },
          on_place = function(itemstack, placer, pointed_thing)
             local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
             if handled then
@@ -38,14 +65,32 @@ for b=1, #water_buckets do
             local inv=placer:get_inventory()
    
             local pos = pointed_thing.above
-            local above_nodedef = minetest.registered_nodes[minetest.get_node(pointed_thing.above).name]
-            local under_nodedef = minetest.registered_nodes[minetest.get_node(pointed_thing.under).name]
+	    local above_node = minetest.get_node(pointed_thing.above)
+	    local under_node = minetest.get_node(pointed_thing.under)
+            local above_nodedef = minetest.registered_nodes[above_node.name]
+            local under_nodedef = minetest.registered_nodes[under_node.name]
 
             if under_nodedef.buildable_to then
                pos=pointed_thing.under
             end
 
-            if not above_nodedef.walkable then
+	    local bucket_placed = false
+	    local gain = 1.0
+            if minetest.get_item_group(under_node.name, "bucket") ~= 0 then
+               -- Pour water into bucket node
+               minetest.set_node(pointed_thing.under, {name = "rp_default:bucket_"..bucket[1], param2=under_node.param2})
+	       gain = 0.2
+	       bucket_placed = true
+	    elseif not above_nodedef.walkable then
+               -- Place water source node
+               minetest.add_node(pos, {name = bucket[4]})
+	       bucket_placed = true
+            end
+
+            if bucket_placed then
+               -- Play sound and handle inventory stuff
+               minetest.sound_play({name="default_place_node_water", gain=gain}, {pos=pos}, true)
+
                if not minetest.is_creative_enabled(placer:get_player_name()) then
                   if itemstack:get_count() == 1 then
                      itemstack:set_name("rp_default:bucket")
@@ -59,8 +104,6 @@ for b=1, #water_buckets do
                      minetest.add_item(pos, "rp_default:bucket")
                   end
                end
-               minetest.add_node(pos, {name = bucket[4]})
-               minetest.sound_play({name="default_place_node_water", gain=1.0}, {pos=pos}, true)
             end
 
             return itemstack
@@ -68,16 +111,38 @@ for b=1, #water_buckets do
    })
 end
 
-minetest.register_craftitem(
+minetest.register_node(
    "rp_default:bucket",
    {
       description = S("Empty Bucket"),
       _tt_help = S("Place it to collect a liquid source"),
       inventory_image = "default_bucket.png",
+      wield_image = "default_bucket.png",
+
+      drawtype = "mesh",
+      mesh = "rp_default_bucket.obj",
+      tiles = {
+         {name="rp_default_bucket_node_side_1.png",backface_culling=true},
+         {name="rp_default_bucket_node_side_2.png",backface_culling=true},
+         {name="rp_default_bucket_node_top_handle.png",backface_culling=true},
+         {name="rp_default_bucket_node_bottom_inside.png",backface_culling=true},
+         {name="rp_default_bucket_node_bottom_outside.png",backface_culling=true},
+        "blank.png",
+      },
+      selection_box = {
+	      type = "fixed",
+	      fixed = { -6/16, -0.5, -6/16, 6/16, 5/16, 6/16 },
+      },
+      sounds = rp_sounds.node_sound_wood_defaults(),
+      paramtype = "light",
+      paramtype2 = "facedir",
+      use_texture_alpha = "clip",
+      walkable = false,
+
       stack_max = 10,
       wield_scale = {x=1,y=1,z=2},
       liquids_pointable = true,
-      groups = { bucket = 1, tool = 1 },
+      groups = { bucket = 1, tool = 1, dig_immediate = 3, attached_node = 1 },
       on_use = function(itemstack, user, pointed_thing)
          if pointed_thing.type ~= "node" then return end
 
@@ -113,8 +178,17 @@ minetest.register_craftitem(
                    minetest.add_item(pos, bucket)
                 end
              end
-             minetest.remove_node(pointed_thing.under)
-             minetest.sound_play({name="default_dug_water", gain=1.0}, {pos=pointed_thing.pos}, true)
+	     local oldnode = minetest.get_node(pointed_thing.under)
+	     local gain = 1.0
+             if minetest.get_item_group(oldnode.name, "bucket") == 2 then
+                -- Pick up liquid from bucket node
+                minetest.set_node(pointed_thing.under, {name="rp_default:bucket", param2 = oldnode.param2})
+		gain = 0.2
+             else
+                -- Pick up liquid source node
+                minetest.remove_node(pointed_thing.under)
+             end
+             minetest.sound_play({name="default_dug_water", gain=gain}, {pos=pointed_thing.pos}, true)
              return itemstack
          end
 
