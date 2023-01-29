@@ -428,31 +428,18 @@ minetest.register_node(
       groups = {handy = 2, interactive_node=1},
       sounds = rp_sounds.node_sound_wood_defaults(),
 
-      on_punch = function(pos, node, puncher)
-         if not tnt_enable then
-            return
-         end
-         local item = puncher:get_wielded_item()
-         local itemname = item:get_name()
-
-         if itemname == "rp_default:flint_and_steel" then
-            if minetest.is_protected(pos, puncher:get_player_name()) and
-                    not minetest.check_player_privs(puncher, "protection_bypass") then
-                minetest.record_protection_violation(pos, puncher:get_player_name())
-                return
-            end
-	    if not minetest.is_creative_enabled(puncher:get_player_name()) then
-                item:add_wear_by_uses(82)
-                puncher:set_wielded_item(item)
-            end
-            tnt.burn(pos, puncher)
-            achievements.trigger_achievement(puncher, "boom")
-         end
-      end,
       on_blast = function(pos, intensity)
          if tnt_enable then
             tnt.burn(pos)
          end
+      end,
+      _rp_on_ignite = function(pos, itemstack, user)
+         if not tnt_enable then
+            return
+         end
+         tnt.burn(pos, user)
+         achievements.trigger_achievement(user, "boom")
+         return { sound = false }
       end,
 })
 

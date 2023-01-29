@@ -828,69 +828,38 @@ minetest.register_tool(
          local wear = false
 	 local torch_ignite = 0 -- 0 = not ignited; 1 = ignited to weak torch; 2 = ignited to torch
 
-         if nodename == "rp_default:torch_weak" then
-            minetest.set_node(
-               pos,
-               {
-                  name = "rp_default:torch",
-                  param = node.param,
-                  param2 = node.param2
-            })
-            wear = true
-	    torch_ignite = 2
+	 local def = minetest.registered_nodes[nodename]
+         if not def or not def._rp_on_ignite then
+            return itemstack
+         end
+	 --[[ Function to ignite the node:
+	 * pos: Position of node
+	 * itemstack: Flint and Steel itemstack
+	 * user: Player who is igniting
+	 ]]
+         local returninfo = def._rp_on_ignite(pos, itemstack, user)
+	 --[[ return value of _rp_on_ignite is either nil or a table.
+	 If nil, node was not ignited and nothing will be done.
+	 If table, node *was* ignited and something will happen
+	 to the flint and steel. These are the table fields (all optional):
+	    * sound: if true, play sound (default: false)
+	    * pitch: pitch of sound, if played (default: 1.0)
+	    * wear: how many times to wear the tool (default: 1)
+	 ]]
 
-         elseif nodename == "rp_default:torch_weak_wall" then
-            minetest.set_node(
-               pos,
-               {
-                  name = "rp_default:torch_wall",
-                  param = node.param,
-                  param2 = node.param2
-            })
-            wear = true
-	    torch_ignite = 2
-
-         elseif nodename == "rp_default:torch_dead" then
-            minetest.set_node(
-               pos,
-               {
-                  name = "rp_default:torch_weak",
-                  param = node.param,
-                  param2 = node.param2
-            })
-            wear = true
-	    torch_ignite = 1
-
-         elseif nodename == "rp_default:torch_dead_wall" then
-            minetest.set_node(
-               pos,
-               {
-                  name = "rp_default:torch_weak_wall",
-                  param = node.param,
-                  param2 = node.param2
-            })
-            wear = true
-	    torch_ignite = 1
-
-         elseif nodename == "rp_tnt:tnt" then
-            local y = minetest.registered_nodes["rp_tnt:tnt"]
-            if y ~= nil then
-               y.on_punch(pos, node, user)
-               wear = true
+	 if returninfo ~= nil then
+	    if returninfo.sound ~= false then
+               local pitch = returninfo.pitch or 1.0
+               minetest.sound_play({name="rp_default_ignite_torch", gain=0.4, pitch=pitch}, {pos=pos}, true)
+            end
+            if not minetest.is_creative_enabled(user:get_player_name()) then
+	       local wear = returninfo.wear or 1
+	       for w=1, wear do
+                  itemstack:add_wear_by_uses(81)
+               end
             end
          end
-	 if torch_ignite > 0 then
-            local pitch = 1.0
-            if torch_ignite == 2 then
-	        pitch = 1.1
-            end
-            minetest.sound_play({name="rp_default_ignite_torch", gain=0.4, pitch=pitch}, {pos=pos}, true)
-         end
 
-         if wear and not minetest.is_creative_enabled(user:get_player_name()) then
-            itemstack:add_wear_by_uses(81)
-         end
-
-         return itemstack
+	 return itemstack
       end,
 })

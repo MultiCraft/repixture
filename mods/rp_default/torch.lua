@@ -4,7 +4,20 @@ local S = minetest.get_translator("rp_default")
 
 
 
-local function register_torch(subname, description, tt_help, tiles, overlay_tiles, overlay_side_R90, inv_image, light, on_construct, on_timer)
+local function register_torch(subname, description, tt_help, tiles, overlay_tiles, overlay_side_R90, inv_image, light, on_construct, on_timer, next_torch_level, ignite_pitch)
+   local on_ignite, on_ignite_wall
+   if next_torch_level then
+      on_ignite = function(pos, itemstack, user)
+         local node = minetest.get_node(pos)
+         minetest.set_node(pos, {name="rp_default:"..next_torch_level, param2=node.param2})
+         return {pitch=ignite_pitch or 1.0}
+      end
+      on_ignite_wall = function(pos, itemstack, user)
+         local node = minetest.get_node(pos)
+         minetest.set_node(pos, {name="rp_default:"..next_torch_level.."_wall", param2=node.param2})
+         return {pitch=ignite_pitch or 1.0}
+      end
+   end
    minetest.register_node(
       "rp_default:"..subname,
       {
@@ -83,6 +96,8 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
 
             return itemstack
 	end,
+
+	_rp_on_ignite = on_ignite,
    })
    local copy, copy_o
    for i=1,6 do
@@ -159,6 +174,8 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          sounds = rp_sounds.node_sound_defaults(),
 	 on_construct = on_construct,
 	 on_timer = on_timer,
+
+	 _rp_on_ignite = on_ignite_wall,
    })
 
 
@@ -280,8 +297,8 @@ local on_timer_weak = function(pos)
    })
 end
 
-register_torch("torch_dead", S("Dead Torch"), S("Doesn't provide any light"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, nil, nil, "default_torch_dead_inventory.png")
-register_torch("torch_weak", S("Weak Torch"), S("Provides a bit of light but it will eventually burn out"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, overlay_tiles_weak, overlayR90_weak, "default_torch_weak_inventory.png", default.LIGHT_MAX-4, on_construct_weak, on_timer_weak)
+register_torch("torch_dead", S("Dead Torch"), S("Doesn't provide any light"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, nil, nil, "default_torch_dead_inventory.png", 0, nil, nil, "torch_weak", 1.0)
+register_torch("torch_weak", S("Weak Torch"), S("Provides a bit of light but it will eventually burn out"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, overlay_tiles_weak, overlayR90_weak, "default_torch_weak_inventory.png", default.LIGHT_MAX-4, on_construct_weak, on_timer_weak, "torch", 1.1)
 register_torch("torch", S("Torch"), S("It's bright and burns forever"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, overlay_tiles_normal, overlayR90_normal, "default_torch_inventory.png", default.LIGHT_MAX-1)
 
 minetest.register_lbm({

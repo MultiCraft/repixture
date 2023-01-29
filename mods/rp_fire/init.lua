@@ -22,6 +22,10 @@ minetest.register_node(
       walkable = false,
       groups = {cracky = 3, bonfire = 1, attached_node = 1},
       sounds = rp_sounds.node_sound_stone_defaults(),
+      _rp_on_ignite = function(pos, itemstack, user)
+         minetest.set_node(pos, {name="rp_fire:bonfire_burning"})
+	 return {}
+      end,
 })
 
 minetest.register_node(
