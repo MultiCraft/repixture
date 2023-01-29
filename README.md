@@ -64,6 +64,7 @@ Pixture was inspired by [Kenney](http://kenney.nl).
 * Sounds in the `rp_default` mod are all by Kenney (CC0)
 * All textures/models by Kaadmy, with some additions/changes by Wuzzy (CC BY-SA 4.0)
    * Exception: Seagrass by jp (CC0)
+   * Exception: Barrel, by Wuzzy based on work by jp (CC0)
 
 ### Translators
 
