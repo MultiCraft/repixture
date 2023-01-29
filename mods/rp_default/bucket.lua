@@ -81,7 +81,7 @@ for b=1, #water_buckets do
                minetest.set_node(pointed_thing.under, {name = "rp_default:bucket_"..bucket[1], param2=under_node.param2 % 32})
 	       gain = 0.2
 	       bucket_placed = true
-	    elseif not above_nodedef.walkable then
+	    elseif not above_nodedef.walkable and above_nodedef.buildable_to then
                -- Place water source node
                minetest.add_node(pos, {name = bucket[4]})
 	       bucket_placed = true
