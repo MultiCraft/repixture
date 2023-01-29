@@ -92,6 +92,30 @@ local function setweather_type(wtype, do_repeat)
    end
 end
 
+-- Returns the current weather
+function weather.get_weather()
+   return weather.weather
+end
+
+-- Returns true is position `pos` is in a place in which it could rain into
+function weather.is_node_rainable(pos)
+   for i=0, 15 do
+      local cpos = {x=pos.x, y=pos.y+i, z=pos.z}
+      local node = minetest.get_node(cpos)
+      local def = minetest.registered_nodes[node.name]
+      if not def or def.walkable then
+         return false
+      end
+      if i == 0 then
+         local light = minetest.get_node_light(cpos, 0.5)
+         if light < 15 then
+            return false
+         end
+      end
+   end
+   return true
+end
+
 -- Returns a number telling how many µs the weather was changed before.
 -- Returns nil if weather was not changed before
 function weather.weather_last_changed_before()
@@ -256,3 +280,41 @@ minetest.register_chatcommand(
 minetest.register_on_leaveplayer(function(player)
     sound_handles[player:get_player_name()] = nil
 end)
+
+local on_rain_abm = function(pos, node)
+        if weather.get_weather() ~= "storm" then
+           return
+        end
+	-- Don't call handlers for the first 5 seconds of rain
+        local lwc = weather.weather_last_changed_before()
+	if lwc ~= nil and lwc < 5000000 then
+           return
+	end
+        if not weather.is_node_rainable({x=pos.x,y=pos.y+1,z=pos.z}) then
+           return
+        end
+        local def = minetest.registered_nodes[node.name]
+        if def._rp_on_rain then
+              def._rp_on_rain(pos, node)
+        else
+           minetest.log("error", "[rp_weather] Node "..node.name.." has reacts_on_rain group but no _rp_on_rain handler!")
+        end
+end
+
+
+minetest.register_abm({
+    label = "Call _rp_on_rain node handlers during rain (low frequency)",
+    chance = 3,
+    interval = 30.0,
+    nodenames = { "group:react_on_rain" },
+    action = on_rain_abm,
+})
+
+minetest.register_abm({
+    label = "Call _rp_on_rain node handlers during rain (high frequency)",
+    chance = 2,
+    interval = 5.0,
+    nodenames = { "group:react_on_rain_hf" },
+    action = on_rain_abm,
+})
+

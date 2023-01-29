@@ -142,7 +142,7 @@ minetest.register_node(
       stack_max = 10,
       wield_scale = {x=1,y=1,z=2},
       liquids_pointable = true,
-      groups = { bucket = 1, tool = 1, dig_immediate = 3, attached_node = 1 },
+      groups = { bucket = 1, tool = 1, dig_immediate = 3, attached_node = 1, react_on_rain = 1 },
       on_use = function(itemstack, user, pointed_thing)
          if pointed_thing.type ~= "node" then return end
 
@@ -198,6 +198,27 @@ minetest.register_node(
          end
 
          return itemstack
-      end
+      end,
 
+      _rp_on_rain = function(pos, node)
+	  -- Fill bucket with water when it rains.
+	  -- Before the bucket fills, it first increases a hidden "fullness"
+	  -- value. The rain callback must be called 3 times before the bucket
+	  -- fills with water. The fullness value is stored in param2.
+	  local p2 = node.param2
+          if p2 < 64 then
+             -- We increase param2 by 32 because this is the value at which
+             -- facedir wraps around
+             p2 = p2 + 32
+             minetest.set_node(pos, {name=node.name, param2 = p2})
+	     minetest.log("verbose", "[rp_default] Bucket at "..minetest.pos_to_string(pos).." got its fullness increased in the rain (param2="..p2..")")
+          else
+             -- If param2 was 64 or greater, we know that the bucket
+	     -- was rained into 2 times before. Therefore, this must
+	     -- be now the 3rd time, so we add the water bucket node.
+             p2 = p2 % 32
+             minetest.set_node(pos, {name="rp_default:bucket_water", param2 = p2})
+	     minetest.log("action", "[rp_default] Bucket at "..minetest.pos_to_string(pos).." was filled with water by rain")
+          end
+      end,
 })

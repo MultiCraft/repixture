@@ -82,6 +82,8 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `unmagnetic`: Node is "unmagnetic", this means it can de-magnetize stuff
 * `locked`: Node is considered to be locked
 * `container`: Node has an inventory to store item(s)
+* `react_on_rain`: Node does something when it rains; the `rp_weather` mod will call `_rp_on_rain(pos, node)` in random intervals
+* `react_on_rain_hf`: Same as above, but callback is called with higher frequency
 * `interactive_node`: Node can be interacted with (excluding pure container nodes)
 * `no_spawn_allowed_on`: If set, players can not (initially) spawn on this block
 * `spawn_allowed_in`: If set, players can spawn into this block (note: this group is ignored for the 'air' and 'ignore' nodes)
