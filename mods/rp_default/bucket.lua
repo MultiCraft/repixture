@@ -78,7 +78,7 @@ for b=1, #water_buckets do
 	    local gain = 1.0
             if minetest.get_item_group(under_node.name, "bucket") ~= 0 then
                -- Pour water into bucket node
-               minetest.set_node(pointed_thing.under, {name = "rp_default:bucket_"..bucket[1], param2=under_node.param2})
+               minetest.set_node(pointed_thing.under, {name = "rp_default:bucket_"..bucket[1], param2=under_node.param2 % 32})
 	       gain = 0.2
 	       bucket_placed = true
 	    elseif not above_nodedef.walkable then
@@ -182,7 +182,7 @@ minetest.register_node(
 	     local gain = 1.0
              if minetest.get_item_group(oldnode.name, "bucket") == 2 then
                 -- Pick up liquid from bucket node
-                minetest.set_node(pointed_thing.under, {name="rp_default:bucket", param2 = oldnode.param2})
+                minetest.set_node(pointed_thing.under, {name="rp_default:bucket", param2 = oldnode.param2 % 32})
 		gain = 0.2
              else
                 -- Pick up liquid source node
