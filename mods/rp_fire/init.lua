@@ -48,7 +48,7 @@ minetest.register_node(
       floodable = true,
       light_source = LIGHT,
       use_texture_alpha = "clip",
-      groups = {cracky = 3, bonfine = 2, attached_node = 1},
+      groups = {cracky = 3, bonfine = 2, attached_node = 1, not_in_creative_inventory = 1},
       walkable = false,
       drop = "rp_fire:bonfire",
       sounds = rp_sounds.node_sound_stone_defaults(),
