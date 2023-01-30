@@ -102,23 +102,22 @@ local function add_drop(drops, item)
    end
 end
 
-local function destroy(drops, pos, cid)
+local function check_destroy(drops, pos, cid)
    if minetest.is_protected(pos, "") then
-      return
+      return false, "protected"
    end
    local def = cid_data[cid]
    if def and def.on_blast then
-      def.on_blast(vector.new(pos), 1)
-      return
+      return false, "on_blast"
    end
 
-   minetest.remove_node(pos)
    if def then
       local node_drops = minetest.get_node_drops(def.name, "")
       for _, item in ipairs(node_drops) do
 	 add_drop(drops, item)
       end
    end
+   return true
 end
 
 
@@ -177,7 +176,6 @@ local function add_node_break_effects(pos, node, node_tile)
          node = node,
 	 node_tile = node_tile,
    })
-
 end
 
 local function add_explosion_effects(pos, radius)
@@ -239,8 +237,6 @@ local function add_explosion_effects(pos, radius)
          texture = "rp_tnt_smoke_ball_small.png",
          animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
    })
-
-
 end
 
 local function emit_fuse_smoke(pos)
@@ -276,7 +272,7 @@ function tnt.burn(pos, igniter)
       if igniter then
          minetest.log("action", "[rp_tnt] TNT ignited by "..igniter:get_player_name().." at "..minetest.pos_to_string(pos, 0))
       else
-         minetest.log("action", "[rp_tnt] TNT ignited at "..minetest.pos_to_string(pos, 0))
+         minetest.log("verbose", "[rp_tnt] TNT ignited at "..minetest.pos_to_string(pos, 0))
       end
    end
 end
@@ -300,7 +296,7 @@ function tnt.explode(pos, radius)
    local p1 = vector.subtract(pos, radius)
    local p2 = vector.add(pos, radius)
    local minp, maxp = vm:read_from_map(p1, p2)
-   local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
+   local area = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
    local data = vm:get_data()
 
    local drops = {}
@@ -308,9 +304,12 @@ function tnt.explode(pos, radius)
 
    local c_air = minetest.get_content_id("air")
 
+   local destroyed_nodes = {}
+   local on_blasts = {}
+
    for z = -radius, radius do
       for y = -radius, radius do
-	 local vi = a:index(pos.x + (-radius), pos.y + y, pos.z + z)
+	 local vi = area:index(pos.x + (-radius), pos.y + y, pos.z + z)
 	 for x = -radius, radius do
 	    if (x * x) + (y * y) + (z * z) <= (radius * radius) + pr:next(-radius, radius) then
 	       local cid = data[vi]
@@ -318,16 +317,38 @@ function tnt.explode(pos, radius)
 	       p.y = pos.y + y
 	       p.z = pos.z + z
 	       if cid ~= c_air then
-		  destroy(drops, p, cid)
-		  local pp = {x=p.x, y=p.y, z=p.z}
-		  minetest.check_for_falling(pp)
-                  if mod_attached then
-                     rp_attached.detach_from_node(pp)
-                  end
+		  local destroy, fail_reason = check_destroy(drops, p, cid)
+		  if destroy == true then
+                     data[vi] = minetest.CONTENT_AIR
+                     local pp = {x=p.x, y=p.y, z=p.z}
+                     table.insert(destroyed_nodes, {vi=vi, pos=pp})
+                  elseif destroy == false and fail_reason == "on_blast" then
+                     local pp = {x=p.x, y=p.y, z=p.z}
+                     table.insert(on_blasts, {pos=pp, cid=cid})
+	          end
 	       end
 	    end
 	    vi = vi + 1
 	 end
+      end
+   end
+
+   vm:set_data(data)
+   vm:write_to_map()
+
+   for i=1, #on_blasts do
+      local pp = on_blasts[i].pos
+      local cid = on_blasts[i].cid
+      local def = cid_data[cid]
+      def.on_blast(vector.new(pp), 1)
+   end
+
+   for i=1, #destroyed_nodes do
+      local pp = destroyed_nodes[i].pos
+      local vi = destroyed_nodes[i].vi
+      minetest.check_for_falling(pp)
+      if mod_attached then
+         rp_attached.detach_from_node(pp)
       end
    end
 
@@ -354,9 +375,9 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
       local drops = tnt.explode(pos, radius, sound)
       play_tnt_sound(pos, sound)
       if is_tnt then
-          minetest.log("action", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
+          minetest.log("verbose", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
       else
-          minetest.log("action", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
+          minetest.log("verbose", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
       end
       entity_physics(pos, radius)
       eject_drops(drops, pos, radius)
