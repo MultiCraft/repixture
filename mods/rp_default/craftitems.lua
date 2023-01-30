@@ -105,46 +105,6 @@ minetest.register_craftitem(
       inventory_image = "default_ingot_wrought_iron.png",
 })
 
-minetest.register_craftitem(
-   "rp_default:ingot_steel",
-   {
-      description = S("Steel Ingot"),
-      groups = { ingot = 1 },
-      inventory_image = "default_ingot_steel.png",
-})
-
-minetest.register_craftitem(
-   "rp_default:ingot_carbon_steel",
-   {
-      description = S("Carbon Steel Ingot"),
-      groups = { ingot = 1 },
-      inventory_image = "default_ingot_carbon_steel.png",
-})
-
-minetest.register_craftitem(
-   "rp_default:ingot_copper",
-   {
-      description = S("Copper Ingot"),
-      groups = { ingot = 1 },
-      inventory_image = "default_ingot_copper.png",
-})
-
-minetest.register_craftitem(
-   "rp_default:ingot_tin",
-   {
-      description = S("Tin Ingot"),
-      groups = { ingot = 1 },
-      inventory_image = "default_ingot_tin.png",
-})
-
-minetest.register_craftitem(
-   "rp_default:ingot_bronze",
-   {
-      description = S("Bronze Ingot"),
-      groups = { ingot = 1 },
-      inventory_image = "default_ingot_bronze.png",
-})
-
 -- Crafted items
 
 minetest.register_craftitem(

@@ -539,6 +539,16 @@ minetest.register_craftitem(
       inventory_image = "gold_ingot_gold.png",
 })
 
+default.register_ingot("rp_gold:ingot_gold", {
+	description = S("Gold Ingot"),
+	texture = "gold_ingot_gold.png",
+	tilesdef = {
+		top = "rp_gold_ingot_gold_node_top.png",
+		side_short = "rp_gold_ingot_gold_node_side_short.png",
+		side_long = "rp_gold_ingot_gold_node_side_long.png",
+	},
+})
+
 -- Nodes
 
 minetest.register_node(
