@@ -7,6 +7,10 @@ local S = minetest.get_translator("rp_tnt")
 -- Time in seconds before TNT explodes after ignited
 local TNT_TIMER = 2.0
 
+-- For performance debugging
+local TNT_NO_PARTICLES = false
+local TNT_NO_SOUNDS = false
+
 tnt = {}
 
 local particlespawners = {}
@@ -158,6 +162,9 @@ local function entity_physics(pos, radius)
 end
 
 local function add_node_break_effects(pos, node, node_tile)
+   if TNT_NO_PARTICLES then
+      return
+   end
    minetest.add_particlespawner(
       {
          amount = 40,
@@ -179,6 +186,9 @@ local function add_node_break_effects(pos, node, node_tile)
 end
 
 local function add_explosion_effects(pos, radius)
+   if TNT_NO_PARTICLES then
+      return
+   end
    minetest.add_particlespawner(
       {
          amount = 128,
@@ -240,6 +250,9 @@ local function add_explosion_effects(pos, radius)
 end
 
 local function emit_fuse_smoke(pos)
+	if TNT_NO_PARTICLES then
+		return
+	end
 	local minpos = vector.add(pos, vector.new(1/16, 0.5, 4/16))
 	local maxpos = vector.add(pos, vector.new(2/16, 0.5, 5/16))
 	local minvel = vector.new(0.2 - 0.1, 2.0, 0.2 - 0.1)
@@ -278,6 +291,9 @@ function tnt.burn(pos, igniter)
 end
 
 local function play_tnt_sound(pos, sound)
+   if TNT_NO_SOUNDS then
+      return
+   end
    minetest.sound_play(
       sound,
       {
@@ -495,9 +511,11 @@ minetest.register_node(
       on_construct = function(pos)
 	  if tnt_enable then
              local timer = minetest.get_node_timer(pos)
-             minetest.sound_play("tnt_ignite", {pos = pos}, true)
+             if TNT_NO_SOUNDS == false then
+                minetest.sound_play("tnt_ignite", {pos = pos}, true)
+             end
              local id = emit_fuse_smoke(pos)
-	     if id ~= -1 then
+	     if id ~= -1 and TNT_NO_PARTICLES == false then
                 local hash = minetest.hash_node_position(pos)
                 particlespawners[hash] = id
                 minetest.after(TNT_TIMER, function()
@@ -512,6 +530,9 @@ minetest.register_node(
 	  end
       end,
       after_destruct = function(pos)
+         if TNT_NO_PARTICLES then
+            return
+         end
          local hash = minetest.hash_node_position(pos)
          local id = particlespawners[hash]
 	 if id then
@@ -523,7 +544,9 @@ minetest.register_node(
 	  -- Force timer to restart if the timer was halted for some reason
           local timer = minetest.get_node_timer(pos)
 	  if not timer:is_started() then
-             minetest.sound_play("tnt_ignite", {pos = pos}, true)
+             if TNT_NO_SOUNDS == false then
+                minetest.sound_play("tnt_ignite", {pos = pos}, true)
+             end
              timer:start(TNT_TIMER)
 	  end
       end,
