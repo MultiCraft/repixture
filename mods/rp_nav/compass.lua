@@ -354,6 +354,10 @@ for c=0,7 do
 
 		      node_placement_prediction = "",
 		      on_place = magnetize_on_place,
+                      floodable = true,
+                      on_flood = function(pos, oldnode, newnode)
+                         minetest.add_item(pos, "rp_nav:compass_0")
+                      end,
 
 		      groups = {nav_compass = 1, tool=1, attached_node=1, dig_immediate=3 },
 		      stack_max = 1,
@@ -373,6 +377,11 @@ for c=0,7 do
 		      wield_image = wield_imgs[c],
 
 		      on_place = magnetize_on_place,
+
+                      floodable = true,
+                      on_flood = function(pos, oldnode, newnode)
+                         minetest.add_item(pos, "rp_nav:compass_0")
+                      end,
 
 		      groups = {nav_compass = 1, tool=1, not_in_creative_inventory = 1 },
 		      stack_max = 1,
@@ -407,6 +416,21 @@ for c=0,7 do
                 minetest.add_item(pos, item)
         end
 
+        local preserve_metadata_magnocompass = function(pos, oldnode, oldmeta, drops)
+		for d=1, #drops do
+			local item = drops[d]
+			if minetest.get_item_group(item:get_name(), "nav_compass") == 2 then
+				local mx = tonumber(oldmeta.magno_x) or 0
+				local my = tonumber(oldmeta.magno_y) or 0
+				local mz = tonumber(oldmeta.magno_z) or 0
+				local itemmeta = item:get_meta()
+				itemmeta:set_int("magno_x", mx)
+				itemmeta:set_int("magno_y", my)
+				itemmeta:set_int("magno_z", mz)
+			end
+		end
+        end
+
 	-- Magno compass, points to a position.
 	-- Unlike the normal compass, all magnocompass directions are
 	-- placable nodes since a magno compass might point to any position.
@@ -436,9 +460,15 @@ for c=0,7 do
 
 	      node_placement_prediction = "",
 	      on_place = magnetize_on_place,
-
-	      drop = "",
               after_dig_node = after_dig_magnocompass,
+
+	      drop = "rp_nav:magnocompass_0",
+	      floodable = true,
+	      on_flood = function(pos, oldnode, newnode)
+		      minetest.add_item(pos, "rp_nav:compass_0")
+	      end,
+
+              preserve_metadata = preserve_metadata_magnocompass,
 
 	      groups = {nav_compass = 2, tool=1, attached_node=1, dig_immediate=3, not_in_creative_inventory = 1 },
 	      stack_max = 1,
@@ -474,9 +504,16 @@ for c=0,7 do
 
 	      inventory_image = "rp_nav_magnocompass_inventory_0.png",
 	      wield_image = "rp_nav_magnocompass_inventory_0.png",
-
-	      drop = "",
               after_dig_node = after_dig_magnocompass,
+
+	      drop = "rp_nav:magnocompass_0",
+	      preserve_metadata = preserve_metadata_magnocompass,
+
+	      floodable = true,
+	      on_flood = function(pos, oldnode, newnode)
+		      minetest.add_item(pos, "rp_nav:compass_0")
+	      end,
+
 
 	      groups = {nav_compass = 2, tool=1, attached_node=1, dig_immediate=3, not_in_creative_inventory=1 },
 	      stack_max = 1,
