@@ -46,6 +46,10 @@ for b=1, #water_buckets do
          sounds = rp_sounds.node_sound_wood_defaults(),
          walkable = false,
 	 node_placement_prediction = "",
+         floodable = true,
+         on_flood = function(pos, oldnode, newnode)
+            minetest.add_item(pos, "rp_default:bucket_"..bucket[1])
+         end,
 
          inventory_image = bucket[3],
          wield_image = bucket[3],
@@ -138,6 +142,10 @@ minetest.register_node(
       paramtype2 = "facedir",
       use_texture_alpha = "clip",
       walkable = false,
+      floodable = true,
+      on_flood = function(pos, oldnode, newnode)
+         minetest.add_item(pos, "rp_default:bucket")
+      end,
 
       stack_max = 10,
       wield_scale = {x=1,y=1,z=2},

@@ -42,6 +42,9 @@ minetest.register_node(
       wield_image = "rp_fire_bonfire_inventory.png",
       use_texture_alpha = "clip",
       floodable = true,
+      on_flood = function(pos, oldnode, newnode)
+         minetest.add_item(pos, "rp_fire:bonfire")
+      end,
       walkable = false,
       groups = {cracky = 3, bonfire = 1, attached_node = 1},
       sounds = rp_sounds.node_sound_stone_defaults(),
@@ -69,6 +72,10 @@ minetest.register_node(
       },
       damage_per_second = 2,
       floodable = true,
+      on_flood = function(pos, oldnode, newnode)
+         minetest.sound_play({name="rp_default_torch_burnout", gain=0.2, max_hear_distance = 16}, {pos=pos}, true)
+         minetest.add_item(pos, "rp_fire:bonfire")
+      end,
       light_source = LIGHT,
       use_texture_alpha = "clip",
       groups = {cracky = 3, bonfine = 2, attached_node = 1, not_in_creative_inventory = 1, react_on_rain_hf = 1},

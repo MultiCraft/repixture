@@ -253,6 +253,9 @@ minetest.register_node(
       drawtype = "nodebox",
       walkable = false,
       floodable = true,
+      on_flood = function(pos, oldnode, newnode)
+         minetest.add_item(pos, "rp_jewels:jewel")
+      end,
       node_box = {
          type = "fixed",
          fixed = {-4/16, -0.5, -4/16, 4/16, -0.5+(3/16), 4/16}
