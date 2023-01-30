@@ -366,9 +366,9 @@ for _, npc_type_table in pairs(npc_types) do
                           say(S("A flower? I love flowers! Let's make the world bloom!"), name)
                       elseif iname == "rp_default:flint_and_steel" then
                           if minetest.settings:get_bool("tnt_enable", true) then
-                             say(S("You can use this to light up torches and ignite TNT."), name)
+                             say(S("You can use this to light up torches and bonfires and ignite TNT."), name)
                           else
-                             say(S("You can use this to light up torches."), name)
+                             say(S("You can use this to light up torches and bonfires."), name)
                           end
                       elseif iname == "rp_tnt:tnt" then
                           if minetest.settings:get_bool("tnt_enable", true) then
@@ -376,6 +376,8 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                              say(S("For some reason, TNT can't be ignited. Strange."), name)
                           end
+                      elseif iname == "rp_fire:bonfire" then
+                          say(S("You need flint and steel to light the fire. But don't walk into the flame!"), name)
                       elseif iname == "rp_bed:bed_foot" then
                           if npc_type == "carpenter" then
                              say(S("Isn't it stressful to carry this heavy bed around?"), name)

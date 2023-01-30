@@ -798,18 +798,11 @@ minetest.register_tool(
       on_place = trim,
 })
 
-local tt_flint_and_steel
-if minetest.settings:get_bool("tnt_enable", true) then
-   tt_flint_and_steel = S("Ignites TNT and lights up torches")
-else
-   tt_flint_and_steel = S("Lights up torches")
-end
-
 minetest.register_tool(
    "rp_default:flint_and_steel",
    {
       description = S("Flint and Steel"),
-      _tt_help = tt_flint_and_steel,
+      _tt_help = S("Ignites ignitable blocks"),
       inventory_image = "default_flint_and_steel.png",
       sound = { breaks = "default_tool_breaks" },
       on_use = function(itemstack, user, pointed_thing)

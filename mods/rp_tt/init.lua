@@ -10,3 +10,11 @@ tt.register_snippet(function(itemstring)
 	end
 	return str
 end)
+
+tt.register_snippet(function(itemstring)
+	local def = minetest.registered_items[itemstring]
+	if def and def._rp_on_ignite then
+		return S("Ignitible")
+	end
+	return
+end)
