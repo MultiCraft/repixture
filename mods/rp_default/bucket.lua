@@ -79,22 +79,20 @@ for b=1, #water_buckets do
             end
 
 	    local bucket_placed = false
-	    local gain = 1.0
             if minetest.get_item_group(under_node.name, "bucket") ~= 0 then
                -- Pour water into bucket node
                minetest.set_node(pointed_thing.under, {name = "rp_default:bucket_"..bucket[1], param2=under_node.param2 % 32})
-	       gain = 0.2
+               minetest.sound_play({name="rp_default_bucket_fill_water"}, {pos=pos}, true)
 	       bucket_placed = true
 	    elseif not above_nodedef.walkable and above_nodedef.buildable_to then
                -- Place water source node
                minetest.add_node(pos, {name = bucket[4]})
+               minetest.sound_play({name="default_place_node_water"}, {pos=pos}, true)
 	       bucket_placed = true
             end
 
             if bucket_placed then
-               -- Play sound and handle inventory stuff
-               minetest.sound_play({name="default_place_node_water", gain=gain}, {pos=pos}, true)
-
+               -- Handle inventory stuff
                if not minetest.is_creative_enabled(placer:get_player_name()) then
                   if itemstack:get_count() == 1 then
                      itemstack:set_name("rp_default:bucket")
@@ -187,16 +185,15 @@ minetest.register_node(
                 end
              end
 	     local oldnode = minetest.get_node(pointed_thing.under)
-	     local gain = 1.0
              if minetest.get_item_group(oldnode.name, "bucket") == 2 then
                 -- Pick up liquid from bucket node
                 minetest.set_node(pointed_thing.under, {name="rp_default:bucket", param2 = oldnode.param2 % 32})
-		gain = 0.2
+                minetest.sound_play({name="rp_default_bucket_fill_water", pitch=0.95}, {pos=pointed_thing.under}, true)
              else
                 -- Pick up liquid source node
                 minetest.remove_node(pointed_thing.under)
+                minetest.sound_play({name="default_dug_water", gain=1.0}, {pos=pointed_thing.under}, true)
              end
-             minetest.sound_play({name="default_dug_water", gain=gain}, {pos=pointed_thing.pos}, true)
              return itemstack
          end
 
