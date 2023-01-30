@@ -1,9 +1,9 @@
 local S = minetest.get_translator("rp_default")
 
 local water_buckets = {
-   { "water", S("Water Bucket"), "default_bucket_water.png", "rp_default:water_source", S("Places water") },
-   { "river_water", S("River Water Bucket"), "default_bucket_river_water.png", "rp_default:river_water_source", S("Places river water") },
-   { "swamp_water", S("Swamp Water Bucket"), "default_bucket_swamp_water.png", "rp_default:swamp_water_source", S("Places swamp water") },
+   { "water", S("Water Bucket"), "default_bucket_water.png", "rp_default:water_source", S("Punch to empty the bucket") },
+   { "river_water", S("River Water Bucket"), "default_bucket_river_water.png", "rp_default:river_water_source", S("Punch to empty the bucket") },
+   { "swamp_water", S("Swamp Water Bucket"), "default_bucket_swamp_water.png", "rp_default:swamp_water_source", S("Punch to empty the bucket") },
 }
 
 local node_to_bucket = {}
@@ -45,7 +45,6 @@ for b=1, #water_buckets do
          },
          sounds = rp_sounds.node_sound_wood_defaults(),
          walkable = false,
-	 node_placement_prediction = "",
          floodable = true,
          on_flood = function(pos, oldnode, newnode)
             minetest.add_item(pos, "rp_default:bucket_"..bucket[1])
@@ -57,16 +56,16 @@ for b=1, #water_buckets do
          wield_scale = {x=1,y=1,z=2},
          liquids_pointable = true,
          groups = { bucket = 2, bucket_water = 1, tool = 1, dig_immediate = 3, attached_node = 1 },
-         on_place = function(itemstack, placer, pointed_thing)
-            local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+         on_use = function(itemstack, user, pointed_thing)
+            local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, user, pointed_thing)
             if handled then
                return handled_itemstack
             end
-            if util.handle_node_protection(placer, pointed_thing) then
+            if util.handle_node_protection(user, pointed_thing) then
                return itemstack
             end
 
-            local inv=placer:get_inventory()
+            local inv=user:get_inventory()
    
             local pos = pointed_thing.above
 	    local above_node = minetest.get_node(pointed_thing.above)
@@ -93,7 +92,7 @@ for b=1, #water_buckets do
 
             if bucket_placed then
                -- Handle inventory stuff
-               if not minetest.is_creative_enabled(placer:get_player_name()) then
+               if not minetest.is_creative_enabled(user:get_player_name()) then
                   if itemstack:get_count() == 1 then
                      itemstack:set_name("rp_default:bucket")
                   elseif inv:room_for_item("main", {name="rp_default:bucket"}) then
@@ -101,7 +100,7 @@ for b=1, #water_buckets do
                      inv:add_item("main", "rp_default:bucket")
                   else
                      itemstack:take_item()
-                     local pos = placer:get_pos()
+                     local pos = user:get_pos()
                      pos.y = math.floor(pos.y + 0.5)
                      minetest.add_item(pos, "rp_default:bucket")
                   end
@@ -117,7 +116,7 @@ minetest.register_node(
    "rp_default:bucket",
    {
       description = S("Empty Bucket"),
-      _tt_help = S("Punch to collect a liquid source").."\n"..S("Place to place bucket itself"),
+      _tt_help = S("Punch to collect a liquid source"),
       inventory_image = "default_bucket.png",
       wield_image = "default_bucket.png",
 
