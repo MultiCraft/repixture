@@ -164,6 +164,20 @@ book.register_book_node(
       on_use = function(itemstack, player, pointed_thing)
          on_use(itemstack, player, pointed_thing)
       end,
+      on_rightclick = function(pos, node, clicker, itemstack)
+         if not clicker or not clicker:is_player() then
+            return itemstack
+	 end
+         -- Read book
+         local form = rp_formspec.get_page("rp_formspec:default")
+         local nmeta = minetest.get_meta(pos)
+         local title = nmeta:get_string("book:title")
+         local text = nmeta:get_string("book:text")
+         form = form .. "label[0.25,0.25;"..F(title).."]"
+         form = form .. "textarea[0.5,0.75;8,7.75;;;"..F(text).."]"
+         minetest.show_formspec(clicker:get_player_name(), "rp_book:read_book", form)
+         return itemstack
+      end,
 })
 
 minetest.register_on_player_receive_fields(
