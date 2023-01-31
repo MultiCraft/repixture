@@ -1024,22 +1024,47 @@ minetest.register_abm({
     end
 })
 
+-- Clams "washing up" at shallow sand and gravel beaches
 minetest.register_abm({
     label = "Growing clams",
     nodenames = {"rp_default:sand", "rp_default:gravel"},
     neighbors = {"rp_default:water_source"},
     interval = 20,
     chance = 160,
+    min_y = water_level,
+    max_y = water_level+2,
     action = function(pos, node)
-        if pos.y ~= water_level then
+        if pos.y < water_level or pos.y > water_level+2 then
            return
         end
+        -- Abort if there's a clam nearby
         local pos0 = vector.add(pos, {x=-5, y=0, z=-5})
         local pos1 = vector.add(pos, {x=5, y=2, z=5})
         if #minetest.find_nodes_in_area(pos0, pos1, "group:clam") >= 1 then
             return
         end
 
+        -- Check the terrain around pos if it roughly resembles a shallow beach.
+        -- Done to prevent clam spawning in trivial cases like
+        -- 1 water source + 1 sand
+
+        -- Count water around pos 1 level below where the clam would be
+        pos0 = vector.add(pos, {x=-5, y=0, z=-5})
+        pos1 = vector.add(pos, {x=5, y=0, z=5})
+        local waternodes = #minetest.find_nodes_in_area(pos0, pos1, "rp_default:water_source")
+        -- Count sand and gravel around pos 2 levels below where the clam would be.
+        -- This is 1 level below the water.
+        pos0 = vector.add(pos, {x=-5, y=-1, z=-5})
+        pos1 = vector.add(pos, {x=5, y=-1, z=5})
+        -- Seagrass also counts as the node position is the solid sand-/dirt-like node, not the plant itself
+        local beachnodes = #minetest.find_nodes_in_area(pos0, pos1, {"rp_default:sand", "rp_default:gravel", "group:seagrass"})
+        -- Check if enough nodes were found. 30 is roughly 1/4 of an 11×11 area
+        if waternodes < 30 or beachnodes < 30 then
+           return
+        end
+
+        -- All checks passed! Clam spawning begins.
+        -- Check for places for 1 or multiple clams to spawn on.
         pos0 = vector.add(pos, {x=-2, y=0, z=-2})
         pos1 = vector.add(pos, {x=2, y=0, z=2})
         local soils = minetest.find_nodes_in_area_under_air( pos0, pos1, {"rp_default:sand", "rp_default:gravel"})
