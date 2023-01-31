@@ -6,3 +6,8 @@ Book=
 Write down some notes=
 Unnamed Book=
 Book: “@1”=
+Read book=
+Bookshelf=
+Provides 8 inventory slots=
+Return=
+

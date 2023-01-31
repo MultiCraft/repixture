@@ -318,13 +318,6 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "rp_default:bookshelf",
-      burntime = 32,
-})
-
-minetest.register_craft(
-   {
-      type = "fuel",
       recipe = "rp_default:lump_coal",
       burntime = 30,
 })
@@ -890,7 +883,7 @@ crafting.register_craft(
       }
 })
 
--- Tool nodes (chests, furnaces, bookshelves)
+-- Tool nodes (chests, furnaces)
 
 crafting.register_craft(
    {
@@ -908,15 +901,6 @@ crafting.register_craft(
       items = {
          "rp_default:torch",
          "group:stone 6",
-      }
-})
-
-crafting.register_craft(
-   {
-      output = "rp_default:bookshelf",
-      items = {
-         "rp_default:book_empty 3",
-         "group:planks 6",
       }
 })
 
