@@ -39,29 +39,128 @@ local on_use = function(itemstack, player, pointed_thing)
    minetest.show_formspec(name, "rp_book:book", form)
 end
 
+book = {}
+
+book.register_book_node = function(nodename, def)
+   local groups
+   if def.groups then
+      groups = table.copy(def.groups)
+   else
+      groups = {}
+   end
+   groups.attached_node = 1
+   groups.dig_immediate = 3
+
+   local newdef = {
+         inventory_image = def.texture,
+	 wield_image = def.texture,
+	 groups = groups,
+	 drawtype = "nodebox",
+         node_box = {
+            type = "fixed",
+            fixed = {-5/16,-0.5,-5/16, 5/16,-5/16,5/16},
+	 },
+	 use_texture_alpha = "clip",
+	 paramtype = "light",
+	 paramtype2 = "facedir",
+	 sunlight_propagates = true,
+	 is_ground_content = false,
+	 walkable = false,
+         floodable = true,
+         on_flood = function(pos)
+            minetest.add_item(pos, nodename)
+         end,
+	 sounds = rp_sounds.node_sound_defaults(),
+   }
+   for k,v in pairs(def) do
+      if k ~= "groups" then
+         newdef[k] = v
+      end
+   end
+
+   minetest.register_node(nodename, newdef)
+end
+
 -- Unwritten book (stackable)
-minetest.register_craftitem(
+book.register_book_node(
    ":rp_default:book_empty",
    {
       description = S("Book"),
       _tt_help = S("Write down some notes"),
-      inventory_image = "rp_book_book_empty.png",
-      groups = { book = 2, tool = 1 },
+      texture = "rp_book_book_empty.png",
+      tiles = {
+         "rp_book_book_empty_node_top.png",
+         "rp_book_book_empty_node_bottom.png",
+         "rp_book_book_empty_node_pages.png",
+         "rp_book_book_empty_node_spine.png",
+         "rp_book_book_empty_node_side_1.png",
+         "rp_book_book_empty_node_side_2.png",
+
+      },
+      groups = { book = 2, tool = 1, dig_immediate = 3 },
 
       on_use = function(itemstack, player, pointed_thing)
          on_use(itemstack, player, pointed_thing)
       end,
 })
 
+local set_meta_description = function(meta, title)
+   if title ~= "" then
+      meta:set_string("description", S("Book: “@1”", minetest.colorize("#ffff00", title))) -- Set the item description
+   else
+      meta:set_string("description", "")
+   end
+end
+
 -- Writable book (not stackable)
-minetest.register_craftitem(
+book.register_book_node(
    ":rp_default:book",
    {
       description = S("Unnamed Book"),
-      inventory_image = "default_book.png",
+      texture = "default_book.png",
       stack_max = 1,
-      groups = { book = 2, tool = 1, not_in_creative_inventory = 1 },
+      tiles = {
+         "rp_book_book_written_node_top.png",
+         "rp_book_book_written_node_bottom.png",
+         "rp_book_book_written_node_pages.png",
+         "rp_book_book_written_node_spine.png",
+         "rp_book_book_written_node_side_1.png",
+         "rp_book_book_written_node_side_2.png",
+      },
+      groups = { book = 2, tool = 1, not_in_creative_inventory = 1, dig_immediate = 3 },
 
+      after_place_node = function(pos, player, itemstack, pointed_thing)
+         local imeta = itemstack:get_meta()
+         local nmeta = minetest.get_meta(pos) 
+	 local title = imeta:get_string("book:title")
+         nmeta:set_string("book:title", title)
+         nmeta:set_string("book:text", imeta:get_string("book:text"))
+	 nmeta:set_string("infotext", S("“@1”", title))
+      end,
+      preserve_metadata = function(pos,oldnode,oldmeta,drops)
+         for d=1,#drops do
+            local item = drops[d]
+            if item:get_name() == "rp_default:book" then
+               local imeta = item:get_meta()
+               local title = oldmeta["book:title"] or ""
+               local text = oldmeta["book:text"] or ""
+               imeta:set_string("book:title", title)
+               imeta:set_string("book:text", text)
+               set_meta_description(imeta, title)
+	    end
+	 end
+      end,
+      on_flood = function(pos)
+         local nmeta = minetest.get_meta(pos)
+	 local item = ItemStack("rp_default:book")
+         local imeta = item:get_meta()
+         local title = nmeta:get_string("book:title")
+         local text = nmeta:get_string("book:text")
+         imeta:set_string("book:title", title)
+         imeta:set_string("book:text", text)
+         set_meta_description(imeta, title)
+         minetest.add_item(pos, item)
+      end,
       on_use = function(itemstack, player, pointed_thing)
          on_use(itemstack, player, pointed_thing)
       end,
@@ -92,11 +191,7 @@ minetest.register_on_player_receive_fields(
 
       local function set_book_meta(item, title, text)
          local meta = item:get_meta()
-	 if title ~= "" then
-            meta:set_string("description", S("Book: “@1”", minetest.colorize("#ffff00", title))) -- Set the item description
-         else
-            meta:set_string("description", "")
-         end
+	 set_meta_description(meta, title)
          meta:set_string("book:title", title)
          meta:set_string("book:text", text)
       end
