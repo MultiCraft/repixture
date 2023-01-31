@@ -17,3 +17,9 @@ crafting.register_craft({
 		"rp_default:ingot_wrought_iron",
 	}
 })
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "rp_decor:barrel",
+	burntime = 20,
+})
