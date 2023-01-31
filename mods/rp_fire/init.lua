@@ -89,3 +89,12 @@ minetest.register_node(
 	  minetest.log("action", "[rp_fire] Bonfire at "..minetest.pos_to_string(pos).." goes out in the rain")
       end,
 })
+
+crafting.register_craft({
+    output = "rp_fire:bonfire",
+    items = {
+        "rp_default:gravel 4",
+        "group:soil 4",
+        "rp_default:stick 8",
+    },
+})
