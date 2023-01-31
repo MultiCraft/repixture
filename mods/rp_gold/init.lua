@@ -511,16 +511,25 @@ local function clear_trading_slots_drop(player)
 end
 minetest.register_on_dieplayer(clear_trading_slots_drop)
 
--- Items
+-- Items / nodes
 
-minetest.register_craftitem(
+book.register_book_node(
    "rp_gold:trading_book",
    {
       description = S("Trading Book"),
       _tt_help = S("Show this to a villager to trade"),
-      inventory_image = "gold_book.png^gold_bookribbon.png",
+      texture = "gold_book.png^gold_bookribbon.png",
       stack_max = 1,
-      groups = { book = 1, tool = 1 },
+      tiles = {
+         "rp_gold_book_node_top.png^gold_bookribbon.png",
+         "rp_gold_book_node_bottom.png",
+         "rp_gold_book_node_pages.png",
+         "rp_gold_book_node_spine.png^rp_gold_book_node_spine_bookribbon.png",
+         "rp_gold_book_node_side_1.png",
+         "rp_gold_book_node_side_2.png",
+
+      },
+      groups = { book = 1, tool = 1, dig_immediate = 3 },
 })
 
 minetest.register_craftitem(
@@ -549,7 +558,7 @@ default.register_ingot("rp_gold:ingot_gold", {
 	},
 })
 
--- Nodes
+-- Classic nodes
 
 minetest.register_node(
    "rp_gold:stone_with_gold",
