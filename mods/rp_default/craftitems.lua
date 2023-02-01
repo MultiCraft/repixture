@@ -95,16 +95,6 @@ minetest.register_craftitem(
       inventory_image = "default_lump_bronze.png",
 })
 
--- Ingots
-
-minetest.register_craftitem(
-   "rp_default:ingot_wrought_iron",
-   {
-      description = S("Wrought Iron Ingot"),
-      groups = { ingot = 1 },
-      inventory_image = "default_ingot_wrought_iron.png",
-})
-
 -- Crafted items
 
 minetest.register_craftitem(

@@ -39,6 +39,7 @@ local quicklist = {
 	{ "copper", S("Copper Ingot") },
 	{ "tin", S("Tin Ingot") },
 	{ "bronze", S("Bronze Ingot") },
+	{ "wrought_iron", S("Wrought Iron Ingot") },
 }
 
 for q=1, #quicklist do
