@@ -405,10 +405,27 @@ crafting.register_on_craft(on_craft)
 
 local form = rp_formspec.get_page("rp_formspec:default")
 
--- column 1: status image (0=gotten, 1=partial, 2=missing)
+-- column 1: status image (0=gotten, 1..8=partial, 9=missing)
 -- column 2: achievement name
 -- column 3: achievement description
-form = form .. "tablecolumns[color;image,align=left,width=1,0=ui_checkmark.png^[colorize:"..COLOR_GOTTEN..":255,1=blank.png,2=blank.png;text,align=left,width=11;"
+local progress_icons = ""
+-- Icons for achievement progress, shown in 1/8ths
+-- (special case: ui_achievment_progress_0.png, for
+-- progress lower than 1/8 but greater than 0)
+for i=1,8 do
+	progress_icons = progress_icons ..
+		i.."=ui_achievement_progress_"..(i-1)..".png,"
+end
+
+-- Construct achievements table formspec element
+form = form .. "tablecolumns[color;image,align=left,width=1,"..
+        -- checkmark icon = achievement complete
+	"0=ui_checkmark.png^[colorize:"..COLOR_GOTTEN..":255,"..
+	-- progress icons (see above)
+	progress_icons..
+	-- no icon if achievement was not gotten
+	"9=blank.png;"..
+	"text,align=left,width=11;"
    .. "text,align=left,width=28]"
 
 rp_formspec.register_page("rp_achievements:achievements", form)
@@ -435,21 +452,37 @@ function achievements.get_formspec(name)
    local amt_gotten = 0
    local amt_progress = 0
 
+   local get_progress = function(player, aname, def)
+      local part, total
+      if def.subconditions then
+         local completed = get_completed_subconditions(player, aname)
+         part = #completed
+         total = #def.subconditions
+      else
+         part = states[aname]
+         total = def.times
+      end
+      return part, total
+   end
+
    for _, aname in ipairs(achievements.registered_achievements_list) do
       local def = achievements.registered_achievements[aname]
 
-      local progress = ""
+      local progress_column = ""
       local color = ""
       local status = achievements.get_completion_status(player, aname)
       if status == achievements.ACHIEVEMENT_GOTTEN then
-	 progress = "0"
+         progress_column = "0"
          color = COLOR_GOTTEN
 	 amt_gotten = amt_gotten + 1
       elseif status == achievements.ACHIEVEMENT_IN_PROGRESS then
-         progress = "1"
+         local part, total = get_progress(player, aname, def)
+         -- One of 8 icons to roughly show achievement progress
+         local completion_ratio = math.max(0, math.min(7, math.floor((part / total) * 8)))
+         progress_column = tostring(completion_ratio+1)
          amt_progress = amt_progress + 1
       else
-	 progress = "2"
+         progress_column = "9"
       end
 
       if achievement_list ~= "" then
@@ -457,7 +490,7 @@ function achievements.get_formspec(name)
       end
 
       achievement_list = achievement_list .. color .. ","
-      achievement_list = achievement_list .. minetest.formspec_escape(progress) .. ","
+      achievement_list = achievement_list .. minetest.formspec_escape(progress_column) .. ","
       achievement_list = achievement_list .. minetest.formspec_escape(def.title) .. ","
       achievement_list = achievement_list .. minetest.formspec_escape(def.description)
    end
@@ -483,16 +516,8 @@ function achievements.get_formspec(name)
          title = minetest.colorize(COLOR_GOTTEN, title)
          description = minetest.colorize(COLOR_GOTTEN, description)
       else
-         local part, total
-         if def.subconditions then
-		 local completed = get_completed_subconditions(player, aname)
-		 part = #completed
-		 total = #def.subconditions
-	 else
-		 part = achievement_times
-		 total = def.times
-	 end
-	 progress = S("@1/@2", part, total)
+         local part, total = get_progress(player, aname, def)
+         progress = S("@1/@2", part, total)
       end
    else
       progress = S("Missing")
