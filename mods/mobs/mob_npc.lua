@@ -336,6 +336,8 @@ for _, npc_type_table in pairs(npc_types) do
                           say(S("Use this to trim plants and get wool from sheep."), name)
                       elseif iname == "rp_default:papyrus" then
                           if npc_type == "farmer" then
+                              say(S("Papyrus grows best on fertilized swamp dirt."), name)
+                          elseif npc_type == "carpenter" then
                               say(S("Papyrus likes to grow next to water."), name)
                           else
                               say(S("When I was I kid, I always liked to climb on the papyrus."), name)
