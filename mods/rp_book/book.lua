@@ -19,6 +19,7 @@ local F = minetest.formspec_escape
 local BOOK_MAX_TITLE_LENGTH = 64
 local BOOK_MAX_TEXT_LENGTH = 4500
 
+-- Book writing formspec
 local on_use = function(itemstack, player, pointed_thing)
    local name = player:get_player_name()
    local data = itemstack:get_meta()
@@ -32,8 +33,8 @@ local on_use = function(itemstack, player, pointed_thing)
    end
 
    local form = rp_formspec.get_page("rp_formspec:default")
-   form = form .. "field[0.5,1.25;8,0;title;"..F(S("Title:"))..";"..F(title).."]"
-   form = form .. "textarea[0.5,1.75;8,6.75;text;"..F(S("Contents:"))..";"..F(text).."]"
+   form = form .. "field[0.7,1.25;7.7,0;title;"..F(S("Title:"))..";"..F(title).."]"
+   form = form .. "textarea[0.7,1.75;7.7,6.75;text;"..F(S("Contents:"))..";"..F(text).."]"
    form = form .. rp_formspec.button_exit(2.75, 7.75, 3, 1, "write", S("Write"))
 
    minetest.show_formspec(name, "rp_book:book", form)
@@ -169,12 +170,12 @@ book.register_book_node(
             return itemstack
 	 end
          -- Read book
-         local form = rp_formspec.get_page("rp_formspec:default")
+         local form = rp_formspec.get_page("rp_book:book_page")
          local nmeta = minetest.get_meta(pos)
          local title = nmeta:get_string("book:title")
          local text = nmeta:get_string("book:text")
-         form = form .. "label[0.25,0.25;"..F(title).."]"
-         form = form .. "textarea[0.5,0.75;8,7.75;;;"..F(text).."]"
+         form = form .. "label[0.45,0.25;"..F(title).."]"
+         form = form .. "textarea[0.7,0.75;7.7,7.75;;;"..F(text).."]"
          minetest.show_formspec(clicker:get_player_name(), "rp_book:read_book", form)
          return itemstack
       end,

@@ -158,9 +158,9 @@ minetest.register_on_player_receive_fields(
             text = bmeta:get_string("book:text")
             title = bmeta:get_string("book:title")
          end
-         local form = rp_formspec.get_page("rp_formspec:default")
-         form = form .. "label[0.25,0.25;"..F(title).."]"
-         form = form .. "textarea[0.5,0.75;8,7.75;;;"..F(text).."]"
+         local form = rp_formspec.get_page("rp_book:book_page")
+         form = form .. "label[0.45,0.25;"..F(title).."]"
+         form = form .. "textarea[0.7,0.75;7.7,7.75;;;"..F(text).."]"
          form = form .. rp_formspec.button(2.75, 7.75, 3, 1, "return", S("Return"))
          minetest.show_formspec(pname, "rp_default:read_book_in_bookshelf", form)
 
