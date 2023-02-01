@@ -136,7 +136,7 @@ book.register_book_node(
 	 local title = imeta:get_string("book:title")
          nmeta:set_string("book:title", title)
          nmeta:set_string("book:text", imeta:get_string("book:text"))
-	 nmeta:set_string("infotext", S("“@1”", title))
+         nmeta:set_string("infotext", S("Book: “@1”", title))
       end,
       preserve_metadata = function(pos,oldnode,oldmeta,drops)
          for d=1,#drops do
