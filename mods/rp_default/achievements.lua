@@ -176,3 +176,41 @@ if mg_name ~= "v6" then
 		end
 	end)
 end
+
+minetest.register_on_mods_loaded(function()
+	if not minetest.get_modpath("rp_checkitem") then
+		return
+	end
+
+	local minerals = {}
+	local minerals_readable = {}
+	for k,v in pairs(minetest.registered_items) do
+		if minetest.get_item_group(k, "mineral_natural") == 1 then
+			table.insert(minerals, k)
+			table.insert(minerals_readable, ItemStack(k):get_short_description())
+		end
+	end
+
+	-- Achievement for collecting all minerals that generate naturally in the world
+	-- (e.g. coal lump, iron lump, etc.).
+	achievements.register_achievement(
+	"find_all_minerals",
+	{
+		title = S("A Complete Collection"),
+		description = S("Obtain one of each minerals from the underground."),
+		subconditions = minerals,
+		subconditions_readable = minerals_readable,
+		times = 0,
+		icon = "rp_default_achievement_find_all_minerals.png",
+	})
+
+	local got_mineral = function(player, item)
+	end
+
+	for m=1, #minerals do
+		rp_checkitem.register_on_got_item(minerals[m], function(player)
+			achievements.trigger_subcondition(player, "find_all_minerals", minerals[m])
+		end)
+	end
+end)
+

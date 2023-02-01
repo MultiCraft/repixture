@@ -55,6 +55,8 @@ These groups are mainly used for a better item sorting in Creative Mode.
 * `spawn_egg`: Item that spawns mobs
 * `book`: Book. Rating: 1 = unspecific book, 2 = writable book
 * `mineral_lump`: A lump of a mineral, like coal lump, iron lump, etc.
+* `mineral_natural`: A mineral item that occurs naturally (NOT the ore!)
+* `mineral_artificial`: A mineral item that does not occur naturally (e.g. bronze lump)
 * `ingot`: Ingot
 
 

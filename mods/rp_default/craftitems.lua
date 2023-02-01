@@ -42,6 +42,7 @@ minetest.register_craftitem(
    "rp_default:sheet_graphite",
    {
       description = S("Graphite Sheet"),
+      groups = { mineral_natural = 1 },
       inventory_image = "default_sheet_graphite.png",
 })
 
@@ -51,7 +52,7 @@ minetest.register_craftitem(
    "rp_default:lump_sulfur",
    {
       description = S("Sulfur Lump"),
-      groups = { mineral_lump = 1 },
+      groups = { mineral_lump = 1, mineral_natural = 1 },
       inventory_image = "default_lump_sulfur.png",
 })
 
@@ -59,7 +60,7 @@ minetest.register_craftitem(
    "rp_default:lump_coal",
    {
       description = S("Coal Lump"),
-      groups = { mineral_lump = 1 },
+      groups = { mineral_lump = 1, mineral_natural = 1 },
       inventory_image = "default_lump_coal.png",
 })
 
@@ -67,7 +68,7 @@ minetest.register_craftitem(
    "rp_default:lump_iron",
    {
       description = S("Iron Lump"),
-      groups = { mineral_lump = 1 },
+      groups = { mineral_lump = 1, mineral_natural = 1 },
       inventory_image = "default_lump_iron.png",
 })
 
@@ -75,7 +76,7 @@ minetest.register_craftitem(
    "rp_default:lump_tin",
    {
       description = S("Tin Lump"),
-      groups = { mineral_lump = 1 },
+      groups = { mineral_lump = 1, mineral_natural = 1 },
       inventory_image = "default_lump_tin.png",
 })
 
@@ -83,7 +84,7 @@ minetest.register_craftitem(
    "rp_default:lump_copper",
    {
       description = S("Copper Lump"),
-      groups = { mineral_lump = 1 },
+      groups = { mineral_lump = 1, mineral_natural = 1 },
       inventory_image = "default_lump_copper.png",
 })
 
@@ -91,7 +92,7 @@ minetest.register_craftitem(
    "rp_default:lump_bronze",
    {
       description = S("Bronze Lump"),
-      groups = { mineral_lump = 1 },
+      groups = { mineral_lump = 1, mineral_artificial = 1 },
       inventory_image = "default_lump_bronze.png",
 })
 

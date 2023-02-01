@@ -536,7 +536,7 @@ minetest.register_craftitem(
    "rp_gold:lump_gold",
    {
       description = S("Gold Lump"),
-      groups = { mineral_lump = 1 },
+      groups = { mineral_lump = 1, mineral_natural = 1 },
       inventory_image = "gold_lump_gold.png",
 })
 

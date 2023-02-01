@@ -115,7 +115,7 @@ minetest.register_node(
       description = S("Lumien Block"),
       _tt_help = S("It shines so bright"),
       tiles = {"lumien_block.png"},
-      groups = {cracky = 1},
+      groups = {cracky = 1, mineral_natural=1},
       light_source = LUMIEN_BLOCK_LIGHT,
       sounds = rp_sounds.node_sound_stone_defaults(),
 })

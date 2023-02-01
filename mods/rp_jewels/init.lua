@@ -260,6 +260,7 @@ minetest.register_node(
          type = "fixed",
          fixed = {-4/16, -0.5, -4/16, 4/16, -0.5+(3/16), 4/16}
       },
+      -- Note: The jewel does NOT count as a mineral, it is special
       groups = {dig_immediate = 3, craftitem = 1, attached_node = 1},
       sounds = rp_sounds.node_sound_defaults(),
 })
