@@ -435,11 +435,11 @@ minetest.register_lbm(
 minetest.register_lbm(
    {
       label = "Update signs",
-      name = "rp_default:update_signs_3_5_0",
+      name = "rp_default:update_signs_3_7_0",
       nodenames = {"group:sign"},
       action = function(pos, node)
          local meta = minetest.get_meta(pos)
-         default.refresh_sign(meta)
+         default.refresh_sign(meta, node)
       end
    }
 )
