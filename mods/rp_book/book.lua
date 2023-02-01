@@ -204,6 +204,16 @@ minetest.register_on_player_receive_fields(
           text= string.sub(text, 1, BOOK_MAX_TEXT_LENGTH)
       end
 
+      -- Title: Discard everything after 1st newline or carriage return
+      local tsplit = string.split(title, "\n", nil, 1)
+      if #tsplit >= 1 then
+         title = tsplit[1]
+      end
+      tsplit = string.split(title, "\r", nil, 1)
+      if #tsplit >= 1 then
+         title = tsplit[1]
+      end
+
       local function set_book_meta(item, title, text)
          local meta = item:get_meta()
 	 set_meta_description(meta, title)
