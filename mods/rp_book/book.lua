@@ -175,7 +175,7 @@ book.register_book_node(
          local title = nmeta:get_string("book:title")
          local text = nmeta:get_string("book:text")
          form = form .. "label[0.45,0.25;"..F(title).."]"
-         form = form .. "textarea[0.7,0.75;7.7,7.75;;;"..F(text).."]"
+         form = form .. "textarea[0.7,0.75;7.7,8.75;;;"..F(text).."]"
          minetest.show_formspec(clicker:get_player_name(), "rp_book:read_book", form)
          return itemstack
       end,
