@@ -10,6 +10,9 @@ local MSG_PRE = "*** "
 local S = minetest.get_translator("rp_achievements")
 
 achievements = {}
+achievements.ACHIEVEMENT_GOTTEN = 1
+achievements.ACHIEVEMENT_IN_PROGRESS = 2
+achievements.ACHIEVEMENT_NOT_GOTTEN = 3
 
 achievements.registered_achievements = {}
 achievements.registered_achievements_list = {}
@@ -437,15 +440,14 @@ function achievements.get_formspec(name)
 
       local progress = ""
       local color = ""
-      if states[aname] then
-	 if states[aname] == -1 then
-	    progress = "0"
-            color = COLOR_GOTTEN
-	    amt_gotten = amt_gotten + 1
-	 else
-	    progress = "1"
-	    amt_progress = amt_progress + 1
-	 end
+      local status = achievements.get_completion_status(player, aname)
+      if status == achievements.ACHIEVEMENT_GOTTEN then
+	 progress = "0"
+         color = COLOR_GOTTEN
+	 amt_gotten = amt_gotten + 1
+      elseif status == achievements.ACHIEVEMENT_IN_PROGRESS then
+         progress = "1"
+         amt_progress = amt_progress + 1
       else
 	 progress = "2"
       end
@@ -559,6 +561,20 @@ rp_formspec.register_invpage("rp_achievements:achievements", {
    get_formspec = achievements.get_formspec,
 })
 
+function achievements.get_completion_status(player, aname)
+   local def = achievements.registered_achievements[aname]
+   local states = get_achievement_states(player)
+   if states[aname] then
+      if states[aname] == -1 then
+         return achievements.ACHIEVEMENT_GOTTEN
+      else
+         return achievements.ACHIEVEMENT_IN_PROGRESS
+      end
+   else
+      return achievements.ACHIEVEMENT_NOT_GOTTEN
+   end
+end
+
 local function receive_fields(player, form_name, fields)
    local name = player:get_player_name()
 
@@ -595,3 +611,4 @@ local function receive_fields(player, form_name, fields)
 end
 
 minetest.register_on_player_receive_fields(receive_fields)
+

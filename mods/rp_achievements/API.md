@@ -85,3 +85,16 @@ Mark a subcondition of an achievement as completed.
 * `name`: Achievement identifier
 * `subcondition`: Identifier of subcondition to mark as complete
 
+### `achievements.get_completion_status(player, name)`
+
+Returns a player’s completion status for a  given achievement.
+Possible return values:
+
+* `achievements.ACHIEVEMENT_GOTTEN`: Achievement gotten
+* `achievements.ACHIEVEMENT_IN_PROGRESS`: Not gotten, but at least one subcondition was met
+* `achievements.ACHIEVEMENT_NOT_GOTTEN`: Not gotten, and no subconditions completedkb
+
+Parameters:
+
+* `player`: Player to check the achievement for
+* `name`: Achievement identifier
