@@ -55,6 +55,7 @@ book.register_book_node = function(nodename, def)
    local newdef = {
          inventory_image = def.texture,
 	 wield_image = def.texture,
+         wield_scale = { x=1,y=1,z=2 },
 	 groups = groups,
 	 drawtype = "nodebox",
          node_box = {

@@ -40,6 +40,7 @@ minetest.register_node(
       tiles = {"rp_fire_bonfire_stones.png", "rp_fire_bonfire_ground.png", "blank.png"},
       inventory_image = "rp_fire_bonfire_inventory.png",
       wield_image = "rp_fire_bonfire_inventory.png",
+      wield_scale = { x=1,y=1,z=1.5 },
       use_texture_alpha = "clip",
       floodable = true,
       on_flood = function(pos, oldnode, newnode)

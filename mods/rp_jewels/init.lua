@@ -245,6 +245,7 @@ minetest.register_node(
       description = S("Jewel"),
       inventory_image = "jewels_jewel.png",
       wield_image  = "jewels_jewel.png",
+      wield_scale = { x=1, y=1, z=2 },
       tiles = {"rp_jewels_node_top.png", "rp_jewels_node_top.png", "rp_jewels_node_side.png"},
       use_texture_alpha = "clip",
       paramtype = "light",
