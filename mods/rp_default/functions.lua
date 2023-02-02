@@ -701,7 +701,7 @@ minetest.register_abm( -- dirt and grass footsteps becomes dirt with grass if un
          local name = minetest.get_node(above).name
          local partialblock = minetest.get_item_group(name, "path") ~= 0 or minetest.get_item_group(name, "slab") ~= 0 or minetest.get_item_group(name, "stair") ~= 0
          local nodedef = minetest.registered_nodes[name]
-         if nodedef and (not partialblock) and (nodedef.sunlight_propagates or nodedef.paramtype == "light") and nodedef.liquidtype == "none" and (minetest.get_node_light(above) or 0) >= 8 then
+         if nodedef and (not partialblock) and (nodedef.sunlight_propagates or nodedef.paramtype == "light") and nodedef.liquidtype == "none" and nodedef.drawtype ~= "plantlike_rooted" and (minetest.get_node_light(above) or 0) >= 8 then
             local biomedata = minetest.get_biome_data(pos)
             local biomename = minetest.get_biome_name(biomedata.biome)
             if node.name == "rp_default:swamp_dirt" then
@@ -730,7 +730,7 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
          local name = minetest.get_node(above).name
          local partialblock = minetest.get_item_group(name, "path") ~= 0 or minetest.get_item_group(name, "slab") ~= 0 or minetest.get_item_group(name, "stair") ~= 0
          local nodedef = minetest.registered_nodes[name]
-         if name ~= "ignore" and nodedef and (partialblock or nodedef.paramtype ~= "light" or nodedef.liquidtype ~= "none") then
+         if name ~= "ignore" and nodedef and (partialblock or nodedef.paramtype ~= "light" or nodedef.liquidtype ~= "none" or nodedef.drawtype == "plantlike_rooted") then
             if node.name == "rp_default:dirt_with_swamp_grass" then
                 minetest.set_node(pos, {name = "rp_default:swamp_dirt"})
             else
