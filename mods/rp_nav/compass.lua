@@ -388,34 +388,6 @@ for c=0,7 do
 		})
 	end
 
-        local after_dig_magnocompass = function(pos, oldnode, oldmetadata, digger)
-                local dname = ""
-                local is_digger = false
-                if digger and digger:is_player() then
-                        is_digger = true
-                        dname = digger:get_player_name()
-                end
-
-                local item = ItemStack(oldnode.name)
-                -- Don't drop item if digger is in Creative Mode and already has an
-                -- identical item (including metadata) in inventory.
-                if minetest.is_creative_enabled(dname) and is_digger then
-                        local inv = digger:get_inventory()
-                        if inv:contains_item("main", item:get_name()) then
-                         return
-                        end
-                end
-                local itemmeta = item:get_meta()
-
-                local mx = tonumber(oldmetadata.fields.magno_x) or 0
-                local my = tonumber(oldmetadata.fields.magno_y) or 0
-                local mz = tonumber(oldmetadata.fields.magno_z) or 0
-                itemmeta:set_int("magno_x", mx)
-                itemmeta:set_int("magno_y", my)
-                itemmeta:set_int("magno_z", mz)
-                minetest.add_item(pos, item)
-        end
-
         local preserve_metadata_magnocompass = function(pos, oldnode, oldmeta, drops)
 		for d=1, #drops do
 			local item = drops[d]
@@ -460,7 +432,6 @@ for c=0,7 do
 
 	      node_placement_prediction = "",
 	      on_place = magnetize_on_place,
-              after_dig_node = after_dig_magnocompass,
 
 	      drop = "rp_nav:magnocompass_0",
 	      floodable = true,
@@ -504,7 +475,6 @@ for c=0,7 do
 
 	      inventory_image = "rp_nav_magnocompass_inventory_0.png",
 	      wield_image = "rp_nav_magnocompass_inventory_0.png",
-              after_dig_node = after_dig_magnocompass,
 
 	      drop = "rp_nav:magnocompass_0",
 	      preserve_metadata = preserve_metadata_magnocompass,
