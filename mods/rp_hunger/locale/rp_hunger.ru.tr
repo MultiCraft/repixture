@@ -1,4 +1,6 @@
 # textdomain: rp_hunger
+Hunger Debug:=
+<hunger disabled>=
 You are hungry.=Вы голодны.
 You are starving.=Вы голодаете.
 You starved to death.=Вы умерли от голода.
@@ -11,5 +13,10 @@ Set hunger level of player or yourself=Установить уровень го�
 Player is not online.=Игрок не в сети.
 No player.=Нет игрока.
 Food item=Еда
+Food points: +@1=
+Saturation points: +@1=
+
+
+##### not used anymore #####
+
 +@1 food points=+@1ед. сытости
-+@1 saturation points=

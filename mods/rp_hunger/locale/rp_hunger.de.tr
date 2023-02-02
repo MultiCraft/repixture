@@ -1,4 +1,6 @@
 # textdomain: rp_hunger
+Hunger Debug:=
+<hunger disabled>=
 You are hungry.=Sie haben Hunger.
 You are starving.=Sie verhungern.
 You starved to death.=Sie sind verhungert.
@@ -11,5 +13,11 @@ Set hunger level of player or yourself=Setzen Sie den Hungerpegel eines Spielers
 Player is not online.=Spieler ist nicht online.
 No player.=Kein Spieler.
 Food item=Lebensmittel
+Food points: +@1=
+Saturation points: +@1=
+
+
+##### not used anymore #####
+
 +@1 food points=+@1 Nahrungspunkte
 +@1 saturation points=+@1 Sättigungspunkte

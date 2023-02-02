@@ -1,3 +1,4 @@
 # textdomain: rp_tt
 Magnetic=
 Unmagnetic=
+Ignitible=
