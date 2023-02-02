@@ -460,6 +460,7 @@ minetest.register_node(
    {
       description = desc,
       _tt_help = tt,
+      _rp_tt_has_ignitible_text = true, -- prevent rp_tt mod from adding automatic tooltip
       tiles = {top_tex, "tnt_bottom.png", "tnt_sides.png"},
       is_ground_content = false,
       groups = {handy = 2, interactive_node=1},
