@@ -339,6 +339,8 @@ for _, npc_type_table in pairs(npc_types) do
                               say(S("Papyrus grows best on fertilized swamp dirt."), name)
                           elseif npc_type == "carpenter" then
                               say(S("Papyrus likes to grow next to water."), name)
+                          elseif npc_type == "tavernkeeper" then
+                              say(S("The papyrus grows tall in the swamp. But it can grow even taller."), name)
                           else
                               say(S("When I was I kid, I always liked to climb on the papyrus."), name)
                           end

@@ -89,6 +89,15 @@ achievements.register_achievement(
       item_icon = "rp_default:fertilizer",
 })
 
+achievements.register_achievement(
+   "mega_papyrus",
+   {
+      title = S("Overgrowth"),
+      description = S("Grow a papyrus to its maximum height, then harvest it."),
+      times = 1,
+      icon = "rp_default_achievement_mega_papyrus.png",
+})
+
 -- Literature
 
 achievements.register_achievement(

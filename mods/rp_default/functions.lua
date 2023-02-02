@@ -16,15 +16,22 @@ local CACTUS_MAX_HEIGHT_SAND = 4
 -- Maximum growth height of cactus on sand, fertilized
 local CACTUS_MAX_HEIGHT_SAND_PLUS = 6
 -- Maximum growth height of thistle, normally
-local THISTLE_MAX_HEIGHT = 2
+local THISTLE_MAX_HEIGHT_NORMAL = 2
 -- Maximum growth height of thistle, fertilized
 local THISTLE_MAX_HEIGHT_PLUS = 3
 -- Maximum growth height of papyrus, normally
-local PAPYRUS_MAX_HEIGHT = 3
+local PAPYRUS_MAX_HEIGHT_NORMAL = 3
 -- Maximum growth height of papyrus, fertilized
 local PAPYRUS_MAX_HEIGHT_PLUS = 4
 -- Bonus height for papyrus when growing on swamp dirt
 local PAPYRUS_SWAMP_HEIGHT_BONUS = 1
+
+-- Maximum possible cactus growth height
+default.CACTUS_MAX_HEIGHT_TOTAL = CACTUS_MAX_HEIGHT_SAND_PLUS
+-- Maximum possible thistle growth height
+default.THISTLE_MAX_HEIGHT_TOTAL = THISTLE_MAX_HEIGHT_PLUS
+-- Maximum possible papyrus growth height
+default.PAPYRUS_MAX_HEIGHT_TOTAL = PAPYRUS_MAX_HEIGHT_PLUS + PAPYRUS_SWAMP_HEIGHT_BONUS
 
 --
 -- Functions/ABMs
@@ -1155,7 +1162,7 @@ minetest.register_abm( -- papyrus grows
          if fertilized then
             maxh = PAPYRUS_MAX_HEIGHT_PLUS
          else
-            maxh = PAPYRUS_MAX_HEIGHT
+            maxh = PAPYRUS_MAX_HEIGHT_NORMAL
          end
          -- Bonus max. height on swamp dirt
          local is_swampy = minetest.get_item_group(name, "swamp_dirt") == 1
@@ -1170,7 +1177,10 @@ minetest.register_abm( -- papyrus grows
          end
          if height < maxh then
             if minetest.get_node(pos).name == "air" then
-               minetest.set_node(pos, {name="rp_default:papyrus"})
+               -- Set param2 to the height. This tells the game
+	       -- this papyrus node was grown
+               local p2 = height + 1
+               minetest.set_node(pos, {name="rp_default:papyrus", param2=p2})
             end
          end
       end,
@@ -1199,7 +1209,7 @@ minetest.register_abm( -- thistle grows (slowly)
          if fertilized then
             maxh = THISTLE_MAX_HEIGHT_PLUS
          else
-            maxh = THISTLE_MAX_HEIGHT
+            maxh = THISTLE_MAX_HEIGHT_NORMAL
          end
          -- Get node above the highest node and grow, if possible
          while minetest.get_node(pos).name == "rp_default:thistle" and height < maxh do
