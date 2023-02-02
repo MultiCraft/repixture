@@ -134,11 +134,21 @@ function achievements.register_achievement(name, def)
       craftitem = def.craftitem or nil, -- crafting this item also triggers the achievement
       icon = def.icon or nil, -- optional icon for achievement (texture)
       item_icon = def.item_icon or nil, -- optional icon for achievement (itemstring)
+      difficulty = def.difficulty or nil, -- optional difficulty rating for sorting (0..11, floating-point)
    }
 
    achievements.registered_achievements[name] = rd
-
    table.insert(achievements.registered_achievements_list, name)
+
+   local sort_by_difficulty = function(aname1, aname2)
+	   local def1 = achievements.registered_achievements[aname1]
+	   local def2 = achievements.registered_achievements[aname2]
+	   -- compare difficulty
+	   local diff1 = def1.difficulty or 100 -- assume arbitrary high value if nil; achievements w/ undefined difficulty will thus show up last
+	   local diff2 = def2.difficulty or 100
+	   return diff1 < diff2
+   end
+   table.sort(achievements.registered_achievements_list, sort_by_difficulty)
 end
 
 local function get_completed_subconditions(player, aname)

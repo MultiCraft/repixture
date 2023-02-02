@@ -9,6 +9,7 @@ local S = minetest.get_translator("rp_default")
 -- Digging wood
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 1
    "timber",
    {
       title = S("Timber"),
@@ -16,11 +17,13 @@ achievements.register_achievement(
       times = 1,
       dignode = "group:tree",
       item_icon = "rp_default:tree",
+      difficulty = 1,
 })
 
 -- Tools
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 2
    "first_pickaxe",
    {
       title = S("My First Pickaxe"),
@@ -28,6 +31,7 @@ achievements.register_achievement(
       times = 1,
       craftitem = "group:pickaxe",
       item_icon = "rp_default:pick_wood",
+      difficulty = 2,
 })
 
 achievements.register_achievement(
@@ -37,6 +41,7 @@ achievements.register_achievement(
       description = S("Craft a carbon steel pickaxe."),
       times = 1,
       craftitem = "rp_default:pick_carbon_steel",
+      difficulty = 5.9,
 })
 
 achievements.register_achievement(
@@ -47,17 +52,20 @@ achievements.register_achievement(
       times = 1,
       craftitem = "group:weapon",
       item_icon = "rp_default:spear_wrought_iron",
+      difficulty = 2.1,
 })
 
 -- Stone
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 3
    "mineority",
    {
       title = S("Mineority"),
       description = S("Mine a stone."),
       times = 1,
       dignode = "rp_default:stone",
+      difficulty = 3,
 })
 
 achievements.register_achievement(
@@ -67,15 +75,18 @@ achievements.register_achievement(
       description = S("Craft a furnace."),
       times = 1,
       craftitem = "rp_default:furnace",
+      difficulty = 3.1,
 })
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 4
    "metal_age",
    {
       title = S("Metal Age"),
       description = S("Put a mineral and some fuel in a furnace to smelt an ingot."),
       times = 1,
       craftitem = "rp_default:ingot_wrought_iron",
+      difficulty = 4,
 })
 
 -- Farming
@@ -87,6 +98,7 @@ achievements.register_achievement(
       description = S("Use fertilizer to fertilize the ground."),
       times = 1,
       item_icon = "rp_default:fertilizer",
+      difficulty = 4.2,
 })
 
 achievements.register_achievement(
@@ -96,6 +108,7 @@ achievements.register_achievement(
       description = S("Grow a papyrus to its maximum height, then harvest it."),
       times = 1,
       icon = "rp_default_achievement_mega_papyrus.png",
+      difficulty = 4.3,
 })
 
 -- Literature
@@ -107,6 +120,7 @@ achievements.register_achievement(
       description = S("Craft a bookshelf."),
       times = 1,
       craftitem = "rp_default:bookshelf",
+      difficulty = 4.2,
 })
 
 -- Plant all saplings
@@ -129,6 +143,7 @@ do
 		icon = "rp_default_achievement_forester.png",
 		subconditions = saplings,
 		subconditions_readable = saplings_readable,
+		difficulty = 5.6,
 	})
 end
 
@@ -151,6 +166,7 @@ if mg_name ~= "v6" then
 	end
 
 	achievements.register_achievement(
+           -- REFERENCE ACHIEVEMENT 10
 	   "find_all_biomes",
 	   {
 	      title = S("Explorer"),
@@ -159,6 +175,7 @@ if mg_name ~= "v6" then
 	      subconditions_readable = biomes_readable,
 	      times = 0,
 	      item_icon = "rp_armor:boots_steel",
+              difficulty = 10,
 	})
 
 	local timer = 0
@@ -211,6 +228,7 @@ minetest.register_on_mods_loaded(function()
 		subconditions_readable = minerals_readable,
 		times = 0,
 		icon = "rp_default_achievement_find_all_minerals.png",
+		difficulty = 6.5,
 	})
 
 	local got_mineral = function(player, item)

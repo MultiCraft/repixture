@@ -692,6 +692,7 @@ achievements.register_achievement(
       description = S("Craft a bed."),
       times = 1,
       craftitem = "rp_bed:bed_foot",
+      difficulty = 4.1,
 })
 
 minetest.register_lbm({

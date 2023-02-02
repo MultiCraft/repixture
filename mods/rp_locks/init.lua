@@ -418,6 +418,7 @@ achievements.register_achievement(
       description = S("Craft a lock."),
       times = 1,
       craftitem = "rp_locks:lock",
+      difficulty = 5.7,
 })
 
 achievements.register_achievement(
@@ -427,6 +428,7 @@ achievements.register_achievement(
       description = S("Break into a locked chest."),
       times = 1,
       item_icon = "rp_locks:pick",
+      difficulty = 5.8,
 })
 
 -- Update node after the rename orgy after 1.5.3

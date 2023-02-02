@@ -539,12 +539,14 @@ crafting.register_craft(
 -- Achievements
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 5
    "true_navigator_v2",
    {
       title = S("True Navigator"),
       description = S("Magnetize a compass."),
       times = 1,
       item_icon = "rp_nav:magnocompass",
+      difficulty = 5,
 })
 
 minetest.register_alias("nav:compass", "rp_nav:compass_0")

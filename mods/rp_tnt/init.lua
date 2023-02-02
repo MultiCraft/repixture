@@ -575,6 +575,7 @@ if tnt_enable then
          description = S("Ignite TNT."),
          times = 1,
          item_icon = "rp_tnt:tnt_burning",
+	 difficulty = 4.9,
    })
 else
    achievements.register_achievement(
@@ -584,6 +585,8 @@ else
          description = S("Craft defused TNT."),
          times = 1,
          craftitem = "rp_tnt:tnt",
+         -- difficulty slightly lower than for “Boom!” because of fewer materials required
+	 difficulty = 4.6,
    })
 end
 

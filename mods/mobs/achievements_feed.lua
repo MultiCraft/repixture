@@ -25,4 +25,5 @@ achievements.register_achievement(
       subconditions = animals,
       subconditions_readable = animal_names,
       icon = "mobs_achievement_gonna_feed_em_all.png",
+      difficulty = 6.6,
 })

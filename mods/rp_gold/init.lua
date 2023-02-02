@@ -646,6 +646,7 @@ achievements.register_achievement(
       description = S("Trade with a villager."),
       times = 1,
       item_icon = "rp_gold:trading_book",
+      difficulty = 5.4,
 })
 
 achievements.register_achievement(
@@ -655,6 +656,7 @@ achievements.register_achievement(
       description = S("Dig a gold ore."),
       times = 1,
       dignode = "rp_gold:stone_with_gold",
+      difficulty = 5.2,
 })
 
 minetest.register_on_leaveplayer(function(player)

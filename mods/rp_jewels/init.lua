@@ -463,30 +463,36 @@ minetest.register_craft(
 -- Achievements
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 7
    "jeweler",
    {
       title = S("Jeweler"),
       description = S("Jewel a tool."),
       times = 1,
       item_icon = "rp_jewels:shovel_steel_uses",
+      difficulty = 7,
 })
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 8
    "true_mighty_weapon",
    {
       title = S("True Mighty Weapon"),
       description = S("Use jewels to create a serrated jewel broadsword."),
       times = 1,
       item_icon = "rp_jewels:serrated_broadsword",
+      difficulty = 8,
 })
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 9
    "secret_of_jewels",
    {
       title = S("Secret of Jewels"),
       description = S("Discover the origin of jewels."),
       times = 1,
       dignode = "rp_jewels:jewel_ore",
+      difficulty = 9,
 })
 
 -- Force node to update infotext/formspec

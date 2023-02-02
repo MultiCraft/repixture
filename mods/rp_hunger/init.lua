@@ -624,6 +624,7 @@ if mod_achievements then
 		      subconditions_readable = all_foods_readable,
 		      times = 0,
 		      icon = "rp_hunger_achievement_eat_everything.png",
+		      difficulty = 6.9,
 		})
 
 	end)

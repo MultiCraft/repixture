@@ -100,6 +100,7 @@ achievements.register_achievement(
       description = S("Craft a map."),
       times = 1,
       craftitem = "rp_nav:map",
+      difficulty = 2.5,
 })
 
 minetest.register_alias("nav:map", "rp_nav:map")

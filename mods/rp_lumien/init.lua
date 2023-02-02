@@ -249,6 +249,7 @@ achievements.register_achievement(
       times = 1,
       placenode = "rp_lumien:crystal_off",
       icon = "rp_lumien_achievement_enlightened.png",
+      difficulty = 5.5,
 })
 
 minetest.register_alias("lumien:block", "rp_lumien:block")

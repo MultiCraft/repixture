@@ -480,6 +480,7 @@ achievements.register_achievement(
       times = 1,
       craftitem = "group:door",
       item_icon = "rp_door:door_wood",
+      difficulty = 2.2,
 })
 
 minetest.register_alias("door:door_stone", "rp_door:door_stone")

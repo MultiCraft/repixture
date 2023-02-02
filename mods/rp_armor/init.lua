@@ -395,15 +395,18 @@ achievements.register_achievement(
       times = 1,
       craftitem = "group:is_armor",
       item_icon = "rp_armor:chestplate_wood",
+      difficulty = 1.9,
 })
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 6
    "full_armor",
    {
       title = S("Skin of Bronze"),
       description = S("Equip a full suit of bronze armor."),
       times = 1,
       icon = "rp_armor_achievement_full_armor.png",
+      difficulty = 6,
 })
 
 if minetest.get_modpath("tt") then

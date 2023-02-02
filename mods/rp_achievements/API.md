@@ -29,11 +29,38 @@ Registers an achievement.
       crafting output identifier as provided to the `rp_crafting` mod)
     * `icon`: Optional icon (texture name)
     * `item_icon`: Optional icon (texture name)
+    * `difficulty`: Optional difficulty rating of achievement (see below)
     * Additional fields depending on the type (see below)
 
 If neither `icon` nor `item_icon` are present, this mod will pick an icon automatically
 by using the item icon of `dignode`, `placenode` or `craftitem`. If those fields
 are not present, or use groups, a generic trophy icon will be used instead.
+
+#### Difficulty rating
+
+The difficulty rating is a number between 0 and 11 (floats allowed). Lower = easier.
+“Difficulty” is not just about skill, but also about time needed, complexity, amount of grinding, luck, etc.
+So try to take all that into account. The rating is used only for sorting the achievements list, so easy
+or early-game achievements show up at the top.
+
+Rating the difficulty is very subjective. To keep the ratings at least somewhat consistent, use a number
+in relation to the 10 reference achievements, listed below:
+
+* 1: Timber (early-game item, almost instantly to get)
+* 2: My First Pickaxe (first meaningful craft)
+* 3: Mineority (first stone)
+* 4: Metal Age (first furnace smelting)
+* 5: True Navigator (requires advanced materials)
+* 6: Bronze Skin (late-game metal required)
+* 7: Jeweler (requires rare item)
+* 8: True Mighty Weapon (requires many rare items)
+* 9: Secret of Jewels (tricky to figure out)
+* 10: Explorer (long grind)
+
+Examples:
+If an achievement is about as easy as Timber, give it a 1.
+If it is easier, give it a number lower than 1.
+If it is easier than Bronze Skin, but harder than True Navigator, give it a value between 5 and 6.
 
 #### Trigger achievements
 
