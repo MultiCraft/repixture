@@ -62,8 +62,8 @@ local function on_globalstep(dtime)
 		local yaw = player:get_look_horizontal()
 		local pos = player:get_pos()
 
-		-- Cycle through hotbar slots
-		for i = 1, 8 do
+		-- Cycle through all inventory slots
+		for i = 1, inv:get_size("main") do
 			local itemstack = inv:get_stack("main", i)
 			local changed
 			itemstack, changed = update_compass_itemstack(itemstack, pos, yaw)
