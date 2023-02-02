@@ -223,7 +223,7 @@ minetest.register_on_mods_loaded(function()
 	"find_all_minerals",
 	{
 		title = S("A Complete Collection"),
-		description = S("Obtain one of each minerals from the underground."),
+		description = S("Obtain one of each minerals."),
 		subconditions = minerals,
 		subconditions_readable = minerals_readable,
 		times = 0,
