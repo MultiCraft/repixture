@@ -34,7 +34,7 @@ end
 achievements.register_achievement(
    "ranger",
    {
-      title = S("Ranger"),
+      title = S("Gotcha!"),
       description = S("Capture a tame animal."),
       times = 1,
       item_icon = "mobs:lasso",
