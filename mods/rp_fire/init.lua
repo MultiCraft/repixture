@@ -46,7 +46,7 @@ minetest.register_node(
          minetest.add_item(pos, "rp_fire:bonfire")
       end,
       walkable = false,
-      groups = {cracky = 3, bonfire = 1, attached_node = 1},
+      groups = {crumbly = 3, oddly_breakable_by_hand = 3, bonfire = 1, attached_node = 1},
       sounds = rp_sounds.node_sound_stone_defaults(),
       _rp_on_ignite = function(pos, itemstack, user)
          minetest.set_node(pos, {name="rp_fire:bonfire_burning"})
@@ -78,7 +78,7 @@ minetest.register_node(
       end,
       light_source = LIGHT,
       use_texture_alpha = "clip",
-      groups = {cracky = 3, bonfine = 2, attached_node = 1, not_in_creative_inventory = 1, react_on_rain_hf = 1},
+      groups = {crumbly = 3, oddly_breakable_by_hand = 3, bonfine = 2, attached_node = 1, not_in_creative_inventory = 1, react_on_rain_hf = 1},
       walkable = false,
       drop = "rp_fire:bonfire",
       sounds = rp_sounds.node_sound_stone_defaults(),
