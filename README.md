@@ -7,7 +7,7 @@ the world.
 
 ## Version
 
-3.6.3
+3.7.0
 
 Designed for use with Minetest 5.6.0 or later.
 
@@ -27,7 +27,6 @@ Designed for use with Minetest 5.6.0 or later.
 * Change your player appearance
 * Achievements
 * Multi-language support
-    * German translation
 * Creative Mode (unlimited building)
 * Over 250 items in total
 
