@@ -188,6 +188,9 @@ local register_boat = function(name, def)
 	minetest.register_craftitem(itemstring, {
 		description = def.description,
 		liquids_pointable = true,
+		groups = { boat = 1 },
+		inventory_image = def.inventory_image,
+		wield_image = def.wield_image,
 		on_place = function(itemstack, placer, pointed_thing)
 			if pointed_thing.type ~= "node" then
 				return itemstack
@@ -217,32 +220,43 @@ local register_boat = function(name, def)
 	})
 end
 
--- Dummy test boat
-register_boat("log_float", {
-	description = S("Log Float"),
-	float_offset = 0.3,
-	attach_offset = { x=0, y=1, z=0 },
-	collisionbox = { -0.49, -0.49, -0.49, 0.45, 0.49, 0.49 },
-	selectionbox = { -1, -0.501, -1, 1, 0.501, 1 },
-	textures = {
-		"rp_boats_boat_log_side.png",
-		"rp_boats_boat_log_end.png",
-		"rp_boats_boat_log_side_inner.png",
-		"rp_boats_boat_log_side_inner_end.png",
-		"rp_boats_boat_log_inner.png",
-		"rp_boats_boat_log_side.png",
-	},
-	mesh = "rp_boats_log_float.obj",
-})
+-- Log floats
+local log_floats = {
+	{ "wood", S("Wood Log Float"), "rp_default:tree" },
+	{ "birch", S("Birch Log Float"), "rp_default:tree_birch" },
+	{ "oak", S("Oak Log Float"), "rp_default:tree_oak" },
+}
+for l=1,#log_floats do
+	local id = log_floats[l][1]
+	register_boat("log_float_"..id, {
+		description = log_floats[l][2],
+		float_offset = 0.3,
+		attach_offset = { x=0, y=1, z=0 },
+		collisionbox = { -0.49, -0.49, -0.49, 0.45, 0.49, 0.49 },
+		selectionbox = { -1, -0.501, -1, 1, 0.501, 1 },
+		inventory_image = "rp_boats_boat_log_"..id.."_item.png",
+		wield_image = "rp_boats_boat_log_"..id.."_item.png",
+		textures = {
+			"rp_boats_boat_log_"..id.."_side.png",
+			"rp_boats_boat_log_"..id.."_end.png",
+			"rp_boats_boat_log_"..id.."_inner_side.png",
+			"rp_boats_boat_log_"..id.."_inner_end.png",
+			"rp_boats_boat_log_"..id.."_inner.png",
+			"rp_boats_boat_log_"..id.."_side.png",
+		},
+		mesh = "rp_boats_log_float.obj",
+	})
+	crafting.register_craft({
+		output = "rp_boats:log_float_"..id,
+		items = {
+			log_floats[l][3] .. " 2",
+		},
+	})
+end
 
-crafting.register_craft({
-	output = "rp_boats:log_float",
-	items = {
-		"rp_default:tree 2",
-	},
-})
 minetest.register_craft({
 	type = "fuel",
-	recipe = "rp_boats:log_float",
+	recipe = "group:boat",
 	burntime = 30,
 })
+
