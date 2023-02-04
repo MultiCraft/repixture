@@ -149,13 +149,6 @@ local register_boat = function(name, def)
 			self.object:set_velocity(vector.add(horvel, vertvel))
 
 			self._last_state = self._state
-
-			self.object:set_properties({nametag="state="..self._state.."\n"..
-			"mynode_above="..mynode_above.name.."\n"..
-			"mynode="..mynode.name.."\n"..
-			"mynode_below="..mynode_below.name.."\n"..
-			"frac="..(mypos.y%1).."\n"..
-			"ground="..tostring(moveresult.collides and moveresult.touching_ground)})
 		end,
 		on_rightclick = function(self, clicker)
 			if clicker and clicker:is_player() then
