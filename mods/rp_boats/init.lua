@@ -17,9 +17,18 @@ local HOR_SPEED_CHANGE_RATE = 0.075
 local YAW_CHANGE_RATE = 0.01
 
 local register_boat = function(name, def)
-	minetest.register_entity("rp_boats:"..name, {
+	local itemstring = "rp_boats:"..name
+	if not def.attach_offset then
+		def.attach_offset = {x=0, y=0, z=0}
+	end
+	if not def.float_offset then
+		def.float_offset = 0
+	end
+	minetest.register_entity(itemstring, {
 		physical = true,
 		collide_with_objects = true,
+		visual = "mesh",
+
 		collisionbox = { -0.49, -0.49, -0.49, 0.45, 0.49, 0.49 },
 		selectionbox = { -1, -0.501, -1, 1, 0.501, 1 },
 		textures = {
@@ -30,7 +39,6 @@ local register_boat = function(name, def)
 			"default_wood.png",
 			"default_tree.png^[transformR90",
 		},
-		visual = "mesh",
 		mesh = "rp_boats_log_float.obj",
 
 		_state = STATE_FALLING,
@@ -73,11 +81,11 @@ local register_boat = function(name, def)
 				elseif mydef_below.liquidtype ~= "none" then
 					local yvel = 0
 					local frac = mypos.y % 1
-					local BUYOY = 0.7
-					local BUYOY_ANTI = 1 - BUYOY
-					if frac < BUYOY - 0.01 and frac > BUYOY_ANTI then
+					local buyoy = def.float_offset
+					local buyoy_anti = 1 - buyoy
+					if frac < buyoy_anti - 0.01 and frac > buyoy then
 						self._state = STATE_FLOATING_UP
-					elseif frac > BUYOY + 0.01 or frac <= BUYOY_ANTI then
+					elseif frac > buyoy_anti + 0.01 or frac <= buyoy then
 						self._state = STATE_FLOATING_DOWN
 					else
 						self._state = STATE_FLOATING
@@ -166,7 +174,7 @@ local register_boat = function(name, def)
 					if clicker:get_attach() == nil then
 						minetest.log("action", "[rp_boats] "..clicker:get_player_name().." detaches from boat at "..minetest.pos_to_string(self.object:get_pos(),1))
 						self._driver = clicker
-						self._driver:set_attach(self.object, "", {x=0,y=0,z=0}, {x=0,y=0,z=0}, true)
+						self._driver:set_attach(self.object, "", def.attach_offset, {x=0,y=0,z=0}, true)
 					end
 				end
 			end
@@ -177,36 +185,58 @@ local register_boat = function(name, def)
 			if killer and killer:is_player() and minetest.is_creative_enabled(killer:get_player_name()) then
 				return
 			end
-			minetest.add_item(self.object:get_pos(), "rp_boats:boat")
+			minetest.add_item(self.object:get_pos(), itemstring)
+		end,
+	})
+
+	minetest.register_craftitem(itemstring, {
+		description = def.description,
+		liquids_pointable = true,
+		on_place = function(itemstack, placer, pointed_thing)
+			if pointed_thing.type ~= "node" then
+				return itemstack
+			end
+			local pos1 = pointed_thing.above
+			local node1 = minetest.get_node(pos1)
+			local ndef1 = minetest.registered_nodes[node1.name]
+			local pos2 = pointed_thing.under
+			local node2 = minetest.get_node(pos2)
+			local ndef2 = minetest.registered_nodes[node2.name]
+			local place_pos = table.copy(pos1)
+			if pos1.x == pos2.x and pos1.z == pos2.z and ndef2.liquidtype ~= "none" then
+				place_pos = vector.add(place_pos, {x=0, y=-def.float_offset, z=0})
+			end
+			if ndef1 and not ndef1.walkable then
+				local ent = minetest.add_entity(place_pos, itemstring)
+				if ent then
+					ent:set_yaw(placer:get_look_horizontal())
+					minetest.log("action", "[rp_boats] "..placer:get_player_name().." spawns rp_boats:"..name.." at "..minetest.pos_to_string(place_pos, 1))
+					if not minetest.is_creative_enabled(placer:get_player_name()) then
+						itemstack:take_item()
+					end
+				end
+			end
+			return itemstack
 		end,
 	})
 end
 
 -- Dummy test boat
-register_boat("log_float", {})
-
-minetest.register_craftitem("rp_boats:log_float", {
+register_boat("log_float", {
 	description = S("Log Float"),
-	liquids_pointable = true,
-	on_place = function(itemstack, placer, pointed_thing)
-		if pointed_thing.type ~= "node" then
-			return itemstack
-		end
-		local pos = pointed_thing.above
-		pos = vector.add(pos, {x=0, y=-0.3, z=0})
-		local def = minetest.get_node(pos)
-		if def and not def.walkable then
-			local ent = minetest.add_entity(pos, "rp_boats:log_float")
-			if ent then
-				ent:set_yaw(placer:get_look_horizontal())
-				minetest.log("action", "[rp_boats] "..placer:get_player_name().." spawns boat at "..minetest.pos_to_string(pos,1))
-				if not minetest.is_creative_enabled(placer:get_player_name()) then
-					itemstack:take_item()
-				end
-			end
-		end
-		return itemstack
-	end,
+	float_offset = 0.3,
+	attach_offset = { x=0, y=1, z=0 },
+	collisionbox = { -0.49, -0.49, -0.49, 0.45, 0.49, 0.49 },
+	selectionbox = { -1, -0.501, -1, 1, 0.501, 1 },
+	textures = {
+		"default_tree.png^[transformR90",
+		"default_tree_top.png",
+		"default_tree.png",
+		"default_tree.png",
+		"default_wood.png",
+		"default_tree.png^[transformR90",
+	},
+	mesh = "rp_boats_log_float.obj",
 })
 
 crafting.register_craft({
@@ -215,7 +245,6 @@ crafting.register_craft({
 		"rp_default:tree 2",
 	},
 })
-
 minetest.register_craft({
 	type = "fuel",
 	recipe = "rp_boats:log_float",
