@@ -105,20 +105,21 @@ local register_boat = function(name, def)
 			if self._driver then
 				if not self._driver:is_player() then
 					self._driver = nil
-				end
-				local ctrl = self._driver:get_player_control()
-				if ctrl.left and not ctrl.right then
-					yaw = yaw + YAW_CHANGE_RATE * dtime
-					self.object:set_yaw(yaw)
-				elseif ctrl.right and not ctrl.left then
-					yaw = yaw - YAW_CHANGE_RATE * dtime
-					self.object:set_yaw(yaw)
-				end
-				if self._state == STATE_FLOATING or self._state == STATE_FLOATING_UP or self._state == STATE_FLOATING_DOWN then
-					if ctrl.up and not ctrl.down then
-						v = math.min(MAX_HOR_SPEED, v + HOR_SPEED_CHANGE_RATE * dtime)
-					elseif ctrl.down and not ctrl.up then
-						v = math.max(-MAX_HOR_SPEED, v - HOR_SPEED_CHANGE_RATE * dtime)
+				else
+					local ctrl = self._driver:get_player_control()
+					if ctrl.left and not ctrl.right then
+						yaw = yaw + YAW_CHANGE_RATE * dtime
+						self.object:set_yaw(yaw)
+					elseif ctrl.right and not ctrl.left then
+						yaw = yaw - YAW_CHANGE_RATE * dtime
+						self.object:set_yaw(yaw)
+					end
+					if self._state == STATE_FLOATING or self._state == STATE_FLOATING_UP or self._state == STATE_FLOATING_DOWN then
+						if ctrl.up and not ctrl.down then
+							v = math.min(MAX_HOR_SPEED, v + HOR_SPEED_CHANGE_RATE * dtime)
+						elseif ctrl.down and not ctrl.up then
+							v = math.max(-MAX_HOR_SPEED, v - HOR_SPEED_CHANGE_RATE * dtime)
+						end
 					end
 				end
 			end
