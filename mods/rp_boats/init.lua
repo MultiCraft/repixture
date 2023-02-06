@@ -64,7 +64,8 @@ local register_boat = function(name, def)
 			local mynode_above = minetest.get_node(mypos_above)
 			local mydef_above = minetest.registered_nodes[mynode_above.name]
 
-			local v = self.object:get_velocity() * math.sign(self._horvel)
+			local curvel = self.object:get_velocity()
+			local v = curvel * math.sign(self._horvel)
 			self._horvel = math.sqrt(v.x ^ 2 + v.z ^ 2)
 
 			-- Update boat state (for Y movement)
@@ -133,7 +134,7 @@ local register_boat = function(name, def)
 			do
 				if self._state == STATE_FALLING then
 					vertacc = {x=0, y=-GRAVITY, z=0}
-					vertvel = {x=0, y=0, z=0}
+					vertvel = {x=0, y=curvel.y, z=0}
 				elseif self._state == STATE_SINKING then
 					vertacc = {x=0, y=0, z=0}
 					vertvel = {x=0, y=-LIQUID_SINK_SPEED, z=0}
