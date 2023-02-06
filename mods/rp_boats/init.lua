@@ -24,6 +24,7 @@ local register_boat = function(name, def)
 	if not def.float_offset then
 		def.float_offset = 0
 	end
+
 	minetest.register_entity(itemstring, {
 		physical = true,
 		collide_with_objects = true,
@@ -63,6 +64,9 @@ local register_boat = function(name, def)
 			local mypos_above = vector.add(mypos, {x=0,y=1,z=0})
 			local mynode_above = minetest.get_node(mypos_above)
 			local mydef_above = minetest.registered_nodes[mynode_above.name]
+
+			local v = self.object:get_velocity() * math.sign(self._horvel)
+			self._horvel = math.sqrt(v.x ^ 2 + v.z ^ 2)
 
 			-- Update boat state (for Y movement)
 			if mydef and mydef_below and mydef_above then
