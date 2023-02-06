@@ -162,8 +162,6 @@ local register_boat = function(name, def)
 				if self._driver and self._driver == clicker then
 					minetest.log("action", "[rp_boats] "..cname.." attaches to boat at "..minetest.pos_to_string(self.object:get_pos(),1))
 					self._driver:set_detach()
-					rp_player.player_attached[cname] = false
-					self._driver = nil
 				else
 					if clicker:get_attach() == nil then
 						minetest.log("action", "[rp_boats] "..cname.." detaches from boat at "..minetest.pos_to_string(self.object:get_pos(),1))
@@ -172,6 +170,12 @@ local register_boat = function(name, def)
 						self._driver:set_attach(self.object, "", def.attach_offset, {x=0,y=0,z=0}, true)
 					end
 				end
+			end
+		end,
+		on_detach_child = function(self, child)
+			if child and child == self._driver then
+				rp_player.player_attached[child:get_player_name()] = false
+				self._driver = nil
 			end
 		end,
 		on_death = function(self, killer)
