@@ -36,7 +36,6 @@ local register_boat = function(name, def)
 		mesh = def.mesh,
 
 		_state = STATE_FALLING,
-		_last_state = nil,
 		_driver = nil,
 		_horvel = 0,
 
@@ -131,7 +130,7 @@ local register_boat = function(name, def)
 			horvel = get_horvel(v, yaw)
 			self._horvel = v
 
-			do --if self._state ~= self._last_state or self._last_state == nil then
+			do
 				if self._state == STATE_FALLING then
 					vertacc = {x=0, y=-GRAVITY, z=0}
 					vertvel = {x=0, y=0, z=0}
@@ -154,8 +153,6 @@ local register_boat = function(name, def)
 			end
 			self.object:set_acceleration(vertacc)
 			self.object:set_velocity(vector.add(horvel, vertvel))
-
-			self._last_state = self._state
 		end,
 		on_rightclick = function(self, clicker)
 			if clicker and clicker:is_player() then
