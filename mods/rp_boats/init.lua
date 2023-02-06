@@ -13,8 +13,8 @@ local FLOAT_UP_SPEED = 0.1
 local FLOAT_DOWN_SPEED = -FLOAT_UP_SPEED
 
 local MAX_HOR_SPEED = 6
-local HOR_SPEED_CHANGE_RATE = 0.075
-local YAW_CHANGE_RATE = 0.01
+local HOR_SPEED_CHANGE_RATE = 1.5
+local YAW_CHANGE_RATE = 0.2
 
 local register_boat = function(name, def)
 	local itemstring = "rp_boats:"..name
@@ -108,16 +108,18 @@ local register_boat = function(name, def)
 				end
 				local ctrl = self._driver:get_player_control()
 				if ctrl.left and not ctrl.right then
-					yaw = yaw + YAW_CHANGE_RATE
+					yaw = yaw + YAW_CHANGE_RATE * dtime
 					self.object:set_yaw(yaw)
 				elseif ctrl.right and not ctrl.left then
-					yaw = yaw - YAW_CHANGE_RATE
+					yaw = yaw - YAW_CHANGE_RATE * dtime
 					self.object:set_yaw(yaw)
 				end
-				if ctrl.up and not ctrl.down then
-					v = math.min(MAX_HOR_SPEED, v + HOR_SPEED_CHANGE_RATE)
-				elseif ctrl.down and not ctrl.up then
-					v = math.max(-MAX_HOR_SPEED, v - HOR_SPEED_CHANGE_RATE)
+				if self._state == STATE_FLOATING or self._state == STATE_FLOATING_UP or self._state == STATE_FLOATING_DOWN then
+					if ctrl.up and not ctrl.down then
+						v = math.min(MAX_HOR_SPEED, v + HOR_SPEED_CHANGE_RATE * dtime)
+					elseif ctrl.down and not ctrl.up then
+						v = math.max(-MAX_HOR_SPEED, v - HOR_SPEED_CHANGE_RATE * dtime)
+					end
 				end
 			end
 			local get_horvel = function(v, yaw)
