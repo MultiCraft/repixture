@@ -230,6 +230,12 @@ local register_boat = function(name, def)
 			end
 			minetest.add_item(self.object:get_pos(), itemstring)
 		end,
+		on_punch = function(self, puncher, time_from_last_punch, tool_capabilities, dir, damage)
+			if damage >= 1 then
+				-- TODO: Add custom sound
+				minetest.sound_play({name = "default_dig_hard"}, {pos=self.object:get_pos()}, true)
+			end
+		end,
 	})
 
 	minetest.register_craftitem(itemstring, {
@@ -255,6 +261,8 @@ local register_boat = function(name, def)
 			if ndef1 and not ndef1.walkable then
 				local ent = minetest.add_entity(place_pos, itemstring)
 				if ent then
+					-- TODO: Add custom sound
+					minetest.sound_play({name = "default_place_node_hard"}, {pos=place_pos}, true)
 					ent:set_yaw(placer:get_look_horizontal())
 					minetest.log("action", "[rp_boats] "..placer:get_player_name().." spawns rp_boats:"..name.." at "..minetest.pos_to_string(place_pos, 1))
 					if not minetest.is_creative_enabled(placer:get_player_name()) then
