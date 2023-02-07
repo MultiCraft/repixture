@@ -39,6 +39,7 @@ local register_boat = function(name, def)
 		selectionbox = def.selectionbox,
 		textures = def.textures,
 		mesh = def.mesh,
+		hp_max = def.hp_max or 4,
 
 		_state = STATE_FALLING,
 		_driver = nil,
@@ -279,6 +280,7 @@ for l=1, #log_boats do
 			"rp_boats_boat_log_"..id.."_side.png",
 		},
 		mesh = "rp_boats_log_boat.obj",
+		hp_max = 4,
 	})
 	crafting.register_craft({
 		output = "rp_boats:log_boat_"..id,
