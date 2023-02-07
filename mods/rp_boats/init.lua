@@ -363,6 +363,7 @@ for l=1, #log_boats do
 	local id = log_boats[l][1]
 	register_boat("log_boat_"..id, {
 		description = log_boats[l][2],
+		_tt_help = S("Water vehicle"),
 		float_offset = 0.3,
 		attach_offset = { x=0, y=0, z=0 },
 		collisionbox = { -0.49, -0.49, -0.49, 0.49, 0.49, 0.49 },
