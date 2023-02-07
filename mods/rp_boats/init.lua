@@ -249,16 +249,16 @@ local register_boat = function(name, def)
 	})
 end
 
--- Log floats
-local log_floats = {
-	{ "wood", S("Wood Log Float"), "rp_default:tree" },
-	{ "birch", S("Birch Log Float"), "rp_default:tree_birch" },
-	{ "oak", S("Oak Log Float"), "rp_default:tree_oak" },
+-- Log boats
+local log_boats = {
+	{ "wood", S("Wood Log Boat"), "rp_default:tree" },
+	{ "birch", S("Birch Log Boat"), "rp_default:tree_birch" },
+	{ "oak", S("Oak Log Boat"), "rp_default:tree_oak" },
 }
-for l=1,#log_floats do
-	local id = log_floats[l][1]
-	register_boat("log_float_"..id, {
-		description = log_floats[l][2],
+for l=1, #log_boats do
+	local id = log_boats[l][1]
+	register_boat("log_boat_"..id, {
+		description = log_boats[l][2],
 		float_offset = 0.3,
 		attach_offset = { x=0, y=1, z=0 },
 		collisionbox = { -0.49, -0.49, -0.49, 0.45, 0.49, 0.49 },
@@ -273,12 +273,12 @@ for l=1,#log_floats do
 			"rp_boats_boat_log_"..id.."_inner.png",
 			"rp_boats_boat_log_"..id.."_side.png",
 		},
-		mesh = "rp_boats_log_float.obj",
+		mesh = "rp_boats_log_boat.obj",
 	})
 	crafting.register_craft({
-		output = "rp_boats:log_float_"..id,
+		output = "rp_boats:log_boat_"..id,
 		items = {
-			log_floats[l][3] .. " 2",
+			log_boats[l][3] .. " 2",
 		},
 	})
 end
