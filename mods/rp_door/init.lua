@@ -81,9 +81,13 @@ function door.register_door(name, def)
             local pt = pointed_thing.above
             local pt2 = {x=pt.x, y=pt.y, z=pt.z}
             pt2.y = pt2.y+1
+	    local ptdef = minetest.registered_nodes[minetest.get_node(pt).name]
+	    local pt2def = minetest.registered_nodes[minetest.get_node(pt2).name]
             if
-               not minetest.registered_nodes[minetest.get_node(pt).name].buildable_to or
-               not minetest.registered_nodes[minetest.get_node(pt2).name].buildable_to or
+               not ptdef or
+               not pt2def or
+               not ptdef.buildable_to or
+               not pt2def.buildable_to or
                not placer or
                not placer:is_player()
             then

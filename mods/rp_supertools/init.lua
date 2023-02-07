@@ -4,9 +4,12 @@ local grow_tall = function(pos, y_dir, nodename)
     local newpos
     for i=1, 10 do
         newpos = vector.add(pos, vector.new(0,i*y_dir,0))
-        if minetest.get_node(newpos).name == "air" then
+        local newnode = minetest.get_node(newpos)
+        if newnode.name == "air" then
             minetest.set_node(newpos, {name=nodename})
             return true
+        elseif newnode.name ~= nodename then
+           return false
         end
     end
     return false
@@ -91,10 +94,12 @@ minetest.register_craftitem(
 	    used = true
          elseif minetest.get_item_group(unode.name, "farming_plant") == 1 then
             local udef = minetest.registered_nodes[unode.name]
-	    local plantname = udef._rp_farming_plant_name
-            local has_grown = farming.next_stage(upos, plantname)
-	    if has_grown then
-               used = true
+	    if udef then
+	       local plantname = udef._rp_farming_plant_name
+               local has_grown = farming.next_stage(upos, plantname)
+	       if has_grown then
+                  used = true
+	       end
 	    end
          elseif (unode.name == "rp_default:papyrus" or unode.name == "rp_default:cactus" or unode.name == "rp_default:thistle") then
             local grown = grow_tall(upos, 1, unode.name)

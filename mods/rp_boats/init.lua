@@ -333,7 +333,7 @@ local register_boat = function(name, def)
 			local node2 = minetest.get_node(pos2)
 			local ndef2 = minetest.registered_nodes[node2.name]
 			local place_pos = table.copy(pos1)
-			if pos1.x == pos2.x and pos1.z == pos2.z and ndef2.liquidtype ~= "none" and minetest.get_item_group(node2.name, "fake_liquid") == 0 then
+			if pos1.x == pos2.x and pos1.z == pos2.z and ndef2 and ndef2.liquidtype ~= "none" and minetest.get_item_group(node2.name, "fake_liquid") == 0 then
 				place_pos = vector.add(place_pos, {x=0, y=-def.float_offset, z=0})
 			end
 			if ndef1 and not ndef1.walkable then

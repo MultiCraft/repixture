@@ -73,7 +73,7 @@ for b=1, #water_buckets do
             local above_nodedef = minetest.registered_nodes[above_node.name]
             local under_nodedef = minetest.registered_nodes[under_node.name]
 
-            if under_nodedef.buildable_to then
+            if under_nodedef and under_nodedef.buildable_to then
                pos=pointed_thing.under
             end
 
