@@ -252,7 +252,11 @@ minetest.register_node("rp_itemshow:frame",{
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
-	groups = {choppy = 2, dig_immediate = 2, creative_decoblock = 1},
+	groups = {
+		choppy = 2, dig_immediate = 2, creative_decoblock = 1,
+		-- So that placing a magnocompass on it will point
+		-- the needle to the correct direction
+		special_magnocompass_place_handling = 1},
 	sounds = rp_sounds.node_sound_defaults(),
 	is_ground_content = false,
 	on_rotate = function(pos, node, user, mode, new_param2)

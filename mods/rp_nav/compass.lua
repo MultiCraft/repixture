@@ -214,12 +214,16 @@ for c=0,7 do
 				end
 			-- Otherwise, adjust the compass needle so it shows to the correct direction
 			else
-				local nodedef = minetest.registered_nodes[node.name]
 				local nodeyaw = 0
-				if nodedef and (nodedef.paramtype2 == "wallmounted" or nodedef.paramtype2 == "colorwallmounted") then
-					nodeyaw = minetest.dir_to_yaw(minetest.wallmounted_to_dir(node.param2))
-				elseif nodedef and (nodedef.paramtype2 == "facedir" or nodedef.paramtype2 == "colorfacedir") then
-					nodeyaw = minetest.dir_to_yaw(minetest.facedir_to_dir(node.param2))
+				-- If this group is set, calculate the node's "yaw" and use that
+				-- for the placed magnocompass
+				if minetest.get_item_group(node.name, "special_magnocompass_place_handling") == 1 then
+					local nodedef = minetest.registered_nodes[node.name]
+					if nodedef and (nodedef.paramtype2 == "wallmounted" or nodedef.paramtype2 == "colorwallmounted") then
+						nodeyaw = minetest.dir_to_yaw(minetest.wallmounted_to_dir(node.param2))
+					elseif nodedef and (nodedef.paramtype2 == "facedir" or nodedef.paramtype2 == "colorfacedir") then
+						nodeyaw = minetest.dir_to_yaw(minetest.facedir_to_dir(node.param2))
+					end
 				end
 				-- Special case: Item frame. Add a little offset for nodepos as
 				-- the compass entity is at the side of the node rather than the center.
