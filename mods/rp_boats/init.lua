@@ -55,6 +55,45 @@ local unset_driver = function(self, orig_collisionbox)
 	self.object:set_properties(props)
 end
 
+-- Returns false if not enough space to mount boat at pos
+local check_space = function(pos, player, side, top)
+   local tiny = 0.01
+   local side = side - tiny
+   local bottom = -tiny
+   local top = top + tiny
+
+   local offsets = {
+           -- Format: { Xmin, Ymin, Zmin, Xmax, Ymax, Zmax }
+           -- middle vertical ray
+           { 0, bottom, 0, 0, top, 0 },
+           -- for testing the 4 vertical edges of the collisionbox
+           { -side, bottom, -side, -side, top, -side },
+           { -side, bottom,  side, -side, top,  side },
+           {  side, bottom, -side,  side, top, -side },
+           {  side, bottom,  side,  side, top,  side },
+   }
+   -- Finally check the rays
+   for i=1, #offsets do
+      local off_start = vector.new(offsets[i][1], offsets[i][2], offsets[i][3])
+      local off_end = vector.new(offsets[i][4], offsets[i][5], offsets[i][6])
+      local ray_start = vector.add(pos, off_start)
+      local ray_end = vector.add(pos, off_end)
+      local ray = minetest.raycast(ray_start, ray_end, true, true)
+      local on_ground_only = true
+      local collide = false
+      while true do
+         local thing = ray:next()
+         if not thing then
+            break
+         end
+         if thing.type == "node" then
+            return false
+         end
+      end
+   end
+   return true
+end
+
 local register_boat = function(name, def)
 	local itemstring = "rp_boats:"..name
 	if not def.attach_offset then
@@ -238,6 +277,13 @@ local register_boat = function(name, def)
 					end
 				else
 					if clicker:get_attach() == nil then
+						local pos = self.object:get_pos()
+						if not check_space(pos, clicker, 0.49, 2) then
+							minetest.chat_send_player(
+								clicker:get_player_name(),
+								minetest.colorize("#FFFF00", S("Not enough space to enter!")))
+							return
+						end
 						minetest.log("action", "[rp_boats] "..cname.." attaches to boat at "..minetest.pos_to_string(self.object:get_pos(),1))
 						set_driver(self, clicker, def.collisionbox)
 						rp_player.player_attached[cname] = true
@@ -319,7 +365,7 @@ for l=1, #log_boats do
 		description = log_boats[l][2],
 		float_offset = 0.3,
 		attach_offset = { x=0, y=0, z=0 },
-		collisionbox = { -0.49, -0.49, -0.49, 0.45, 0.49, 0.49 },
+		collisionbox = { -0.49, -0.49, -0.49, 0.49, 0.49, 0.49 },
 		selectionbox = { -1, -0.501, -1, 1, 0.501, 1 },
 		inventory_image = "rp_boats_boat_log_"..id.."_item.png",
 		wield_image = "rp_boats_boat_log_"..id.."_item.png",
