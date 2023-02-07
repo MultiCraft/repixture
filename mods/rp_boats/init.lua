@@ -17,7 +17,9 @@ local HOR_SPEED_CHANGE_RATE = 1.5 -- how fast the player can change horizontal s
 local YAW_CHANGE_RATE = 0.2 -- how fast the driver can change yaw
 
 local DRAG_FACTOR = 0.1 -- How fast the boat will slow down
+local DRAG_FACTOR_HIGH = 1 -- Higher slow down rate when not swimming/floating
 local DRAG_CONSTANT = 0.01
+local DRAG_CONSTANT_HIGH = 0.1
 
 local DETACH_OFFSET_Y = 0.8 -- How high above the driver will be placed above boat after detach
 
@@ -145,7 +147,16 @@ local register_boat = function(name, def)
 
 			-- Slow down boat if not moved by driver
 			if not moved then
-				local drag = dtime * math.sign(v) * (DRAG_CONSTANT + DRAG_FACTOR * v * v)
+				local f, c
+				if self._state ~= STATE_FLOATING and self._state ~= STATE_FLOATING_UP and self._state ~= STATE_FLOATING_DOWN then
+					-- Higher slow down rate when not floating on liquid
+					f = DRAG_FACTOR_HIGH
+					c = DRAG_CONSTANT_HIGH
+				else
+					f = DRAG_FACTOR
+					c = DRAG_CONSTANT
+				end
+				local drag = dtime * math.sign(v) * (c + f * v * v)
 				if math.abs(v) <= math.abs(drag) then
 					v = 0
 				else
