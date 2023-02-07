@@ -276,7 +276,7 @@ for l=1, #log_boats do
 	register_boat("log_boat_"..id, {
 		description = log_boats[l][2],
 		float_offset = 0.3,
-		attach_offset = { x=0, y=1, z=0 },
+		attach_offset = { x=0, y=0, z=0 },
 		collisionbox = { -0.49, -0.49, -0.49, 0.45, 0.49, 0.49 },
 		selectionbox = { -1, -0.501, -1, 1, 0.501, 1 },
 		inventory_image = "rp_boats_boat_log_"..id.."_item.png",
