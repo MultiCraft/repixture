@@ -102,6 +102,7 @@ local register_boat = function(name, def)
 
 			local yaw = self.object:get_yaw()
 			local v = self._horvel
+			local moved = false
 			if self._driver then
 				if not self._driver:is_player() then
 					self._driver = nil
@@ -117,20 +118,35 @@ local register_boat = function(name, def)
 					if self._state == STATE_FLOATING or self._state == STATE_FLOATING_UP or self._state == STATE_FLOATING_DOWN then
 						if ctrl.up and not ctrl.down then
 							v = math.min(MAX_HOR_SPEED, v + HOR_SPEED_CHANGE_RATE * dtime)
+							moved = true
 						elseif ctrl.down and not ctrl.up then
 							v = math.max(-MAX_HOR_SPEED, v - HOR_SPEED_CHANGE_RATE * dtime)
+							moved = true
 						end
 					end
 				end
 			end
+
+			-- Slow down boat if not moved by driver
+			if not moved then
+				local drag = dtime * math.sign(v) * (0.01 + 0.1 * v * v)
+				if math.abs(v) <= math.abs(drag) then
+					v = 0
+				else
+					v = v - drag
+				end
+			end
+			if math.abs(v) < 0.001 then
+				v = 0
+			end
+
+			self._horvel = v
 			local get_horvel = function(v, yaw)
 				local x = -math.sin(yaw) * v
 				local z = math.cos(yaw) * v
 				return {x=x, y=0, z=z}
 			end
 			horvel = get_horvel(v, yaw)
-			self._horvel = v
-
 			do
 				if self._state == STATE_FALLING then
 					vertacc = {x=0, y=-GRAVITY, z=0}
