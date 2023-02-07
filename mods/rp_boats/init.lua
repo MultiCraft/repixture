@@ -323,6 +323,10 @@ local register_boat = function(name, def)
 		inventory_image = def.inventory_image,
 		wield_image = def.wield_image,
 		on_place = function(itemstack, placer, pointed_thing)
+			-- Boilerplace to handle pointed node's rightclick handler
+			if not placer or not placer:is_player() then
+				return itemstack
+			end
 			if pointed_thing.type ~= "node" then
 				return itemstack
 			end
@@ -332,11 +336,19 @@ local register_boat = function(name, def)
 			local pos2 = pointed_thing.under
 			local node2 = minetest.get_node(pos2)
 			local ndef2 = minetest.registered_nodes[node2.name]
+			if ndef2 and ndef2.on_rightclick and
+			((not placer) or (placer and not placer:get_player_control().sneak)) then
+				return ndef2.on_rightclick(pointed_thing.under, node2, placer, itemstack,
+					pointed_thing) or itemstack
+			end
+
+			-- Get place position
 			local place_pos = table.copy(pos1)
 			if pos1.x == pos2.x and pos1.z == pos2.z and ndef2 and ndef2.liquidtype ~= "none" and minetest.get_item_group(node2.name, "fake_liquid") == 0 then
 				place_pos = vector.add(place_pos, {x=0, y=-def.float_offset, z=0})
 			end
 			if ndef1 and not ndef1.walkable then
+				-- Place boat
 				local ent = minetest.add_entity(place_pos, itemstring)
 				if ent then
 					-- TODO: Add custom sound
