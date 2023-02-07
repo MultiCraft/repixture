@@ -37,19 +37,19 @@ local register_boat = function(name, def)
 
 		_state = STATE_FALLING,
 		_driver = nil,
-		_horvel = 0,
+		_speed = 0,
 
 		on_activate = function(self, staticdata, dtime_s)
 			local data = minetest.deserialize(staticdata)
 			if data then
 				self._state = data._state or STATE_FALLING
-				self._horvel = data._horvel or 0
+				self._speed = data._speed or 0
 			end
 		end,
 		get_staticdata = function(self)
 			local data = {
 				_state = self._state,
-				_horvel = self._horvel,
+				_speed = self._speed,
 			}
 			return minetest.serialize(data)
 		end,
@@ -65,8 +65,8 @@ local register_boat = function(name, def)
 			local mydef_above = minetest.registered_nodes[mynode_above.name]
 
 			local curvel = self.object:get_velocity()
-			local v = curvel * math.sign(self._horvel)
-			self._horvel = math.sqrt(v.x ^ 2 + v.z ^ 2)
+			local v = curvel * math.sign(self._speed)
+			self._speed = math.sqrt(v.x ^ 2 + v.z ^ 2)
 
 			-- Update boat state (for Y movement)
 			if mydef and mydef_below and mydef_above then
@@ -101,7 +101,7 @@ local register_boat = function(name, def)
 			local vertacc = {x=0, y=0, z=0}
 
 			local yaw = self.object:get_yaw()
-			local v = self._horvel
+			local v = self._speed
 			local moved = false
 			if self._driver then
 				if not self._driver:is_player() then
@@ -140,7 +140,7 @@ local register_boat = function(name, def)
 				v = 0
 			end
 
-			self._horvel = v
+			self._speed = v
 			local get_horvel = function(v, yaw)
 				local x = -math.sin(yaw) * v
 				local z = math.cos(yaw) * v
