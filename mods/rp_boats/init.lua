@@ -21,6 +21,17 @@ local DRAG_CONSTANT = 0.01
 
 local DETACH_OFFSET_Y = 0.8 -- How high above the driver will be placed above boat after detach
 
+local is_water = function(nodename)
+	local def = minetest.registered_nodes[nodename]
+	if not def then
+		return false
+	end
+	if def.liquidtype ~= "none" and minetest.get_item_group(nodename, "water") ~= 0 then
+		return true
+	end
+	return false
+end
+
 local register_boat = function(name, def)
 	local itemstring = "rp_boats:"..name
 	if not def.attach_offset then
@@ -77,11 +88,10 @@ local register_boat = function(name, def)
 			-- Update boat state (for Y movement)
 			if mydef and mydef_below and mydef_above then
 				if moveresult.collides and moveresult.touching_ground then
-					-- stuck in solid node
-					--self._state = STATE_ON_GROUND
-				elseif mydef.liquidtype ~= "none" then
+					-- No-op
+				elseif mydef.liquidtype ~= "none" and is_water(mynode.name) then
 					self._state = STATE_SINKING
-				elseif mydef_below.liquidtype ~= "none" then
+				elseif mydef_below.liquidtype ~= "none" and is_water(mynode_below.name) then
 					local yvel = 0
 					local frac = mypos.y % 1
 					local buyoy = def.float_offset
@@ -237,7 +247,7 @@ local register_boat = function(name, def)
 			local node2 = minetest.get_node(pos2)
 			local ndef2 = minetest.registered_nodes[node2.name]
 			local place_pos = table.copy(pos1)
-			if pos1.x == pos2.x and pos1.z == pos2.z and ndef2.liquidtype ~= "none" then
+			if pos1.x == pos2.x and pos1.z == pos2.z and ndef2.liquidtype ~= "none" and minetest.get_item_group(node2.name, "fake_liquid") == 0 then
 				place_pos = vector.add(place_pos, {x=0, y=-def.float_offset, z=0})
 			end
 			if ndef1 and not ndef1.walkable then
