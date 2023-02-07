@@ -103,6 +103,10 @@ local function on_joinplayer(player)
 
    local inv = player:get_inventory()
    inv:set_size("hand", 1)
+
+   player:set_properties({
+      stepheight = 0.626, -- slightly above 10/16
+   })
 end
 
 local function on_leaveplayer(player)
