@@ -175,7 +175,17 @@ local register_boat = function(name, def)
 			if clicker and clicker:is_player() then
 				local cname = clicker:get_player_name()
 				if self._driver and self._driver == clicker then
+					-- Detach driver
+					local driver = self._driver
 					self._driver:set_detach()
+					-- Put driver slightly above the boat
+					local dpos = vector.add(vector.new(0, 0.8, 0), self.object:get_pos())
+					minetest.after(0.1, function(param)
+						if not param.driver or not param.driver:is_player() then
+							return
+						end
+						param.driver:set_pos(param.pos)
+					end, {driver=driver, pos=dpos})
 				else
 					if clicker:get_attach() == nil then
 						minetest.log("action", "[rp_boats] "..cname.." attaches to boat at "..minetest.pos_to_string(self.object:get_pos(),1))
