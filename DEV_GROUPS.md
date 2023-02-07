@@ -58,6 +58,7 @@ These groups are mainly used for a better item sorting in Creative Mode.
 * `mineral_natural`: A mineral item that occurs naturally (NOT the ore!)
 * `mineral_artificial`: A mineral item that does not occur naturally (e.g. bronze lump)
 * `ingot`: Ingot
+* `boat`: Boat
 
 
 
