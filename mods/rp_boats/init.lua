@@ -7,14 +7,19 @@ local STATE_FLOATING_UP = 4 -- floating on liquid, correcting upwards
 local STATE_FLOATING_DOWN = 5 -- floating on liquid, correcting downwards
 local STATE_ON_GROUND = 6 -- on solid ground
 
-local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
-local LIQUID_SINK_SPEED = 1
-local FLOAT_UP_SPEED = 0.1
-local FLOAT_DOWN_SPEED = -FLOAT_UP_SPEED
+local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81 --gravity
+local LIQUID_SINK_SPEED = 1 -- how fast the boat will sink inside a liquid
+local FLOAT_UP_SPEED = 0.1 -- how fast the boat will move upwards if slightly below liquid surface
+local FLOAT_DOWN_SPEED = -FLOAT_UP_SPEED -- how fast the boat will move downwards if slightly above liquid surface
 
-local MAX_HOR_SPEED = 6
-local HOR_SPEED_CHANGE_RATE = 1.5
-local YAW_CHANGE_RATE = 0.2
+local MAX_HOR_SPEED = 6 -- max. horizontal speed
+local HOR_SPEED_CHANGE_RATE = 1.5 -- how fast the player can change horizontal speed
+local YAW_CHANGE_RATE = 0.2 -- how fast the driver can change yaw
+
+local DRAG_FACTOR = 0.1 -- How fast the boat will slow down
+local DRAG_CONSTANT = 0.01
+
+local DETACH_OFFSET_Y = 0.8 -- How high above the driver will be placed above boat after detach
 
 local register_boat = function(name, def)
 	local itemstring = "rp_boats:"..name
@@ -129,7 +134,7 @@ local register_boat = function(name, def)
 
 			-- Slow down boat if not moved by driver
 			if not moved then
-				local drag = dtime * math.sign(v) * (0.01 + 0.1 * v * v)
+				local drag = dtime * math.sign(v) * (DRAG_CONSTANT + DRAG_FACTOR * v * v)
 				if math.abs(v) <= math.abs(drag) then
 					v = 0
 				else
@@ -179,7 +184,7 @@ local register_boat = function(name, def)
 					local driver = self._driver
 					self._driver:set_detach()
 					-- Put driver slightly above the boat
-					local dpos = vector.add(vector.new(0, 0.8, 0), self.object:get_pos())
+					local dpos = vector.add(vector.new(0, DETACH_OFFSET_Y, 0), self.object:get_pos())
 					minetest.after(0.1, function(param)
 						if not param.driver or not param.driver:is_player() then
 							return
