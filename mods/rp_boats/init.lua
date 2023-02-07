@@ -34,6 +34,27 @@ local is_water = function(nodename)
 	return false
 end
 
+local set_driver = function(self, driver, orig_collisionbox)
+	self._driver = driver
+	local colbox = table.copy(orig_collisionbox)
+
+	-- Add player height to boat collisionbox top Y
+	-- so the player will also collide.
+	local dcolbox = driver:get_properties().collisionbox
+	colbox[5] = colbox[5] + (dcolbox[5] - dcolbox[2])
+	local props = self.object:get_properties()
+	props.collisionbox = colbox
+	self.object:set_properties(props)
+end
+
+local unset_driver = function(self, orig_collisionbox)
+	self._driver = nil
+	local colbox = table.copy(orig_collisionbox)
+	local props = self.object:get_properties()
+	props.collisionbox = colbox
+	self.object:set_properties(props)
+end
+
 local register_boat = function(name, def)
 	local itemstring = "rp_boats:"..name
 	if not def.attach_offset then
@@ -123,7 +144,7 @@ local register_boat = function(name, def)
 			local moved = false
 			if self._driver then
 				if not self._driver:is_player() then
-					self._driver = nil
+					unset_driver(self, def.collisionbox)
 				else
 					local ctrl = self._driver:get_player_control()
 					if ctrl.left and not ctrl.right then
@@ -218,7 +239,7 @@ local register_boat = function(name, def)
 				else
 					if clicker:get_attach() == nil then
 						minetest.log("action", "[rp_boats] "..cname.." attaches to boat at "..minetest.pos_to_string(self.object:get_pos(),1))
-						self._driver = clicker
+						set_driver(self, clicker, def.collisionbox)
 						rp_player.player_attached[cname] = true
 						self._driver:set_attach(self.object, "", def.attach_offset, {x=0,y=0,z=0}, true)
 					end
@@ -230,7 +251,7 @@ local register_boat = function(name, def)
 				local cname = child:get_player_name()
 				minetest.log("action", "[rp_boats] "..cname.." detaches from boat at "..minetest.pos_to_string(self.object:get_pos(),1))
 				rp_player.player_attached[cname] = false
-				self._driver = nil
+				unset_driver(self, def.collisionbox)
 			end
 		end,
 		on_death = function(self, killer)
