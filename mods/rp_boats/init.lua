@@ -72,7 +72,7 @@ local check_space = function(pos, player, side, top)
       local off_end = vector.new(offsets[i][4], offsets[i][5], offsets[i][6])
       local ray_start = vector.add(pos, off_start)
       local ray_end = vector.add(pos, off_end)
-      local ray = minetest.raycast(ray_start, ray_end, true, true)
+      local ray = minetest.raycast(ray_start, ray_end, false, false)
       local on_ground_only = true
       local collide = false
       while true do
@@ -81,7 +81,11 @@ local check_space = function(pos, player, side, top)
             break
          end
          if thing.type == "node" then
-            return false
+            local node = minetest.get_node(thing.under)
+            local def = minetest.registered_nodes[node.name]
+            if def and def.walkable then
+               return false
+            end
          end
       end
    end
@@ -431,7 +435,7 @@ for r=1, #rafts do
 		max_speed = 6,
 		speed_change_rate = 1.5,
 		yaw_change_rate = 0.6,
-		detach_offset_y = 0.8,
+		detach_offset_y = 0.2,
 	})
 	crafting.register_craft({
 		output = "rp_boats:raft_"..id,
