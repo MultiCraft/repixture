@@ -343,10 +343,20 @@ local register_boat = function(name, def)
 
 			-- Get place position
 			local place_pos = table.copy(pos1)
+			local on_liquid = false
 			if pos1.x == pos2.x and pos1.z == pos2.z and ndef2 and ndef2.liquidtype ~= "none" and minetest.get_item_group(node2.name, "fake_liquid") == 0 then
 				place_pos = vector.add(place_pos, {x=0, y=-def.float_offset, z=0})
+				on_liquid = true
 			end
 			if ndef1 and not ndef1.walkable then
+				-- Optional function to check for available space for boat
+				if def.check_boat_space then
+					local res = def.check_boat_space(place_pos, on_liquid) -- returns true if enough space, false otherwise
+					if not res then
+						return itemstack
+					end
+				end
+
 				-- Place boat
 				local ent = minetest.add_entity(place_pos, itemstring)
 				if ent then
@@ -436,6 +446,24 @@ for r=1, #rafts do
 		speed_change_rate = 1.5,
 		yaw_change_rate = 0.6,
 		detach_offset_y = 0.2,
+		check_boat_space = function(place_pos, on_liquid)
+			local ymin = 0
+			if on_liquid then
+				ymin = -1
+			end
+			for x=-1,1 do
+			for y=ymin,0 do
+			for z=-1,1 do
+				local pnode = minetest.get_node(vector.add({x=x, y=y, z=z}, place_pos))
+				local pdef = minetest.registered_nodes[pnode.name]
+				if pdef and pdef.walkable then
+					return false
+				end
+			end
+			end
+			end
+			return true
+		end
 	})
 	crafting.register_craft({
 		output = "rp_boats:raft_"..id,
