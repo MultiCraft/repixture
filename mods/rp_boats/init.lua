@@ -392,7 +392,7 @@ end
 
 -- Register boats
 local log_boats = {
-	{ "wood", S("Wood Log Boat"), "rp_default:tree" },
+	{ "wood", S("Wooden Log Boat"), "rp_default:tree" },
 	{ "birch", S("Birch Log Boat"), "rp_default:tree_birch" },
 	{ "oak", S("Oak Log Boat"), "rp_default:tree_oak" },
 }
@@ -432,7 +432,7 @@ for l=1, #log_boats do
 end
 
 local rafts = {
-	{ "wood", S("Wood Raft"), "rp_default:planks" },
+	{ "wood", S("Wooden Raft"), "rp_default:planks" },
 	{ "birch", S("Birch Raft"), "rp_default:planks_birch" },
 	{ "oak", S("Oak Raft"), "rp_default:planks_oak" },
 }
