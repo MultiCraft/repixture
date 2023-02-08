@@ -156,7 +156,7 @@ local register_boat = function(name, def)
 					local frac = mypos.y % 1
 					local buyoy = def.float_offset
 					local buyoy_anti = 1 - buyoy
-					if frac < buyoy_anti - 0.01 and frac > buyoy then
+					if frac < buyoy_anti - 0.01 and frac > buyoy and mydef.liquidtype ~= "none" then
 						self._state = STATE_FLOATING_UP
 					elseif frac > buyoy_anti + 0.01 or frac <= buyoy then
 						self._state = STATE_FLOATING_DOWN
