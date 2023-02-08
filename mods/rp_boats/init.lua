@@ -420,7 +420,7 @@ for l=1, #log_boats do
 		attach_offset = { x=0, y=0, z=0 },
 		max_speed = 3.8,
 		speed_change_rate = 1.5,
-		yaw_change_rate = 0.2,
+		yaw_change_rate = 0.6,
 		detach_offset_y = 0.8,
 	})
 	crafting.register_craft({
@@ -456,11 +456,11 @@ for r=1, #rafts do
 		mesh = "rp_boats_raft.obj",
 		hp_max = 4,
 
-		float_offset = 0.4,
+		float_offset = 0.401,
 		attach_offset = { x=0, y=1, z=0 },
 		max_speed = 6,
 		speed_change_rate = 1.5,
-		yaw_change_rate = 0.6,
+		yaw_change_rate = 0.3,
 		detach_offset_y = 0.2,
 		check_boat_space = function(place_pos, on_liquid)
 			local ymin = 0
