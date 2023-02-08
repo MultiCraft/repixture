@@ -365,7 +365,7 @@ local register_boat = function(name, def)
 	})
 end
 
--- Log boats
+-- Register boats
 local log_boats = {
 	{ "wood", S("Wood Log Boat"), "rp_default:tree" },
 	{ "birch", S("Birch Log Boat"), "rp_default:tree_birch" },
@@ -397,6 +397,43 @@ for l=1, #log_boats do
 		output = "rp_boats:log_boat_"..id,
 		items = {
 			log_boats[l][3] .. " 2",
+		},
+	})
+end
+
+local rafts = {
+	{ "wood", S("Wood Raft"), "rp_default:planks" },
+	{ "birch", S("Birch Raft"), "rp_default:planks_birch" },
+	{ "oak", S("Oak Raft"), "rp_default:planks_oak" },
+}
+for r=1, #rafts do
+	local id = rafts[r][1]
+	register_boat("raft_"..id, {
+		description = rafts[r][2],
+		_tt_help = S("Water vehicle"),
+		float_offset = 0.4,
+		attach_offset = { x=0, y=1, z=0 },
+		collisionbox = { -0.74, -0.3, -0.74, 0.74, 0.1, 0.74 },
+		selectionbox = { -1, -0.301, -1, 1, 0.101, 1 },
+		inventory_image = "rp_boats_boat_raft_"..id.."_item.png",
+		wield_image = "rp_boats_boat_raft_"..id.."_item.png",
+		textures = {
+			"rp_boats_boat_raft_"..id..".png",
+			"rp_boats_boat_raft_"..id..".png",
+			"rp_boats_boat_raft_"..id..".png",
+			"rp_boats_boat_raft_"..id..".png",
+			"rp_boats_boat_raft_"..id..".png",
+			"rp_boats_boat_raft_"..id..".png",
+		},
+		mesh = "rp_boats_raft.obj",
+		hp_max = 4,
+	})
+	crafting.register_craft({
+		output = "rp_boats:raft_"..id,
+		items = {
+			rafts[r][3] .. " 8",
+			"rp_default:fiber 10",
+			"rp_default:stick 5",
 		},
 	})
 end
