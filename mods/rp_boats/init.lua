@@ -12,16 +12,10 @@ local LIQUID_SINK_SPEED = 1 -- how fast the boat will sink inside a liquid
 local FLOAT_UP_SPEED = 0.1 -- how fast the boat will move upwards if slightly below liquid surface
 local FLOAT_DOWN_SPEED = -FLOAT_UP_SPEED -- how fast the boat will move downwards if slightly above liquid surface
 
-local MAX_HOR_SPEED = 6 -- max. horizontal speed
-local HOR_SPEED_CHANGE_RATE = 1.5 -- how fast the player can change horizontal speed
-local YAW_CHANGE_RATE = 0.2 -- how fast the driver can change yaw
-
 local DRAG_FACTOR = 0.1 -- How fast the boat will slow down
 local DRAG_FACTOR_HIGH = 1 -- Higher slow down rate when not swimming/floating
 local DRAG_CONSTANT = 0.01
 local DRAG_CONSTANT_HIGH = 0.1
-
-local DETACH_OFFSET_Y = 0.8 -- How high above the driver will be placed above boat after detach
 
 local is_water = function(nodename)
 	local def = minetest.registered_nodes[nodename]
@@ -187,18 +181,18 @@ local register_boat = function(name, def)
 				else
 					local ctrl = self._driver:get_player_control()
 					if ctrl.left and not ctrl.right then
-						yaw = yaw + YAW_CHANGE_RATE * dtime
+						yaw = yaw + def.yaw_change_rate * dtime
 						self.object:set_yaw(yaw)
 					elseif ctrl.right and not ctrl.left then
-						yaw = yaw - YAW_CHANGE_RATE * dtime
+						yaw = yaw - def.yaw_change_rate * dtime
 						self.object:set_yaw(yaw)
 					end
 					if self._state == STATE_FLOATING or self._state == STATE_FLOATING_UP or self._state == STATE_FLOATING_DOWN then
 						if ctrl.up and not ctrl.down then
-							v = math.min(MAX_HOR_SPEED, v + HOR_SPEED_CHANGE_RATE * dtime)
+							v = math.min(def.max_speed, v + def.speed_change_rate * dtime)
 							moved = true
 						elseif ctrl.down and not ctrl.up then
-							v = math.max(-MAX_HOR_SPEED, v - HOR_SPEED_CHANGE_RATE * dtime)
+							v = math.max(-def.max_speed, v - def.speed_change_rate * dtime)
 							moved = true
 						end
 					end
@@ -267,7 +261,7 @@ local register_boat = function(name, def)
 						local driver = self._driver
 						self._driver:set_detach()
 						-- Put driver slightly above the boat
-						local dpos = vector.add(vector.new(0, DETACH_OFFSET_Y, 0), self.object:get_pos())
+						local dpos = vector.add(vector.new(0, def.detach_offset_y, 0), self.object:get_pos())
 						minetest.after(0.1, function(param)
 							if not param.driver or not param.driver:is_player() then
 								return
@@ -318,6 +312,7 @@ local register_boat = function(name, def)
 
 	minetest.register_craftitem(itemstring, {
 		description = def.description,
+		_tt_help = def._tt_help,
 		liquids_pointable = true,
 		groups = { boat = 1 },
 		inventory_image = def.inventory_image,
@@ -376,8 +371,6 @@ for l=1, #log_boats do
 	register_boat("log_boat_"..id, {
 		description = log_boats[l][2],
 		_tt_help = S("Water vehicle"),
-		float_offset = 0.3,
-		attach_offset = { x=0, y=0, z=0 },
 		collisionbox = { -0.49, -0.49, -0.49, 0.49, 0.49, 0.49 },
 		selectionbox = { -1, -0.501, -1, 1, 0.501, 1 },
 		inventory_image = "rp_boats_boat_log_"..id.."_item.png",
@@ -392,6 +385,13 @@ for l=1, #log_boats do
 		},
 		mesh = "rp_boats_log_boat.obj",
 		hp_max = 4,
+
+		float_offset = 0.3,
+		attach_offset = { x=0, y=0, z=0 },
+		max_speed = 3.8,
+		speed_change_rate = 1.5,
+		yaw_change_rate = 0.2,
+		detach_offset_y = 0.8,
 	})
 	crafting.register_craft({
 		output = "rp_boats:log_boat_"..id,
@@ -411,8 +411,6 @@ for r=1, #rafts do
 	register_boat("raft_"..id, {
 		description = rafts[r][2],
 		_tt_help = S("Water vehicle"),
-		float_offset = 0.4,
-		attach_offset = { x=0, y=1, z=0 },
 		collisionbox = { -0.74, -0.3, -0.74, 0.74, 0.1, 0.74 },
 		selectionbox = { -1, -0.301, -1, 1, 0.101, 1 },
 		inventory_image = "rp_boats_boat_raft_"..id.."_item.png",
@@ -427,6 +425,13 @@ for r=1, #rafts do
 		},
 		mesh = "rp_boats_raft.obj",
 		hp_max = 4,
+
+		float_offset = 0.4,
+		attach_offset = { x=0, y=1, z=0 },
+		max_speed = 6,
+		speed_change_rate = 1.5,
+		yaw_change_rate = 0.6,
+		detach_offset_y = 0.8,
 	})
 	crafting.register_craft({
 		output = "rp_boats:raft_"..id,
