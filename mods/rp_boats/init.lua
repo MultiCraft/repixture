@@ -343,6 +343,22 @@ local register_boat = function(name, def)
 
 			-- Get place position
 			local place_pos = table.copy(pos1)
+
+			-- Offset when placed sideways
+			local spo = def.sideways_place_offset
+			if spo then
+				if pointed_thing.under.x > pointed_thing.above.x then
+					place_pos.x = place_pos.x - spo
+				elseif pointed_thing.under.x < pointed_thing.above.x then
+					place_pos.x = place_pos.x + spo
+				end
+				if pointed_thing.under.z > pointed_thing.above.z then
+					place_pos.z = place_pos.z - spo
+				elseif pointed_thing.under.z < pointed_thing.above.z then
+					place_pos.z = place_pos.z + spo
+				end
+			end
+
 			local on_liquid = false
 			if pos1.x == pos2.x and pos1.z == pos2.z and ndef2 and ndef2.liquidtype ~= "none" and minetest.get_item_group(node2.name, "fake_liquid") == 0 then
 				place_pos = vector.add(place_pos, {x=0, y=-def.float_offset, z=0})
@@ -463,7 +479,8 @@ for r=1, #rafts do
 			end
 			end
 			return true
-		end
+		end,
+		sideways_place_offset = 1.0,
 	})
 	crafting.register_craft({
 		output = "rp_boats:raft_"..id,
