@@ -1,11 +1,12 @@
 local S = minetest.get_translator("rp_boats")
 
+local STATE_INIT = 0 -- initial state (after spawning)
 local STATE_FALLING = 1 -- free fall
 local STATE_SINKING = 2 -- inside a liquid and sinking
 local STATE_FLOATING = 3 -- floating on liquid, stable
 local STATE_FLOATING_UP = 4 -- floating on liquid, correcting upwards
 local STATE_FLOATING_DOWN = 5 -- floating on liquid, correcting downwards
-local STATE_ON_GROUND = 6 -- on solid ground
+local STATE_STUCK = 6 -- disable movement
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81 --gravity
 local LIQUID_SINK_SPEED = 1 -- how fast the boat will sink inside a liquid
@@ -16,6 +17,9 @@ local DRAG_FACTOR = 0.1 -- How fast the boat will slow down
 local DRAG_FACTOR_HIGH = 1 -- Higher slow down rate when not swimming/floating
 local DRAG_CONSTANT = 0.01
 local DRAG_CONSTANT_HIGH = 0.1
+
+local CHECK_NODES_AFTER_LANDING = 10	-- number of water nodes to check above boat if it has gotten deep
+					-- below the water surface after falling fast
 
 local is_water = function(nodename)
 	local def = minetest.registered_nodes[nodename]
@@ -112,7 +116,7 @@ local register_boat = function(name, def)
 		mesh = def.mesh,
 		hp_max = def.hp_max or 4,
 
-		_state = STATE_FALLING,
+		_state = STATE_INIT,
 		_driver = nil,
 		_speed = 0,
 
@@ -179,18 +183,80 @@ local register_boat = function(name, def)
 					local yvel = 0
 					local TOL = 0.01 -- tolerance
 
-					-- Make boat float on water or sink
+					--[[ Special check for when boat got into water after
+					falling. Checks for a water surface
+					above and teleport the node back to surface if it exists.
+					This is because if the boat fell on the water at a high
+					speed, it might have "passed" the water surface so
+					the chance of sinking is pretty high.
+					This code should (mostly) ensure that boats will
+					land on the surface of the water rather than sinking if falling
+					into at high speed.
+
+					If the boat was ULTRA fast, the boat might *not* teleport
+					to surface because it was too deep below the surface and we only
+					check for a limited number of nodes. This is acceptable tho.
+
+					Params:
+					* self: Boat object
+					* pos: Boat pos
+
+					Returns:
+					* true if was teleported to water surface, false otherwise ]]
+					local function land_on_water(self, pos)
+						-- Boat must've been in falling state before
+						-- for the check to matter at all.
+						if self._state == STATE_FALLING then
+							-- Boat was falling, this implies we might "land" on water
+							local check_pos = table.copy(pos)
+							local float = false
+							local offset = 0
+							-- Check for nodes above the boat
+							for k=1,CHECK_NODES_AFTER_LANDING do
+								offset = k
+								check_pos.y = check_pos.y + 1
+								local cnode = minetest.get_node(check_pos)
+								if not is_water(cnode.name) then
+									-- Non-water node found! We will teleport
+									float = true
+									break
+								end
+							end
+							if float then
+								-- Teleport boat to surface
+								local newpos = self.object:get_pos()
+								newpos.y = newpos.y + offset
+								self.object:set_pos(newpos)
+								-- Note: The caller still needs to update boat state manually
+								return true
+							end
+						end
+						return false
+					end
+
+					-- Update boat state
 					if above_water and (alt == "source" or above2_water) then
-						-- sink if in water source or water flowing downwards
-						self._state = STATE_SINKING
+						-- Sink if in water, float if boat has landed on water
+						if land_on_water(self, mypos) then
+							self._STATE = STATE_FLOATING
+						else
+							self._state = STATE_SINKING
+						end
+					-- Adjust boat Y position up/down when close to the water surface
 					elseif ydiff < def.float_max and ydiff > def.float_offset + TOL then
 						self._state = STATE_FLOATING_DOWN
 					elseif ydiff > def.float_min and ydiff < def.float_offset - TOL then
 						self._state = STATE_FLOATING_UP
+					-- Boat is at water surface, no Y adjustment needed (this is the "normal" floating state)
 					elseif ydiff > def.float_offset - TOL and ydiff < def.float_offset + TOL then
 						self._state = STATE_FLOATING
 					elseif ydiff < def.float_min then
-						self._state = STATE_SINKING
+						-- Sink if in water, float if boat has landed on water
+						if land_on_water(self, mypos) then
+							self._state = STATE_FLOATING
+						else
+							self._state = STATE_SINKING
+						end
 					else
 						self._state = STATE_FALLING
 					end
@@ -198,7 +264,8 @@ local register_boat = function(name, def)
 					self._state = STATE_FALLING
 				end
 			else
-				self._state = STATE_ON_GROUND
+				-- Should only happen if boat is inside unknown nodes
+				self._state = STATE_STUCK
 			end
 
 			-- Boat controls
@@ -270,7 +337,7 @@ local register_boat = function(name, def)
 				elseif self._state == STATE_SINKING then
 					vertacc = {x=0, y=0, z=0}
 					vertvel = {x=0, y=-LIQUID_SINK_SPEED, z=0}
-				elseif self._state == STATE_ON_GROUND then
+				elseif self._state == STATE_STUCK then
 					vertacc = {x=0, y=0, z=0}
 					vertvel = {x=0, y=0, z=0}
 				elseif self._state == STATE_FLOATING then
