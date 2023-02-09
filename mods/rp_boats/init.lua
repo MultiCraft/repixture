@@ -548,8 +548,8 @@ for r=1, #rafts do
 		textures = {
 			"rp_boats_boat_raft_"..id..".png",
 			"rp_boats_boat_raft_"..id..".png",
-			"rp_boats_boat_raft_"..id..".png",
-			"rp_boats_boat_raft_"..id..".png",
+			"rp_boats_boat_raft_"..id.."_side.png",
+			"rp_boats_boat_raft_"..id.."_mini.png",
 			"rp_boats_boat_raft_"..id.."_front.png",
 			"rp_boats_boat_raft_"..id.."_back.png",
 		},
