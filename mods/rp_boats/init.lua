@@ -9,8 +9,8 @@ local STATE_ON_GROUND = 6 -- on solid ground
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81 --gravity
 local LIQUID_SINK_SPEED = 1 -- how fast the boat will sink inside a liquid
-local FLOAT_UP_SPEED = 0.1 -- how fast the boat will move upwards if slightly below liquid surface
-local FLOAT_DOWN_SPEED = -FLOAT_UP_SPEED -- how fast the boat will move downwards if slightly above liquid surface
+local FLOAT_UP_SPEED = 0.5 -- how fast the boat will move upwards if slightly below liquid surface
+local FLOAT_DOWN_SPEED = -0.5 -- how fast the boat will move downwards if slightly above liquid surface
 
 local DRAG_FACTOR = 0.1 -- How fast the boat will slow down
 local DRAG_FACTOR_HIGH = 1 -- Higher slow down rate when not swimming/floating
@@ -23,7 +23,7 @@ local is_water = function(nodename)
 		return false
 	end
 	if def.liquidtype ~= "none" and minetest.get_item_group(nodename, "water") ~= 0 then
-		return true
+		return true, def.liquidtype
 	end
 	return false
 end
@@ -133,7 +133,7 @@ local register_boat = function(name, def)
 		on_step = function(self, dtime, moveresult)
 			local mypos_precise = self.object:get_pos()
 			local mypos = table.copy(mypos_precise)
-			mypos = vector.floor(mypos)
+			mypos.y = math.floor(mypos.y)
 			local mynode = minetest.get_node(mypos)
 			local mydef = minetest.registered_nodes[mynode.name]
 			local mypos_below = vector.add(mypos, {x=0,y=-1,z=0})
@@ -142,6 +142,9 @@ local register_boat = function(name, def)
 			local mypos_above = vector.add(mypos, {x=0,y=1,z=0})
 			local mynode_above = minetest.get_node(mypos_above)
 			local mydef_above = minetest.registered_nodes[mynode_above.name]
+			local mypos_above2 = vector.add(mypos, {x=0,y=2,z=0})
+			local mynode_above2 = minetest.get_node(mypos_above2)
+			local mydef_above2 = minetest.registered_nodes[mynode_above2.name]
 
 			local curvel = self.object:get_velocity()
 			local v = curvel * math.sign(self._speed)
@@ -149,24 +152,36 @@ local register_boat = function(name, def)
 
 			-- Update boat state (for Y movement)
 			if mydef and mydef_below and mydef_above then
-				local above_water = is_water(mynode_above.name)
-				local here_water = is_water(mynode.name)
-				local below_water = is_water(mynode_below.name)
+				local above2_water, a2lt = is_water(mynode_above2.name)
+				local above_water, alt = is_water(mynode_above.name)
+				local here_water, hlt = is_water(mynode.name)
+				local below_water, blt = is_water(mynode_below.name)
 				if here_water or below_water then
 					local water_y -- y of water surface
-					if above_water then
+					local tlt
+					if above2_water then
+						water_y = mypos_above2.y
+						tlt = a2lt
+					elseif above_water then
 						water_y = mypos_above.y
+						tlt = alt
 					elseif here_water then
 						water_y = mypos.y
+						tlt = hlt
 					elseif below_water then
 						water_y = mypos_below.y
+						tlt = blt
+					end
+					if tlt == "flowing" then
+						water_y = water_y - 0.5
 					end
 					local ydiff = mypos_precise.y - (water_y + 1) -- y difference between boat and water surface
 					local yvel = 0
 					local TOL = 0.01 -- tolerance
 
 					-- Make boat float on water or sink
-					if is_water(mynode_above.name) then
+					if above_water and (alt == "source" or above2_water) then
+						-- sink if in water source or water flowing downwards
 						self._state = STATE_SINKING
 					elseif ydiff < def.float_max and ydiff > def.float_offset + TOL then
 						self._state = STATE_FLOATING_DOWN
@@ -434,7 +449,7 @@ for l=1, #log_boats do
 
 		float_max = 0.0,
 		float_offset = -0.3,
-		float_min = -0.5,
+		float_min = -0.85,
 		attach_offset = { x=0, y=0, z=0 },
 		max_speed = 3.8,
 		speed_change_rate = 1.5,
@@ -476,7 +491,7 @@ for r=1, #rafts do
 
 		float_max = -0.201,
 		float_offset = -0.401,
-		float_min = -0.701,
+		float_min = -1.001,
 
 		attach_offset = { x=0, y=1, z=0 },
 		max_speed = 6,
