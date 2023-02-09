@@ -21,6 +21,8 @@ local DRAG_CONSTANT_HIGH = 0.1
 local CHECK_NODES_AFTER_LANDING = 10	-- number of water nodes to check above boat if it has gotten deep
 					-- below the water surface after falling fast
 
+local SNEAK_DETACHES = true -- if true, sneak key will detach player
+
 local is_water = function(nodename)
 	local def = minetest.registered_nodes[nodename]
 	if not def then
@@ -94,6 +96,21 @@ local check_space = function(pos, player, side, top)
       end
    end
    return true
+end
+
+-- detaches driver of boat 'self'.
+-- assumes that the boat has an active driver
+local detach_driver = function(self, detach_offset_y)
+	local driver = self._driver
+	driver:set_detach()
+	-- Put driver slightly above the boat
+	local dpos = vector.add(vector.new(0, detach_offset_y, 0), self.object:get_pos())
+	minetest.after(0.1, function(param)
+		if not param.driver or not param.driver:is_player() then
+			return
+		end
+		param.driver:set_pos(param.pos)
+	end, {driver=driver, pos=dpos})
 end
 
 local register_boat = function(name, def)
@@ -281,7 +298,13 @@ local register_boat = function(name, def)
 				if not self._driver:is_player() then
 					unset_driver(self, def.collisionbox)
 				else
+					-- Read player controls
 					local ctrl = self._driver:get_player_control()
+					-- Sneak = detach
+					if SNEAK_DETACHES and ctrl.sneak then
+						detach_driver(self, def.detach_offset_y)
+					end
+					-- Left/right = Rotate left/right
 					if ctrl.left and not ctrl.right then
 						yaw = yaw + def.yaw_change_rate * dtime
 						self.object:set_yaw(yaw)
@@ -290,9 +313,11 @@ local register_boat = function(name, def)
 						self.object:set_yaw(yaw)
 					end
 					if self._state == STATE_FLOATING or self._state == STATE_FLOATING_UP or self._state == STATE_FLOATING_DOWN then
+						-- Up = speed up
 						if ctrl.up and not ctrl.down then
 							v = math.min(def.max_speed, v + def.speed_change_rate * dtime)
 							moved = true
+						-- Down = slow down
 						elseif ctrl.down and not ctrl.up then
 							v = math.max(-def.max_speed, v - def.speed_change_rate * dtime)
 							moved = true
@@ -360,16 +385,7 @@ local register_boat = function(name, def)
 				if self._driver then
 					if self._driver == clicker then
 						-- Detach driver
-						local driver = self._driver
-						self._driver:set_detach()
-						-- Put driver slightly above the boat
-						local dpos = vector.add(vector.new(0, def.detach_offset_y, 0), self.object:get_pos())
-						minetest.after(0.1, function(param)
-							if not param.driver or not param.driver:is_player() then
-								return
-							end
-							param.driver:set_pos(param.pos)
-						end, {driver=driver, pos=dpos})
+						detach_driver(self, def.detach_offset_y)
 					end
 				else
 					if clicker:get_attach() == nil then

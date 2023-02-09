@@ -11,10 +11,11 @@ This mod adds simple boats.
 
 ## Boat controls
 
-Once you've entered a boat, use these controls
+Once you've entered a boat, use these controls:
 
 * Left/Right: Rotate
 * Up: Speed up
-* Down: Speed down / brake
-* "Place" key on boat: Unmount
+* Down: Slow down
+* Sneak: Get off boat
+* "Place" key on boat: Get off boat
 
