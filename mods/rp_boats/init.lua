@@ -131,7 +131,9 @@ local register_boat = function(name, def)
 			return minetest.serialize(data)
 		end,
 		on_step = function(self, dtime, moveresult)
-			local mypos = self.object:get_pos()
+			local mypos_precise = self.object:get_pos()
+			local mypos = table.copy(mypos_precise)
+			mypos = vector.floor(mypos)
 			local mynode = minetest.get_node(mypos)
 			local mydef = minetest.registered_nodes[mynode.name]
 			local mypos_below = vector.add(mypos, {x=0,y=-1,z=0})
@@ -147,23 +149,37 @@ local register_boat = function(name, def)
 
 			-- Update boat state (for Y movement)
 			if mydef and mydef_below and mydef_above then
-				if moveresult.collides and moveresult.touching_ground then
-					-- No-op
-				elseif mydef.liquidtype ~= "none" and is_water(mynode.name) then
-					self._state = STATE_SINKING
-				elseif mydef_below.liquidtype ~= "none" and is_water(mynode_below.name) then
-					local yvel = 0
-					local frac = mypos.y % 1
-					local buyoy = def.float_offset
-					local buyoy_anti = 1 - buyoy
-					if frac < buyoy_anti - 0.01 and frac > buyoy and mydef.liquidtype ~= "none" then
-						self._state = STATE_FLOATING_UP
-					elseif frac > buyoy_anti + 0.01 or frac <= buyoy then
-						self._state = STATE_FLOATING_DOWN
-					else
-						self._state = STATE_FLOATING
+				local above_water = is_water(mynode_above.name)
+				local here_water = is_water(mynode.name)
+				local below_water = is_water(mynode_below.name)
+				if here_water or below_water then
+					local water_y -- y of water surface
+					if above_water then
+						water_y = mypos_above.y
+					elseif here_water then
+						water_y = mypos.y
+					elseif below_water then
+						water_y = mypos_below.y
 					end
-				elseif not mydef.walkable and not mydef_below.walkable then
+					local ydiff = mypos_precise.y - (water_y + 1) -- y difference between boat and water surface
+					local yvel = 0
+					local TOL = 0.01 -- tolerance
+
+					-- Make boat float on water or sink
+					if is_water(mynode_above.name) then
+						self._state = STATE_SINKING
+					elseif ydiff < def.float_max and ydiff > def.float_offset + TOL then
+						self._state = STATE_FLOATING_DOWN
+					elseif ydiff > def.float_min and ydiff < def.float_offset - TOL then
+						self._state = STATE_FLOATING_UP
+					elseif ydiff > def.float_offset - TOL and ydiff < def.float_offset + TOL then
+						self._state = STATE_FLOATING
+					elseif ydiff < def.float_min then
+						self._state = STATE_SINKING
+					else
+						self._state = STATE_FALLING
+					end
+				else
 					self._state = STATE_FALLING
 				end
 			else
@@ -361,7 +377,7 @@ local register_boat = function(name, def)
 
 			local on_liquid = false
 			if pos1.x == pos2.x and pos1.z == pos2.z and ndef2 and ndef2.liquidtype ~= "none" and minetest.get_item_group(node2.name, "fake_liquid") == 0 then
-				place_pos = vector.add(place_pos, {x=0, y=-def.float_offset, z=0})
+				place_pos = vector.add(place_pos, {x=0, y=def.float_offset, z=0})
 				on_liquid = true
 			end
 			if ndef1 and not ndef1.walkable then
@@ -416,7 +432,9 @@ for l=1, #log_boats do
 		mesh = "rp_boats_log_boat.obj",
 		hp_max = 4,
 
-		float_offset = 0.3,
+		float_max = 0.0,
+		float_offset = -0.3,
+		float_min = -0.5,
 		attach_offset = { x=0, y=0, z=0 },
 		max_speed = 3.8,
 		speed_change_rate = 1.5,
@@ -456,7 +474,10 @@ for r=1, #rafts do
 		mesh = "rp_boats_raft.obj",
 		hp_max = 4,
 
-		float_offset = 0.401,
+		float_max = -0.201,
+		float_offset = -0.401,
+		float_min = -0.701,
+
 		attach_offset = { x=0, y=1, z=0 },
 		max_speed = 6,
 		speed_change_rate = 1.5,
