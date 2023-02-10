@@ -414,7 +414,8 @@ local function health_step(player, phunger)
       player_health_step[name] = HEAL_EVERY_N_HEALTH_STEPS
       if hp > 0 and hp < minetest.PLAYER_MAX_HP_DEFAULT and (phunger == nil or phunger >= HUNGER_HEAL_LEVEL) then
          player_health_step[name] = 0
-         player:set_hp(hp+1)
+         -- health regeneration
+         player:set_hp(hp+1, { type = "set_hp", from = "mod", _reason_precise = "regenerate" })
       end
    end
 end
@@ -489,7 +490,8 @@ local function on_globalstep(dtime)
             end
             if userdata[name].hunger <= HUNGER_STARVE_LEVEL and hp >= 0 then
                local old_hp = hp
-               player:set_hp(hp - 1)
+               -- Hurt player due to starving
+               player:set_hp(hp - 1, { type = "set_hp", from = "mod", _reason_precise = "starve" })
                userdata[name].hunger = 0
                if hp > 1 then
                   minetest.chat_send_player(name, minetest.colorize("#f00", S("You are starving.")))
