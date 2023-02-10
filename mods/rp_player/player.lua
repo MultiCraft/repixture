@@ -1,9 +1,39 @@
+local S = minetest.get_translator("rp_player")
+
 local player_soundspec = {}
 local player_lastsound = {}
 local player_health = {}
 local player_lastpos = {}
+local player_watertime = {} -- for aqualung achievement
 
 local particlespawners = {}
+
+local AQUALUNG_TIME = 300 -- seconds required for aqualung achievement
+
+local mod_achievements = minetest.get_modpath("rp_achievements") ~= nil
+
+if mod_achievements then
+   -- Achievement for staying underwater for a long time and not taking drowning
+   -- damage.
+   -- player_watertime is used to count the underwater time.
+   -- NOTE: The timer is NOT preserved on server shutdown.
+   achievements.register_achievement(
+      "aqualung",
+      {
+         title = S("Aqualung"),
+         description = S("Stay underwater for 5 consecutive minutes without drowning."),
+         times = 1,
+         difficulty = 5.5,
+         icon = "rp_player_achievement_aqualung.png",
+   })
+
+   -- Reset water time for aqualung achievement if taking drowning damage
+   minetest.register_on_player_hpchange(function(player, hp_change, reason)
+      if reason.type == "drown" and hp_change < 0 then
+         player_watertime[player:get_player_name()] = 0
+      end
+   end)
+end
 
 local function step(dtime)
    local player_positions = {}
@@ -32,7 +62,8 @@ local function step(dtime)
 
       player_lastsound[name] = player_lastsound[name] + dtime
 
-      if minetest.get_item_group(minetest.get_node(head_pos).name, 'water') > 0 then
+      local headnode = minetest.get_node(head_pos)
+      if minetest.get_item_group(headnode.name, 'water') > 0 then
 	 particlespawners[name] = minetest.add_particlespawner(
 	    {
 	       amount = 2,
@@ -70,6 +101,28 @@ local function step(dtime)
                        minetest.delete_particlespawner(particlespawners[name])
                end
          end, name)
+
+         if mod_achievements then
+	    -- Increase underwater time and give achievement if enough time
+            if player_health[name] > 0 then
+	       player_watertime[name] = player_watertime[name] + dtime
+               if player_watertime[name] >= AQUALUNG_TIME then
+                  achievements.trigger_achievement(player, "aqualung")
+               end
+            else
+	       -- Reset timer if player's dead
+	       player_watertime[name] = 0
+            end
+         end
+      else
+	  -- Reset water timer if player's not in water
+         if mod_achievements then
+            -- Exception: If player is in ignore node, timer is not affected.
+	    -- The ignore node MIGHT turn out to be water.
+            if headnode.name ~= "ignore" then
+               player_watertime[name] = 0
+            end
+         end
       end
 
       if minetest.get_item_group(minetest.get_node(player_pos).name, "water") > 0 then
@@ -82,6 +135,7 @@ local function step(dtime)
             })
 	    player_lastsound[name] = 0
 	 end
+
       else
 	 if player_soundspec[name] ~= nil then
 	    minetest.sound_stop(player_soundspec[name])
@@ -98,8 +152,10 @@ local function on_joinplayer(player)
    local name=player:get_player_name()
 
    player_health[name] = player:get_hp()
-
    player_lastpos[name] = player:get_pos()
+   if mod_achievements then
+      player_watertime[name] = 0
+   end
 
    local inv = player:get_inventory()
    inv:set_size("hand", 1)
@@ -115,6 +171,7 @@ local function on_leaveplayer(player)
    player_health[name] = nil
 
    player_lastpos[name] = nil
+   player_watertime[name] = nil
 
    player_soundspec[name] = nil
    player_lastsound[name] = nil
