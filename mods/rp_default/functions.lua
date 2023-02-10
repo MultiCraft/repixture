@@ -5,6 +5,8 @@ local S = minetest.get_translator("rp_default")
 local SAPLING_RECHECK_TIME_MIN = 60
 local SAPLING_RECHECK_TIME_MAX = 70
 
+local AIRWEED_RECHARGE_TIME = 5.0 -- how many seconds it takes for an airweed to become usable again
+
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
 
 -- Maximum growth height of cactus on dry dirt, normally
@@ -423,6 +425,19 @@ function default.grow_underwater_leveled_plant(pos, node, add)
 	return true, top
 end
 
+-- Starts the timer of an inert airweed at pos
+-- (if not started already) so it will become
+-- usable to get air bubbles soon.
+-- Do not call this function on any other node type!
+function default.start_inert_airweed_timer(pos)
+	local timer = minetest.get_node_timer(pos)
+	if timer:is_started() then
+		return
+	else
+		timer:start(AIRWEED_RECHARGE_TIME)
+	end
+end
+
 -- Make preexisting sapling restart the growing process
 
 minetest.register_lbm(
@@ -434,6 +449,18 @@ minetest.register_lbm(
          if not default.is_sapling_growing(pos) then
             default.begin_growing_sapling(pos)
          end
+      end
+   }
+)
+
+-- Make sure to restart the timer of inert airweeds
+minetest.register_lbm(
+   {
+      label = "Restart inert airweed timers",
+      name = "rp_default:restart_inert_airweed_timers",
+      nodenames = {"group:airweed_inert"},
+      action = function(pos, node)
+         default.start_inert_airweed_timer(pos)
       end
    }
 )
@@ -740,10 +767,10 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
       end
 })
 
-minetest.register_abm( -- seagrass dies if not underwater
+minetest.register_abm( -- seagrass and airweed dies if not underwater
    {
-      label = "Sea grass decay",
-      nodenames = {"group:seagrass"},
+      label = "Sea grass / airweed decay",
+      nodenames = {"group:seagrass", "group:airweed"},
       interval = 10,
       chance = 20,
       action = function(pos, node)

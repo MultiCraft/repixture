@@ -1,6 +1,8 @@
 local S = minetest.get_translator("rp_default")
 
-local ALGA_BLOCK_SLIPPERY = 2
+local ALGA_BLOCK_SLIPPERY = 2 -- Slippery level of alga block
+
+local AIRWEED_ADD_BREATH = 1 -- How much breath points an airweed restores by a single use
 
 local function get_sea_plant_on_place(base, paramtype2)
 return function(itemstack, placer, pointed_thing)
@@ -211,6 +213,195 @@ register_seagrass_on("sand", "rp_default:sand", waterplant_base_tiles("default_s
 register_seagrass_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_base_tiles("default_dirt.png", "seagrass", true), true)
 register_seagrass_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "seagrass", true), true)
 register_seagrass_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "seagrass", true), true)
+
+
+local register_airweed = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, on_rightclick, on_timer, on_construct, fertilize_info, is_inert)
+   local groups = {snappy = 2, dig_immediate = 3, airweed = 1, plant = 1, rooted_plant = 1}
+   if is_inert then
+      groups.airweed_inert = 1
+   end
+
+   local _fertilized_node
+   local def_base = minetest.registered_nodes[basenode]
+   if minetest.get_item_group(basenode, "fall_damage_add_percent") ~= 0 then
+      groups.fall_damage_add_percent = def_base.groups.fall_damage_add_percent
+   end
+   if fertilize_info == true then
+      groups.plantable_fertilizer = 1
+   elseif type(fertilize_info) == "string" then
+      _fertilized_node = "rp_default:"..plant_id.."_on_"..fertilize_info
+   end
+   minetest.register_node(
+      "rp_default:"..plant_id.."_on_"..append,
+      {
+         drawtype = "plantlike_rooted",
+         paramtype = "light",
+	 selection_box = selection_box,
+         collision_box = {
+            type = "regular",
+         },
+         visual_scale = 1.14,
+         tiles = basenode_tiles,
+         special_tiles = {"rp_default_"..plant_id.."_clump.png"},
+         inventory_image = "rp_default_plantlike_rooted_inv_"..append..".png^rp_default_plantlike_rooted_inv_"..plant_id..".png",
+         wield_image = "rp_default_plantlike_rooted_inv_"..append..".png^rp_default_plantlike_rooted_inv_"..plant_id..".png",
+         waving = 1,
+         walkable = true,
+         groups = groups,
+         sounds = rp_sounds.node_sound_leaves_defaults(),
+	 node_dig_prediction = basenode,
+	 on_rightclick = on_rightclick,
+	 on_timer = on_timer,
+	 on_construct = on_construct,
+         after_destruct = function(pos)
+            local newnode = minetest.get_node(pos)
+            if minetest.get_item_group(newnode.name, "airweed") == 0 then
+               minetest.set_node(pos, {name=basenode})
+               minetest.check_for_falling(pos)
+            end
+         end,
+	 _fertilized_node = _fertilized_node,
+	 _waterplant_base_node = basenode,
+	 drop = drop,
+   })
+end
+local register_airweed_on = function(append, basenode, basenode_tiles, fertilize_info)
+
+   local on_timer = function(pos)
+      local node = minetest.get_node(vector.add(pos, vector.new(0,1,0)))
+      if minetest.get_item_group(node.name, "water") == 0 then
+         -- Restart timer if airweed is not in water
+         default.start_inert_airweed_timer(pos)
+         return
+      end
+
+      -- Airweed is ready again
+      minetest.set_node(pos, {name="rp_default:airweed_on_"..append})
+   end
+
+   local on_construct = function(pos)
+      default.start_inert_airweed_timer(pos)
+   end
+
+   -- on_rightclick for "inert" airweed: Start timer
+   -- in case the airweed timer was not started before
+   -- for some reason. This acts as a simple fallback,
+   -- just in case.
+   local on_rightclick_inert = function(pos)
+      default.start_inert_airweed_timer(pos)
+   end
+
+   -- on_rightclick for "charged" airweed: Increase breath of clicker
+   -- and players nearby. Also make airweed inert
+   local on_rightclick_charged = function(pos, node, clicker, itemstack, pointed_thing)
+      -- First check if the *plant* was rightclicked (the base node does not count)
+      local face_pos
+      if pointed_thing and clicker and clicker:is_player() then
+         face_pos = minetest.pointed_thing_to_face_pos(clicker, pointed_thing)
+         if face_pos and (face_pos.y < pos.y + 0.5) then
+	    -- The base node was rightclicked: Do nothing
+            return
+         end
+      end
+
+      local bubble_pos = {x=pos.x,y=pos.y+1,z=pos.z}
+
+      -- No bubbles if the plant is not in water
+      local bnode = minetest.get_node(bubble_pos)
+      if minetest.get_item_group(bnode.name, "water") == 0 then
+         return
+      end
+
+      -- Effect particles + sound
+      minetest.add_particlespawner({
+         amount = 20,
+         time = 0.1,
+         pos = {
+            min = {
+               x = bubble_pos.x - 0.4,
+               y = bubble_pos.y,
+               z = bubble_pos.z - 0.4
+            },
+            max = {
+               x = bubble_pos.x + 0.4,
+               y = bubble_pos.y + 0.2,
+               z = bubble_pos.z + 0.4
+            },
+         },
+         vel = {
+            min = {x = -1.5, y = 0, z = -1.5},
+            max = {x = 1.5, y = 0, z = 1.5},
+         },
+         acc = {
+            min = {x = -0.5, y = 4, z = -0.5},
+            max = {x = 0.5, y = 1, z = 0.5},
+         },
+	 drag = { x = 0.7, y = 0, z = 0.7 },
+         exptime = {min=0.3,max=0.8},
+         size = {min=0.7, max=2.4},
+         texture = {
+            name = "bubble.png",
+            alpha_tween = { 1, 0, start = 0.75 }
+         },
+      })
+      minetest.sound_play({name = "rp_default_airweed_bubbles", gain = 0.6}, {pos = bubble_pos}, true)
+
+      -- Set airweed inert (in which it can't release bubbles
+      -- temporarily)
+      minetest.set_node(pos, {name="rp_default:airweed_inert_on_"..append})
+
+      -- Always increase breath of clicker
+      if clicker and clicker:is_player() then
+         clicker:set_breath(clicker:get_breath() + AIRWEED_ADD_BREATH)
+      end
+
+      -- Also increase breath of other players nearby
+      -- TODO: Also mobs
+      local min = vector.add(bubble_pos, vector.new(-1.5,-1,-1.5))
+      local max = vector.add(bubble_pos, vector.new(1.5,1.5,1.5))
+      local objs = minetest.get_objects_in_area(min, max)
+      for o=1, #objs do
+         local obj = objs[o]
+         if obj:is_player() and obj ~= clicker then
+            obj:set_breath(obj:get_breath() + AIRWEED_ADD_BREATH)
+         end
+      end
+   end
+
+   -- Inert airweed (bubbles not ready)
+   register_airweed("airweed_inert",
+      { type = "fixed",
+        fixed = {
+           {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+           {-0.5, 0.5, -0.5, 0.5, 17/16, 0.5},
+      }}, "rp_default:airweed", append, basenode, basenode_tiles, on_rightclick_inert, on_timer, on_construct, fertilize_info, true)
+
+   -- "charged" airweed (bubbles ready)
+   register_airweed("airweed",
+      { type = "fixed",
+        fixed = {
+           {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+           {-0.5, 0.5, -0.5, 0.5, 22/16, 0.5},
+      }}, "rp_default:airweed", append, basenode, basenode_tiles, on_rightclick_charged, nil, nil, fertilize_info)
+end
+
+minetest.register_craftitem("rp_default:airweed", {
+   description = S("Airweed"),
+   _tt_help = S("Gives back breath") .. "\n"..
+   	S("Grows underwater on dirt, swamp dirt or sand"),
+   inventory_image = "rp_default_airweed_clump_inventory.png",
+   wield_image = "rp_default_airweed_clump_inventory.png",
+   on_place = get_sea_plant_on_place("airweed_inert", "wallmounted"),
+   groups = { node = 1, airweed = 1, plant = 1 },
+})
+
+register_airweed_on("dirt", "rp_default:dirt", waterplant_base_tiles("default_dirt.png", "airweed", false), "fertilized_dirt")
+register_airweed_on("swamp_dirt", "rp_default:swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "airweed", false), "fertilized_swamp_dirt")
+register_airweed_on("sand", "rp_default:sand", waterplant_base_tiles("default_sand.png", "airweed", false), "fertilized_sand")
+register_airweed_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_base_tiles("default_dirt.png", "airweed", true), true)
+register_airweed_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "airweed", true), true)
+register_airweed_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "airweed", true), true)
+
 
 
 -- Alga

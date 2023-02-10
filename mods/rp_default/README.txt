@@ -10,6 +10,8 @@ See `API.md`
 
 ## Licensing
 
+Note: The “*” character in file names below is a placeholder that means “any text”.
+
 Sound licenses:
   * default_shears_cut.ogg:
     * Source: https://freesound.org/people/SmartWentCody/sounds/179015/
@@ -17,6 +19,10 @@ Sound licenses:
   * default_tool_breaks.ogg:
     * Source: https://freesound.org/people/JustInvoke/sounds/446118/
     * Author: JustInvoke (CC BY 3.0)
+  * `rp_default_airweed_bubbles.*.ogg`:
+    * Source: https://freesound.org/people/spookymodem/sounds/202094/
+    * Author: spookymodem (CC0)
+    * Sounds modified by Wuzzy
   * All other sounds: CC0
 Texture license: CC BY-SA 4.0
   * rp_default_reed*, rp_default_fertilize_particle*, rp_default_torch_smoke_anim.png:
