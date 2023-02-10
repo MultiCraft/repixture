@@ -105,8 +105,8 @@ function armor_local.get_texture(player, base)
 end
 
 -- Returns the correct and relevant armor groups of player.
--- Also checks the `full_armor` achievement.
-function armor_local.get_groups(player)
+-- Also checks the `full_armor` achievement if `check_achievement` is true.
+function armor_local.get_groups(player, check_achievement)
    local groups = {fleshy = 100}
 
    local match_mat = nil
@@ -144,7 +144,7 @@ function armor_local.get_groups(player)
 	 end
       end
    end
-   if ach_ok then
+   if check_achievement and ach_ok then
       achievements.trigger_achievement(player, "full_armor")
    end
 
@@ -172,7 +172,7 @@ end
 
 -- This function must be called whenever the armor inventory has been changed
 function armor.update(player)
-   local groups = armor_local.get_groups(player)
+   local groups = armor_local.get_groups(player, true)
    player:set_armor_groups({fleshy = groups.fleshy, immortal = groups.immortal})
 
    local image = armor_local.get_texture(player, armor.get_base_skin(player))
@@ -180,6 +180,52 @@ function armor.update(player)
       rp_player.player_set_textures(player, {image})
    end
 end
+
+-- Armor reduces player damage taken from nodes
+minetest.register_on_player_hpchange(function(player, hp_change, reason)
+   if reason.type == "node_damage" and hp_change < 0 then
+      local pierce = 0
+      local real_hp_change = hp_change
+      if reason.node then
+         -- Get ACTUAL damage from node def because engine reports
+         -- a reduced hp_change if player is low on health
+	 if reason.from == "engine" then
+            local def = minetest.registered_nodes[reason.node]
+            real_hp_change = -def.damage_per_second
+	    if real_hp_change > 0 then
+               -- In case of a healing node, we don't interfere ...
+               return hp_change
+            end
+         end
+
+         -- Get armor piercing
+         pierce = minetest.get_item_group(reason.node, "armor_piercing")
+         -- Armor does not protect at all at 100% armor piercing or above
+         if pierce >= 100 then
+            return real_hp_change
+         end
+      end
+      -- Get player fleshy value
+      local groups = armor_local.get_groups(player, false)
+      local fleshy = groups.fleshy
+
+      -- Armor piercing
+      if pierce > 0 then
+         local prot = 100 - fleshy
+         prot = prot * ((100-pierce) / 100)
+         fleshy = 100 - prot
+      end
+
+      -- Ratio for HP change
+      local ratio = fleshy / 100
+      if ratio < 0 then
+         return real_hp_change
+      end
+      real_hp_change = -math.round(math.abs(real_hp_change * ratio))
+      return real_hp_change
+   end
+   return hp_change
+end, true)
 
 local function on_newplayer(player)
    armor_local.init(player)

@@ -4,6 +4,7 @@ Armor mod
 By KaadmY and Wuzzy, for Repixture
 
 Adds craftable and wearable armor.
+Armor protects players from punch and node damage.
 
 Developers: See `API.md` for a developer reference.
 
