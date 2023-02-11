@@ -20,6 +20,9 @@ local DRAG_CONSTANT_HIGH = 0.1
 
 local CHECK_NODES_AFTER_LANDING = 10	-- number of water nodes to check above boat if it has gotten deep
 					-- below the water surface after falling fast
+					--
+local RESET_PUNCH_TIMER = 2 -- after this many seconds, the punch counter is reset
+local PUNCH_OVERLAY_TILES = 8 -- number of tiles for the punch overlay texture
 
 local SNEAK_DETACHES = true -- if true, sneak key will detach player
 
@@ -32,6 +35,24 @@ local is_water = function(nodename)
 		return true, def.liquidtype
 	end
 	return false
+end
+
+-- Set a punch damage texture overlay of boat 'self'.
+-- * self: boat object
+-- * original: Original texture definition table (to overlay the punch texture)
+-- * punches: Number of punches or -1 to reset to original (unpunched) texture
+-- * max_punches: Number of max. punches at which the boat will die
+local set_damage_texture = function(self, original, punches, max_punches)
+	if punches == -1 then
+		self.object:set_properties({textures=original})
+	else
+		local stage = math.floor((punches / max_punches) * PUNCH_OVERLAY_TILES)
+		local texes = table.copy(original)
+		for t=1, #texes do
+			texes[t] = "(" .. texes[t] .. ")^(rp_boats_punches.png^[verticalframe:"..PUNCH_OVERLAY_TILES..":"..stage..")"
+		end
+		self.object:set_properties({textures=texes})
+	end
 end
 
 local set_driver = function(self, driver, orig_collisionbox)
@@ -132,10 +153,13 @@ local register_boat = function(name, def)
 		textures = def.textures,
 		mesh = def.mesh,
 		hp_max = def.hp_max or 4,
+		damage_texture_modifier = "",
 
 		_state = STATE_INIT,
 		_driver = nil,
 		_speed = 0,
+		_punches = 0,
+		_punch_timer = nil,
 
 		on_activate = function(self, staticdata, dtime_s)
 			local data = minetest.deserialize(staticdata)
@@ -143,6 +167,9 @@ local register_boat = function(name, def)
 				self._state = data._state or STATE_FALLING
 				self._speed = data._speed or 0
 			end
+			--local armor = self.object:get_armor_groups()
+			--armor.punch_operable = 1
+			--self.object:set_armor_groups(armor)
 		end,
 		get_staticdata = function(self)
 			local data = {
@@ -170,6 +197,15 @@ local register_boat = function(name, def)
 			local curvel = self.object:get_velocity()
 			local v = curvel * math.sign(self._speed)
 			self._speed = math.sqrt(v.x ^ 2 + v.z ^ 2)
+
+			-- Reset boat damage overlay if last punch was far enough
+			if self._punch_timer and self._punch_timer < RESET_PUNCH_TIMER then
+				self._punch_timer = self._punch_timer + dtime
+				if self._punch_timer >= RESET_PUNCH_TIMER then
+					self._punches = 0
+					set_damage_texture(self, def.textures, -1)
+				end
+			end
 
 			-- Update boat state (for Y movement)
 			if mydef and mydef_below and mydef_above then
@@ -421,10 +457,34 @@ local register_boat = function(name, def)
 			minetest.add_item(self.object:get_pos(), itemstring)
 		end,
 		on_punch = function(self, puncher, time_from_last_punch, tool_capabilities, dir, damage)
-			if damage >= 1 then
-				-- TODO: Add custom sound
-				minetest.sound_play({name = "default_dig_hard"}, {pos=self.object:get_pos()}, true)
+			if not puncher or not puncher:is_player() then
+				-- Use engine punch handling for non-player puncher (like TNT)
+				return false
 			end
+			-- If there were def.max_punches consecutive punches on the boat,
+			-- each punch faster than RESET_PUNCH_TIMER, the boat dies.
+			minetest.sound_play({name = "default_dig_hard"}, {pos=self.object:get_pos()}, true)
+			if time_from_last_punch == nil or time_from_last_punch < RESET_PUNCH_TIMER then
+				-- Increase punch counter if first punch, it it was fast enough
+				self._punches = self._punches + 1
+				self._punch_timer = 0
+			else
+				-- Reset punch counter, but count this punch again
+				self._punches = 1
+				self._punch_timer = 0
+			end
+			set_damage_texture(self, def.textures, self._punches, def.max_punches)
+			if self._punches >= def.max_punches then
+				local punchername = "<???>"
+				if puncher and puncher:is_player() then
+					punchername = puncher:get_player_name()
+				end
+				minetest.log("action", "[rp_boats] Boat punched to death by "..punchername.." at "..minetest.pos_to_string(self.object:get_pos(),1))
+				-- Kill boat after enough punches
+				self.object:set_hp(0)
+			end
+			-- Ignore punch damage
+			return true
 		end,
 	})
 
@@ -528,8 +588,9 @@ for l=1, #log_boats do
 			"rp_boats_boat_log_"..id.."_side.png",
 		},
 		mesh = "rp_boats_log_boat.obj",
-		hp_max = 4,
+		hp_max = 6,
 
+		max_punches = 5,
 		float_max = 0.0,
 		float_offset = -0.3,
 		float_min = -0.85,
@@ -570,12 +631,13 @@ for r=1, #rafts do
 			"rp_boats_boat_raft_"..id.."_back.png",
 		},
 		mesh = "rp_boats_raft.obj",
-		hp_max = 4,
+		hp_max = 3,
 
 		float_max = -0.201,
 		float_offset = -0.401,
 		float_min = -1.001,
 
+		max_punches = 3,
 		attach_offset = { x=0, y=1, z=0 },
 		max_speed = 6,
 		speed_change_rate = 1.5,
