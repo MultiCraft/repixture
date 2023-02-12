@@ -569,6 +569,8 @@ minetest.register_tool(
 
 -- Spears
 
+local spear_wield_rotation = 135
+
 minetest.register_tool(
    "rp_default:spear_wood",
    {
@@ -576,6 +578,7 @@ minetest.register_tool(
       _tt_help = tt_spear,
       inventory_image = "default_spear_wood.png",
       wield_image = "default_spear_wood.png^[transformR90",
+      _rp_wielditem_rotation = spear_wield_rotation,
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=0,
@@ -595,6 +598,7 @@ minetest.register_tool(
       _tt_help = tt_spear,
       inventory_image = "default_spear_stone.png",
       wield_image = "default_spear_stone.png^[transformR90",
+      _rp_wielditem_rotation = spear_wield_rotation,
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=0,
@@ -614,6 +618,7 @@ minetest.register_tool(
       _tt_help = tt_spear,
       inventory_image = "default_spear_wrought_iron.png",
       wield_image = "default_spear_wrought_iron.png^[transformR90",
+      _rp_wielditem_rotation = spear_wield_rotation,
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
@@ -633,6 +638,7 @@ minetest.register_tool(
       _tt_help = tt_spear,
       inventory_image = "default_spear_steel.png",
       wield_image = "default_spear_steel.png^[transformR90",
+      _rp_wielditem_rotation = spear_wield_rotation,
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
@@ -652,6 +658,7 @@ minetest.register_tool(
       _tt_help = tt_spear,
       inventory_image = "default_spear_carbon_steel.png",
       wield_image = "default_spear_carbon_steel.png^[transformR90",
+      _rp_wielditem_rotation = spear_wield_rotation,
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
@@ -671,6 +678,7 @@ minetest.register_tool(
       _tt_help = tt_spear,
       inventory_image = "default_spear_bronze.png",
       wield_image = "default_spear_bronze.png^[transformR90",
+      _rp_wielditem_rotation = spear_wield_rotation,
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
@@ -725,6 +733,8 @@ local trim = function(itemstack, placer, pointed_thing)
     return itemstack
 end
 
+local shears_wield_rotation = 135
+
 minetest.register_tool(
    "rp_default:shears",
    {
@@ -732,6 +742,7 @@ minetest.register_tool(
       _tt_help = tt_shears,
       inventory_image = "default_shears.png",
       wield_image = "default_shears.png^[transformR90",
+      _rp_wielditem_rotation = shears_wield_rotation,
       sound = { breaks = "default_tool_breaks" },
       groups = { shears = 1, sheep_cuts = 100 },
       tool_capabilities = {
@@ -750,6 +761,7 @@ minetest.register_tool(
       _tt_help = tt_shears,
       inventory_image = "default_shears_steel.png",
       wield_image = "default_shears_steel.png^[transformR90",
+      _rp_wielditem_rotation = shears_wield_rotation,
       sound = { breaks = "default_tool_breaks" },
       groups = { shears = 1, sheep_cuts = 200 },
       tool_capabilities = {
@@ -768,6 +780,7 @@ minetest.register_tool(
       _tt_help = tt_shears,
       inventory_image = "default_shears_carbon_steel.png",
       wield_image = "default_shears_carbon_steel.png^[transformR90",
+      _rp_wielditem_rotation = shears_wield_rotation,
       sound = { breaks = "default_tool_breaks" },
       groups = { shears = 1, sheep_cuts = 266 },
       tool_capabilities = {
@@ -786,6 +799,7 @@ minetest.register_tool(
       _tt_help = tt_shears,
       inventory_image = "default_shears_bronze.png",
       wield_image = "default_shears_bronze.png^[transformR90",
+      _rp_wielditem_rotation = shears_wield_rotation,
       sound = { breaks = "default_tool_breaks" },
       groups = { shears = 1, sheep_cuts = 200 },
       tool_capabilities = {

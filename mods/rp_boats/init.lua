@@ -495,6 +495,7 @@ local register_boat = function(name, def)
 		groups = { boat = 1 },
 		inventory_image = def.inventory_image,
 		wield_image = def.wield_image,
+		_rp_wielditem_rotation = def._rp_wielditem_rotation,
 		on_place = function(itemstack, placer, pointed_thing)
 			-- Boilerplace to handle pointed node's rightclick handler
 			if not placer or not placer:is_player() then
@@ -579,6 +580,7 @@ for l=1, #log_boats do
 		selectionbox = { -0.6, -0.501, -0.6, 0.6, 0.501, 0.6 },
 		inventory_image = "rp_boats_boat_log_"..id.."_item.png",
 		wield_image = "rp_boats_boat_log_"..id.."_item.png",
+		_rp_wielditem_rotation = 135,
 		textures = {
 			"rp_boats_boat_log_"..id.."_side.png",
 			"rp_boats_boat_log_"..id.."_end.png",
@@ -622,6 +624,7 @@ for r=1, #rafts do
 		selectionbox = { -0.85, -0.301, -0.85, 0.85, 0.101, 0.85 },
 		inventory_image = "rp_boats_boat_raft_"..id.."_item.png",
 		wield_image = "rp_boats_boat_raft_"..id.."_item.png",
+		_rp_wielditem_rotation = 135,
 		textures = {
 			"rp_boats_boat_raft_"..id..".png",
 			"rp_boats_boat_raft_"..id..".png",
