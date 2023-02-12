@@ -22,7 +22,9 @@ only be triggered manually.
 
 Registers an achievement.
 
-* `name`: Achievement identifier (no translation allowed!)
+* `name`: Achievement identifier. A string that uniquely identifies the achievement
+          for functions and the `/achievement` chat command.
+          The identifier “all” is not allowed. Translation is not allowed.
 * `def`: Achievement definition. This is a table:
     * `title`: Title, as shown to the player (default: same as `name`)
     * `description`: Short (!) description that tells the player what to do to get the achievement

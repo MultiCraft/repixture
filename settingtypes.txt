@@ -27,9 +27,9 @@ hunger_enable (Enable hunger) bool true
 hunger_step (Hunger frequency) float 3.0 0.0
 
 # If enabled, all players will get a notification in chat when a player
-# earned an achievement. If disabled, only the achiever will get a
+# earned or lost an achievement. If disabled, only that player will get a
 # notification.
-rp_achievements_notify_all (Announce achievements to all) bool false
+rp_achievements_notify_all (Announce achievements to all players) bool false
 
 [World]
 # If enabled, the weather will change from time to time.
