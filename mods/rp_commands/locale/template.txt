@@ -1,0 +1,6 @@
+# textdomain: rp_commands
+[<player>] <value>=
+Set health points of player or yourself=
+Not possible, damage is disabled.=
+Invalid health!=
+Player @1 does not exist.=
