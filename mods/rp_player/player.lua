@@ -8,7 +8,7 @@ local player_watertime = {} -- for aqualung achievement
 
 local particlespawners = {}
 
-local AQUALUNG_TIME = 300 -- seconds required for aqualung achievement
+local AQUALUNG_TIME = 150 -- seconds required for aqualung achievement
 
 local mod_achievements = minetest.get_modpath("rp_achievements") ~= nil
 
@@ -21,7 +21,7 @@ if mod_achievements then
       "aqualung",
       {
          title = S("Aqualung"),
-         description = S("Stay underwater for 5 consecutive minutes without drowning."),
+         description = S("Stay underwater for 2 and a half consecutive minutes without drowning."),
          times = 1,
          difficulty = 5.5,
          icon = "rp_player_achievement_aqualung.png",
