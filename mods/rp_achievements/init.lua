@@ -254,6 +254,101 @@ local function check_achievement_gotten(player, aname)
    rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
 end
 
+-- Give all achievements to player with 100% progress
+-- (with notification)
+local function give_all_achievements(player)
+   local playername = player:get_player_name()
+   local states = get_achievement_states(player)
+   local subconds = get_achievement_subconditions(player)
+   local alist = achievements.registered_achievements_list
+   for a=1, #alist do
+      local aname = alist[a]
+      states[aname] = -1
+      local reg_subconds = achievements.registered_achievements[aname].subconditions
+      if reg_subconds then
+         if not subconds[aname] then
+            subconds[aname] = {}
+         end
+         for s=1, #reg_subconds do
+            subconds[aname][reg_subconds[s]] = true
+         end
+      end
+   end
+   set_achievement_states(player, states)
+   set_achievement_subconditions(player, subconds)
+   rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
+
+   achievement_message(playername, nil, COLOR_GOTTEN_MSG,
+      N("You have gotten all achievements!"),
+      N("@1 has gotten all achievements!"))
+   minetest.log("action", "[rp_achievements] " .. playername .. " got all achievements")
+end
+
+-- Remove all achievements from player, including achievement progress
+-- (with notification)
+local function remove_all_achievements(player)
+   local playername = player:get_player_name()
+   set_achievement_states(player, {})
+   set_achievement_subconditions(player, {})
+   rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
+
+   achievement_message(playername, nil, COLOR_REVERT_MSG,
+      N("You have lost all achievements!"),
+      N("@1 has lost all achievements!"))
+   minetest.log("action", "[rp_achievements] " .. playername .. " lost all achievements")
+end
+
+-- Give an achievement `aname` to player and mark it as 100% complete
+-- (with notification)
+local function give_achievement(player, aname)
+   local states = get_achievement_states(player)
+   local subconds = get_achievement_subconditions(player)
+   if states[aname] == -1 then
+      -- No-op if we already have the achievement
+      return
+   end
+   states[aname] = -1
+   local reg_subconds = achievements.registered_achievements[aname].subconditions
+   if reg_subconds then
+      for s=1, #reg_subconds do
+         if not subconds[aname] then
+            subconds[aname] = {}
+         end
+         subconds[aname][reg_subconds[s]] = true
+      end
+   end
+   set_achievement_states(player, states)
+   set_achievement_subconditions(player, subconds)
+   rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
+
+   local playername = player:get_player_name()
+   achievement_gotten_message(playername, aname)
+   minetest.log("action", "[rp_achievements] " .. playername .. " got achievement '"..aname.."'")
+end
+
+-- Remove an achievement `aname` from player and erase all its progress
+-- (with notification)
+local function remove_achievement(player, aname)
+   local states = get_achievement_states(player)
+   local subconds = get_achievement_subconditions(player)
+
+   if states[aname] == nil and subconds[aname] == nil then
+      -- No-op if achievement had no progress so far
+      return
+   end
+   states[aname] = nil
+   subconds[aname] = nil
+   set_achievement_states(player, states)
+   set_achievement_subconditions(player, subconds)
+   rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
+
+   local playername = player:get_player_name()
+   achievement_message(playername, aname, COLOR_REVERT_MSG,
+      N("You have lost the achievement “@1”."),
+      N("@1 has lost the achievement “@2”."))
+   minetest.log("action", "[rp_achievements] " .. playername .. " lost achievement '"..aname.."'")
+end
+
 function achievements.trigger_subcondition(player, aname, subcondition)
    if not achievements.registered_achievements[aname] then
       minetest.log("error", "[rp_achievements] Cannot find registered achievement " .. aname)
@@ -724,8 +819,7 @@ minetest.register_chatcommand("achievement", {
 	 return true, output
       end
 
-      -- give <player> <achievement>: Give achievement to player
-      -- remove <player> <achievement>: Remove achievement from player
+      -- Give or remove one or all achievements
       local give_or_remove = nil
       local playername, aname = string.match(param, "give (%S+) (%S+)")
       if playername and aname then
@@ -741,50 +835,16 @@ minetest.register_chatcommand("achievement", {
          if not player then
             return false, S("Player is not online!")
          end
+	 -- Give or remove all achievements
          if aname == "all" then
-            local states = get_achievement_states(player)
-            local subconds = get_achievement_subconditions(player)
-	    local alist = achievements.registered_achievements_list
 	    -- give <player> all: Give all achievements
             if give_or_remove == "give" then
-               for a=1, #alist do
-                  local aname = alist[a]
-                  if states[aname] ~= -1 then
-                  end
-                  states[aname] = -1
-                  local reg_subconds = achievements.registered_achievements[aname].subconditions
-                  if reg_subconds then
-                     if not subconds[aname] then
-                        subconds[aname] = {}
-                     end
-                     for s=1, #reg_subconds do
-	                subconds[aname][reg_subconds[s]] = true
-                     end
-                  end
-               end
-               set_achievement_states(player, states)
-               set_achievement_subconditions(player, subconds)
-               achievement_message(name, nil, COLOR_GOTTEN_MSG,
-                  N("You have gotten all achievements!"),
-                  N("@1 has gotten all achievements!"))
-               minetest.log("action", "[rp_achievements] " .. playername .. " got all achievements (command by "..name..")")
-	    -- remove <player> all Remove all achievements
+               give_all_achievements(player)
+
+	    -- remove <player> all: Remove all achievements
             else
-               local lost = false
-               for k,v in pairs(states) do
-                  if states[k] ~= nil then
-                     lost = true
-                  end
-                  states[k] = nil
-               end
-               set_achievement_states(player, {})
-               set_achievement_subconditions(player, {})
-               achievement_message(name, nil, COLOR_REVERT_MSG,
-                  N("You have lost all achievements!"),
-                  N("@1 has lost all achievements!"))
-               minetest.log("action", "[rp_achievements] " .. playername .. " lost all achievements (command by "..name..")")
+               remove_all_achievements(player)
             end
-            rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
             return true
 
 	 -- Give or remove a single achievement
@@ -793,43 +853,13 @@ minetest.register_chatcommand("achievement", {
             if not ach then
                return false, S("Unknown achievement! Use “/achievement list” to list valid achievement names.")
             end
-            local states = get_achievement_states(player)
-            local subconds = get_achievement_subconditions(player)
-	    -- Give a single achievement
+	    -- give <player> <achievement>: Give a single achievement
             if give_or_remove == "give" then
-               if states[aname] == -1 then
-                  -- No-op if we already have the achievement
-                  return true
-               end
-               states[aname] = -1
-               local reg_subconds = achievements.registered_achievements[aname].subconditions
-               if reg_subconds then
-                  for s=1, #reg_subconds do
-                     if not subconds[aname] then
-                        subconds[aname] = {}
-                     end
-	             subconds[aname][reg_subconds[s]] = true
-                  end
-               end
-               set_achievement_states(player, states)
-               set_achievement_subconditions(player, subconds)
-               achievement_gotten_message(playername, aname)
-               minetest.log("action", "[rp_achievements] " .. playername .. " got achievement '"..aname.."' (command by "..name..")")
-	    -- Remove a single achievement
+               give_achievement(player, aname)
+
+	    -- remove <player> <achievement>: Remove a single achievement
             else
-               if states[aname] == nil and subconds[aname] == nil then
-                  -- No-op if achievement had no progress so far
-                  return true
-               end
-               states[aname] = nil
-               subconds[aname] = nil
-               set_achievement_states(player, states)
-               set_achievement_subconditions(player, subconds)
-               local atitle = achievements.registered_achievements[aname].title
-               achievement_message(name, aname, COLOR_REVERT_MSG,
-                  N("You have lost the achievement “@1”."),
-                  N("@1 has lost the achievement “@2”."))
-               minetest.log("action", "[rp_achievements] " .. playername .. " lost achievement '"..aname.."' (command by "..name..")")
+               remove_achievement(player, aname)
             end
             rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
             return true
