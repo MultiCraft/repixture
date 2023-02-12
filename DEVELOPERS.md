@@ -57,6 +57,7 @@ Mods with documented APIs:
 * `rp_sounds`: Node sounds
 * `rp_util`: Helper functions for Repixture
 * `rp_tnt`: Ignite and blow up TNT, also spawn TNT-less explosions
+* `rp_wielditem`: Custom rotation of item in hand in 3rd person view (in case it looks awkward)
 * `tt`: Custom tooltips
 
 Beware: Calling functions that are not documented are NOT guaranted to be stable
