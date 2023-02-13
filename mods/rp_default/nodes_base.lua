@@ -300,6 +300,34 @@ minetest.register_node(
       _fertilized_node = "rp_default:fertilized_dirt",
 })
 
+minetest.register_node(
+   "rp_default:moss",
+   {
+      description = S("Moss"),
+      tiles = { "rp_default_moss_full.png" },
+      groups = {snappy = 2, fall_damage_add_percent = -20},
+      sounds = rp_sounds.node_sound_leaves_defaults(),
+})
+minetest.register_node(
+   "rp_default:moss_cover",
+   {
+      description = S("Moss Cover"),
+      drawtype = "nodebox",
+      paramtype = "light",
+      node_box = {
+	 type = "fixed",
+	 fixed = {-0.5, -0.5, -0.5, 0.5, -31/64, 0.5}
+      },
+      paramtype2 = "wallmounted",
+      inventory_image = "rp_default_moss_cover.png",
+      wield_image = "rp_default_moss_cover.png",
+      tiles = { "rp_default_moss_cover.png", "rp_default_moss_cover.png", "blank.png" },
+      use_texture_alpha = "blend",
+      groups = {snappy = 3, attached_node = 1},
+      walkable = false,
+      sounds = rp_sounds.node_sound_leaves_defaults(),
+})
+
 -- Paths
 
 minetest.register_node(
