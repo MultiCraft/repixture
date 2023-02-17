@@ -781,7 +781,7 @@ minetest.register_chatcommand("achievement", {
             local str = BULLET_PRE .. S("@1: @2 (@3)", aname, ach.title, ach.difficulty or S("unset"))
             table.insert(strs, str)
          end
-         local output = table.concat(strs, S("\n"))
+         local output = table.concat(strs, "\n")
 	 if output == "" then
             output = S("No achievements.")
 	 else
