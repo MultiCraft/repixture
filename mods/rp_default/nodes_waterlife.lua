@@ -74,6 +74,12 @@ return function(itemstack, placer, pointed_thing)
 		node_floor.name = "rp_default:"..base.."_on_fertilized_sand"
 	elseif base == "alga" and node_floor.name == "rp_default:alga_block" then
 		node_floor.name = "rp_default:"..base.."_on_alga_block"
+	elseif base == "airweed_inert" and node_floor.name == "rp_default:gravel" then
+		node_floor.name = "rp_default:"..base.."_on_gravel"
+	elseif base == "airweed_inert" and node_floor.name == "rp_default:dry_dirt" then
+		node_floor.name = "rp_default:"..base.."_on_dry_dirt"
+	elseif base == "airweed_inert" and node_floor.name == "rp_default:fertilized_dry_dirt" then
+		node_floor.name = "rp_default:"..base.."_on_fertilized_dry_dirt"
 	else
 		return itemstack
 	end
@@ -388,7 +394,7 @@ end
 minetest.register_craftitem("rp_default:airweed", {
    description = S("Airweed"),
    _tt_help = S("Gives back breath") .. "\n"..
-   	S("Grows underwater on dirt, swamp dirt or sand"),
+      S("Grows underwater on any dirt, sand or gravel"),
    inventory_image = "rp_default_airweed_clump_inventory.png",
    wield_image = "rp_default_airweed_clump_inventory.png",
    on_place = get_sea_plant_on_place("airweed_inert", "wallmounted"),
@@ -397,11 +403,13 @@ minetest.register_craftitem("rp_default:airweed", {
 
 register_airweed_on("dirt", "rp_default:dirt", waterplant_base_tiles("default_dirt.png", "airweed", false), "fertilized_dirt")
 register_airweed_on("swamp_dirt", "rp_default:swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "airweed", false), "fertilized_swamp_dirt")
+register_airweed_on("dry_dirt", "rp_default:dry_dirt", waterplant_base_tiles("default_dry_dirt.png", "airweed", false), "fertilized_dry_dirt")
 register_airweed_on("sand", "rp_default:sand", waterplant_base_tiles("default_sand.png", "airweed", false), "fertilized_sand")
+register_airweed_on("gravel", "rp_default:gravel", waterplant_base_tiles("default_gravel.png", "airweed", false), false)
 register_airweed_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_base_tiles("default_dirt.png", "airweed", true), true)
 register_airweed_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "airweed", true), true)
 register_airweed_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "airweed", true), true)
-
+register_airweed_on("fertilized_dry_dirt", "rp_default:fertilized_dry_dirt", waterplant_base_tiles("default_dry_dirt.png", "airweed", true), true)
 
 
 -- Alga
