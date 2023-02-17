@@ -401,6 +401,16 @@ for _, npc_type_table in pairs(npc_types) do
                           end
                       elseif iname == "rp_default:reed_block" then
                           say(S("Did you try to dry it in the furnace?"), name)
+                      elseif iname == "rp_default:airweed" then
+                          if npc_type == "carpenter" then
+                             say(S("Airweed is an underwater plant with little capsules filled with air. Use it underwater to release air bubbles and catch some breath."), name)
+                          elseif npc_type == "butcher" then
+                             say(S("If you use the airweed plant, you will catch some breath. Other people near the plant will also benefit."), name)
+                          elseif npc_type == "farmer" then
+                             say(S("Airweed is very useful, but it can't give you breath from your hand. You must place it on the ground first."), name)
+                          else
+                             say(S("Airweed needs a moment to refill after you used it. The time it needs depends on the surface."), name)
+                          end
                       elseif iname == "rp_default:dirt" then
                           if npc_type == "farmer" then
                              say(S("Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized."), name)
