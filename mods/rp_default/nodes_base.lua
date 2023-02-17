@@ -562,8 +562,14 @@ minetest.register_node(
       groups = {snappy = 3, creative_decoblock = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_leaves_defaults(),
+      floodable = true,
+      on_flood = function(pos, oldnode)
+         minetest.add_item(pos, "rp_default:rope")
+         util.dig_down(pos, oldnode, nil, "rp_default:rope")
+      end,
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_down(pos, node, digger)
       end,
+
 })
 

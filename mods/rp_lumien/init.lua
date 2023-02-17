@@ -76,6 +76,10 @@ minetest.register_node(
          wall_side = {-0.5, -4/16, -4/16, -0.5+(4/16), 4/16, 4/16},
          wall_bottom = {-4/16, -0.5, -4/16, 4/16, -0.5+(4/16), 4/16}
       },
+      floodable = true,
+      on_flood = function(pos)
+         minetest.add_item(pos, "rp_lumien:crystal_off")
+      end,
 
       groups = {crumbly = 3, not_in_creative_inventory = 1},
       light_source = LUMIEN_CRYSTAL_LIGHT_MAX,
@@ -101,6 +105,10 @@ minetest.register_node(
          wall_side = {-0.5, -4/16, -4/16, -0.5+(4/16), 4/16, 4/16},
          wall_bottom = {-4/16, -0.5, -4/16, 4/16, -0.5+(4/16), 4/16}
       },
+      floodable = true,
+      on_flood = function(pos)
+         minetest.add_item(pos, "rp_lumien:crystal_off")
+      end,
 
       groups = {crumbly = 3, creative_decoblock = 1},
       light_source = LUMIEN_CRYSTAL_LIGHT_MIN,

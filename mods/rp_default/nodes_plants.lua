@@ -71,6 +71,11 @@ minetest.register_node(
       },
       groups = {snappy = 3, plant = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
+      floodable = true,
+      on_flood = function(pos, oldnode)
+         minetest.add_item(pos, "rp_default:papyrus")
+         util.dig_up(pos, oldnode, nil, "rp_default:papyrus")
+      end,
       after_dig_node = function(pos, node, metadata, digger)
 	 -- Award player for digging the tallest possible papyrus
 	 -- that can naturally grow (by ABM)
@@ -111,7 +116,8 @@ minetest.register_node(
          util.dig_down(pos, node, digger)
       end,
       on_flood = function(pos, oldnode, newnode)
-	 util.dig_down(pos, oldnode)
+         minetest.add_item(pos, "rp_default:vine")
+         util.dig_down(pos, oldnode, nil, "rp_default:vine")
       end,
       on_blast = function(pos)
          local oldnode = minetest.get_node(pos)
@@ -382,7 +388,8 @@ minetest.register_node(
          util.dig_up(pos, node, digger)
       end,
       on_flood = function(pos, oldnode, newnode)
-         util.dig_up(pos, oldnode)
+         minetest.add_item(pos, "rp_default:thistle")
+         util.dig_up(pos, oldnode, nil, "rp_default:thistle")
       end,
 })
 

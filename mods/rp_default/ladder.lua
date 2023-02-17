@@ -22,6 +22,10 @@ minetest.register_node(
       paramtype2 = "facedir",
       walkable = false,
       climbable = true,
+      floodable = true,
+      on_flood = function(pos)
+         minetest.add_item(pos, "rp_default:ladder")
+      end,
       node_box = {
 	 type = "fixed",
 	 fixed = {

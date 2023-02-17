@@ -87,6 +87,10 @@ local function register_sign(id, def)
 		groups = {choppy = 2,handy = 2,attached_node = 1, sign=1, creative_decoblock = 1},
 		is_ground_content = false,
 		sounds = def.sounds,
+		floodable = true,
+		on_flood = function(pos)
+			minetest.add_item(pos, "rp_default:"..id)
+		end,
 		on_construct = on_construct,
 		on_receive_fields = on_receive_fields,
 		on_destruct = on_destruct,
@@ -143,6 +147,10 @@ local function register_sign(id, def)
 		groups = {choppy = 2,handy = 2,attached_node = 1, sign=1, not_in_creative_inventory=1},
 		is_ground_content = false,
 		sounds = def.sounds,
+		floodable = true,
+		on_flood = function(pos)
+			minetest.add_item(pos, "rp_default:"..id)
+		end,
 		on_construct = on_construct,
 		on_receive_fields = on_receive_fields,
 		on_destruct = on_destruct,

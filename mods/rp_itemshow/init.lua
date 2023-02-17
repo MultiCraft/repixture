@@ -278,6 +278,12 @@ minetest.register_node("rp_itemshow:frame",{
 
 	on_rightclick = on_rightclick,
 
+	floodable = true,
+	on_flood = function(pos)
+		drop_item(pos, minetest.get_node(pos), minetest.is_creative_enabled(""))
+		minetest.add_item(pos, "rp_itemshow:frame")
+	end,
+
 	on_destruct = function(pos)
 		drop_item(pos, minetest.get_node(pos), minetest.is_creative_enabled(""))
 	end,
