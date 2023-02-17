@@ -388,7 +388,7 @@ local register_airweed_on = function(append, basenode, basenode_tiles, fertilize
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 17/16, 0.5},
-      }}, "rp_default:airweed", append, basenode, basenode_tiles, on_rightclick_inert, on_timer, on_construct, fertilize_info, true, recharge_time)
+      }}, "rp_default:airweed_inert", append, basenode, basenode_tiles, on_rightclick_inert, on_timer, on_construct, fertilize_info, true, recharge_time)
 
    -- "charged" airweed (bubbles ready)
    register_airweed("airweed",
@@ -396,16 +396,26 @@ local register_airweed_on = function(append, basenode, basenode_tiles, fertilize
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 22/16, 0.5},
-      }}, "rp_default:airweed", append, basenode, basenode_tiles, on_rightclick_charged, nil, nil, fertilize_info, nil, recharge_time)
+      }}, "rp_default:airweed_inert", append, basenode, basenode_tiles, on_rightclick_charged, nil, nil, fertilize_info, nil, recharge_time)
 end
 
-minetest.register_craftitem("rp_default:airweed", {
+minetest.register_craftitem("rp_default:airweed_inert", {
    description = S("Airweed"),
+   _tt_help = S("Gives back breath") .. "\n"..
+      S("Grows underwater on any dirt, sand or gravel"),
+   inventory_image = "rp_default_airweed_inert_clump_inventory.png",
+   wield_image = "rp_default_airweed_inert_clump_inventory.png",
+   on_place = get_sea_plant_on_place("airweed_inert", "wallmounted"),
+   groups = { node = 1, airweed = 1, airweed_inert = 1, plant = 1 },
+})
+
+minetest.register_craftitem("rp_default:airweed", {
+   description = S("Airweed (full)"),
    _tt_help = S("Gives back breath") .. "\n"..
       S("Grows underwater on any dirt, sand or gravel"),
    inventory_image = "rp_default_airweed_clump_inventory.png",
    wield_image = "rp_default_airweed_clump_inventory.png",
-   on_place = get_sea_plant_on_place("airweed_inert", "wallmounted"),
+   on_place = get_sea_plant_on_place("airweed", "wallmounted"),
    groups = { node = 1, airweed = 1, plant = 1 },
 })
 
