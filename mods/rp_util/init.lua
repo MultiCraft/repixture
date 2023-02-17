@@ -153,7 +153,7 @@ function util.choice_element(tab, pr)
    return choices[rnd], rnd
 end
 
-function util.dig_up(pos, node, digger)
+function util.dig_up(pos, node, digger, drop_item)
    if node.name == "ignore" then
       return
    end
@@ -162,9 +162,15 @@ function util.dig_up(pos, node, digger)
    if nn.name == node.name then
       if digger then
           minetest.node_dig(np, nn, digger)
+          if drop_item then
+             minetest.add_item(pos, drop_item)
+          end
       else
 	  while nn.name == node.name do
 	     minetest.remove_node(np)
+             if drop_item then
+                minetest.add_item(np, drop_item)
+             end
 	     np.y = np.y + 1
 	     nn = minetest.get_node(np)
           end
@@ -172,7 +178,7 @@ function util.dig_up(pos, node, digger)
    end
 end
 
-function util.dig_down(pos, node, digger)
+function util.dig_down(pos, node, digger, drop_item)
    if node.name == "ignore" then
       return
    end
@@ -181,9 +187,15 @@ function util.dig_down(pos, node, digger)
    if nn.name == node.name then
       if digger then
           minetest.node_dig(np, nn, digger)
+          if drop_item then
+             minetest.add_item(pos, drop_item)
+          end
       else
 	  while nn.name == node.name do
 	     minetest.remove_node(np)
+             if drop_item then
+                minetest.add_item(np, drop_item)
+             end
 	     np.y = np.y - 1
 	     nn = minetest.get_node(np)
           end

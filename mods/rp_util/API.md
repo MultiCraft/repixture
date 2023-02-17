@@ -92,19 +92,23 @@ Parameters:
 
 
 
-## `util.dig_up(pos, node, digger)`
+## `util.dig_up(pos, node, digger, drop_item)`
 
 Dig the node above `pos` if nodename is equal to `node.name`.
 `digger` is a player object that will be treated as
 the 'digger' of said nodes.
+If `drop_item` is an itemstring, it will drop this item for
+each node that is dug.
 
 
 
-## `util.dig_down(pos, node, digger)`
+## `util.dig_down(pos, node, digger, drop_item)`
 
 Dig the node below `pos` if nodename is equal to `node.name`.
 `digger` is a player object that will be treated as
 the 'digger' of said nodes.
+If `drop_item` is an itemstring, it will drop this item for
+each node that is dug.
 
 
 
