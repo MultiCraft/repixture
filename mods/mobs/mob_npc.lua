@@ -401,7 +401,7 @@ for _, npc_type_table in pairs(npc_types) do
                           end
                       elseif iname == "rp_default:reed_block" then
                           say(S("Did you try to dry it in the furnace?"), name)
-                      elseif iname == "rp_default:airweed" then
+                      elseif minetest.get_item_group(iname, "airweed") > 0 then
                           if npc_type == "carpenter" then
                              say(S("Airweed is an underwater plant with little capsules filled with air. Use it underwater to release air bubbles and catch some breath."), name)
                           elseif npc_type == "butcher" then

@@ -123,6 +123,8 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `fern`: Fern
 * `flower`: Flower
 * `seagrass`: Seagrass
+* `airweed`: Airweed
+* `airweed_insert`: Airweed that is 'inert' (i.e. bubbles are not ready)
 * `alga`: Alga
 * `clam`: Clam
 
