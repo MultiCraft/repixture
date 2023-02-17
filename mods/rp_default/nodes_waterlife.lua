@@ -4,6 +4,13 @@ local ALGA_BLOCK_SLIPPERY = 2 -- Slippery level of alga block
 
 local AIRWEED_ADD_BREATH = 1 -- How much breath points an airweed restores by a single use
 
+-- Airweed recharge times on different nodes, in seconds
+local AIRWEED_RECHARGE_DIRT = 10
+local AIRWEED_RECHARGE_SWAMP_DIRT = 15
+local AIRWEED_RECHARGE_DRY_DIRT = 12.5
+local AIRWEED_RECHARGE_GRAVEL = 5
+local AIRWEED_RECHARGE_SAND = 7.5
+
 local function get_sea_plant_on_place(base, paramtype2)
 return function(itemstack, placer, pointed_thing)
 	if pointed_thing.type ~= "node" or not placer then
@@ -221,7 +228,7 @@ register_seagrass_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt"
 register_seagrass_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "seagrass", true), true)
 
 
-local register_airweed = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, on_rightclick, on_timer, on_construct, fertilize_info, is_inert)
+local register_airweed = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, on_rightclick, on_timer, on_construct, fertilize_info, is_inert, recharge_time)
    local groups = {snappy = 2, dig_immediate = 3, airweed = 1, plant = 1, rooted_plant = 1}
    if is_inert then
       groups.airweed_inert = 1
@@ -268,10 +275,11 @@ local register_airweed = function(plant_id, selection_box, drop, append, basenod
          end,
 	 _fertilized_node = _fertilized_node,
 	 _waterplant_base_node = basenode,
+	 _airweed_recharge_time = recharge_time,
 	 drop = drop,
    })
 end
-local register_airweed_on = function(append, basenode, basenode_tiles, fertilize_info)
+local register_airweed_on = function(append, basenode, basenode_tiles, fertilize_info, recharge_time)
 
    local on_timer = function(pos)
       local node = minetest.get_node(vector.add(pos, vector.new(0,1,0)))
@@ -380,7 +388,7 @@ local register_airweed_on = function(append, basenode, basenode_tiles, fertilize
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 17/16, 0.5},
-      }}, "rp_default:airweed", append, basenode, basenode_tiles, on_rightclick_inert, on_timer, on_construct, fertilize_info, true)
+      }}, "rp_default:airweed", append, basenode, basenode_tiles, on_rightclick_inert, on_timer, on_construct, fertilize_info, true, recharge_time)
 
    -- "charged" airweed (bubbles ready)
    register_airweed("airweed",
@@ -388,7 +396,7 @@ local register_airweed_on = function(append, basenode, basenode_tiles, fertilize
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 22/16, 0.5},
-      }}, "rp_default:airweed", append, basenode, basenode_tiles, on_rightclick_charged, nil, nil, fertilize_info)
+      }}, "rp_default:airweed", append, basenode, basenode_tiles, on_rightclick_charged, nil, nil, fertilize_info, nil, recharge_time)
 end
 
 minetest.register_craftitem("rp_default:airweed", {
@@ -401,15 +409,15 @@ minetest.register_craftitem("rp_default:airweed", {
    groups = { node = 1, airweed = 1, plant = 1 },
 })
 
-register_airweed_on("dirt", "rp_default:dirt", waterplant_base_tiles("default_dirt.png", "airweed", false), "fertilized_dirt")
-register_airweed_on("swamp_dirt", "rp_default:swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "airweed", false), "fertilized_swamp_dirt")
-register_airweed_on("dry_dirt", "rp_default:dry_dirt", waterplant_base_tiles("default_dry_dirt.png", "airweed", false), "fertilized_dry_dirt")
-register_airweed_on("sand", "rp_default:sand", waterplant_base_tiles("default_sand.png", "airweed", false), "fertilized_sand")
-register_airweed_on("gravel", "rp_default:gravel", waterplant_base_tiles("default_gravel.png", "airweed", false), false)
-register_airweed_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_base_tiles("default_dirt.png", "airweed", true), true)
-register_airweed_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "airweed", true), true)
-register_airweed_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "airweed", true), true)
-register_airweed_on("fertilized_dry_dirt", "rp_default:fertilized_dry_dirt", waterplant_base_tiles("default_dry_dirt.png", "airweed", true), true)
+register_airweed_on("dirt", "rp_default:dirt", waterplant_base_tiles("default_dirt.png", "airweed", false), "fertilized_dirt", AIRWEED_RECHARGE_DIRT)
+register_airweed_on("swamp_dirt", "rp_default:swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "airweed", false), "fertilized_swamp_dirt", AIRWEED_RECHARGE_SWAMP_DIRT)
+register_airweed_on("dry_dirt", "rp_default:dry_dirt", waterplant_base_tiles("default_dry_dirt.png", "airweed", false), "fertilized_dry_dirt", AIRWEED_RECHARGE_DRY_DIRT)
+register_airweed_on("sand", "rp_default:sand", waterplant_base_tiles("default_sand.png", "airweed", false), "fertilized_sand", AIRWEED_RECHARGE_SAND)
+register_airweed_on("gravel", "rp_default:gravel", waterplant_base_tiles("default_gravel.png", "airweed", false), false, AIRWEED_RECHARGE_GRAVEL)
+register_airweed_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_base_tiles("default_dirt.png", "airweed", true), true, AIRWEED_RECHARGE_DIRT)
+register_airweed_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "airweed", true), true, AIRWEED_RECHARGE_SWAMP_DIRT)
+register_airweed_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "airweed", true), true, AIRWEED_RECHARGE_SAND)
+register_airweed_on("fertilized_dry_dirt", "rp_default:fertilized_dry_dirt", waterplant_base_tiles("default_dry_dirt.png", "airweed", true), true, AIRWEED_RECHARGE_DRY_DIRT)
 
 
 -- Alga

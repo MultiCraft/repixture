@@ -5,7 +5,7 @@ local S = minetest.get_translator("rp_default")
 local SAPLING_RECHECK_TIME_MIN = 60
 local SAPLING_RECHECK_TIME_MAX = 70
 
-local AIRWEED_RECHARGE_TIME = 5.0 -- how many seconds it takes for an airweed to become usable again
+local AIRWEED_RECHARGE_TIME_DEFAULT = 10.0 -- how many seconds it takes for an airweed to become usable again by default
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
 
@@ -434,7 +434,9 @@ function default.start_inert_airweed_timer(pos)
 	if timer:is_started() then
 		return
 	else
-		timer:start(AIRWEED_RECHARGE_TIME)
+		local node = minetest.get_node(pos)
+		local def = minetest.registered_nodes[node.name]
+		timer:start(def._airweed_recharge_time or AIRWEED_RECHARGE_TIME_DEFAULT)
 	end
 end
 
