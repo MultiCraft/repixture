@@ -11,17 +11,35 @@ local AIRWEED_RECHARGE_DRY_DIRT = 12.5
 local AIRWEED_RECHARGE_GRAVEL = 5
 local AIRWEED_RECHARGE_SAND = 7.5
 
-local INIT_AGE_MIN = 1
-local INIT_AGE_MAX = 3
+local INIT_AGE_MIN_NORMAL = 1
+local INIT_AGE_MIN_FERTILIZED = 3
 
--- Get initial age for levels water plant like algae
-local get_init_age = function(max_height)
+-- Get initial age for levels water plant like algae.
+-- If the ground is fertilized, the minimum possible
+-- growth height (limited by height) is increased.
+local get_init_age = function(max_height, is_fertilized)
    if not max_height then
-      max_height = 0
+      return 1
    end
-   local age = math.random(1, math.max(2, max_height - 1))
+   local min_height
+   if is_fertilized then
+      min_height = INIT_AGE_MIN_FERTILIZED
+   else
+      min_height = INIT_AGE_MIN_NORMAL
+   end
+   local diff = max_height - min_height
+   local age = math.random(1, math.max(2, diff))
    return age
 end
+
+-- About age: Age is a number assigned to leveled water plants like algae.
+-- It is randomly assigned when it is newly placed. It increases
+-- whenever the plant growths. Age essentially is used to limit
+-- growth with a bit of randomness, so that algae don't grow
+-- to the same height when you plant them.
+-- The special age value of 0 stops all growth.
+-- All mapgen-generated plants start with a age of 0.
+-- Age is affected by various other events, like cutting.
 
 local function get_sea_plant_on_place(base, paramtype2)
 return function(itemstack, placer, pointed_thing)
@@ -50,8 +68,8 @@ return function(itemstack, placer, pointed_thing)
 	      local meta = minetest.get_meta(pointed_thing.under)
 	      local age = meta:get_int("age")
 	      if age == 0 then
-                 meta:set_int("age", get_init_age(underdef._waterplant_max_height))
-	      else
+                 local is_fertilized = minetest.get_item_group(undernode.name, "plantable_fertilizer") == 1
+                 meta:set_int("age", get_init_age(underdef._waterplant_max_height, is_fertilized))
 	      end
               local snd = underdef.sounds.place
               if snd and top then
@@ -117,7 +135,8 @@ return function(itemstack, placer, pointed_thing)
 	minetest.set_node(place_floor, node_floor)
 
 	local meta = minetest.get_meta(place_floor)
-        meta:set_int("age", get_init_age(def_floor._waterplant_max_height))
+        local is_fertilized = minetest.get_item_group(node_floor.name, "plantable_fertilizer") == 1
+        meta:set_int("age", get_init_age(def_floor._waterplant_max_height, is_fertilized))
 
         local snd = def_floor.sounds.place
         if snd then
@@ -552,7 +571,8 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
             local meta = minetest.get_meta(pos)
 	    local def = minetest.registered_nodes[node.name]
             if def and def._waterplant_max_height then
-               meta:set_int("age", get_init_age(def._waterplant_max_height))
+               local is_fertilized = minetest.get_item_group(node.name, "plantable_fertilizer") == 1
+               meta:set_int("age", get_init_age(def._waterplant_max_height, is_fertilized))
             end
 
 	    -- Drop items
