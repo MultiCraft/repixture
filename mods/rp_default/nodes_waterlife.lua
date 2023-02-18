@@ -11,9 +11,27 @@ local AIRWEED_RECHARGE_DRY_DIRT = 12.5
 local AIRWEED_RECHARGE_GRAVEL = 5
 local AIRWEED_RECHARGE_SAND = 7.5
 
+-- Maximum possible alga growth heights
+-- Max. height by growing on different surfaces
+local ALGA_MAX_HEIGHT_BLOCK = 10
+local ALGA_MAX_HEIGHT_SAND = 3
+local ALGA_MAX_HEIGHT_DIRT = 5
+local ALGA_MAX_HEIGHT_SWAMP_DIRT = 7
+local ALGA_MAX_HEIGHT_FERTILIZED_SAND = 4
+local ALGA_MAX_HEIGHT_FERTILIZED_DIRT = 7
+local ALGA_MAX_HEIGHT_FERTILIZED_SWAMP_DIRT = 9
+
+-- Age
+-- About age: Age is a number assigned to leveled water plants like algae.
+-- It is randomly assigned when it is newly placed. It increases
+-- whenever the plant growths. Age essentially is used to limit
+-- growth with a bit of randomness, so that algae don't grow
+-- to the same height when you plant them.
+-- The special age value of 0 stops all growth.
+-- All mapgen-generated plants start with a age of 0.
+-- Age is affected by various other events, like cutting.
 local INIT_AGE_MIN_NORMAL = 1
 local INIT_AGE_MIN_FERTILIZED = 3
-
 -- Get initial age for levels water plant like algae.
 -- If the ground is fertilized, the minimum possible
 -- growth height (limited by height) is increased.
@@ -31,15 +49,6 @@ local get_init_age = function(max_height, is_fertilized)
    local age = math.random(1, math.max(2, diff))
    return age
 end
-
--- About age: Age is a number assigned to leveled water plants like algae.
--- It is randomly assigned when it is newly placed. It increases
--- whenever the plant growths. Age essentially is used to limit
--- growth with a bit of randomness, so that algae don't grow
--- to the same height when you plant them.
--- The special age value of 0 stops all growth.
--- All mapgen-generated plants start with a age of 0.
--- Age is affected by various other events, like cutting.
 
 local function get_sea_plant_on_place(base, paramtype2)
 return function(itemstack, placer, pointed_thing)
@@ -610,14 +619,14 @@ local alga_block_tiles = {
 }
 
 
-register_alga_on("alga_block", "rp_default:alga_block", alga_block_tiles, default.ALGA_MAX_HEIGHT_BLOCK)
+register_alga_on("alga_block", "rp_default:alga_block", alga_block_tiles, ALGA_MAX_HEIGHT_BLOCK)
 
-register_alga_on("dirt", "rp_default:dirt", waterplant_base_tiles("default_dirt.png", "alga", false), default.ALGA_MAX_HEIGHT_DIRT, "fertilized_dirt")
-register_alga_on("swamp_dirt", "rp_default:swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", false), default.ALGA_MAX_HEIGHT_SWAMP_DIRT, "fertilized_swamp_dirt")
-register_alga_on("sand", "rp_default:sand", waterplant_base_tiles("default_sand.png", "alga", false), default.ALGA_MAX_HEIGHT_SAND, "fertilized_sand")
-register_alga_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_base_tiles("default_dirt.png", "alga", true), default.ALGA_MAX_HEIGHT_FERTILIZED_DIRT, true)
-register_alga_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", true), default.ALGA_MAX_HEIGHT_FERTILIZED_SWAMP_DIRT, true)
-register_alga_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "alga", true), default.ALGA_MAX_HEIGHT_FERTILIZED_SAND, true)
+register_alga_on("dirt", "rp_default:dirt", waterplant_base_tiles("default_dirt.png", "alga", false), ALGA_MAX_HEIGHT_DIRT, "fertilized_dirt")
+register_alga_on("swamp_dirt", "rp_default:swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", false), ALGA_MAX_HEIGHT_SWAMP_DIRT, "fertilized_swamp_dirt")
+register_alga_on("sand", "rp_default:sand", waterplant_base_tiles("default_sand.png", "alga", false), ALGA_MAX_HEIGHT_SAND, "fertilized_sand")
+register_alga_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_base_tiles("default_dirt.png", "alga", true), ALGA_MAX_HEIGHT_FERTILIZED_DIRT, true)
+register_alga_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", true), ALGA_MAX_HEIGHT_FERTILIZED_SWAMP_DIRT, true)
+register_alga_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "alga", true), ALGA_MAX_HEIGHT_FERTILIZED_SAND, true)
 
 -- Alga Block
 minetest.register_node(
