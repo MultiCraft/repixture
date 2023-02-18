@@ -999,28 +999,15 @@ minetest.register_abm(
             return
          end
 
-         local segmentpos = vector.new(pos.x,pos.y,pos.z)
-         local grow = true
-         for h=1, new_height do
-            segmentpos.y = pos.y + h
-            local is_water = util.is_water_source_or_waterfall(segmentpos)
-            if not is_water then
-               grow = false
-               break
-            end
-         end
-         if not grow then
+         local grown = default.grow_underwater_leveled_plant(pos, node, 1)
+         if not grown then
             -- Stop growth once blocked
             meta:set_int("age", 0) -- age = 0 means no growth
             return
-         end
-
-	 -- Grow by 1 step and increase age by 1
-	 if grow then
+         else
+            -- Increase age by 1
             age = math.min(age + 1, 255)
             meta:set_int("age", age)
-            local param2 = math.min(240, new_height * 16)
-            minetest.swap_node(pos, {name=node.name, param2=param2})
          end
       end,
    }
