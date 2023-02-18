@@ -35,6 +35,15 @@ default.THISTLE_MAX_HEIGHT_TOTAL = THISTLE_MAX_HEIGHT_PLUS
 -- Maximum possible papyrus growth height
 default.PAPYRUS_MAX_HEIGHT_TOTAL = PAPYRUS_MAX_HEIGHT_PLUS + PAPYRUS_SWAMP_HEIGHT_BONUS
 
+-- Maximum possible alga growth heights
+default.ALGA_MAX_HEIGHT_BLOCK = 10
+default.ALGA_MAX_HEIGHT_SAND = 3
+default.ALGA_MAX_HEIGHT_DIRT = 5
+default.ALGA_MAX_HEIGHT_SWAMP_DIRT = 7
+default.ALGA_MAX_HEIGHT_FERTILIZED_SAND = 4
+default.ALGA_MAX_HEIGHT_FERTILIZED_DIRT = 7
+default.ALGA_MAX_HEIGHT_FERTILIZED_SWAMP_DIRT = 9
+
 --
 -- Functions/ABMs
 --
@@ -420,7 +429,7 @@ function default.grow_underwater_leveled_plant(pos, node, add)
 			return false
 		end
 	end
-	minetest.set_node(pos, node)
+	minetest.swap_node(pos, node)
 	local top = vector.new(pos.x, pos.y + height, pos.z)
 	return true, top
 end
@@ -792,6 +801,7 @@ minetest.register_abm( -- seagrass and airweed dies if not underwater
 })
 
 minetest.register_abm( -- algae die/become smaller if not fully underwater
+-- also reset age to 0 (no growth) by implication
    {
       label = "Alga decay",
       nodenames = {"group:alga"},
@@ -969,6 +979,61 @@ minetest.register_abm({
        end
     end,
 })
+
+-- Grow algae
+minetest.register_abm(
+   {
+      label = "Grow algae",
+      name = "rp_default:grow_algae",
+      nodenames = {"group:alga"},
+      neighbors = {"group:water"},
+      interval = 20,
+      chance = 90,
+      action = function(pos, node)
+	 local def = minetest.registered_nodes[node.name]
+	 if not def or not def._waterplant_max_height then
+	    return
+	 end
+
+         local meta = minetest.get_meta(pos)
+         local age = meta:get_int("age")
+         if age == 0 then
+            return
+         end
+         local height = math.ceil(node.param2 / 16)
+         local new_height = height + 1
+
+	 -- Stop growh at max height
+         if new_height > def._waterplant_max_height or age+1 > def._waterplant_max_height then
+            return
+         end
+
+         local segmentpos = vector.new(pos.x,pos.y,pos.z)
+         local grow = true
+         for h=1, new_height do
+            segmentpos.y = pos.y + h
+            local is_water = util.is_water_source_or_waterfall(segmentpos)
+            if not is_water then
+               grow = false
+               break
+            end
+         end
+         if not grow then
+            -- Stop growth once blocked
+            meta:set_int("age", 0) -- age = 0 means no growth
+            return
+         end
+
+	 -- Grow by 1 step and increase age by 1
+	 if grow then
+            age = math.min(age + 1, 255)
+            meta:set_int("age", age)
+            local param2 = math.min(240, new_height * 16)
+            minetest.swap_node(pos, {name=node.name, param2=param2})
+         end
+      end,
+   }
+)
 
 minetest.register_abm({
     label = "Grass clump expansion",

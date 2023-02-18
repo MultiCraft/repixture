@@ -11,6 +11,18 @@ local AIRWEED_RECHARGE_DRY_DIRT = 12.5
 local AIRWEED_RECHARGE_GRAVEL = 5
 local AIRWEED_RECHARGE_SAND = 7.5
 
+local INIT_AGE_MIN = 1
+local INIT_AGE_MAX = 3
+
+-- Get initial age for levels water plant like algae
+local get_init_age = function(max_height)
+   if not max_height then
+      max_height = 0
+   end
+   local age = math.random(1, math.max(2, max_height - 1))
+   return age
+end
+
 local function get_sea_plant_on_place(base, paramtype2)
 return function(itemstack, placer, pointed_thing)
 	if pointed_thing.type ~= "node" or not placer then
@@ -35,6 +47,12 @@ return function(itemstack, placer, pointed_thing)
            end
            local grown, top = default.grow_underwater_leveled_plant(pointed_thing.under, undernode)
            if grown then
+	      local meta = minetest.get_meta(pointed_thing.under)
+	      local age = meta:get_int("age")
+	      if age == 0 then
+                 meta:set_int("age", get_init_age(underdef._waterplant_max_height))
+	      else
+	      end
               local snd = underdef.sounds.place
               if snd and top then
                  minetest.sound_play(snd, {pos = top}, true)
@@ -97,6 +115,10 @@ return function(itemstack, placer, pointed_thing)
 	end
 
 	minetest.set_node(place_floor, node_floor)
+
+	local meta = minetest.get_meta(place_floor)
+        meta:set_int("age", get_init_age(def_floor._waterplant_max_height))
+
         local snd = def_floor.sounds.place
         if snd then
            minetest.sound_play(snd, {pos = place_in}, true)
@@ -196,7 +218,7 @@ minetest.register_craftitem("rp_default:tall_seagrass", {
    _tt_help = S("Grows underwater on dirt, swamp dirt or sand"),
    inventory_image = "rp_default_tall_seagrass_clump_inventory.png",
    wield_image = "rp_default_tall_seagrass_clump_inventory.png",
-   on_place = get_sea_plant_on_place("tall_seagrass", "wallmounted"),
+   on_place = get_sea_plant_on_place("tall_seagrass", "none"),
    groups = { node = 1, green_grass = 1, seagrass = 1, plant = 1, grass = 1 },
 })
 minetest.register_craftitem("rp_default:seagrass", {
@@ -204,7 +226,7 @@ minetest.register_craftitem("rp_default:seagrass", {
    _tt_help = S("Grows underwater on dirt, swamp dirt or sand"),
    inventory_image = "rp_default_seagrass_clump_inventory.png",
    wield_image = "rp_default_seagrass_clump_inventory.png",
-   on_place = get_sea_plant_on_place("seagrass", "wallmounted"),
+   on_place = get_sea_plant_on_place("seagrass", "none"),
    groups = { node = 1, green_grass = 1, seagrass = 1, plant = 1, grass = 1 },
 })
 
@@ -405,7 +427,7 @@ minetest.register_craftitem("rp_default:airweed_inert", {
       S("Grows underwater on any dirt, sand or gravel"),
    inventory_image = "rp_default_airweed_inert_clump_inventory.png",
    wield_image = "rp_default_airweed_inert_clump_inventory.png",
-   on_place = get_sea_plant_on_place("airweed_inert", "wallmounted"),
+   on_place = get_sea_plant_on_place("airweed_inert", "none"),
    groups = { node = 1, airweed = 1, airweed_inert = 1, plant = 1 },
 })
 
@@ -415,7 +437,7 @@ minetest.register_craftitem("rp_default:airweed", {
       S("Grows underwater on any dirt, sand or gravel"),
    inventory_image = "rp_default_airweed_clump_inventory.png",
    wield_image = "rp_default_airweed_clump_inventory.png",
-   on_place = get_sea_plant_on_place("airweed", "wallmounted"),
+   on_place = get_sea_plant_on_place("airweed", "none"),
    groups = { node = 1, airweed = 1, plant = 1 },
 })
 
@@ -518,12 +540,19 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
             local cut_height = math.floor((node.param2 - 16) / 16)
             -- This reduces the alga height
             minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8}, true)
-            minetest.set_node(pos, {name=node.name, param2=16})
+            minetest.swap_node(pos, {name=node.name, param2=16})
 
             -- Add wear
             if not minetest.is_creative_enabled(player:get_player_name()) then
                local def = itemstack:get_definition()
                itemstack:add_wear_by_uses(def.tool_capabilities.groupcaps.snappy.uses)
+            end
+
+	    -- Set new init age
+            local meta = minetest.get_meta(pos)
+	    local def = minetest.registered_nodes[node.name]
+            if def and def._waterplant_max_height then
+               meta:set_int("age", get_init_age(def._waterplant_max_height))
             end
 
 	    -- Drop items
@@ -541,6 +570,7 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
          end,
 	 _fertilized_node = _fertilized_node,
          _waterplant_base_node = basenode,
+	 _waterplant_max_height = max_height,
    })
 end
 
@@ -558,14 +588,16 @@ local alga_block_tiles = {
    { name="rp_default_alga_block_top.png", backface_culling=true },
    { name="rp_default_alga_block_side.png", backface_culling=true },
 }
-register_alga_on("alga_block", "rp_default:alga_block", alga_block_tiles, 10)
 
-register_alga_on("dirt", "rp_default:dirt", waterplant_base_tiles("default_dirt.png", "alga", false), 5, "fertilized_dirt")
-register_alga_on("swamp_dirt", "rp_default:swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", false), 7, "fertilized_swamp_dirt")
-register_alga_on("sand", "rp_default:sand", waterplant_base_tiles("default_sand.png", "alga", false), 3, "fertilized_sand")
-register_alga_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_base_tiles("default_dirt.png", "alga", true), 7, true)
-register_alga_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", true), 9, true)
-register_alga_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "alga", true), 4, true)
+
+register_alga_on("alga_block", "rp_default:alga_block", alga_block_tiles, default.ALGA_MAX_HEIGHT_BLOCK)
+
+register_alga_on("dirt", "rp_default:dirt", waterplant_base_tiles("default_dirt.png", "alga", false), default.ALGA_MAX_HEIGHT_DIRT, "fertilized_dirt")
+register_alga_on("swamp_dirt", "rp_default:swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", false), default.ALGA_MAX_HEIGHT_SWAMP_DIRT, "fertilized_swamp_dirt")
+register_alga_on("sand", "rp_default:sand", waterplant_base_tiles("default_sand.png", "alga", false), default.ALGA_MAX_HEIGHT_SAND, "fertilized_sand")
+register_alga_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_base_tiles("default_dirt.png", "alga", true), default.ALGA_MAX_HEIGHT_FERTILIZED_DIRT, true)
+register_alga_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", true), default.ALGA_MAX_HEIGHT_FERTILIZED_SWAMP_DIRT, true)
+register_alga_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "alga", true), default.ALGA_MAX_HEIGHT_FERTILIZED_SAND, true)
 
 -- Alga Block
 minetest.register_node(

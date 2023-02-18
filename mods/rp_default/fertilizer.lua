@@ -124,7 +124,7 @@ minetest.register_craftitem(
             else
                local underdef = minetest.registered_nodes[undernode.name]
                if underdef and underdef._fertilized_node then
-                  minetest.set_node(underpos, {name = underdef._fertilized_node, param2 = undernode.param2})
+                  minetest.swap_node(underpos, {name = underdef._fertilized_node, param2 = undernode.param2})
 	          fertilized = true
                end
             end
