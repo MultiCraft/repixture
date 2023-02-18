@@ -18,6 +18,9 @@ default.WEAK_TORCH_MAX_TIMER = 360
 -- is reduced by 100s*0.1 = 10s.
 default.SAPLING_FERTILIZER_TIME_BONUS_FACTOR = 0.1
 
+-- Maximum 'age' of a vine (determines how long it'll grow)
+default.VINE_MAX_AGE = 20
+
 minetest.nodedef_default.stack_max = 60
 minetest.craftitemdef_default.stack_max = 60
 

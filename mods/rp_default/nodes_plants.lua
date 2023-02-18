@@ -113,13 +113,37 @@ minetest.register_node(
       groups = {_attached_node_top = 1, snappy = 3, plant = 1, vine = 1},
       sounds = rp_sounds.node_sound_leaves_defaults(),
       after_dig_node = function(pos, node, metadata, digger)
+         -- Set random age of vine above, it it exists
+         local above = {x=pos.x, y=pos.y+1, z=pos.z}
+         local aboven = minetest.get_node(above)
+         if aboven.name == "rp_default:vine" then
+            minetest.set_node(above, {name="rp_default:vine", param2 = math.random(1, default.VINE_MAX_AGE)})
+         end
+
+         -- Detach vines below
          util.dig_down(pos, node, digger)
       end,
       on_flood = function(pos, oldnode, newnode)
+         -- Set random age of vine above, it it exists
+         local above = {x=pos.x, y=pos.y+1, z=pos.z}
+         local aboven = minetest.get_node(above)
+         if aboven.name == "rp_default:vine" then
+            minetest.set_node(above, {name="rp_default:vine", param2 = math.random(1, default.VINE_MAX_AGE)})
+         end
+
+         -- Drop vine as item and detach vines below
          minetest.add_item(pos, "rp_default:vine")
          util.dig_down(pos, oldnode, nil, "rp_default:vine")
       end,
       on_blast = function(pos)
+         -- Set random age of vine above, it it exists
+         local above = {x=pos.x, y=pos.y+1, z=pos.z}
+         local aboven = minetest.get_node(above)
+         if aboven.name == "rp_default:vine" then
+            minetest.set_node(above, {name="rp_default:vine", param2 = math.random(1, default.VINE_MAX_AGE)})
+         end
+
+         -- Destroy the blasted node and detach vines below
          local oldnode = minetest.get_node(pos)
          minetest.remove_node(pos)
          util.dig_down(pos, oldnode)
@@ -150,8 +174,24 @@ minetest.register_node(
             return itemstack
          end
 
+	 local age = ceilingnode.param2
+	 -- Update age
+         if ceilingnode.name == "rp_default:vine" then
+	    -- Vine extended: Increase age by 1 or set random age
+            local meta_c = minetest.get_meta(place_floor)
+            if age > 0 then
+               local meta_new = minetest.get_meta(place_in)
+               age = math.min(default.VINE_MAX_AGE, age + 1)
+            else
+               age = math.random(1, default.VINE_MAX_AGE)
+            end
+         else
+	    -- New vine: Set random age
+	    age = math.random(1, default.VINE_MAX_AGE)
+	 end
+
          -- Place vine
-         minetest.set_node(place_in, {name = itemstack:get_name()})
+         minetest.set_node(place_in, {name = itemstack:get_name(), param2 = age})
 
          -- Reduce item count
          if not minetest.is_creative_enabled(placer:get_player_name()) then
@@ -159,6 +199,31 @@ minetest.register_node(
          end
 
 	 return itemstack
+      end,
+      _on_trim = function(pos, node, player, itemstack)
+          -- Cut the vine, set age of a remaining vine to 0 to stop growth
+          -- Dig vine
+          minetest.remove_node(pos)
+          local is_creative = minetest.is_creative_enabled(player:get_player_name())
+          if not is_creative then
+             item_drop.drop_item(pos, "rp_default:vine")
+          end
+          util.dig_down(pos, node)
+          minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = player:get_pos(), max_hear_distance = 8}, true)
+
+	  -- Reset age of vine above, if present
+          local above = {x=pos.x, y=pos.y+1, z=pos.z}
+          local aboven = minetest.get_node(above)
+          if aboven.name == "rp_default:vine" then
+	     minetest.set_node(above, {name="rp_default:vine", param2=0})
+          end
+
+          -- Add tool wear
+          if not is_creative then
+             local def = itemstack:get_definition()
+             itemstack:add_wear_by_uses(def.tool_capabilities.groupcaps.snappy.uses)
+          end
+          return itemstack
       end,
 })
 

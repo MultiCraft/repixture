@@ -971,6 +971,30 @@ minetest.register_abm({
     end,
 })
 
+-- Grow vine
+minetest.register_abm(
+   {
+      label = "Grow vines",
+      name = "rp_default:grow_vines",
+      nodenames = {"rp_default:vine"},
+      interval = 21,
+      chance = 120,
+      action = function(pos, node)
+         local meta = minetest.get_meta(pos)
+         local age = node.param2
+         if node.param2 == 0 or node.param2 >= default.VINE_MAX_AGE then
+            return
+         end
+         local below = {x=pos.x, y=pos.y-1, z=pos.z}
+         local nbelow = minetest.get_node(below)
+         if nbelow.name == "air" then
+            age = math.min(default.VINE_MAX_AGE, age + 1)
+            minetest.set_node(below, {name="rp_default:vine", param2 = age})
+         end
+      end,
+   }
+)
+
 -- Grow algae
 minetest.register_abm(
    {

@@ -248,7 +248,7 @@ local tt_pick = S("Digs hard, cracky blocks")
 local tt_shovel = S("Digs soft, crumbly blocks")
 local tt_axe = S("Chops wood")
 local tt_spear = S("Melee weapon")
-local tt_shears = S("Cuts leaves and plants and shears sheep")
+local tt_shears = S("Cuts leaves and plants and shears sheep").."\n"..S("“Place” key: Precise cut")
 
 -- Pickaxes
 

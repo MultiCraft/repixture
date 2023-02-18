@@ -312,9 +312,13 @@ for _, npc_type_table in pairs(npc_types) do
                       elseif iname == "rp_farming:cotton_1" then
                           if npc_type == "farmer" then
                               say(S("Did you know cotton seed not only grow on dirt, but also on sand? But it still needs water."), name)
+                          elseif npc_type == "carpenter" then
+                              say(S("If you have grown a cotton plant, try using scissors to perform a precise cut."), name)
                           else
                               say(S("Every kid knows seeds need soil, water and sunlight."), name)
                           end
+                      elseif iname == "rp_farming:cotton" then
+                          say(S("This can be used to make cotton bales.", name))
                       elseif iname == "rp_default:book" then
                           say(S("A truly epic story!"), name)
                       elseif iname == "rp_default:pearl" then
@@ -421,6 +425,14 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                              say(S("Algae grow underwater in different heights."), name)
 			  end
+                      elseif iname == "rp_default:vine" then
+                          if npc_type == "farmer" then
+                             say(S("Place it at the ceiling and watch it grow."), name)
+                          elseif npc_type == "carpenter" then
+                             say(S("If you want the vine to stops growing, make a precise cut using scissors."), name)
+                          else
+                             say(S("It's climbing time!"), name)
+                          end
                       elseif iname == "rp_default:dirt" then
                           if npc_type == "farmer" then
                              say(S("Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized."), name)
