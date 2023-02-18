@@ -20,6 +20,8 @@ local ALGA_MAX_HEIGHT_SWAMP_DIRT = 7
 local ALGA_MAX_HEIGHT_FERTILIZED_SAND = 4
 local ALGA_MAX_HEIGHT_FERTILIZED_DIRT = 7
 local ALGA_MAX_HEIGHT_FERTILIZED_SWAMP_DIRT = 9
+-- Max. alga height by manual placing
+local ALGA_MAX_HEIGHT_BUILD = 10
 
 -- Age
 -- About age: Age is a number assigned to leveled water plants like algae.
@@ -517,7 +519,7 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
 	 waving = 1,
 	 paramtype2 = "leveled",
 	 place_param2 = 16,
-	 leveled_max = 16 * max_height,
+	 leveled_max = 16 * ALGA_MAX_HEIGHT_BUILD,
          tiles = basenode_tiles,
          special_tiles = {{name="rp_default_alga.png", tileable_vertical=true}},
          inventory_image = "rp_default_plantlike_rooted_inv_"..append..".png^rp_default_plantlike_rooted_inv_alga.png",
