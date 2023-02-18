@@ -411,6 +411,16 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                              say(S("Airweed needs a moment to refill after you used it. The time it needs depends on the surface."), name)
                           end
+                      elseif iname == "rp_default:alga" then
+                          if npc_type == "farmer" then
+                             say(S("If you fertilize the ground, an alga will grow higher."), name)
+                          elseif npc_type == "tavernkeeper" then
+                             say(S("The tallest algae always grow on alga blocks.", name))
+                          elseif npc_type == "carpenter" then
+                             say(S("If an alga tries to grow but something blocks its path, it'll stop growing, even if the barrier is removed later.", name))
+                          else
+                             say(S("Algae grow underwater in different heights."), name)
+			  end
                       elseif iname == "rp_default:dirt" then
                           if npc_type == "farmer" then
                              say(S("Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized."), name)
