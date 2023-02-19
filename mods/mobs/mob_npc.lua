@@ -410,8 +410,10 @@ for _, npc_type_table in pairs(npc_types) do
                              say(S("Airweed is an underwater plant with little capsules filled with air. Use it underwater to release air bubbles and catch some breath."), name)
                           elseif npc_type == "butcher" then
                              say(S("If you use the airweed plant, you will catch some breath. Other people near the plant will also benefit."), name)
-                          elseif npc_type == "farmer" then
+                          elseif npc_type == "tavernkeeper" then
                              say(S("Airweed is very useful, but it can't give you breath from your hand. You must place it on the ground first."), name)
+                          elseif npc_type == "farmer" then
+                             say(S("You can multiply airweed with fertilizer."), name)
                           else
                              say(S("Airweed needs a moment to refill after you used it. The time it needs depends on the surface."), name)
                           end
