@@ -1089,7 +1089,7 @@ minetest.register_abm({
 })
 
 minetest.register_abm({
-    label = "Seagrass clump expansion",
+    label = "Sea grass clump expansion",
     nodenames = {"group:seagrass"},
     neighbors = {"group:water"},
     interval = 20,
@@ -1104,54 +1104,70 @@ minetest.register_abm({
 
         local pos0 = vector.subtract(pos, 4)
         local pos1 = vector.add(pos, 4)
+        local soils = minetest.find_nodes_in_area(pos0, pos1, {"rp_default:dirt", "rp_default:swamp_dirt", "rp_default:sand"})
+        local fsoils = minetest.find_nodes_in_area(pos0, pos1, {"rp_default:fertilized_dirt", "rp_default:fertilized_swamp_dirt", "rp_default:fertilized_sand"})
+
+        local to_set = math.min(3, #soils + #fsoils)
+        local has_set = 0
+
+	local function replace(grounds, lhas_set, lto_set)
+           if lhas_set >= lto_set then
+              return
+           end
+           local num_nodes = #grounds
+           if num_nodes >= 1 then
+	       while true do
+                   local rnd = math.random(1, #grounds)
+                   local ground = grounds[rnd]
+                   local ground_above = {x = ground.x, y = ground.y + 1, z = ground.z}
+
+                   local ground_above_node = minetest.get_node(ground_above)
+                   local ground_above_def = minetest.registered_nodes[ground_above_node.name]
+                   if minetest.get_item_group(ground_above_node.name, "water") ~= 0 and ground_above_def and ground_above_def.liquidtype == "source" then
+                      local ground_node = minetest.get_node(ground)
+                      local newnode
+                      if ground_node.name == "rp_default:dirt" then
+                         newnode = "rp_default:seagrass_on_dirt"
+                      elseif ground_node.name == "rp_default:swamp_dirt" then
+                         newnode = "rp_default:seagrass_on_swamp_dirt"
+                      elseif ground_node.name == "rp_default:sand" then
+                         newnode = "rp_default:seagrass_on_sand"
+                      elseif ground_node.name == "rp_default:fertilized_dirt" then
+                         newnode = "rp_default:seagrass_on_fertilized_dirt"
+                      elseif ground_node.name == "rp_default:fertilized_swamp_dirt" then
+                         newnode = "rp_default:seagrass_on_fertilized_swamp_dirt"
+                      elseif ground_node.name == "rp_default:fertilized_sand" then
+                         newnode = "rp_default:seagrass_on_fertilized_sand"
+                      else
+                         return
+                      end
+		      minetest.set_node(ground, {name=newnode})
+		      lhas_set = lhas_set + 1
+                      if lhas_set >= lto_set then
+                         break
+                      end
+                   end
+		   table.remove(grounds, rnd)
+                   if #grounds == 0 then
+                      break
+                   end
+               end
+            end
+        end
+
+	-- Seagrass prefers to grow on fertilized soils first (no overcrowding limit)
+	replace(fsoils, has_set, to_set)
+
+	-- For remaining soils, check overcrowding. Stop growth if too much seagrass nearby
         -- Testing shows that a threshold of 3 results in an appropriate maximum
         -- density of approximately 7 nodes per 9x9 area.
         if #minetest.find_nodes_in_area(pos0, pos1, {"group:seagrass"}) > 3 then
             return
         end
 
-        local soils = minetest.find_nodes_in_area(pos0, pos1, {"rp_default:dirt", "rp_default:swamp_dirt", "rp_default:sand", "rp_default:fertilized_dirt", "rp_default:fertilized_swamp_dirt", "rp_default:fertilized_sand"})
-        local num_soils = #soils
-        if num_soils >= 1 then
-            local to_set = math.min(3, num_soils)
-            local has_set = 0
-	    while true do
-                local rnd = math.random(1, #soils)
-                local soil = soils[rnd]
-                local soil_above = {x = soil.x, y = soil.y + 1, z = soil.z}
+	-- Grow on unfertilized soil after the overcrowding check was passed
+	replace(soils, has_set, to_set)
 
-		local soil_above_node = minetest.get_node(soil_above)
-                local soil_above_def = minetest.registered_nodes[soil_above_node.name]
-                if minetest.get_item_group(soil_above_node.name, "water") ~= 0 and soil_above_def and soil_above_def.liquidtype == "source" then
-                   local soil_node = minetest.get_node(soil)
-		   local newnode
-                   if soil_node.name == "rp_default:dirt" then
-                      newnode = "rp_default:seagrass_on_dirt"
-                   elseif soil_node.name == "rp_default:swamp_dirt" then
-                      newnode = "rp_default:seagrass_on_swamp_dirt"
-                   elseif soil_node.name == "rp_default:sand" then
-                      newnode = "rp_default:seagrass_on_sand"
-                   elseif soil_node.name == "rp_default:fertilized_dirt" then
-                      newnode = "rp_default:seagrass_on_fertilized_dirt"
-                   elseif soil_node.name == "rp_default:fertilized_swamp_dirt" then
-                      newnode = "rp_default:seagrass_on_fertilized_swamp_dirt"
-                   elseif soil_node.name == "rp_default:fertilized_sand" then
-                      newnode = "rp_default:seagrass_on_fertilized_sand"
-	           else
-                      return
-	           end
-		   minetest.set_node(soil, {name=newnode})
-		   has_set = has_set + 1
-                   if has_set >= to_set then
-                      break
-                   end
-                end
-		table.remove(soils, rnd)
-                if #soils == 0 then
-                   break
-                end
-            end
-        end
     end
 })
 
