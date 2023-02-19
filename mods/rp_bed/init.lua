@@ -548,6 +548,10 @@ minetest.register_node(
             minetest.remove_node(head_pos)
          end
       end,
+      on_blast = function(pos)
+         -- Needed to force on_destruct to be called
+         minetest.remove_node(pos)
+      end,
 
       on_rightclick = function(pos, node, clicker, itemstack)
          if not clicker:is_player() then
