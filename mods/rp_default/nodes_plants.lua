@@ -117,7 +117,7 @@ minetest.register_node(
          local above = {x=pos.x, y=pos.y+1, z=pos.z}
          local aboven = minetest.get_node(above)
          if aboven.name == "rp_default:vine" then
-            minetest.set_node(above, {name="rp_default:vine", param2 = math.random(1, default.VINE_MAX_AGE)})
+            minetest.set_node(above, {name="rp_default:vine", param2 = math.random(1, default.VINE_MAX_AGE-1)})
          end
 
          -- Detach vines below
@@ -128,7 +128,7 @@ minetest.register_node(
          local above = {x=pos.x, y=pos.y+1, z=pos.z}
          local aboven = minetest.get_node(above)
          if aboven.name == "rp_default:vine" then
-            minetest.set_node(above, {name="rp_default:vine", param2 = math.random(1, default.VINE_MAX_AGE)})
+            minetest.set_node(above, {name="rp_default:vine", param2 = math.random(1, default.VINE_MAX_AGE-1)})
          end
 
          -- Drop vine as item and detach vines below
@@ -140,7 +140,7 @@ minetest.register_node(
          local above = {x=pos.x, y=pos.y+1, z=pos.z}
          local aboven = minetest.get_node(above)
          if aboven.name == "rp_default:vine" then
-            minetest.set_node(above, {name="rp_default:vine", param2 = math.random(1, default.VINE_MAX_AGE)})
+            minetest.set_node(above, {name="rp_default:vine", param2 = math.random(1, default.VINE_MAX_AGE-1)})
          end
 
          -- Destroy the blasted node and detach vines below
@@ -183,11 +183,11 @@ minetest.register_node(
                local meta_new = minetest.get_meta(place_in)
                age = math.min(default.VINE_MAX_AGE, age + 1)
             else
-               age = math.random(1, default.VINE_MAX_AGE)
+               age = math.random(1, default.VINE_MAX_AGE-1)
             end
          else
 	    -- New vine: Set random age
-	    age = math.random(1, default.VINE_MAX_AGE)
+	    age = math.random(1, default.VINE_MAX_AGE-1)
 	 end
 
          -- Place vine
