@@ -7,7 +7,7 @@ the world.
 
 ## Version
 
-3.7.0
+3.8.0
 
 Designed for use with Minetest 5.6.0 or later.
 
@@ -24,6 +24,7 @@ Designed for use with Minetest 5.6.0 or later.
 * A variety of trees and biomes
 * Weather
 * Beds (skip the night)
+* Boats
 * Change your player appearance
 * Achievements
 * Multi-language support
