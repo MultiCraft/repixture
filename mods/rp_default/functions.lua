@@ -1089,6 +1089,75 @@ minetest.register_abm({
 })
 
 minetest.register_abm({
+    label = "Seagrass clump expansion",
+    nodenames = {"group:seagrass"},
+    neighbors = {"group:water"},
+    interval = 20,
+    chance = 160,
+    action = function(pos, node)
+        local abovenode = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
+        local abovedef = minetest.registered_nodes[abovenode.name]
+
+        if minetest.get_item_group(abovenode.name, "water") == 0 or not abovedef or abovedef.liquidtype ~= "source" then
+           return
+        end
+
+        local pos0 = vector.subtract(pos, 4)
+        local pos1 = vector.add(pos, 4)
+        -- Testing shows that a threshold of 3 results in an appropriate maximum
+        -- density of approximately 7 nodes per 9x9 area.
+        if #minetest.find_nodes_in_area(pos0, pos1, {"group:seagrass"}) > 3 then
+            return
+        end
+
+        local soils = minetest.find_nodes_in_area(pos0, pos1, {"rp_default:dirt", "rp_default:swamp_dirt", "rp_default:sand", "rp_default:fertilized_dirt", "rp_default:fertilized_swamp_dirt", "rp_default:fertilized_sand"})
+        local num_soils = #soils
+        if num_soils >= 1 then
+            local to_set = math.min(3, num_soils)
+            local has_set = 0
+	    while true do
+                local rnd = math.random(1, #soils)
+                local soil = soils[rnd]
+                local soil_above = {x = soil.x, y = soil.y + 1, z = soil.z}
+
+		local soil_above_node = minetest.get_node(soil_above)
+                local soil_above_def = minetest.registered_nodes[soil_above_node.name]
+                if minetest.get_item_group(soil_above_node.name, "water") ~= 0 and soil_above_def and soil_above_def.liquidtype == "source" then
+                   local soil_node = minetest.get_node(soil)
+		   local newnode
+                   if soil_node.name == "rp_default:dirt" then
+                      newnode = "rp_default:seagrass_on_dirt"
+                   elseif soil_node.name == "rp_default:swamp_dirt" then
+                      newnode = "rp_default:seagrass_on_swamp_dirt"
+                   elseif soil_node.name == "rp_default:sand" then
+                      newnode = "rp_default:seagrass_on_sand"
+                   elseif soil_node.name == "rp_default:fertilized_dirt" then
+                      newnode = "rp_default:seagrass_on_fertilized_dirt"
+                   elseif soil_node.name == "rp_default:fertilized_swamp_dirt" then
+                      newnode = "rp_default:seagrass_on_fertilized_swamp_dirt"
+                   elseif soil_node.name == "rp_default:fertilized_sand" then
+                      newnode = "rp_default:seagrass_on_fertilized_sand"
+	           else
+                      return
+	           end
+		   minetest.set_node(soil, {name=newnode})
+		   has_set = has_set + 1
+                   if has_set >= to_set then
+                      break
+                   end
+                end
+		table.remove(soils, rnd)
+                if #soils == 0 then
+                   break
+                end
+            end
+        end
+    end
+})
+
+
+
+minetest.register_abm({
     label = "Sand Grass clump expansion",
     nodenames = {"group:sand_grass"},
     neighbors = {"group:sand"},
