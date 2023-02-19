@@ -284,6 +284,8 @@ local register_airweed = function(plant_id, selection_box, drop, append, basenod
    local groups = {snappy = 2, dig_immediate = 3, airweed = 1, plant = 1, rooted_plant = 1}
    if is_inert then
       groups.airweed_inert = 1
+   else
+      groups.airweed_full = 1
    end
 
    local _fertilized_node

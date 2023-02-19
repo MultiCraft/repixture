@@ -846,6 +846,80 @@ minetest.register_abm( -- algae die/become smaller if not fully underwater
       end,
 })
 
+-- Spread airweed that is 'filled' and on fertilized ground
+minetest.register_abm({
+    label = "Airweed expansion",
+    nodenames = {"group:airweed_full"},
+    neighbors = {"group:water"},
+    interval = 300,
+    chance = 13,
+    action = function(pos, node)
+        if minetest.get_item_group(node.name, "plantable_fertilizer") == 0 then
+           return
+        end
+        local above = {x=pos.x, y=pos.y+1, z=pos.z}
+        local anode = minetest.get_node(above)
+        local adef = minetest.registered_nodes[anode.name]
+        if minetest.get_item_group(anode.name, "water") == 0 or not adef or adef.liquidtype ~= "source" then
+           return
+        end
+
+        -- Overcrowding: Stop spreading if too many in area
+        local offset = vector.new(1,1,1)
+        local pos0 = vector.subtract(pos, offset)
+        local pos1 = vector.add(pos, offset)
+        local same_plants = minetest.find_nodes_in_area(pos0, pos1, {"group:airweed"})
+        if #same_plants >= 3 then
+           return
+        end
+
+        -- Find a suitable ground
+        local grounds = minetest.find_nodes_in_area(pos0, pos1, {"rp_default:dirt", "rp_default:sand", "rp_default:gravel", "rp_default:swamp_dirt", "rp_default:dry_dirt", "rp_default:fertilized_dirt", "rp_default:fertilized_swamp_dirt", "rp_default:fertilized_dry_dirt", "rp_default:fertilized_sand"})
+        local candidates = {}
+        for g=1, #grounds do
+           local ground = grounds[g]
+           local gnode = minetest.get_node(ground)
+           local wnode = minetest.get_node({x=ground.x, y=ground.y+1, z=ground.z})
+           local wdef = minetest.registered_nodes[wnode.name]
+           if minetest.get_item_group(wnode.name, "water") ~= 0 and wdef and wdef.liquidtype == "source" then
+              local newnode
+              if gnode.name == "rp_default:dirt" then
+                 newnode = "rp_default:airweed_inert_on_dirt"
+              elseif gnode.name == "rp_default:sand" then
+                 newnode = "rp_default:airweed_inert_on_sand"
+              elseif gnode.name == "rp_default:gravel" then
+                 newnode = "rp_default:airweed_inert_on_gravel"
+              elseif gnode.name == "rp_default:swamp_dirt" then
+                 newnode = "rp_default:airweed_inert_on_swamp_dirt"
+              elseif gnode.name == "rp_default:dry_dirt" then
+                 newnode = "rp_default:airweed_inert_on_dry_dirt"
+              elseif gnode.name == "rp_default:fertilized_sand" then
+                 newnode = "rp_default:airweed_inert_on_fertilized_sand"
+              elseif gnode.name == "rp_default:fertilized_dirt" then
+                 newnode = "rp_default:airweed_inert_on_fertilized_dirt"
+              elseif gnode.name == "rp_default:fertilized_swamp_dirt" then
+                 newnode = "rp_default:airweed_inert_on_fertilized_swamp_dirt"
+              elseif gnode.name == "rp_default:fertilized_dry_dirt" then
+                 newnode = "rp_default:airweed_inert_on_fertilized_dry_dirt"
+              end
+              if newnode then
+                 table.insert(candidates, {pos=grounds[g], nodename=newnode})
+              end
+           end
+        end
+        if #candidates == 0 then
+           return
+        end
+
+        -- Place new airweed (inert)
+        local c = math.random(1, #candidates)
+        local choice = candidates[c]
+        minetest.set_node(choice.pos, {name=choice.nodename})
+    end,
+})
+
+
+
 minetest.register_abm({
     label = "Flower/fern expansion",
     nodenames = {"rp_default:flower", "rp_default:fern"},
