@@ -163,6 +163,18 @@ book.register_book_node(
          set_meta_description(imeta, title)
          minetest.add_item(pos, item)
       end,
+      on_blast = function(pos)
+         local nmeta = minetest.get_meta(pos)
+         local item = ItemStack("rp_default:book")
+         local imeta = item:get_meta()
+         local title = nmeta:get_string("book:title")
+         local text = nmeta:get_string("book:text")
+         imeta:set_string("book:title", title)
+         imeta:set_string("book:text", text)
+         set_meta_description(imeta, title)
+         minetest.remove_node(pos)
+         minetest.add_item(pos, item)
+      end,
       on_use = function(itemstack, player, pointed_thing)
          on_use(itemstack, player, pointed_thing)
       end,
