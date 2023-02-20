@@ -1,7 +1,13 @@
 Wielditem mod
 ==============
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
-Shows the wield item in 3rd person view
+Shows the wield item in 3rd person view.
 
-Source license: LGPLv2.1
+## For developers
+
+See `API.md`.
+
+## Licensing
+
+Source code license: LGPLv2.1

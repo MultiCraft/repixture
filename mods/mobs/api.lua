@@ -77,7 +77,11 @@ local function die_handler(self, killer)
       if minetest.get_item_group(drop.name, "food") ~= 0 then
          drops_food = true
       end
-      if math.random(1, drop.chance) == 1 then
+      local gotten_ok = true
+      if self.gotten and drop.no_drop_if_gotten then
+         gotten_ok = false
+      end
+      if gotten_ok and math.random(1, drop.chance) == 1 then
          obj = minetest.add_item(pos, ItemStack(drop.name.." "..math.random(drop.min, drop.max)))
          if obj then
 	    obj:set_velocity(
@@ -137,6 +141,7 @@ function mobs:register_mob(name, def)
       name,
       {
 	 _cmi_is_mob = true,
+	 mob_name = def.mob_name,
 	 stepheight = def.stepheight or 0.6,
 	 name = name,
 	 fly = def.fly,
@@ -152,6 +157,7 @@ function mobs:register_mob(name, def)
 	 lifetimer = def.lifetimer or 180, -- 3 minutes
 	 hp_min = def.hp_min or 5,
 	 hp_max = def.hp_max or 10,
+	 shaded = true,
 	 breath_max = def.breath_max or -1, -- how many seconds the mob can breathe in drowning nodes. -1 = no drowning damage
 	 breath = def.breath_max,
 	 physical = true,
@@ -452,9 +458,10 @@ function mobs:register_mob(name, def)
                   and self.object:get_velocity().y == 0 then
                      local d = (self.old_y or 0) - self.object:get_pos().y
                      if d > 5 then
-                        self.object:set_hp(self.object:get_hp() - math.floor(d - 5))
                         effect(self.object:get_pos(), 5, "tnt_smoke.png")
-                        if check_for_death(self) then return true end
+                        if mobs:hurt(self, math.floor(d - 5)) then
+                           return true
+                        end
                      end
                      self.old_y = self.object:get_pos().y
                   end
@@ -497,9 +504,10 @@ function mobs:register_mob(name, def)
                   and tod > 0.2
                   and tod < 0.8
                and (minetest.get_node_light(pos) or 0) > 12 then
-                  self.object:set_hp(self.object:get_hp() - self.light_damage)
                   effect(pos, 5, "tnt_smoke.png")
-                  if check_for_death(self) then return true end
+                  if mobs:hurt(self, self.light_damage) then
+                     return true
+                  end
                end
 
                pos.y = pos.y + self.collisionbox[2] -- foot level
@@ -511,13 +519,14 @@ function mobs:register_mob(name, def)
                -- node damage
                if self.takes_node_damage == true
                and nodef.damage_per_second > 0 then
-                  self.object:set_hp(self.object:get_hp() - nodef.damage_per_second)
                   if enable_blood then
                      effect(pos, self.blood_amount, self.blood_texture)
                   else
                      effect(pos, self.blood_amount, "mobs_damage.png")
                   end
-                  if check_for_death(self) then return true end
+                  if mobs:hurt(self, nodef.damage_per_second) then
+                     return true
+                  end
                end
 
                -- drowning damage
@@ -529,10 +538,11 @@ function mobs:register_mob(name, def)
                       self.breath = self.breath - 1
                       if self.breath < 0 then
                           self.breath = 0
-                          self.object:set_hp(self.object:get_hp() - nodef.drowning)
                           effect(pos, 5, "bubble.png")
+                          if mobs:hurt(self, nodef.drowning) then
+                             return true
+                          end
                       end
-                      if check_for_death(self) then return true end
                   else
                       self.breath = self.breath + 1
                       if self.breath > self.breath_max then
@@ -544,17 +554,19 @@ function mobs:register_mob(name, def)
                -- water damage
                if self.water_damage ~= 0
                and nodef.groups.water then
-                  self.object:set_hp(self.object:get_hp() - self.water_damage)
                   effect(pos, 5, "bubble.png")
-                  if check_for_death(self) then return true end
+                  if mobs:hurt(self, self.water_damage) then
+                     return true
+                  end
                end
 
                -- lava damage
                if self.lava_damage ~= 0
                and nodef.groups.lava then
-                  self.object:set_hp(self.object:get_hp() - self.lava_damage)
                   effect(pos, 5, "mobs_flame.png", 8)
-                  if check_for_death(self) then return true end
+                  if mobs:hurt(self, self.lava_damage) then
+                     return true
+                  end
                end
 
             end
@@ -1318,11 +1330,15 @@ function mobs:register_mob(name, def)
                }
             end
 
+            -- health var is only used temporarily
             if self.health == 0 then
                self.health = math.random (self.hp_min, self.hp_max)
             end
 
+            -- Set initial HP
             self.object:set_hp( self.health )
+            -- Note: To change mob health from now on,
+            -- ONLY use mobs:heal and mobs:hurt!
             self.object:set_armor_groups({fleshy = self.armor})
             self.state = "stand"
             self.order = "stand"
@@ -1443,6 +1459,26 @@ function mobs:register_mob(name, def)
 end
 
 mobs.spawning_mobs = {}
+
+-- Damage mob by `damage` HP and check for death.
+-- Returns true if mob died.
+function mobs:hurt(self, damage)
+   local ret = check_for_death(self, nil, damage)
+   if ret then
+      return true
+   end
+   self.object:set_hp(self.object:get_hp() - damage)
+   return false
+end
+
+-- Heal mob by `heal` HP
+function mobs:heal(self, heal)
+   local hp = self.object:get_hp() + heal
+   if hp > self.hp_max then
+      hp = self.hp_max
+   end
+   self.object:set_hp(hp)
+end
 
 function mobs:spawn_specific(name, nodes, neighbors, min_light, max_light, interval, chance, active_object_count, min_height, max_height)
    mobs.spawning_mobs[name] = true
@@ -1600,13 +1636,17 @@ function mobs:register_egg(mobname, desc, background)
          inventory_image = invimg,
          groups = { spawn_egg = 1 },
          on_place = function(itemstack, placer, pointed_thing)
+            local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+            if handled then
+               return handled_itemstack
+            end
             local pname = placer:get_player_name()
             if peaceful_only and minetest.registered_entities[mobname].type == "monster" then
                minetest.chat_send_player(pname, minetest.colorize("#FFFF00", S("Hostile mobs are disabled!")))
                return itemstack
             end
-            local pos = pointed_thing.above
-            if pointed_thing.above then
+            if pointed_thing.type == "node" then
+               local pos = pointed_thing.above
                if minetest.is_protected(pos, pname) and
                        not minetest.check_player_privs(placer, "protection_bypass") then
                    minetest.record_protection_violation(pos, pname)
@@ -1632,6 +1672,7 @@ function mobs:register_egg(mobname, desc, background)
 end
 
 -- Capture critter (thanks to blert2112 for idea)
+-- note: chance_hand is ignored
 
 function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
                           force_take, replacewith)
@@ -1644,10 +1685,15 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
          mobname = replacewith
       end
 
+      -- Using a capture tool?
       local name = clicker:get_player_name()
+      local tool = clicker:get_wielded_item()
+      local toolname = tool:get_name()
+      if not (toolname == "mobs:net" or toolname == "mobs:lasso") then
+          return
+      end
 
       -- Is mob tamed?
-
       if self.tamed == false and force_take == false then
          minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Not tamed!")))
 
@@ -1655,7 +1701,6 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
       end
 
       -- Cannot pick up if not owner
-
       if self.owner ~= "" and self.owner ~= nil and self.owner ~= name and force_take == false then
          minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("@1 is owner!", self.owner)))
 
@@ -1663,41 +1708,39 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
       end
 
       if clicker:get_inventory():room_for_item("main", mobname) then
-         -- Was mob clicked with hand, net, or lasso?
+         -- Was mob clicked with net, or lasso?
 
-         local tool = clicker:get_wielded_item()
          local chance = 0
 
-         if tool:is_empty() then
-	    chance = chance_hand
-            minetest.sound_play("mobs_lasso_swing", {
-               pos = clicker:get_pos(),
-               gain = 0.2, max_hear_distance = 8, pitch=1.5}, true)
-         elseif tool:get_name() == "mobs:net" then
+         if toolname == "mobs:net" then
+            -- Net
+            chance = chance_net
             minetest.sound_play("mobs_lasso_swing", {
                pos = clicker:get_pos(),
                gain = 0.2, max_hear_distance = 16, pitch=1.25}, true)
-	    chance = chance_net
             if not minetest.is_creative_enabled(name) then
-	        tool:add_wear(4000) -- 17 uses
+	        tool:add_wear_by_uses(17)
             end
 	    clicker:set_wielded_item(tool)
-         elseif tool:get_name() == "mobs:lasso" then
+         elseif toolname == "mobs:lasso" then
+            -- Lasso
+            chance = chance_lasso
             minetest.sound_play("mobs_lasso_swing", {
                pos = clicker:get_pos(),
                gain = 0.2, max_hear_distance = 16, pitch=1}, true)
-	    chance = chance_lasso
             if not minetest.is_creative_enabled(name) then
-	        tool:add_wear(1500) -- 43 uses
+	        tool:add_wear_by_uses(43)
             end
 	    clicker:set_wielded_item(tool)
+         else
+            -- Something else, no catch attempt
+            return
          end
 
          -- Return if no chance
-
          if chance == 0 then
-		minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Missed!")))
-		return
+            minetest.chat_send_player(name, minetest.colorize("#FFFF00", S("Missed!")))
+            return
 	 end
 
          -- Calculate chance.. was capture successful?
@@ -1748,6 +1791,13 @@ function mobs:feed_tame(self, clicker, feed_count, breed, effect)
 
 	    clicker:set_wielded_item(item)
          end
+
+	 -- Update achievement
+         local entdef = minetest.registered_entities[self.name]
+         if entdef and entdef.type == "animal" then
+            achievements.trigger_subcondition(clicker, "gonna_feed_em_all", self.name)
+         end
+
       end
 
       if effect ~= false then
@@ -1767,7 +1817,10 @@ function mobs:feed_tame(self, clicker, feed_count, breed, effect)
             maxexptime = 1,
             minsize = 0.5,
             maxsize = 2,
-            texture = "magicpuff.png"
+            texture = {
+               name = "rp_hud_particle_eatpuff.png",
+               scale_tween = { 1, 0, start = 0.75 },
+            },
          })
       end
 

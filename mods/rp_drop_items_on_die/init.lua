@@ -1,7 +1,4 @@
---
 -- Drop items on die mod
--- By Kaadmy, for Pixture
---
 
 drop_items_on_die = {}
 

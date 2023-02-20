@@ -1,0 +1,22 @@
+# textdomain: rp_hunger
+Hunger Debug:=
+<hunger disabled>=
+You are hungry.=Вы голодны.
+You are starving.=Вы голодаете.
+You starved to death.=Вы умерли от голода.
+Eating=Поедание
+You're eating food, which slows you down=Вы едите пищу, которая вас замедляет
+Gourmet=Гурман
+Eat everything that can be eaten.=Съедите всё что может быть съедено.
+Set hunger level of player or yourself=Установить уровень голода игрока или себя
+[<player>] <hunger>=[<игрок>] <голод>
+Player is not online.=Игрок не в сети.
+No player.=Нет игрока.
+Food item=Еда
+Food points: +@1=
+Saturation points: +@1=
+
+
+##### not used anymore #####
+
++@1 food points=+@1ед. сытости

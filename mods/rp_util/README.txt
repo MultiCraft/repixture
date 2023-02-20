@@ -1,5 +1,9 @@
 Utility mod
 ===========
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
-Source license: LGPLv2.1
+This mod contains various utility functions to be used by other mods.
+
+Developers: The function documentation is written in `API.md`.
+
+Source code license: LGPLv2.1

@@ -1,6 +1,6 @@
 Lumien mod
 ==========
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
 Adds a new type of ore: Lumien.
 Lumien crystals glow when a player's nearby.

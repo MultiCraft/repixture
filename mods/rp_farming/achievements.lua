@@ -6,27 +6,12 @@ local S = minetest.get_translator("rp_farming")
 achievements.register_achievement(
    "farmer",
    {
-      title = S("Wannabe Farmer"),
-      description = S("Plant a seed."),
+      title = S("Farmer"),
+      -- "crop" as in "usable plant" / "plant for farming"
+      description = S("Plant a crop."),
       times = 1,
       placenode = "group:seed",
       item_icon = "rp_farming:wheat_1",
+      difficulty = 3.5,
    })
 
-achievements.register_achievement(
-   "wheat_farmer",
-   {
-      title = S("Wheat Farmer"),
-      description = S("Harvest a fully-grown wheat plant."),
-      times = 1,
-      dignode = "rp_farming:wheat_4",
-   })
-
-achievements.register_achievement(
-   "cotton_farmer",
-   {
-      title = S("Cotton Farmer"),
-      description = S("Harvest a fully-grown cotton plant."),
-      times = 1,
-      dignode = "rp_farming:cotton_4",
-   })

@@ -4,7 +4,20 @@ local S = minetest.get_translator("rp_default")
 
 
 
-local function register_torch(subname, description, tt_help, tiles, overlay_tiles, overlay_side_R90, inv_image, light)
+local function register_torch(subname, description, tt_help, tiles, overlay_tiles, overlay_side_R90, inv_image, light, on_construct, on_timer, next_torch_level, ignite_pitch)
+   local on_ignite, on_ignite_wall
+   if next_torch_level then
+      on_ignite = function(pos, itemstack, user)
+         local node = minetest.get_node(pos)
+         minetest.set_node(pos, {name="rp_default:"..next_torch_level, param2=node.param2})
+         return {pitch=ignite_pitch or 1.0}
+      end
+      on_ignite_wall = function(pos, itemstack, user)
+         local node = minetest.get_node(pos)
+         minetest.set_node(pos, {name="rp_default:"..next_torch_level.."_wall", param2=node.param2})
+         return {pitch=ignite_pitch or 1.0}
+      end
+   end
    minetest.register_node(
       "rp_default:"..subname,
       {
@@ -23,6 +36,9 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          walkable = false,
          floodable = true,
          on_flood = function(pos, oldnode, newnode)
+            if light and light > 0 then
+               minetest.sound_play({name="rp_default_torch_burnout", gain=0.1, max_hear_distance = 8}, {pos=pos}, true)
+            end
             minetest.add_item(pos, "rp_default:torch_dead")
          end,
          node_placement_prediction = "",
@@ -32,9 +48,11 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
 	    wall_bottom = {-2/16, -0.5, -2/16, 2/16, 0, 2/16},
 	    wall_side = {-0.5, -8/16, -2/16, -0.5+4/16, 0, 2/16},
          },
-         groups = {choppy = 2, dig_immediate = 3, attached_node = 1, torch = 1},
+         groups = {choppy = 2, dig_immediate = 3, attached_node = 1, torch = 1, creative_decoblock = 1},
          is_ground_content = false,
          sounds = rp_sounds.node_sound_defaults(),
+	 on_construct = on_construct,
+	 on_timer = on_timer,
          on_place = function(itemstack, placer, pointed_thing)
             if pointed_thing.type ~= "node" then
                return itemstack
@@ -78,6 +96,8 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
 
             return itemstack
 	end,
+
+	_rp_on_ignite = on_ignite,
    })
    local copy, copy_o
    for i=1,6 do
@@ -137,6 +157,9 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          walkable = false,
          floodable = true,
          on_flood = function(pos, oldnode, newnode)
+            if light and light > 0 then
+               minetest.sound_play({name="rp_default_torch_burnout", gain=0.1, max_hear_distance = 8}, {pos=pos}, true)
+            end
             minetest.add_item(pos, "rp_default:torch_dead")
          end,
          node_box = {
@@ -149,6 +172,10 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          groups = {choppy = 2, dig_immediate = 3, attached_node = 1, not_in_creative_inventory = 1, torch = 2},
          is_ground_content = false,
          sounds = rp_sounds.node_sound_defaults(),
+	 on_construct = on_construct,
+	 on_timer = on_timer,
+
+	 _rp_on_ignite = on_ignite_wall,
    })
 
 
@@ -223,8 +250,55 @@ local overlayR90_normal = {
     },
 }
 
-register_torch("torch_dead", S("Dead Torch"), S("Doesn't provide any light"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, nil, nil, "default_torch_dead_inventory.png")
-register_torch("torch_weak", S("Weak Torch"), S("Provides a bit of light but it will eventually burn out"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, overlay_tiles_weak, overlayR90_weak, "default_torch_weak_inventory.png", default.LIGHT_MAX-4)
+local start_weak_torch_timer = function(pos)
+   local time = math.random(default.WEAK_TORCH_MIN_TIMER, default.WEAK_TORCH_MAX_TIMER)
+   local timer = minetest.get_node_timer(pos)
+   timer:start(time)
+   minetest.log("action", "[rp_default] Weak torch timer at "..minetest.pos_to_string(pos).." started at "..time.."s")
+end
+
+local on_construct_weak = function(pos)
+   start_weak_torch_timer(pos)
+end
+local on_timer_weak = function(pos)
+   local node = minetest.get_node(pos)
+   if node.name == "rp_default:torch_weak" then
+      minetest.swap_node(pos, {name="rp_default:torch_dead", param2 = node.param2})
+   elseif node.name == "rp_default:torch_weak_wall" then
+      minetest.swap_node(pos, {name="rp_default:torch_dead_wall", param2 = node.param2})
+   end
+   minetest.sound_play({name="rp_default_torch_burnout", gain=0.1, max_hear_distance = 8}, {pos=pos}, true)
+   minetest.log("action", "[rp_default] Weak torch at "..minetest.pos_to_string(pos).." burns out")
+
+   -- Spawn burnout particle
+   local ppos, vel
+   local vel = vector.new(0, 0.6, 0)
+   local dir = minetest.wallmounted_to_dir(node.param2)
+   if dir.y < 0 then
+      ppos = vector.add(pos, vector.new(0, -0.05, 0))
+   elseif dir.y > 0 then
+      ppos = vector.add(pos, vector.new(0, -0.1, 0))
+      vel = vector.new(math.random(-10, 10)*0.01, 0, math.random(-10, 10)*0.01)
+   else
+      ppos = vector.add(pos, vector.new((6/16)*dir.x, -0.05, (6/16)*dir.z))
+   end
+   local anim = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 }
+   minetest.add_particlespawner({
+      amount = 1,
+      time = 0.001,
+      pos = ppos,
+      vel = vel,
+      exptime = 1,
+      size = 2.75,
+      texpool = {
+         {name = "rp_default_torch_smoke_anim.png", animation = anim},
+         {name = "rp_default_torch_smoke_anim.png^[transformFX", animation = anim},
+      },
+   })
+end
+
+register_torch("torch_dead", S("Dead Torch"), S("Doesn't provide any light"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, nil, nil, "default_torch_dead_inventory.png", 0, nil, nil, "torch_weak", 1.0)
+register_torch("torch_weak", S("Weak Torch"), S("Provides a bit of light but it will eventually burn out"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, overlay_tiles_weak, overlayR90_weak, "default_torch_weak_inventory.png", default.LIGHT_MAX-4, on_construct_weak, on_timer_weak, "torch", 1.1)
 register_torch("torch", S("Torch"), S("It's bright and burns forever"), {"default_torch_ends.png","default_torch_bottom.png","default_torch_base.png"}, overlay_tiles_normal, overlayR90_normal, "default_torch_inventory.png", default.LIGHT_MAX-1)
 
 minetest.register_lbm({
@@ -238,4 +312,18 @@ minetest.register_lbm({
 			minetest.set_node(pos, node)
 		end
 	end,
+})
+
+minetest.register_lbm(
+   {
+      label = "Start weak torch timer",
+      name = "rp_default:start_weak_torch_timer",
+      nodenames = {"rp_default:torch_weak", "rp_default:torch_weak_wall"},
+      run_at_every_load = true,
+      action = function(pos, node)
+         local timer = minetest.get_node_timer(pos)
+         if not timer:is_started() then
+             start_weak_torch_timer(pos)
+	 end
+      end
 })

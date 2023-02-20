@@ -82,8 +82,8 @@ else
             [2] = 3.0,
          },
          cracky = {
-            [3] = 3.8,
-            [2] = 4.2,
+            [3] = 2.0,
+            [2] = 2.2,
          },
          snappy = {
             [3] = 0.5,
@@ -100,8 +100,8 @@ else
             [2] = 2.7,
          },
          cracky = {
-            [3] = 3.3,
-            [2] = 3.7,
+            [3] = 1.8,
+            [2] = 1.95,
          },
          snappy = {
             [3] = 0.4,
@@ -118,8 +118,8 @@ else
             [2] = 2.4,
          },
          cracky = {
-            [3] = 2.8,
-            [2] = 3.2,
+            [3] = 1.4,
+            [2] = 1.6,
          },
          snappy = {
             [3] = 0.3,
@@ -138,12 +138,12 @@ else
             [1] = 3.2,
          },
          cracky = {
-            [3] = 2.3,
-            [2] = 2.7,
-            [1] = 3.8,
+            [3] = 1.15,
+            [2] = 1.45,
+            [1] = 1.9,
          },
          snappy = {
-            [3] = 0.2,
+            [3] = 0.25,
             [2] = 0.7,
             [1] = 1.2,
          },
@@ -160,9 +160,9 @@ else
             [1] = 2.6,
          },
          cracky = {
-            [3] = 1.8,
-            [2] = 2.3,
-            [1] = 3.3,
+            [3] = 0.9,
+            [2] = 1.15,
+            [1] = 1.8,
          },
          snappy = {
             [3] = 0.2,
@@ -182,9 +182,9 @@ else
             [1] = 1.8,
          },
          cracky = {
-            [3] = 1.4,
-            [2] = 1.9,
-            [1] = 2.7,
+            [3] = 0.7,
+            [2] = 0.95,
+            [1] = 1.45,
          },
          snappy = {
             [3] = 0.1,
@@ -207,7 +207,6 @@ else
 	       fleshy = {times={[2]=1.6, [3]=1.0}, uses=0, maxlevel=1},
 	       crumbly = {times={[2]=3.2, [3]=2.1}, uses=0, maxlevel=1},
 	       choppy = {times={[2]=3.5, [3]=3.8}, uses=0, maxlevel=1},
-	       cracky = {times={[3]=8.5}, uses=0, maxlevel=1},
 	       snappy = {times={[1]=2.5, [2]=2.0, [3]=1.5}, uses=0, maxlevel=1},
 	       handy = {times={[1]=1.0,[2]=0.5,[3]=0.25}, uses=0, maxlevel=1},
 	       oddly_breakable_by_hand = {times={[1]=7.0,[2]=5.5,[3]=4.0}, uses=0, maxlevel=1},
@@ -249,7 +248,7 @@ local tt_pick = S("Digs hard, cracky blocks")
 local tt_shovel = S("Digs soft, crumbly blocks")
 local tt_axe = S("Chops wood")
 local tt_spear = S("Melee weapon")
-local tt_shears = S("Cuts leaves and plants and shears sheep")
+local tt_shears = S("Cuts leaves and plants and shears sheep").."\n"..S("“Place” key: Precise cut")
 
 -- Pickaxes
 
@@ -570,6 +569,8 @@ minetest.register_tool(
 
 -- Spears
 
+local spear_wield_rotation = 135
+
 minetest.register_tool(
    "rp_default:spear_wood",
    {
@@ -577,6 +578,7 @@ minetest.register_tool(
       _tt_help = tt_spear,
       inventory_image = "default_spear_wood.png",
       wield_image = "default_spear_wood.png^[transformR90",
+      _rp_wielditem_rotation = spear_wield_rotation,
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=0,
@@ -586,7 +588,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 4}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { spear = 1 },
+      groups = { weapon = 1, spear = 1 },
 })
 
 minetest.register_tool(
@@ -596,6 +598,7 @@ minetest.register_tool(
       _tt_help = tt_spear,
       inventory_image = "default_spear_stone.png",
       wield_image = "default_spear_stone.png^[transformR90",
+      _rp_wielditem_rotation = spear_wield_rotation,
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=0,
@@ -605,7 +608,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 5}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { spear = 1 },
+      groups = { weapon = 1, spear = 1 },
 })
 
 minetest.register_tool(
@@ -615,6 +618,7 @@ minetest.register_tool(
       _tt_help = tt_spear,
       inventory_image = "default_spear_wrought_iron.png",
       wield_image = "default_spear_wrought_iron.png^[transformR90",
+      _rp_wielditem_rotation = spear_wield_rotation,
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
@@ -624,7 +628,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 6}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { spear = 1 },
+      groups = { weapon = 1, spear = 1 },
 })
 
 minetest.register_tool(
@@ -634,6 +638,7 @@ minetest.register_tool(
       _tt_help = tt_spear,
       inventory_image = "default_spear_steel.png",
       wield_image = "default_spear_steel.png^[transformR90",
+      _rp_wielditem_rotation = spear_wield_rotation,
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
@@ -643,7 +648,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 10}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { spear = 1 },
+      groups = { weapon = 1, spear = 1 },
 })
 
 minetest.register_tool(
@@ -653,6 +658,7 @@ minetest.register_tool(
       _tt_help = tt_spear,
       inventory_image = "default_spear_carbon_steel.png",
       wield_image = "default_spear_carbon_steel.png^[transformR90",
+      _rp_wielditem_rotation = spear_wield_rotation,
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
@@ -662,7 +668,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 10}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { spear = 1 },
+      groups = { weapon = 1, spear = 1 },
 })
 
 minetest.register_tool(
@@ -672,6 +678,7 @@ minetest.register_tool(
       _tt_help = tt_spear,
       inventory_image = "default_spear_bronze.png",
       wield_image = "default_spear_bronze.png^[transformR90",
+      _rp_wielditem_rotation = spear_wield_rotation,
       tool_capabilities = {
 	 full_punch_interval = 1.0,
 	 max_drop_level=1,
@@ -681,7 +688,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 10}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { spear = 1 },
+      groups = { weapon = 1, spear = 1 },
 })
 
 -- Broadsword
@@ -699,7 +706,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 12}
       },
       sound = { breaks = "default_tool_breaks" },
-      groups = { sword = 1 },
+      groups = { weapon = 1, sword = 1 },
 })
 
 -- Other
@@ -726,6 +733,8 @@ local trim = function(itemstack, placer, pointed_thing)
     return itemstack
 end
 
+local shears_wield_rotation = 135
+
 minetest.register_tool(
    "rp_default:shears",
    {
@@ -733,6 +742,7 @@ minetest.register_tool(
       _tt_help = tt_shears,
       inventory_image = "default_shears.png",
       wield_image = "default_shears.png^[transformR90",
+      _rp_wielditem_rotation = shears_wield_rotation,
       sound = { breaks = "default_tool_breaks" },
       groups = { shears = 1, sheep_cuts = 100 },
       tool_capabilities = {
@@ -751,6 +761,7 @@ minetest.register_tool(
       _tt_help = tt_shears,
       inventory_image = "default_shears_steel.png",
       wield_image = "default_shears_steel.png^[transformR90",
+      _rp_wielditem_rotation = shears_wield_rotation,
       sound = { breaks = "default_tool_breaks" },
       groups = { shears = 1, sheep_cuts = 200 },
       tool_capabilities = {
@@ -769,6 +780,7 @@ minetest.register_tool(
       _tt_help = tt_shears,
       inventory_image = "default_shears_carbon_steel.png",
       wield_image = "default_shears_carbon_steel.png^[transformR90",
+      _rp_wielditem_rotation = shears_wield_rotation,
       sound = { breaks = "default_tool_breaks" },
       groups = { shears = 1, sheep_cuts = 266 },
       tool_capabilities = {
@@ -787,6 +799,7 @@ minetest.register_tool(
       _tt_help = tt_shears,
       inventory_image = "default_shears_bronze.png",
       wield_image = "default_shears_bronze.png^[transformR90",
+      _rp_wielditem_rotation = shears_wield_rotation,
       sound = { breaks = "default_tool_breaks" },
       groups = { shears = 1, sheep_cuts = 200 },
       tool_capabilities = {
@@ -799,18 +812,11 @@ minetest.register_tool(
       on_place = trim,
 })
 
-local tt_flint_and_steel
-if minetest.settings:get_bool("tnt_enable", true) then
-   tt_flint_and_steel = S("Ignites TNT and lights up torches")
-else
-   tt_flint_and_steel = S("Lights up torches")
-end
-
 minetest.register_tool(
    "rp_default:flint_and_steel",
    {
       description = S("Flint and Steel"),
-      _tt_help = tt_flint_and_steel,
+      _tt_help = S("Ignites ignitable blocks"),
       inventory_image = "default_flint_and_steel.png",
       sound = { breaks = "default_tool_breaks" },
       on_use = function(itemstack, user, pointed_thing)
@@ -827,67 +833,40 @@ minetest.register_tool(
          local node = minetest.get_node(pos)
          local nodename = node.name
          local wear = false
-	 local torch_ignited = false
+	 local torch_ignite = 0 -- 0 = not ignited; 1 = ignited to weak torch; 2 = ignited to torch
 
-         if nodename == "rp_default:torch_weak" then
-            minetest.set_node(
-               pos,
-               {
-                  name = "rp_default:torch",
-                  param = node.param,
-                  param2 = node.param2
-            })
-            wear = true
-	    torch_ignited = true
+	 local def = minetest.registered_nodes[nodename]
+         if not def or not def._rp_on_ignite then
+            return itemstack
+         end
+	 --[[ Function to ignite the node:
+	 * pos: Position of node
+	 * itemstack: Flint and Steel itemstack
+	 * user: Player who is igniting
+	 ]]
+         local returninfo = def._rp_on_ignite(pos, itemstack, user)
+	 --[[ return value of _rp_on_ignite is either nil or a table.
+	 If nil, node was not ignited and nothing will be done.
+	 If table, node *was* ignited and something will happen
+	 to the flint and steel. These are the table fields (all optional):
+	    * sound: if true, play sound (default: false)
+	    * pitch: pitch of sound, if played (default: 1.0)
+	    * wear: how many times to wear the tool (default: 1)
+	 ]]
 
-         elseif nodename == "rp_default:torch_weak_wall" then
-            minetest.set_node(
-               pos,
-               {
-                  name = "rp_default:torch_wall",
-                  param = node.param,
-                  param2 = node.param2
-            })
-            wear = true
-	    torch_ignited = true
-
-         elseif nodename == "rp_default:torch_dead" then
-            minetest.set_node(
-               pos,
-               {
-                  name = "rp_default:torch_weak",
-                  param = node.param,
-                  param2 = node.param2
-            })
-            wear = true
-	    torch_ignited = true
-
-         elseif nodename == "rp_default:torch_dead_wall" then
-            minetest.set_node(
-               pos,
-               {
-                  name = "rp_default:torch_weak_wall",
-                  param = node.param,
-                  param2 = node.param2
-            })
-            wear = true
-	    torch_ignited = true
-
-         elseif nodename == "rp_tnt:tnt" then
-            local y = minetest.registered_nodes["rp_tnt:tnt"]
-            if y ~= nil then
-               y.on_punch(pos, node, user)
-               wear = true
+	 if returninfo ~= nil then
+	    if returninfo.sound ~= false then
+               local pitch = returninfo.pitch or 1.0
+               minetest.sound_play({name="rp_default_ignite_torch", gain=0.4, pitch=pitch}, {pos=pos}, true)
+            end
+            if not minetest.is_creative_enabled(user:get_player_name()) then
+	       local wear = returninfo.wear or 1
+	       for w=1, wear do
+                  itemstack:add_wear_by_uses(81)
+               end
             end
          end
-	 if torch_ignited then
-            minetest.sound_play({name="rp_default_ignite_torch", gain=0.4}, {pos=pos}, true)
-         end
 
-         if wear and not minetest.is_creative_enabled(user:get_player_name()) then
-            itemstack:add_wear(800)
-         end
-
-         return itemstack
+	 return itemstack
       end,
 })

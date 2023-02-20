@@ -1,6 +1,6 @@
 Gold mod
 ========
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
 Trading/currency mod; required by mobs
 

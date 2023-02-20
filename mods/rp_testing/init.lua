@@ -8,7 +8,7 @@ if not minetest.settings:get_bool("rp_testing_enable", false) then
    return
 end
 
--- Note: Intentionally NOT translated. This is a mod for development.
+local S = minetest.get_translator("rp_testing")
 
 local function dumpvec(v)
    return v.x..":"..v.y..":"..v.z
@@ -48,7 +48,7 @@ do
 
    -- List fuel recipes
    minetest.register_chatcommand("list_fuels", {
-	   description = "List all furnace fuels and their burntime",
+	   description = S("List all furnace fuels and their burntime"),
 	   privs = { debug = true },
 	   func = function(name, param)
 		   local fuels = {}
@@ -63,12 +63,40 @@ do
 			   end
 		   end
 		   local sort_by_time = function(v1, v2)
-			   return v1[2] < v2[2] 
+			   return v1[2] < v2[2]
 		   end
 		   table.sort(fuels, sort_by_time)
 		   for f=1, #fuels do
-			   minetest.chat_send_player(name, fuels[f][1]..": "..fuels[f][2])
+			   minetest.chat_send_player(name, S("@1: @2", fuels[f][1], fuels[f][2]))
 		   end
+		   return true
+	   end,
+   })
+
+   -- List fuel recipes
+   minetest.register_chatcommand("list_cookings", {
+	   description = S("List all cooking recipes"),
+	   privs = { debug = true },
+	   func = function(name, param)
+		   local recipes = {}
+		   for itemstring, def in pairs(minetest.registered_items) do
+			   local input = {
+				   method = "cooking",
+				   items = { itemstring },
+			   }
+			   local res = minetest.get_craft_result(input)
+			   if res and res.time > 0 then
+				   table.insert(recipes, {itemstring, res.item, res.time})
+			   end
+		   end
+		   local sort_by_input = function(v1, v2)
+			   return v1[1] < v2[1]
+		   end
+		   table.sort(recipes, sort_by_input)
+		   for r=1, #recipes do
+			   minetest.chat_send_player(name, S("@1 → @2 (time=@3)", recipes[r][1], recipes[r][2]:to_string(), recipes[r][3]))
+		   end
+		   return true
 	   end,
    })
 end

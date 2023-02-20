@@ -7,6 +7,7 @@ mobs:register_mob(
    "mobs:mineturtle",
    {
       type = "monster",
+      mob_name = S("Mine Turtle"),
       passive = false,
       attack_type = "explode",
       hp_min = 10,

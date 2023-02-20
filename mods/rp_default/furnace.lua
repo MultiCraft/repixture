@@ -6,7 +6,7 @@ local S = minetest.get_translator("rp_default")
 local F = minetest.formspec_escape
 
 function default.furnace_active_formspec(percent, item_percent)
-   local form = rp_formspec.get_page("rp_default:2part")
+   local form = rp_formspec.get_page("rp_formspec:2part")
    form = form .. "list[current_player;main;0.25,4.75;8,4;]"
    form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
    form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
@@ -35,7 +35,7 @@ function default.furnace_active_formspec(percent, item_percent)
    return form
 end
 
-local form_furnace = rp_formspec.get_page("rp_default:2part")
+local form_furnace = rp_formspec.get_page("rp_formspec:2part")
 form_furnace = form_furnace .. "list[current_player;main;0.25,4.75;8,4;]"
 form_furnace = form_furnace .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form_furnace = form_furnace .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
@@ -59,7 +59,77 @@ form_furnace = form_furnace .. "listring[current_name;fuel]"
 form_furnace = form_furnace .. "image[2.25,1.75;1,1;ui_fire_bg.png]"
 form_furnace = form_furnace .. "image[3.25,1.75;1,1;ui_arrow_bg.png^[transformR270]"
 
-rp_formspec.register_page("default_furnace_inactive", form_furnace)
+rp_formspec.register_page("rp_default:furnace_inactive", form_furnace)
+
+local after_dig_node = function(pos, nodenode, oldmetadata, digger)
+    item_drop.drop_items_from_container_meta_table(pos, {"fuel", "src", "dst"}, oldmetadata)
+end
+
+local on_blast = function(pos)
+    item_drop.drop_items_from_container(pos, {"fuel", "src", "dst"})
+    minetest.remove_node(pos)
+end
+
+local is_lump = function(itemstack)
+    return minetest.get_item_group(itemstack:get_name(), "mineral_lump") ~= 0
+end
+
+local function set_last_placer(pos, meta, mtype, playername)
+    meta:set_string("last_"..mtype.."_placer", playername)
+    minetest.log("verbose", "[rp_default] Furnace at "..minetest.pos_to_string(pos, 0)..": last_"..mtype.."_placer='"..playername.."'")
+end
+
+local on_put = function(pos, listname, index, stack, player)
+    local pname = ""
+    if player:is_player() then
+       pname = player:get_player_name()
+    end
+    local meta = minetest.get_meta(pos)
+    if listname == "fuel" then
+        if stack:get_count() > 0 then
+           set_last_placer(pos, meta, "fuel", pname)
+        end
+    elseif listname == "src" then
+        if stack:get_count() > 0 then
+           set_last_placer(pos, meta, "src", pname)
+        end
+    end
+end
+
+local on_take = function(pos, listname, index, stack, player)
+    local meta = minetest.get_meta(pos)
+    local inv = meta:get_inventory()
+    local orig_stack = inv:get_stack(listname, index)
+    if listname == "src" then
+        if orig_stack:get_count() == 0 then
+           set_last_placer(pos, meta, "src", "")
+        end
+    end
+end
+
+local on_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+    if count == 0 then
+       return
+    end
+    local pname = ""
+    if player:is_player() then
+        pname = player:get_player_name()
+    end
+    local meta = minetest.get_meta(pos)
+    local inv = meta:get_inventory()
+    local stack = inv:get_stack(from_list, from_index)
+    if from_list == "src" and to_list == "fuel" then
+        set_last_placer(pos, meta, "fuel", pname)
+	if stack:get_count() == 0 then
+           set_last_placer(pos, meta, "src", "")
+        end
+    elseif to_list == "src" then
+        set_last_placer(pos, meta, "src", pname)
+    elseif to_list == "fuel" then
+        set_last_placer(pos, meta, "fuel", pname)
+    end
+end
+
 
 local check_put = function(pos, listname, index, stack, player)
     if minetest.is_protected(pos, player:get_player_name()) and
@@ -104,15 +174,15 @@ minetest.register_node(
    {
       description = S("Furnace"),
       _tt_help = S("Uses fuel to smelt a material into something else"),
-      tiles ={"default_furnace_top.png", "default_furnace_top.png", "default_furnace_sides.png",
-	      "default_furnace_sides.png", "default_furnace_sides.png", "default_furnace_front.png"},
+      tiles ={"rp_default_furnace_top.png", "rp_default_furnace_top.png", "rp_default_furnace_sides.png",
+	      "rp_default_furnace_sides.png", "rp_default_furnace_sides.png", "rp_default_furnace_front.png"},
       paramtype2 = "facedir",
-      groups = {cracky = 2},
+      groups = {cracky = 2,container=1,interactive_node=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_stone_defaults(),
       on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("formspec", rp_formspec.get_page("default_furnace_inactive"))
+			meta:set_string("formspec", rp_formspec.get_page("rp_default:furnace_inactive"))
 			meta:set_string("infotext", S("Furnace"))
 
 			local inv = meta:get_inventory()
@@ -120,21 +190,14 @@ minetest.register_node(
 			inv:set_size("src", 1)
 			inv:set_size("dst", 4)
 		     end,
+      on_metadata_inventory_put = on_put,
+      on_metadata_inventory_take = on_take,
+      on_metadata_inventory_move = on_move,
       allow_metadata_inventory_move = check_move,
       allow_metadata_inventory_put = check_put,
       allow_metadata_inventory_take = check_take,
-      can_dig = function(pos,player)
-		   local meta = minetest.get_meta(pos);
-		   local inv = meta:get_inventory()
-		   if not inv:is_empty("fuel") then
-		      return false
-		   elseif not inv:is_empty("dst") then
-		      return false
-		   elseif not inv:is_empty("src") then
-		      return false
-		   end
-		   return true
-		end,
+      after_dig_node = after_dig_node,
+      on_blast = on_blast,
    })
 
 minetest.register_node(
@@ -142,17 +205,19 @@ minetest.register_node(
    {
       description = S("Furnace (active)"),
       _tt_help = S("Uses fuel to smelt a material into something else"),
-      tiles ={"default_furnace_top.png", "default_furnace_top.png", "default_furnace_sides.png",
-	      "default_furnace_sides.png", "default_furnace_sides.png", "default_furnace_front.png^default_furnace_flame.png"},
+      tiles ={"rp_default_furnace_top.png", "rp_default_furnace_top.png", "rp_default_furnace_sides.png",
+	      "rp_default_furnace_sides.png", "rp_default_furnace_sides.png",
+	      { name = "rp_default_furnace_active_anim.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 1.0 }}
+      },
       paramtype2 = "facedir",
       light_source = 8,
       drop = "rp_default:furnace",
-      groups = {cracky = 2, not_in_creative_inventory=1},
+      groups = {cracky = 2, container=1,interactive_node=1, not_in_creative_inventory=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_stone_defaults(),
       on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("formspec", rp_formspec.get_page("default_furnace_inactive"))
+			meta:set_string("formspec", rp_formspec.get_page("rp_default:furnace_inactive"))
 			meta:set_string("infotext", S("Furnace"));
 
 			local inv = meta:get_inventory()
@@ -160,21 +225,14 @@ minetest.register_node(
 			inv:set_size("src", 1)
 			inv:set_size("dst", 4)
 		     end,
+      on_metadata_inventory_put = on_put,
+      on_metadata_inventory_take = on_take,
+      on_metadata_inventory_move = on_move,
       allow_metadata_inventory_move = check_move,
       allow_metadata_inventory_put = check_put,
       allow_metadata_inventory_take = check_take,
-      can_dig = function(pos,player)
-		   local meta = minetest.get_meta(pos);
-		   local inv = meta:get_inventory()
-		   if not inv:is_empty("fuel") then
-		      return false
-		   elseif not inv:is_empty("dst") then
-		      return false
-		   elseif not inv:is_empty("src") then
-		      return false
-		   end
-		   return true
-		end,
+      after_dig_node = after_dig_node,
+      on_blast = on_blast,
    })
 
 local function swap_node(pos, name)
@@ -184,6 +242,25 @@ local function swap_node(pos, name)
    end
    node.name = name
    minetest.swap_node(pos, node)
+end
+
+-- Checks and possibly triggers the metal_age achievement
+local function check_metal_age_achievement(output_item, meta)
+   -- Achievement is triggered only if an ingot was smelted
+   if minetest.get_item_group(output_item:get_name(), "ingot") == 0 then
+      return
+   end
+   -- To trigger the achievement, a player must have both
+   -- placed the src AND fuel item as the last player.
+   minetest.log("verbose", "[rp_default] Checking metal_age_achievement for furnace ...")
+   local last_src_placer = meta:get_string("last_src_placer")
+   local last_fuel_placer = meta:get_string("last_fuel_placer")
+   if last_src_placer ~= "" and last_src_placer == last_fuel_placer then
+      local player = minetest.get_player_by_name(last_src_placer)
+      if player then
+         achievements.trigger_achievement(player, "metal_age")
+      end
+   end
 end
 
 minetest.register_abm(
@@ -242,8 +319,15 @@ minetest.register_abm(
 			if src_time >= cooked.time then
 			   -- Place result in dst list if possible
 			   if inv:room_for_item("dst", cooked.item) then
+                              -- Add result
 			      inv:add_item("dst", cooked.item)
+                              -- Check achievement
+                              check_metal_age_achievement(cooked.item, meta)
+                              -- Update src stack and timer
 			      inv:set_stack("src", 1, aftercooked.items[1])
+                              if inv:get_stack("src", 1):is_empty() then
+                                 set_last_placer(pos, meta, "src", "")
+                              end
 			      src_time = 0
 			   end
 			end
@@ -278,7 +362,7 @@ minetest.register_abm(
 		  --
 		  -- Update formspec, infotext and node
 		  --
-		  local formspec = rp_formspec.get_page("default_furnace_inactive")
+		  local formspec = rp_formspec.get_page("rp_default:furnace_inactive")
 		  local item_state = ""
 		  local item_percent = 0
 		  if cookable then

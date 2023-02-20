@@ -1,13 +1,15 @@
 
 --
 -- Lumien mod
--- By Kaadmy, for Pixture
 --
 
 local S = minetest.get_translator("rp_lumien")
 
-local lumien_on_radius = 2
-local lumien_off_radius = 4
+local LUMIEN_ON_RADIUS = 2
+local LUMIEN_OFF_RADIUS = 4
+local LUMIEN_CRYSTAL_LIGHT_MIN = 2
+local LUMIEN_CRYSTAL_LIGHT_MAX = 12
+local LUMIEN_BLOCK_LIGHT = 14
 
 local timer_interval = 1
 local timer = 0
@@ -28,14 +30,14 @@ local function on_globalstep(dtime)
 
       util.nodefunc(
 	 {
-            x = pos.x-lumien_on_radius,
-            y = pos.y-lumien_on_radius,
-            z = pos.z-lumien_on_radius
+            x = pos.x-LUMIEN_ON_RADIUS,
+            y = pos.y-LUMIEN_ON_RADIUS,
+            z = pos.z-LUMIEN_ON_RADIUS
          },
 	 {
-            x = pos.x+lumien_on_radius,
-            y = pos.y+lumien_on_radius,
-            z = pos.z+lumien_on_radius
+            x = pos.x+LUMIEN_ON_RADIUS,
+            y = pos.y+LUMIEN_ON_RADIUS,
+            z = pos.z+LUMIEN_ON_RADIUS
          },
 	 "rp_lumien:crystal_off",
 	 function(pos)
@@ -74,9 +76,14 @@ minetest.register_node(
          wall_side = {-0.5, -4/16, -4/16, -0.5+(4/16), 4/16, 4/16},
          wall_bottom = {-4/16, -0.5, -4/16, 4/16, -0.5+(4/16), 4/16}
       },
+      floodable = true,
+      on_flood = function(pos)
+         minetest.add_item(pos, "rp_lumien:crystal_off")
+      end,
 
       groups = {crumbly = 3, not_in_creative_inventory = 1},
-      light_source = 12,
+      light_source = LUMIEN_CRYSTAL_LIGHT_MAX,
+      _rp_itemshow_offset = vector.new(-0.2, 0, -0.2),
       drop = "rp_lumien:crystal_off",
       sounds = rp_sounds.node_sound_glass_defaults(),
 })
@@ -98,9 +105,15 @@ minetest.register_node(
          wall_side = {-0.5, -4/16, -4/16, -0.5+(4/16), 4/16, 4/16},
          wall_bottom = {-4/16, -0.5, -4/16, 4/16, -0.5+(4/16), 4/16}
       },
+      floodable = true,
+      on_flood = function(pos)
+         minetest.add_item(pos, "rp_lumien:crystal_off")
+      end,
 
-      groups = {crumbly = 3},
-      light_source = 2,
+      groups = {crumbly = 3, creative_decoblock = 1},
+      light_source = LUMIEN_CRYSTAL_LIGHT_MIN,
+      _tt_light_source_max = LUMIEN_CRYSTAL_LIGHT_MAX,
+      _rp_itemshow_offset = vector.new(-0.2, 0, -0.2),
       sounds = rp_sounds.node_sound_glass_defaults(),
 })
 
@@ -110,8 +123,19 @@ minetest.register_node(
       description = S("Lumien Block"),
       _tt_help = S("It shines so bright"),
       tiles = {"lumien_block.png"},
+      groups = {cracky = 1, mineral_natural=1},
+      light_source = LUMIEN_BLOCK_LIGHT,
+      sounds = rp_sounds.node_sound_stone_defaults(),
+})
+
+minetest.register_node(
+   "rp_lumien:reinforced_block",
+   {
+      description = S("Reinforced Lumien Block"),
+      _tt_help = S("It shines so bright"),
+      tiles = {"rp_lumien_reinforced_block.png"},
       groups = {cracky = 1},
-      light_source = 14,
+      light_source = LUMIEN_BLOCK_LIGHT,
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
 
@@ -122,7 +146,7 @@ minetest.register_node(
    {
       description = S("Stone with Lumien"),
       tiles = {"default_stone.png^lumien_mineral_lumien.png"},
-      groups = {cracky = 1, stone = 1},
+      groups = {cracky = 1, stone = 1, ore=1},
       drop = "rp_lumien:block",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -160,7 +184,7 @@ minetest.register_abm(
 
          local ok = true
 
-         for _,object in ipairs(minetest.get_objects_inside_radius(pos, lumien_off_radius)) do
+         for _,object in ipairs(minetest.get_objects_inside_radius(pos, LUMIEN_OFF_RADIUS)) do
             if object:is_player() then
                ok = false
             end
@@ -198,6 +222,16 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
+      output = "rp_lumien:reinforced_block",
+      items = {
+	 "rp_default:fiber 8",
+	 "rp_default:stick 6",
+	 "rp_lumien:block",
+      },
+})
+
+crafting.register_craft(
+   {
       output = "rp_default:heated_dirt_path 2",
       items = {
          "rp_default:dirt_path 2",
@@ -208,7 +242,7 @@ crafting.register_craft(
 minetest.register_craft(
 {
       type = "cooking",
-      output = "rp_lumien:crystal_off",
+      output = "rp_lumien:block",
       recipe = "rp_lumien:stone_with_lumien",
       cooktime = 6,
 })
@@ -222,6 +256,8 @@ achievements.register_achievement(
       description = S("Place a lumien crystal."),
       times = 1,
       placenode = "rp_lumien:crystal_off",
+      icon = "rp_lumien_achievement_enlightened.png",
+      difficulty = 5.5,
 })
 
 minetest.register_alias("lumien:block", "rp_lumien:block")

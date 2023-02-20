@@ -72,6 +72,7 @@ minetest.register_craftitem(
       inventory_image = "nav_inventory.png",
       wield_image = "nav_inventory.png",
       stack_max = 1,
+      groups = { tool = 1 },
       on_use = function(itemstack, user, pointed_thing)
           minetest.chat_send_player(user:get_player_name(), minetest.colorize("#FFFF00", S("Use the minimap key to show the map.")))
           nav.map.update_hud_flags(user)
@@ -99,6 +100,7 @@ achievements.register_achievement(
       description = S("Craft a map."),
       times = 1,
       craftitem = "rp_nav:map",
+      difficulty = 2.5,
 })
 
 minetest.register_alias("nav:map", "rp_nav:map")

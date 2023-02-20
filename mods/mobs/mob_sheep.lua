@@ -1,14 +1,22 @@
 
--- Sheep by PilzAdam; tweaked for Pixture by KaadmY
+-- Sheep by PilzAdam; tweaked by Kaadmy
 
 local S = minetest.get_translator("mobs")
 
 local mod_nav = minetest.get_modpath("rp_nav")
 
+local top_grass = {
+   ["rp_default:grass"] = "air",
+   ["rp_default:tall_grass"] = "rp_default:grass",
+   ["rp_default:swamp_grass"] = "air",
+   ["rp_default:dry_grass"] = "air",
+}
+
 mobs:register_mob(
    "mobs:sheep",
    {
       type = "animal",
+      mob_name = S("Sheep"),
       passive = true,
       hp_min = 10,
       hp_max = 14,
@@ -39,7 +47,7 @@ mobs:register_mob(
 	 {name = "mobs:meat_raw",
 	  chance = 1, min = 2, max = 4},
 	 {name = "mobs:wool",
-	  chance = 1, min = 1, max = 2},
+	  chance = 1, min = 1, max = 2, no_drop_if_gotten = true},
       },
       water_damage = 0,
       lava_damage = 5,
@@ -54,26 +62,46 @@ mobs:register_mob(
       },
       follow = "rp_farming:wheat",
       view_range = 5,
-      replace_rate = 50,
+      -- Replacements: Eat grass from the ground
+      replace_rate = 1000,
       replace_what = {
-         "rp_default:grass",
-         "rp_default:tall_grass",
-         "rp_farming:wheat_3",
-         "rp_farming:wheat_4"
+         "rp_default:dirt_with_grass",
+         "rp_default:dirt_with_dry_grass",
+         "rp_default:dirt_with_swamp_grass",
       },
-      replace_with = "air",
-      replace_offset = -1,
+      replace_with = "rp_default:dirt",
+      replace_offset = -2,
 
       on_replace = function(self, pos)
-         minetest.set_node(pos, {name = self.replace_with})
+         local nr = minetest.get_node(pos)
+         -- Check node above
+         local above = {x=pos.x,y=pos.y+1,z=pos.z}
+         local na = minetest.get_node(above)
 
+         -- Eat grass
+         if na.name == "air" then
+            -- Eat grass from dirt node
+            if nr.name == "rp_default:dirt_with_swamp_grass" then
+               minetest.set_node(pos, {name = "rp_default:swamp_dirt"})
+            else
+               minetest.set_node(pos, {name = self.replace_with})
+            end
+         elseif top_grass[na.name] then
+            -- If grass plant on top, eat it first
+            minetest.set_node(above, {name = top_grass[na.name]})
+         else
+            return
+         end
+
+         -- Regrow wool
          if mobs:feed_tame(self, self.follow, 8, false, false) then
-            if self.gotten == false then
+            if self.gotten == true then
                self.object:set_properties(
-                  {
-                     textures = {"mobs_sheep.png"},
-                     mesh = "mobs_sheep.x",
+                 {
+                    textures = {"mobs_sheep.png"},
+                    mesh = "mobs_sheep.x",
                })
+               self.gotten = false
             end
          end
       end,
@@ -97,16 +125,6 @@ mobs:register_mob(
 
          -- Are we feeding?
          if mobs:feed_tame(self, clicker, 8, true) then
-            -- If full grow, add fuzz
-
-            if self.gotten == false then
-               self.object:set_properties(
-                  {
-                     textures = {"mobs_sheep.png"},
-                     mesh = "mobs_sheep.x",
-               })
-            end
-
             return
          end
 
@@ -131,9 +149,9 @@ mobs:register_mob(
                    local def = item:get_definition()
                    local cuts = minetest.get_item_group(itemname, "sheep_cuts")
                    if cuts > 0 then
-                      item:add_wear(math.floor(65535 / cuts))
+                      item:add_wear_by_uses(cuts)
                    else
-                      item:add_wear(math.floor(65535 / def.tool_capabilities.snappy.uses))
+                      item:add_wear_by_uses(def.tool_capabilities.snappy.uses)
                    end
                end
                clicker:set_wielded_item(item)
@@ -142,6 +160,7 @@ mobs:register_mob(
                      textures = {"mobs_sheep_shaved.png"},
                      mesh = "mobs_sheep.x",
                })
+               achievements.trigger_achievement(clicker, "shear_time")
             end
 
             return

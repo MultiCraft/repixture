@@ -1,11 +1,16 @@
 # textdomain: rp_bed
+Your respawn position was blocked or dangerous. You’ve lost your old respawn position.=Ihre Wiedereinstiegsposition war blockiert oder gefährlich. Sie haben Ihre alte Wiedereinstiegsposition verloren.
 You have slept, rise and shine!=Sie haben geschlafen, raus aus den Federn!
 Players have slept, rise and shine!=Spieler haben geschlafen, raus aus den Federn!
 Bed=Bett
-Use it to sleep and pass the night=Schlafen, um die Nacht verstreichen zu lassen
+Sets the respawn position and allows to pass the night=Setzt die Wiedereinstiegsposition und lässt die Nacht verstreichen
 Sleeping is disabled.=Schlaf ist deaktiviert.
+It’s too painful to sleep here!=Hier ist es zu schmerzhaft zum Schlafen!
+You can’t sleep while holding your breath!=Sie können nicht gleichzeitig schlafen und die Luft anhalten!
 Not enough space to sleep!=Nicht genug Platz zum Schlafen!
+You can’t sleep here!=Sie können hier nicht schlafen!
 You have to stop moving before going to bed!=Sie müssen stehen bleiben, bevor Sie zu Bett gehen!
+Respawn position set!=Wiedereinstiegsposition gesetzt!
 In bed=Im Bett
 You're in a bed=Sie sind in einem Bett
 Bed Time=Schlafenszeit

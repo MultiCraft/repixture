@@ -5,7 +5,13 @@ Carpenter=Charpentier
 Blacksmith=Forgeron
 Butcher=Boucher
 Trade=Commerce
-Cancel=Annuler
+Trading with @1=
+G=
+@1 @2=
+@1×@2=
+@1 + @2=
+(repair)=
+@1 → @2=
 Trading Book=Livre de commerce
 Show this to a villager to trade=
 Gold Lump=Morceau d'or
@@ -16,3 +22,8 @@ Trader=Commerçant
 Trade with a villager.=Commerce avec un habitant du village.
 Gold Rush=Ruée vers l'or
 Dig a gold ore.=Extraire un minerai d'or.
+
+
+##### not used anymore #####
+
+Cancel=Annuler

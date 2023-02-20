@@ -1,6 +1,6 @@
 Headbars mod
 ============
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
 Puts a health bar above players
 

@@ -1,0 +1,5 @@
+# textdomain: rp_testing
+List all furnace fuels and their burntime=Alle Ofenbrennstoffe sowie ihre Brenndauer auflisten
+@1: @2=@1: @2
+List all cooking recipes=Alle Kochrezepte auflisten
+@1 → @2 (time@=@3)=@1 → @2 (Zeit@=@3)

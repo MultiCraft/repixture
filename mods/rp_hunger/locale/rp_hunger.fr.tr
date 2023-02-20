@@ -1,6 +1,17 @@
 # textdomain: rp_hunger
+Hunger Debug:=
+<hunger disabled>=
 You are hungry.=Tu as faim.
 You are starving.=Vous mourrez de faim.
 You starved to death.=Vous êtes morts de faim.
 Eating=Alimentaire
 You're eating food, which slows you down=Vous mangez, cela vous ralentit
+Gourmet=
+Eat everything that can be eaten.=
+Set hunger level of player or yourself=
+[<player>] <hunger>=
+Player is not online.=
+No player.=
+Food item=
+Food points: +@1=
+Saturation points: +@1=

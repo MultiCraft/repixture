@@ -1,11 +1,12 @@
 --
 -- Armor mod
--- By Kaadmy, for Pixture
 --
 
 local S = minetest.get_translator("rp_armor")
 
 armor = {}
+
+local armor_local = {}
 
 -- Wear is wear per HP of damage taken
 
@@ -24,7 +25,7 @@ armor.slots = {"helmet", "chestplate", "boots"}
 
 -- Formspec
 
-local form_armor = rp_formspec.get_page("rp_default:2part")
+local form_armor = rp_formspec.get_page("rp_formspec:2part")
 
 form_armor = form_armor .. "list[current_player;main;0.25,4.75;8,4;]"
 form_armor = form_armor .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
@@ -39,12 +40,20 @@ form_armor = form_armor .. "list[current_player;armor;2.25,0.75;1,3;]"
 form_armor = form_armor .. "listring[current_player;armor]"
 form_armor = form_armor .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 3)
 
-rp_formspec.register_page("rp_armor:armor", form_armor)
-
 function armor.get_formspec(name)
-   local form = rp_formspec.get_page("rp_armor:armor")
+   local form = rp_formspec.get_page("rp_armor:armor", true)
    return form
 end
+
+rp_formspec.register_page("rp_armor:armor", form_armor)
+rp_formspec.register_invpage("rp_armor:armor", {
+	get_formspec = armor.get_formspec,
+})
+
+rp_formspec.register_invtab("rp_armor:armor", {
+   icon = "ui_icon_armor.png",
+   tooltip = S("Armor"),
+})
 
 function armor.is_armor(itemname)
    local item = minetest.registered_items[itemname]
@@ -73,7 +82,9 @@ function armor.get_base_skin(player)
    end
 end
 
-function armor.get_texture(player, base)
+-- Returns the full skin texture for `player`.
+-- `base` is the player's base skin (without armor).
+function armor_local.get_texture(player, base)
    local inv = player:get_inventory()
 
    local image = base
@@ -93,7 +104,9 @@ function armor.get_texture(player, base)
    return image
 end
 
-function armor.get_groups(player)
+-- Returns the correct and relevant armor groups of player.
+-- Also checks the `full_armor` achievement if `check_achievement` is true.
+function armor_local.get_groups(player, check_achievement)
    local groups = {fleshy = 100}
 
    local match_mat = nil
@@ -131,7 +144,7 @@ function armor.get_groups(player)
 	 end
       end
    end
-   if ach_ok then
+   if check_achievement and ach_ok then
       achievements.trigger_achievement(player, "full_armor")
    end
 
@@ -148,7 +161,8 @@ function armor.get_groups(player)
    return groups
 end
 
-function armor.init(player)
+-- Initialize armor for player
+function armor_local.init(player)
    local inv = player:get_inventory()
 
    if inv:get_size("armor") ~= 3 then
@@ -158,21 +172,67 @@ end
 
 -- This function must be called whenever the armor inventory has been changed
 function armor.update(player)
-   local groups = armor.get_groups(player)
+   local groups = armor_local.get_groups(player, true)
    player:set_armor_groups({fleshy = groups.fleshy, immortal = groups.immortal})
 
-   local image = armor.get_texture(player, armor.get_base_skin(player))
+   local image = armor_local.get_texture(player, armor.get_base_skin(player))
    if image ~= rp_player.player_get_textures(player)[1] then
       rp_player.player_set_textures(player, {image})
    end
 end
 
+-- Armor reduces player damage taken from nodes
+minetest.register_on_player_hpchange(function(player, hp_change, reason)
+   if reason.type == "node_damage" and hp_change < 0 then
+      local pierce = 0
+      local real_hp_change = hp_change
+      if reason.node then
+         -- Get ACTUAL damage from node def because engine reports
+         -- a reduced hp_change if player is low on health
+	 if reason.from == "engine" then
+            local def = minetest.registered_nodes[reason.node]
+            real_hp_change = -def.damage_per_second
+	    if real_hp_change > 0 then
+               -- In case of a healing node, we don't interfere ...
+               return hp_change
+            end
+         end
+
+         -- Get armor piercing
+         pierce = minetest.get_item_group(reason.node, "armor_piercing")
+         -- Armor does not protect at all at 100% armor piercing or above
+         if pierce >= 100 then
+            return real_hp_change
+         end
+      end
+      -- Get player fleshy value
+      local groups = armor_local.get_groups(player, false)
+      local fleshy = groups.fleshy
+
+      -- Armor piercing
+      if pierce > 0 then
+         local prot = 100 - fleshy
+         prot = prot * ((100-pierce) / 100)
+         fleshy = 100 - prot
+      end
+
+      -- Ratio for HP change
+      local ratio = fleshy / 100
+      if ratio < 0 then
+         return real_hp_change
+      end
+      real_hp_change = -math.round(math.abs(real_hp_change * ratio))
+      return real_hp_change
+   end
+   return hp_change
+end, true)
+
 local function on_newplayer(player)
-   armor.init(player)
+   armor_local.init(player)
 end
 
 local function on_joinplayer(player)
-   armor.init(player)
+   armor_local.init(player)
    armor.update(player)
 end
 
@@ -381,15 +441,18 @@ achievements.register_achievement(
       times = 1,
       craftitem = "group:is_armor",
       item_icon = "rp_armor:chestplate_wood",
+      difficulty = 1.9,
 })
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 6
    "full_armor",
    {
       title = S("Skin of Bronze"),
       description = S("Equip a full suit of bronze armor."),
       times = 1,
-      item_icon = "rp_armor:chestplate_bronze",
+      icon = "rp_armor_achievement_full_armor.png",
+      difficulty = 6,
 })
 
 if minetest.get_modpath("tt") then

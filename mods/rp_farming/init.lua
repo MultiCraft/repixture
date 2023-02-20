@@ -1,7 +1,6 @@
 
 --
 -- Farming mod
--- By Kaadmy, for Pixture
 --
 
 farming = {}

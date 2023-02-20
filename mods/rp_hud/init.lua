@@ -1,6 +1,9 @@
 -- Based off MT's core builtin/game/statbars.lua, changed a lot to add statbar background and better layout
 
-rp_hud={}
+local rp_hud={}
+
+-- time in seconds the breath bar will still show after going full again
+local BREATH_KEEP_TIME = 2.05
 
 local health_bar_definition = {
    hud_elem_type = "statbar",
@@ -28,7 +31,8 @@ local breath_bar_definition = {
    z_index = 1,
 }
 
-rp_hud.ids={}
+rp_hud.ids={} -- HUD IDs
+rp_hud.breath_timers={} -- count the time each player has a full breath bar
 
 function rp_hud.initialize_builtin_statbars(player)
    if not player:is_player() then
@@ -54,7 +58,13 @@ function rp_hud.initialize_builtin_statbars(player)
 
       player:hud_set_flags(flg)
    end
+   if rp_hud.breath_timers[name] == nil then
+      -- Initial breath time is initialized to use a time so a full breath bar
+      -- initially does NOT show up.
+      rp_hud.breath_timers[name] = BREATH_KEEP_TIME + 1
+   end
 
+   -- Health bar
    if minetest.is_yes(minetest.settings:get("enable_damage")) then
       if rp_hud.ids[name].id_healthbar == nil then
 	 health_bar_definition.number = player:get_hp()
@@ -67,11 +77,16 @@ function rp_hud.initialize_builtin_statbars(player)
       end
    end
 
-   if (player:get_breath() < minetest.PLAYER_MAX_BREATH_DEFAULT) then
+   -- Breath bar
+   -- This bar will automatically hide when its full.
+   -- But a full bar stay shown for short delay (BREATH_KEEP_TIME)
+   -- after it has become full again instead of instantly disappearing.
+   if ((player:get_breath() < minetest.PLAYER_MAX_BREATH_DEFAULT) or (rp_hud.breath_timers[name] <= BREATH_KEEP_TIME)) then
       if minetest.is_yes(minetest.settings:get("enable_damage")) then
 	 if rp_hud.ids[name].id_breathbar == nil then
 	    breath_bar_definition.number = player:get_breath()*2
 	    rp_hud.ids[name].id_breathbar = player:hud_add(breath_bar_definition)
+            rp_hud.breath_timers[name] = 0
 	 end
       else
 	 if rp_hud.ids[name].id_breathbar ~= nil then
@@ -85,6 +100,8 @@ function rp_hud.initialize_builtin_statbars(player)
    end
 end
 
+
+
 function rp_hud.cleanup_builtin_statbars(player)
    if not player:is_player() then
       return
@@ -97,6 +114,7 @@ function rp_hud.cleanup_builtin_statbars(player)
    end
 
    rp_hud.ids[name] = nil
+   rp_hud.breath_timers[name] = nil
 end
 
 function rp_hud.player_event_handler(player, eventname)
@@ -171,3 +189,29 @@ end
 minetest.register_on_joinplayer(rp_hud.initialize_builtin_statbars)
 minetest.register_on_leaveplayer(rp_hud.cleanup_builtin_statbars)
 minetest.register_playerevent(rp_hud.player_event_handler)
+
+-- Increase or reset player breath timers.
+-- Time increases when player has full breath, time resets to 0
+-- otherwise. This is used to make sure the breath bar will
+-- keep showing for a few seconds after going full breath again
+minetest.register_globalstep(function(dtime)
+   local players = minetest.get_connected_players()
+   for p=1, #players do
+      local player = players[p]
+      local name = player:get_player_name()
+      if not rp_hud.breath_timers[name] then
+         rp_breath_timers[name] = BREATH_KEEP_TIME + 1
+      end
+      if player:get_breath() >= minetest.PLAYER_MAX_BREATH_DEFAULT then
+         rp_hud.breath_timers[name] = rp_hud.breath_timers[name] + dtime
+         if rp_hud.breath_timers[name] > BREATH_KEEP_TIME then
+            if rp_hud.ids[name].id_breathbar ~= nil then
+               player:hud_remove(rp_hud.ids[name].id_breathbar)
+               rp_hud.ids[name].id_breathbar = nil
+            end
+         end
+      else
+         rp_hud.breath_timers[name] = 0
+      end
+   end
+end)

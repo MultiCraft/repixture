@@ -1,13 +1,13 @@
 # textdomain: book
-Unnamed Book=Namenloses Buch
-Write down some notes=Zum Aufschreiben von Notizen
 Title:=Titel:
 Contents:=Inhalt:
 Write=Schreiben
+Book=Buch
+Write down some notes=Zum Aufschreiben von Notizen
+Unnamed Book=Namenloses Buch
 Book: “@1”=Buch: „@1“
+Read book=Buch lesen
+Bookshelf=Bücherregal
+Provides 8 inventory slots=Enthält 8 Inventarplätze
+Return=Zurück
 
-
-##### not used anymore #####
-
-Scribe=Schreiber
-Craft a book.=Fertigen Sie ein Buch.

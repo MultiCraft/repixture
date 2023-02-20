@@ -1,24 +1,18 @@
 # textdomain: rp_formspec
 Fuzzy=Flausch
 Any fuzzy block=Beliebiger flauschiger Block
-Planks=
+Planks=Planken
 Any planks=Beliebige Planken
 Soil=Boden
 Any soil=Beliebiger Boden
-Stone=
+Stone=Stein
 Any stone=Beliebiger Stein
 Green Grass Clump=Grünes Grasbüschel
 Any green grass clump=Beliebiges grünes Grasbüschel
 Group: @1=Gruppe: @1
-Crafting=Fertigen
-Armor=Rüstung
-Achievements=Errungenschaften
-Player Skins=Spieler-Skins
-Creative Inventory=Kreativinventar
 Write=Schreiben
 
 
 ##### not used anymore #####
 
 Any tree=Beliebiger Baum
-Can be climbed=Kann erklettert werden

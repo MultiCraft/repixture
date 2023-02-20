@@ -4,6 +4,7 @@ Lumien Crystal=
 Can be placed; glows when someone is close=
 Lumien Block=
 It shines so bright=
+Reinforced Lumien Block=
 Stone with Lumien=
 Enlightened=
 Place a lumien crystal.=

@@ -130,50 +130,6 @@ minetest.register_craft(
       cooktime = 6,
 })
 
-minetest.register_craft(
-   {
-      type = "cooking",
-      output = "rp_default:block_bronze",
-      recipe = "rp_default:ingot_bronze 9",
-      cooktime = 20,
-})
-minetest.register_craft(
-   {
-      type = "cooking",
-      output = "rp_default:block_copper",
-      recipe = "rp_default:ingot_copper 9",
-      cooktime = 10,
-})
-minetest.register_craft(
-   {
-      type = "cooking",
-      output = "rp_default:block_tin",
-      recipe = "rp_default:ingot_tin 9",
-      cooktime = 10,
-})
-minetest.register_craft(
-   {
-      type = "cooking",
-      output = "rp_default:block_steel",
-      recipe = "rp_default:ingot_steel 9",
-      cooktime = 10,
-})
-minetest.register_craft(
-   {
-      type = "cooking",
-      output = "rp_default:block_carbon_steel",
-      recipe = "rp_default:ingot_carbon_steel 9",
-      cooktime = 10,
-})
-minetest.register_craft(
-   {
-      type = "cooking",
-      output = "rp_default:block_wrought_iron",
-      recipe = "rp_default:ingot_wrought_iron 9",
-      cooktime = 10,
-})
-
-
 -- Fuels
 
 minetest.register_craft(
@@ -207,6 +163,13 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
+      recipe = "rp_default:hay",
+      burntime = 3,
+})
+
+minetest.register_craft(
+   {
+      type = "fuel",
       recipe = "rp_default:papyrus",
       burntime = 2,
 })
@@ -222,13 +185,6 @@ minetest.register_craft(
       type = "fuel",
       recipe = "rp_default:dried_reed_block",
       burntime = 12,
-})
-
-minetest.register_craft(
-   {
-      type = "fuel",
-      recipe = "rp_default:book",
-      burntime = 2,
 })
 
 minetest.register_craft(
@@ -349,7 +305,7 @@ minetest.register_craft(
    {
       type = "fuel",
       recipe = "group:tree",
-      burntime = 22,
+      burntime = 20,
 })
 
 minetest.register_craft(
@@ -362,22 +318,15 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "rp_default:bookshelf",
-      burntime = 32,
-})
-
-minetest.register_craft(
-   {
-      type = "fuel",
       recipe = "rp_default:lump_coal",
-      burntime = 20,
+      burntime = 30,
 })
 
 minetest.register_craft(
    {
       type = "fuel",
       recipe = "rp_default:block_coal",
-      burntime = 180,
+      burntime = 270,
 })
 
 --
@@ -557,6 +506,14 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
+      output = "rp_default:fiber",
+      items = {
+         "rp_default:vine 2",
+      }
+})
+
+crafting.register_craft(
+   {
       output = "rp_default:stick 4",
       items = {
          "group:planks",
@@ -590,11 +547,17 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "rp_default:book",
+      output = "rp_default:hay",
       items = {
-         "rp_default:paper 3",
-         "rp_default:stick",
-         "rp_default:fiber",
+         "rp_default:dry_grass 9",
+      }
+})
+
+crafting.register_craft(
+   {
+      output = "rp_default:alga_block",
+      items = {
+         "rp_default:alga 9",
       }
 })
 
@@ -830,6 +793,16 @@ crafting.register_craft(
       }
 })
 
+crafting.register_craft(
+   {
+      output = "rp_default:reinforced_compressed_sandstone",
+      items = {
+         "rp_default:fiber 8",
+         "rp_default:stick 6",
+         "rp_default:compressed_sandstone",
+      }
+})
+
 -- Fence nodes
 
 crafting.register_craft(
@@ -921,7 +894,7 @@ crafting.register_craft(
       }
 })
 
--- Tool nodes (chests, furnaces, bookshelves)
+-- Tool nodes (chests, furnaces)
 
 crafting.register_craft(
    {
@@ -939,15 +912,6 @@ crafting.register_craft(
       items = {
          "rp_default:torch",
          "group:stone 6",
-      }
-})
-
-crafting.register_craft(
-   {
-      output = "rp_default:bookshelf",
-      items = {
-         "rp_default:book 3",
-         "group:planks 6",
       }
 })
 

@@ -6,6 +6,7 @@ mobs:register_mob(
    "mobs:skunk",
    {
       type = "animal",
+      mob_name = S("Skunk"),
       passive = false,
       attack_type = "dogfight",
       damage = 1,
@@ -50,7 +51,7 @@ mobs:register_mob(
       },
       on_rightclick = function(self, clicker)
          mobs:feed_tame(self, clicker, 6, true)
-         mobs:capture_mob(self, clicker, 10, 40, 20, false, nil)
+         mobs:capture_mob(self, clicker, 0, 40, 20, false, nil)
       end,
 })
 

@@ -1,8 +1,7 @@
 
 --
 -- Mobs mod
--- By PilzAdam, KrupnovPavel, Zeg9, TenPlus1
--- Tweaked by KaadmY, for Pixture
+-- By PilzAdam, KrupnovPavel, Zeg9, TenPlus1.
 --
 
 local path = minetest.get_modpath("mobs")
@@ -30,3 +29,6 @@ dofile(path.."/mob_walker.lua") -- KaadmY
 -- NPC
 
 dofile(path.."/mob_npc.lua") -- TenPlus1
+
+-- 'Gonna Feed 'em All' achievement
+dofile(path.."/achievements_feed.lua")

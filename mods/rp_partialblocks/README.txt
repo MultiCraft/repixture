@@ -1,8 +1,10 @@
 Partial blocks mod
 ==================
-By Kaadmy, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
-Adds partial blocks, like slabs, stairs and such.
+Adds partial blocks, like slabs and stairs.
 
-Asset license: CC BY-SA 4.0
-Source license: LGPLv2.1
+Developers: See API.md.
+
+Media license: CC BY-SA 4.0
+Source code license: LGPLv2.1

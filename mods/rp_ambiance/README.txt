@@ -1,6 +1,6 @@
 Ambiance mod
 ============
-By Kaadmy, for Pixture
+By KaadmY and Wuzzy, for Repixture
 
 Adds directional ambient sounds coming from the correct sources.
 

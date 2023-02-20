@@ -1,3 +1,4 @@
+local S = minetest.get_translator("rp_farming")
 
 --
 -- Farming and plant growing API
@@ -56,6 +57,97 @@ function farming.register_plant(name, plant)
    add_callbacks(name .. "_3")
 end
 
+function farming.register_plant_nodes(name, def)
+   local selbox = {
+      type = "fixed",
+      fixed = {-0.5, -0.5, -0.5, 0.5, -0.5+(4/16), 0.5}
+   }
+   local paramtype2, place_param2
+   if def.meshoptions then
+      paramtype2 = "meshoptions"
+      place_param2 = def.meshoptions
+   end
+
+   local defs = {}
+   defs[1] = {
+         description = def.description_stage_1,
+         _tt_help = def.tooltip_stage_1,
+         drawtype = "plantlike",
+         tiles = {def.texture_prefix.."_1.png"},
+         inventory_image = def.texture_prefix.."_seed.png",
+         wield_image = def.texture_prefix.."_seed.png",
+         paramtype = "light",
+         sunlight_propagates = true,
+         paramtype2 = paramtype2,
+         place_param2 = place_param2,
+         node_placement_prediction = "",
+         waving = 1,
+         walkable = false,
+         floodable = true,
+         buildable_to = true,
+         is_ground_content = true,
+         drop = def.drop_stages[1],
+         selection_box = selbox,
+         groups = {snappy=3, handy=2, attached_node=1, seed=1, plant=1, farming_plant=1, ["plant_"..name]=1},
+         sounds=rp_sounds.node_sound_leaves_defaults(),
+         _rp_farming_plant_name = name,
+   }
+
+   for s=2, 4 do
+         defs[s] = {
+            description = S(def.description_general, s),
+            drawtype = "plantlike",
+            tiles = {def.texture_prefix.."_"..s..".png"},
+            inventory_image = def.texture_prefix.."_"..s..".png",
+            wield_image = def.texture_prefix.."_"..s..".png",
+            paramtype = "light",
+            sunlight_propagates = true,
+            paramtype2 = paramtype2,
+            place_param2 = place_param2,
+            node_placement_prediction = "",
+            waving = 1,
+            walkable = false,
+            floodable = true,
+            buildable_to = true,
+            is_ground_content = true,
+            drop = def.drop_stages[s],
+            selection_box = selbox,
+            groups = {snappy=3, handy=2, attached_node=1, plant=1, farming_plant=1, ["plant_"..name]=s, not_in_craft_guide = 1, not_in_creative_inventory = 1},
+            sounds=rp_sounds.node_sound_leaves_defaults(),
+            _rp_farming_plant_name = name,
+      }
+   end
+
+   -- Add custom node definition additions
+   if def.stage_extras then
+      for e=1, 4 do
+         if def.stage_extras[e] then
+            local extra = def.stage_extras[e]
+	    for k,v in pairs(extra) do
+               defs[e][k] = v
+	    end
+	 end
+      end
+   end
+   -- Add custom group definition additions
+   if def.stage_extra_groups then
+      for e=1, 4 do
+         if def.stage_extra_groups[e] then
+            local extra = def.stage_extra_groups[e]
+	    for k,v in pairs(extra) do
+               defs[e].groups[k] = v
+	    end
+	 end
+      end
+   end
+
+   -- Register plants
+   for s=1, 4 do
+      minetest.register_node(name.."_"..s, defs[s])
+   end
+
+end
+
 function farming.begin_growing_plant(pos)
    local name = string.gsub(minetest.get_node(pos).name, "_(%d+)", "")
 
@@ -91,15 +183,26 @@ function farming.place_plant(itemstack, placer, pointed_thing)
    if not place_in then
       return itemstack
    end
-   local place_on_node = minetest.get_node(place_on)
 
+   -- Can't place plant on itself to prevent wasting seeds
+   local place_in_node = minetest.get_node(place_in)
+   local pidef = minetest.registered_nodes[place_in_node.name]
+   if pidef and pidef._rp_farming_plant_name == name then
+      return itemstack
+   end
+
+   local place_on_node = minetest.get_node(place_on)
    -- Find plant definition and grow plant
    for _, can_grow_on in ipairs(plant.grows_on) do
       local group = string.match(can_grow_on, "group:(.*)")
 
       if (group ~= nil and minetest.get_item_group(place_on_node.name, group) > 0) or
       (place_on_node.name == can_grow_on) then
+         local idef = itemstack:get_definition()
          itemstack = minetest.item_place(itemstack, placer, pointed_thing)
+         if idef and idef.sounds and idef.sounds.place then
+            minetest.sound_play(idef.sounds.place, {pos=place_on}, true)
+         end
          break
       end
    end
@@ -111,15 +214,16 @@ end
 -- Returns true if plant has grown, false if not (e.g. because of max stage)
 function farming.next_stage(pos, plant_name)
    local my_node = minetest.get_node(pos)
+   local p2 = my_node.param2
 
    if my_node.name == plant_name .. "_1" then
-      minetest.set_node(pos, {name = plant_name .. "_2"})
+      minetest.set_node(pos, {name = plant_name .. "_2", param2 = p2})
       return true
    elseif my_node.name == plant_name .. "_2" then
-      minetest.set_node(pos, {name = plant_name .. "_3"})
+      minetest.set_node(pos, {name = plant_name .. "_3", param2 = p2})
       return true
    elseif my_node.name == plant_name .. "_3" then
-      minetest.set_node(pos, {name = plant_name .. "_4"})
+      minetest.set_node(pos, {name = plant_name .. "_4", param2 = p2})
 
       -- Stop the timer on the node so no more growing occurs until needed
 

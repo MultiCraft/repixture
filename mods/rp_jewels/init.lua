@@ -5,7 +5,7 @@
 --
 
 local S = minetest.get_translator("rp_jewels")
-local NS = function(s) return s end
+local N = function(s) return s end
 local F = minetest.formspec_escape
 
 jewels = {}
@@ -18,7 +18,7 @@ jewels.registered_jewel_parents = {}
 
 -- Formspec
 
-local form_bench = rp_formspec.get_page("rp_default:2part")
+local form_bench = rp_formspec.get_page("rp_formspec:2part")
 
 form_bench = form_bench .. "list[current_name;main;2.25,1.75;1,1;]"
 form_bench = form_bench .. "listring[current_name;main]"
@@ -32,7 +32,7 @@ form_bench = form_bench .. "listring[current_player;main]"
 form_bench = form_bench .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form_bench = form_bench .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
-rp_formspec.register_page("rp_jewels_bench", form_bench)
+rp_formspec.register_page("rp_jewels:bench", form_bench)
 
 local function plus_power(i)
    if i >= 0 then
@@ -147,7 +147,7 @@ function jewels.register_jewel(toolname, new_toolname, def)
       if data.stats.digspeed then
 	 for group, cap in pairs(new_tooldef.tool_capabilities.groupcaps) do
 	    for i, _ in ipairs(cap.times) do
-	       cap.times[i] = cap.times[i] + data.stats.digspeed
+	       cap.times[i] = math.max(0, cap.times[i] + data.stats.digspeed)
 	    end
 
 	    if data.stats.maxlevel and cap.maxlevel then
@@ -183,17 +183,17 @@ local function get_stat(format_text, stats_key, parent, stats)
       disp_val = disp_val + parent.stats[stats_key]
    end
    if disp_val ~= 0 then
-      return S(format_text, plus_power(disp_val))
+      return S(format_text, loc.num(plus_power(disp_val)))
    end
    return nil
 end
 
 local amendments = {
-   { "range", NS("Range: @1") },
-   { "maxdrop", NS("Drop level: @1") },
-   { "digspeed", NS("Dig time: @1 s") },
-   { "uses", NS("Uses: @1") },
-   { "maxlevel", NS("Dig level: @1") },
+   { "range", N("Range bonus: @1") },
+   { "maxdrop", N("Drop level bonus: @1") },
+   { "digspeed", N("Dig time bonus: @1 s") },
+   { "uses", N("Durability bonus: @1") },
+   { "maxlevel", N("Dig level bonus: @1") },
 }
 
 for a=1, #amendments do
@@ -237,18 +237,34 @@ function jewels.get_jeweled(toolname)
    end
 end
 
--- Items
+-- Nodes
 
-minetest.register_craftitem(
+minetest.register_node(
    "rp_jewels:jewel",
    {
       description = S("Jewel"),
       inventory_image = "jewels_jewel.png",
-      stack_max = 10
+      wield_image  = "jewels_jewel.png",
+      wield_scale = { x=1, y=1, z=2 },
+      tiles = {"rp_jewels_node_top.png", "rp_jewels_node_top.png", "rp_jewels_node_side.png"},
+      use_texture_alpha = "clip",
+      paramtype = "light",
+      sunlight_propagates = true,
+      is_ground_content = false,
+      drawtype = "nodebox",
+      walkable = false,
+      floodable = true,
+      on_flood = function(pos, oldnode, newnode)
+         minetest.add_item(pos, "rp_jewels:jewel")
+      end,
+      node_box = {
+         type = "fixed",
+         fixed = {-4/16, -0.5, -4/16, 4/16, -0.5+(3/16), 4/16}
+      },
+      -- Note: The jewel does NOT count as a mineral, it is special
+      groups = {dig_immediate = 3, craftitem = 1, attached_node = 1},
+      sounds = rp_sounds.node_sound_defaults(),
 })
-
-
--- Nodes
 
 local check_put = function(pos, listname, index, stack, player)
     if minetest.is_protected(pos, player:get_player_name()) and
@@ -292,24 +308,42 @@ minetest.register_node(
       _tt_help = S("Tools can be upgraded with jewels here"),
       tiles ={"jewels_bench_top.png", "jewels_bench_bottom.png", "jewels_bench_sides.png"},
       paramtype2 = "facedir",
-      groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+      groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,interactive_node=1},
       legacy_facedir_simple = true,
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
 
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
-         meta:set_string("formspec", rp_formspec.get_page("rp_jewels_bench"))
+         meta:set_string("formspec", rp_formspec.get_page("rp_jewels:bench"))
          meta:set_string("infotext", S("Jeweler's Workbench"))
 
          local inv = meta:get_inventory()
          inv:set_size("main", 1)
       end,
+      on_destruct = function(pos)
+         item_drop.drop_items_from_container(pos, {"main"})
+      end,
       can_dig = function(pos, player)
-         local meta = minetest.get_meta(pos)
-         local inv = meta:get_inventory()
-
-         return inv:is_empty("main")
+         -- Player can't dig if bench has an item and
+         -- player wields a jewel.
+         -- Needed to avoid accidental digging in Creative Mode
+         -- when jewelling a tool.
+         if player and player:is_player() then
+            local meta = minetest.get_meta(pos)
+            local inv = meta:get_inventory()
+            if inv:get_stack("main", 1):is_empty() then
+               return true
+            else
+               local wield = player:get_wielded_item()
+               if wield:get_name() == "rp_jewels:jewel" then
+                  return false
+               else
+                  return true
+               end
+            end
+         end
+	 return true
       end,
       allow_metadata_inventory_move = check_move,
       allow_metadata_inventory_put = check_put,
@@ -333,8 +367,16 @@ minetest.register_node(
             local itemname = iitem:get_name()
 
             if jewels.can_jewel(itemname) then
+               local new_item = jewels.get_jeweled(itemname)
+	       if not new_item then
+                  return
+	       end
+	       new_item = ItemStack(new_item)
+	       if not new_item then
+                  return
+	       end
                -- Success
-               inv:set_stack("main", 1, ItemStack(jewels.get_jeweled(itemname)))
+               inv:set_stack("main", 1, new_item)
 
                if not minetest.is_creative_enabled(player:get_player_name()) then
                   itemstack:take_item()
@@ -342,9 +384,39 @@ minetest.register_node(
                end
 
                minetest.sound_play({name="jewels_jewelling_a_tool"}, {gain=0.8, pos=pos, max_hear_distance=8}, true)
-               -- TODO: Graphical effect
+
+	       -- Show the new tool above the bench
+               local part = "jewels_jewel.png" -- fallback texture
+               local idef = new_item:get_definition()
+               if idef and idef.inventory_image then
+                  part = idef.inventory_image
+               end
+               minetest.add_particlespawner({
+                   amount = 1,
+                   time = 0.01,
+                   pos = {
+                      min = vector.add(pos, vector.new(-0.01, 0.7, -0.01)),
+                      max = vector.add(pos, vector.new(0.01, 0.7, 0.01)),
+                   },
+                   vel = {
+                      min = vector.new(-0.1, 1, -0.1),
+                      max = vector.new(0.1, 1, 0.1),
+                   },
+                   exptime = 1.4,
+                   size = 6,
+	           drag = vector.new(2,2,2),
+                   texture = {
+	              name = part,
+                      alpha_tween = { 0.8, 0, start = 0.75 },
+                   },
+               })
+
 
                achievements.trigger_achievement(player, "jeweler")
+
+               if new_item:get_name() == "rp_jewels:serrated_broadsword" then
+                  achievements.trigger_achievement(player, "true_mighty_weapon")
+               end
             else
                -- Failure
                minetest.sound_play({name="jewels_jewelling_fail"}, {gain=0.8, pos=pos, max_hear_distance=8}, true)
@@ -367,7 +439,7 @@ minetest.register_node(
          "default_tree_birch.png^jewels_ore.png"
       },
       drop = "rp_jewels:jewel",
-      groups = {snappy=1, choppy=1, tree=1},
+      groups = {snappy=1, choppy=1, tree=1, ore=1},
       sounds = rp_sounds.node_sound_wood_defaults(),
 })
 
@@ -392,28 +464,43 @@ minetest.register_craft(
 -- Achievements
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 7
    "jeweler",
    {
       title = S("Jeweler"),
       description = S("Jewel a tool."),
       times = 1,
       item_icon = "rp_jewels:shovel_steel_uses",
+      difficulty = 7,
 })
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 8
+   "true_mighty_weapon",
+   {
+      title = S("True Mighty Weapon"),
+      description = S("Use jewels to create a serrated jewel broadsword."),
+      times = 1,
+      item_icon = "rp_jewels:serrated_broadsword",
+      difficulty = 8,
+})
+
+achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 9
    "secret_of_jewels",
    {
       title = S("Secret of Jewels"),
       description = S("Discover the origin of jewels."),
       times = 1,
       dignode = "rp_jewels:jewel_ore",
+      difficulty = 9,
 })
 
--- Update node after the rename orgy after 1.5.3
+-- Force node to update infotext/formspec
 minetest.register_lbm(
    {
       label = "Update jeweler's workbench",
-      name = "rp_jewels:update_bench",
+      name = "rp_jewels:update_bench_3_0_1",
       nodenames = {"rp_jewels:bench"},
       action = function(pos, node)
          local def = minetest.registered_nodes[node.name]

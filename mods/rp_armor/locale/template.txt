@@ -17,6 +17,7 @@ Bronze Boots=
 Helmet=
 Chestplate=
 Boots=
+Armor=
 Chainmail Sheet=
 Armored=
 Craft a piece of armor.=

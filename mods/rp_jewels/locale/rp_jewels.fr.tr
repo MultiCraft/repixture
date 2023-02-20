@@ -2,17 +2,19 @@
 1. Place tool here=1. Placez l'outil ici
 2. Hold a jewel and punch the bench=2. Tenir un bijou et poinçonner le banc
 Jeweled @1=Plaqué @1
-Range: @1=Niveau: @1
-Drop level: @1=Niveau de baisse: @1
-Dig time: @1 s=Temps d'extraction : @1 s
-Uses: @1=Utilise: @1
-Dig level: @1=Niveau extraction: @1
+Range bonus: @1=
+Drop level bonus: @1=
+Dig time bonus: @1 s=
+Durability bonus: @1=
+Dig level bonus: @1=
 Jewel=Plaquage
 Jeweler's Workbench=Etabli du plaqueur
 Tools can be upgraded with jewels here=
 Jewel Ore=Minerai de plaquage
 Jeweler=Plaqueur
 Jewel a tool.=Plaquer un outil.
+True Mighty Weapon=
+Use jewels to create a serrated jewel broadsword.=
 Secret of Jewels=Secret de parures
 Discover the origin of jewels.=Découvrez l'origine des bijoux.
 Swift Jewel Steel Pickaxe=
@@ -64,6 +66,11 @@ Serrated Jewel Broadsword=
 
 ##### not used anymore #####
 
+Range: @1=Niveau: @1
+Drop level: @1=Niveau de baisse: @1
+Dig time: @1 s=Temps d'extraction : @1 s
+Uses: @1=Utilise: @1
+Dig level: @1=Niveau extraction: @1
 Damage: @1=Dégats: @1
 Jeweled Pommel Broadsword=Arçon de glaive plaqué
 Jeweled Pommel&Guard Broadsword=Arçons & protection de glaive plaqués

@@ -5,6 +5,7 @@ local default_hand_def = minetest.registered_items[""]
 for h=0, 9 do
 	local newdef = table.copy(default_hand_def)
 	newdef.wield_image = "wieldhand_"..h..".png"
+	newdef.inventory_image = "wieldhand_"..h..".png"
 	minetest.register_item("rp_wieldhand:hand_"..h, newdef)
 end
 

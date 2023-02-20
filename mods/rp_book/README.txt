@@ -1,10 +1,10 @@
 Books mod
 =========
-By Kaadmy, for Pixture
-
-Mod originally designed for Pixture, may not work elsewhere
+By Kaadmy and Wuzzy, for Repixture.
+Code based off the books_plus mod.
 
 This mod adds books that can be written to, just
-    left-click while holding one, write, and save
+punch while holding one, write, and save.
 
 Source license: LGPLv2.1
+Media license: LGPLv2.1

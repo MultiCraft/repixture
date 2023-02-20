@@ -2,8 +2,34 @@ local S = minetest.get_translator("rp_default")
 
 local SIGN_MAX_TEXT_LENGTH = 500
 
-default.refresh_sign = function(meta)
-	meta:set_string("formspec", rp_formspec.get_page("rp_default:field"))
+-- Formspec pages for sign (different background textures)
+local sign_pages = {}
+local register_sign_page = function(id, node_names)
+	local page_name = "rp_default:"..id
+
+	local form = "size[8.5,5]"
+	form = form .. rp_formspec.default.bg
+	form = form .. "background[0,0;8.5,4.5;ui_formspec_bg_"..id..".png]"
+	form = form .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
+	form = form .. "set_focus[text;true]"
+	form = form .. "field[1,1.75;7,0;text;;${text}]"
+	rp_formspec.register_page(page_name, form)
+
+	for n=1, #node_names do
+		sign_pages[node_names[n]] = page_name
+	end
+end
+
+default.refresh_sign = function(meta, node)
+	local pagename = sign_pages[node.name]
+	local page
+	if pagename then
+		page = rp_formspec.get_page(pagename)
+	else
+		page = rp_formspec.get_page("rp_formspec:field")
+	end
+	meta:set_string("formspec", page)
+
 	local text = meta:get_string("text")
 	-- Show sign text in quotation marks
 	meta:set_string("infotext", S('"@1"', text))
@@ -12,7 +38,8 @@ end
 local on_construct = function(pos)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("text", "")
-	default.refresh_sign(meta)
+	local node = minetest.get_node(pos)
+	default.refresh_sign(meta, node)
 end
 local write_name = function(pos, text)
 	local meta = minetest.get_meta(pos)
@@ -57,9 +84,13 @@ local function register_sign(id, def)
 			wall_bottom = {-0.5+(1/16), -0.5, -0.5+(4/16), 0.5-(1/16), -0.5+(1/16), 0.5-(4/16)},
 			wall_side = {-0.5, -0.5+(4/16), -0.5+(1/16), -0.5+(1/16), 0.5-(4/16), 0.5-(1/16)},
 		},
-		groups = {choppy = 2,handy = 2,attached_node = 1, sign=1},
+		groups = {choppy = 2,handy = 2,attached_node = 1, sign=1, creative_decoblock = 1},
 		is_ground_content = false,
 		sounds = def.sounds,
+		floodable = true,
+		on_flood = function(pos)
+			minetest.add_item(pos, "rp_default:"..id)
+		end,
 		on_construct = on_construct,
 		on_receive_fields = on_receive_fields,
 		on_place = function(itemstack, placer, pointed_thing)
@@ -113,14 +144,20 @@ local function register_sign(id, def)
 			wall_bottom = {-0.5+(4/16), -0.5, -0.5+(1/16), 0.5-(4/16), -0.5+(1/16), 0.5-(1/16)},
 			wall_side = {-0.5, -0.5+(1/16), -0.5+(4/16), -0.5+(1/16), 0.5-(1/16), 0.5-(4/16)},
 		},
-		groups = {choppy = 2,handy = 2,attached_node = 1, sign=2, not_in_creative_inventory=1},
+		groups = {choppy = 2,handy = 2,attached_node = 1, sign=1, not_in_creative_inventory=1},
 		is_ground_content = false,
 		sounds = def.sounds,
+		floodable = true,
+		on_flood = function(pos)
+			minetest.add_item(pos, "rp_default:"..id)
+		end,
 		on_construct = on_construct,
 		on_receive_fields = on_receive_fields,
 		drop = "rp_default:"..id,
 		_rp_write_name = write_name,
 	})
+
+	register_sign_page(id, {"rp_default:"..id, "rp_default:"..id.."_r90"})
 end
 
 register_sign("sign", {

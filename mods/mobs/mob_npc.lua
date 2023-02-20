@@ -3,6 +3,9 @@
 -- Modded by KaadmY
 local S = minetest.get_translator("mobs")
 
+-- How many different trades an NPC offers
+local NPC_TRADES_COUNT = 4
+
 local get_item_fuel_burntime = function(itemstring)
 	local input = {
 		method = "fuel",
@@ -81,6 +84,7 @@ for _, npc_type_table in pairs(npc_types) do
       "mobs:npc_" .. npc_type,
       {
 	 type = "npc",
+	 mob_name = S("Villager"),
 	 passive = false,
 	 collides_with_objects = false,
 	 damage = 3,
@@ -139,10 +143,7 @@ for _, npc_type_table in pairs(npc_types) do
             -- Slowly heal NPC over time
             self.healing_counter = self.healing_counter + 1
             if self.healing_counter >= 7 then
-               local hp = self.object:get_hp()
-               hp = math.min(20, hp + 1)
-               self.object:set_hp(hp)
-               local hp = self.object:get_hp()
+               mobs:heal(self, 1)
                self.healing_counter = 0
             end
          end,
@@ -160,6 +161,8 @@ for _, npc_type_table in pairs(npc_types) do
               return
             end
 
+	    local npc_type = self.npc_type
+
             local iname = item:get_name()
             if npc_type ~= "blacksmith" and (minetest.get_item_group(iname, "sword") > 0 or minetest.get_item_group(iname, "spear") > 0) then
                say(S("Get this thing out of my face!"), name)
@@ -176,12 +179,26 @@ for _, npc_type_table in pairs(npc_types) do
                   return
                end
 
-               if not self.npc_trade then
-                  self.npc_trade = util.choice_element(
-                     gold.trades[self.npc_type], gold.pr)
+               if not self.npc_trades or not self.npc_trade or not self.npc_trade_index then
+                  self.npc_trades = {}
+		  local possible_trades = table.copy(gold.trades[npc_type])
+		  for t=1, NPC_TRADES_COUNT do
+                     if #possible_trades == 0 then
+                        break
+                     end
+                     local index = util.choice(possible_trades, gold.pr)
+                     local trade = possible_trades[index]
+                     table.insert(self.npc_trades, trade)
+                     table.remove(possible_trades, index)
+		  end
+                  self.npc_trade_index = 1
+		  if not self.npc_trade then
+                     self.npc_trade = self.npc_trades[self.npc_trade_index]
+                  end
+		  minetest.log("action", "[mobs] NPC trades of NPC at "..minetest.pos_to_string(self.object:get_pos(), 1).." initialized")
                end
 
-               if not gold.trade(self.npc_trade, self.npc_type, clicker) then
+               if not gold.trade(self.npc_trade, npc_type, clicker, self, self.npc_trade_index, self.npc_trades) then
                    -- Good mood: Give hint or funny text
                    if hp >= self.hp_max-7 then
 
@@ -295,9 +312,13 @@ for _, npc_type_table in pairs(npc_types) do
                       elseif iname == "rp_farming:cotton_1" then
                           if npc_type == "farmer" then
                               say(S("Did you know cotton seed not only grow on dirt, but also on sand? But it still needs water."), name)
+                          elseif npc_type == "carpenter" then
+                              say(S("If you have grown a cotton plant, try using scissors to perform a precise cut."), name)
                           else
                               say(S("Every kid knows seeds need soil, water and sunlight."), name)
                           end
+                      elseif iname == "rp_farming:cotton" then
+                          say(S("This can be used to make cotton bales.", name))
                       elseif iname == "rp_default:book" then
                           say(S("A truly epic story!"), name)
                       elseif iname == "rp_default:pearl" then
@@ -319,13 +340,17 @@ for _, npc_type_table in pairs(npc_types) do
                           say(S("Use this to trim plants and get wool from sheep."), name)
                       elseif iname == "rp_default:papyrus" then
                           if npc_type == "farmer" then
+                              say(S("Papyrus grows best on fertilized swamp dirt."), name)
+                          elseif npc_type == "carpenter" then
                               say(S("Papyrus likes to grow next to water."), name)
+                          elseif npc_type == "tavernkeeper" then
+                              say(S("The papyrus grows tall in the swamp. But it can grow even taller."), name)
                           else
                               say(S("When I was I kid, I always liked to climb on the papyrus."), name)
                           end
                       elseif iname == "rp_default:cactus" then
                           if npc_type == "farmer" then
-                              say(S("Cacti like to grow on sand. They are also a food source, if you're really desperate."), name)
+                              say(S("Cacti grow best on sand. They are also a food source, if you're really desperate."), name)
                           elseif npc_type == "tavernkeeper" then
                               say(S("This is the secret ingredient for my special drink. But don't tell anyone!"), name)
                           else
@@ -349,9 +374,9 @@ for _, npc_type_table in pairs(npc_types) do
                           say(S("A flower? I love flowers! Let's make the world bloom!"), name)
                       elseif iname == "rp_default:flint_and_steel" then
                           if minetest.settings:get_bool("tnt_enable", true) then
-                             say(S("You can use this to light up torches and ignite TNT."), name)
+                             say(S("You can use this to light up torches and bonfires and ignite TNT."), name)
                           else
-                             say(S("You can use this to light up torches."), name)
+                             say(S("You can use this to light up torches and bonfires."), name)
                           end
                       elseif iname == "rp_tnt:tnt" then
                           if minetest.settings:get_bool("tnt_enable", true) then
@@ -359,6 +384,8 @@ for _, npc_type_table in pairs(npc_types) do
                           else
                              say(S("For some reason, TNT can't be ignited. Strange."), name)
                           end
+                      elseif iname == "rp_fire:bonfire" then
+                          say(S("You need flint and steel to light the fire. But don't walk into the flame!"), name)
                       elseif iname == "rp_bed:bed_foot" then
                           if npc_type == "carpenter" then
                              say(S("Isn't it stressful to carry this heavy bed around?"), name)
@@ -369,13 +396,45 @@ for _, npc_type_table in pairs(npc_types) do
                           -- Classic parody of Friedrich Schiller’s “Das Lied von der Glocke” (works best in German)
                           say(S("Hole in dirt, put bronze in. Bell’s complete, bim, bim, bim!"), name)
                       elseif iname == "rp_default:apple" then
+                          say(S("Apples are so tasty!"), name)
+                      elseif iname == "rp_default:acorn" then
                           if npc_type == "farmer" then
-                             say(S("Boars love to eat apples, too! If you feed enough of these to them, they will multiply."), name)
+                             say(S("Boars love to eat acorns! If you feed enough of these to them, they will multiply."), name)
                           else
                              say(S("Apples are so tasty!"), name)
                           end
                       elseif iname == "rp_default:reed_block" then
-                          say(S("Did you try to dry it in the furnace."), name)
+                          say(S("Did you try to dry it in the furnace?"), name)
+                      elseif minetest.get_item_group(iname, "airweed") > 0 then
+                          if npc_type == "carpenter" then
+                             say(S("Airweed is an underwater plant with little capsules filled with air. Use it underwater to release air bubbles and catch some breath."), name)
+                          elseif npc_type == "butcher" then
+                             say(S("If you use the airweed plant, you will catch some breath. Other people near the plant will also benefit."), name)
+                          elseif npc_type == "tavernkeeper" then
+                             say(S("Airweed is very useful, but it can't give you breath from your hand. You must place it on the ground first."), name)
+                          elseif npc_type == "farmer" then
+                             say(S("You can multiply airweed with fertilizer."), name)
+                          else
+                             say(S("Airweed needs a moment to refill after you used it. The time it needs depends on the surface."), name)
+                          end
+                      elseif iname == "rp_default:alga" then
+                          if npc_type == "farmer" then
+                             say(S("If you fertilize the ground, an alga will grow higher."), name)
+                          elseif npc_type == "tavernkeeper" then
+                             say(S("The tallest algae always grow on alga blocks.", name))
+                          elseif npc_type == "carpenter" then
+                             say(S("If an alga tries to grow but something blocks its path, it'll stop growing, even if the barrier is removed later.", name))
+                          else
+                             say(S("Algae grow underwater in different heights."), name)
+			  end
+                      elseif iname == "rp_default:vine" then
+                          if npc_type == "farmer" then
+                             say(S("Place it at the ceiling and watch it grow."), name)
+                          elseif npc_type == "carpenter" then
+                             say(S("If you want the vine to stops growing, make a precise cut using scissors."), name)
+                          else
+                             say(S("It's climbing time!"), name)
+                          end
                       elseif iname == "rp_default:dirt" then
                           if npc_type == "farmer" then
                              say(S("Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized."), name)
@@ -390,7 +449,7 @@ for _, npc_type_table in pairs(npc_types) do
                           end
                       elseif iname == "rp_default:dry_dirt" then
                           if npc_type == "farmer" then
-                             say(S("Nothing grows on dry dirt. Well, almost nothing."), name)
+                             say(S("Not much grows on dry dirt."), name)
                           else
                              say(S("This dirt is as dry as my jokes."), name)
                           end

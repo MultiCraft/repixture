@@ -1,6 +1,8 @@
 Repixure mod: rp_sounds
 =======================
-Node sound functions for Repixture
+Node sound functions for Repixture.
+
+Developers: See `API.md` for instructions.
 
 Sound licenses:
   * Water sounds:

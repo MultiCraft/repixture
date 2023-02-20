@@ -1,7 +1,6 @@
 
 --
 -- Locks mod
--- By Kaadmy, for Pixture
 --
 
 local S = minetest.get_translator("rp_locks")
@@ -16,6 +15,8 @@ local INFOTEXT_PUBLIC_NAMED = N("Locked Chest “@1”")
 local INFOTEXT_OWNED_NAMED = N("Locked Chest “@1” (Owned by @2)")
 local INFOTEXT_PUBLIC_CRACKED_NAMED = N("Locked Chest “@1” (cracked open)")
 local INFOTEXT_OWNED_CRACKED_NAMED = N("Locked Chest “@1” (cracked open) (Owned by @2)")
+
+local GRAVITY = minetest.settings:get("movement_gravity") or 9.81
 
 locks = {}
 
@@ -100,6 +101,8 @@ minetest.register_tool(
       description = S("Lock Pick"),
       _tt_help = S("Cracks locked chests"),
 
+      groups = { tool = 1 },
+
       inventory_image = "locks_pick.png",
       wield_image = "locks_pick.png",
 
@@ -164,13 +167,54 @@ minetest.register_tool(
             end
             achievements.trigger_achievement(player, "burglar")
             minetest.sound_play({name="locks_unlock",gain=0.8},{pos=pos, max_hear_distance=16}, true)
+
+            -- Spawn particles at lock to indicate lock break
+            local dir = minetest.facedir_to_dir(node.param2)
+            local w = 1/16
+            local k = 11/16
+            local l = 7/16
+            local vup, vdn, vs, v0 = 0.1, -0.2, 0.5, 0
+            local minoff, maxoff, minvel, maxvel
+            if dir.x > 0 then
+               minoff = vector.new(-k, -w, -w)
+               maxoff = vector.new(-l, w, w)
+               minvel = vector.new(-vs, vdn, -vs)
+               maxvel = vector.new(v0, vup, vs)
+            elseif dir.x < 0 then
+               minoff = vector.new(l, -w, -w)
+               maxoff = vector.new(k, w, w)
+               minvel = vector.new(v0, vdn, -vs)
+               maxvel = vector.new(vs, vup, vs)
+            elseif dir.z > 0 then
+               minoff = vector.new(-w, -w, -k)
+               maxoff = vector.new(w, w, -l)
+               minvel = vector.new(-vs, vdn, v0)
+               maxvel = vector.new(vs, vup, vs)
+            elseif dir.z < 0 then
+               minoff = vector.new(-w, -w, l)
+               maxoff = vector.new(w, w, k)
+               minvel = vector.new(-vs, vdn, -vs)
+               maxvel = vector.new(vs, vup, v0)
+            end
+            if minoff then
+               minetest.add_particlespawner({
+                  amount = 12,
+                  time = 0.001,
+                  pos = { min = vector.add(pos, minoff), max = vector.add(pos, maxoff) },
+                  vel = { min = minvel, max = maxvel },
+                  acc = { min = vector.new(0, 0, 0), max = vector.new(0, -GRAVITY, 0) },
+                  size = 1.2,
+                  exptime = { min = 0.60, max = 0.65 },
+                  texture = "rp_locks_particle_lock.png",
+               })
+            end
          else
             -- Failure!
             minetest.sound_play({name="locks_pick",gain=0.5},{pos=pos, max_hear_distance=16}, true)
          end
 
          if not minetest.is_creative_enabled(player:get_player_name()) then
-             itemstack:add_wear(8200) -- about 8 uses
+             itemstack:add_wear_by_uses(8)
          end
          return itemstack
       end,
@@ -196,6 +240,7 @@ local put_lock = function(itemstack, putter, pointed_thing)
         end
         node.name = "rp_locks:chest"
         minetest.swap_node(pos, node)
+        minetest.sound_play({name="locks_lock",gain=0.5},{pos=pos, max_hear_distance=16}, true)
         local meta = minetest.get_meta(pos)
         if name ~= "" then
            meta:set_string("lock_owner", name)
@@ -232,6 +277,7 @@ minetest.register_craftitem(
    {
       description = S("Lock"),
       _tt_help = S("Used to craft locked chests"),
+      groups = { tool = 1 },
 
       inventory_image = "locks_lock.png",
       wield_image = "locks_lock.png",
@@ -255,7 +301,7 @@ minetest.register_node(
          "locks_chest_front.png"
       },
       paramtype2 = "facedir",
-      groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, locked = 1},
+      groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, locked = 1, container = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
       on_construct = function(pos)
@@ -278,7 +324,7 @@ minetest.register_node(
 
          if not locks.is_locked(meta, player) then
             local np = pos.x .. "," .. pos.y .. "," .. pos.z
-            local form = rp_formspec.get_page("rp_default:2part")
+            local form = rp_formspec.get_page("rp_formspec:2part")
             form = form .. "list[nodemeta:" .. np .. ";main;0.25,0.25;8,4;]"
             form = form .. "listring[nodemeta:" .. np .. ";main]"
             form = form .. rp_formspec.get_itemslot_bg(0.25, 0.25, 8, 4)
@@ -394,6 +440,7 @@ achievements.register_achievement(
       description = S("Craft a lock."),
       times = 1,
       craftitem = "rp_locks:lock",
+      difficulty = 5.7,
 })
 
 achievements.register_achievement(
@@ -403,6 +450,7 @@ achievements.register_achievement(
       description = S("Break into a locked chest."),
       times = 1,
       item_icon = "rp_locks:pick",
+      difficulty = 5.8,
 })
 
 -- Update node infotext

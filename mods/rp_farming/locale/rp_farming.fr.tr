@@ -1,22 +1,44 @@
 # textdomain: rp_farming
+Farmer=
+Plant a crop.=
+Cotton=Coton
+Wheat=Blé
+Flour=Farine
+Bread=Pain
+Asparagus=
+Cooked Asparagus=
+Baked Potato=
+Wheat Seed=Graine de blé
+Wheat Plant (stage @1)=
+Grows on dirt; it likes water=
+Potato=
+Potato Plant (stage @1)=
+Grows on dirt and swamp dirt; it likes water=
+Carrot=
+Carrot Plant (stage @1)=
+Grows on dry dirt; it likes water=
+Asparagus Seed=
+Asparagus Plant (stage @1)=
+Grows on swamp dirt; it likes water=
+Cotton Seed=Graines de coton
+Cotton Plant (stage @1)=
+Grows on dirt, dry dirt and sand; it likes water=
+Cotton Bale=Ballot de coton
+Straw=
+
+
+##### not used anymore #####
+
+# textdomain: rp_farming
 Wannabe Farmer=Apprenti fermier
 Plant a seed.=Plantez une graine.
 Wheat Farmer=Fermier de blé
 Harvest a fully-grown wheat plant.=Récoltez un plant de blé adulte.
 Cotton Farmer=Producteurs de coton
 Harvest a fully-grown cotton plant.=Récoltez un cotonnier adulte.
-Cotton=Coton
-Wheat=Blé
-Flour=Farine
-Bread=Pain
-Wheat Seed=Graine de blé
-Grows on dirt and swamp dirt; it likes water=
 Wheat Plant (stage 1)=Plant de blé (étape 1)
 Wheat Plant (stage 2)=Plant de blé (étape 2)
 Wheat Plant (stage 3)=Plant de blé (étape 3)
-Cotton Seed=Graines de coton
-Grows on dirt, swamp dirt, dry dirt and sand; it likes water=
 Cotton Plant (stage 1)=Plante de coton (étape 1)
 Cotton Plant (stage 2)=Plante de coton (étape 2)
 Cotton Plant (stage 3)=Plante de coton (étape 3)
-Cotton Bale=Ballot de coton

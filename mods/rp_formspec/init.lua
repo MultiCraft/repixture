@@ -9,14 +9,14 @@ end
 
 -- Registered UI pages
 
-rp_formspec.registered_pages = {
-}
+rp_formspec.registered_pages = {}
+rp_formspec.registered_invpages = {}
 
 -- UI defaults
 
 rp_formspec.default = {}
 
-rp_formspec.current_page = {}
+local current_invpage = {}
 
 -- Colors
 
@@ -195,6 +195,7 @@ end
 function rp_formspec.fake_itemstack(x, y, itemstack)
    local itemname = itemstack:get_name()
    local itemamt = itemstack:get_count()
+   local itemwear = itemstack:get_wear()
 
    local itemdesc = ""
    if minetest.registered_items[itemname]
@@ -202,36 +203,14 @@ function rp_formspec.fake_itemstack(x, y, itemstack)
       itemdesc = minetest.registered_items[itemname].description
    end
 
-   if itemamt <= 1 then itemamt = "" end
+   local itemstring = itemname .. " " .. itemamt .. " " .. itemwear
 
    local result = ""
    if itemname ~= "" then
       result = result .. "item_image["..x..","..y..";1,1;"
-         ..minetest.formspec_escape(itemname .. " " .. itemamt).."]"
+         ..minetest.formspec_escape(itemstring).."]"
 
       result = result .. "tooltip["..x..","..y..";0.8,0.8;"..minetest.formspec_escape(itemdesc).."]"
-   end
-
-   return result
-end
-
-function rp_formspec.fake_simple_itemstack(x, y, itemname, name)
-   local name = name or "fake_simple_itemstack"
-
-   local itemdesc = ""
-   if minetest.registered_items[itemname]
-   and minetest.registered_items[itemname].description ~= nil then
-      itemdesc = minetest.registered_items[itemname].description
-   end
-
-   local result = ""
-   if itemname ~= "" then
-      result = result .. "image_button["..x..","..y..";1,1;blank.png;"
-         ..name..";;false;false;blank.png]"
-      result = result .. "item_image["..x..","..y..";1,1;"
-         ..minetest.formspec_escape(itemname).."]"
-      result = result .. "tooltip["..name..";"
-         ..minetest.formspec_escape(itemdesc).."]"
    end
 
    return result
@@ -285,14 +264,67 @@ function rp_formspec.fake_itemstack_any(x, y, itemstack, name)
    end
 end
 
+-- Inventory tabs (invtabs)
+
+rp_formspec.registered_invtabs = {}
+local registered_invtabs_order = {}
+
+local invtabs_cached
+local invtabs_cached_needs_update = true
+
+-- Register an inventory tab
+function rp_formspec.register_invtab(name, def)
+   local rdef = table.copy(def)
+   rp_formspec.registered_invtabs[name] = def
+   table.insert(registered_invtabs_order, name)
+   invtabs_cached_needs_update = true
+end
+
+-- Returns a formspec string for all the inventory tabs
+local function get_invtabs()
+   if not invtabs_cached_needs_update then
+      return invtabs_cached
+   end
+   local form = ""
+   local tabx = -0.9
+   local taby = 0.5
+   local tabplus = 0.78
+   for o=1, #registered_invtabs_order do
+      local tabname = registered_invtabs_order[o]
+      local def = rp_formspec.registered_invtabs[tabname]
+      if def then
+         form = form .. rp_formspec.tab(tabx, taby, "_rp_formspec_tab_"..tabname, def.icon, def.tooltip)
+         taby = taby + tabplus
+      end
+   end
+   invtabs_cached = form
+   return form
+end
+
+function rp_formspec.set_invtab_order(order)
+  registered_invtabs_order = table.copy(order)
+  local already_ordered = {}
+  for o=1, #order do
+    already_ordered[order[o]] = true
+  end
+  for k,v in pairs(rp_formspec.registered_invtabs) do
+    if not already_ordered[k] then
+       table.insert(registered_invtabs_order, k)
+    end
+  end
+end
+
 -- Pages
 
-function rp_formspec.get_page(name)
-   local page= rp_formspec.registered_pages[name]
+function rp_formspec.get_page(name, with_invtabs)
+   local page = rp_formspec.registered_pages[name]
 
    if page == nil then
-      minetest.log("info", "[rp_formspec] UI page '" .. name .. "' is not yet registered")
-      page = ""
+      minetest.log("warning", "[rp_formspec] UI page '" .. name .. "' is not yet registered")
+      return ""
+   end
+   if with_invtabs then
+      page = page .. get_invtabs()
    end
 
    return page
@@ -304,33 +336,18 @@ end
 
 -- Default formspec boilerplates
 
-local form_default_default = ""
-form_default_default = form_default_default .. "size[8.5,9]"
-form_default_default = form_default_default .. rp_formspec.default.bg
-form_default_default = form_default_default .. rp_formspec.tab(-0.9, 0.5, "tab_crafting", "ui_icon_crafting.png", S("Crafting"))
-if minetest.get_modpath("rp_armor") ~= nil then
-   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 1.28, "tab_armor", "ui_icon_armor.png", S("Armor"))
-end
-if minetest.get_modpath("rp_achievements") ~= nil then
-   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 2.06, "tab_achievements", "ui_icon_achievements.png", S("Achievements"))
-end
-if minetest.get_modpath("rp_player_skins") ~= nil then
-   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 2.84, "tab_player_skins", "ui_icon_player_skins.png", S("Player Skins"))
-end
-if minetest.get_modpath("rp_creative") ~= nil and minetest.is_creative_enabled("") then
-   form_default_default = form_default_default .. rp_formspec.tab(-0.9, 3.64, "tab_creative", "ui_icon_creative.png", S("Creative Inventory"))
-end
-form_default_default = form_default_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
-rp_formspec.register_page("rp_default:default", form_default_default)
-rp_formspec.register_page("rp_default:2part", form_default_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
+local form_default = ""
+form_default = form_default .. "size[8.5,9]"
+form_default = form_default .. rp_formspec.default.bg
+form_default = form_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
+local form_2part = form_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
 
-local form_default_notabs = ""
-form_default_notabs = form_default_notabs .. "size[8.5,9]"
-form_default_notabs = form_default_notabs .. rp_formspec.default.bg
-form_default_notabs = form_default_notabs .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
-rp_formspec.register_page("rp_default:notabs", form_default_notabs)
-rp_formspec.register_page("rp_default:notabs_2part", form_default_notabs .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]")
+-- 1-part frame
+rp_formspec.register_page("rp_formspec:default", form_default)
+-- 2-part frame
+rp_formspec.register_page("rp_formspec:2part", form_2part)
 
+-- Simple text input field
 local form_default_field = ""
 form_default_field = form_default_field .. "size[8.5,5]"
 form_default_field = form_default_field .. rp_formspec.default.bg
@@ -338,34 +355,69 @@ form_default_field = form_default_field .. "background[0,0;8.5,4.5;ui_formspec_b
 form_default_field = form_default_field .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 form_default_field = form_default_field .. "set_focus[text;true]"
 form_default_field = form_default_field .. "field[1,1.75;7,0;text;;${text}]"
-rp_formspec.register_page("rp_default:field", form_default_field)
+rp_formspec.register_page("rp_formspec:field", form_default_field)
+
+-- A page (and invpage) with only the player inventory, used as fallback
+local form_inventory = ""
+form_inventory = form_inventory .. rp_formspec.get_page("rp_formspec:default")
+form_inventory = form_inventory .. "list[current_player;main;0.25,4.75;8,4;]"
+form_inventory = form_inventory .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
+form_inventory = form_inventory .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+rp_formspec.register_page("rp_formspec:inventory", form_inventory)
 
 function rp_formspec.receive_fields(player, form_name, fields)
-   local name = player:get_player_name()
+   local pname = player:get_player_name()
 
-   local formname, form
-   if fields.tab_crafting then
-      formname = "rp_crafting:crafting"
-      form = crafting.get_formspec(name)
-   elseif minetest.get_modpath("rp_armor") ~= nil and fields.tab_armor then
-      formname = "rp_armor:armor"
-      form = armor.get_formspec(name)
-   elseif minetest.get_modpath("rp_achievements") ~= nil and fields.tab_achievements then
-      formname = "rp_achievements:achievements"
-      form = achievements.get_formspec(name)
-   elseif minetest.get_modpath("rp_player_skins") ~= nil and fields.tab_player_skins then
-      formname = "player_skins:player_skins"
-      form = player_skins.get_formspec(name)
-   elseif minetest.get_modpath("rp_creative") ~= nil and minetest.is_creative_enabled(name) and fields.tab_creative then
-      formname = "rp_creative:creative"
-      form = creative.get_formspec(name)
+   local invpagename, form
+   for k,def in pairs(rp_formspec.registered_invpages) do
+      if fields["_rp_formspec_tab_"..k] then
+         invpagename = k
+         if def.get_formspec then
+            form = def.get_formspec(pname)
+         else
+            form = rp_formspec.registered_pages[k]
+         end
+      end
    end
-   if formname and form then
-      player:set_inventory_formspec(form)
-      minetest.show_formspec(name, formname, form)
-      rp_formspec.current_page[name] = formname
+   if invpagename and form then
+      rp_formspec.set_current_invpage(player, invpagename)
    end
 end
+
+function rp_formspec.register_invpage(name, def)
+   rp_formspec.registered_invpages[name] = def
+end
+
+function rp_formspec.set_current_invpage(player, page)
+    local def = rp_formspec.registered_invpages[page]
+    local pname = player:get_player_name()
+    local formspec
+    if def.get_formspec then
+       formspec = def.get_formspec(pname)
+    else
+       formspec = rp_formspec.registered_pages[page]
+    end
+    player:set_inventory_formspec(formspec)
+    current_invpage[pname] = page
+end
+
+function rp_formspec.refresh_invpage(player, invpage)
+    local current = rp_formspec.get_current_invpage(player)
+    if invpage == current then
+        rp_formspec.set_current_invpage(player, invpage)
+    end
+end
+
+function rp_formspec.get_current_invpage(player)
+    local pname = player:get_player_name()
+    return current_invpage[pname]
+end
+
+rp_formspec.register_invpage("rp_formspec:inventory", {
+	get_formspec = function(pname)
+		return rp_formspec.get_page("rp_formspec:inventory", true)
+	end,
+})
 
 minetest.register_on_player_receive_fields(
    function(player, form_name, fields)
@@ -374,18 +426,36 @@ end)
 
 minetest.register_on_joinplayer(
    function(player)
+      -- Initialize player formspec and set initial invpage
       player:set_formspec_prepend(formspec_prepend)
-      local name = player:get_player_name()
-      if minetest.is_creative_enabled(name) then
-          player:set_inventory_formspec(creative.get_formspec(name))
-          rp_formspec.current_page[name] = "rp_creative:creative"
-      else
-          player:set_inventory_formspec(crafting.get_formspec(name))
-          rp_formspec.current_page[name] = "rp_crafting:crafting"
+      local pname = player:get_player_name()
+      local first_page
+      for invpagename,def in pairs(rp_formspec.registered_invpages) do
+          if not first_page and invpagename ~= "rp_formspec:inventory" then
+             first_page = invpagename
+          end
+          -- _is_startpage returns true if this page
+          -- is a startpage, false otherwise.
+          -- As this function only makes sense within the context of a game,
+          -- it is undocumented in API.md.
+          if def._is_startpage and def._is_startpage(pname) then
+             rp_formspec.set_current_invpage(player, invpagename)
+             break
+          end
+      end
+      -- Fallback invpage
+      if not rp_formspec.get_current_invpage(player) then
+         if first_page then
+            -- First invpage of the pairs() above (kinda unpredicable tho)
+            rp_formspec.set_current_invpage(player, first_page)
+	 else
+            -- Empty inventory fallback page if no invpages registered
+            rp_formspec.set_current_invpage(player, "rp_formspec:inventory")
+         end
       end
 end)
 
 minetest.register_on_leaveplayer(
    function(player)
-      rp_formspec.current_page[player:get_player_name()] = nil
+      current_invpage[player:get_player_name()] = nil
 end)

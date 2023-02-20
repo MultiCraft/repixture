@@ -2,17 +2,19 @@
 1. Place tool here=1.: Werkzeug hier ablegen
 2. Hold a jewel and punch the bench=2.: Juwel halten und auf Bank hauen
 Jeweled @1=@1 (Juwel)
-Range: @1=Reichweite: @1
-Drop level: @1=Abwurfstufe: @1
-Dig time: @1 s=Grabezeit: @1 s
-Uses: @1=Verwendungen: @1
-Dig level: @1=Grabestufe: @1
+Range bonus: @1=Reichweitenbonus: @1
+Drop level bonus: @1=Abwurfstufenbonus: @1
+Dig time bonus: @1 s=Grabezeitbonus: @1 s
+Durability bonus: @1=Haltbarkeitsbonus: @1
+Dig level bonus: @1=Grabestufenbonus: @1
 Jewel=Juwel
 Jeweler's Workbench=Juwelierswerkbank
 Tools can be upgraded with jewels here=Werkzeuge können hier mit Juwelen aufgewertet werden
 Jewel Ore=Juwelenerz
 Jeweler=Juwelier
 Jewel a tool.=Besetzen Sie ein Werkzeug mit einem Juwel.
+True Mighty Weapon=Wahrhaft mächtige Waffe
+Use jewels to create a serrated jewel broadsword.=Benutzen Sie Juwelen, um ein gezacktes Juwelenbreitschwert zu erschaffen.
 Secret of Jewels=Juwelengeheimnis
 Discover the origin of jewels.=Entdecken Sie den Ursprung der Juwelen.
 Swift Jewel Steel Pickaxe=Schnelle Juwelenstahlspitzhacke
@@ -60,8 +62,3 @@ Durable Jewel Bronze Shears=Haltbare Juwelenbronzeschere
 Pommel Jewel Broadsword=Prügeljuwelenbreitschwert
 Pommel&Guard Jewel Broadsword=Prügel- und Wächterjuwelenbreitschwert
 Serrated Jewel Broadsword=Gezacktes Juwelenbreitschwert
-
-
-##### not used anymore #####
-
-Damage: @1=Schaden: @1

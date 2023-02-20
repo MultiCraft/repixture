@@ -1,6 +1,6 @@
 Vignette mod
 ============
-By KaadmY, for Pixture
+By Kaadmy and Wuzzy, for Repixture.
 
 Adds a subtle vignette overlay to a player's screen
 

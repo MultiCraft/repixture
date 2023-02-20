@@ -1,11 +1,20 @@
 --
 -- Door mod
--- By Kaadmy, for Pixture
 --
 
 local S = minetest.get_translator("rp_door")
 
 door = {}
+
+-- Mark the door segment at pos as having a right hinge.
+-- This function assumes that there is a door segment at pos.
+local function set_segment_hinge_right(pos)
+   local meta = minetest.get_meta(pos)
+   -- the meta key "right" stores the door hinge:
+   -- * 0: hinge is left
+   -- * 1: hinge is right
+   meta:set_int("right", 1)
+end
 
 -- Registers a door
 
@@ -31,14 +40,25 @@ function door.register_door(name, def)
    if not def.sound_open_door then
       def.sound_open_door = "door_open"
    end
+   if not def.sound_blocked then
+      def.sound_blocked = "door_blocked"
+   end
 
+   if not def.groups then
+      def.groups = {}
+   end
+   local groups_craftitem = table.copy(def.groups)
+   groups_craftitem.node = 1
+   groups_craftitem.creative_decoblock = 1
+   groups_craftitem.interactive_node = 1
 
+   -- Door item (for the players)
    minetest.register_craftitem(
       name, {
 	 description = def.description,
 	 inventory_image = def.inventory_image,
 
-	 groups = def.groups,
+	 groups = groups_craftitem,
 
 	 on_place = function(itemstack, placer, pointed_thing)
             -- Handle pointed node handlers first
@@ -61,15 +81,22 @@ function door.register_door(name, def)
             local pt = pointed_thing.above
             local pt2 = {x=pt.x, y=pt.y, z=pt.z}
             pt2.y = pt2.y+1
+	    local ptdef = minetest.registered_nodes[minetest.get_node(pt).name]
+	    local pt2def = minetest.registered_nodes[minetest.get_node(pt2).name]
             if
-               not minetest.registered_nodes[minetest.get_node(pt).name].buildable_to or
-               not minetest.registered_nodes[minetest.get_node(pt2).name].buildable_to or
+               not ptdef or
+               not pt2def or
+               not ptdef.buildable_to or
+               not pt2def.buildable_to or
                not placer or
                not placer:is_player()
             then
                return itemstack
             end
 
+            -- Check if there's already a door left from this door.
+            -- If yes, the door hinge will be right, otherwise it will be left.
+            -- This allows to build double doors.
             local p2 = minetest.dir_to_facedir(placer:get_look_dir())
             local pt3 = {x=pt.x, y=pt.y, z=pt.z}
             if p2 == 0 then
@@ -87,8 +114,8 @@ function door.register_door(name, def)
             else
                minetest.set_node(pt, {name=name.."_b_2", param2=p2})
                minetest.set_node(pt2, {name=name.."_t_2", param2=p2})
-               minetest.get_meta(pt):set_int("right", 1)
-               minetest.get_meta(pt2):set_int("right", 1)
+               set_segment_hinge_right(pt)
+               set_segment_hinge_right(pt2)
             end
             if def.sounds and def.sounds.place then
                minetest.sound_play(def.sounds.place, {pos=pt}, true)
@@ -106,42 +133,46 @@ function door.register_door(name, def)
    local tb = def.tiles_bottom
 
    local function on_rightclick(pos, dir, check_name, replace, replace_dir, params)
-      pos.y = pos.y+dir
-      if not minetest.get_node(pos).name == check_name then
-	 return
+      local other_pos = table.copy(pos)
+      other_pos.y = pos.y+dir
+      -- Check for the other door segment.
+      -- If it's is missing, it doesn't budge.
+      if minetest.get_node(other_pos).name ~= check_name then
+         minetest.sound_play(
+            def.sound_blocked,
+            {
+               pos = pos,
+               gain = 0.8,
+               max_hear_distance = 10
+            }, true)
+         return
       end
       local p2 = minetest.get_node(pos).param2
       p2 = params[p2+1]
 
-      minetest.swap_node(pos, {name=replace_dir, param2=p2})
+      minetest.swap_node(other_pos, {name=replace_dir, param2=p2})
 
-      pos.y = pos.y-dir
       minetest.swap_node(pos, {name=replace, param2=p2})
 
       local snd_1 = def.sound_close_door
       local snd_2 = def.sound_open_door
       if params[1] == 3 then
-	 snd_1 = def.sound_open_door
-	 snd_2 = def.sound_close_door
+	 snd_1, snd_2 = snd_2, snd_1
       end
 
+      local snd
       if minetest.get_meta(pos):get_int("right") ~= 0 then
-	 minetest.sound_play(
-            snd_1,
-            {
-               pos = pos,
-               gain = 0.8,
-               max_hear_distance = 10
-         }, true)
+         snd = snd_1
       else
-	 minetest.sound_play(
-            snd_2,
-            {
-               pos = pos,
-               gain = 0.8,
-               max_hear_distance = 10
-         }, true)
+         snd = snd_2
       end
+      minetest.sound_play(
+         snd,
+         {
+            pos = pos,
+            gain = 0.8,
+            max_hear_distance = 10
+         }, true)
    end
 
    local function check_player_priv(pos, player)
@@ -152,12 +183,34 @@ function door.register_door(name, def)
       local pn = player:get_player_name()
    end
 
+   --[[ Register door segments
+   (internal use, should not be obtainable by player) ]]
+
    local groups_node = table.copy(def.groups)
    groups_node.not_in_creative_inventory = 1
 
+   local groups_node_b_1 = table.copy(groups_node)
+   -- door position: 1 = bottom, 2 = top
+   groups_node_b_1.door_position = 1
+   groups_node_b_1.door_state = 1
+
+   local groups_node_b_2 = table.copy(groups_node)
+   groups_node_b_2.door_position = 1
+   groups_node_b_2.door_state = 2
+
+   local groups_node_t_1 = table.copy(groups_node)
+   groups_node_t_1.door_position = 2
+   groups_node_t_1.door_state = 1
+
+   local groups_node_t_2 = table.copy(groups_node)
+   groups_node_t_2.door_position = 2
+   groups_node_t_2.door_state = 2
+
+   -- Door segment: bottom, state 1
    minetest.register_node(
       name.."_b_1",
       {
+         inventory_image = tb[1] .. "^rp_door_overlay_state_1.png",
 	 tiles = {tb[2], tb[2], tb[2], tb[2], tb[1], tb[1].."^[transformfx"},
          use_texture_alpha = "clip",
 	 paramtype = "light",
@@ -173,7 +226,7 @@ function door.register_door(name, def)
 	    fixed = def.selection_box_bottom
 	 },
 
-	 groups = groups_node,
+	 groups = groups_node_b_1,
 
 	 on_rightclick = function(pos, node, clicker)
             if check_player_priv(pos, clicker) then
@@ -181,6 +234,14 @@ function door.register_door(name, def)
             end
          end,
 
+         floodable = true,
+         on_flood = function(bottom, oldnode)
+            local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
+            if minetest.get_node(bottom).name ~= name.."_b_2" and minetest.get_node(top).name == name.."_t_1" then
+               minetest.remove_node(top)
+               minetest.add_item(bottom, name)
+            end
+         end,
          after_destruct = function(bottom, oldnode)
             local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
             if minetest.get_node(bottom).name ~= name.."_b_2" and minetest.get_node(top).name == name.."_t_1" then
@@ -194,9 +255,11 @@ function door.register_door(name, def)
 	 sunlight_propagates = def.sunlight
    })
 
+   -- Door segment: top, state 1
    minetest.register_node(
       name.."_t_1",
       {
+         inventory_image = tt[1] .. "^rp_door_overlay_state_1.png",
 	 tiles = {tt[2], tt[2], tt[2], tt[2], tt[1], tt[1].."^[transformfx"},
          use_texture_alpha = "clip",
 	 paramtype = "light",
@@ -211,7 +274,7 @@ function door.register_door(name, def)
 	    type = "fixed",
 	    fixed = def.selection_box_top
 	 },
-	 groups = groups_node,
+	 groups = groups_node_t_1,
 
 	 on_rightclick = function(pos, node, clicker)
             if check_player_priv(pos, clicker) then
@@ -219,6 +282,14 @@ function door.register_door(name, def)
             end
          end,
 
+         floodable = true,
+         on_flood = function(top, oldnode)
+            local bottom = { x = top.x, y = top.y - 1, z = top.z }
+            if minetest.get_node(top).name ~= name.."_t_2" and minetest.get_node(bottom).name == name.."_b_1" and oldnode.name == name.."_t_1" then
+               minetest.dig_node(bottom)
+               minetest.add_item(bottom, name)
+            end
+         end,
          after_destruct = function(top, oldnode)
             local bottom = { x = top.x, y = top.y - 1, z = top.z }
             if minetest.get_node(top).name ~= name.."_t_2" and minetest.get_node(bottom).name == name.."_b_1" and oldnode.name == name.."_t_1" then
@@ -232,9 +303,11 @@ function door.register_door(name, def)
 	 sunlight_propagates = def.sunlight,
    })
 
+   -- Door segment: bottom, state 2
    minetest.register_node(
       name.."_b_2",
       {
+         inventory_image = "("..tb[1] .. "^[transformfx)^rp_door_overlay_state_2.png",
 	 tiles = {tb[2], tb[2], tb[2], tb[2], tb[1].."^[transformfx", tb[1]},
          use_texture_alpha = "clip",
 	 paramtype = "light",
@@ -249,7 +322,7 @@ function door.register_door(name, def)
 	    type = "fixed",
 	    fixed = def.selection_box_bottom
 	 },
-	 groups = groups_node,
+	 groups = groups_node_b_2,
 
 	 on_rightclick = function(pos, node, clicker)
             if check_player_priv(pos, clicker) then
@@ -257,6 +330,14 @@ function door.register_door(name, def)
             end
          end,
 
+         floodable = true,
+         on_flood = function(bottom, oldnode)
+            local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
+            if minetest.get_node(bottom).name ~= name.."_b_1" and minetest.get_node(top).name == name.."_t_2" then
+               minetest.remove_node(top)
+	       minetest.add_item(bottom, name)
+            end
+         end,
          after_destruct = function(bottom, oldnode)
             local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
             if minetest.get_node(bottom).name ~= name.."_b_1" and minetest.get_node(top).name == name.."_t_2" then
@@ -270,9 +351,11 @@ function door.register_door(name, def)
 	 sunlight_propagates = def.sunlight
    })
 
+   -- Door segment: top, state 2
    minetest.register_node(
       name.."_t_2",
       {
+         inventory_image = "("..tt[1] .. "^[transformfx)^rp_door_overlay_state_2.png",
 	 tiles = {tt[2], tt[2], tt[2], tt[2], tt[1].."^[transformfx", tt[1]},
          use_texture_alpha = "clip",
 	 paramtype = "light",
@@ -287,7 +370,7 @@ function door.register_door(name, def)
 	    type = "fixed",
 	    fixed = def.selection_box_top
 	 },
-	 groups = groups_node,
+	 groups = groups_node_t_2,
 
 	 on_rightclick = function(pos, node, clicker)
             if check_player_priv(pos, clicker) then
@@ -295,6 +378,14 @@ function door.register_door(name, def)
             end
          end,
 
+         floodable = true,
+         on_flood = function(top, oldnode)
+            local bottom = { x = top.x, y = top.y - 1, z = top.z }
+            if minetest.get_node(top).name ~= name.."_t_1" and minetest.get_node(bottom).name == name.."_b_2" and oldnode.name == name.."_t_2" then
+               minetest.dig_node(bottom)
+	       minetest.add_item(bottom, name)
+            end
+         end,
          after_destruct = function(top, oldnode)
             local bottom = { x = top.x, y = top.y - 1, z = top.z }
             if minetest.get_node(top).name ~= name.."_t_1" and minetest.get_node(bottom).name == name.."_b_2" and oldnode.name == name.."_t_2" then
@@ -308,6 +399,20 @@ function door.register_door(name, def)
 	 sunlight_propagates = def.sunlight
    })
 
+end
+
+function door.init_segment(pos, is_open)
+   local node = minetest.get_node(pos)
+   local state = minetest.get_item_group(node.name, "door_state")
+   if state == 0 then
+      return
+   end
+   if is_open == nil then
+      is_open = false
+   end
+   if (state == 2 and is_open == false) or (state == 1 and is_open == true) then
+      set_segment_hinge_right(pos)
+   end
 end
 
 door.register_door(
@@ -411,6 +516,7 @@ achievements.register_achievement(
       times = 1,
       craftitem = "group:door",
       item_icon = "rp_door:door_wood",
+      difficulty = 2.2,
 })
 
 minetest.register_alias("door:door_stone", "rp_door:door_stone")

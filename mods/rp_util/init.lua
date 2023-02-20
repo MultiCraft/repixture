@@ -1,12 +1,12 @@
 --
--- Utility functions
+-- Utility functions.
+-- See API.md for documentation.
 --
 
 util = {}
 
 function util.sort_pos(pos1, pos2)
-   -- function taken from worldedit
-   -- ensure that pos2 has greater coords than pos1
+   -- (function taken from WorldEdit)
    pos1 = {x=pos1.x, y=pos1.y, z=pos1.z}
    pos2 = {x=pos2.x, y=pos2.y, z=pos2.z}
    if pos1.x > pos2.x then
@@ -22,8 +22,7 @@ function util.sort_pos(pos1, pos2)
 end
 
 function util.fixlight(pos1, pos2)
-   -- function taken from worldedit
-   -- repair most lighting in a block
+   -- (function taken from WorldEdit)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
 
    --make area stay loaded
@@ -43,8 +42,7 @@ function util.fixlight(pos1, pos2)
 end
 
 function util.nodefunc(pos1, pos2, nodes, func, nomanip)
-   -- function based off fixlight
-   -- call a function for every node of a single type
+   -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
 
    if not nomanip then
@@ -58,20 +56,8 @@ function util.nodefunc(pos1, pos2, nodes, func, nomanip)
    end
 end
 
-function util.getvoxelmanip(pos1, pos2)
-   -- function based off fixlight
-   -- return a voxel manipulator
-   local pos1, pos2 = util.sort_pos(pos1, pos2)
-
-   local manip = minetest.get_voxel_manip()
-   manip:read_from_map(pos1, pos2)
-
-   return manip
-end
-
 function util.remove_area(pos1, pos2, nomanip)
-   -- function based off fixlight
-   -- call a function for every node of a single type
+   -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
 
    if not nomanip then
@@ -91,8 +77,7 @@ function util.remove_area(pos1, pos2, nomanip)
 end
 
 function util.areafunc(pos1, pos2, func, nomanip)
-   -- function based off fixlight
-   -- call a function for every node of a single type
+   -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
 
    if not nomanip then
@@ -110,8 +95,7 @@ function util.areafunc(pos1, pos2, func, nomanip)
 end
 
 function util.reconstruct(pos1, pos2, nomanip)
-   -- function based off fixlight
-   -- force a re-construction of the nodes in an area, for fixing missing metadata in schematics
+   -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
 
    if not nomanip then
@@ -120,7 +104,10 @@ function util.reconstruct(pos1, pos2, nomanip)
    end
 
    -- Fix chests, locked chests, music players, furnaces
-   local nodetypes = { "rp_default:chest", "rp_locks:chest", "rp_music:player", "rp_default:furnace", "rp_jewels:bench" }
+   local nodetypes = {
+      "rp_default:chest", "rp_locks:chest", "rp_music:player", "rp_default:furnace",
+      "rp_jewels:bench", "rp_default:bookshelf", "rp_itemshow:frame", "rp_itemshow:showcase",
+   }
    for n=1, #nodetypes do
        local nodes = minetest.find_nodes_in_area(pos1, pos2, nodetypes[n])
        local node = minetest.registered_nodes[nodetypes[n]]
@@ -131,7 +118,6 @@ function util.reconstruct(pos1, pos2, nomanip)
 end
 
 function util.choice(tab, pr)
-   -- return a random index of the given table
 
    local choices = {}
 
@@ -149,9 +135,6 @@ function util.choice(tab, pr)
 end
 
 function util.choice_element(tab, pr)
-   -- return a random element of the given table
-   -- 2nd return value is index of chosen element
-   -- Returns nil if table is empty
 
    local choices = {}
 
@@ -170,66 +153,63 @@ function util.choice_element(tab, pr)
    return choices[rnd], rnd
 end
 
--- util.split function taken from a StackOverflow answer.
--- http://stackoverflow.com/questions/12709205/split-a-string-and-store-in-an-array-in-lua
-function util.split(str, tok)
-   -- Source: http://lua-users.org/wiki/MakingLuaLikePhp
-   -- Credit: http://richard.warburton.it/
-
-   if not tok then return {} end
-
-   local pos = 0
-   local arr = {}
-
-   for st, sp in function() return string.find(str, tok, pos, true) end do
-      table.insert(arr, string.sub(str, pos, st - 1))
-      pos = sp + 1
+function util.dig_up(pos, node, digger, drop_item)
+   if node.name == "ignore" then
+      return
    end
-
-   table.insert(arr, string.sub(str, pos))
-
-   return arr
-end
-
--- Dig all the nodes above pos that have the same nodename
--- as the node as pos, until a different node is reached.
--- digger is a player object
-function util.dig_up(pos, node, digger)
    local np = {x = pos.x, y = pos.y + 1, z = pos.z}
    local nn = minetest.get_node(np)
    if nn.name == node.name then
       if digger then
-         minetest.node_dig(np, nn, digger)
+          minetest.node_dig(np, nn, digger)
+          if drop_item then
+             minetest.add_item(pos, drop_item)
+          end
       else
-         minetest.remove_node(np)
+	  while nn.name == node.name do
+	     minetest.remove_node(np)
+             if drop_item then
+                minetest.add_item(np, drop_item)
+             end
+	     np.y = np.y + 1
+	     nn = minetest.get_node(np)
+          end
       end
    end
 end
 
--- Dig all the nodes blow pos that have the same nodename
--- as the node as pos, until a different node is reached.
--- digger is a player object
-function util.dig_down(pos, node, digger)
+function util.dig_down(pos, node, digger, drop_item)
+   if node.name == "ignore" then
+      return
+   end
    local np = {x = pos.x, y = pos.y - 1, z = pos.z}
    local nn = minetest.get_node(np)
    if nn.name == node.name then
-      minetest.node_dig(np, nn, digger)
+      if digger then
+          minetest.node_dig(np, nn, digger)
+          if drop_item then
+             minetest.add_item(pos, drop_item)
+          end
+      else
+	  while nn.name == node.name do
+	     minetest.remove_node(np)
+             if drop_item then
+                minetest.add_item(np, drop_item)
+             end
+	     np.y = np.y - 1
+	     nn = minetest.get_node(np)
+          end
+      end
    end
 end
 
--- Helper function to determine the correct position when
--- the player places a "plant-like" node like a sapling.
--- The goal is the node will end up on top of a "floor"
--- node when possible, while also taking buildable_to
--- into account.
---
--- Takes a pointed_thing from a on_place callback or similar.
--- Returns <place_in>, <place_on> if success, nil otherwise
--- * place_in: Where the node is suggested to be placed
--- * place_on: Directly below place_in
-function util.pointed_thing_to_place_pos(pointed_thing)
+function util.pointed_thing_to_place_pos(pointed_thing, top)
    if pointed_thing.type ~= "node" then
       return nil
+   end
+   local offset = -1
+   if top then
+      offset = 1
    end
    local place_in, place_on
    local undernode = minetest.get_node(pointed_thing.under)
@@ -239,10 +219,10 @@ function util.pointed_thing_to_place_pos(pointed_thing)
    end
    if underdef.buildable_to then
       place_in = pointed_thing.under
-      place_on = vector.add(place_in, vector.new(0, -1, 0))
+      place_on = vector.add(place_in, vector.new(0, offset, 0))
    else
       place_in = pointed_thing.above
-      place_on = vector.add(place_in, vector.new(0, -1, 0))
+      place_on = vector.add(place_in, vector.new(0, offset, 0))
       local inname = minetest.get_node(place_in).name
       local indef = minetest.registered_nodes[inname]
       if not indef or not indef.buildable_to then
@@ -252,23 +232,6 @@ function util.pointed_thing_to_place_pos(pointed_thing)
    return place_in, place_on
 end
 
--- Use this function for the on_place handler of tools and similar items
--- that are supposed to do something special when "placing" them on
--- a node. This makes sure the on_rightclick handler of the node
--- takes precedence, unless the player held down the sneak key.
--- Parameters: Same as the on_place of nodes
--- Returns <handled>, <handled_itemstack>
--- * <handled>: true if the function handled the placement. Your on_place handler should return <handled_itemstack>.
---              false if the function did not handle the placement. Your on_place handler can proceed normally.
--- * <handled_itemstack>: Only set if <handled> is true. Contains the itemstack you should return in your
---                        on_place handler
--- Recommended usage is by putting this boilerplate code at the beginning of your function:
---[[
-   local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
-   if handled then
-      return handled_itemstack
-   end
-]]
 function util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
    if not placer or not placer:is_player() then
       return true, itemstack
@@ -285,10 +248,6 @@ function util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
    return false
 end
 
--- Check if pointed_thing is protected, if player is the "user" of that thing,
--- and does the protection violation handling if needed.
--- returns true if it was protected (and protection dealt with), false otherwise.
--- Always returns false for non-nodes
 function util.handle_node_protection(player, pointed_thing)
    if pointed_thing.type ~= "node" then
       return false
@@ -298,6 +257,33 @@ function util.handle_node_protection(player, pointed_thing)
          not minetest.check_player_privs(player, "protection_bypass") then
       minetest.record_protection_violation(pos_protected, player:get_player_name())
       return true
+   end
+   return false
+end
+
+function util.is_water_source_or_waterfall(pos)
+   local node = minetest.get_node(pos)
+   local is_water = minetest.get_item_group(node.name, "water") > 0
+   if not is_water then
+      return false
+   end
+   local def = minetest.registered_nodes[node.name]
+   if not def then
+      return false
+   end
+   if def.liquidtype == "source" then
+      return true
+   elseif def.liquidtype == "flowing" then
+      local bits = node.param2 % 16
+      if bits >= 8 then
+         return true
+      else
+         local above = vector.add(pos, vector.new(0,1,0))
+	 local anode = minetest.get_node(above)
+	 if minetest.get_item_group(anode.name, "water") > 0 then
+            return true
+	 end
+      end
    end
    return false
 end

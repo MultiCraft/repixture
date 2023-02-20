@@ -1,11 +1,10 @@
 --
 -- Ambiance mod
--- By Kaadmy, for Pixture
 --
 
 local mod_weather = minetest.get_modpath("rp_weather")
 
-ambiance = {}
+local ambiance = {}
 ambiance.sounds = {}
 
 -- When the weather changes, the mod will still use
@@ -14,6 +13,7 @@ ambiance.sounds = {}
 -- immediately start singing when the rain ends.
 local WEATHER_CONDITION_DELAY = 5000000 -- µs
 
+local get_weather_lagged
 if mod_weather then
 	get_weather_lagged = function()
 		local time = weather.weather_last_changed_before()
