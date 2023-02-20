@@ -442,7 +442,7 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "rp_default:label",
+      output = "rp_default:label 20",
       items = {
          "rp_default:sheet_graphite",
          "rp_default:paper",

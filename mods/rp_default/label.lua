@@ -41,14 +41,13 @@ local write = function(itemstack, player, pointed_thing)
     return itemstack
 end
 
-minetest.register_tool(
+minetest.register_craftitem(
    "rp_default:label",
    {
       description = S("Label and Graphite"),
       _tt_help = S("Give a name to containers"),
       inventory_image = "rp_default_label.png",
       wield_image = "rp_default_label.png",
-      groups = { label = 1 },
       on_place = write,
       on_use = write,
 })
