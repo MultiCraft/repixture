@@ -113,11 +113,11 @@ minetest.register_node(
       _rp_write_name = function(pos, text)
          local meta = minetest.get_meta(pos)
          meta:set_string("name", text)
+         local infotext = S("Bookshelf")
          if text ~= "" then
-            meta:set_string("infotext", S("Bookshelf “@1”", text))
-         else
-            meta:set_string("infotext", S("Bookshelf"))
+             infotext = infotext .. "\n" .. S("“@1”", text)
          end
+         meta:set_string("infotext", infotext)
       end,
 })
 

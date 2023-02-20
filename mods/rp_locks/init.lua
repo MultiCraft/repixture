@@ -11,11 +11,6 @@ local INFOTEXT_OWNED = N("Locked Chest (Owned by @1)")
 local INFOTEXT_PUBLIC_CRACKED = N("Locked Chest (cracked open)")
 local INFOTEXT_OWNED_CRACKED = N("Locked Chest (cracked open) (Owned by @1)")
 
-local INFOTEXT_PUBLIC_NAMED = N("Locked Chest “@1”")
-local INFOTEXT_OWNED_NAMED = N("Locked Chest “@1” (Owned by @2)")
-local INFOTEXT_PUBLIC_CRACKED_NAMED = N("Locked Chest “@1” (cracked open)")
-local INFOTEXT_OWNED_CRACKED_NAMED = N("Locked Chest “@1” (cracked open) (Owned by @2)")
-
 local GRAVITY = minetest.settings:get("movement_gravity") or 9.81
 
 locks = {}
@@ -30,17 +25,18 @@ local function update_infotext(meta)
    local owner = meta:get_string("lock_owner")
    local cracked = meta:get_int("lock_cracked") == 1
    if text ~= "" then
+      local namepart = S("“@1”", text)
       if owner ~= "" then
          if cracked then
-            meta:set_string("infotext", S(INFOTEXT_OWNED_CRACKED_NAMED, text, owner))
+            meta:set_string("infotext", S(INFOTEXT_OWNED_CRACKED, owner) .. "\n" .. namepart)
          else
-            meta:set_string("infotext", S(INFOTEXT_OWNED_NAMED, text, owner))
+            meta:set_string("infotext", S(INFOTEXT_OWNED, owner) .. "\n" .. namepart)
 	 end
       else
          if cracked then
-            meta:set_string("infotext", S(INFOTEXT_PUBLIC_CRACKED_NAMED, text))
+            meta:set_string("infotext", S(INFOTEXT_PUBLIC_CRACKED) .. "\n" .. namepart)
          else
-            meta:set_string("infotext", S(INFOTEXT_PUBLIC_NAMED, text))
+            meta:set_string("infotext", S(INFOTEXT_PUBLIC) .. "\n" .. namepart)
          end
       end
    else
