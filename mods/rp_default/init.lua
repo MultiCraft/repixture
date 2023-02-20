@@ -71,7 +71,7 @@ dofile(minetest.get_modpath("rp_default").."/ingot.lua")
 dofile(minetest.get_modpath("rp_default").."/bucket.lua")
 dofile(minetest.get_modpath("rp_default").."/tools.lua")
 dofile(minetest.get_modpath("rp_default").."/fertilizer.lua")
-dofile(minetest.get_modpath("rp_default").."/pencil.lua")
+dofile(minetest.get_modpath("rp_default").."/label.lua")
 
 dofile(minetest.get_modpath("rp_default").."/crafting.lua")
 

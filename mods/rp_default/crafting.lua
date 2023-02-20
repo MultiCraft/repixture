@@ -438,14 +438,14 @@ crafting.register_craft(
       }
 })
 
--- Pencil
+-- Label
 
 crafting.register_craft(
    {
-      output = "rp_default:pencil",
+      output = "rp_default:label",
       items = {
          "rp_default:sheet_graphite",
-         "rp_default:stick",
+         "rp_default:paper",
       }
 })
 

@@ -46,16 +46,14 @@ minetest.register_node(
       on_destruct = function(pos)
          item_drop.drop_items_from_container(pos, {"main"})
       end,
-      write_name = function(pos, text)
---[[ TODO: Bring back container naming
+      _rp_write_name = function(pos, text)
          local meta = minetest.get_meta(pos)
-         
+         meta:set_string("name", text)
          if text ~= "" then
-             meta:set_string("infotext", text)
+             meta:set_string("infotext", S("Chest “@1”", text))
          else
              meta:set_string("infotext", S("Chest"))
          end
-]]
       end,
 })
 

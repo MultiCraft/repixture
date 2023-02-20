@@ -110,16 +110,14 @@ minetest.register_node(
             minetest.show_formspec(pname, "rp_default:bookshelf", get_bookshelf_formspec(pos))
          end
       end,
-      write_name = function(pos, text)
---[[ TODO: Bring back container naming
+      _rp_write_name = function(pos, text)
          local meta = minetest.get_meta(pos)
-
+         meta:set_string("name", text)
          if text ~= "" then
-            meta:set_string("infotext", text)
+            meta:set_string("infotext", S("Bookshelf “@1”", text))
          else
             meta:set_string("infotext", S("Bookshelf"))
          end
-]]
       end,
 })
 

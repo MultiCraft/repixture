@@ -32,26 +32,29 @@ local write = function(itemstack, player, pointed_thing)
        form = form .. "set_focus[text;true]"
        form = form .. "field[1,1.75;7,0;text;;"..minetest.formspec_escape(text).."]"
 
-       minetest.show_formspec(player:get_player_name(), "rp_default:pencil", form)
+       minetest.show_formspec(player:get_player_name(), "rp_default:label", form)
     end
 
+    if not minetest.is_creative_enabled(player:get_player_name()) then
+       itemstack:take_item()
+    end
     return itemstack
 end
 
 minetest.register_tool(
-   "rp_default:pencil",
+   "rp_default:label",
    {
-      description = S("Pencil"),
-      _tt_help = S("Name blocks"),
-      inventory_image = "rp_default_pencil.png",
-      wield_image = "rp_default_pencil.png",
-      groups = { pencil = 1 },
+      description = S("Label and Graphite"),
+      _tt_help = S("Give a name to containers"),
+      inventory_image = "rp_default_label.png",
+      wield_image = "rp_default_label.png",
+      groups = { label = 1 },
       on_place = write,
       on_use = write,
 })
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-   if formname ~= "rp_default:pencil" then
+   if formname ~= "rp_default:label" then
       return
    end
    if fields.text then
