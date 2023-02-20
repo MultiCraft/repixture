@@ -15,6 +15,7 @@ But the 'book' identifier works just fine for now,
 it's just a minor deviation from convention. ]]
 local S = minetest.get_translator("book")
 local F = minetest.formspec_escape
+local FS = function(...) return F(S(...)) end
 
 local BOOK_MAX_TITLE_LENGTH = 64
 local BOOK_MAX_TEXT_LENGTH = 4500
@@ -33,8 +34,8 @@ local on_use = function(itemstack, player, pointed_thing)
    end
 
    local form = rp_formspec.get_page("rp_formspec:default")
-   form = form .. "field[0.7,1.25;7.7,0;title;"..F(S("Title:"))..";"..F(title).."]"
-   form = form .. "textarea[0.7,1.75;7.7,6.75;text;"..F(S("Contents:"))..";"..F(text).."]"
+   form = form .. "field[0.7,1.25;7.7,0;title;"..FS("Title:")..";"..F(title).."]"
+   form = form .. "textarea[0.7,1.75;7.7,6.75;text;"..FS("Contents:")..";"..F(text).."]"
    form = form .. rp_formspec.button_exit(2.75, 7.75, 3, 1, "write", S("Write"))
 
    minetest.show_formspec(name, "rp_book:book", form)

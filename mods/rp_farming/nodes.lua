@@ -1,5 +1,5 @@
 local S = minetest.get_translator("rp_farming")
-local N = function(s) return s end
+local NS = function(s) return s end
 --
 -- Nodes
 --
@@ -7,7 +7,7 @@ local N = function(s) return s end
 -- Wheat
 farming.register_plant_nodes("rp_farming:wheat", {
    description_stage_1 = S("Wheat Seed"),
-   description_general = N("Wheat Plant (stage @1)"),
+   description_general = NS("Wheat Plant (stage @1)"),
    tooltip_stage_1 = S("Grows on dirt; it likes water"),
    texture_prefix = "farming_wheat",
    drop_stages = {
@@ -41,7 +41,7 @@ farming.register_plant_nodes("rp_farming:wheat", {
 -- Potato
 farming.register_plant_nodes("rp_farming:potato", {
    description_stage_1 = S("Potato"),
-   description_general = N("Potato Plant (stage @1)"),
+   description_general = NS("Potato Plant (stage @1)"),
    tooltip_stage_1 = S("Grows on dirt and swamp dirt; it likes water"),
    texture_prefix = "farming_potato",
    meshoptions = 1,
@@ -90,7 +90,7 @@ farming.register_plant_nodes("rp_farming:potato", {
 -- Carrot
 farming.register_plant_nodes("rp_farming:carrot", {
    description_stage_1 = S("Carrot"),
-   description_general = N("Carrot Plant (stage @1)"),
+   description_general = NS("Carrot Plant (stage @1)"),
    tooltip_stage_1 = S("Grows on dry dirt; it likes water"),
    texture_prefix = "farming_carrot",
    meshoptions = 2,
@@ -140,7 +140,7 @@ farming.register_plant_nodes("rp_farming:carrot", {
 -- Asparagus
 farming.register_plant_nodes("rp_farming:asparagus", {
    description_stage_1 = S("Asparagus Seed"),
-   description_general = N("Asparagus Plant (stage @1)"),
+   description_general = NS("Asparagus Plant (stage @1)"),
    tooltip_stage_1 = S("Grows on swamp dirt; it likes water"),
    texture_prefix = "farming_asparagus",
    drop_stages = {
@@ -215,7 +215,7 @@ end
 
 farming.register_plant_nodes("rp_farming:cotton", {
    description_stage_1 = S("Cotton Seed"),
-   description_general = N("Cotton Plant (stage @1)"),
+   description_general = NS("Cotton Plant (stage @1)"),
    tooltip_stage_1 = S("Grows on dirt, dry dirt and sand; it likes water"),
    texture_prefix = "farming_cotton",
    drop_stages = {

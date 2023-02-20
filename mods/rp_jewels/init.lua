@@ -5,8 +5,8 @@
 --
 
 local S = minetest.get_translator("rp_jewels")
-local N = function(s) return s end
-local F = minetest.formspec_escape
+local NS = function(s) return s end
+local FS = function(...) return minetest.formspec_escape(S(...)) end
 
 jewels = {}
 
@@ -24,8 +24,8 @@ form_bench = form_bench .. "list[current_name;main;2.25,1.75;1,1;]"
 form_bench = form_bench .. "listring[current_name;main]"
 form_bench = form_bench .. rp_formspec.get_itemslot_bg(2.25, 1.75, 1, 1)
 
-form_bench = form_bench .. "label[3.25,1.75;"..F(S("1. Place tool here")).."]"
-form_bench = form_bench .. "label[3.25,2.25;"..F(S("2. Hold a jewel and punch the bench")).."]"
+form_bench = form_bench .. "label[3.25,1.75;"..FS("1. Place tool here").."]"
+form_bench = form_bench .. "label[3.25,2.25;"..FS("2. Hold a jewel and punch the bench").."]"
 
 form_bench = form_bench .. "list[current_player;main;0.25,4.75;8,4;]"
 form_bench = form_bench .. "listring[current_player;main]"
@@ -189,11 +189,11 @@ local function get_stat(format_text, stats_key, parent, stats)
 end
 
 local amendments = {
-   { "range", N("Range bonus: @1") },
-   { "maxdrop", N("Drop level bonus: @1") },
-   { "digspeed", N("Dig time bonus: @1 s") },
-   { "uses", N("Durability bonus: @1") },
-   { "maxlevel", N("Dig level bonus: @1") },
+   { "range", NS("Range bonus: @1") },
+   { "maxdrop", NS("Drop level bonus: @1") },
+   { "digspeed", NS("Dig time bonus: @1 s") },
+   { "uses", NS("Durability bonus: @1") },
+   { "maxlevel", NS("Dig level bonus: @1") },
 }
 
 for a=1, #amendments do

@@ -1,5 +1,5 @@
 local S = minetest.get_translator("rp_creative")
-local F = minetest.formspec_escape
+local FS = function(...) return minetest.formspec_escape(S(...)) end
 
 creative = {}
 
@@ -216,7 +216,7 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 	local pagemax = math.floor((size-1) / (creative.slots_num) + 1)
 	return
 		"list[detached:creative_"..player_name..";main;0.25,0.25;7,4;"..tostring(start_i).."]"..
-		"label[7.5,0.75;"..F(S("@1/@2", pagenum, pagemax)).."]"..
+		"label[7.5,0.75;"..FS("@1/@2", pagenum, pagemax).."]"..
 
                 rp_formspec.image_button(7.25, 1.25, 1, 1, "creative_prev", "ui_icon_prev.png")..
                 rp_formspec.image_button(7.25, 2.25, 1, 1, "creative_next", "ui_icon_next.png")..

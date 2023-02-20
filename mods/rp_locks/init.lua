@@ -4,13 +4,13 @@
 --
 
 local S = minetest.get_translator("rp_locks")
-local N = function(s) return s end
+local NS = function(s) return s end
 
-local INFOTEXT_PUBLIC = N("Locked Chest")
-local INFOTEXT_OWNED = N("Locked Chest (Owned by @1)")
-local INFOTEXT_CRACKED_PUBLIC = N("Locked Chest (cracked open)")
-local INFOTEXT_CRACKED_OWNED = N("Locked Chest (cracked open) (Owned by @1)")
-local INFOTEXT_NAMED_OWNED = N("@1 (Owned by @2)")
+local INFOTEXT_PUBLIC = NS("Locked Chest")
+local INFOTEXT_OWNED = NS("Locked Chest (Owned by @1)")
+local INFOTEXT_CRACKED_PUBLIC = NS("Locked Chest (cracked open)")
+local INFOTEXT_CRACKED_OWNED = NS("Locked Chest (cracked open) (Owned by @1)")
+local INFOTEXT_NAMED_OWNED = NS("@1 (Owned by @2)")
 
 local GRAVITY = minetest.settings:get("movement_gravity") or 9.81
 

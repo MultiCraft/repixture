@@ -9,7 +9,7 @@ local MSG_PRE = "*** "
 local BULLET_PRE = "• "
 
 local S = minetest.get_translator("rp_achievements")
-local N = function(s) return s end
+local NS = function(s) return s end
 
 achievements = {}
 achievements.ACHIEVEMENT_GOTTEN = 1
@@ -58,8 +58,8 @@ end
 
 local achievement_gotten_message = function(name, aname)
    achievement_message(name, aname, COLOR_GOTTEN_MSG,
-      N("You have earned the achievement “@1”."),
-      N("@1 has earned the achievement “@2”."))
+      NS("You have earned the achievement “@1”."),
+      NS("@1 has earned the achievement “@2”."))
 end
 
 local function set_achievement_states(player, states)
@@ -279,8 +279,8 @@ local function give_all_achievements(player)
    rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
 
    achievement_message(playername, nil, COLOR_GOTTEN_MSG,
-      N("You have gotten all achievements!"),
-      N("@1 has gotten all achievements!"))
+      NS("You have gotten all achievements!"),
+      NS("@1 has gotten all achievements!"))
    minetest.log("action", "[rp_achievements] " .. playername .. " got all achievements")
 end
 
@@ -293,8 +293,8 @@ local function remove_all_achievements(player)
    rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
 
    achievement_message(playername, nil, COLOR_REVERT_MSG,
-      N("You have lost all achievements!"),
-      N("@1 has lost all achievements!"))
+      NS("You have lost all achievements!"),
+      NS("@1 has lost all achievements!"))
    minetest.log("action", "[rp_achievements] " .. playername .. " lost all achievements")
 end
 
@@ -344,8 +344,8 @@ local function remove_achievement(player, aname)
 
    local playername = player:get_player_name()
    achievement_message(playername, aname, COLOR_REVERT_MSG,
-      N("You have lost the achievement “@1”."),
-      N("@1 has lost the achievement “@2”."))
+      NS("You have lost the achievement “@1”."),
+      NS("@1 has lost the achievement “@2”."))
    minetest.log("action", "[rp_achievements] " .. playername .. " lost achievement '"..aname.."'")
 end
 
