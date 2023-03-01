@@ -10,7 +10,6 @@ local INFOTEXT_DISABLED = S("Music Player (disabled by server)")
 local NOTES_PER_SECOND = 1
 
 local music = {}
-local particlespawners = {}
 
 music.tracks = {
    { name = "music_catsong", length = 30.0, note_color = "#26b7dc", },
@@ -57,7 +56,15 @@ local function get_note(pos)
    return note
 end
 
--- Array of music players
+--[[ Array of music players
+* key: node position hash of music player node
+* value: {
+    * pos: node position (vector)
+    * timer: current track timer
+    * handle: ID of associated sound
+    * particlespawner: ID of associated particlespawner
+}
+]]
 
 music.players = {}
 
@@ -65,19 +72,25 @@ if minetest.settings:get_bool("music_enable") then
    function music.stop(pos)
       local dp = minetest.hash_node_position(pos)
 
-      local meta = minetest.get_meta(pos)
-      meta:set_string("infotext", INFOTEXT_OFF)
-      meta:set_int("music_player_enabled", 0)
-
-      if music.players[dp] ~= nil then
-	 minetest.sound_stop(music.players[dp]["handle"])
-	 music.players[dp] = nil
+      local node = minetest.get_node(pos)
+      if node.name == "rp_music:player" then
+         local meta = minetest.get_meta(pos)
+         meta:set_string("infotext", INFOTEXT_OFF)
+         meta:set_int("music_player_enabled", 0)
       end
 
-      local id = particlespawners[dp]
-      if id then
-         minetest.delete_particlespawner(id)
-         particlespawners[dp] = nil
+      if music.players[dp] ~= nil then
+         -- Stop sound and delete particlespawner
+         local sid = music.players[dp]["handle"]
+         if sid then
+            minetest.sound_stop(sid)
+         end
+
+         local pid = music.players[dp]["particlespawner"]
+         if pid then
+            minetest.delete_particlespawner(pid)
+         end
+         music.players[dp] = nil
       end
    end
 
@@ -95,6 +108,11 @@ if minetest.settings:get_bool("music_enable") then
          meta:set_int("music_player_track", track)
       end
 
+      -- Spawn a single note particle immediately
+      local note = get_note(pos)
+      note_particle(pos, note)
+
+      -- Start music and spawn particlespawner
       if music.players[dp] == nil then
 	 music.players[dp] = {
 	    ["handle"] = minetest.sound_play(
@@ -103,31 +121,30 @@ if minetest.settings:get_bool("music_enable") then
 		  pos = pos,
 		  gain = music.volume,
             }),
+	    ["particlespawner"] = note_particle(pos, note, true),
 	    ["timer"] = 0,
 	    ["pos"] = pos,
 	 }
       else
+         -- Music player data was already present:
+         -- Reset everything and restart music and respawn particlespawner
 	 music.players[dp]["timer"] = 0
-	 minetest.sound_stop(music.players[dp]["handle"])
+
+         if music.players[dp]["handle"] then
+            minetest.sound_stop(music.players[dp]["handle"])
+         end
+         if music.players[dp]["particlespawner"] then
+            minetest.delete_particlespawner(music.players[dp]["particlespawner"])
+         end
+
 	 music.players[dp]["handle"] = minetest.sound_play(
 	    music.tracks[track].name,
 	    {
 	       pos = pos,
 	       gain = music.volume,
          })
+         music.players[dp]["particlespawner"] = note_particle(pos, note, true)
       end
-
-      -- Spawn a single note immediately
-      local note = get_note(pos)
-      note_particle(pos, note)
-
-      -- Spawn a permanent particlespawner
-      if particlespawners[dp] then
-         -- Replace old particlespawener, if present
-         minetest.delete_particlespawner(particlespawners[dp])
-      end
-      local particle = note_particle(pos, note, true)
-      particlespawners[dp] = particle
    end
 
    function music.update(pos)
@@ -178,8 +195,14 @@ if minetest.settings:get_bool("music_enable") then
 	 is_ground_content = false,
 	 floodable = true,
          on_flood = function(pos, oldnode, newnode)
+            music.stop(pos)
             minetest.add_item(pos, "rp_music:player")
          end,
+         on_blast = function(pos)
+            minetest.remove_node(pos)
+            minetest.check_for_falling({x=pos.x,y=pos.y,z=pos.z})
+            music.stop(pos)
+	 end,
 	 paramtype = "light",
 
 	 drawtype = "nodebox",
@@ -301,9 +324,6 @@ minetest.register_lbm(
          if minetest.settings:get_bool("music_enable") then
             if meta:get_int("music_player_enabled") == 1 then
                meta:set_string("infotext", INFOTEXT_ON)
-               local particle = note_particle(pos, get_note(pos), true)
-               local hash = minetest.hash_node_position(pos)
-               particlespawners[hash] = particle
             else
                meta:set_string("infotext", INFOTEXT_OFF)
             end
