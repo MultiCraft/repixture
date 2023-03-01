@@ -9,7 +9,9 @@ but the one with the lower coordinates comes first.
 
 ## `util.fixlight(pos1, pos2)`
 
-Repair most lighting between positions `pos1` and `pos2`.
+THIS FUNCTION IS DEPRECATED! Use `minetest.fix_light` instead.
+
+Repairs most lighting between positions `pos1` and `pos2`.
 
 
 

@@ -21,6 +21,7 @@ function util.sort_pos(pos1, pos2)
    return pos1, pos2
 end
 
+-- TODO: Remove this function (it's deprecated)
 function util.fixlight(pos1, pos2)
    -- (function taken from WorldEdit)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
