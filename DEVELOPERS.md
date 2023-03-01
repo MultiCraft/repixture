@@ -20,12 +20,15 @@ There are some hidden testing/debug settings. Add them into `minetest.conf` to a
 * `hunger_debug=true`: Enables Hunger Debug. This displays the internal hunger values on
   the screen.
 
+To disable the settings, set them to `false` again.
+
 ## Some modding rules
 
 * Crafting recipes (except cooking and fuel recipes) **MUST**
   be registered through `rp_crafting`.
 * Modifying player physics (like running speed)
   **MUST** be done via `rp_player_effects`.
+  Calling `set_physics_override` directly is **FORBIDDEN**.
 
 ## Mod APIs
 
@@ -36,7 +39,7 @@ Mods with documented APIs:
 
 * `rp_armor`: Armor information
 * `rp_achievements`: Add and trigger achievements
-* `rp_bed`: Get, set and unset (re)spwan position
+* `rp_bed`: Get, set and unset (re)spawn position
 * `rp_crafting`: Add crafting recipes
 * `rp_default`: Sapling helpers, biome information
 * `rp_door`: Add doors
@@ -49,7 +52,7 @@ Mods with documented APIs:
 * `rp_item_drop`: Add a function to simulate an item drop
 * `rp_itemshow`: Needed when your item needs a custom appearance in the item frame / item showcase
 * `rp_jewels`: Register jeweled tools, and more
-* `rp_loalize`: Localize numbers
+* `rp_localize`: Localize numbers
 * `rp_locks`: Get info about lockable nodes
 * `rp_partialblocks`: Register partial blocks (slabs, stairs)
 * `rp_player`: Player model handling, model animation, textures
