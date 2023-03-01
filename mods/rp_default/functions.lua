@@ -591,6 +591,10 @@ minetest.register_abm( -- leaf decay
             end
             -- Remove node
             minetest.remove_node(p0)
+            -- Trigger fall
+            local above = {x=p0.x, y=p0.y+1, z=p0.z}
+            minetest.check_for_falling(above)
+            -- Particles
 	    if not leafdecay_drop then
                minetest.add_particlespawner({
                   amount = math.random(10, 20),
