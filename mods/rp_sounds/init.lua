@@ -15,7 +15,7 @@ function rp_sounds.node_sound_defaults(table)
    table.place = table.place or
       {name="default_place_node_hard", gain=0.8}
    table.place_failed = table.place_failed or
-      {name="rp_sounds_place_failed", gain=0.1}
+      {name="rp_sounds_place_failed", gain=0.12}
    return table
 end
 

@@ -74,6 +74,8 @@ List of sounds and credits:
 	* Derived from 'Shovel in dirt' by RavenWolfProds
 	* Source: <https://freesound.org/people/RavenWolfProds/sounds/503672/>
 	* License: CC0
+* rp_sounds_place_failed.ogg
+	* License: CC0
 
 * rp_sounds_footstep_dirt.*.ogg
 * rp_sounds_footstep_dry_dirt.*.ogg
@@ -96,7 +98,6 @@ List of sounds and credits:
 * rp_sounds_dug_straw.*.ogg
 * rp_sounds_place_straw.*.ogg
 * rp_sounds_place_gravel.*.ogg
-* rp_sounds_place_failed.ogg
 * rp_sounds_fall_sand.*.ogg
 * rp_sounds_fall_gravel.*.ogg
 	* by Wuzzy
