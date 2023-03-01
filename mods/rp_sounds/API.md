@@ -47,6 +47,7 @@ These are the available functions:
 * `rp_sounds.node_sound_grass_defaults(table)`: Grass
 * `rp_sounds.node_sound_straw_defaults(table)`: Straw
 * `rp_sounds.node_sound_glass_defaults(table)`: Glass
+* `rp_sounds.node_sound_crystal_defaults(table)`: Crystal
 * `rp_sounds.node_sound_fuzzy_defaults(table)`: Fuzzy, soft surface (like wool, cotton, bedsheet)
 * `rp_sounds.node_sound_water_defaults(table)`: Water
 * `rp_sounds.node_sound_snow_defaults(table)`: Snow (incomplete, not recommended)

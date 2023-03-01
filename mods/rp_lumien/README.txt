@@ -16,18 +16,4 @@ Lumien crystals glow when a player's nearby.
 
 By KaadmY, with minor changes by Wuzzy.
 
-### Sound effects
-
-(Note: The '*' character below is a placeholder that stands
-for any sequence of characters)
-
-* rp_lumien_place.*.ogg:
-	* Derived from '01 barreau bunker original.wav' by firb
-	* Source: <https://freesound.org/people/firb/sounds/330653/>
-	* Licence: CC BY 4.0 <https://creativecommons.org/licenses/by/4.0/>
-* rp_lumien_dug.ogg:
-	* Derived from sound by `kelsey_w`
-	* Source: <https://freesound.org/people/kelsey_w/sounds/467039/>
-	* Licence: CC BY 3.0 <https://creativecommons.org/licenses/by/3.0/>
-
 
