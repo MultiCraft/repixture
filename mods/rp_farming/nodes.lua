@@ -86,6 +86,7 @@ farming.register_plant_nodes("rp_farming:potato", {
       },
    },
 
+   sound_seed_place = { name = "rp_farming_place_nonseed", gain = 0.4 },
 })
 
 -- Carrot
@@ -137,6 +138,7 @@ farming.register_plant_nodes("rp_farming:carrot", {
       },
    },
 
+   sound_seed_place = { name = "rp_farming_place_nonseed", gain = 0.4 },
 })
 
 -- Asparagus
@@ -269,7 +271,9 @@ minetest.register_node(
       groups = {snappy = 2, oddly_breakable_by_hand = 3,
                 fall_damage_add_percent = -15, fuzzy = 1,
 		unmagnetic = 1},
-      sounds = rp_sounds.node_sound_grass_defaults(),
+      sounds = rp_sounds.node_sound_fuzzy_defaults({
+         footstep = { name = "rp_sounds_footstep_fuzzy", gain = 0.7, pitch = 1.3 },
+      }),
    }
 )
 
@@ -280,6 +284,6 @@ minetest.register_node(
       tiles = {"rp_farming_straw.png"},
       is_ground_content = false,
       groups = {snappy = 3, fall_damage_add_percent = -15},
-      sounds = rp_sounds.node_sound_grass_defaults(),
+      sounds = rp_sounds.node_sound_straw_defaults(),
    }
 )

@@ -125,6 +125,10 @@ minetest.register_node(
       on_place = default.place_sapling,
 })
 
+local snd_tree = rp_sounds.node_sound_wood_defaults({
+   footstep = { name = "rp_sounds_footstep_wood", gain = 0.7, pitch = 0.8 },
+})
+
 -- Trees
 
 minetest.register_node(
@@ -133,7 +137,7 @@ minetest.register_node(
       description = S("Tree"),
       tiles = {"default_tree_top.png", "default_tree_top.png", "default_tree.png"},
       groups = {choppy = 2,tree = 1,oddly_breakable_by_hand = 1},
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = snd_tree,
 })
 
 minetest.register_node(
@@ -142,7 +146,7 @@ minetest.register_node(
       description = S("Oak Tree"),
       tiles = {"default_tree_oak_top.png", "default_tree_oak_top.png", "default_tree_oak.png"},
       groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1},
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = snd_tree,
 })
 
 minetest.register_node(
@@ -151,7 +155,7 @@ minetest.register_node(
       description = S("Birch Tree"),
       tiles = {"default_tree_birch_top.png", "default_tree_birch_top.png", "default_tree_birch.png"},
       groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1},
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = snd_tree,
 })
 
 -- Leaves

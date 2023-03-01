@@ -5,11 +5,20 @@
 
 local S = minetest.get_translator("rp_lumien")
 
+-- How close a player needs to be (in nodes) for a lumien crystal to light up
 local LUMIEN_ON_RADIUS = 2
+-- How far a player needs to be (in nodes) from an active lumien crystal to turn off again
 local LUMIEN_OFF_RADIUS = 4
+-- Light level of inactive lumien crystal
 local LUMIEN_CRYSTAL_LIGHT_MIN = 2
+-- Light level of active lumien crystal
 local LUMIEN_CRYSTAL_LIGHT_MAX = 12
+-- Light level of lumien block
 local LUMIEN_BLOCK_LIGHT = 14
+-- Sound pitch modifier for lumien crystal (compared to lumien block)
+local LUMIEN_CRYSTAL_SOUND_PITCH = 1.2
+-- Sound pitch modifier for lumien footstep sound (both block and crystal)
+local LUMIEN_SOUND_PITCH_FOOTSTEP = 0.8
 
 local timer_interval = 1
 local timer = 0
@@ -58,6 +67,18 @@ end
 
 minetest.register_globalstep(on_globalstep)
 
+local get_sounds = function(pitch)
+   if not pitch then
+      pitch = 1.0
+   end
+   return rp_sounds.node_sound_glass_defaults({
+      footstep = {name="rp_sounds_footstep_glass",gain=1,pitch=LUMIEN_SOUND_PITCH_FOOTSTEP},
+      place = {name="rp_lumien_place",gain=1,pitch=pitch},
+      dig = {name="rp_lumien_dug",gain=0.5,pitch=pitch},
+      dug = {name="rp_lumien_dug",gain=1,pitch=pitch*0.95},
+   })
+end
+
 -- Nodes
 
 minetest.register_node(
@@ -81,7 +102,7 @@ minetest.register_node(
       light_source = LUMIEN_CRYSTAL_LIGHT_MAX,
       _rp_itemshow_offset = vector.new(-0.2, 0, -0.2),
       drop = "rp_lumien:crystal_off",
-      sounds = rp_sounds.node_sound_glass_defaults(),
+      sounds = get_sounds(LUMIEN_CRYSTAL_SOUND_PITCH),
 })
 
 minetest.register_node(
@@ -106,7 +127,7 @@ minetest.register_node(
       light_source = LUMIEN_CRYSTAL_LIGHT_MIN,
       _tt_light_source_max = LUMIEN_CRYSTAL_LIGHT_MAX,
       _rp_itemshow_offset = vector.new(-0.2, 0, -0.2),
-      sounds = rp_sounds.node_sound_glass_defaults(),
+      sounds = get_sounds(LUMIEN_CRYSTAL_SOUND_PITCH),
 })
 
 minetest.register_node(
@@ -117,7 +138,7 @@ minetest.register_node(
       tiles = {"lumien_block.png"},
       groups = {cracky = 1},
       light_source = LUMIEN_BLOCK_LIGHT,
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = get_sounds(),
 })
 
 minetest.register_node(
@@ -128,7 +149,7 @@ minetest.register_node(
       tiles = {"rp_lumien_reinforced_block.png"},
       groups = {cracky = 1},
       light_source = LUMIEN_BLOCK_LIGHT,
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = get_sounds(),
 })
 
 -- Ores

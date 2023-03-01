@@ -4,11 +4,103 @@ Node sound functions for Repixture.
 
 Developers: See `API.md` for instructions.
 
-Sound licenses:
-  * Water sounds:
-    * Voxelands project <http://www.voxelands.com/> (CC BY-SA 3.0)
-      * default_place_node_water.ogg
-      * default_dug_water.ogg
-  * All other sounds: CC0
-Texture license: CC BY-SA 4.0
-Source license: LGPLv2.1
+## Licensing
+
+### Sound licenese
+
+The overall license for the sound effects is CC BY-SA 3.0.
+
+Individual sounds might have an additional, optional license
+that applies as well (in that case, you can choose between
+the file license and the overall license).
+
+Note: The '*' character in file names below is a placeholder that
+stands for any sequence of characters.
+
+List of sounds and credits:
+
+* default_place_node_water.ogg
+* default_dug_water.ogg
+	* Author: Voxelands project <http://www.voxelands.com/>
+	* License: CC BY-SA 3.0
+* rp_sounds_place_planks.*.ogg
+	* License: CC0
+* rp_sounds_footstep_glass.*.ogg
+	* Derivate work of a sound by a deleted freesound.org user
+	* Source: <https://freesound.org/people/deleted_user_2104797/sounds/325252/>
+	* License: CC0
+* rp_sounds_dug_glass.ogg
+	* Derivate work of a sound by `kelsey_w`
+	* Source: <https://freesound.org/people/kelsey_w/sounds/467039/>
+	* License: CC BY 3.0
+* rp_sounds_place_glass.*.ogg
+	* Derivate work of a sound by kbnevel
+	* Source: <https://freesound.org/people/kbnevel/sounds/119839/>
+	* License: CC0
+* rp_sounds_place_planks.*.ogg
+	* License: CC0
+	* Source: OpenGameArt (100-CC0-wood-metal-SFX)
+* rp_sounds_dig_wood.*.ogg
+	* Derived from 'Hit sounds' by pauiluw
+	* Source: <https://opengameart.org/content/hit-sounds>
+	* License: CC0
+* rp_sounds_footstep_stone.*.ogg
+	* Derived from 'Hiking Boot Footsteps on Stone' by Fission9
+	* Source: <https://freesound.org/people/Fission9/sounds/521590/>
+	* License: CC0
+* rp_sounds_dig_stone.*.ogg
+	* Derived from 'Stone Strike/Hit' by BrickLover
+	* Source: <https://freesound.org/people/Bricklover/sounds/560966/>
+	* License: CC0
+* rp_sounds_dug_stone.1.ogg
+	* Derived from 'stone falls and breaks low pitch.aiff' by SoundCollectah
+	* Source: https://freesound.org/people/SoundCollectah/sounds/109360/
+	* License: CC0
+* rp_sounds_dug_stone.2.ogg
+	* Derived from 'rcok falls 02.mp3' by SoundCollectah
+	* Source: https://freesound.org/people/SoundCollectah/sounds/158465/
+	* License: CC0
+* rp_sounds_dug_stone.3.ogg
+* rp_sounds_dug_stone.4.ogg
+* rp_sounds_dug_stone.5.ogg
+	* Derived from 'Foley_Impact_Stones_Strong_Debris_Stereo_DS.wav' by Nox_Sound
+	* Source: https://freesound.org/people/Nox_Sound/sounds/554148/
+	* License: CC0
+* rp_sounds_dig_sand.*.ogg
+	* Derived from 'Digging in wet course sand (raw file)' by f3bbbo
+	* Source: <https://freesound.org/people/f3bbbo/sounds/651294/>
+	* License: CC0
+* rp_sounds_dig_dirt.*.ogg
+	* Derived from 'Shovel in dirt' by RavenWolfProds
+	* Source: <https://freesound.org/people/RavenWolfProds/sounds/503672/>
+	* License: CC0
+
+* rp_sounds_footstep_dirt.*.ogg
+* rp_sounds_footstep_dry_dirt.*.ogg
+* rp_sounds_footstep_swamp_dirt.*.ogg
+* rp_sounds_footstep_grass.*.ogg
+* rp_sounds_footstep_swamp_grass.*.ogg:
+* rp_sounds_footstep_straw.*.ogg
+* rp_sounds_footstep_wood.*.ogg
+* rp_sounds_footstep_fuzzy.*.ogg
+* rp_sounds_footstep_sand.*.ogg
+* rp_sounds_footstep_gravel.*.ogg
+* rp_sounds_footstep_stone.*.ogg
+* rp_sounds_dig_straw.*.ogg
+* rp_sounds_dig_glass.*.ogg
+* rp_sounds_dig_gravel.*.ogg
+* rp_sounds_dig_glass.*.ogg
+* rp_sounds_dug_straw.*.ogg
+* rp_sounds_place_straw.*.ogg
+* rp_sounds_place_gravel.*.ogg
+* rp_sounds_place_failed.ogg
+* rp_sounds_fall_sand.*.ogg
+* rp_sounds_fall_gravel.*.ogg
+	* by Wuzzy
+	* License: CC0
+
+All other sounds not mentioned above are licensed under CC0.
+
+### Source code license
+
+The source code license is LGPLv2.1.

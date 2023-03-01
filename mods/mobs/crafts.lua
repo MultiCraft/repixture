@@ -13,7 +13,7 @@ minetest.register_node(
       tiles ={"mobs_wool.png"},
       is_ground_content = false,
       groups = {snappy = 2, oddly_breakable_by_hand = 3, fall_damage_add_percent = -25, fuzzy = 1, unmagnetic = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_fuzzy_defaults(),
 })
 
 -- Raw meat

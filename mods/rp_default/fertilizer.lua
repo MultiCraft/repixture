@@ -46,7 +46,7 @@ minetest.register_node(
 	 not_in_craft_guide = 1,
       },
       drop = "rp_default:dry_dirt",
-      sounds = rp_sounds.node_sound_dirt_defaults(),
+      sounds = rp_sounds.node_sound_dry_dirt_defaults(),
 })
 
 minetest.register_node(
@@ -69,7 +69,7 @@ minetest.register_node(
 	 not_in_craft_guide = 1,
       },
       drop = "rp_default:swamp_dirt",
-      sounds = rp_sounds.node_sound_dirt_defaults(),
+      sounds = rp_sounds.node_sound_swamp_dirt_defaults(),
 })
 
 minetest.register_node(
