@@ -548,11 +548,13 @@ minetest.register_node(
          local head_pos = vector.add(pos, dir)
          if minetest.get_node(head_pos).name == "rp_bed:bed_head" then
             minetest.remove_node(head_pos)
+            minetest.check_for_falling({x=head_pos.x, y=head_pos.y+1, z=head_pos.z})
          end
       end,
       on_blast = function(pos)
          -- Needed to force on_destruct to be called
          minetest.remove_node(pos)
+         minetest.check_for_falling({x=pos.x, y=pos.y+1, z=pos.z})
       end,
 
       on_rightclick = function(pos, node, clicker, itemstack)
