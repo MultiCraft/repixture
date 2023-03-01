@@ -16,6 +16,14 @@ local function set_segment_hinge_right(pos)
    meta:set_int("right", 1)
 end
 
+-- Remove node at pos and possibly trigger a fall
+-- if a falling/attached node above
+local function remove_node_and_check_falling(pos)
+   minetest.remove_node(pos)
+   local pos2 = {x=pos.x, y=pos.y+1, z=pos.z}
+   minetest.check_for_falling(pos2)
+end
+
 -- Registers a door
 
 function door.register_door(name, def)
@@ -238,14 +246,14 @@ function door.register_door(name, def)
          on_flood = function(bottom, oldnode)
             local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
             if minetest.get_node(bottom).name ~= name.."_b_2" and minetest.get_node(top).name == name.."_t_1" then
-               minetest.remove_node(top)
+               remove_node_and_check_falling(top)
                minetest.add_item(bottom, name)
             end
          end,
          after_destruct = function(bottom, oldnode)
             local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
             if minetest.get_node(bottom).name ~= name.."_b_2" and minetest.get_node(top).name == name.."_t_1" then
-               minetest.remove_node(top)
+               remove_node_and_check_falling(top)
             end
          end,
 
@@ -334,14 +342,14 @@ function door.register_door(name, def)
          on_flood = function(bottom, oldnode)
             local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
             if minetest.get_node(bottom).name ~= name.."_b_1" and minetest.get_node(top).name == name.."_t_2" then
-               minetest.remove_node(top)
+               remove_node_and_check_falling(top)
 	       minetest.add_item(bottom, name)
             end
          end,
          after_destruct = function(bottom, oldnode)
             local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
             if minetest.get_node(bottom).name ~= name.."_b_1" and minetest.get_node(top).name == name.."_t_2" then
-               minetest.remove_node(top)
+               remove_node_and_check_falling(top)
             end
          end,
 
