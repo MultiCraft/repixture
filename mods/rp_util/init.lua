@@ -60,20 +60,17 @@ function util.remove_area(pos1, pos2, nomanip)
    -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
 
-   if not nomanip then
-      local manip = minetest.get_voxel_manip()
-      manip:read_from_map(pos1, pos2)
-   end
+   -- TODO: VoxelManip support
 
-   for i = pos1.x, pos2.x-1 do
-      for j = pos1.y, pos2.y-1 do
-	 for k = pos1.z, pos2.z-1 do
-	    minetest.remove_node({x = i, y = j, z = k})
-	 end
+   local posses = {}
+   for x = pos1.x, pos2.x-1 do
+      for y = pos1.y, pos2.y-1 do
+         for z = pos1.z, pos2.z-1 do
+            table.insert(posses, {x = x, y = y, z = z})
+         end
       end
    end
-
-   manip:write_to_map()
+   minetest.bulk_set_node(posses, {name="air"})
 end
 
 function util.areafunc(pos1, pos2, func, nomanip)

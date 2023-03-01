@@ -38,6 +38,7 @@ Parameters:
 * `pos2`: Second corner of area
 * `nomanip`: If true, will not use VoxelManip (default: false)
 
+Note: VoxelManip is currently not used for this function.
 
 
 ## `util.areafunc(pos1, pos2, func, nomanip)`
