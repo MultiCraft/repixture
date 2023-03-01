@@ -106,10 +106,7 @@ minetest.register_node(
       description = S("Gravel"),
       tiles = {"default_gravel.png"},
       groups = {crumbly = 2, falling_node = 1, gravel = 1},
-      sounds = rp_sounds.node_sound_dirt_defaults(
-	 {
-	    footstep = {name = "default_crunch_footstep", gain = 0.45},
-      }),
+      sounds = rp_sounds.node_sound_gravel_defaults(),
 })
 
 -- Material blocks
@@ -120,7 +117,11 @@ minetest.register_node(
       description = S("Coal Block"),
       tiles = {"default_block_coal.png"},
       groups = {cracky = 3},
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = rp_sounds.node_sound_stone_defaults({
+          footstep = { name = "rp_default_footstep_coal", gain = 0.15 },
+          dig = { name = "rp_default_dig_coal", gain = 0.5 },
+          dug = { name = "rp_default_dug_coal", gain = 0.9 },
+      }),
 })
 
 minetest.register_node(
@@ -203,7 +204,7 @@ minetest.register_node(
       tiles = { "default_dry_dirt.png" },
       stack_max = 240,
       groups = {crumbly = 3, soil = 1, dirt = 1, dry_dirt = 1, plantable_dry = 1, fall_damage_add_percent = -10},
-      sounds = rp_sounds.node_sound_dirt_defaults(),
+      sounds = rp_sounds.node_sound_dry_dirt_defaults(),
       _fertilized_node = "rp_default:fertilized_dry_dirt",
 })
 
@@ -214,7 +215,7 @@ minetest.register_node(
       tiles = { "default_swamp_dirt.png" },
       stack_max = 240,
       groups = {crumbly = 3, soil = 1, dirt = 1, swamp_dirt = 1, plantable_wet = 1, fall_damage_add_percent = -10},
-      sounds = rp_sounds.node_sound_dirt_defaults(),
+      sounds = rp_sounds.node_sound_swamp_dirt_defaults(),
       _fertilized_node = "rp_default:fertilized_swamp_dirt",
 })
 
@@ -238,9 +239,8 @@ minetest.register_node(
 	    {items = {"rp_default:dry_grass 1"}, rarity = 2},
 	 }
       },
-      sounds = rp_sounds.node_sound_dirt_defaults(
-	 {
-	    footstep = {name = "default_soft_footstep", gain = 0.3},
+      sounds = rp_sounds.node_sound_dirt_defaults({
+         footstep = { name = "rp_sounds_footstep_grass", gain = 1.0 },
       }),
       _fertilized_node = "rp_default:fertilized_dirt",
 })
@@ -265,9 +265,8 @@ minetest.register_node(
 	    {items = {"rp_default:swamp_grass 2"}, rarity = 3},
 	 }
       },
-      sounds = rp_sounds.node_sound_dirt_defaults(
-	 {
-	    footstep = {name = "default_soft_footstep", gain = 0.5},
+      sounds = rp_sounds.node_sound_swamp_dirt_defaults({
+         footstep = { name = "rp_sounds_footstep_swamp_grass", gain = 1.0 },
       }),
       _fertilized_node = "rp_default:fertilized_swamp_dirt",
 })
@@ -293,9 +292,8 @@ minetest.register_node(
 	    {items = {"rp_default:grass 1"}, rarity = 3},
 	 }
       },
-      sounds = rp_sounds.node_sound_dirt_defaults(
-	 {
-	    footstep = {name = "default_soft_footstep", gain = 0.4},
+      sounds = rp_sounds.node_sound_dirt_defaults({
+         footstep = { name = "rp_sounds_footstep_grass", gain = 1.0 },
       }),
       _fertilized_node = "rp_default:fertilized_dirt",
 })
@@ -455,7 +453,7 @@ minetest.register_node(
       tiles = {"default_wood.png"},
       groups = {planks = 1, wood = 1, snappy = 3, choppy = 3, oddly_breakable_by_hand = 3},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_planks_defaults(),
 })
 
 minetest.register_node(
@@ -465,7 +463,7 @@ minetest.register_node(
       tiles = {"default_wood_oak.png"},
       groups = {planks = 1, wood = 1, snappy = 2, choppy = 2, oddly_breakable_by_hand = 3},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_planks_defaults(),
 })
 
 minetest.register_node(
@@ -475,7 +473,7 @@ minetest.register_node(
       tiles = {"default_wood_birch.png"},
       groups = {planks = 1, wood = 1, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_planks_defaults(),
 })
 
 -- Frames
@@ -487,7 +485,7 @@ minetest.register_node(
       tiles = {"default_frame.png"},
       groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_planks_defaults(),
 })
 
 minetest.register_node(
@@ -497,7 +495,7 @@ minetest.register_node(
       tiles = {"default_reinforced_frame.png"},
       groups = {wood = 1, choppy = 1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_planks_defaults(),
 })
 
 -- Reed
@@ -512,7 +510,7 @@ minetest.register_node(
       },
       groups = {snappy=2, fall_damage_add_percent=-10},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
 })
 minetest.register_node(
    "rp_default:dried_reed_block",
@@ -525,7 +523,7 @@ minetest.register_node(
       },
       groups = {snappy=2, fall_damage_add_percent=-15},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_straw_defaults(),
 })
 
 -- Hay
@@ -538,7 +536,12 @@ minetest.register_node(
       },
       groups = {snappy=3, fall_damage_add_percent=-30},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults({
+         footstep = { name = "rp_default_footstep_hay", gain = 1.0 },
+         place = { name = "rp_default_place_hay", gain = 1.0 },
+         dig = { name = "rp_default_dig_hay", gain = 0.5 },
+         dug = { name = "rp_default_dig_hay", gain = 1.0, pitch = 0.8 },
+      }),
 })
 
 -- Rope

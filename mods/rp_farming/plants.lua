@@ -24,6 +24,7 @@ farming.register_plant(
       grows_on = {"group:plantable_soil", "group:plantable_wet"},
       light_min = 8,
       light_max = 15,
+      sound_seed_place = { name = "rp_farming_place_nonseed", gain = 0.4 }
    }
 )
 
@@ -36,6 +37,7 @@ farming.register_plant(
       grows_on = {"group:plantable_dry"},
       light_min = 12,
       light_max = 15,
+      sound_seed_place = { name = "rp_farming_place_nonseed", gain = 0.4 }
    }
 )
 

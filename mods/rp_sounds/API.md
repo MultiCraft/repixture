@@ -22,23 +22,30 @@ Returns a sound definition for wooden node sounds.
 
 
     rp_sounds.node_sound_dirt_defaults({
-        footstep = {name="default_hard_footstep", gain=0.6}
+        footstep = {name="rp_sounds_footstep_grass", gain=0.6}
     })
 
 Returns a sound definition with dirt sounds, except the footstep
-sound was changed to `default_hard_footstep`.
+sound was changed to `rp_sounds_footstep_grass`.
 
 
 ### List of functions
 
 These are the available functions:
 
-* `rp_sounds.node_sound_defaults(table)`: Default/fallback sounds
+* `rp_sounds.node_sound_defaults(table)`: Default/fallback sounds (use when nothing else fits)
 * `rp_sounds.node_sound_stone_defaults(table)`: Stone
-* `rp_sounds.node_sound_dirt_defaults(table)`: Dirt
+* `rp_sounds.node_sound_dirt_defaults(table)`: Dirt (normal)
+* `rp_sounds.node_sound_dry_dirt_defaults(table)`: Dry Dirt
+* `rp_sounds.node_sound_swamp_dirt_defaults(table)`: Swamp Dirt
 * `rp_sounds.node_sound_sand_defaults(table)`: Sand
-* `rp_sounds.node_sound_wood_defaults(table)`: Wood, tree, etc.
+* `rp_sounds.node_sound_gravel_defaults(table)`: Gravel
+* `rp_sounds.node_sound_wood_defaults(table)`: Wood, generic
+* `rp_sounds.node_sound_plank_defaults(table)`: Wood, planks
 * `rp_sounds.node_sound_leaves_defaults(table)`: Leaves
+* `rp_sounds.node_sound_grass_defaults(table)`: Grass
+* `rp_sounds.node_sound_straw_defaults(table)`: Straw
 * `rp_sounds.node_sound_glass_defaults(table)`: Glass
+* `rp_sounds.node_sound_fuzzy_defaults(table)`: Fuzzy, soft surface (like wool, cotton, bedsheet)
 * `rp_sounds.node_sound_snow_defaults(table)`: Snow
 * `rp_sounds.node_sound_water_defaults(table)`: Water

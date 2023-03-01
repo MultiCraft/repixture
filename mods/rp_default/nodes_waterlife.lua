@@ -193,7 +193,7 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
          waving = 1,
          walkable = true,
          groups = groups,
-         sounds = rp_sounds.node_sound_leaves_defaults(),
+         sounds = rp_sounds.node_sound_grass_defaults(),
 	 node_dig_prediction = basenode,
          after_destruct = function(pos)
             local newnode = minetest.get_node(pos)
@@ -528,7 +528,7 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
          wield_image = "rp_default_plantlike_rooted_inv_"..append..".png^rp_default_plantlike_rooted_inv_alga.png",
          walkable = true,
          groups = groups,
-         sounds = rp_sounds.node_sound_leaves_defaults(),
+         sounds = rp_sounds.node_sound_grass_defaults(),
 	 node_dig_prediction = basenode,
 	 drop = "rp_default:alga",
          after_destruct = function(pos)
@@ -640,7 +640,12 @@ minetest.register_node(
       tiles = alga_block_tiles,
       groups = {snappy=2, fall_damage_add_percent=-10, slippery=ALGA_BLOCK_SLIPPERY},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults({
+         footstep = {name="rp_default_footstep_alga", gain=0.3},
+         dig = {name="rp_default_dig_alga", gain=0.3},
+         dug = {name="rp_default_dug_alga", gain=0.3},
+         place = {name="rp_default_place_alga", gain=0.3},
+      }),
 })
 
 minetest.register_node(
