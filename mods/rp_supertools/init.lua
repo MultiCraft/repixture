@@ -114,7 +114,7 @@ minetest.register_craftitem(
 	 end
 
 	 if used then
-            minetest.sound_play({name="rp_default_fertilize", gain=1.0}, {pos=pointed_thing.under}, true)
+            minetest.sound_play({name="rp_farming_place_nonseed", gain=0.75}, {pos=pointed_thing.under}, true)
             if not minetest.is_creative_enabled(placer:get_player_name()) then
                itemstack:add_wear_by_uses(13)
             end
