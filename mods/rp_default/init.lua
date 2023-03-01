@@ -55,6 +55,7 @@ minetest.log("action", "[rp_default] Mapgen: Using biome version "..default.biom
 dofile(minetest.get_modpath("rp_default").."/functions.lua")
 
 dofile(minetest.get_modpath("rp_default").."/nodes_base.lua") -- simple nodes
+dofile(minetest.get_modpath("rp_default").."/fertilizer.lua")
 dofile(minetest.get_modpath("rp_default").."/nodes_liquids.lua") -- liquids
 dofile(minetest.get_modpath("rp_default").."/nodes_trees.lua") -- tree-related nodes
 dofile(minetest.get_modpath("rp_default").."/nodes_plants.lua") -- small plant nodes
@@ -70,7 +71,6 @@ dofile(minetest.get_modpath("rp_default").."/craftitems.lua") -- simple craftite
 dofile(minetest.get_modpath("rp_default").."/ingot.lua")
 dofile(minetest.get_modpath("rp_default").."/bucket.lua")
 dofile(minetest.get_modpath("rp_default").."/tools.lua")
-dofile(minetest.get_modpath("rp_default").."/fertilizer.lua")
 
 dofile(minetest.get_modpath("rp_default").."/crafting.lua")
 
