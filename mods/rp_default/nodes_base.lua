@@ -117,11 +117,7 @@ minetest.register_node(
       description = S("Coal Block"),
       tiles = {"default_block_coal.png"},
       groups = {cracky = 3},
-      sounds = rp_sounds.node_sound_stone_defaults({
-          footstep = { name = "rp_default_footstep_coal", gain = 0.15 },
-          dig = { name = "rp_default_dig_coal", gain = 0.5 },
-          dug = { name = "rp_default_dug_coal", gain = 0.9 },
-      }),
+      sounds = rp_sounds.node_sound_coal_defaults(),
 })
 
 minetest.register_node(

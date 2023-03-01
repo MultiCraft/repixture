@@ -35,6 +35,7 @@ These are the available functions:
 
 * `rp_sounds.node_sound_defaults(table)`: Default/fallback sounds (use when nothing else fits)
 * `rp_sounds.node_sound_stone_defaults(table)`: Stone
+* `rp_sounds.node_sound_coal_defaults(table)`: Coal, or a similar hard and "crunchy" block
 * `rp_sounds.node_sound_dirt_defaults(table)`: Dirt (normal)
 * `rp_sounds.node_sound_dry_dirt_defaults(table)`: Dry Dirt
 * `rp_sounds.node_sound_swamp_dirt_defaults(table)`: Swamp Dirt

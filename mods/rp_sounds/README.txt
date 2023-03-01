@@ -86,10 +86,13 @@ List of sounds and credits:
 * rp_sounds_footstep_sand.*.ogg
 * rp_sounds_footstep_gravel.*.ogg
 * rp_sounds_footstep_stone.*.ogg
+* rp_sounds_footstep_coal.*.ogg
 * rp_sounds_dig_straw.*.ogg
 * rp_sounds_dig_glass.*.ogg
 * rp_sounds_dig_gravel.*.ogg
 * rp_sounds_dig_glass.*.ogg
+* rp_sounds_dig_coal.*.ogg
+* rp_sounds_dug_coal.*.ogg
 * rp_sounds_dug_straw.*.ogg
 * rp_sounds_place_straw.*.ogg
 * rp_sounds_place_gravel.*.ogg

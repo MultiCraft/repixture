@@ -175,6 +175,18 @@ function rp_sounds.node_sound_glass_defaults(table)
    return table
 end
 
+function rp_sounds.node_sound_coal_defaults(table)
+   table = table or {}
+   table.footstep = table.footstep or
+      {name="rp_sounds_footstep_coal", gain=0.15}
+   table.dig = table.dig or
+      {name="rp_sounds_dig_coal", gain=0.5}
+   table.dug = table.dug or
+      {name="rp_sounds_dug_coal", gain=0.9}
+   rp_sounds.node_sound_defaults(table)
+   return table
+end
+
 function rp_sounds.node_sound_snow_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
