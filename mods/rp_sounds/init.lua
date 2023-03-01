@@ -187,18 +187,6 @@ function rp_sounds.node_sound_coal_defaults(table)
    return table
 end
 
-function rp_sounds.node_sound_snow_defaults(table)
-   table = table or {}
-   table.footstep = table.footstep or
-      {name="default_crunch_footstep", gain=0.3}
-   table.dig = table.dig or
-      {name="default_dig_soft", gain=0.2}
-   table.dug = table.dug or
-      {name="default_dig_soft", gain=0.8}
-   rp_sounds.node_sound_defaults(table)
-   return table
-end
-
 function rp_sounds.node_sound_fuzzy_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
@@ -222,4 +210,10 @@ function rp_sounds.node_sound_water_defaults(table)
    rp_sounds.node_sound_defaults(table)
    return table
 end
+
+-- Dummy function, snow is unused
+function rp_sounds.node_sound_snow_defaults(table)
+   return rp_sounds.node_sound_dirt_defaults(table)
+end
+
 
