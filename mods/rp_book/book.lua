@@ -174,6 +174,7 @@ book.register_book_node(
          imeta:set_string("book:text", text)
          set_meta_description(imeta, title)
          minetest.remove_node(pos)
+         minetest.check_for_falling({x=pos.x, y=pos.y+1, z=pos.z})
          minetest.add_item(pos, item)
       end,
       on_use = function(itemstack, player, pointed_thing)
