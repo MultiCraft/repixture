@@ -264,7 +264,7 @@ minetest.register_node(
       -- Note: The jewel does NOT count as a mineral, it is special
       groups = {dig_immediate = 3, craftitem = 1, attached_node = 1},
       sounds = rp_sounds.node_sound_crystal_defaults({
-         footstep = {name="rp_sounds_footstep_glass",gain=1,pitch=1.2},
+         footstep = {name="rp_sounds_footstep_glass",gain=0.5,pitch=1.2},
          place = {name="rp_sounds_place_crystal",gain=1,pitch=1.4},
          dug = {name="rp_sounds_dug_crystal",gain=1,pitch=1.35},
       }),
