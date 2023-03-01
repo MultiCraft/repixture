@@ -35,9 +35,6 @@ File credits and individual file licenses:
   * rp_default_dig_alga.*.ogg
   * rp_default_dug_alga.*.ogg
   * rp_default_place_alga.*.ogg
-  * rp_default_footstep_coal.*.ogg
-  * rp_default_dig_coal.*.ogg
-  * rp_default_dug_coal.*.ogg
   * rp_default_dig_hay.*.ogg
   * rp_default_place_hay.*.ogg
   * rp_default_footstep_hay.*.ogg
