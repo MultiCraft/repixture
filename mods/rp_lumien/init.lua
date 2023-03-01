@@ -74,8 +74,8 @@ local get_sounds = function(pitch)
    return rp_sounds.node_sound_crystal_defaults({
       footstep = {name="rp_sounds_footstep_glass",gain=1,pitch=LUMIEN_SOUND_PITCH_FOOTSTEP},
       place = {name="rp_sounds_place_crystal",gain=1,pitch=pitch},
-      dig = {name="rp_sounds_place_crystal",gain=0.5,pitch=pitch},
-      dug = {name="rp_sounds_place_crystal",gain=1,pitch=pitch*0.95},
+      dig = {name="rp_sounds_dug_crystal",gain=0.5,pitch=pitch},
+      dug = {name="rp_sounds_dug_crystal",gain=1,pitch=pitch*0.95},
    })
 end
 
