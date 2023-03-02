@@ -22,6 +22,10 @@ local ACCEL_CONTROL = 4.0   -- Acceleration to apply when pushing the movement c
 
 local SKY_DIVER_DEPTH = 100 -- how many nodes to sink to get the sky_diver achievement
 
+local SND_GAIN_OPEN = 0.5 -- Sound gain for opening the parachute
+local SND_GAIN_CLOSE = 0.8 -- Sound gain for closing the parachute
+local SND_GAIN_FAIL = 0.5 -- Sound gain for failing to open the parachute
+
 local function air_physics(v)
    local m = 80    -- Weight of player, kg
    local g = -GRAVITY  -- Earth Acceleration, m/s^2
@@ -134,6 +138,9 @@ local function open_parachute_for_player(player, play_sound, load_area)
    local pos = player:get_pos()
 
    if rp_player.player_attached[name] then
+      if play_sound then
+         minetest.sound_play({name="parachute_fail", gain=SND_GAIN_FAIL}, {object=player}, true)
+      end
       return false, "already_attached"
    end
 
@@ -152,12 +159,15 @@ local function open_parachute_for_player(player, play_sound, load_area)
 
       local in_node = minetest.get_node(pos)
       if in_node.name == "ignore" then
+         if play_sound then
+            minetest.sound_play({name="parachute_fail", gain=SND_GAIN_FAIL}, {object=player}, true)
+         end
          return false, "ignore"
       end
 
       local obj = minetest.add_entity(ppos, "parachute:entity")
       if play_sound then
-         minetest.sound_play({name="parachute_open", pos=ppos}, {gain=0.5}, true)
+         minetest.sound_play({name="parachute_open", gain=SND_GAIN_OPEN}, {object=player}, true)
       end
 
       obj:set_velocity(
@@ -190,6 +200,9 @@ local function open_parachute_for_player(player, play_sound, load_area)
       minetest.log("action", "[parachute] "..name.." opens a parachute at "..minetest.pos_to_string(obj:get_pos(), 1))
       return true
    else
+      if play_sound then
+         minetest.sound_play({name="parachute_fail", gain=SND_GAIN_FAIL}, {object=player}, true)
+      end
       return false, fail_reason
    end
 end
@@ -395,7 +408,13 @@ minetest.register_entity(
                end
             end
 
-            minetest.sound_play({name="parachute_close", pos=self.object:get_pos()}, {gain=0.5}, true)
+            local snd_object
+            if player then
+               snd_object = player
+            else
+               snd_object = self.object
+            end
+            minetest.sound_play({name="parachute_close", gain=SND_GAIN_CLOSE}, {object=snd_object}, true)
 
             local final_pos_str = minetest.pos_to_string(self.object:get_pos(), 1)
             if player then
