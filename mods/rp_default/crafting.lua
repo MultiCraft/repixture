@@ -211,6 +211,13 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
+      recipe = "rp_default:bucket",
+      burntime = 8,
+})
+
+minetest.register_craft(
+   {
+      type = "fuel",
       recipe = "rp_default:pick_wood",
       burntime = 15,
 })
