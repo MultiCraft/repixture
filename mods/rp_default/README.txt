@@ -29,10 +29,10 @@ File credits and individual file licenses:
     * Source: https://freesound.org/people/spookymodem/sounds/202094/
     * Author: spookymodem (CC0)
     * Sounds modified by Wuzzy
-  * rp_sounds_place_bucket.ogg
-  * rp_sounds_place_bucket_water.ogg
-  * rp_sounds_dug_bucket.ogg
-  * rp_sounds_dug_bucket_water.ogg
+  * rp_default_place_bucket.ogg
+  * rp_default_place_bucket_water.ogg
+  * rp_default_dug_bucket.ogg
+  * rp_default_dug_bucket_water.ogg
     * Derived by Wuzzy from sounds by lzmraul and indirect
     * Source 1: <https://freesound.org/people/lzmraul/sounds/389459/>
     * Source 2: <https://freesound.org/people/indirect/sounds/448116/>
