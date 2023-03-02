@@ -43,7 +43,9 @@ for b=1, #water_buckets do
             type = "fixed",
             fixed = { -6/16, -0.5, -6/16, 6/16, 5/16, 6/16 },
          },
-         sounds = rp_sounds.node_sound_wood_defaults(),
+         sounds = rp_sounds.node_sound_planks_defaults({
+	    dug = { name = "rp_sounds_dig_wood", pitch = 3.5 },
+         }),
          walkable = false,
          floodable = true,
          on_flood = function(pos, oldnode, newnode)
@@ -134,7 +136,9 @@ minetest.register_node(
 	      type = "fixed",
 	      fixed = { -6/16, -0.5, -6/16, 6/16, 5/16, 6/16 },
       },
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_planks_defaults({
+	  dug = { name = "rp_sounds_dig_wood", pitch = 3.5 },
+      }),
       paramtype = "light",
       paramtype2 = "facedir",
       use_texture_alpha = "clip",

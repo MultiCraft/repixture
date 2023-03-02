@@ -29,7 +29,7 @@ default.register_ingot = function(name, def)
 		on_flood = function(pos)
 			minetest.add_item(pos, name)
 		end,
-		sounds = rp_sounds.node_sound_stone_defaults(),
+		sounds = rp_sounds.node_sound_defaults(),
 	})
 end
 

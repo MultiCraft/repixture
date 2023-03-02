@@ -2,6 +2,8 @@ local S = minetest.get_translator("rp_default")
 
 -- Saplings
 
+local snd_sapling = rp_sounds.node_sound_grass_defaults()
+
 minetest.register_node(
    "rp_default:sapling",
    {
@@ -21,7 +23,7 @@ minetest.register_node(
       },
       groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = snd_sapling,
 
       on_timer = function(pos)
          default.grow_sapling(pos)
@@ -52,7 +54,7 @@ minetest.register_node(
 	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
       },
       groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = snd_sapling,
 
       on_timer = function(pos)
          default.grow_sapling(pos)
@@ -84,7 +86,7 @@ minetest.register_node(
       },
       groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = snd_sapling,
 
       on_timer = function(pos)
          default.grow_sapling(pos)
@@ -116,7 +118,7 @@ minetest.register_node(
       },
       groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = snd_sapling,
 
       on_timer = function(pos)
          default.grow_sapling(pos)

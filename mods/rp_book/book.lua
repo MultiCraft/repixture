@@ -73,7 +73,10 @@ book.register_book_node = function(nodename, def)
          on_flood = function(pos)
             minetest.add_item(pos, nodename)
          end,
-	 sounds = rp_sounds.node_sound_defaults(),
+         sounds = rp_sounds.node_sound_defaults({
+            place = { name = "rp_book_place_book", gain = 0.5 },
+            dug = { name = "rp_book_dug_book", gain = 0.5 },
+         }),
    }
    for k,v in pairs(def) do
       if k ~= "groups" then
