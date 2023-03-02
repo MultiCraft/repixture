@@ -36,9 +36,9 @@ function rp_sounds.node_sound_dirt_defaults(table)
    table.footstep = table.footstep or
       {name="rp_sounds_footstep_dirt", gain=1.0}
    table.dug = table.dug or
-      {name="rp_sounds_dig_dirt", gain=1.0, pitch=0.8}
+      {name="rp_sounds_dig_dirt", gain=0.5, pitch=0.8}
    table.dig = table.dig or
-      {name="rp_sounds_dig_dirt", gain=0.5}
+      {name="rp_sounds_dig_dirt", gain=0.25}
    table.place = table.place or
       {name="default_place_node_hard", gain=1.0}
    rp_sounds.node_sound_defaults(table)
