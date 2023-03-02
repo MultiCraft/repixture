@@ -463,7 +463,7 @@ local register_boat = function(name, def)
 			end
 			-- If there were def.max_punches consecutive punches on the boat,
 			-- each punch faster than RESET_PUNCH_TIMER, the boat dies.
-			minetest.sound_play({name = "default_dig_hard"}, {pos=self.object:get_pos()}, true)
+			minetest.sound_play({name = "rp_sounds_dig_wood", gain=0.3, pitch=1.2}, {pos=self.object:get_pos()}, true)
 			if time_from_last_punch == nil or time_from_last_punch < RESET_PUNCH_TIMER then
 				-- Increase punch counter if first punch, it it was fast enough
 				self._punches = self._punches + 1
@@ -552,7 +552,7 @@ local register_boat = function(name, def)
 				local ent = minetest.add_entity(place_pos, itemstring)
 				if ent then
 					-- TODO: Add custom sound
-					minetest.sound_play({name = "default_place_node_hard"}, {pos=place_pos}, true)
+					minetest.sound_play({name = "default_place_node_hard", gain=0.7}, {pos=place_pos}, true)
 					ent:set_yaw(placer:get_look_horizontal())
 					minetest.log("action", "[rp_boats] "..placer:get_player_name().." spawns rp_boats:"..name.." at "..minetest.pos_to_string(place_pos, 1))
 					if not minetest.is_creative_enabled(placer:get_player_name()) then
