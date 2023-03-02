@@ -37,6 +37,15 @@ File credits and individual file licenses:
     * Source 1: <https://freesound.org/people/lzmraul/sounds/389459/>
     * Source 2: <https://freesound.org/people/indirect/sounds/448116/>
     * License: CC0
+  * rp_default_place_ingot.ogg
+    * Derived by Wuzzy from sound by CaptainYulef
+    * Source: <https://freesound.org/people/CaptainYulef/sounds/640871/>
+    * License: CC0
+  * rp_default_dug_ingot.ogg
+  * rp_default_fall_ingot.ogg
+    * Derived by Wuzzy from sound by timgormly
+    * Source: <https://freesound.org/people/timgormly/sounds/170957/>
+    * License: CC BY 3.0
 
   * rp_default_footstep_cactus.*.ogg
   * rp_default_dig_cactus.*.ogg
