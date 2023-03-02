@@ -183,6 +183,8 @@ function rp_sounds.node_sound_crystal_defaults(table)
       {name="rp_sounds_dug_crystal", gain=0.5}
    table.dug = table.dug or
       {name="rp_sounds_dug_crystal", gain=1.0}
+   table.fall = table.fall or
+      {name="rp_sounds_fall_crystal", gain=0.25}
    table.place = table.place or
       {name="rp_sounds_place_crystal", gain=1.0}
    rp_sounds.node_sound_defaults(table)

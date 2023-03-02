@@ -74,11 +74,12 @@ List of sounds and credits:
 	* Derived from 'Shovel in dirt' by RavenWolfProds
 	* Source: <https://freesound.org/people/RavenWolfProds/sounds/503672/>
 	* License: CC0
-* rp_sounds_crystal_place.*.ogg:
+* rp_sounds_crystal_place.*.ogg
 	* Derived from '01 barreau bunker original.wav' by firb
 	* Source: <https://freesound.org/people/firb/sounds/330653/>
 	* Licence: CC BY 4.0 <https://creativecommons.org/licenses/by/4.0/>
-* rp_sounds_crystal_dug.ogg:
+* rp_sounds_crystal_dug.ogg
+* rp_sounds_crystal_fall.ogg
 	* Derived from sound by `kelsey_w`
 	* Source: <https://freesound.org/people/kelsey_w/sounds/467039/>
 	* Licence: CC BY 3.0 <https://creativecommons.org/licenses/by/3.0/>
