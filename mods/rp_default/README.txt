@@ -19,16 +19,25 @@ Overall license: CC BY 3.0
 
 File credits and individual file licenses:
 
-  * default_shears_cut.ogg:
+  * default_shears_cut.ogg
     * Source: https://freesound.org/people/SmartWentCody/sounds/179015/
     * Author: SmartWentCody (CC BY 3.0)
-  * default_tool_breaks.ogg:
+  * default_tool_breaks.ogg
     * Source: https://freesound.org/people/JustInvoke/sounds/446118/
     * Author: JustInvoke (CC BY 3.0)
-  * rp_default_airweed_bubbles.*.ogg:
+  * rp_default_airweed_bubbles.*.ogg
     * Source: https://freesound.org/people/spookymodem/sounds/202094/
     * Author: spookymodem (CC0)
     * Sounds modified by Wuzzy
+  * rp_sounds_place_bucket.ogg
+  * rp_sounds_place_bucket_water.ogg
+  * rp_sounds_dug_bucket.ogg
+  * rp_sounds_dug_bucket_water.ogg
+    * Derived by Wuzzy from sounds by lzmraul and indirect
+    * Source 1: <https://freesound.org/people/lzmraul/sounds/389459/>
+    * Source 2: <https://freesound.org/people/indirect/sounds/448116/>
+    * License: CC0
+
   * rp_default_footstep_cactus.*.ogg
   * rp_default_dig_cactus.*.ogg
   * rp_default_footstep_alga.*.ogg
