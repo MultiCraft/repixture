@@ -43,7 +43,8 @@ end
 -- * <fail_reason> is the reason for failure
 --    * `nil`: not failed
 --    * `"on_ground"`: Player standing on ground
---    * `"no_space"`: Not enough space
+--    * `"in_liquid"`: Player inside liquid
+--    * `"no_space"`: Not enough space (non-walkable non-liquid nodes count as space)
 local check_parachute_spawnable = function(pos, player)
    -- We do a few raycasts which go vertically
    -- to test potential collision with the (soon-to-exist)
@@ -78,8 +79,9 @@ local check_parachute_spawnable = function(pos, player)
       local ray_start = vector.add(pos, off_start)
       local ray_end = vector.add(pos, off_end)
       local ray = minetest.raycast(ray_start, ray_end, true, true)
-      local on_ground_only = true
-      local collide = false
+      local on_ground_only = true -- whether we stand on ground
+      local in_liquid = false -- whether we're in liquid (liquidtype~="none")
+      local collide = false -- whethe we collide
       while true do
          local thing = ray:next()
          if not thing then
@@ -92,11 +94,20 @@ local check_parachute_spawnable = function(pos, player)
             if thing.intersection_point.y >= pos.y then
                on_ground_only = false
             end
+            if not on_ground_only and not in_liquid and thing.type == "node" then
+               local colnode = minetest.get_node(thing.under)
+               local cdef = minetest.registered_nodes[colnode.name]
+               if cdef and cdef.liquidtype ~= "none" then
+                  in_liquid = true
+               end
+            end
          end
       end
       if collide then
          if on_ground_only then
             return false, "on_ground"
+         elseif in_liquid then
+            return false, "in_liquid"
          else
             return false, "no_space"
          end
@@ -223,7 +234,7 @@ minetest.register_craftitem(
             end
             return itemstack
          else
-            if fail_reason == "on_ground" then
+            if fail_reason == "on_ground" or fail_reason == "in_liquid" then
                minetest.chat_send_player(
                  player:get_player_name(),
                  minetest.colorize("#FFFF00", S("You can open the parachute only in air!")))
