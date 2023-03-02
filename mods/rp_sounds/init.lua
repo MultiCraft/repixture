@@ -143,6 +143,8 @@ function rp_sounds.node_sound_grass_defaults(table)
       {name="rp_sounds_dug_grass", gain=0.3}
    table.place = table.place or
       {name="rp_sounds_dug_grass", gain=1.0}
+   table.fall = table.fall or
+      {name="rp_sounds_fall_grass", gain=0.6}
    rp_sounds.node_sound_defaults(table)
    return table
 end

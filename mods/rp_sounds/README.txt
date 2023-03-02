@@ -105,10 +105,12 @@ List of sounds and credits:
 * rp_sounds_dig_coal.*.ogg
 * rp_sounds_dug_coal.*.ogg
 * rp_sounds_dug_straw.*.ogg
+* rp_sounds_dug_grass.*.ogg
 * rp_sounds_place_straw.*.ogg
 * rp_sounds_place_gravel.*.ogg
 * rp_sounds_fall_sand.*.ogg
 * rp_sounds_fall_gravel.*.ogg
+* rp_sounds_fall_grass.*.ogg
 	* by Wuzzy
 	* License: CC0
 
