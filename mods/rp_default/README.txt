@@ -46,6 +46,11 @@ File credits and individual file licenses:
     * Derived by Wuzzy from sound by timgormly
     * Source: <https://freesound.org/people/timgormly/sounds/170957/>
     * License: CC BY 3.0
+  * rp_default_dug_nut.ogg
+  * rp_default_place_nut.ogg
+    * Derived by Wuzzy from sound by EminYILDIRIM
+    * Source: <https://freesound.org/people/EminYILDIRIM/sounds/536089/>
+    * License: CC0
 
   * rp_default_footstep_cactus.*.ogg
   * rp_default_dig_cactus.*.ogg

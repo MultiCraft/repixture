@@ -359,6 +359,13 @@ minetest.register_node(
       drop = "rp_default:apple",
 })
 
+
+local sounds_acorn = rp_sounds.node_sound_defaults({
+   place = {name = "rp_default_place_nut", gain = 0.5 },
+   dug = {name = "rp_default_dug_nut", gain = 0.4 },
+   footstep = {},
+})
+
 minetest.register_node(
    "rp_default:acorn",
    {
@@ -389,7 +396,7 @@ minetest.register_node(
       groups = {snappy = 3, handy = 3, leafdecay = 3, leafdecay_drop = 1, food = 2},
       on_use = minetest.item_eat(0),
       on_place = create_on_place_fruit_function("rp_default:acorn"),
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = sounds_acorn,
 })
 
 minetest.register_node(
@@ -415,7 +422,7 @@ minetest.register_node(
          minetest.add_item(pos, "rp_default:acorn")
       end,
       groups = {snappy = 3, handy = 3},
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = sounds_acorn,
       drop = "rp_default:acorn",
 })
 
