@@ -4,6 +4,8 @@
 
 local S = minetest.get_translator("rp_armor")
 
+local SOUND_GAIN = 0.4
+
 armor = {}
 
 local armor_local = {}
@@ -11,12 +13,12 @@ local armor_local = {}
 -- Wear is wear per HP of damage taken
 
 armor.materials = {
-   -- material      craftitem                     description     %
-   {"wood",         "group:planks",               { S("Wooden Helmet"), S("Wooden Chestplate"), S("Wooden Boots") }, 10},
-   {"steel",        "rp_default:ingot_steel",        { S("Steel Helmet"), S("Steel Chestplate"), S("Steel Boots") }, 20},
-   {"chainmail",    "rp_armor:chainmail_sheet",      { S("Chainmail Helmet"), S("Chainmail Chestplate"), S("Chainmail Boots") }, 30},
-   {"carbon_steel", "rp_default:ingot_carbon_steel", { S("Carbon Steel Helmet"), S("Carbon Steel Chestplate"), S("Carbon Steel Boots") }, 40},
-   {"bronze",       "rp_default:ingot_bronze",       { S("Bronze Helmet"), S("Bronze Chestplate"), S("Bronze Boots") }, 60},
+   -- material, craftitem, description, protection %, equip sound, unequip sound, pitch
+   {"wood",         "group:planks",                  { S("Wooden Helmet"), S("Wooden Chestplate"), S("Wooden Boots") }, 10, "rp_armor_equip_wood", "rp_armor_unequip_wood"},
+   {"steel",        "rp_default:ingot_steel",        { S("Steel Helmet"), S("Steel Chestplate"), S("Steel Boots") }, 20, "rp_armor_equip_metal", "rp_armor_unequip_metal", 0.90},
+   {"chainmail",    "rp_armor:chainmail_sheet",      { S("Chainmail Helmet"), S("Chainmail Chestplate"), S("Chainmail Boots") }, 30, "rp_armor_equip_chainmail", "rp_armor_unequip_chainmail"},
+   {"carbon_steel", "rp_default:ingot_carbon_steel", { S("Carbon Steel Helmet"), S("Carbon Steel Chestplate"), S("Carbon Steel Boots") }, 40, "rp_armor_equip_metal", "rp_armor_unequip_metal", 0.95},
+   {"bronze",       "rp_default:ingot_bronze",       { S("Bronze Helmet"), S("Bronze Chestplate"), S("Bronze Boots") }, 60, "rp_armor_equip_metal", "rp_armor_unequip_metal", 1.0},
 }
 
 -- Usable slots
@@ -272,6 +274,7 @@ crafting.register_craft(
 -- Armor pieces
 
 for mat_index, matdef in ipairs(armor.materials) do
+
    local mat = matdef[1]
 
    local armor_def = math.floor(matdef[4] / #armor.slots)
@@ -310,13 +313,15 @@ for mat_index, matdef in ipairs(armor.materials) do
                   armor_changed = true
                end
                if armor_changed then
-                  minetest.sound_play({name="armor_equip", object=user}, {gain=0.5}, true)
+                  minetest.sound_play({name=matdef[5] or "rp_armor_equip_metal", gain=SOUND_GAIN, pitch=matdef[7]}, {object=user}, true)
                   armor.update(user)
                   return itemstack
                end
             end,
 
 	    stack_max = 1,
+
+            _rp_armor_material = mat,
       })
    end
 
@@ -343,6 +348,7 @@ for mat_index, matdef in ipairs(armor.materials) do
             matdef[2] .. " 6",
 	 }
    })
+
 end
 
 -- Only allow armor items to be put into armor slots
@@ -372,21 +378,27 @@ end)
 -- Move armor items to correct slot
 minetest.register_on_player_inventory_action(function(player, action, inventory, inventory_info)
     local sound  -- 1 == equip, 2 = unequip
+
+    local armorname, armorstack
+    if action == "move" then
+       armorstack = inventory:get_stack(inventory_info.to_list, inventory_info.to_index)
+       armorname = armorstack:get_name()
+    elseif action == "put" or action == "take" then
+       armorstack = inventory_info.stack
+       armorname = armorstack:get_name()
+    end
     if action == "move" and inventory_info.to_list == "armor" then
-       local stack = inventory:get_stack(inventory_info.to_list, inventory_info.to_index)
-       local name = stack:get_name()
-       local slot = minetest.get_item_group(name, "armor_slot")
+       local slot = minetest.get_item_group(armorname, "armor_slot")
        if slot ~= inventory_info.to_index then
            inventory:set_stack("armor", inventory_info.to_index, "")
-           inventory:set_stack("armor", slot, stack)
+           inventory:set_stack("armor", slot, armorstack)
        end
        sound = 1
     elseif action == "put" and inventory_info.listname == "armor" then
-       local name = inventory_info.stack:get_name()
-       local slot = minetest.get_item_group(name, "armor_slot")
+       local slot = minetest.get_item_group(armorname, "armor_slot")
        if slot ~= inventory_info.to_index then
            inventory:set_stack("armor", inventory_info.index, "")
-           inventory:set_stack("armor", slot, inventory_info.stack)
+           inventory:set_stack("armor", slot, armorstack)
        end
        sound = 1
     end
@@ -407,10 +419,27 @@ minetest.register_on_player_inventory_action(function(player, action, inventory,
            armor.update(player)
         end
     end
+    local equip_sound = "rp_armor_equip_metal"
+    local unequip_sound = "rp_armor_unequip_metal"
+    local pitch
+    if armorname then
+       local itemdef = minetest.registered_items[armorname]
+       if itemdef and itemdef._rp_armor_material then
+          for a=1, #armor.materials do
+             local arm = armor.materials[a]
+             if arm[1] == itemdef._rp_armor_material then
+                equip_sound = arm[5] or "rp_armor_equip_metal"
+                unequip_sound = arm[6] or "rp_armor_unequip_metal"
+                pitch = arm[7]
+                break
+             end
+          end
+       end
+    end
     if sound == 1 then
-        minetest.sound_play({name="armor_equip", object=player}, {gain=0.5}, true)
+        minetest.sound_play({name=equip_sound, gain=SOUND_GAIN, pitch=pitch}, {object=player}, true)
     elseif sound == 2 then
-        minetest.sound_play({name="armor_unequip", object=player}, {gain=0.5}, true)
+        minetest.sound_play({name=unequip_sound, gain=SOUND_GAIN, pitch=pitch}, {object=player}, true)
     end
 end)
 
