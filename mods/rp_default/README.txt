@@ -62,6 +62,14 @@ File credits and individual file licenses:
     * Derived by Wuzzy from sound 'Jammed seashells' by MBPL
     * Source: <https://freesound.org/people/MBPL/sounds/667184/>
     * License: CC0
+  * rp_default_dig_fruit.ogg
+    * Sound 'Fruit crack' by Clearwavsound
+    * Source: <https://freesound.org/people/Clearwavsound/sounds/524610/>
+    * License: CC BY 3.0
+  * rp_default_dug_fruit.ogg
+    * Derived by Wuzzy from sound by kyles
+    * Source: <https://freesound.org/people/kyles/sounds/637746/>
+    * License: CC0
 
   * rp_default_footstep_cactus.*.ogg
   * rp_default_dig_cactus.*.ogg
@@ -71,6 +79,7 @@ File credits and individual file licenses:
   * rp_default_place_alga.*.ogg
   * rp_default_dig_hay.*.ogg
   * rp_default_place_hay.*.ogg
+  * rp_default_place_fruit.ogg
   * rp_default_footstep_hay.*.ogg
   * rp_default_fertilize.*.ogg
     * Author: Wuzzy (CC0)

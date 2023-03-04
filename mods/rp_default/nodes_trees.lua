@@ -299,6 +299,13 @@ local create_on_place_fruit_function = function(fruitnode)
    end
 end
 
+local sounds_apple = rp_sounds.node_sound_defaults({
+   place = {name = "rp_default_place_fruit", gain = 0.5 },
+   dig = {name = "rp_default_dig_fruit", gain = 0.5 },
+   dug = {name = "rp_default_dug_fruit", gain = 1.0 },
+   footstep = {},
+})
+
 -- Food
 --
 minetest.register_node(
@@ -329,7 +336,7 @@ minetest.register_node(
       groups = {snappy = 3, handy = 2, leafdecay = 3, leafdecay_drop = 1, food = 2},
       on_use = minetest.item_eat(0),
       on_place = create_on_place_fruit_function("rp_default:apple"),
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = sounds_apple,
 })
 
 -- Same as apple, but with the nodebox on the "floor".
@@ -355,7 +362,7 @@ minetest.register_node(
          minetest.add_item(pos, "rp_default:apple")
       end,
       groups = {snappy = 3, handy = 3},
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = sounds_apple,
       drop = "rp_default:apple",
 })
 
