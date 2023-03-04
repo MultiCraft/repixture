@@ -362,6 +362,7 @@ minetest.register_node(
 
 local sounds_acorn = rp_sounds.node_sound_defaults({
    place = {name = "rp_default_place_nut", gain = 0.5 },
+   dig = {name = "rp_default_dig_nut", gain = 0.4 },
    dug = {name = "rp_default_dug_nut", gain = 0.4 },
    footstep = {},
 })
