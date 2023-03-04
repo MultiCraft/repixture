@@ -55,6 +55,13 @@ File credits and individual file licenses:
     * Derived by Wuzzy from sound by `Loyalty_Freak_Music`
     * Source: <https://freesound.org/people/Loyalty_Freak_Music/sounds/407481/>
     * License: CC0
+  * rp_default_dig_clam.*.ogg
+  * rp_default_dug_clam.*.ogg
+  * rp_default_place_clam.*.ogg
+  * rp_default_fall_clam.ogg
+    * Derived by Wuzzy from sound 'Jammed seashells' by MBPL
+    * Source: <https://freesound.org/people/MBPL/sounds/667184/>
+    * License: CC0
 
   * rp_default_footstep_cactus.*.ogg
   * rp_default_dig_cactus.*.ogg

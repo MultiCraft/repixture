@@ -676,6 +676,14 @@ register_alga_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_bas
 register_alga_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", true), ALGA_MAX_HEIGHT_FERTILIZED_SWAMP_DIRT, true)
 register_alga_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "alga", true), ALGA_MAX_HEIGHT_FERTILIZED_SAND, true)
 
+local sounds_clam = rp_sounds.node_sound_defaults({
+   place = {name = "rp_default_place_clam", gain = 1.0 },
+   dig = {name = "rp_default_dig_clam", gain = 0.8 },
+   dug = {name = "rp_default_dug_clam", gain = 1.0 },
+   fall = {name = "rp_default_fall_clam", gain = 1.0 },
+   footstep = {},
+})
+
 minetest.register_node(
    "rp_default:clam",
    {
@@ -707,7 +715,7 @@ minetest.register_node(
       },
       groups = {clam = 1, fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, food = 2},
       on_use = minetest.item_eat(0),
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = sounds_clam,
 
       -- Place node as the 'nopearl' clam to make sure the player can't
       -- place the same clam over and over again to farm pearls.
@@ -739,6 +747,6 @@ minetest.register_node(
       walkable = false,
       floodable = true,
       groups = {clam = 1, fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, not_in_creative_inventory = 1},
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = sounds_clam,
 })
 
