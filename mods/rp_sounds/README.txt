@@ -85,6 +85,19 @@ List of sounds and credits:
 	* Licence: CC BY 3.0 <https://creativecommons.org/licenses/by/3.0/>
 * rp_sounds_place_failed.ogg
 	* License: CC0
+* rp_sounds_footstep_metal.*.ogg
+	* Derived from 'boots on aluminum ladder 01' by Eelke
+	* Source: https://freesound.org/people/Eelke/sounds/462598/>
+	* Licence: CC BY 3.0 <https://creativecommons.org/licenses/by/3.0/>
+* rp_sounds_place_metal.ogg
+    * Derived by Wuzzy from sound by CaptainYulef
+    * Source: <https://freesound.org/people/CaptainYulef/sounds/640871/>
+    * License: CC0
+* rp_sounds_dug_metal.ogg
+* rp_sounds_dig_metal.ogg
+	* Derived from sound by timgormly
+	* Source: <https://freesound.org/people/timgormly/sounds/170957/>
+	* icense: CC0
 
 * rp_sounds_footstep_dirt.*.ogg
 * rp_sounds_footstep_dry_dirt.*.ogg

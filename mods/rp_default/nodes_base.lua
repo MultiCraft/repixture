@@ -120,13 +120,30 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_coal_defaults(),
 })
 
+local make_metal_sounds = function(pitch)
+	local sounds = rp_sounds.node_sound_metal_defaults()
+	if sounds.footstep then
+		sounds.footstep.pitch = pitch
+	end
+	if sounds.dig then
+		sounds.dig.pitch = pitch
+	end
+	if sounds.dug then
+		sounds.dug.pitch = pitch
+	end
+	if sounds.place then
+		sounds.place.pitch = pitch
+	end
+	return sounds
+end
+
 minetest.register_node(
    "rp_default:block_wrought_iron",
    {
       description = S("Wrought Iron Block"),
       tiles = {"default_block_wrought_iron.png"},
       groups = {cracky = 2, magnetic = 1},
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = make_metal_sounds(default.METAL_PITCH_WROUGHT_IRON),
       is_ground_content = false,
 })
 
@@ -136,7 +153,7 @@ minetest.register_node(
       description = S("Steel Block"),
       tiles = {"default_block_steel.png"},
       groups = {cracky = 2},
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = make_metal_sounds(default.METAL_PITCH_STEEL),
       is_ground_content = false,
 })
 
@@ -146,7 +163,7 @@ minetest.register_node(
       description = S("Carbon Steel Block"),
       tiles = {"default_block_carbon_steel.png"},
       groups = {cracky = 1},
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = make_metal_sounds(default.METAL_PITCH_CARBON_STEEL),
       is_ground_content = false,
 })
 
@@ -156,7 +173,7 @@ minetest.register_node(
       description = S("Bronze Block"),
       tiles = {"default_block_bronze.png"},
       groups = {cracky = 1},
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = make_metal_sounds(default.METAL_PITCH_BRONZE),
       is_ground_content = false,
 })
 
@@ -166,7 +183,7 @@ minetest.register_node(
       description = S("Copper Block"),
       tiles = {"default_block_copper.png"},
       groups = {cracky = 2},
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = make_metal_sounds(default.METAL_PITCH_COPPER),
       is_ground_content = false,
 })
 
@@ -176,7 +193,7 @@ minetest.register_node(
       description = S("Tin Block"),
       tiles = {"default_block_tin.png"},
       groups = {cracky = 2},
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = make_metal_sounds(default.METAL_PITCH_TIN),
       is_ground_content = false,
 })
 

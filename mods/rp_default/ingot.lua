@@ -41,12 +41,12 @@ end
 
 local quicklist = {
 	-- ID, description, pitch
-	{ "steel", S("Steel Ingot"), 1.05 },
-	{ "carbon_steel", S("Carbon Steel Ingot"), 1.10 },
-	{ "copper", S("Copper Ingot"), 0.95 },
-	{ "tin", S("Tin Ingot"), 0.90 },
-	{ "bronze", S("Bronze Ingot"), 1.15 },
-	{ "wrought_iron", S("Wrought Iron Ingot"), 1.0 },
+	{ "steel", S("Steel Ingot"), default.METAL_PITCH_STEEL },
+	{ "carbon_steel", S("Carbon Steel Ingot"), default.METAL_PITCH_CARBON_STEEL },
+	{ "copper", S("Copper Ingot"), default.METAL_PITCH_COPPER },
+	{ "tin", S("Tin Ingot"), default.METAL_PITCH_TIN },
+	{ "bronze", S("Bronze Ingot"), default.METAL_PITCH_BRONZE },
+	{ "wrought_iron", S("Wrought Iron Ingot"), default.METAL_PITCH_WROUGHT_IRON },
 }
 
 for q=1, #quicklist do

@@ -5,6 +5,9 @@ local S = minetest.get_translator("rp_gold")
 
 gold = {}
 
+-- Sound pitch modifier of gold nodes
+gold.PITCH = 1.25
+
 local mapseed = minetest.get_mapgen_setting("seed")
 gold.pr = PseudoRandom(mapseed+8732)
 
@@ -556,6 +559,7 @@ default.register_ingot("rp_gold:ingot_gold", {
 		side_short = "rp_gold_ingot_gold_node_side_short.png",
 		side_long = "rp_gold_ingot_gold_node_side_long.png",
 	},
+	pitch = gold.PITCH,
 })
 
 -- Classic nodes
@@ -571,13 +575,30 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
 
+local make_metal_sounds = function(pitch)
+	local sounds = rp_sounds.node_sound_metal_defaults()
+	if sounds.footstep then
+		sounds.footstep.pitch = pitch
+	end
+	if sounds.dig then
+		sounds.dig.pitch = pitch
+	end
+	if sounds.dug then
+		sounds.dug.pitch = pitch
+	end
+	if sounds.place then
+		sounds.place.pitch = pitch
+	end
+	return sounds
+end
+
 minetest.register_node(
    "rp_gold:block_gold",
    {
       description = S("Gold Block"),
       tiles = {"gold_block.png"},
       groups = {cracky = 2},
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = make_metal_sounds(gold.PITCH),
       is_ground_content = false,
 })
 

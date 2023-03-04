@@ -11,6 +11,14 @@ default.LIGHT_MAX = 14
 default.WEAK_TORCH_MIN_TIMER = 240
 default.WEAK_TORCH_MAX_TIMER = 360
 
+-- Sound pitch for various metal nodes
+default.METAL_PITCH_COPPER = 0.90
+default.METAL_PITCH_TIN = 0.95
+default.METAL_PITCH_WROUGHT_IRON = 1.00
+default.METAL_PITCH_STEEL = 1.05
+default.METAL_PITCH_CARBON_STEEL = 1.10
+default.METAL_PITCH_BRONZE = 1.15
+
 -- If a sapling is affected by fertilizer,
 -- the growth timer is reduced by this
 -- factor. E.g. if the timeout is 100s
