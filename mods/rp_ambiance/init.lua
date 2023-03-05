@@ -25,12 +25,12 @@ if mod_weather then
 	end
 end
 
-ambiance.sounds["birds"] = {
+ambiance.sounds["birds_leaves"] = {
    length = 5.0,
    chance = 4,
-   file = "ambiance_birds",
+   file = "ambiance_birds_robin",
    dist = 8,
-   nodename = "group:lush_leaves",
+   nodename = "rp_default:leaves",
    can_play = function(pos)
       local tod = (minetest.get_timeofday() or 1) * 2
 
@@ -48,11 +48,105 @@ ambiance.sounds["birds"] = {
    end,
 }
 
+ambiance.sounds["birds_leaves_birch"] = {
+   length = 8.0,
+   chance = 6,
+   file = "ambiance_birds_cold",
+   dist = 8,
+   nodename = "rp_default:leaves_birch",
+   can_play = function(pos)
+      local tod = (minetest.get_timeofday() or 1) * 2
+
+      if mod_weather then
+         if get_weather_lagged() ~= "clear" then
+            return false
+         end
+      end
+
+      if tod > 0.47 and tod < 1.53 then -- bit of overlap into crickets
+         return true
+      end
+
+      return false
+   end,
+}
+
+ambiance.sounds["birds_leaves_oak"] = {
+   length = 5.0,
+   chance = 4,
+   file = "ambiance_birds_robin",
+   dist = 8,
+   nodename = "rp_default:leaves_oak",
+   can_play = function(pos)
+      local tod = (minetest.get_timeofday() or 1) * 2
+
+      if mod_weather then
+         if get_weather_lagged() ~= "clear" then
+            return false
+         end
+      end
+
+      if tod > 0.47 and tod < 1.53 then -- bit of overlap into crickets
+         return true
+      end
+
+      return false
+   end,
+}
+
+ambiance.sounds["owl_birch"] = {
+   length = 5.0,
+   chance = 10,
+   file = "ambiance_whoot_owl",
+   dist = 8,
+   nodename = "rp_default:leaves_birch",
+   can_play = function(pos)
+      local tod = (minetest.get_timeofday() or 1) * 2
+
+      if mod_weather then
+         if get_weather_lagged() ~= "clear" then
+            return false
+         end
+      end
+
+      if tod < 0.333 or tod > 1.666 then -- night time
+         return true
+      end
+
+      return false
+   end,
+}
+
+ambiance.sounds["owl_oak"] = {
+   length = 5.0,
+   chance = 5,
+   file = "ambiance_tawny_owl",
+   dist = 8,
+   gain = 0.9,
+   nodename = "rp_default:leaves_oak",
+   can_play = function(pos)
+      local tod = (minetest.get_timeofday() or 1) * 2
+
+      if mod_weather then
+         if get_weather_lagged() ~= "clear" then
+            return false
+         end
+      end
+
+      if tod < 0.333 or tod > 1.666 then -- night time
+         return true
+      end
+
+      return false
+   end,
+}
+
 ambiance.sounds["crickets"] = {
    length = 6.0,
-   chance = 3,
+   chance = 15,
    file = "ambiance_crickets",
    dist = 8,
+   gain = 0.15,
    nodename = {"group:normal_grass", "group:dry_grass"},
    can_play = function(pos)
       local tod = (minetest.get_timeofday() or 1) * 2
@@ -114,11 +208,13 @@ ambiance.sounds["frog"] = {
 }
 
 ambiance.sounds["flowing_water"] = {
-   length = 3.3,
+   length = 2.6,
    chance = 1,
    file = "ambiance_water",
    dist = 16,
+   gain = 0.08,
    nodename = "group:flowing_water",
+   overlay = true,
 }
 
 local ambiance_volume = tonumber(minetest.settings:get("ambiance_volume")) or 1.0
@@ -184,14 +280,20 @@ if minetest.settings:get_bool("ambiance_enable") == true then
                         if sound.pitch_min and sound.pitch_max then
                            pitch = 1 + 0.01 * math.random(sound.pitch_min, sound.pitch_max)
                         end
-                        soundspec[name][soundname] = minetest.sound_play(
+                        local id = minetest.sound_play(
                            sound.file,
                            {
                               pos = sourcepos,
                               max_hear_distance = sound.dist,
-                              gain = ambiance_volume,
+                              gain = ambiance_volume * (sound.gain or 1),
                               pitch = pitch,
-                        })
+                           }, sound.overlay == true)
+                        -- sound overlaying means the sound will be played again
+                        -- before the previous sound ended; sound_stop will not be called.
+                        -- important for repeating sounds like water flow
+                        if not sound.overlay then
+                           soundspec[name][soundname] = id
+                        end
 
                         lastsound[name][soundname] = 0
                      end
