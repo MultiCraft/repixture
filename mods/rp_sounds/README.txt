@@ -124,6 +124,7 @@ List of sounds and credits:
 * rp_sounds_fall_sand.*.ogg
 * rp_sounds_fall_gravel.*.ogg
 * rp_sounds_fall_grass.*.ogg
+* default_water_footstep.*.ogg
 	* by Wuzzy
 	* License: CC0
 

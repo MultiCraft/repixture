@@ -234,11 +234,11 @@ end
 function rp_sounds.node_sound_water_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
-      {name="default_water_footstep", gain=1.0}
+      {name="default_water_footstep", gain=0.10}
    table.dug = table.dug or
-      {name="default_dug_water", gain=1.0}
+      {name="default_dug_water", gain=0.5}
    table.place = table.place or
-      {name="default_place_node_water", gain=1.0}
+      {name="default_place_node_water", gain=0.5}
    rp_sounds.node_sound_defaults(table)
    return table
 end

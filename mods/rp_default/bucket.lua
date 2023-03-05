@@ -90,7 +90,7 @@ for b=1, #water_buckets do
 	    elseif not above_nodedef.walkable and above_nodedef.buildable_to then
                -- Place water source node
                minetest.add_node(pos, {name = bucket[4]})
-               minetest.sound_play({name="default_place_node_water"}, {pos=pos}, true)
+               minetest.sound_play({name="default_place_node_water", gain=0.5}, {pos=pos}, true)
 	       bucket_placed = true
             end
 
@@ -199,7 +199,7 @@ minetest.register_node(
              else
                 -- Pick up liquid source node
                 minetest.remove_node(pointed_thing.under)
-                minetest.sound_play({name="default_dug_water", gain=1.0}, {pos=pointed_thing.under}, true)
+                minetest.sound_play({name="default_dug_water", gain=0.5}, {pos=pointed_thing.under}, true)
              end
              return itemstack
          end
