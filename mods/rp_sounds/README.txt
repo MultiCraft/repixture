@@ -90,14 +90,20 @@ List of sounds and credits:
 	* Source: https://freesound.org/people/Eelke/sounds/462598/>
 	* Licence: CC BY 3.0 <https://creativecommons.org/licenses/by/3.0/>
 * rp_sounds_place_metal.ogg
-    * Derived by Wuzzy from sound by CaptainYulef
-    * Source: <https://freesound.org/people/CaptainYulef/sounds/640871/>
-    * License: CC0
+	* Derived by Wuzzy from sound by CaptainYulef
+	* Source: <https://freesound.org/people/CaptainYulef/sounds/640871/>
+	* License: CC0
 * rp_sounds_dug_metal.ogg
 * rp_sounds_dig_metal.ogg
 	* Derived from sound by timgormly
 	* Source: <https://freesound.org/people/timgormly/sounds/170957/>
-	* icense: CC0
+	* License: CC0
+* rp_sounds_dug_dirt.*.ogg
+* rp_sounds_place_dirt.*.ogg
+* rp_sounds_place_dry_dirt.*.ogg
+	* Derived from sound 'Hand digging dirt, leaves crunch.wav' by SpliceSound
+	* Source: <https://freesound.org/people/SpliceSound/sounds/260130/>
+	* License: CC0
 
 * rp_sounds_footstep_dirt.*.ogg
 * rp_sounds_footstep_dry_dirt.*.ogg
@@ -116,11 +122,15 @@ List of sounds and credits:
 * rp_sounds_dig_gravel.*.ogg
 * rp_sounds_dig_glass.*.ogg
 * rp_sounds_dig_coal.*.ogg
+* rp_sounds_dig_swamp_dirt.*.ogg
 * rp_sounds_dug_coal.*.ogg
 * rp_sounds_dug_straw.*.ogg
 * rp_sounds_dug_grass.*.ogg
+* rp_sounds_dug_swamp_dirt.*.ogg
 * rp_sounds_place_straw.*.ogg
 * rp_sounds_place_gravel.*.ogg
+* rp_sounds_place_sand.*.ogg
+* rp_sounds_place_swamp_dirt.*.ogg
 * rp_sounds_fall_sand.*.ogg
 * rp_sounds_fall_gravel.*.ogg
 * rp_sounds_fall_grass.*.ogg

@@ -50,11 +50,11 @@ function rp_sounds.node_sound_dirt_defaults(table)
    table.footstep = table.footstep or
       {name="rp_sounds_footstep_dirt", gain=1.0}
    table.dug = table.dug or
-      {name="rp_sounds_dig_dirt", gain=0.5, pitch=0.8}
+      {name="rp_sounds_dug_dirt", gain=0.4}
    table.dig = table.dig or
       {name="rp_sounds_dig_dirt", gain=0.25}
    table.place = table.place or
-      {name="default_place_node_hard", gain=1.0}
+      {name="rp_sounds_place_dirt", gain=0.5}
    rp_sounds.node_sound_defaults(table)
    return table
 end
@@ -63,6 +63,12 @@ function rp_sounds.node_sound_dry_dirt_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
       {name="rp_sounds_footstep_dry_dirt", gain=1.0}
+   table.dug = table.dug or
+      {name="rp_sounds_dug_dirt", gain=0.4, pitch=0.8}
+   table.dig = table.dig or
+      {name="rp_sounds_dig_dirt", gain=0.25, pitch=0.8}
+   table.place = table.place or
+      {name="rp_sounds_place_dry_dirt", gain=0.5}
    rp_sounds.node_sound_dirt_defaults(table)
    return table
 end
@@ -71,6 +77,12 @@ function rp_sounds.node_sound_swamp_dirt_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
       {name="rp_sounds_footstep_swamp_dirt", gain=1.0}
+   table.dug = table.dug or
+      {name="rp_sounds_dug_swamp_dirt", gain=0.4}
+   table.dig = table.dig or
+      {name="rp_sounds_dig_swamp_dirt", gain=0.25}
+   table.place = table_place or
+      {name="rp_sounds_place_swamp_dirt", gain=0.5}
    rp_sounds.node_sound_dirt_defaults(table)
    return table
 end
@@ -84,7 +96,7 @@ function rp_sounds.node_sound_sand_defaults(table)
    table.dig = table.dig or
       {name="rp_sounds_dig_sand", gain=0.4}
    table.place = table.place or
-      {name="default_place_node_hard", gain=1.0}
+      {name="rp_sounds_place_sand", gain=0.2}
    table.fall = table.fall or
       {name="rp_sounds_fall_sand", gain=1.0}
    rp_sounds.node_sound_defaults(table)
