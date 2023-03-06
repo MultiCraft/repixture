@@ -267,7 +267,7 @@ minetest.register_node(
          "locks_chest_front.png"
       },
       paramtype2 = "facedir",
-      groups = {choppy = 2, oddly_breakable_by_hand = 2, locked = 1, container = 1},
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, locked = 1, container = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
       on_construct = function(pos)

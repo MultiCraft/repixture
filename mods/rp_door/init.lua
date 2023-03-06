@@ -434,7 +434,7 @@ door.register_door(
    {
       description = S("Wooden Door"),
       inventory_image = "door_wood.png",
-      groups = {choppy=3,oddly_breakable_by_hand=2,flammable=2,door=1,door_wood=1},
+      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1},
       tiles_top = {"door_wood_a.png", "door_wood_side.png"},
       tiles_bottom = {"door_wood_b.png", "door_wood_side.png"},
       sounds = sounds_wood_door,
@@ -455,7 +455,7 @@ door.register_door(
    {
       description = S("Oak Door"),
       inventory_image = "rp_door_wood_oak.png",
-      groups = {choppy=3,oddly_breakable_by_hand=2,flammable=2,door=1,door_wood=1},
+      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1},
       tiles_top = {"rp_door_wood_oak_a.png", "rp_door_wood_oak_side.png"},
       tiles_bottom = {"rp_door_wood_oak_b.png", "rp_door_wood_oak_side.png"},
       sounds = sounds_wood_door,
@@ -476,7 +476,7 @@ door.register_door(
    {
       description = S("Birch Door"),
       inventory_image = "rp_door_wood_birch.png",
-      groups = {choppy=3,oddly_breakable_by_hand=2,flammable=2,door=1,door_wood=1},
+      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1},
       tiles_top = {"rp_door_wood_birch_a.png", "rp_door_wood_birch_side.png"},
       tiles_bottom = {"rp_door_wood_birch_b.png", "rp_door_wood_birch_side.png"},
       sounds = sounds_wood_door,
@@ -503,7 +503,7 @@ door.register_door(
    {
       description = S("Stone Door"),
       inventory_image = "door_stone.png",
-      groups = {cracky=3,oddly_breakable_by_hand=1,door=1},
+      groups = {cracky=3,oddly_breakable_by_hand=1,level=-2,door=1},
       tiles_top = {"door_stone_a.png", "door_stone_side.png"},
       tiles_bottom = {"door_stone_b.png", "door_stone_side.png"},
       sounds = rp_sounds.node_sound_stone_defaults(),
