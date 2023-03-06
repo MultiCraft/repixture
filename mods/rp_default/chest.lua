@@ -32,7 +32,7 @@ minetest.register_node(
       paramtype2 = "facedir",
       groups = {snappy = 2,choppy = 2,oddly_breakable_by_hand = 2,container=1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_planks_defaults(),
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
 

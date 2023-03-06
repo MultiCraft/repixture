@@ -43,8 +43,10 @@ minetest.register_node(
       },
       groups = {snappy = 2, choppy = 2, creative_decoblock = 1, oddly_breakable_by_hand = 3},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_wood_defaults({
+      sounds = rp_sounds.node_sound_planks_defaults({
          footstep = { name = "rp_sounds_footstep_wood", gain = 0.5, pitch = 1.2 },
-         dig = { name = "rp_sounds_dig_wood", gain = 0.5, pitch = 1.2 },
+         dig = { name = "rp_sounds_dig_wood", gain = 0.5, pitch = 1.4 },
+         dug = { name = "rp_sounds_dug_planks", gain = 0.5, pitch = 1.175 },
+         place = { name = "rp_sounds_place_planks", gain = 0.7, pitch = 1.3 },
       }),
 })

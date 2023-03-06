@@ -423,6 +423,12 @@ function door.init_segment(pos, is_open)
    end
 end
 
+local sounds_wood_door = rp_sounds.node_sound_planks_defaults({
+	dig = { name = "rp_sounds_dig_wood", pitch = 1.2, gain = 0.5 },
+	dug = { name = "rp_sounds_dug_planks", pitch = 1.1, gain = 0.7 },
+	place = { name = "rp_sounds_place_planks", pitch = 1.1, gain = 0.9 },
+})
+
 door.register_door(
    "rp_door:door_wood",
    {
@@ -431,7 +437,7 @@ door.register_door(
       groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=2,door=1,door_wood=1},
       tiles_top = {"door_wood_a.png", "door_wood_side.png"},
       tiles_bottom = {"door_wood_b.png", "door_wood_side.png"},
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = sounds_wood_door,
       sunlight = false,
 })
 crafting.register_craft(
@@ -452,7 +458,7 @@ door.register_door(
       groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=2,door=1,door_wood=1},
       tiles_top = {"rp_door_wood_oak_a.png", "rp_door_wood_oak_side.png"},
       tiles_bottom = {"rp_door_wood_oak_b.png", "rp_door_wood_oak_side.png"},
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = sounds_wood_door,
       sunlight = false,
 })
 crafting.register_craft(
@@ -473,7 +479,7 @@ door.register_door(
       groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=2,door=1,door_wood=1},
       tiles_top = {"rp_door_wood_birch_a.png", "rp_door_wood_birch_side.png"},
       tiles_bottom = {"rp_door_wood_birch_b.png", "rp_door_wood_birch_side.png"},
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = sounds_wood_door,
       sunlight = false,
 })
 crafting.register_craft(

@@ -463,7 +463,7 @@ local register_boat = function(name, def)
 			end
 			-- If there were def.max_punches consecutive punches on the boat,
 			-- each punch faster than RESET_PUNCH_TIMER, the boat dies.
-			minetest.sound_play({name = "rp_sounds_dig_wood", gain=0.3, pitch=1.2}, {pos=self.object:get_pos()}, true)
+			minetest.sound_play(def.sound_punch or {name="rp_sounds_dig_hard", gain=0.3}, {pos=self.object:get_pos()}, true)
 			if time_from_last_punch == nil or time_from_last_punch < RESET_PUNCH_TIMER then
 				-- Increase punch counter if first punch, it it was fast enough
 				self._punches = self._punches + 1
@@ -481,6 +481,7 @@ local register_boat = function(name, def)
 				end
 				minetest.log("action", "[rp_boats] Boat punched to death by "..punchername.." at "..minetest.pos_to_string(self.object:get_pos(),1))
 				-- Kill boat after enough punches
+				minetest.sound_play(def.sound_break or {name = "rp_sounds_dug_node", gain=0.1}, {pos=self.object:get_pos()}, true)
 				self.object:set_hp(0)
 			end
 			-- Ignore punch damage
@@ -551,8 +552,7 @@ local register_boat = function(name, def)
 				-- Place boat
 				local ent = minetest.add_entity(place_pos, itemstring)
 				if ent then
-					-- TODO: Add custom sound
-					minetest.sound_play({name = "default_place_node_hard", gain=0.7}, {pos=place_pos}, true)
+					minetest.sound_play(def.sound_place or {name = "default_place_node_hard", gain=0.7}, {pos=place_pos}, true)
 					ent:set_yaw(placer:get_look_horizontal())
 					minetest.log("action", "[rp_boats] "..placer:get_player_name().." spawns rp_boats:"..name.." at "..minetest.pos_to_string(place_pos, 1))
 					if not minetest.is_creative_enabled(placer:get_player_name()) then
@@ -601,6 +601,9 @@ for l=1, #log_boats do
 		speed_change_rate = 1.5,
 		yaw_change_rate = 0.6,
 		detach_offset_y = 0.8,
+
+		sound_punch = {name = "rp_sounds_dig_wood", gain=0.3, pitch=1.05},
+		sound_break = {name = "rp_sounds_dug_wood", gain=0.5, pitch=1.05},
 	})
 	crafting.register_craft({
 		output = "rp_boats:log_boat_"..id,
@@ -665,6 +668,9 @@ for r=1, #rafts do
 			return true
 		end,
 		sideways_place_offset = 1.0,
+
+		sound_punch = {name = "rp_sounds_dig_wood", gain=0.3, pitch=1.1},
+		sound_break = {name = "rp_sounds_dug_planks", gain=0.3, pitch=1.15},
 	})
 	crafting.register_craft({
 		output = "rp_boats:raft_"..id,

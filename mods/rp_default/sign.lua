@@ -160,21 +160,29 @@ local function register_sign(id, def)
 	register_sign_page(id, {"rp_default:"..id, "rp_default:"..id.."_r90"})
 end
 
+local sounds_wood_sign = rp_sounds.node_sound_planks_defaults({
+	footstep = {},
+	dig = { name = "rp_sounds_dig_wood", pitch = 1.5, gain = 0.5 },
+	dug = { name = "rp_sounds_dug_planks", pitch = 1.2, gain = 0.7 },
+	fall = { name = "rp_sounds_dug_planks", pitch = 1.2, gain = 0.6 },
+	place = { name = "rp_sounds_place_planks", pitch = 1.4, gain = 0.9 },
+})
+
 register_sign("sign", {
 	description = S("Wooden Sign"),
 	tile = "default_sign.png",
 	inv_image = "default_sign_inventory.png",
-	sounds = rp_sounds.node_sound_defaults(),
+	sounds = sounds_wood_sign,
 })
 register_sign("sign_oak", {
 	description = S("Oak Sign"),
 	tile = "rp_default_sign_oak.png",
 	inv_image = "rp_default_sign_oak_inventory.png",
-	sounds = rp_sounds.node_sound_defaults(),
+	sounds = sounds_wood_sign,
 })
 register_sign("sign_birch", {
 	description = S("Birch Sign"),
 	tile = "rp_default_sign_birch.png",
 	inv_image = "rp_default_sign_birch_inventory.png",
-	sounds = rp_sounds.node_sound_defaults(),
+	sounds = sounds_wood_sign,
 })

@@ -54,6 +54,13 @@ local function register_fence(name, def)
 	minetest.register_node(name, def)
 end
 
+local sounds_wood_fence = rp_sounds.node_sound_planks_defaults({
+	footstep = { name = "rp_sounds_footstep_wood", pitch = 1.2 },
+	dig = { name = "rp_sounds_dig_wood", pitch = 1.2, gain = 0.5 },
+	dug = { name = "rp_sounds_dug_planks", pitch = 1.2, gain = 0.7 },
+	place = { name = "rp_sounds_place_planks", pitch = 1.2, gain = 0.9 },
+})
+
 register_fence("rp_default:fence", {
 	description = S("Wooden Fence"),
 	texture_side = "rp_default_fence_side.png",
@@ -61,7 +68,7 @@ register_fence("rp_default:fence", {
 	inventory_image = "default_fence.png",
 	wield_image = "default_fence.png",
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, fence = 1},
-	sounds = rp_sounds.node_sound_wood_defaults()
+	sounds = sounds_wood_fence,
 })
 register_fence("rp_default:fence_oak", {
 	description = S("Oak Fence"),
@@ -70,7 +77,7 @@ register_fence("rp_default:fence_oak", {
 	inventory_image = "default_fence_oak.png",
 	wield_image = "default_fence_oak.png",
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, fence = 1},
-	sounds = rp_sounds.node_sound_wood_defaults()
+	sounds = sounds_wood_fence,
 })
 register_fence("rp_default:fence_birch", {
 	description = S("Birch Fence"),
@@ -79,5 +86,5 @@ register_fence("rp_default:fence_birch", {
 	inventory_image = "default_fence_birch.png",
 	wield_image = "default_fence_birch.png",
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, fence = 1},
-	sounds = rp_sounds.node_sound_wood_defaults()
+	sounds = sounds_wood_fence,
 })

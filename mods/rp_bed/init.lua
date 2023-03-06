@@ -451,7 +451,11 @@ minetest.register_globalstep(on_globalstep)
 
 -- Nodes
 
-
+local sounds = rp_sounds.node_sound_planks_defaults({
+   footstep = {name="rp_sounds_footstep_fuzzy", gain=0.7},
+   dug = {name="rp_sounds_dug_planks", gain=1.0, pitch=0.8},
+   place = {name="rp_sounds_place_planks", gain=1.0, pitch=0.8},
+})
 
 minetest.register_node(
    "rp_bed:bed_foot",
@@ -468,9 +472,7 @@ minetest.register_node(
       use_texture_alpha = "clip",
       groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, creative_decoblock = 1, interactive_node = 1 },
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_wood_defaults({
-         footstep = {name="rp_sounds_footstep_fuzzy", gain=0.7},
-      }),
+      sounds = sounds,
       node_box = {
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 2/16, 0.5}
@@ -648,9 +650,7 @@ minetest.register_node(
       tiles = {"bed_head.png", "default_wood.png", "bed_side.png"},
       use_texture_alpha = "clip",
       groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, not_in_creative_inventory = 1 },
-      sounds = rp_sounds.node_sound_wood_defaults({
-         footstep = {name="rp_sounds_footstep_fuzzy", gain=0.7},
-      }),
+      sounds = sounds,
       node_box = {
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 2/16, 0.5}

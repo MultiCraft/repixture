@@ -8,7 +8,7 @@ Developers: See `API.md` for instructions.
 
 ### Sound licenese
 
-The overall license for the sound effects is CC BY-SA 3.0.
+The overall license for the sound effects is CC BY-SA 4.0.
 
 Individual sounds might have an additional, optional license
 that applies as well (in that case, you can choose between
@@ -23,8 +23,6 @@ List of sounds and credits:
 * default_dug_water.ogg
 	* Author: Voxelands project <http://www.voxelands.com/>
 	* License: CC BY-SA 3.0
-* rp_sounds_place_planks.*.ogg
-	* License: CC0
 * rp_sounds_footstep_glass.*.ogg
 	* Derivate work of a sound by a deleted freesound.org user
 	* Source: <https://freesound.org/people/deleted_user_2104797/sounds/325252/>
@@ -40,10 +38,19 @@ List of sounds and credits:
 * rp_sounds_place_planks.*.ogg
 	* License: CC0
 	* Source: OpenGameArt (100-CC0-wood-metal-SFX)
-* rp_sounds_dig_wood.*.ogg
-	* Derived from 'Hit sounds' by pauiluw
-	* Source: <https://opengameart.org/content/hit-sounds>
+* rp_sounds_dug_planks.*.ogg
+	* Derived from sounds by Sheyvan
+	* Source 1: <https://freesound.org/people/Sheyvan/sounds/568412/>
+	* Source 2: <https://freesound.org/people/Sheyvan/sounds/569518/>
+	* Source 3: https://freesound.org/people/Sheyvan/sounds/569521/
 	* License: CC0
+* rp_sounds_dug_wood.*.ogg
+	* Derived from sounds by Sheyvan
+	* License: CC0
+* rp_sounds_dig_wood.*.ogg
+	* Derived from 'axe on wood .mp3' by Cheney777
+	* Source: <https://freesound.org/people/Cheney777/sounds/544089/>
+	* License: CC BY 3.0
 * rp_sounds_footstep_stone.*.ogg
 	* Derived from 'Hiking Boot Footsteps on Stone' by Fission9
 	* Source: <https://freesound.org/people/Fission9/sounds/521590/>
@@ -143,3 +150,12 @@ All other sounds not mentioned above are licensed under CC0.
 ### Source code license
 
 The source code license is LGPLv2.1.
+
+### License references
+
+The full texts for the licenses listed above can be found at:
+
+* CC0: <http://creativecommons.org/publicdomain/zero/1.0/>
+* CC BY 3.0: <http://creativecommons.org/licenses/by/3.0/>
+* CC BY 4.0: <http://creativecommons.org/licenses/by/4.0/>
+* CC BY-SA 4.0: <http://creativecommons.org/licenses/by-sa/4.0/>
