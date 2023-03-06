@@ -552,12 +552,21 @@ local register_boat = function(name, def)
 				-- Place boat
 				local ent = minetest.add_entity(place_pos, itemstring)
 				if ent then
+					-- Placement sound(s)
 					minetest.sound_play(def.sound_place or {name = "default_place_node_hard", gain=0.7}, {pos=place_pos}, true)
+					if on_liquid and minetest.get_item_group(node2.name, "water") ~= 0 then
+						-- Extra splash sound if on water
+						minetest.sound_play({name = "rp_boats_place_on_water", gain=0.28}, {pos=place_pos}, true)
+					end
+
+					-- Rotate boat to player dir
 					ent:set_yaw(placer:get_look_horizontal())
-					minetest.log("action", "[rp_boats] "..placer:get_player_name().." spawns rp_boats:"..name.." at "..minetest.pos_to_string(place_pos, 1))
+
 					if not minetest.is_creative_enabled(placer:get_player_name()) then
 						itemstack:take_item()
 					end
+
+					minetest.log("action", "[rp_boats] "..placer:get_player_name().." spawns rp_boats:"..name.." at "..minetest.pos_to_string(place_pos, 1))
 				end
 			end
 			return itemstack
