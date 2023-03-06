@@ -554,7 +554,7 @@ local register_boat = function(name, def)
 				if ent then
 					-- Placement sound(s)
 					minetest.sound_play(def.sound_place or {name = "default_place_node_hard", gain=0.7}, {pos=place_pos}, true)
-					if on_liquid and minetest.get_item_group(node2.name, "water") ~= 0 then
+					if on_liquid and minetest.get_item_group(node2.name, "water") ~= 0 and ndef1 and ndef1.liquidtype == "none" then
 						-- Extra splash sound if on water
 						minetest.sound_play({name = "rp_boats_place_on_water", gain=0.28}, {pos=place_pos}, true)
 					end
