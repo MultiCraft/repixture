@@ -470,7 +470,7 @@ minetest.register_node(
       inventory_image = "bed_bed_inventory.png",
       tiles = {"bed_foot.png", "default_wood.png", "bed_side.png"},
       use_texture_alpha = "clip",
-      groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, creative_decoblock = 1, interactive_node = 1 },
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, creative_decoblock = 1, interactive_node = 1 },
       is_ground_content = false,
       sounds = sounds,
       node_box = {
@@ -649,7 +649,7 @@ minetest.register_node(
       diggable = false,
       tiles = {"bed_head.png", "default_wood.png", "bed_side.png"},
       use_texture_alpha = "clip",
-      groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, not_in_creative_inventory = 1 },
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, not_in_creative_inventory = 1 },
       sounds = sounds,
       node_box = {
 	 type = "fixed",
