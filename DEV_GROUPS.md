@@ -67,13 +67,21 @@ These groups are mainly used for a better item sorting in Creative Mode.
 This is the list of all groups used for nodes. Note: If no number/rating is specified, use 1 as rating.
 
 ### Digging groups
+
+These groups determine digging times:
+
 * `choppy`: Can be dug by brute force, like wood
 * `cracky`: Hard material like stone
 * `crumbly`: Soft material like dirt
 * `snappy`: Can be dug with fine tools like shears
 * `fleshy`: Node represents some kind of (semi-)living organism, so it can be "dug" easily by weapons
-* `handy`: Can be dug with bare hand
-* `oddly_breakable_by_hand`: Can be dug with bare hand, but for nodes where it seems unrealistic
+* `handy`: Can be easily dug by the hand (fast)
+* `oddly_breakable_by_hand`: Can be dug by the hand, but it's awkward (slow)
+
+**NOTE**: If you use `handy` or `oddly_breakable_by_hand` in combination with
+any of the other digging groups, make sure dig times of the weakest tool are
+still faster than with the hand (test this in-game to make sure).
+Also, never use `handy` and `oddly_breakable_by_hand` at the same time.
 
 ### Interactive node groups:
 * `soil`: For blocks that allow several plants to grow
