@@ -67,7 +67,7 @@ register_fence("rp_default:fence", {
 	texture_top = "rp_default_fence_top.png",
 	inventory_image = "default_fence.png",
 	wield_image = "default_fence.png",
-	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, fence = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, fence = 1},
 	sounds = sounds_wood_fence,
 })
 register_fence("rp_default:fence_oak", {
@@ -76,7 +76,7 @@ register_fence("rp_default:fence_oak", {
 	texture_top = "rp_default_fence_oak_top.png",
 	inventory_image = "default_fence_oak.png",
 	wield_image = "default_fence_oak.png",
-	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, fence = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, fence = 1},
 	sounds = sounds_wood_fence,
 })
 register_fence("rp_default:fence_birch", {
@@ -85,6 +85,6 @@ register_fence("rp_default:fence_birch", {
 	texture_top = "rp_default_fence_birch_top.png",
 	inventory_image = "default_fence_birch.png",
 	wield_image = "default_fence_birch.png",
-	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, fence = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, fence = 1},
 	sounds = sounds_wood_fence,
 })

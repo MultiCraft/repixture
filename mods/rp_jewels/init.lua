@@ -312,7 +312,7 @@ minetest.register_node(
       _tt_help = S("Tools can be upgraded with jewels here"),
       tiles ={"jewels_bench_top.png", "jewels_bench_bottom.png", "jewels_bench_sides.png"},
       paramtype2 = "facedir",
-      groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,interactive_node=1},
+      groups = {choppy=2,oddly_breakable_by_hand=2,interactive_node=1},
       legacy_facedir_simple = true,
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
@@ -443,7 +443,7 @@ minetest.register_node(
          "default_tree_birch.png^jewels_ore.png"
       },
       drop = "rp_jewels:jewel",
-      groups = {snappy=1, choppy=1, tree=1, ore=1},
+      groups = {choppy=1, tree=1, ore=1},
       sounds = rp_sounds.node_sound_wood_defaults(),
 })
 

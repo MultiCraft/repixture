@@ -41,7 +41,7 @@ minetest.register_node(
 	    {-0.5, -0.5, 0.5, 0.5, 0.5, 0.5-(2/15)}
 	 }
       },
-      groups = {snappy = 2, choppy = 2, creative_decoblock = 1, oddly_breakable_by_hand = 3},
+      groups = {choppy = 3, creative_decoblock = 1, oddly_breakable_by_hand = 3},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults({
          footstep = { name = "rp_sounds_footstep_wood", gain = 0.5, pitch = 1.2 },

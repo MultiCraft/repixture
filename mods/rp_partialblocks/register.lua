@@ -22,13 +22,13 @@ partialblocks.register_material(
 -- Woodlike
 
 partialblocks.register_material(
-   "wood", S("Wooden Slab"), S("Wooden Stair"), "rp_default:planks", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
+   "wood", S("Wooden Slab"), S("Wooden Stair"), "rp_default:planks", {choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
 
 partialblocks.register_material(
-   "oak", S("Oak Slab"), S("Oak Stair"), "rp_default:planks_oak", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
+   "oak", S("Oak Slab"), S("Oak Stair"), "rp_default:planks_oak", {choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
 
 partialblocks.register_material(
-   "birch", S("Birch Slab"), S("Birch Stair"), "rp_default:planks_birch", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
+   "birch", S("Birch Slab"), S("Birch Stair"), "rp_default:planks_birch", {choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
 
 -- Reed
 

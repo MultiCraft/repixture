@@ -451,7 +451,7 @@ minetest.register_node(
       tiles = {"default_glass_frame.png", "default_glass.png"},
       paramtype = "light",
       sunlight_propagates = true,
-      groups = {snappy = 2,cracky = 3,oddly_breakable_by_hand = 2, glass=1},
+      groups = {cracky = 3,oddly_breakable_by_hand = 2, glass=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_glass_defaults(),
 })
@@ -464,7 +464,7 @@ minetest.register_node(
    {
       description = S("Wooden Planks"),
       tiles = {"default_wood.png"},
-      groups = {planks = 1, wood = 1, snappy = 3, choppy = 3, oddly_breakable_by_hand = 3},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
 })
@@ -474,7 +474,7 @@ minetest.register_node(
    {
       description = S("Oak Planks"),
       tiles = {"default_wood_oak.png"},
-      groups = {planks = 1, wood = 1, snappy = 2, choppy = 2, oddly_breakable_by_hand = 3},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
 })
@@ -484,7 +484,7 @@ minetest.register_node(
    {
       description = S("Birch Planks"),
       tiles = {"default_wood_birch.png"},
-      groups = {planks = 1, wood = 1, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
 })
