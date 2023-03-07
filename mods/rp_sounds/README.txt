@@ -111,6 +111,19 @@ List of sounds and credits:
 	* Derived from sound 'Hand digging dirt, leaves crunch.wav' by SpliceSound
 	* Source: <https://freesound.org/people/SpliceSound/sounds/260130/>
 	* License: CC0
+* rp_sounds_dig_fuzzy.*.ogg
+	* Dervied froom sound 'Pat cloth' by annstory4520
+	* Source: <https://freesound.org/people/annstory4520/sounds/513428/>
+	* License: CC0
+* rp_sounds_dug_fuzzy.*.ogg
+	* Dervied froom sound 'Cloth - heavy - shake - run - trouser.wav' by ValentinPetiteau
+	* Source: <https://freesound.org/people/ValentinPetiteau/sounds/624478/>
+	* License: CC0
+* rp_sounds_place_fuzzy.*.ogg
+	* Sound by Little Robot Sound Factory (www.littlerobotsoundfactory)
+	* A slight pitch change was applied
+	* Source: <https://opengameart.org/content/fantasy-sound-effects-library>
+	* License: CC BY 3.0
 
 * rp_sounds_footstep_dirt.*.ogg
 * rp_sounds_footstep_dry_dirt.*.ogg

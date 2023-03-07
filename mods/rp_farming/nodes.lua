@@ -271,6 +271,9 @@ minetest.register_node(
 		unmagnetic = 1},
       sounds = rp_sounds.node_sound_fuzzy_defaults({
          footstep = { name = "rp_sounds_footstep_fuzzy", gain = 0.7, pitch = 1.3 },
+         dig = {name="rp_sounds_dig_fuzzy", gain=0.5, pitch = 1.3 },
+         dug = {name="rp_sounds_dug_fuzzy", gain=0.4, pitch = 1.3 },
+         place = {name="rp_sounds_place_fuzzy", gain=0.4, pitch = 1.3 },
       }),
    }
 )

@@ -236,9 +236,11 @@ function rp_sounds.node_sound_fuzzy_defaults(table)
    table.footstep = table.footstep or
       {name="rp_sounds_footstep_fuzzy", gain=0.7}
    table.dig = table.dig or
-      {name="default_dig_hard", gain=0.15}
+      {name="rp_sounds_dig_fuzzy", gain=0.5}
    table.dug = table.dug or
-      {name="default_dug_node", gain=0.5}
+      {name="rp_sounds_dug_fuzzy", gain=0.4}
+   table.place = table.place or
+      {name="rp_sounds_place_fuzzy", gain=0.4}
    rp_sounds.node_sound_defaults(table)
    return table
 end
