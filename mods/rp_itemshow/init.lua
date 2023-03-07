@@ -257,7 +257,12 @@ minetest.register_node("rp_itemshow:frame",{
 		-- So that placing a magnocompass on it will point
 		-- the needle to the correct direction
 		special_magnocompass_place_handling = 1},
-	sounds = rp_sounds.node_sound_defaults(),
+	sounds = rp_sounds.node_sound_defaults({
+           place = { name = "rp_itemshow_place_frame", gain = 0.5 },
+           dug = { name = "rp_itemshow_dug_frame", gain = 0.5 },
+           dig = { name = "rp_itemshow_dig_frame", gain = 0.35 },
+           footstep = { name = "rp_itemshow_dig_frame", gain = 0.35, pitch = 1.5 },
+	}),
 	is_ground_content = false,
 	on_rotate = function(pos, node, user, mode, new_param2)
 		if mode == screwdriver.ROTATE_AXIS then
