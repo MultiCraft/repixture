@@ -64,22 +64,22 @@ partialblocks.register_material(
 -- Metal
 
 partialblocks.register_material(
-   "steel", S("Steel Slab"), S("Steel Stair"), "rp_default:block_steel", { cracky = 2 }, false, "a|"..pbp.."block_steel", "a|"..pbp.."block_steel")
+   "steel", S("Steel Slab"), S("Steel Stair"), "rp_default:block_steel", { cracky = 2, level = 0 }, false, "a|"..pbp.."block_steel", "a|"..pbp.."block_steel")
 
 partialblocks.register_material(
-   "carbon_steel", S("Carbon Steel Slab"), S("Carbon Steel Stair"), "rp_default:block_carbon_steel", { cracky = 1 }, false, "a|"..pbp.."block_carbon_steel", "a|"..pbp.."block_carbon_steel")
+   "carbon_steel", S("Carbon Steel Slab"), S("Carbon Steel Stair"), "rp_default:block_carbon_steel", { cracky = 1, level = 0 }, false, "a|"..pbp.."block_carbon_steel", "a|"..pbp.."block_carbon_steel")
 
 partialblocks.register_material(
    "wrought_iron", S("Wrought Iron Slab"), S("Wrought Iron Stair"), "rp_default:block_wrought_iron", { cracky = 2, magnetic = 1 }, false, "a|"..pbp.."block_wrought_iron", "a|"..pbp.."block_wrought_iron")
 
 partialblocks.register_material(
-   "bronze", S("Bronze Slab"), S("Bronze Stair"), "rp_default:block_bronze", { cracky = 1 }, false, "a|"..pbp.."block_bronze", "a|"..pbp.."block_bronze")
+   "bronze", S("Bronze Slab"), S("Bronze Stair"), "rp_default:block_bronze", { cracky = 1, level = 0 }, false, "a|"..pbp.."block_bronze", "a|"..pbp.."block_bronze")
 
 partialblocks.register_material(
    "copper", S("Copper Slab"), S("Copper Stair"), "rp_default:block_copper", { cracky = 2 }, false, "a|"..pbp.."block_copper", "a|"..pbp.."block_copper")
 
 partialblocks.register_material(
-   "tin", S("Tin Slab"), S("Tin Stair"), "rp_default:block_tin", { cracky = 2 }, false, "a|"..pbp.."block_tin", "a|"..pbp.."block_tin")
+   "tin", S("Tin Slab"), S("Tin Stair"), "rp_default:block_tin", { cracky = 2, level = 0 }, false, "a|"..pbp.."block_tin", "a|"..pbp.."block_tin")
 
 partialblocks.register_material(
    "gold", S("Gold Slab"), S("Gold Stair"), "rp_gold:block_gold", { cracky = 2 }, false, "a|"..pbp.."block_gold", "a|"..pbp.."block_gold")
