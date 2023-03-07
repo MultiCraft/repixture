@@ -19,6 +19,18 @@ function rp_sounds.node_sound_defaults(table)
    return table
 end
 
+function rp_sounds.node_sound_small_defaults(table)
+   table = table or {}
+   table.dig = table.dig or
+      {name="rp_sounds_dig_smallnode", gain=0.3}
+   table.dug = table.dug or
+      {name="rp_sounds_dug_smallnode", gain=0.5}
+   table.place = table.place or
+      {name="rp_sounds_place_smallnode", gain=1.0}
+   rp_sounds.node_sound_defaults(table)
+   return table
+end
+
 function rp_sounds.node_sound_stone_defaults(table)
    table = table or {}
    table.footstep = table.footstep or

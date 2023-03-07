@@ -34,6 +34,7 @@ sound was changed to `rp_sounds_footstep_grass`.
 These are the available functions:
 
 * `rp_sounds.node_sound_defaults(table)`: Default/fallback sounds (use when nothing else fits)
+* `rp_sounds.node_sound_small_defaults(table)`: Generic sound for small objects
 * `rp_sounds.node_sound_stone_defaults(table)`: Stone
 * `rp_sounds.node_sound_coal_defaults(table)`: Coal, or a similar hard and "crunchy" block
 * `rp_sounds.node_sound_dirt_defaults(table)`: Dirt (normal)

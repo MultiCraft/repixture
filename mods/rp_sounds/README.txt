@@ -151,6 +151,7 @@ List of sounds and credits:
 * rp_sounds_place_gravel.*.ogg
 * rp_sounds_place_sand.*.ogg
 * rp_sounds_place_swamp_dirt.*.ogg
+* rp_sounds_place_smallnode.ogg
 * rp_sounds_fall_sand.*.ogg
 * rp_sounds_fall_gravel.*.ogg
 * rp_sounds_fall_grass.*.ogg

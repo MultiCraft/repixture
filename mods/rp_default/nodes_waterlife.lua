@@ -676,7 +676,7 @@ register_alga_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_bas
 register_alga_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", true), ALGA_MAX_HEIGHT_FERTILIZED_SWAMP_DIRT, true)
 register_alga_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "alga", true), ALGA_MAX_HEIGHT_FERTILIZED_SAND, true)
 
-local sounds_clam = rp_sounds.node_sound_defaults({
+local sounds_clam = rp_sounds.node_sound_small_defaults({
    place = {name = "rp_default_place_clam", gain = 1.0 },
    dig = {name = "rp_default_dig_clam", gain = 0.8 },
    dug = {name = "rp_default_dug_clam", gain = 1.0 },

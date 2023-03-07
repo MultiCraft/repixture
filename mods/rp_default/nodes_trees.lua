@@ -299,7 +299,7 @@ local create_on_place_fruit_function = function(fruitnode)
    end
 end
 
-local sounds_apple = rp_sounds.node_sound_defaults({
+local sounds_apple = rp_sounds.node_sound_small_defaults({
    place = {name = "rp_default_place_fruit", gain = 0.5 },
    dig = {name = "rp_default_dig_fruit", gain = 0.5 },
    dug = {name = "rp_default_dug_fruit", gain = 1.0 },
@@ -367,7 +367,7 @@ minetest.register_node(
 })
 
 
-local sounds_acorn = rp_sounds.node_sound_defaults({
+local sounds_acorn = rp_sounds.node_sound_small_defaults({
    place = {name = "rp_default_place_nut", gain = 0.5 },
    dig = {name = "rp_default_dig_nut", gain = 0.4 },
    dug = {name = "rp_default_dug_nut", gain = 0.4 },

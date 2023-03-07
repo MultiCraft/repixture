@@ -351,7 +351,7 @@ for c=0,7 do
 			      "rp_nav_compass_side.png",
 		      },
 		      use_texture_alpha = "clip",
-		      sounds = rp_sounds.node_sound_defaults(),
+		      sounds = rp_sounds.node_sound_small_defaults(),
 
 		      inventory_image = inv_imgs[c],
 		      wield_image = wield_imgs[c],
@@ -429,7 +429,7 @@ for c=0,7 do
 		      "rp_nav_magnocompass_side.png",
               },
               use_texture_alpha = "clip",
-	      sounds = rp_sounds.node_sound_defaults(),
+              sounds = rp_sounds.node_sound_small_defaults(),
 
 	      inventory_image = inv_imgs_magno[c],
 	      wield_image = wield_imgs_magno[c],
@@ -475,7 +475,7 @@ for c=0,7 do
 		      "rp_nav_magnocompass_side.png",
               },
               use_texture_alpha = "clip",
-	      sounds = rp_sounds.node_sound_defaults(),
+	      sounds = rp_sounds.node_sound_small_defaults(),
 
 	      inventory_image = "rp_nav_magnocompass_inventory_0.png",
 	      wield_image = "rp_nav_magnocompass_inventory_0.png",

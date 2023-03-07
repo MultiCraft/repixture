@@ -50,7 +50,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          },
          groups = {choppy = 2, dig_immediate = 3, attached_node = 1, torch = 1, creative_decoblock = 1},
          is_ground_content = false,
-         sounds = rp_sounds.node_sound_defaults(),
+         sounds = rp_sounds.node_sound_small_defaults(),
 	 on_construct = on_construct,
 	 on_timer = on_timer,
          on_place = function(itemstack, placer, pointed_thing)
@@ -171,7 +171,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          drop = "rp_default:"..subname,
          groups = {choppy = 2, dig_immediate = 3, attached_node = 1, not_in_creative_inventory = 1, torch = 2},
          is_ground_content = false,
-         sounds = rp_sounds.node_sound_defaults(),
+         sounds = rp_sounds.node_sound_small_defaults(),
 	 on_construct = on_construct,
 	 on_timer = on_timer,
 
