@@ -13,6 +13,9 @@ ambiance.sounds = {}
 -- immediately start singing when the rain ends.
 local WEATHER_CONDITION_DELAY = 5000000 -- µs
 
+-- Minimum theoretical sunlight level required for birds to sing
+local BIRDS_MIN_LIGHT = 10
+
 local get_weather_lagged
 if mod_weather then
 	get_weather_lagged = function()
@@ -45,6 +48,47 @@ local is_in_timeofday_range = function(tod, start_time, end_time)
    end
 end
 
+-- Returns true if `pos` is exposed to the sky (sunlight would reach it with no limit),
+-- or `false` otherwise.
+-- If `pos` is not loaded, will also return `false`.
+-- * `pos`: Position to check for
+-- * `check_neighbors`: If true, also check the 6 neighboring nodes. If `pos`
+--   OR any neighbor is exposed, `true` will be returned
+local is_sky_exposed_direct = function(pos, check_neighbors)
+   local self_exposed = minetest.get_node_light(pos, 0.5) == 15
+   if self_exposed == true then
+      return true
+   end
+   local neighbors = {
+      vector.new(0, 1, 0),
+      vector.new(0, 0, -1),
+      vector.new(0, 0, 1),
+      vector.new(-1, 0, 0),
+      vector.new(1, 0, 0),
+      vector.new(0, -1, 0),
+   }
+   if check_neighbors then
+      for n=1, #neighbors do
+         if minetest.get_node_light(vector.add(neighbors[n], pos), 0.5) == 15 then
+            return true
+         end
+      end
+   end
+   return false
+end
+
+-- Returns true if pos is indirectly exposed to sunlight with a minimum light level
+-- * `pos`: Positio to check
+-- * `min_light`: Expected minimum light level
+local is_sky_exposed_indirect = function(pos, min_light)
+   local light = minetest.get_natural_light(pos, 0.5)
+   if light then
+     return light >= min_light
+   else
+     return false
+   end
+end
+
 ambiance.sounds["birds_leaves"] = {
    length = 5.0,
    chance = 4,
@@ -56,6 +100,13 @@ ambiance.sounds["birds_leaves"] = {
          if get_weather_lagged() ~= "clear" then
             return false
          end
+      end
+
+      -- Birds only sing in nodes that are close to sunlight.
+      -- This ensures birds won't sing in the caves without
+      -- needing a hardcoded (and ugly) Y check.
+      if not is_sky_exposed_indirect(pos, BIRDS_MIN_LIGHT) then
+         return false
       end
 
       local tod = minetest.get_timeofday()
@@ -81,6 +132,10 @@ ambiance.sounds["birds_leaves_birch"] = {
          end
       end
 
+      if not is_sky_exposed_indirect(pos, BIRDS_MIN_LIGHT) then
+         return false
+      end
+
       local tod = minetest.get_timeofday()
       -- bit of overlap into crickets
       if is_in_timeofday_range(tod, 5640, 18360) then
@@ -102,6 +157,10 @@ ambiance.sounds["birds_leaves_oak"] = {
          if get_weather_lagged() ~= "clear" then
             return false
          end
+      end
+
+      if not is_sky_exposed_indirect(pos, BIRDS_MIN_LIGHT) then
+         return false
       end
 
       local tod = minetest.get_timeofday()
@@ -127,6 +186,10 @@ ambiance.sounds["owl_birch"] = {
          end
       end
 
+      if not is_sky_exposed_indirect(pos, BIRDS_MIN_LIGHT) then
+         return false
+      end
+
       local tod = minetest.get_timeofday()
       if is_in_timeofday_range(tod, 20000, 4000) then
          return true
@@ -148,6 +211,10 @@ ambiance.sounds["owl_oak"] = {
          if get_weather_lagged() ~= "clear" then
             return false
          end
+      end
+
+      if not is_sky_exposed_indirect(pos, BIRDS_MIN_LIGHT) then
+         return false
       end
 
       local tod = minetest.get_timeofday()
@@ -173,6 +240,10 @@ ambiance.sounds["crickets"] = {
          end
       end
 
+      if not is_sky_exposed_direct(pos) then
+         return false
+      end
+
       local tod = minetest.get_timeofday()
       if is_in_timeofday_range(tod, 18000, 6000) then
          return true
@@ -195,6 +266,10 @@ ambiance.sounds["cricket_mountain"] = {
          end
       end
 
+      if not is_sky_exposed_direct(pos, true) then
+         return false
+      end
+
       local tod = minetest.get_timeofday()
       if is_in_timeofday_range(tod, 6000, 18000) then
          return true
@@ -215,6 +290,10 @@ ambiance.sounds["frog"] = {
    dist = 16,
    nodename = "group:swamp_grass",
    can_play = function(pos)
+      if not is_sky_exposed_direct(pos) then
+         return false
+      end
+
       local tod = minetest.get_timeofday()
       if is_in_timeofday_range(tod, 19200, 4800) then
          return true
