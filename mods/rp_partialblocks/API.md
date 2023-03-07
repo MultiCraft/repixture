@@ -15,7 +15,7 @@ Parameters:
 * `desc_slab`: Item description of slab
 * `desc_stair`: Item description of stair
 * `node`: Name of the base node the new partial nodes will be based on (including recipes)
-* `groups`: List of groups for the new nodes
+* `groups`: List of groups for the new nodes (see note about groups below)
 * `is_fuel`: If true, partial blocks can be used as furnace fuel. (default: false)
 * `tiles_slab`: Tiles definition for slab
     * Special: `nil` automatically creates tiles from the base node
@@ -29,7 +29,18 @@ Parameters:
     * Special: `"w"` automatically creates world-aligned textures
                from the first base node tile
 
+Additional notes:
+
+The groups `slab=1` and `stair=1` will always be added to the new slab and stair
+nodes, respectively.
+
+By default, the `level` group rating of the new nodes will be set to a value 1 lower than
+the base node's level (but never lower than -32767), in order to make the new nodes easier to dig.
+If `level` was explicitly specified in the `groups` parameter (i.e. is not `nil`),
+that group rating will be used instead. This also applies for `level=0`.
+
 If `is_fuel` is true, the burning time of the partial blocks is based on the burning
 time of the base node. It’s 75% of the base node burn time for the stair and 50%
 of the base node burn time for the slab.
 If the base node is not a fuel, the burn time will be 7 seconds for both stair and slab.
+

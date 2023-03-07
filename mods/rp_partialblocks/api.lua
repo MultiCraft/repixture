@@ -42,8 +42,16 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    local groups_slab
    if not groups then
       groups_slab = table.copy(nodedef.groups)
+      if groups_slab.level then
+         groups_slab.level = math.max(-32737, groups_slab.level - 1)
+      else
+         groups_slab.level = -1
+      end
    else
       groups_slab = table.copy(groups)
+      if not groups_slab.level then
+         groups_slab.level = -1
+      end
    end
    groups_slab.slab = 1
 
@@ -159,8 +167,16 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    local groups_stair
    if not groups then
       groups_stair = table.copy(nodedef.groups)
+      if groups_stair.level then
+         groups_stair.level = math.max(-32737, groups_stair.level - 1)
+      else
+         groups_stair.level = -1
+      end
    else
       groups_stair = table.copy(groups)
+      if not groups_stair.level then
+         groups_stair.level = -1
+      end
    end
    groups_stair.stair = 1
 

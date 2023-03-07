@@ -49,11 +49,12 @@ partialblocks.register_material(
 partialblocks.register_material(
    "frame", S("Frame Slab"), S("Frame Stair"), "rp_default:frame", {choppy = 2, oddly_breakable_by_hand = 1}, true, "a|"..pbp.."frame", "a|"..pbp.."frame")
 
+-- The reinforced partialblocks have their level forced to 0, so are as hard to dig as the basenode. They're reinforced, after all.
 partialblocks.register_material(
-   "reinforced_frame", S("Reinforced Frame Slab"), S("Reinforced Frame Stair"), "rp_default:reinforced_frame", {choppy = 1}, true, "a|"..pbp.."reinforced_frame", "a|"..pbp.."reinforced_frame")
+   "reinforced_frame", S("Reinforced Frame Slab"), S("Reinforced Frame Stair"), "rp_default:reinforced_frame", {choppy = 1, level = 0}, true, "a|"..pbp.."reinforced_frame", "a|"..pbp.."reinforced_frame")
 
 partialblocks.register_material(
-   "reinforced_cobble", S("Reinforced Cobble Slab"), S("Reinforced Cobble Stair"), "rp_default:reinforced_cobble", {cracky = 1}, false, "a|"..pbp.."reinforced_cobbles", "a|"..pbp.."reinforced_cobbles")
+   "reinforced_cobble", S("Reinforced Cobble Slab"), S("Reinforced Cobble Stair"), "rp_default:reinforced_cobble", {cracky = 1, level = 0}, false, "a|"..pbp.."reinforced_cobbles", "a|"..pbp.."reinforced_cobbles")
 
 -- Coal
 
