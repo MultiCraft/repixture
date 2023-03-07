@@ -25,6 +25,26 @@ if mod_weather then
 	end
 end
 
+--[[ Returns true if the provided timeofday (`tod`)
+is between 2 times of day inclusive, false otherwise.
+Recognizes the midnight
+
+* `tod`: timeofday to check for, value returned by `minetest.get_timeofday()`. Range: [0.0-1.0)
+* `start_time`: timeofday of the start of the time range. Range: [0-24000)
+* `end_time`: timeofday of the end of the time range. Range: [0-24000)
+
+If `start_time` is greater than `end_time`, it is a time range
+that wraps around midnight.
+]]
+local is_in_timeofday_range = function(tod, start_time, end_time)
+   local tod24k = tod * 24000
+   if start_time < end_time then
+      return tod24k >= start_time and tod24k <= end_time
+   else
+      return tod24k >= start_time or tod24k <= end_time
+   end
+end
+
 ambiance.sounds["birds_leaves"] = {
    length = 5.0,
    chance = 4,
@@ -32,15 +52,15 @@ ambiance.sounds["birds_leaves"] = {
    dist = 8,
    nodename = "rp_default:leaves",
    can_play = function(pos)
-      local tod = (minetest.get_timeofday() or 1) * 2
-
       if mod_weather then
          if get_weather_lagged() ~= "clear" then
             return false
          end
       end
 
-      if tod > 0.47 and tod < 1.53 then -- bit of overlap into crickets
+      local tod = minetest.get_timeofday()
+      -- bit of overlap into crickets
+      if is_in_timeofday_range(tod, 5640, 18360) then
          return true
       end
 
@@ -55,15 +75,15 @@ ambiance.sounds["birds_leaves_birch"] = {
    dist = 8,
    nodename = "rp_default:leaves_birch",
    can_play = function(pos)
-      local tod = (minetest.get_timeofday() or 1) * 2
-
       if mod_weather then
          if get_weather_lagged() ~= "clear" then
             return false
          end
       end
 
-      if tod > 0.47 and tod < 1.53 then -- bit of overlap into crickets
+      local tod = minetest.get_timeofday()
+      -- bit of overlap into crickets
+      if is_in_timeofday_range(tod, 5640, 18360) then
          return true
       end
 
@@ -78,15 +98,15 @@ ambiance.sounds["birds_leaves_oak"] = {
    dist = 8,
    nodename = "rp_default:leaves_oak",
    can_play = function(pos)
-      local tod = (minetest.get_timeofday() or 1) * 2
-
       if mod_weather then
          if get_weather_lagged() ~= "clear" then
             return false
          end
       end
 
-      if tod > 0.47 and tod < 1.53 then -- bit of overlap into crickets
+      local tod = minetest.get_timeofday()
+      -- bit of overlap into crickets
+      if is_in_timeofday_range(tod, 5640, 18360) then
          return true
       end
 
@@ -101,15 +121,14 @@ ambiance.sounds["owl_birch"] = {
    dist = 8,
    nodename = "rp_default:leaves_birch",
    can_play = function(pos)
-      local tod = (minetest.get_timeofday() or 1) * 2
-
       if mod_weather then
          if get_weather_lagged() ~= "clear" then
             return false
          end
       end
 
-      if tod < 0.333 or tod > 1.666 then -- night time
+      local tod = minetest.get_timeofday()
+      if is_in_timeofday_range(tod, 20000, 4000) then
          return true
       end
 
@@ -125,15 +144,14 @@ ambiance.sounds["owl_oak"] = {
    gain = 0.9,
    nodename = "rp_default:leaves_oak",
    can_play = function(pos)
-      local tod = (minetest.get_timeofday() or 1) * 2
-
       if mod_weather then
          if get_weather_lagged() ~= "clear" then
             return false
          end
       end
 
-      if tod < 0.333 or tod > 1.666 then -- night time
+      local tod = minetest.get_timeofday()
+      if is_in_timeofday_range(tod, 20000, 4000) then
          return true
       end
 
@@ -149,15 +167,14 @@ ambiance.sounds["crickets"] = {
    gain = 0.15,
    nodename = {"group:normal_grass", "group:dry_grass"},
    can_play = function(pos)
-      local tod = (minetest.get_timeofday() or 1) * 2
-
       if mod_weather then
          if get_weather_lagged() ~= "clear" then
             return false
          end
       end
 
-      if tod < 0.5 or tod > 1.5 then
+      local tod = minetest.get_timeofday()
+      if is_in_timeofday_range(tod, 18000, 6000) then
          return true
       end
 
@@ -172,17 +189,18 @@ ambiance.sounds["cricket_mountain"] = {
    dist = 8,
    nodename = {"group:dry_leaves", "group:dry_grass"},
    can_play = function(pos)
-      local tod = (minetest.get_timeofday() or 1) * 2
-
       if mod_weather then
          if get_weather_lagged() ~= "clear" then
             return false
          end
       end
 
-      if tod > 0.5 or tod < 1.5 then
+      local tod = minetest.get_timeofday()
+      if is_in_timeofday_range(tod, 6000, 18000) then
          return true
       end
+
+      return false
    end,
 }
 
@@ -197,9 +215,8 @@ ambiance.sounds["frog"] = {
    dist = 16,
    nodename = "group:swamp_grass",
    can_play = function(pos)
-      local tod = (minetest.get_timeofday() or 1) * 2
-
-      if tod < 0.4 or tod > 1.6 then
+      local tod = minetest.get_timeofday()
+      if is_in_timeofday_range(tod, 19200, 4800) then
          return true
       end
 
