@@ -707,6 +707,14 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
+      output = "rp_default:dirt_path",
+      items = {
+         "rp_default:path_slab 2",
+      }
+})
+
+crafting.register_craft(
+   {
       output = "rp_default:dirt_path 8",
       items = {
          "group:soil 3",
