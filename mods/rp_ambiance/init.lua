@@ -310,14 +310,12 @@ ambiance.sounds["flowing_water"] = {
    dist = 16,
    gain = 0.08,
    nodename = "group:flowing_water",
-   overlay = true,
 }
 
 local ambiance_volume = tonumber(minetest.settings:get("ambiance_volume")) or 1.0
 ambiance_volume = math.max(0.0, math.min(1.0, ambiance_volume))
 
 if minetest.settings:get_bool("ambiance_enable") == true then
-   local soundspec = {}
    local lastsound = {}
 
    local function ambient_node_near(sound, pos)
@@ -356,14 +354,7 @@ if minetest.settings:get_bool("ambiance_enable") == true then
                      sourcepos = nil
                   end
 
-                  if sourcepos == nil then
-                     if soundspec[name][soundname] then
-                        minetest.sound_stop(soundspec[name][soundname])
-
-                        soundspec[name][soundname] = nil
-                        lastsound[name][soundname] = 0
-                     end
-                  else
+                  if sourcepos then
                      local ok = true
                      for _, p in pairs(player_positions) do
                         if (p.x * pos.x) + (p.y * pos.y) + (p.z * pos.z) < sound.dist * sound.dist then
@@ -376,20 +367,14 @@ if minetest.settings:get_bool("ambiance_enable") == true then
                         if sound.pitch_min and sound.pitch_max then
                            pitch = 1 + 0.01 * math.random(sound.pitch_min, sound.pitch_max)
                         end
-                        local id = minetest.sound_play(
+                        minetest.sound_play(
                            sound.file,
                            {
                               pos = sourcepos,
                               max_hear_distance = sound.dist,
                               gain = ambiance_volume * (sound.gain or 1),
                               pitch = pitch,
-                           }, sound.overlay == true)
-                        -- sound overlaying means the sound will be played again
-                        -- before the previous sound ended; sound_stop will not be called.
-                        -- important for repeating sounds like water flow
-                        if not sound.overlay then
-                           soundspec[name][soundname] = id
-                        end
+                           }, true)
 
                         lastsound[name][soundname] = 0
                      end
@@ -405,14 +390,12 @@ if minetest.settings:get_bool("ambiance_enable") == true then
    local function on_joinplayer(player)
       local name = player:get_player_name()
 
-      soundspec[name] = {}
       lastsound[name] = {}
    end
 
    local function on_leaveplayer(player)
       local name = player:get_player_name()
 
-      soundspec[name] = nil
       lastsound[name] = nil
    end
 
