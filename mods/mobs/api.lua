@@ -8,15 +8,25 @@ mobs.mod = "redo"
 
 -- Initial settings check
 
-local damage_enabled = minetest.settings:get_bool("enable_damage") or false
-local peaceful_only = minetest.settings:get_bool("only_peaceful_mobs") or false
-local enable_blood = minetest.settings:get_bool("mobs_enable_blood") or false
+local spawn_mobs = minetest.settings:get_bool("mobs_spawn", true)
+local damage_enabled = minetest.settings:get_bool("enable_damage", true)
+local peaceful_only = minetest.settings:get_bool("only_peaceful_mobs", false)
+local enable_blood = minetest.settings:get_bool("mobs_enable_blood", false)
 
-mobs.protected = tonumber(minetest.settings:get("mobs_spawn_protected")) or 0
+local setting_protected = minetest.settings:get("mobs_spawn_protected")
+-- numeric value 1 or false means it's disabled
+-- (the odd numeric value is supported for backwards-compability)
+if tonumber(setting_protected) == 1 or setting_protected == "false" then
+   mobs.protected = 1 -- mobs can not spawn naturally in protected areas
+-- any other value means it's enabled
+else
+   mobs.protected = 0  -- mobs can spawn naturally in protected areas
+end
+
 mobs.remove = false
 
 local function is_too_near_spawn(pos)
-   if minetest.is_singleplayer() or not minetest.settings:get_bool("mobs_safe_spawn") then
+   if minetest.is_singleplayer() or not minetest.settings:get_bool("mobs_safe_spawn", true) then
       return false
    end
 
@@ -1490,6 +1500,11 @@ function mobs:spawn_specific(name, nodes, neighbors, min_light, max_light, inter
          interval = interval,
          chance = chance,
          action = function(pos, node, _, active_object_count_wider)
+            -- do not spawn if mob spawning is disabled
+            if not spawn_mobs then
+               return
+            end
+
             -- do not spawn if too many active entities in area
             if active_object_count_wider > active_object_count or not mobs.spawning_mobs[name] then
                --or not pos then
@@ -1534,7 +1549,7 @@ function mobs:spawn_specific(name, nodes, neighbors, min_light, max_light, inter
                return
             end
 
-            if minetest.settings:get_bool("display_mob_spawn") then
+            if minetest.settings:get_bool("display_mob_spawn", false) then
                minetest.chat_send_all("[mobs] "..S("Spawned @1 at @2", name, minetest.pos_to_string(pos)))
             end
 

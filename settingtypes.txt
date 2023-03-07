@@ -67,19 +67,28 @@ locks_all_unlocked (Unlock all locks) bool false
 locks_picked_time (Picked lock time) float 15 1.0
 
 [Mobs]
-# If enabled, only peaceful, non-hostile mobs will appear. Hostile mobs will disappear and cannot be spawned at all.
+# If enabled, mobs will appear/spawn naturally in the world.
+# If disabled, mobs won't spawn naturally, but they can still spawn by other means.
+# This setting is only read at startup.
+mobs_spawn (Mobs spawn) bool true
+
+# If enabled, only peaceful, non-hostile mobs are able to appear/spawn. Hostile mobs will disappear and cannot be spawned at all.
 # This setting is only read at startup.
 only_peaceful_mobs (Only peaceful mobs) bool false
+
+# If enabled, mobs can naturally spawn in areas that are protected by someone (e.g. using a protection mod).
+# This setting is only read at startup.
+mobs_spawn_protected (Mobs spawn in protected area) bool true
 
 # If enabled, hostile mobs will not attack near the player spawn on multiplayer servers. This setting is ignored in singleplayer, mobs will attack regardless.
 # The safety radius is set in static_spawn_radius.
 mobs_safe_spawn (Safe spawn from mobs) bool true
 
 # Radius around the player spawn point in which mobs don't attack.
-# This is only the case in multiplayer servers and if the setting mobs_safe_spawn is enabled. In singleplayer, mobs will attack regardless.
+# This is only the case in multiplayer servers and if the setting 'mobs_safe_spawn' is enabled. In singleplayer, mobs will attack regardless.
 #
 # Additionally, this radius also specifies the radius around
-# spawn in which villages don't generate.
+# the spawn point in which villages don't generate.
 static_spawn_radius (Spawn point safety radius) int 256 0
 
 [Graphics and audio]
