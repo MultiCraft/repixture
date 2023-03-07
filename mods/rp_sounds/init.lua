@@ -24,7 +24,7 @@ function rp_sounds.node_sound_stone_defaults(table)
    table.footstep = table.footstep or
       {name="rp_sounds_footstep_stone", gain=0.6}
    table.dug = table.dug or
-      {name="rp_sounds_dug_stone", gain=1.0}
+      {name="rp_sounds_dug_stone", gain=0.9}
    table.dig = table.dig or
       {name="rp_sounds_dig_stone", gain=0.5}
    rp_sounds.node_sound_defaults(table)

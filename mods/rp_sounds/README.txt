@@ -56,8 +56,8 @@ List of sounds and credits:
 	* Source: <https://freesound.org/people/Fission9/sounds/521590/>
 	* License: CC0
 * rp_sounds_dig_stone.*.ogg
-	* Derived from 'Stone Strike/Hit' by BrickLover
-	* Source: <https://freesound.org/people/Bricklover/sounds/560966/>
+	* Derived from 'two large cobblestone blocks' by jobel0092
+	* Source: <https://freesound.org/people/jobel0092/sounds/268055/>
 	* License: CC0
 * rp_sounds_dug_stone.1.ogg
 	* Derived from 'stone falls and breaks low pitch.aiff' by SoundCollectah

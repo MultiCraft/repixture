@@ -418,7 +418,10 @@ minetest.register_node(
       tiles = {"default_sandstone.png"},
       groups = {crumbly = 2, cracky = 3, sandstone = 1},
       drop = "rp_default:sand 2",
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = rp_sounds.node_sound_stone_defaults({
+         dug = {name="rp_sounds_dug_stone", gain=0.9, pitch=1.4},
+         dig = {name="rp_sounds_dig_stone", gain=0.5, pitch=1.4},
+      }),
 })
 
 minetest.register_node(
@@ -428,7 +431,10 @@ minetest.register_node(
       tiles = {"default_compressed_sandstone_top.png", "default_compressed_sandstone_top.png", "default_compressed_sandstone.png"},
       groups = {cracky = 2, sandstone = 1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = rp_sounds.node_sound_stone_defaults({
+         dug = {name="rp_sounds_dug_stone", gain=0.9, pitch=1.2},
+         dig = {name="rp_sounds_dig_stone", gain=0.5, pitch=1.2},
+      }),
 })
 
 minetest.register_node(
@@ -438,7 +444,10 @@ minetest.register_node(
       tiles = {"rp_default_reinforced_compressed_sandstone.png"},
       groups = {cracky = 2, sandstone = 1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = rp_sounds.node_sound_stone_defaults({
+         dug = {name="rp_sounds_dug_stone", gain=0.9, pitch=1.2},
+         dig = {name="rp_sounds_dig_stone", gain=0.5, pitch=1.2},
+      }),
 })
 
 -- Glass
