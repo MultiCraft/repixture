@@ -331,7 +331,9 @@ if minetest.settings:get_bool("ambiance_enable") == true then
    local function step(dtime)
       local player_positions = {}
 
-      for _, player in ipairs(minetest.get_connected_players()) do
+      local players = minetest.get_connected_players()
+
+      for _, player in ipairs(players) do
          local pos = player:get_pos()
          local name = player:get_player_name()
 
@@ -350,7 +352,7 @@ if minetest.settings:get_bool("ambiance_enable") == true then
                if lastsound[name][soundname] > sound.length then
                   local sourcepos = ambient_node_near(sound, pos)
 
-                  -- Check if sound can be played
+                  -- Check if can_play of sound definition allows sound to be played
                   if sound.can_play and sourcepos ~= nil and (not sound.can_play(sourcepos)) then
                      sourcepos = nil
                      -- Reset cooldown timer if sound cannot be played
@@ -358,11 +360,12 @@ if minetest.settings:get_bool("ambiance_enable") == true then
                      lastsound[name][soundname] = 0
                   end
 
-                  -- Sound can be played
                   if sourcepos then
                      local ok = true
+                     -- Check if player isn't too close to any other player
                      for _, p in pairs(player_positions) do
-                        if (p.x * pos.x) + (p.y * pos.y) + (p.z * pos.z) < sound.dist * sound.dist then
+                        if vector.distance(p, pos) < sound.dist * 2 then
+                           -- Too close! Suppress sound
                            ok = false
                            break
                         end
