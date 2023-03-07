@@ -340,7 +340,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, -2/16, 0.5}
       },
       tiles = { "default_dirt.png" },
-      groups = {crumbly = 3, path = 2, slab = 2, creative_decoblock = 1, fall_damage_add_percent = -10},
+      groups = {crumbly = 3, level = -1, path = 2, slab = 2, creative_decoblock = 1, fall_damage_add_percent = -10},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_dirt_defaults(),
       on_place = function(itemstack, placer, pointed_thing)
