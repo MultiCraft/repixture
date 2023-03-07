@@ -350,15 +350,21 @@ if minetest.settings:get_bool("ambiance_enable") == true then
                if lastsound[name][soundname] > sound.length then
                   local sourcepos = ambient_node_near(sound, pos)
 
+                  -- Check if sound can be played
                   if sound.can_play and sourcepos ~= nil and (not sound.can_play(sourcepos)) then
                      sourcepos = nil
+                     -- Reset cooldown timer if sound cannot be played
+                     -- so the next attempt won't start in the next step
+                     lastsound[name][soundname] = 0
                   end
 
+                  -- Sound can be played
                   if sourcepos then
                      local ok = true
                      for _, p in pairs(player_positions) do
                         if (p.x * pos.x) + (p.y * pos.y) + (p.z * pos.z) < sound.dist * sound.dist then
                            ok = false
+                           break
                         end
                      end
 
