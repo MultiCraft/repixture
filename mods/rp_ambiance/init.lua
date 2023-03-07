@@ -16,6 +16,9 @@ local WEATHER_CONDITION_DELAY = 5000000 -- µs
 -- Minimum theoretical sunlight level required for birds to sing
 local BIRDS_MIN_LIGHT = 10
 
+-- Maximum cooldown time to prevent sound repetitions
+local SOUND_COOLDOWN_MAX = 3.0
+
 local get_weather_lagged
 if mod_weather then
 	get_weather_lagged = function()
@@ -317,6 +320,7 @@ ambiance_volume = math.max(0.0, math.min(1.0, ambiance_volume))
 
 if minetest.settings:get_bool("ambiance_enable") == true then
    local lastsound = {}
+   local cooldown = {}
 
    local function ambient_node_near(sound, pos)
       local nodepos = minetest.find_node_near(pos, sound.dist, sound.nodename)
@@ -329,9 +333,17 @@ if minetest.settings:get_bool("ambiance_enable") == true then
    end
 
    local function step(dtime)
-      local player_positions = {}
-
       local players = minetest.get_connected_players()
+
+      -- Shuffle table so the player distance check is more likely
+      -- to fail for a random player, and not biased to the order
+      -- returned by `minetest.get_connected_players()`.
+      table.shuffle(players)
+
+      local player_positions = {}
+      for _, player in ipairs(players) do
+         table.insert(player_positions, {name=player:get_player_name(), pos=player:get_pos()})
+      end
 
       for _, player in ipairs(players) do
          local pos = player:get_pos()
@@ -339,8 +351,8 @@ if minetest.settings:get_bool("ambiance_enable") == true then
 
          for soundname, sound in pairs(ambiance.sounds) do
             if not minetest.settings:get_bool("ambiance_disable_" .. soundname) then
-               if lastsound[name] == nil then
-                  -- lastsound is not initialized yet
+               if lastsound[name] == nil or cooldown[name] == nil then
+                  -- variables are not initialized yet
                   return
                end
                if lastsound[name][soundname] then
@@ -348,23 +360,27 @@ if minetest.settings:get_bool("ambiance_enable") == true then
                else
                   lastsound[name][soundname] = 0
                end
+	       if cooldown[name][soundname] then
+                  cooldown[name][soundname] = cooldown[name][soundname] + dtime
+               else
+                  cooldown[name][soundname] = 0
+               end
 
-               if lastsound[name][soundname] > sound.length then
+               if lastsound[name][soundname] > sound.length and cooldown[name][soundname] > math.min(SOUND_COOLDOWN_MAX, sound.length) then
                   local sourcepos = ambient_node_near(sound, pos)
 
                   -- Check if can_play of sound definition allows sound to be played
                   if sound.can_play and sourcepos ~= nil and (not sound.can_play(sourcepos)) then
                      sourcepos = nil
-                     -- Reset cooldown timer if sound cannot be played
-                     -- so the next attempt won't start in the next step
-                     lastsound[name][soundname] = 0
                   end
 
                   if sourcepos then
                      local ok = true
-                     -- Check if player isn't too close to any other player
-                     for _, p in pairs(player_positions) do
-                        if vector.distance(p, pos) < sound.dist * 2 then
+                     -- Check if no other player who recently has played the same sound isn't too close to us
+                     for _, other in pairs(player_positions) do
+                        if name ~= other.name and -- other player
+					vector.distance(other.pos, pos) < sound.dist * 2 and -- minimum distance requirement
+					lastsound[other.name] and lastsound[other.name][soundname] <= sound.length then -- same sound was played recently
                            -- Too close! Suppress sound
                            ok = false
                            break
@@ -388,11 +404,13 @@ if minetest.settings:get_bool("ambiance_enable") == true then
                         lastsound[name][soundname] = 0
                      end
                   end
+
+                  -- Reset cooldown timer to avoid spamming
+                  -- the can_play function
+                  cooldown[name][soundname] = 0
                end
             end
          end
-
-         table.insert(player_positions, pos)
       end
    end
 
@@ -400,12 +418,14 @@ if minetest.settings:get_bool("ambiance_enable") == true then
       local name = player:get_player_name()
 
       lastsound[name] = {}
+      cooldown[name] = {}
    end
 
    local function on_leaveplayer(player)
       local name = player:get_player_name()
 
       lastsound[name] = nil
+      cooldown[name] = nil
    end
 
    minetest.register_on_joinplayer(on_joinplayer)
