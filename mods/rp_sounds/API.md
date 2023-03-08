@@ -45,7 +45,8 @@ These are the available functions:
 * `rp_sounds.node_sound_wood_defaults(table)`: Wood, generic
 * `rp_sounds.node_sound_plank_defaults(table)`: Wood, planks
 * `rp_sounds.node_sound_leaves_defaults(table)`: Leaves
-* `rp_sounds.node_sound_grass_defaults(table)`: Grass
+* `rp_sounds.node_sound_grass_defaults(table)`: Grass and grass-like/soft plants
+* `rp_sounds.node_sound_plant_defaults(table)`: Small plant, slightly harder/“woody” than grass
 * `rp_sounds.node_sound_straw_defaults(table)`: Straw
 * `rp_sounds.node_sound_glass_defaults(table)`: Glass
 * `rp_sounds.node_sound_crystal_defaults(table)`: Crystal

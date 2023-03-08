@@ -138,6 +138,7 @@ List of sounds and credits:
 * rp_sounds_footstep_stone.*.ogg
 * rp_sounds_footstep_coal.*.ogg
 * rp_sounds_dig_straw.*.ogg
+* rp_sounds_dig_plant.*.ogg
 * rp_sounds_dig_glass.*.ogg
 * rp_sounds_dig_gravel.*.ogg
 * rp_sounds_dig_glass.*.ogg
@@ -146,15 +147,18 @@ List of sounds and credits:
 * rp_sounds_dug_coal.*.ogg
 * rp_sounds_dug_straw.*.ogg
 * rp_sounds_dug_grass.*.ogg
+* rp_sounds_dug_plant.*.ogg
 * rp_sounds_dug_swamp_dirt.*.ogg
 * rp_sounds_place_straw.*.ogg
 * rp_sounds_place_gravel.*.ogg
 * rp_sounds_place_sand.*.ogg
 * rp_sounds_place_swamp_dirt.*.ogg
+* rp_sounds_place_plant.*.ogg
 * rp_sounds_place_smallnode.ogg
 * rp_sounds_fall_sand.*.ogg
 * rp_sounds_fall_gravel.*.ogg
 * rp_sounds_fall_grass.*.ogg
+* rp_sounds_fall_plant.*.ogg
 * default_water_footstep.*.ogg
 	* by Wuzzy
 	* License: CC0

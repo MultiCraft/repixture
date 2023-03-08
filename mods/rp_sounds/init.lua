@@ -187,6 +187,22 @@ function rp_sounds.node_sound_grass_defaults(table)
    return table
 end
 
+function rp_sounds.node_sound_plant_defaults(table)
+   table = table or {}
+   table.footstep = table.footstep or
+      {name="rp_sounds_footstep_grass", gain=0.25, pitch=0.9}
+   table.dug = table.dug or
+      {name="rp_sounds_dug_plant", gain=0.3}
+   table.dig = table.dig or
+      {name="rp_sounds_dig_plant", gain=0.15}
+   table.place = table.place or
+      {name="rp_sounds_place_plant", gain=0.25}
+   table.fall = table.fall or
+      {name="rp_sounds_fall_plant", gain=0.3}
+   rp_sounds.node_sound_defaults(table)
+   return table
+end
+
 function rp_sounds.node_sound_straw_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
@@ -246,13 +262,13 @@ end
 function rp_sounds.node_sound_fuzzy_defaults(table)
    table = table or {}
    table.footstep = table.footstep or
-      {name="rp_sounds_footstep_fuzzy", gain=0.7}
+      {name="rp_sounds_footstep_fuzzy", gain=0.3}
    table.dig = table.dig or
-      {name="rp_sounds_dig_fuzzy", gain=0.5}
+      {name="rp_sounds_dig_fuzzy", gain=0.2}
    table.dug = table.dug or
-      {name="rp_sounds_dug_fuzzy", gain=0.4}
+      {name="rp_sounds_dug_fuzzy", gain=0.2}
    table.place = table.place or
-      {name="rp_sounds_place_fuzzy", gain=0.4}
+      {name="rp_sounds_place_fuzzy", gain=0.2}
    rp_sounds.node_sound_defaults(table)
    return table
 end

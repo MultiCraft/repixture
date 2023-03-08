@@ -2,7 +2,7 @@ local S = minetest.get_translator("rp_default")
 
 -- Saplings
 
-local snd_sapling = rp_sounds.node_sound_grass_defaults()
+local snd_sapling = rp_sounds.node_sound_plant_defaults()
 
 minetest.register_node(
    "rp_default:sapling",
