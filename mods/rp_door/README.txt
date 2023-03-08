@@ -22,8 +22,8 @@ Credits:
     * Origin: <https://opengameart.org/content/50-rpg-sound-effects>
 * door_close.ogg: By kenney.nl
     * Origin: <https://opengameart.org/content/50-rpg-sound-effects>
-* door_open_stone.ogg: Remix of sound by Wuzzy and kenney.nl
-* door_close_stone.ogg: By Wuzzy
+* door_open_stone.ogg: Remix of sounds by patchytherat and kenney.nl
+* door_close_stone.ogg: Remix of sound by patchytherat
 
 ### Source code
 
