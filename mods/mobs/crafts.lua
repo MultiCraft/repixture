@@ -50,6 +50,27 @@ minetest.register_craft(
       cooktime = 5,
 })
 
+
+-- on_use function for the mob capturing tools.
+-- This currently triggers the on_rightclick handler of
+-- the mob, which might call capture_mob.
+-- This is somewhat hacky but works for now, but
+-- (TODO) the whole system needs improvement later.
+local capture_tool_on_use = function(itemstack, player, pointed_thing)
+    if pointed_thing.type ~= "object" then
+        return
+    end
+    if not player or not player:is_player() then
+        return
+    end
+    local ent = pointed_thing.ref:get_luaentity()
+    if ent and ent._cmi_is_mob then
+        if ent.on_rightclick then
+            ent:on_rightclick(player)
+        end
+    end
+end
+
 -- Net
 
 minetest.register_tool(
@@ -58,6 +79,8 @@ minetest.register_tool(
       description = S("Net"),
       _tt_help = S("Good for capturing small animals"),
       inventory_image = "mobs_net.png",
+      on_use = capture_tool_on_use,
+      -- Note: no on_place function as mobs have their on_rightclick handlers
 })
 
 crafting.register_craft(
@@ -77,6 +100,7 @@ minetest.register_tool(
       description = S("Lasso"),
       _tt_help = S("Good for capturing large animals"),
       inventory_image = "mobs_lasso.png",
+      on_use = capture_tool_on_use,
 })
 
 crafting.register_craft(
