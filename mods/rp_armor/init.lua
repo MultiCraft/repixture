@@ -4,7 +4,12 @@
 
 local S = minetest.get_translator("rp_armor")
 
+-- Gain for equip/unequip sounds
 local SOUND_GAIN = 0.4
+
+-- Boost protection value by this many percentage points if
+-- wearing a full set of armor
+local SAME_ARMOR_BONUS_PERCENT = 10
 
 armor = {}
 
@@ -150,10 +155,9 @@ function armor_local.get_groups(player, check_achievement)
       achievements.trigger_achievement(player, "full_armor")
    end
 
-   -- If full set of same armor material, then boost armor by 10%
-
+   -- If full set of same armor material, then boost armor protection
    if match_amt == #armor.slots then
-      groups.fleshy = groups.fleshy - 10
+      groups.fleshy = math.max(0, groups.fleshy - SAME_ARMOR_BONUS_PERCENT)
    end
 
    if minetest.settings:get_bool("enable_damage", true) == false then
