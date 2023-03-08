@@ -508,6 +508,8 @@ door.register_door(
       tiles_bottom = {"door_stone_b.png", "door_stone_side.png"},
       sounds = rp_sounds.node_sound_stone_defaults(),
       sunlight = false,
+      sound_open_door = "door_open_stone",
+      sound_close_door = "door_close_stone",
 })
 
 crafting.register_craft(
