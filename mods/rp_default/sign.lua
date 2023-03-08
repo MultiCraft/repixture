@@ -53,6 +53,7 @@ local on_receive_fields = function(pos, formname, fields, sender)
 	if string.len(text) > SIGN_MAX_TEXT_LENGTH then
 		text = string.sub(text, 1, SIGN_MAX_TEXT_LENGTH)
 	end
+	minetest.sound_play({name="rp_default_write_sign", gain=0.2}, {pos=pos, max_hear_distance=16}, true)
 	minetest.log("action", "[rp_default] " .. (sender:get_player_name() or "")..
 					" wrote \""..text.."\" to sign at "..
 					minetest.pos_to_string(pos))

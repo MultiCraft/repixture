@@ -36,8 +36,10 @@ local on_use = function(itemstack, player, pointed_thing)
    local form = rp_formspec.get_page("rp_formspec:default")
    form = form .. "field[0.7,1.25;7.7,0;title;"..FS("Title:")..";"..F(title).."]"
    form = form .. "textarea[0.7,1.75;7.7,6.75;text;"..FS("Contents:")..";"..F(text).."]"
+   form = form .. "style[write;sound=]"
    form = form .. rp_formspec.button_exit(2.75, 7.75, 3, 1, "write", S("Write"))
 
+   minetest.sound_play({name="rp_book_open_book", gain=0.5}, {pos=player:get_pos(), max_hear_distance=16}, true)
    minetest.show_formspec(name, "rp_book:book", form)
 end
 
@@ -194,6 +196,8 @@ book.register_book_node(
          local text = nmeta:get_string("book:text")
          form = form .. "label[0.45,0.25;"..F(title).."]"
          form = form .. "textarea[0.7,0.75;7.7,8.75;;;"..F(text).."]"
+
+         minetest.sound_play({name="rp_book_open_book", gain=0.5}, {pos=clicker:get_pos(), max_hear_distance=16}, true)
          minetest.show_formspec(clicker:get_player_name(), "rp_book:read_book", form)
          return itemstack
       end,
@@ -201,7 +205,16 @@ book.register_book_node(
 
 minetest.register_on_player_receive_fields(
    function(player, form_name, fields)
-      if form_name ~= "rp_book:book" or (not fields.write and not fields.key_enter) then
+      if form_name ~= "rp_book:book" and form_name ~= "rp_book:read_book" then
+         return
+      end
+      if (not fields.write and not fields.key_enter) then
+	 if fields.quit then
+            minetest.sound_play({name="rp_book_close_book", gain=0.5}, {pos=player:get_pos(), max_hear_distance=16}, true)
+         end
+         return
+      end
+      if form_name ~= "rp_book:book" then
          return
       end
 
@@ -245,11 +258,13 @@ minetest.register_on_player_receive_fields(
             wieldstack:set_name("rp_default:book_empty")
             set_book_meta(wieldstack, title, text)
             player:set_wielded_item(wieldstack)
+            minetest.sound_play({name="rp_book_write_book", gain=0.1}, {pos=player:get_pos(), max_hear_distance=16}, true)
             return
          end
       end
 
       -- Contents written: Update the player inventory
+      minetest.sound_play({name="rp_book_write_book", gain=0.1}, {pos=player:get_pos(), max_hear_distance=16}, true)
       if wieldstack:get_name() ~= "rp_default:book" then
          -- 1 book: Replace with written book
 	 if wieldstack:get_count() == 1 then

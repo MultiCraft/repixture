@@ -70,6 +70,10 @@ File credits and individual file licenses:
     * Derived by Wuzzy from sound by kyles
     * Source: <https://freesound.org/people/kyles/sounds/637746/>
     * License: CC0
+  * rp_default_write_sign.ogg
+    * Derived by Wuzzy from sound by avreference
+    * Source: <https://freesound.org/people/avreference/sounds/550285/>
+    * License: CC0
 
   * rp_default_footstep_cactus.*.ogg
   * rp_default_dig_cactus.*.ogg
