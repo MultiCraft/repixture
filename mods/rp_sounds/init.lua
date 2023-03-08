@@ -27,6 +27,8 @@ function rp_sounds.node_sound_small_defaults(table)
       {name="rp_sounds_dug_smallnode", gain=0.5}
    table.place = table.place or
       {name="rp_sounds_place_smallnode", gain=1.0}
+   table.fall = table.fall or
+      {name="rp_sounds_dug_smallnode", gain=0.4}
    rp_sounds.node_sound_defaults(table)
    return table
 end
