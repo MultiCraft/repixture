@@ -1722,7 +1722,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
          return
       end
 
-      if clicker:get_inventory():room_for_item("main", mobname) then
+      do
          -- Was mob clicked with net, or lasso?
 
          local chance = 0
@@ -1768,7 +1768,11 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
                gain = 0.2, max_hear_distance = 16}, true)
 
 	    -- Cuccessful capture.. add to inventory
-	    clicker:get_inventory():add_item("main", mobname)
+            if clicker:get_inventory():room_for_item("main", mobname) then
+	       clicker:get_inventory():add_item("main", mobname)
+            else
+               minetest.add_item(self.object:get_pos(), mobname)
+            end
 
             minetest.log("action", "[mobs] Mob "..self.name.." captured by " .. name .. " at "..minetest.pos_to_string(self.object:get_pos(), 1))
 	    self.object:remove()
