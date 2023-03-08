@@ -74,7 +74,12 @@ minetest.register_node(
 	 }
       },
       groups = {snappy = 3, plant = 1},
-      sounds = rp_sounds.node_sound_grass_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults({
+         footstep = {name="rp_sounds_footstep_grass", gain=1.0, pitch=0.8},
+         dug = {name="rp_sounds_dug_grass", gain=0.7, pitch=0.8},
+         dig = {name="rp_sounds_dug_grass", gain=0.3, pitch=0.8},
+         place = {name="rp_sounds_dug_grass", gain=1.0, pitch=0.8},
+      }),
       floodable = true,
       on_flood = function(pos, oldnode)
          minetest.add_item(pos, "rp_default:papyrus")
