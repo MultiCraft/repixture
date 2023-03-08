@@ -74,6 +74,10 @@ File credits and individual file licenses:
     * Derived by Wuzzy from sound by avreference
     * Source: <https://freesound.org/people/avreference/sounds/550285/>
     * License: CC0
+  * rp_default_footstep_ladder_wood.*.ogg
+    * Derived by Wuzzy from sound by Fission9
+    * Source: <https://freesound.org/people/Fission9/sounds/521589/>
+    * License: CC0
 
   * rp_default_footstep_cactus.*.ogg
   * rp_default_dig_cactus.*.ogg
