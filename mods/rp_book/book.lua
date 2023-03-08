@@ -19,6 +19,7 @@ local FS = function(...) return F(S(...)) end
 
 local BOOK_MAX_TITLE_LENGTH = 64
 local BOOK_MAX_TEXT_LENGTH = 4500
+local MAX_HEAR_DISTANCE = 16
 
 -- Book writing formspec
 local on_use = function(itemstack, player, pointed_thing)
@@ -258,13 +259,15 @@ minetest.register_on_player_receive_fields(
             wieldstack:set_name("rp_default:book_empty")
             set_book_meta(wieldstack, title, text)
             player:set_wielded_item(wieldstack)
-            minetest.sound_play({name="rp_book_write_book", gain=0.1}, {pos=player:get_pos(), max_hear_distance=16}, true)
-            return
+            minetest.sound_play({name="rp_book_erase_book", gain=0.2}, {pos=player:get_pos(), max_hear_distance=MAX_HEAR_DISTANCE}, true)
+         else
+            minetest.sound_play({name="rp_book_close_book", gain=0.5}, {pos=player:get_pos(), max_hear_distance=MAX_HEAR_DISTANCE}, true)
          end
+         return
       end
 
       -- Contents written: Update the player inventory
-      minetest.sound_play({name="rp_book_write_book", gain=0.1}, {pos=player:get_pos(), max_hear_distance=16}, true)
+      minetest.sound_play({name="rp_book_write_book", gain=0.1}, {pos=player:get_pos(), max_hear_distance=MAX_HEAR_DISTANCE}, true)
       if wieldstack:get_name() ~= "rp_default:book" then
          -- 1 book: Replace with written book
 	 if wieldstack:get_count() == 1 then
