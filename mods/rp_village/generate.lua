@@ -29,6 +29,10 @@ local ABANDONED_CHANCE = 25
 -- a 'ruins' variant (if one is available)
 local ABANDONED_RUINS_CHANCE = 2
 
+-- VoxelManip buffers for get_data() for more efficient memory usage
+local vdata_main = {}
+local vdata_spawn_chunk = {}
+
 -- Savefile
 
 local village_file = minetest.get_worldpath() .. "/villages.dat"
@@ -823,7 +827,7 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
    end
 
    if nofill ~= true then
-      local vdata = vmanip:get_data()
+      vmanip:get_data(vdata_spawn_chunk)
       -- Make a hill for the buildings to stand on
       local decors
       if state.is_abandoned then
@@ -834,7 +838,7 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
       if not state.decors_to_place then
          state.decors_to_place = {}
       end
-      local full_hill = village.generate_hill(vmanip, vdata, {x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top, decors, state.decors_to_place)
+      local full_hill = village.generate_hill(vmanip, vdata_spawn_chunk, {x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top, decors, state.decors_to_place)
 
       if full_hill then
          -- Extend the dirt below the hill, in case the hill is floating
@@ -849,12 +853,12 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
             village.get_column_nodes(vmanip, {x=x, y=py, z=z}, HILL_EXTEND_BELOW, dirtnodes)
             for d=1, #dirtnodes do
                local vindex = varea:index(dirtnodes[d].x, dirtnodes[d].y, dirtnodes[d].z)
-               vdata[vindex] = c_ground
+               vdata_spawn_chunk[vindex] = c_ground
             end
          end
          end
       end
-      vmanip:set_data(vdata)
+      vmanip:set_data(vdata_spawn_chunk)
    end
 
    if type(replace) == "number" then
@@ -1486,7 +1490,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
 
    -- All village chunks have been generated!
    -- Now we apply changes to the VoxelManip data
-   local vdata = vmanip:get_data()
+   vmanip:get_data(vdata_main)
 
    local vdata_bulk_set_node = function(vdata, varea, minpos, maxpos, content_id)
       for z=minpos.z, maxpos.z do
@@ -1502,7 +1506,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    -- Apply the road node replacements that were calculated above
    for r=1, #road_bulk_set do
       local rdata = road_bulk_set[r]
-      vdata_bulk_set_node(vdata, varea, rdata[1], rdata[2], rdata[3])
+      vdata_bulk_set_node(vdata_main, varea, rdata[1], rdata[2], rdata[3])
    end
 
    -- Generate ground decorations (like grass)
@@ -1511,12 +1515,12 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       local decor_info = state.decors_to_place[d]
       -- Check if this position is still valid for the decor. Prevents placing decorations
       -- in non-air nodes and if the floor node has changed (e.g. dirt path).
-      if vdata[decor_info.index_decor] == minetest.CONTENT_AIR and vdata[decor_info.index_floor] == decor_info.content_floor then
-          vdata[decor_info.index_decor] = decor_info.content_decor
+      if vdata_main[decor_info.index_decor] == minetest.CONTENT_AIR and vdata_main[decor_info.index_floor] == decor_info.content_floor then
+          vdata_main[decor_info.index_decor] = decor_info.content_decor
       end
    end
 
-   vmanip:set_data(vdata)
+   vmanip:set_data(vdata_main)
 
    -- The main village generation is complete here
    vmanip:write_to_map()
