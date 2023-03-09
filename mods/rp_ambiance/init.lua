@@ -156,65 +156,63 @@ if minetest.settings:get_bool("ambiance_enable") == true then
          local name = player:get_player_name()
 
          for soundname, sound in pairs(ambiance_local.sounds) do
-            if not minetest.settings:get_bool("ambiance_disable_" .. soundname) then
-               if lastsound[name] == nil or cooldown[name] == nil then
-                  -- variables are not initialized yet
-                  return
+            if lastsound[name] == nil or cooldown[name] == nil then
+               -- variables are not initialized yet
+               return
+            end
+            if lastsound[name][soundname] then
+               lastsound[name][soundname] = lastsound[name][soundname] + dtime
+            else
+               lastsound[name][soundname] = 0
+            end
+	    if cooldown[name][soundname] then
+               cooldown[name][soundname] = cooldown[name][soundname] + dtime
+            else
+               cooldown[name][soundname] = 0
+            end
+
+            if lastsound[name][soundname] > sound.length and cooldown[name][soundname] > math.min(SOUND_COOLDOWN_MAX, sound.length) then
+               local sourcepos = ambient_node_near(sound, pos)
+
+               -- Check if can_play of sound definition allows sound to be played
+               if sound.can_play and sourcepos ~= nil and (not sound.can_play(sourcepos)) then
+                  sourcepos = nil
                end
-               if lastsound[name][soundname] then
-                  lastsound[name][soundname] = lastsound[name][soundname] + dtime
-               else
-                  lastsound[name][soundname] = 0
-               end
-	       if cooldown[name][soundname] then
-                  cooldown[name][soundname] = cooldown[name][soundname] + dtime
-               else
-                  cooldown[name][soundname] = 0
-               end
 
-               if lastsound[name][soundname] > sound.length and cooldown[name][soundname] > math.min(SOUND_COOLDOWN_MAX, sound.length) then
-                  local sourcepos = ambient_node_near(sound, pos)
-
-                  -- Check if can_play of sound definition allows sound to be played
-                  if sound.can_play and sourcepos ~= nil and (not sound.can_play(sourcepos)) then
-                     sourcepos = nil
-                  end
-
-                  if sourcepos then
-                     local ok = true
-                     -- Check if no other player who recently has played the same sound isn't too close to us
-                     for _, other in pairs(player_positions) do
-                        if name ~= other.name and -- other player
-					vector.distance(other.pos, pos) < sound.dist * 2 and -- minimum distance requirement
-					lastsound[other.name] and lastsound[other.name][soundname] <= sound.length then -- same sound was played recently
-                           -- Too close! Suppress sound
-                           ok = false
-                           break
-                        end
-                     end
-
-                     if ok then
-                        local pitch = nil
-                        if sound.pitch_min and sound.pitch_max then
-                           pitch = 1 + 0.01 * math.random(sound.pitch_min, sound.pitch_max)
-                        end
-                        minetest.sound_play(
-                           sound.file,
-                           {
-                              pos = sourcepos,
-                              max_hear_distance = sound.dist,
-                              gain = ambiance_volume * (sound.gain or 1),
-                              pitch = pitch,
-                           }, true)
-
-                        lastsound[name][soundname] = 0
+               if sourcepos then
+                  local ok = true
+                  -- Check if no other player who recently has played the same sound isn't too close to us
+                  for _, other in pairs(player_positions) do
+                     if name ~= other.name and -- other player
+                        vector.distance(other.pos, pos) < sound.dist * 2 and -- minimum distance requirement
+                        lastsound[other.name] and lastsound[other.name][soundname] <= sound.length then -- same sound was played recently
+                        -- Too close! Suppress sound
+                        ok = false
+                        break
                      end
                   end
 
-                  -- Reset cooldown timer to avoid spamming
-                  -- the can_play function
-                  cooldown[name][soundname] = 0
+                  if ok then
+                     local pitch = nil
+                     if sound.pitch_min and sound.pitch_max then
+                        pitch = 1 + 0.01 * math.random(sound.pitch_min, sound.pitch_max)
+                     end
+                     minetest.sound_play(
+                        sound.file,
+                        {
+                           pos = sourcepos,
+                           max_hear_distance = sound.dist,
+                           gain = ambiance_volume * (sound.gain or 1),
+                           pitch = pitch,
+                        }, true)
+
+                     lastsound[name][soundname] = 0
+                  end
                end
+
+               -- Reset cooldown timer to avoid spamming
+               -- the can_play function
+               cooldown[name][soundname] = 0
             end
          end
       end
