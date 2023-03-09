@@ -46,6 +46,7 @@ for b=1, #water_buckets do
          sounds = rp_sounds.node_sound_planks_defaults({
             place = { name = "rp_default_place_bucket_water", gain = 0.65 },
             dug = { name = "rp_default_dug_bucket_water", gain = 0.7 },
+            fall = { name = "rp_default_dug_bucket_water", gain = 0.5 },
             footstep = {},
          }),
          walkable = false,
@@ -141,6 +142,7 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_planks_defaults({
          place = { name = "rp_default_place_bucket", gain = 0.65 },
          dug = { name = "rp_default_dug_bucket", gain = 0.7 },
+         fall = { name = "rp_default_dug_bucket", gain = 0.5 },
          footstep = {},
       }),
       paramtype = "light",
