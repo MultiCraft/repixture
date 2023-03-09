@@ -223,6 +223,8 @@ for c=0,7 do
 						nodeyaw = minetest.dir_to_yaw(minetest.wallmounted_to_dir(node.param2))
 					elseif nodedef and (nodedef.paramtype2 == "facedir" or nodedef.paramtype2 == "colorfacedir") then
 						nodeyaw = minetest.dir_to_yaw(minetest.facedir_to_dir(node.param2))
+					elseif nodedef and (nodedef.paramtype2 == "4dir" or nodedef.paramtype2 == "color4dir") then
+						nodeyaw = minetest.dir_to_yaw(minetest.fourdir_to_dir(node.param2))
 					end
 				end
 				-- Special case: Item frame. Add a little offset for nodepos as

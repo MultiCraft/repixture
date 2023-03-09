@@ -68,7 +68,7 @@ book.register_book_node = function(nodename, def)
 	 },
 	 use_texture_alpha = "clip",
 	 paramtype = "light",
-	 paramtype2 = "facedir",
+	 paramtype2 = "4dir",
 	 sunlight_propagates = true,
 	 is_ground_content = false,
 	 walkable = false,

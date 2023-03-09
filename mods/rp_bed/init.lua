@@ -464,7 +464,7 @@ minetest.register_node(
       _tt_help = S("Sets the respawn position and allows to pass the night"),
       drawtype = "nodebox",
       paramtype = "light",
-      paramtype2 = "facedir",
+      paramtype2 = "4dir",
       sunlight_propagates = true,
       wield_image = "bed_bed_inventory.png",
       inventory_image = "bed_bed_inventory.png",
@@ -512,8 +512,8 @@ minetest.register_node(
                      return itemstack
               end
 
-              local dir = minetest.dir_to_facedir(placer:get_look_dir())
-              local botpos = vector.add(pos, minetest.facedir_to_dir(dir))
+              local dir = minetest.dir_to_fourdir(placer:get_look_dir())
+              local botpos = vector.add(pos, minetest.fourdir_to_dir(dir))
 
               if minetest.is_protected(botpos, placer:get_player_name()) and
                             not minetest.check_player_privs(placer, "protection_bypass") then
@@ -546,7 +546,7 @@ minetest.register_node(
 
 	 set_bed_occupier(pos, nil)
          local node = minetest.get_node(pos)
-         local dir = minetest.facedir_to_dir(node.param2)
+         local dir = minetest.fourdir_to_dir(node.param2)
          local head_pos = vector.add(pos, dir)
          if minetest.get_node(head_pos).name == "rp_bed:bed_head" then
             minetest.remove_node(head_pos)
@@ -577,7 +577,7 @@ minetest.register_node(
                return itemstack
             end
 
-            local dir = minetest.facedir_to_dir(node.param2)
+            local dir = minetest.fourdir_to_dir(node.param2)
             local above_posses = {
                 {x=pos.x, y=pos.y+1, z=pos.z},
                 vector.add({x=pos.x, y=pos.y+1, z=pos.z}, dir),
@@ -622,7 +622,7 @@ minetest.register_node(
             end
 
             bed.userdata.temp[clicker_name].node_pos = pos
-            local sleep_pos = vector.add(pos, vector.divide(minetest.facedir_to_dir(node.param2), 2))
+            local sleep_pos = vector.add(pos, vector.divide(minetest.fourdir_to_dir(node.param2), 2))
             bed.userdata.temp[clicker_name].sleep_pos = sleep_pos
 
             set_bed_occupier(pos, clicker_name)
@@ -643,7 +643,7 @@ minetest.register_node(
    {
       drawtype = "nodebox",
       paramtype = "light",
-      paramtype2 = "facedir",
+      paramtype2 = "4dir",
       is_ground_content = false,
       pointable = false,
       diggable = false,

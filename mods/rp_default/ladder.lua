@@ -19,7 +19,7 @@ minetest.register_node(
       inventory_image = "default_ladder_inventory.png",
       wield_image = "default_ladder_inventory.png",
       paramtype = "light",
-      paramtype2 = "facedir",
+      paramtype2 = "4dir",
       walkable = false,
       climbable = true,
       floodable = true,

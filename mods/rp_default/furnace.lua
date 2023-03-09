@@ -176,7 +176,7 @@ minetest.register_node(
       _tt_help = S("Uses fuel to smelt a material into something else"),
       tiles ={"rp_default_furnace_top.png", "rp_default_furnace_top.png", "rp_default_furnace_sides.png",
 	      "rp_default_furnace_sides.png", "rp_default_furnace_sides.png", "rp_default_furnace_front.png"},
-      paramtype2 = "facedir",
+      paramtype2 = "4dir",
       groups = {cracky = 2,container=1,interactive_node=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_stone_defaults(),
@@ -209,7 +209,7 @@ minetest.register_node(
 	      "rp_default_furnace_sides.png", "rp_default_furnace_sides.png",
 	      { name = "rp_default_furnace_active_anim.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 1.0 }}
       },
-      paramtype2 = "facedir",
+      paramtype2 = "4dir",
       light_source = 8,
       drop = "rp_default:furnace",
       groups = {cracky = 2, container=1,interactive_node=1, not_in_creative_inventory=1},

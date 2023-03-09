@@ -29,7 +29,7 @@ minetest.register_node(
       _tt_help = S("Provides 32 inventory slots"),
       tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_sides.png",
 	      "default_chest_sides.png", "default_chest_sides.png", "default_chest_front.png"},
-      paramtype2 = "facedir",
+      paramtype2 = "4dir",
       groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, container = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
