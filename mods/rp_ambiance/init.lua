@@ -2,10 +2,9 @@
 -- Ambiance mod
 --
 
-local mod_weather = minetest.get_modpath("rp_weather")
-
-local ambiance = {}
-ambiance.sounds = {}
+ambiance = {}
+local ambiance_local = {}
+ambiance_local.sounds = {}
 
 -- When the weather changes, the mod will still use
 -- for a few seconds the old weather as the basis for
@@ -19,9 +18,14 @@ local BIRDS_MIN_LIGHT = 10
 -- Maximum cooldown time to prevent sound repetitions
 local SOUND_COOLDOWN_MAX = 3.0
 
-local get_weather_lagged
-if mod_weather then
-	get_weather_lagged = function()
+local mod_weather = minetest.get_modpath("rp_weather") ~= nil
+-- Returns true if the rp_weather mod has been detected
+ambiance.weather_available = function()
+   return mod_weather
+end
+
+if ambiance.weather_available() then
+	ambiance.get_weather_lagged = function()
 		local time = weather.weather_last_changed_before()
 		if time and time < WEATHER_CONDITION_DELAY then
 			return weather.previous_weather
@@ -42,7 +46,7 @@ Recognizes the midnight
 If `start_time` is greater than `end_time`, it is a time range
 that wraps around midnight.
 ]]
-local is_in_timeofday_range = function(tod, start_time, end_time)
+ambiance.is_in_timeofday_range = function(tod, start_time, end_time)
    local tod24k = tod * 24000
    if start_time < end_time then
       return tod24k >= start_time and tod24k <= end_time
@@ -57,7 +61,7 @@ end
 -- * `pos`: Position to check for
 -- * `check_neighbors`: If true, also check the 6 neighboring nodes. If `pos`
 --   OR any neighbor is exposed, `true` will be returned
-local is_sky_exposed_direct = function(pos, check_neighbors)
+ambiance.is_sky_exposed_direct = function(pos, check_neighbors)
    local self_exposed = minetest.get_node_light(pos, 0.5) == 15
    if self_exposed == true then
       return true
@@ -83,7 +87,7 @@ end
 -- Returns true if pos is indirectly exposed to sunlight with a minimum light level
 -- * `pos`: Positio to check
 -- * `min_light`: Expected minimum light level
-local is_sky_exposed_indirect = function(pos, min_light)
+ambiance.is_sky_exposed_indirect = function(pos, min_light)
    local light = minetest.get_natural_light(pos, 0.5)
    if light then
      return light >= min_light
@@ -92,228 +96,30 @@ local is_sky_exposed_indirect = function(pos, min_light)
    end
 end
 
-ambiance.sounds["birds_leaves"] = {
-   length = 5.0,
-   chance = 4,
-   file = "ambiance_birds_robin",
-   dist = 8,
-   nodename = "rp_default:leaves",
-   can_play = function(pos)
-      if mod_weather then
-         if get_weather_lagged() ~= "clear" then
-            return false
-         end
-      end
+--[[ Registers ambience `name` with definition `def`.
+An ambience is a sound will play if a player is close to a certain node.
+It tries to play about every `length` seconds (plus/minus some delay)
+with a chance of `1/chance` and if the `can_play` function is either
+`nil` or returns `true`.
 
-      -- Birds only sing in nodes that are close to sunlight.
-      -- This ensures birds won't sing in the caves without
-      -- needing a hardcoded (and ugly) Y check.
-      if not is_sky_exposed_indirect(pos, BIRDS_MIN_LIGHT) then
-         return false
-      end
+* name: unique ambience identifier
+* def: ambience definition. These fields are used:
+    * length: Length of ambient sound in seconds. Ambience will try to play every `length` seconds
+    * chance: Chance to play sound in `1/chance`. Must be a natural number greater than 0
+    * file: name of sound file (without the suffix) to play
+    * dist: players need to be this many nodes away or closer for the sound to play
+    * nodename: name of the node at which to play the sound. Can also be a group name like `"group:example"`
+    * gain: (optional) gain of sound (same meaning as in a SimpleSoundSpec) (default: 1.0)
+    * can_play: (optional) A function that will be called before playing the sound
+         and controls whether the sound is allowed to play this time.
+         Takes an argument `pos` (node position of sound) and must return
+	 true if the sound can be played, false otherwise.
+	 If `can_play` is `nil`, there are no restrictions.
+]]
 
-      local tod = minetest.get_timeofday()
-      -- bit of overlap into crickets
-      if is_in_timeofday_range(tod, 5640, 18360) then
-         return true
-      end
-
-      return false
-   end,
-}
-
-ambiance.sounds["birds_leaves_birch"] = {
-   length = 8.0,
-   chance = 6,
-   file = "ambiance_birds_cold",
-   dist = 8,
-   nodename = "rp_default:leaves_birch",
-   can_play = function(pos)
-      if mod_weather then
-         if get_weather_lagged() ~= "clear" then
-            return false
-         end
-      end
-
-      if not is_sky_exposed_indirect(pos, BIRDS_MIN_LIGHT) then
-         return false
-      end
-
-      local tod = minetest.get_timeofday()
-      -- bit of overlap into crickets
-      if is_in_timeofday_range(tod, 5640, 18360) then
-         return true
-      end
-
-      return false
-   end,
-}
-
-ambiance.sounds["birds_leaves_oak"] = {
-   length = 5.0,
-   chance = 4,
-   file = "ambiance_birds_blackbird",
-   dist = 8,
-   nodename = "rp_default:leaves_oak",
-   can_play = function(pos)
-      if mod_weather then
-         if get_weather_lagged() ~= "clear" then
-            return false
-         end
-      end
-
-      if not is_sky_exposed_indirect(pos, BIRDS_MIN_LIGHT) then
-         return false
-      end
-
-      local tod = minetest.get_timeofday()
-      -- bit of overlap into crickets
-      if is_in_timeofday_range(tod, 5640, 18360) then
-         return true
-      end
-
-      return false
-   end,
-}
-
-ambiance.sounds["owl_birch"] = {
-   length = 5.0,
-   chance = 10,
-   file = "ambiance_whoot_owl",
-   dist = 8,
-   nodename = "rp_default:leaves_birch",
-   can_play = function(pos)
-      if mod_weather then
-         if get_weather_lagged() ~= "clear" then
-            return false
-         end
-      end
-
-      if not is_sky_exposed_indirect(pos, BIRDS_MIN_LIGHT) then
-         return false
-      end
-
-      local tod = minetest.get_timeofday()
-      if is_in_timeofday_range(tod, 20000, 4000) then
-         return true
-      end
-
-      return false
-   end,
-}
-
-ambiance.sounds["owl_oak"] = {
-   length = 5.0,
-   chance = 5,
-   file = "ambiance_tawny_owl",
-   dist = 8,
-   gain = 0.9,
-   nodename = "rp_default:leaves_oak",
-   can_play = function(pos)
-      if mod_weather then
-         if get_weather_lagged() ~= "clear" then
-            return false
-         end
-      end
-
-      if not is_sky_exposed_indirect(pos, BIRDS_MIN_LIGHT) then
-         return false
-      end
-
-      local tod = minetest.get_timeofday()
-      if is_in_timeofday_range(tod, 20000, 4000) then
-         return true
-      end
-
-      return false
-   end,
-}
-
-ambiance.sounds["crickets"] = {
-   length = 6.0,
-   chance = 15,
-   file = "ambiance_crickets",
-   dist = 8,
-   gain = 0.15,
-   nodename = {"group:normal_grass", "group:dry_grass"},
-   can_play = function(pos)
-      if mod_weather then
-         if get_weather_lagged() ~= "clear" then
-            return false
-         end
-      end
-
-      if not is_sky_exposed_direct(pos) then
-         return false
-      end
-
-      local tod = minetest.get_timeofday()
-      if is_in_timeofday_range(tod, 18000, 6000) then
-         return true
-      end
-
-      return false
-   end,
-}
-
-ambiance.sounds["cricket_mountain"] = {
-   length = 0.5,
-   chance = 100,
-   file = "ambiance_cricket_mountain",
-   dist = 8,
-   nodename = {"group:dry_leaves", "group:dry_grass"},
-   can_play = function(pos)
-      if mod_weather then
-         if get_weather_lagged() ~= "clear" then
-            return false
-         end
-      end
-
-      if not is_sky_exposed_direct(pos, true) then
-         return false
-      end
-
-      local tod = minetest.get_timeofday()
-      if is_in_timeofday_range(tod, 6000, 18000) then
-         return true
-      end
-
-      return false
-   end,
-}
-
-
-
-ambiance.sounds["frog"] = {
-   length = 0.5,
-   chance = 64,
-   pitch_min = -10,
-   pitch_max = 10,
-   file = "ambiance_frog",
-   dist = 16,
-   nodename = "group:swamp_grass",
-   can_play = function(pos)
-      if not is_sky_exposed_direct(pos) then
-         return false
-      end
-
-      local tod = minetest.get_timeofday()
-      if is_in_timeofday_range(tod, 19200, 4800) then
-         return true
-      end
-
-      return false
-   end,
-}
-
-ambiance.sounds["flowing_water"] = {
-   length = 2.6,
-   chance = 1,
-   file = "ambiance_water",
-   dist = 16,
-   gain = 0.08,
-   nodename = "group:flowing_water",
-}
+ambiance.register_ambiance = function(name, def)
+	ambiance_local.sounds[name] = def
+end
 
 local ambiance_volume = tonumber(minetest.settings:get("ambiance_volume")) or 1.0
 ambiance_volume = math.max(0.0, math.min(1.0, ambiance_volume))
@@ -349,7 +155,7 @@ if minetest.settings:get_bool("ambiance_enable") == true then
          local pos = player:get_pos()
          local name = player:get_player_name()
 
-         for soundname, sound in pairs(ambiance.sounds) do
+         for soundname, sound in pairs(ambiance_local.sounds) do
             if not minetest.settings:get_bool("ambiance_disable_" .. soundname) then
                if lastsound[name] == nil or cooldown[name] == nil then
                   -- variables are not initialized yet
@@ -432,3 +238,6 @@ if minetest.settings:get_bool("ambiance_enable") == true then
    minetest.register_on_leaveplayer(on_leaveplayer)
    minetest.register_globalstep(step)
 end
+
+
+dofile(minetest.get_modpath("rp_ambiance").."/register.lua")
