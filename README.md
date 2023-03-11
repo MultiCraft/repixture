@@ -5,6 +5,8 @@ Explore random worlds in a temperate climate and gather resources to
 survive, create tools, build a home and explore the various possibilities of
 the world.
 
+**Player Manual**: <https://wuzzy.codeberg.page/Repixture>
+
 ## Version
 
 3.8.0
