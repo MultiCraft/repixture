@@ -269,6 +269,7 @@ for c=0,7 do
 
 		local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
 		if place_in == nil then
+			rp_sounds.play_place_failed_sound(placer)
 			return itemstack
 		end
 
@@ -297,6 +298,7 @@ for c=0,7 do
 		local node_floor = minetest.get_node(place_floor)
 		local def_floor = minetest.registered_nodes[node_floor.name]
 		if (not def_floor) or (not def_floor.walkable) or minetest.get_item_group(node_floor.name, "attached_node") == 1 then
+			rp_sounds.play_place_failed_sound(placer)
 			return itemstack
 		end
 		-- Place node

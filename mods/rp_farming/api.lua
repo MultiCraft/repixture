@@ -191,6 +191,7 @@ function farming.place_plant(itemstack, placer, pointed_thing)
    -- Find placement position
    local place_in, place_on = util.pointed_thing_to_place_pos(pointed_thing)
    if not place_in then
+      rp_sounds.play_place_failed_sound(placer)
       return itemstack
    end
 
@@ -198,6 +199,7 @@ function farming.place_plant(itemstack, placer, pointed_thing)
    local place_in_node = minetest.get_node(place_in)
    local pidef = minetest.registered_nodes[place_in_node.name]
    if pidef and pidef._rp_farming_plant_name == name then
+      rp_sounds.play_place_failed_sound(placer)
       return itemstack
    end
 
@@ -213,10 +215,11 @@ function farming.place_plant(itemstack, placer, pointed_thing)
          if idef and idef.sounds and idef.sounds.place then
             minetest.sound_play(idef.sounds.place, {pos=place_on}, true)
          end
-         break
+         return itemstack
       end
    end
 
+   rp_sounds.play_place_failed_sound(placer)
    return itemstack
 end
 

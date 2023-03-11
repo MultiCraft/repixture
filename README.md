@@ -75,7 +75,7 @@ Pixture was inspired by [Kenney](http://kenney.nl).
 
 ### Sounds
 
-* Various authors
+* There is a large number of authors
 * See the individual README files in the mods for details
 * Note: All sounds are compatible with CC BY-SA 4.0
 

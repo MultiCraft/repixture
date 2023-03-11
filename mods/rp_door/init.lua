@@ -99,6 +99,7 @@ function door.register_door(name, def)
                not placer or
                not placer:is_player()
             then
+               rp_sounds.play_place_failed_sound(placer)
                return itemstack
             end
 

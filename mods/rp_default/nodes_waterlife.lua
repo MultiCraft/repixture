@@ -82,10 +82,7 @@ return function(itemstack, placer, pointed_thing)
                  local is_fertilized = minetest.get_item_group(undernode.name, "plantable_fertilizer") == 1
                  meta:set_int("age", get_init_age(underdef._waterplant_max_height, is_fertilized))
 	      end
-              local snd = underdef.sounds.place
-              if snd and top then
-                 minetest.sound_play(snd, {pos = top}, true)
-              end
+              rp_sounds.play_node_sound(pointed_thing.under, undernode, "place")
               if not minetest.is_creative_enabled(player_name) then
                  itemstack:take_item()
               end
@@ -96,6 +93,7 @@ return function(itemstack, placer, pointed_thing)
         -- Find position to place plant at
         local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
         if place_in == nil then
+           rp_sounds.play_place_failed_sound(placer)
            return itemstack
         end
         local floornode = minetest.get_node(place_floor)
@@ -111,7 +109,8 @@ return function(itemstack, placer, pointed_thing)
 	local def_floor = minetest.registered_nodes[node_floor.name]
 
 	if not util.is_water_source_or_waterfall(place_in) then
-		return itemstack
+           rp_sounds.play_place_failed_sound(placer)
+           return itemstack
 	end
 
 	if node_floor.name == "rp_default:dirt" then
@@ -135,6 +134,7 @@ return function(itemstack, placer, pointed_thing)
 	elseif base == "airweed_inert" and node_floor.name == "rp_default:fertilized_dry_dirt" then
 		node_floor.name = "rp_default:"..base.."_on_fertilized_dry_dirt"
 	else
+		rp_sounds.play_place_failed_sound(placer)
 		return itemstack
 	end
 
