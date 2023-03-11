@@ -24,6 +24,18 @@ kbd {
 	padding-left: 0.5em;
 	padding-right: 0.5em;
 }
+li {
+	list-style-type: square;
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+}
+p {
+	padding-top: 0.4em;
+	padding-left: 0.4em;
+	padding-right: 0.4em;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
 .item {
 	color: #00FF00;
 }
