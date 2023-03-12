@@ -146,9 +146,9 @@ Parameters: Same as the `on_place` of nodes.
 Returns `<handled>, <handled_itemstack>`.
 
 * `<handled>`: true if the function handled the placement. Your `on_place` handler should return <handled_itemstack>.
-             false if the function did not handle the placement. Your on_place handler can proceed normally.
+             false if the function did not handle the placement. Your `on_place` handler can proceed normally.
 * `<handled_itemstack>`: Only set if `<handled>` is true. Contains the itemstack you should return in your
-                       on_place handler
+                         `on_place` handler
 
 Recommended usage is by putting this boilerplate code at the beginning of your function:
 
