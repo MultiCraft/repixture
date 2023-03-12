@@ -464,13 +464,14 @@ minetest.register_node(
       _tt_help = S("Sets the respawn position and allows to pass the night"),
       drawtype = "nodebox",
       paramtype = "light",
-      paramtype2 = "4dir",
+      paramtype2 = "color4dir",
+      palette = "rp_paint_palette_64.png",
       sunlight_propagates = true,
       wield_image = "bed_bed_inventory.png",
       inventory_image = "bed_bed_inventory.png",
-      tiles = {"bed_foot.png", "default_wood.png", "bed_side.png"},
+      tiles = {"bed_foot.png", "default_wood.png", "bed_side_l.png", "bed_side_r.png", "bed_inside.png", "bed_back.png"},
       use_texture_alpha = "clip",
-      groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, creative_decoblock = 1, interactive_node = 1 },
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, creative_decoblock = 1, interactive_node = 1, paintable = 1 },
       is_ground_content = false,
       sounds = sounds,
       node_box = {
@@ -641,7 +642,21 @@ minetest.register_node(
       can_dig = function(pos)
 	 local sleeper = get_player_in_bed(pos)
 	 return sleeper == nil
-      end
+      end,
+
+      -- Paint support for rp_paint mod
+      _on_paint = function(pos, new_param2)
+         local node = minetest.get_node(pos)
+         local dir = minetest.fourdir_to_dir(node.param2)
+         local head_pos = vector.add(pos, dir)
+         if minetest.get_node(head_pos).name == "rp_bed:bed_head" then
+            minetest.swap_node(head_pos, {name = "rp_bed:bed_head", param2=new_param2})
+         end
+         return true
+      end,
+
+      -- Drop itself, but without metadata
+      drop = "rp_bed:bed_foot",
 })
 
 minetest.register_node(
@@ -649,11 +664,12 @@ minetest.register_node(
    {
       drawtype = "nodebox",
       paramtype = "light",
-      paramtype2 = "4dir",
+      paramtype2 = "color4dir",
+      palette = "rp_paint_palette_64.png",
       is_ground_content = false,
       pointable = false,
       diggable = false,
-      tiles = {"bed_head.png", "default_wood.png", "bed_side.png"},
+      tiles = {"bed_head.png", "default_wood.png", "bed_side_r.png", "bed_side_l.png", "bed_front.png", "bed_inside.png"},
       use_texture_alpha = "clip",
       groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, not_in_creative_inventory = 1 },
       sounds = sounds,
