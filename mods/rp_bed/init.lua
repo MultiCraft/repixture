@@ -482,6 +482,7 @@ minetest.register_node(
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 2/16, 1.5}
       },
 
+      node_placement_prediction = "",
       on_place = function(itemstack, placer, pointed_thing)
               local under = pointed_thing.under
 
@@ -509,6 +510,7 @@ minetest.register_node(
 
               local node_def = minetest.registered_nodes[minetest.get_node(pos).name]
               if not node_def or not node_def.buildable_to then
+                     rp_sounds.play_place_failed_sound(placer)
                      return itemstack
               end
 
@@ -525,11 +527,15 @@ minetest.register_node(
               local botdef = minetest.registered_nodes[bot.name]
               -- Check if the 2nd node for the bed is free or already a bed head.
               if not (bot.name == "rp_bed:bed_head" and bot.param2 == dir) and (not botdef or not botdef.buildable_to) then
+                     rp_sounds.play_place_failed_sound(placer)
                      return itemstack
               end
 
-              minetest.set_node(pos, {name = "rp_bed:bed_foot", param2 = dir})
-              minetest.set_node(botpos, {name = "rp_bed:bed_head", param2 = dir})
+              local footnode = {name = "rp_bed:bed_foot", param2 = dir}
+              local headnode = {name = "rp_bed:bed_head", param2 = dir}
+              minetest.set_node(pos, footnode)
+              minetest.set_node(botpos, headnode)
+              rp_sounds.play_node_sound(pos, footnode, "place")
 
               if not minetest.is_creative_enabled(placer:get_player_name()) then
                      itemstack:take_item()

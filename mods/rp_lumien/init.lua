@@ -142,7 +142,6 @@ minetest.register_node(
    "rp_lumien:block",
    {
       description = S("Lumien Block"),
-      _tt_help = S("It shines so bright"),
       tiles = {"lumien_block.png"},
       groups = {cracky = 1, mineral_natural=1},
       light_source = LUMIEN_BLOCK_LIGHT,
@@ -153,7 +152,6 @@ minetest.register_node(
    "rp_lumien:reinforced_block",
    {
       description = S("Reinforced Lumien Block"),
-      _tt_help = S("It shines so bright"),
       tiles = {"rp_lumien_reinforced_block.png"},
       groups = {cracky = 1},
       light_source = LUMIEN_BLOCK_LIGHT,

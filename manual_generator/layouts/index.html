@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}">
+<head>
+    <title>{{ .Site.Title }}</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="{{ with $.Site.Params.description }}{{ . }}{{ end }}" />
+
+    <meta name="author" content="Wuzzy">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Repixture" />
+
+    <link rel="icon" href="./assets/images/misc/favicon.png" />
+
+    <link rel="stylesheet" href="./assets/css/manual.css" />
+</head>
+<body>
+    <main>
+    {{ with .Site.GetPage "/manual" }}
+    <h1>{{ .Title }}</h1>
+    <h2>Table of Contents</h2>
+    {{ .TableOfContents }}
+    {{ .Content }}
+    {{ end }}
+    </main>
+</body>
+</html>
+

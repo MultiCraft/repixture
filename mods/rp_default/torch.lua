@@ -89,8 +89,9 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
                itemstack, place_pos = minetest.item_place(fakestack, placer, pointed_thing, wdir)
             end
             if place_pos then
-               local sounds = minetest.registered_nodes["rp_default:"..subname].sounds
-               minetest.sound_play(sounds.place, {pos = place_pos}, true)
+               rp_sounds.play_node_sound(place_pos, {name="rp_default:"..subname}, "place")
+            else
+               rp_sounds.play_place_failed_sound(placer)
             end
             itemstack:set_name("rp_default:"..subname)
 

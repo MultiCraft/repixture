@@ -120,7 +120,7 @@ List of sounds and credits:
 	* Source: <https://freesound.org/people/ValentinPetiteau/sounds/624478/>
 	* License: CC0
 * rp_sounds_place_fuzzy.*.ogg
-	* Sound by Little Robot Sound Factory (www.littlerobotsoundfactory)
+	* Sound by Little Robot Sound Factory (www.littlerobotsoundfactory.com)
 	* A slight pitch change was applied
 	* Source: <https://opengameart.org/content/fantasy-sound-effects-library>
 	* License: CC BY 3.0

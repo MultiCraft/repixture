@@ -69,3 +69,9 @@ in future versions, so use them with care.
 ## Groups
 
 A reference of all groups used in this game can be found in `DEV_GROUPS.md`.
+
+## Player Manual
+
+The source files for the player manual are contained in `manual_generator`.
+The actual manual is generated from these files.
+See the README.md file inside this directory for details.

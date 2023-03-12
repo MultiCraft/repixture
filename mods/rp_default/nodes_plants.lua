@@ -157,6 +157,7 @@ minetest.register_node(
          minetest.remove_node(pos)
          util.dig_down(pos, oldnode)
       end,
+      node_placement_prediction = "",
       on_place = function(itemstack, placer, pointed_thing)
          -- Boilerplate to handle pointed node handlers
          local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
@@ -167,12 +168,14 @@ minetest.register_node(
          -- Find position to place vine at
          local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing, true)
          if place_in == nil then
+            rp_sounds.play_place_failed_sound(placer)
             return itemstack
          end
          local ceilingnode = minetest.get_node(place_floor)
 
          -- Ceiling must be stone, dirt or another vine
          if minetest.get_item_group(ceilingnode.name, "dirt") == 0 and ceilingnode.name ~= "rp_default:stone" and ceilingnode.name ~= "rp_default:vine" then
+            rp_sounds.play_place_failed_sound(placer)
             return itemstack
          end
 
@@ -200,7 +203,9 @@ minetest.register_node(
 	 end
 
          -- Place vine
-         minetest.set_node(place_in, {name = itemstack:get_name(), param2 = age})
+         local newnode = {name = itemstack:get_name(), param2 = age}
+         minetest.set_node(place_in, newnode)
+         rp_sounds.play_node_sound(place_in, newnode, "place")
 
          -- Reduce item count
          if not minetest.is_creative_enabled(placer:get_player_name()) then

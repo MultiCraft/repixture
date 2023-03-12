@@ -25,10 +25,11 @@ local burnout_effect = function(pos)
    minetest.sound_play({name="rp_default_torch_burnout", gain=0.2, max_hear_distance = 16}, {pos=pos}, true)
 end
 
-local snd = rp_sounds.node_sound_stone_defaults({
+local snd = rp_sounds.node_sound_coal_defaults({
     dig = { name = "rp_sounds_dig_coal", gain = 0.4 },
     dug = { name = "rp_sounds_dug_coal", gain = 0.7 },
     place = { name = "rp_sounds_footstep_coal", gain = 0.2 },
+    fall = { name = "rp_sounds_dug_coal", gain = 0.3 },
 })
 
 minetest.register_node(

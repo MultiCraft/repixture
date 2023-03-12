@@ -33,6 +33,7 @@ minetest.register_node(
          default.begin_growing_sapling(pos)
       end,
 
+      node_placement_prediction = "",
       on_place = default.place_sapling,
 })
 
@@ -64,6 +65,7 @@ minetest.register_node(
          default.begin_growing_sapling(pos)
       end,
 
+      node_placement_prediction = "",
       on_place = default.place_sapling,
 })
 
@@ -96,6 +98,7 @@ minetest.register_node(
          default.begin_growing_sapling(pos)
       end,
 
+      node_placement_prediction = "",
       on_place = default.place_sapling,
 })
 

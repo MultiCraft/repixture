@@ -545,6 +545,7 @@ local register_boat = function(name, def)
 				if def.check_boat_space then
 					local res = def.check_boat_space(place_pos, on_liquid) -- returns true if enough space, false otherwise
 					if not res then
+						rp_sounds.play_place_failed_sound(placer)
 						return itemstack
 					end
 				end

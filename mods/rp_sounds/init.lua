@@ -2,6 +2,8 @@
 -- Sounds
 --
 
+local PLACE_FAILED_GAIN = 0.25
+
 rp_sounds = {}
 
 function rp_sounds.node_sound_defaults(table)
@@ -15,7 +17,7 @@ function rp_sounds.node_sound_defaults(table)
    table.place = table.place or
       {name="default_place_node_hard", gain=0.8}
    table.place_failed = table.place_failed or
-      {name="rp_sounds_place_failed", gain=0.12}
+      {name="rp_sounds_place_failed", gain=PLACE_FAILED_GAIN}
    return table
 end
 
@@ -292,4 +294,21 @@ function rp_sounds.node_sound_snow_defaults(table)
    return rp_sounds.node_sound_dirt_defaults(table)
 end
 
+function rp_sounds.play_place_failed_sound(player)
+   if not player or not player:is_player() then
+      return
+   end
+   minetest.sound_play({name="rp_sounds_place_failed", gain=PLACE_FAILED_GAIN}, {to_player=player:get_player_name()}, true)
+end
 
+function rp_sounds.play_node_sound(pos, node, soundtype)
+   local def = minetest.registered_nodes[node.name]
+   if not def then
+      return
+   end
+   local sounds = def.sounds
+   if not sounds or not sounds[soundtype] then
+      return
+   end
+   minetest.sound_play(sounds[soundtype], {pos=pos}, true)
+end

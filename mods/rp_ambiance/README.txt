@@ -1,8 +1,11 @@
 Ambiance mod
 ============
-By KaadmY and Wuzzy, for Repixture
+By KaadmY and Wuzzy, for Repixture.
 
 Adds directional ambient sounds coming from the correct sources.
+Birdsong, crickets, frogs, water flow, etc.
+
+(Yes, the mod title is "rp_ambiance", not "rp_ambience". This name is for historic reasons.)
 
 ## Licensing
 
