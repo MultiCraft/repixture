@@ -12,8 +12,10 @@ minetest.register_node(
       description = S("Wool Bundle"),
       tiles ={"mobs_wool.png"},
       is_ground_content = false,
-      groups = {snappy = 2, oddly_breakable_by_hand = 3, fall_damage_add_percent = -25, fuzzy = 1, unmagnetic = 1},
+      groups = {snappy = 2, oddly_breakable_by_hand = 3, fall_damage_add_percent = -25, fuzzy = 1, unmagnetic = 1, paintable = 1},
       sounds = rp_sounds.node_sound_fuzzy_defaults(),
+      paramtype2 = "color",
+      palette = "rp_paint_palette_256.png",
 })
 
 -- Raw meat
