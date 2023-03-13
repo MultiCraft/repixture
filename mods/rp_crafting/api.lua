@@ -527,6 +527,7 @@ local function on_player_receive_fields(player, form_name, fields)
       end
 
       -- Do the craft
+      local has_crafted = false
       repeat
          -- Repeat the craft count times or until materials or space run out
          output_itemstack = ItemStack("")
@@ -542,14 +543,17 @@ local function on_player_receive_fields(player, form_name, fields)
                    new_list[i] = ItemStack(crafted.items[i])
                end
                inv:set_list("craft_in", new_list)
-
-               crafting.update_crafting_formspec(player, old_craft_id)
+               has_crafted = true
             end
          else
             break
          end
          count = count - 1
       until count < 1
+      if has_crafted then
+         crafting.update_crafting_formspec(player, old_craft_id)
+      end
+
    elseif fields.craft_list then
       local selection = minetest.explode_table_event(fields.craft_list)
 
