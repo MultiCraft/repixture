@@ -58,6 +58,7 @@ Pixture was inspired by [Kenney](http://kenney.nl).
 
 * Wuzzy: German
 * rudzik8: Russian
+* Trent Pic, tgree, syl: French
 
 ### Sounds
 
