@@ -1,6 +1,6 @@
 # textdomain: rp_crafting
-Craft once=Constuire une fois
-Craft 10 times=Construire 10 fois
-Show only craftable recipes=Afficher seulement des recettes fabriquées via l'artisanat
+Craft once=Fabriquer une fois
+Craft 10 times=Fabriquer 10 fois
+Show only craftable recipes=Afficher seulement les recettes fabricables
 Show all recipes=Voir toutes les recettes
 Crafting=Artisanat

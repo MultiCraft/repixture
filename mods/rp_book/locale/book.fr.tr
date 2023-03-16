@@ -1,11 +1,11 @@
 # textdomain: book
-Title:=Titre:
-Contents:=Contenu:
+Title:=Titre :
+Contents:=Contenu :
 Write=Écrire
 Book=Livre
 Write down some notes=
 Unnamed Book=Livre sans nom
-Book: “@1”=Livre: "@1"
+Book: “@1”=Livre : "@1"
 Provides 32 inventory slots=
 Read book=
 Bookshelf=Étagère à livres

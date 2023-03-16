@@ -1,6 +1,6 @@
 # textdomain: rp_jewels
-1. Place tool here=1. Placez l'outil ici
-2. Hold a jewel and punch the bench=2. Tenir un bijou et poinçonner le banc
+1. Place tool here=1. Placer l'outil ici
+2. Hold a jewel and punch the bench=2. Tenir un bijou et frapper l'établi
 Jeweled @1=Plaqué @1
 Range bonus: @1=
 Drop level bonus: @1=
@@ -8,7 +8,7 @@ Dig time bonus: @1 s=
 Durability bonus: @1=
 Dig level bonus: @1=
 Jewel=Plaquage
-Jeweler's Workbench=Etabli du plaqueur
+Jeweler's Workbench=Établi du plaqueur
 Tools can be upgraded with jewels here=
 Jewel Ore=Minerai de plaquage
 Jeweler=Plaqueur
@@ -16,7 +16,7 @@ Jewel a tool.=Plaquer un outil.
 True Mighty Weapon=
 Use jewels to create a serrated jewel broadsword.=
 Secret of Jewels=Secret de parures
-Discover the origin of jewels.=Découvrez l'origine des bijoux.
+Discover the origin of jewels.=Découvrir l'origine des bijoux.
 Swift Jewel Steel Pickaxe=
 Harming Jewel Steel Pickaxe=
 Durable Jewel Steel Pickaxe=

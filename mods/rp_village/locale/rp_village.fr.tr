@@ -1,6 +1,6 @@
 # textdomain: rp_village
 List known villages=
-@1: @2=
+@1: @2=@1 : @2
 No villages.=
 List of villages:=
 Find closest known village=

@@ -5,15 +5,10 @@ Can be magnetized at magnetic blocks=
 Magno Compass=
 It points to a position=
 Can be demagnetized at unmagnetic blocks=
-True Navigator=Vrai Navigateur
+True Navigator=Vrai navigateur
 Magnetize a compass.=
 Map=Carte
 Keep this in your inventory and view the map with the 'minimap' key=
 Use the minimap key to show the map.=Utilisez la touche minicarte pour afficher la carte.
 Navigator=Navigateur
-Craft a map.=Constuire une carte.
-
-
-##### not used anymore #####
-
-Craft a compass.=Constuire une boussole.
+Craft a map.=Fabriquer une carte.
