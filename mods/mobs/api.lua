@@ -320,7 +320,7 @@ function mobs:register_mob(name, def)
             local p = { x = pos.x / ps, z = pos.z / ps }
             local an = ( d.x * p.x ) + ( d.z * p.z )
 
-            a = math.deg( math.acos( an ) )
+            local a = math.deg( math.acos( an ) )
 
             if a > ( self.fov / 2 ) then
                return false

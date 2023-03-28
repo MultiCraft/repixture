@@ -231,9 +231,6 @@ minetest.register_on_mods_loaded(function()
 		difficulty = 6.5,
 	})
 
-	local got_mineral = function(player, item)
-	end
-
 	for m=1, #minerals do
 		rp_checkitem.register_on_got_item(minerals[m], function(player)
 			achievements.trigger_subcondition(player, "find_all_minerals", minerals[m])

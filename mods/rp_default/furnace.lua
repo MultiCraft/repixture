@@ -3,7 +3,6 @@
 --
 
 local S = minetest.get_translator("rp_default")
-local F = minetest.formspec_escape
 
 function default.furnace_active_formspec(percent, item_percent)
    local form = rp_formspec.get_page("rp_formspec:2part")

@@ -200,7 +200,7 @@ minetest.register_globalstep(function(dtime)
       local player = players[p]
       local name = player:get_player_name()
       if not rp_hud.breath_timers[name] then
-         rp_breath_timers[name] = BREATH_KEEP_TIME + 1
+         rp_hud.breath_timers[name] = BREATH_KEEP_TIME + 1
       end
       if player:get_breath() >= minetest.PLAYER_MAX_BREATH_DEFAULT then
          rp_hud.breath_timers[name] = rp_hud.breath_timers[name] + dtime

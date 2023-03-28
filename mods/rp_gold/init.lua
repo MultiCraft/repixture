@@ -46,7 +46,6 @@ gold.trades = {}
 gold.trade_names = {}
 
 local TRADE_FORMSPEC_OFFSET = 2.5
-local GOLD_COLOR = "#FFFF00FF"
 
 if minetest.get_modpath("mobs") ~= nil then
    gold.trades["farmer"] = {

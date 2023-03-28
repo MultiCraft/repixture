@@ -1,5 +1,4 @@
 local S = minetest.get_translator("rp_default")
-local F = minetest.formspec_escape
 
 local protection_check_move = function(pos, from_list, from_index, to_list, to_index, count, player)
     if minetest.is_protected(pos, player:get_player_name()) and

@@ -1,5 +1,4 @@
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
-local S = minetest.get_translator("rp_default")
 
 -- If a sapling fails to grow, check the sapling again after this many seconds
 local SAPLING_RECHECK_TIME_MIN = 60
