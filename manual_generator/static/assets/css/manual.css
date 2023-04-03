@@ -102,4 +102,7 @@ h6 {
 }
 img {
 	border: 2px solid #333333;
+	/* Auto-shrink image if too wide for the screen */
+	max-width: 100%;
+	height: auto;
 }
