@@ -1,5 +1,5 @@
 # textdomain: rp_achievements
-You have earned the achievement “@1”.=
+You have earned the achievement “@1”.=Vous avez réalisé avec succès “@1”.
 @1 has earned the achievement “@2”.=@1 a réalisé avec succès "@2".
 You have gotten all achievements!=
 @1 has gotten all achievements!=
@@ -14,7 +14,7 @@ Gotten=Obtenu
 Missing=Manquant
 @1 of @2 achievements gotten, @3 in progress=@1 sur @2 réalisations obtenues, @3 en cours
 , =, 
-Completed: @1=
+Completed: @1=Complété : @1
 (list [<player>]) | ((give | remove) <player> (<achievement> | all))=
 List, give or remove achievements of player=
 @1: @2 (@3)=@1 : @2 (@3)

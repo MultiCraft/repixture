@@ -1,11 +1,11 @@
 # textdomain: rp_tnt
-TNT=Explosif
-Will explode when ignited by flint and steel=
-TNT (defused)=Explosif (désamorcé)
-It's harmless=
-TNT (ignited)=
-Will explode after being placed=
+TNT=TNT
+Will explode when ignited by flint and steel=Explose lorqu'il est allumé par un silex et de l'acier
+TNT (defused)=TNT (désamorcé)
+It's harmless=C'est sans danger
+TNT (ignited)=TNT (allumé)
+Will explode after being placed=Explose après avoir été posé
 Boom!=Boom !
-Ignite TNT.=Déclencher l'explosif.
+Ignite TNT.=Allumer un TNT.
 Boom?=Boom ?
-Craft defused TNT.=Fabriquer un désamorceur d'explosif.
+Craft defused TNT.=Fabriquer un désamorceur de TNT.
