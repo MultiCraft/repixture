@@ -173,6 +173,7 @@ function mobs:register_mob(name, def)
 	 physical = true,
 	 collides_with_objects = def.collides_with_objects or true,
 	 collisionbox = def.collisionbox,
+	 selectionbox = def.selectionbox,
 	 visual = def.visual,
 	 visual_size = def.visual_size or {x = 1, y = 1},
 	 mesh = def.mesh,
@@ -742,6 +743,7 @@ function mobs:register_mob(name, def)
                         mesh = self.base_mesh,
                         visual_size = self.base_size,
                         collisionbox = self.base_colbox,
+                        selectionbox = self.base_selbox,
                   })
                end
             end
@@ -816,6 +818,15 @@ function mobs:register_mob(name, def)
                                     self.base_colbox[4] / 2,
                                     self.base_colbox[5] / 2,
                                     self.base_colbox[6] / 2
+                                 },
+                                 selectionbox = {
+                                    self.base_selbox[1] / 2,
+                                    self.base_selbox[2] / 2,
+                                    self.base_selbox[3] / 2,
+                                    self.base_selbox[4] / 2,
+                                    self.base_selbox[5] / 2,
+                                    self.base_selbox[6] / 2,
+                                    rotate = self.base_selbox.rotate,
                                  },
                            })
                            ent2.child = true
@@ -1302,12 +1313,16 @@ function mobs:register_mob(name, def)
                self.base_size = self.visual_size
                self.base_colbox = self.collisionbox
             end
+            if not self.base_selbox then
+               self.base_selbox = self.selectionbox or self.base_colbox
+            end
 
             -- set texture, model and size
             local textures = self.base_texture
             local mesh = self.base_mesh
             local vis_size = self.base_size
             local colbox = self.base_colbox
+            local selbox = self.base_selbox
 
             -- specific texture if gotten
             if self.gotten == true
@@ -1338,6 +1353,15 @@ function mobs:register_mob(name, def)
                   self.base_colbox[5] / 2,
                   self.base_colbox[6] / 2
                }
+               selbox = {
+                  self.base_selbox[1] / 2,
+                  self.base_selbox[2] / 2,
+                  self.base_selbox[3] / 2,
+                  self.base_selbox[4] / 2,
+                  self.base_selbox[5] / 2,
+                  self.base_selbox[6] / 2,
+                  rotate = self.base_selbox.rotate,
+               }
             end
 
             -- health var is only used temporarily
@@ -1359,6 +1383,7 @@ function mobs:register_mob(name, def)
             self.textures = textures
             self.mesh = mesh
             self.collisionbox = colbox
+            self.selectionbox = selbox
             self.visual_size = vis_size
             -- set anything changed above
             self.object:set_properties(self)

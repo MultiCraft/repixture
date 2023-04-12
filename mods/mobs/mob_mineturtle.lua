@@ -15,6 +15,7 @@ mobs:register_mob(
       breath_max = 20,
       armor = 200,
       collisionbox = {-0.4, 0, -0.4, 0.4, 0.7, 0.4},
+      selectionbox = {-0.4, 0, -0.5, 0.4, 0.7, 0.8, rotate=true},
       visual = "mesh",
       mesh = "mobs_mineturtle.x",
       textures = {

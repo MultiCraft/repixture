@@ -95,6 +95,7 @@ for _, npc_type_table in pairs(npc_types) do
 	 breath_max = 11,
 	 armor = 80,
 	 collisionbox = {-0.35,-1.0,-0.35, 0.35,0.8,0.35},
+	 selectionbox = {-0.3,-1.0,-0.2, 0.3,0.775,0.2, rotate=true},
 	 visual = "mesh",
 	 mesh = "mobs_npc.b3d",
 	 drawtype = "front",
