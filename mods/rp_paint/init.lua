@@ -132,7 +132,7 @@ minetest.register_node("rp_paint:bucket", {
 	end,
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		-- Switch color on rightclick
-		if util.handle_node_protection(clicker, pointed_thing) then
+		if not pointed_thing or util.handle_node_protection(clicker, pointed_thing) then
 			return
 		end
 		local rot = node.param2 % 4
