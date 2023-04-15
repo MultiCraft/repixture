@@ -7,6 +7,8 @@ local S = minetest.get_translator("rp_bed")
 
 local bed = {}
 
+local DEFAULT_BED_COLOR = rp_paint.COLOR_AZURE_BLUE
+
 -- Per-user data table
 
 bed.userdata = {}
@@ -547,7 +549,7 @@ minetest.register_node(
                      return itemstack
               end
 
-              local param2 = dir + (rp_paint.COLOR_AZURE_BLUE - 1) * 4
+              local param2 = dir + (DEFAULT_BED_COLOR - 1) * 4
 
               local footnode = {name = "rp_bed:bed_foot", param2 = param2}
               local headnode = {name = "rp_bed:bed_head", param2 = param2}
@@ -761,12 +763,21 @@ achievements.register_achievement(
 })
 
 minetest.register_lbm({
-   label = "Clear legacy bed meta",
-   name = "rp_bed:reset_beds_v3_0_0",
-   nodenames = {"rp_bed:bed_foot"},
+   label = "Clear legacy bed meta and initialize color param2",
+   name = "rp_bed:reset_beds_v3_10_0",
+   nodenames = {"rp_bed:bed_foot", "rp_bed:bed_head"},
    action = function(pos, node)
-      local meta = minetest.get_meta(pos)
-      meta:set_string("player", "")
+      -- Clear meta
+      if node.name == "rp_bed:bed_foot" then
+         local meta = minetest.get_meta(pos)
+         meta:set_string("player", "")
+      end
+
+      -- Set default color
+      if node.param2 <= 3 then
+         node.param2 = node.param2 + (DEFAULT_BED_COLOR - 1) * 4
+         minetest.swap_node(pos, node)
+      end
    end,
 })
 
