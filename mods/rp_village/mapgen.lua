@@ -218,7 +218,6 @@ local function attempt_village_spawn(pos, village_type)
     end
 end
 
-local village_decoration_id
 if not minetest.settings:get_bool("mapgen_disable_villages") then
    -- Register dummy decorations to find possible village spawn points
    -- via gennotify.

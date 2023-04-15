@@ -12,9 +12,6 @@ ambiance_local.sounds = {}
 -- immediately start singing when the rain ends.
 local WEATHER_CONDITION_DELAY = 5000000 -- µs
 
--- Minimum theoretical sunlight level required for birds to sing
-local BIRDS_MIN_LIGHT = 10
-
 -- Maximum cooldown time to prevent sound repetitions
 local SOUND_COOLDOWN_MAX = 3.0
 

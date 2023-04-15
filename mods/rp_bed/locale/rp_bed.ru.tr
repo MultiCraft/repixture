@@ -1,17 +1,17 @@
 # textdomain: rp_bed
-Your respawn position was blocked or dangerous. You’ve lost your old respawn position.=Ваша точка возрождения блокирована или опасна. Вы потеряли свою предыдущую точку возрождения.
-You have slept, rise and shine!=Вы поспали, проснись и пой!
+Your respawn position was blocked or dangerous. You’ve lost your old respawn position.=Твоя точка возрождения блокирована или опасна. Ты потерял свою предыдущую точку возрождения.
+You have slept, rise and shine!=Ты поспал, проснись и пой!
 Players have slept, rise and shine!=Игроки поспали, проснись и пой!
 Bed=Кровать
 Sets the respawn position and allows to pass the night=Ставит точку возрождения и пропускает ночь
 Sleeping is disabled.=Сон отключен.
 It’s too painful to sleep here!=Здесь слишком больно чтобы спать!
-You can’t sleep while holding your breath!=Вы не можете спать когда задерживаете дыхание!
+You can’t sleep while holding your breath!=Ты не можешь спать когда задерживаешь дыхание!
 Not enough space to sleep!=Недостаточно места для сна!
-You can’t sleep here!=Вы не можете здесь спать!
-You have to stop moving before going to bed!=Вам нужно остановиться прежде чем ложиться спать!
+You can’t sleep here!=Ты не можешь здесь спать!
+You have to stop moving before going to bed!=Тебе нужно остановиться прежде чем ложиться спать!
 Respawn position set!=Точка возрождения установлена!
 In bed=В кровати
-You're in a bed=Вы в кровати
+You're in a bed=Ты в кровати
 Bed Time=Время спать
-Craft a bed.=Скрафтите кровать.
+Craft a bed.=Скрафти кровать.

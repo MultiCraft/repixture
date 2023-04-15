@@ -12,6 +12,19 @@ code {
 	padding-left: 0.3em;
 	padding-right: 0.3em;
 }
+a, a:link {
+	color: #FFCF60;
+}
+a:visited {
+	color: #FFEF80;
+}
+a:hover {
+	color: #FFB0B0;
+}
+a:active {
+	color: #FFD0D0;
+}
+
 kbd {
 	font-family: sans-serif;
 	background-color: #909090;
@@ -89,4 +102,7 @@ h6 {
 }
 img {
 	border: 2px solid #333333;
+	/* Auto-shrink image if too wide for the screen */
+	max-width: 100%;
+	height: auto;
 }

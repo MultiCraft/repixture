@@ -15,6 +15,7 @@ mobs:register_mob(
       hp_max = 22,
       armor = 130,
       collisionbox = {-0.2, -0.45, -0.2, 0.2, 0.1, 0.2},
+      selectionbox = {-0.15, -0.45, -0.35, 0.15, 0.1, 0.45, rotate=true},
       visual = "mesh",
       mesh = "mobs_skunk.x",
       textures = {

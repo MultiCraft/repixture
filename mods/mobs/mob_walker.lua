@@ -15,6 +15,7 @@ mobs:register_mob(
       breath_max = -1,
       armor = 200,
       collisionbox = {-0.3, 0, -0.3, 0.3, 1.5, 0.3},
+      selectionbox = {-0.3, 0, -0.3, 0.3, 1.5, 0.3, rotate=true},
       visual = "mesh",
       mesh = "mobs_walker.b3d",
       textures = {

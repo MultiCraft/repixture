@@ -162,6 +162,8 @@ local function on_joinplayer(player)
 
    player:set_properties({
       stepheight = 0.626, -- slightly above 10/16
+      collisionbox = { -0.3, 0, -0.3, 0.3, 1.77, 0.3 },
+      selectionbox = { -0.32, 0, -0.22, 0.32, 1.77, 0.22, rotate=true},
    })
 end
 

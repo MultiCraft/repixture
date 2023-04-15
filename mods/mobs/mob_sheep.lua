@@ -23,6 +23,7 @@ mobs:register_mob(
       breath_max = 5,
       armor = 200,
       collisionbox = {-0.5, -1, -0.5, 0.5, 0.1, 0.5},
+      selectionbox = {-0.4, -1, -0.6, 0.4, 0.1, 0.7, rotate = true},
       visual = "mesh",
       mesh = "mobs_sheep.x",
       visual_size = {x = 1, y = 1},
