@@ -6,8 +6,7 @@ local COLOR_NAMES = {
 	S("White"), S("Gray"), S("Black"), S("Red"), S("Orange"), S("Tangerine"), S("Yellow"), S("Lime"), S("Green"), S("Bluegreen"), S("Turquoise"), S("Cyan"), S("Skyblue"), S("Azure Blue"), S("Blue"), S("Violet"), S("Magenta"), S("Redviolet"), S("Hot Pink"),
 }
 
-local COLORS = #COLOR_NAMES
-
+rp_paint.COLOR_COUNT = #COLOR_NAMES
 
 rp_paint.COLOR_WHITE = 1
 rp_paint.COLOR_GRAY = 2
@@ -54,7 +53,7 @@ minetest.register_tool("rp_paint:brush", {
 		-- Get color from paint bucket
 		if node.name == "rp_paint:bucket" then
 			local color = bit.rshift(node.param2, 2)
-			if color > COLORS or color < 0 then
+			if color > rp_paint.COLOR_COUNT or color < 0 then
 				-- Invalid paint bucket color!
 				return
 			end
@@ -71,7 +70,7 @@ minetest.register_tool("rp_paint:brush", {
 		local def = minetest.registered_nodes[node.name]
 		local imeta = itemstack:get_meta()
 		local color = imeta:get_int("palette_index")
-		if color > COLORS then
+		if color > rp_paint.COLOR_COUNT then
 			color = 0
 		end
 		if def.paramtype2 == "color" then
@@ -159,7 +158,7 @@ minetest.register_node("rp_paint:bucket", {
 		local rot = node.param2 % 4
 		local color = bit.rshift(node.param2, 2)
 		color = color + 1
-		if color >= COLORS then
+		if color >= rp_paint.COLOR_COUNT then
 			color = 0
 		end
 		local meta = minetest.get_meta(pos)
