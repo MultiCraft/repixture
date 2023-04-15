@@ -1,6 +1,6 @@
 local S = minetest.get_translator("rp_paint")
 
-local BRUSH_USES = 100
+rp_paint = {}
 
 local COLOR_NAMES = {
 	S("White"), S("Gray"), S("Black"), S("Red"), S("Orange"), S("Tangerine"), S("Yellow"), S("Lime"), S("Green"), S("Bluegreen"), S("Turquoise"), S("Cyan"), S("Skyblue"), S("Azure Blue"), S("Blue"), S("Violet"), S("Magenta"), S("Redviolet"), S("Hot Pink"),
@@ -8,7 +8,28 @@ local COLOR_NAMES = {
 
 local COLORS = #COLOR_NAMES
 
-rp_paint = {}
+
+rp_paint.COLOR_WHITE = 1
+rp_paint.COLOR_GRAY = 2
+rp_paint.COLOR_BLACK = 3
+rp_paint.COLOR_RED = 4
+rp_paint.COLOR_ORANGE = 5
+rp_paint.COLOR_TANGERINE = 6
+rp_paint.COLOR_YELLOW = 7
+rp_paint.COLOR_LIME = 8
+rp_paint.COLOR_GREEN = 9
+rp_paint.COLOR_BLUEGREEN = 10
+rp_paint.COLOR_TURQUOISE = 11
+rp_paint.COLOR_CYAN = 12
+rp_paint.COLOR_SKYBLUE = 13
+rp_paint.COLOR_AZURE_BLUE = 14
+rp_paint.COLOR_BLUE = 15
+rp_paint.COLOR_VIOLET = 16
+rp_paint.COLOR_MAGENTA = 17
+rp_paint.COLOR_REDVIOLET = 18
+rp_paint.COLOR_HOT_PINK = 19
+
+local BRUSH_USES = 100
 
 minetest.register_tool("rp_paint:brush", {
 	description = S("Paint Brush"),

@@ -547,8 +547,10 @@ minetest.register_node(
                      return itemstack
               end
 
-              local footnode = {name = "rp_bed:bed_foot", param2 = dir}
-              local headnode = {name = "rp_bed:bed_head", param2 = dir}
+              local param2 = dir + (rp_paint.COLOR_AZURE_BLUE - 1) * 4
+
+              local footnode = {name = "rp_bed:bed_foot", param2 = param2}
+              local headnode = {name = "rp_bed:bed_head", param2 = param2}
               minetest.set_node(pos, footnode)
               minetest.set_node(botpos, headnode)
               rp_sounds.play_node_sound(pos, footnode, "place")
