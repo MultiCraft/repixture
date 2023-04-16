@@ -172,3 +172,22 @@ Always returns `false` for non-nodes.
 
 Returns `true` if node at given pos is water AND either a source or a "waterfall"
 (water flowing downwards)
+
+
+
+## ` util.contains_item_canonical(inv, list, stack)`
+
+Checks if the inventory contains `stack` with the same metadata.
+Unlike `inv:contains_item`, it will treat two item names as equal
+if the *canonical name* of each item is equal.
+The canonical name of an item is specified by the item definition field
+`_rp_canonical_item`. If this is nil, the canonical item name is
+same the item name.
+
+Parameters:
+
+* `inv`: InvRef of inventory to check
+* `list`: Inventory list name
+* `stack`: ItemStack to compare to
+
+Returns `true` if a matching item was found, `false` otherwise.

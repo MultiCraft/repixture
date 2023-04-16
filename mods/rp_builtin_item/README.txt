@@ -17,7 +17,7 @@ Features:
   the item entity will be instantly deleted
 * If `_rp_canonical_item` is set in the item definition, this item (itemname) will
   be used for the entity instead when it spawns. Useful when an item has multiple
-  variants ike a compass
+  variants like a compass
 
 ## Licensing
 Credits: Originally by Minetest developers (from the `builtin` part of Minetest)

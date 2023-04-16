@@ -257,8 +257,9 @@ minetest.register_entity(":__builtin:item", {
 		end
 		if closest_player ~= nil and lua.item_magnet_timer <= 0 and len < ITEM_MAGNET_ACTIVE_DISTANCE then
 			local inv = closest_player:get_inventory()
+			local luastack = ItemStack(lua.itemstring)
 			-- Activate item magnet
-			if inv and inv:room_for_item("main", ItemStack(lua.itemstring)) then
+			if inv and inv:room_for_item("main", luastack) then
 				if len >= ITEM_MAGNET_COLLECT_DISTANCE then
 					-- Attract item to player
 					vec = vector.divide(vec, len) -- It's a normalize but we have len yet (vector.normalize(vec))
@@ -273,13 +274,13 @@ minetest.register_entity(":__builtin:item", {
 					return
 				else
 					-- Player collects item if close enough
-					if inv:room_for_item("main", ItemStack(lua.itemstring)) then
+					if inv:room_for_item("main", luastack) then
 						if minetest.is_creative_enabled(closest_player:get_player_name()) then
-							if not inv:contains_item("main", ItemStack(lua.itemstring), true) then
-									inv:add_item("main", ItemStack(lua.itemstring))
+							if not inv:contains_item("main", luastack, true) and not util.contains_item_canonical(inv, "main", luastack) then
+								inv:add_item("main", luastack)
 							end
 						else
-							inv:add_item("main", ItemStack(lua.itemstring))
+							inv:add_item("main", luastack)
 						end
 
 						if lua.itemstring ~= "" then

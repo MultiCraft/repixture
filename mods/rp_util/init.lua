@@ -285,3 +285,42 @@ function util.is_water_source_or_waterfall(pos)
    end
    return false
 end
+
+function util.contains_item_canonical(inv, list, stack)
+   stack = ItemStack(stack)
+   if stack:is_empty() then
+      return false
+   end
+   -- Set count and wear of stack and comparison stack
+   -- to identical value because we don't care about
+   -- those
+   stack:set_count(1)
+   stack:set_wear(0)
+   local def = stack:get_definition()
+   if not def then
+      return false
+   end
+   if def._rp_canonical_item then
+      stack:set_name(def._rp_canonical_item)
+   else
+      -- If no canonical item, just use the regular contains_item check instead
+      return inv:contains_item(list, stack, true)
+   end
+   -- Iterate through all items in the list and check if the item
+   -- is equal
+   for i=1, inv:get_size(list) do
+      local cstack = inv:get_stack(list, i)
+      if not cstack:is_empty() then
+         cstack:set_count(1)
+         cstack:set_wear(0)
+         local cdef = cstack:get_definition()
+         if cdef and cdef._rp_canonical_item then
+            cstack:set_name(cdef._rp_canonical_item)
+         end
+         if stack:equals(cstack) then
+            return true
+         end
+      end
+   end
+   return false
+end
