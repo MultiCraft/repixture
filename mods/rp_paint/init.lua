@@ -59,6 +59,7 @@ minetest.register_tool("rp_paint:brush", {
 			end
 			local imeta = itemstack:get_meta()
 			imeta:set_int("palette_index", color)
+			minetest.sound_play({name="rp_paint_brush_dip", gain=0.3}, {pos=pos, max_hear_distance = 8}, true)
 			return itemstack
 		end
 
@@ -98,12 +99,13 @@ minetest.register_tool("rp_paint:brush", {
 		end
 		if can_paint then
 			minetest.swap_node(pointed_thing.under, node)
-			minetest.sound_play({name="rp_paint_brush", gain=0.4}, {pos=pos}, true)
+			minetest.sound_play({name="rp_paint_brush", gain=0.4}, {pos=pos, max_hear_distance = 8}, true)
 
 			if not minetest.is_creative_enabled(user:get_player_name()) then
 				itemstack:add_wear_by_uses(BRUSH_USES)
 			end
 		end
+		minetest.sound_play({name="rp_paint_brush_paint", gain=0.2}, {pos = pos, max_hear_distance = 8}, true)
 		return itemstack
 	end,
 	groups = { disable_repair = 1 },
@@ -165,6 +167,7 @@ minetest.register_node("rp_paint:bucket", {
 		meta:set_string("infotext", S("Paint Bucket (@1)", COLOR_NAMES[color+1]))
 		node.param2 = color*4 + rot
 		minetest.swap_node(pos, node)
+		minetest.sound_play({name="rp_paint_bucket_select_color", gain=0.15}, {pos = pos}, true)
 	end,
 	-- Erase node metadata (e.g. palette_index) on drop
 	drop = "rp_paint:bucket",
