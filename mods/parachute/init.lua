@@ -226,6 +226,7 @@ minetest.register_craftitem(
       wield_image = "parachute_inventory.png",
       stack_max = 1,
       groups = { tool = 1 },
+      sound = {},
       on_use = function(itemstack, player, pointed_thing)
          local ok, fail_reason = open_parachute_for_player(player, true, true)
          if ok then

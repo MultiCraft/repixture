@@ -80,6 +80,7 @@ book.register_book_node = function(nodename, def)
             place = { name = "rp_book_place_book", gain = 0.5 },
             dug = { name = "rp_book_dug_book", gain = 0.5 },
          }),
+         sound = {},
    }
    for k,v in pairs(def) do
       if k ~= "groups" then

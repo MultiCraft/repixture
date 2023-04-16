@@ -1757,7 +1757,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
             chance = chance_net
             local pitch = 1 + math.random(-100, 100)*0.0005
             minetest.sound_play("mobs_swing", {
-               pos = clicker:get_pos(),
+               object = clicker,
                gain = 0.2, max_hear_distance = 16, pitch=pitch}, true)
             if not minetest.is_creative_enabled(name) then
 	        tool:add_wear_by_uses(17)
@@ -1768,7 +1768,7 @@ function mobs:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso,
             chance = chance_lasso
             local pitch = 1 + math.random(-100, 100)*0.0005
             minetest.sound_play("mobs_lasso_swing", {
-               pos = clicker:get_pos(),
+               object = clicker,
                gain = 0.3, max_hear_distance = 24, pitch=pitch}, true)
             if not minetest.is_creative_enabled(name) then
 	        tool:add_wear_by_uses(43)

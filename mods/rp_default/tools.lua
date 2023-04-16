@@ -9,6 +9,20 @@ local creative_digtime = 0
 
 local tool_levels = nil
 
+local sound_tool = {
+   breaks = "default_tool_breaks",
+   punch_use_air = { name = "rp_default_swing_air", gain = 0.5 },
+}
+local sound_tool_break = {
+   breaks = "default_tool_breaks",
+}
+local sound_tool_swing_air = {
+   punch_use_air = { name = "rp_default_swing_air", gain = 0.5 },
+}
+local sound_hand = {
+   punch_use_air = { name = "rp_default_swing_hand_air", gain = 0.1 },
+}
+
 local creative_digtable = {
    crumbly = {
       [3] = creative_digtime,
@@ -68,6 +82,7 @@ if minetest.is_creative_enabled("") then
 	    },
 	    damage_groups = {fleshy = 1}
 	 },
+         sound = sound_hand,
 	 range = 20,
    })
 else
@@ -213,6 +228,7 @@ else
 	    },
 	    damage_groups = {fleshy = 1}
 	 },
+         sound = sound_hand,
 	 range = 4,
    })
 end
@@ -242,6 +258,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 1}
       },
       groups = { no_item_drop = 1 },
+      sound = sound_tool_swing_air,
 })
 
 local tt_pick = S("Digs hard, cracky blocks")
@@ -265,6 +282,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 2}
       },
+      sound = sound_tool,
       groups = { pickaxe = 1 },
 })
 
@@ -281,7 +299,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 3}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { pickaxe = 1 },
 })
 
@@ -298,7 +316,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 4}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { pickaxe = 1 },
 })
 
@@ -315,7 +333,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { pickaxe = 1 },
 })
 
@@ -332,7 +350,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { pickaxe = 1 },
 })
 
@@ -349,7 +367,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { pickaxe = 1 },
 })
 
@@ -368,7 +386,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 2}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { shovel = 1 },
 })
 
@@ -385,7 +403,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 3}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { shovel = 1 },
 })
 
@@ -402,7 +420,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 4}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { shovel = 1 },
 })
 
@@ -419,7 +437,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { shovel = 1 },
 })
 
@@ -436,7 +454,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { shovel = 1 },
 })
 
@@ -453,7 +471,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { shovel = 1 },
 })
 
@@ -473,7 +491,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 3}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { axe = 1 },
 })
 
@@ -491,7 +509,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 4}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { axe = 1 },
 })
 
@@ -509,7 +527,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { axe = 1 },
 })
 
@@ -527,7 +545,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 6}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { axe = 1 },
 })
 
@@ -545,7 +563,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 6}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { axe = 1 },
 })
 
@@ -563,7 +581,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 6}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { axe = 1 },
 })
 
@@ -587,7 +605,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 4}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { weapon = 1, spear = 1 },
 })
 
@@ -607,7 +625,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 5}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { weapon = 1, spear = 1 },
 })
 
@@ -627,7 +645,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 6}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { weapon = 1, spear = 1 },
 })
 
@@ -647,7 +665,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 10}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { weapon = 1, spear = 1 },
 })
 
@@ -667,7 +685,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 10}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { weapon = 1, spear = 1 },
 })
 
@@ -687,7 +705,7 @@ minetest.register_tool(
 	 },
 	 damage_groups = {fleshy = 10}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { weapon = 1, spear = 1 },
 })
 
@@ -705,7 +723,7 @@ minetest.register_tool(
 	 full_punch_interval = 4.0,
 	 damage_groups = {fleshy = 12}
       },
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool,
       groups = { weapon = 1, sword = 1 },
 })
 
@@ -743,7 +761,7 @@ minetest.register_tool(
       inventory_image = "default_shears.png",
       wield_image = "default_shears.png^[transformR90",
       _rp_wielditem_rotation = shears_wield_rotation,
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool_break,
       groups = { shears = 1, sheep_cuts = 100 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -762,7 +780,7 @@ minetest.register_tool(
       inventory_image = "default_shears_steel.png",
       wield_image = "default_shears_steel.png^[transformR90",
       _rp_wielditem_rotation = shears_wield_rotation,
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool_break,
       groups = { shears = 1, sheep_cuts = 200 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -781,7 +799,7 @@ minetest.register_tool(
       inventory_image = "default_shears_carbon_steel.png",
       wield_image = "default_shears_carbon_steel.png^[transformR90",
       _rp_wielditem_rotation = shears_wield_rotation,
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool_break,
       groups = { shears = 1, sheep_cuts = 266 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -800,7 +818,7 @@ minetest.register_tool(
       inventory_image = "default_shears_bronze.png",
       wield_image = "default_shears_bronze.png^[transformR90",
       _rp_wielditem_rotation = shears_wield_rotation,
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool_break,
       groups = { shears = 1, sheep_cuts = 200 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -818,7 +836,7 @@ minetest.register_tool(
       description = S("Flint and Steel"),
       _tt_help = S("Ignites ignitable blocks"),
       inventory_image = "default_flint_and_steel.png",
-      sound = { breaks = "default_tool_breaks" },
+      sound = sound_tool_break,
       on_use = function(itemstack, user, pointed_thing)
          if pointed_thing == nil then return end
          if pointed_thing.type ~= "node" then return end
