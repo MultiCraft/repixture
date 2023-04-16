@@ -24,7 +24,7 @@ local function add_item_death_particle(ent)
 	minetest.add_particle({
 		pos = ent.object:get_pos(),
 		size = 3,
-		texture = "smoke_puff.png",
+		texture = "rp_builtin_item_die.png",
 	})
 end
 

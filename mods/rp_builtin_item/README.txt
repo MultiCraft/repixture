@@ -24,4 +24,5 @@ Credits: Originally by Minetest developers (from the `builtin` part of Minetest)
 with tweaks by Kaadmy and Wuzzy.
 
 Source code license: LGPLv2.1
-Media license: CC BY-SA 4.0
+Sound license: CC BY-SA 4.0
+License of rp_builtin_item_die.png: LGPLv2.1 (same as smoke_puff.png from Minetest)
