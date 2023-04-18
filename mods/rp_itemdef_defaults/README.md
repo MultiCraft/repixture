@@ -10,9 +10,3 @@ mod that adds any item (exception: hand).
 
 Mod written by Wuzzy. Licensed under CC0.
 
-Sounds:
-
-* `rp_default_swing_hand_air.*.ogg`
-    * Derived by Wuzzy from sound by sifujordan
-    * Source: <https://freesound.org/people/sifujordan/sounds/506160/>
-    * License: CC0

@@ -20,7 +20,7 @@ local sound_tool_swing_air = {
    punch_use_air = { name = "rp_default_swing_tool_air", gain = 0.5 },
 }
 local sound_hand = {
-   punch_use_air = { name = "rp_itemdef_defaults_swing_air", gain = 0.1 },
+   punch_use_air = { name = "rp_default_swing_hand_air", gain = 0.1 },
 }
 
 local creative_digtable = {
