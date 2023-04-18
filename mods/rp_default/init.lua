@@ -29,19 +29,6 @@ default.SAPLING_FERTILIZER_TIME_BONUS_FACTOR = 0.1
 -- Maximum 'age' of a vine (determines how long it'll grow)
 default.VINE_MAX_AGE = 20
 
--- Set default stack sizes
-minetest.nodedef_default.stack_max = 60
-minetest.craftitemdef_default.stack_max = 60
-
--- Set default item swing sound (when punching air)
--- NOTE: To disable this for a particular item, set the `sound`
---       table explicitly for the item.
-minetest.craftitemdef_default.sound = {
-   punch_use_air = { name = "rp_default_swing_hand_air", gain = 0.1 },
-}
-minetest.tooldef_default.sound = minetest.craftitemdef_default.sound
-minetest.nodedef_default.sound = minetest.craftitemdef_default.sound
-
 --[[ This game uses biome versions to allow backwards-compability
 of old maps. A biome version bump is neccessary whenever there's
 a drastic change in biome heat/humidity point that would
