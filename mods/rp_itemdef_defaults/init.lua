@@ -6,7 +6,7 @@ minetest.craftitemdef_default.stack_max = 60
 -- NOTE: To disable this for a particular item, set the `sound`
 --       table explicitly for the item.
 minetest.craftitemdef_default.sound = {
-   punch_use_air = { name = "rp_default_swing_hand_air", gain = 0.1 },
+   punch_use_air = { name = "rp_itemdef_defaults_swing_air", gain = 0.1 },
 }
 minetest.tooldef_default.sound = minetest.craftitemdef_default.sound
 minetest.nodedef_default.sound = minetest.craftitemdef_default.sound

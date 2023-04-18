@@ -78,11 +78,7 @@ File credits and individual file licenses:
     * Derived by Wuzzy from sound by Fission9
     * Source: <https://freesound.org/people/Fission9/sounds/521589/>
     * License: CC0
-  * rp_default_swing_hand_air.*.ogg
-    * Derived by Wuzzy from sound by sifujordan
-    * Source: <https://freesound.org/people/sifujordan/sounds/506160/>
-    * License: CC0
-  * rp_default_swing_air.ogg
+  * rp_default_swing_tool_air.*.ogg
     * Derived by Wuzzy from sound by ZHRØ
     * Source: <https://freesound.org/people/ZHR%C3%98/sounds/514162/>
     * License: CC0
