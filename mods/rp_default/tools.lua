@@ -13,6 +13,10 @@ local sound_tool = {
    breaks = "default_tool_breaks",
    punch_use_air = { name = "rp_default_swing_tool_air", gain = 0.5 },
 }
+local sound_shears = {
+   breaks = "default_tool_breaks",
+   punch_use_air = { name = "rp_default_swing_hand_air", gain = 0.1 },
+}
 local sound_tool_break = {
    breaks = "default_tool_breaks",
 }
@@ -761,7 +765,7 @@ minetest.register_tool(
       inventory_image = "default_shears.png",
       wield_image = "default_shears.png^[transformR90",
       _rp_wielditem_rotation = shears_wield_rotation,
-      sound = sound_tool_break,
+      sound = sound_shears,
       groups = { shears = 1, sheep_cuts = 100 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -780,7 +784,7 @@ minetest.register_tool(
       inventory_image = "default_shears_steel.png",
       wield_image = "default_shears_steel.png^[transformR90",
       _rp_wielditem_rotation = shears_wield_rotation,
-      sound = sound_tool_break,
+      sound = sound_shears,
       groups = { shears = 1, sheep_cuts = 200 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -799,7 +803,7 @@ minetest.register_tool(
       inventory_image = "default_shears_carbon_steel.png",
       wield_image = "default_shears_carbon_steel.png^[transformR90",
       _rp_wielditem_rotation = shears_wield_rotation,
-      sound = sound_tool_break,
+      sound = sound_shears,
       groups = { shears = 1, sheep_cuts = 266 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
@@ -818,7 +822,7 @@ minetest.register_tool(
       inventory_image = "default_shears_bronze.png",
       wield_image = "default_shears_bronze.png^[transformR90",
       _rp_wielditem_rotation = shears_wield_rotation,
-      sound = sound_tool_break,
+      sound = sound_shears,
       groups = { shears = 1, sheep_cuts = 200 },
       tool_capabilities = {
 	 full_punch_interval = 1.0,
