@@ -9,9 +9,9 @@ the world.
 
 ## Version
 
-3.9.0
+3.10.0
 
-Designed for use with Minetest 5.6.0 or later.
+Designed for use with Minetest 5.7.0 or later.
 
 ## Features
 
