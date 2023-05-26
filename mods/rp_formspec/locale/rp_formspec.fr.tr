@@ -1,18 +1,13 @@
 # textdomain: rp_formspec
-Fuzzy=Vague
-Any fuzzy block=N'importe quel vague bloc
-Planks=
-Any planks=N'importe quelle planche
+Fuzzy=Duveteux
+Any fuzzy block=N'importe quel bloc duveteux
+Planks=Planches
+Any planks=N'importe quelles planches
 Soil=Sol
 Any soil=N'importe quel sol
-Stone=
+Stone=Pierre
 Any stone=N'importe quelle pierre
 Green Grass Clump=Touffe d'herbe verte
-Any green grass clump=N'importe quel bouquet d'herbe verte
+Any green grass clump=N'importe quelle touffe d'herbe verte
 Group: @1=Groupe : @1
 Write=Écrire
-
-
-##### not used anymore #####
-
-Any tree=N'importe quel arbre
