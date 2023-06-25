@@ -1,4 +1,5 @@
 local S = minetest.get_translator("rp_spikes")
+local NS = function(s) return s end
 
 local SPIKES_PITCH_MODIFIER = 1.5
 
@@ -52,6 +53,7 @@ local register_spikes = function(name, def)
 		groups = groups,
 		damage_per_second = def.damage_per_second,
 		sounds = make_metal_sounds(def.pitch),
+		_rp_node_death_message = { NS("You were impaled by spikes.") },
 	}
 	minetest.register_node(name, spikedef)
 

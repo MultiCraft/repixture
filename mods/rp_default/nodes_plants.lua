@@ -1,4 +1,5 @@
 local S = minetest.get_translator("rp_default")
+local NS = function(s) return s end
 
 -- Cacti
 
@@ -472,5 +473,6 @@ minetest.register_node(
          minetest.add_item(pos, "rp_default:thistle")
          util.dig_up(pos, oldnode, nil, "rp_default:thistle")
       end,
+      _rp_node_death_message = { NS("You were prickled to death by a thistle.") },
 })
 
