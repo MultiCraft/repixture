@@ -126,6 +126,13 @@ mobs:register_mob(
 
          -- Are we feeding?
          if mobs:feed_tame(self, clicker, 8, true) then
+            -- Update wool status if gotten got false
+            if self.gotten == false then
+                self.object:set_properties({
+                   textures = {"mobs_sheep.png"},
+                   mesh = "mobs_sheep.x",
+                })
+            end
             return
          end
 
