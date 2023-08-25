@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_boats x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Not enough space to enter!"
+msgstr "Nicht genügend Platz zum Betreten!"
+
+msgid "Wooden Log Boat"
+msgstr "Baumstammboot"
+
+msgid "Birch Log Boat"
+msgstr "Birkenbaumstamboot"
+
+msgid "Oak Log Boat"
+msgstr "Eichenbaumstammboot"
+
+msgid "Water vehicle"
+msgstr "Wasserfahrzeug"
+
+msgid "Wooden Raft"
+msgstr "Holzfloß"
+
+msgid "Birch Raft"
+msgstr "Birkenfloß"
+
+msgid "Oak Raft"
+msgstr "Eichenfloß"
+

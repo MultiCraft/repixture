@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_hunger x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Hunger Debug:"
+msgstr "Hunger-Debug:"
+
+msgid "<hunger disabled>"
+msgstr "<Hunger deaktiviert>"
+
+msgid "You are hungry."
+msgstr "Sie haben Hunger."
+
+msgid "You are starving."
+msgstr "Sie verhungern."
+
+msgid "You starved to death."
+msgstr "Sie sind verhungert."
+
+msgid "Eating"
+msgstr "Essen"
+
+msgid "You're eating food, which slows you down"
+msgstr "Sie essen etwas und sind langsamer"
+
+msgid "Gourmet"
+msgstr "Feinschmecker"
+
+msgid "Eat everything that can be eaten."
+msgstr "Essen Sie alles, was man essen kann."
+
+msgid "Set hunger level of player or yourself"
+msgstr "Setzen Sie den Hungerpegel eines Spielers oder von Ihnen selbst."
+
+msgid "[<player>] <hunger>"
+msgstr "[<Spieler>] <Hunger>"
+
+msgid "Player is not online."
+msgstr "Spieler ist nicht online."
+
+msgid "No player."
+msgstr "Kein Spieler."
+
+msgid "Food item"
+msgstr "Lebensmittel"
+
+msgid "Food points: +@1"
+msgstr "Nahrungspunkte: +@1"
+
+msgid "Saturation points: +@1"
+msgstr "Sättigungspunkte: +@1"
+

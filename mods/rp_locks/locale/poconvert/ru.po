@@ -1,0 +1,69 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_locks x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Locked Chest"
+msgstr "Запертый сундук"
+
+msgid "Locked Chest (Owned by @1)"
+msgstr "Запертый сундук (принадлежит @1)"
+
+msgid "Locked Chest (cracked open)"
+msgstr "Запертый сундук (взломан)"
+
+msgid "Locked Chest (cracked open) (Owned by @1)"
+msgstr "Запертый сундук (взломан) (принадлежит @1)"
+
+msgid "@1 (Owned by @2)"
+msgstr "@1 (принадлежит @2)"
+
+msgid "Lock Pick"
+msgstr "Отмычка"
+
+msgid "Cracks locked chests"
+msgstr "Взламывает запертые сундуки"
+
+msgid "@1 has broken into your locked chest!"
+msgstr "@1 взломал"
+
+msgid "You have broken the lock!"
+msgstr "Тобою взломан замок!"
+
+msgid "You have broken into your own locked chest!"
+msgstr "Тобою взломан свой же запертый сундук!"
+
+msgid "Lock"
+msgstr "Замок"
+
+msgid "Used to craft locked chests"
+msgstr "Используется для крафта запертых сундуков"
+
+msgid "Provides 32 inventory slots"
+msgstr "Содержит 32 слота"
+
+msgid "Can only be opened by its owner and those who have a lockpick"
+msgstr ""
+
+msgid "Locksmith"
+msgstr "Слесарь"
+
+msgid "Craft a lock."
+msgstr "Скрафти замок."
+
+msgid "Burglar"
+msgstr "Грабитель"
+
+msgid "Break into a locked chest."
+msgstr "Вломай чей-то запертый сундук."
+

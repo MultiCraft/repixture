@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_nav x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Compass"
+msgstr "Kompass"
+
+msgid "It points to the North"
+msgstr "Er zeigt nach Norden"
+
+msgid "Can be magnetized at magnetic blocks"
+msgstr "Kann an magnetischen Blöcken magnetisiert werden."
+
+msgid "Magno Compass"
+msgstr "Magnokompass"
+
+msgid "It points to a position"
+msgstr "Er zeigt zu einer Position"
+
+msgid "Can be demagnetized at unmagnetic blocks"
+msgstr "Kann an unmagnetischen Blöcken entmagnetisiert werden."
+
+msgid "True Navigator"
+msgstr "Wahrer Navigator"
+
+msgid "Magnetize a compass."
+msgstr "Magnetisieren Sie einen Kompass."
+
+msgid "Map"
+msgstr "Karte"
+
+msgid "Keep this in your inventory and view the map with the 'minimap' key"
+msgstr "Im Inventar behalten und Karte mit „Karte an/aus“-Taste öffnen"
+
+msgid "Use the minimap key to show the map."
+msgstr "Taste „Karte an/aus“ benutzen, um die Karte zu betrachten."
+
+msgid "Navigator"
+msgstr "Navigator"
+
+msgid "Craft a map."
+msgstr "Fertigen Sie eine Karte."
+

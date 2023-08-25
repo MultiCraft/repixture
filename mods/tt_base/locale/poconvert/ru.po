@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain tt_base x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Damage: @1"
+msgstr "Урон: @1"
+
+msgid "Healing: @1"
+msgstr "Исцеление: @1"
+
+msgid "Damage (@1): @2"
+msgstr "Урон (@1): @2"
+
+msgid "Healing (@1): @2"
+msgstr "Исцеление (@1): @2"
+
+msgid "Full punch interval: @1s"
+msgstr "Полный интервал удара: @1сек."
+
+msgid "Food item"
+msgstr "Еда"
+
+msgid "+@1 food points"
+msgstr "+@1ед. сытости"
+
+msgid "Contact damage: @1 per second"
+msgstr "Урон при прикосновении: @1/сек."
+
+msgid "Contact healing: @1 per second"
+msgstr "Исцеление при прикосновении: @1/сек."
+
+msgid "Drowning damage: @1"
+msgstr "Урон от утопления: @1"
+
+msgid "Fall damage: +@1%"
+msgstr "Урон от падения: +@1%"
+
+msgid "No fall damage"
+msgstr "Нет урона от падения"
+
+msgid "Fall damage: @1%"
+msgstr "Урон от падения: @1%"
+
+msgid "No jumping"
+msgstr "Нельзя прыгать"
+
+msgid "No swimming upwards"
+msgstr "Нельзя всплывать"
+
+msgid "No rising"
+msgstr "Нельзя подниматься"
+
+msgid "Climbable (only downwards)"
+msgstr "Можно взобраться (только вниз)"
+
+msgid "Climbable"
+msgstr "Можно взобраться"
+
+msgid "Slippery"
+msgstr "Скользкость"
+
+msgid "Bouncy (@1%)"
+msgstr "Упругий (@1%)"
+
+msgid "Luminance: @1-@2"
+msgstr "Яркость: @1-@2"
+
+msgid "Luminance: @1"
+msgstr "Яркость: @1"
+
