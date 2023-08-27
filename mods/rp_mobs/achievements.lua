@@ -1,8 +1,9 @@
+-- TODO: Change to rp_mobs when ready
+local S = minetest.get_translator("mobs")
 
 --
 -- Achievements
 --
-local S = minetest.get_translator("mobs")
 
 achievements.register_achievement(
    "hunter",

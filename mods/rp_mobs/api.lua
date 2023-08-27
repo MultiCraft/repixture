@@ -1,3 +1,4 @@
+-- TODO: Change to rp_mobs when ready
 local S = minetest.get_translator("mobs")
 
 rp_mobs.registered_mobs = {}

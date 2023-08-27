@@ -2,7 +2,9 @@
 --
 -- Crafts and items
 --
-local S = minetest.get_translator("rp_mobs_mobs")
+
+-- TODO: Change to rp_mobs_mobs when ready
+local S = minetest.get_translator("mobs")
 
 -- Wool
 

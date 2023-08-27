@@ -1,8 +1,9 @@
+-- TODO: Change to rp_mobs when ready
+local S = minetest.get_translator("mobs")
 
 --
 -- Crafts and items
 --
-local S = minetest.get_translator("rp_mobs")
 
 local play_swing_hit_sound = function(swing_player, hit_pos, swing_sound, hit_sound, hit_sound_gain, hit_sound_dist)
     minetest.sound_play(swing_sound, {
