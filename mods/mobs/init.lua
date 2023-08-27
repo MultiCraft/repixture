@@ -1,8 +1,4 @@
-
---
--- Mobs mod
--- By PilzAdam, KrupnovPavel, Zeg9, TenPlus1.
---
+mobs = {}
 
 local path = minetest.get_modpath("mobs")
 
@@ -20,15 +16,7 @@ dofile(path.."/achievements.lua")
 
 -- Animals
 
-dofile(path.."/mob_sheep.lua") -- PilzAdam
-dofile(path.."/mob_boar.lua") -- KrupnoPavel
-dofile(path.."/mob_skunk.lua") -- KaadmY
-dofile(path.."/mob_mineturtle.lua") -- KaadmY
-dofile(path.."/mob_walker.lua") -- KaadmY
-
--- NPC
-
-dofile(path.."/mob_npc.lua") -- TenPlus1
+dofile(path.."/mob_boar.lua")
 
 -- 'Gonna Feed 'em All' achievement
 dofile(path.."/achievements_feed.lua")
