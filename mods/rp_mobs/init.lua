@@ -1,6 +1,6 @@
-mobs = {}
+rp_mobs = {}
 
-local path = minetest.get_modpath("mobs")
+local path = minetest.get_modpath("rp_mobs")
 
 -- Mob API
 
@@ -13,10 +13,6 @@ dofile(path.."/crafts.lua")
 -- Achievements
 
 dofile(path.."/achievements.lua")
-
--- Animals
-
-dofile(path.."/mob_boar.lua")
 
 -- 'Gonna Feed 'em All' achievement
 dofile(path.."/achievements_feed.lua")

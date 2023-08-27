@@ -32,7 +32,7 @@ local formspec_prepend = prepend
 -- Group default items
 
 rp_formspec.group_defaults = {
-   fuzzy = "mobs:wool",
+   fuzzy = "rp_mobs_mobs:wool",
    planks = "rp_default:planks",
    soil = "rp_default:dirt",
    stone = "rp_default:stone",

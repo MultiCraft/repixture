@@ -2,53 +2,7 @@
 --
 -- Crafts and items
 --
-local S = minetest.get_translator("mobs")
-
--- Wool
-
-minetest.register_node(
-   "mobs:wool",
-   {
-      description = S("Wool Bundle"),
-      tiles ={"mobs_wool.png"},
-      is_ground_content = false,
-      groups = {snappy = 2, oddly_breakable_by_hand = 3, fall_damage_add_percent = -25, fuzzy = 1, unmagnetic = 1},
-      sounds = rp_sounds.node_sound_fuzzy_defaults(),
-})
-
--- Raw meat
-
-minetest.register_craftitem(
-   "mobs:meat_raw",
-   {
-      description = S("Raw Meat"),
-      _rp_hunger_food = 3,
-      _rp_hunger_sat = 30,
-      inventory_image = "mobs_meat_raw.png",
-      groups = { food = 2 },
-      on_use = minetest.item_eat(0),
-})
-
--- Cooked meat
-
-minetest.register_craftitem(
-   "mobs:meat",
-   {
-      description = S("Cooked Meat"),
-      _rp_hunger_food = 7,
-      _rp_hunger_sat = 70,
-      inventory_image = "mobs_meat_cooked.png",
-      groups = { food = 2 },
-      on_use = minetest.item_eat(0),
-})
-
-minetest.register_craft(
-   {
-      type = "cooking",
-      output = "mobs:meat",
-      recipe = "mobs:meat_raw",
-      cooktime = 5,
-})
+local S = minetest.get_translator("rp_mobs")
 
 local play_swing_hit_sound = function(swing_player, hit_pos, swing_sound, hit_sound, hit_sound_gain, hit_sound_dist)
     minetest.sound_play(swing_sound, {
@@ -91,7 +45,7 @@ end
 -- Net
 
 minetest.register_tool(
-   "mobs:net",
+   "rp_mobs:net",
    {
       description = S("Net"),
       _tt_help = S("Good for capturing small animals"),
@@ -105,7 +59,7 @@ minetest.register_tool(
 
 crafting.register_craft(
    {
-      output = "mobs:net",
+      output = "rp_mobs:net",
       items= {
          "rp_default:fiber 3",
          "rp_default:stick",
@@ -115,7 +69,7 @@ crafting.register_craft(
 -- Lasso
 
 minetest.register_tool(
-   "mobs:lasso",
+   "rp_mobs:lasso",
    {
       description = S("Lasso"),
       _tt_help = S("Good for capturing large animals"),
@@ -128,7 +82,7 @@ minetest.register_tool(
 
 crafting.register_craft(
    {
-      output = "mobs:lasso",
+      output = "rp_mobs:lasso",
       items = {
          "rp_default:rope 4",
          "rp_default:stick",
