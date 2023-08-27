@@ -1,0 +1,83 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_gold x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Farmer"
+msgstr ""
+
+msgid "Tavern Keeper"
+msgstr ""
+
+msgid "Carpenter"
+msgstr ""
+
+msgid "Blacksmith"
+msgstr ""
+
+msgid "Butcher"
+msgstr ""
+
+msgid "Trade"
+msgstr ""
+
+msgid "Trading with @1"
+msgstr ""
+
+msgid "G"
+msgstr ""
+
+msgid "@1 @2"
+msgstr ""
+
+msgid "@1×@2"
+msgstr ""
+
+msgid "@1 + @2"
+msgstr ""
+
+msgid "(repair)"
+msgstr ""
+
+msgid "@1 → @2"
+msgstr ""
+
+msgid "Trading Book"
+msgstr ""
+
+msgid "Show this to a villager to trade"
+msgstr ""
+
+msgid "Gold Lump"
+msgstr ""
+
+msgid "Gold Ingot"
+msgstr ""
+
+msgid "Stone with Gold"
+msgstr ""
+
+msgid "Gold Block"
+msgstr ""
+
+msgid "Trader"
+msgstr ""
+
+msgid "Trade with a villager."
+msgstr ""
+
+msgid "Gold Rush"
+msgstr ""
+
+msgid "Dig a gold ore."
+msgstr ""
