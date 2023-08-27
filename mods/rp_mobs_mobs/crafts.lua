@@ -85,3 +85,10 @@ minetest.register_craft(
       recipe = "rp_mobs_mobs:pork_raw",
       cooktime = 5,
 })
+
+-- Compability with Repixture 3.10.0 and earlier
+minetest.register_alias("mobs:wool", "rp_mobs_mobs:wool")
+minetest.register_alias("mobs:pork", "rp_mobs_mobs:pork")
+minetest.register_alias("mobs:pork_raw", "rp_mobs_mobs:pork_raw")
+minetest.register_alias("mobs:meat", "rp_mobs_mobs:meat")
+minetest.register_alias("mobs:meat_raw", "rp_mobs_mobs:meat_raw")
