@@ -33,15 +33,72 @@ rp_mobs.on_death_default = function(self, killer)
 	rp_mobs.drop_death_items(self)
 end
 
+rp_mobs.init_physics = function(self)
+	self._mob_acceleration = vector.zero()
+	self._phys_acceleration = {}
+	self._mob_velocity = vector.zero()
+	self._phys_velocity = {}
+
+	self._phys_acceleration_changed = false
+	self._phys_velocity_changed = false
+	self._mob_acceleration_changed = false
+	self._mob_velocity_changed = false
+end
+
 rp_mobs.activate_gravity = function(self)
-	local acc = self.object:get_acceleration()
-	acc.y = -GRAVITY
-	self.object:set_acceleration(acc)
+	for i=1, #self._phys_acceleration do
+		local entry = self._phys_acceleration[i]
+		if entry.name == "rp_mobs:gravity" then
+			return
+		end
+	end
+	table.insert(self._phys_acceleration, { name = "rp_mobs:gravity", vec = {x=0, y=-GRAVITY, z=0}})
+	self._phys_acceleration_changed = true
 end
 rp_mobs.deactivate_gravity = function(self)
-	local acc = self.object:get_acceleration()
-	acc.y = 0
-	self.object:set_acceleration(acc)
+	for i=1, #self._phys_acceleration do
+		local entry = self._phys_acceleration[i]
+		if entry.name == "rp_mobs:gravity" then
+			table.remove(self._phys_acceleration, i)
+			self._phys_acceleration_changed = true
+			return
+		end
+	end
+end
+
+rp_mobs.handle_physics = function(self)
+	if not self._cmi_is_mob then
+		local entname = self.name or "<UNKNOWN>"
+		minetest.log("error", "[rp_mobs] rp_mobs.handle_physics was called on '"..entname.."' which is not a registered mob!")
+	end
+	if not self._phys_acceleration then
+		local entname = self.name or "<UNKNOWN>"
+		minetest.log("error", "[rp_mobs] rp_mobs.handle_physics was called on '"..entname.."' with uninitalized physics variables!")
+	end
+	if self._phys_acceleration_changed or self._mob_acceleration_changed then
+		local acceleration = vector.zero()
+		for i=1, #self._phys_acceleration do
+			local entry = self._phys_acceleration[i]
+			acceleration = vector.add(acceleration, entry.vec)
+		end
+		acceleration = vector.add(acceleration, self._mob_acceleration)
+		self.object:set_acceleration(acceleration)
+
+		self._phys_acceleration_changed = false
+		self._mob_acceleration_changed = false
+	end
+	if self._phys_velocity_changed or self._mob_velocity_changed then
+		local velocity = vector.zero()
+		for i=1, #self._phys_velocity do
+			local entry = self._phys_velocity[i]
+			velocity = vector.add(velocity, entry.vec)
+		end
+		velocity = vector.add(velocity, self._mob_velocity)
+		self.object:set_velocity(velocity)
+
+		self._phys_velocity_changed = false
+		self._mob_velocity_changed = false
+	end
 end
 
 rp_mobs.register_mob_item = function(mobname, invimg, desc)
