@@ -1,17 +1,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain mobs x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2023-08-29 06:53+0000\n"
+"Last-Translator: rudzik8 <rudzik8@protonmail.com>\n"
+"Language-Team: Russian <https://translate.codeberg.org/projects/repixture/"
+"mobs/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.18.1\n"
 
 msgid "Hunter"
 msgstr "Охотник"
@@ -26,7 +28,7 @@ msgid "Kill a mine turtle."
 msgstr "Убей шахточерепаху."
 
 msgid "Gotcha!"
-msgstr ""
+msgstr "Поймал!"
 
 msgid "Capture a tame animal."
 msgstr "Поймай прирученное животное."
@@ -44,10 +46,10 @@ msgid "Get two animals to breed."
 msgstr "Скрести двух животных."
 
 msgid "Taking a Cut"
-msgstr ""
+msgstr "Один раз отрежь"
 
 msgid "Shear a sheep."
-msgstr ""
+msgstr "Подстриги овцу."
 
 msgid "Smalltalk"
 msgstr "Светская беседа"
@@ -56,10 +58,10 @@ msgid "Have a friendly chat with a villager."
 msgstr "Дружелюбно поговори с жителем."
 
 msgid "Gonna Feed ’em All"
-msgstr ""
+msgstr "Кормилица"
 
 msgid "Feed an animal of each species once."
-msgstr ""
+msgstr "Покорми по животному каждого вида."
 
 msgid "Spawned @1 at @2"
 msgstr "Заспавнено @1 на @2"
@@ -128,22 +130,22 @@ msgid "Carpenter"
 msgstr "Плотник"
 
 msgid "Hi! I'm a farmer. I sell farming goods."
-msgstr ""
+msgstr "Здорова! Я фермер. Я продаю товары для фермы."
 
 msgid "Hi! I'm a tavernkeeper. I trade with assorted goods."
-msgstr ""
+msgstr "Привет! Я трактирщик. Я торгую всяким добром."
 
 msgid "Hi! I'm a blacksmith. I sell metal products."
-msgstr ""
+msgstr "Эй! Я кузнец. Я продаю изделия из металла."
 
 msgid "Hi! I'm a butcher. Want to buy something?"
-msgstr ""
+msgstr "Здравствуй! Я мясник. Хочешь чего купить?"
 
 msgid "Hi! I'm a carpenter. Making things out of wood is my job."
-msgstr ""
+msgstr "Здорова! Я плотник. Делаю деревянные изделия."
 
 msgid "If you want to trade, show me a trading book."
-msgstr ""
+msgstr "Если хочешь поторговаться, покажи торговую книгу."
 
 msgid "Hello!"
 msgstr "Привет!"
@@ -194,7 +196,7 @@ msgid "Villager says: “@1”"
 msgstr "Житель говорит: \"@1\""
 
 msgid "Villager"
-msgstr ""
+msgstr "Селянин"
 
 msgid "Get this thing out of my face!"
 msgstr "Убери эту штуку от моего лица!"
@@ -203,73 +205,80 @@ msgid "Ah, a cactus. You'd be surprised how well they burn in a furnace."
 msgstr "А, кактус. Ты бы удивился, как хорошо он горит в печке."
 
 msgid "You can quickly kindle it in the furnace."
-msgstr ""
+msgstr "Ты можешь по-быстрому растопить это в печи."
 
 msgid "A truly amazing block!"
-msgstr ""
+msgstr "Вот это блок!"
 
 msgid "Trees are a classic furnace fuel, but you can also cook them to get coal lumps."
-msgstr ""
+msgstr "Древесиной можно не только печь топить, но и угля с неё собрать."
 
 msgid "You can cook it in the furnace to get: @1. But you can also use it as a furnace fuel."
 msgstr ""
+"Ты можешь приготовить это в печи и получить @1. Но можешь использовать и как "
+"топливо."
 
 msgid "Cook it in the furnace to get: @1."
-msgstr ""
+msgstr "Приготовь это в печи чтобы получить @1."
 
 msgid "This is an amazing furnace fuel, it burns for a very, very, very long time."
-msgstr ""
+msgstr "Для печи вообще то что нужно, веками топить будешь."
 
 msgid "This is a great furnace fuel, and it burns for a very, very long time."
-msgstr ""
+msgstr "Отличное топливо для печи, можно долго топить."
 
 msgid "This is a very good furnace fuel, and it burns for a very long time."
-msgstr ""
+msgstr "Хорошее топливо для печи, протопишь хорошенько."
 
 msgid "This is a good furnace fuel, it burns for a long time."
-msgstr ""
+msgstr "Неплохое топливо для печи, горит какое-то время."
 
 msgid "This is a nice furnace fuel."
-msgstr ""
+msgstr "Топливо для печи."
 
 msgid "You can use this as a furnace fuel, but it's meh."
-msgstr ""
+msgstr "Такое себе топливо для печи."
 
 msgid "You can use this as a furnace fuel, but it is gone quickly."
-msgstr ""
+msgstr "Ну горит, но быстро потухнет в печи."
 
 msgid "You can use this as a furnace fuel, but it is gone very quickly."
-msgstr ""
+msgstr "Ну горит, но очень быстро тухнет в печи."
 
 msgid "You can theoretically use this as a furnace fuel, but it is gone almost instantly. You will need a large amount of these to cook anything."
 msgstr ""
+"В теории можно этим печь топить, но на практике сразу кончится. Таких штук "
+"сто надо чтоб хоть что-то приготовить."
 
 msgid "I'm impressed! Your weapon is a true masterpiece."
-msgstr ""
+msgstr "Моё почтение! Да это не оружие, это шедевр."
 
 msgid "This is a mighty weapon, but have you considered upgrading it with jewels?"
-msgstr ""
+msgstr "Мощное оружие, но не хотел бы его прокачать с помощью самоцветов?"
 
 msgid "Offense is the best defense."
-msgstr ""
+msgstr "Лучшая защита — это нападение."
 
 msgid "If you equip a full set of armor made from the same material, you'll get a protection bonus."
 msgstr ""
+"Если оденешь набор брони из одинакового материала, получишь бонус по защите."
 
 msgid "You can put anything inside a bookshelf, not just books."
-msgstr ""
+msgstr "На книжную полку можно класть не только книги."
 
 msgid "This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."
 msgstr ""
+"Это ускоряет рост семян. Используй удобрение на почве, потом на неё посади "
+"семяна."
 
 msgid "Sorry, I don't know how to use this. Maybe ask a farmer."
-msgstr ""
+msgstr "Я без понятия как это использовать. Спроси фермера."
 
 msgid "Remember to put water near to your seeds."
-msgstr ""
+msgstr "Не забывай держать воду около семян."
 
 msgid "Try magnetizing it on iron."
-msgstr ""
+msgstr "Попробуй намагнитить на железе."
 
 msgid "If you use it on a cotton bale, it will point to the North again."
 msgstr ""
@@ -278,7 +287,7 @@ msgid "If you use it on wool, it will point to the North again."
 msgstr ""
 
 msgid "We live in a lovely place, don't we?"
-msgstr ""
+msgstr "Эхх, всё как у людей..."
 
 msgid "It's used to capture large animals."
 msgstr ""
@@ -480,4 +489,3 @@ msgstr "Скунс"
 
 msgid "Walker"
 msgstr "Ходок"
-
