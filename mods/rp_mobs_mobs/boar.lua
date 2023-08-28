@@ -6,6 +6,7 @@ local S = minetest.get_translator("mobs")
 --
 rp_mobs.register_mob("rp_mobs_mobs:boar", {
 	description = S("Boar"),
+	drops = {"rp_mobs_mobs:pork_raw"},
 	entity_definition = {
 		hp_max = 20,
 		collisionbox = {-0.5, -1, -0.5, 0.5, 0.1, 0.5},
@@ -18,6 +19,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			rp_mobs.feed_tame(self, clicker, 8, true)
 			rp_mobs.capture_mob(self, clicker, 0, 5, 40, false, nil)
 		end,
+		on_death = rp_mobs.on_death_default,
 	},
 })
 

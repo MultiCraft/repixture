@@ -1,6 +1,8 @@
 -- TODO: Change to rp_mobs when ready
 local S = minetest.get_translator("mobs")
 
+local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
+
 rp_mobs.registered_mobs = {}
 
 rp_mobs.register_mob = function(mobname, def)
@@ -10,6 +12,36 @@ rp_mobs.register_mob = function(mobname, def)
 	rp_mobs.registered_mobs[mobname] = mdef
 
 	minetest.register_entity(mobname, mdef.entity_definition)
+end
+
+rp_mobs.drop_death_items = function(self, pos)
+	if not pos then
+		pos = self.object:get_pos()
+	end
+	local mobdef = rp_mobs.registered_mobs[self.name]
+	if not mobdef then
+		error("[rp_mobs] rp_mobs.drop_death_items was called on something that is not a registered mob! name="..tostring(self.name))
+	end
+	if mobdef.drops then
+		for d=1, #mobdef.drops do
+			minetest.add_item(pos, mobdef.drops[d])
+		end
+	end
+end
+
+rp_mobs.on_death_default = function(self, killer)
+	rp_mobs.drop_death_items(self)
+end
+
+rp_mobs.activate_gravity = function(self)
+	local acc = self.object:get_acceleration()
+	acc.y = -GRAVITY
+	self.object:set_acceleration(acc)
+end
+rp_mobs.deactivate_gravity = function(self)
+	local acc = self.object:get_acceleration()
+	acc.y = 0
+	self.object:set_acceleration(acc)
 end
 
 rp_mobs.register_mob_item = function(mobname, invimg, desc)
