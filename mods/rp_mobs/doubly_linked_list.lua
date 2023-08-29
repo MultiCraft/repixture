@@ -14,7 +14,8 @@ Function documentation:
 * list:iterator(reverse): Returns a function that will return a new element data each time it is called,
        starting with the first, until it reaches the end of the list where it will return nil.
        If `reverse` is true, will traverse the list in reverse order instead
-
+* list:getFirst(): Returns the first entry or nil if there is none
+* list:getLast(): Returns the last entry or nil if there is none
 ]]
 
 
@@ -105,11 +106,9 @@ local remove = function(self, entryToRemove)
 	local neighborNext = entryToRemove.nextEntry
 	local neighborPrev = entryToRemove.prevEntry
 	if neighborNext then
-		print("next="..tostring(neighborNext.data))
 		neighborNext.prevEntry = neighborPrev
 	end
 	if neighborPrev then
-		print("prev="..tostring(neighborPrev.data))
 		neighborPrev.nextEntry = neighborNext
 	end
 	if neighborNext == nil then
@@ -160,6 +159,22 @@ local iterator = function(self, reverse)
 	end
 end
 
+local getFirst = function(self)
+	if self.first then
+		return self.first
+	else
+		return nil
+	end
+end
+
+local getLast = function(self)
+	if self.last then
+		return self.last
+	else
+		return nil
+	end
+end
+
 rp_mobs.DoublyLinkedList = function()
 	local dllist = {}
 	dllist.append = append
@@ -169,7 +184,10 @@ rp_mobs.DoublyLinkedList = function()
 	dllist.remove = remove
 	dllist.find = find
 	dllist.iterator = iterator
+	dllist.getFirst = getFirst
+	dllist.getLast = getLast
 	dllist.first = nil -- reference to first entry
 	dllist.last = nil -- reference to last entry
 	return dllist
 end
+

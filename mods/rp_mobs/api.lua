@@ -73,7 +73,7 @@ rp_mobs.handle_physics = function(self)
 	end
 	if not self._phys_acceleration then
 		local entname = self.name or "<UNKNOWN>"
-		minetest.log("error", "[rp_mobs] rp_mobs.handle_physics was called on '"..entname.."' with uninitalized physics variables!")
+		minetest.log("error", "[rp_mobs] rp_mobs.handle_physics was called on '"..entname.."' with uninitialized physics variables!")
 	end
 	if self._phys_acceleration_changed or self._mob_acceleration_changed then
 		local acceleration = vector.zero()
@@ -99,6 +99,48 @@ rp_mobs.handle_physics = function(self)
 		self._phys_velocity_changed = false
 		self._mob_velocity_changed = false
 	end
+end
+
+rp_mobs.init_tasks = function(self)
+	self._tasks = rp_mobs.DoublyLinkedList()
+end
+
+rp_mobs.add_task = function(self, task)
+	local handler = self._tasks:append(task)
+	task.microTasks = rp_mobs.DoublyLinkedList()
+	if task.generateMicroTasks then
+		task:generateMicroTasks()
+	end
+end
+
+rp_mobs.add_microtask_to_task  = function(self, microtask, task)
+	return task.microTasks:append(microtask)
+end
+
+rp_mobs.handle_tasks = function(self)
+	if not self._tasks then
+		minetest.log("error", "[rp_mobs] rp_mobs.handle_tasks called before tasks were initialized!")
+		return
+	end
+	local activeTaskEntry = self._tasks:getFirst()
+	if not activeTaskEntry then
+		return
+	end
+	local activeTask = activeTaskEntry.data
+
+	local activeMicroTaskEntry = activeTask.microTasks:getFirst()
+	if not activeMicroTaskEntry then
+		self._tasks:remove(activeTaskEntry)
+		return
+	end
+
+	local activeMicroTask = activeMicroTaskEntry.data
+	if activeMicroTask.is_finished(self) then
+		activeMicroTask.on_end(self)
+		activeTask.microTasks:remove(activeMicroTaskEntry)
+		return
+	end
+	activeMicroTask.on_step(self)
 end
 
 rp_mobs.register_mob_item = function(mobname, invimg, desc)

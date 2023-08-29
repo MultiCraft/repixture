@@ -19,13 +19,61 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		on_activate = function(self)
 			rp_mobs.init_physics(self)
 			rp_mobs.activate_gravity(self)
+			rp_mobs.init_tasks(self)
 		end,
 		on_rightclick = function(self, clicker)
-			rp_mobs.feed_tame(self, clicker, 8, true)
-			rp_mobs.capture_mob(self, clicker, 0, 5, 40, false, nil)
+			--rp_mobs.feed_tame(self, clicker, 8, true)
+			--rp_mobs.capture_mob(self, clicker, 0, 5, 40, false, nil)
+
+			-- DEBUG: Microtask tests
+			local task = {}
+			local taskEntry = rp_mobs.add_task(self, task)
+			local microtask = {
+				label = "move to Z > 0",
+				on_step = function(self)
+					if self._mob_velocity.z > 1.001 or self._mob_velocity.z < 0.999 then
+						self._mob_velocity.z = 1
+						self._mob_velocity_changed = true
+					end
+				end,
+				is_finished = function(self)
+					if self.object:get_pos().z > 0 then
+						return true
+					else
+						return false
+					end
+				end,
+				on_end = function(self)
+					self._mob_velocity = vector.zero()
+					self._mob_velocity_changed = true
+				end,
+			}
+			local microtask2 = {
+				label = "move to X > 0",
+				on_step = function(self)
+					if self._mob_velocity.x > 1.001 or self._mob_velocity.x < 0.999 then
+						self._mob_velocity.x = 1
+						self._mob_velocity_changed = true
+					end
+				end,
+				is_finished = function(self)
+					if self.object:get_pos().x > 0 then
+						return true
+					else
+						return false
+					end
+				end,
+				on_end = function(self)
+					self._mob_velocity = vector.zero()
+					self._mob_velocity_changed = true
+				end,
+			}
+			rp_mobs.add_microtask_to_task(self, microtask, task)
+			rp_mobs.add_microtask_to_task(self, microtask2, task)
 		end,
 		on_step = function(self, dtime)
 			rp_mobs.handle_physics(self)
+			rp_mobs.handle_tasks(self)
 		end,
 		on_death = rp_mobs.on_death_default,
 	},
