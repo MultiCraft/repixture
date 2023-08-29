@@ -28,48 +28,16 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			-- DEBUG: Microtask tests
 			local task = {}
 			local taskEntry = rp_mobs.add_task(self, task)
-			local microtask = {
-				label = "move to Z > 0",
-				on_step = function(self)
-					if self._mob_velocity.z > 1.001 or self._mob_velocity.z < 0.999 then
-						self._mob_velocity.z = 1
-						self._mob_velocity_changed = true
-					end
-				end,
-				is_finished = function(self)
-					if self.object:get_pos().z > 0 then
-						return true
-					else
-						return false
-					end
-				end,
-				on_end = function(self)
-					self._mob_velocity = vector.zero()
-					self._mob_velocity_changed = true
-				end,
-			}
-			local microtask2 = {
-				label = "move to X > 0",
-				on_step = function(self)
-					if self._mob_velocity.x > 1.001 or self._mob_velocity.x < 0.999 then
-						self._mob_velocity.x = 1
-						self._mob_velocity_changed = true
-					end
-				end,
-				is_finished = function(self)
-					if self.object:get_pos().x > 0 then
-						return true
-					else
-						return false
-					end
-				end,
-				on_end = function(self)
-					self._mob_velocity = vector.zero()
-					self._mob_velocity_changed = true
-				end,
-			}
-			rp_mobs.add_microtask_to_task(self, microtask, task)
+			local microtask1 = rp_mobs.microtasks.go_to_x(0, 0.1)
+			local microtask2 = rp_mobs.microtasks.go_to_x(5, 0.1)
+			local microtask3 = rp_mobs.microtasks.jump(10)
+			local microtask4 = rp_mobs.microtasks.go_to_x(-5, 0.1)
+			local microtask5 = rp_mobs.microtasks.jump(10)
+			rp_mobs.add_microtask_to_task(self, microtask1, task)
 			rp_mobs.add_microtask_to_task(self, microtask2, task)
+			rp_mobs.add_microtask_to_task(self, microtask3, task)
+			rp_mobs.add_microtask_to_task(self, microtask4, task)
+			rp_mobs.add_microtask_to_task(self, microtask5, task)
 		end,
 		on_step = function(self, dtime)
 			rp_mobs.handle_physics(self)

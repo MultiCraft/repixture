@@ -135,12 +135,23 @@ rp_mobs.handle_tasks = function(self)
 	end
 
 	local activeMicroTask = activeMicroTaskEntry.data
-	if activeMicroTask.is_finished(self) then
-		activeMicroTask.on_end(self)
+	if not activeMicroTask.singlestep and activeMicroTask.is_finished(self) then
+		if activeMicroTask.on_end then
+			activeMicroTask.on_end(self)
+		end
 		activeTask.microTasks:remove(activeMicroTaskEntry)
 		return
 	end
+
 	activeMicroTask.on_step(self)
+
+	if activeMicroTask.singlestep then
+		if activeMicroTask.on_end then
+			activeMicroTask.on_end(self)
+		end
+		activeTask.microTasks:remove(activeMicroTaskEntry)
+		return
+	end
 end
 
 rp_mobs.register_mob_item = function(mobname, invimg, desc)
