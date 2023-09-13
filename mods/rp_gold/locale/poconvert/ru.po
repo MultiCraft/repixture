@@ -1,0 +1,84 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_gold x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Farmer"
+msgstr "Фермер"
+
+msgid "Tavern Keeper"
+msgstr "Хозяин таверны"
+
+msgid "Carpenter"
+msgstr "Плотник"
+
+msgid "Blacksmith"
+msgstr "Кузнец"
+
+msgid "Butcher"
+msgstr "Мясник"
+
+msgid "Trade"
+msgstr "Торговля"
+
+msgid "Trading with @1"
+msgstr "Торговля с @1"
+
+msgid "G"
+msgstr "$"
+
+msgid "@1 @2"
+msgstr "@1 @2"
+
+msgid "@1×@2"
+msgstr "@1*@2"
+
+msgid "@1 + @2"
+msgstr "@1 + @2"
+
+msgid "(repair)"
+msgstr "(починить)"
+
+msgid "@1 → @2"
+msgstr ""
+
+msgid "Trading Book"
+msgstr "Книга торговли"
+
+msgid "Show this to a villager to trade"
+msgstr "Покажи это жителю чтобы торговать с ним"
+
+msgid "Gold Lump"
+msgstr "Кусок золота"
+
+msgid "Gold Ingot"
+msgstr "Золотой слиток"
+
+msgid "Stone with Gold"
+msgstr "Камень с золотом"
+
+msgid "Gold Block"
+msgstr "Золотой блок"
+
+msgid "Trader"
+msgstr "Торговец"
+
+msgid "Trade with a villager."
+msgstr "Поторгуй с жителем."
+
+msgid "Gold Rush"
+msgstr "Золотая лихорадка"
+
+msgid "Dig a gold ore."
+msgstr "Выкопай золотую руду"
+

@@ -1,0 +1,12 @@
+# textdomain: rp_book
+Title:=Titolo:
+Contents:=Contenuto:
+Write=Scrivi
+Book=Libro
+Write down some notes=Scrivi qualche appunto
+Unnamed Book=Libro senza nome
+Book: “@1”=Libro: “@1”
+Read book=
+Bookshelf=Libreria
+Provides 8 inventory slots=
+Return=

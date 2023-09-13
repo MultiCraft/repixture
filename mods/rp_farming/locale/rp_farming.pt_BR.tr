@@ -1,0 +1,27 @@
+# textdomain: rp_farming
+Farmer=
+Plant a crop.=
+Cotton=
+Wheat=
+Flour=
+Bread=
+Asparagus=
+Cooked Asparagus=
+Baked Potato=
+Wheat Seed=
+Wheat Plant (stage @1)=
+Grows on dirt; it likes water=
+Potato=
+Potato Plant (stage @1)=
+Grows on dirt and swamp dirt; it likes water=
+Carrot=
+Carrot Plant (stage @1)=
+Grows on dry dirt; it likes water=
+Asparagus Seed=
+Asparagus Plant (stage @1)=
+Grows on swamp dirt; it likes water=
+Cotton Seed=
+Cotton Plant (stage @1)=
+Grows on dirt, dry dirt and sand; it likes water=
+Cotton Bale=
+Straw=

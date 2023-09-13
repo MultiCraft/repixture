@@ -1,0 +1,89 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_armor x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Wooden Helmet"
+msgstr ""
+
+msgid "Wooden Chestplate"
+msgstr ""
+
+msgid "Wooden Boots"
+msgstr ""
+
+msgid "Steel Helmet"
+msgstr ""
+
+msgid "Steel Chestplate"
+msgstr ""
+
+msgid "Steel Boots"
+msgstr ""
+
+msgid "Chainmail Helmet"
+msgstr ""
+
+msgid "Chainmail Chestplate"
+msgstr ""
+
+msgid "Chainmail Boots"
+msgstr ""
+
+msgid "Carbon Steel Helmet"
+msgstr ""
+
+msgid "Carbon Steel Chestplate"
+msgstr ""
+
+msgid "Carbon Steel Boots"
+msgstr ""
+
+msgid "Bronze Helmet"
+msgstr ""
+
+msgid "Bronze Chestplate"
+msgstr ""
+
+msgid "Bronze Boots"
+msgstr ""
+
+msgid "Helmet"
+msgstr ""
+
+msgid "Chestplate"
+msgstr ""
+
+msgid "Boots"
+msgstr ""
+
+msgid "Armor"
+msgstr ""
+
+msgid "Chainmail Sheet"
+msgstr ""
+
+msgid "Armored"
+msgstr ""
+
+msgid "Craft a piece of armor."
+msgstr ""
+
+msgid "Skin of Bronze"
+msgstr ""
+
+msgid "Equip a full suit of bronze armor."
+msgstr ""
+
+msgid "Protection: +@1%"
+msgstr ""

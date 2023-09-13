@@ -1,0 +1,84 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_gold x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Farmer"
+msgstr "Agriculteur"
+
+msgid "Tavern Keeper"
+msgstr "Tavernier"
+
+msgid "Carpenter"
+msgstr "Charpentier"
+
+msgid "Blacksmith"
+msgstr "Forgeron"
+
+msgid "Butcher"
+msgstr "Boucher"
+
+msgid "Trade"
+msgstr "Commerce"
+
+msgid "Trading with @1"
+msgstr "Commercer avec @1"
+
+msgid "G"
+msgstr "Or"
+
+msgid "@1 @2"
+msgstr "@1 @2"
+
+msgid "@1×@2"
+msgstr "@1×@2"
+
+msgid "@1 + @2"
+msgstr "@1 + @2"
+
+msgid "(repair)"
+msgstr "(réparer)"
+
+msgid "@1 → @2"
+msgstr "@1 → @2"
+
+msgid "Trading Book"
+msgstr "Livre de commerce"
+
+msgid "Show this to a villager to trade"
+msgstr "Montrer ceci à un villageois pour commercer"
+
+msgid "Gold Lump"
+msgstr "Morceau d'or"
+
+msgid "Gold Ingot"
+msgstr "Lingot d'or"
+
+msgid "Stone with Gold"
+msgstr "Pierre avec de l'or"
+
+msgid "Gold Block"
+msgstr "Bloc d'or"
+
+msgid "Trader"
+msgstr "Commerçant"
+
+msgid "Trade with a villager."
+msgstr "Commercer avec un habitant du village."
+
+msgid "Gold Rush"
+msgstr "Ruée vers l'or"
+
+msgid "Dig a gold ore."
+msgstr "Extraire un minerai d'or."
+

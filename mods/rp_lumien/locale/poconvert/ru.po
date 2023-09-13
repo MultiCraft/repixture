@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_lumien x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Glowing Lumien Crystal"
+msgstr "Светящийся люменовый кристалл"
+
+msgid "Lumien Crystal"
+msgstr "Люменовый кристалл"
+
+msgid "Can be placed; glows when someone is close"
+msgstr "Может быть поставлен, светится, когда кто-то рядом"
+
+msgid "Lumien Block"
+msgstr "Люменовый блок"
+
+msgid "It shines so bright"
+msgstr "Оно светит так ярко"
+
+msgid "Reinforced Lumien Block"
+msgstr "Усиленный люменовый блок"
+
+msgid "Stone with Lumien"
+msgstr "Камень с люменом"
+
+msgid "Enlightened"
+msgstr "Просвещённый"
+
+msgid "Place a lumien crystal."
+msgstr "Поставь люменовый кристалл."
+

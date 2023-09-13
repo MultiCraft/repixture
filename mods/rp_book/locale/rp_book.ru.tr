@@ -1,0 +1,12 @@
+# textdomain: rp_book
+Title:=Заголовок:
+Contents:=Содержание:
+Write=Записать
+Book=Книга
+Write down some notes=Напиши чего-нибудь
+Unnamed Book=Безымянная книга
+Book: “@1”=Книга: «@1»
+Read book=Прочитать книгу
+Bookshelf=Книжная полка
+Provides 8 inventory slots=Содержит 8 слотов
+Return=Вернуться

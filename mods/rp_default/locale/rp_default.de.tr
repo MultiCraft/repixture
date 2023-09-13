@@ -252,13 +252,3 @@ Weak Torch=Schwache Fackel
 Provides a bit of light but it will eventually burn out=Leuchtet ein bisschen, aber sie wird bald ausbrennen
 Torch=Fackel
 It's bright and burns forever=Sie ist hell und brennt für immer
-
-
-##### not used anymore #####
-
-Places a water source=Platziert eine Wasserquelle
-Places a river water source=Platziert eine Flusswasserquelle
-Places a swamp water source=Platziert eine Sumpfwasserquelle
-Place it to collect a liquid source=Platzieren, um eine Flüssigkeitsquelle aufzusammeln
-Ignites TNT and lights up torches=Zündet TNT und Fackeln an
-Lights up torches=Zündet Fackeln an

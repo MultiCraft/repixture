@@ -1,0 +1,203 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_jewels x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "1. Place tool here"
+msgstr ""
+
+msgid "2. Hold a jewel and punch the bench"
+msgstr ""
+
+msgid "Jeweled @1"
+msgstr ""
+
+msgid "Range bonus: @1"
+msgstr ""
+
+msgid "Drop level bonus: @1"
+msgstr ""
+
+msgid "Dig time bonus: @1 s"
+msgstr ""
+
+msgid "Durability bonus: @1"
+msgstr ""
+
+msgid "Dig level bonus: @1"
+msgstr ""
+
+msgid "Jewel"
+msgstr ""
+
+msgid "Jeweler's Workbench"
+msgstr ""
+
+msgid "Tools can be upgraded with jewels here"
+msgstr ""
+
+msgid "Jewel Ore"
+msgstr ""
+
+msgid "Jeweler"
+msgstr ""
+
+msgid "Jewel a tool."
+msgstr ""
+
+msgid "True Mighty Weapon"
+msgstr ""
+
+msgid "Use jewels to create a serrated jewel broadsword."
+msgstr ""
+
+msgid "Secret of Jewels"
+msgstr ""
+
+msgid "Discover the origin of jewels."
+msgstr ""
+
+msgid "Swift Jewel Steel Pickaxe"
+msgstr ""
+
+msgid "Harming Jewel Steel Pickaxe"
+msgstr ""
+
+msgid "Durable Jewel Steel Pickaxe"
+msgstr ""
+
+msgid "Swift Jewel Carbon Steel Pickaxe"
+msgstr ""
+
+msgid "Harming Jewel Carbon Steel Pickaxe"
+msgstr ""
+
+msgid "Durable Jewel Carbon Steel Pickaxe"
+msgstr ""
+
+msgid "Swift Jewel Bronze Pickaxe"
+msgstr ""
+
+msgid "Harming Jewel Bronze Pickaxe"
+msgstr ""
+
+msgid "Durable Jewel Bronze Pickaxe"
+msgstr ""
+
+msgid "Swift Jewel Steel Shovel"
+msgstr ""
+
+msgid "Harming Jewel Steel Shovel"
+msgstr ""
+
+msgid "Durable Jewel Steel Shovel"
+msgstr ""
+
+msgid "Swift Jewel Carbon Steel Shovel"
+msgstr ""
+
+msgid "Harming Jewel Carbon Steel Shovel"
+msgstr ""
+
+msgid "Durable Jewel Carbon Steel Shovel"
+msgstr ""
+
+msgid "Swift Jewel Bronze Shovel"
+msgstr ""
+
+msgid "Harming Jewel Bronze Shovel"
+msgstr ""
+
+msgid "Durable Jewel Bronze Shovel"
+msgstr ""
+
+msgid "Swift Jewel Steel Axe"
+msgstr ""
+
+msgid "Harming Jewel Steel Axe"
+msgstr ""
+
+msgid "Durable Jewel Steel Axe"
+msgstr ""
+
+msgid "Swift Jewel Carbon Steel Axe"
+msgstr ""
+
+msgid "Harming Jewel Carbon Steel Axe"
+msgstr ""
+
+msgid "Durable Jewel Carbon Steel Axe"
+msgstr ""
+
+msgid "Swift Jewel Bronze Axe"
+msgstr ""
+
+msgid "Harming Jewel Bronze Axe"
+msgstr ""
+
+msgid "Durable Jewel Bronze Axe"
+msgstr ""
+
+msgid "Extended Jewel Steel Spear"
+msgstr ""
+
+msgid "Harming Jewel Steel Spear"
+msgstr ""
+
+msgid "Durable Jewel Steel Spear"
+msgstr ""
+
+msgid "Extended Jewel Carbon Steel Spear"
+msgstr ""
+
+msgid "Harming Jewel Carbon Steel Spear"
+msgstr ""
+
+msgid "Durable Jewel Carbon Steel Spear"
+msgstr ""
+
+msgid "Extended Jewel Bronze Spear"
+msgstr ""
+
+msgid "Harming Jewel Bronze Spear"
+msgstr ""
+
+msgid "Durable Jewel Bronze Spear"
+msgstr ""
+
+msgid "Swift Jewel Steel Shears"
+msgstr ""
+
+msgid "Durable Jewel Steel Shears"
+msgstr ""
+
+msgid "Swift Jewel Carbon Steel Shears"
+msgstr ""
+
+msgid "Durable Jewel Carbon Steel Shears"
+msgstr ""
+
+msgid "Swift Jewel Bronze Shears"
+msgstr ""
+
+msgid "Durable Jewel Bronze Shears"
+msgstr ""
+
+msgid "Pommel Jewel Broadsword"
+msgstr ""
+
+msgid "Pommel&Guard Jewel Broadsword"
+msgstr ""
+
+msgid "Serrated Jewel Broadsword"
+msgstr ""

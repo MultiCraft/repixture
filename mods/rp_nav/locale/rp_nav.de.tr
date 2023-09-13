@@ -1,10 +1,10 @@
 # textdomain: rp_nav
 Compass=Kompass
 It points to the North=Er zeigt nach Norden
-Can be magnetized at magnetic blocks=Kann an magnetischen Blöcken magnetisiert werden.
+Can be magnetized at magnetic blocks=Kann an magnetischen Blöcken magnetisiert werden
 Magno Compass=Magnokompass
 It points to a position=Er zeigt zu einer Position
-Can be demagnetized at unmagnetic blocks=Kann an unmagnetischen Blöcken entmagnetisiert werden.
+Can be demagnetized at unmagnetic blocks=Kann an unmagnetischen Blöcken entmagnetisiert werden
 True Navigator=Wahrer Navigator
 Magnetize a compass.=Magnetisieren Sie einen Kompass.
 Map=Karte
