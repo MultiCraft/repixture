@@ -1,0 +1,13 @@
+# textdomain: rp_book
+Title:=Titre :
+Contents:=Contenu :
+Write=Écrire
+Book=Livre
+Write down some notes=Écrire quelques notes
+Unnamed Book=Livre sans nom
+Book: “@1”=Livre : "@1"
+Provides 32 inventory slots=Fournit 32 emplacements d'inventaire
+Read book=Lire le livre
+Bookshelf=Étagère à livres
+Provides 8 inventory slots=Fournit 8 emplacements d'inventaire
+Return=Retour
