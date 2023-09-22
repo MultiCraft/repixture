@@ -1,66 +1,67 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain mobs x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-09-23 01:53+0000\n"
+"Last-Translator: AbduSharif <narukomanroom@gmail.com>\n"
+"Language-Team: Arabic <https://translate.codeberg.org/projects/repixture/"
+"mobs/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: Weblate 5.0.1\n"
 
 msgid "Hunter"
-msgstr ""
+msgstr "الصياد"
 
 msgid "Kill an animal for food."
-msgstr ""
+msgstr "اقتل حيوانا للغذاء."
 
 msgid "Bomb has Been Defused!"
-msgstr ""
+msgstr "تم إلغاء تفعيل القنبلة!"
 
 msgid "Kill a mine turtle."
-msgstr ""
+msgstr "اقتل سلحفاة منجم."
 
 msgid "Gotcha!"
-msgstr ""
+msgstr "نلت منك!"
 
 msgid "Capture a tame animal."
-msgstr ""
+msgstr "أمسك حيوانا مروضا."
 
 msgid "Best Friends Forever"
-msgstr ""
+msgstr "أصدقاء إلى الأبد"
 
 msgid "Tame an animal."
-msgstr ""
+msgstr "روض حيوانا."
 
 msgid "Wonder of Life"
-msgstr ""
+msgstr "أعجوبة الحياة"
 
 msgid "Get two animals to breed."
-msgstr ""
+msgstr "اجعل حيوانين يتكاثران."
 
 msgid "Taking a Cut"
-msgstr ""
+msgstr "إصابة"
 
 msgid "Shear a sheep."
-msgstr ""
+msgstr "جلم نعجة."
 
 msgid "Smalltalk"
-msgstr ""
+msgstr "حديث قصير"
 
 msgid "Have a friendly chat with a villager."
-msgstr ""
+msgstr "قم بمحادثة قروي."
 
 msgid "Gonna Feed ’em All"
-msgstr ""
+msgstr "سأطعمهم جميعا"
 
 msgid "Feed an animal of each species once."
-msgstr ""
+msgstr "أطعم حيوانا من نوع مرة واحدة."
 
 msgid "Spawned @1 at @2"
 msgstr ""
@@ -69,40 +70,40 @@ msgid "@1 (disabled)"
 msgstr ""
 
 msgid "Hostile mobs are disabled!"
-msgstr ""
+msgstr "تم إلغاء تفعيل الحيوانات الشرسة!"
 
 msgid "Not tamed!"
-msgstr ""
+msgstr "ليس مروضا!"
 
 msgid "@1 is owner!"
 msgstr ""
 
 msgid "Missed!"
-msgstr ""
+msgstr "أخفقت!"
 
 msgid "Wool Bundle"
-msgstr ""
+msgstr "حزمة صوف"
 
 msgid "Raw Meat"
-msgstr ""
+msgstr "لحم نيء"
 
 msgid "Cooked Meat"
-msgstr ""
+msgstr "لحم مطبوخ"
 
 msgid "Net"
-msgstr ""
+msgstr "شبكة"
 
 msgid "Good for capturing small animals"
-msgstr ""
+msgstr "مفيد لصيد الحيوانات الصغيرة"
 
 msgid "Lasso"
-msgstr ""
+msgstr "حبل اقتناص الحيوانات"
 
 msgid "Good for capturing large animals"
-msgstr ""
+msgstr "جيد للإمساك بالحيوانات الكبيرة"
 
 msgid "Boar"
-msgstr ""
+msgstr "خنزير بري"
 
 msgid "Raw Porkchop"
 msgstr ""
