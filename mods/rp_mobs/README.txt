@@ -1,6 +1,8 @@
 # Mobs API for Repixture
 Moving critters and monsters.
 
+See API.md for the API documentation (for developers).
+
 ## Credits and licensing
 
 Media file license: CC BY-SA 4.0
