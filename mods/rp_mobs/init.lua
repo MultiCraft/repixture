@@ -8,7 +8,7 @@ dofile(path.."/doubly_linked_list.lua")
 -- Mob API
 
 dofile(path.."/api.lua")
-dofile(path.."/microtasks.lua")
+dofile(path.."/task_templates.lua")
 
 -- Mob items and crafts
 

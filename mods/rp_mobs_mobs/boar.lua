@@ -18,7 +18,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		makes_footstep_sound = true,
 		on_activate = function(self)
 			rp_mobs.init_physics(self)
-			rp_mobs.activate_gravity(self)
+			--rp_mobs.activate_gravity(self)
 			rp_mobs.init_tasks(self)
 		end,
 		on_rightclick = function(self, clicker)
@@ -28,6 +28,13 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			-- DEBUG: Microtask tests
 			local task = {}
 			local taskEntry = rp_mobs.add_task(self, task)
+			local startpos = self.object:get_pos()
+			startpos.y = math.floor(startpos.y)
+			startpos = vector.round(startpos)
+			local endpos = vector.add(startpos, vector.new(3, 0, 5))
+			local microtask1 = rp_mobs.microtasks.pathfind_and_walk_to(endpos, 100, 1, 4)
+			rp_mobs.add_microtask_to_task(self, microtask1, task)
+--[[
 			local microtask1 = rp_mobs.microtasks.go_to_x(0, 0.1)
 			local microtask2 = rp_mobs.microtasks.go_to_x(5, 0.1)
 			local microtask3 = rp_mobs.microtasks.jump(10)
@@ -38,6 +45,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			rp_mobs.add_microtask_to_task(self, microtask3, task)
 			rp_mobs.add_microtask_to_task(self, microtask4, task)
 			rp_mobs.add_microtask_to_task(self, microtask5, task)
+]]
 		end,
 		on_step = function(self, dtime)
 			rp_mobs.handle_physics(self)
