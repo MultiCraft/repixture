@@ -12,8 +12,10 @@ local NOTES_PER_SECOND = 1
 local music = {}
 
 music.tracks = {
+-- TODO: Remove catsong and greyarms
    { name = "music_catsong", length = 30.0, note_color = "#26b7dc", },
    { name = "music_greyarms", length = 82.0, note_color = "#d8cb2b", },
+   { name = "rp_music_earthen_lullaby", length = 93.0, note_color = "#e92c2c", },
 }
 
 music.volume = tonumber(minetest.settings:get("music_volume")) or 1.0
