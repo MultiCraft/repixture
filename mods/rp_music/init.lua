@@ -104,6 +104,10 @@ if minetest.settings:get_bool("music_enable") then
       local dp = minetest.hash_node_position(pos)
 
       local meta = minetest.get_meta(pos)
+      if #localmusic.tracks == 0 then
+         note_particle(pos, "rp_music_no_music.png")
+         return
+      end
       meta:set_string("infotext", INFOTEXT_ON)
       meta:set_int("music_player_enabled", 1)
 
@@ -155,6 +159,9 @@ if minetest.settings:get_bool("music_enable") then
 
    function localmusic.update(pos)
       local dp = minetest.hash_node_position(pos)
+      if #localmusic.tracks == 0 then
+         return
+      end
 
       if localmusic.players[dp] ~= nil then
 	 local node = minetest.get_node(pos)
