@@ -9,14 +9,21 @@ local INFOTEXT_OFF = S("Music Player (off)")
 local INFOTEXT_DISABLED = S("Music Player (disabled by server)")
 local NOTES_PER_SECOND = 1
 
-local music = {}
+rp_music = {}
+local localmusic = {}
 
-music.tracks = {
-   { name = "rp_music_earthen_lullaby", length = 93.0, note_color = "#e92c2c", },
-}
+localmusic.tracks = {}
 
-music.volume = tonumber(minetest.settings:get("music_volume")) or 1.0
-music.volume = math.max(0.0, math.min(1.0, music.volume))
+rp_music.add_track = function(name, length, note_color)
+   table.insert(localmusic.tracks, {name=name, length=length, note_color=note_color})
+end
+
+rp_music.clear_tracks = function()
+   localmusic.tracks = {}
+end
+
+localmusic.volume = tonumber(minetest.settings:get("music_volume")) or 1.0
+localmusic.volume = math.max(0.0, math.min(1.0, localmusic.volume))
 
 
 local function note_particle(pos, texture, permanent)
@@ -48,8 +55,8 @@ local function get_note(pos)
    local track = meta:get_int("music_player_track")
    local note = "rp_music_note.png"
    local note_color
-   if music.tracks[track] then
-      note_color = music.tracks[track].note_color
+   if localmusic.tracks[track] then
+      note_color = localmusic.tracks[track].note_color
       note = note .. "^[multiply:"..note_color
    end
    return note
@@ -65,10 +72,10 @@ end
 }
 ]]
 
-music.players = {}
+localmusic.players = {}
 
 if minetest.settings:get_bool("music_enable") then
-   function music.stop(pos)
+   function rp_music.stop(pos)
       local dp = minetest.hash_node_position(pos)
 
       local node = minetest.get_node(pos)
@@ -78,22 +85,22 @@ if minetest.settings:get_bool("music_enable") then
          meta:set_int("music_player_enabled", 0)
       end
 
-      if music.players[dp] ~= nil then
+      if localmusic.players[dp] ~= nil then
          -- Stop sound and delete particlespawner
-         local sid = music.players[dp]["handle"]
+         local sid = localmusic.players[dp]["handle"]
          if sid then
             minetest.sound_stop(sid)
          end
 
-         local pid = music.players[dp]["particlespawner"]
+         local pid = localmusic.players[dp]["particlespawner"]
          if pid then
             minetest.delete_particlespawner(pid)
          end
-         music.players[dp] = nil
+         localmusic.players[dp] = nil
       end
    end
 
-   function music.start(pos)
+   function rp_music.start(pos)
       local dp = minetest.hash_node_position(pos)
 
       local meta = minetest.get_meta(pos)
@@ -102,8 +109,8 @@ if minetest.settings:get_bool("music_enable") then
 
       -- Get track or set random track if not set
       local track = meta:get_int("music_player_track")
-      if track == nil or not music.tracks[track] then
-         track = math.random(1, #music.tracks)
+      if track == nil or not localmusic.tracks[track] then
+         track = math.random(1, #localmusic.tracks)
          meta:set_int("music_player_track", track)
       end
 
@@ -112,13 +119,13 @@ if minetest.settings:get_bool("music_enable") then
       note_particle(pos, note)
 
       -- Start music and spawn particlespawner
-      if music.players[dp] == nil then
-	 music.players[dp] = {
+      if localmusic.players[dp] == nil then
+	 localmusic.players[dp] = {
 	    ["handle"] = minetest.sound_play(
-	       music.tracks[track].name,
+	       localmusic.tracks[track].name,
 	       {
 		  pos = pos,
-		  gain = music.volume,
+		  gain = localmusic.volume,
             }),
 	    ["particlespawner"] = note_particle(pos, note, true),
 	    ["timer"] = 0,
@@ -127,33 +134,33 @@ if minetest.settings:get_bool("music_enable") then
       else
          -- Music player data was already present:
          -- Reset everything and restart music and respawn particlespawner
-	 music.players[dp]["timer"] = 0
+	 localmusic.players[dp]["timer"] = 0
 
-         if music.players[dp]["handle"] then
-            minetest.sound_stop(music.players[dp]["handle"])
+         if localmusic.players[dp]["handle"] then
+            minetest.sound_stop(localmusic.players[dp]["handle"])
          end
-         if music.players[dp]["particlespawner"] then
-            minetest.delete_particlespawner(music.players[dp]["particlespawner"])
+         if localmusic.players[dp]["particlespawner"] then
+            minetest.delete_particlespawner(localmusic.players[dp]["particlespawner"])
          end
 
-	 music.players[dp]["handle"] = minetest.sound_play(
-	    music.tracks[track].name,
+	 localmusic.players[dp]["handle"] = minetest.sound_play(
+	    localmusic.tracks[track].name,
 	    {
 	       pos = pos,
-	       gain = music.volume,
+	       gain = localmusic.volume,
          })
-         music.players[dp]["particlespawner"] = note_particle(pos, note, true)
+         localmusic.players[dp]["particlespawner"] = note_particle(pos, note, true)
       end
    end
 
-   function music.update(pos)
+   function localmusic.update(pos)
       local dp = minetest.hash_node_position(pos)
 
-      if music.players[dp] ~= nil then
+      if localmusic.players[dp] ~= nil then
 	 local node = minetest.get_node(pos)
 
 	 if node.name ~= "rp_music:player" then
-	    music.stop(pos)
+	    rp_music.stop(pos)
 
 	    return
 	 end
@@ -161,22 +168,22 @@ if minetest.settings:get_bool("music_enable") then
 	 local meta = minetest.get_meta(pos)
          local track = meta:get_int("music_player_track")
 
-	 if music.tracks[track] then
-	    if music.players[dp]["timer"] > music.tracks[track].length then
-	       music.start(pos)
+	 if localmusic.tracks[track] then
+	    if localmusic.players[dp]["timer"] > localmusic.tracks[track].length then
+	       rp_music.start(pos)
 	    end
          end
       end
    end
 
-   function music.toggle(pos)
+   function rp_music.toggle(pos)
       local dp = minetest.hash_node_position(pos)
 
-      if music.players[dp] == nil then
-	 music.start(pos)
+      if localmusic.players[dp] == nil then
+	 rp_music.start(pos)
 	 return true
       else
-	 music.stop(pos)
+	 rp_music.stop(pos)
 	 return false
       end
    end
@@ -194,13 +201,13 @@ if minetest.settings:get_bool("music_enable") then
 	 is_ground_content = false,
 	 floodable = true,
          on_flood = function(pos, oldnode, newnode)
-            music.stop(pos)
+            rp_music.stop(pos)
             minetest.add_item(pos, "rp_music:player")
          end,
          on_blast = function(pos)
             minetest.remove_node(pos)
             minetest.check_for_falling({x=pos.x,y=pos.y,z=pos.z})
-            music.stop(pos)
+            rp_music.stop(pos)
 	 end,
 	 paramtype = "light",
 
@@ -213,11 +220,11 @@ if minetest.settings:get_bool("music_enable") then
          sounds = rp_sounds.node_sound_small_defaults(),
 
 	 on_construct = function(pos)
-            music.start(pos)
+            rp_music.start(pos)
          end,
 
 	 after_destruct = function(pos)
-            music.stop(pos)
+            rp_music.stop(pos)
          end,
 
 	 on_rightclick = function(pos, node, clicker)
@@ -226,17 +233,17 @@ if minetest.settings:get_bool("music_enable") then
                 minetest.record_protection_violation(pos, clicker:get_player_name())
                 return
             end
-            music.toggle(pos)
+            rp_music.toggle(pos)
 	 end,
 
 	 groups = {handy = 3, attached_node = 1, interactive_node = 1}
    })
 
    local function step(dtime)
-      for dp, _ in pairs(music.players) do
-	 music.players[dp]["timer"] = music.players[dp]["timer"] + dtime
+      for dp, _ in pairs(localmusic.players) do
+	 localmusic.players[dp]["timer"] = localmusic.players[dp]["timer"] + dtime
 
-	 music.update(music.players[dp]["pos"])
+	 localmusic.update(localmusic.players[dp]["pos"])
       end
    end
 
@@ -249,10 +256,10 @@ if minetest.settings:get_bool("music_enable") then
 	 chance = 1,
 	 interval = 1,
 	 action = function(pos, node)
-            if music.players[minetest.hash_node_position(pos)] == nil then
+            if localmusic.players[minetest.hash_node_position(pos)] == nil then
                local meta = minetest.get_meta(pos)
                if meta:get_int("music_player_enabled") == 1 then
-                  music.start(pos)
+                  rp_music.start(pos)
                end
             end
          end
@@ -334,3 +341,6 @@ minetest.register_lbm(
 )
 
 minetest.register_alias("music:player", "rp_music:player")
+
+-- Add tracks
+rp_music.add_track("rp_music_earthen_lullaby", 93.0, "#e92c2c")

@@ -54,6 +54,7 @@ Mods with documented APIs:
 * `rp_jewels`: Register jeweled tools, and more
 * `rp_localize`: Localize numbers
 * `rp_locks`: Get info about lockable nodes
+* `rp_music`: Add or remove tracks; start/stop/toggle a music player
 * `rp_partialblocks`: Register partial blocks (slabs, stairs)
 * `rp_player`: Player model handling, model animation, textures
 * `rp_player_effects`: Add player effects (required if you want to modify player physics)
