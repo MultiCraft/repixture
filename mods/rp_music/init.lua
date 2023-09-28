@@ -15,8 +15,8 @@ local localmusic = {}
 localmusic.tracks = {} -- list of track info
 localmusic.tracks_by_name = {} -- list of tracks. key = name, value = table index for localmusic.tracks
 
-rp_music.add_track = function(name, length, note_color)
-   table.insert(localmusic.tracks, {name=name, length=length, note_color=note_color})
+rp_music.add_track = function(name, def)
+   table.insert(localmusic.tracks, {name=name, length=def.length, note_color=def.note_color})
    localmusic.tracks_by_name[name] = #localmusic.tracks
 end
 
@@ -371,4 +371,4 @@ minetest.register_lbm(
 minetest.register_alias("music:player", "rp_music:player")
 
 -- Add tracks
-rp_music.add_track("rp_music_earthen_lullaby", 93.0, "#e92c2c")
+rp_music.add_track("rp_music_earthen_lullaby", {length=93.0, note_color="#e92c2c"})

@@ -2,12 +2,15 @@
 
 The following functions are available:
 
-## `rp_music.add_track(name, length, note_color)`
-Add track to the track list.
+## `rp_music.add_track(name, def)
+Add a track to the track list.
 
 * `name`: File name of track (without suffix; must not start with a digit)
-* `length`: Length of track in seconds
-* `note_color`: Color of the note particle emitted by the music player
+* `def`: Track definition. A table with these fields:
+    * `length`: Length of track in seconds
+    * `note_color`: Color of the note particle emitted by the music player
+
+Also, the track *must* be in mono for positional playback to work properly.
 
 ## `rp_music.clear_tracks()`
 Remove all tracks from the track list.
