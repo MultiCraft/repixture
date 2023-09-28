@@ -12,19 +12,37 @@ local NOTES_PER_SECOND = 1
 rp_music = {}
 local localmusic = {}
 
-localmusic.tracks = {}
+localmusic.tracks = {} -- list of track info
+localmusic.tracks_by_name = {} -- list of tracks. key = name, value = table index for localmusic.tracks
 
 rp_music.add_track = function(name, length, note_color)
    table.insert(localmusic.tracks, {name=name, length=length, note_color=note_color})
+   localmusic.tracks_by_name[name] = #localmusic.tracks
 end
 
 rp_music.clear_tracks = function()
    localmusic.tracks = {}
+   localmusic.tracks_by_name = {}
 end
 
 localmusic.volume = tonumber(minetest.settings:get("music_volume")) or 1.0
 localmusic.volume = math.max(0.0, math.min(1.0, localmusic.volume))
 
+local get_track_from_meta = function(meta, return_default)
+   if #localmusic.tracks == 0 then
+      return nil
+   end
+   local metastr = meta:get_string("music_player_track")
+   local track
+   if not metastr == "" and not string.match(metastr, "^%d") then
+      track = localmusic.tracks_by_name[metastr]
+   end
+   if not track and return_default then
+      return 1
+   else
+      return track
+   end
+end
 
 local function note_particle(pos, texture, permanent)
    local amount, time
@@ -52,7 +70,10 @@ end
 
 local function get_note(pos)
    local meta = minetest.get_meta(pos)
-   local track = meta:get_int("music_player_track")
+   local track = get_track_from_meta(meta, true)
+   if not track then
+      return
+   end
    local note = "rp_music_note.png"
    local note_color
    if localmusic.tracks[track] then
@@ -112,10 +133,10 @@ if minetest.settings:get_bool("music_enable") then
       meta:set_int("music_player_enabled", 1)
 
       -- Get track or set random track if not set
-      local track = meta:get_int("music_player_track")
+      local track = get_track_from_meta(meta, false)
       if track == nil or not localmusic.tracks[track] then
          track = math.random(1, #localmusic.tracks)
-         meta:set_int("music_player_track", track)
+         meta:set_string("music_player_track", localmusic.tracks[track].name)
       end
 
       -- Spawn a single note particle immediately
@@ -173,9 +194,9 @@ if minetest.settings:get_bool("music_enable") then
 	 end
 
 	 local meta = minetest.get_meta(pos)
-         local track = meta:get_int("music_player_track")
+         local track = get_track_from_meta(meta, true)
 
-	 if localmusic.tracks[track] then
+	 if track and localmusic.tracks[track] then
 	    if localmusic.players[dp]["timer"] > localmusic.tracks[track].length then
 	       rp_music.start(pos)
 	    end
