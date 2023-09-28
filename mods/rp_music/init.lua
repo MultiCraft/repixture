@@ -34,7 +34,7 @@ local get_track_from_meta = function(meta, return_default)
    end
    local metastr = meta:get_string("music_player_track")
    local track
-   if not metastr == "" and not string.match(metastr, "^%d") then
+   if metastr ~= "" and (not string.match(metastr, "^%d")) then
       track = localmusic.tracks_by_name[metastr]
    end
    if not track and return_default then
