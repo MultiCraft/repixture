@@ -3,10 +3,12 @@
 -- Music player mod
 --
 local S = minetest.get_translator("rp_music")
+local NS = function(s) return s end
 
 local INFOTEXT_ON = S("Music Player (on)")
 local INFOTEXT_OFF = S("Music Player (off)")
 local INFOTEXT_DISABLED = S("Music Player (disabled by server)")
+local INFOTEXT_NOW_PLAYING = NS("Now playing: @1 by @2")
 local NOTES_PER_SECOND = 1
 
 rp_music = {}
@@ -16,7 +18,7 @@ localmusic.tracks = {} -- list of track info
 localmusic.tracks_by_name = {} -- list of tracks. key = name, value = table index for localmusic.tracks
 
 rp_music.add_track = function(name, def)
-   table.insert(localmusic.tracks, {name=name, length=def.length, note_color=def.note_color})
+   table.insert(localmusic.tracks, {name=name, length=def.length, note_color=def.note_color, title=def.title, author=def.author})
    localmusic.tracks_by_name[name] = #localmusic.tracks
 end
 
@@ -83,6 +85,19 @@ local function get_note(pos)
    return note
 end
 
+local get_now_playing_string = function(trackinfo)
+   if not trackinfo then
+      return ""
+   end
+   local title = trackinfo.title
+   local author = trackinfo.author
+   local now_playing = ""
+   if title and author then
+      now_playing = "\n" .. S(INFOTEXT_NOW_PLAYING, title, author)
+   end
+   return now_playing
+end
+
 --[[ Array of music players
 * key: node position hash of music player node
 * value: {
@@ -129,7 +144,6 @@ if minetest.settings:get_bool("music_enable") then
          note_particle(pos, "rp_music_no_music.png")
          return
       end
-      meta:set_string("infotext", INFOTEXT_ON)
       meta:set_int("music_player_enabled", 1)
 
       -- Get track or set random track if not set
@@ -138,6 +152,7 @@ if minetest.settings:get_bool("music_enable") then
          track = math.random(1, #localmusic.tracks)
          meta:set_string("music_player_track", localmusic.tracks[track].name)
       end
+      meta:set_string("infotext", INFOTEXT_ON .. get_now_playing_string(localmusic.tracks[track]))
 
       -- Spawn a single note particle immediately
       local note = get_note(pos)
@@ -357,7 +372,8 @@ minetest.register_lbm(
          local meta = minetest.get_meta(pos)
          if minetest.settings:get_bool("music_enable") then
             if meta:get_int("music_player_enabled") == 1 then
-               meta:set_string("infotext", INFOTEXT_ON)
+               local track = get_track_from_meta(meta)
+               meta:set_string("infotext", INFOTEXT_ON .. get_now_playing_string(localmusic.tracks[track]))
             else
                meta:set_string("infotext", INFOTEXT_OFF)
             end
@@ -371,4 +387,4 @@ minetest.register_lbm(
 minetest.register_alias("music:player", "rp_music:player")
 
 -- Add tracks
-rp_music.add_track("rp_music_earthen_lullaby", {length=93.0, note_color="#e92c2c"})
+rp_music.add_track("rp_music_earthen_lullaby", {length=93.0, note_color="#e92c2c", title="earthen lullaby", author="vosz-kc"})

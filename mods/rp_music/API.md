@@ -9,6 +9,8 @@ Add a track to the track list.
 * `def`: Track definition. A table with these fields:
     * `length`: Length of track in seconds
     * `note_color`: Color of the note particle emitted by the music player
+    * `title`: Player facing track title
+    * `author`: Author name
 
 Also, the track *must* be in mono for positional playback to work properly.
 
