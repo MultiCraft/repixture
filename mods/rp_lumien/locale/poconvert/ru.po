@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: poconvert 0.1.0\n"
 
 msgid "Glowing Lumien Crystal"
 msgstr "Светящийся люменовый кристалл"
@@ -25,9 +25,6 @@ msgstr "Может быть поставлен, светится, когда к�
 msgid "Lumien Block"
 msgstr "Люменовый блок"
 
-msgid "It shines so bright"
-msgstr "Оно светит так ярко"
-
 msgid "Reinforced Lumien Block"
 msgstr "Усиленный люменовый блок"
 
@@ -39,4 +36,7 @@ msgstr "Просвещённый"
 
 msgid "Place a lumien crystal."
 msgstr "Поставь люменовый кристалл."
+
+msgid "It shines so bright"
+msgstr "Оно светит так ярко"
 

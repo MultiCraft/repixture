@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: poconvert 0.1.0\n"
 
 msgid "Timber"
 msgstr "Charpente"
@@ -604,14 +604,14 @@ msgstr "Pousse sous l'eau sur n'importe quel terre, sable ou gravier"
 msgid "Airweed (full)"
 msgstr "Herbe d'air (entière)"
 
+msgid "Alga Block"
+msgstr "Bloc d'algue"
+
 msgid "Alga"
 msgstr "Algue"
 
 msgid "Grows underwater on dirt, swamp dirt, sand or alga block"
 msgstr "Pousse sous l'eau sur la terre, la terre de marais, le sable ou un bloc d'algue"
-
-msgid "Alga Block"
-msgstr "Bloc d'algue"
 
 msgid "Clam"
 msgstr "Palourde"

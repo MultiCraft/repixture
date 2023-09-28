@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: poconvert 0.1.0\n"
 
 msgid "Music Player (on)"
 msgstr "Музыкальный проигрыватель (вкл)"
@@ -21,6 +21,9 @@ msgstr "Музыкальный проигрыватель (выкл)"
 
 msgid "Music Player (disabled by server)"
 msgstr "Музыкальный проигрыватель (отключен сервером)"
+
+msgid "Now playing: @1 by @2"
+msgstr ""
 
 msgid "Music Player"
 msgstr "Музыкальный проигрыватель"

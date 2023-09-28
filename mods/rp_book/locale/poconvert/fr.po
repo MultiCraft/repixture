@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: poconvert 0.1.0\n"
 
 msgid "Title:"
 msgstr "Titre :"
@@ -28,14 +28,11 @@ msgstr "Livre"
 msgid "Write down some notes"
 msgstr "Écrire quelques notes"
 
-msgid "Unnamed Book"
-msgstr "Livre sans nom"
-
 msgid "Book: “@1”"
 msgstr "Livre : \"@1\""
 
-msgid "Provides 32 inventory slots"
-msgstr "Fournit 32 emplacements d'inventaire"
+msgid "Unnamed Book"
+msgstr "Livre sans nom"
 
 msgid "Read book"
 msgstr "Lire le livre"
@@ -48,4 +45,7 @@ msgstr "Fournit 8 emplacements d'inventaire"
 
 msgid "Return"
 msgstr "Retour"
+
+msgid "Provides 32 inventory slots"
+msgstr "Fournit 32 emplacements d'inventaire"
 

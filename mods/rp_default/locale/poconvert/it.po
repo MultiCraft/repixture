@@ -1,18 +1,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_default x.x.x\n"
-"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-09-14 22:26+0000\n"
-"Last-Translator: Francesco Gazzetta <fgaz@fgaz.me>\n"
-"Language-Team: Italian <https://translate.codeberg.org/projects/repixture/"
-"rp_default/it/>\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0.1\n"
+"Plural-Forms: \n"
+"X-Generator: poconvert 0.1.0\n"
 
 msgid "Timber"
 msgstr ""
@@ -54,8 +53,7 @@ msgid "Metal Age"
 msgstr "Età del metallo"
 
 msgid "Put a mineral and some fuel in a furnace to smelt an ingot."
-msgstr ""
-"Metti un minerale e del combustibile in una fornace per fondere un lingotto."
+msgstr "Metti un minerale e del combustibile in una fornace per fondere un lingotto."
 
 msgid "Fertile"
 msgstr "Fertile"
@@ -184,16 +182,13 @@ msgid "Fertilizer"
 msgstr "Fertilizzante"
 
 msgid "Used to fertilize dirt and sand to speed up plant growth"
-msgstr ""
-"Usato per fertilizzare terra e sabbia per accelerare la crescita delle piante"
+msgstr "Usato per fertilizzare terra e sabbia per accelerare la crescita delle piante"
 
 msgid "Furnace"
 msgstr "Fornace"
 
 msgid "Uses fuel to smelt a material into something else"
-msgstr ""
-"Usa combustibile per fondere o cuocere un materiale, trasformandolo in "
-"qualcos'altro"
+msgstr "Usa combustibile per fondere o cuocere un materiale, trasformandolo in qualcos'altro"
 
 msgid "Furnace (active)"
 msgstr "Fornace (attiva)"
@@ -609,14 +604,14 @@ msgstr ""
 msgid "Airweed (full)"
 msgstr ""
 
+msgid "Alga Block"
+msgstr ""
+
 msgid "Alga"
 msgstr ""
 
 msgid "Grows underwater on dirt, swamp dirt, sand or alga block"
 msgstr "Cresce sott'acqua su terra, terra paludosa o blocchi d'alga"
-
-msgid "Alga Block"
-msgstr ""
 
 msgid "Clam"
 msgstr ""
@@ -776,3 +771,4 @@ msgstr ""
 
 msgid "It's bright and burns forever"
 msgstr ""
+
