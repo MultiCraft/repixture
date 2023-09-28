@@ -12,7 +12,7 @@ or manually start/stop/toggle a music playern node.
 ## Credits / licensing
 Music license:
 * rp_music_earthen_lullaby.ogg:
-    * "earthen lullaby" by vosz-kc <https://www.youtube.com/@vozh-kc>
+    * "earthen lullaby" by vozh-kc <https://www.youtube.com/@vozh-kc>
     * License: CC BY-SA 4.0
 
 Texture license: CC BY-SA 4.0

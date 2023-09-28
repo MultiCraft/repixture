@@ -387,4 +387,4 @@ minetest.register_lbm(
 minetest.register_alias("music:player", "rp_music:player")
 
 -- Add tracks
-rp_music.add_track("rp_music_earthen_lullaby", {length=93.0, note_color="#e92c2c", title="earthen lullaby", author="vosz-kc"})
+rp_music.add_track("rp_music_earthen_lullaby", {length=93.0, note_color="#e92c2c", title="earthen lullaby", author="vozh-kc"})
