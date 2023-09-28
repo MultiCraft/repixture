@@ -1,18 +1,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_default x.x.x\n"
-"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-09-14 22:26+0000\n"
-"Last-Translator: Francesco Gazzetta <fgaz@fgaz.me>\n"
-"Language-Team: Italian <https://translate.codeberg.org/projects/repixture/"
-"rp_default/it/>\n"
-"Language: it\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0.1\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Timber"
 msgstr ""
@@ -21,218 +21,214 @@ msgid "Dig a tree trunk."
 msgstr ""
 
 msgid "My First Pickaxe"
-msgstr "Il mio primo piccone"
+msgstr ""
 
 msgid "Craft a pickaxe."
-msgstr "Assembla un piccone."
+msgstr ""
 
 msgid "Hardened Miner"
 msgstr ""
 
 msgid "Craft a carbon steel pickaxe."
-msgstr "Assembla un piccone di acciaio al carbonio."
+msgstr ""
 
 msgid "Off to Battle"
 msgstr ""
 
 msgid "Craft a weapon."
-msgstr "Assembla un'arma."
+msgstr ""
 
 msgid "Mineority"
 msgstr ""
 
 msgid "Mine a stone."
-msgstr "Estrai una pietra."
+msgstr ""
 
 msgid "Smelting Room"
 msgstr ""
 
 msgid "Craft a furnace."
-msgstr "Assembla una fornace."
+msgstr ""
 
 msgid "Metal Age"
-msgstr "Età del metallo"
+msgstr ""
 
 msgid "Put a mineral and some fuel in a furnace to smelt an ingot."
 msgstr ""
-"Metti un minerale e del combustibile in una fornace per fondere un lingotto."
 
 msgid "Fertile"
-msgstr "Fertile"
+msgstr ""
 
 msgid "Use fertilizer to fertilize the ground."
-msgstr "Usa del fertilizzante per fertilizzare il suolo."
+msgstr ""
 
 msgid "Overgrowth"
 msgstr ""
 
 msgid "Grow a papyrus to its maximum height, then harvest it."
-msgstr "Fai crescere un papiro fino alla sua massima altezza, poi raccoglilo."
+msgstr ""
 
 msgid "Librarian"
-msgstr "Bibliotecario"
+msgstr ""
 
 msgid "Craft a bookshelf."
-msgstr "Assembla una libreria."
+msgstr ""
 
 msgid "Forester"
 msgstr ""
 
 msgid "Plant one of every sapling."
-msgstr "Pianta un esemplare di ogni germoglio."
+msgstr ""
 
 msgid "Explorer"
-msgstr "Esploratore"
+msgstr ""
 
 msgid "Visit all surface biomes."
 msgstr ""
 
 msgid "A Complete Collection"
-msgstr "Una collezione completa"
+msgstr ""
 
 msgid "Obtain one of each minerals."
-msgstr "Ottieni un esemplare di ogni minerale."
+msgstr ""
 
 msgid "Water Bucket"
-msgstr "Secchio d'acqua"
+msgstr ""
 
 msgid "Punch to empty the bucket"
 msgstr ""
 
 msgid "River Water Bucket"
-msgstr "Secchio d'acqua di fiume"
+msgstr ""
 
 msgid "Swamp Water Bucket"
-msgstr "Secchio d'acqua palustre"
+msgstr ""
 
 msgid "Empty Bucket"
-msgstr "Secchio vuoto"
+msgstr ""
 
 msgid "Punch to collect a liquid source"
 msgstr ""
 
 msgid "Chest"
-msgstr "Cassa"
+msgstr ""
 
 msgid "Provides 32 inventory slots"
 msgstr ""
 
 msgid "Fiber"
-msgstr "Fibra"
+msgstr ""
 
 msgid "Stick"
 msgstr ""
 
 msgid "Paper"
-msgstr "Carta"
+msgstr ""
 
 msgid "Pearl"
-msgstr "Perla"
+msgstr ""
 
 msgid "Graphite Sheet"
-msgstr "Foglio di grafite"
+msgstr ""
 
 msgid "Sulfur Lump"
-msgstr "Grumo di zolfo"
+msgstr ""
 
 msgid "Coal Lump"
-msgstr "Grumo di carbone"
+msgstr ""
 
 msgid "Iron Lump"
-msgstr "Grumo di ferro"
+msgstr ""
 
 msgid "Tin Lump"
-msgstr "Grumo di stagno"
+msgstr ""
 
 msgid "Copper Lump"
-msgstr "Grumo di rame"
+msgstr ""
 
 msgid "Bronze Lump"
-msgstr "Grumo di bronzo"
+msgstr ""
 
 msgid "Flint Shard"
-msgstr "Scheggia di selce"
+msgstr ""
 
 msgid "Book"
-msgstr "Libro"
+msgstr ""
 
 msgid "Wooden Fence"
-msgstr "Steccato di legno"
+msgstr ""
 
 msgid "Oak Fence"
-msgstr "Steccato di quercia"
+msgstr ""
 
 msgid "Birch Fence"
-msgstr "Steccato di betulla"
+msgstr ""
 
 msgid "Fertilized Dirt"
-msgstr "Terra fertilizzata"
+msgstr ""
 
 msgid "Speeds up the growth of plants"
-msgstr "Accelera la crescita delle piante"
+msgstr ""
 
 msgid "Fertilized Dry Dirt"
-msgstr "Terra secca fertilizzata"
+msgstr ""
 
 msgid "Fertilized Swamp Dirt"
-msgstr "Terra paludosa fertilizzata"
+msgstr ""
 
 msgid "Fertilized Sand"
-msgstr "Sabbia fertilizzata"
+msgstr ""
 
 msgid "Fertilizer"
-msgstr "Fertilizzante"
+msgstr ""
 
 msgid "Used to fertilize dirt and sand to speed up plant growth"
 msgstr ""
-"Usato per fertilizzare terra e sabbia per accelerare la crescita delle piante"
 
 msgid "Furnace"
-msgstr "Fornace"
+msgstr ""
 
 msgid "Uses fuel to smelt a material into something else"
 msgstr ""
-"Usa combustibile per fondere o cuocere un materiale, trasformandolo in "
-"qualcos'altro"
 
 msgid "Furnace (active)"
-msgstr "Fornace (attiva)"
+msgstr ""
 
 msgid "@1%"
-msgstr "@1%"
+msgstr ""
 
 msgid "Empty"
-msgstr "Vuoto"
+msgstr ""
 
 msgid "Not cookable"
-msgstr "Non cucinabile/fusibile"
+msgstr ""
 
 msgid "Furnace active (Item: @1; Fuel: @2)"
-msgstr "Fornace attiva (oggetto: @1; combustibile: @2)"
+msgstr ""
 
 msgid "Furnace inactive (Item: @1; Fuel: @2)"
-msgstr "Fornace inattiva (oggetto: @1; combustibile: @2)"
+msgstr ""
 
 msgid "Steel Ingot"
-msgstr "Lingotto di acciaio"
+msgstr ""
 
 msgid "Carbon Steel Ingot"
-msgstr "Lingotto di acciaio al carbonio"
+msgstr ""
 
 msgid "Copper Ingot"
-msgstr "Lingotto di rame"
+msgstr ""
 
 msgid "Tin Ingot"
-msgstr "Lingotto di stagno"
+msgstr ""
 
 msgid "Bronze Ingot"
-msgstr "Lingotto di bronzo"
+msgstr ""
 
 msgid "Wrought Iron Ingot"
-msgstr "Lingotto di ferro battuto"
+msgstr ""
 
 msgid "Ladder"
-msgstr "Scala a pioli"
+msgstr ""
 
 msgid "@1 Underwater"
 msgstr ""
@@ -241,40 +237,40 @@ msgid "@1 Beach"
 msgstr ""
 
 msgid "Marsh"
-msgstr "Palude"
+msgstr ""
 
 msgid "Dense Grassland"
-msgstr "Prateria fitta"
+msgstr ""
 
 msgid "Giga Birch Forest"
-msgstr "Foresta di betulle giganti"
+msgstr ""
 
 msgid "Mixed Forest"
-msgstr "Foresta mista"
+msgstr ""
 
 msgid "Grove"
-msgstr "Boschetto"
+msgstr ""
 
 msgid "Wilderness"
-msgstr "Selva"
+msgstr ""
 
 msgid "Grassland"
-msgstr "Prateria"
+msgstr ""
 
 msgid "Orchard"
-msgstr "Frutteto"
+msgstr ""
 
 msgid "Shrubbery"
-msgstr "Macchia"
+msgstr ""
 
 msgid "Chaparral"
-msgstr "Chaparral"
+msgstr ""
 
 msgid "Savanna"
-msgstr "Savana"
+msgstr ""
 
 msgid "Wasteland"
-msgstr "Landa desolata"
+msgstr ""
 
 msgid "Rocky Dryland"
 msgstr ""
@@ -283,64 +279,64 @@ msgid "Wooded Dryland"
 msgstr ""
 
 msgid "Savannic Wasteland"
-msgstr "Savana desolata"
+msgstr ""
 
 msgid "Thorny Shrubs"
-msgstr "Cespugli spinosi"
+msgstr ""
 
 msgid "Mystery Forest"
-msgstr "Foresta misteriosa"
+msgstr ""
 
 msgid "Poplar Plains"
-msgstr "Pianura di pioppi"
+msgstr ""
 
 msgid "Baby Poplar Plains"
-msgstr "Pianura di giovani pioppi"
+msgstr ""
 
 msgid "Tall Birch Forest"
-msgstr "Foresta di betulle alte"
+msgstr ""
 
 msgid "Birch Forest"
-msgstr "Foresta di betulle"
+msgstr ""
 
 msgid "Oak Shrubbery"
-msgstr "Macchia di querce"
+msgstr ""
 
 msgid "Oak Forest"
-msgstr "Foresta di querce"
+msgstr ""
 
 msgid "Tall Oak Forest"
-msgstr "Foresta di querce giganti"
+msgstr ""
 
 msgid "Dense Oak Forest"
-msgstr "Foresta fitta di querce"
+msgstr ""
 
 msgid "Swamp Meadow"
-msgstr "Prato paludoso"
+msgstr ""
 
 msgid "Swamp Meadow Highland"
-msgstr "Prato paludoso d'altopiano"
+msgstr ""
 
 msgid "Mixed Swamp"
-msgstr "Palude mista"
+msgstr ""
 
 msgid "Mixed Swamp Highland"
-msgstr "Palude mista d'altopiano"
+msgstr ""
 
 msgid "Swamp Forest"
-msgstr "Foresta paludosa"
+msgstr ""
 
 msgid "Swamp Forest Highland"
-msgstr "Foresta paludosa d'altopiano"
+msgstr ""
 
 msgid "Dry Swamp"
-msgstr "Palude secca"
+msgstr ""
 
 msgid "Dry Swamp Highland"
-msgstr "Palude secca d'altopiano"
+msgstr ""
 
 msgid "Papyrus Swamp"
-msgstr "Palude di papiri"
+msgstr ""
 
 msgid "Underground"
 msgstr ""
@@ -403,13 +399,13 @@ msgid "Dry Dirt"
 msgstr ""
 
 msgid "Swamp Dirt"
-msgstr "Terra paludosa"
+msgstr ""
 
 msgid "Dirt with Dry Grass"
 msgstr ""
 
 msgid "Swamp Dirt with Swamp Grass"
-msgstr "Terra paludosa con erba palustre"
+msgstr ""
 
 msgid "Dirt with Grass"
 msgstr ""
@@ -481,10 +477,10 @@ msgid "River Water Source"
 msgstr ""
 
 msgid "Flowing Swamp Water"
-msgstr "Acqua palustre fluente"
+msgstr ""
 
 msgid "Swamp Water Source"
-msgstr "Sorgente di acqua palustre"
+msgstr ""
 
 msgid "Cactus"
 msgstr ""
@@ -514,7 +510,7 @@ msgid "It looks beautiful"
 msgstr ""
 
 msgid "Swamp Grass Clump"
-msgstr "Ciuffo di erba palustre"
+msgstr ""
 
 msgid "Dry Grass Clump"
 msgstr ""
@@ -592,7 +588,7 @@ msgid "Tall Seagrass Clump"
 msgstr ""
 
 msgid "Grows underwater on dirt, swamp dirt or sand"
-msgstr "Cresce sott'acqua su terra, terra paludosa o sabbia"
+msgstr ""
 
 msgid "Seagrass Clump"
 msgstr ""
@@ -613,7 +609,7 @@ msgid "Alga"
 msgstr ""
 
 msgid "Grows underwater on dirt, swamp dirt, sand or alga block"
-msgstr "Cresce sott'acqua su terra, terra paludosa o blocchi d'alga"
+msgstr ""
 
 msgid "Alga Block"
 msgstr ""
@@ -622,7 +618,7 @@ msgid "Clam"
 msgstr ""
 
 msgid "Write"
-msgstr "Scrivi"
+msgstr ""
 
 msgid "\"@1\""
 msgstr ""
