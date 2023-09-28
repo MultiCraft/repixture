@@ -65,6 +65,11 @@ Pixture was inspired by [Kenney](http://kenney.nl).
 * See the individual README files in the mods for details
 * Note: All sounds are compatible with CC BY-SA 4.0
 
+### Music
+
+* "earthen lullaby" by vozh-kc <https://www.youtube.com/@vozh-kc>
+* See `mods/rp_music` for details
+
 ### Special thanks
 
 * [Kenney](http://kenney.nl) for the inspiration, most of the aesthetic.
