@@ -5,7 +5,7 @@ The following functions are available:
 ## `rp_music.add_track(name, length, note_color)`
 Add track to the track list.
 
-* `name`: File name of track
+* `name`: File name of track (without suffix; must not start with a digit)
 * `length`: Length of track in seconds
 * `note_color`: Color of the note particle emitted by the music player
 
