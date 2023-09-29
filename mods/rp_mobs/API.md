@@ -86,45 +86,45 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
 * `drops`: Table of itemstrings to be dropped when the mob dies
 * `entity_definition`: Entity definition table
 
-### `rp_mobs.drop_death_items(self, pos)`
+### `rp_mobs.drop_death_items(mob, pos)`
 
-Make mob `self` drop its death items at pos.
+Make mob `mob` drop its death items at pos.
 
-### `rp_mobs.init_physics(self)`
+### `rp_mobs.init_physics(mob)`
 
-Initialize and enable the mob physics system for mob `self`.
+Initialize and enable the mob physics system for mob `mob`.
 This is supposed to go into `on_activate` of the entity definition.
 This function **must** be called before any other physics-related function.
 
-### `rp_mobs.handle_physics(self)`
+### `rp_mobs.handle_physics(mob)`
 
 Update the mob physics for a single mob step. Required for the mob physics to work.
 This is supposed to go into `on_step` of the entity definition. It must be called every step.
 
-### `rp_mobs.activate_gravity(self)`
+### `rp_mobs.activate_gravity(mob)`
 
 Activate gravity for mob.
 
-### `rp_mobs.deactivate_gravity(self)`
+### `rp_mobs.deactivate_gravity(mob)`
 
 Deactivate gravity for mob.
 
-### `rp_mobs.init_tasts(self)`
+### `rp_mobs.init_tasts(mob)`
 
 Initialize the task and microtask queues for the mob.
 This is supposed to go into `on_activate` of the entity definition.
 This function **must** be called before any other task-related function is called.
 
-### `rp_mobs.handle_tasks(self)`
+### `rp_mobs.handle_tasks(mob)`
 
 Handle the tasks, microtasks and the task queue of the mob for a single step. Required for the task system to work.
 This is supposed to go into `on_step` of the entity definition. It must be called every step.
 
-### `rp_mobs.add_task(self, task)`
+### `rp_mobs.add_task(mob, task)`
 
 Add a task `task` to the mob's task queue.
 
-### `rp_mobs.add_microtask_to_task(self, microtask, task)`
+### `rp_mobs.add_microtask_to_task(mob, microtask, task)`
 
 Add the microtask `microtask` to the specified `task`.
 
@@ -137,7 +137,7 @@ the mob by placing it. This item is also used when a mob is captured.
 * `invimg`: Inventory image texture
 * `desc`: Description for inventory
 
-### `rp_mobs.on_death_default(self, killer)`
+### `rp_mobs.on_death_default(mob, killer)`
 
 The default handler for `on_death` of the mob's entity definition.
 It must be set explicitly for every mob, unless you want to have a custom death handling.
