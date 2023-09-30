@@ -31,9 +31,17 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			local startpos = self.object:get_pos()
 			startpos.y = math.floor(startpos.y)
 			startpos = vector.round(startpos)
-			local endpos = vector.add(startpos, vector.new(3, 0, 5))
-			local microtask1 = rp_mobs.microtasks.pathfind_and_walk_to(endpos, 100, 1, 4)
-			rp_mobs.add_microtask_to_task(self, microtask1, task)
+			local nodes = minetest.find_nodes_in_area_under_air(
+				vector.add(startpos, vector.new(-5, -1, -5)),
+				vector.add(startpos, vector.new(5, -1, 5)),
+				{"group:crumbly", "group:cracky"}
+			)
+			if #nodes > 0 then
+				local n = math.random(1, #nodes)
+				local endpos = vector.add(vector.new(0,1,0), nodes[n])
+				local microtask1 = rp_mobs.microtasks.pathfind_and_walk_to(endpos, 100, 1, 4)
+				rp_mobs.add_microtask_to_task(self, microtask1, task)
+			end
 --[[
 			local microtask1 = rp_mobs.microtasks.go_to_x(0, 0.1)
 			local microtask2 = rp_mobs.microtasks.go_to_x(5, 0.1)
