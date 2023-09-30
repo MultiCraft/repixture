@@ -77,23 +77,23 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 		mob._mob_velocity = vector.zero()
 		mob._mob_velocity_changed = true
 	end
-	return mtask
+	return rp_mobs.create_microtask(mtask)
 end
 
 -- DUMMY TEMPLATES (need to do better later)
 
 rp_mobs.microtasks.jump = function(strength)
-	return {
+	return rp_mobs.create_microtask({
 		label = "jump",
 		singlestep = true,
 		on_step = function(self, mob)
 			mob.object:add_velocity({x=0, y=strength, z=0})
 		end,
-	}
+	})
 end
 
 rp_mobs.microtasks.go_to_x = function(target_x, tolerance)
-	return {
+	return rp_mobs.create_microtask({
 		label = "move to x coordinate",
 		on_step = function(self, mob)
 			local pos = mob.object:get_pos()
@@ -121,5 +121,5 @@ rp_mobs.microtasks.go_to_x = function(target_x, tolerance)
 			mob._mob_velocity = vector.zero()
 			mob._mob_velocity_changed = true
 		end,
-	}
+	})
 end

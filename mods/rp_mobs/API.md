@@ -58,7 +58,10 @@ A task is just a table. You can optionally define this field:
 
 * `label`: Brief string explaining what the task does. Only for debug
 
-The task's microtasks are stored internally. Use `rp_mobs.add_microtask_to_task` to add a new one.
+Tasks can be created with `rp_mobs.create_task`.
+
+The task's microtasks are stored internally. Use `rp_mobs.add_microtask_to_task`
+to add a microtask to a task.
 
 ### Microtask
 
@@ -69,10 +72,17 @@ A microtask is a table with the following fields:
 * `on_finished`: Return true if the microtask is complete, false otherwise
 * `on_end`: Called when the task has ended. Useful for cleaning up state
 * `singlestep`: If true, this microtask will run for only 1 step and automatically succeeds (default: false)
+* `statedata`: Table containing data that can be modified and read at runtime
 
 Every microtask needs to have `on_step` and either `on_finished` or `singlestep = true`.
 The `on_*` functions have parameters `self, mob` with self being a reference to the
 microtask table itself and `mob` being the mob object that is affected.
+
+The `statedata` field can be used to associate arbitrary data with the microtask in
+order to preserve some state. You may read and write to it in functions
+like `on_step`.
+
+Microtasks can be created with `rp_mobs.create_microtask`.
 
 ## Function reference
 
@@ -121,6 +131,26 @@ This function **must** be called before any other task-related function is calle
 
 Handle the tasks, microtasks and the task queue of the mob for a single step. Required for the task system to work.
 This is supposed to go into `on_step` of the entity definition. It must be called every step.
+
+### `rp_mobs.create_task(def)`
+
+Create a task according to the specified `def` table. See the data structure above for the possible table fields.
+
+Returns the task.
+
+This only creates the task in memory. To actually execute the task, you have to add
+it to a mob's task queue with `rp_mobs.add_task`.
+
+### `rp_mobs.create_microtask(def)`
+
+Create a microtask according to the specified `def` table. See the data structure above for the possible table fields.
+The `statedata` field will always be initialized as an empty table.
+
+Returns the microtask.
+
+Note this only creates it in memory. To actually execute it, you have to add
+it to a task with `rp_mobs.add_microtask_to_task` and then execute
+the task.
 
 ### `rp_mobs.add_task(mob, task)`
 

@@ -113,6 +113,27 @@ rp_mobs.add_task = function(self, task)
 	end
 end
 
+rp_mobs.create_task = function(def)
+	local task
+	if def then
+		task = table.copy(def)
+	else
+		task = {}
+	end
+	return task
+end
+
+rp_mobs.create_microtask = function(def)
+	local mtask
+	if def then
+		mtask = table.copy(def)
+	else
+		mtask = {}
+	end
+	mtask.statedata = {}
+	return mtask
+end
+
 rp_mobs.add_microtask_to_task  = function(self, microtask, task)
 	return task.microTasks:append(microtask)
 end
