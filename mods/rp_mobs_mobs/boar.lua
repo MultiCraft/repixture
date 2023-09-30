@@ -26,7 +26,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			--rp_mobs.capture_mob(self, clicker, 0, 5, 40, false, nil)
 
 			-- DEBUG: Microtask tests
-			local task = rp_mobs.create_task()
+			local task = rp_mobs.create_task({label="walk to random spot"})
 			local taskEntry = rp_mobs.add_task(self, task)
 			local startpos = self.object:get_pos()
 			startpos.y = math.floor(startpos.y)

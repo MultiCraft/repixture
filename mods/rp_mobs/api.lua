@@ -3,6 +3,44 @@ local S = minetest.get_translator("mobs")
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
 
+-- If true, will write the task queues of mobs as their nametag
+local TASK_DEBUG = true
+
+local microtask_to_string = function(microtask)
+	return "Microtask: "..(microtask.label or "<UNNAMED>")
+end
+local task_to_string = function(task)
+	local str = "Task: "..(task.label or "<UNNAMED>")
+	local next_microtask = task.microTasks:iterator()
+	local microtask = next_microtask()
+	while microtask do
+		str = str .. "\n* " .. microtask_to_string(microtask)
+		microtask = next_microtask()
+	end
+	return str
+end
+local task_queue_to_string = function(task_queue)
+	local str = ""
+	local next_task = task_queue:iterator()
+	local task = next_task()
+	local first = true
+	while task do
+		if not first then
+			str = str .. "\n"
+		end
+		str = str .. task_to_string(task)
+		task = next_task()
+		first = false
+	end
+	return str
+end
+local set_task_queue_as_nametag = function(self)
+	local taskstr = task_queue_to_string(self._tasks)
+	self.object:set_properties({
+		nametag = taskstr,
+	})
+end
+
 rp_mobs.registered_mobs = {}
 
 rp_mobs.register_mob = function(mobname, def)
@@ -145,6 +183,9 @@ rp_mobs.handle_tasks = function(self)
 	end
 	local activeTaskEntry = self._tasks:getFirst()
 	if not activeTaskEntry then
+		if TASK_DEBUG then
+			set_task_queue_as_nametag(self)
+		end
 		return
 	end
 	local activeTask = activeTaskEntry.data
@@ -152,6 +193,9 @@ rp_mobs.handle_tasks = function(self)
 	local activeMicroTaskEntry = activeTask.microTasks:getFirst()
 	if not activeMicroTaskEntry then
 		self._tasks:remove(activeTaskEntry)
+		if TASK_DEBUG then
+			set_task_queue_as_nametag(self)
+		end
 		return
 	end
 
@@ -161,6 +205,9 @@ rp_mobs.handle_tasks = function(self)
 			activeMicroTask:on_end(self)
 		end
 		activeTask.microTasks:remove(activeMicroTaskEntry)
+		if TASK_DEBUG then
+			set_task_queue_as_nametag(self)
+		end
 		return
 	end
 
@@ -171,7 +218,14 @@ rp_mobs.handle_tasks = function(self)
 			activeMicroTask:on_end(self)
 		end
 		activeTask.microTasks:remove(activeMicroTaskEntry)
+		if TASK_DEBUG then
+			set_task_queue_as_nametag(self)
+		end
 		return
+	end
+
+	if TASK_DEBUG then
+		set_task_queue_as_nametag(self)
 	end
 end
 
