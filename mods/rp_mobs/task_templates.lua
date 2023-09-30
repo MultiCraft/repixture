@@ -1,4 +1,5 @@
 local PATH_DEBUG = true
+local PATH_DISTANCE_TO_GOAL_POINT = 0.7
 
 -- Task templates
 
@@ -40,13 +41,20 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 				})
 			end
 		end
-		local next_pos
+		local next_pos = path[1]
+		local mob_pos = mob.object:get_pos()
 		if path[2] then
-			next_pos = path[2]
-		else
-			next_pos = path[1]
+			local dist_mob_to_next = vector.distance(mob_pos, next_pos)
+			local dist_mob_to_next_next = vector.distance(mob_pos, path[2])
+			if dist_mob_to_next < PATH_DISTANCE_TO_GOAL_POINT or dist_mob_to_next_next < dist_mob_to_next then
+				table.remove(path, 1)
+				if #path == 0 then
+					return
+				end
+				next_pos = path[1]
+			end
 		end
-		local dir = vector.direction(mob.object:get_pos(), next_pos)
+		local dir = vector.direction(mob_pos, next_pos)
 		if vector.length(dir) > 0.001 then
 			mob._mob_velocity = dir
 			mob._mob_velocity_changed = true
@@ -57,7 +65,8 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 	end
 	mtask.is_finished = function(mob)
 		local pos = mob.object:get_pos()
-		if vector.distance(pos, target_pos) < 0.7 then
+		if vector.distance(pos, target_pos) < PATH_DISTANCE_TO_GOAL_POINT then
+			-- DEBUG
 			minetest.log("error", "target reached")
 			return true
 		else
