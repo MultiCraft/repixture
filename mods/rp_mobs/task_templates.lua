@@ -12,7 +12,7 @@ rp_mobs.microtasks = {}
 rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, max_jump, max_drop)
 	local mtask = {}
 	mtask.label = "pathfind and walk to coordinate"
-	mtask.on_step = function(mob)
+	mtask.on_step = function(self, mob)
 		local start_pos = mob.object:get_pos()
 		start_pos.y = math.floor(start_pos.y)
 		start_pos = vector.round(start_pos)
@@ -63,7 +63,7 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 			mob._mob_velocity_changed = true
 		end
 	end
-	mtask.is_finished = function(mob)
+	mtask.is_finished = function(self, mob)
 		local pos = mob.object:get_pos()
 		if vector.distance(pos, target_pos) < PATH_DISTANCE_TO_GOAL_POINT then
 			-- DEBUG
@@ -73,7 +73,7 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 			return false
 		end
 	end
-	mtask.on_end = function(mob)
+	mtask.on_end = function(self, mob)
 		mob._mob_velocity = vector.zero()
 		mob._mob_velocity_changed = true
 	end
@@ -86,7 +86,7 @@ rp_mobs.microtasks.jump = function(strength)
 	return {
 		label = "jump",
 		singlestep = true,
-		on_step = function(mob)
+		on_step = function(self, mob)
 			mob.object:add_velocity({x=0, y=strength, z=0})
 		end,
 	}
@@ -95,7 +95,7 @@ end
 rp_mobs.microtasks.go_to_x = function(target_x, tolerance)
 	return {
 		label = "move to x coordinate",
-		on_step = function(mob)
+		on_step = function(self, mob)
 			local pos = mob.object:get_pos()
 			if pos.x > target_x then
 				if mob._mob_velocity.x < -1.001 or mob._mob_velocity.x > -0.999 then
@@ -109,7 +109,7 @@ rp_mobs.microtasks.go_to_x = function(target_x, tolerance)
 				end
 			end
 		end,
-		is_finished = function(mob)
+		is_finished = function(self, mob)
 			local pos = mob.object:get_pos()
 			if math.abs(pos.x - target_x) <= tolerance then
 				return true
@@ -117,7 +117,7 @@ rp_mobs.microtasks.go_to_x = function(target_x, tolerance)
 				return false
 			end
 		end,
-		on_end = function(mob)
+		on_end = function(self, mob)
 			mob._mob_velocity = vector.zero()
 			mob._mob_velocity_changed = true
 		end,

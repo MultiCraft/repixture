@@ -135,19 +135,19 @@ rp_mobs.handle_tasks = function(self)
 	end
 
 	local activeMicroTask = activeMicroTaskEntry.data
-	if not activeMicroTask.singlestep and activeMicroTask.is_finished(self) then
+	if not activeMicroTask.singlestep and activeMicroTask:is_finished(self) then
 		if activeMicroTask.on_end then
-			activeMicroTask.on_end(self)
+			activeMicroTask:on_end(self)
 		end
 		activeTask.microTasks:remove(activeMicroTaskEntry)
 		return
 	end
 
-	activeMicroTask.on_step(self)
+	activeMicroTask:on_step(self)
 
 	if activeMicroTask.singlestep then
 		if activeMicroTask.on_end then
-			activeMicroTask.on_end(self)
+			activeMicroTask:on_end(self)
 		end
 		activeTask.microTasks:remove(activeMicroTaskEntry)
 		return

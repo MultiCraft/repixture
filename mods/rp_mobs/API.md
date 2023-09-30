@@ -71,6 +71,8 @@ A microtask is a table with the following fields:
 * `singlestep`: If true, this microtask will run for only 1 step and automatically succeeds (default: false)
 
 Every microtask needs to have `on_step` and either `on_finished` or `singlestep = true`.
+The `on_*` functions have parameters `self, mob` with self being a reference to the
+microtask table itself and `mob` being the mob object that is affected.
 
 ## Function reference
 
