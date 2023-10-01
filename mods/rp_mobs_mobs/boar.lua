@@ -8,7 +8,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 	description = S("Boar"),
 	drops = {"rp_mobs_mobs:pork_raw"},
 	decider = function(self)
-		local task = rp_mobs.create_task({label="walk to random spot"})
+		local task = rp_mobs.create_task({label="roam"})
 		local startpos = self.object:get_pos()
 		startpos.y = math.floor(startpos.y)
 		startpos = vector.round(startpos)
@@ -23,6 +23,8 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			local microtask1 = rp_mobs.microtasks.pathfind_and_walk_to(endpos, 100, 1, 4)
 			rp_mobs.add_microtask_to_task(self, microtask1, task)
 		end
+		local microtask2 = rp_mobs.microtasks.sleep(math.random(500, 2000)/1000)
+		rp_mobs.add_microtask_to_task(self, microtask2, task)
 		rp_mobs.add_task(self, task)
 	end,
 	entity_definition = {
@@ -41,7 +43,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		end,
 		on_step = function(self, dtime)
 			rp_mobs.handle_physics(self)
-			rp_mobs.handle_tasks(self)
+			rp_mobs.handle_tasks(self, dtime)
 			rp_mobs.decide(self)
 		end,
 		on_death = rp_mobs.on_death_default,

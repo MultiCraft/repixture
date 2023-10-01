@@ -12,7 +12,7 @@ rp_mobs.microtasks = {}
 rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, max_jump, max_drop)
 	local mtask = {}
 	mtask.label = "pathfind and walk to coordinate"
-	mtask.on_step = function(self, mob)
+	mtask.on_step = function(self, mob, dtime)
 		local start_pos = mob.object:get_pos()
 		start_pos.y = math.floor(start_pos.y)
 		start_pos = vector.round(start_pos)
@@ -70,18 +70,29 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 	end
 	mtask.is_finished = function(self, mob)
 		local pos = mob.object:get_pos()
-		if vector.distance(pos, target_pos) < PATH_DISTANCE_TO_GOAL_POINT then
-			-- DEBUG
-			return true
-		else
-			return false
-		end
+		return vector.distance(pos, target_pos) < PATH_DISTANCE_TO_GOAL_POINT
 	end
 	mtask.on_end = function(self, mob)
 		mob._mob_velocity = vector.zero()
 		mob._mob_velocity_changed = true
 	end
 	return rp_mobs.create_microtask(mtask)
+end
+
+-- Do nothing for the given time in seconds
+rp_mobs.microtasks.sleep = function(time)
+	return rp_mobs.create_microtask({
+		label = "sleep for "..time.."s",
+		on_step = function(self, mob, dtime)
+			if not self.statedata.sleeptimer then
+				self.statedata.sleeptimer = 0
+			end
+			self.statedata.sleeptimer = self.statedata.sleeptimer + dtime
+		end,
+		is_finished = function(self, mob)
+			return self.statedata.sleeptimer and self.statedata.sleeptimer >= time
+		end
+	})
 end
 
 -- DUMMY TEMPLATES (need to do better later)

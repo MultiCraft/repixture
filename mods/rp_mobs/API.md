@@ -43,7 +43,8 @@ You can use the following template:
 			end,
 			on_step = function(self, dtime)
 				rp_mobs.handle_physics(self)
-				rp_mobs.handle_tasks(self)
+				rp_mobs.handle_tasks(self, dtime)
+				rp_mobs.decide(self)
 			end,
 			on_death = rp_mobs.on_death_default,
 		},
@@ -76,8 +77,13 @@ A microtask is a table with the following fields:
 * `statedata`: Table containing data that can be modified and read at runtime
 
 Every microtask needs to have `on_step` and either `on_finished` or `singlestep = true`.
-The `on_*` functions have parameters `self, mob` with self being a reference to the
+
+`on_finished` and `on_end` have parameters `self, mob` with `self` being a reference to the
 microtask table itself and `mob` being the mob object that is affected.
+
+`on_step` has the parameters `self, mob, dtime`, where `dtime` is the time in seconds
+that have passed since it was last called, or 0 on the firt call (like for the entity
+`on_step` function).
 
 The `statedata` field can be used to associate arbitrary data with the microtask in
 order to preserve some state. You may read and write to it in functions

@@ -177,7 +177,7 @@ rp_mobs.add_microtask_to_task  = function(self, microtask, task)
 	return task.microTasks:append(microtask)
 end
 
-rp_mobs.handle_tasks = function(self)
+rp_mobs.handle_tasks = function(self, dtime)
 	if not self._tasks then
 		minetest.log("error", "[rp_mobs] rp_mobs.handle_tasks called before tasks were initialized!")
 		return
@@ -212,7 +212,7 @@ rp_mobs.handle_tasks = function(self)
 		return
 	end
 
-	activeMicroTask:on_step(self)
+	activeMicroTask:on_step(self, dtime)
 
 	if activeMicroTask.singlestep then
 		if activeMicroTask.on_end then
