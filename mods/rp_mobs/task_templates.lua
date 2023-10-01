@@ -18,7 +18,6 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 		start_pos = vector.round(start_pos)
 		local path = self.statedata.path
 		if not path then
-			minetest.log("error", "path built")
 			path = minetest.find_path(start_pos, target_pos, searchdistance, max_jump, max_drop, "A*")
 			self.statedata.path = path
 		end
@@ -73,7 +72,6 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 		local pos = mob.object:get_pos()
 		if vector.distance(pos, target_pos) < PATH_DISTANCE_TO_GOAL_POINT then
 			-- DEBUG
-			minetest.log("error", "target reached")
 			return true
 		else
 			return false

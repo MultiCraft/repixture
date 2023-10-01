@@ -46,6 +46,7 @@ rp_mobs.registered_mobs = {}
 rp_mobs.register_mob = function(mobname, def)
 	local mdef = table.copy(def)
 	mdef.entity_definition._cmi_is_mob = true
+	mdef.entity_definition._decider = def.decider
 
 	rp_mobs.registered_mobs[mobname] = mdef
 
@@ -145,7 +146,6 @@ end
 
 rp_mobs.add_task = function(self, task)
 	local handler = self._tasks:append(task)
-	task.microTasks = rp_mobs.DoublyLinkedList()
 	if task.generateMicroTasks then
 		task:generateMicroTasks()
 	end
@@ -158,6 +158,7 @@ rp_mobs.create_task = function(def)
 	else
 		task = {}
 	end
+	task.microTasks = rp_mobs.DoublyLinkedList()
 	return task
 end
 
@@ -226,6 +227,15 @@ rp_mobs.handle_tasks = function(self)
 
 	if TASK_DEBUG then
 		set_task_queue_as_nametag(self)
+	end
+end
+
+rp_mobs.decide = function(self)
+	if not self._decider then
+		return
+	end
+	if self._tasks:isEmpty() then
+		self:_decider()
 	end
 end
 

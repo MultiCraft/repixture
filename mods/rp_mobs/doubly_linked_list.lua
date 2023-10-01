@@ -16,6 +16,7 @@ Function documentation:
        If `reverse` is true, will traverse the list in reverse order instead
 * list:getFirst(): Returns the first entry or nil if there is none
 * list:getLast(): Returns the last entry or nil if there is none
+* list:isEmpty(): Returns true if the list is empty
 ]]
 
 
@@ -175,6 +176,14 @@ local getLast = function(self)
 	end
 end
 
+local isEmpty = function(self)
+	if not self.first then
+		return true
+	else
+		return false
+	end
+end
+
 rp_mobs.DoublyLinkedList = function()
 	local dllist = {}
 	dllist.append = append
@@ -186,6 +195,7 @@ rp_mobs.DoublyLinkedList = function()
 	dllist.iterator = iterator
 	dllist.getFirst = getFirst
 	dllist.getLast = getLast
+	dllist.isEmpty = isEmpty
 	dllist.first = nil -- reference to first entry
 	dllist.last = nil -- reference to last entry
 	return dllist

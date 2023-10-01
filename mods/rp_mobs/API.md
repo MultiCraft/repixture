@@ -34,6 +34,7 @@ You can use the following template:
 	rp_mobs.register_mob("MOBNAME", {
 		description = "MOB DESCRIPTION",
 		drops = { ADD_YOUR_DROPS_HERE },
+		decider = function(self) --[[ do things ]] end,
 		entity_definition = {
 			-- Add 
 			on_activate = function(self)
@@ -96,6 +97,9 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
 
 * `description`: Short mob name used for display purposes
 * `drops`: Table of itemstrings to be dropped when the mob dies
+* `decider(self)`: Function that is supposed to be called when the task queue
+                   is empty. `self` is the mob object. You can add new tasks
+                   here.
 * `entity_definition`: Entity definition table
 
 ### `rp_mobs.drop_death_items(mob, pos)`
@@ -159,6 +163,12 @@ Add a task `task` to the mob's task queue.
 ### `rp_mobs.add_microtask_to_task(mob, microtask, task)`
 
 Add the microtask `microtask` to the specified `task`.
+
+### `rp_mobs.decide(mob)`
+
+Call the `decider` function of the mob definition, if it exists.
+This can be used for the mob to "decide" on what to do next
+when the task queue is empty.
 
 ### `rp_mobs.register_mob_item(mobname, invimg, desc)`
 

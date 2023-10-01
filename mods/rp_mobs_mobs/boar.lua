@@ -7,6 +7,24 @@ local S = minetest.get_translator("mobs")
 rp_mobs.register_mob("rp_mobs_mobs:boar", {
 	description = S("Boar"),
 	drops = {"rp_mobs_mobs:pork_raw"},
+	decider = function(self)
+		local task = rp_mobs.create_task({label="walk to random spot"})
+		local startpos = self.object:get_pos()
+		startpos.y = math.floor(startpos.y)
+		startpos = vector.round(startpos)
+		local nodes = minetest.find_nodes_in_area_under_air(
+			vector.add(startpos, vector.new(-5, -1, -5)),
+			vector.add(startpos, vector.new(5, -1, 5)),
+			{"group:crumbly", "group:cracky"}
+		)
+		if #nodes > 0 then
+			local n = math.random(1, #nodes)
+			local endpos = vector.add(vector.new(0,1,0), nodes[n])
+			local microtask1 = rp_mobs.microtasks.pathfind_and_walk_to(endpos, 100, 1, 4)
+			rp_mobs.add_microtask_to_task(self, microtask1, task)
+		end
+		rp_mobs.add_task(self, task)
+	end,
 	entity_definition = {
 		hp_max = 20,
 		physical = true,
@@ -21,43 +39,10 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			--rp_mobs.activate_gravity(self)
 			rp_mobs.init_tasks(self)
 		end,
-		on_rightclick = function(self, clicker)
-			--rp_mobs.feed_tame(self, clicker, 8, true)
-			--rp_mobs.capture_mob(self, clicker, 0, 5, 40, false, nil)
-
-			-- DEBUG: Microtask tests
-			local task = rp_mobs.create_task({label="walk to random spot"})
-			local taskEntry = rp_mobs.add_task(self, task)
-			local startpos = self.object:get_pos()
-			startpos.y = math.floor(startpos.y)
-			startpos = vector.round(startpos)
-			local nodes = minetest.find_nodes_in_area_under_air(
-				vector.add(startpos, vector.new(-5, -1, -5)),
-				vector.add(startpos, vector.new(5, -1, 5)),
-				{"group:crumbly", "group:cracky"}
-			)
-			if #nodes > 0 then
-				local n = math.random(1, #nodes)
-				local endpos = vector.add(vector.new(0,1,0), nodes[n])
-				local microtask1 = rp_mobs.microtasks.pathfind_and_walk_to(endpos, 100, 1, 4)
-				rp_mobs.add_microtask_to_task(self, microtask1, task)
-			end
---[[
-			local microtask1 = rp_mobs.microtasks.go_to_x(0, 0.1)
-			local microtask2 = rp_mobs.microtasks.go_to_x(5, 0.1)
-			local microtask3 = rp_mobs.microtasks.jump(10)
-			local microtask4 = rp_mobs.microtasks.go_to_x(-5, 0.1)
-			local microtask5 = rp_mobs.microtasks.jump(10)
-			rp_mobs.add_microtask_to_task(self, microtask1, task)
-			rp_mobs.add_microtask_to_task(self, microtask2, task)
-			rp_mobs.add_microtask_to_task(self, microtask3, task)
-			rp_mobs.add_microtask_to_task(self, microtask4, task)
-			rp_mobs.add_microtask_to_task(self, microtask5, task)
-]]
-		end,
 		on_step = function(self, dtime)
 			rp_mobs.handle_physics(self)
 			rp_mobs.handle_tasks(self)
+			rp_mobs.decide(self)
 		end,
 		on_death = rp_mobs.on_death_default,
 	},
