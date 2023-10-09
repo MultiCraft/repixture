@@ -38,7 +38,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		makes_footstep_sound = true,
 		on_activate = function(self)
 			rp_mobs.init_physics(self)
-			--rp_mobs.activate_gravity(self)
+			rp_mobs.activate_gravity(self)
 			rp_mobs.init_tasks(self)
 		end,
 		on_step = function(self, dtime)

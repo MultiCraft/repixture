@@ -2,6 +2,27 @@ local PATH_DEBUG = true
 local PATH_DISTANCE_TO_GOAL_POINT = 0.7
 local YAW_PRECISION = 10000
 
+local show_pathfinder_path = function(path)
+	local pathstr = ""
+	for p=1, #path do
+		local tex
+		if p == 1 then
+			tex = "rp_mobs_debug_pathfinder_waypoint_start.png"
+		elseif p == #path then
+			tex = "rp_mobs_debug_pathfinder_waypoint_end.png"
+		else
+			tex = "rp_mobs_debug_pathfinder_waypoint.png"
+		end
+		minetest.add_particle({
+			pos = path[p],
+			expirationtime = 1,
+			size = 2,
+			texture = tex,
+			glow = minetest.LIGHT_MAX,
+		})
+	end
+end
+
 -- Task templates
 
 rp_mobs.tasks = {}
@@ -14,6 +35,9 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 	local mtask = {}
 	mtask.label = "pathfind and walk to coordinate"
 	mtask.on_step = function(self, mob, dtime)
+		if self.statedata.moving == nil then
+			self.statedata.moving = false
+		end
 		local start_pos = mob.object:get_pos()
 		start_pos.y = math.floor(start_pos.y)
 		start_pos = vector.round(start_pos)
@@ -27,24 +51,7 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 			return
 		end
 		if PATH_DEBUG then
-			local pathstr = ""
-			for p=1, #path do
-				local tex
-				if p == 1 then
-					tex = "rp_mobs_debug_pathfinder_waypoint_start.png"
-				elseif p == #path then
-					tex = "rp_mobs_debug_pathfinder_waypoint_end.png"
-				else
-					tex = "rp_mobs_debug_pathfinder_waypoint.png"
-				end
-				minetest.add_particle({
-					pos = path[p],
-					expirationtime = 1,
-					size = 2,
-					texture = tex,
-					glow = minetest.LIGHT_MAX,
-				})
-			end
+			show_pathfinder_path(path)
 		end
 		local next_pos = path[1]
 		local mob_pos = mob.object:get_pos()
@@ -65,12 +72,17 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 		local dir_next_pos = table.copy(next_pos)
 		dir_next_pos.y = mob_pos.y
 		local dir = vector.direction(mob_pos, dir_next_pos)
-		if vector.length(dir) > 0.001 then
+		local dist = vector.distance(mob_pos, dir_next_pos)
+		if vector.length(dir) > 0.001 and dist > 0.1 then
 			mob._mob_velocity = dir
 			mob._mob_velocity_changed = true
+			self.statedata.moving = true
 		else
-			mob._mob_velocity = vector.zero()
-			mob._mob_velocity_changed = true
+			if self.statedata.moving ~= false then
+				mob._mob_velocity = vector.zero()
+				mob._mob_velocity_changed = true
+				self.statedata.moving = false
+			end
 		end
 	end
 	mtask.is_finished = function(self, mob)
