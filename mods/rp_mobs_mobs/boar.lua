@@ -20,11 +20,11 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		if #nodes > 0 then
 			local n = math.random(1, #nodes)
 			local endpos = vector.add(vector.new(0,1,0), nodes[n])
-			local microtask1 = rp_mobs.microtasks.pathfind_and_walk_to(endpos, 100, 1, 4)
-			rp_mobs.add_microtask_to_task(self, microtask1, task)
+			local mt_pathfind = rp_mobs.microtasks.pathfind_and_walk_to(endpos, 100, 1, 4)
+			rp_mobs.add_microtask_to_task(self, mt_pathfind, task)
 		end
-		local microtask2 = rp_mobs.microtasks.sleep(math.random(500, 2000)/1000)
-		rp_mobs.add_microtask_to_task(self, microtask2, task)
+		local mt_sleep = rp_mobs.microtasks.sleep(math.random(500, 2000)/1000)
+		rp_mobs.add_microtask_to_task(self, mt_sleep, task)
 		rp_mobs.add_task(self, task)
 	end,
 	entity_definition = {

@@ -1,5 +1,6 @@
 local PATH_DEBUG = true
 local PATH_DISTANCE_TO_GOAL_POINT = 0.7
+local YAW_PRECISION = 10000
 
 -- Task templates
 
@@ -77,6 +78,43 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 		mob._mob_velocity_changed = true
 	end
 	return rp_mobs.create_microtask(mtask)
+end
+
+-- Rotate yaw linearly over time
+rp_mobs.microtasks.rotate_yaw_smooth = function(yaw, time)
+	local label
+	if yaw == "random" then
+		label = "rotate yaw randomly"
+	else
+		label = "rotate yaw to "..string.format("%.3f", yaw)
+	end
+	return rp_mobs.create_microtask({
+		label = label,
+		on_step = function(self, mob, dtime)
+			local sd = self.statedata
+			if not sd.target_yaw then
+				if yaw == "random" then
+					yaw = (math.random(0, YAW_PRECISION) / YAW_PRECISION) * (math.pi*2)
+				end
+				sd.target_yaw = yaw
+			end
+			if not sd.start_yaw then
+				sd.start_yaw = mob.object:get_yaw()
+			end
+			if not sd.timer then
+				sd.timer = 0
+			end
+			sd.timer = sd.timer + dtime
+			local timer = math.min(sd.timer, time)
+			local time_progress = 1 - ((time - timer) / time)
+
+			local current_yaw = sd.start_yaw + (sd.target_yaw - sd.start_yaw) * time_progress
+			mob.object:set_yaw(current_yaw)
+		end,
+		is_finished = function(self, mob)
+			return self.statedata.timer and self.statedata.timer >= time
+		end,
+	})
 end
 
 -- Do nothing for the given time in seconds
