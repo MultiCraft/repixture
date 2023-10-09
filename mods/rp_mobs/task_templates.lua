@@ -60,7 +60,11 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 				next_pos = path[1]
 			end
 		end
-		local dir = vector.direction(mob_pos, next_pos)
+		-- Pretend that next_pos is on same height as the mob so the direction
+		-- vector is always horizontal
+		local dir_next_pos = table.copy(next_pos)
+		dir_next_pos.y = mob_pos.y
+		local dir = vector.direction(mob_pos, dir_next_pos)
 		if vector.length(dir) > 0.001 then
 			mob._mob_velocity = dir
 			mob._mob_velocity_changed = true
