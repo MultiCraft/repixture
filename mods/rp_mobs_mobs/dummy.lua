@@ -9,6 +9,8 @@ rp_mobs.register_mob("rp_mobs_mobs:dummy", {
 	decider = function(self)
 		local task = rp_mobs.create_task({label="Dummy stuff"})
 		rp_mobs.add_microtask_to_task(self, rp_mobs.microtasks.set_yaw("random"), task)
+		local yaw = (math.random(0, 10000) / 10000) * (math.pi*2)
+		rp_mobs.add_microtask_to_task(self, rp_mobs.microtasks.walk_straight_towards(1, "pos", vector.zero(), 0.2), task)
 		local sleep_time = math.random(500, 2000)/1000
 		local mt_sleep = rp_mobs.microtasks.sleep(sleep_time)
 		rp_mobs.add_microtask_to_task(self, mt_sleep, task)

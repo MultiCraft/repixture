@@ -120,6 +120,86 @@ rp_mobs.microtasks.set_yaw = function(yaw)
 	})
 end
 
+-- Walk in a straight line, ignoring obstacles. No finish condition
+rp_mobs.microtasks.walk_straight = function(walk_speed, yaw)
+	return rp_mobs.create_microtask({
+		label = "walk straight",
+		on_step = function(self, mob, dtime)
+			local vel = vector.new()
+			vel.y = 0
+			vel.x = math.sin(yaw) * -walk_speed
+			vel.z = math.cos(yaw) * walk_speed
+			if not self.statedata.vel_set then
+				mob._mob_velocity.x = vel.x
+				mob._mob_velocity.y = vel.y
+				mob._mob_velocity.z = vel.z
+				mob._mob_velocity_changed = true
+				self.statedata.vel_set = true
+			end
+		end,
+		is_finished = function()
+			-- never finishes; must be aborted
+			return false
+		end
+	})
+end
+
+-- Walk in a straight line towards a position or object
+rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, reach_distance)
+	return rp_mobs.create_microtask({
+		label = "walk towards something",
+		on_step = function(self, mob, dtime)
+			local vel = vector.new()
+			local mypos = mob.object:get_pos()
+			local dir
+			if target_type == "pos" then
+				dir = vector.direction(mypos, target)
+			elseif target_type == "object" then
+				local tpos = target:get_pos()
+				dir = vector.direction(mypos, tpos)
+			else
+				return
+			end
+			local yaw = minetest.dir_to_yaw(dir)
+			vel.y = 0
+			vel.x = math.sin(yaw) * -walk_speed
+			vel.z = math.cos(yaw) * walk_speed
+			if not self.statedata.vel_set or target_type == "object" then
+				mob._mob_velocity.x = vel.x
+				mob._mob_velocity.y = vel.y
+				mob._mob_velocity.z = vel.z
+				mob._mob_velocity_changed = true
+				if target_type == "pos" then
+					self.statedata.vel_set = true
+				end
+			end
+		end,
+		is_finished = function(self, mob)
+			local mypos = mob.object:get_pos()
+			local tpos
+			if target_type == "pos" then
+				tpos = table.copy(target)
+			elseif target_type == "object" then
+				tpos = target:get_pos()
+			else
+				minetest.log("error", "[rp_mobs] Incorrect target_type provided in rp_mobs.microtask.walk_straight_towards!")
+				return true
+			end
+			mypos.y = 0
+			tpos.y = 0
+			if vector.distance(mypos, tpos) <= reach_distance then
+				return true
+			else
+				return false
+			end
+		end,
+		on_end = function(self, mob)
+			mob._mob_velocity = vector.zero()
+			mob._mob_velocity_changed = true
+		end,
+	})
+end
+
 -- Rotate yaw linearly over time
 rp_mobs.microtasks.rotate_yaw_smooth = function(yaw, time)
 	local label
