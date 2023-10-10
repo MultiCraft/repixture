@@ -23,6 +23,10 @@ local show_pathfinder_path = function(path)
 	end
 end
 
+local random_yaw = function()
+	return (math.random(0, YAW_PRECISION) / YAW_PRECISION) * (math.pi*2)
+end
+
 -- Task templates
 
 rp_mobs.tasks = {}
@@ -96,6 +100,26 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 	return rp_mobs.create_microtask(mtask)
 end
 
+-- Set yaw instantly
+rp_mobs.microtasks.set_yaw = function(yaw)
+	local label
+	if yaw == "random" then
+		label = "set yaw randomly"
+	else
+		label = "set yaw to "..string.format("%.3f", yaw)
+	end
+	return rp_mobs.create_microtask({
+		label = label,
+		singlestep = true,
+		on_step = function(self, mob, dtime)
+			if yaw == "random" then
+				yaw = random_yaw()
+			end
+			mob.object:set_yaw(yaw)
+		end,
+	})
+end
+
 -- Rotate yaw linearly over time
 rp_mobs.microtasks.rotate_yaw_smooth = function(yaw, time)
 	local label
@@ -110,7 +134,7 @@ rp_mobs.microtasks.rotate_yaw_smooth = function(yaw, time)
 			local sd = self.statedata
 			if not sd.target_yaw then
 				if yaw == "random" then
-					yaw = (math.random(0, YAW_PRECISION) / YAW_PRECISION) * (math.pi*2)
+					yaw = random_yaw()
 				end
 				sd.target_yaw = yaw
 			end

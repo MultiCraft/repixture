@@ -1,14 +1,14 @@
 -- TODO: Change to rp_mobs_mobs when ready
 local S = minetest.get_translator("mobs")
 
-local dummy_texture = "default_stone.png^[colorize:#88FF00:92"
+local dummy_texture = "mobs_dummy.png"
 
 -- Dummy mob only for testing
 rp_mobs.register_mob("rp_mobs_mobs:dummy", {
 	description = S("Dummy"),
 	decider = function(self)
 		local task = rp_mobs.create_task({label="Dummy stuff"})
-		rp_mobs.add_microtask_to_task(self, rp_mobs.microtasks.rotate_yaw_smooth("random", 1), task)
+		rp_mobs.add_microtask_to_task(self, rp_mobs.microtasks.set_yaw("random"), task)
 		local sleep_time = math.random(500, 2000)/1000
 		local mt_sleep = rp_mobs.microtasks.sleep(sleep_time)
 		rp_mobs.add_microtask_to_task(self, mt_sleep, task)
