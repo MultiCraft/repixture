@@ -49,9 +49,9 @@ rp_mobs.register_mob = function(mobname, def)
 	mdef.entity_definition._decider = def.decider
 	mdef.entity_definition._description = def.description
 	mdef.entity_definition._is_animal = def.is_animal
-	mdef.entity_definition._base_size = table.copy(def.visual_size or { x=1, y=1, z=1 })
-	mdef.entity_definition._base_selbox = table.copy(def.selectionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate = false })
-	mdef.entity_definition._base_colbox = table.copy(def.collisionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5})
+	mdef.entity_definition._base_size = table.copy(def.entity_definition.visual_size or { x=1, y=1, z=1 })
+	mdef.entity_definition._base_selbox = table.copy(def.entity_definition.selectionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate = false })
+	mdef.entity_definition._base_colbox = table.copy(def.entity_definition.collisionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5})
 
 	rp_mobs.registered_mobs[mobname] = mdef
 

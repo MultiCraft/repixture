@@ -20,21 +20,26 @@ local CHILD_SIZE_DIVISOR = 2
 -- Range in within mobs can breed
 local DEFAULT_BREED_RANGE = 4
 
+-- Interval in which the mob checks for partners to breed with (seconds)
+local BREED_CHECK_INTERVAL = 1
+
 -- Make mob horny, if possible
 rp_mobs.make_horny = function(mob, force)
 	if mob._child then
 		return
 	end
-	if (not mob._horny) and (force or (mob._hornytimer < HORNY_AGAIN_TIME)) then
+	if (not mob._horny) and (force or (mob._horny_timer < HORNY_AGAIN_TIME)) then
 		mob._horny = true
-		mob._hornytimer = 0
+		mob._horny_timer = 0
+		-- Start spawning breed particles in next step
+		mob._breed_check_timer = BREED_CHECK_INTERVAL
 	end
 end
 
 -- Disable mob being horny again
 rp_mobs.make_unhorny = function(mob)
 	mob._horny = false
-	mob._hornytimer = 0
+	mob._horny_timer = 0
 end
 
 -- Turn the mob into an adult
@@ -135,24 +140,35 @@ rp_mobs.pregnancy = function(mob, dtime)
 end
 
 rp_mobs.horny_and_breed = function(mob, dtime)
-	if not mob._hornytimer then
-		mob._hornytimer = 0
+	if not mob._horny_timer then
+		mob._horny_timer = 0
+	end
+	if not mob._breed_check_timer then
+		mob._breed_check_timer = 0
 	end
 
 	-- Horny mob can mate for HORNY_TIME seconds, afterwards the mob cannot mate again for HORNY_AGAIN_TIME seconds
-	if mob._horny and mob._hornytimer < HORNY_AGAIN_TIME and not mob._child then
-		mob._hornytimer = mob._hornytimer + dtime
-		if mob._hornytimer >= HORNY_AGAIN_TIME then
+	if mob._horny and mob._horny_timer < HORNY_AGAIN_TIME and not mob._child then
+		mob._horny_timer = mob._horny_timer + dtime
+		if mob._horny_timer >= HORNY_AGAIN_TIME then
 			rp_mobs.make_unhorny(mob)
 		end
 	end
 
 	-- If mob is horny, find another same mob who is horny, and mate
-	if (not mob._pregnant) and mob._horny and mob._hornytimer <= HORNY_TIME then
+	if (not mob._pregnant) and mob._horny and mob._horny_timer <= HORNY_TIME then
 		local pos = mob.object:get_pos()
 
-		-- Heart particles show the mob is horny
-		local effect_pos = {x = pos.x, y = pos.y+0.5, z = pos.z}
+		mob._breed_check_timer = mob._breed_check_timer + dtime
+		if mob._breed_check_timer < BREED_CHECK_INTERVAL then
+			return
+		end
+		mob._breed_check_timer = 0
+
+		-- Particles show that the mob is horny
+		local effect_pos = {x = pos.x, y = pos.y, z = pos.z}
+		local props = mob.object:get_properties()
+		effect_pos.y = effect_pos.y + props.collisionbox[5]
 		minetest.add_particlespawner(
 		{
 			amount = 4,
@@ -167,7 +183,10 @@ rp_mobs.horny_and_breed = function(mob, dtime)
 			maxexptime = 1,
 			minsize = 1,
 			maxsize = 2,
-			texture = "mobs_breed.png",
+			texture = {
+				name = "mobs_breed.png",
+				alpha_tween = { 1, 0, start = 0.75 },
+			},
 		})
 
 		-- Pick a partner to mate with
@@ -178,7 +197,7 @@ rp_mobs.horny_and_breed = function(mob, dtime)
 		local partner = nil
 		for _, obj in ipairs(nearby_objects) do
 			local ent = obj:get_luaentity()
-			if mob ~= ent and ent and ent.name == mob.name and ent._horny and ent._hornytimer <= HORNY_TIME and (not ent._pregnant) then
+			if ent and mob ~= ent and ent.name == mob.name and ent._horny and ent._horny_timer <= HORNY_TIME and (not ent._pregnant) then
 				table.insert(potential_partners, ent)
 			end
 		end
@@ -201,8 +220,10 @@ rp_mobs.horny_and_breed = function(mob, dtime)
 			child_bearer = partner
 			child_giver = mob
 		end
-		child_bearer._hornytimer = HORNY_TIME + 1
-		child_giver._hornytimer = HORNY_TIME + 1
+		child_bearer._horny_timer = HORNY_TIME + 1
+		child_giver._horny_timer = HORNY_TIME + 1
+		child_bearer._horny = false
+		child_giver._horny = false
 		local feeder_name
 		-- Record feeder name if player has fed both parents
 		if child_bearer._last_feeder and child_bearer._last_feeder ~= "" and child_bearer._last_feeder == child_giver._last_feeder then
@@ -211,5 +232,23 @@ rp_mobs.horny_and_breed = function(mob, dtime)
 		-- Induce pregnancy; the actual child will happen in rp_mobs.pregnancy
 		child_bearer._pregnant = true
 		child_bearer._pregnant_timer = 0
+		minetest.add_particlespawner({
+			amount = 1,
+			time = 0.01,
+			minpos = effect_pos,
+			maxpos = effect_pos,
+			minvel = {x = 0, y = 2, z = -0},
+			maxvel = {x = 0,  y = 2,  z = 0},
+			minexptime = 2,
+			maxexptime = 2,
+			minsize = 4,
+			maxsize = 4,
+			drag = { x=2, y=2, z=2 },
+			texture = {
+				name = "mobs_pregnant.png",
+				alpha_tween = { 1, 0, start = 0.75 },
+			},
+		})
+		minetest.log("action", "[rp_mobs] Mob of type '"..child_bearer.name.."' became pregnant at "..minetest.pos_to_string(child_bearer.object:get_pos(), 1))
 	end
 end

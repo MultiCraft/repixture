@@ -18,8 +18,8 @@ local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, c
 	if food_till_tamed and mob._food >= food_till_tamed then
 		mob._food = 0
 
-		if can_breed and mob._hornytimer == 0 then
-			mob._horny = true
+		if can_breed and mob._horny_timer == 0 then
+			rp_mobs.make_horny(mob, true)
 		end
 
 		if (not mob._tamed) and feeder_name ~= nil then
