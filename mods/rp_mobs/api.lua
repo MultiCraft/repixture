@@ -66,9 +66,14 @@ rp_mobs.drop_death_items = function(self, pos)
 	if not mobdef then
 		error("[rp_mobs] rp_mobs.drop_death_items was called on something that is not a registered mob! name="..tostring(self.name))
 	end
-	if mobdef.drops then
+	if not self._child and mobdef.drops then
 		for d=1, #mobdef.drops do
 			minetest.add_item(pos, mobdef.drops[d])
+		end
+	end
+	if self._child and mobdef.child_drops then
+		for d=1, #mobdef.child_drops do
+			minetest.add_item(pos, mobdef.child_drops[d])
 		end
 	end
 end

@@ -102,7 +102,8 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
 `def` is a definition table with the following optional fields:
 
 * `description`: Short mob name used for display purposes
-* `drops`: Table of itemstrings to be dropped when the mob dies
+* `drops`: Table of itemstrings to be dropped when the mob dies as an adult (default: empty table)
+* `child_drops`: Table of itemstrings to be dropped when the mob dies as a child (default: empty table)
 * `decider(self)`: Function that is supposed to be called when the task queue
                    is empty. `self` is the mob object. You can add new tasks
                    here.
