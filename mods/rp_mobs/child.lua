@@ -112,7 +112,7 @@ end
 
 -- Pregnancy check that needs to be called every step for mobs
 -- that can be bred.
-rp_mobs.pregnancy = function(mob, dtime)
+local pregnancy = function(mob, dtime)
 	if mob._pregnant then
 		mob._pregnant_timer = mob._pregnant_timer + dtime
 		if mob._pregnant_timer >= CHILD_BIRTH_TIME then
@@ -139,7 +139,7 @@ rp_mobs.pregnancy = function(mob, dtime)
 	end
 end
 
-rp_mobs.horny_and_breed = function(mob, dtime)
+rp_mobs.handle_breeding = function(mob, dtime)
 	if not mob._horny_timer then
 		mob._horny_timer = 0
 	end
@@ -154,6 +154,9 @@ rp_mobs.horny_and_breed = function(mob, dtime)
 			rp_mobs.make_unhorny(mob)
 		end
 	end
+
+	-- Update pregnancy status, if pregnant
+	pregnancy(mob, dtime)
 
 	-- If mob is horny, find another same mob who is horny, and mate
 	if (not mob._pregnant) and mob._horny and mob._horny_timer <= HORNY_TIME then
