@@ -9,6 +9,9 @@ dofile(path.."/doubly_linked_list.lua")
 
 dofile(path.."/api.lua")
 dofile(path.."/task_templates.lua")
+dofile(path.."/feed_tame.lua")
+dofile(path.."/child.lua")
+dofile(path.."/capture.lua")
 
 -- Mob items and crafts
 

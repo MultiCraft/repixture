@@ -47,6 +47,11 @@ rp_mobs.register_mob = function(mobname, def)
 	local mdef = table.copy(def)
 	mdef.entity_definition._cmi_is_mob = true
 	mdef.entity_definition._decider = def.decider
+	mdef.entity_definition._description = def.description
+	mdef.entity_definition._is_animal = def.is_animal
+	mdef.entity_definition._base_size = table.copy(def.visual_size or { x=1, y=1, z=1 })
+	mdef.entity_definition._base_selbox = table.copy(def.selectionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate = false })
+	mdef.entity_definition._base_colbox = table.copy(def.collisionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5})
 
 	rp_mobs.registered_mobs[mobname] = mdef
 
@@ -280,11 +285,20 @@ rp_mobs.register_mob_item = function(mobname, invimg, desc)
 	})
 end
 
-
--- TODO
-rp_mobs.feed_tame = function()
+function rp_mobs.mob_sound(self, sound, keep_pitch)
+	local pitch
+	if not keep_pitch then
+		if self.child then
+			pitch = 1.5
+		else
+			pitch = 1.0
+		end
+		pitch = pitch + 0.0025 * math.random(-10,10)
+	end
+	minetest.sound_play(sound, {
+		pitch = pitch,
+		object = self.object,
+	}, true)
 end
 
--- TODO
-rp_mobs.capture_mob = function()
-end
+

@@ -6,6 +6,7 @@ local S = minetest.get_translator("mobs")
 --
 rp_mobs.register_mob("rp_mobs_mobs:boar", {
 	description = S("Boar"),
+	is_animal = true,
 	drops = {"rp_mobs_mobs:pork_raw"},
 	decider = function(self)
 		local task = rp_mobs.create_task({label="roam"})
@@ -44,7 +45,12 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		on_step = function(self, dtime)
 			rp_mobs.handle_physics(self)
 			rp_mobs.handle_tasks(self, dtime)
+			rp_mobs.horny_and_breed(self, dtime)
+			rp_mobs.pregnancy(self, dtime)
 			rp_mobs.decide(self)
+		end,
+		on_rightclick = function(self, clicker)
+			rp_mobs.feed_tame_breed(self, clicker, { "rp_default:apple", "rp_default:acorn" }, 8, true)
 		end,
 		on_death = rp_mobs.on_death_default,
 	},
