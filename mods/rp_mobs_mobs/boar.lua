@@ -45,12 +45,12 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		on_step = function(self, dtime)
 			rp_mobs.handle_physics(self)
 			rp_mobs.handle_tasks(self, dtime)
-			rp_mobs.horny_and_breed(self, dtime)
-			rp_mobs.pregnancy(self, dtime)
+			rp_mobs.handle_breeding(self, dtime)
 			rp_mobs.decide(self)
 		end,
 		on_rightclick = function(self, clicker)
 			rp_mobs.feed_tame_breed(self, clicker, { "rp_default:apple", "rp_default:acorn" }, 8, true)
+			rp_mobs.attempt_capture(self, clicker, { ["rp_mobs:net"] = 5, ["rp_mobs:lasso"] = 40 })
 		end,
 		on_death = rp_mobs.on_death_default,
 	},

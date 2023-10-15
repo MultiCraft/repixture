@@ -60,9 +60,12 @@ rp_mobs.feed_tame_breed = function(mob, feeder, allowed_foods, food_till_tamed, 
 	local can_eat = false
 	local food_points
 	for f=1, #allowed_foods do
-		can_eat = true
-		food_points = 1
-		break
+		if allowed_foods[f] == fed_itemstring then
+			can_eat = true
+			-- TODO: Add custom food points
+			food_points = 1
+			break
+		end
 	end
 
 	if can_eat then
