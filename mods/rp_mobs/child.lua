@@ -167,8 +167,7 @@ rp_mobs.horny_and_breed = function(mob, dtime)
 			maxexptime = 1,
 			minsize = 1,
 			maxsize = 2,
-			-- TODO: Add custom particle texthre
-			texture = "heart.png",
+			texture = "mobs_breed.png",
 		})
 
 		-- Pick a partner to mate with
