@@ -67,6 +67,8 @@ crafting.register_craft(
       }
 })
 
+rp_mobs.register_capture_tool("rp_mobs:net", { uses = 17, sound = "mobs_swing", sound_gain = 0.2, sound_max_hear_distance = 16})
+
 -- Lasso
 
 minetest.register_tool(
@@ -89,6 +91,9 @@ crafting.register_craft(
          "rp_default:stick",
       }
 })
+
+rp_mobs.register_capture_tool("rp_mobs:lasso", { uses = 43, sound = "mobs_lasso_swing", sound_gain = 0.3, sound_max_hear_distance = 24})
+
 
 -- Compability with Repixture 3.10.0 and earlier
 minetest.register_alias("mobs:net", "rp_mobs:net")

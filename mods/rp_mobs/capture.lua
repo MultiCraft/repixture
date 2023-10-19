@@ -5,8 +5,6 @@ local capture_tools = {}
 rp_mobs.register_capture_tool = function(toolname, def)
 	capture_tools[toolname] = { uses = def.tool_uses, sound = def.sound, sound_gain = def.sound_gain, sound_max_hear_distance = def.sound_max_hear_distance }
 end
-rp_mobs.register_capture_tool("rp_mobs:lasso", { uses = 43, sound = "mobs_lasso_swing", sound_gain = 0.3, sound_max_hear_distance = 24})
-rp_mobs.register_capture_tool("rp_mobs:net", { uses = 17, sound = "mobs_swing", sound_gain = 0.2, sound_max_hear_distance = 16})
 
 rp_mobs.attempt_capture = function(self, clicker, capture_chances, force_take, replace_with)
 	if clicker:is_player() and clicker:get_inventory() and not self.child then
