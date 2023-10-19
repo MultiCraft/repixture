@@ -75,11 +75,6 @@ rp_mobs.register_mob = function(mobname, def)
 	mdef.entity_definition._base_selbox = table.copy(def.entity_definition.selectionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate = false })
 	mdef.entity_definition._base_colbox = table.copy(def.entity_definition.collisionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5})
 
-	-- Table for the mob to store some custom mob-specific state. Will be persisted on unload
-	mdef.entity_definition._custom_state = {}
-	-- Same as _custom_state, but will be forgotten when the mob unloads
-	mdef.entity_definition._temp_custom_state = {}
-
 	rp_mobs.registered_mobs[mobname] = mdef
 
 	minetest.register_entity(mobname, mdef.entity_definition)
@@ -92,7 +87,6 @@ rp_mobs.get_staticdata_default = function(self)
 		local pvalue = self[pvar]
 		staticdata_table[pvar] = pvalue
 	end
-	minetest.log("error", "GET: "..tostring(staticdata_table._custom_state))
 	local staticdata = minetest.serialize(staticdata_table)
 	return staticdata
 end
@@ -100,12 +94,14 @@ end
 rp_mobs.restore_state = function(self, staticdata)
 	local staticdata_table = minetest.deserialize(staticdata)
 	if not staticdata_table then
+		-- Default for empty/invalid staticdata
+		self._custom_state = {}
+		self._temp_custom_state = {}
 		return
 	end
 	for k,v in pairs(staticdata_table) do
 		self[k] = v
 	end
-	minetest.log("error", "RESTORE: "..tostring(staticdata_table._custom_state))
 
 	-- Make small if a child
 	if self._child then
@@ -119,7 +115,6 @@ rp_mobs.restore_state = function(self, staticdata)
 	if not self._temp_custom_state then
 		self._temp_custom_state = {}
 	end
-	minetest.log("error", "RESTORE real: "..tostring(staticdata_table._custom_state))
 end
 
 rp_mobs.drop_death_items = function(self, pos)
