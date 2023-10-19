@@ -1,5 +1,15 @@
 local DEFAULT_ADD_CHILD_GROW_TIMER = 20
 
+-- Entity variables to persist:
+rp_mobs.add_persisted_entity_vars({
+	"_food", -- food level. Counts how often a mob was fed, used to trigger taming and breeding
+	"_tamed", -- true if mob is tame
+})
+--[[ NOT persisted variables:
+	_last_feeder: Name of the player who last fed the mob, used for achievement
+]]
+
+
 local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, can_breed, add_child_grow_timer) -- Check if a mob is fed
 	mob._food = (mob._food or 0) + food_points
 
@@ -9,7 +19,7 @@ local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, c
 	end
 
 	-- Make children grow quicker
-	if mob._child and mob._add_child_grow_timer then
+	if mob._child and add_child_grow_timer then
 		mob._child_grow_timer = mob._child_grow_timer + add_child_grow_timer
 		return true
 	end

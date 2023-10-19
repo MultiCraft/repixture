@@ -11,7 +11,7 @@ local HORNY_AGAIN_TIME = 240
 -- How long it takes by default for a child mob to grow into an adult (seconds)
 local CHILD_GROW_TIME = 240
 
--- How long it take for a child to spawn once two mobs have mated
+-- How long it take for a child to spawn once a mob turned pregnant
 local CHILD_BIRTH_TIME = 7
 
 -- The size of child mobs is divided by this number
@@ -22,6 +22,17 @@ local DEFAULT_BREED_RANGE = 4
 
 -- Interval in which the mob checks for partners to breed with (seconds)
 local BREED_CHECK_INTERVAL = 1
+
+-- Entity variables to persist:
+rp_mobs.add_persisted_entity_vars({
+	"_child", -- true if this is a child mob
+	"_child_grow_timer", -- counts the time the mob has been a child (seconds)
+	"_horny", -- true if mob is horny and ready to mate
+	"_horny_timer", -- time the mob has been horny (seconds)
+	"_breed_check_timer", -- timer for the breed check; if it reaches BREED_CHECK_INTERVAL, mob will attempt to mate, then the timer resets (in seconds)
+	"_pregnant", -- true if mob is 'pregnant' and about to spawn a child
+	"_pregnant_timer" -- timer the mob has been pregnant (seconds)
+})
 
 -- Make mob horny, if possible
 rp_mobs.make_horny = function(mob, force)
@@ -60,14 +71,10 @@ rp_mobs.turn_into_adult = function(mob)
 	})
 end
 
-
--- Turn the mob into a child
-rp_mobs.turn_into_child = function(mob)
-	mob = mob:get_luaentity()
-	if mob._child then
-		-- No-op if already a child
-		return
-	end
+-- Change the mob's size to child size without setting
+-- the _child or _child_grow_timer variables.
+-- Meant for internal rp_mobs use only!
+rp_mobs.set_mob_child_size = function(mob)
 	mob.object:set_properties({
 		visual_size = {
 			x = mob._base_size.x / CHILD_SIZE_DIVISOR,
@@ -92,6 +99,16 @@ rp_mobs.turn_into_child = function(mob)
 			rotate = mob._base_selbox.rotate,
 		},
 	})
+end
+
+-- Turn the mob into a child, if not already.
+rp_mobs.turn_into_child = function(mob)
+	mob = mob:get_luaentity()
+	if mob._child then
+		-- No-op if already a child
+		return
+	end
+	rp_mobs.set_mob_child_size(mob)
 	mob._child = true
 	mob._child_grow_timer = 0
 end
@@ -271,3 +288,5 @@ rp_mobs.handle_breeding = function(mob, dtime)
 		minetest.log("action", "[rp_mobs] Mob of type '"..child_bearer.name.."' became pregnant at "..minetest.pos_to_string(child_bearer.object:get_pos(), 1))
 	end
 end
+
+
