@@ -195,13 +195,29 @@ rp_mobs.handle_breeding = function(mob, dtime)
 		-- Pick a partner to mate with
 		local nearby_objects = minetest.get_objects_inside_radius(pos, mob._breed_range or DEFAULT_BREED_RANGE)
 		local potential_partners = {}
-		-- FIXME: Mobs can mate through solid nodes
 		local num = 0
 		local partner = nil
 		for _, obj in ipairs(nearby_objects) do
 			local ent = obj:get_luaentity()
+			-- Partner must be a horny non-pregnant mob
 			if ent and mob ~= ent and ent.name == mob.name and ent._horny and ent._horny_timer <= HORNY_TIME and (not ent._pregnant) then
-				table.insert(potential_partners, ent)
+				-- There must be no solid node between the two partners
+				local ray = minetest.raycast(obj:get_pos(), mob.object:get_pos(), false, false)
+				local collision = false
+				for pointed_thing in ray do
+					if pointed_thing.type == "node" then
+						local node = minetest.get_node(pointed_thing.under)
+						local ndef = minetest.registered_nodes[node.name]
+						-- Walkable nodes and unknown nodes count as "solid" nodes
+						if (not ndef) or (ndef and ndef.walkable) then
+							collision = true
+							break
+						end
+					end
+				end
+				if not collision then
+					table.insert(potential_partners, ent)
+				end
 			end
 		end
 		-- No partners found, abort
