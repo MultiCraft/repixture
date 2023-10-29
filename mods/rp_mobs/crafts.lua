@@ -16,10 +16,8 @@ local play_swing_hit_sound = function(swing_player, hit_pos, swing_sound, hit_so
 end
 
 -- on_use function for the mob capturing tools.
--- This currently triggers the on_rightclick handler of
--- the mob, which might call capture_mob.
--- This is somewhat hacky but works for now, but
--- (TODO) the whole system needs improvement later.
+-- This triggers the _on_capture handler of
+-- the mob, which might capture the mob.
 local capture_tool_on_use = function(swing_sound, hit_sound, hit_sound_gain, hit_sound_dist)
     return function(itemstack, player, pointed_thing)
         if not player or not player:is_player() then
@@ -34,8 +32,8 @@ local capture_tool_on_use = function(swing_sound, hit_sound, hit_sound_gain, hit
 
         local ent = pointed_thing.ref:get_luaentity()
         if ent then
-            if ent._cmi_is_mob and ent.on_rightclick then
-                ent:on_rightclick(player)
+            if ent._cmi_is_mob and ent._on_capture then
+                ent:_on_capture(player)
             else
                 play_swing_hit_sound(player, ent.object:get_pos(), swing_sound, hit_sound, hit_sound_gain, hit_sound_dist)
             end

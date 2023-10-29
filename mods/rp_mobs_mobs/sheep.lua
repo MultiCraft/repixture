@@ -90,6 +90,9 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			rp_mobs.handle_breeding(self, dtime)
 			rp_mobs.decide(self)
 		end,
+		_on_capture = function(self, capturer)
+			rp_mobs.attempt_capture(self, capturer, { ["rp_mobs:net"] = 5, ["rp_mobs:lasso"] = 60 })
+		end,
 		on_rightclick = function(self, clicker)
 			local item = clicker:get_wielded_item()
 			local itemname = item:get_name()
@@ -153,7 +156,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			end
 
 			-- Are we capturing?
-			rp_mobs.attempt_capture(self, clicker, { ["rp_mobs:net"] = 5, ["rp_mobs:lasso"] = 60 })
+			rp_mobs.handle_capture(self, clicker)
 		end,
 
 		on_death = rp_mobs.on_death_default,

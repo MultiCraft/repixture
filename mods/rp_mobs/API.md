@@ -107,7 +107,9 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
 * `decider(self)`: Function that is supposed to be called when the task queue
                    is empty. `self` is the mob object. You can add new tasks
                    here.
-* `entity_definition`: Entity definition table
+* `entity_definition`: Entity definition table. It may contain this custom fucntion:
+    * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
+                                     Triggered by `rp_mobs.handle_capture`
 
 ### `rp_mobs.drop_death_items(mob, pos)`
 
@@ -186,6 +188,40 @@ the mob by placing it. This item is also used when a mob is captured.
 * `invimg`: Inventory image texture
 * `desc`: Description for inventory
 
+### `rp_mobs.attempt_capture = function(mob, capturer, capture_chances, force_take, replace_with)`
+
+Attempt to capture mob by capturer (a player). This requires a mob to have a mob available as
+an item (see `rp_mobs.register_mob_items`), unless `replace_with` is set.
+
+It is recommended to put this function in the `_on_capture` field of the mob’s entity definition.
+
+A mob capture may or may not succeed. A mob capture succeeds if all of these are true:
+
+1. The wielded item is in `capture_chances`
+2. The random capture chance succeeds
+3. The mob is tamed _or_ `force_take` is `true`
+
+If successful, `capturer` will get the mob in item form and it will wear out the wielded tool
+(exception: no wear in Creative Mode). `capturer` might receive a message.
+
+Parameters:
+
+* `mob`: The mob to capture
+* `capturer`: Player trying to capture
+* `capture_changes`: Table defining which items can capture and their chance to capture:
+    * key: itemname, e.g. `"rp_mobs:net"`
+    * value: capture chance, specified as `1/value`. e.g. value 5 is a 1/5 chance.
+* `force_take`: (optional) If `true`, can capture non-tamed mob
+* `replace_with`: (optional) Give this item instead of the registered mob item.
+                  If `nil` (default), gives the registered mob item.
+
+### `rp_mobs.handle_capture(mob, capture)`
+
+Handle the mob’s capturing logic. This will call the `_on_capture` function of the mob’s
+entity definition. This function *must* exist.
+
+It is recommended to put this into `on_rightclick`, if you want this mob to be capturable.
+
 ### `rp_mobs.on_death_default(mob, killer)`
 
 The default handler for `on_death` of the mob's entity definition.
@@ -193,6 +229,17 @@ It must be set explicitly for every mob, unless you want to have a custom death 
 Currently, the default death handler just drops the mob death items.
 
 Set `on_death = rp_mobs.on_death_default` to use the default death behavior.
+
+### `rp_mobs.register_capture_tool(itemname, definition)`
+
+Registers an *existing* tool as a capture tool.
+
+* `itemname`: Item name of the item that captures
+* `definition`: A table with these fields:
+    * `uses`: Number of uses before the tool breaks. 0 = unlimited
+    * `sound`: (optional) Name of sound that plays when “swinging” the tool
+    * `sound_gain`: (optional) Gain of that sound (as in `SimpleSoundSpec`)
+    * `sound_max_hear_distance`: (optional) `max_hear_distance` of that sound (as in `SimpleSoundSpec`)
 
 ## Default callback handlers
 
