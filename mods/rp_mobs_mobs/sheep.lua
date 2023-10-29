@@ -123,7 +123,6 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 
 			-- Are we shearing wool?
 			if minetest.get_item_group(itemname, "shears") > 0 then
-				minetest.log("error", "sheartry: _cs="..tostring(self._custom_state).." shorn="..tostring(self._custom_state.shorn).." child="..tostring(self._child))
 				if (not self._custom_state.shorn) and (not self._child) then
 					self._custom_state.shorn = true
 					local pos = self.object:get_pos()
