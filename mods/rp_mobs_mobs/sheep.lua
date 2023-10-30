@@ -82,9 +82,17 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			rp_mobs.init_physics(self)
 			rp_mobs.activate_gravity(self)
 			rp_mobs.init_tasks(self)
+			self._get_node_damage = true
+			self._can_drown = true
+			self._breath_max = 10
+			self._breath = 10
+			-- Roughly at the head position; slighly shifted
+			-- inside so it's inside the collisionbox.
+			self._drowning_point = vector.new(0, -0.05, 0.49)
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime)
+			rp_mobs.handle_environment_damage(self, dtime)
 			rp_mobs.handle_physics(self)
 			rp_mobs.handle_tasks(self, dtime)
 			rp_mobs.handle_breeding(self, dtime)

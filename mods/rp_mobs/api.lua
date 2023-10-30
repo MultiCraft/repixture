@@ -1,10 +1,18 @@
 -- TODO: Change to rp_mobs when ready
 local S = minetest.get_translator("mobs")
 
-local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
-
 -- If true, will write the task queues of mobs as their nametag
 local TASK_DEBUG = true
+
+-- Default gravity that affects the mobs
+local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
+
+-- Interval (seconds) at which mobs MAY take node damage (damage_per_second)
+local NODE_DAMAGE_TIME = 1.0
+-- Interval (seconds) at which mobs MAY take drowning damage
+local DROWNING_TIME = 2.0
+-- Interval (seconds) at which mobs regenerate breath (if they have breath)
+local REBREATH_TIME = 0.5
 
 -- List of entity variables to store in staticdata
 -- (so they are persisted when unloading)
@@ -74,6 +82,7 @@ rp_mobs.register_mob = function(mobname, def)
 	mdef.entity_definition._base_size = table.copy(def.entity_definition.visual_size or { x=1, y=1, z=1 })
 	mdef.entity_definition._base_selbox = table.copy(def.entity_definition.selectionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate = false })
 	mdef.entity_definition._base_colbox = table.copy(def.entity_definition.collisionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5})
+	mdef.entity_definition._dying = false
 
 	rp_mobs.registered_mobs[mobname] = mdef
 
@@ -114,6 +123,16 @@ rp_mobs.restore_state = function(self, staticdata)
 	end
 	if not self._temp_custom_state then
 		self._temp_custom_state = {}
+	end
+end
+
+rp_mobs.is_alive = function(mob)
+	if not mob then
+		return false
+	elseif mob._dying then
+		return false
+	else
+		return true
 	end
 end
 
@@ -183,6 +202,9 @@ rp_mobs.handle_physics = function(self)
 		local entname = self.name or "<UNKNOWN>"
 		minetest.log("error", "[rp_mobs] rp_mobs.handle_physics was called on '"..entname.."' with uninitialized physics variables!")
 	end
+	if not rp_mobs.is_alive(self) then
+		return
+	end
 	if self._phys_acceleration_changed or self._mob_acceleration_changed then
 		local acceleration = vector.zero()
 		for i=1, #self._phys_acceleration do
@@ -249,6 +271,9 @@ end
 rp_mobs.handle_tasks = function(self, dtime)
 	if not self._tasks then
 		minetest.log("error", "[rp_mobs] rp_mobs.handle_tasks called before tasks were initialized!")
+		return
+	end
+	if not rp_mobs.is_alive(self) then
 		return
 	end
 	local activeTaskEntry = self._tasks:getFirst()
@@ -339,7 +364,7 @@ rp_mobs.register_mob_item = function(mobname, invimg, desc)
 					ent.owner = pname
 					ent.tamed = true
 				end
-				 minetest.log("action", "[rp_mobs] "..pname.." spawns "..mobname.." at "..minetest.pos_to_string(pos, 1))
+				minetest.log("action", "[rp_mobs] "..pname.." spawns "..mobname.." at "..minetest.pos_to_string(pos, 1))
 				if not minetest.is_creative_enabled(pname) then
 					 itemstack:take_item()
 				end
@@ -364,5 +389,121 @@ function rp_mobs.mob_sound(self, sound, keep_pitch)
 		object = self.object,
 	}, true)
 end
+
+function rp_mobs.handle_node_damage(self, dtime)
+	if not self._get_node_damage then
+		return
+	end
+
+	if not rp_mobs.is_alive(self) then
+		return
+	end
+	if not self._node_damage_timer then
+		self._node_damage_timer = 0.0
+	end
+
+	local pos = self.object:get_pos()
+	pos.y = pos.y - 0.5
+	-- DEBUG
+	minetest.add_particle({
+		pos = vector.round(pos),
+		expirationtime = 0.4,
+		size = 6,
+		texture = "heart.png^[brighten",
+	})
+	local node = minetest.get_node(pos)
+	local def = minetest.registered_nodes[node.name]
+
+	self._node_damage_timer = self._node_damage_timer + dtime
+	if self._node_damage_timer >= NODE_DAMAGE_TIME then
+		if def and def.damage_per_second and def.damage_per_second > 0 then
+			local hp = math.max(0, self.object:get_hp() - def.damage_per_second)
+			self.object:set_hp(hp, { type = "node_damage" })
+			if hp <= 0 then
+				self._dying = true
+				return
+			end
+		end
+		self._node_damage_timer = 0.0
+	end
+end
+
+-- Rotate vector `vec` around yaw (in radians)
+local function rotate_vector_yaw(vec, yaw)
+	local sy = math.sin(-yaw)
+	local cy = math.cos(yaw)
+	local rotated_vector = vector.new()
+	rotated_vector.x = sy * vec.z
+	rotated_vector.y = vec.y
+	rotated_vector.z = -sy * vec.x + cy * vec.z
+	return rotated_vector
+end
+
+function rp_mobs.handle_drowning(self, dtime)
+	if not self._can_drown then
+		return
+	end
+	if not rp_mobs.is_alive(self) then
+		return
+	end
+	if not self._drowning_timer then
+		self._drowning_timer = 0.0
+	end
+	if not self._rebreath_timer then
+		self._rebreath_timer = 0.0
+	end
+
+	local pos = self.object:get_pos()
+	local yaw = self.object:get_yaw()
+	local drowning_point = self._drowning_point or vector.zero()
+	drowning_point = rotate_vector_yaw(drowning_point, yaw)
+	pos = vector.add(pos, drowning_point)
+	local node = minetest.get_node(pos)
+	if node.name == "ignore" then
+		-- No breath change in ignore
+		return
+	end
+	local def = minetest.registered_nodes[node.name]
+
+	-- Reduce breath and deal damage if 0
+	if def and def.drowning and def.drowning > 0 then
+		self._drowning_timer = self._drowning_timer + dtime
+		if self._drowning_timer >= DROWNING_TIME then
+			self._breath = math.max(0, self._breath - 1)
+			if self._breath <= 0 then
+				local hp = math.max(0, self.object:get_hp() - def.drowning)
+				self.object:set_hp(hp, { type = "drown" })
+				if hp <= 0 then
+					self._dying = true
+					return
+				end
+			end
+			self._drowning_timer = 0.0
+		end
+		self._rebreath_timer = 0.0
+	-- Catch breath again in non-drowning node
+	elseif def and def.drowning and def.drowning == 0 then
+		self._rebreath_timer = self._rebreath_timer + dtime
+		if self._rebreath_timer >= REBREATH_TIME then
+			self._breath = math.min(self._breath_max, self._breath + 1)
+			self._rebreath_timer = 0.0
+		end
+		self._drowning_timer = 0.0
+	end
+end
+
+function rp_mobs.handle_environment_damage(self, dtime)
+	rp_mobs.handle_node_damage(self, dtime)
+	rp_mobs.handle_drowning(self, dtime)
+end
+
+-- Entity variables to persist:
+rp_mobs.add_persisted_entity_vars({
+	"_get_node_damage",	-- true when mob can take damage from nodes (damage_per_second)
+	"_can_drown",		-- true when mob has breath and can drown in nodes with `drowning` attribute
+	"_drowning_point",	-- The position offset that will be checked when doing the drowning check
+	"_breath_max",		-- Maximum breath
+	"_breath",		-- Current breath
+})
 
 

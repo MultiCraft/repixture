@@ -91,6 +91,40 @@ like `on_step`.
 
 Microtasks can be created with `rp_mobs.create_microtask`.
 
+## Mob fields
+
+Mob entities may have the following fields:
+
+### Status
+
+* `_cmi_is_mob`: Always `true`. Indicates the entity is a mob
+* `_dying`: Is `true` when mob is currently dying and about to be removed
+* `_tamed`: `true` if mob is tame
+* `_food`: Food level. Used for breeding. Starts with 0 and increases for any food given
+* `_child`: `true` if mob is a child
+* `_horny`: `true` if mob is “horny”. If another horny mob is nearby, they will mate and spawn a child
+* `_pregnant`: `true` if mob is pregnant and about to spawn a child
+
+### Damage
+
+* `_get_node_damage`: `true` when mob can take damage from nodes (`damage_per_second`) (default: false)
+* `_can_drown`: `true` when mob has breath and can drown in nodes with `drowning` attribute (default: false)
+* `_drowning_point`: The position offset that will be checked when doing the drowning check.
+                     An offset from the mob position (`get_pos()`). If the node at the drowning point
+                     is a drowning node, the mob can drown (ignored if `_can_drown` isn’t true)
+* `_breath_max`: Maximum breath (ignored if `_can_drown` isn’t true)
+* `_breath`: Current breath (ignored if `_can_drown` isn’t true)
+
+### Internal use
+
+A bunch of fields are meant for internal use by `rp_mobs`. Do not change them.
+
+* `_child_grow_timer`: time the mob has been a child (seconds)
+* `_horny_timer`: time the mob has been horny (seconds)
+* `_breed_check_timer`: timer for the breed check (seconds)
+* `_pregnant_timer`: time the mob has been pregnant (seconds)
+* `_last_feeder`: Name of the last player who fed the mob
+
 ## Function reference
 
 ### `rp_mobs.register_mob(mobname, def)`
@@ -222,6 +256,61 @@ entity definition. This function *must* exist.
 
 It is recommended to put this into `on_rightclick`, if you want this mob to be capturable.
 
+### `rp_mobs.handle_node_damage(mob, dtime)`
+
+Handles node damage for the mob if the entity
+field `_get_node_damage` is `true`. Node damage is taken
+in nodes with a non-zero `damage_per_second`.
+
+In the current implementation, only the mob position is checked,
+other nodes are ignored. This behavior may change in the future.
+
+Checks if the mob is standing in a damaging node and if yes, damage it.
+Otherwise, no damage will be taken.
+
+Must be called in the `on_step` function in every step.
+`dtime` is the `dtime` argument of `on_step`.
+
+### `rp_mobs.handle_drowning(mob, dtime)`
+
+Handles breath and drowning damage for the mob
+if the entity field `_can_drown` is `true`.
+
+Mob drowning is meant to closely reflect player drowning.
+
+This function expects the following fields to be set:
+
+* `_can_drown`: must be true or false
+* `_breath`: Current breath (positive integer)
+* `_breath_max`: Maximum breath
+
+Checks if the mob’s “head” is inside a node with a
+non-zero non-nil `drowning` field. If this is the case,
+the internal `_breath` will be reduced in a regular
+interval. If `_breath` reaches zero, the mob will take
+damage equal to the node’s `drowning` value.
+If the mob is in a non-drowning node, it will regain
+breath up to `_breath_max`.
+In `"ignore"` nodes, breath will not be changed.
+
+By default, the mob position will be checked to determine
+which node is checked for the `drowning` field. If
+`_drowning_point` is set, is must be a vector added to
+the mob position to check a different position. This
+is usually where the mob’s “head” is. The drowning point
+should be inside the collisionbox, otherwise the mob
+might regain breath when touching a wall.
+The drowning point will automatically be rotated with the
+mob’s yaw.
+
+Must be called in the `on_step` function in every step.
+`dtime` is the `dtime` argument of `on_step`.
+
+### `rp_mobs.handle_environment_damage(mob, dtime)`
+
+Handle all environment damages. This is is the same as
+calling `rp_mobs.handle_node_damage` and `rp_mobs.handle_drowning`.
+
 ### `rp_mobs.on_death_default(mob, killer)`
 
 The default handler for `on_death` of the mob's entity definition.
@@ -240,6 +329,10 @@ Registers an *existing* tool as a capture tool.
     * `sound`: (optional) Name of sound that plays when “swinging” the tool
     * `sound_gain`: (optional) Gain of that sound (as in `SimpleSoundSpec`)
     * `sound_max_hear_distance`: (optional) `max_hear_distance` of that sound (as in `SimpleSoundSpec`)
+
+### `rp_mobs.is_alive(mob)`
+
+Returns true if the given mob is alive, false otherwise. `mob` *must* be a mob.
 
 ## Default callback handlers
 
