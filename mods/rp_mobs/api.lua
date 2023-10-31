@@ -390,6 +390,22 @@ function rp_mobs.mob_sound(self, sound, keep_pitch)
 	}, true)
 end
 
+function rp_mobs.init_breath(self, can_drown, def)
+	if self._can_drown ~= nil then
+		return
+	end
+	self._can_drown = can_drown
+	self._breath_max = breath_max
+	self._breath = breath_max
+	self._drowning_point = def.drowning_point
+end
+function rp_mobs.init_node_damage(self, get_node_damage)
+	if self._get_node_damage ~= nil then
+		return
+	end
+	self._get_node_damage = get_node_damagee
+end
+
 function rp_mobs.handle_node_damage(self, dtime)
 	if not self._get_node_damage then
 		return

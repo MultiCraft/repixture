@@ -38,17 +38,15 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		textures = { "mobs_boar.png" },
 		makes_footstep_sound = true,
 		on_activate = function(self)
+			rp_mobs.init_breath(self, true, {
+				breath_max = 10,
+				drowning_point = vector.new(0, -0.1, 0.49)
+			})
+			rp_mobs.init_node_damage(self, true)
+
 			rp_mobs.init_physics(self)
 			rp_mobs.activate_gravity(self)
 			rp_mobs.init_tasks(self)
-
-			self._get_node_damage = true
-			self._can_drown = true
-			self._breath_max = 10
-			self._breath = 10
-			-- Roughly at the head position; slighly shifted
-			-- inside so it's inside the collisionbox.
-			self._drowning_point = vector.new(0, -0.1, 0.49)
 		end,
 		on_step = function(self, dtime)
 			rp_mobs.handle_environment_damage(self, dtime)
