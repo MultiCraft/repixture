@@ -91,13 +91,60 @@ like `on_step`.
 
 Microtasks can be created with `rp_mobs.create_microtask`.
 
-## Mob fields
+## Optional common functionality
 
-Mob entities may have the following fields:
+This mod is designed to hardcode as little into mobs as possible. However, there are still a lot
+of utility functions that implement basic mob functionality that most, if not all mobs
+should have and they can used by mobs to share the same code.
+
+Nearly every behavior needs to be used *explicity*, however. So there is no node damage
+by default, no drowning by default, etc. This section explains the common functionality.
+
+### Node damage
+
+Node damage enables the mob being vulnerable to nodes with the `damage_per_second` field.
+If you want your mob to use this, add `rp_mobs.init_node_damage` to `on_activate`
+and `rp_mobs.handle_node_damage` to `on_step`. Read the documentation of these
+functions to learn more about how the node damage mechanic works.
+
+Node damage can be temporarily disabled during the mob’s lifetime by setting the
+entity field `_get_node_damage` to false.
+
+### Breath / drowning
+
+Drowning makes mobs take drowning damage when inside a particular node.
+
+If you want your mob to use this, add `rp_mobs.init_breath` to `on_activate`
+and `rp_mobs.handle_drowning` in `on_step`. Read the documentation of these
+functions to learn more about the drowning mechanic in general.
+
+The drowning status can also be changed during the mob’s lifetime in `on_step`
+by manipulating the drowning fields (see the mob field reference).
+
+### Breeding
+
+Breeding will make mobs mate and create offspring. To enable, add
+`rp_mobs.handle_breeding` in `on_step`. 
+
+In particular, to breed, two adult mobs of the same type need to be “horny” and close
+to each other. Then, a random mob of the pair gets pregnant and will soon
+spawn a child mob. The child mob will grow to an adult after some time.
+
+There are two ways to make a mob horny:
+
+1. Call `rp_mobs.feed_tame_breed` in `on_rightclick` (i.e. player gives mob enough food)
+2. Call `rp_mobs.make_horny` to instantly make the mob horny
+
+Only adults should be horny.
+
+## Mob field reference
+
+Mob entities use a bunch of custom fields. You may read and edit them at runtime.
+These fields are available:
 
 ### Status
 
-* `_cmi_is_mob`: Always `true`. Indicates the entity is a mob
+* `_cmi_is_mob`: Always `true`. Indicates the entity is a mob. Do not touch
 * `_dying`: Is `true` when mob is currently dying and about to be removed
 * `_tamed`: `true` if mob is tame
 * `_food`: Food level. Used for breeding. Starts with 0 and increases for any food given
@@ -109,11 +156,13 @@ Mob entities may have the following fields:
 
 * `_get_node_damage`: `true` when mob can take damage from nodes (`damage_per_second`) (default: false)
 * `_can_drown`: `true` when mob has breath and can drown in nodes with `drowning` attribute (default: false)
-* `_drowning_point`: The position offset that will be checked when doing the drowning check.
-                     An offset from the mob position (`get_pos()`). If the node at the drowning point
-                     is a drowning node, the mob can drown (ignored if `_can_drown` isn’t true)
+* `_drowning_point`: See `rp_mobs.init_breath`.
 * `_breath_max`: Maximum breath (ignored if `_can_drown` isn’t true)
 * `_breath`: Current breath (ignored if `_can_drown` isn’t true)
+
+Please note:
+You *must* call `rp_mobs.init_node_damage` before you touch the `_get_node_damage` field.
+You *must* call `rp_mobs.init_breath` before you touch the breath/drowning fields.
 
 ### Internal use
 
@@ -222,6 +271,41 @@ the mob by placing it. This item is also used when a mob is captured.
 * `invimg`: Inventory image texture
 * `desc`: Description for inventory
 
+### `rp_mobs.init_breath(mob, can_drown, def)`
+
+Initializes the breath and drowning mechanic for the given mob.
+If you want the mob to have this, put this into `on_activate`.
+
+If this is the first time the function is called, drowning and
+associated entity fields will be initialized. On subsequent calls,
+this function does nothing because the fields are already
+initialized.
+
+* `self`: The mob
+* `can_drown`: If `true`, drowning is possible, otherwise, it is not.
+* `def`: A table with the following fields:
+	* `breath_max`: Maximum (and initial) breath points. Positive number
+	* `drowning_point`: Optional position offset vector that will be checked when doing
+		the drowning check. It’s an offset from the mob position (`get_pos()`). If the
+		node at the drowning point is a drowning node, the mob can drown.
+		Default: no offset
+
+### `rp_mobs.init_node_damage(self, get_node_damage)`
+
+Initializes the node damage mechanic for the given mob,
+activating damage from nodes with `damage_per_second`.
+If you want the mob to have this, put this into `on_activate`.
+
+If this is the first time the function is called, the
+associated entity fields will be initialized. On subsequent
+calls, this function does nothing because the fields are already
+initialized.
+
+Parameters:
+
+* `self`: The mob
+* `get_node_damage`: If `true`, mob will receive damage from nodes
+
 ### `rp_mobs.attempt_capture = function(mob, capturer, capture_chances, force_take, replace_with)`
 
 Attempt to capture mob by capturer (a player). This requires a mob to have a mob available as
@@ -278,17 +362,14 @@ if the entity field `_can_drown` is `true`.
 
 Mob drowning is meant to closely reflect player drowning.
 
-This function expects the following fields to be set:
+This function requires that `rp_mobs.init_breath` has
+been called in `on_activate` before.
 
-* `_can_drown`: must be true or false
-* `_breath`: Current breath (positive integer)
-* `_breath_max`: Maximum breath
-
-Checks if the mob’s “head” is inside a node with a
-non-zero non-nil `drowning` field. If this is the case,
-the internal `_breath` will be reduced in a regular
-interval. If `_breath` reaches zero, the mob will take
-damage equal to the node’s `drowning` value.
+Technically, this function checks if the mob’s drowning
+point  is inside a node with a non-zero non-nil `drowning`
+field. If this is the case, the internal `_breath` will
+be reduced in a regular interval. If `_breath` reaches zero,
+the mob will take damage equal to the node’s `drowning` value.
 If the mob is in a non-drowning node, it will regain
 breath up to `_breath_max`.
 In `"ignore"` nodes, breath will not be changed.
