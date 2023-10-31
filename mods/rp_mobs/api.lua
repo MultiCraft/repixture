@@ -420,13 +420,6 @@ function rp_mobs.handle_node_damage(self, dtime)
 
 	local pos = self.object:get_pos()
 	pos.y = pos.y - 0.5
-	-- DEBUG
-	minetest.add_particle({
-		pos = vector.round(pos),
-		expirationtime = 0.4,
-		size = 6,
-		texture = "heart.png^[brighten",
-	})
 	local node = minetest.get_node(pos)
 	local def = minetest.registered_nodes[node.name]
 
