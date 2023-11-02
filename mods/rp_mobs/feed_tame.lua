@@ -95,8 +95,8 @@ rp_mobs.feed_tame_breed = function(mob, feeder, allowed_foods, food_till_tamed, 
 		end
 
 		if eat_sound == nil then
-			rp_mobs.mob_sound(mob, "mobs_eat", true)
-		elseif eat_sound ~= false then
+			rp_mobs.default_mob_sound(mob, "eat", true)
+		else
 			rp_mobs.mob_sound(mob, eat_sound, true)
 		end
 

@@ -28,6 +28,11 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		rp_mobs.add_microtask_to_task(self, mt_sleep, task)
 		rp_mobs.add_task(self, task)
 	end,
+	default_sounds = {
+		death = "mobs_boar_angry",
+		damage = "mobs_boar",
+		eat = "mobs_eat",
+	},
 	entity_definition = {
 		hp_max = 20,
 		physical = true,
@@ -64,6 +69,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			rp_mobs.attempt_capture(self, capturer, { ["rp_mobs:net"] = 5, ["rp_mobs:lasso"] = 40 })
 		end,
 		on_death = rp_mobs.on_death_default,
+		on_punch = rp_mobs.on_punch_default,
 	},
 })
 

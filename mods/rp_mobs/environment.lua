@@ -56,10 +56,7 @@ function rp_mobs.handle_node_damage(self, dtime)
 	self._node_damage_timer = self._node_damage_timer + dtime
 	if self._node_damage_timer >= NODE_DAMAGE_TIME then
 		if def and def.damage_per_second and def.damage_per_second > 0 then
-			local hp = math.max(0, self.object:get_hp() - def.damage_per_second)
-			self.object:set_hp(hp, { type = "node_damage" })
-			if hp <= 0 then
-				self._dying = true
+			if rp_mobs.damage(self, def.damage_per_second, { type = "node_damage" }) then
 				return
 			end
 		end
@@ -110,10 +107,7 @@ function rp_mobs.handle_drowning(self, dtime)
 		if self._drowning_timer >= DROWNING_TIME then
 			self._breath = math.max(0, self._breath - 1)
 			if self._breath <= 0 then
-				local hp = math.max(0, self.object:get_hp() - def.drowning)
-				self.object:set_hp(hp, { type = "drown" })
-				if hp <= 0 then
-					self._dying = true
+				if rp_mobs.damage(self, def.drowning, { type = "drown" }) then
 					return
 				end
 			end
@@ -181,10 +175,7 @@ function rp_mobs.handle_fall_damage(self, dtime, moveresult)
 					local damage_f = y_diff - FALL_DAMAGE_HEIGHT
 					local damage = math.floor(math.min(damage_f + 0.5, 65535))
 					if damage > 0 then
-						local hp = self.object:get_hp() - damage
-						self.object:set_hp(hp, { type = "fall" })
-						if hp <= 0 then
-							self._dying = true
+						if rp_mobs.damage(self, damage, { type = "fall" }) then
 							return
 						end
 					end

@@ -75,6 +75,7 @@ rp_mobs.register_mob = function(mobname, def)
 	mdef.entity_definition._base_size = table.copy(def.entity_definition.visual_size or { x=1, y=1, z=1 })
 	mdef.entity_definition._base_selbox = table.copy(def.entity_definition.selectionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate = false })
 	mdef.entity_definition._base_colbox = table.copy(def.entity_definition.collisionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5})
+	mdef.entity_definition._default_sounds = table.copy(def.default_sounds or {})
 	mdef.entity_definition._dying = false
 
 	rp_mobs.registered_mobs[mobname] = mdef
@@ -151,6 +152,43 @@ end
 
 rp_mobs.on_death_default = function(self, killer)
 	rp_mobs.drop_death_items(self)
+	rp_mobs.default_mob_sound(self, "death")
+end
+
+rp_mobs.on_punch_default = function(self, puncher, time_from_last_punch, tool_capabilities, dir, damage)
+	if damage >= 1 then
+		rp_mobs.default_mob_sound(self, "damage")
+	else
+		rp_mobs.default_mob_sound(self, "hit_no_damage")
+	end
+end
+
+rp_mobs.damage = function(self, damage, reason, no_sound)
+	if damage <= 0 then
+		return false
+	end
+	local hp = self.object:get_hp()
+	hp = math.max(0, hp - damage)
+	self.object:set_hp(hp, reason)
+	if hp <= 0 then
+		if not no_sound then
+			rp_mobs.mob_sound_default(self, "death")
+		end
+		self._dying = true
+		return true
+	else
+		if not no_sound then
+			rp_mobs.mob_sound_default(self, "damage")
+		end
+	end
+	return false
+end
+
+rp_mobs.heal = function(self, heal, reason)
+	local hp = self.object:get_hp()
+	local hp_max = self.object:get_properties().hp_max
+	hp = math.min(hp_max, hp + heal)
+	self.object:set_hp(hp, reason)
 end
 
 rp_mobs.init_physics = function(self)
@@ -370,7 +408,7 @@ end
 function rp_mobs.mob_sound(self, sound, keep_pitch)
 	local pitch
 	if not keep_pitch then
-		if self.child then
+		if self._child then
 			pitch = 1.5
 		else
 			pitch = 1.0
@@ -381,5 +419,16 @@ function rp_mobs.mob_sound(self, sound, keep_pitch)
 		pitch = pitch,
 		object = self.object,
 	}, true)
+end
+
+function rp_mobs.default_mob_sound(self, default_sound, keep_pitch)
+	local sound = self._default_sounds[default_sound]
+	if sound then
+		rp_mobs.mob_sound(self, sound, keep_pitch)
+	end
+end
+
+function rp_mobs.default_hurt_sound(self, keep_pitch)
+	rp_mobs.default_mob_sound(self, "damage", keep_pitch)
 end
 

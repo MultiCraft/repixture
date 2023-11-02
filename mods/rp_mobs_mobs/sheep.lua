@@ -63,6 +63,11 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 		local mtask = microtask_eat_grass
 		rp_mobs.add_microtask_to_task(self, mtask, task)
 	end,
+	default_sounds = {
+		death = "mobs_sheep",
+		damage = "mobs_sheep",
+		eat = "mobs_eat",
+	},
 	entity_definition = {
 		hp_max = 14,
 		physical = true,
@@ -168,6 +173,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 		end,
 
 		on_death = rp_mobs.on_death_default,
+		on_punch = rp_mobs.on_punch_default,
 	},
 })
 
