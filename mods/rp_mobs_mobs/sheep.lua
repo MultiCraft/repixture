@@ -80,6 +80,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 				})
 			end
 
+			rp_mobs.init_fall_damage(self, true)
 			rp_mobs.init_breath(self, true, {
 				breath_max = 10,
 				drowning_point = vector.new(0, -0.5, 0.49)
@@ -91,8 +92,8 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			rp_mobs.init_tasks(self)
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
-		on_step = function(self, dtime)
-			rp_mobs.handle_environment_damage(self, dtime)
+		on_step = function(self, dtime, moveresult)
+			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_physics(self)
 			rp_mobs.handle_tasks(self, dtime)
 			rp_mobs.handle_breeding(self, dtime)

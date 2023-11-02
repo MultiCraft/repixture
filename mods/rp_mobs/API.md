@@ -36,7 +36,6 @@ You can use the following template:
 		drops = { ADD_YOUR_DROPS_HERE },
 		decider = function(self) --[[ do things ]] end,
 		entity_definition = {
-			-- Add 
 			on_activate = function(self)
 				rp_mobs.init_physics(self)
 				rp_mobs.init_tasks(self)
@@ -110,6 +109,15 @@ functions to learn more about how the node damage mechanic works.
 Node damage can be temporarily disabled during the mob’s lifetime by setting the
 entity field `_get_node_damage` to false.
 
+### Fall damage
+
+Fall damage hurts the mob when it hits the ground too hard.
+The fall damage calculation works differently than for players (see
+`rp_mobs.handle_fall_damage` for details.
+
+To enable fall damage , add `rp_mobs.init_fall_damage` in `on_activate` and
+`rp_mobs.handle_fall_damage` in `on_step`.
+
 ### Breath / drowning
 
 Drowning makes mobs take drowning damage when inside a particular node.
@@ -124,7 +132,7 @@ by manipulating the drowning fields (see the mob field reference).
 ### Breeding
 
 Breeding will make mobs mate and create offspring. To enable, add
-`rp_mobs.handle_breeding` in `on_step`. 
+`rp_mobs.handle_breeding` in `on_step`.
 
 In particular, to breed, two adult mobs of the same type need to be “horny” and close
 to each other. Then, a random mob of the pair gets pregnant and will soon
@@ -136,6 +144,7 @@ There are two ways to make a mob horny:
 2. Call `rp_mobs.make_horny` to instantly make the mob horny
 
 Only adults should be horny.
+
 
 ## Mob field reference
 
@@ -155,6 +164,7 @@ These fields are available:
 ### Damage
 
 * `_get_node_damage`: `true` when mob can take damage from nodes (`damage_per_second`) (default: false)
+* `_get_fall_damage`: `true` when mob can take fall damage (default: false)
 * `_can_drown`: `true` when mob has breath and can drown in nodes with `drowning` attribute (default: false)
 * `_drowning_point`: See `rp_mobs.init_breath`.
 * `_breath_max`: Maximum breath (ignored if `_can_drown` isn’t true)
@@ -306,6 +316,21 @@ Parameters:
 * `self`: The mob
 * `get_node_damage`: If `true`, mob will receive damage from nodes
 
+### `rp_mobs.init_fall_damage(self, get_fall_damage)`
+
+Initializes the fall damage for the given mob,
+If you want the mob to have this, put this into `on_activate`.
+
+If this is the first time the function is called, the
+associated entity fields will be initialized. On subsequent
+calls, this function does nothing because the fields are already
+initialized.
+
+Parameters:
+
+* `self`: The mob
+* `get_fall_damage`: If `true`, mob will receive fall damage
+
 ### `rp_mobs.attempt_capture = function(mob, capturer, capture_chances, force_take, replace_with)`
 
 Attempt to capture mob by capturer (a player). This requires a mob to have a mob available as
@@ -355,6 +380,25 @@ Otherwise, no damage will be taken.
 Must be called in the `on_step` function in every step.
 `dtime` is the `dtime` argument of `on_step`.
 
+### `rp_mobs.handle_fall_damage(mob, dtime, moveresult)`
+
+Handles fall damage for the mob if the entity field
+`_get_fall_damage` is `true`.
+
+Fall damage is calculated differently than for
+players and there is no guarante the calculation
+algorithm will be forwards-compatible. It increases
+linearly with the fall height. Fall damage is further-
+more modified by the `add_fall_damage_percent` group
+if falling on a node. Adding the armor group
+`add_fall_damage_percent` will also modify the
+fall damage the mob will receive (like for players,
+see `lua_api.md`).
+
+This function must be called in the `on_step` function
+in every step. `dtime` and `moveresult` are the same as
+in `on_step`.
+
 ### `rp_mobs.handle_drowning(mob, dtime)`
 
 Handles breath and drowning damage for the mob
@@ -387,10 +431,18 @@ mob’s yaw.
 Must be called in the `on_step` function in every step.
 `dtime` is the `dtime` argument of `on_step`.
 
-### `rp_mobs.handle_environment_damage(mob, dtime)`
+### `rp_mobs.handle_environment_damage(mob, dtime, moveresult)`
 
 Handle all environment damages. This is is the same as
-calling `rp_mobs.handle_node_damage` and `rp_mobs.handle_drowning`.
+calling:
+
+* `rp_mobs.handle_fall_damage`
+* `rp_mobs.handle_node_damage`
+* `rp_mobs.handle_drowning`
+
+Must be called in `on_step` every step.
+`mob` is the mob. The `dtime` and `moveresult`
+arguments are the same as for `on_step`.
 
 ### `rp_mobs.on_death_default(mob, killer)`
 

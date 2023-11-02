@@ -7,17 +7,9 @@ local dummy_texture = "mobs_dummy.png"
 rp_mobs.register_mob("rp_mobs_mobs:dummy", {
 	description = S("Dummy"),
 	decider = function(self)
-		local task = rp_mobs.create_task({label="Dummy stuff"})
-		rp_mobs.add_microtask_to_task(self, rp_mobs.microtasks.set_yaw("random"), task)
-		local yaw = (math.random(0, 10000) / 10000) * (math.pi*2)
-		rp_mobs.add_microtask_to_task(self, rp_mobs.microtasks.walk_straight_towards(1, "pos", vector.zero(), 0.2), task)
-		local sleep_time = math.random(500, 2000)/1000
-		local mt_sleep = rp_mobs.microtasks.sleep(sleep_time)
-		rp_mobs.add_microtask_to_task(self, mt_sleep, task)
-		rp_mobs.add_task(self, task)
 	end,
 	entity_definition = {
-		hp_max = 1,
+		hp_max = 20,
 		physical = true,
 		collisionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
 		selectionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate=true},
@@ -25,10 +17,14 @@ rp_mobs.register_mob("rp_mobs_mobs:dummy", {
 		textures = { dummy_texture, dummy_texture, dummy_texture, dummy_texture, dummy_texture, dummy_texture },
 		makes_footstep_sound = false,
 		on_activate = function(self)
+			rp_mobs.init_fall_damage(self, true)
 			rp_mobs.init_physics(self)
 			rp_mobs.init_tasks(self)
+			rp_mobs.activate_gravity(self)
+			self._get_fall_damage = true
 		end,
-		on_step = function(self, dtime)
+		on_step = function(self, dtime, moveresult)
+			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_physics(self)
 			rp_mobs.handle_tasks(self, dtime)
 			rp_mobs.decide(self)
