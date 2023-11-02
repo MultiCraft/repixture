@@ -12,6 +12,7 @@ dofile(path.."/task_templates.lua")
 dofile(path.."/feed_tame.lua")
 dofile(path.."/child.lua")
 dofile(path.."/capture.lua")
+dofile(path.."/environment.lua")
 
 -- Mob items and crafts
 
