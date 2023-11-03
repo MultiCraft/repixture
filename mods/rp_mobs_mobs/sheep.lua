@@ -156,7 +156,9 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 						if cuts > 0 then
 							item:add_wear_by_uses(cuts)
 						else
-							item:add_wear_by_uses(def.tool_capabilities.snappy.uses)
+							if def and def.tool_capabilities and def.tool_capabilities.snappy then
+								item:add_wear_by_uses(def.tool_capabilities.snappy.uses)
+							end
 						end
 					end
 					clicker:set_wielded_item(item)
