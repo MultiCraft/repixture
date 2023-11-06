@@ -15,40 +15,40 @@ local dirt_cover = {
 	["rp_default:dirt_with_grass"] = "rp_default:dirt",
 }
 
-microtask_eat_grass = function(replace_rate, replace_what, replace_with)
+microtask_eat_grass = function()
 	return rp_mobs.create_microtask({
 		label = "Eat blocks",
 		singlestep = true,
 		on_step = function(self, mob, dtime)
 			local mobpos = mob.object:get_pos()
 
-			local nr = minetest.get_node(pos)
-			-- Check node above
-			local above = {x=pos.x,y=pos.y+1,z=pos.z}
-			local na = minetest.get_node(above)
+			local plantpos = {x=mobpos.x, y=mobpos.y-1, z=mobpos.z}
+			local groundpos = {x=mobpos.x, y=mobpos.y-2, z=mobpos.z}
+			local np = minetest.get_node(plantpos)
+			local ng = minetest.get_node(groundpos)
 
 			-- Eat grass
-			if na.name == "air" then
+			if np.name == "air" then
 				-- Eat grass from dirt node
-				if dirt_cover[nr.name] then
-					minetest.set_node(pos, {name = dirt_cover[nr.name]})
+				if dirt_cover[ng.name] then
+					minetest.set_node(groundpos, {name = dirt_cover[ng.name]})
+				else
+					return
 				end
-			elseif top_grass[na.name] then
+			elseif top_grass[np.name] then
 				-- If grass plant on top, eat it first
-				minetest.set_node(above, {name = top_grass[na.name]})
+				minetest.set_node(plantpos, {name = top_grass[np.name]})
 			else
 				return
 			end
 
 			-- Regrow wool
-			if rp_mobs.feed_tame_breed(mob, "rp_farming:wheat", 8, false, false) then
-				if self._custom_state.shorn then
-					self.object:set_properties(
-					{
-						textures = {"mobs_sheep.png"},
-					})
-					self._custom_state.shorn = false
-				end
+			if mob._custom_state.shorn then
+				mob.object:set_properties(
+				{
+					textures = {"mobs_sheep.png"},
+				})
+				mob._custom_state.shorn = false
 			end
 		end,
 	})
@@ -60,8 +60,10 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 	drops = {"rp_mobs_mobs:meat_raw", "rp_mobs_mobs:wool"},
 	decider = function(self)
 		local task = rp_mobs.create_task({label="eat grass"})
-		local mtask = microtask_eat_grass
+		rp_mobs.add_microtask_to_task(self, rp_mobs.microtasks.sleep(3.0), task)
+		local mtask = microtask_eat_grass()
 		rp_mobs.add_microtask_to_task(self, mtask, task)
+		rp_mobs.add_task(self, task)
 	end,
 	default_sounds = {
 		death = "mobs_sheep",
