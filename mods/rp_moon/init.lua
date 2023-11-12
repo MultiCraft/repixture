@@ -13,16 +13,6 @@ minetest.log("info", "[rp_moon] Moon phase offset of this world: "..phase_offset
 rp_moon = {}
 rp_moon.MOON_PHASES = MOON_PHASES
 
-function rp_moon.get_moon_phase()
-	local after_midday = 0
-	-- Moon phase changes after midday
-	local tod = minetest.get_timeofday()
-	if tod > 0.5 then
-		after_midday = 1
-	end
-	return (minetest.get_day_count() + phase_offset + after_midday) % MOON_PHASES
-end
-
 local moon_textures = {
 	[0] = "rp_moon_full_moon.png",
 	[1] = "rp_moon_waning_moon.png",
@@ -35,8 +25,18 @@ local function get_moon_texture()
 	return moon_textures[phase]
 end
 
+-- Updates the moon for a single player
 local function update_moon_for_player(player)
 	player:set_moon({texture = get_moon_texture()})
+end
+
+-- Updates the moon for all players
+local function update_moon()
+	local moon_arg = {texture = get_moon_texture()}
+	local players = minetest.get_connected_players()
+	for p=1, #players do
+		players[p]:set_moon(moon_arg)
+	end
 end
 
 local timer = 0
@@ -55,11 +55,7 @@ minetest.register_globalstep(function(dtime)
 	end
 	minetest.log("info", "[rp_moon] New moon phase: "..phase)
 	last_reported_phase = phase
-	local moon_arg = {texture = get_moon_texture()}
-	local players = minetest.get_connected_players()
-	for p=1, #players do
-		update_moon_for_player(players[p])
-	end
+	update_moon()
 end)
 
 -- Initialize moon for joining player
@@ -70,9 +66,25 @@ end)
 -- Update moon for all players when "time" command was called
 minetest.register_on_chatcommand(function(name, command, params)
 	if command == "time" then
-		local players = minetest.get_connected_players()
-		for p=1, #players do
-			update_moon_for_player(players[p])
-		end
+		minetest.after(0, function()
+			update_moon()
+		end)
 	end
 end)
+
+-- API functions
+
+function rp_moon.get_moon_phase()
+	local after_midday = 0
+	-- Moon phase changes after midday
+	local tod = minetest.get_timeofday()
+	if tod > 0.5 then
+		after_midday = 1
+	end
+	return (minetest.get_day_count() + phase_offset + after_midday) % MOON_PHASES
+end
+
+function rp_moon.update_moon()
+	update_moon()
+end
+
