@@ -1,4 +1,7 @@
+-- number of moon phases
 local MOON_PHASES = 4
+-- time in seconds after which to check/update the moon status
+local MOON_UPDATE_TIME = 8.0
 
 -- Randomize initial moon phase, based on map seed
 local mg_seed = minetest.get_mapgen_setting("seed")
@@ -32,11 +35,16 @@ local function get_moon_texture()
 	return moon_textures[phase]
 end
 
+local function update_moon_for_player(player)
+	player:set_moon({texture = get_moon_texture()})
+end
+
 local timer = 0
 local last_reported_phase = nil
+-- Update the moon for all players after some time has passed
 minetest.register_globalstep(function(dtime)
 	timer = timer + dtime
-	if timer < 8 then
+	if timer < MOON_UPDATE_TIME then
 		return
 	end
 	timer = 0
@@ -50,10 +58,21 @@ minetest.register_globalstep(function(dtime)
 	local moon_arg = {texture = get_moon_texture()}
 	local players = minetest.get_connected_players()
 	for p=1, #players do
-		players[p]:set_moon(moon_arg)
+		update_moon_for_player(players[p])
 	end
 end)
 
+-- Initialize moon for joining player
 minetest.register_on_joinplayer(function(player)
-	player:set_moon({texture = get_moon_texture()})
+	update_moon_for_player(player)
+end)
+
+-- Update moon for all players when "time" command was called
+minetest.register_on_chatcommand(function(name, command, params)
+	if command == "time" then
+		local players = minetest.get_connected_players()
+		for p=1, #players do
+			update_moon_for_player(players[p])
+		end
+	end
 end)
