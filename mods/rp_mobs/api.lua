@@ -33,18 +33,18 @@ local microtask_to_string = function(microtask)
 	return "Microtask: "..(microtask.label or "<UNNAMED>")
 end
 local task_to_string = function(task)
-	local str = "Task: "..(task.label or "<UNNAMED>")
+	local str = "* Task: "..(task.label or "<UNNAMED>")
 	local next_microtask = task.microTasks:iterator()
 	local microtask = next_microtask()
 	while microtask do
-		str = str .. "\n* " .. microtask_to_string(microtask)
+		str = str .. "\n** " .. microtask_to_string(microtask)
 		microtask = next_microtask()
 	end
 	return str
 end
 local task_queue_to_string = function(task_queue)
 	local str = ""
-	local next_task = task_queue:iterator()
+	local next_task = task_queue.tasks:iterator()
 	local task = next_task()
 	local first = true
 	while task do
@@ -57,10 +57,24 @@ local task_queue_to_string = function(task_queue)
 	end
 	return str
 end
-local set_task_queue_as_nametag = function(self)
-	local taskstr = task_queue_to_string(self._tasks)
+local set_task_queues_as_nametag = function(self)
+	local str = ""
+	local next_task_queue = self._task_queues:iterator()
+	local task_queue = next_task_queue()
+	local first = true
+	local num = 1
+	while task_queue do
+		if not first then
+			str = str .. "\n"
+		end
+		str = str .. "Task queue #" .. num .. ":\n"
+		num = num + 1
+		str = str .. task_queue_to_string(task_queue)
+		task_queue = next_task_queue()
+		first = false
+	end
 	self.object:set_properties({
-		nametag = taskstr,
+		nametag = str,
 	})
 end
 
@@ -69,7 +83,6 @@ rp_mobs.registered_mobs = {}
 rp_mobs.register_mob = function(mobname, def)
 	local mdef = table.copy(def)
 	mdef.entity_definition._cmi_is_mob = true
-	mdef.entity_definition._decider = def.decider
 	mdef.entity_definition._description = def.description
 	mdef.entity_definition._is_animal = def.is_animal
 	mdef.entity_definition._base_size = table.copy(def.entity_definition.visual_size or { x=1, y=1, z=1 })
@@ -263,11 +276,23 @@ rp_mobs.handle_physics = function(self)
 end
 
 rp_mobs.init_tasks = function(self)
-	self._tasks = rp_mobs.DoublyLinkedList()
+	self._task_queues = rp_mobs.DoublyLinkedList()
+	self._active_task_queue = nil
 end
 
-rp_mobs.add_task = function(self, task)
-	local handler = self._tasks:append(task)
+rp_mobs.create_task_queue = function(decider)
+	return {
+		tasks = rp_mobs.DoublyLinkedList(),
+		decider = decider,
+	}
+end
+
+rp_mobs.add_task_queue = function(self, task_queue)
+	self._task_queues:append(task_queue)
+end
+
+rp_mobs.add_task_to_task_queue = function(task_queue, task)
+	task_queue.tasks:append(task)
 	if task.generateMicroTasks then
 		task:generateMicroTasks()
 	end
@@ -300,27 +325,59 @@ rp_mobs.add_microtask_to_task  = function(self, microtask, task)
 end
 
 rp_mobs.handle_tasks = function(self, dtime)
-	if not self._tasks then
+	if not self._task_queues then
 		minetest.log("error", "[rp_mobs] rp_mobs.handle_tasks called before tasks were initialized!")
 		return
 	end
 	if not rp_mobs.is_alive(self) then
 		return
 	end
-	local activeTaskEntry = self._tasks:getFirst()
+
+	-- Trivial case: No task queues, nothing to do
+	if self._task_queues:isEmpty() then
+		return
+	end
+
+	-- Select next task queue
+	if not self._active_task_queue_entry then
+		self._active_task_queue_entry = self._task_queues:getFirst()
+	else
+		local nexxt = self._active_task_queue_entry.nextEntry
+		if not nexxt then
+			nexxt = self._task_queues:getFirst()
+		end
+		self._active_task_queue_entry = nexxt
+	end
+	if not self._active_task_queue_entry then
+		return
+	end
+
+	local activeTaskQueue = self._active_task_queue_entry.data
+
+	-- Run decider if active task queue is empty
+	local activeTaskEntry
+	if activeTaskQueue.tasks:isEmpty() then
+		if activeTaskQueue.decider then
+			activeTaskQueue:decider(self)
+		end
+	end
+	activeTaskEntry = activeTaskQueue.tasks:getFirst()
+
 	if not activeTaskEntry then
 		if TASK_DEBUG then
-			set_task_queue_as_nametag(self)
+			set_task_queues_as_nametag(self)
 		end
 		return
 	end
+
+	-- Handle current task of active task queue
 	local activeTask = activeTaskEntry.data
 
 	local activeMicroTaskEntry = activeTask.microTasks:getFirst()
 	if not activeMicroTaskEntry then
-		self._tasks:remove(activeTaskEntry)
+		activeTaskQueue.tasks:remove(activeTaskEntry)
 		if TASK_DEBUG then
-			set_task_queue_as_nametag(self)
+			set_task_queues_as_nametag(self)
 		end
 		return
 	end
@@ -332,7 +389,7 @@ rp_mobs.handle_tasks = function(self, dtime)
 		end
 		activeTask.microTasks:remove(activeMicroTaskEntry)
 		if TASK_DEBUG then
-			set_task_queue_as_nametag(self)
+			set_task_queues_as_nametag(self)
 		end
 		return
 	end
@@ -345,22 +402,13 @@ rp_mobs.handle_tasks = function(self, dtime)
 		end
 		activeTask.microTasks:remove(activeMicroTaskEntry)
 		if TASK_DEBUG then
-			set_task_queue_as_nametag(self)
+			set_task_queues_as_nametag(self)
 		end
 		return
 	end
 
 	if TASK_DEBUG then
-		set_task_queue_as_nametag(self)
-	end
-end
-
-rp_mobs.decide = function(self)
-	if not self._decider then
-		return
-	end
-	if self._tasks:isEmpty() then
-		self:_decider()
+		set_task_queues_as_nametag(self)
 	end
 end
 

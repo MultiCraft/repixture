@@ -15,7 +15,7 @@ local dirt_cover = {
 	["rp_default:dirt_with_grass"] = "rp_default:dirt",
 }
 
-microtask_eat_grass = function()
+local microtask_eat_grass = function()
 	return rp_mobs.create_microtask({
 		label = "Eat blocks",
 		singlestep = true,
@@ -54,17 +54,19 @@ microtask_eat_grass = function()
 	})
 end
 
+local eat_decider = function(task_queue, mob)
+	local task = rp_mobs.create_task({label="eat grass"})
+	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.sleep(3.0), task)
+	local mtask = microtask_eat_grass()
+	rp_mobs.add_microtask_to_task(mob, mtask, task)
+
+	rp_mobs.add_task_to_task_queue(task_queue, task)
+end
+
 rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 	description = S("Sheep"),
 	is_animal = true,
 	drops = {"rp_mobs_mobs:meat_raw", "rp_mobs_mobs:wool"},
-	decider = function(self)
-		local task = rp_mobs.create_task({label="eat grass"})
-		rp_mobs.add_microtask_to_task(self, rp_mobs.microtasks.sleep(3.0), task)
-		local mtask = microtask_eat_grass()
-		rp_mobs.add_microtask_to_task(self, mtask, task)
-		rp_mobs.add_task(self, task)
-	end,
 	default_sounds = {
 		death = "mobs_sheep",
 		damage = "mobs_sheep",
@@ -97,6 +99,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			rp_mobs.init_physics(self)
 			rp_mobs.activate_gravity(self)
 			rp_mobs.init_tasks(self)
+			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(eat_decider))
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)
@@ -104,7 +107,6 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			rp_mobs.handle_physics(self)
 			rp_mobs.handle_tasks(self, dtime)
 			rp_mobs.handle_breeding(self, dtime)
-			rp_mobs.decide(self)
 		end,
 		_on_capture = function(self, capturer)
 			rp_mobs.attempt_capture(self, capturer, { ["rp_mobs:net"] = 5, ["rp_mobs:lasso"] = 60 })

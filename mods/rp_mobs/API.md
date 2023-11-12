@@ -8,13 +8,32 @@ NOTE: This API is EXPERIMENTAL and subject to change! Use at your own risk.
 
 In this mod, a "mob" refers a non-player entity with added capabilities like physics and a task queue. Mobs can be used to implement things like animals or monsters.
 
-### Tasks, microtasks and the task queue
+### Tasks, microtasks and task queues
 
-The heart of this mod are tasks. A task is a single defined goal that a mob has to achieve in some manner. Every task can either succeed or fail. Tasks are organized in a task queue. Normally, mobs try to complete tasks in the order they appear in the queue. Tasks include high-level goals such as "find and eat food", "flee from the player", "kill the player", "roam randomly", etc.
+The heart of this mod are tasks. A task is a single defined goal that a mob has to achieve in some manner. Every task can either succeed or fail. Tasks include high-level goals such as "find and eat food", "flee from the player", "kill the player", "roam randomly", etc.
 
 Additionally, every task consists of a number of microtasks. These are intended for more low-level and simple activities such as "go to point XYZ", "jump", "attack in direction A".
 
-To use tasks, they must be initialized by calling `rp_mobs.init_tasks` in `on_activate` and be handled by calling `rp_mobs.handle_tasks` in `on_step`.
+To use tasks, they must be initialized by calling `rp_mobs.init_tasks` in `on_activate` and be handled (i.e. executed) every step by calling `rp_mobs.handle_tasks` in `on_step`.
+
+Finally, task queues organize the execution of tasks. A task queue is a sequence of tasks that get executed in order. Tasks get automatically removed from the queue once finished. Task queues also optionally have a `decider` function which is called every time the task queue is empty.
+
+A mob can have any number of task queues active at a time. While tasks and microtasks are executed sequentially, task queues run in parrallel.
+
+Task queues, tasks and microtask form a tree-like structure, like so:
+
+    Task queue 1
+    |
+    `- Task 1
+       |
+       `- Microtask 1
+       `- Microtask 2
+    |
+    `- Task 2
+       `- Microtask 1
+       `- Microtask 2
+
+So on the top level, you have task queues, which consist of tasks, which in turn consist of microtasks.
 
 ### Physics and movement
 
@@ -34,7 +53,6 @@ You can use the following template:
 	rp_mobs.register_mob("MOBNAME", {
 		description = "MOB DESCRIPTION",
 		drops = { ADD_YOUR_DROPS_HERE },
-		decider = function(self) --[[ do things ]] end,
 		entity_definition = {
 			on_activate = function(self)
 				rp_mobs.init_physics(self)
@@ -197,9 +215,6 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
 * `description`: Short mob name used for display purposes
 * `drops`: Table of itemstrings to be dropped when the mob dies as an adult (default: empty table)
 * `child_drops`: Table of itemstrings to be dropped when the mob dies as a child (default: empty table)
-* `decider(self)`: Function that is supposed to be called when the task queue
-                   is empty. `self` is the mob object. You can add new tasks
-                   here.
 * `entity_definition`: Entity definition table. It may contain this custom fucntion:
     * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
                                      Triggered by `rp_mobs.handle_capture`
@@ -233,19 +248,27 @@ Initialize the task and microtask queues for the mob.
 This is supposed to go into `on_activate` of the entity definition.
 This function **must** be called before any other task-related function is called.
 
-### `rp_mobs.handle_tasks(mob)`
+### `rp_mobs.create_task_queue(decider)`
 
-Handle the tasks, microtasks and the task queue of the mob for a single step. Required for the task system to work.
-This is supposed to go into `on_step` of the entity definition. It must be called every step.
+Create a task queue object and returns it. `decider` is an
+optional function with signature `decider(task_queue, mob)` that is
+called whenever the task queue is empty.
+In this function you can update the task queue by adding new
+tasks to it. Avoid complex and slow algorithms here!
+
+### `rp_mobs.add_task_to_task_queue(task, task_queue)`
+
+Add a task `task` to the given task queue object.
+
+### `rp_mobs.add_task_queue(mob, task_queue)`
+
+Add a task queue to the given mob.
 
 ### `rp_mobs.create_task(def)`
 
 Create a task according to the specified `def` table. See the data structure above for the possible table fields.
 
 Returns the task.
-
-This only creates the task in memory. To actually execute the task, you have to add
-it to a mob's task queue with `rp_mobs.add_task`.
 
 ### `rp_mobs.create_microtask(def)`
 
@@ -258,19 +281,15 @@ Note this only creates it in memory. To actually execute it, you have to add
 it to a task with `rp_mobs.add_microtask_to_task` and then execute
 the task.
 
-### `rp_mobs.add_task(mob, task)`
-
-Add a task `task` to the mob's task queue.
 
 ### `rp_mobs.add_microtask_to_task(mob, microtask, task)`
 
 Add the microtask `microtask` to the specified `task`.
 
-### `rp_mobs.decide(mob)`
+### `rp_mobs.handle_tasks(mob)`
 
-Call the `decider` function of the mob definition, if it exists.
-This can be used for the mob to "decide" on what to do next
-when the task queue is empty.
+Handle the task queues, tasks, microtasks of the mob for a single step. Required for the task system to work.
+This is supposed to go into `on_step` of the entity definition. It must be called every step.
 
 ### `rp_mobs.register_mob_item(mobname, invimg, desc)`
 
