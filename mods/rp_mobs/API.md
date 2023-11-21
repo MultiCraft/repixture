@@ -89,14 +89,16 @@ A microtask is a table with the following fields:
 * `label`: Same as for tasks
 * `on_step`: Called every step of the mob. Handle the microtask behavior here
 * `on_finished`: Return true if the microtask is complete, false otherwise
-* `on_end`: Called when the task has ended. Useful for cleaning up state
+* `on_end`: Called when the microtask has ended. Useful for cleaning up state
+* `on_start`: Called when the microtask has begun. Called just before `on_step`
 * `singlestep`: If true, this microtask will run for only 1 step and automatically succeeds (default: false)
 * `statedata`: Table containing data that can be modified and read at runtime
 
 Every microtask needs to have `on_step` and either `on_finished` or `singlestep = true`.
+All other fields are optional. It is not allowed to add any fields not listed above.
 
-`on_finished` and `on_end` have parameters `self, mob` with `self` being a reference to the
-microtask table itself and `mob` being the mob object that is affected.
+`on_finished`, `on_end` and `on_start` have parameters `self, mob` with `self` being
+a reference to the microtask table itself and `mob` being the mob object that is affected.
 
 `on_step` has the parameters `self, mob, dtime`, where `dtime` is the time in seconds
 that have passed since it was last called, or 0 on the firt call (like for the entity

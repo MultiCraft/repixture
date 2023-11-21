@@ -382,6 +382,7 @@ rp_mobs.handle_tasks = function(self, dtime)
 		return
 	end
 
+	-- Remove microtask if completed
 	local activeMicroTask = activeMicroTaskEntry.data
 	if not activeMicroTask.singlestep and activeMicroTask:is_finished(self) then
 		if activeMicroTask.on_end then
@@ -394,8 +395,20 @@ rp_mobs.handle_tasks = function(self, dtime)
 		return
 	end
 
+	-- Execute microtask
+
+	-- Call on_start before the first step
+	if not activeMicroTask.has_started then
+		if activeMicroTask.on_start then
+			activeMicroTask:on_start(self)
+		end
+		activeMicroTask.has_started = true
+	end
+
+	-- on_step: The main microtask logic goes here
 	activeMicroTask:on_step(self, dtime)
 
+	-- If singlestep is set, finish microtask after its first and only step
 	if activeMicroTask.singlestep then
 		if activeMicroTask.on_end then
 			activeMicroTask:on_end(self)
