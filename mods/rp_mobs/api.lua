@@ -89,6 +89,8 @@ rp_mobs.register_mob = function(mobname, def)
 	mdef.entity_definition._base_selbox = table.copy(def.entity_definition.selectionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate = false })
 	mdef.entity_definition._base_colbox = table.copy(def.entity_definition.collisionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5})
 	mdef.entity_definition._default_sounds = table.copy(def.default_sounds or {})
+	mdef.entity_definition._animations = table.copy(def.animations or {})
+	mdef.entity_definition._current_animation = nil
 	mdef.entity_definition._dying = false
 
 	rp_mobs.registered_mobs[mobname] = mdef
@@ -364,6 +366,10 @@ rp_mobs.handle_tasks = function(self, dtime)
 	activeTaskEntry = activeTaskQueue.tasks:getFirst()
 
 	if not activeTaskEntry then
+		-- No more microtasks: Set idle animation if it exists
+		if self._animations and self._animations.idle then
+			rp_mobs.set_animation(self, "idle")
+		end
 		if TASK_DEBUG then
 			set_task_queues_as_nametag(self)
 		end
@@ -397,8 +403,11 @@ rp_mobs.handle_tasks = function(self, dtime)
 
 	-- Execute microtask
 
-	-- Call on_start before the first step
+	-- Call on_start and set microtask animation before the first step
 	if not activeMicroTask.has_started then
+		if activeMicroTask.start_animation then
+			rp_mobs.set_animation(self, activeMicroTask.start_animation)
+		end
 		if activeMicroTask.on_start then
 			activeMicroTask:on_start(self)
 		end
@@ -493,3 +502,18 @@ function rp_mobs.default_hurt_sound(self, keep_pitch)
 	rp_mobs.default_mob_sound(self, "damage", keep_pitch)
 end
 
+function rp_mobs.set_animation(self, animation_name, animation_speed)
+	local anim = self._animations[animation_name]
+	if not anim then
+		minetest.log("error", "[rp_mobs] set_animation for mob '"..tostring(self.name).."' called with unknown animation_name: "..tostring(animation_name))
+		return
+	end
+	local anim_speed = animation_speed or anim.default_frame_speed
+	if self._current_animation ~= animation_name then
+		self._current_animation = animation_name
+		self._current_animation_speed = anim_speed
+		self.object:set_animation(anim.frame_range, anim_speed)
+	elseif self._current_animation_speed ~= anim_speed then
+		self.object:set_animation_frame_speed(anim_speed)
+	end
+end

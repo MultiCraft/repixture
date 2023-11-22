@@ -54,12 +54,24 @@ local microtask_eat_grass = function()
 	})
 end
 
+-- Decide when to eat grass
 local eat_decider = function(task_queue, mob)
 	local task = rp_mobs.create_task({label="eat grass"})
-	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.sleep(3.0), task)
+	local mt_sleep = rp_mobs.microtasks.sleep(3.0)
+	rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
 	local mtask = microtask_eat_grass()
 	rp_mobs.add_microtask_to_task(mob, mtask, task)
 
+	rp_mobs.add_task_to_task_queue(task_queue, task)
+end
+
+-- Movement decider
+-- TODO: this one currently just idles
+local move_decider = function(task_queue, mob)
+	local task = rp_mobs.create_task({label="movement"})
+	local mt_sleep = rp_mobs.microtasks.sleep(3.0)
+	mt_sleep.start_animation = "idle"
+	rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
 	rp_mobs.add_task_to_task_queue(task_queue, task)
 end
 
@@ -71,6 +83,11 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 		death = "mobs_sheep",
 		damage = "mobs_sheep",
 		eat = "mobs_eat",
+	},
+	animations = {
+		["idle"] = { frame_range = { x = 0, y = 60 }, default_frame_speed = 15 },
+		["walk"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 15 },
+		["run"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 25 },
 	},
 	entity_definition = {
 		hp_max = 14,
@@ -100,6 +117,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			rp_mobs.activate_gravity(self)
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(eat_decider))
+			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(move_decider))
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)

@@ -15,9 +15,11 @@ local main_decider = function(task_queue, mob)
 		local n = math.random(1, #nodes)
 		local endpos = vector.add(vector.new(0,1,0), nodes[n])
 		local mt_pathfind = rp_mobs.microtasks.pathfind_and_walk_to(endpos, 100, 1, 4)
+		mt_pathfind.start_animation = "walk"
 		rp_mobs.add_microtask_to_task(mob, mt_pathfind, task)
 	end
 	local mt_sleep = rp_mobs.microtasks.sleep(math.random(500, 2000)/1000)
+	mt_sleep.start_animation = "idle"
 	rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
 	rp_mobs.add_task_to_task_queue(task_queue, task)
 end
@@ -33,6 +35,11 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		death = "mobs_boar_angry",
 		damage = "mobs_boar",
 		eat = "mobs_eat",
+	},
+	animations = {
+		["idle"] = { frame_range = { x = 0, y = 60 }, default_frame_speed = 20 },
+		["walk"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 20 },
+		["punch"] = { frame_range = { x = 90, y = 101 }, default_frame_speed = 20 },
 	},
 	entity_definition = {
 		hp_max = 20,
