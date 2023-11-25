@@ -218,12 +218,17 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
 * `drops`: Table of itemstrings to be dropped when the mob dies as an adult (default: empty table)
 * `child_drops`: Table of itemstrings to be dropped when the mob dies as a child (default: empty table)
 * `default_sounds`: Table of default sound names to play automatically on built-in events. Sounds will be played by `rp_mobs.default_mob_sound`
-    * `death`: When mob dies
-    * `damage`: When mob takes damage
-    * `eat`: When mob eats (not yet implemented)
+  * `death`: When mob dies
+  * `damage`: When mob takes damage
+  * `eat`: When mob eats (not yet implemented)
 * `entity_definition`: Entity definition table. It may contain this custom fucntion:
-    * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
+  * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
                                      Triggered by `rp_mobs.handle_capture`
+* `animations`: Table of available mob animations
+  * The keys are string identifies for each animation, like `"walk`
+  * The values are tables with the following fields:
+    * `frame_range`: Same as `frame_range` in `object:set_animation`
+    * `default_frame_speed`: Default `frame_speed` (from `object:set_animation`) when this animation is played
 
 ### `rp_mobs.drop_death_items(mob, pos)`
 
@@ -325,7 +330,7 @@ initialized.
 		node at the drowning point is a drowning node, the mob can drown.
 		Default: no offset
 
-### `rp_mobs.init_node_damage(self, get_node_damage)`
+### `rp_mobs.init_node_damage(mob, get_node_damage)`
 
 Initializes the node damage mechanic for the given mob,
 activating damage from nodes with `damage_per_second`.
@@ -338,10 +343,10 @@ initialized.
 
 Parameters:
 
-* `self`: The mob
+* `mob`: The mob
 * `get_node_damage`: If `true`, mob will receive damage from nodes
 
-### `rp_mobs.init_fall_damage(self, get_fall_damage)`
+### `rp_mobs.init_fall_damage(mob, get_fall_damage)`
 
 Initializes the fall damage for the given mob,
 If you want the mob to have this, put this into `on_activate`.
@@ -477,6 +482,22 @@ Currently, the default death handler just drops the mob death items.
 
 Set `on_death = rp_mobs.on_death_default` to use the default death behavior.
 
+### `rp_mobs.get_staticdata_default(mob)`
+
+The default handler for `get_staticdata` of the mob's entity definition.
+This will handle the staticdata of the mob for you. All the mob's internal
+information will be stored including the `_custom_state`.
+`_temp_custom_state` will be discarded.
+
+This function *must* be set explicitly for every mob.
+
+Set `get_staticdata = rp_mobs.get_staticdata_default` to use this.
+
+### `rp_mobs.restore_state(mob, staticdata)`
+
+This will restore the mob's state data from the given `staticdata`
+in `on_activate`. This *must* be called in `on_activate`.
+
 ### `rp_mobs.register_capture_tool(itemname, definition)`
 
 Registers an *existing* tool as a capture tool.
@@ -492,6 +513,71 @@ Registers an *existing* tool as a capture tool.
 
 Returns true if the given mob is alive, false otherwise. `mob` *must* be a mob.
 
+### `rp_mobs.heal(mob, heal, reason)`
+
+Adds `heal` HP to mob. `heal` must not be negative.
+
+`reason` is an optional reason for the heal, as a `PlayerHPChangeReason` table.
+
+### `rp_mobs.spawn_mob_drop(pos, item)`
+
+Spawns an mob drop at `pos`. A mob drop is an item stack “dropped”
+by a mob, usually on death, but it may also be used on other events.
+
+`item` is an itemstring or `ItemStack`
+
+The difference from `minetest.add_item` is that it adds some random velocity
+so this is the recommended function to make a mob drop something.
+
+### `rp_mobs.check_and_trigger_hunter_achievement(mob, killer)`
+
+Checks if the mob is an animal and has a food item in its drop table and if yes,
+will award the “Hunter” achievement to `killer` if `killer` is a player.
+
+Is called in the default death handler (`rp_mobs.on_death_default`). If you use
+a custom death handler, it is recommended to call this function for animals.
+
+### `rp_mobs.on_punch_default(mob, puncher, time_from_last_punch, tool_capabilities, dir, damage)`
+
+Default `on_punch` handler of mob. Set this function to `on_punch`. The arguments are the same as for `on_punch`.
+
+This will play a the `damage` sound if the mob took damage, otherwise, `hit_no_damage` is played (if the sound exists).
+
+### `rp_mobs.mob_sound(mob, sound, keep_pitch)`
+
+Plays a sound for the given mob. The pitch will be slightly randomized. Child mobs have a 50% higher pitch.
+
+* `mob`: Mob to play sound for
+* `sound`: A `SimpleSoundSpec`
+* `keep_pitch`: If `true`, pitch will not be randomized and not be affected by child status
+
+### `rp_mobs.default_mob_sound(mob, default_sound, keep_pitch)`
+
+Plays a default mob sound for the given mob. Default sounds are specified in `rp_mobs.register_mob`. The pitch will be slightly randomized. Child mobs have a 50% higher pitch.
+
+* `mob`: Mob to play sound for
+* `default_sound`: Name of a default mob sound, like `"damage"`
+* `keep_pitch`: If `true`, pitch will not be randomized and not be affected by child status
+
+### `rp_mobs.default_hurt_sound(mob, keep_pitch)`
+
+Make a mob play its “hurt” sound. The pitch will be slightly randomized. Child mobs have a 50% higher pitch.
+
+* `mob`: Mob to play sound for
+* `keep_pitch`: If `true`, pitch will not be randomized and not be affected by child status
+
+### `rp_mobs.set_animation(mob, animation_name, animation_speed)`
+
+Set the animation for the given mob. The animation name is set in the mob definition in `_animations`. The name *must* exist in this table
+
+* `mob`: Mob object
+* `animation_name`: Name of the animation to play, as specified in mob definition
+* `animation_speed`: (optional): Override the default frame speed of the animation
+
+This function handles the animation internals for you. If you call this function with the same animation name and speed twice in a row, nothing happens; no unneccary network traffic is generated. If you call the function twice in row with the same animation name but a different frame speed, only the animation speed is updated the animation does not restart. In all other cases, the animation is set and started from the beginning.
+
 ## Default callback handlers
 
+* `get_staticdata`: `rp_mobs.get_staticdata_default`
 * `on_death`: `rp_mobs.on_death_default`
+* `on_punch`: `rp_mobs.on_punch_default`

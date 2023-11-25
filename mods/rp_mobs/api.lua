@@ -22,6 +22,7 @@ rp_mobs.add_persisted_entity_var = function(name)
 	table.insert(persisted_entity_vars, name)
 end
 -- Same as above, but for a list of variables
+-- (recommended only for internal rp_mobs use)
 rp_mobs.add_persisted_entity_vars = function(names)
 	for n=1, #names do
 		rp_mobs.add_persisted_entity_var(names[n])
