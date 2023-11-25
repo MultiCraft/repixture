@@ -165,7 +165,26 @@ rp_mobs.drop_death_items = function(self, pos)
 	end
 end
 
+rp_mobs.check_and_trigger_hunter_achievement = function(self, killer)
+	-- Hunter achievement: If mob is a food-dropping animal, it counts.
+	local mobdef = rp_mobs.registered_mobs[self.name]
+	if not mobdef then
+		error("[rp_mobs] rp_mobs.check_and_trigger_hunter_achievement was called on something that is not a registered mob! name="..tostring(self.name))
+	end
+	local drops_food = false
+	for _,drop in ipairs(mobdef.drops) do
+		if minetest.get_item_group(drop, "food") ~= 0 then
+			drops_food = true
+			break
+		end
+	end
+	if drops_food and killer ~= nil and killer:is_player() and mobdef.entity_definition._is_animal then
+		achievements.trigger_achievement(killer, "hunter")
+	end
+end
+
 rp_mobs.on_death_default = function(self, killer)
+	rp_mobs.check_and_trigger_hunter_achievement(self, killer)
 	rp_mobs.drop_death_items(self)
 	rp_mobs.default_mob_sound(self, "death")
 end
