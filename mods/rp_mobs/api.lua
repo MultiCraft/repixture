@@ -145,6 +145,18 @@ rp_mobs.is_alive = function(mob)
 	end
 end
 
+rp_mobs.spawn_mob_drop = function(pos, item)
+	local obj = minetest.add_item(pos, item)
+	if obj then
+		obj:set_velocity({
+			x = math.random(-1, 1),
+			y = 5,
+			z = math.random(-1, 1)
+		})
+	end
+	return obj
+end
+
 rp_mobs.drop_death_items = function(self, pos)
 	if not pos then
 		pos = self.object:get_pos()
@@ -155,12 +167,12 @@ rp_mobs.drop_death_items = function(self, pos)
 	end
 	if not self._child and mobdef.drops then
 		for d=1, #mobdef.drops do
-			minetest.add_item(pos, mobdef.drops[d])
+			rp_mobs.spawn_mob_drop(pos, mobdef.drops[d])
 		end
 	end
 	if self._child and mobdef.child_drops then
 		for d=1, #mobdef.child_drops do
-			minetest.add_item(pos, mobdef.child_drops[d])
+			rp_mobs.spawn_mob_drop(pos, mobdef.child_drops[d])
 		end
 	end
 end

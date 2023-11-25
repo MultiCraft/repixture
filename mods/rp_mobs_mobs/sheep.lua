@@ -163,15 +163,8 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 					self._custom_state.shorn = true
 					local pos = self.object:get_pos()
 					pos.y = pos.y + 0.5
-					local obj = minetest.add_item(pos, ItemStack("mobs:wool"))
+					local obj = rp_mobs.spawn_mob_drop(pos, ItemStack("mobs:wool"))
 					minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = clicker:get_pos(), max_hear_distance = 8}, true)
-					if obj then
-						obj:set_velocity({
-							x = math.random(-1,1),
-							y = 5,
-							z = math.random(-1,1)
-						})
-					end
 					if not minetest.is_creative_enabled(clicker:get_player_name()) then
 						local def = item:get_definition()
 						local cuts = minetest.get_item_group(itemname, "sheep_cuts")
