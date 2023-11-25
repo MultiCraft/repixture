@@ -176,7 +176,7 @@ These fields are available:
 * `_cmi_is_mob`: Always `true`. Indicates the entity is a mob. Do not touch
 * `_dying`: Is `true` when mob is currently dying and about to be removed
 * `_tamed`: `true` if mob is tame
-* `_food`: Food level. Used for breeding. Starts with 0 and increases for any food given
+* `_tb_level`: tame/breed level. Starts at 0 and increases for any food given, used to trigger taming/breeding
 * `_child`: `true` if mob is a child
 * `_horny`: `true` if mob is “horny”. If another horny mob is nearby, they will mate and spawn a child
 * `_pregnant`: `true` if mob is pregnant and about to spawn a child

@@ -2,7 +2,7 @@ local DEFAULT_ADD_CHILD_GROW_TIMER = 20
 
 -- Entity variables to persist:
 rp_mobs.add_persisted_entity_vars({
-	"_food", -- food level. Counts how often a mob was fed, used to trigger taming and breeding
+	"_tb_level", -- tame/breed level. Increases when a mob was fed; used to trigger taming and breeding
 	"_tamed", -- true if mob is tame
 })
 --[[ NOT persisted variables:
@@ -11,7 +11,7 @@ rp_mobs.add_persisted_entity_vars({
 
 
 local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, can_breed, add_child_grow_timer) -- Check if a mob is fed
-	mob._food = (mob._food or 0) + food_points
+	mob._tb_level = (mob._tb_level or 0) + food_points
 
 	-- Remember name of feeder for achievements
 	if feeder_name then
@@ -25,8 +25,8 @@ local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, c
 	end
 
 	-- Tame mob if threshold was reached
-	if food_till_tamed and mob._food >= food_till_tamed then
-		mob._food = 0
+	if food_till_tamed and mob._tb_level >= food_till_tamed then
+		mob._tb_level = 0
 
 		if can_breed and mob._horny_timer == 0 then
 			rp_mobs.make_horny(mob, true)
