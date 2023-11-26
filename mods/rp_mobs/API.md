@@ -18,7 +18,7 @@ To use tasks, they must be initialized by calling `rp_mobs.init_tasks` in `on_ac
 
 Finally, task queues organize the execution of tasks. A task queue is a sequence of tasks that get executed in order. Tasks get automatically removed from the queue once finished. Task queues also optionally have a `decider` function which is called every time the task queue is empty.
 
-A mob can have any number of task queues active at a time. While tasks and microtasks are executed sequentially, task queues run in parrallel.
+A mob can have any number of task queues active at a time. While tasks and microtasks are executed sequentially, task queues run in parallel.
 
 Task queues, tasks and microtask form a tree-like structure, like so:
 
@@ -54,16 +54,18 @@ You can use the following template:
 		description = "MOB DESCRIPTION",
 		drops = { ADD_YOUR_DROPS_HERE },
 		entity_definition = {
-			on_activate = function(self)
+			on_activate = function(self, staticdata)
+				rp_mobs.restore_state(self, staticdata)
 				rp_mobs.init_physics(self)
 				rp_mobs.init_tasks(self)
 			end,
 			on_step = function(self, dtime)
 				rp_mobs.handle_physics(self)
 				rp_mobs.handle_tasks(self, dtime)
-				rp_mobs.decide(self)
 			end,
+			get_staticdata = rp_mobs.get_staticdata_default,
 			on_death = rp_mobs.on_death_default,
+			on_punch = rp_mobs.on_punch_default,
 		},
 	})
 
@@ -101,7 +103,7 @@ All other fields are optional. It is not allowed to add any fields not listed ab
 a reference to the microtask table itself and `mob` being the mob object that is affected.
 
 `on_step` has the parameters `self, mob, dtime`, where `dtime` is the time in seconds
-that have passed since it was last called, or 0 on the firt call (like for the entity
+that have passed since it was last called, or 0 on the first call (like for the entity
 `on_step` function).
 
 The `statedata` field can be used to associate arbitrary data with the microtask in
@@ -110,14 +112,39 @@ like `on_step`.
 
 Microtasks can be created with `rp_mobs.create_microtask`.
 
-## Optional common functionality
+## Subsystems
 
-This mod is designed to hardcode as little into mobs as possible. However, there are still a lot
-of utility functions that implement basic mob functionality that most, if not all mobs
-should have and they can used by mobs to share the same code.
+Subsystems implement core mob features. The mob physics and tasks are also subsystems
 
-Nearly every behavior needs to be used *explicity*, however. So there is no node damage
-by default, no drowning by default, etc. This section explains the common functionality.
+Each subsystem can be enabled by adding a `handle_*` function in `on_step` and
+most of the time, also an `init_*` function in `on_activate`.
+
+The `handle_*` function in `on_step` **must** be called on *every* step.
+Failing to do so leads to undefined behavior.
+
+For example, to enable the Tasks subsystem, call `rp_mobs.init_tasks` in `on_activate`
+of the mob entity definition, and `rp_mobs.handle_tasks` in `on_step`. See the
+function reference for details.
+
+The Tasks and Physics subsystems are mandatory and must be enabled for all mobs.
+
+### Subsystem overview
+
+This overview is a list of all subsystems and the required functions you need to call:
+
+    Subsystem   | on_activate function     | on_step function
+    ------------+--------------------------+----------------------------
+    Physics*    | rp_mobs.init_physics     | rp_mobs.handle_physics
+    Tasks*      | rp_mobs.init_tasks       | rp_mobs.handle_tasks
+    Node damage | rp_mobs.init_node_damage | rp_mobs.handle_node_damage***
+    Fall damage | rp_mobs.init_fall_damage | rp_mobs.handle_fall_damage***
+    Breath      | rp_mobs.init_breath      | rp_mobs.handle_breath***
+    Breeding    | **                       | rp_mobs.handle_breeding
+    Capturing   | **                       | rp_mobs.handle_capture
+    
+    *   = mandatory
+    **  = no init function required
+    *** = can be replaced with rp_mobs.handle_environment_damage
 
 ### Node damage
 
@@ -138,9 +165,10 @@ The fall damage calculation works differently than for players (see
 To enable fall damage , add `rp_mobs.init_fall_damage` in `on_activate` and
 `rp_mobs.handle_fall_damage` in `on_step`.
 
-### Breath / drowning
+### Breath
 
-Drowning makes mobs take drowning damage when inside a particular node.
+The breath subsystem enables breath and a drowning mechanic. This makes mobs take
+drowning damage when inside a particular node.
 
 If you want your mob to use this, add `rp_mobs.init_breath` to `on_activate`
 and `rp_mobs.handle_drowning` in `on_step`. Read the documentation of these
@@ -151,7 +179,7 @@ by manipulating the drowning fields (see the mob field reference).
 
 ### Breeding
 
-Breeding will make mobs mate and create offspring. To enable, add
+Breeding will make mobs mate and create offspring. To enable, call
 `rp_mobs.handle_breeding` in `on_step`.
 
 In particular, to breed, two adult mobs of the same type need to be “horny” and close
@@ -206,7 +234,9 @@ A bunch of fields are meant for internal use by `rp_mobs`. Do not change them.
 
 ## Function reference
 
-### `rp_mobs.register_mob(mobname, def)`
+### Registrations
+
+#### `rp_mobs.register_mob(mobname, def)`
 
 Register a mob with the entity identifier `mobname` and definition `def`.
 The mob definition will be stored under `rp_mobs.registered_mobs[mobname]`.
@@ -221,7 +251,7 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
   * `death`: When mob dies
   * `damage`: When mob takes damage
   * `eat`: When mob eats (not yet implemented)
-* `entity_definition`: Entity definition table. It may contain this custom fucntion:
+* `entity_definition`: Entity definition table. It may contain this custom function:
   * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
                                      Triggered by `rp_mobs.handle_capture`
 * `animations`: Table of available mob animations
@@ -230,79 +260,7 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
     * `frame_range`: Same as `frame_range` in `object:set_animation`
     * `default_frame_speed`: Default `frame_speed` (from `object:set_animation`) when this animation is played
 
-### `rp_mobs.drop_death_items(mob, pos)`
-
-Make mob `mob` drop its death items at pos.
-
-### `rp_mobs.init_physics(mob)`
-
-Initialize and enable the mob physics system for mob `mob`.
-This is supposed to go into `on_activate` of the entity definition.
-This function **must** be called before any other physics-related function.
-
-### `rp_mobs.handle_physics(mob)`
-
-Update the mob physics for a single mob step. Required for the mob physics to work.
-This is supposed to go into `on_step` of the entity definition. It must be called every step.
-
-### `rp_mobs.activate_gravity(mob)`
-
-Activate gravity for mob.
-
-### `rp_mobs.deactivate_gravity(mob)`
-
-Deactivate gravity for mob.
-
-### `rp_mobs.init_tasts(mob)`
-
-Initialize the task and microtask queues for the mob.
-This is supposed to go into `on_activate` of the entity definition.
-This function **must** be called before any other task-related function is called.
-
-### `rp_mobs.create_task_queue(decider)`
-
-Create a task queue object and returns it. `decider` is an
-optional function with signature `decider(task_queue, mob)` that is
-called whenever the task queue is empty.
-In this function you can update the task queue by adding new
-tasks to it. Avoid complex and slow algorithms here!
-
-### `rp_mobs.add_task_to_task_queue(task, task_queue)`
-
-Add a task `task` to the given task queue object.
-
-### `rp_mobs.add_task_queue(mob, task_queue)`
-
-Add a task queue to the given mob.
-
-### `rp_mobs.create_task(def)`
-
-Create a task according to the specified `def` table. See the data structure above for the possible table fields.
-
-Returns the task.
-
-### `rp_mobs.create_microtask(def)`
-
-Create a microtask according to the specified `def` table. See the data structure above for the possible table fields.
-The `statedata` field will always be initialized as an empty table.
-
-Returns the microtask.
-
-Note this only creates it in memory. To actually execute it, you have to add
-it to a task with `rp_mobs.add_microtask_to_task` and then execute
-the task.
-
-
-### `rp_mobs.add_microtask_to_task(mob, microtask, task)`
-
-Add the microtask `microtask` to the specified `task`.
-
-### `rp_mobs.handle_tasks(mob)`
-
-Handle the task queues, tasks, microtasks of the mob for a single step. Required for the task system to work.
-This is supposed to go into `on_step` of the entity definition. It must be called every step.
-
-### `rp_mobs.register_mob_item(mobname, invimg, desc)`
+#### `rp_mobs.register_mob_item(mobname, invimg, desc)`
 
 Registers an item representing a mob. It can be used by players to spawn
 the mob by placing it. This item is also used when a mob is captured.
@@ -311,7 +269,82 @@ the mob by placing it. This item is also used when a mob is captured.
 * `invimg`: Inventory image texture
 * `desc`: Description for inventory
 
-### `rp_mobs.init_breath(mob, can_drown, def)`
+#### `rp_mobs.register_capture_tool(itemname, definition)`
+
+Registers an *existing* tool as a capture tool.
+
+* `itemname`: Item name of the item that captures
+* `definition`: A table with these fields:
+    * `uses`: Number of uses before the tool breaks. 0 = unlimited
+    * `sound`: (optional) Name of sound that plays when “swinging” the tool
+    * `sound_gain`: (optional) Gain of that sound (as in `SimpleSoundSpec`)
+    * `sound_max_hear_distance`: (optional) `max_hear_distance` of that sound (as in `SimpleSoundSpec`)
+
+### Default entity handlers
+
+These functions should be set as the callback functions of the mob entity.
+The code will usually look like this:
+
+```
+get_staticdata = rp_mobs.get_staticdata_default,	-- required
+on_death = rp_mobs.on_death_default,			-- optional, custom handler recommended
+on_punch = rp_mobs.on_punch_default,			-- optional
+```
+
+#### `rp_mobs.get_staticdata_default(mob)`
+
+The default handler for `get_staticdata` of the mob's entity definition.
+This will handle the staticdata of the mob for you. All the mob's internal
+information will be stored including the `_custom_state`.
+`_temp_custom_state` will be discarded.
+
+This function *must* be set explicitly for every mob.
+
+Set `get_staticdata = rp_mobs.get_staticdata_default` to use this.
+
+#### `rp_mobs.on_death_default(mob, killer)`
+
+The default handler for `on_death` of the mob's entity definition.
+It must be set explicitly for every mob, unless you want to have a custom death handling.
+Currently, the default death handler just drops the mob death items.
+
+Set `on_death = rp_mobs.on_death_default` to use the default death behavior.
+
+#### `rp_mobs.on_punch_default(mob, puncher, time_from_last_punch, tool_capabilities, dir, damage)`
+
+Default `on_punch` handler of mob. Set this function to `on_punch`. The arguments are the same as for `on_punch`.
+
+This will play a the `damage` sound if the mob took damage, otherwise, `hit_no_damage` is played (if the sound exists).
+
+
+
+### `on_activate` functions
+
+These are functions to be used in the `on_activate` handler to initialize certain subsystems, like tasks or physics.
+
+Calling `rp_mobs.restore_state` in `on_activate` is a requirement, but everything else is optional depending on your needs.
+
+For example, you can choose to *not* call `rp_mobs.init_physics` if your mob does not need the physics subsystem.
+
+#### `rp_mobs.restore_state(mob, staticdata)`
+
+This will restore the mob's state data from the given `staticdata` in `on_activate`.
+
+This *must* be called in `on_activate`.
+
+#### `rp_mobs.init_physics(mob)`
+
+Initialize and enable the mob physics system for mob `mob`.
+This is supposed to go into `on_activate` of the entity definition.
+This function **must** be called before any other physics-related function.
+
+#### `rp_mobs.init_tasks(mob)`
+
+Initialize the task and microtask queues for the mob.
+This is supposed to go into `on_activate` of the entity definition.
+This function **must** be called before any other task-related function is called.
+
+#### `rp_mobs.init_breath(mob, can_drown, def)`
 
 Initializes the breath and drowning mechanic for the given mob.
 If you want the mob to have this, put this into `on_activate`.
@@ -330,7 +363,7 @@ initialized.
 		node at the drowning point is a drowning node, the mob can drown.
 		Default: no offset
 
-### `rp_mobs.init_node_damage(mob, get_node_damage)`
+#### `rp_mobs.init_node_damage(mob, get_node_damage)`
 
 Initializes the node damage mechanic for the given mob,
 activating damage from nodes with `damage_per_second`.
@@ -346,7 +379,7 @@ Parameters:
 * `mob`: The mob
 * `get_node_damage`: If `true`, mob will receive damage from nodes
 
-### `rp_mobs.init_fall_damage(mob, get_fall_damage)`
+#### `rp_mobs.init_fall_damage(mob, get_fall_damage)`
 
 Initializes the fall damage for the given mob,
 If you want the mob to have this, put this into `on_activate`.
@@ -361,41 +394,31 @@ Parameters:
 * `self`: The mob
 * `get_fall_damage`: If `true`, mob will receive fall damage
 
-### `rp_mobs.attempt_capture = function(mob, capturer, capture_chances, force_take, replace_with)`
 
-Attempt to capture mob by capturer (a player). This requires a mob to have a mob available as
-an item (see `rp_mobs.register_mob_items`), unless `replace_with` is set.
 
-It is recommended to put this function in the `_on_capture` field of the mob’s entity definition.
+### Subsystems: `on_step` handlers
 
-A mob capture may or may not succeed. A mob capture succeeds if all of these are true:
+These are functions you need to call in the `on_step` callback function of the mob entity in order for a subsystem to work properly.
+Each of these functions assumes the corresponding `rp_mobs.init_*` function has been called before.
 
-1. The wielded item is in `capture_chances`
-2. The random capture chance succeeds
-3. The mob is tamed _or_ `force_take` is `true`
+#### `rp_mobs.handle_tasks(mob)`
 
-If successful, `capturer` will get the mob in item form and it will wear out the wielded tool
-(exception: no wear in Creative Mode). `capturer` might receive a message.
+Handle the task queues, tasks, microtasks of the mob for a single step. Required for the task system to work.
+This is supposed to go into `on_step` of the entity definition. It must be called every step.
 
-Parameters:
+#### `rp_mobs.handle_physics(mob)`
 
-* `mob`: The mob to capture
-* `capturer`: Player trying to capture
-* `capture_changes`: Table defining which items can capture and their chance to capture:
-    * key: itemname, e.g. `"rp_mobs:net"`
-    * value: capture chance, specified as `1/value`. e.g. value 5 is a 1/5 chance.
-* `force_take`: (optional) If `true`, can capture non-tamed mob
-* `replace_with`: (optional) Give this item instead of the registered mob item.
-                  If `nil` (default), gives the registered mob item.
+Update the mob physics for a single mob step. Required for the mob physics to work.
+This is supposed to go into `on_step` of the entity definition. It must be called every step.
 
-### `rp_mobs.handle_capture(mob, capture)`
+#### `rp_mobs.handle_capture(mob, capture)`
 
 Handle the mob’s capturing logic. This will call the `_on_capture` function of the mob’s
 entity definition. This function *must* exist.
 
 It is recommended to put this into `on_rightclick`, if you want this mob to be capturable.
 
-### `rp_mobs.handle_node_damage(mob, dtime)`
+#### `rp_mobs.handle_node_damage(mob, dtime)`
 
 Handles node damage for the mob if the entity
 field `_get_node_damage` is `true`. Node damage is taken
@@ -410,13 +433,13 @@ Otherwise, no damage will be taken.
 Must be called in the `on_step` function in every step.
 `dtime` is the `dtime` argument of `on_step`.
 
-### `rp_mobs.handle_fall_damage(mob, dtime, moveresult)`
+#### `rp_mobs.handle_fall_damage(mob, dtime, moveresult)`
 
 Handles fall damage for the mob if the entity field
 `_get_fall_damage` is `true`.
 
 Fall damage is calculated differently than for
-players and there is no guarante the calculation
+players and there is no guarantee the calculation
 algorithm will be forwards-compatible. It increases
 linearly with the fall height. Fall damage is further-
 more modified by the `add_fall_damage_percent` group
@@ -429,7 +452,7 @@ This function must be called in the `on_step` function
 in every step. `dtime` and `moveresult` are the same as
 in `on_step`.
 
-### `rp_mobs.handle_drowning(mob, dtime)`
+#### `rp_mobs.handle_drowning(mob, dtime)`
 
 Handles breath and drowning damage for the mob
 if the entity field `_can_drown` is `true`.
@@ -461,65 +484,176 @@ mob’s yaw.
 Must be called in the `on_step` function in every step.
 `dtime` is the `dtime` argument of `on_step`.
 
-### `rp_mobs.handle_environment_damage(mob, dtime, moveresult)`
+#### `rp_mobs.handle_environment_damage(mob, dtime, moveresult)`
 
-Handle all environment damages. This is is the same as
-calling:
+Handle all environment damages. This is is the same as calling:
 
 * `rp_mobs.handle_fall_damage`
 * `rp_mobs.handle_node_damage`
 * `rp_mobs.handle_drowning`
 
 Must be called in `on_step` every step.
-`mob` is the mob. The `dtime` and `moveresult`
-arguments are the same as for `on_step`.
+`mob` is the mob. The `dtime` and `moveresult` arguments are the same as for `on_step`.
 
-### `rp_mobs.on_death_default(mob, killer)`
 
-The default handler for `on_death` of the mob's entity definition.
-It must be set explicitly for every mob, unless you want to have a custom death handling.
-Currently, the default death handler just drops the mob death items.
 
-Set `on_death = rp_mobs.on_death_default` to use the default death behavior.
+### Task functions
 
-### `rp_mobs.get_staticdata_default(mob)`
+This section contains the functions to create tasks, microtasks and task queues and to add them to the mob.
 
-The default handler for `get_staticdata` of the mob's entity definition.
-This will handle the staticdata of the mob for you. All the mob's internal
-information will be stored including the `_custom_state`.
-`_temp_custom_state` will be discarded.
+See also `rp_mobs.init_tasks` and `rp_mobs.handle_tasks`.
 
-This function *must* be set explicitly for every mob.
+#### `rp_mobs.create_task_queue(decider)`
 
-Set `get_staticdata = rp_mobs.get_staticdata_default` to use this.
+Create a task queue object and returns it. `decider` is an
+optional function with signature `decider(task_queue, mob)` that is
+called whenever the task queue is empty.
+In this function you can update the task queue by adding new
+tasks to it. Avoid complex and slow algorithms here!
 
-### `rp_mobs.restore_state(mob, staticdata)`
+#### `rp_mobs.create_task(def)`
 
-This will restore the mob's state data from the given `staticdata`
-in `on_activate`. This *must* be called in `on_activate`.
+Create a task according to the specified `def` table. See the data structure above for the possible table fields.
 
-### `rp_mobs.register_capture_tool(itemname, definition)`
+Returns the task.
 
-Registers an *existing* tool as a capture tool.
+#### `rp_mobs.create_microtask(def)`
 
-* `itemname`: Item name of the item that captures
-* `definition`: A table with these fields:
-    * `uses`: Number of uses before the tool breaks. 0 = unlimited
-    * `sound`: (optional) Name of sound that plays when “swinging” the tool
-    * `sound_gain`: (optional) Gain of that sound (as in `SimpleSoundSpec`)
-    * `sound_max_hear_distance`: (optional) `max_hear_distance` of that sound (as in `SimpleSoundSpec`)
+Create a microtask according to the specified `def` table. See the data structure above for the possible table fields.
+The `statedata` field will always be initialized as an empty table.
 
-### `rp_mobs.is_alive(mob)`
+Returns the microtask.
 
-Returns true if the given mob is alive, false otherwise. `mob` *must* be a mob.
+Note this only creates it in memory. To actually execute it, you have to add
+it to a task with `rp_mobs.add_microtask_to_task` and then execute
+the task.
 
-### `rp_mobs.heal(mob, heal, reason)`
+#### `rp_mobs.add_task_queue(mob, task_queue)`
+
+Add a task queue to the given mob.
+
+#### `rp_mobs.add_task_to_task_queue(task, task_queue)`
+
+Add a task `task` to the given task queue object.
+
+#### `rp_mobs.add_microtask_to_task(mob, microtask, task)`
+
+Add the microtask `microtask` to the specified `task`.
+
+
+### Capture functions
+
+#### `rp_mobs.attempt_capture = function(mob, capturer, capture_chances, force_take, replace_with)`
+
+Attempt to capture mob by capturer (a player). This requires a mob to have a mob available as
+an item (see `rp_mobs.register_mob_items`), unless `replace_with` is set.
+
+It is recommended to put this function in the `_on_capture` field of the mob’s entity definition.
+
+A mob capture may or may not succeed. A mob capture succeeds if all of these are true:
+
+1. The wielded item is in `capture_chances`
+2. The random capture chance succeeds
+3. The mob is tamed _or_ `force_take` is `true`
+
+If successful, `capturer` will get the mob in item form and it will wear out the wielded tool
+(exception: no wear in Creative Mode). `capturer` might receive a message.
+
+Parameters:
+
+* `mob`: The mob to capture
+* `capturer`: Player trying to capture
+* `capture_changes`: Table defining which items can capture and their chance to capture:
+    * key: itemname, e.g. `"rp_mobs:net"`
+    * value: capture chance, specified as `1/value`. e.g. value 5 is a 1/5 chance.
+* `force_take`: (optional) If `true`, can capture non-tamed mob
+* `replace_with`: (optional) Give this item instead of the registered mob item.
+                  If `nil` (default), gives the registered mob item.
+
+
+
+### Animation functions
+
+#### `rp_mobs.set_animation(mob, animation_name, animation_speed)`
+
+Set the animation for the given mob. The animation name is set in the mob definition in `_animations`. The name *must* exist in this table
+
+* `mob`: Mob object
+* `animation_name`: Name of the animation to play, as specified in mob definition
+* `animation_speed`: (optional): Override the default frame speed of the animation
+
+This function handles the animation internals for you. If you call this function with the same animation name and speed twice in a row, nothing happens; no unnecessary network traffic is generated. If you call the function twice in row with the same animation name but a different frame speed, only the animation speed is updated the animation does not restart. In all other cases, the animation is set and started from the beginning.
+
+
+
+### Sound functions
+
+#### `rp_mobs.mob_sound(mob, sound, keep_pitch)`
+
+Plays a sound for the given mob. The pitch will be slightly randomized. Child mobs have a 50% higher pitch.
+
+* `mob`: Mob to play sound for
+* `sound`: A `SimpleSoundSpec`
+* `keep_pitch`: If `true`, pitch will not be randomized and not be affected by child status
+
+#### `rp_mobs.default_mob_sound(mob, default_sound, keep_pitch)`
+
+Plays a default mob sound for the given mob. Default sounds are specified in `rp_mobs.register_mob`. The pitch will be slightly randomized. Child mobs have a 50% higher pitch.
+
+* `mob`: Mob to play sound for
+* `default_sound`: Name of a default mob sound, like `"damage"`
+* `keep_pitch`: If `true`, pitch will not be randomized and not be affected by child status
+
+#### `rp_mobs.default_hurt_sound(mob, keep_pitch)`
+
+Make a mob play its “hurt” sound. The pitch will be slightly randomized. Child mobs have a 50% higher pitch.
+
+* `mob`: Mob to play sound for
+* `keep_pitch`: If `true`, pitch will not be randomized and not be affected by child status
+
+
+
+### Achievement function
+
+This section is for manually triggering the built-in achievement(s) of this mod.
+
+#### `rp_mobs.check_and_trigger_hunter_achievement(mob, killer)`
+
+Checks if the mob is an animal and has a food item in its drop table and if yes,
+will award the “Hunter” achievement to `killer` if `killer` is a player.
+
+This is called in the default death handler (`rp_mobs.on_death_default`) so by default, you don’t need to call this yourself.
+But if you a custom death handler for `on_death`, it is recommended to call this function for animals.
+
+
+
+### Utility functions
+
+#### `rp_mobs.is_alive(mob)`
+
+Returns `true` if the given mob is alive, false otherwise. `mob` *must* be a mob.
+
+#### `rp_mobs.heal(mob, heal, reason)`
 
 Adds `heal` HP to mob. `heal` must not be negative.
 
 `reason` is an optional reason for the heal, as a `PlayerHPChangeReason` table.
 
-### `rp_mobs.spawn_mob_drop(pos, item)`
+#### `rp_mobs.activate_gravity(mob)`
+
+Activate gravity for mob. Requires the physics subsystem.
+
+#### `rp_mobs.deactivate_gravity(mob)`
+
+Deactivate gravity for mob. Requires the physics subsystem.
+
+#### `rp_mobs.drop_death_items(mob, pos)`
+
+Make mob `mob` drop its death items at `pos`, as if it had died.
+
+This does not kill the mob.
+
+#### `rp_mobs.spawn_mob_drop(pos, item)`
 
 Spawns an mob drop at `pos`. A mob drop is an item stack “dropped”
 by a mob, usually on death, but it may also be used on other events.
@@ -529,55 +663,16 @@ by a mob, usually on death, but it may also be used on other events.
 The difference from `minetest.add_item` is that it adds some random velocity
 so this is the recommended function to make a mob drop something.
 
-### `rp_mobs.check_and_trigger_hunter_achievement(mob, killer)`
 
-Checks if the mob is an animal and has a food item in its drop table and if yes,
-will award the “Hunter” achievement to `killer` if `killer` is a player.
 
-Is called in the default death handler (`rp_mobs.on_death_default`). If you use
-a custom death handler, it is recommended to call this function for animals.
 
-### `rp_mobs.on_punch_default(mob, puncher, time_from_last_punch, tool_capabilities, dir, damage)`
+## Appendix
 
-Default `on_punch` handler of mob. Set this function to `on_punch`. The arguments are the same as for `on_punch`.
+### Glossary
 
-This will play a the `damage` sound if the mob took damage, otherwise, `hit_no_damage` is played (if the sound exists).
-
-### `rp_mobs.mob_sound(mob, sound, keep_pitch)`
-
-Plays a sound for the given mob. The pitch will be slightly randomized. Child mobs have a 50% higher pitch.
-
-* `mob`: Mob to play sound for
-* `sound`: A `SimpleSoundSpec`
-* `keep_pitch`: If `true`, pitch will not be randomized and not be affected by child status
-
-### `rp_mobs.default_mob_sound(mob, default_sound, keep_pitch)`
-
-Plays a default mob sound for the given mob. Default sounds are specified in `rp_mobs.register_mob`. The pitch will be slightly randomized. Child mobs have a 50% higher pitch.
-
-* `mob`: Mob to play sound for
-* `default_sound`: Name of a default mob sound, like `"damage"`
-* `keep_pitch`: If `true`, pitch will not be randomized and not be affected by child status
-
-### `rp_mobs.default_hurt_sound(mob, keep_pitch)`
-
-Make a mob play its “hurt” sound. The pitch will be slightly randomized. Child mobs have a 50% higher pitch.
-
-* `mob`: Mob to play sound for
-* `keep_pitch`: If `true`, pitch will not be randomized and not be affected by child status
-
-### `rp_mobs.set_animation(mob, animation_name, animation_speed)`
-
-Set the animation for the given mob. The animation name is set in the mob definition in `_animations`. The name *must* exist in this table
-
-* `mob`: Mob object
-* `animation_name`: Name of the animation to play, as specified in mob definition
-* `animation_speed`: (optional): Override the default frame speed of the animation
-
-This function handles the animation internals for you. If you call this function with the same animation name and speed twice in a row, nothing happens; no unneccary network traffic is generated. If you call the function twice in row with the same animation name but a different frame speed, only the animation speed is updated the animation does not restart. In all other cases, the animation is set and started from the beginning.
-
-## Default callback handlers
-
-* `get_staticdata`: `rp_mobs.get_staticdata_default`
-* `on_death`: `rp_mobs.on_death_default`
-* `on_punch`: `rp_mobs.on_punch_default`
+* Mob: Non-player entity with added capabilities and a task queue
+* Task queue: Sequence of tasks a mob will execute in order; can run in parallel
+* Task: A sequence of microtasks a mob will execute in order; can’t run in parallel
+* Microtask: A simple function a mob will execute every step until a goal condition is met
+* Decider: A function that is called when the task queue is empty in order to generate new tasks
+* Subsystem: A built-in mob behavior (physics, breeding, drowning)
