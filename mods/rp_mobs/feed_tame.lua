@@ -43,7 +43,7 @@ local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, c
 	end
 end
 
--- Let a player feed a mob with their wielded item and optionall
+-- Let a player feed a mob with their wielded item and optionally tame it and make it horny
 -- * mob: The mob that is fed
 -- * feeder: Player who feeds the mob
 -- * allowed_foods: List of allowed food items

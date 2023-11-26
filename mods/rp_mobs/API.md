@@ -541,9 +541,59 @@ Add a task `task` to the given task queue object.
 Add the microtask `microtask` to the specified `task`.
 
 
-### Capture functions
+
+### Breeding functions
+
+#### `rp_mobs.feed_tame_breed(mob, feeder, allowed_foods, food_till_tamed, can_breed, add_child_grow_timer, effect, eat_sound)`
+
+Requires the Breeding subsystem.
+
+Let the player `feeder` feed the `mob` with their wielded item and optionally cause the mob to become tame and become horny.
+Should be called in `on_rightclick`.
+
+* `mob`: The mob that is fed
+* `feeder`: Player who feeds the mob
+* `allowed_foods`: List of allowed food items
+* `food_till_tamed`: How many food points the mob needs until it is tamed
+* `can_breed`: `true` if feeding may cause this mob to become horny, `false` otherwise
+* `add_child_growth_timer`: (optional) If mob is a child, by how many seconds the child growth timer is increased (default: `20`)
+* `effect`: (optional) `true` to show particle effects, `false` otherwise (default: `true`)
+* `eat_sound`: (optional) Name of sound to play (default: `"mobs_eat"`)
+
+#### `rp_mobs.make_horny(mob, force)`
+
+Make mob horny, if possible.
+
+#### `rp_mobs.make_unhorny(mob)`
+
+Disable mob being horny.
+
+
+
+### Children functions
+
+These function handle the child/adult status of the mob.
+
+#### `rp_mobs.turn_into_adult(mob)`
+
+Turns the mob into an adult.
+
+#### `rp_mobs.turn_into_child(mob)`
+
+Turns the mob into a child.
+
+#### `rp_mobs.advance_child_growth(mob, dtime)`
+
+Advance the child growth timer of the given mob by dtime (in seconds) and turn it into an adult once the time has passed.
+Should be added into the `on_step` function of the mob if you want children to grow up. If children must not grow up automatically, don't add this function.
+
+
+
+### Capturing function
 
 #### `rp_mobs.attempt_capture = function(mob, capturer, capture_chances, force_take, replace_with)`
+
+Requires the Capturing subsystem.
 
 Attempt to capture mob by capturer (a player). This requires a mob to have a mob available as
 an item (see `rp_mobs.register_mob_items`), unless `replace_with` is set.
