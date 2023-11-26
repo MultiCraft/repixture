@@ -219,13 +219,13 @@ rp_mobs.damage = function(self, damage, reason, no_sound)
 	self.object:set_hp(hp, reason)
 	if hp <= 0 then
 		if not no_sound then
-			rp_mobs.mob_sound_default(self, "death")
+			rp_mobs.default_mob_sound(self, "death")
 		end
 		self._dying = true
 		return true
 	else
 		if not no_sound then
-			rp_mobs.mob_sound_default(self, "damage")
+			rp_mobs.default_mob_sound(self, "damage")
 		end
 	end
 	return false
