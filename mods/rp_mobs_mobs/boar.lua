@@ -72,7 +72,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		end,
 		on_rightclick = function(self, clicker)
 			rp_mobs.feed_tame_breed(self, clicker, { "rp_default:apple", "rp_default:acorn" }, 8, true)
-			rp_mobs.handle_capture(self, clicker)
+			rp_mobs.call_on_capture(self, clicker)
 		end,
 		_on_capture = function(self, capturer)
 			rp_mobs.attempt_capture(self, capturer, { ["rp_mobs:net"] = 5, ["rp_mobs:lasso"] = 40 })

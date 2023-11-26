@@ -6,14 +6,14 @@ rp_mobs.register_capture_tool = function(toolname, def)
 	capture_tools[toolname] = { uses = def.tool_uses, sound = def.sound, sound_gain = def.sound_gain, sound_max_hear_distance = def.sound_max_hear_distance }
 end
 
-rp_mobs.handle_capture = function(self, capturer)
+rp_mobs.call_on_capture = function(self, capturer)
 	if not capturer:is_player() then
 		return false
 	end
 	if self._on_capture then
 		return self._on_capture(self, capturer)
 	else
-		minetest.log("error", "[rp_mobs] rp_mobs.handle_capture called for mob of type '"..self.name.."' but it has no _on_capture function!")
+		minetest.log("error", "[rp_mobs] rp_mobs.call_on_capture called for mob of type '"..self.name.."' but it has no _on_capture function!")
 		return false
 	end
 end

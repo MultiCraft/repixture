@@ -140,7 +140,6 @@ This overview is a list of all subsystems and the required functions you need to
     Fall damage | rp_mobs.init_fall_damage | rp_mobs.handle_fall_damage***
     Breath      | rp_mobs.init_breath      | rp_mobs.handle_breath***
     Breeding    | **                       | rp_mobs.handle_breeding
-    Capturing   | **                       | rp_mobs.handle_capture
     
     *   = mandatory
     **  = no init function required
@@ -253,7 +252,7 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
   * `eat`: When mob eats (not yet implemented)
 * `entity_definition`: Entity definition table. It may contain this custom function:
   * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
-                                     Triggered by `rp_mobs.handle_capture`
+                                     Triggered by `rp_mobs.call_on_capture`
 * `animations`: Table of available mob animations
   * The keys are string identifies for each animation, like `"walk`
   * The values are tables with the following fields:
@@ -410,13 +409,6 @@ This is supposed to go into `on_step` of the entity definition. It must be calle
 
 Update the mob physics for a single mob step. Required for the mob physics to work.
 This is supposed to go into `on_step` of the entity definition. It must be called every step.
-
-#### `rp_mobs.handle_capture(mob, capture)`
-
-Handle the mob’s capturing logic. This will call the `_on_capture` function of the mob’s
-entity definition. This function *must* exist.
-
-It is recommended to put this into `on_rightclick`, if you want this mob to be capturable.
 
 #### `rp_mobs.handle_node_damage(mob, dtime)`
 
@@ -589,7 +581,7 @@ Should be added into the `on_step` function of the mob if you want children to g
 
 
 
-### Capturing function
+### Capturing functions
 
 #### `rp_mobs.attempt_capture = function(mob, capturer, capture_chances, force_take, replace_with)`
 
@@ -619,6 +611,14 @@ Parameters:
 * `force_take`: (optional) If `true`, can capture non-tamed mob
 * `replace_with`: (optional) Give this item instead of the registered mob item.
                   If `nil` (default), gives the registered mob item.
+
+#### `rp_mobs.call_on_capture(mob, capture)`
+
+Requires the Capturing subsystem.
+
+Handle the mob’s capturing logic by calling the `_on_capture` function of the mob’s entity definition. This function *must* exist.
+
+It is recommended to put this into `on_rightclick`, if you want this mob to be capturable.
 
 
 

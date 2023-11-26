@@ -186,7 +186,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			end
 
 			-- Are we capturing?
-			rp_mobs.handle_capture(self, clicker)
+			rp_mobs.call_on_capture(self, clicker)
 		end,
 
 		on_death = rp_mobs.on_death_default,
