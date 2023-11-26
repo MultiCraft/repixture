@@ -218,9 +218,6 @@ rp_mobs.damage = function(self, damage, reason, no_sound)
 	hp = math.max(0, hp - damage)
 	self.object:set_hp(hp, reason)
 	if hp <= 0 then
-		if not no_sound then
-			rp_mobs.default_mob_sound(self, "death")
-		end
 		self._dying = true
 		return true
 	else
