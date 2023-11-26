@@ -683,11 +683,17 @@ But if you a custom death handler for `on_death`, it is recommended to call this
 
 Returns `true` if the given mob is alive, false otherwise. `mob` *must* be a mob.
 
-#### `rp_mobs.heal(mob, heal, reason)`
+#### `rp_mobs.heal(mob, heal)`
 
 Adds `heal` HP to mob. `heal` must not be negative.
 
-`reason` is an optional reason for the heal, as a `PlayerHPChangeReason` table.
+#### `rp_mobs.damage(mob, damage, no_sound)`
+
+Removes `damage` HP from mob, optionally playing the mob's `"damage"` sound. `damage` must not be negative. If the mob HP reaches 0, the mob dies.
+
+If `no_sound` is true, then no damage sound will be played.
+
+It is recommended to damage a mob only with this function instead of calling `mob:set_hp` directly in order to ensure consistency across mobs.
 
 #### `rp_mobs.activate_gravity(mob)`
 

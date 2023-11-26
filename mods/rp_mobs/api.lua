@@ -210,13 +210,13 @@ rp_mobs.on_punch_default = function(self, puncher, time_from_last_punch, tool_ca
 	end
 end
 
-rp_mobs.damage = function(self, damage, reason, no_sound)
+rp_mobs.damage = function(self, damage, no_sound)
 	if damage <= 0 then
 		return false
 	end
 	local hp = self.object:get_hp()
 	hp = math.max(0, hp - damage)
-	self.object:set_hp(hp, reason)
+	self.object:set_hp(hp)
 	if hp <= 0 then
 		self._dying = true
 		return true
@@ -228,11 +228,11 @@ rp_mobs.damage = function(self, damage, reason, no_sound)
 	return false
 end
 
-rp_mobs.heal = function(self, heal, reason)
+rp_mobs.heal = function(self, heal)
 	local hp = self.object:get_hp()
 	local hp_max = self.object:get_properties().hp_max
 	hp = math.min(hp_max, hp + heal)
-	self.object:set_hp(hp, reason)
+	self.object:set_hp(hp)
 end
 
 rp_mobs.init_physics = function(self)
