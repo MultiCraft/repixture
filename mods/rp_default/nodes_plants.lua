@@ -463,8 +463,9 @@ minetest.register_node(
       walkable = false,
       floodable = true,
       damage_per_second = 1,
-      groups = {snappy = 3, dig_immediate = 3, falling_node = 1, plant = 1, immortal_item = 1},
+      groups = {snappy = 3, dig_immediate = 3, _attached_node_bottom = 1, plant = 1, immortal_item = 1},
       sounds = rp_sounds.node_sound_plant_defaults(),
+      node_placement_prediction = "",
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_up(pos, node, digger)
       end,
@@ -472,5 +473,53 @@ minetest.register_node(
          minetest.add_item(pos, "rp_default:thistle")
          util.dig_up(pos, oldnode, nil, "rp_default:thistle")
       end,
+      on_blast = function(pos)
+         -- Destroy the blasted node and detach thistles above
+         local oldnode = minetest.get_node(pos)
+         minetest.remove_node(pos)
+         util.dig_up(pos, oldnode)
+      end,
+      on_place = function(itemstack, placer, pointed_thing)
+         -- Boilerplate to handle pointed node handlers
+         local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+         if handled then
+            return handled_itemstack
+         end
+
+         -- Find position to place thistle at
+         local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
+         if place_in == nil then
+            rp_sounds.play_place_failed_sound(placer)
+            return itemstack
+         end
+         local floornode = minetest.get_node(place_floor)
+         local floordef = minetest.registered_nodes[floornode.name]
+
+         -- Floor must be a walkable node or another thistle
+         if not (floornode.name == "rp_default:thistle" or (floordef and floordef.walkable)) then
+            rp_sounds.play_place_failed_sound(placer)
+            return itemstack
+         end
+
+         -- Check protection
+         if minetest.is_protected(place_in, placer:get_player_name()) and
+               not minetest.check_player_privs(placer, "protection_bypass") then
+            minetest.record_protection_violation(pos, placer:get_player_name())
+            return itemstack
+         end
+
+         -- Place thistle
+         local newnode = {name = itemstack:get_name()}
+         minetest.set_node(place_in, newnode)
+         rp_sounds.play_node_sound(place_in, newnode, "place")
+
+         -- Reduce item count
+         if not minetest.is_creative_enabled(placer:get_player_name()) then
+             itemstack:take_item()
+         end
+
+	 return itemstack
+      end,
+
 })
 

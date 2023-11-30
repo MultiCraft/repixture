@@ -106,7 +106,17 @@ Also, never use `handy` and `oddly_breakable_by_hand` at the same time.
 * `special_magnocompass_node_handling=1`: Node will handle placing a magno compass in a special way (see `rp_nav`)
 * `seed`: A farming item that can be planted on the ground to spawn a plant that will grow over time.
           Usually this is a seed, but it does not have to be.
-* `_attached_node_top=1`: Node attaches to the top of another node. If the node above disappears, the node itself detaches
+* `_attached_node_top=1`: Node attaches to the top of another node or itself. If the node above disappears, the node itself detaches
+* `_attached_node_bottom=1`: Node attaches to the bottom of another node or itself. If the node below disappears, the node itself detaches
+
+#### Note about the `_attached_node_*` groups
+
+These groups are a more specialized variant of the built-in `attached_node` group.
+
+They are specifically designed for nodes that vertically stack and attach to each other, like vines or thistles.
+The unique thing about these groups is that breaking the support of this node will cause a cascade.
+Unlike `attached_node`, they also work if the node is not `walkable`. Use these groups when a standard
+`attached_node` does not suffice.
 
 ### Node categorization
 
