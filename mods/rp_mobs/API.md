@@ -534,6 +534,48 @@ Add the microtask `microtask` to the specified `task`.
 
 
 
+### Physics functions
+
+These functions require the Physics subsystem.
+
+#### `rp_mobs.add_phys_acceleration(mob, name, vector)`
+
+Add a named vector to the mob's physical acceleration.
+The mob's physical acceleration is the sum of all named acceleration vectors.
+
+If the named vector already exists, it will be overwritten.
+
+* `mob`: The mob
+* `name`: Name of the acceleration vector
+* `vector`: The acceleration vector
+
+#### `rp_mobs.remove_phys_acceleration(mob, name)`
+
+Remove a named vector to the mob's physical acceleration that
+has been added with `rp_mobs.add_phys_acceleration` before.
+
+* `mob`: The mob
+* `name`: Name of the acceleration vector to remove
+
+#### `rp_mobs.add_phys_velocity(mob, name, vector)`
+
+Add a named vector to the mob's physical velocity.
+The mob's physical velocity is the sum of all named velocity vectors.
+
+This function is analogous to `rp_mobs.add_phys_acceleration`.
+
+#### `rp_mobs.remove_phys_velocity(mob, name)`
+
+Same as `rp_mobs.remove_phys_acceleration`, but for velocity.
+
+#### `rp_mobs.activate_gravity(mob)`
+
+Activate gravity for mob.
+
+#### `rp_mobs.deactivate_gravity(mob)`
+
+Deactivate gravity for mob.
+
 ### Breeding functions
 
 #### `rp_mobs.feed_tame_breed(mob, feeder, allowed_foods, food_till_tamed, can_breed, add_child_grow_timer, effect, eat_sound)`
@@ -694,14 +736,6 @@ Removes `damage` HP from mob, optionally playing the mob's `"damage"` sound. `da
 If `no_sound` is true, then no damage sound will be played.
 
 It is recommended to damage a mob only with this function instead of calling `mob:set_hp` directly in order to ensure consistency across mobs.
-
-#### `rp_mobs.activate_gravity(mob)`
-
-Activate gravity for mob. Requires the physics subsystem.
-
-#### `rp_mobs.deactivate_gravity(mob)`
-
-Deactivate gravity for mob. Requires the physics subsystem.
 
 #### `rp_mobs.drop_death_items(mob, pos)`
 
