@@ -39,6 +39,7 @@ local village_file = minetest.get_worldpath() .. "/villages.dat"
 
 local modpath = minetest.get_modpath("rp_village")
 local mod_locks = minetest.get_modpath("rp_locks") ~= nil
+local mod_paint = minetest.get_modpath("rp_paint") ~= nil
 local mapseed = minetest.get_mapgen_setting("seed")
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
 
@@ -1262,6 +1263,30 @@ local function village_modify_limit_music_players(upos, upos2, pr)
          end, true)
 end
 
+-- Village modifier: Random bed color
+local function village_modify_bed_colors(upos, upos2, pr)
+      if not mod_paint then
+         return
+      end
+      util.nodefunc(
+         upos, upos2,
+         "rp_bed:bed_foot",
+         function(pos)
+             local node = minetest.get_node(pos)
+             local dir = minetest.fourdir_to_dir(node.param2)
+             local param2 = node.param2 % 4 + math.random(0, rp_paint.COLOR_COUNT-1)*4
+             node.param2 = param2
+             minetest.swap_node(pos, node)
+
+             local pos2 = vector.add(pos, dir)
+             local node2 = minetest.get_node(pos2)
+             node2.param2 = param2
+             if node2.name == "rp_bed:bed_head" then
+                 minetest.swap_node(pos2, node2)
+             end
+         end, true)
+end
+
 -- Village modifier: Randomly turn some chests into locked chests
 local function village_modify_lock_chests(upos, upos2, pr)
       -- Replace 25% of chests with locked chests
@@ -1546,6 +1571,9 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       if state.is_abandoned then
          village_modify_abandoned_village(upos, upos2, pr, {path=dirt_path, path_slab=dirt_path_slab, ground_top=ground_top})
       end
+
+      -- Colorize beds
+      village_modify_bed_colors(upos, upos2, pr)
 
       -- Force on_construct to be called on all nodes
       util.reconstruct(upos, upos2, pr)

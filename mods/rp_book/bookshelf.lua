@@ -84,7 +84,7 @@ minetest.register_node(
       description = S("Bookshelf"),
       _tt_help = S("Provides 8 inventory slots"),
       tiles = {"default_wood.png", "default_wood.png", "default_bookshelf.png"},
-      paramtype2 = "facedir",
+      paramtype2 = "4dir",
       groups = {choppy = 3,oddly_breakable_by_hand = 2,container=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),

@@ -134,7 +134,7 @@ minetest.register_tool(
             minetest.sound_play({name="locks_unlock",gain=0.8},{pos=pos, max_hear_distance=16}, true)
 
             -- Spawn particles at lock to indicate lock break
-            local dir = minetest.facedir_to_dir(node.param2)
+            local dir = minetest.fourdir_to_dir(node.param2)
             local w = 1/16
             local k = 11/16
             local l = 7/16
@@ -266,7 +266,7 @@ minetest.register_node(
          "default_chest_sides.png",
          "locks_chest_front.png"
       },
-      paramtype2 = "facedir",
+      paramtype2 = "4dir",
       groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, locked = 1, container = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),

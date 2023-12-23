@@ -311,9 +311,8 @@ minetest.register_node(
       description = S("Jeweler's Workbench"),
       _tt_help = S("Tools can be upgraded with jewels here"),
       tiles ={"jewels_bench_top.png", "jewels_bench_bottom.png", "jewels_bench_sides.png"},
-      paramtype2 = "facedir",
+      paramtype2 = "4dir",
       groups = {choppy=2,oddly_breakable_by_hand=2,interactive_node=1},
-      legacy_facedir_simple = true,
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
 

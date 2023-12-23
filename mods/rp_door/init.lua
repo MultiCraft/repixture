@@ -106,7 +106,7 @@ function door.register_door(name, def)
             -- Check if there's already a door left from this door.
             -- If yes, the door hinge will be right, otherwise it will be left.
             -- This allows to build double doors.
-            local p2 = minetest.dir_to_facedir(placer:get_look_dir())
+            local p2 = minetest.dir_to_fourdir(placer:get_look_dir())
             local pt3 = {x=pt.x, y=pt.y, z=pt.z}
             if p2 == 0 then
                pt3.x = pt3.x-1
@@ -223,7 +223,7 @@ function door.register_door(name, def)
 	 tiles = {tb[2], tb[2], tb[2], tb[2], tb[1], tb[1].."^[transformfx"},
          use_texture_alpha = "clip",
 	 paramtype = "light",
-	 paramtype2 = "facedir",
+	 paramtype2 = "4dir",
 	 drop = name,
 	 drawtype = "nodebox",
 	 node_box = {
@@ -272,7 +272,7 @@ function door.register_door(name, def)
 	 tiles = {tt[2], tt[2], tt[2], tt[2], tt[1], tt[1].."^[transformfx"},
          use_texture_alpha = "clip",
 	 paramtype = "light",
-	 paramtype2 = "facedir",
+	 paramtype2 = "4dir",
 	 drop = "",
 	 drawtype = "nodebox",
 	 node_box = {
@@ -320,7 +320,7 @@ function door.register_door(name, def)
 	 tiles = {tb[2], tb[2], tb[2], tb[2], tb[1].."^[transformfx", tb[1]},
          use_texture_alpha = "clip",
 	 paramtype = "light",
-	 paramtype2 = "facedir",
+	 paramtype2 = "4dir",
 	 drop = name,
 	 drawtype = "nodebox",
 	 node_box = {
@@ -368,7 +368,7 @@ function door.register_door(name, def)
 	 tiles = {tt[2], tt[2], tt[2], tt[2], tt[1].."^[transformfx", tt[1]},
          use_texture_alpha = "clip",
 	 paramtype = "light",
-	 paramtype2 = "facedir",
+	 paramtype2 = "4dir",
 	 drop = "",
 	 drawtype = "nodebox",
 	 node_box = {
