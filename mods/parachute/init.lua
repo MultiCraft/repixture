@@ -258,20 +258,22 @@ minetest.register_craftitem(
 minetest.register_entity(
    "parachute:entity",
    {
-      visual = "mesh",
-      mesh = "parachute.b3d",
-      textures = {"parachute_mesh.png"},
-      pointable = false,
-      physical = true,
-      collide_with_objects = true,
-      -- This collisionbox ranges from the feet of the player up to the top of the parachute.
-      -- That way, the parachute will collide when either the player feet touch the ground
-      -- or the parachute collides.
-      -- This collisionbox MUST be re-checked whenever the player model or collisionbox
-      -- was changed
-      collisionbox = {-CBOX_SIDE, CBOX_BOTTOM, -CBOX_SIDE, CBOX_SIDE, CBOX_TOP, CBOX_SIDE},
-      automatic_face_movement_dir = -90,
-      static_save = false,
+      initial_properties = {
+          visual = "mesh",
+          mesh = "parachute.b3d",
+          textures = {"parachute_mesh.png"},
+          pointable = false,
+          physical = true,
+          collide_with_objects = true,
+          -- This collisionbox ranges from the feet of the player up to the top of the parachute.
+          -- That way, the parachute will collide when either the player feet touch the ground
+          -- or the parachute collides.
+          -- This collisionbox MUST be re-checked whenever the player model or collisionbox
+          -- was changed
+          collisionbox = {-CBOX_SIDE, CBOX_BOTTOM, -CBOX_SIDE, CBOX_SIDE, CBOX_TOP, CBOX_SIDE},
+          automatic_face_movement_dir = -90,
+          static_save = false,
+      },
 
       attached = nil,
       ignore_mode = false,

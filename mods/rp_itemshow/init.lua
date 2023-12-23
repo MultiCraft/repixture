@@ -140,12 +140,14 @@ end
 -- Entity for displayed item
 
 minetest.register_entity("rp_itemshow:item",{
-	hp_max = 1,
-	visual = "wielditem",
-	is_visible = false,
-	visual_size = {x = BASE_ITEM_SIZE, y = BASE_ITEM_SIZE },
-	pointable = false,
-	physical = false,
+	initial_properties = {
+		hp_max = 1,
+		visual = "wielditem",
+		is_visible = false,
+		visual_size = {x = BASE_ITEM_SIZE, y = BASE_ITEM_SIZE },
+		pointable = false,
+		physical = false,
+	},
 	-- Extra fields used:
 	-- * _nodename: Name of node this displayed item belongs to
 	-- * _item: Itemstring of displayed item

@@ -144,16 +144,18 @@ local register_boat = function(name, def)
 	end
 
 	minetest.register_entity(itemstring, {
-		physical = true,
-		collide_with_objects = true,
-		visual = "mesh",
+		initial_properties = {
+			physical = true,
+			collide_with_objects = true,
+			visual = "mesh",
 
-		collisionbox = def.collisionbox,
-		selectionbox = def.selectionbox,
-		textures = def.textures,
-		mesh = def.mesh,
-		hp_max = def.hp_max or 4,
-		damage_texture_modifier = "",
+			collisionbox = def.collisionbox,
+			selectionbox = def.selectionbox,
+			textures = def.textures,
+			mesh = def.mesh,
+			hp_max = def.hp_max or 4,
+			damage_texture_modifier = "",
+		},
 
 		_state = STATE_INIT,
 		_driver = nil,

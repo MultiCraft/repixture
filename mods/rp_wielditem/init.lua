@@ -29,18 +29,20 @@ local function attach_wielditem(player)
 end
 
 minetest.register_entity("rp_wielditem:wielditem", {
-	is_visible = false,
+	initial_properties = {
+		is_visible = false,
 
-	visual = "wielditem",
-	visual_size = {x = 0.17, y = 0.17},
+		visual = "wielditem",
+		visual_size = {x = 0.17, y = 0.17},
 
-	hp_max = 1,
+		hp_max = 1,
 
-	physical = false,
-	pointable = false,
-	collide_with_objects = false,
-	makes_footstep_sounds = false,
-	static_save = false,
+		physical = false,
+		pointable = false,
+		collide_with_objects = false,
+		makes_footstep_sounds = false,
+		static_save = false,
+	},
 
 	_wielder = nil,
 	_itemname = nil,
