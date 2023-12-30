@@ -388,3 +388,4 @@ minetest.register_alias("music:player", "rp_music:player")
 
 -- Add tracks
 rp_music.add_track("rp_music_earthen_lullaby", {length=93.0, note_color="#ee772c", title="earthen lullaby", author="vozh-kc"})
+rp_music.add_track("rp_music_turtles", {length=114.0, note_color="#3eb13b", title="you may not rest, there are turtles nearby", author="vozh-kc"})

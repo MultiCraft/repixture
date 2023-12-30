@@ -10,10 +10,19 @@ Read `API.md` if you want to modify the track list
 or manually start/stop/toggle a music playern node.
 
 ## Credits / licensing
-Music license:
-* rp_music_earthen_lullaby.ogg:
-    * "earthen lullaby" by vozh-kc <https://www.youtube.com/@vozh-kc>
-    * License: CC BY-SA 4.0
 
-Texture license: CC BY-SA 4.0
-Source License: LGPLv2.1
+### Music
+
+* License: CC BY-SA 4.0
+* Author: vozh-kc <https://www.youtube.com/@vozh-kc>
+* Track list:
+    * rp_music_earthen_lullaby.ogg: "earthen lullaby"
+    * rp_music_turtles.ogg: "you may not rest, there are turtles nearby"
+
+### Textures
+
+* Texture license: CC BY-SA 4.0
+
+### Source code
+
+* Source code license: LGPLv2.1
