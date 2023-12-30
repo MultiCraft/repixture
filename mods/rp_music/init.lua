@@ -10,6 +10,7 @@ local INFOTEXT_OFF = S("Music Player (off)")
 local INFOTEXT_DISABLED = S("Music Player (disabled by server)")
 local INFOTEXT_NOW_PLAYING = NS("Now playing: @1 by @2")
 local NOTES_PER_SECOND = 1
+local DEFAULT_MUSIC_PLAYER_COLOR = rp_paint.COLOR_AZURE_BLUE
 
 rp_music = {}
 local localmusic = {}
@@ -236,7 +237,11 @@ if minetest.settings:get_bool("music_enable") then
       {
 	 description = S("Music Player"),
 
-	 tiles = {"music_top.png", "music_bottom.png", "music_side.png"},
+	 tiles = {{name="music_top.png",color="white"}, {name="music_bottom.png",color="white"}, {name="music_side.png",color="white"}},
+	 overlay_tiles = {"rp_music_top_overlay.png", "", "rp_music_side_overlay.png"},
+	 palette = "rp_paint_palette_256d.png",
+	 paramtype2 = "color",
+	 place_param2 = DEFAULT_MUSIC_PLAYER_COLOR-1,
 
 	 inventory_image = "music_inventory.png",
 	 wield_image = "music_inventory.png",
@@ -279,7 +284,9 @@ if minetest.settings:get_bool("music_enable") then
             rp_music.toggle(pos)
 	 end,
 
-	 groups = {handy = 3, attached_node = 1, interactive_node = 1}
+	 groups = {handy = 3, attached_node = 1, interactive_node = 1, paintable = 1},
+
+	 drop = "rp_music:player",
    })
 
    local function step(dtime)
