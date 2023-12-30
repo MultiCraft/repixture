@@ -297,7 +297,7 @@ local on_rain_abm = function(pos, node)
         if def._rp_on_rain then
               def._rp_on_rain(pos, node)
         else
-           minetest.log("error", "[rp_weather] Node "..node.name.." has reacts_on_rain group but no _rp_on_rain handler!")
+           minetest.log("error", "[rp_weather] Node "..node.name.." has react_on_rain group but no _rp_on_rain handler!")
         end
 end
 
