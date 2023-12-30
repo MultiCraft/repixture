@@ -399,7 +399,7 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
 minetest.register_node(
-   "rp_default:brick_paint",
+   "rp_default:brick_painted",
    {
       description = S("Painted Brick Block"),
       tiles = {{name="rp_default_brick_paintable.png"}},
@@ -472,12 +472,32 @@ minetest.register_node(
       description = S("Glass"),
       drawtype = "glasslike_framed_optional",
       tiles = {"default_glass_frame.png", "default_glass.png"},
+      use_texture_alpha = "clip",
       paramtype = "light",
       sunlight_propagates = true,
-      groups = {cracky = 3,oddly_breakable_by_hand = 2, glass=1},
+      groups = {cracky = 3,oddly_breakable_by_hand = 2, glass=1, paintable=2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_glass_defaults(),
+      drop = "rp_default:glass",
 })
+minetest.register_node(
+   "rp_default:glass_painted",
+   {
+      description = S("Painted Glass"),
+      drawtype = "glasslike_framed_optional",
+      palette = "rp_paint_palette_256.png",
+      paramtype2 = "color",
+      tiles = {"rp_default_glass_semi.png", ""},
+      overlay_tiles = {"default_glass_frame.png", "default_glass.png"},
+      use_texture_alpha = "blend",
+      paramtype = "light",
+      sunlight_propagates = true,
+      groups = {cracky = 3,oddly_breakable_by_hand = 2, glass=1, paintable=1, not_in_creative_inventory=1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_glass_defaults(),
+      drop = "rp_default:glass",
+})
+
 
 
 -- Planks
