@@ -28,6 +28,37 @@ rp_paint.COLOR_MAGENTA = 17
 rp_paint.COLOR_REDVIOLET = 18
 rp_paint.COLOR_HOT_PINK = 19
 
+local FACEDIR_COLOR_WHITE = 0
+local FACEDIR_COLOR_GRAY = 1
+local FACEDIR_COLOR_RED = 2
+local FACEDIR_COLOR_ORANGE = 3
+local FACEDIR_COLOR_YELLOW = 4
+local FACEDIR_COLOR_GREEN = 5
+local FACEDIR_COLOR_BLUE = 6
+local FACEDIR_COLOR_VIOLET = 7
+
+local facedir_color_map = {
+	[rp_paint.COLOR_WHITE] = FACEDIR_COLOR_WHITE,
+	[rp_paint.COLOR_GRAY] = FACEDIR_COLOR_GRAY,
+	[rp_paint.COLOR_BLACK] = FACEDIR_COLOR_GRAY,
+	[rp_paint.COLOR_RED] = FACEDIR_COLOR_RED,
+	[rp_paint.COLOR_ORANGE] = FACEDIR_COLOR_ORANGE,
+	[rp_paint.COLOR_TANGERINE] = FACEDIR_COLOR_ORANGE,
+	[rp_paint.COLOR_YELLOW] = FACEDIR_COLOR_YELLOW,
+	[rp_paint.COLOR_LIME] = FACEDIR_COLOR_YELLOW,
+	[rp_paint.COLOR_GREEN] = FACEDIR_COLOR_GREEN,
+	[rp_paint.COLOR_BLUEGREEN] = FACEDIR_COLOR_GREEN,
+	[rp_paint.COLOR_TURQUOISE] = FACEDIR_COLOR_GREEN,
+	[rp_paint.COLOR_CYAN] = FACEDIR_COLOR_BLUE,
+	[rp_paint.COLOR_SKYBLUE] = FACEDIR_COLOR_BLUE,
+	[rp_paint.COLOR_AZURE_BLUE] = FACEDIR_COLOR_BLUE,
+	[rp_paint.COLOR_BLUE] = FACEDIR_COLOR_BLUE,
+	[rp_paint.COLOR_VIOLET] = FACEDIR_COLOR_VIOLET,
+	[rp_paint.COLOR_MAGENTA] = FACEDIR_COLOR_VIOLET,
+	[rp_paint.COLOR_REDVIOLET] = FACEDIR_COLOR_RED,
+	[rp_paint.COLOR_HOT_PINK] = FACEDIR_COLOR_RED,
+}
+
 local BRUSH_USES = 100
 
 minetest.register_tool("rp_paint:brush", {
@@ -77,7 +108,10 @@ minetest.register_tool("rp_paint:brush", {
 
 		local imeta = itemstack:get_meta()
 		local color = imeta:get_int("palette_index")
-		if color > rp_paint.COLOR_COUNT then
+		if def.paramtype2 == "colorfacedir" then
+			color = facedir_color_map[color+1]
+		end
+		if (not color) or color < 0 or color > rp_paint.COLOR_COUNT then
 			color = 0
 		end
 		if def.paramtype2 == "color" then
@@ -89,8 +123,8 @@ minetest.register_tool("rp_paint:brush", {
 			local rot = node.param2 % 8
 			node.param2 = color*8 + rot
 		elseif def.paramtype2 == "colorfacedir" then
-			-- TODO
-			return
+			local rot = node.param2 % 32
+			node.param2 = color*32 + rot
 		else
 			-- Node coloring is unsupported. Do nothing
 			return
