@@ -17,7 +17,9 @@ partialblocks.register_material(
    "sandstone", S("Sandstone Slab"), S("Sandstone Stair"), "rp_default:sandstone", {crumbly=2, cracky=3}, false, nil, "w")
 
 partialblocks.register_material(
-   "brick", S("Brick Slab"), S("Brick Stair"), "rp_default:brick", {cracky=2}, false, nil, "w")
+   "brick", S("Brick Slab"), S("Brick Stair"), "rp_default:brick", {cracky=2, paintable=2}, false, nil, "w")
+partialblocks.register_material(
+   "brick_painted", S("Painted Brick Slab"), S("Painted Brick Stair"), "rp_default:brick_painted", {cracky=2, paintable=1, not_in_creative_inventory=1}, false, nil, "w", nil, "w")
 
 -- Woodlike
 

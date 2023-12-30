@@ -3,19 +3,68 @@
 -- Partial blocks API
 --
 
-local adv_slab_tex = function(name, tex_prefix)
-	local t1 = minetest.registered_nodes[name].tiles[1]
+local adv_slab_tex = function(tiles, tex_prefix)
+	local t1 = tiles[1]
 	local t2 = tex_prefix.."_slab.png"
 	return { t1, t1, t2 }
 end
-local adv_stair_tex = function(name, tex_prefix)
-	local t1 = minetest.registered_nodes[name].tiles[1]
+local adv_stair_tex = function(tiles, tex_prefix)
+	local t1 = tiles[1]
 	local t2 = tex_prefix.."_stair.png"
 	local t3 = tex_prefix.."_slab.png"
 	return { t3, t1, t2.."^[transformFX", t2, t1, t3 }
 end
 
-function partialblocks.register_material(name, desc_slab, desc_stair, node, groups, is_fuel, tiles_slab, tiles_stair)
+local parse_slab_tiles = function(tiles_slab_def, tiles_fallback)
+   local tiles
+   if tiles_slab_def then
+      -- Advanced slab tiles
+      if type(tiles_slab_def) == "string" and string.sub(tiles_slab_def, 1, 2) == "a|" then
+          local texpref = string.sub(tiles_slab_def, 3)
+	  tiles = adv_slab_tex(tiles_fallback, texpref)
+      else
+      -- Explicit slab tiles
+          tiles = tiles_slab_def
+      end
+   else
+      -- Slab tiles from base node
+      tiles = tiles_fallback
+   end
+   return tiles
+end
+
+local parse_stair_tiles = function(tiles_stair_def, tiles_fallback)
+   local tiles
+   if tiles_stair_def then
+      if type(tiles_stair_def) == "string" and string.sub(tiles_stair_def, 1, 2) == "a|" then
+      -- Advanced stair tiles
+          local texpref = string.sub(tiles_stair_def, 3)
+	  tiles = adv_stair_tex(tiles_fallback, texpref)
+      elseif tiles_stair_def == "w" then
+      -- World-aligned stair textures
+          if tiles_fallback then
+             local tex1 = tiles_fallback[1]
+             if type(tex1) == "string" then
+                tiles = {{ name = tex1, align_style = "world" }}
+             elseif type(tex1) == "table" then
+                tiles = { table.copy(tex1) }
+                tiles[1].align_style = "world"
+             else
+                minetest.log("error", "[rp_partialblocks] Failed to generate world-aligned stair texture!")
+             end
+          end
+      else
+      -- Explicit stair tiles
+          tiles = tiles_stair_def
+      end
+   else
+      -- Stair tiles from base node
+      tiles = tiles_fallback
+   end
+   return tiles
+end
+
+function partialblocks.register_material(name, desc_slab, desc_stair, node, groups, is_fuel, tiles_slab, tiles_stair, overlay_tiles_slab, overlay_tiles_stair)
    local nodedef = minetest.registered_nodes[node]
 
    if nodedef == nil then
@@ -25,20 +74,9 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    end
 
    -- Slab
-   local tiles
-   if tiles_slab then
-      -- Advanced slab tiles
-      if type(tiles_slab) == "string" and string.sub(tiles_slab, 1, 2) == "a|" then
-          local texpref = string.sub(tiles_slab, 3)
-	  tiles = adv_slab_tex(node, texpref)
-      else
-      -- Explicit slab tiles
-          tiles = tiles_slab
-      end
-   else
-      -- Slab tiles from base node
-      tiles = nodedef.tiles
-   end
+   local tiles = parse_slab_tiles(tiles_slab, nodedef.tiles)
+   local overlay_tiles = parse_slab_tiles(overlay_tiles_slab, nodedef.overlay_tiles)
+
    local groups_slab
    if not groups then
       groups_slab = table.copy(nodedef.groups)
@@ -55,10 +93,30 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    end
    groups_slab.slab = 1
 
+   local paramtype2_slab = "none"
+   local paramtype2_stair = "4dir"
+   local palette_slab, palette_stair
+   local drop_slab, drop_stair
+   if nodedef.groups and nodedef.groups.paintable then
+      if nodedef.groups.paintable == 1 then
+         paramtype2_slab = "color"
+         paramtype2_stair = "color4dir"
+         palette_slab = "rp_paint_palette_256.png"
+         palette_stair = "rp_paint_palette_64.png"
+      end
+      drop_slab = "rp_partialblocks:slab_" .. name
+      drop_stair = "rp_partialblocks:stair_" .. name
+      if string.sub(name, -8, -1) == "_painted" then
+         drop_slab = string.sub(drop_slab, 1, -9)
+         drop_stair = string.sub(drop_stair, 1, -9)
+      end
+   end
+
    minetest.register_node(
       "rp_partialblocks:slab_" .. name,
       {
 	 tiles = tiles,
+         overlay_tiles = overlay_tiles,
 	 groups = groups_slab,
 	 sounds = nodedef.sounds,
 
@@ -71,7 +129,11 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 	 },
 
 	 paramtype = "light",
+	 paramtype2 = paramtype2_slab,
+	 use_texture_alpha = nodedef.use_texture_alpha,
+	 palette = palette_slab,
 	 is_ground_content = nodedef.is_ground_content,
+	 drop = drop_slab,
 
          on_place = function(itemstack, placer, pointed_thing)
             -- Slab on slab placement creates full block
@@ -145,24 +207,8 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 
    -- Stair
 
-   local tiles
-   if tiles_stair then
-      if type(tiles_stair) == "string" and string.sub(tiles_stair, 1, 2) == "a|" then
-      -- Advanced stair tiles
-          local texpref = string.sub(tiles_stair, 3)
-	  tiles = adv_stair_tex(node, texpref)
-      elseif tiles_stair == "w" then
-      -- World-aligned stair textures
-          local texname = minetest.registered_nodes[node].tiles[1]
-          tiles = {{ name = texname, align_style = "world" }}
-      else
-      -- Explicit stair tiles
-          tiles = tiles_stair
-      end
-   else
-      -- Stair tiles from base node
-      tiles = nodedef.tiles
-   end
+   tiles = parse_stair_tiles(tiles_stair, nodedef.tiles)
+   overlay_tiles = parse_stair_tiles(overlay_tiles_stair, nodedef.overlay_tiles)
 
    local groups_stair
    if not groups then
@@ -184,6 +230,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       "rp_partialblocks:stair_" .. name,
       {
 	 tiles = tiles,
+         overlay_tiles = overlay_tiles,
 	 groups = groups_stair,
 	 sounds = nodedef.sounds,
 
@@ -199,8 +246,11 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 	 },
 
 	 paramtype = "light",
-	 paramtype2 = "facedir",
+	 paramtype2 = paramtype2_stair,
+	 palette = palette_stair,
+	 use_texture_alpha = nodedef.use_texture_alpha,
 	 is_ground_content = nodedef.is_ground_content,
+	 drop = drop_stair,
    })
 
    crafting.register_craft( -- 3 blocks --> 4 stairs
