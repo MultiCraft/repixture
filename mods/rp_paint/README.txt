@@ -4,6 +4,10 @@ By Wuzzy, for Repixture.
 
 Adds paint. Color paintable nodes with a paint bucket and a paint brush.
 
+## Developers
+
+See `API.md` to learn how to make a node paintable.
+
 ## Licensing
 
 ### Code license

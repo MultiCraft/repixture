@@ -395,8 +395,22 @@ minetest.register_node(
       description = S("Brick Block"),
       tiles = {"default_brick.png"},
       is_ground_content = false,
-      groups = {cracky = 2},
+      groups = {cracky = 2, paintable = 2},
       sounds = rp_sounds.node_sound_stone_defaults(),
+})
+minetest.register_node(
+   "rp_default:brick_paint",
+   {
+      description = S("Painted Brick Block"),
+      tiles = {{name="rp_default_brick_paintable.png"}},
+      overlay_tiles = {{name="rp_default_brick_paintable_overlay.png",color="white"}},
+      use_texture_alpha = "blend",
+      is_ground_content = false,
+      groups = {cracky = 2, paintable = 1, not_in_creative_inventory = 1},
+      sounds = rp_sounds.node_sound_stone_defaults(),
+      paramtype2 = "color",
+      palette = "rp_paint_palette_256.png",
+      drop = "rp_default:brick",
 })
 
 -- Sand

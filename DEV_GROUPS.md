@@ -106,6 +106,8 @@ Also, never use `handy` and `oddly_breakable_by_hand` at the same time.
 * `special_magnocompass_node_handling=1`: Node will handle placing a magno compass in a special way (see `rp_nav`)
 * `seed`: A farming item that can be planted on the ground to spawn a plant that will grow over time.
           Usually this is a seed, but it does not have to be.
+* `paintable=1`: Node is paintable and is in “painted” state (see `rp_paint` for details)
+* `paintable=2`: Node is paintable and is in “unpainted” state (see `rp_paint` for details)
 * `_attached_node_top=1`: Node attaches to the top of another node or itself. If the node above disappears, the node itself detaches
 * `_attached_node_bottom=1`: Node attaches to the bottom of another node or itself. If the node below disappears, the node itself detaches
 

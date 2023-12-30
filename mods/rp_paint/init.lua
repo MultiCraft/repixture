@@ -64,11 +64,17 @@ minetest.register_tool("rp_paint:brush", {
 		end
 
 		-- Paint paintable node (if not paintable, fail)
-		if minetest.get_item_group(node.name, "paintable") ~= 1 then
+		local paintable = minetest.get_item_group(node.name, "paintable")
+		if paintable == 0 then
 			return
 		end
 
+		if paintable == 2 then
+			node.name = node.name .. "_paint"
+			minetest.swap_node(pos, node)
+		end
 		local def = minetest.registered_nodes[node.name]
+
 		local imeta = itemstack:get_meta()
 		local color = imeta:get_int("palette_index")
 		if color > rp_paint.COLOR_COUNT then
