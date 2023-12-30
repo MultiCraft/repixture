@@ -51,9 +51,15 @@ For the painted node:
 
 Depending on the `paramtype2` you use for the node, you must pick one of various palettes.
 
-* `"color"`: `rp_paint_palette_256.png` or a desaturated variant `rp_paint_palette_256d.png`
+* `"color"`: `rp_paint_palette_256.png`
 * `"color4dir"`: `rp_paint_palette_64.png`
-* `"colorwallmounted"`: `rp_paint_palette_8.png`
+* `"colorwallmounted"`: `rp_paint_palette_32.png`
+
+There are also a desaturated palette variants:
+
+* `"color"`: `rp_paint_palette_256d.png`
+* `"color4dir"`: `rp_paint_palette_64d.png`
+* `"colorwallmounted"`: `rp_paint_palette_32d.png`
 
 ## `_on_paint` callback
 
