@@ -277,6 +277,8 @@ minetest.register_node(
       }),
       paramtype2 = "color",
       palette = "rp_paint_palette_256.png",
+      -- clear the color when breaking
+      drop = "rp_farming:cotton_bale",
    }
 )
 

@@ -16,6 +16,8 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_fuzzy_defaults(),
       paramtype2 = "color",
       palette = "rp_paint_palette_256.png",
+      -- clear the color when breaking
+      drop = "mobs:wool",
 })
 
 -- Raw meat
