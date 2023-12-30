@@ -24,7 +24,7 @@ Follow these steps to make a node paintable directly:
 
 1. Add the `paintable = 1` group
 2. Set the `tiles` and optionally `overlay_tiles` as you wish (see Minetest Lua API documentation)
-3. Add the field `palette = "rp_paint_palette_256.png`
+3. Add the field `palette` (see below)
 4. Set `paramtype2` to `"color"`, `"color4dir"` or `"colorwallmounted"`
 5. Add the field `drop = "<name of this node>"`
 
@@ -43,9 +43,17 @@ For the painted node:
 1. Use the same nodename as the unpainted node, but append `_paintable`
 2. Add the groups `paintable = 1` and `not_in_creative_inventory = 1`
 3. Set the `tiles` and optionally `overlay_tiles` as you wish (see Minetest Lua API documentation)
-4. Add the field `palette = "rp_paint_palette_256.png`
+4. Add the field `palette` (see below)
 5. Set `paramtype2` to `"color"`, `"color4dir"` or `"colorwallmounted"`
 6. Add the field `drop = "<name of the unpainted node>"`
+
+### Palettes
+
+Depending on the `paramtype2` you use for the node, you must pick one of various palettes.
+
+* `"color"`: `rp_paint_palette_256.png` or a desaturated variant `rp_paint_palette_256d.png`
+* `"color4dir"`: `rp_paint_palette_64.png`
+* `"colorwallmounted"`: `rp_paint_palette_8.png`
 
 ## `_on_paint` callback
 
