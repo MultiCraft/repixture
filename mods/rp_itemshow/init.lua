@@ -8,11 +8,11 @@ local DEFAULT_ROTATE_DIR = -1 -- clockwise
 -- so the 'itemshow' entities rotate the other way by
 -- default
 
-local FACEDIR = {}
-FACEDIR[0] = {x = 0, y = 0, z = 1}
-FACEDIR[1] = {x = 1, y = 0, z = 0}
-FACEDIR[2] = {x = 0, y = 0, z = -1}
-FACEDIR[3] = {x = -1, y = 0, z = 0}
+local FOURDIR = {}
+FOURDIR[0] = {x = 0, y = 0, z = 1}
+FOURDIR[1] = {x = 1, y = 0, z = 0}
+FOURDIR[2] = {x = 0, y = 0, z = -1}
+FOURDIR[3] = {x = -1, y = 0, z = 0}
 
 -- functions
 
@@ -53,7 +53,7 @@ local update_item = function(pos, node, check_item)
 	local stack = inv:get_stack("main", 1)
 	if not stack:is_empty() then
 		if node.name == "rp_itemshow:frame" then
-			local posad = FACEDIR[node.param2]
+			local posad = FOURDIR[node.param2 % 4]
 			if not posad then return end
 			local def = minetest.registered_items[stack:get_name()]
 			local offset = def._rp_itemshow_offset or vector.new(0,0,0)
@@ -93,7 +93,7 @@ local drop_item = function(pos, node, creative)
 			local ent = minetest.add_item(pos, item)
 			if ent and ent:get_luaentity() then
 				-- Set initial yaw of entity according to frame rotation
-				local yaw = minetest.dir_to_yaw(minetest.facedir_to_dir(node.param2))
+				local yaw = minetest.dir_to_yaw(minetest.fourdir_to_dir(node.param2))
 				ent:set_yaw(yaw)
 			end
 			dropped = true
@@ -242,20 +242,29 @@ minetest.register_node("rp_itemshow:frame",{
 		fixed = {-7/16, -7/16, 7/16, 7/16, 7/16, 0.5}
 	},
 	tiles = {
-		"rp_itemshow_frame.png",
-		"rp_itemshow_frame.png",
-		"rp_itemshow_frame.png",
-		"rp_itemshow_frame.png",
-		"rp_itemshow_frame_back.png",
-		"rp_itemshow_frame.png",
+		{name="rp_itemshow_frame.png",color="white"},
+		{name="rp_itemshow_frame.png",color="white"},
+		{name="rp_itemshow_frame.png",color="white"},
+		{name="rp_itemshow_frame.png",color="white"},
+		{name="rp_itemshow_frame_back.png",color="white"},
+		{name="rp_itemshow_frame.png",color="white"},
 	},
+	overlay_tiles = {
+		"",
+		"",
+		"",
+		"",
+		"",
+		"rp_itemshow_frame_overlay.png",
+	},
+	palette = "rp_paint_palette_64.png",
 	inventory_image = "rp_itemshow_frame_inventory.png",
 	wield_image = "rp_itemshow_frame_inventory.png",
 	paramtype = "light",
-	paramtype2 = "facedir",
+	paramtype2 = "color4dir",
 	sunlight_propagates = true,
 	groups = {
-		choppy = 2, dig_immediate = 2, creative_decoblock = 1,
+		choppy = 2, dig_immediate = 2, creative_decoblock = 1, paintable = 1,
 		-- So that placing a magnocompass on it will point
 		-- the needle to the correct direction
 		special_magnocompass_place_handling = 1},
@@ -298,6 +307,8 @@ minetest.register_node("rp_itemshow:frame",{
 	on_punch = function(pos, node, puncher)
 		update_item(pos, node, true)
 	end,
+
+	drop = "rp_itemshow:frame",
 })
 
 local function on_place_node_callbacks(place_to, newnode, placer, oldnode, itemstack, pointed_thing)

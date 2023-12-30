@@ -70,7 +70,7 @@ minetest.register_tool("rp_paint:brush", {
 		end
 
 		if paintable == 2 then
-			node.name = node.name .. "_paint"
+			node.name = node.name .. "_painted"
 			minetest.swap_node(pos, node)
 		end
 		local def = minetest.registered_nodes[node.name]
