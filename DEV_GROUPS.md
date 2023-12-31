@@ -39,6 +39,10 @@ These groups are mainly used for a better item sorting in Creative Mode.
 * `weapon`: Weapon (item that is *primarily* used for attacks)
 * `supertool`: Super tool, i.e. a powerful tool for Creative Mode use only
 * `sheep_cuts`: For shears. Rating specifies how often it can shear sheep
+* `can_scrape`: Tool is capable of scraping off paint
+    * `can_scrape=2`: ... with “punch” key
+    * `can_scrape=3`: ... with “place” key
+    * `can_scrape=1`: ... by some other or undefined method
 
 ## Armor
 * `is_armor`: Item is an armor piece

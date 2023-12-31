@@ -520,7 +520,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 3}
       },
       sound = sound_tool,
-      groups = { axe = 1 },
+      groups = { axe = 1, can_scrape = 2 },
       on_place = scrape(10),
 })
 
@@ -539,7 +539,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 4}
       },
       sound = sound_tool,
-      groups = { axe = 1 },
+      groups = { axe = 1, can_scrape = 2 },
       on_place = scrape(60),
 })
 
@@ -558,7 +558,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 5}
       },
       sound = sound_tool,
-      groups = { axe = 1 },
+      groups = { axe = 1, can_scrape = 2 },
       on_place = scrape(135),
 })
 
@@ -577,7 +577,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 6}
       },
       sound = sound_tool,
-      groups = { axe = 1 },
+      groups = { axe = 1, can_scrape = 2 },
       on_place = scrape(270),
 })
 
@@ -596,7 +596,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 6}
       },
       sound = sound_tool,
-      groups = { axe = 1 },
+      groups = { axe = 1, can_scrape = 2 },
       on_place = scrape(360),
 })
 
@@ -615,7 +615,7 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 6}
       },
       sound = sound_tool,
-      groups = { axe = 1 },
+      groups = { axe = 1, can_scrape = 2 },
       on_place = scrape(420),
 })
 
