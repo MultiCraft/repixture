@@ -18,6 +18,8 @@ function rp_sounds.node_sound_defaults(table)
       {name="default_place_node_hard", gain=0.8}
    table.place_failed = table.place_failed or
       {name="rp_sounds_place_failed", gain=PLACE_FAILED_GAIN}
+   table._rp_scrape = table._rp_scrape or
+      {name="rp_sounds_scrape_wood", gain=0.3}
    return table
 end
 
@@ -143,6 +145,8 @@ function rp_sounds.node_sound_wood_defaults(table)
       {name="rp_sounds_dig_wood", gain=0.5}
    table.dug = table.dug or
       {name="rp_sounds_dug_wood", gain=1.0}
+   table._rp_scrape = table._rp_scrape or
+      {name="rp_sounds_scrape_wood", gain=0.3}
    rp_sounds.node_sound_defaults(table)
    return table
 end
@@ -157,6 +161,8 @@ function rp_sounds.node_sound_planks_defaults(table)
       {name="rp_sounds_dug_planks", gain=0.7}
    table.place = table.place or
       {name="rp_sounds_place_planks", gain=1.0}
+   table._rp_scrape = table._rp_scrape or
+      {name="rp_sounds_scrape_wood", gain=0.3}
    rp_sounds.node_sound_defaults(table)
    return table
 end
@@ -231,6 +237,8 @@ function rp_sounds.node_sound_glass_defaults(table)
       {name="rp_sounds_dug_glass", gain=1.0}
    table.place = table.place or
       {name="rp_sounds_place_glass", gain=1.0}
+   table._rp_scrape = table._rp_scrape or
+      {name="rp_sounds_scrape_glass", gain=0.4}
    rp_sounds.node_sound_defaults(table)
    return table
 end

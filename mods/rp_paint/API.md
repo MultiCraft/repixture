@@ -85,7 +85,7 @@ about to be set for this node.
 This function must return a boolean value: `true` if painting is allowed
 or `false` to disallow/deny the painting.
 
-## Setting and getting color
+## Functions
 
 The color of nodes can be set and gotten programmatically by using
 a color ID (see below).
@@ -103,6 +103,22 @@ on failure.
 
 Note that for nodes with `paramtype2="colorfacedir"`, an approximate
 color might be chosen.
+
+### `rp_paint.remove_color(pos)`
+
+Removes color of a paintable node at `pos`, returning it to its
+“neutral”/unpainted state.
+Returns `true` on success, `false` on failure or if node was not painted
+or if node does not support an unpainted state.
+
+### `rp_paint.scrape_color(pos)`
+
+Same as `rp_paint.remove_color`, but will also play a “scraping-off”
+sound effect (`_rp_scrape`).
+
+Recommended to be used by tools.
+
+Other effects may be added in future versions of this mod.
 
 ### Color IDs
 

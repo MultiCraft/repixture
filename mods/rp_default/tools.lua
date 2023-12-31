@@ -479,7 +479,31 @@ minetest.register_tool(
       groups = { shovel = 1 },
 })
 
+
 -- Axes
+
+-- Scrape off color of painted node
+local scrape = function(max_uses)
+    return function(itemstack, placer, pointed_thing)
+        -- Handle pointed node handlers and protection
+        local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+        if handled then
+           return handled_itemstack
+        end
+        if util.handle_node_protection(placer, pointed_thing) then
+           return itemstack
+        end
+
+        -- Scrape off color
+        local pos = pointed_thing.under
+        if rp_paint.scrape_color(pos) then
+           if not minetest.is_creative_enabled(placer:get_player_name()) then
+               itemstack:add_wear_by_uses(max_uses)
+           end
+        end
+        return itemstack
+    end
+end
 
 minetest.register_tool(
    "rp_default:axe_wood",
@@ -497,6 +521,7 @@ minetest.register_tool(
       },
       sound = sound_tool,
       groups = { axe = 1 },
+      on_place = scrape(10),
 })
 
 minetest.register_tool(
@@ -515,6 +540,7 @@ minetest.register_tool(
       },
       sound = sound_tool,
       groups = { axe = 1 },
+      on_place = scrape(60),
 })
 
 minetest.register_tool(
@@ -533,6 +559,7 @@ minetest.register_tool(
       },
       sound = sound_tool,
       groups = { axe = 1 },
+      on_place = scrape(135),
 })
 
 minetest.register_tool(
@@ -551,6 +578,7 @@ minetest.register_tool(
       },
       sound = sound_tool,
       groups = { axe = 1 },
+      on_place = scrape(270),
 })
 
 minetest.register_tool(
@@ -569,6 +597,7 @@ minetest.register_tool(
       },
       sound = sound_tool,
       groups = { axe = 1 },
+      on_place = scrape(360),
 })
 
 minetest.register_tool(
@@ -587,6 +616,7 @@ minetest.register_tool(
       },
       sound = sound_tool,
       groups = { axe = 1 },
+      on_place = scrape(420),
 })
 
 -- Spears

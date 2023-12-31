@@ -159,6 +159,8 @@ List of sounds and credits:
 * rp_sounds_fall_gravel.*.ogg
 * rp_sounds_fall_grass.*.ogg
 * rp_sounds_fall_plant.*.ogg
+* rp_sounds_scrape_wood.*.ogg
+* rp_sounds_scrape_glass.*.ogg
 * default_water_footstep.*.ogg
 	* by Wuzzy
 	* License: CC0

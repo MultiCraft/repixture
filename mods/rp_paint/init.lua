@@ -144,6 +144,45 @@ rp_paint.set_color = function(pos, color)
 	return false
 end
 
+rp_paint.remove_color = function(pos)
+	local node = minetest.get_node(pos)
+	local paintable = minetest.get_item_group(node.name, "paintable")
+	if paintable == 1 and string.sub(node.name, -8, -1) == "_painted" then
+		local newname = string.sub(node.name, 1, -9)
+		local newdef = minetest.registered_nodes[newname]
+		local olddef = minetest.registered_nodes[node.name]
+		if olddef and newdef then
+			local param2 = 0
+			if olddef.paramtype2 == "color4dir" then
+				param2 = node.param2 % 4
+			elseif olddef.paramtype2 == "colorwallmounted" then
+				param2 = node.param2 % 8
+			elseif olddef.paramtype2 == "colorfacedir" then
+				param2 = node.param2 % 32
+			end
+			minetest.swap_node(pos, {name=newname, param2=param2})
+			return true
+		end
+	end
+	return false
+end
+
+rp_paint.scrape_color = function(pos)
+	local scraped  = rp_paint.remove_color(pos)
+	if scraped then
+		local node = minetest.get_node(pos)
+		local def = minetest.registered_nodes[node.name]
+		if not def then
+			return false
+		end
+		if def.sounds and def.sounds._rp_scrape then
+			minetest.sound_play(def.sounds._rp_scrape, {pos=pos, max_hear_distance=8}, true)
+		end
+		return true
+	end
+	return false
+end
+
 minetest.register_tool("rp_paint:brush", {
 	description = S("Paint Brush"),
 	_tt_help = S("Changes color of paintable blocks").."\n"..S("Punch paint bucket to change brush color"),
