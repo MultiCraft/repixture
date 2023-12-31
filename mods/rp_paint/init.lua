@@ -61,6 +61,68 @@ local facedir_color_map = {
 
 local BRUSH_USES = 100
 
+rp_paint.get_color = function(node)
+	local color
+	local def = minetest.registered_nodes[node.name]
+	if not def then
+		return nil
+	end
+	if def.paramtype2 == "color" then
+		color = node.param2 + 1
+	elseif def.paramtype2 == "color4dir" then
+		color = math.floor(node.param2 / 4) + 1
+	elseif def.paramtype2 == "colorwallmounted" then
+		color = math.floor(node.param2 / 8) + 1
+	elseif def.paramtype2 == "colorfacedir" then
+		local pre_color = math.floor(node.param2 / 32) + 1
+		color = facedir_color_map[pre_color] + 1
+	end
+	if color < 1 or color > rp_paint.COLOR_COUNT then
+		return nil
+	end
+	return color
+end
+
+local get_param2_color = function(node, color)
+	local def = minetest.registered_nodes[node.name]
+	if not def then
+		return nil
+	end
+
+	color = color-1
+
+	if def.paramtype2 == "colorfacedir" then
+		color = facedir_color_map[color+1]
+	end
+	if (not color) or color < 0 or color > rp_paint.COLOR_COUNT then
+		color = 0
+	end
+	local new_param2
+	if def.paramtype2 == "color" then
+		new_param2 = color
+	elseif def.paramtype2 == "color4dir" then
+		local rot = node.param2 % 4
+		new_param2 = color*4 + rot
+	elseif def.paramtype2 == "colorwallmounted" then
+		local rot = node.param2 % 8
+		new_param2 = color*8 + rot
+	elseif def.paramtype2 == "colorfacedir" then
+		local rot = node.param2 % 32
+		new_param2 = color*32 + rot
+	else
+		-- Node coloring is unsupported. Do nothing
+		return nil
+	end
+	return new_param2
+end
+
+rp_paint.set_color = function(pos, color)
+	local node = minetest.get_node(pos)
+	local param2 = get_param2_color(node, color)
+	node.param2 = param2
+	minetest.swap_node(pos, node)
+end
+
 minetest.register_tool("rp_paint:brush", {
 	description = S("Paint Brush"),
 	_tt_help = S("Changes color of paintable blocks").."\n"..S("Punch paint bucket to change brush color"),
@@ -99,53 +161,32 @@ minetest.register_tool("rp_paint:brush", {
 		if paintable == 0 then
 			return
 		end
-
-		if paintable == 2 then
-			node.name = node.name .. "_painted"
-			minetest.swap_node(pos, node)
-		end
 		local def = minetest.registered_nodes[node.name]
 
 		local imeta = itemstack:get_meta()
-		local color = imeta:get_int("palette_index")
-		if def.paramtype2 == "colorfacedir" then
-			color = facedir_color_map[color+1]
-		end
-		if (not color) or color < 0 or color > rp_paint.COLOR_COUNT then
-			color = 0
-		end
-		if def.paramtype2 == "color" then
-			node.param2 = color
-		elseif def.paramtype2 == "color4dir" then
-			local rot = node.param2 % 4
-			node.param2 = color*4 + rot
-		elseif def.paramtype2 == "colorwallmounted" then
-			local rot = node.param2 % 8
-			node.param2 = color*8 + rot
-		elseif def.paramtype2 == "colorfacedir" then
-			local rot = node.param2 % 32
-			node.param2 = color*32 + rot
-		else
-			-- Node coloring is unsupported. Do nothing
-			return
-		end
+		local color = imeta:get_int("palette_index") + 1
 
 		local can_paint = true
+
+		if paintable == 2 then
+			node.name = node.name .. "_painted"
+		end
+		local p2color = get_param2_color(node, color)
+		node.param2 = p2color
 		if def._on_paint then
-			can_paint = def._on_paint(pointed_thing.under, node.param2)
+			can_paint = def._on_paint(pointed_thing.under, p2color)
 			if can_paint == nil then
 				can_paint = true
 			end
 		end
 		if can_paint then
 			minetest.swap_node(pointed_thing.under, node)
-			minetest.sound_play({name="rp_paint_brush", gain=0.4}, {pos=pos, max_hear_distance = 8}, true)
+			minetest.sound_play({name="rp_paint_brush_paint", gain=0.2}, {pos=pos, max_hear_distance = 8}, true)
 
 			if not minetest.is_creative_enabled(user:get_player_name()) then
 				itemstack:add_wear_by_uses(BRUSH_USES)
 			end
 		end
-		minetest.sound_play({name="rp_paint_brush_paint", gain=0.2}, {pos = pos, max_hear_distance = 8}, true)
 		return itemstack
 	end,
 	groups = { disable_repair = 1 },
