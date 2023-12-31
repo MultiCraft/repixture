@@ -107,6 +107,7 @@ minetest.register_node(
       _tt_help = S("Hangs from stone or dirt"),
       drawtype = "plantlike",
       tiles = {"rp_default_vine.png"},
+      is_ground_content = false,
       use_texture_alpha = "clip",
       inventory_image = "rp_default_vine_inventory.png",
       wield_image = "rp_default_vine_inventory.png",
