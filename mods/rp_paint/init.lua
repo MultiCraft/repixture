@@ -118,9 +118,30 @@ end
 
 rp_paint.set_color = function(pos, color)
 	local node = minetest.get_node(pos)
-	local param2 = get_param2_color(node, color)
-	node.param2 = param2
-	minetest.swap_node(pos, node)
+	local paintable = minetest.get_item_group(node.name, "paintable")
+	if paintable == 0 then
+		return
+	end
+	local def = minetest.registered_nodes[node.name]
+
+	local can_paint = true
+
+	if paintable == 2 then
+		node.name = node.name .. "_painted"
+	end
+	local p2color = get_param2_color(node, color)
+	node.param2 = p2color
+	if def._on_paint then
+		can_paint = def._on_paint(pos, p2color)
+		if can_paint == nil then
+			can_paint = true
+		end
+	end
+	if can_paint then
+		minetest.swap_node(pos, node)
+		return true
+	end
+	return false
 end
 
 minetest.register_tool("rp_paint:brush", {
@@ -143,6 +164,7 @@ minetest.register_tool("rp_paint:brush", {
 		end
 		local node = minetest.get_node(pos)
 
+		local imeta = itemstack:get_meta()
 		-- Get color from paint bucket
 		if node.name == "rp_paint:bucket" then
 			local color = bit.rshift(node.param2, 2)
@@ -150,37 +172,15 @@ minetest.register_tool("rp_paint:brush", {
 				-- Invalid paint bucket color!
 				return
 			end
-			local imeta = itemstack:get_meta()
 			imeta:set_int("palette_index", color)
 			minetest.sound_play({name="rp_paint_brush_dip", gain=0.3}, {pos=pos, max_hear_distance = 8}, true)
 			return itemstack
 		end
 
 		-- Paint paintable node (if not paintable, fail)
-		local paintable = minetest.get_item_group(node.name, "paintable")
-		if paintable == 0 then
-			return
-		end
-		local def = minetest.registered_nodes[node.name]
-
-		local imeta = itemstack:get_meta()
 		local color = imeta:get_int("palette_index") + 1
-
-		local can_paint = true
-
-		if paintable == 2 then
-			node.name = node.name .. "_painted"
-		end
-		local p2color = get_param2_color(node, color)
-		node.param2 = p2color
-		if def._on_paint then
-			can_paint = def._on_paint(pointed_thing.under, p2color)
-			if can_paint == nil then
-				can_paint = true
-			end
-		end
-		if can_paint then
-			minetest.swap_node(pointed_thing.under, node)
+		local painted = rp_paint.set_color(pointed_thing.under, color)
+		if painted then
 			minetest.sound_play({name="rp_paint_brush_paint", gain=0.2}, {pos=pos, max_hear_distance = 8}, true)
 
 			if not minetest.is_creative_enabled(user:get_player_name()) then

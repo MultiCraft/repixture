@@ -84,3 +84,49 @@ about to be set for this node.
 
 This function must return a boolean value: `true` if painting is allowed
 or `false` to disallow/deny the painting.
+
+## Setting and getting color
+
+The color of nodes can be set and gotten programmatically by using
+a color ID (see below).
+
+### `rp_paint.get_color(node)`
+
+Returns the color ID of a given node (`node` is given in node table form)
+or `nil` if node has an invalid color or can’t be painted.
+
+### `rp_paint.set_color(pos, color)`
+
+Attempts to sets the color of the node at `pos` to the given color ID,
+as if using a paint brush. Returns `true` if successful or `false`
+on failure.
+
+Note that for nodes with `paramtype2="colorfacedir"`, an approximate
+color might be chosen.
+
+### Color IDs
+
+Each color has an unique numeric ID. The following IDs are available:
+
+* `rp_paint.COLOR_WHITE`
+* `rp_paint.COLOR_GRAY`
+* `rp_paint.COLOR_BLACK`
+* `rp_paint.COLOR_RED`
+* `rp_paint.COLOR_ORANGE`
+* `rp_paint.COLOR_TANGERINE`
+* `rp_paint.COLOR_YELLOW`
+* `rp_paint.COLOR_LIME`
+* `rp_paint.COLOR_GREEN`
+* `rp_paint.COLOR_BLUEGREEN`
+* `rp_paint.COLOR_TURQUOISE`
+* `rp_paint.COLOR_CYAN`
+* `rp_paint.COLOR_SKYBLUE`
+* `rp_paint.COLOR_AZURE_BLUE`
+* `rp_paint.COLOR_BLUE`
+* `rp_paint.COLOR_VIOLET`
+* `rp_paint.COLOR_MAGENTA`
+* `rp_paint.COLOR_REDVIOLET`
+* `rp_paint.COLOR_HOT_PINK`
+
+The colors white, gray, red, orange, yellow, green, blue and violet
+are supported by `paramtype2="colorfacedir"`.
