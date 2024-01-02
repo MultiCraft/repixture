@@ -27,8 +27,6 @@ tt.register_snippet(function(itemstring)
 		return S("Punch: Scrape off paint")
 	elseif can_scrape == 1 then
 		return S("Can scrape off paint")
-	else
-		return ""
 	end
 end)
 
