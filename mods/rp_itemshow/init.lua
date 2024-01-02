@@ -242,12 +242,12 @@ minetest.register_node("rp_itemshow:frame",{
 		fixed = {-7/16, -7/16, 7/16, 7/16, 7/16, 0.5}
 	},
 	tiles = {
-		{name="rp_itemshow_frame.png",color="white"},
-		{name="rp_itemshow_frame.png",color="white"},
-		{name="rp_itemshow_frame.png",color="white"},
-		{name="rp_itemshow_frame.png",color="white"},
+		{name="rp_itemshow_frame.png"},
+		{name="rp_itemshow_frame.png"},
+		{name="rp_itemshow_frame.png"},
+		{name="rp_itemshow_frame.png"},
 		{name="rp_itemshow_frame_back.png",color="white"},
-		{name="rp_itemshow_frame.png",color="white"},
+		{name="rp_itemshow_frame.png"},
 	},
 	overlay_tiles = {
 		"",
@@ -255,7 +255,7 @@ minetest.register_node("rp_itemshow:frame",{
 		"",
 		"",
 		"",
-		"rp_itemshow_frame_overlay.png",
+		{name="rp_itemshow_frame_overlay.png",color="white"},
 	},
 	palette = "rp_paint_palette_64.png",
 	inventory_image = "rp_itemshow_frame_inventory.png",
