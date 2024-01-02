@@ -487,8 +487,9 @@ minetest.register_node(
       drawtype = "glasslike_framed_optional",
       palette = "rp_paint_palette_256.png",
       paramtype2 = "color",
-      tiles = {"rp_default_glass_semi.png", ""},
-      overlay_tiles = {"default_glass_frame.png", "default_glass.png"},
+      tiles = {"rp_default_glass_semi.png^default_glass_frame.png", "blank.png"},
+      -- HACK: This is a workaround to fix the coloring of the crack overlay
+      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
       use_texture_alpha = "blend",
       paramtype = "light",
       sunlight_propagates = true,

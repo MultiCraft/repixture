@@ -265,6 +265,8 @@ minetest.register_node(
    {
       description = S("Cotton Bale"),
       tiles ={"farming_cotton_bale.png"},
+      -- HACK: This is a workaround to fix the coloring of the crack overlay
+      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
       is_ground_content = false,
       groups = {snappy = 2, oddly_breakable_by_hand = 3,
                 fall_damage_add_percent = -15, fuzzy = 1,
