@@ -52,6 +52,7 @@ local update_item = function(pos, node, check_item)
 	local inv = meta:get_inventory()
 	local stack = inv:get_stack("main", 1)
 	if not stack:is_empty() then
+		stack:set_count(1)
 		if node.name == "rp_itemshow:frame" then
 			local posad = FOURDIR[node.param2 % 4]
 			if not posad then return end
@@ -71,7 +72,8 @@ local update_item = function(pos, node, check_item)
 				if node.param2 == 1 then
 					dir = -dir
 				end
-				lua:_configure(stack:get_name(), node.name, dir)
+				local itemstr = stack:to_string()
+				lua:_configure(itemstr, node.name, dir)
 			end
 		end
 		if e and node.name == "rp_itemshow:frame" then
