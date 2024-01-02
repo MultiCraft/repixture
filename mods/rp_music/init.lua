@@ -111,6 +111,13 @@ end
 
 localmusic.players = {}
 
+local m_tiles = {"rp_music_colored.png", {name="rp_music_bottom_base.png",color="white"}, "rp_music_colored.png"}
+local m_overlay_tiles = {{name="rp_music_top_base.png",color="white"}, "", {name="rp_music_side_base.png",color="white"}}
+local m_use_texture_alpha = "clip"
+local m_palette = "rp_paint_palette_256d.png"
+local m_paramtype2 = "color"
+local m_place_param2 = DEFAULT_MUSIC_PLAYER_COLOR-1
+
 if minetest.settings:get_bool("music_enable") then
    function rp_music.stop(pos)
       local dp = minetest.hash_node_position(pos)
@@ -237,14 +244,15 @@ if minetest.settings:get_bool("music_enable") then
       {
 	 description = S("Music Player"),
 
-	 tiles = {{name="music_top.png",color="white"}, {name="music_bottom.png",color="white"}, {name="music_side.png",color="white"}},
-	 overlay_tiles = {"rp_music_top_overlay.png", "", "rp_music_side_overlay.png"},
-	 palette = "rp_paint_palette_256d.png",
-	 paramtype2 = "color",
-	 place_param2 = DEFAULT_MUSIC_PLAYER_COLOR-1,
+	 tiles = m_tiles,
+	 overlay_tiles = m_overlay_tiles,
+         use_texture_alpha = m_use_texture_alpha,
+	 palette = m_palette,
+	 paramtype2 = m_paramtype2,
+	 place_param2 = m_place_param2,
 
-	 inventory_image = "music_inventory.png",
-	 wield_image = "music_inventory.png",
+	 inventory_image = "rp_music_inventory.png",
+	 wield_image = "rp_music_inventory.png",
 
 	 is_ground_content = false,
 	 floodable = true,
@@ -320,10 +328,15 @@ else
       {
 	 description = S("Music Player"),
 
-	 tiles = {"music_top.png", "music_bottom.png", "music_side.png"},
+	 tiles = m_tiles,
+	 overlay_tiles = m_overlay_tiles,
+         use_texture_alpha = m_use_texture_alpha,
+	 palette = m_palette,
+	 paramtype2 = m_paramtype2,
+	 place_param2 = m_place_param2,
 
-	 inventory_image = "music_inventory.png",
-	 wield_image = "music_inventory.png",
+	 inventory_image = "rp_music_inventory.png",
+	 wield_image = "rp_music_inventory.png",
 
 	 is_ground_content = false,
 	 floodable = true,
