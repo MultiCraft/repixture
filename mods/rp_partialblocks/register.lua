@@ -24,13 +24,19 @@ partialblocks.register_material(
 -- Woodlike
 
 partialblocks.register_material(
-   "wood", S("Wooden Slab"), S("Wooden Stair"), "rp_default:planks", {choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
+   "wood", S("Wooden Slab"), S("Wooden Stair"), "rp_default:planks", {choppy = 3, oddly_breakable_by_hand = 3, paintable = 2}, true, nil, "w")
+partialblocks.register_material(
+   "wood_painted", S("Painted Wooden Slab"), S("Painted Wooden Stair"), "rp_default:planks_painted", {choppy = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory=1, paintable = 1}, true, nil, "w", nil, "w")
 
 partialblocks.register_material(
-   "oak", S("Oak Slab"), S("Oak Stair"), "rp_default:planks_oak", {choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
+   "oak", S("Oak Slab"), S("Oak Stair"), "rp_default:planks_oak", {choppy = 3, oddly_breakable_by_hand = 3, paintable = 2}, true, nil, "w")
+partialblocks.register_material(
+   "oak_painted", S("Painted Oak Slab"), S("Painted Oak Stair"), "rp_default:planks_oak_painted", {choppy = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory=1, paintable = 1}, true, nil, "w", nil, "w")
 
 partialblocks.register_material(
-   "birch", S("Birch Slab"), S("Birch Stair"), "rp_default:planks_birch", {choppy = 3, oddly_breakable_by_hand = 3}, true, nil, "w")
+   "birch", S("Birch Slab"), S("Birch Stair"), "rp_default:planks_birch", {choppy = 3, oddly_breakable_by_hand = 3, paintable = 2}, true, nil, "w")
+partialblocks.register_material(
+   "birch_painted", S("Painted Birch Slab"), S("Painted Birch Stair"), "rp_default:planks_birch_painted", {choppy = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory=1, paintable = 1}, true, nil, "w", nil, "w")
 
 -- Reed
 

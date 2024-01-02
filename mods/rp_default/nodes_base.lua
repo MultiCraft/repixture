@@ -152,9 +152,13 @@ minetest.register_node(
    {
       description = S("Steel Block"),
       tiles = {"default_block_steel.png"},
-      groups = {cracky = 2},
+      groups = {cracky = 2, paintable = 1},
       sounds = make_metal_sounds(default.METAL_PITCH_STEEL),
       is_ground_content = false,
+
+      palette = "rp_paint_palette_256.png",
+      drop = "rp_default:block_steel",
+      paramtype2 = "color",
 })
 
 minetest.register_node(
@@ -508,9 +512,22 @@ minetest.register_node(
    {
       description = S("Wooden Planks"),
       tiles = {"default_wood.png"},
-      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
+})
+minetest.register_node(
+   "rp_default:planks_painted",
+   {
+      description = S("Painted Wooden Planks"),
+      tiles = {"rp_default_wood_painted.png"},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_planks_defaults(),
+
+      palette = "rp_paint_palette_256.png",
+      drop = "rp_default:planks",
+      paramtype2 = "color",
 })
 
 minetest.register_node(
@@ -518,9 +535,21 @@ minetest.register_node(
    {
       description = S("Oak Planks"),
       tiles = {"default_wood_oak.png"},
-      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
+})
+minetest.register_node(
+   "rp_default:planks_oak_painted",
+   {
+      description = S("Painted Oak Planks"),
+      tiles = {"rp_default_wood_oak_painted.png"},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable=1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_planks_defaults(),
+      palette = "rp_paint_palette_256.png",
+      drop = "rp_default:planks_oak",
+      paramtype2 = "color",
 })
 
 minetest.register_node(
@@ -528,10 +557,24 @@ minetest.register_node(
    {
       description = S("Birch Planks"),
       tiles = {"default_wood_birch.png"},
-      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable=2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
 })
+minetest.register_node(
+   "rp_default:planks_birch_painted",
+   {
+      description = S("Painted Birch Planks"),
+      tiles = {"rp_default_wood_birch_painted.png"},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable=1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_planks_defaults(),
+      palette = "rp_paint_palette_256.png",
+      drop = "rp_default:planks_birch",
+      paramtype2 = "color",
+})
+
+
 
 -- Frames
 
