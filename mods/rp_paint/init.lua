@@ -59,7 +59,7 @@ local facedir_color_map = {
 	[rp_paint.COLOR_HOT_PINK] = FACEDIR_COLOR_RED,
 }
 
-local BRUSH_USES = 100
+local BRUSH_USES = 550
 
 local BUCKET_HEIGHT_ABOVE_ZERO = 5/16
 local BUCKET_RADIUS = 6/16
