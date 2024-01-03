@@ -529,7 +529,7 @@ function mobs:register_mob(name, def)
 
                -- node damage
                if self.takes_node_damage == true
-               and nodef.damage_per_second > 0 then
+               and nodef and nodef.damage_per_second > 0 then
                   if enable_blood then
                      effect(pos, self.blood_amount, self.blood_texture)
                   else
