@@ -253,9 +253,7 @@ minetest.register_craftitem(
       on_place = put_lock_place,
 })
 
-minetest.register_node(
-   "rp_locks:chest",
-   {
+local chest_def = {
       description = S("Locked Chest"),
       _tt_help = S("Provides 32 inventory slots") .. "\n" .. S("Can only be opened by its owner and those who have a lockpick"),
       tiles ={
@@ -266,8 +264,9 @@ minetest.register_node(
          "default_chest_sides.png",
          "locks_chest_front.png"
       },
+      use_texture_alpha = "blend",
       paramtype2 = "4dir",
-      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, locked = 1, container = 1},
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, locked = 1, chest = 2, container = 1, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
       on_construct = function(pos)
@@ -372,7 +371,31 @@ minetest.register_node(
 ]]
       end,
       on_blast = function() end,
-})
+}
+
+minetest.register_node("rp_locks:chest", chest_def)
+
+local chest_defp = table.copy(chest_def)
+chest_defp.description = S("Painted Locked Chest")
+chest_defp.tiles ={
+	"default_chest_top_painted.png",
+	"default_chest_top_painted.png",
+	"default_chest_sides_painted.png",
+	"default_chest_sides_painted.png",
+	"default_chest_sides_painted.png",
+	"locks_chest_front_painted.png"
+}
+chest_defp.overlay_tiles ={
+	"","","","","",
+	{name="locks_chest_front_painted_overlay.png",color="white"},
+}
+chest_defp.paramtype2 = "color4dir"
+chest_defp.palette = "rp_paint_palette_64d.png"
+chest_defp.drop = "rp_locks:chest"
+chest_defp.groups.paintable = 1
+chest_defp.groups.not_in_creative_inventory = 1
+
+minetest.register_node("rp_locks:chest_painted", chest_defp)
 
 -- Crafting
 

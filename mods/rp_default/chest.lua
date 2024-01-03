@@ -29,7 +29,7 @@ minetest.register_node(
       tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_sides.png",
 	      "default_chest_sides.png", "default_chest_sides.png", "default_chest_front.png"},
       paramtype2 = "4dir",
-      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, container = 1},
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, chest = 1, container = 1, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
       on_construct = function(pos)
@@ -56,6 +56,25 @@ minetest.register_node(
          end
 ]]
       end,
+})
+minetest.register_node(
+   "rp_default:chest_painted",
+   {
+      description = S("Painted Chest"),
+      _tt_help = S("Provides 32 inventory slots"),
+      tiles = {"default_chest_top_painted.png", "default_chest_top_painted.png", "default_chest_sides_painted.png",
+	      "default_chest_sides_painted.png", "default_chest_sides_painted.png", "default_chest_front_painted.png"},
+      overlay_tiles = {"", "", "", "", "",
+	      {name="default_chest_front_painted_overlay.png",color="white"}},
+      paramtype2 = "color4dir",
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, chest = 1, container = 1, paintable = 1, not_in_creative_inventory = 1},
+      palette = "rp_paint_palette_64d.png",
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_planks_defaults(),
+      on_destruct = function(pos)
+         item_drop.drop_items_from_container(pos, {"main"})
+      end,
+      drop = "rp_default:chest",
 })
 
 local form_chest = rp_formspec.get_page("rp_formspec:2part")
