@@ -140,6 +140,20 @@ function door.register_door(name, def)
 
    local tt = def.tiles_top
    local tb = def.tiles_bottom
+   local ott = def.overlay_tiles_top
+   local otb = def.overlay_tiles_bottom
+
+   local transformTileFX = function(tile)
+      if type(tile) == "string" then
+         return tile .. "^[transformFX"
+      elseif type(tile) == "table" then
+         local newtile = table.copy(tile)
+         newtile.name = newtile.name .. "^[transformFX"
+         return newtile
+      else
+         minetest.log("error", "[rp_door] Called transformTileFX with unknown tile type! tile="..tostring(tile))
+      end
+   end
 
    local function on_rightclick(pos, dir, check_name, replace, replace_dir, params)
       local other_pos = table.copy(pos)
@@ -157,7 +171,10 @@ function door.register_door(name, def)
          return
       end
       local p2 = minetest.get_node(pos).param2
-      p2 = params[p2+1]
+      local p2mod = p2 % 4
+      local p2flat = p2 - p2mod
+      p2mod = params[p2mod+1]
+      p2 = p2flat + p2mod
 
       minetest.swap_node(other_pos, {name=replace_dir, param2=p2})
 
@@ -215,16 +232,35 @@ function door.register_door(name, def)
    groups_node_t_2.door_position = 2
    groups_node_t_2.door_state = 2
 
+   local painted_name, unpainted_name, drop_name
+   local palette
+   local paramtype2 = "4dir"
+   if def.is_painted then
+      paramtype2 = "color4dir"
+      palette = "rp_paint_palette_64.png"
+   end
+   if def.can_paint and not def.is_painted then
+      painted_name = name .. "_painted"
+   end
+   if def.can_unpaint then
+      unpainted_name = string.sub(name, 1, -9)
+      drop_name = unpainted_name
+   else
+      drop_name = name
+   end
+
    -- Door segment: bottom, state 1
    minetest.register_node(
       name.."_b_1",
       {
          inventory_image = tb[1] .. "^rp_door_overlay_state_1.png",
-	 tiles = {tb[2], tb[2], tb[2], tb[2], tb[1], tb[1].."^[transformfx"},
+	 tiles = {tb[2], tb[2], tb[2], tb[2], tb[1], transformTileFX(tb[1])},
+	 overlay_tiles = otb and {otb[2], otb[2], otb[2], otb[2], otb[1], transformTileFX(otb[1])},
          use_texture_alpha = "clip",
 	 paramtype = "light",
-	 paramtype2 = "4dir",
-	 drop = name,
+	 paramtype2 = paramtype2,
+         palette = palette,
+	 drop = drop_name,
 	 drawtype = "nodebox",
 	 node_box = {
 	    type = "fixed",
@@ -261,7 +297,10 @@ function door.register_door(name, def)
 	 is_ground_content = false,
 	 can_dig = check_player_priv,
 	 sounds = def.sounds,
-	 sunlight_propagates = def.sunlight
+	 sunlight_propagates = def.sunlight,
+
+	_rp_unpainted_node_name = unpainted_name and unpainted_name.."_b_1",
+	_rp_painted_node_name = painted_name and painted_name.."_b_1",
    })
 
    -- Door segment: top, state 1
@@ -269,10 +308,12 @@ function door.register_door(name, def)
       name.."_t_1",
       {
          inventory_image = tt[1] .. "^rp_door_overlay_state_1.png",
-	 tiles = {tt[2], tt[2], tt[2], tt[2], tt[1], tt[1].."^[transformfx"},
+	 tiles = {tt[2], tt[2], tt[2], tt[2], tt[1], transformTileFX(tt[1])},
+	 overlay_tiles = ott and {ott[2], ott[2], ott[2], ott[2], ott[1], transformTileFX(ott[1])},
          use_texture_alpha = "clip",
 	 paramtype = "light",
-	 paramtype2 = "4dir",
+	 paramtype2 = paramtype2,
+         palette = palette,
 	 drop = "",
 	 drawtype = "nodebox",
 	 node_box = {
@@ -310,6 +351,9 @@ function door.register_door(name, def)
 	 can_dig = check_player_priv,
 	 sounds = def.sounds,
 	 sunlight_propagates = def.sunlight,
+
+	_rp_unpainted_node_name = unpainted_name and unpainted_name.."_t_1",
+	_rp_painted_node_name = painted_name and painted_name.."_t_1",
    })
 
    -- Door segment: bottom, state 2
@@ -317,11 +361,13 @@ function door.register_door(name, def)
       name.."_b_2",
       {
          inventory_image = "("..tb[1] .. "^[transformfx)^rp_door_overlay_state_2.png",
-	 tiles = {tb[2], tb[2], tb[2], tb[2], tb[1].."^[transformfx", tb[1]},
+	 tiles = {tb[2], tb[2], tb[2], tb[2], transformTileFX(tb[1]), tb[1]},
+	 overlay_tiles = otb and {otb[2], otb[2], otb[2], otb[2], transformTileFX(otb[1]), otb[1]},
          use_texture_alpha = "clip",
 	 paramtype = "light",
-	 paramtype2 = "4dir",
-	 drop = name,
+	 paramtype2 = paramtype2,
+         palette = palette,
+	 drop = drop_name,
 	 drawtype = "nodebox",
 	 node_box = {
 	    type = "fixed",
@@ -357,7 +403,10 @@ function door.register_door(name, def)
 	 is_ground_content = false,
 	 can_dig = check_player_priv,
 	 sounds = def.sounds,
-	 sunlight_propagates = def.sunlight
+	 sunlight_propagates = def.sunlight,
+
+	_rp_unpainted_node_name = unpainted_name and unpainted_name.."_b_2",
+	_rp_painted_node_name = painted_name and painted_name.."_b_2",
    })
 
    -- Door segment: top, state 2
@@ -365,10 +414,12 @@ function door.register_door(name, def)
       name.."_t_2",
       {
          inventory_image = "("..tt[1] .. "^[transformfx)^rp_door_overlay_state_2.png",
-	 tiles = {tt[2], tt[2], tt[2], tt[2], tt[1].."^[transformfx", tt[1]},
+	 tiles = {tt[2], tt[2], tt[2], tt[2], transformTileFX(tt[1]), tt[1]},
+	 overlay_tiles = ott and {ott[2], ott[2], ott[2], ott[2], transformTileFX(ott[1]), ott[1]},
          use_texture_alpha = "clip",
 	 paramtype = "light",
-	 paramtype2 = "4dir",
+	 paramtype2 = paramtype2,
+         palette = palette,
 	 drop = "",
 	 drawtype = "nodebox",
 	 node_box = {
@@ -405,7 +456,10 @@ function door.register_door(name, def)
 	 is_ground_content = false,
 	 can_dig = check_player_priv,
 	 sounds = def.sounds,
-	 sunlight_propagates = def.sunlight
+	 sunlight_propagates = def.sunlight,
+
+         _rp_unpainted_node_name = unpainted_name and unpainted_name.."_t_2",
+         _rp_painted_node_name = painted_name and painted_name.."_t_2",
    })
 
 end
@@ -435,12 +489,29 @@ door.register_door(
    {
       description = S("Wooden Door"),
       inventory_image = "door_wood.png",
-      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1},
+      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=2},
       tiles_top = {"door_wood_a.png", "door_wood_side.png"},
       tiles_bottom = {"door_wood_b.png", "door_wood_side.png"},
       sounds = sounds_wood_door,
       sunlight = false,
+      can_paint = true,
 })
+door.register_door(
+   "rp_door:door_wood_painted",
+   {
+      description = S("Painted Wooden Door"),
+      inventory_image = "door_wood.png^[hsl:0:-100:0",
+      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=1,not_in_creative_inventory=1},
+      tiles_top = {"door_wood_a_painted.png", {name="door_wood_side.png",color="white"}},
+      tiles_bottom = {"door_wood_b_painted.png", {name="door_wood_side.png",color="white"}},
+      overlay_tiles_top = {{name="door_wood_a_painted_overlay.png",color="white"}, ""},
+      overlay_tiles_bottom = {{name="door_wood_b_painted_overlay.png",color="white"}, ""},
+      sounds = sounds_wood_door,
+      sunlight = false,
+      is_painted = true,
+      can_unpaint = true,
+})
+
 crafting.register_craft(
    {
       output = "rp_door:door_wood",
@@ -456,12 +527,30 @@ door.register_door(
    {
       description = S("Oak Door"),
       inventory_image = "rp_door_wood_oak.png",
-      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1},
+      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=2},
       tiles_top = {"rp_door_wood_oak_a.png", "rp_door_wood_oak_side.png"},
       tiles_bottom = {"rp_door_wood_oak_b.png", "rp_door_wood_oak_side.png"},
       sounds = sounds_wood_door,
       sunlight = false,
+      can_paint = true,
 })
+door.register_door(
+   "rp_door:door_wood_oak_painted",
+   {
+      description = S("Painted Oak Door"),
+      inventory_image = "rp_door_wood_oak.png^[hsl:0:-100:0",
+      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=1,not_in_creative_inventory=1},
+      tiles_top = {"rp_door_wood_oak_a_painted.png", {name="rp_door_wood_oak_side.png",color="white"}},
+      tiles_bottom = {"rp_door_wood_oak_b_painted.png", {name="rp_door_wood_oak_side.png",color="white"}},
+      overlay_tiles_top = {{name="rp_door_wood_oak_a_painted_overlay.png",color="white"}, ""},
+      overlay_tiles_bottom = {{name="rp_door_wood_oak_b_painted_overlay.png",color="white"}, ""},
+      sounds = sounds_wood_door,
+      sunlight = false,
+      is_painted = true,
+      can_unpaint = true,
+})
+
+
 crafting.register_craft(
    {
       output = "rp_door:door_wood_oak",
@@ -477,12 +566,30 @@ door.register_door(
    {
       description = S("Birch Door"),
       inventory_image = "rp_door_wood_birch.png",
-      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1},
+      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=2},
       tiles_top = {"rp_door_wood_birch_a.png", "rp_door_wood_birch_side.png"},
       tiles_bottom = {"rp_door_wood_birch_b.png", "rp_door_wood_birch_side.png"},
       sounds = sounds_wood_door,
       sunlight = false,
+      can_paint = true,
 })
+door.register_door(
+   "rp_door:door_wood_birch_painted",
+   {
+      description = S("Painted Birch Door"),
+      inventory_image = "rp_door_wood_birch.png^[hsl:0:-100:0",
+      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=1,not_in_creative_inventory=1},
+      tiles_top = {"rp_door_wood_birch_a_painted.png", {name="rp_door_wood_birch_side.png",color="white"}},
+      tiles_bottom = {"rp_door_wood_birch_b_painted.png", {name="rp_door_wood_birch_side.png",color="white"}},
+      overlay_tiles_top = {{name="rp_door_wood_birch_a_painted_overlay.png",color="white"}, ""},
+      overlay_tiles_bottom = {{name="rp_door_wood_birch_b_painted_overlay.png",color="white"}, ""},
+      sounds = sounds_wood_door,
+      sunlight = false,
+      is_painted = true,
+      can_unpaint = true,
+})
+
+
 crafting.register_craft(
    {
       output = "rp_door:door_wood_birch",
