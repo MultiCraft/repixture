@@ -517,6 +517,8 @@ minetest.register_node(
    {
       description = S("Painted Wooden Planks"),
       tiles = {"rp_default_wood_painted.png"},
+      -- HACK: This is a workaround to fix the coloring of the crack overlay
+      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
       groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 1, not_in_creative_inventory = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
@@ -540,6 +542,8 @@ minetest.register_node(
    {
       description = S("Painted Oak Planks"),
       tiles = {"rp_default_wood_oak_painted.png"},
+      -- HACK: This is a workaround to fix the coloring of the crack overlay
+      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
       groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable=1, not_in_creative_inventory = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
@@ -562,6 +566,8 @@ minetest.register_node(
    {
       description = S("Painted Birch Planks"),
       tiles = {"rp_default_wood_birch_painted.png"},
+      -- HACK: This is a workaround to fix the coloring of the crack overlay
+      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
       groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable=1, not_in_creative_inventory = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),

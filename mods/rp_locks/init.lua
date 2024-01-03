@@ -386,7 +386,13 @@ chest_defp.tiles ={
 	"locks_chest_front_painted.png"
 }
 chest_defp.overlay_tiles ={
-	"","","","","",
+	-- HACK: This is a workaround to fix the coloring of the crack overlay
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	-- This tile is part of the legit overlay
 	{name="locks_chest_front_painted_overlay.png",color="white"},
 }
 chest_defp.paramtype2 = "color4dir"

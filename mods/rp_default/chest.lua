@@ -64,7 +64,14 @@ minetest.register_node(
       _tt_help = S("Provides 32 inventory slots"),
       tiles = {"default_chest_top_painted.png", "default_chest_top_painted.png", "default_chest_sides_painted.png",
 	      "default_chest_sides_painted.png", "default_chest_sides_painted.png", "default_chest_front_painted.png"},
-      overlay_tiles = {"", "", "", "", "",
+      overlay_tiles = {
+              -- HACK: This is a workaround to fix the coloring of the crack overlay
+              {name="rp_textures_blank_paintable_overlay.png",color="white"},
+              {name="rp_textures_blank_paintable_overlay.png",color="white"},
+              {name="rp_textures_blank_paintable_overlay.png",color="white"},
+              {name="rp_textures_blank_paintable_overlay.png",color="white"},
+              {name="rp_textures_blank_paintable_overlay.png",color="white"},
+              -- Actual legit overlay
 	      {name="default_chest_front_painted_overlay.png",color="white"}},
       paramtype2 = "color4dir",
       groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, chest = 1, container = 1, paintable = 1, not_in_creative_inventory = 1},
