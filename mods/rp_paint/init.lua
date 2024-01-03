@@ -180,8 +180,19 @@ rp_paint.remove_color = function(pos)
 				elseif olddef.paramtype2 == "colorfacedir" then
 					param2 = node.param2 % 32
 				end
-				minetest.swap_node(pos, {name=newname, param2=param2})
-				return true
+				local can_unpaint = true
+				local newnode = {name=newname, param2=param2}
+				if olddef._on_unpaint then
+					can_unpaint = olddef._on_unpaint(pos, newnode)
+					if can_unpaint == nil then
+						can_unpaint = true
+					end
+				end
+
+				if can_unpaint then
+					minetest.swap_node(pos, newnode)
+					return true
+				end
 			end
 		end
 	end

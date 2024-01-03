@@ -85,6 +85,14 @@ about to be set for this node.
 This function must return a boolean value: `true` if painting is allowed
 or `false` to disallow/deny the painting.
 
+## `_on_unpaint` callback
+
+Same as `_on_paint` but will be called when a painted node is about
+to get its color removed and return to its “neutral”/uncolored state.
+
+This function has the signature `(pos, newnode)` where `pos` is the
+node position and `node` is the node table of the new node.
+
 ## Functions
 
 The color of nodes can be set and gotten programmatically by using

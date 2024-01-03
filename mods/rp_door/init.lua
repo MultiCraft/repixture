@@ -201,7 +201,7 @@ function door.register_door(name, def)
          }, true)
    end
 
-   local on_paint = function(pos, new_param2, dir, check_name, replace_name)
+   local on_paint_or_unpaint = function(pos, new_param2, dir, check_name, replace_name)
        local other_pos = table.copy(pos)
        other_pos.y = pos.y+dir
 
@@ -295,7 +295,11 @@ function door.register_door(name, def)
          end,
          _on_paint = function(pos, new_param2)
             local node = minetest.get_node(pos)
-            on_paint(pos, new_param2, 1, name.."_t_1", painted_name.."_t_1")
+            on_paint_or_unpaint(pos, new_param2, 1, name.."_t_1", painted_name.."_t_1")
+         end,
+         _on_unpaint = function(pos, newnode)
+            local node = minetest.get_node(pos)
+            on_paint_or_unpaint(pos, newnode.param2, 1, name.."_t_1", unpainted_name.."_t_1")
          end,
 
          floodable = true,
@@ -352,8 +356,13 @@ function door.register_door(name, def)
          end,
          _on_paint = function(pos, new_param2)
             local node = minetest.get_node(pos)
-            on_paint(pos, new_param2, -1, name.."_b_1", painted_name.."_b_1")
+            on_paint_or_unpaint(pos, new_param2, -1, name.."_b_1", painted_name.."_b_1")
          end,
+         _on_unpaint = function(pos, newnode)
+            local node = minetest.get_node(pos)
+            on_paint_or_unpaint(pos, newnode.param2, -1, name.."_b_1", unpainted_name.."_b_1")
+         end,
+
 
          floodable = true,
          on_flood = function(top, oldnode)
@@ -409,7 +418,11 @@ function door.register_door(name, def)
          end,
          _on_paint = function(pos, new_param2)
             local node = minetest.get_node(pos)
-            on_paint(pos, new_param2, 1, name.."_t_2", painted_name.."_t_2")
+            on_paint_or_unpaint(pos, new_param2, 1, name.."_t_2", painted_name.."_t_2")
+         end,
+         _on_unpaint = function(pos, newnode)
+            local node = minetest.get_node(pos)
+            on_paint_or_unpaint(pos, newnode.param2, 1, name.."_t_2", unpainted_name.."_t_2")
          end,
 
          floodable = true,
@@ -466,7 +479,11 @@ function door.register_door(name, def)
          end,
          _on_paint = function(pos, new_param2)
             local node = minetest.get_node(pos)
-            on_paint(pos, new_param2, -1, name.."_b_2", painted_name.."_b_2")
+            on_paint_or_unpaint(pos, new_param2, -1, name.."_b_2", painted_name.."_b_2")
+         end,
+         _on_unpaint = function(pos, newnode)
+            local node = minetest.get_node(pos)
+            on_paint_or_unpaint(pos, newnode.param2, -1, name.."_b_2", unpainted_name.."_b_2")
          end,
 
          floodable = true,
