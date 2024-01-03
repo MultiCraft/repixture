@@ -68,7 +68,7 @@ local on_destruct = function(pos)
 end
 
 local function register_sign(id, def)
-	minetest.register_node("rp_default:"..id, {
+	local sdef = {
 		description = def.description,
 		_tt_help = S("Write a short message"),
 		drawtype = "nodebox",
@@ -85,7 +85,7 @@ local function register_sign(id, def)
 			wall_bottom = {-0.5+(1/16), -0.5, -0.5+(4/16), 0.5-(1/16), -0.5+(1/16), 0.5-(4/16)},
 			wall_side = {-0.5, -0.5+(4/16), -0.5+(1/16), -0.5+(1/16), 0.5-(4/16), 0.5-(1/16)},
 		},
-		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, creative_decoblock = 1},
+		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, creative_decoblock = 1, paintable = 2},
 		is_ground_content = false,
 		sounds = def.sounds,
 		floodable = true,
@@ -128,9 +128,10 @@ local function register_sign(id, def)
 			end
 			return itemstack
 		end,
-	})
+	}
+	minetest.register_node("rp_default:"..id, sdef)
 
-	minetest.register_node("rp_default:"..id.."_r90", {
+	local sdef_r90 = {
 		drawtype = "nodebox",
 		tiles = {"("..def.tile..")^[transformR90"},
 		inventory_image = "("..def.inv_image..")^[transformR90",
@@ -145,7 +146,7 @@ local function register_sign(id, def)
 			wall_bottom = {-0.5+(4/16), -0.5, -0.5+(1/16), 0.5-(4/16), -0.5+(1/16), 0.5-(1/16)},
 			wall_side = {-0.5, -0.5+(1/16), -0.5+(4/16), -0.5+(1/16), 0.5-(1/16), 0.5-(4/16)},
 		},
-		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, not_in_creative_inventory=1},
+		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, not_in_creative_inventory=1, paintable = 2},
 		is_ground_content = false,
 		sounds = def.sounds,
 		floodable = true,
@@ -156,7 +157,30 @@ local function register_sign(id, def)
 		on_receive_fields = on_receive_fields,
 		on_destruct = on_destruct,
 		drop = "rp_default:"..id,
-	})
+	}
+	minetest.register_node("rp_default:"..id.."_r90", sdef_r90)
+
+	local sdef_p = table.copy(sdef)
+	sdef_p.description = def.description_painted
+	sdef_p.paramtype2 = "colorwallmounted"
+	sdef_p.palette = "rp_paint_palette_32.png"
+	sdef_p.groups.paintable = 1
+	sdef_p.groups.not_in_creative_inventory = 1
+	sdef_p.tiles = { def.tile_painted }
+	sdef_p.inventory_image = def.inv_image.."^[hsl:0:-100:0"
+	sdef_p.wield_image = def.inv_image.."^[hsl:0:-100:0"
+	sdef_p.drop = "rp_default:"..id
+	minetest.register_node("rp_default:"..id.."_painted", sdef_p)
+
+	local sdef_r90_p = table.copy(sdef_r90)
+	sdef_r90_p.paramtype2 = "colorwallmounted"
+	sdef_r90_p.palette = "rp_paint_palette_32.png"
+	sdef_r90_p.groups.paintable = 1
+	sdef_r90_p.tiles = { "("..def.tile_painted..")^[transformR90" }
+	sdef_r90_p.inventory_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
+	sdef_r90_p.wield_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
+	sdef_r90_p.drop = "rp_default:"..id
+	minetest.register_node("rp_default:"..id.."_r90_painted", sdef_r90_p)
 
 	register_sign_page(id, {"rp_default:"..id, "rp_default:"..id.."_r90"})
 end
@@ -171,19 +195,25 @@ local sounds_wood_sign = rp_sounds.node_sound_planks_defaults({
 
 register_sign("sign", {
 	description = S("Wooden Sign"),
+	description_painted = S("Painted Wooden Sign"),
 	tile = "default_sign.png",
+	tile_painted = "rp_default_sign_painted.png",
 	inv_image = "default_sign_inventory.png",
 	sounds = sounds_wood_sign,
 })
 register_sign("sign_oak", {
 	description = S("Oak Sign"),
+	description_painted = S("Painted Oak Sign"),
 	tile = "rp_default_sign_oak.png",
+	tile_painted = "rp_default_sign_oak_painted.png",
 	inv_image = "rp_default_sign_oak_inventory.png",
 	sounds = sounds_wood_sign,
 })
 register_sign("sign_birch", {
 	description = S("Birch Sign"),
+	description_painted = S("Painted Birch Sign"),
 	tile = "rp_default_sign_birch.png",
+	tile_painted = "rp_default_sign_birch_painted.png",
 	inv_image = "rp_default_sign_birch_inventory.png",
 	sounds = sounds_wood_sign,
 })
