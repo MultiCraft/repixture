@@ -37,6 +37,7 @@ local function register_fence(name, def)
                 after_dig_node = function(pos, node, metadata, digger)
 			util.dig_up(pos, node, digger)
                 end,
+		drop = name,
 	}
 	for k, v in pairs(default_fields) do
 		if def[k] == nil then
@@ -44,14 +45,31 @@ local function register_fence(name, def)
 		end
 	end
 
+
 	-- Always add to the fence group, even if no group provided
 	def.groups.fence = 1
 	def.groups.creative_decoblock = 1
+	def.groups.paintable = 2
 
 	def.texture = nil
 	def.material = nil
+	local description_painted = def.description_painted
+	def.description_painted = nil
 
 	minetest.register_node(name, def)
+
+	local def_painted = table.copy(def)
+	def_painted.groups = table.copy(def.groups)
+	def_painted.groups.paintable = 1
+	def_painted.groups.not_in_creative_inventory = 1
+	def_painted.description = description_painted
+	def_painted.paramtype2 = "color"
+	def_painted.palette = "rp_paint_palette_256.png"
+	def_painted.tiles = {def.texture_top_painted, def.texture_top_painted, def.texture_side_painted}
+	def_painted.inventory_image = def.inventory_image.."^[hsl:0:-100:0"
+	def_painted.wield_image = def.wield_image.."^[hsl:0:-100:0"
+	local name_painted = name .. "_painted"
+	minetest.register_node(name_painted, def_painted)
 end
 
 local sounds_wood_fence = rp_sounds.node_sound_planks_defaults({
@@ -63,8 +81,11 @@ local sounds_wood_fence = rp_sounds.node_sound_planks_defaults({
 
 register_fence("rp_default:fence", {
 	description = S("Wooden Fence"),
+	description_painted = S("Painted Wooden Fence"),
 	texture_side = "rp_default_fence_side.png",
 	texture_top = "rp_default_fence_top.png",
+	texture_side_painted = "rp_default_fence_side_painted.png",
+	texture_top_painted = "rp_default_fence_top_painted.png",
 	inventory_image = "default_fence.png",
 	wield_image = "default_fence.png",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
@@ -72,8 +93,11 @@ register_fence("rp_default:fence", {
 })
 register_fence("rp_default:fence_oak", {
 	description = S("Oak Fence"),
+	description_painted = S("Painted Oak Fence"),
 	texture_side = "rp_default_fence_oak_side.png",
 	texture_top = "rp_default_fence_oak_top.png",
+	texture_side_painted = "rp_default_fence_oak_side_painted.png",
+	texture_top_painted = "rp_default_fence_oak_top_painted.png",
 	inventory_image = "default_fence_oak.png",
 	wield_image = "default_fence_oak.png",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
@@ -81,8 +105,11 @@ register_fence("rp_default:fence_oak", {
 })
 register_fence("rp_default:fence_birch", {
 	description = S("Birch Fence"),
+	description_painted = S("Painted Birch Fence"),
 	texture_side = "rp_default_fence_birch_side.png",
 	texture_top = "rp_default_fence_birch_top.png",
+	texture_side_painted = "rp_default_fence_birch_side_painted.png",
+	texture_top_painted = "rp_default_fence_birch_top_painted.png",
 	inventory_image = "default_fence_birch.png",
 	wield_image = "default_fence_birch.png",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
