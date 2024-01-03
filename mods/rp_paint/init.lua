@@ -130,7 +130,11 @@ rp_paint.set_color = function(pos, color)
 	local can_paint = true
 
 	if paintable == 2 then
-		node.name = node.name .. "_painted"
+		if def._rp_painted_node_name then
+			node.name = def._rp_painted_node_name
+		else
+			node.name = node.name .. "_painted"
+		end
 	end
 	local p2color = get_param2_color(node, color)
 	node.param2 = p2color
@@ -150,21 +154,35 @@ end
 rp_paint.remove_color = function(pos)
 	local node = minetest.get_node(pos)
 	local paintable = minetest.get_item_group(node.name, "paintable")
-	if paintable == 1 and string.sub(node.name, -8, -1) == "_painted" then
-		local newname = string.sub(node.name, 1, -9)
-		local newdef = minetest.registered_nodes[newname]
+	if paintable == 1 then
 		local olddef = minetest.registered_nodes[node.name]
-		if olddef and newdef then
-			local param2 = 0
-			if olddef.paramtype2 == "color4dir" then
-				param2 = node.param2 % 4
-			elseif olddef.paramtype2 == "colorwallmounted" then
-				param2 = node.param2 % 8
-			elseif olddef.paramtype2 == "colorfacedir" then
-				param2 = node.param2 % 32
+		if not olddef then
+			return false
+		end
+		-- Check if there is an 'unpainted' version of the node
+		if olddef._rp_unpainted_node_name or string.sub(node.name, -8, -1) == "_painted" then
+			local newname
+			if olddef._rp_unpainted_node_name then
+				-- If name of unpainted node name was specified explicitly,
+				-- use that one
+				newname = olddef._rp_unpainted_node_name
+			else
+				-- Default: Remove "_painted" suffix
+				newname = string.sub(node.name, 1, -9)
 			end
-			minetest.swap_node(pos, {name=newname, param2=param2})
-			return true
+			local newdef = minetest.registered_nodes[newname]
+			if olddef and newdef then
+				local param2 = 0
+				if olddef.paramtype2 == "color4dir" then
+					param2 = node.param2 % 4
+				elseif olddef.paramtype2 == "colorwallmounted" then
+					param2 = node.param2 % 8
+				elseif olddef.paramtype2 == "colorfacedir" then
+					param2 = node.param2 % 32
+				end
+				minetest.swap_node(pos, {name=newname, param2=param2})
+				return true
+			end
 		end
 	end
 	return false
