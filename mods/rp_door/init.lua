@@ -201,6 +201,19 @@ function door.register_door(name, def)
          }, true)
    end
 
+   local on_paint = function(pos, new_param2, dir, check_name, replace_name)
+       local other_pos = table.copy(pos)
+       other_pos.y = pos.y+dir
+
+       local other_node = minetest.get_node(other_pos)
+       if other_node.name == check_name then
+          other_node.name = replace_name
+          other_node.param2 = new_param2
+          minetest.swap_node(other_pos, other_node)
+       end
+       return true
+   end
+
    local function check_player_priv(pos, player)
       if not def.only_placer_can_open then
 	 return true
@@ -241,6 +254,8 @@ function door.register_door(name, def)
    end
    if def.can_paint and not def.is_painted then
       painted_name = name .. "_painted"
+   elseif def.is_painted then
+      painted_name = name
    end
    if def.can_unpaint then
       unpainted_name = string.sub(name, 1, -9)
@@ -277,6 +292,10 @@ function door.register_door(name, def)
             if check_player_priv(pos, clicker) then
                on_rightclick(pos, 1, name.."_t_1", name.."_b_2", name.."_t_2", {1,2,3,0})
             end
+         end,
+         _on_paint = function(pos, new_param2)
+            local node = minetest.get_node(pos)
+            on_paint(pos, new_param2, 1, name.."_t_1", painted_name.."_t_1")
          end,
 
          floodable = true,
@@ -331,6 +350,10 @@ function door.register_door(name, def)
                on_rightclick(pos, -1, name.."_b_1", name.."_t_2", name.."_b_2", {1,2,3,0})
             end
          end,
+         _on_paint = function(pos, new_param2)
+            local node = minetest.get_node(pos)
+            on_paint(pos, new_param2, -1, name.."_b_1", painted_name.."_b_1")
+         end,
 
          floodable = true,
          on_flood = function(top, oldnode)
@@ -384,6 +407,10 @@ function door.register_door(name, def)
                on_rightclick(pos, 1, name.."_t_2", name.."_b_1", name.."_t_1", {3,0,1,2})
             end
          end,
+         _on_paint = function(pos, new_param2)
+            local node = minetest.get_node(pos)
+            on_paint(pos, new_param2, 1, name.."_t_2", painted_name.."_t_2")
+         end,
 
          floodable = true,
          on_flood = function(bottom, oldnode)
@@ -436,6 +463,10 @@ function door.register_door(name, def)
             if check_player_priv(pos, clicker) then
                on_rightclick(pos, -1, name.."_b_2", name.."_t_1", name.."_b_1", {3,0,1,2})
             end
+         end,
+         _on_paint = function(pos, new_param2)
+            local node = minetest.get_node(pos)
+            on_paint(pos, new_param2, -1, name.."_b_2", painted_name.."_b_2")
          end,
 
          floodable = true,
