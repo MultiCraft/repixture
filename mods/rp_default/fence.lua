@@ -31,6 +31,8 @@ local function register_fence(name, def)
 		inventory_image = def.inventory_image,
 		wield_image = def.wield_image,
 		tiles = {def.texture_top, def.texture_top, def.texture_side},
+		-- HACK: This is a workaround to fix the coloring of the crack overlay
+		overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
 		sunlight_propagates = true,
 		is_ground_content = false,
 		groups = {},
