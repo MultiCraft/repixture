@@ -496,7 +496,7 @@ local scrape = function(max_uses)
 
         -- Scrape off color
         local pos = pointed_thing.under
-        if rp_paint.scrape_color(pos) then
+        if rp_paint.scrape_color(pos, pointed_thing) then
            if not minetest.is_creative_enabled(placer:get_player_name()) then
                itemstack:add_wear_by_uses(max_uses)
            end

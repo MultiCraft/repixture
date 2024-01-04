@@ -1,5 +1,7 @@
 local S = minetest.get_translator("rp_paint")
 
+local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
+
 rp_paint = {}
 
 local COLOR_NAMES = {
@@ -199,7 +201,8 @@ rp_paint.remove_color = function(pos)
 	return false
 end
 
-rp_paint.scrape_color = function(pos)
+rp_paint.scrape_color = function(pos, pointed_thing)
+	local oldnode = minetest.get_node(pos)
 	local scraped  = rp_paint.remove_color(pos)
 	if scraped then
 		local node = minetest.get_node(pos)
@@ -209,6 +212,50 @@ rp_paint.scrape_color = function(pos)
 		end
 		if def.sounds and def.sounds._rp_scrape then
 			minetest.sound_play(def.sounds._rp_scrape, {pos=pos, max_hear_distance=8}, true)
+		end
+		if pointed_thing and pointed_thing.type == "node" then
+			-- Spawn particles where we scrape
+			local particlepos = pointed_thing.above
+			local offset1, offset2
+			local SQ = 0.48 -- "radius" of square
+			local H1 = 0.48 -- min. distance from node
+			local H2 = 0.49 -- max. distance from node
+			if pointed_thing.above.y > pointed_thing.under.y then
+				offset1 = {x=-SQ, y=-H2, z=-SQ}
+				offset2 = {x=SQ, y=-H1, z=SQ}
+			elseif pointed_thing.above.y < pointed_thing.under.y then
+				offset1 = {x=-SQ, y=H1, z=-SQ}
+				offset2 = {x=SQ, y=H2, z=SQ}
+			elseif pointed_thing.above.x > pointed_thing.under.x then
+				offset1 = {x=-H2, y=-SQ, z=-SQ}
+				offset2 = {x=-H1, y=SQ, z=SQ}
+			elseif pointed_thing.above.x < pointed_thing.under.x then
+				offset1 = {x=H1, y=-SQ, z=-SQ}
+				offset2 = {x=H2, y=SQ, z=SQ}
+			elseif pointed_thing.above.z > pointed_thing.under.z then
+				offset1 = {x=-SQ, y=-SQ, z=-H2}
+				offset2 = {x=SQ, y=SQ, z=-H1}
+			else
+				offset1 = {x=-SQ, y=-SQ, z=H1}
+				offset2 = {x=SQ, y=SQ, z=H2}
+			end
+			minetest.add_particlespawner({
+				amount = math.random(10, 20),
+				time = 0.1,
+				minpos = vector.add(particlepos, offset1),
+				maxpos = vector.add(particlepos, offset2),
+				minvel = {x=-0.2, y=0, z=-0.2},
+				maxvel = {x=0.2, y=2, z=0.2},
+				minacc = {x=0, y=-GRAVITY, z=0},
+				maxacc = {x=0, y=-GRAVITY, z=0},
+				minexptime = 0.1,
+				maxexptime = 0.5,
+				minsize = 0.9,
+				maxsize = 1.0,
+				collisiondetection = true,
+				vertical = false,
+				node = oldnode,
+			})
 		end
 		return true
 	end

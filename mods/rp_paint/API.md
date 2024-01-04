@@ -122,11 +122,9 @@ or if node does not support an unpainted state.
 ### `rp_paint.scrape_color(pos)`
 
 Same as `rp_paint.remove_color`, but will also play a “scraping-off”
-sound effect (`_rp_scrape`).
+sound effect (`_rp_scrape`) and show a particle effect.
 
 Recommended to be used by tools.
-
-Other effects may be added in future versions of this mod.
 
 ### Color IDs
 
