@@ -276,6 +276,8 @@ if minetest.settings:get_bool("music_enable") then
          sounds = rp_sounds.node_sound_small_defaults(),
 
 	 on_construct = function(pos)
+            local meta = minetest.get_meta(pos)
+            meta:set_int("music_player_legacy_color", 1)
             rp_music.start(pos)
          end,
 
@@ -380,16 +382,26 @@ crafting.register_craft(
       }
 })
 
--- Update music player infotexts
+-- Update music player metadata
 minetest.register_lbm(
    {
       label = "Update music players",
-      name = "rp_music:update_music_players",
+      name = "rp_music:update_music_players_v2",
       run_at_every_load = true,
       nodenames = {"rp_music:player"},
       action = function(pos, node)
          local def = minetest.registered_nodes[node.name]
          local meta = minetest.get_meta(pos)
+         -- If this metadata is 0, it means this is an old
+         -- music box when it didn't support color. In this
+         -- case, the music box would most likely still have
+         -- param2=0 and become black. So we update param2
+         -- with the default color.
+         if meta:get_int("music_player_legacy_color") == 0 then
+            node.param2 = DEFAULT_MUSIC_PLAYER_COLOR - 1
+            minetest.swap_node(pos, node)
+            meta:set_int("music_player_legacy_color", 1)
+         end
          if minetest.settings:get_bool("music_enable") then
             if meta:get_int("music_player_enabled") == 1 then
                local track = get_track_from_meta(meta)

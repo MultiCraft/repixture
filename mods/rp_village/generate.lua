@@ -1247,7 +1247,8 @@ local function village_modify_populate_containers(upos, upos2, pr, extras)
       end
 end
 
--- Village modifier: Limit number of music players in village to 1
+-- Village modifier: Limit number of music players in village to 1.
+-- Also set random color for the remaning music player.
 local function village_modify_limit_music_players(upos, upos2, pr)
       -- Maximum of 1 music player per village; remove excess music players
       local music_players = 0
@@ -1259,6 +1260,12 @@ local function village_modify_limit_music_players(upos, upos2, pr)
               minetest.remove_node(pos)
            else
               music_players = music_players + 1
+
+              -- Also initialize music box with random color
+              local color = math.random(1, rp_paint.COLOR_COUNT)
+              minetest.swap_node(pos, {name="rp_music:player", param2 = color-1})
+              local meta = minetest.get_meta(pos)
+              meta:set_int("music_player_legacy_color", 1)
            end
          end, true)
 end
