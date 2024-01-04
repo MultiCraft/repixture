@@ -142,8 +142,9 @@ By default, the particles will be based on the node itself by adding
 definition. This looks good for most nodes but sometimes it doesn’t.
 
 Add `_rp_paint_particle_node` to the node definition of a painted
-nodes to specify a different node (as string) to base the
-particle effect on.
+node to specify a different node (as string) to base the
+particle effect on. If set to `false`, there will be no scraping
+particles.
 (Example: `_rp_paint_particle_node = "rp_default:planks_painted"`)
 
 ### Color IDs

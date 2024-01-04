@@ -566,7 +566,7 @@ door.register_door(
       sunlight = false,
       is_painted = true,
       can_unpaint = true,
-      paint_particle_node = "rp_default:planks_painted",
+      paint_particle_node = false,
 })
 
 crafting.register_craft(
@@ -605,7 +605,7 @@ door.register_door(
       sunlight = false,
       is_painted = true,
       can_unpaint = true,
-      paint_particle_node = "rp_default:planks_oak_painted",
+      paint_particle_node = false,
 })
 
 
@@ -645,7 +645,7 @@ door.register_door(
       sunlight = false,
       is_painted = true,
       can_unpaint = true,
-      paint_particle_node = "rp_default:planks_birch_painted",
+      paint_particle_node = false,
 })
 
 

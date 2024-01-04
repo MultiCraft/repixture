@@ -201,7 +201,7 @@ rp_paint.remove_color = function(pos)
 	return false
 end
 
-local add_scrape_particles = function(pos, oldnode, direction)
+rp_paint.add_scrape_particles = function(pos, oldnode, direction)
 	local olddef = minetest.registered_nodes[oldnode.name]
 	if not olddef then
 		return false
@@ -234,7 +234,10 @@ local add_scrape_particles = function(pos, oldnode, direction)
 		offset2 = {x=0, y=0, z=0}
 	end
 	local particle_node
-	if olddef._rp_paint_particle_node then
+	if olddef._rp_paint_particle_node == false then
+		-- Don't spawn particle
+		return true
+	elseif olddef._rp_paint_particle_node ~= nil then
 		local defnode = {name = olddef._rp_paint_particle_node, param2 = oldnode.param2}
 		local color = rp_paint.get_color(oldnode)
 		if not color then
@@ -299,7 +302,7 @@ rp_paint.scrape_color = function(pos, pointed_thing)
 			elseif pointed_thing.above.z < pointed_thing.under.z then
 				direction.z = -1
 			end
-			add_scrape_particles(particlepos, oldnode, direction)
+			rp_paint.add_scrape_particles(particlepos, oldnode, direction)
 		end
 		return true
 	end
