@@ -201,6 +201,71 @@ rp_paint.remove_color = function(pos)
 	return false
 end
 
+local add_scrape_particles = function(pos, oldnode, direction)
+	local olddef = minetest.registered_nodes[oldnode.name]
+	if not olddef then
+		return false
+	end
+	-- Spawn particles where we scrape
+	local offset1, offset2
+	local SQ = 0.48 -- "radius" of square
+	local H1 = 0.48 -- min. distance from node
+	local H2 = 0.49 -- max. distance from node
+	if direction.y > 0 then
+		offset1 = {x=-SQ, y=-H2, z=-SQ}
+		offset2 = {x=SQ, y=-H1, z=SQ}
+	elseif direction.y < 0 then
+		offset1 = {x=-SQ, y=H1, z=-SQ}
+		offset2 = {x=SQ, y=H2, z=SQ}
+	elseif direction.x > 0 then
+		offset1 = {x=-H2, y=-SQ, z=-SQ}
+		offset2 = {x=-H1, y=SQ, z=SQ}
+	elseif direction.x < 0 then
+		offset1 = {x=H1, y=-SQ, z=-SQ}
+		offset2 = {x=H2, y=SQ, z=SQ}
+	elseif direction.z < 0 then
+		offset1 = {x=-SQ, y=-SQ, z=-H2}
+		offset2 = {x=SQ, y=SQ, z=-H1}
+	elseif direction.z > 0 then
+		offset1 = {x=-SQ, y=-SQ, z=H1}
+		offset2 = {x=SQ, y=SQ, z=H2}
+	else
+		offset1 = {x=0, y=0, z=0}
+		offset2 = {x=0, y=0, z=0}
+	end
+	local particle_node
+	if olddef._rp_paint_particle_node then
+		local defnode = {name = olddef._rp_paint_particle_node, param2 = oldnode.param2}
+		local color = rp_paint.get_color(oldnode)
+		if not color then
+			minetest.log("error", "[rp_paint] When scraping off color of a node, rp_paint.get_color() for "..oldnode.name.." returned nil!")
+			color = 0
+		end
+		local p2 = get_param2_color(defnode, color)
+		particle_node = {name = olddef._rp_paint_particle_node, param2 = p2}
+	else
+		particle_node = oldnode
+	end
+	minetest.add_particlespawner({
+		amount = math.random(10, 20),
+		time = 0.1,
+		minpos = vector.add(pos, offset1),
+		maxpos = vector.add(pos, offset2),
+		minvel = {x=-0.2, y=0, z=-0.2},
+		maxvel = {x=0.2, y=2, z=0.2},
+		minacc = {x=0, y=-GRAVITY, z=0},
+		maxacc = {x=0, y=-GRAVITY, z=0},
+		minexptime = 0.1,
+		maxexptime = 0.5,
+		minsize = 0.9,
+		maxsize = 1.0,
+		collisiondetection = true,
+		vertical = false,
+		node = particle_node,
+	})
+	return true
+end
+
 rp_paint.scrape_color = function(pos, pointed_thing)
 	local oldnode = minetest.get_node(pos)
 	local olddef = minetest.registered_nodes[oldnode.name]
@@ -220,59 +285,21 @@ rp_paint.scrape_color = function(pos, pointed_thing)
 		if pointed_thing and pointed_thing.type == "node" then
 			-- Spawn particles where we scrape
 			local particlepos = pointed_thing.above
-			local offset1, offset2
-			local SQ = 0.48 -- "radius" of square
-			local H1 = 0.48 -- min. distance from node
-			local H2 = 0.49 -- max. distance from node
+			local direction = { x=0, y=0, z=0 }
 			if pointed_thing.above.y > pointed_thing.under.y then
-				offset1 = {x=-SQ, y=-H2, z=-SQ}
-				offset2 = {x=SQ, y=-H1, z=SQ}
+				direction.y = 1
 			elseif pointed_thing.above.y < pointed_thing.under.y then
-				offset1 = {x=-SQ, y=H1, z=-SQ}
-				offset2 = {x=SQ, y=H2, z=SQ}
+				direction.y = -1
 			elseif pointed_thing.above.x > pointed_thing.under.x then
-				offset1 = {x=-H2, y=-SQ, z=-SQ}
-				offset2 = {x=-H1, y=SQ, z=SQ}
+				direction.x = 1
 			elseif pointed_thing.above.x < pointed_thing.under.x then
-				offset1 = {x=H1, y=-SQ, z=-SQ}
-				offset2 = {x=H2, y=SQ, z=SQ}
+				direction.x = -1
 			elseif pointed_thing.above.z > pointed_thing.under.z then
-				offset1 = {x=-SQ, y=-SQ, z=-H2}
-				offset2 = {x=SQ, y=SQ, z=-H1}
-			else
-				offset1 = {x=-SQ, y=-SQ, z=H1}
-				offset2 = {x=SQ, y=SQ, z=H2}
+				direction.z = 1
+			elseif pointed_thing.above.z < pointed_thing.under.z then
+				direction.z = -1
 			end
-			local particle_node
-			if olddef._rp_paint_particle_node then
-				local defnode = {name = olddef._rp_paint_particle_node, param2 = oldnode.param2}
-				local color = rp_paint.get_color(oldnode)
-				if not color then
-					minetest.log("error", "[rp_paint] When scraping off color of a node, rp_paint.get_color() for "..oldnode.name.." returned nil!")
-					color = 0
-				end
-				local p2 = get_param2_color(defnode, color)
-				particle_node = {name = olddef._rp_paint_particle_node, param2 = p2}
-			else
-				particle_node = oldnode
-			end
-			minetest.add_particlespawner({
-				amount = math.random(10, 20),
-				time = 0.1,
-				minpos = vector.add(particlepos, offset1),
-				maxpos = vector.add(particlepos, offset2),
-				minvel = {x=-0.2, y=0, z=-0.2},
-				maxvel = {x=0.2, y=2, z=0.2},
-				minacc = {x=0, y=-GRAVITY, z=0},
-				maxacc = {x=0, y=-GRAVITY, z=0},
-				minexptime = 0.1,
-				maxexptime = 0.5,
-				minsize = 0.9,
-				maxsize = 1.0,
-				collisiondetection = true,
-				vertical = false,
-				node = particle_node,
-			})
+			add_scrape_particles(particlepos, oldnode, direction)
 		end
 		return true
 	end
