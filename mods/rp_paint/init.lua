@@ -224,11 +224,11 @@ local add_scrape_particles = function(pos, oldnode, direction)
 		offset1 = {x=H1, y=-SQ, z=-SQ}
 		offset2 = {x=H2, y=SQ, z=SQ}
 	elseif direction.z < 0 then
-		offset1 = {x=-SQ, y=-SQ, z=-H2}
-		offset2 = {x=SQ, y=SQ, z=-H1}
-	elseif direction.z > 0 then
 		offset1 = {x=-SQ, y=-SQ, z=H1}
 		offset2 = {x=SQ, y=SQ, z=H2}
+	elseif direction.z > 0 then
+		offset1 = {x=-SQ, y=-SQ, z=-H2}
+		offset2 = {x=SQ, y=SQ, z=-H1}
 	else
 		offset1 = {x=0, y=0, z=0}
 		offset2 = {x=0, y=0, z=0}
