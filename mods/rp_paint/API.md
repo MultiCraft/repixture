@@ -50,6 +50,7 @@ For the painted node:
 4. Add the field `palette` (see below)
 4. Set `paramtype2` to `"color"`, `"color4dir"`, `"colorwallmounted"` or `"colorfacedir"`
 6. Add the field `drop = "<name of the unpainted node>"`
+7. (optional) Add `_rp_paint_particle_node` if needed (see `rp_paint.scrape_color`)
 
 Alternatively to step 1, you may also choose a custom node name for the painted node,
 but then you must also do this:
@@ -134,7 +135,16 @@ or if node does not support an unpainted state.
 Same as `rp_paint.remove_color`, but will also play a “scraping-off”
 sound effect (`_rp_scrape`) and show a particle effect.
 
-Recommended to be used by tools.
+The recommended use case for this function is tools.
+
+By default, the particles will be based on the node itself by adding
+`node = <the node that was scraped>` to the particle spawner
+definition. This looks good for most nodes but sometimes it doesn’t.
+
+Add `_rp_paint_particle_node` to the node definition of a painted
+nodes to specify a different node (as string) to base the
+particle effect on.
+(Example: `_rp_paint_particle_node = "rp_default:planks_painted"`)
 
 ### Color IDs
 

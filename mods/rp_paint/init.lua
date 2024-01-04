@@ -203,6 +203,10 @@ end
 
 rp_paint.scrape_color = function(pos, pointed_thing)
 	local oldnode = minetest.get_node(pos)
+	local olddef = minetest.registered_nodes[oldnode.name]
+	if not olddef then
+		return false
+	end
 	local scraped  = rp_paint.remove_color(pos)
 	if scraped then
 		local node = minetest.get_node(pos)
@@ -239,6 +243,19 @@ rp_paint.scrape_color = function(pos, pointed_thing)
 				offset1 = {x=-SQ, y=-SQ, z=H1}
 				offset2 = {x=SQ, y=SQ, z=H2}
 			end
+			local particle_node
+			if olddef._rp_paint_particle_node then
+				local defnode = {name = olddef._rp_paint_particle_node, param2 = oldnode.param2}
+				local color = rp_paint.get_color(oldnode)
+				if not color then
+					minetest.log("error", "[rp_paint] When scraping off color of a node, rp_paint.get_color() for "..oldnode.name.." returned nil!")
+					color = 0
+				end
+				local p2 = get_param2_color(defnode, color)
+				particle_node = {name = olddef._rp_paint_particle_node, param2 = p2}
+			else
+				particle_node = oldnode
+			end
 			minetest.add_particlespawner({
 				amount = math.random(10, 20),
 				time = 0.1,
@@ -254,7 +271,7 @@ rp_paint.scrape_color = function(pos, pointed_thing)
 				maxsize = 1.0,
 				collisiondetection = true,
 				vertical = false,
-				node = oldnode,
+				node = particle_node,
 			})
 		end
 		return true

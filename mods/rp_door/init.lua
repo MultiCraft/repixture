@@ -322,8 +322,10 @@ function door.register_door(name, def)
 	 sounds = def.sounds,
 	 sunlight_propagates = def.sunlight,
 
-	_rp_unpainted_node_name = unpainted_name and unpainted_name.."_b_1",
-	_rp_painted_node_name = painted_name and painted_name.."_b_1",
+         -- Additional fields for rp_paint mod
+	 _rp_unpainted_node_name = unpainted_name and unpainted_name.."_b_1",
+	 _rp_painted_node_name = painted_name and painted_name.."_b_1",
+         _rp_paint_particle_node = def.paint_particle_node,
    })
 
    -- Door segment: top, state 1
@@ -384,8 +386,10 @@ function door.register_door(name, def)
 	 sounds = def.sounds,
 	 sunlight_propagates = def.sunlight,
 
-	_rp_unpainted_node_name = unpainted_name and unpainted_name.."_t_1",
-	_rp_painted_node_name = painted_name and painted_name.."_t_1",
+         -- Additional fields for rp_paint mod
+	 _rp_unpainted_node_name = unpainted_name and unpainted_name.."_t_1",
+	 _rp_painted_node_name = painted_name and painted_name.."_t_1",
+         _rp_paint_particle_node = def.paint_particle_node,
    })
 
    -- Door segment: bottom, state 2
@@ -445,8 +449,10 @@ function door.register_door(name, def)
 	 sounds = def.sounds,
 	 sunlight_propagates = def.sunlight,
 
-	_rp_unpainted_node_name = unpainted_name and unpainted_name.."_b_2",
-	_rp_painted_node_name = painted_name and painted_name.."_b_2",
+         -- Additional fields for rp_paint mod
+	 _rp_unpainted_node_name = unpainted_name and unpainted_name.."_b_2",
+	 _rp_painted_node_name = painted_name and painted_name.."_b_2",
+         _rp_paint_particle_node = def.paint_particle_node,
    })
 
    -- Door segment: top, state 2
@@ -506,8 +512,10 @@ function door.register_door(name, def)
 	 sounds = def.sounds,
 	 sunlight_propagates = def.sunlight,
 
+         -- Additional fields for rp_paint mod
          _rp_unpainted_node_name = unpainted_name and unpainted_name.."_t_2",
          _rp_painted_node_name = painted_name and painted_name.."_t_2",
+         _rp_paint_particle_node = def.paint_particle_node,
    })
 
 end
@@ -558,6 +566,7 @@ door.register_door(
       sunlight = false,
       is_painted = true,
       can_unpaint = true,
+      paint_particle_node = "rp_default:planks_painted",
 })
 
 crafting.register_craft(
@@ -596,6 +605,7 @@ door.register_door(
       sunlight = false,
       is_painted = true,
       can_unpaint = true,
+      paint_particle_node = "rp_default:planks_oak_painted",
 })
 
 
@@ -635,6 +645,7 @@ door.register_door(
       sunlight = false,
       is_painted = true,
       can_unpaint = true,
+      paint_particle_node = "rp_default:planks_birch_painted",
 })
 
 
