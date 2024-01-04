@@ -51,6 +51,16 @@ For the painted node:
 4. Set `paramtype2` to `"color"`, `"color4dir"`, `"colorwallmounted"` or `"colorfacedir"`
 6. Add the field `drop = "<name of the unpainted node>"`
 
+Alternatively to step 1, you may also choose a custom node name for the painted node,
+but then you must also do this:
+
+1. Choose any name you like for the painted and unpainted node
+2. Add the field `_rp_painted_node_name` to the unpainted node. The value is the name of the painted node
+3. Add the field `_rp_unpainted_node_name` to the painted node. The value is the name of the unpainted node
+
+It is recommended to stick with the default naming convention unless a custom name is neccessary.
+Custom names are useful if your nodes must obey a naming convention from a different mod.
+
 ### Palettes
 
 Depending on the `paramtype2` you use for the node, you must pick one of various palettes.
