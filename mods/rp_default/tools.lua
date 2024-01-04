@@ -521,7 +521,7 @@ minetest.register_tool(
       },
       sound = sound_tool,
       groups = { axe = 1, can_scrape = 2 },
-      on_place = scrape(10),
+      on_place = scrape(90),
 })
 
 minetest.register_tool(
@@ -540,7 +540,7 @@ minetest.register_tool(
       },
       sound = sound_tool,
       groups = { axe = 1, can_scrape = 2 },
-      on_place = scrape(60),
+      on_place = scrape(180),
 })
 
 minetest.register_tool(
@@ -559,7 +559,7 @@ minetest.register_tool(
       },
       sound = sound_tool,
       groups = { axe = 1, can_scrape = 2 },
-      on_place = scrape(135),
+      on_place = scrape(405),
 })
 
 minetest.register_tool(
@@ -578,7 +578,7 @@ minetest.register_tool(
       },
       sound = sound_tool,
       groups = { axe = 1, can_scrape = 2 },
-      on_place = scrape(270),
+      on_place = scrape(810),
 })
 
 minetest.register_tool(
@@ -597,7 +597,7 @@ minetest.register_tool(
       },
       sound = sound_tool,
       groups = { axe = 1, can_scrape = 2 },
-      on_place = scrape(360),
+      on_place = scrape(1080),
 })
 
 minetest.register_tool(
@@ -616,7 +616,7 @@ minetest.register_tool(
       },
       sound = sound_tool,
       groups = { axe = 1, can_scrape = 2 },
-      on_place = scrape(420),
+      on_place = scrape(810),
 })
 
 -- Spears
