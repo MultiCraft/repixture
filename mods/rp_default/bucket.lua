@@ -1,9 +1,9 @@
 local S = minetest.get_translator("rp_default")
 
 local water_buckets = {
-   { "water", S("Water Bucket"), "default_bucket_water.png", "rp_default:water_source", S("Punch to empty the bucket") },
-   { "river_water", S("River Water Bucket"), "default_bucket_river_water.png", "rp_default:river_water_source", S("Punch to empty the bucket") },
-   { "swamp_water", S("Swamp Water Bucket"), "default_bucket_swamp_water.png", "rp_default:swamp_water_source", S("Punch to empty the bucket") },
+   { "water", S("Wooden Bucket with Water"), "default_bucket_water.png", "rp_default:water_source", S("Punch to empty the bucket") },
+   { "river_water", S("Wooden Bucket with River Water"), "default_bucket_river_water.png", "rp_default:river_water_source", S("Punch to empty the bucket") },
+   { "swamp_water", S("Wooden Bucket with Swamp Water"), "default_bucket_swamp_water.png", "rp_default:swamp_water_source", S("Punch to empty the bucket") },
 }
 
 local node_to_bucket = {}
@@ -120,7 +120,7 @@ end
 minetest.register_node(
    "rp_default:bucket",
    {
-      description = S("Empty Bucket"),
+      description = S("Wooden Bucket"),
       _tt_help = S("Punch to collect a liquid source"),
       inventory_image = "default_bucket.png",
       wield_image = "default_bucket.png",
