@@ -569,13 +569,12 @@ local on_bucket_rightclick_empty = function(pos, node, clicker, itemstack, point
 end
 
 for i=0, BUCKET_LEVELS do
-	local id, desc, tt, mesh, img, nici, ws, overlay, painttile, paintover, construct, rightclick
+	local id, desc, tt, mesh, img, nici, ws, overlay, painttile, paintover, construct, rightclick, stack_max
 	local paint_level = i + 1
 	if i == 0 then
 		-- empty bucket
 		id = "rp_paint:bucket_"..i
 		desc = S("Paint Bucket")
-		tt = S("Use place key to change color").."\n"..S("Point at left/right part to get previous/next color").."\n"..S("Refill with flowers")
 		mesh = "rp_paint_bucket_empty.obj"
 		rightclick = on_bucket_rightclick_empty
 		construct = on_bucket_construct_empty
@@ -583,9 +582,7 @@ for i=0, BUCKET_LEVELS do
 		-- full bucket
 		id = "rp_paint:bucket"
 		desc = S("Paint Bucket with Paint")
-		tt = S("Use place key to change color").."\n"..S("Point at left/right part to get previous/next color").."\n"..S("Refill with flowers")
 		mesh = "rp_paint_bucket_m0.obj"
-		img = "rp_paint_bucket.png"
 		ws = {x=1,y=1,z=2}
 		rightclick = on_bucket_rightclick
 		construct = on_bucket_construct
@@ -593,22 +590,29 @@ for i=0, BUCKET_LEVELS do
 		-- bucket with other paint level
 		id = "rp_paint:bucket_"..i
 		local m = BUCKET_LEVELS-i
+		desc = S("Paint Bucket with Paint")
 		mesh = "rp_paint_bucket_m"..m..".obj"
 		nici = 1
 		rightclick = on_bucket_rightclick
 		construct = on_bucket_construct
 	end
+	img = "rp_paint_bucket_inv_"..i..".png"
 	if i > 0 then
+		tt = S("Use place key to change color").."\n"..S("Point at left/right part to get previous/next color").."\n"..S("Refill with flowers")
 		paintover = "([combine:16x16:0,"..i.."=rp_paint_bucket_node_inside_paint_overlay.png\\^[transformFY)^[mask:(rp_paint_bucket_node_inside_paint_overlay_mask.png^[transformFY)"
 		painttile = "rp_paint_bucket_node_paint.png"
+		stack_max = 1
 	else
+		tt = S("Fill with flowers to get paint")
 		paintover = ""
 		painttile = "blank.png"
+		stack_max = 10
 	end
 
 	minetest.register_node(id, {
 		description = desc,
 		_tt_help = tt,
+		stack_max = stack_max,
 
 		drawtype = "mesh",
 		mesh = mesh,
@@ -645,8 +649,8 @@ for i=0, BUCKET_LEVELS do
 		groups = { bucket = 3, paint_bucket = paint_level, tool = 1, dig_immediate = 3, attached_node = 1, not_in_creative_inventory = nici },
 		on_construct = construct,
 		on_rightclick = rightclick,
-		-- Erase node metadata (e.g. palette_index) on drop
-		drop = "rp_paint:bucket",
+		-- Erase metadata like palette_index on drop
+		drop = id,
 	})
 end
 
