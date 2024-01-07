@@ -391,6 +391,7 @@ minetest.register_tool("rp_paint:brush", {
 			-- Not enough paint on brush: do nothing
 			imeta:set_string("inventory_overlay", "")
 			imeta:set_string("wield_overlay", "")
+			minetest.sound_play({name="rp_paint_brush_fail", gain=0.5}, {pos=pos, max_hear_distance=8}, true)
 			return itemstack
 		end
 		local painted = rp_paint.set_color(pointed_thing.under, color)
@@ -435,6 +436,8 @@ minetest.register_tool("rp_paint:brush", {
 					imeta:set_string("wield_overlay", istr)
 				end
 			end
+		else
+			minetest.sound_play({name="rp_paint_brush_fail", gain=0.5}, {pos=pos, max_hear_distance=8}, true)
 		end
 		return itemstack
 	end,

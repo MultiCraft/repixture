@@ -33,11 +33,20 @@ File credits and individual file licenses:
     * Edited by Wuzzy
     * Source: https://freesound.org/people/storyofthelie/sounds/592284/
     * License: CC0
-* rp_paint_brush_paint.ogg
+* rp_paint_brush_paint.1.ogg
+* rp_paint_brush_paint.2.ogg
+* rp_paint_brush_paint.3.ogg
     * Original author: lzmraul
     * Edited by Wuzzy
     * Source: https://freesound.org/people/lzmraul/sounds/389452/
     * License: CC0
+* rp_paint_brush_fail.1.ogg
+* rp_paint_brush_fail.2.ogg
+* rp_paint_brush_fail.3.ogg
+    * Original author: BenDrain
+    * Edited by Wuzzy
+    * Source: https://freesound.org/people/BenDrain/sounds/487809/
+    * Licence: CC0
 
 ### Graphics and model license
 
