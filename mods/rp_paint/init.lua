@@ -365,14 +365,17 @@ minetest.register_tool("rp_paint:brush", {
 		local node = minetest.get_node(pos)
 
 		local imeta = itemstack:get_meta()
-		-- Get color from paint bucket
+		-- Dip brush in paint bucket to get paint
 		if minetest.get_item_group(node.name, "paint_bucket") > 1 then
 			local color = bit.rshift(node.param2, 2)
 			if color > rp_paint.COLOR_COUNT or color < 0 then
 				-- Invalid paint bucket color!
 				return
 			end
-			change_bucket_level(pos, node, -1)
+			if not minetest.is_creative_enabled(user:get_player_name()) then
+				-- Reduce amount of paint in bucket
+				change_bucket_level(pos, node, -1)
+			end
 			imeta:set_int("palette_index", color)
 			imeta:set_int("color_uses", BRUSH_PAINTS)
 			imeta:set_string("inventory_overlay", "rp_paint_brush_overlay.png^[mask:rp_paint_brush_overlay_mask_6.png")
@@ -381,10 +384,11 @@ minetest.register_tool("rp_paint:brush", {
 			return itemstack
 		end
 
-		-- Paint paintable node (if not paintable, or no paint on brush, fail)
+		-- Paint paintable node (brush needs to have paint and node must be paintable)
 		local color = imeta:get_int("palette_index") + 1
 		local color_uses = imeta:get_int("color_uses")
 		if color_uses <= 0 then
+			-- Not enough paint on brush: do nothing
 			imeta:set_string("inventory_overlay", "")
 			imeta:set_string("wield_overlay", "")
 			return itemstack
@@ -399,11 +403,13 @@ minetest.register_tool("rp_paint:brush", {
 
 			if not minetest.is_creative_enabled(user:get_player_name()) then
 				itemstack:add_wear_by_uses(BRUSH_USES)
+				color_uses = color_uses - 1
+				imeta:set_int("color_uses", color_uses)
 			end
-			color_uses = color_uses - 1
-			imeta:set_int("color_uses", color_uses)
 
 			color_uses = math.max(0, math.min(BRUSH_PAINTS, color_uses))
+
+			-- Update paint brush image to show the amount of paint left
 			if color_uses <= 0 then
 				imeta:set_string("inventory_overlay", "")
 				imeta:set_string("wield_overlay", "")
