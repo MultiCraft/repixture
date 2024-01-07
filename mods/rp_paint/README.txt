@@ -2,7 +2,35 @@ Repixure core mod: rp_paint
 ===========================
 By Wuzzy, for Repixture.
 
-Adds paint. Color paintable nodes with a paint bucket and a paint brush.
+Adds paint. Color nodes with a paint bucket and a paint brush.
+Many nodes can be painted, but not all.
+There are 19 colors.
+
+## Usage
+
+Paint is limited, but the color of paint can be changed for free.
+
+The paint bucket needs flowers to create paint. Paint is created
+either by crafting or by placing flowers into a paint bucket.
+
+Paint buckets must be placed.
+Rightclick paint bucket to cycle through colors.
+Look at the left or right side of the bucket to select the previous
+or next color.
+
+Paint brush needs paint from paint bucket to work.
+Dip paint brush into paint bucket to pick color,
+punch nodes with paint brush to paint with that color.
+Paint brush will dry out eventually, so you must dip into paint
+bucket again. Each dip will reduce the amount of paint in the
+paint bucket so you need to refill it with flowers.
+
+Dip paint brush into water bucket to clear its color.
+
+Punch paint bucket with a paint bucket on hand to
+take paint from or put paint into the pointed paint bucket.
+
+Place axe on painted blocks to scrape off the paint.
 
 ## Developers
 
