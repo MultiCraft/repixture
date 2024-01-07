@@ -393,6 +393,10 @@ minetest.register_tool("rp_paint:brush", {
 		if painted then
 			minetest.sound_play({name="rp_paint_brush_paint", gain=0.2}, {pos=pos, max_hear_distance = 8}, true)
 
+			if minetest.get_modpath("rp_achievements") then
+				achievements.trigger_achievement(user, "paint_the_world")
+			end
+
 			if not minetest.is_creative_enabled(user:get_player_name()) then
 				itemstack:add_wear_by_uses(BRUSH_USES)
 			end
@@ -662,3 +666,13 @@ crafting.register_craft({
 		"rp_farming:cotton 3",
 	},
 })
+
+if minetest.get_modpath("rp_achievements") then
+	achievements.register_achievement("paint_the_world", {
+		title = S("Paint the World"),
+		description = S("Paint a block."),
+		times = 1,
+		icon = "rp_paint_achievement_paint_the_world.png",
+		difficulty = 5.4,
+	})
+end
