@@ -394,7 +394,7 @@ minetest.register_tool("rp_paint:brush", {
 			minetest.sound_play({name="rp_paint_brush_paint", gain=0.2}, {pos=pos, max_hear_distance = 8}, true)
 
 			if minetest.get_modpath("rp_achievements") then
-				achievements.trigger_achievement(user, "paint_the_world")
+				achievements.trigger_achievement(user, "colorful_world")
 			end
 
 			if not minetest.is_creative_enabled(user:get_player_name()) then
@@ -672,8 +672,8 @@ crafting.register_craft({
 })
 
 if minetest.get_modpath("rp_achievements") then
-	achievements.register_achievement("paint_the_world", {
-		title = S("Paint the World"),
+	achievements.register_achievement("colorful_world", {
+		title = S("Colorful World"),
 		description = S("Paint a block."),
 		times = 1,
 		icon = "rp_paint_achievement_paint_the_world.png",
