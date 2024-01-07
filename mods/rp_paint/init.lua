@@ -3,10 +3,12 @@ local S = minetest.get_translator("rp_paint")
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
 
 local BRUSH_USES = 550
+local BRUSH_PAINTS = 100
 
 local BUCKET_HEIGHT_ABOVE_ZERO = 5/16
 local BUCKET_RADIUS = 6/16
-local BUCKET_LEVELS = 9 -- number of possible "heights" in the paint bucket (not counting the empty state)
+local BUCKET_LEVELS = 9 -- number of possible "paint levels" in the paint bucket (not counting the empty state)
+local BUCKET_FLOWER_ADD = 3 -- number of paint levels added by a single flower
 
 rp_paint = {}
 
@@ -68,10 +70,12 @@ local facedir_color_map = {
 }
 
 local change_bucket_level = function(pos, node, level_change)
-	local paint_level = minetest.get_item_group(node.name, "paint_bucket") - 1
+	local paint_level = minetest.get_item_group(node.name, "paint_bucket")
 	if paint_level <= 0 then
 		return false
 	end
+	paint_level = paint_level - 1
+	local old_paint_level = paint_level
 	level_change = math.floor(level_change)
 	paint_level = paint_level + level_change
 	paint_level = math.max(0, math.min(BUCKET_LEVELS, paint_level))
@@ -80,11 +84,20 @@ local change_bucket_level = function(pos, node, level_change)
 	else
 		node.name = "rp_paint:bucket_"..paint_level
 	end
+	if old_paint_level == paint_level then
+		-- No level change
+		return false
+	end
 	minetest.swap_node(pos, node)
 	if paint_level == 0 then
 		local meta = minetest.get_meta(pos)
 		meta:set_string("infotext", S("Paint Bucket (empty)"))
+	elseif old_paint_level == 0 and paint_level > 0 then
+		local meta = minetest.get_meta(pos)
+		local color = bit.rshift(node.param2, 2)
+		meta:set_string("infotext", S("Paint Bucket (@1)", COLOR_NAMES[color+1]))
 	end
+	-- Return when node was changed
 	return true
 end
 
@@ -333,7 +346,7 @@ end
 
 minetest.register_tool("rp_paint:brush", {
 	description = S("Paint Brush"),
-	_tt_help = S("Changes color of paintable blocks").."\n"..S("Punch paint bucket to change brush color"),
+	_tt_help = S("Changes color of paintable blocks").."\n"..S("Punch paint bucket to change brush color").."\n"..S("Refill with flowers"),
 	inventory_image = "rp_paint_brush.png",
 	inventory_overlay = "rp_paint_brush_overlay.png",
 	wield_image = "rp_paint_brush.png",
@@ -359,9 +372,7 @@ minetest.register_tool("rp_paint:brush", {
 				-- Invalid paint bucket color!
 				return
 			end
-			--if not minetest.is_creative_enabled(user:get_player_name()) then
-				change_bucket_level(pos, node, -1)
-			--end
+			change_bucket_level(pos, node, -1)
 			imeta:set_int("palette_index", color)
 			minetest.sound_play({name="rp_paint_brush_dip", gain=0.3}, {pos=pos, max_hear_distance = 8}, true)
 			return itemstack
@@ -386,11 +397,31 @@ local on_bucket_construct = function(pos)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("infotext", S("Paint Bucket (@1)", COLOR_NAMES[1]))
 end
+local bucket_flower_add = function(pos, node, clicker, itemstack, pointed_thing)
+	if itemstack and itemstack:get_name() == "rp_default:flower" then
+		if change_bucket_level(pos, node, BUCKET_FLOWER_ADD) then
+			minetest.sound_play({name="rp_paint_bucket_select_color", gain=0.20, pitch=0.7}, {pos = pos}, true)
+			if clicker and clicker:is_player() and not minetest.is_creative_enabled(clicker:get_player_name()) then
+				itemstack:take_item()
+				return true, itemstack
+			end
+		end
+		return true, itemstack
+	end
+	return false, itemstack
+end
 local on_bucket_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-	-- Switch color on rightclick
 	if not pointed_thing or util.handle_node_protection(clicker, pointed_thing) then
 		return
 	end
+	-- ++ If holding a flower, add paint level ++
+	local flower_used, itemstack = bucket_flower_add(pos, node, clicker, itemstack, pointed_thing)
+	if flower_used then
+		return itemstack
+	end
+
+	-- ++ Switch color on rightclick ++
+
 	-- "direction" of color change (1 = next color, -1 = previous color)
 	local direction = 1
 	if clicker and clicker:is_player() then
@@ -486,11 +517,17 @@ local on_bucket_construct_empty = function(pos)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("infotext", S("Paint Bucket (empty)"))
 end
-local on_bucket_rightclick_empty = function(pos)
-	-- No-op
-	return
-end
+local on_bucket_rightclick_empty = function(pos, node, clicker, itemstack, pointed_thing)
+	if not pointed_thing or util.handle_node_protection(clicker, pointed_thing) then
+		return
+	end
 
+	-- ++ If holding a flower, add paint level ++
+	local flower_used, itemstack = bucket_flower_add(pos, node, clicker, itemstack, pointed_thing)
+	if flower_used then
+		return itemstack
+	end
+end
 
 for i=0, BUCKET_LEVELS do
 	local id, desc, tt, mesh, img, nici, ws, overlay, painttile, paintover, construct, rightclick
@@ -498,14 +535,15 @@ for i=0, BUCKET_LEVELS do
 	if i == 0 then
 		-- empty bucket
 		id = "rp_paint:bucket_"..i
+		desc = S("Paint Bucket")
+		tt = S("Use place key to change color").."\n"..S("Point at left/right part to get previous/next color")
 		mesh = "rp_paint_bucket_empty.obj"
-		nici = 1
 		rightclick = on_bucket_rightclick_empty
 		construct = on_bucket_construct_empty
 	elseif i == BUCKET_LEVELS then
 		-- full bucket
 		id = "rp_paint:bucket"
-		desc = S("Paint Bucket")
+		desc = S("Paint Bucket with Paint")
 		tt = S("Use place key to change color").."\n"..S("Point at left/right part to get previous/next color")
 		mesh = "rp_paint_bucket_m0.obj"
 		img = "rp_paint_bucket.png"

@@ -273,7 +273,6 @@ minetest.register_node(
    "rp_default:flower",
    {
       description = S("Flower"),
-      _tt_help = S("It looks beautiful"),
       drawtype = "nodebox",
       selection_box = {
          type = "fixed",
