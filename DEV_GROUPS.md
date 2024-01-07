@@ -54,6 +54,7 @@ These groups are mainly used for a better item sorting in Creative Mode.
 * `stick`: Stick
 * `bucket`: Any bucket
 * `bucket_water`: Bucket with water
+* `paint_bucket`: Paint bucket. Rating is paint level (1 = empty, 2-10: contains paint)
 * `food`: Can be eaten by player. Rating: 2 = eatable, 3 = drinkable, 1 = unknown food type
 * `nav_compass`: Compass. Rating: 1 = normal compass, 2 = magnocompass
 * `spawn_egg`: Item that spawns mobs

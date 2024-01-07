@@ -1,6 +1,7 @@
 local S = minetest.get_translator("rp_paint")
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
+local PAINT_BUCKET_LEVELS = 9
 
 rp_paint = {}
 
@@ -331,7 +332,7 @@ minetest.register_tool("rp_paint:brush", {
 
 		local imeta = itemstack:get_meta()
 		-- Get color from paint bucket
-		if node.name == "rp_paint:bucket" then
+		if minetest.get_item_group(node.name, "paint_bucket") > 1 then
 			local color = bit.rshift(node.param2, 2)
 			if color > rp_paint.COLOR_COUNT or color < 0 then
 				-- Invalid paint bucket color!
@@ -357,145 +358,191 @@ minetest.register_tool("rp_paint:brush", {
 	groups = { disable_repair = 1 },
 })
 
-minetest.register_node("rp_paint:bucket", {
-	description = S("Paint Bucket"),
-	_tt_help = S("Use place key to change color").."\n"..S("Point at left/right part to get previous/next color"),
-
-	drawtype = "mesh",
-	mesh = "rp_default_bucket.obj",
-	tiles = {
-		{name="rp_paint_bucket_node_side_1.png",backface_culling=true,color="white"},
-		{name="rp_paint_bucket_node_side_2.png",backface_culling=true,color="white"},
-		{name="rp_paint_bucket_node_top_handle.png",backface_culling=true,color="white"},
-		{name="rp_paint_bucket_node_bottom_inside.png",backface_culling=true,color="white"},
-		{name="rp_paint_bucket_node_bottom_outside.png",backface_culling=true,color="white"},
-		"rp_paint_bucket_node_paint.png",
-	},
-	overlay_tiles = {
-		"","","","","","rp_paint_bucket_node_paint.png",
-	},
-	use_texture_alpha = "blend",
-	paramtype = "light",
-	paramtype2 = "color4dir",
-	palette = "rp_paint_palette_64.png",
-	is_ground_content = false,
-	selection_box = {
-		type = "fixed",
-		fixed = { -BUCKET_RADIUS, -0.5, -BUCKET_RADIUS, BUCKET_RADIUS, BUCKET_HEIGHT_ABOVE_ZERO, BUCKET_RADIUS },
-	},
-	sounds = rp_sounds.node_sound_metal_defaults(),
-	walkable = false,
-	floodable = true,
-	on_flood = function(pos, oldnode, newnode)
-		minetest.add_item(pos, "rp_paint:bucket")
-	end,
-
-	inventory_image = "rp_paint_bucket.png",
-	wield_image = "rp_paint_bucket.png",
-	wield_scale = {x=1,y=1,z=2},
-	groups = { bucket = 3, tool = 1, dig_immediate = 3, attached_node = 1 },
-	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Paint Bucket (@1)", COLOR_NAMES[1]))
-	end,
-	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-		-- Switch color on rightclick
-		if not pointed_thing or util.handle_node_protection(clicker, pointed_thing) then
-			return
-		end
-		-- "direction" of color change (1 = next color, -1 = previous color)
-		local direction = 1
-		if clicker and clicker:is_player() then
-			local props = clicker:get_properties()
-			local eye_pos = clicker:get_pos()
-			eye_pos.y = eye_pos.y + props.eye_height
-			eye_pos = vector.add(eye_pos, clicker:get_eye_offset())
-			local lookdir = clicker:get_look_dir()
-			local handrange = minetest.registered_items[""].range
-			lookdir = vector.multiply(lookdir, handrange+1)
-			local look_pos = vector.add(eye_pos, lookdir)
-			-- do a raycast from the player to the look direction,
-			-- using the hand range + 1 as vector length.
-			-- (+1 serves as a small buffer)
-			-- With this method we can find the precise click location.
-			local rc = Raycast(eye_pos, look_pos, false, false)
-			local exact_pos
-			for rpt in rc do
-				if rpt.type == "node" then
-					local rptn = minetest.get_node(rpt.under)
-					if rptn.name == node.name then
-						exact_pos = rpt.intersection_point
-						break
-					end
+local on_bucket_construct = function(pos)
+	local meta = minetest.get_meta(pos)
+	meta:set_string("infotext", S("Paint Bucket (@1)", COLOR_NAMES[1]))
+end
+local on_bucket_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+	-- Switch color on rightclick
+	if not pointed_thing or util.handle_node_protection(clicker, pointed_thing) then
+		return
+	end
+	-- "direction" of color change (1 = next color, -1 = previous color)
+	local direction = 1
+	if clicker and clicker:is_player() then
+		local props = clicker:get_properties()
+		local eye_pos = clicker:get_pos()
+		eye_pos.y = eye_pos.y + props.eye_height
+		eye_pos = vector.add(eye_pos, clicker:get_eye_offset())
+		local lookdir = clicker:get_look_dir()
+		local handrange = minetest.registered_items[""].range
+		lookdir = vector.multiply(lookdir, handrange+1)
+		local look_pos = vector.add(eye_pos, lookdir)
+		-- do a raycast from the player to the look direction,
+		-- using the hand range + 1 as vector length.
+		-- (+1 serves as a small buffer)
+		-- With this method we can find the precise click location.
+		local rc = Raycast(eye_pos, look_pos, false, false)
+		local exact_pos
+		for rpt in rc do
+			if rpt.type == "node" then
+				local rptn = minetest.get_node(rpt.under)
+				if rptn.name == node.name then
+					exact_pos = rpt.intersection_point
+					break
 				end
 			end
+		end
 
-			local fine_pos = exact_pos
-			-- Fallback if raycast didn't find our paint bucket for some reason
-			if not fine_pos then
-				fine_pos = minetest.pointed_thing_to_face_pos(clicker, pointed_thing)
-				minetest.log("warning", "[rp_paint] "..clicker:get_player_name().." rightclicked paint bucket at "..minetest.pos_to_string(pos).." but the raycast failed to find it. Using less accurate fallback to find click position")
-			end
-			-- Depending on what was clicked and where the player stood, the paint bucket
-			-- will choose either the next or previous color.
-			-- Basically, if you click the left side of the face, the previous color
-			-- will be selected, and the right side gets you the next color.
-			-- The side textures should have subtle engraved small arrows
-			if pointed_thing.above.y ~= pointed_thing.under.y then
-				local cpos = clicker:get_pos()
-				local xdist = math.abs(pos.x-cpos.x)
-				local zdist = math.abs(pos.z-cpos.z)
-				if xdist > zdist then
-					if cpos.x < pos.x then
-						if fine_pos.z > pos.z then
-							direction = -1
-						end
-					else
-						if fine_pos.z < pos.z then
-							direction = -1
-						end
+		local fine_pos = exact_pos
+		-- Fallback if raycast didn't find our paint bucket for some reason
+		if not fine_pos then
+			fine_pos = minetest.pointed_thing_to_face_pos(clicker, pointed_thing)
+			minetest.log("warning", "[rp_paint] "..clicker:get_player_name().." rightclicked paint bucket at "..minetest.pos_to_string(pos).." but the raycast failed to find it. Using less accurate fallback to find click position")
+		end
+		-- Depending on what was clicked and where the player stood, the paint bucket
+		-- will choose either the next or previous color.
+		-- Basically, if you click the left side of the face, the previous color
+		-- will be selected, and the right side gets you the next color.
+		-- The side textures should have subtle engraved small arrows
+		if pointed_thing.above.y ~= pointed_thing.under.y then
+			local cpos = clicker:get_pos()
+			local xdist = math.abs(pos.x-cpos.x)
+			local zdist = math.abs(pos.z-cpos.z)
+			if xdist > zdist then
+				if cpos.x < pos.x then
+					if fine_pos.z > pos.z then
+						direction = -1
 					end
 				else
-					if cpos.z < pos.z then
-						if fine_pos.x < pos.x then
-							direction = -1
-						end
-					else
-						if fine_pos.x > pos.x then
-							direction = -1
-						end
+					if fine_pos.z < pos.z then
+						direction = -1
 					end
 				end
 			else
-				if pointed_thing.above.z < pointed_thing.under.z and fine_pos.x < pos.x then
-					direction = -1
-				elseif pointed_thing.above.z > pointed_thing.under.z and fine_pos.x > pos.x then
-					direction = -1
-				elseif pointed_thing.above.x < pointed_thing.under.x and fine_pos.z > pos.z then
-					direction = -1
-				elseif pointed_thing.above.x > pointed_thing.under.x and fine_pos.z < pos.z then
-					direction = -1
+				if cpos.z < pos.z then
+					if fine_pos.x < pos.x then
+						direction = -1
+					end
+				else
+					if fine_pos.x > pos.x then
+						direction = -1
+					end
 				end
-
 			end
+		else
+			if pointed_thing.above.z < pointed_thing.under.z and fine_pos.x < pos.x then
+				direction = -1
+			elseif pointed_thing.above.z > pointed_thing.under.z and fine_pos.x > pos.x then
+				direction = -1
+			elseif pointed_thing.above.x < pointed_thing.under.x and fine_pos.z > pos.z then
+				direction = -1
+			elseif pointed_thing.above.x > pointed_thing.under.x and fine_pos.z < pos.z then
+				direction = -1
+			end
+
 		end
-		local rot = node.param2 % 4
-		local color = bit.rshift(node.param2, 2)
-		color = color + direction
-		if color >= rp_paint.COLOR_COUNT then
-			color = 0
-		elseif color < 0 then
-			color = rp_paint.COLOR_COUNT - 1
-		end
-		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Paint Bucket (@1)", COLOR_NAMES[color+1]))
-		node.param2 = color*4 + rot
-		minetest.swap_node(pos, node)
-		minetest.sound_play({name="rp_paint_bucket_select_color", gain=0.15}, {pos = pos}, true)
-	end,
-	-- Erase node metadata (e.g. palette_index) on drop
-	drop = "rp_paint:bucket",
-})
+	end
+	local rot = node.param2 % 4
+	local color = bit.rshift(node.param2, 2)
+	color = color + direction
+	if color >= rp_paint.COLOR_COUNT then
+		color = 0
+	elseif color < 0 then
+		color = rp_paint.COLOR_COUNT - 1
+	end
+	local meta = minetest.get_meta(pos)
+	meta:set_string("infotext", S("Paint Bucket (@1)", COLOR_NAMES[color+1]))
+	node.param2 = color*4 + rot
+	minetest.swap_node(pos, node)
+	minetest.sound_play({name="rp_paint_bucket_select_color", gain=0.15}, {pos = pos}, true)
+end
+
+local on_bucket_construct_empty = function(pos)
+	local meta = minetest.get_meta(pos)
+	meta:set_string("infotext", S("Paint Bucket (empty)"))
+end
+local on_bucket_rightclick_empty = function(pos)
+	-- No-op
+	return
+end
+
+for i=0, PAINT_BUCKET_LEVELS do
+	local id, desc, tt, mesh, img, nici, ws, overlay, painttile, construct, rightclick
+	local paint_level = i + 1
+	if i == 0 then
+		-- empty bucket
+		id = "rp_paint:bucket_"..i
+		painttile = "blank.png"
+		mesh = "rp_paint_bucket_empty.obj"
+		nici = 1
+		rightclick = on_bucket_rightclick_empty
+		construct = on_bucket_construct_empty
+	elseif i == 9 then
+		-- full bucket
+		id = "rp_paint:bucket"
+		desc = S("Paint Bucket")
+		tt = S("Use place key to change color").."\n"..S("Point at left/right part to get previous/next color")
+		mesh = "rp_paint_bucket_m0.obj"
+		img = "rp_paint_bucket.png"
+		ws = {x=1,y=1,z=2}
+		painttile = "rp_paint_bucket_node_paint.png"
+		rightclick = on_bucket_rightclick
+		construct = on_bucket_construct
+	else
+		-- bucket with other paint level
+		id = "rp_paint:bucket_"..i
+		painttile = "rp_paint_bucket_node_paint.png"
+		local m = PAINT_BUCKET_LEVELS-i
+		mesh = "rp_paint_bucket_m"..m..".obj"
+		nici = 1
+		rightclick = on_bucket_rightclick
+		construct = on_bucket_construct
+	end
+
+	minetest.register_node(id, {
+		description = desc,
+		_tt_help = tt,
+
+		drawtype = "mesh",
+		mesh = mesh,
+		tiles = {
+			{name="rp_paint_bucket_node_side_1.png",backface_culling=true,color="white"},
+			{name="rp_paint_bucket_node_side_2.png",backface_culling=true,color="white"},
+			{name="rp_paint_bucket_node_top_handle.png",backface_culling=true,color="white"},
+			{name="rp_paint_bucket_node_bottom_inside.png",backface_culling=true,color="white"},
+			{name="rp_paint_bucket_node_bottom_outside.png",backface_culling=true,color="white"},
+			"rp_paint_bucket_node_paint.png",
+		},
+		overlay_tiles = {
+			"","","","","","rp_paint_bucket_node_paint.png",
+		},
+		use_texture_alpha = "blend",
+		paramtype = "light",
+		paramtype2 = "color4dir",
+		palette = "rp_paint_palette_64.png",
+		is_ground_content = false,
+		selection_box = {
+			type = "fixed",
+			fixed = { -BUCKET_RADIUS, -0.5, -BUCKET_RADIUS, BUCKET_RADIUS, BUCKET_HEIGHT_ABOVE_ZERO, BUCKET_RADIUS },
+		},
+		sounds = rp_sounds.node_sound_metal_defaults(),
+		walkable = false,
+		floodable = true,
+		on_flood = function(pos, oldnode, newnode)
+			minetest.add_item(pos, "rp_paint:bucket")
+		end,
+
+		inventory_image = img,
+		wield_image = img,
+		wield_scale = ws,
+		groups = { bucket = 3, paint_bucket = paint_level, tool = 1, dig_immediate = 3, attached_node = 1, not_in_creative_inventory = nici },
+		on_construct = construct,
+		on_rightclick = rightclick,
+		-- Erase node metadata (e.g. palette_index) on drop
+		drop = "rp_paint:bucket",
+	})
+end
 
 crafting.register_craft({
 	output = "rp_paint:bucket",
