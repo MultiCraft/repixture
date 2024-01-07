@@ -72,7 +72,7 @@ local facedir_color_map = {
 local change_bucket_level = function(pos, node, level_change)
 	local paint_level = minetest.get_item_group(node.name, "paint_bucket")
 	if paint_level <= 0 then
-		return false
+		return 0
 	end
 	paint_level = paint_level - 1
 	local old_paint_level = paint_level
@@ -86,7 +86,7 @@ local change_bucket_level = function(pos, node, level_change)
 	end
 	if old_paint_level == paint_level then
 		-- No level change
-		return false
+		return 0
 	end
 	minetest.swap_node(pos, node)
 	if paint_level == 0 then
@@ -97,8 +97,8 @@ local change_bucket_level = function(pos, node, level_change)
 		local color = bit.rshift(node.param2, 2)
 		meta:set_string("infotext", S("Paint Bucket (@1)", COLOR_NAMES[color+1]))
 	end
-	-- Return when node was changed
-	return true
+	-- Return actual level change
+	return paint_level - old_paint_level
 end
 
 rp_paint.get_color = function(node)
@@ -460,7 +460,7 @@ local on_bucket_construct = function(pos)
 end
 local bucket_flower_add = function(pos, node, clicker, itemstack, pointed_thing)
 	if itemstack and itemstack:get_name() == "rp_default:flower" then
-		if change_bucket_level(pos, node, BUCKET_FLOWER_ADD) then
+		if change_bucket_level(pos, node, BUCKET_FLOWER_ADD) ~= 0 then
 			minetest.sound_play({name="rp_paint_bucket_select_color", gain=0.20, pitch=0.7}, {pos = pos}, true)
 			if clicker and clicker:is_player() and not minetest.is_creative_enabled(clicker:get_player_name()) then
 				itemstack:take_item()
@@ -589,9 +589,57 @@ local on_bucket_rightclick_empty = function(pos, node, clicker, itemstack, point
 		return itemstack
 	end
 end
+local on_bucket_use = function(itemstack, user, pointed_thing)
+	-- When using paint bucket as an item:
+	-- pick up paint from paint bucket or place paint
+	-- into paint bucket
+	if pointed_thing == nil or pointed_thing.type ~= "node" then
+		return
+	end
+	local pos = pointed_thing.under
+	if minetest.is_protected(pos, user:get_player_name()) and
+		not minetest.check_player_privs(user, "protection_bypass") then
+		minetest.record_protection_violation(pos, user:get_player_name())
+		return
+	end
+	local node = minetest.get_node(pos)
+	local pb = minetest.get_item_group(node.name, "paint_bucket")
+	if pb < 1 then
+		return
+	end
+	local target_paint_level = pb - 1
+	local my_paint_level = minetest.get_item_group(itemstack:get_name(), "paint_bucket") - 1
+
+	if my_paint_level <= 0 then
+		-- Using empty bucket: pick up paint from pointed bucket, if possible
+		if target_paint_level <= 0 then
+			return
+		end
+		local change = change_bucket_level(pos, node, -target_paint_level)
+		if change ~= 0 then
+			if target_paint_level == BUCKET_LEVELS then
+				itemstack:set_name("rp_paint:bucket")
+			else
+				itemstack:set_name("rp_paint:bucket_"..target_paint_level)
+			end
+			minetest.sound_play({name="rp_paint_bucket_select_color", gain=0.20, pitch=0.7}, {pos = pos}, true)
+			return itemstack
+		end
+	else
+		-- Using bucket with paint: put paint into pointed bucket
+		target_paint_level = target_paint_level + my_paint_level
+		local change = change_bucket_level(pos, node, my_paint_level)
+		if change > 0 then
+			my_paint_level = my_paint_level - change
+			itemstack:set_name("rp_paint:bucket_"..my_paint_level)
+			minetest.sound_play({name="rp_paint_bucket_select_color", gain=0.20, pitch=0.7}, {pos = pos}, true)
+			return itemstack
+		end
+	end
+end
 
 for i=0, BUCKET_LEVELS do
-	local id, desc, tt, mesh, img, nici, pbnf, ws, overlay, painttile, paintover, construct, rightclick, stack_max
+	local id, desc, tt, mesh, img, nici, pbnf, ws, overlay, painttile, paintover, construct, rightclick, use, stack_max
 	local paint_level = i + 1
 	if i == 0 then
 		-- empty bucket
@@ -632,6 +680,7 @@ for i=0, BUCKET_LEVELS do
 		painttile = "blank.png"
 		stack_max = 10
 	end
+	use = on_bucket_use
 
 	minetest.register_node(id, {
 		description = desc,
@@ -673,6 +722,7 @@ for i=0, BUCKET_LEVELS do
 		groups = { bucket = 3, paint_bucket = paint_level, paint_bucket_not_full = pbnf, tool = 1, dig_immediate = 3, attached_node = 1, not_in_creative_inventory = nici },
 		on_construct = construct,
 		on_rightclick = rightclick,
+		on_use = use,
 		-- Erase metadata like palette_index on drop
 		drop = id,
 	})
