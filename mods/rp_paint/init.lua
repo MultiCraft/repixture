@@ -3,7 +3,7 @@ local S = minetest.get_translator("rp_paint")
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
 
 local BRUSH_USES = 550
-local BRUSH_PAINTS = 100
+local BRUSH_PAINTS = 111
 
 local BUCKET_HEIGHT_ABOVE_ZERO = 5/16
 local BUCKET_RADIUS = 6/16
@@ -346,7 +346,7 @@ end
 
 minetest.register_tool("rp_paint:brush", {
 	description = S("Paint Brush"),
-	_tt_help = S("Changes color of paintable blocks").."\n"..S("Punch paint bucket to change brush color").."\n"..S("Refill with flowers"),
+	_tt_help = S("Changes color of paintable blocks").."\n"..S("Punch paint bucket to change brush color"),
 	inventory_image = "rp_paint_brush.png",
 	inventory_overlay = "rp_paint_brush_overlay.png",
 	wield_image = "rp_paint_brush.png",
@@ -374,18 +374,53 @@ minetest.register_tool("rp_paint:brush", {
 			end
 			change_bucket_level(pos, node, -1)
 			imeta:set_int("palette_index", color)
+			imeta:set_int("color_uses", BRUSH_PAINTS)
+			imeta:set_string("inventory_overlay", "rp_paint_brush_overlay.png^[mask:rp_paint_brush_overlay_mask_6.png")
+			imeta:set_string("wield_overlay", "rp_paint_brush_overlay.png^[mask:rp_paint_brush_overlay_mask_6.png")
 			minetest.sound_play({name="rp_paint_brush_dip", gain=0.3}, {pos=pos, max_hear_distance = 8}, true)
 			return itemstack
 		end
 
-		-- Paint paintable node (if not paintable, fail)
+		-- Paint paintable node (if not paintable, or no paint on brush, fail)
 		local color = imeta:get_int("palette_index") + 1
+		local color_uses = imeta:get_int("color_uses")
+		if color_uses <= 0 then
+			imeta:set_string("inventory_overlay", "")
+			imeta:set_string("wield_overlay", "")
+			return itemstack
+		end
 		local painted = rp_paint.set_color(pointed_thing.under, color)
 		if painted then
 			minetest.sound_play({name="rp_paint_brush_paint", gain=0.2}, {pos=pos, max_hear_distance = 8}, true)
 
 			if not minetest.is_creative_enabled(user:get_player_name()) then
 				itemstack:add_wear_by_uses(BRUSH_USES)
+			end
+			color_uses = color_uses - 1
+			imeta:set_int("color_uses", color_uses)
+
+			color_uses = math.max(0, math.min(BRUSH_PAINTS, color_uses))
+			if color_uses <= 0 then
+				imeta:set_string("inventory_overlay", "")
+				imeta:set_string("wield_overlay", "")
+			else
+				local ratio = color_uses / BRUSH_PAINTS
+				local rem
+				if ratio > 0.83333 then
+					rem = 6
+				elseif ratio > 0.66667 then
+					rem = 5
+				elseif ratio > 0.50000 then
+					rem = 4
+				elseif ratio > 0.33333 then
+					rem = 3
+				elseif ratio > 0.16667 then
+					rem = 2
+				else
+					rem = 1
+				end
+				imeta:set_string("inventory_overlay", "rp_paint_brush_overlay.png^[mask:rp_paint_brush_overlay_mask_"..rem..".png")
+				imeta:set_string("wield_overlay", "rp_paint_brush_overlay.png^[mask:rp_paint_brush_overlay_mask_"..rem..".png")
 			end
 		end
 		return itemstack
@@ -536,7 +571,7 @@ for i=0, BUCKET_LEVELS do
 		-- empty bucket
 		id = "rp_paint:bucket_"..i
 		desc = S("Paint Bucket")
-		tt = S("Use place key to change color").."\n"..S("Point at left/right part to get previous/next color")
+		tt = S("Use place key to change color").."\n"..S("Point at left/right part to get previous/next color").."\n"..S("Refill with flowers")
 		mesh = "rp_paint_bucket_empty.obj"
 		rightclick = on_bucket_rightclick_empty
 		construct = on_bucket_construct_empty
@@ -544,7 +579,7 @@ for i=0, BUCKET_LEVELS do
 		-- full bucket
 		id = "rp_paint:bucket"
 		desc = S("Paint Bucket with Paint")
-		tt = S("Use place key to change color").."\n"..S("Point at left/right part to get previous/next color")
+		tt = S("Use place key to change color").."\n"..S("Point at left/right part to get previous/next color").."\n"..S("Refill with flowers")
 		mesh = "rp_paint_bucket_m0.obj"
 		img = "rp_paint_bucket.png"
 		ws = {x=1,y=1,z=2}
