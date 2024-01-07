@@ -676,14 +676,24 @@ for i=0, BUCKET_LEVELS do
 	})
 end
 
+-- Empty paint bucket
 crafting.register_craft({
-	output = "rp_paint:bucket",
+	output = "rp_paint:bucket_0",
 	items = {
 		"rp_default:ingot_tin 5",
-		"rp_default:flower 4",
 	},
 })
 
+-- Fill any paint bucket at any paint level to maximum with 3 flowers
+-- (if the bucket is non-empty, this recipe is intentionally more wasteful
+-- than placing flowers into the paint bucket node)
+crafting.register_craft({
+	output = "rp_paint:bucket",
+	items = {
+		"group:paint_bucket",
+		"rp_default:flower 3",
+	},
+})
 
 crafting.register_craft({
 	output = "rp_paint:brush",

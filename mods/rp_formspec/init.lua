@@ -38,6 +38,7 @@ rp_formspec.group_defaults = {
    stone = "rp_default:stone",
    tree = "rp_default:tree",
    green_grass = "rp_default:grass",
+   paint_bucket = "rp_paint:bucket",
 }
 rp_formspec.group_names = {
    fuzzy = { S("Fuzzy"), S("Any fuzzy block") },
@@ -45,6 +46,7 @@ rp_formspec.group_names = {
    soil = { S("Soil"), S("Any soil") },
    stone = { S("Stone"), S("Any stone") },
    green_grass = { S("Green Grass Clump"), S("Any green grass clump") },
+   paint_bucket = { S("Paint Bucket"), S("Any paint bucket") },
 }
 
 -- Itemslot backgrounds
