@@ -473,12 +473,10 @@ for i=0, PAINT_BUCKET_LEVELS do
 	if i == 0 then
 		-- empty bucket
 		id = "rp_paint:bucket_"..i
-		painttile = "blank.png"
 		mesh = "rp_paint_bucket_empty.obj"
 		nici = 1
 		rightclick = on_bucket_rightclick_empty
 		construct = on_bucket_construct_empty
-		paintover = ""
 	elseif i == 9 then
 		-- full bucket
 		id = "rp_paint:bucket"
@@ -487,20 +485,23 @@ for i=0, PAINT_BUCKET_LEVELS do
 		mesh = "rp_paint_bucket_m0.obj"
 		img = "rp_paint_bucket.png"
 		ws = {x=1,y=1,z=2}
-		painttile = "rp_paint_bucket_node_paint.png"
-		paintover = "rp_paint_bucket_node_inside_paint_overlay.png^[transformFY"
 		rightclick = on_bucket_rightclick
 		construct = on_bucket_construct
 	else
 		-- bucket with other paint level
 		id = "rp_paint:bucket_"..i
-		painttile = "rp_paint_bucket_node_paint.png"
-		paintover = "rp_paint_bucket_node_inside_paint_overlay.png^[transformFY"
 		local m = PAINT_BUCKET_LEVELS-i
 		mesh = "rp_paint_bucket_m"..m..".obj"
 		nici = 1
 		rightclick = on_bucket_rightclick
 		construct = on_bucket_construct
+	end
+	if i > 0 then
+		paintover = "([combine:16x16:0,"..i.."=rp_paint_bucket_node_inside_paint_overlay.png\\^[transformFY)^[mask:(rp_paint_bucket_node_inside_paint_overlay_mask.png^[transformFY)"
+		painttile = "rp_paint_bucket_node_paint.png"
+	else
+		paintover = ""
+		painttile = "blank.png"
 	end
 
 	minetest.register_node(id, {
