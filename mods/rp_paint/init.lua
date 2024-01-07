@@ -423,8 +423,11 @@ minetest.register_tool("rp_paint:brush", {
 				else
 					rem = 1
 				end
-				imeta:set_string("inventory_overlay", "rp_paint_brush_overlay.png^[mask:rp_paint_brush_overlay_mask_"..rem..".png")
-				imeta:set_string("wield_overlay", "rp_paint_brush_overlay.png^[mask:rp_paint_brush_overlay_mask_"..rem..".png")
+				local istr = "rp_paint_brush_overlay.png^[mask:rp_paint_brush_overlay_mask_"..rem..".png"
+				if imeta:get_string("inventory_overlay") ~= istr or imeta:get_string("wield_overlay") ~= istr then
+					imeta:set_string("inventory_overlay", istr)
+					imeta:set_string("wield_overlay", istr)
+				end
 			end
 		end
 		return itemstack
