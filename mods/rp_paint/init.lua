@@ -2,8 +2,8 @@ local S = minetest.get_translator("rp_paint")
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
 
-local BRUSH_USES = 550
-local BRUSH_PAINTS = 111
+local BRUSH_USES = 11100 -- number of times a brush can be used before breaking
+local BRUSH_PAINTS = 111 -- number of times a brush can paint before running out
 
 local BUCKET_HEIGHT_ABOVE_ZERO = 5/16
 local BUCKET_RADIUS = 6/16
