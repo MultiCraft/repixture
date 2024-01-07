@@ -1,7 +1,12 @@
 local S = minetest.get_translator("rp_paint")
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
-local PAINT_BUCKET_LEVELS = 9
+
+local BRUSH_USES = 550
+
+local BUCKET_HEIGHT_ABOVE_ZERO = 5/16
+local BUCKET_RADIUS = 6/16
+local BUCKET_LEVELS = 9 -- number of possible "heights" in the paint bucket (not counting the empty state)
 
 rp_paint = {}
 
@@ -62,10 +67,26 @@ local facedir_color_map = {
 	[rp_paint.COLOR_HOT_PINK] = FACEDIR_COLOR_RED,
 }
 
-local BRUSH_USES = 550
-
-local BUCKET_HEIGHT_ABOVE_ZERO = 5/16
-local BUCKET_RADIUS = 6/16
+local change_bucket_level = function(pos, node, level_change)
+	local paint_level = minetest.get_item_group(node.name, "paint_bucket") - 1
+	if paint_level <= 0 then
+		return false
+	end
+	level_change = math.floor(level_change)
+	paint_level = paint_level + level_change
+	paint_level = math.max(0, math.min(BUCKET_LEVELS, paint_level))
+	if paint_level >= BUCKET_LEVELS then
+		node.name = "rp_paint:bucket"
+	else
+		node.name = "rp_paint:bucket_"..paint_level
+	end
+	minetest.swap_node(pos, node)
+	if paint_level == 0 then
+		local meta = minetest.get_meta(pos)
+		meta:set_string("infotext", S("Paint Bucket (empty)"))
+	end
+	return true
+end
 
 rp_paint.get_color = function(node)
 	local color
@@ -338,6 +359,9 @@ minetest.register_tool("rp_paint:brush", {
 				-- Invalid paint bucket color!
 				return
 			end
+			--if not minetest.is_creative_enabled(user:get_player_name()) then
+				change_bucket_level(pos, node, -1)
+			--end
 			imeta:set_int("palette_index", color)
 			minetest.sound_play({name="rp_paint_brush_dip", gain=0.3}, {pos=pos, max_hear_distance = 8}, true)
 			return itemstack
@@ -467,7 +491,8 @@ local on_bucket_rightclick_empty = function(pos)
 	return
 end
 
-for i=0, PAINT_BUCKET_LEVELS do
+
+for i=0, BUCKET_LEVELS do
 	local id, desc, tt, mesh, img, nici, ws, overlay, painttile, paintover, construct, rightclick
 	local paint_level = i + 1
 	if i == 0 then
@@ -477,7 +502,7 @@ for i=0, PAINT_BUCKET_LEVELS do
 		nici = 1
 		rightclick = on_bucket_rightclick_empty
 		construct = on_bucket_construct_empty
-	elseif i == 9 then
+	elseif i == BUCKET_LEVELS then
 		-- full bucket
 		id = "rp_paint:bucket"
 		desc = S("Paint Bucket")
@@ -490,7 +515,7 @@ for i=0, PAINT_BUCKET_LEVELS do
 	else
 		-- bucket with other paint level
 		id = "rp_paint:bucket_"..i
-		local m = PAINT_BUCKET_LEVELS-i
+		local m = BUCKET_LEVELS-i
 		mesh = "rp_paint_bucket_m"..m..".obj"
 		nici = 1
 		rightclick = on_bucket_rightclick
