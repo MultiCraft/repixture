@@ -591,7 +591,7 @@ local on_bucket_rightclick_empty = function(pos, node, clicker, itemstack, point
 end
 
 for i=0, BUCKET_LEVELS do
-	local id, desc, tt, mesh, img, nici, ws, overlay, painttile, paintover, construct, rightclick, stack_max
+	local id, desc, tt, mesh, img, nici, pbnf, ws, overlay, painttile, paintover, construct, rightclick, stack_max
 	local paint_level = i + 1
 	if i == 0 then
 		-- empty bucket
@@ -600,6 +600,7 @@ for i=0, BUCKET_LEVELS do
 		mesh = "rp_paint_bucket_empty.obj"
 		rightclick = on_bucket_rightclick_empty
 		construct = on_bucket_construct_empty
+		pbnf = 1
 	elseif i == BUCKET_LEVELS then
 		-- full bucket
 		id = "rp_paint:bucket"
@@ -615,6 +616,7 @@ for i=0, BUCKET_LEVELS do
 		desc = S("Paint Bucket with Paint")
 		mesh = "rp_paint_bucket_m"..m..".obj"
 		nici = 1
+		pbnf = 1
 		rightclick = on_bucket_rightclick
 		construct = on_bucket_construct
 	end
@@ -668,7 +670,7 @@ for i=0, BUCKET_LEVELS do
 		inventory_image = img,
 		wield_image = img,
 		wield_scale = ws,
-		groups = { bucket = 3, paint_bucket = paint_level, tool = 1, dig_immediate = 3, attached_node = 1, not_in_creative_inventory = nici },
+		groups = { bucket = 3, paint_bucket = paint_level, paint_bucket_not_full = pbnf, tool = 1, dig_immediate = 3, attached_node = 1, not_in_creative_inventory = nici },
 		on_construct = construct,
 		on_rightclick = rightclick,
 		-- Erase metadata like palette_index on drop
@@ -684,13 +686,13 @@ crafting.register_craft({
 	},
 })
 
--- Fill any paint bucket at any paint level to maximum with 3 flowers
--- (if the bucket is non-empty, this recipe is intentionally more wasteful
--- than placing flowers into the paint bucket node)
+-- Fill any paint bucket at any non-full paint level with 3 flowers
+-- (If the bucket is non-empty, this recipe is more wasteful
+-- than placing flowers into the paint bucket node. This is intended.)
 crafting.register_craft({
 	output = "rp_paint:bucket",
 	items = {
-		"group:paint_bucket",
+		"group:paint_bucket_not_full",
 		"rp_default:flower 3",
 	},
 })
