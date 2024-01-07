@@ -346,7 +346,7 @@ end
 
 minetest.register_tool("rp_paint:brush", {
 	description = S("Paint Brush"),
-	_tt_help = S("Changes color of paintable blocks").."\n"..S("Punch paint bucket to change brush color"),
+	_tt_help = S("Paints blocks").."\n"..S("Punch paint bucket to pick color"),
 	inventory_image = "rp_paint_brush.png",
 	inventory_overlay = "rp_paint_brush_overlay.png",
 	wield_image = "rp_paint_brush.png",
