@@ -468,7 +468,7 @@ local on_bucket_rightclick_empty = function(pos)
 end
 
 for i=0, PAINT_BUCKET_LEVELS do
-	local id, desc, tt, mesh, img, nici, ws, overlay, painttile, construct, rightclick
+	local id, desc, tt, mesh, img, nici, ws, overlay, painttile, paintover, construct, rightclick
 	local paint_level = i + 1
 	if i == 0 then
 		-- empty bucket
@@ -478,6 +478,7 @@ for i=0, PAINT_BUCKET_LEVELS do
 		nici = 1
 		rightclick = on_bucket_rightclick_empty
 		construct = on_bucket_construct_empty
+		paintover = ""
 	elseif i == 9 then
 		-- full bucket
 		id = "rp_paint:bucket"
@@ -487,12 +488,14 @@ for i=0, PAINT_BUCKET_LEVELS do
 		img = "rp_paint_bucket.png"
 		ws = {x=1,y=1,z=2}
 		painttile = "rp_paint_bucket_node_paint.png"
+		paintover = "rp_paint_bucket_node_inside_paint_overlay.png^[transformFY"
 		rightclick = on_bucket_rightclick
 		construct = on_bucket_construct
 	else
 		-- bucket with other paint level
 		id = "rp_paint:bucket_"..i
 		painttile = "rp_paint_bucket_node_paint.png"
+		paintover = "rp_paint_bucket_node_inside_paint_overlay.png^[transformFY"
 		local m = PAINT_BUCKET_LEVELS-i
 		mesh = "rp_paint_bucket_m"..m..".obj"
 		nici = 1
@@ -512,10 +515,10 @@ for i=0, PAINT_BUCKET_LEVELS do
 			{name="rp_paint_bucket_node_top_handle.png",backface_culling=true,color="white"},
 			{name="rp_paint_bucket_node_bottom_inside.png",backface_culling=true,color="white"},
 			{name="rp_paint_bucket_node_bottom_outside.png",backface_culling=true,color="white"},
-			"rp_paint_bucket_node_paint.png",
+			painttile,
 		},
 		overlay_tiles = {
-			"","","","","","rp_paint_bucket_node_paint.png",
+			"","","",paintover,"","",
 		},
 		use_texture_alpha = "blend",
 		paramtype = "light",
