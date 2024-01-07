@@ -27,6 +27,7 @@ Designed for use with Minetest 5.7.0 or later.
 * Weather
 * Beds (skip the night)
 * Boats
+* Paint blocks in 19 colors
 * Change your player appearance
 * Achievements
 * Multi-language support
