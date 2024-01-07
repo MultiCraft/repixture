@@ -365,6 +365,16 @@ minetest.register_tool("rp_paint:brush", {
 		local node = minetest.get_node(pos)
 
 		local imeta = itemstack:get_meta()
+
+		-- Dip brush in water bucket to remove paint
+		if minetest.get_item_group(node.name, "bucket_water") == 1 then
+			imeta:set_int("color_uses", 0)
+			imeta:set_string("inventory_overlay", "")
+			imeta:set_string("wield_overlay", "")
+			minetest.sound_play({name="rp_paint_brush_dip", gain=0.3, pitch=1.5}, {pos=pos, max_hear_distance = 8}, true)
+			return itemstack
+		end
+
 		-- Dip brush in paint bucket to get paint
 		if minetest.get_item_group(node.name, "paint_bucket") > 1 then
 			local color = bit.rshift(node.param2, 2)
