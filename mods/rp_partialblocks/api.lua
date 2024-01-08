@@ -3,16 +3,25 @@
 -- Partial blocks API
 --
 
-local adv_slab_tex = function(tiles, tex_prefix)
+local adv_slab_tex = function(tiles, tex_prefix, force_white)
 	local t1 = tiles[1]
 	local t2 = tex_prefix.."_slab.png"
+	if force_white then
+		t2 = { name = t2, color = "white" }
+	end
 	return { t1, t1, t2 }
 end
-local adv_stair_tex = function(tiles, tex_prefix)
+local adv_stair_tex = function(tiles, tex_prefix, force_white)
 	local t1 = tiles[1]
 	local t2 = tex_prefix.."_stair.png"
 	local t3 = tex_prefix.."_slab.png"
-	return { t3, t1, t2.."^[transformFX", t2, t1, t3 }
+	local t4 = tex_prefix.."_stair.png^[transformFX"
+	if force_white then
+		t2 = { name = t2, color = "white" }
+		t3 = { name = t3, color = "white" }
+		t4 = { name = t4, color = "white" }
+	end
+	return { t3, t1, t4, t2, t1, t3 }
 end
 
 local parse_slab_tiles = function(tiles_slab_def, tiles_fallback)
@@ -22,6 +31,9 @@ local parse_slab_tiles = function(tiles_slab_def, tiles_fallback)
       if type(tiles_slab_def) == "string" and string.sub(tiles_slab_def, 1, 2) == "a|" then
           local texpref = string.sub(tiles_slab_def, 3)
 	  tiles = adv_slab_tex(tiles_fallback, texpref)
+      elseif type(tiles_slab_def) == "string" and string.sub(tiles_slab_def, 1, 2) == "A|" then
+          local texpref = string.sub(tiles_slab_def, 3)
+	  tiles = adv_slab_tex(tiles_fallback, texpref, true)
       else
       -- Explicit slab tiles
           tiles = tiles_slab_def
@@ -36,10 +48,13 @@ end
 local parse_stair_tiles = function(tiles_stair_def, tiles_fallback)
    local tiles
    if tiles_stair_def then
-      if type(tiles_stair_def) == "string" and string.sub(tiles_stair_def, 1, 2) == "a|" then
       -- Advanced stair tiles
+      if type(tiles_stair_def) == "string" and string.sub(tiles_stair_def, 1, 2) == "a|" then
           local texpref = string.sub(tiles_stair_def, 3)
 	  tiles = adv_stair_tex(tiles_fallback, texpref)
+      elseif type(tiles_stair_def) == "string" and string.sub(tiles_stair_def, 1, 2) == "A|" then
+          local texpref = string.sub(tiles_stair_def, 3)
+	  tiles = adv_stair_tex(tiles_fallback, texpref, true)
       elseif tiles_stair_def == "w" then
       -- World-aligned stair textures
           if tiles_fallback then

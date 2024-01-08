@@ -2,7 +2,7 @@
 
 This function lets you register partial blocks.
 
-## `partialblocks.register_material(name, desc_slab, desc_stair, node, groups, is_fuel, tiles_slab, tiles_stair)`
+## `partialblocks.register_material(name, desc_slab, desc_stair, node, groups, is_fuel, tiles_slab, tiles_stair, overlay_tiles_slab, overlay_tiles_stair)`
 
 Registers a new material as a partial block (slab and stair). This requires a base node (`node`) from which
 the partial blocks will be derived.
@@ -22,11 +22,15 @@ Parameters:
     * Special: `nil` automatically creates tiles from the base node
     * Special: `"a|<texture_prefix>"` creates advanced textures for custom stair side texture.
                You must provide the texture file `<texture_prefix>_<name>_slab.png` for the slab side.
+    * Special: `"A|<texture_prefix>"` same as before, but will wrap the special tiles into
+               `{name = <texture>, color="white"}` (useful for overlays of painted blocks)
 * `tiles_stair`: Tiles definition for stair
     * Special: `nil` automatically creates tiles from the base node
     * Special: `"a|<texture_prefix>"` creates advanced textures for custom stair top, bottom and side textures.
                You must provide the texture file `<texture_prefix>_<name>_stair.png` for the stair side AND
                `<texture_prefix>_<name>_slab.png` for the stair viewed from above.
+    * Special: `"A|<texture_prefix>"` same as before, but will wrap the special tiles into
+               `{name = <texture>, color="white"}` (useful for overlays of painted blocks)
     * Special: `"w"` automatically creates world-aligned textures
                from the first base node tile
 * `overlay_tiles_slab`: Overlay tiles definition for slab (same syntax as for `tiles_slab`)

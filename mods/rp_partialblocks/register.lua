@@ -58,14 +58,18 @@ partialblocks.register_material(
 -- Frames
 
 partialblocks.register_material(
-   "frame", S("Frame Slab"), S("Frame Stair"), "rp_default:frame", {choppy = 2, oddly_breakable_by_hand = 1}, true, "a|"..pbp.."frame", "a|"..pbp.."frame")
+   "frame", S("Frame Slab"), S("Frame Stair"), "rp_default:frame", {choppy = 2, oddly_breakable_by_hand = 1, paintable = 2}, true, "a|"..pbp.."frame", "a|"..pbp.."frame")
+partialblocks.register_material(
+   "frame_painted", S("Painted Frame Slab"), S("Painted Frame Stair"), "rp_default:frame_painted", {choppy = 2, oddly_breakable_by_hand = 1, not_in_creative_inventory=1, paintable = 1}, true, "a|"..pbp.."frame_painted", "a|"..pbp.."frame_painted")
 
 -- The reinforced partialblocks have their level forced to 0, so are as hard to dig as the basenode. They're reinforced, after all.
 partialblocks.register_material(
-   "reinforced_frame", S("Reinforced Frame Slab"), S("Reinforced Frame Stair"), "rp_default:reinforced_frame", {choppy = 1, level = 0}, true, "a|"..pbp.."reinforced_frame", "a|"..pbp.."reinforced_frame")
+   "reinforced_frame", S("Reinforced Frame Slab"), S("Reinforced Frame Stair"), "rp_default:reinforced_frame", {choppy = 1, level = 0, paintable = 2}, true, "a|"..pbp.."reinforced_frame", "a|"..pbp.."reinforced_frame")
+partialblocks.register_material(
+   "reinforced_frame_painted", S("Painted Reinforced Frame Slab"), S("Painted Reinforced Frame Stair"), "rp_default:reinforced_frame_painted", {choppy = 1, level = 0, not_in_creative_inventory=1, paintable = 1}, true, "a|"..pbp.."reinforced_frame_painted", "a|"..pbp.."reinforced_frame_painted", "A|"..pbp.."reinforced_frame_painted_overlay", "A|"..pbp.."reinforced_frame_painted_overlay")
 
 partialblocks.register_material(
-   "reinforced_cobble", S("Reinforced Cobble Slab"), S("Reinforced Cobble Stair"), "rp_default:reinforced_cobble", {cracky = 1, level = 0}, false, "a|"..pbp.."reinforced_cobbles", "a|"..pbp.."reinforced_cobbles")
+   "reinforced_cobble", S("Reinforced Cobble Slab"), S("Reinforced Cobble Stair"), "rp_default:reinforced_cobble", {cracky = 1, level = 0}, false, "A|"..pbp.."reinforced_cobbles", "A|"..pbp.."reinforced_cobbles")
 
 -- Coal
 
