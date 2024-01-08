@@ -177,7 +177,7 @@ minetest.register_on_player_receive_fields(
             return
          end
          local node = minetest.get_node(shelfpos)
-         if node.name ~= "rp_default:bookshelf" then
+         if node.name ~= "rp_default:bookshelf" and node.name ~= "rp_default:bookshelf_painted" then
             return
          end
          minetest.sound_play({name="rp_book_close_book", gain=0.5}, {pos=player:get_pos(), max_hear_distance=16}, true)
