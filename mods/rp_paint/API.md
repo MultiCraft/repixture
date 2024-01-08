@@ -9,22 +9,25 @@ By default, no nodes are paintable. They can be made paintable by altering the n
 
 ## How to make a node paintable
 
-There are two methods to make a node paintable: Directly and indirectly.
+There are two types of paintable nodes: Intrinsic and extrinsic.
 
-The direct method is used when the node itself already comes in a default “painted” state
-when placed. The color is thus always stored in the node itself via param2.
-This is the simpler method.
+An intrinsically paintable node is a node when the node itself already
+comes in a default “painted” state when placed. The color is thus always
+stored in the node itself via param2. These nodes are always considered
+painted. They can’t be scraped by an axe.
 
-The indirect method is used when the node has a “neutral”/“unpainted” state.
-This method requires an additional “companion” node to be registered.
+Extrinsically painted nodes are nodes that have a “neutral”/“unpainted” state.
+This method requires an additional painted node to be registered.
+Extrinsically painted nodes can be scraped off by any axe.
 
 By convention, all paintable nodes *MUST* drop in a “neutral” state, that is
 with their color metadata erased. This is why adding the `drop` field is
-a requirement.
+a requirement. The reason for that the player must not have the painted nodes
+in inventory to reduce inventory clutter.
 
-### Direct method
+### Intrinsically painted nodes
 
-Follow these steps to make a node paintable directly:
+Follow these steps to make an intrinsically painted node:
 
 1. Add the `paintable = 1` group
 2. Set the `tiles` and optionally `overlay_tiles` as you wish (see Minetest Lua API documentation)
@@ -32,9 +35,9 @@ Follow these steps to make a node paintable directly:
 4. Set `paramtype2` to `"color"`, `"color4dir"`, `"colorwallmounted"` or `"colorfacedir"`
 5. Add the field `drop = "<name of this node>"`
 
-### Indirect method
+### Extrinsically painted nodes
 
-To make a node paintable indirectly, you need two nodes: An unpainted node, and a painted node.
+To make an extrinsically painted node, you actually need two nodes: An unpainted node, and a painted node.
 
 For the unpainted node:
 
@@ -59,29 +62,31 @@ but then you must also do this:
 2. Add the field `_rp_painted_node_name` to the unpainted node. The value is the name of the painted node
 3. Add the field `_rp_unpainted_node_name` to the painted node. The value is the name of the unpainted node
 
-It is recommended to stick with the default naming convention unless a custom name is neccessary.
-Custom names are useful if your nodes must obey a naming convention from a different mod.
+It is recommended to stick with the default naming convention unless a custom name is neccessary
+for technical reasons (e.g. if you must obey the naming convention of a different mod).
 
 ### Palettes
 
-Depending on the `paramtype2` you use for the node, you must pick one of various palettes.
+Depending on the `paramtype2` you use for the node, you must pick one of various palettes
+by setting the `palette` field of the node definition accordingly:
 
-* `"color"`: `rp_paint_palette_256.png`
-* `"color4dir"`: `rp_paint_palette_64.png`
-* `"colorwallmounted"`: `rp_paint_palette_32.png`
-* `"colorfacedir"`: `rp_paint_palette_8.png`
+* `"color"`: `"rp_paint_palette_256.png"`
+* `"color4dir"`: `"rp_paint_palette_64.png"`
+* `"colorwallmounted"`: `"rp_paint_palette_32.png"`
+* `"colorfacedir"`: `"rp_paint_palette_8.png"`
 
 There are also a desaturated palette variants:
 
-* `"color"`: `rp_paint_palette_256d.png`
-* `"color4dir"`: `rp_paint_palette_64d.png`
-* `"colorwallmounted"`: `rp_paint_palette_32d.png`
-* `"colorfacedir"`: `rp_paint_palette_8d.png`
+* `"color"`: `"rp_paint_palette_256d.png"`
+* `"color4dir"`: `"rp_paint_palette_64d.png"`
+* `"colorwallmounted"`: `"rp_paint_palette_32d.png"`
+* `"colorfacedir"`: `"rp_paint_palette_8d.png"`
 
-Most palette support the full 19 colors, but the palette for
+Most palettes support the full 19 colors, but the palette for
 `"colorfacedir"` only contains 8 colors. When these nodes
 are painted with a color the node doesn’t support,
-the mod will pick a close fallback color.
+the mod will pick a color from the 8 color palette
+that is close to brush color.
 
 ## `_on_paint` callback
 
