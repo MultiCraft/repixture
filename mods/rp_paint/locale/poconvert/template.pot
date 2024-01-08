@@ -28,7 +28,7 @@ msgstr ""
 msgid "Orange"
 msgstr ""
 
-msgid "Tangerine"
+msgid "Amber"
 msgstr ""
 
 msgid "Yellow"
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Hot Pink"
 msgstr ""
 
-msgid "Paint Bucket (empty)"
+msgid "Paint Bucket (Empty)"
 msgstr ""
 
 msgid "Paint Bucket (@1)"
