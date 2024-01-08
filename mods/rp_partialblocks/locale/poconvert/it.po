@@ -109,10 +109,22 @@ msgstr ""
 msgid "Frame Stair"
 msgstr ""
 
+msgid "Painted Frame Slab"
+msgstr ""
+
+msgid "Painted Frame Stair"
+msgstr ""
+
 msgid "Reinforced Frame Slab"
 msgstr ""
 
 msgid "Reinforced Frame Stair"
+msgstr ""
+
+msgid "Painted Reinforced Frame Slab"
+msgstr ""
+
+msgid "Painted Reinforced Frame Stair"
 msgstr ""
 
 msgid "Reinforced Cobble Slab"

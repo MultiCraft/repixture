@@ -109,11 +109,23 @@ msgstr "Rahmenplatte"
 msgid "Frame Stair"
 msgstr "Rahmentreppe"
 
+msgid "Painted Frame Slab"
+msgstr "Gefärbte Rahmenplatte"
+
+msgid "Painted Frame Stair"
+msgstr "Gefärbte Rahmentreppe"
+
 msgid "Reinforced Frame Slab"
 msgstr "Verstärkte Rahmenplatte"
 
 msgid "Reinforced Frame Stair"
 msgstr "Verstärkte Rahmentreppe"
+
+msgid "Painted Reinforced Frame Slab"
+msgstr "Gefärbte verstärkte Rahmenplatte"
+
+msgid "Painted Reinforced Frame Stair"
+msgstr "Gefärbte verstärkte Rahmentreppe"
 
 msgid "Reinforced Cobble Slab"
 msgstr "Verstärkte Pflastersteinplatte"

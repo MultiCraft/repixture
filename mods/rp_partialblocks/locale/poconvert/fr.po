@@ -109,11 +109,23 @@ msgstr "Dalle en cadre"
 msgid "Frame Stair"
 msgstr "Escalier en cadre"
 
+msgid "Painted Frame Slab"
+msgstr ""
+
+msgid "Painted Frame Stair"
+msgstr ""
+
 msgid "Reinforced Frame Slab"
 msgstr "Dalle en cadre renforcé"
 
 msgid "Reinforced Frame Stair"
 msgstr "Escalier en cadre renforcé"
+
+msgid "Painted Reinforced Frame Slab"
+msgstr ""
+
+msgid "Painted Reinforced Frame Stair"
+msgstr ""
 
 msgid "Reinforced Cobble Slab"
 msgstr "Dalle en pavé renforcé"

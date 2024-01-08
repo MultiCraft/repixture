@@ -109,11 +109,23 @@ msgstr "Рамочный полублок"
 msgid "Frame Stair"
 msgstr "Рамочные ступеньки"
 
+msgid "Painted Frame Slab"
+msgstr ""
+
+msgid "Painted Frame Stair"
+msgstr ""
+
 msgid "Reinforced Frame Slab"
 msgstr "Усиленный рамочный полублок"
 
 msgid "Reinforced Frame Stair"
 msgstr "Усиленные рамочные ступеньки"
+
+msgid "Painted Reinforced Frame Slab"
+msgstr ""
+
+msgid "Painted Reinforced Frame Stair"
+msgstr ""
 
 msgid "Reinforced Cobble Slab"
 msgstr "Усиленный булыжниковый полублок"
