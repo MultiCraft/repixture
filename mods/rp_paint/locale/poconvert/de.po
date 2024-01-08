@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Minetest textdomain rp_paint x.x.x\n"
 "Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-01-08 00:32+0000\n"
+"PO-Revision-Date: 2024-01-08 00:41+0000\n"
 "Last-Translator: Wuzzy <wuzzy@disroot.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/repixture/"
 "rp_paint/de/>\n"
@@ -18,94 +18,94 @@ msgid "White"
 msgstr "Weiß"
 
 msgid "Gray"
-msgstr ""
+msgstr "Grau"
 
 msgid "Black"
-msgstr ""
+msgstr "Schwarz"
 
 msgid "Red"
-msgstr ""
+msgstr "Rot"
 
 msgid "Orange"
-msgstr ""
+msgstr "Orange"
 
 msgid "Tangerine"
-msgstr ""
+msgstr "Orangerot"
 
 msgid "Yellow"
-msgstr ""
+msgstr "Gelb"
 
 msgid "Lime"
-msgstr ""
+msgstr "Lindgrün"
 
 msgid "Green"
-msgstr ""
+msgstr "Grün"
 
 msgid "Bluegreen"
-msgstr ""
+msgstr "Blaugrün"
 
 msgid "Turquoise"
-msgstr ""
+msgstr "Türkis"
 
 msgid "Cyan"
-msgstr ""
+msgstr "Cyan"
 
 msgid "Skyblue"
-msgstr ""
+msgstr "Himmelblau"
 
 msgid "Azure Blue"
-msgstr ""
+msgstr "Azurblau"
 
 msgid "Blue"
-msgstr ""
+msgstr "Blau"
 
 msgid "Violet"
-msgstr ""
+msgstr "Violett"
 
 msgid "Magenta"
-msgstr ""
+msgstr "Magenta"
 
 msgid "Redviolet"
-msgstr ""
+msgstr "Rotviolett"
 
 msgid "Hot Pink"
-msgstr ""
+msgstr "Pink"
 
 msgid "Paint Bucket (empty)"
-msgstr ""
+msgstr "Farbeimer (leer)"
 
 msgid "Paint Bucket (@1)"
-msgstr ""
+msgstr "Farbeimer (@1)"
 
 msgid "Paint Brush"
-msgstr ""
+msgstr "Farbpinsel"
 
 msgid "Paints blocks"
-msgstr ""
+msgstr "Färbt Blöcke"
 
 msgid "Punch paint bucket to pick color"
-msgstr ""
+msgstr "Farbeimer hauen, um Farbe aufzunehmen"
 
 msgid "Paint Bucket"
-msgstr ""
+msgstr "Farbeimer"
 
 msgid "Paint Bucket with Paint"
-msgstr ""
+msgstr "Farbeimer mit Farbe"
 
 msgid "Use place key to change color"
-msgstr ""
+msgstr "Platzierentaste benutzen, um Farbe zu wechseln"
 
 msgid "Point at left/right part to get previous/next color"
-msgstr ""
+msgstr "Auf linken/rechten Teil zeigen für die vorherige/nächste Farbe"
 
 msgid "Refill with flowers"
-msgstr ""
+msgstr "Mit Blumen auffüllen"
 
 msgid "Fill with flowers to get paint"
-msgstr ""
+msgstr "Mit Blumen auffüllen, um Farbe zu erhalten"
 
 msgid "Colorful World"
-msgstr ""
+msgstr "Bunte Welt"
 
 msgid "Paint a block."
-msgstr ""
+msgstr "Malen Sie einen Block an."
