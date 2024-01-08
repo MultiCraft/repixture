@@ -4,7 +4,7 @@ Gray=Grau
 Black=Schwarz
 Red=Rot
 Orange=Orange
-Amber=
+Amber=Bernstein
 Yellow=Gelb
 Lime=Lindgrün
 Green=Grün
@@ -18,7 +18,7 @@ Violet=Violett
 Magenta=Magenta
 Redviolet=Rotviolett
 Hot Pink=Pink
-Paint Bucket (Empty)=
+Paint Bucket (Empty)=Farbeimer (Leer)
 Paint Bucket (@1)=Farbeimer (@1)
 Paint Brush=Farbpinsel
 Paints blocks=Färbt Blöcke
@@ -31,9 +31,3 @@ Refill with flowers=Mit Blumen auffüllen
 Fill with flowers to get paint=Mit Blumen auffüllen, um Farbe zu erhalten
 Colorful World=Bunte Welt
 Paint a block.=Malen Sie einen Block an.
-
-
-##### not used anymore #####
-
-Tangerine=Orangerot
-Paint Bucket (empty)=Farbeimer (leer)
