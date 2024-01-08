@@ -1,0 +1,110 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_paint x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "White"
+msgstr ""
+
+msgid "Gray"
+msgstr ""
+
+msgid "Black"
+msgstr ""
+
+msgid "Red"
+msgstr ""
+
+msgid "Orange"
+msgstr ""
+
+msgid "Tangerine"
+msgstr ""
+
+msgid "Yellow"
+msgstr ""
+
+msgid "Lime"
+msgstr ""
+
+msgid "Green"
+msgstr ""
+
+msgid "Bluegreen"
+msgstr ""
+
+msgid "Turquoise"
+msgstr ""
+
+msgid "Cyan"
+msgstr ""
+
+msgid "Skyblue"
+msgstr ""
+
+msgid "Azure Blue"
+msgstr ""
+
+msgid "Blue"
+msgstr ""
+
+msgid "Violet"
+msgstr ""
+
+msgid "Magenta"
+msgstr ""
+
+msgid "Redviolet"
+msgstr ""
+
+msgid "Hot Pink"
+msgstr ""
+
+msgid "Paint Bucket (empty)"
+msgstr ""
+
+msgid "Paint Bucket (@1)"
+msgstr ""
+
+msgid "Paint Brush"
+msgstr ""
+
+msgid "Paints blocks"
+msgstr ""
+
+msgid "Punch paint bucket to pick color"
+msgstr ""
+
+msgid "Paint Bucket"
+msgstr ""
+
+msgid "Paint Bucket with Paint"
+msgstr ""
+
+msgid "Use place key to change color"
+msgstr ""
+
+msgid "Point at left/right part to get previous/next color"
+msgstr ""
+
+msgid "Refill with flowers"
+msgstr ""
+
+msgid "Fill with flowers to get paint"
+msgstr ""
+
+msgid "Colorful World"
+msgstr ""
+
+msgid "Paint a block."
+msgstr ""
