@@ -2,3 +2,6 @@
 Magnetic=
 Unmagnetic=
 Ignitible=
+Place: Scrape off paint=
+Punch: Scrape off paint=
+Can scrape off paint=
