@@ -1,17 +1,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_default x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2024-01-08 00:41+0000\n"
+"Last-Translator: Wuzzy <wuzzy@disroot.org>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/repixture/"
+"rp_default/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.3.1\n"
 
 msgid "Timber"
 msgstr "Bauholz"
@@ -92,19 +93,19 @@ msgid "Obtain one of each minerals."
 msgstr "Besorgen Sie sich ein Mineral von jeder Sorte."
 
 msgid "Wooden Bucket with Water"
-msgstr ""
+msgstr "Holzeimer mit Wasser"
 
 msgid "Punch to empty the bucket"
 msgstr "Hauen, um den Eimer zu leeren"
 
 msgid "Wooden Bucket with River Water"
-msgstr ""
+msgstr "Holzeimer mit Flusswasser"
 
 msgid "Wooden Bucket with Swamp Water"
-msgstr ""
+msgstr "Holzeimer mit Sumpfwasser"
 
 msgid "Wooden Bucket"
-msgstr ""
+msgstr "Holzeimer"
 
 msgid "Punch to collect a liquid source"
 msgstr "Hauen, um Flüssigkeitsquelle aufzusammeln"
@@ -116,7 +117,7 @@ msgid "Provides 32 inventory slots"
 msgstr "Enthält 32 Inventarplätze"
 
 msgid "Painted Chest"
-msgstr ""
+msgstr "Gefärbte Truhe"
 
 msgid "Fiber"
 msgstr "Faser"
@@ -161,19 +162,19 @@ msgid "Wooden Fence"
 msgstr "Holzzaun"
 
 msgid "Painted Wooden Fence"
-msgstr ""
+msgstr "Gefärbter Holzzaun"
 
 msgid "Oak Fence"
 msgstr "Eichenzaun"
 
 msgid "Painted Oak Fence"
-msgstr ""
+msgstr "Gefärbter Eichenzaun"
 
 msgid "Birch Fence"
 msgstr "Birkenzaun"
 
 msgid "Painted Birch Fence"
-msgstr ""
+msgstr "Gefärbter Birkenzaun"
 
 msgid "Fertilized Dirt"
 msgstr "Gedüngte Erde"
@@ -434,7 +435,7 @@ msgid "Brick Block"
 msgstr "Ziegelblock"
 
 msgid "Painted Brick Block"
-msgstr ""
+msgstr "Gefärbter Ziegelblock"
 
 msgid "Sand"
 msgstr "Sand"
@@ -452,25 +453,25 @@ msgid "Glass"
 msgstr "Glas"
 
 msgid "Painted Glass"
-msgstr ""
+msgstr "Gefärbtes Glas"
 
 msgid "Wooden Planks"
 msgstr "Holzplanken"
 
 msgid "Painted Wooden Planks"
-msgstr ""
+msgstr "Gefärbte Holzplanken"
 
 msgid "Oak Planks"
 msgstr "Eichenplanken"
 
 msgid "Painted Oak Planks"
-msgstr ""
+msgstr "Gefärbte Eichenplanken"
 
 msgid "Birch Planks"
 msgstr "Birkenplanken"
 
 msgid "Painted Birch Planks"
-msgstr ""
+msgstr "Gefärbte Birkenplanken"
 
 msgid "Frame"
 msgstr "Rahmen"
@@ -653,19 +654,19 @@ msgid "Wooden Sign"
 msgstr "Holzschild"
 
 msgid "Painted Wooden Sign"
-msgstr ""
+msgstr "Gefärbtes Holzschild"
 
 msgid "Oak Sign"
 msgstr "Eichenschild"
 
 msgid "Painted Oak Sign"
-msgstr ""
+msgstr "Gefärbtes Eichenschild"
 
 msgid "Birch Sign"
 msgstr "Birkenschild"
 
 msgid "Painted Birch Sign"
-msgstr ""
+msgstr "Gefärbtes Birkenschild"
 
 msgid "Creative Tool"
 msgstr "Kreativwerkzeug"
@@ -804,4 +805,3 @@ msgstr "Fackel"
 
 msgid "It's bright and burns forever"
 msgstr "Sie ist hell und brennt für immer"
-
