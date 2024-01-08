@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: poconvert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Locked Chest"
 msgstr "Abgeschlossene Truhe"
@@ -54,6 +54,9 @@ msgstr "Enthält 32 Inventarplätze"
 
 msgid "Can only be opened by its owner and those who have a lockpick"
 msgstr "Kann nur von ihrem Eigentümer und Besitzern eines Dietrichs geöffnet werden"
+
+msgid "Painted Locked Chest"
+msgstr ""
 
 msgid "Locksmith"
 msgstr "Schlossmacher"

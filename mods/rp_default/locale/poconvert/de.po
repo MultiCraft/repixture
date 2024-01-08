@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: poconvert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Timber"
 msgstr "Bauholz"
@@ -91,20 +91,20 @@ msgstr "Vollendete Sammlung"
 msgid "Obtain one of each minerals."
 msgstr "Besorgen Sie sich ein Mineral von jeder Sorte."
 
-msgid "Water Bucket"
-msgstr "Wassereimer"
+msgid "Wooden Bucket with Water"
+msgstr ""
 
 msgid "Punch to empty the bucket"
 msgstr "Hauen, um den Eimer zu leeren"
 
-msgid "River Water Bucket"
-msgstr "Flusswassereimer"
+msgid "Wooden Bucket with River Water"
+msgstr ""
 
-msgid "Swamp Water Bucket"
-msgstr "Sumpfwassereimer"
+msgid "Wooden Bucket with Swamp Water"
+msgstr ""
 
-msgid "Empty Bucket"
-msgstr "Leerer Eimer"
+msgid "Wooden Bucket"
+msgstr ""
 
 msgid "Punch to collect a liquid source"
 msgstr "Hauen, um Flüssigkeitsquelle aufzusammeln"
@@ -114,6 +114,9 @@ msgstr "Truhe"
 
 msgid "Provides 32 inventory slots"
 msgstr "Enthält 32 Inventarplätze"
+
+msgid "Painted Chest"
+msgstr ""
 
 msgid "Fiber"
 msgstr "Faser"
@@ -157,11 +160,20 @@ msgstr "Buch"
 msgid "Wooden Fence"
 msgstr "Holzzaun"
 
+msgid "Painted Wooden Fence"
+msgstr ""
+
 msgid "Oak Fence"
 msgstr "Eichenzaun"
 
+msgid "Painted Oak Fence"
+msgstr ""
+
 msgid "Birch Fence"
 msgstr "Birkenzaun"
+
+msgid "Painted Birch Fence"
+msgstr ""
 
 msgid "Fertilized Dirt"
 msgstr "Gedüngte Erde"
@@ -421,6 +433,9 @@ msgstr "Leuchtender Erdpfad"
 msgid "Brick Block"
 msgstr "Ziegelblock"
 
+msgid "Painted Brick Block"
+msgstr ""
+
 msgid "Sand"
 msgstr "Sand"
 
@@ -436,14 +451,26 @@ msgstr "Verstärkter Kompaktsandstein"
 msgid "Glass"
 msgstr "Glas"
 
+msgid "Painted Glass"
+msgstr ""
+
 msgid "Wooden Planks"
 msgstr "Holzplanken"
+
+msgid "Painted Wooden Planks"
+msgstr ""
 
 msgid "Oak Planks"
 msgstr "Eichenplanken"
 
+msgid "Painted Oak Planks"
+msgstr ""
+
 msgid "Birch Planks"
 msgstr "Birkenplanken"
+
+msgid "Painted Birch Planks"
+msgstr ""
 
 msgid "Frame"
 msgstr "Rahmen"
@@ -504,9 +531,6 @@ msgstr "Farn"
 
 msgid "Flower"
 msgstr "Blume"
-
-msgid "It looks beautiful"
-msgstr "Sieht schön aus"
 
 msgid "Swamp Grass Clump"
 msgstr "Sumpfgrasbüschel"
@@ -628,11 +652,20 @@ msgstr "Darauf kann man eine kurze Botschaft schreiben"
 msgid "Wooden Sign"
 msgstr "Holzschild"
 
+msgid "Painted Wooden Sign"
+msgstr ""
+
 msgid "Oak Sign"
 msgstr "Eichenschild"
 
+msgid "Painted Oak Sign"
+msgstr ""
+
 msgid "Birch Sign"
 msgstr "Birkenschild"
+
+msgid "Painted Birch Sign"
+msgstr ""
 
 msgid "Creative Tool"
 msgstr "Kreativwerkzeug"

@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: poconvert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Cobble Slab"
 msgstr ""
@@ -37,10 +37,22 @@ msgstr ""
 msgid "Brick Stair"
 msgstr ""
 
+msgid "Painted Brick Slab"
+msgstr ""
+
+msgid "Painted Brick Stair"
+msgstr ""
+
 msgid "Wooden Slab"
 msgstr ""
 
 msgid "Wooden Stair"
+msgstr ""
+
+msgid "Painted Wooden Slab"
+msgstr ""
+
+msgid "Painted Wooden Stair"
 msgstr ""
 
 msgid "Oak Slab"
@@ -49,10 +61,22 @@ msgstr ""
 msgid "Oak Stair"
 msgstr ""
 
+msgid "Painted Oak Slab"
+msgstr ""
+
+msgid "Painted Oak Stair"
+msgstr ""
+
 msgid "Birch Slab"
 msgstr ""
 
 msgid "Birch Stair"
+msgstr ""
+
+msgid "Painted Birch Slab"
+msgstr ""
+
+msgid "Painted Birch Stair"
 msgstr ""
 
 msgid "Reed Slab"

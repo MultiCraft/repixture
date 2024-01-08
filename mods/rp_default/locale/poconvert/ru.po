@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: poconvert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Timber"
 msgstr "Дровосек"
@@ -91,20 +91,20 @@ msgstr "Я собрал их всех"
 msgid "Obtain one of each minerals."
 msgstr "Добудь каждый минерал."
 
-msgid "Water Bucket"
-msgstr "Ведро с водой"
+msgid "Wooden Bucket with Water"
+msgstr ""
 
 msgid "Punch to empty the bucket"
 msgstr "Удар чтобы опустошить ведро"
 
-msgid "River Water Bucket"
-msgstr "Ведро с речной водой"
+msgid "Wooden Bucket with River Water"
+msgstr ""
 
-msgid "Swamp Water Bucket"
-msgstr "Ведро с болотной водой"
+msgid "Wooden Bucket with Swamp Water"
+msgstr ""
 
-msgid "Empty Bucket"
-msgstr "Пустое ведро"
+msgid "Wooden Bucket"
+msgstr ""
 
 msgid "Punch to collect a liquid source"
 msgstr "Удар чтобы набрать жидкость"
@@ -114,6 +114,9 @@ msgstr "Сундук"
 
 msgid "Provides 32 inventory slots"
 msgstr "Содержит 32 слота"
+
+msgid "Painted Chest"
+msgstr ""
 
 msgid "Fiber"
 msgstr "Волокно"
@@ -157,11 +160,20 @@ msgstr "Книга"
 msgid "Wooden Fence"
 msgstr "Деревянный забор"
 
+msgid "Painted Wooden Fence"
+msgstr ""
+
 msgid "Oak Fence"
 msgstr "Дубовый забор"
 
+msgid "Painted Oak Fence"
+msgstr ""
+
 msgid "Birch Fence"
 msgstr "Берёзовый забор"
+
+msgid "Painted Birch Fence"
+msgstr ""
 
 msgid "Fertilized Dirt"
 msgstr "Удобренная земля"
@@ -421,6 +433,9 @@ msgstr "Светящаяся земляная тропа"
 msgid "Brick Block"
 msgstr "Кирпичный блок"
 
+msgid "Painted Brick Block"
+msgstr ""
+
 msgid "Sand"
 msgstr "Песок"
 
@@ -436,14 +451,26 @@ msgstr "Усиленный спрессованный песчаник"
 msgid "Glass"
 msgstr "Стекло"
 
+msgid "Painted Glass"
+msgstr ""
+
 msgid "Wooden Planks"
 msgstr "Деревянные доски"
+
+msgid "Painted Wooden Planks"
+msgstr ""
 
 msgid "Oak Planks"
 msgstr "Дубовые доски"
 
+msgid "Painted Oak Planks"
+msgstr ""
+
 msgid "Birch Planks"
 msgstr "Берёзовые доски"
+
+msgid "Painted Birch Planks"
+msgstr ""
 
 msgid "Frame"
 msgstr "Каркас"
@@ -504,9 +531,6 @@ msgstr "Папоротник"
 
 msgid "Flower"
 msgstr "Цветок"
-
-msgid "It looks beautiful"
-msgstr "Он выглядит прекрасно"
 
 msgid "Swamp Grass Clump"
 msgstr "Куст болотной травы"
@@ -628,11 +652,20 @@ msgstr "Напиши короткое сообщение"
 msgid "Wooden Sign"
 msgstr "Деревянная табличка"
 
+msgid "Painted Wooden Sign"
+msgstr ""
+
 msgid "Oak Sign"
 msgstr "Дубовая табличка"
 
+msgid "Painted Oak Sign"
+msgstr ""
+
 msgid "Birch Sign"
 msgstr "Берёзовая табличка"
+
+msgid "Painted Birch Sign"
+msgstr ""
 
 msgid "Creative Tool"
 msgstr "Творческий инструмент"

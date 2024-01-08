@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: poconvert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Fuzzy"
 msgstr "Flausch"
@@ -42,6 +42,18 @@ msgstr "Grünes Grasbüschel"
 
 msgid "Any green grass clump"
 msgstr "Beliebiges grünes Grasbüschel"
+
+msgid "Paint Bucket"
+msgstr ""
+
+msgid "Any paint bucket"
+msgstr ""
+
+msgid "Non-full Paint Bucket"
+msgstr ""
+
+msgid "Any paint bucket that isn’t full"
+msgstr ""
 
 msgid "Group: @1"
 msgstr "Gruppe: @1"

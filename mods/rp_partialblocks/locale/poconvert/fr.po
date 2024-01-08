@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: poconvert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Cobble Slab"
 msgstr "Dalle en pavé"
@@ -37,11 +37,23 @@ msgstr "Dalle en brique"
 msgid "Brick Stair"
 msgstr "Escalier en brique"
 
+msgid "Painted Brick Slab"
+msgstr ""
+
+msgid "Painted Brick Stair"
+msgstr ""
+
 msgid "Wooden Slab"
 msgstr "Dalle en bois"
 
 msgid "Wooden Stair"
 msgstr "Escalier en bois"
+
+msgid "Painted Wooden Slab"
+msgstr ""
+
+msgid "Painted Wooden Stair"
+msgstr ""
 
 msgid "Oak Slab"
 msgstr "Dalle en chêne"
@@ -49,11 +61,23 @@ msgstr "Dalle en chêne"
 msgid "Oak Stair"
 msgstr "Escalier en chêne"
 
+msgid "Painted Oak Slab"
+msgstr ""
+
+msgid "Painted Oak Stair"
+msgstr ""
+
 msgid "Birch Slab"
 msgstr "Dalle en bouleau"
 
 msgid "Birch Stair"
 msgstr "Escalier en bouleau"
+
+msgid "Painted Birch Slab"
+msgstr ""
+
+msgid "Painted Birch Stair"
+msgstr ""
 
 msgid "Reed Slab"
 msgstr "Dalle en roseau"

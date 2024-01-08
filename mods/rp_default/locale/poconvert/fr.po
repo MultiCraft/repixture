@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: poconvert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Timber"
 msgstr "Charpente"
@@ -91,20 +91,20 @@ msgstr "Une collection complète"
 msgid "Obtain one of each minerals."
 msgstr "Obtenir un exemplaire de chaque minerai."
 
-msgid "Water Bucket"
-msgstr "Seau d'eau"
+msgid "Wooden Bucket with Water"
+msgstr ""
 
 msgid "Punch to empty the bucket"
 msgstr "Frapper pour vider le seau"
 
-msgid "River Water Bucket"
-msgstr "Seau d'eau de rivière"
+msgid "Wooden Bucket with River Water"
+msgstr ""
 
-msgid "Swamp Water Bucket"
-msgstr "Seau d'eau de marais"
+msgid "Wooden Bucket with Swamp Water"
+msgstr ""
 
-msgid "Empty Bucket"
-msgstr "Seau vide"
+msgid "Wooden Bucket"
+msgstr ""
 
 msgid "Punch to collect a liquid source"
 msgstr "Frapper pour récolter une source liquide"
@@ -114,6 +114,9 @@ msgstr "Coffre"
 
 msgid "Provides 32 inventory slots"
 msgstr "Fournit 32 emplacements d'inventaire"
+
+msgid "Painted Chest"
+msgstr ""
 
 msgid "Fiber"
 msgstr "Fibre"
@@ -157,11 +160,20 @@ msgstr "Livre"
 msgid "Wooden Fence"
 msgstr "Clôture en bois"
 
+msgid "Painted Wooden Fence"
+msgstr ""
+
 msgid "Oak Fence"
 msgstr "Clôture en chêne"
 
+msgid "Painted Oak Fence"
+msgstr ""
+
 msgid "Birch Fence"
 msgstr "Clôture en bouleau"
+
+msgid "Painted Birch Fence"
+msgstr ""
 
 msgid "Fertilized Dirt"
 msgstr "Terre fertile"
@@ -421,6 +433,9 @@ msgstr "Chemin de terre brillant"
 msgid "Brick Block"
 msgstr "Bloc de brique"
 
+msgid "Painted Brick Block"
+msgstr ""
+
 msgid "Sand"
 msgstr "Sable"
 
@@ -436,14 +451,26 @@ msgstr "Grès comprimé renforcé"
 msgid "Glass"
 msgstr "Verre"
 
+msgid "Painted Glass"
+msgstr ""
+
 msgid "Wooden Planks"
 msgstr "Planches de bois"
+
+msgid "Painted Wooden Planks"
+msgstr ""
 
 msgid "Oak Planks"
 msgstr "Planches de chêne"
 
+msgid "Painted Oak Planks"
+msgstr ""
+
 msgid "Birch Planks"
 msgstr "Planches de bouleau"
+
+msgid "Painted Birch Planks"
+msgstr ""
 
 msgid "Frame"
 msgstr "Cadre"
@@ -504,9 +531,6 @@ msgstr "Fougère"
 
 msgid "Flower"
 msgstr "Fleur"
-
-msgid "It looks beautiful"
-msgstr "Elle est magnifique"
 
 msgid "Swamp Grass Clump"
 msgstr "Touffe d'herbe de marais"
@@ -628,11 +652,20 @@ msgstr "Écrire un court message"
 msgid "Wooden Sign"
 msgstr "Panneau en bois"
 
+msgid "Painted Wooden Sign"
+msgstr ""
+
 msgid "Oak Sign"
 msgstr "Panneau en chêne"
 
+msgid "Painted Oak Sign"
+msgstr ""
+
 msgid "Birch Sign"
 msgstr "Panneau en bouleau"
+
+msgid "Painted Birch Sign"
+msgstr ""
 
 msgid "Creative Tool"
 msgstr "Outil créatif"

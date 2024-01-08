@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: poconvert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Timber"
 msgstr ""
@@ -91,20 +91,20 @@ msgstr "Una collezione completa"
 msgid "Obtain one of each minerals."
 msgstr "Ottieni un esemplare di ogni minerale."
 
-msgid "Water Bucket"
-msgstr "Secchio d'acqua"
+msgid "Wooden Bucket with Water"
+msgstr ""
 
 msgid "Punch to empty the bucket"
 msgstr ""
 
-msgid "River Water Bucket"
-msgstr "Secchio d'acqua di fiume"
+msgid "Wooden Bucket with River Water"
+msgstr ""
 
-msgid "Swamp Water Bucket"
-msgstr "Secchio d'acqua palustre"
+msgid "Wooden Bucket with Swamp Water"
+msgstr ""
 
-msgid "Empty Bucket"
-msgstr "Secchio vuoto"
+msgid "Wooden Bucket"
+msgstr ""
 
 msgid "Punch to collect a liquid source"
 msgstr ""
@@ -113,6 +113,9 @@ msgid "Chest"
 msgstr "Cassa"
 
 msgid "Provides 32 inventory slots"
+msgstr ""
+
+msgid "Painted Chest"
 msgstr ""
 
 msgid "Fiber"
@@ -157,11 +160,20 @@ msgstr "Libro"
 msgid "Wooden Fence"
 msgstr "Steccato di legno"
 
+msgid "Painted Wooden Fence"
+msgstr ""
+
 msgid "Oak Fence"
 msgstr "Steccato di quercia"
 
+msgid "Painted Oak Fence"
+msgstr ""
+
 msgid "Birch Fence"
 msgstr "Steccato di betulla"
+
+msgid "Painted Birch Fence"
+msgstr ""
 
 msgid "Fertilized Dirt"
 msgstr "Terra fertilizzata"
@@ -421,6 +433,9 @@ msgstr ""
 msgid "Brick Block"
 msgstr ""
 
+msgid "Painted Brick Block"
+msgstr ""
+
 msgid "Sand"
 msgstr ""
 
@@ -436,13 +451,25 @@ msgstr ""
 msgid "Glass"
 msgstr ""
 
+msgid "Painted Glass"
+msgstr ""
+
 msgid "Wooden Planks"
+msgstr ""
+
+msgid "Painted Wooden Planks"
 msgstr ""
 
 msgid "Oak Planks"
 msgstr ""
 
+msgid "Painted Oak Planks"
+msgstr ""
+
 msgid "Birch Planks"
+msgstr ""
+
+msgid "Painted Birch Planks"
 msgstr ""
 
 msgid "Frame"
@@ -503,9 +530,6 @@ msgid "Fern"
 msgstr ""
 
 msgid "Flower"
-msgstr ""
-
-msgid "It looks beautiful"
 msgstr ""
 
 msgid "Swamp Grass Clump"
@@ -628,10 +652,19 @@ msgstr ""
 msgid "Wooden Sign"
 msgstr ""
 
+msgid "Painted Wooden Sign"
+msgstr ""
+
 msgid "Oak Sign"
 msgstr ""
 
+msgid "Painted Oak Sign"
+msgstr ""
+
 msgid "Birch Sign"
+msgstr ""
+
+msgid "Painted Birch Sign"
 msgstr ""
 
 msgid "Creative Tool"
