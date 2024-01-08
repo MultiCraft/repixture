@@ -475,8 +475,14 @@ msgstr ""
 msgid "Frame"
 msgstr "Каркас"
 
+msgid "Painted Frame"
+msgstr ""
+
 msgid "Reinforced Frame"
 msgstr "Усиленный каркас"
+
+msgid "Painted Reinforced Frame"
+msgstr ""
 
 msgid "Reed Block"
 msgstr "Тростниковый блок"

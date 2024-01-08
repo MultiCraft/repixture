@@ -43,6 +43,9 @@ msgstr "Étagère à livres"
 msgid "Provides 8 inventory slots"
 msgstr "Fournit 8 emplacements d'inventaire"
 
+msgid "Painted Bookshelf"
+msgstr ""
+
 msgid "Return"
 msgstr "Retour"
 

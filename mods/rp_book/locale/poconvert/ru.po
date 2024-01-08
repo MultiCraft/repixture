@@ -43,6 +43,9 @@ msgstr "Книжная полка"
 msgid "Provides 8 inventory slots"
 msgstr "Содержит 8 слотов"
 
+msgid "Painted Bookshelf"
+msgstr ""
+
 msgid "Return"
 msgstr "Вернуться"
 

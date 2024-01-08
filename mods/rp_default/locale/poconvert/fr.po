@@ -475,8 +475,14 @@ msgstr ""
 msgid "Frame"
 msgstr "Cadre"
 
+msgid "Painted Frame"
+msgstr ""
+
 msgid "Reinforced Frame"
 msgstr "Châssis renforcé"
+
+msgid "Painted Reinforced Frame"
+msgstr ""
 
 msgid "Reed Block"
 msgstr "Bloc de roseau"
