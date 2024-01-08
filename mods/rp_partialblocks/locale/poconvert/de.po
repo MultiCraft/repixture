@@ -1,17 +1,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_partialblocks x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2024-01-08 00:41+0000\n"
+"Last-Translator: Wuzzy <wuzzy@disroot.org>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/repixture/"
+"rp_partialblocks/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.3.1\n"
 
 msgid "Cobble Slab"
 msgstr "Pflastersteinplatte"
@@ -38,10 +39,10 @@ msgid "Brick Stair"
 msgstr "Ziegeltreppe"
 
 msgid "Painted Brick Slab"
-msgstr ""
+msgstr "Gefärbte Ziegelplatte"
 
 msgid "Painted Brick Stair"
-msgstr ""
+msgstr "Gefärbte Ziegeltreppe"
 
 msgid "Wooden Slab"
 msgstr "Holzplatte"
@@ -50,10 +51,10 @@ msgid "Wooden Stair"
 msgstr "Holztreppe"
 
 msgid "Painted Wooden Slab"
-msgstr ""
+msgstr "Gefärbte Holzplatte"
 
 msgid "Painted Wooden Stair"
-msgstr ""
+msgstr "Gefärbte Holztreppe"
 
 msgid "Oak Slab"
 msgstr "Eichenplatte"
@@ -62,10 +63,10 @@ msgid "Oak Stair"
 msgstr "Eichentreppe"
 
 msgid "Painted Oak Slab"
-msgstr ""
+msgstr "Gefärbte Eichenplatte"
 
 msgid "Painted Oak Stair"
-msgstr ""
+msgstr "Gefärbte Eichentreppe"
 
 msgid "Birch Slab"
 msgstr "Birkenplatte"
@@ -74,10 +75,10 @@ msgid "Birch Stair"
 msgstr "Birkentreppe"
 
 msgid "Painted Birch Slab"
-msgstr ""
+msgstr "Gefärbte Birkenplatte"
 
 msgid "Painted Birch Stair"
-msgstr ""
+msgstr "Gefärbte Birkentreppe"
 
 msgid "Reed Slab"
 msgstr "Reetplatte"
@@ -180,4 +181,3 @@ msgstr "Verstärkte Kompaktsandsteinplatte"
 
 msgid "Reinforced Compressed Sandstone Stair"
 msgstr "Verstärkte Kompaktsandsteintreppe"
-
