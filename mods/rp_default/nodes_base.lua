@@ -585,9 +585,23 @@ minetest.register_node(
    {
       description = S("Frame"),
       tiles = {"default_frame.png"},
-      groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1},
+      groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
+})
+minetest.register_node(
+   "rp_default:frame_painted",
+   {
+      description = S("Painted Frame"),
+      tiles = {"rp_default_frame_painted.png"},
+      -- HACK: This is a workaround to fix the coloring of the crack overlay
+      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
+      paramtype2 = "color",
+      palette = "rp_paint_palette_256.png",
+      groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1, paintable = 1, not_in_creative_inventory = 1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_planks_defaults(),
+      drop = "rp_default:frame",
 })
 
 minetest.register_node(
@@ -595,10 +609,24 @@ minetest.register_node(
    {
       description = S("Reinforced Frame"),
       tiles = {"default_reinforced_frame.png"},
-      groups = {wood = 1, choppy = 1},
+      groups = {wood = 1, choppy = 1, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
 })
+minetest.register_node(
+   "rp_default:reinforced_frame_painted",
+   {
+      description = S("Painted Reinforced Frame"),
+      tiles = {"rp_default_reinforced_frame_painted.png"},
+      overlay_tiles = {{name="rp_default_reinforced_frame_overlay.png",color="white"}},
+      paramtype2 = "color",
+      palette = "rp_paint_palette_256.png",
+      groups = {wood = 1, choppy = 1, paintable = 1, not_in_creative_inventory = 1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_planks_defaults(),
+      drop = "rp_default:reinforced_frame",
+})
+
 
 -- Reed
 minetest.register_node(
