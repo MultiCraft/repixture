@@ -161,7 +161,7 @@ Each color has an unique numeric ID. The following IDs are available:
 * `rp_paint.COLOR_BLACK`
 * `rp_paint.COLOR_RED`
 * `rp_paint.COLOR_ORANGE`
-* `rp_paint.COLOR_TANGERINE`
+* `rp_paint.COLOR_AMBER`
 * `rp_paint.COLOR_YELLOW`
 * `rp_paint.COLOR_LIME`
 * `rp_paint.COLOR_GREEN`

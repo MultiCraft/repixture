@@ -13,7 +13,7 @@ local BUCKET_FLOWER_ADD = 3 -- number of paint levels added by a single flower
 rp_paint = {}
 
 local COLOR_NAMES = {
-	S("White"), S("Gray"), S("Black"), S("Red"), S("Orange"), S("Tangerine"), S("Yellow"), S("Lime"), S("Green"), S("Bluegreen"), S("Turquoise"), S("Cyan"), S("Skyblue"), S("Azure Blue"), S("Blue"), S("Violet"), S("Magenta"), S("Redviolet"), S("Hot Pink"),
+	S("White"), S("Gray"), S("Black"), S("Red"), S("Orange"), S("Amber"), S("Yellow"), S("Lime"), S("Green"), S("Bluegreen"), S("Turquoise"), S("Cyan"), S("Skyblue"), S("Azure Blue"), S("Blue"), S("Violet"), S("Magenta"), S("Redviolet"), S("Hot Pink"),
 }
 
 rp_paint.COLOR_COUNT = #COLOR_NAMES
@@ -23,7 +23,7 @@ rp_paint.COLOR_GRAY = 2
 rp_paint.COLOR_BLACK = 3
 rp_paint.COLOR_RED = 4
 rp_paint.COLOR_ORANGE = 5
-rp_paint.COLOR_TANGERINE = 6
+rp_paint.COLOR_AMBER = 6
 rp_paint.COLOR_YELLOW = 7
 rp_paint.COLOR_LIME = 8
 rp_paint.COLOR_GREEN = 9
@@ -53,7 +53,7 @@ local facedir_color_map = {
 	[rp_paint.COLOR_BLACK] = FACEDIR_COLOR_GRAY,
 	[rp_paint.COLOR_RED] = FACEDIR_COLOR_RED,
 	[rp_paint.COLOR_ORANGE] = FACEDIR_COLOR_ORANGE,
-	[rp_paint.COLOR_TANGERINE] = FACEDIR_COLOR_ORANGE,
+	[rp_paint.COLOR_AMBER] = FACEDIR_COLOR_ORANGE,
 	[rp_paint.COLOR_YELLOW] = FACEDIR_COLOR_YELLOW,
 	[rp_paint.COLOR_LIME] = FACEDIR_COLOR_YELLOW,
 	[rp_paint.COLOR_GREEN] = FACEDIR_COLOR_GREEN,
@@ -91,7 +91,7 @@ local change_bucket_level = function(pos, node, level_change)
 	minetest.swap_node(pos, node)
 	if paint_level == 0 then
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Paint Bucket (empty)"))
+		meta:set_string("infotext", S("Paint Bucket (Empty)"))
 	elseif old_paint_level == 0 and paint_level > 0 then
 		local meta = minetest.get_meta(pos)
 		local color = bit.rshift(node.param2, 2)
@@ -576,7 +576,7 @@ end
 
 local on_bucket_construct_empty = function(pos)
 	local meta = minetest.get_meta(pos)
-	meta:set_string("infotext", S("Paint Bucket (empty)"))
+	meta:set_string("infotext", S("Paint Bucket (Empty)"))
 end
 local on_bucket_rightclick_empty = function(pos, node, clicker, itemstack, pointed_thing)
 	if not pointed_thing or util.handle_node_protection(clicker, pointed_thing) then
