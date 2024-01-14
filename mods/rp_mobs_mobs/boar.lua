@@ -42,14 +42,16 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		["punch"] = { frame_range = { x = 90, y = 101 }, default_frame_speed = 20 },
 	},
 	entity_definition = {
-		hp_max = 20,
-		physical = true,
-		collisionbox = {-0.5, -1, -0.5, 0.5, 0.1, 0.5},
-		selectionbox = {-0.4, -1, -0.6, 0.4, 0.1, 0.7, rotate = true},
-		visual = "mesh",
-		mesh = "mobs_boar.x",
-		textures = { "mobs_boar.png" },
-		makes_footstep_sound = true,
+		initial_properties = {
+			hp_max = 20,
+			physical = true,
+			collisionbox = {-0.5, -1, -0.5, 0.5, 0.1, 0.5},
+			selectionbox = {-0.4, -1, -0.6, 0.4, 0.1, 0.7, rotate = true},
+			visual = "mesh",
+			mesh = "mobs_boar.x",
+			textures = { "mobs_boar.png" },
+			makes_footstep_sound = true,
+		},
 		on_activate = function(self)
 			rp_mobs.init_fall_damage(self, true)
 			rp_mobs.init_breath(self, true, {

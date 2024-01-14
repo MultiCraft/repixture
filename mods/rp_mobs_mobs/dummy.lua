@@ -9,13 +9,15 @@ rp_mobs.register_mob("rp_mobs_mobs:dummy", {
 	decider = function(self)
 	end,
 	entity_definition = {
-		hp_max = 20,
-		physical = true,
-		collisionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-		selectionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate=true},
-		visual = "cube",
-		textures = { dummy_texture, dummy_texture, dummy_texture, dummy_texture, dummy_texture, dummy_texture },
-		makes_footstep_sound = false,
+		initial_properties = {
+			hp_max = 20,
+			physical = true,
+			collisionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+			selectionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate=true},
+			visual = "cube",
+			textures = { dummy_texture, dummy_texture, dummy_texture, dummy_texture, dummy_texture, dummy_texture },
+			makes_footstep_sound = false,
+		},
 		on_activate = function(self)
 			rp_mobs.init_fall_damage(self, true)
 			rp_mobs.init_physics(self)

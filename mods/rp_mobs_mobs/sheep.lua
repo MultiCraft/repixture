@@ -90,14 +90,16 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 		["run"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 25 },
 	},
 	entity_definition = {
-		hp_max = 14,
-		physical = true,
-		collisionbox = {-0.5, -1, -0.5, 0.5, 0.1, 0.5},
-		selectionbox = {-0.4, -1, -0.6, 0.4, 0.1, 0.7, rotate = true},
-		visual = "mesh",
-		mesh = "mobs_sheep.x",
-		textures = { "mobs_sheep.png" },
-		makes_footstep_sound = true,
+		initial_properties = {
+			hp_max = 14,
+			physical = true,
+			collisionbox = {-0.5, -1, -0.5, 0.5, 0.1, 0.5},
+			selectionbox = {-0.4, -1, -0.6, 0.4, 0.1, 0.7, rotate = true},
+			visual = "mesh",
+			mesh = "mobs_sheep.x",
+			textures = { "mobs_sheep.png" },
+			makes_footstep_sound = true,
+		},
 		on_activate = function(self, staticdata)
 			rp_mobs.restore_state(self, staticdata)
 			if self._custom_state.shorn then
