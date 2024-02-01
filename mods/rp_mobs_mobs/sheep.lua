@@ -10,7 +10,7 @@ local top_grass = {
 	["rp_default:dry_grass"] = "air",
 }
 local dirt_cover = {
-	["rp_default:dirt_with_swamp_gras"] = "rp_default:swamp_dirt",
+	["rp_default:dirt_with_swamp_grass"] = "rp_default:swamp_dirt",
 	["rp_default:dirt_with_dry_grass"] = "rp_default:dirt",
 	["rp_default:dirt_with_grass"] = "rp_default:dirt",
 }
