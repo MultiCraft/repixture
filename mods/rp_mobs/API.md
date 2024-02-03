@@ -59,9 +59,9 @@ You can use the following template:
 				rp_mobs.init_physics(self)
 				rp_mobs.init_tasks(self)
 			end,
-			on_step = function(self, dtime)
+			on_step = function(self, dtime, moveresult)
 				rp_mobs.handle_physics(self)
-				rp_mobs.handle_tasks(self, dtime)
+				rp_mobs.handle_tasks(self, dtime, moveresult)
 			end,
 			get_staticdata = rp_mobs.get_staticdata_default,
 			on_death = rp_mobs.on_death_default,
@@ -102,9 +102,10 @@ All other fields are optional. It is not allowed to add any fields not listed ab
 `on_finished`, `on_end` and `on_start` have parameters `self, mob` with `self` being
 a reference to the microtask table itself and `mob` being the mob object that is affected.
 
-`on_step` has the parameters `self, mob, dtime`, where `dtime` is the time in seconds
-that have passed since it was last called, or 0 on the first call (like for the entity
-`on_step` function).
+`on_step` has the parameters `self, mob, dtime, moveresult`, where `dtime` is the time in
+seconds that have passed since it was last called, or 0 on the first call (like for the entity
+`on_step` function), and `moveresult` is the `moveresult` of the entity `on_step`
+function (only available if `physical=true` in the entity definition, otherwise it'll be `nil`).
 
 The `statedata` field can be used to associate arbitrary data with the microtask in
 order to preserve some state. You may read and write to it in functions
@@ -400,10 +401,12 @@ Parameters:
 These are functions you need to call in the `on_step` callback function of the mob entity in order for a subsystem to work properly.
 Each of these functions assumes the corresponding `rp_mobs.init_*` function has been called before.
 
-#### `rp_mobs.handle_tasks(mob)`
+#### `rp_mobs.handle_tasks(mob, dtime, moveresult)`
 
 Handle the task queues, tasks, microtasks of the mob for a single step. Required for the task system to work.
 This is supposed to go into `on_step` of the entity definition. It must be called every step.
+
+`dtime` and `moveresult` must be passed from the arguments of the same name of the entity’s `on_step`.
 
 #### `rp_mobs.handle_physics(mob)`
 

@@ -1,27 +1,27 @@
+local WALK_SPEED = 2
+local JUMP_STRENGTH = 4
+
 -- TODO: Change to rp_mobs_mobs when ready
 local S = minetest.get_translator("mobs")
 
-local main_decider = function(task_queue, mob)
-	local task = rp_mobs.create_task({label="roam"})
-	local startpos = mob.object:get_pos()
-	startpos.y = math.floor(startpos.y)
-	startpos = vector.round(startpos)
-	local nodes = minetest.find_nodes_in_area_under_air(
-		vector.add(startpos, vector.new(-5, -1, -5)),
-		vector.add(startpos, vector.new(5, -1, 5)),
-		{"group:crumbly", "group:cracky"}
-	)
-	if #nodes > 0 then
-		local n = math.random(1, #nodes)
-		local endpos = vector.add(vector.new(0,1,0), nodes[n])
-		local mt_pathfind = rp_mobs.microtasks.pathfind_and_walk_to(endpos, 100, 1, 4)
-		mt_pathfind.start_animation = "walk"
-		rp_mobs.add_microtask_to_task(mob, mt_pathfind, task)
-	end
+local roam_decider = function(task_queue, mob)
+	local task_roam = rp_mobs.create_task({label="roam"})
+
+	local yaw = math.random(0, 360) / 360 * (math.pi*2)
+	local mt_walk = rp_mobs.microtasks.walk_straight(WALK_SPEED, yaw, JUMP_STRENGTH)
+	mt_walk.start_animation = "walk"
+	rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
 	local mt_sleep = rp_mobs.microtasks.sleep(math.random(500, 2000)/1000)
 	mt_sleep.start_animation = "idle"
-	rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
-	rp_mobs.add_task_to_task_queue(task_queue, task)
+	rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
+	rp_mobs.add_task_to_task_queue(task_queue, task_roam)
+end
+
+local autoyaw_decider = function(task_queue, mob)
+	local task_autoyaw = rp_mobs.create_task({label="autoyaw"})
+	local mt_autoyaw = rp_mobs.microtasks.autoyaw()
+	rp_mobs.add_microtask_to_task(mob, mt_autoyaw, task_autoyaw)
+	rp_mobs.add_task_to_task_queue(task_queue, task_autoyaw)
 end
 
 -- Warthog (boar) by KrupnoPavel
@@ -64,12 +64,13 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			rp_mobs.activate_gravity(self)
 
 			rp_mobs.init_tasks(self)
-			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(main_decider))
+			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(roam_decider))
+			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(autoyaw_decider))
 		end,
 		on_step = function(self, dtime, moveresult)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_physics(self)
-			rp_mobs.handle_tasks(self, dtime)
+			rp_mobs.handle_tasks(self, dtime, moveresult)
 			rp_mobs.handle_breeding(self, dtime)
 		end,
 		on_rightclick = function(self, clicker)

@@ -125,7 +125,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 		on_step = function(self, dtime, moveresult)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_physics(self)
-			rp_mobs.handle_tasks(self, dtime)
+			rp_mobs.handle_tasks(self, dtime, moveresult)
 			rp_mobs.handle_breeding(self, dtime)
 		end,
 		_on_capture = function(self, capturer)

@@ -28,7 +28,7 @@ rp_mobs.register_mob("rp_mobs_mobs:dummy", {
 		on_step = function(self, dtime, moveresult)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_physics(self)
-			rp_mobs.handle_tasks(self, dtime)
+			rp_mobs.handle_tasks(self, dtime, moveresult)
 		end,
 		on_death = rp_mobs.on_death_default,
 	},

@@ -120,16 +120,34 @@ rp_mobs.microtasks.set_yaw = function(yaw)
 	})
 end
 
--- Walk in a straight line, ignoring obstacles. No finish condition
-rp_mobs.microtasks.walk_straight = function(walk_speed, yaw)
+local collides_with_wall = function(moveresult)
+	if moveresult and moveresult.collides then
+		for c=1, #moveresult.collisions do
+			local coll = moveresult.collisions[c]
+			if coll.type == "node" and (coll.axis == "x" or coll.axis == "z") then
+				return true
+			end
+		end
+	end
+	return false
+end
+
+-- Walk in a straight line, jumping if hitting obstable and jump==true. No finish condition
+rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump)
 	return rp_mobs.create_microtask({
 		label = "walk straight",
-		on_step = function(self, mob, dtime)
+		on_step = function(self, mob, dtime, moveresult)
 			local vel = vector.new()
-			vel.y = 0
+			local jumping = false
+			if jump and collides_with_wall(moveresult) then
+				vel.y = jump
+				jumping = true
+			else
+				vel.y = 0
+			end
 			vel.x = math.sin(yaw) * -walk_speed
 			vel.z = math.cos(yaw) * walk_speed
-			if not self.statedata.vel_set then
+			if jumping or not self.statedata.vel_set then
 				mob._mob_velocity.x = vel.x
 				mob._mob_velocity.y = vel.y
 				mob._mob_velocity.z = vel.z
@@ -145,10 +163,10 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw)
 end
 
 -- Walk in a straight line towards a position or object
-rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, reach_distance)
+rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, reach_distance, jump)
 	return rp_mobs.create_microtask({
 		label = "walk towards something",
-		on_step = function(self, mob, dtime)
+		on_step = function(self, mob, dtime, moveresult)
 			local vel = vector.new()
 			local mypos = mob.object:get_pos()
 			local dir
@@ -161,10 +179,16 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				return
 			end
 			local yaw = minetest.dir_to_yaw(dir)
-			vel.y = 0
+			local jumping = false
+			if jump and collides_with_wall(moveresult) then
+				vel.y = jump
+				jumping = true
+			else
+				vel.y = 0
+			end
 			vel.x = math.sin(yaw) * -walk_speed
 			vel.z = math.cos(yaw) * walk_speed
-			if not self.statedata.vel_set or target_type == "object" then
+			if jumping or not self.statedata.vel_set or target_type == "object" then
 				mob._mob_velocity.x = vel.x
 				mob._mob_velocity.y = vel.y
 				mob._mob_velocity.z = vel.z
@@ -233,6 +257,24 @@ rp_mobs.microtasks.rotate_yaw_smooth = function(yaw, time)
 		end,
 		is_finished = function(self, mob)
 			return self.statedata.timer and self.statedata.timer >= time
+		end,
+	})
+end
+
+-- Set yaw based on XZ velocity
+rp_mobs.microtasks.autoyaw = function()
+	return rp_mobs.create_microtask({
+		label = "automatically set yaw",
+		singlestep = true,
+		on_step = function(self, mob, dtime)
+			local vel = mob.object:get_velocity()
+			vel.y = 0
+			-- Only set yaw if moving
+			if vector.length(vel) > 0.001 then
+				vel = vector.normalize(vel)
+				local yaw = minetest.dir_to_yaw(vel)
+				mob.object:set_yaw(yaw)
+			end
 		end,
 	})
 end
