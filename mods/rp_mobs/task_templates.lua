@@ -1,6 +1,7 @@
 local PATH_DEBUG = true
 local PATH_DISTANCE_TO_GOAL_POINT = 0.7
 local YAW_PRECISION = 10000
+local JUMP_REPEAT_TIME = 1
 
 -- if the ratio of the current walk speed to the
 -- target walk speed is lower than this number,
@@ -152,24 +153,28 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 		label = label,
 		on_start = function(self, mob)
 			self.statedata.jumping = false -- is true when mob is currently jumpin
+			self.statedata.jump_timer = 0 -- timer counting the time of the current jump, in seconds
 			self.statedata.stop = false -- is set to true if microtask is supposed to be finished after the current step finishes
 			self.statedata.timer = 0 -- how long this microtask has been going, in seconds
 		end,
 		on_step = function(self, mob, dtime, moveresult)
 			self.statedata.timer = self.statedata.timer + dtime
-			local oldvel = mob.object:get_velocity()
+			local oldvel = table.copy(mob._mob_velocity)
 			if max_timer and self.statedata.timer >= max_timer then
 				self.statedata.stop = true
 				mob._mob_velocity = vector.zero()
-				mob._mob_velocity.y = oldvel.y
 				mob._mob_velocity_changed = true
 				return
 			end
 			local vel = vector.new()
 			local set_vel = false
 			if self.statedata.jumping then
-				if moveresult.touching_ground then
-					self.statedata.jumping = false
+				self.statedata.jump_timer = self.statedata.jump_timer + dtime
+				if self.statedata.jump_timer >= JUMP_REPEAT_TIME then
+					if moveresult.touching_ground then
+						self.statedata.jumping = false
+						self.statedata.jump_timer = 0
+					end
 				end
 			end
 			local wall_collision, wall_collision_type = collides_with_wall(moveresult, true)
@@ -184,8 +189,9 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 				vel.y = jump
 				set_vel = true
 				self.statedata.jumping = true
+				self.statedata.jump_timer = 0
 			else
-				vel.y = oldvel.y
+				vel.y = 0
 			end
 			vel.x = math.sin(yaw) * -walk_speed
 			vel.z = math.cos(yaw) * walk_speed
@@ -195,12 +201,11 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 					set_vel = true
 				end
 			end
-			if set_vel or not self.statedata.vel_set then
+			if set_vel then
 				mob._mob_velocity.x = vel.x
 				mob._mob_velocity.y = vel.y
 				mob._mob_velocity.z = vel.z
 				mob._mob_velocity_changed = true
-				self.statedata.vel_set = true
 			end
 		end,
 		is_finished = function(self, mob)
