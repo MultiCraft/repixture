@@ -402,93 +402,91 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 		return
 	end
 
-	-- Select next task queue
-	if not self._active_task_queue_entry then
-		self._active_task_queue_entry = self._task_queues:getFirst()
-	else
-		local nexxt = self._active_task_queue_entry.nextEntry
-		if not nexxt then
-			nexxt = self._task_queues:getFirst()
-		end
-		self._active_task_queue_entry = nexxt
-	end
-	if not self._active_task_queue_entry then
-		return
-	end
+	local active_task_queue_entry = self._task_queues:getFirst()
+	while active_task_queue_entry do
 
-	local activeTaskQueue = self._active_task_queue_entry.data
+		local task_queue_done = false
 
-	-- Run decider if active task queue is empty
-	local activeTaskEntry
-	if activeTaskQueue.tasks:isEmpty() then
-		if activeTaskQueue.decider then
-			activeTaskQueue:decider(self)
-		end
-	end
-	activeTaskEntry = activeTaskQueue.tasks:getFirst()
+		local activeTaskQueue = active_task_queue_entry.data
 
-	if not activeTaskEntry then
-		-- No more microtasks: Set idle animation if it exists
-		if self._animations and self._animations.idle then
-			rp_mobs.set_animation(self, "idle")
+		-- Run decider if active task queue is empty
+		local activeTaskEntry
+		if activeTaskQueue.tasks:isEmpty() then
+			if activeTaskQueue.decider then
+				activeTaskQueue:decider(self)
+			end
 		end
-		if TASK_DEBUG then
-			set_task_queues_as_nametag(self)
-		end
-		return
-	end
+		activeTaskEntry = activeTaskQueue.tasks:getFirst()
 
-	-- Handle current task of active task queue
-	local activeTask = activeTaskEntry.data
+		if not activeTaskEntry then
+			-- No more microtasks: Set idle animation if it exists
+			if self._animations and self._animations.idle then
+				rp_mobs.set_animation(self, "idle")
+			end
+			task_queue_done = true
+		end
 
-	local activeMicroTaskEntry = activeTask.microTasks:getFirst()
-	if not activeMicroTaskEntry then
-		activeTaskQueue.tasks:remove(activeTaskEntry)
-		if TASK_DEBUG then
-			set_task_queues_as_nametag(self)
-		end
-		return
-	end
+		-- Handle current task of active task queue
+		local activeTask = activeTaskEntry.data
+		local activeMicroTaskEntry
 
-	-- Remove microtask if completed
-	local activeMicroTask = activeMicroTaskEntry.data
-	if not activeMicroTask.singlestep and activeMicroTask:is_finished(self) then
-		if activeMicroTask.on_end then
-			activeMicroTask:on_end(self)
+		if not task_queue_done then
+			activeMicroTaskEntry = activeTask.microTasks:getFirst()
+			if not activeMicroTaskEntry then
+				activeTaskQueue.tasks:remove(activeTaskEntry)
+				if TASK_DEBUG then
+					set_task_queues_as_nametag(self)
+				end
+				task_queue_done = true
+			end
 		end
-		activeTask.microTasks:remove(activeMicroTaskEntry)
-		if TASK_DEBUG then
-			set_task_queues_as_nametag(self)
-		end
-		return
-	end
 
-	-- Execute microtask
+		-- Remove microtask if completed
+		local activeMicroTask
+		if not task_queue_done then
+			activeMicroTask = activeMicroTaskEntry.data
+			if not activeMicroTask.singlestep and activeMicroTask:is_finished(self) then
+				if activeMicroTask.on_end then
+					activeMicroTask:on_end(self)
+				end
+				activeTask.microTasks:remove(activeMicroTaskEntry)
+				task_queue_done = true
+			end
+		end
 
-	-- Call on_start and set microtask animation before the first step
-	if not activeMicroTask.has_started then
-		if activeMicroTask.start_animation then
-			rp_mobs.set_animation(self, activeMicroTask.start_animation)
-		end
-		if activeMicroTask.on_start then
-			activeMicroTask:on_start(self)
-		end
-		activeMicroTask.has_started = true
-	end
+		-- Execute microtask
 
-	-- on_step: The main microtask logic goes here
-	activeMicroTask:on_step(self, dtime, moveresult)
+		-- Call on_start and set microtask animation before the first step
+		if not task_queue_done and not activeMicroTask.has_started then
+			if activeMicroTask.start_animation then
+				rp_mobs.set_animation(self, activeMicroTask.start_animation)
+			end
+			if activeMicroTask.on_start then
+				activeMicroTask:on_start(self)
+			end
+			activeMicroTask.has_started = true
+		end
 
-	-- If singlestep is set, finish microtask after its first and only step
-	if activeMicroTask.singlestep then
-		if activeMicroTask.on_end then
-			activeMicroTask:on_end(self)
+		-- on_step: The main microtask logic goes here
+		if not task_queue_done then
+			activeMicroTask:on_step(self, dtime, moveresult)
 		end
-		activeTask.microTasks:remove(activeMicroTaskEntry)
-		if TASK_DEBUG then
-			set_task_queues_as_nametag(self)
+
+		-- If singlestep is set, finish microtask after its first and only step
+		if not task_queue_done and activeMicroTask.singlestep then
+			if activeMicroTask.on_end then
+				activeMicroTask:on_end(self)
+			end
+			activeTask.microTasks:remove(activeMicroTaskEntry)
+			task_queue_done = true
 		end
-		return
+
+		-- Select next task queue
+		local nexxt = active_task_queue_entry.nextEntry
+		active_task_queue_entry = nexxt
+		if not active_task_queue_entry then
+			break
+		end
 	end
 
 	if TASK_DEBUG then
