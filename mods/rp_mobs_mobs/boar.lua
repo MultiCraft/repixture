@@ -1,7 +1,11 @@
 local WALK_SPEED = 2
 local JUMP_STRENGTH = 4
-local WALK_DURATION_MIN = 3
-local WALK_DURATION_MAX = 4
+local WALK_DURATION_MIN = 3000
+local WALK_DURATION_MAX = 4000
+local IDLE_DURATION_MIN = 500
+local IDLE_DURATION_MAX = 2000
+local RANDOM_SOUND_TIMER_MIN = 10000
+local RANDOM_SOUND_TIMER_MAX = 60000
 local VIEW_RANGE = 10
 local FOOD = { "rp_default:apple", "rp_default:acorn" }
 
@@ -12,11 +16,11 @@ local roam_decider = function(task_queue, mob)
 	local task_roam = rp_mobs.create_task({label="roam"})
 
 	local yaw = math.random(0, 360) / 360 * (math.pi*2)
-	local walk_duration = math.random(3*1000, 4*1000)/1000
+	local walk_duration = math.random(WALK_DURATION_MIN, WALK_DURATION_MAX)/1000
 	local mt_walk = rp_mobs.microtasks.walk_straight(WALK_SPEED, yaw, JUMP_STRENGTH, walk_duration)
 	mt_walk.start_animation = "walk"
 	rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
-	local mt_sleep = rp_mobs.microtasks.sleep(math.random(500, 2000)/1000)
+	local mt_sleep = rp_mobs.microtasks.sleep(math.random(IDLE_DURATION_MIN, IDLE_DURATION_MAX)/1000)
 	mt_sleep.start_animation = "idle"
 	rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 	rp_mobs.add_task_to_task_queue(task_queue, task_roam)
@@ -27,6 +31,21 @@ local autoyaw_decider = function(task_queue, mob)
 	local mt_autoyaw = rp_mobs.microtasks.autoyaw()
 	rp_mobs.add_microtask_to_task(mob, mt_autoyaw, task_autoyaw)
 	rp_mobs.add_task_to_task_queue(task_queue, task_autoyaw)
+end
+
+local call_sound_decider = function(task_queue, mob)
+	local task = rp_mobs.create_task({label="random call sound"})
+	local mt_sleep = rp_mobs.microtasks.sleep(math.random(RANDOM_SOUND_TIMER_MIN, RANDOM_SOUND_TIMER_MAX)/1000)
+	local mt_call = rp_mobs.create_microtask({
+		label = "play call sound",
+		singlestep = true,
+		on_step = function(self, mob, dtime)
+			rp_mobs.default_mob_sound(mob, "call", false)
+		end
+	})
+	rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
+	rp_mobs.add_microtask_to_task(mob, mt_call, task)
+	rp_mobs.add_task_to_task_queue(task_queue, task)
 end
 
 -- Warthog (boar) by KrupnoPavel
@@ -40,6 +59,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		death = "mobs_boar_angry",
 		damage = "mobs_boar",
 		eat = "mobs_eat",
+		call = "mobs_boar",
 	},
 	animations = {
 		["idle"] = { frame_range = { x = 0, y = 60 }, default_frame_speed = 20 },
@@ -72,6 +92,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(roam_decider))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(autoyaw_decider))
+			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(call_sound_decider))
 		end,
 		on_step = function(self, dtime, moveresult)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)

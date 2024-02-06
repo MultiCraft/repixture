@@ -251,11 +251,12 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
   * `death`: When mob dies
   * `damage`: When mob takes damage
   * `eat`: When mob eats (not yet implemented)
+  * `call`: Occassional mob call (only played manually)
 * `entity_definition`: Entity definition table. It may contain this custom function:
   * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
                                      Triggered by `rp_mobs.call_on_capture`
 * `animations`: Table of available mob animations
-  * The keys are string identifies for each animation, like `"walk`
+  * The keys are string identifies for each animation, like `"walk"`
   * The values are tables with the following fields:
     * `frame_range`: Same as `frame_range` in `object:set_animation`
     * `default_frame_speed`: Default `frame_speed` (from `object:set_animation`) when this animation is played
