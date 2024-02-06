@@ -1,5 +1,7 @@
 local WALK_SPEED = 2
 local JUMP_STRENGTH = 4
+local WALK_DURATION_MIN = 3
+local WALK_DURATION_MAX = 4
 
 -- TODO: Change to rp_mobs_mobs when ready
 local S = minetest.get_translator("mobs")
@@ -8,7 +10,8 @@ local roam_decider = function(task_queue, mob)
 	local task_roam = rp_mobs.create_task({label="roam"})
 
 	local yaw = math.random(0, 360) / 360 * (math.pi*2)
-	local mt_walk = rp_mobs.microtasks.walk_straight(WALK_SPEED, yaw, JUMP_STRENGTH)
+	local walk_duration = math.random(3*1000, 4*1000)/1000
+	local mt_walk = rp_mobs.microtasks.walk_straight(WALK_SPEED, yaw, JUMP_STRENGTH, walk_duration)
 	mt_walk.start_animation = "walk"
 	rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
 	local mt_sleep = rp_mobs.microtasks.sleep(math.random(500, 2000)/1000)

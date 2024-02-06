@@ -137,18 +137,36 @@ local collides_with_wall = function(moveresult, include_objects)
 	return false
 end
 
--- Walk in a straight line, jumping if hitting obstable and jump==true. No finish condition
-rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump)
+-- Walk in a straight line, jumping if hitting obstable and jump~=nil. No finish condition
+-- * yaw: walk direction in radians
+-- * jump: jump strength if mob needs to jump or nil if no jumping
+-- * max_timer: automatically finish microtask after this many seconds (nil = infinite)
+rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
+	local label
+	if max_timer then
+		label = "walk straight for "..string.format("%.1f", max_timer).."s"
+	else
+		label = "walk straight"
+	end
 	return rp_mobs.create_microtask({
-		label = "walk straight",
+		label = label,
 		on_start = function(self, mob)
 			self.statedata.jumping = false -- is true when mob is currently jumpin
 			self.statedata.stop = false -- is set to true if microtask is supposed to be finished after the current step finishes
+			self.statedata.timer = 0 -- how long this microtask has been going, in seconds
 		end,
 		on_step = function(self, mob, dtime, moveresult)
+			self.statedata.timer = self.statedata.timer + dtime
+			local oldvel = mob.object:get_velocity()
+			if max_timer and self.statedata.timer >= max_timer then
+				self.statedata.stop = true
+				mob._mob_velocity = vector.zero()
+				mob._mob_velocity.y = oldvel.y
+				mob._mob_velocity_changed = true
+				return
+			end
 			local vel = vector.new()
 			local set_vel = false
-			local oldvel = mob.object:get_velocity()
 			if self.statedata.jumping then
 				if moveresult.touching_ground then
 					self.statedata.jumping = false
@@ -195,14 +213,36 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump)
 end
 
 -- Walk in a straight line towards a position or object
-rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, reach_distance, jump)
+-- * walk_speed: walk speed
+-- * target_type: "pos" (position) or "object"
+-- * target: target, depending on target_type: position or object handle
+-- * reach_distance: If mob is within this distance towards target, finish task
+-- * jump: jump strength if mob needs to jump or nil if no jumping
+-- * max_timer: automatically finish microtask after this many seconds (nil = infinite)
+rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, reach_distance, jump, max_timer)
+	local label
+	if max_timer then
+		label = "walk towards something for "..string.format("%.1f", max_timer).."s"
+	else
+		label = "walk towards something"
+	end
 	return rp_mobs.create_microtask({
-		label = "walk towards something",
+		label = label,
 		on_start = function(self, mob)
 			self.statedata.jumping = false -- is true when mob is currently jumpin
 			self.statedata.stop = false -- is set to true if microtask is supposed to be finished after the current step finishes
+			self.statedata.timer = 0 -- how long this microtask has been going, in seconds
 		end,
 		on_step = function(self, mob, dtime, moveresult)
+			self.statedata.timer = self.statedata.timer + dtime
+			local oldvel = mob.object:get_velocity()
+			if max_timer and self.statedata.timer >= max_timer then
+				self.statedata.stop = true
+				mob._mob_velocity = vector.zero()
+				mob._mob_velocity.y = oldvel.y
+				mob._mob_velocity_changed = true
+				return
+			end
 			local vel = vector.new()
 			local mypos = mob.object:get_pos()
 			local dir
@@ -215,7 +255,6 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				return
 			end
 			local yaw = minetest.dir_to_yaw(dir)
-			local oldvel = mob.object:get_velocity()
 			local set_vel = false
 			local wall_collision, wall_collision_type = collides_with_wall(moveresult, true)
 			if wall_collision and wall_collision_type == "object" then
