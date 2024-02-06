@@ -2,6 +2,11 @@ local PATH_DEBUG = true
 local PATH_DISTANCE_TO_GOAL_POINT = 0.7
 local YAW_PRECISION = 10000
 
+-- if the ratio of the current walk speed to the
+-- target walk speed is lower than this number,
+-- the mob will reset the walk speed
+local WALK_SPEED_RESET_THRESHOLD = 0.9
+
 local show_pathfinder_path = function(path)
 	local pathstr = ""
 	for p=1, #path do
@@ -143,6 +148,7 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump)
 		on_step = function(self, mob, dtime, moveresult)
 			local vel = vector.new()
 			local set_vel = false
+			local oldvel = mob.object:get_velocity()
 			if self.statedata.jumping then
 				if moveresult.touching_ground then
 					self.statedata.jumping = false
@@ -152,7 +158,7 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump)
 			if wall_collision and wall_collision_type == "object" then
 				self.statedata.stop = true
 				mob._mob_velocity = vector.zero()
-				mob._mob_velocity.y = mob.object:get_velocity().y
+				mob._mob_velocity.y = oldvel.y
 				mob._mob_velocity_changed = true
 				return
 			end
@@ -161,11 +167,16 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump)
 				set_vel = true
 				self.statedata.jumping = true
 			else
-				local oldvel = mob.object:get_velocity()
 				vel.y = oldvel.y
 			end
 			vel.x = math.sin(yaw) * -walk_speed
 			vel.z = math.cos(yaw) * walk_speed
+			if not set_vel then
+				oldvel.y = 0
+				if vector.length(oldvel) < WALK_SPEED_RESET_THRESHOLD * vector.length(vel) then
+					set_vel = true
+				end
+			end
 			if set_vel or not self.statedata.vel_set then
 				mob._mob_velocity.x = vel.x
 				mob._mob_velocity.y = vel.y
@@ -204,12 +215,13 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				return
 			end
 			local yaw = minetest.dir_to_yaw(dir)
+			local oldvel = mob.object:get_velocity()
 			local set_vel = false
 			local wall_collision, wall_collision_type = collides_with_wall(moveresult, true)
 			if wall_collision and wall_collision_type == "object" then
 				self.statedata.stop = true
 				mob._mob_velocity = vector.zero()
-				mob._mob_velocity.y = mob.object:get_velocity().y
+				mob._mob_velocity.y = oldvel.y
 				mob._mob_velocity_changed = true
 				return
 			end
@@ -222,10 +234,16 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				vel.y = jump
 				set_vel = true
 			else
-				vel.y = mob.object:get_velocity().y
+				vel.y = oldvel.y
 			end
 			vel.x = math.sin(yaw) * -walk_speed
 			vel.z = math.cos(yaw) * walk_speed
+			if not set_vel then
+				oldvel.y = 0
+				if vector.length(oldvel) < WALK_SPEED_RESET_THRESHOLD * vector.length(vel) then
+					set_vel = true
+				end
+			end
 			if set_vel or not self.statedata.vel_set or target_type == "object" then
 				mob._mob_velocity.x = vel.x
 				mob._mob_velocity.y = vel.y
