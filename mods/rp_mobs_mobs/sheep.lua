@@ -99,6 +99,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			mesh = "mobs_sheep.x",
 			textures = { "mobs_sheep.png" },
 			makes_footstep_sound = true,
+			stepheight = 0.6,
 		},
 		on_activate = function(self, staticdata)
 			rp_mobs.restore_state(self, staticdata)

@@ -2,6 +2,8 @@ local WALK_SPEED = 2
 local JUMP_STRENGTH = 4
 local WALK_DURATION_MIN = 3
 local WALK_DURATION_MAX = 4
+local VIEW_RANGE = 10
+local FOOD = { "rp_default:apple", "rp_default:acorn" }
 
 -- TODO: Change to rp_mobs_mobs when ready
 local S = minetest.get_translator("mobs")
@@ -54,6 +56,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			mesh = "mobs_boar.x",
 			textures = { "mobs_boar.png" },
 			makes_footstep_sound = true,
+			stepheight = 0.6,
 		},
 		on_activate = function(self)
 			rp_mobs.init_fall_damage(self, true)
@@ -77,7 +80,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			rp_mobs.handle_breeding(self, dtime)
 		end,
 		on_rightclick = function(self, clicker)
-			rp_mobs.feed_tame_breed(self, clicker, { "rp_default:apple", "rp_default:acorn" }, 8, true)
+			rp_mobs.feed_tame_breed(self, clicker, FOOD, 8, true)
 			rp_mobs.call_on_capture(self, clicker)
 		end,
 		_on_capture = function(self, capturer)
