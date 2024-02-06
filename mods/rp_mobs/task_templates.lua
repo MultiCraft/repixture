@@ -120,12 +120,12 @@ rp_mobs.microtasks.set_yaw = function(yaw)
 	})
 end
 
-local collides_with_wall = function(moveresult)
+local collides_with_wall = function(moveresult, include_objects)
 	if moveresult and moveresult.collides then
 		for c=1, #moveresult.collisions do
 			local coll = moveresult.collisions[c]
-			if coll.type == "node" and (coll.axis == "x" or coll.axis == "z") then
-				return true
+			if (coll.type == "node" or (coll.type == "object" and include_objects)) and (coll.axis == "x" or coll.axis == "z") then
+				return true, coll.type
 			end
 		end
 	end
@@ -136,18 +136,37 @@ end
 rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump)
 	return rp_mobs.create_microtask({
 		label = "walk straight",
+		on_start = function(self, mob)
+			self.statedata.jumping = false -- is true when mob is currently jumpin
+			self.statedata.stop = false -- is set to true if microtask is supposed to be finished after the current step finishes
+		end,
 		on_step = function(self, mob, dtime, moveresult)
 			local vel = vector.new()
-			local jumping = false
-			if jump and collides_with_wall(moveresult) then
+			local set_vel = false
+			if self.statedata.jumping then
+				if moveresult.touching_ground then
+					self.statedata.jumping = false
+				end
+			end
+			local wall_collision, wall_collision_type = collides_with_wall(moveresult, true)
+			if wall_collision and wall_collision_type == "object" then
+				self.statedata.stop = true
+				mob._mob_velocity = vector.zero()
+				mob._mob_velocity.y = mob.object:get_velocity().y
+				mob._mob_velocity_changed = true
+				return
+			end
+			if jump and not self.statedata.jumping and moveresult.touching_ground and wall_collision then
 				vel.y = jump
-				jumping = true
+				set_vel = true
+				self.statedata.jumping = true
 			else
-				vel.y = 0
+				local oldvel = mob.object:get_velocity()
+				vel.y = oldvel.y
 			end
 			vel.x = math.sin(yaw) * -walk_speed
 			vel.z = math.cos(yaw) * walk_speed
-			if jumping or not self.statedata.vel_set then
+			if set_vel or not self.statedata.vel_set then
 				mob._mob_velocity.x = vel.x
 				mob._mob_velocity.y = vel.y
 				mob._mob_velocity.z = vel.z
@@ -155,8 +174,10 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump)
 				self.statedata.vel_set = true
 			end
 		end,
-		is_finished = function()
-			-- never finishes; must be aborted
+		is_finished = function(self, mob)
+			if self.statedata.stop then
+				return true
+			end
 			return false
 		end
 	})
@@ -166,6 +187,10 @@ end
 rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, reach_distance, jump)
 	return rp_mobs.create_microtask({
 		label = "walk towards something",
+		on_start = function(self, mob)
+			self.statedata.jumping = false -- is true when mob is currently jumpin
+			self.statedata.stop = false -- is set to true if microtask is supposed to be finished after the current step finishes
+		end,
 		on_step = function(self, mob, dtime, moveresult)
 			local vel = vector.new()
 			local mypos = mob.object:get_pos()
@@ -179,16 +204,29 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				return
 			end
 			local yaw = minetest.dir_to_yaw(dir)
-			local jumping = false
-			if jump and collides_with_wall(moveresult) then
+			local set_vel = false
+			local wall_collision, wall_collision_type = collides_with_wall(moveresult, true)
+			if wall_collision and wall_collision_type == "object" then
+				self.statedata.stop = true
+				mob._mob_velocity = vector.zero()
+				mob._mob_velocity.y = mob.object:get_velocity().y
+				mob._mob_velocity_changed = true
+				return
+			end
+			if self.statedata.jumping then
+				if moveresult.touching_ground then
+					self.statedata.jumping = false
+				end
+			end
+			if jump and not self.statedata.jumping and moveresult.touching_ground and wall_collision then
 				vel.y = jump
-				jumping = true
+				set_vel = true
 			else
-				vel.y = 0
+				vel.y = mob.object:get_velocity().y
 			end
 			vel.x = math.sin(yaw) * -walk_speed
 			vel.z = math.cos(yaw) * walk_speed
-			if jumping or not self.statedata.vel_set or target_type == "object" then
+			if set_vel or not self.statedata.vel_set or target_type == "object" then
 				mob._mob_velocity.x = vel.x
 				mob._mob_velocity.y = vel.y
 				mob._mob_velocity.z = vel.z
@@ -199,6 +237,9 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 			end
 		end,
 		is_finished = function(self, mob)
+			if self.statedata.stop then
+				return true
+			end
 			local mypos = mob.object:get_pos()
 			local tpos
 			if target_type == "pos" then
