@@ -173,7 +173,7 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 				if self.statedata.jump_timer >= JUMP_REPEAT_TIME then
 					if moveresult.touching_ground then
 						self.statedata.jumping = false
-						self.statedata.jump_timer = 0
+						rp_mobs.remove_phys_velocity(mob, "walk_straight_jump")
 					end
 				end
 			end
@@ -181,29 +181,27 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 			if wall_collision and wall_collision_type == "object" then
 				self.statedata.stop = true
 				mob._mob_velocity = vector.zero()
-				mob._mob_velocity.y = oldvel.y
 				mob._mob_velocity_changed = true
 				return
 			end
 			if jump and not self.statedata.jumping and moveresult.touching_ground and wall_collision then
-				vel.y = jump
-				set_vel = true
 				self.statedata.jumping = true
 				self.statedata.jump_timer = 0
-			else
-				vel.y = 0
+				rp_mobs.add_phys_velocity(mob, "walk_straight_jump", vector.new(0, jump, 0))
 			end
 			vel.x = math.sin(yaw) * -walk_speed
 			vel.z = math.cos(yaw) * walk_speed
 			if not set_vel then
-				oldvel.y = 0
-				if vector.length(oldvel) < WALK_SPEED_RESET_THRESHOLD * vector.length(vel) then
+				local realvel = mob.object:get_velocity()
+				realvel.y = 0
+				local svel = table.copy(vel)
+				svel.y = 0
+				if vector.length(realvel) < WALK_SPEED_RESET_THRESHOLD * vector.length(svel) then
 					set_vel = true
 				end
 			end
 			if set_vel then
 				mob._mob_velocity.x = vel.x
-				mob._mob_velocity.y = vel.y
 				mob._mob_velocity.z = vel.z
 				mob._mob_velocity_changed = true
 			end
