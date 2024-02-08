@@ -20,14 +20,12 @@ rp_mobs.register_mob("rp_mobs_mobs:dummy", {
 		},
 		on_activate = function(self)
 			rp_mobs.init_fall_damage(self, true)
-			rp_mobs.init_physics(self)
 			rp_mobs.init_tasks(self)
-			rp_mobs.activate_gravity(self)
+			self.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)
 			self._get_fall_damage = true
 		end,
 		on_step = function(self, dtime, moveresult)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
-			rp_mobs.handle_physics(self)
 			rp_mobs.handle_tasks(self, dtime, moveresult)
 		end,
 		on_death = rp_mobs.on_death_default,

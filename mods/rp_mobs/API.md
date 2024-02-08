@@ -6,7 +6,7 @@ NOTE: This API is EXPERIMENTAL and subject to change! Use at your own risk.
 
 ### Mobs
 
-In this mod, a "mob" refers a non-player entity with added capabilities like physics and a task queue. Mobs can be used to implement things like animals or monsters.
+In this mod, a "mob" refers a non-player entity with added capabilities like a task queue. Mobs can be used to implement things like animals or monsters.
 
 ### Tasks, microtasks and task queues
 
@@ -37,11 +37,11 @@ So on the top level, you have task queues, which consist of tasks, which in turn
 
 ### Physics and movement
 
-Physical forces and the mob's desired movements are separated. Physical forces like gravity always affect the mob, no matter where it actually wants to move (if at all). On top of physics, mobs have a desired movement.
+This mod doesn't handle physics. Just use Minetest’s built-in functions like `set_velocity` and `set_acceleration`.
 
-So instead of setting the entity acceleration and velocity directly, you're supposed to set the physical forces and desired mob movements as vectors; this mod will then do the final calculation step for you.
+There’s one exception: Gravity. This mod provides a default gravity vector at `rp_mobs.GRAVITY_VECTOR`.
 
-To use the physics system, you must initialize it first by calling `rp_mobs.init_physics` in `on_activate` and then let this mob handle the physics for you in `rp_mobs_handle_physics` in `on_step`. You also must never call builtin functions `set_velocity` and `set_acceleration` directly; you only change vectors.
+To activate gravity for a mob, you can call `mob.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)`.
 
 ### Registering a mob
 You add (register) a mob via `rp_mobs.register_mob`. Mob definitions in this API are very low-level and similar to typical entity definitions in Minetest. You still have to provide a full entity definition via `entity_definition` including the callback functions like `on_activate` and `on_rightclick`.
@@ -56,11 +56,9 @@ You can use the following template:
 		entity_definition = {
 			on_activate = function(self, staticdata)
 				rp_mobs.restore_state(self, staticdata)
-				rp_mobs.init_physics(self)
 				rp_mobs.init_tasks(self)
 			end,
 			on_step = function(self, dtime, moveresult)
-				rp_mobs.handle_physics(self)
 				rp_mobs.handle_tasks(self, dtime, moveresult)
 			end,
 			get_staticdata = rp_mobs.get_staticdata_default,
@@ -115,7 +113,7 @@ Microtasks can be created with `rp_mobs.create_microtask`.
 
 ## Subsystems
 
-Subsystems implement core mob features. The mob physics and tasks are also subsystems
+Subsystems implement core mob features. The task handling is also a subsystem.
 
 Each subsystem can be enabled by adding a `handle_*` function in `on_step` and
 most of the time, also an `init_*` function in `on_activate`.
@@ -127,7 +125,7 @@ For example, to enable the Tasks subsystem, call `rp_mobs.init_tasks` in `on_act
 of the mob entity definition, and `rp_mobs.handle_tasks` in `on_step`. See the
 function reference for details.
 
-The Tasks and Physics subsystems are mandatory and must be enabled for all mobs.
+The Tasks subsystem is mandatory and must be enabled for all mobs.
 
 ### Subsystem overview
 
@@ -135,7 +133,6 @@ This overview is a list of all subsystems and the required functions you need to
 
     Subsystem   | on_activate function     | on_step function
     ------------+--------------------------+----------------------------
-    Physics*    | rp_mobs.init_physics     | rp_mobs.handle_physics
     Tasks*      | rp_mobs.init_tasks       | rp_mobs.handle_tasks
     Node damage | rp_mobs.init_node_damage | rp_mobs.handle_node_damage***
     Fall damage | rp_mobs.init_fall_damage | rp_mobs.handle_fall_damage***
@@ -321,23 +318,15 @@ This will play a the `damage` sound if the mob took damage, otherwise, `hit_no_d
 
 ### `on_activate` functions
 
-These are functions to be used in the `on_activate` handler to initialize certain subsystems, like tasks or physics.
+These are functions to be used in the `on_activate` handler to initialize certain subsystems, like tasks.
 
 Calling `rp_mobs.restore_state` in `on_activate` is a requirement, but everything else is optional depending on your needs.
-
-For example, you can choose to *not* call `rp_mobs.init_physics` if your mob does not need the physics subsystem.
 
 #### `rp_mobs.restore_state(mob, staticdata)`
 
 This will restore the mob's state data from the given `staticdata` in `on_activate`.
 
 This *must* be called in `on_activate`.
-
-#### `rp_mobs.init_physics(mob)`
-
-Initialize and enable the mob physics system for mob `mob`.
-This is supposed to go into `on_activate` of the entity definition.
-This function **must** be called before any other physics-related function.
 
 #### `rp_mobs.init_tasks(mob)`
 
@@ -408,11 +397,6 @@ Handle the task queues, tasks, microtasks of the mob for a single step. Required
 This is supposed to go into `on_step` of the entity definition. It must be called every step.
 
 `dtime` and `moveresult` must be passed from the arguments of the same name of the entity’s `on_step`.
-
-#### `rp_mobs.handle_physics(mob)`
-
-Update the mob physics for a single mob step. Required for the mob physics to work.
-This is supposed to go into `on_step` of the entity definition. It must be called every step.
 
 #### `rp_mobs.handle_node_damage(mob, dtime)`
 
@@ -535,50 +519,6 @@ Add a task `task` to the given task queue object.
 #### `rp_mobs.add_microtask_to_task(mob, microtask, task)`
 
 Add the microtask `microtask` to the specified `task`.
-
-
-
-### Physics functions
-
-These functions require the Physics subsystem.
-
-#### `rp_mobs.add_phys_acceleration(mob, name, vector)`
-
-Add a named vector to the mob's physical acceleration.
-The mob's physical acceleration is the sum of all named acceleration vectors.
-
-If the named vector already exists, it will be overwritten.
-
-* `mob`: The mob
-* `name`: Name of the acceleration vector
-* `vector`: The acceleration vector
-
-#### `rp_mobs.remove_phys_acceleration(mob, name)`
-
-Remove a named vector to the mob's physical acceleration that
-has been added with `rp_mobs.add_phys_acceleration` before.
-
-* `mob`: The mob
-* `name`: Name of the acceleration vector to remove
-
-#### `rp_mobs.add_phys_velocity(mob, name, vector)`
-
-Add a named vector to the mob's physical velocity.
-The mob's physical velocity is the sum of all named velocity vectors.
-
-This function is analogous to `rp_mobs.add_phys_acceleration`.
-
-#### `rp_mobs.remove_phys_velocity(mob, name)`
-
-Same as `rp_mobs.remove_phys_acceleration`, but for velocity.
-
-#### `rp_mobs.activate_gravity(mob)`
-
-Activate gravity for mob.
-
-#### `rp_mobs.deactivate_gravity(mob)`
-
-Deactivate gravity for mob.
 
 ### Breeding functions
 
@@ -769,4 +709,3 @@ so this is the recommended function to make a mob drop something.
 * Task: A sequence of microtasks a mob will execute in order; can’t run in parallel
 * Microtask: A simple function a mob will execute every step until a goal condition is met
 * Decider: A function that is called when the task queue is empty in order to generate new tasks
-* Subsystem: A built-in mob behavior (physics, breeding, drowning)

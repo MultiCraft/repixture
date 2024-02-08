@@ -7,6 +7,8 @@ local TASK_DEBUG = true
 -- Default gravity that affects the mobs
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
 
+rp_mobs.GRAVITY_VECTOR = vector.new(0, -GRAVITY, 0)
+
 -- List of entity variables to store in staticdata
 -- (so they are persisted when unloading)
 local persisted_entity_vars = {}
@@ -233,110 +235,6 @@ rp_mobs.heal = function(self, heal)
 	local hp_max = self.object:get_properties().hp_max
 	hp = math.min(hp_max, hp + heal)
 	self.object:set_hp(hp)
-end
-
-rp_mobs.init_physics = function(self)
-	self._mob_acceleration = vector.zero()
-	self._phys_acceleration = {}
-	self._mob_velocity = vector.zero()
-	self._phys_velocity = {}
-
-	self._phys_acceleration_changed = false
-	self._phys_velocity_changed = false
-	self._mob_acceleration_changed = false
-	self._mob_velocity_changed = false
-end
-
-rp_mobs.add_phys_acceleration = function(self, name, force)
-	for i=1, #self._phys_acceleration do
-		local entry = self._phys_acceleration[i]
-		if entry.name == name then
-			entry.vec = force
-			self._phys_acceleration_changed = true
-			return
-		end
-	end
-	table.insert(self._phys_acceleration, { name = name, vec = force })
-	self._phys_acceleration_changed = true
-end
-rp_mobs.remove_phys_acceleration = function(self, name)
-	for i=1, #self._phys_acceleration do
-		local entry = self._phys_acceleration[i]
-		if entry.name == name then
-			table.remove(self._phys_acceleration, i)
-			self._phys_acceleration_changed = true
-			return
-		end
-	end
-end
-rp_mobs.add_phys_velocity = function(self, name, vel)
-	for i=1, #self._phys_velocity do
-		local entry = self._phys_velocity[i]
-		if entry.name == name then
-			entry.vec = vel
-			self._phys_velocity_changed = true
-			return
-		end
-	end
-	table.insert(self._phys_velocity, { name = name, vec = vel})
-	self._phys_velocity_changed = true
-end
-rp_mobs.remove_phys_velocity = function(self, name)
-	for i=1, #self._phys_velocity do
-		local entry = self._phys_velocity[i]
-		if entry.name == name then
-			table.remove(self._phys_velocity, i)
-			self._phys_velocity_changed = true
-			return
-		end
-	end
-end
-
-rp_mobs.activate_gravity = function(self)
-	rp_mobs.add_phys_acceleration(self, "rp_mobs:gravity", {x=0, y=-GRAVITY, z=0})
-end
-rp_mobs.deactivate_gravity = function(self)
-	rp_mobs.remove_phys_acceleration(self, "rp_mobs:gravity")
-end
-
-rp_mobs.handle_physics = function(self)
-	if not self._cmi_is_mob then
-		local entname = self.name or "<UNKNOWN>"
-		minetest.log("error", "[rp_mobs] rp_mobs.handle_physics was called on '"..entname.."' which is not a registered mob!")
-	end
-	if not self._phys_acceleration then
-		local entname = self.name or "<UNKNOWN>"
-		minetest.log("error", "[rp_mobs] rp_mobs.handle_physics was called on '"..entname.."' with uninitialized physics variables!")
-	end
-	if not rp_mobs.is_alive(self) then
-		return
-	end
-
-	-- Apply physics change
-	if self._phys_acceleration_changed or self._mob_acceleration_changed then
-		local acceleration = vector.zero()
-		for i=1, #self._phys_acceleration do
-			local entry = self._phys_acceleration[i]
-			acceleration = vector.add(acceleration, entry.vec)
-		end
-		acceleration = vector.add(acceleration, self._mob_acceleration)
-		self.object:set_acceleration(acceleration)
-
-		self._phys_acceleration_changed = false
-		self._mob_acceleration_changed = false
-	end
-	if self._phys_velocity_changed or self._mob_velocity_changed then
-		local velocity = vector.zero()
-		for i=1, #self._phys_velocity do
-			local entry = self._phys_velocity[i]
-			velocity = vector.add(velocity, entry.vec)
-		end
-		velocity = vector.add(velocity, self._mob_velocity)
-		self.object:set_velocity(velocity)
-
-		self._phys_velocity_changed = false
-		self._mob_velocity_changed = false
-	end
 end
 
 rp_mobs.init_tasks = function(self)

@@ -84,13 +84,11 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 		local dir = vector.direction(mob_pos, dir_next_pos)
 		local dist = vector.distance(mob_pos, dir_next_pos)
 		if vector.length(dir) > 0.001 and dist > 0.1 then
-			mob._mob_velocity = dir
-			mob._mob_velocity_changed = true
+			mob.object:set_velocity(dir)
 			self.statedata.moving = true
 		else
 			if self.statedata.moving ~= false then
-				mob._mob_velocity = vector.zero()
-				mob._mob_velocity_changed = true
+				mob.object:set_velocity(vector.zero())
 				self.statedata.moving = false
 			end
 		end
@@ -100,8 +98,7 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 		return vector.distance(pos, target_pos) < PATH_DISTANCE_TO_GOAL_POINT
 	end
 	mtask.on_end = function(self, mob)
-		mob._mob_velocity = vector.zero()
-		mob._mob_velocity_changed = true
+		mob.object:set_velocity(vector.zero())
 	end
 	return rp_mobs.create_microtask(mtask)
 end
@@ -159,51 +156,43 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 		end,
 		on_step = function(self, mob, dtime, moveresult)
 			self.statedata.timer = self.statedata.timer + dtime
-			local oldvel = table.copy(mob._mob_velocity)
+			local vel = mob.object:get_velocity()
 			if max_timer and self.statedata.timer >= max_timer then
 				self.statedata.stop = true
-				mob._mob_velocity = vector.zero()
-				mob._mob_velocity_changed = true
+				vel.x = 0
+				vel.z = 0
+				mob.object:set_velocity(vel)
 				return
 			end
-			local vel = vector.new()
-			local set_vel = false
 			if self.statedata.jumping then
 				self.statedata.jump_timer = self.statedata.jump_timer + dtime
 				if self.statedata.jump_timer >= JUMP_REPEAT_TIME then
 					if moveresult.touching_ground then
 						self.statedata.jumping = false
-						rp_mobs.remove_phys_velocity(mob, "walk_straight_jump")
 					end
 				end
 			end
 			local wall_collision, wall_collision_type = collides_with_wall(moveresult, true)
 			if wall_collision and wall_collision_type == "object" then
 				self.statedata.stop = true
-				mob._mob_velocity = vector.zero()
-				mob._mob_velocity_changed = true
+				vel.x = 0
+				vel.z = 0
+				mob.object:set_velocity(vel)
 				return
 			end
 			if jump and not self.statedata.jumping and moveresult.touching_ground and wall_collision then
 				self.statedata.jumping = true
 				self.statedata.jump_timer = 0
-				rp_mobs.add_phys_velocity(mob, "walk_straight_jump", vector.new(0, jump, 0))
+				vel.y = jump
 			end
 			vel.x = math.sin(yaw) * -walk_speed
 			vel.z = math.cos(yaw) * walk_speed
-			if not set_vel then
-				local realvel = mob.object:get_velocity()
-				realvel.y = 0
-				local svel = table.copy(vel)
-				svel.y = 0
-				if vector.length(realvel) < WALK_SPEED_RESET_THRESHOLD * vector.length(svel) then
-					set_vel = true
-				end
-			end
-			if set_vel then
-				mob._mob_velocity.x = vel.x
-				mob._mob_velocity.z = vel.z
-				mob._mob_velocity_changed = true
+			local realvel_hor = mob.object:get_velocity()
+			realvel_hor.y = 0
+			local targetvel_hor = table.copy(vel)
+			targetvel_hor.y = 0
+			if vector.length(realvel_hor) < WALK_SPEED_RESET_THRESHOLD * vector.length(targetvel_hor) then
+				mob.object:set_velocity(vel)
 			end
 		end,
 		is_finished = function(self, mob)
@@ -241,9 +230,7 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 			local oldvel = mob.object:get_velocity()
 			if max_timer and self.statedata.timer >= max_timer then
 				self.statedata.stop = true
-				mob._mob_velocity = vector.zero()
-				mob._mob_velocity.y = oldvel.y
-				mob._mob_velocity_changed = true
+				mob.object:set_velocity(vector.zero())
 				return
 			end
 			local vel = vector.new()
@@ -262,9 +249,8 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 			local wall_collision, wall_collision_type = collides_with_wall(moveresult, true)
 			if wall_collision and wall_collision_type == "object" then
 				self.statedata.stop = true
-				mob._mob_velocity = vector.zero()
-				mob._mob_velocity.y = oldvel.y
-				mob._mob_velocity_changed = true
+				local ovel = vector.new(0, oldvel.y, 0)
+				mob.object:set_velocity(vector.new(0, oldvel.y, 0))
 				return
 			end
 			if self.statedata.jumping then
@@ -287,10 +273,7 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				end
 			end
 			if set_vel or not self.statedata.vel_set or target_type == "object" then
-				mob._mob_velocity.x = vel.x
-				mob._mob_velocity.y = vel.y
-				mob._mob_velocity.z = vel.z
-				mob._mob_velocity_changed = true
+				self.object:set_velocity(vel)
 				if target_type == "pos" then
 					self.statedata.vel_set = true
 				end
@@ -319,8 +302,7 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 			end
 		end,
 		on_end = function(self, mob)
-			mob._mob_velocity = vector.zero()
-			mob._mob_velocity_changed = true
+			mob.object:set_velocity(vector.zero())
 		end,
 	})
 end
@@ -396,46 +378,3 @@ rp_mobs.microtasks.sleep = function(time)
 	})
 end
 
--- DUMMY TEMPLATES (need to do better later)
-
-rp_mobs.microtasks.jump = function(strength)
-	return rp_mobs.create_microtask({
-		label = "jump",
-		singlestep = true,
-		on_step = function(self, mob)
-			mob.object:add_velocity({x=0, y=strength, z=0})
-		end,
-	})
-end
-
-rp_mobs.microtasks.go_to_x = function(target_x, tolerance)
-	return rp_mobs.create_microtask({
-		label = "move to x coordinate",
-		on_step = function(self, mob)
-			local pos = mob.object:get_pos()
-			if pos.x > target_x then
-				if mob._mob_velocity.x < -1.001 or mob._mob_velocity.x > -0.999 then
-					mob._mob_velocity.x = -1
-					mob._mob_velocity_changed = true
-				end
-			else
-				if mob._mob_velocity.x > 1.001 or mob._mob_velocity.x < 0.999 then
-					mob._mob_velocity.x = 1
-					mob._mob_velocity_changed = true
-				end
-			end
-		end,
-		is_finished = function(self, mob)
-			local pos = mob.object:get_pos()
-			if math.abs(pos.x - target_x) <= tolerance then
-				return true
-			else
-				return false
-			end
-		end,
-		on_end = function(self, mob)
-			mob._mob_velocity = vector.zero()
-			mob._mob_velocity_changed = true
-		end,
-	})
-end

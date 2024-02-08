@@ -86,8 +86,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			})
 			rp_mobs.init_node_damage(self, true)
 
-			rp_mobs.init_physics(self)
-			rp_mobs.activate_gravity(self)
+			self.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)
 
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(roam_decider))
@@ -96,7 +95,6 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		end,
 		on_step = function(self, dtime, moveresult)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
-			rp_mobs.handle_physics(self)
 			rp_mobs.handle_tasks(self, dtime, moveresult)
 			rp_mobs.handle_breeding(self, dtime)
 		end,
