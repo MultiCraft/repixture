@@ -286,6 +286,18 @@ rp_mobs.add_microtask_to_task  = function(self, microtask, task)
 	return task.microTasks:append(microtask)
 end
 
+rp_mobs.scan_environment = function(self)
+	local pos = self.object:get_pos()
+	local cpos = vector.round(pos)
+	if (not self._env_lastpos) or (not vector.equals(cpos, self._env_lastpos)) then
+		self._env_lastpos = cpos
+		self._env_node = minetest.get_node(pos)
+		self._env_node_floor = minetest.get_node(vector.offset(pos, 0, -1, 0))
+		minetest.log("error", self._env_node.name)
+		minetest.log("error", self._env_node_floor.name)
+	end
+end
+
 rp_mobs.handle_tasks = function(self, dtime, moveresult)
 	if not self._task_queues then
 		minetest.log("error", "[rp_mobs] rp_mobs.handle_tasks called before tasks were initialized!")

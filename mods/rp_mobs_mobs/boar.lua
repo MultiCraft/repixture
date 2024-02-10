@@ -94,6 +94,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(call_sound_decider))
 		end,
 		on_step = function(self, dtime, moveresult)
+			rp_mobs.scan_environment(self)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)
 			rp_mobs.handle_breeding(self, dtime)
