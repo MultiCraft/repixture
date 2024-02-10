@@ -1,6 +1,6 @@
 # textdomain: rp_commands
-[<player>] <value>=
-Set health points of player or yourself=
-Not possible, damage is disabled.=
-Player @1 does not exist.=
-Invalid health!=
+[<player>] <value>=[<игрок>] <значение>
+Set health points of player or yourself=Установить очки здоровья игрока или себя
+Not possible, damage is disabled.=Невозможно, урон отключен.
+Player @1 does not exist.=Игрок @1 не существует.
+Invalid health!=Недопустимое здоровье!

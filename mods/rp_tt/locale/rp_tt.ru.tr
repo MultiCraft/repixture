@@ -1,7 +1,7 @@
 # textdomain: rp_tt
 Magnetic=Магнитный
 Unmagnetic=Немагнитный
-Ignitible=
-Place: Scrape off paint=
-Punch: Scrape off paint=
-Can scrape off paint=
+Ignitible=Воспламеняющийся
+Place: Scrape off paint=Поставить: Соскрести краску
+Punch: Scrape off paint=Ударить: Соскрести краску
+Can scrape off paint=Может соскребать краску

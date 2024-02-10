@@ -1,6 +1,6 @@
 # textdomain: rp_tnt
 TNT=Динамит
-Will explode when ignited by flint and steel=
+Will explode when ignited by flint and steel=Взорвется при воспламенении от кремня и стали
 TNT (defused)=Динамит (обезврежен)
 It's harmless=Он не представляет опасности
 TNT (ignited)=Динамит (подожжён)
