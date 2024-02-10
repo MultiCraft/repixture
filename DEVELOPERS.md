@@ -3,13 +3,22 @@
 This file explains information to document the code of Repixture and information for people
 wanting to develop or mod Repixture.
 
-Note the focus of Repixture is not to be a "base for modding", but to be a standalone
-game in its own right. That having said, Repixture also doesn't actively oppose
+Note the focus of Repixture is not to be a “base for modding”, but to be a standalone
+game in its own right. That having said, Repixture also doesn’t actively oppose
 modding.
 
-## Core development
+## Translation
 
-### Testing
+Repixture wants to be translated in many languages. As a translator, just go to
+<https://translate.codeberg.org/projects/repixture/> and start contributing!
+All you need is an account on Codeberg.org.
+
+Usually, all translations will be included in the next release.
+
+From the developer’s point of view, maintaining the translations requires some extra
+work. See `DEV_TRANSLATION_WORKFLOW.md` for details.
+
+## Testing
 
 There are some hidden testing/debug settings. Add them into `minetest.conf` to activate:
 
@@ -65,7 +74,7 @@ Mods with documented APIs:
 * `rp_wielditem`: Custom rotation of item in hand in 3rd person view (in case it looks awkward)
 * `tt`: Custom tooltips
 
-Beware: Calling functions that are not documented are NOT guaranted to be stable
+Beware: Calling functions that are not documented are NOT guaranteed to be stable
 in future versions, so use them with care.
 
 ## Groups
