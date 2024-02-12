@@ -242,10 +242,11 @@ rp_mobs.init_tasks = function(self)
 	self._active_task_queue = nil
 end
 
-rp_mobs.create_task_queue = function(decider)
+rp_mobs.create_task_queue = function(empty_decider, step_decider)
 	return {
 		tasks = rp_mobs.DoublyLinkedList(),
-		decider = decider,
+		empty_decider = empty_decider,
+		step_decider = step_decider,
 	}
 end
 
@@ -257,6 +258,13 @@ rp_mobs.add_task_to_task_queue = function(task_queue, task)
 	task_queue.tasks:append(task)
 	if task.generateMicroTasks then
 		task:generateMicroTasks()
+	end
+end
+
+rp_mobs.end_current_task_in_task_queue = function(mob, task_queue)
+	local first = task_queue.tasks:getFirst()
+	if first then
+		task_queue.tasks:remove(first)
 	end
 end
 
@@ -288,13 +296,14 @@ end
 
 rp_mobs.scan_environment = function(self)
 	local pos = self.object:get_pos()
+	local props = self.object:get_properties()
+	local yoff = props.collisionbox[2] + (props.collisionbox[5] - props.collisionbox[2]) / 2
+	pos = vector.offset(pos, 0, yoff, 0)
 	local cpos = vector.round(pos)
 	if (not self._env_lastpos) or (not vector.equals(cpos, self._env_lastpos)) then
 		self._env_lastpos = cpos
 		self._env_node = minetest.get_node(pos)
 		self._env_node_floor = minetest.get_node(vector.offset(pos, 0, -1, 0))
-		minetest.log("error", self._env_node.name)
-		minetest.log("error", self._env_node_floor.name)
 	end
 end
 
@@ -319,13 +328,19 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 
 		local activeTaskQueue = active_task_queue_entry.data
 
-		-- Run decider if active task queue is empty
+		-- Run step decider
+		if activeTaskQueue.step_decider then
+			activeTaskQueue:step_decider(self)
+		end
+
+		-- Run empty decider if active task queue is empty
 		local activeTaskEntry
 		if activeTaskQueue.tasks:isEmpty() then
-			if activeTaskQueue.decider then
-				activeTaskQueue:decider(self)
+			if activeTaskQueue.empty_decider then
+				activeTaskQueue:empty_decider(self)
 			end
 		end
+
 		activeTaskEntry = activeTaskQueue.tasks:getFirst()
 
 		if not activeTaskEntry then
@@ -337,7 +352,10 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 		end
 
 		-- Handle current task of active task queue
-		local activeTask = activeTaskEntry.data
+		local activeTask
+		if activeTaskEntry then
+			activeTask = activeTaskEntry.data
+		end
 		local activeMicroTaskEntry
 
 		if not task_queue_done then

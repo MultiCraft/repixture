@@ -8,6 +8,8 @@ local JUMP_REPEAT_TIME = 1
 -- the mob will reset the walk speed
 local WALK_SPEED_RESET_THRESHOLD = 0.9
 
+local MOVE_SPEED_RESET_THRESHOLD = 0.9
+
 local show_pathfinder_path = function(path)
 	local pathstr = ""
 	for p=1, #path do
@@ -135,7 +137,46 @@ local collides_with_wall = function(moveresult, include_objects)
 	return false
 end
 
--- Walk in a straight line, jumping if hitting obstable and jump~=nil. No finish condition
+-- Move in a straight line on any axis
+-- * yaw: look direction in radians
+-- * max_timer: automatically finish microtask after this many seconds (nil = infinite)
+rp_mobs.microtasks.move_straight = function(move_vector, yaw, max_timer)
+	local label
+	if max_timer then
+		label = "move straight for "..string.format("%.1f", max_timer).."s"
+	else
+		label = "move straight"
+	end
+	return rp_mobs.create_microtask({
+		label = label,
+		on_start = function(self, mob)
+			self.statedata.stop = false -- is set to true if microtask is supposed to be finished after the current step finishes
+			self.statedata.timer = 0 -- how long this microtask has been going, in seconds
+		end,
+		on_step = function(self, mob, dtime, moveresult)
+			self.statedata.timer = self.statedata.timer + dtime
+			if max_timer and self.statedata.timer >= max_timer then
+				self.statedata.stop = true
+				mob.object:set_velocity(vector.zero())
+				return
+			end
+			local vel = move_vector
+			local realvel = mob.object:get_velocity()
+			local targetvel = table.copy(vel)
+			if vector.length(realvel) < MOVE_SPEED_RESET_THRESHOLD * vector.length(targetvel) then
+				mob.object:set_velocity(vel)
+			end
+		end,
+		is_finished = function(self, mob)
+			if self.statedata.stop then
+				return true
+			end
+			return false
+		end
+	})
+end
+
+-- Walk in a straight line, jumping if hitting obstable and jump~=nil
 -- * yaw: walk direction in radians
 -- * jump: jump strength if mob needs to jump or nil if no jumping
 -- * max_timer: automatically finish microtask after this many seconds (nil = infinite)

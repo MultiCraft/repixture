@@ -483,13 +483,19 @@ This section contains the functions to create tasks, microtasks and task queues 
 
 See also `rp_mobs.init_tasks` and `rp_mobs.handle_tasks`.
 
-#### `rp_mobs.create_task_queue(decider)`
+#### `rp_mobs.create_task_queue(empty_decider, step_decider)`
 
-Create a task queue object and returns it. `decider` is an
-optional function with signature `decider(task_queue, mob)` that is
-called whenever the task queue is empty.
+Create a task queue object and returns it. The two arguments are
+optional decider functions. Each of them is a function with
+signature `(task_queue, mob)`.
+
 In this function you can update the task queue by adding new
 tasks to it. Avoid complex and slow algorithms here!
+
+* `empty_decider`: called when the task queue is empty
+* `step_decider`: called at every server step
+
+Set a decider argument to do nothing for that event.
 
 #### `rp_mobs.create_task(def)`
 
@@ -519,6 +525,11 @@ Add a task `task` to the given task queue object.
 #### `rp_mobs.add_microtask_to_task(mob, microtask, task)`
 
 Add the microtask `microtask` to the specified `task`.
+
+#### `rp_mobs.end_current_task_in_task_queue(mob, task_queue)`
+
+Ends the currently active task in the given `task_queue` of `mob`.
+If the task queue is empty, nothing happens.
 
 ### Breeding functions
 
