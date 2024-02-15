@@ -43,12 +43,13 @@ local roam_decider = function(task_queue, mob)
 	local mt_sleep = rp_mobs.microtasks.sleep(math.random(IDLE_DURATION_MIN, IDLE_DURATION_MAX)/1000)
 	mt_sleep.start_animation = "idle"
 
-	if is_liquid(mob._env_node.name) then
+	if mob._env_node.name == "ignore" then
+		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
+	elseif is_liquid(mob._env_node.name) then
 		task_roam = rp_mobs.create_task({label="swim upwards"})
 		local yaw = math.random(0, 360) / 360 * (math.pi*2)
 		local move_vector = vector.new(0, LIQUID_RISE_SPEED, 0)
 		local mt_swim_up = rp_mobs.microtasks.move_straight(move_vector, yaw, vector.new(2, 0.3, 2))
-		mt_swim_up.start_animation = "walk"
 		rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(vector.zero()), task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_swim_up, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
@@ -58,7 +59,9 @@ local roam_decider = function(task_queue, mob)
 		local yaw = math.random(0, 360) / 360 * (math.pi*2)
 		local walk_duration = math.random(WALK_DURATION_MIN, WALK_DURATION_MAX)/1000
 		local mt_walk = rp_mobs.microtasks.walk_straight(WALK_SPEED, yaw, JUMP_STRENGTH, walk_duration)
+		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 		mt_walk.start_animation = "walk"
+		rp_mobs.add_microtask_to_task(mob, mt_yaw, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_set_velocity(vector.zero()), task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
@@ -68,7 +71,9 @@ local roam_decider = function(task_queue, mob)
 		local yaw = math.random(0, 360) / 360 * (math.pi*2)
 		local walk_duration = math.random(WALK_DURATION_MIN, WALK_DURATION_MAX)/1000
 		local mt_walk = rp_mobs.microtasks.walk_straight(WALK_SPEED, yaw, JUMP_STRENGTH, walk_duration)
+		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 		mt_walk.start_animation = "walk"
+		rp_mobs.add_microtask_to_task(mob, mt_yaw, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(rp_mobs.GRAVITY_VECTOR), task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_set_velocity(vector.zero()), task_roam)
@@ -97,13 +102,6 @@ local roam_decider_step = function(task_queue, mob)
 			end
 		end
 	end
-end
-
-local autoyaw_decider = function(task_queue, mob)
-	local task_autoyaw = rp_mobs.create_task({label="autoyaw"})
-	local mt_autoyaw = rp_mobs.microtasks.autoyaw()
-	rp_mobs.add_microtask_to_task(mob, mt_autoyaw, task_autoyaw)
-	rp_mobs.add_task_to_task_queue(task_queue, task_autoyaw)
 end
 
 local call_sound_decider = function(task_queue, mob)
@@ -159,11 +157,8 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			})
 			rp_mobs.init_node_damage(self, true)
 
-			self.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)
-
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(roam_decider, roam_decider_step))
-			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(autoyaw_decider))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(call_sound_decider))
 		end,
 		on_step = function(self, dtime, moveresult)
