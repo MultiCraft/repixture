@@ -40,16 +40,18 @@ end
 
 local roam_decider = function(task_queue, mob)
 	local task_roam
+	local mt_sleep = rp_mobs.microtasks.sleep(math.random(IDLE_DURATION_MIN, IDLE_DURATION_MAX)/1000)
+	mt_sleep.start_animation = "idle"
+
 	if is_liquid(mob._env_node.name) then
 		task_roam = rp_mobs.create_task({label="swim upwards"})
 		local yaw = math.random(0, 360) / 360 * (math.pi*2)
-		local rise_duration = math.random(WALK_DURATION_MIN, WALK_DURATION_MAX)/1000
 		local move_vector = vector.new(0, LIQUID_RISE_SPEED, 0)
-		local mt_swim_up = rp_mobs.microtasks.move_straight(move_vector, yaw, rise_duration)
+		local mt_swim_up = rp_mobs.microtasks.move_straight(move_vector, yaw, vector.new(2, 0.3, 2))
 		mt_swim_up.start_animation = "walk"
 		rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(vector.zero()), task_roam)
-		rp_mobs.add_microtask_to_task(mob, mt_set_velocity(vector.zero()), task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_swim_up, task_roam)
+		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 	elseif is_liquid(mob._env_node_floor.name) then
 		task_roam = rp_mobs.create_task({label="swim on liquid surface"})
 
@@ -59,6 +61,7 @@ local roam_decider = function(task_queue, mob)
 		mt_walk.start_animation = "walk"
 		rp_mobs.add_microtask_to_task(mob, mt_set_velocity(vector.zero()), task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
+		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 	else
 		task_roam = rp_mobs.create_task({label="roam land"})
 
@@ -66,14 +69,12 @@ local roam_decider = function(task_queue, mob)
 		local walk_duration = math.random(WALK_DURATION_MIN, WALK_DURATION_MAX)/1000
 		local mt_walk = rp_mobs.microtasks.walk_straight(WALK_SPEED, yaw, JUMP_STRENGTH, walk_duration)
 		mt_walk.start_animation = "walk"
+		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(rp_mobs.GRAVITY_VECTOR), task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_set_velocity(vector.zero()), task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
 	end
 
-	local mt_sleep = rp_mobs.microtasks.sleep(math.random(IDLE_DURATION_MIN, IDLE_DURATION_MAX)/1000)
-	mt_sleep.start_animation = "idle"
-	rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 	rp_mobs.add_task_to_task_queue(task_queue, task_roam)
 end
 

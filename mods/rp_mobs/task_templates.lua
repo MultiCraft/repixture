@@ -8,7 +8,7 @@ local JUMP_REPEAT_TIME = 1
 -- the mob will reset the walk speed
 local WALK_SPEED_RESET_THRESHOLD = 0.9
 
-local MOVE_SPEED_RESET_THRESHOLD = 0.9
+local MOVE_SPEED_MAX_DIFFERENCE = 0.01
 
 local show_pathfinder_path = function(path)
 	local pathstr = ""
@@ -138,9 +138,13 @@ local collides_with_wall = function(moveresult, include_objects)
 end
 
 -- Move in a straight line on any axis
+-- * move_vector: velocity vector to target.
 -- * yaw: look direction in radians
+-- * drag: (optional) if set as a vector, will adjust the velocity smoothly towards the target
+--   velocity, with higher axis values leading to faster change. If unset, will set
+--   velocity instantly
 -- * max_timer: automatically finish microtask after this many seconds (nil = infinite)
-rp_mobs.microtasks.move_straight = function(move_vector, yaw, max_timer)
+rp_mobs.microtasks.move_straight = function(move_vector, yaw, drag, max_timer)
 	local label
 	if max_timer then
 		label = "move straight for "..string.format("%.1f", max_timer).."s"
@@ -163,8 +167,23 @@ rp_mobs.microtasks.move_straight = function(move_vector, yaw, max_timer)
 			local vel = move_vector
 			local realvel = mob.object:get_velocity()
 			local targetvel = table.copy(vel)
-			if vector.length(realvel) < MOVE_SPEED_RESET_THRESHOLD * vector.length(targetvel) then
-				mob.object:set_velocity(vel)
+			local changevel = false
+			if drag then
+				for _, axis in pairs({"x","y","z"}) do
+					if math.abs(targetvel[axis] - realvel[axis]) > MOVE_SPEED_MAX_DIFFERENCE then
+						if targetvel[axis] > realvel[axis] then
+							targetvel[axis] = realvel[axis] + drag[axis] * math.sign(targetvel[axis])
+						else
+							targetvel[axis] = realvel[axis] - drag[axis] * math.sign(targetvel[axis])
+						end
+						changevel = true
+					end
+				end
+			else
+				velchanged = true
+			end
+			if changevel then
+				mob.object:set_velocity(targetvel)
 			end
 		end,
 		is_finished = function(self, mob)
