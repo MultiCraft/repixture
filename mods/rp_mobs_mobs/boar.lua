@@ -210,10 +210,12 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 	is_animal = true,
 	drops = {"rp_mobs_mobs:pork_raw"},
 	default_sounds = {
-		death = "mobs_boar_angry",
-		damage = "mobs_boar",
+		death = "mobs_boar_die",
+		damage = "mobs_boar_hurt",
 		eat = "mobs_eat",
-		call = "mobs_boar",
+		call = "mobs_boar_call",
+		give_birth = "mobs_boar_give_birth",
+		horny = "mobs_boar_horny",
 	},
 	animations = {
 		["idle"] = { frame_range = { x = 0, y = 60 }, default_frame_speed = 20 },
