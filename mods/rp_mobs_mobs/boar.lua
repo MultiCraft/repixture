@@ -252,6 +252,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			rp_mobs.scan_environment(self)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)
+			rp_mobs.advance_child_growth(self, dtime)
 			rp_mobs.handle_breeding(self, dtime)
 		end,
 		on_rightclick = function(self, clicker)
