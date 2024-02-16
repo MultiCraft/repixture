@@ -232,7 +232,9 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			makes_footstep_sound = true,
 			stepheight = 0.6,
 		},
-		on_activate = function(self)
+		on_activate = function(self, staticdata)
+			rp_mobs.restore_state(self, staticdata)
+
 			rp_mobs.init_fall_damage(self, true)
 			rp_mobs.init_breath(self, true, {
 				breath_max = 10,
@@ -244,6 +246,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(roam_decider, roam_decider_step))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(call_sound_decider))
 		end,
+		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)
 			rp_mobs.scan_environment(self)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)

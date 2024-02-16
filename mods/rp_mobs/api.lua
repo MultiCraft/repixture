@@ -85,12 +85,18 @@ rp_mobs.registered_mobs = {}
 
 rp_mobs.register_mob = function(mobname, def)
 	local mdef = table.copy(def)
+	local initprop
+	if def.entity_definition and def.entity_definition.initial_properties then
+		initprop = def.entity_definition.initial_properties
+	else
+		initprop = {}
+	end
 	mdef.entity_definition._cmi_is_mob = true
 	mdef.entity_definition._description = def.description
 	mdef.entity_definition._is_animal = def.is_animal
-	mdef.entity_definition._base_size = table.copy(def.entity_definition.visual_size or { x=1, y=1, z=1 })
-	mdef.entity_definition._base_selbox = table.copy(def.entity_definition.selectionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate = false })
-	mdef.entity_definition._base_colbox = table.copy(def.entity_definition.collisionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5})
+	mdef.entity_definition._base_size = table.copy(initprop.visual_size or { x=1, y=1, z=1 })
+	mdef.entity_definition._base_selbox = table.copy(initprop.selectionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate = false })
+	mdef.entity_definition._base_colbox = table.copy(initprop.collisionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5})
 	mdef.entity_definition._default_sounds = table.copy(def.default_sounds or {})
 	mdef.entity_definition._animations = table.copy(def.animations or {})
 	mdef.entity_definition._current_animation = nil
