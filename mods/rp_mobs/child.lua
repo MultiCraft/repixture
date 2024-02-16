@@ -40,6 +40,7 @@ rp_mobs.make_horny = function(mob, force)
 		return
 	end
 	if (not mob._horny) and (force or (mob._horny_timer < HORNY_AGAIN_TIME)) then
+		rp_mobs.default_mob_sound(mob, "horny")
 		mob._horny = true
 		mob._horny_timer = 0
 		-- Start spawning breed particles in next step
@@ -139,6 +140,7 @@ local pregnancy = function(mob, dtime)
 			local pos = mob.object:get_pos()
 			local child = minetest.add_entity(pos, mob.name)
 			if child then
+				rp_mobs.default_mob_sound(mob, "give_birth")
 				rp_mobs.turn_into_child(child)
 
 				-- Award achievement to player who has breeded the mobs

@@ -214,10 +214,18 @@ rp_mobs.on_death_default = function(self, killer)
 end
 
 rp_mobs.on_punch_default = function(self, puncher, time_from_last_punch, tool_capabilities, dir, damage)
+	if not damage then
+		return
+	end
+	if self.object:get_hp() - damage <= 0 then
+		-- If mob would die from punch, don't play damage sound
+		return
+	end
+	-- Play default punch/damage sound
 	if damage >= 1 then
 		rp_mobs.default_mob_sound(self, "damage")
 	else
-		rp_mobs.default_mob_sound(self, "hit_no_damage")
+		rp_mobs.default_mob_sound(self, "punch_no_damage")
 	end
 end
 

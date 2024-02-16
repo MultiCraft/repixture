@@ -246,9 +246,12 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
 * `child_drops`: Table of itemstrings to be dropped when the mob dies as a child (default: empty table)
 * `default_sounds`: Table of default sound names to play automatically on built-in events. Sounds will be played by `rp_mobs.default_mob_sound`
   * `death`: When mob dies
-  * `damage`: When mob takes damage
-  * `eat`: When mob eats (not yet implemented)
+  * `damage`: When mob takes non-fatal damage
+  * `punch_no_damage`: When mob was punched but took no damage
+  * `eat`: When mob eats something (this has a default sound)
   * `call`: Occassional mob call (only played manually)
+  * `horny`: When mob becomes horny
+  * `give_birth`: When mob gives birth to a child
 * `entity_definition`: Entity definition table. It may contain this custom function:
   * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
                                      Triggered by `rp_mobs.call_on_capture`
