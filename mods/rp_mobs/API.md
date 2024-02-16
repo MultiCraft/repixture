@@ -252,6 +252,8 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
 * `entity_definition`: Entity definition table. It may contain this custom function:
   * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
                                      Triggered by `rp_mobs.call_on_capture`
+* `textures_child`: If set, this will be the mob texture for the mob as a child. Same syntax as `textures`
+                    of the entity definition. Adult mobs will use `textures`
 * `animations`: Table of available mob animations
   * The keys are string identifies for each animation, like `"walk"`
   * The values are tables with the following fields:

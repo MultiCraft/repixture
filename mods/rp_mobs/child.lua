@@ -68,13 +68,14 @@ rp_mobs.turn_into_adult = function(mob)
 		visual_size = mob._base_size,
 		collisionbox = mob._base_colbox,
 		selectionbox = mob._base_selbox,
+		textures = mob._textures_adult,
 	})
 end
 
--- Change the mob's size to child size without setting
--- the _child or _child_grow_timer variables.
+-- Change the mob's properties to child properties without
+-- setting the _child or _child_grow_timer variables.
 -- Meant for internal rp_mobs use only!
-rp_mobs.set_mob_child_size = function(mob)
+rp_mobs.set_mob_child_properties = function(mob)
 	mob.object:set_properties({
 		visual_size = {
 			x = mob._base_size.x / CHILD_SIZE_DIVISOR,
@@ -98,6 +99,7 @@ rp_mobs.set_mob_child_size = function(mob)
 			mob._base_selbox[6] / CHILD_SIZE_DIVISOR,
 			rotate = mob._base_selbox.rotate,
 		},
+		textures = mob._textures_child,
 	})
 end
 
@@ -108,7 +110,7 @@ rp_mobs.turn_into_child = function(mob)
 		-- No-op if already a child
 		return
 	end
-	rp_mobs.set_mob_child_size(mob)
+	rp_mobs.set_mob_child_properties(mob)
 	mob._child = true
 	mob._child_grow_timer = 0
 end

@@ -220,6 +220,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		["walk"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 20 },
 		["punch"] = { frame_range = { x = 90, y = 101 }, default_frame_speed = 20 },
 	},
+	textures_child = { "mobs_boar_child.png" },
 	entity_definition = {
 		initial_properties = {
 			hp_max = 20,

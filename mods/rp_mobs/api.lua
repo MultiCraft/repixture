@@ -101,6 +101,10 @@ rp_mobs.register_mob = function(mobname, def)
 	mdef.entity_definition._animations = table.copy(def.animations or {})
 	mdef.entity_definition._current_animation = nil
 	mdef.entity_definition._dying = false
+	if def.textures_child then
+		mdef.entity_definition._textures_child = def.textures_child
+		mdef.entity_definition._textures_adult = def.textures
+	end
 
 	rp_mobs.registered_mobs[mobname] = mdef
 
@@ -130,9 +134,8 @@ rp_mobs.restore_state = function(self, staticdata)
 		self[k] = v
 	end
 
-	-- Make small if a child
 	if self._child then
-		rp_mobs.set_mob_child_size(self)
+		rp_mobs.set_mob_child_properties(self)
 	end
 
 	-- Make sure the custom state vars are always tables
