@@ -103,7 +103,7 @@ rp_mobs.register_mob = function(mobname, def)
 	mdef.entity_definition._dying = false
 	if def.textures_child then
 		mdef.entity_definition._textures_child = def.textures_child
-		mdef.entity_definition._textures_adult = def.textures
+		mdef.entity_definition._textures_adult = initprop.textures
 	end
 
 	rp_mobs.registered_mobs[mobname] = mdef
