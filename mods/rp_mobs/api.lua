@@ -399,11 +399,11 @@ rp_mobs.add_microtask_to_task  = function(self, microtask, task)
 end
 
 rp_mobs.scan_environment = function(self)
-	if not rp_mobs.is_alive(self) then
-		return
-	end
 	local pos = self.object:get_pos()
 	local props = self.object:get_properties()
+	if not props then
+		return
+	end
 	local yoff = props.collisionbox[2] + (props.collisionbox[5] - props.collisionbox[2]) / 2
 	pos = vector.offset(pos, 0, yoff, 0)
 	local cpos = vector.round(pos)
