@@ -226,10 +226,12 @@ rp_mobs.check_and_trigger_hunter_achievement = function(self, killer)
 		error("[rp_mobs] rp_mobs.check_and_trigger_hunter_achievement was called on something that is not a registered mob! name="..tostring(self.name))
 	end
 	local drops_food = false
-	for _,drop in ipairs(mobdef.drops) do
-		if minetest.get_item_group(drop, "food") ~= 0 then
-			drops_food = true
-			break
+	if mobdef.drops then
+		for _,drop in ipairs(mobdef.drops) do
+			if minetest.get_item_group(drop, "food") ~= 0 then
+				drops_food = true
+				break
+			end
 		end
 	end
 	if drops_food and killer ~= nil and killer:is_player() and mobdef.entity_definition._is_animal then

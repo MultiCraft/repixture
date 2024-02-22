@@ -135,7 +135,7 @@ This overview is a list of all subsystems and the required functions you need to
     Subsystem   | on_activate function     | on_step function
     ------------+--------------------------+----------------------------
     Tasks*      | rp_mobs.init_tasks       | rp_mobs.handle_tasks
-    Dying*      | **                       | rp_mobs.handle_dying
+    Dying       | **                       | rp_mobs.handle_dying
     Node damage | rp_mobs.init_node_damage | rp_mobs.handle_node_damage***
     Fall damage | rp_mobs.init_fall_damage | rp_mobs.handle_fall_damage***
     Breath      | rp_mobs.init_breath      | rp_mobs.handle_breath***
@@ -150,7 +150,7 @@ This overview is a list of all subsystems and the required functions you need to
 An entity “dies” in Minetest when its HP reaches 0, which instantly removes it and
 triggers the `on_death` function.
 
-We do not like instant removal so this mod enforces a simple graphical death effect
+We do not like instant removal so this mod provides a simple graphical death effect
 delay. This flips over the mob and makes it come to a screeching halt.
 The mob is still visible but all player interactions are disabled. After a short
 delay, the mob disappears, causing `on_death` to be called.
@@ -165,6 +165,9 @@ Internally, this subsystem works by storing a variable for the mob to hold
 the dead/alive state. It can be queried with `rp_mobs.is_alive`.
 When the mob has received fatal damage, the HP remains at 1 but the mob
 counts as dead.
+
+If this subsystem is not used, the mob will instantly disappear when the HP reaches 0.
+But `on_death` is still called (allowing for mob drops).
 
 ### Node damage
 
