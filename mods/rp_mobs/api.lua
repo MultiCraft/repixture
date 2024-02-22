@@ -7,6 +7,9 @@ local TASK_DEBUG = true
 -- Default gravity that affects the mobs
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
 
+-- Time it takes for a mob to die
+local DYING_TIME = 2
+
 rp_mobs.GRAVITY_VECTOR = vector.new(0, -GRAVITY, 0)
 
 -- List of entity variables to store in staticdata
@@ -31,6 +34,8 @@ rp_mobs.add_persisted_entity_vars = function(names)
 	end
 end
 rp_mobs.add_persisted_entity_var("_custom_state")
+rp_mobs.add_persisted_entity_var("_dying") -- true if mob is currently dying (for animation)
+rp_mobs.add_persisted_entity_var("_dying_timer") -- time since mob dying started
 
 local microtask_to_string = function(microtask)
 	return "Microtask: "..(microtask.label or "<UNNAMED>")
@@ -101,6 +106,7 @@ rp_mobs.register_mob = function(mobname, def)
 	mdef.entity_definition._animations = table.copy(def.animations or {})
 	mdef.entity_definition._current_animation = nil
 	mdef.entity_definition._dying = false
+	mdef.entity_definition._dying_timer = 0
 	if def.textures_child then
 		mdef.entity_definition._textures_child = def.textures_child
 		mdef.entity_definition._textures_adult = initprop.textures
@@ -122,6 +128,21 @@ rp_mobs.get_staticdata_default = function(self)
 	return staticdata
 end
 
+local flip_over_collisionbox = function(box)
+	-- Y
+	box[2] = box[2] + 0.5
+	box[5] = box[2] + (box[6] - box[3])
+	return box
+end
+
+local get_dying_boxes = function(mob)
+	local props = mob.object:get_properties()
+	local colbox = props.collisionbox
+	colbox = flip_over_collisionbox(colbox)
+	local selbox = props.selectionbox
+	return colbox, selbox
+end
+
 rp_mobs.restore_state = function(self, staticdata)
 	local staticdata_table = minetest.deserialize(staticdata)
 	if not staticdata_table then
@@ -136,6 +157,15 @@ rp_mobs.restore_state = function(self, staticdata)
 
 	if self._child then
 		rp_mobs.set_mob_child_properties(self)
+	end
+	if self._dying then
+		local colbox, selbox = get_dying_boxes(self)
+		self.object:set_properties({
+			collisionbox = colbox,
+			selectionbox = selbox,
+			damage_texture_modifier = "",
+			makes_footstep_sound = false,
+		})
 	end
 
 	-- Make sure the custom state vars are always tables
@@ -210,16 +240,19 @@ end
 rp_mobs.on_death_default = function(self, killer)
 	rp_mobs.check_and_trigger_hunter_achievement(self, killer)
 	rp_mobs.drop_death_items(self)
-	rp_mobs.default_mob_sound(self, "death")
 end
 
 rp_mobs.on_punch_default = function(self, puncher, time_from_last_punch, tool_capabilities, dir, damage)
+	if self._dying then
+		return true
+	end
 	if not damage then
 		return
 	end
 	if self.object:get_hp() - damage <= 0 then
-		-- If mob would die from punch, don't play damage sound
-		return
+		-- This punch kills the mob
+		rp_mobs.die(self)
+		return true
 	end
 	-- Play default punch/damage sound
 	if damage >= 1 then
@@ -230,16 +263,17 @@ rp_mobs.on_punch_default = function(self, puncher, time_from_last_punch, tool_ca
 end
 
 rp_mobs.damage = function(self, damage, no_sound)
-	if damage <= 0 then
+	if damage <= 0 or self._dying then
 		return false
 	end
 	local hp = self.object:get_hp()
 	hp = math.max(0, hp - damage)
-	self.object:set_hp(hp)
 	if hp <= 0 then
-		self._dying = true
+		minetest.log("error", "damage death")
+		rp_mobs.die(self)
 		return true
 	else
+		self.object:set_hp(hp)
 		if not no_sound then
 			rp_mobs.default_mob_sound(self, "damage")
 		end
@@ -248,10 +282,17 @@ rp_mobs.damage = function(self, damage, no_sound)
 end
 
 rp_mobs.heal = function(self, heal)
+	if heal <= 0 then
+		return false
+	end
+	if not rp_mobs.is_alive(self) then
+		return false
+	end
 	local hp = self.object:get_hp()
 	local hp_max = self.object:get_properties().hp_max
 	hp = math.min(hp_max, hp + heal)
 	self.object:set_hp(hp)
+	return true
 end
 
 rp_mobs.init_tasks = function(self)
@@ -312,6 +353,9 @@ rp_mobs.add_microtask_to_task  = function(self, microtask, task)
 end
 
 rp_mobs.scan_environment = function(self)
+	if not rp_mobs.is_alive(self) then
+		return
+	end
 	local pos = self.object:get_pos()
 	local props = self.object:get_properties()
 	local yoff = props.collisionbox[2] + (props.collisionbox[5] - props.collisionbox[2]) / 2
@@ -436,6 +480,63 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 
 	if TASK_DEBUG then
 		set_task_queues_as_nametag(self)
+	end
+end
+
+rp_mobs.die = function(self)
+	if not rp_mobs.is_alive(self) then
+		return
+	end
+
+	self.object:set_hp(1)
+	rp_mobs.default_mob_sound(self, "death")
+	self._dying = true
+	self._dying_timer = 0
+
+	rp_mobs.set_animation(self, "dead_static")
+
+	local colbox, selbox = get_dying_boxes(self)
+	self.object:set_properties({
+		collisionbox = colbox,
+		selectionbox = selbox,
+		damage_texture_modifier = "",
+		makes_footstep_sound = false,
+	})
+
+	-- Set roll
+	local roll = math.pi/2
+	local rot = self.object:get_rotation()
+	rot.z = roll
+	self.object:set_rotation(rot)
+end
+
+rp_mobs.handle_dying = function(self, dtime)
+	if rp_mobs.is_alive(self) then
+		return
+	end
+
+	-- Make mob come to a halt
+	local realvel = self.object:get_velocity()
+	local targetvel = vector.zero()
+	targetvel.y = realvel.y
+	local drag = vector.new(0.05, 0, 0.05)
+	local MOVE_SPEED_MAX_DIFFERENCE = 0.01
+	for _, axis in pairs({"x","z"}) do
+		if math.abs(realvel[axis]) > MOVE_SPEED_MAX_DIFFERENCE then
+			if realvel[axis] > targetvel[axis] then
+				targetvel[axis] = math.max(0, realvel[axis] - drag[axis])
+			else
+				targetvel[axis] = math.min(0, realvel[axis] + drag[axis])
+			end
+		end
+	end
+
+	self.object:set_velocity(targetvel)
+
+	-- Trigger final death when timer runs out
+	self._dying_timer = self._dying_timer + dtime
+	if self._dying_timer >= DYING_TIME then
+		self.object:set_hp(0)
 	end
 end
 

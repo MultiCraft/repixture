@@ -7,7 +7,7 @@ rp_mobs.register_capture_tool = function(toolname, def)
 end
 
 rp_mobs.call_on_capture = function(self, capturer)
-	if not capturer:is_player() then
+	if not capturer:is_player() or not rp_mobs.is_alive(self) then
 		return false
 	end
 	if self._on_capture then
@@ -19,7 +19,7 @@ rp_mobs.call_on_capture = function(self, capturer)
 end
 
 rp_mobs.attempt_capture = function(self, clicker, capture_chances, force_take, replace_with)
-	if clicker:is_player() and clicker:get_inventory() and not self.child then
+	if clicker:is_player() and clicker:get_inventory() and not self._child and rp_mobs.is_alive(self) then
 		local mobname = self.name
 
 		-- Change what item will be added to inventory

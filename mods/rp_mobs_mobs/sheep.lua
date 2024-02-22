@@ -86,6 +86,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 	},
 	animations = {
 		["idle"] = { frame_range = { x = 0, y = 60 }, default_frame_speed = 15 },
+		["dead_static"] = { frame_range = { x = 0, y = 0 } },
 		["walk"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 15 },
 		["run"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 25 },
 	},
@@ -123,6 +124,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)
+			rp_mobs.handle_dying(self, dtime)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)
 			rp_mobs.advance_child_growth(self, dtime)

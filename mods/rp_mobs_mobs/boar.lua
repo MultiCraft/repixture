@@ -219,6 +219,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 	},
 	animations = {
 		["idle"] = { frame_range = { x = 0, y = 60 }, default_frame_speed = 20 },
+		["dead_static"] = { frame_range = { x = 0, y = 0 } },
 		["walk"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 20 },
 		["punch"] = { frame_range = { x = 90, y = 101 }, default_frame_speed = 20 },
 	},
@@ -251,6 +252,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)
+			rp_mobs.handle_dying(self, dtime)
 			rp_mobs.scan_environment(self)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)

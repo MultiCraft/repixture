@@ -59,6 +59,7 @@ You can use the following template:
 				rp_mobs.init_tasks(self)
 			end,
 			on_step = function(self, dtime, moveresult)
+				rp_mobs.handle_dying(self, dtime)
 				rp_mobs.handle_tasks(self, dtime, moveresult)
 			end,
 			get_staticdata = rp_mobs.get_staticdata_default,
@@ -134,6 +135,7 @@ This overview is a list of all subsystems and the required functions you need to
     Subsystem   | on_activate function     | on_step function
     ------------+--------------------------+----------------------------
     Tasks*      | rp_mobs.init_tasks       | rp_mobs.handle_tasks
+    Dying*      | **                       | rp_mobs.handle_dying
     Node damage | rp_mobs.init_node_damage | rp_mobs.handle_node_damage***
     Fall damage | rp_mobs.init_fall_damage | rp_mobs.handle_fall_damage***
     Breath      | rp_mobs.init_breath      | rp_mobs.handle_breath***
@@ -142,6 +144,27 @@ This overview is a list of all subsystems and the required functions you need to
     *   = mandatory
     **  = no init function required
     *** = can be replaced with rp_mobs.handle_environment_damage
+
+### Dying
+
+An entity “dies” in Minetest when its HP reaches 0, which instantly removes it and
+triggers the `on_death` function.
+
+We do not like instant removal so this mod enforces a simple graphical death effect
+delay. This flips over the mob and makes it come to a screeching halt.
+The mob is still visible but all player interactions are disabled. After a short
+delay, the mob disappears, causing `on_death` to be called.
+
+To use this subsystem, add `rp_mobs.handle_dying` into `on_step`.
+
+**IMPORTANT**: You also must follow a restriction: Never call `set_hp` to
+damage the mob. Instead, punch the mob with the built-in `punch` function
+or call `rp_mobs.damage`.
+
+Internally, this subsystem works by storing a variable for the mob to hold
+the dead/alive state. It can be queried with `rp_mobs.is_alive`.
+When the mob has received fatal damage, the HP remains at 1 but the mob
+counts as dead.
 
 ### Node damage
 
@@ -198,8 +221,6 @@ These fields are available:
 
 ### Status
 
-* `_cmi_is_mob`: Always `true`. Indicates the entity is a mob. Do not touch
-* `_dying`: Is `true` when mob is currently dying and about to be removed
 * `_tamed`: `true` if mob is tame
 * `_tb_level`: tame/breed level. Starts at 0 and increases for any food given, used to trigger taming/breeding
 * `_child`: `true` if mob is a child
@@ -221,13 +242,16 @@ You *must* call `rp_mobs.init_breath` before you touch the breath/drowning field
 
 ### Internal use
 
-A bunch of fields are meant for internal use by `rp_mobs`. Do not change them.
+A bunch of fields are meant for internal use by `rp_mobs`. Do not change them. Reading them is fine.
 
+* `_cmi_is_mob`: Always `true`. Indicates the entity is a mob
 * `_child_grow_timer`: time the mob has been a child (seconds)
 * `_horny_timer`: time the mob has been horny (seconds)
 * `_breed_check_timer`: timer for the breed check (seconds)
 * `_pregnant_timer`: time the mob has been pregnant (seconds)
 * `_last_feeder`: Name of the last player who fed the mob
+* `_dying`: Is `true` when mob is currently dying and about to be removed
+* `_dying_timer`: time the mob has been in the dying state (seconds)
 
 ## Function reference
 
@@ -262,6 +286,9 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
   * The values are tables with the following fields:
     * `frame_range`: Same as `frame_range` in `object:set_animation`
     * `default_frame_speed`: Default `frame_speed` (from `object:set_animation`) when this animation is played
+  * Built-in animations are:
+    * `"idle"`: Played when mob has nothing to do (empty task queue)
+    * `"dead_static"`: Played when mob is dead (no animation, just a static frame)
 
 #### `rp_mobs.register_mob_item(mobname, invimg, desc)`
 
@@ -402,6 +429,17 @@ Handle the task queues, tasks, microtasks of the mob for a single step. Required
 This is supposed to go into `on_step` of the entity definition. It must be called every step.
 
 `dtime` and `moveresult` must be passed from the arguments of the same name of the entity’s `on_step`.
+
+#### `rp_mobs.handle_dying(self, dtime)`
+
+Handles the dying state of the mob if the mob has been killed. If the internal mob state
+`_dying` is true, the dying effect is applied and the mob gets removed after a short delay,
+triggering the `on_death` callback. It is recommended to put this function before
+any other `rp_mobs` subsystem calls.
+
+See the section about the “Dying” subsystem for details.
+
+`dtime` must be passed from the argument of the same name of the entity’s `on_step`.
 
 #### `rp_mobs.handle_node_damage(mob, dtime)`
 
@@ -696,6 +734,12 @@ Removes `damage` HP from mob, optionally playing the mob's `"damage"` sound. `da
 If `no_sound` is true, then no damage sound will be played.
 
 It is recommended to damage a mob only with this function instead of calling `mob:set_hp` directly in order to ensure consistency across mobs.
+
+#### `rp_mobs.die(mob)`
+
+Kill the mob by putting it into the 'dying' state.
+
+See the section about the “Dying” subsystem for details.
 
 #### `rp_mobs.drop_death_items(mob, pos)`
 

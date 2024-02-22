@@ -189,6 +189,9 @@ function rp_mobs.handle_fall_damage(self, dtime, moveresult)
 end
 
 function rp_mobs.handle_environment_damage(self, dtime, moveresult)
+	if self._dying then
+		return
+	end
 	rp_mobs.handle_fall_damage(self, dtime, moveresult)
 	rp_mobs.handle_node_damage(self, dtime)
 	rp_mobs.handle_drowning(self, dtime)

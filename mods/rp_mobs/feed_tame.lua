@@ -53,6 +53,9 @@ end
 -- * effect: (optional) true to show particle effects, false otherwise (default: true)
 -- * eat_sound: (optional) Name of sound to play for the mob eating (default: "mobs_eat")
 rp_mobs.feed_tame_breed = function(mob, feeder, allowed_foods, food_till_tamed, can_breed, add_child_grow_timer, effect, eat_sound)
+	if not rp_mobs.is_alive(mob) then
+		return false
+	end
 	if not add_child_grow_timer then
 		add_child_grow_timer = DEFAULT_ADD_CHILD_GROW_TIMER
 	end

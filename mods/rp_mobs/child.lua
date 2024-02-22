@@ -36,7 +36,7 @@ rp_mobs.add_persisted_entity_vars({
 
 -- Make mob horny, if possible
 rp_mobs.make_horny = function(mob, force)
-	if mob._child then
+	if mob._child or not rp_mobs.is_alive(mob) then
 		return
 	end
 	if (not mob._horny) and (force or (mob._horny_timer < HORNY_AGAIN_TIME)) then
@@ -56,8 +56,8 @@ end
 
 -- Turn the mob into an adult
 rp_mobs.turn_into_adult = function(mob)
-	if not mob._child then
-		-- No-op if already an adult
+	if not mob._child or not rp_mobs.is_alive(mob) then
+		-- No-op if already an adult or dying
 		return
 	end
 	mob._child = false
@@ -77,6 +77,9 @@ end
 -- setting the _child or _child_grow_timer variables.
 -- Meant for internal rp_mobs use only!
 rp_mobs.set_mob_child_properties = function(mob)
+	if not rp_mobs.is_alive(mob) then
+		return
+	end
 	mob.object:set_properties({
 		visual_size = {
 			x = mob._base_size.x / CHILD_SIZE_DIVISOR,
@@ -106,14 +109,17 @@ end
 
 -- Turn the mob into a child, if not already.
 rp_mobs.turn_into_child = function(mob)
-	mob = mob:get_luaentity()
-	if mob._child then
+	if not rp_mobs.is_alive(mob) then
+		return
+	end
+	mobl = mob:get_luaentity()
+	if mobl._child then
 		-- No-op if already a child
 		return
 	end
-	rp_mobs.set_mob_child_properties(mob)
-	mob._child = true
-	mob._child_grow_timer = 0
+	rp_mobs.set_mob_child_properties(mobl)
+	mobl._child = true
+	mobl._child_grow_timer = 0
 end
 
 -- Advance the child growth timer of the given mob by dtime (in seconds)
@@ -121,6 +127,9 @@ end
 -- Recommended to be added into the on_step function of the mob
 -- if the mob supports a child version of it.
 rp_mobs.advance_child_growth = function(mob, dtime)
+	if not rp_mobs.is_alive(mob) then
+		return
+	end
 	-- If mob is child, take CHILD_GROW_TIME seconds before growing into adult
 	if mob._child == true then
 		mob._child_grow_timer = (mob._child_grow_timer or 0) + dtime
@@ -133,6 +142,9 @@ end
 -- Pregnancy check that needs to be called every step for mobs
 -- that can be bred.
 local pregnancy = function(mob, dtime)
+	if not rp_mobs.is_alive(mob) then
+		return
+	end
 	if mob._pregnant then
 		mob._pregnant_timer = mob._pregnant_timer + dtime
 		if mob._pregnant_timer >= CHILD_BIRTH_TIME then
@@ -161,6 +173,9 @@ local pregnancy = function(mob, dtime)
 end
 
 rp_mobs.handle_breeding = function(mob, dtime)
+	if mob._dying then
+		return
+	end
 	if not mob._horny_timer then
 		mob._horny_timer = 0
 	end
