@@ -239,8 +239,49 @@ rp_mobs.check_and_trigger_hunter_achievement = function(self, killer)
 	end
 end
 
+local get_mob_death_particle_radius = function(self)
+	local colbox = self._base_colbox
+	local x,y,z
+	x = colbox[4]-colbox[1]
+	y = colbox[5]-colbox[2]
+	z = colbox[6]-colbox[3]
+	local radius = x
+	if y > radius then
+		radius = y
+	end
+	if z > radius then
+		radius = z
+	end
+	return radius
+end
+
 rp_mobs.on_death_default = function(self, killer)
 	rp_mobs.check_and_trigger_hunter_achievement(self, killer)
+	local radius = get_mob_death_particle_radius(self)
+	local pos = self.object:get_pos()
+	minetest.add_particlespawner({
+		amount = 16,
+		time = 0.02,
+		pos = {
+			min = vector.subtract(pos, radius / 2),
+			max = vector.add(pos, radius / 2),
+		},
+		vel = {
+			min = vector.new(-1, 0, -1),
+			max = vector.new(1, 2, 1),
+		},
+		acc = vector.zero(),
+		exptime = { min = 0.4, max = 0.8 },
+		size = { min = 8, max = 12 },
+		drag = vector.new(1,1,1),
+		-- TODO: Move particle to particle mod
+		texture = {
+			name = "rp_mobs_death_smoke_anim_1.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+			name = "rp_mobs_death_smoke_anim_2.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+			name = "rp_mobs_death_smoke_anim_1.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+			name = "rp_mobs_death_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+		},
+	})
 	rp_mobs.drop_death_items(self)
 end
 
