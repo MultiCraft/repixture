@@ -316,7 +316,6 @@ rp_mobs.damage = function(self, damage, no_sound)
 	local hp = self.object:get_hp()
 	hp = math.max(0, hp - damage)
 	if hp <= 0 then
-		minetest.log("error", "damage death")
 		rp_mobs.die(self)
 		return true
 	else
