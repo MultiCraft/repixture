@@ -240,11 +240,31 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 				mob.object:set_velocity(vel)
 				return
 			end
+
+			-- Jump
 			if jump and not self.statedata.jumping and moveresult.touching_ground and wall_collision then
-				self.statedata.jumping = true
-				self.statedata.jump_timer = 0
-				vel.y = jump
+				local can_jump = true
+				-- Can't jump if standing on a disable_jump node
+				if mob._env_node_floor then
+					local floordef = minetest.registered_nodes[mob._env_node_floor.name]
+					if floordef.walkable and minetest.get_item_group(mob._env_node_floor.name, "disable_jump") > 0 then
+						can_jump = false
+					end
+				end
+				-- Can't jump inside a disable_jump node either
+				if can_jump and mob._env_node then
+					local def = minetest.registered_nodes[mob._env_node.name]
+					if minetest.get_item_group(mob._env_node.name, "disable_jump") > 0 then
+						can_jump = false
+					end
+				end
+				if can_jump then
+					self.statedata.jumping = true
+					self.statedata.jump_timer = 0
+					vel.y = jump
+				end
 			end
+
 			vel.x = math.sin(yaw) * -walk_speed
 			vel.z = math.cos(yaw) * walk_speed
 			local realvel_hor = mob.object:get_velocity()
