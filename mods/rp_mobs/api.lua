@@ -420,6 +420,9 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 		return
 	end
 	if not rp_mobs.is_alive(self) then
+		if TASK_DEBUG then
+			self.object:set_properties({nametag=""})
+		end
 		return
 	end
 
