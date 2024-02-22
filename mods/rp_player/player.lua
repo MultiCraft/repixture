@@ -173,6 +173,7 @@ local function on_respawnplayer(player)
 			name = "rp_mobs_death_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
 		},
 	})
+	minetest.sound_play({name="rp_sounds_disappear", gain=0.4}, {pos=pos, max_hear_distance=12}, true)
 end
 
 local function on_joinplayer(player)

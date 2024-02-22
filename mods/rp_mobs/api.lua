@@ -282,6 +282,7 @@ rp_mobs.on_death_default = function(self, killer)
 			name = "rp_mobs_death_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
 		},
 	})
+	minetest.sound_play({name="rp_sounds_disappear", gain=0.4}, {pos=pos, max_hear_distance=12}, true)
 	rp_mobs.drop_death_items(self)
 end
 
