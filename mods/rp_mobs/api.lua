@@ -10,6 +10,9 @@ local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
 -- Time it takes for a mob to die
 local DYING_TIME = 2
 
+-- Change of Y coordinate for collisionbox of dying mob
+local DEAD_COLLISIONBOX_Y_OFFSET = 0.6
+
 rp_mobs.GRAVITY_VECTOR = vector.new(0, -GRAVITY, 0)
 
 -- List of entity variables to store in staticdata
@@ -130,7 +133,7 @@ end
 
 local flip_over_collisionbox = function(box)
 	-- Y
-	box[2] = box[2] + 0.5
+	box[2] = box[2] + DEAD_COLLISIONBOX_Y_OFFSET
 	box[5] = box[2] + (box[6] - box[3])
 	return box
 end
