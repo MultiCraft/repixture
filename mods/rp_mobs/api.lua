@@ -13,6 +13,9 @@ local DYING_TIME = 2
 -- Change of Y coordinate for collisionbox of dying mob
 local DEAD_COLLISIONBOX_Y_OFFSET = 0.6
 
+-- Default texture modifier when mob takes damage
+local DAMAGE_TEXTURE_MODIFIER = "^[colorize:#df2222:180"
+
 rp_mobs.GRAVITY_VECTOR = vector.new(0, -GRAVITY, 0)
 
 -- List of entity variables to store in staticdata
@@ -99,6 +102,10 @@ rp_mobs.register_mob = function(mobname, def)
 	else
 		initprop = {}
 	end
+	if not initprop.damage_texture_modifier then
+		initprop.damage_texture_modifier = DAMAGE_TEXTURE_MODIFIER
+	end
+	mdef.entity_definition.initial_properties = initprop
 	mdef.entity_definition._cmi_is_mob = true
 	mdef.entity_definition._description = def.description
 	mdef.entity_definition._is_animal = def.is_animal

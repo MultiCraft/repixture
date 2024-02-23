@@ -10,6 +10,9 @@ local particlespawners = {}
 
 local AQUALUNG_TIME = 150 -- seconds required for aqualung achievement
 
+-- texture modifier when player takes damage
+local DAMAGE_TEXTURE_MODIFIER = "^[colorize:#df2222:180"
+
 local mod_achievements = minetest.get_modpath("rp_achievements") ~= nil
 
 if mod_achievements then
@@ -190,6 +193,7 @@ local function on_joinplayer(player)
 
    player:set_properties({
       stepheight = 0.626, -- slightly above 10/16
+      damage_texture_modifier = DAMAGE_TEXTURE_MODIFIER,
       collisionbox = { -0.3, 0, -0.3, 0.3, 1.77, 0.3 },
       selectionbox = { -0.32, 0, -0.22, 0.32, 1.77, 0.22, rotate=true},
    })
