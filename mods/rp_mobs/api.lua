@@ -236,6 +236,12 @@ rp_mobs.drop_death_items = function(self, pos)
 			rp_mobs.spawn_mob_drop(pos, mobdef.child_drops[d])
 		end
 	end
+	if mobdef.drop_func then
+		local drop_func_drops = mobdef.drop_func(self)
+		for d=1, #drop_func_drops do
+			rp_mobs.spawn_mob_drop(pos, drop_func_drops[d])
+		end
+	end
 end
 
 rp_mobs.check_and_trigger_hunter_achievement = function(self, killer)

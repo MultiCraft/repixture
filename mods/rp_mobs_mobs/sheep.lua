@@ -78,7 +78,14 @@ end
 rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 	description = S("Sheep"),
 	is_animal = true,
-	drops = {"rp_mobs_mobs:meat_raw", "rp_mobs_mobs:wool"},
+	drops = {"rp_mobs_mobs:meat_raw"},
+	drop_func = function(self)
+		-- Drop wool if a non-shorn adult
+		if (not self._child) and (self._custom_state and (not self._custom_state.shorn)) then
+			return { "rp_mobs_mobs:wool" }
+		end
+		return {}
+	end,
 	default_sounds = {
 		death = "mobs_sheep",
 		damage = "mobs_sheep",

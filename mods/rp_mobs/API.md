@@ -269,8 +269,11 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
 `def` is a definition table with the following optional fields:
 
 * `description`: Short mob name used for display purposes
-* `drops`: Table of itemstrings to be dropped when the mob dies as an adult (default: empty table)
-* `child_drops`: Table of itemstrings to be dropped when the mob dies as a child (default: empty table)
+* `drops`: Table of itemstrings to be always dropped when the mob dies as an adult (default: empty table)
+* `child_drops`: Table of itemstrings to be always dropped when the mob dies as a child (default: empty table)
+* `drop_func(self)`: (optional) Called when mob is dropping its death drop items. Must return table of items to drop.
+                     These items are dropped on top of the items in `drops` and `child_drops`.
+                     This function **must not** manipulate the mob in any way.
 * `default_sounds`: Table of default sound names to play automatically on built-in events. Sounds will be played by `rp_mobs.default_mob_sound`
   * `death`: When mob dies
   * `damage`: When mob takes non-fatal damage
@@ -281,7 +284,7 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
   * `give_birth`: When mob gives birth to a child
 * `entity_definition`: Entity definition table. It may contain this custom function:
   * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
-                                     Triggered by `rp_mobs.call_on_capture`
+                                   Triggered by `rp_mobs.call_on_capture`
 * `textures_child`: If set, this will be the mob texture for the mob as a child. Same syntax as `textures`
                     of the entity definition. Adult mobs will use `textures`
 * `animations`: Table of available mob animations
