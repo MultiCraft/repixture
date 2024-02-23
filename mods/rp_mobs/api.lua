@@ -614,6 +614,7 @@ rp_mobs.register_mob_item = function(mobname, invimg, desc, on_create_capture_it
 		description = desc,
 		inventory_image = invimg,
 		groups = { spawn_egg = 1 },
+		stack_max = 1,
 		on_place = function(itemstack, placer, pointed_thing)
 			local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
 			if handled then
