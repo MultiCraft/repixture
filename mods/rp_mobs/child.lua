@@ -112,7 +112,7 @@ rp_mobs.turn_into_child = function(mob)
 	if not rp_mobs.is_alive(mob) then
 		return
 	end
-	mobl = mob:get_luaentity()
+	local mobl = mob:get_luaentity()
 	if mobl._child then
 		-- No-op if already a child
 		return
