@@ -22,6 +22,11 @@ rp_mobs.GRAVITY_VECTOR = vector.new(0, -GRAVITY, 0)
 -- (so they are persisted when unloading)
 local persisted_entity_vars = {}
 
+-- Getter function for persisted_entity_vars
+rp_mobs.get_persisted_entity_vars = function()
+	return persisted_entity_vars
+end
+
 -- Declare an entity variable name to be persisted on shutdown
 -- (recommended only for internal rp_mobs use)
 rp_mobs.add_persisted_entity_var = function(name)
@@ -32,6 +37,7 @@ rp_mobs.add_persisted_entity_var = function(name)
 	end
 	table.insert(persisted_entity_vars, name)
 end
+
 -- Same as above, but for a list of variables
 -- (recommended only for internal rp_mobs use)
 rp_mobs.add_persisted_entity_vars = function(names)
@@ -39,9 +45,12 @@ rp_mobs.add_persisted_entity_vars = function(names)
 		rp_mobs.add_persisted_entity_var(names[n])
 	end
 end
-rp_mobs.add_persisted_entity_var("_custom_state")
-rp_mobs.add_persisted_entity_var("_dying") -- true if mob is currently dying (for animation)
-rp_mobs.add_persisted_entity_var("_dying_timer") -- time since mob dying started
+
+rp_mobs.add_persisted_entity_vars({
+	"_custom_state",	-- table to store mob-specific state variables
+	"_dying",		-- true if mob is currently dying (for animation)
+	"_dying_timer",		-- time since mob dying started
+})
 
 local microtask_to_string = function(microtask)
 	return "Microtask: "..(microtask.label or "<UNNAMED>")
@@ -596,7 +605,7 @@ rp_mobs.handle_dying = function(self, dtime)
 	end
 end
 
-rp_mobs.register_mob_item = function(mobname, invimg, desc)
+rp_mobs.register_mob_item = function(mobname, invimg, desc, on_create_capture_item)
 	local place
 	if not desc then
 		desc = rp_mobs.registered_mobs[mobname].description
@@ -619,14 +628,20 @@ rp_mobs.register_mob_item = function(mobname, invimg, desc)
 					 return itemstack
 				end
 
+				-- Get HP and staticdata from metadata
+				local imeta = itemstack:get_meta()
+				local hp = imeta:get_int("hp")
+				local staticdata = imeta:get_string("staticdata")
+
+				-- Spawn mob
 				pos.y = pos.y + 0.5
-				local mob = minetest.add_entity(pos, mobname)
+				local mob = minetest.add_entity(pos, mobname, staticdata)
 				local ent = mob:get_luaentity()
-				if ent.type ~= "monster" then
-					-- set owner
-					ent.owner = pname
-					ent.tamed = true
+				if hp > 0 then
+					mob:set_hp(hp)
 				end
+
+				-- Finalize
 				minetest.log("action", "[rp_mobs] "..pname.." spawns "..mobname.." at "..minetest.pos_to_string(pos, 1))
 				if not minetest.is_creative_enabled(pname) then
 					 itemstack:take_item()
@@ -634,6 +649,7 @@ rp_mobs.register_mob_item = function(mobname, invimg, desc)
 			end
 			return itemstack
 		end,
+		_on_create_capture_item = on_create_capture_item,
 	})
 end
 

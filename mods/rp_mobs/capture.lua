@@ -67,16 +67,37 @@ rp_mobs.attempt_capture = function(self, clicker, capture_chances, force_take, r
 
 		-- Calculate chance ... was capture successful?
 		if math.random(100) <= chance then
+			-- Successful capture!
 			minetest.sound_play("mobs_capture_succeed", {
 				pos = clicker:get_pos(),
 				gain = 0.2, max_hear_distance = 16}, true)
 
-			-- Successful capture ... add to inventory
-			if clicker:get_inventory():room_for_item("main", mobname) then
-				clicker:get_inventory():add_item("main", mobname)
+			-- Create item
+			local mobitem = ItemStack(mobname)
+
+			-- _on_create_capture_item
+			local mobitemdef = minetest.registered_items[mobname]
+			if mobitemdef and mobitemdef._on_create_capture_item then
+				mobitem = mobitemdef._on_create_capture_item(self, mobitem)
+			end
+
+			-- Store metadata and HP
+			local mobitemmeta = mobitem:get_meta()
+			if self.get_staticdata then
+				-- Capturing makes mob unhorny again
+				rp_mobs.make_unhorny(self)
+
+				local staticdata = self:get_staticdata()
+				mobitemmeta:set_string("staticdata", staticdata)
+			end
+			mobitemmeta:set_int("hp", self.object:get_hp())
+
+			-- Add to inventory
+			if clicker:get_inventory():room_for_item("main", mobitem) then
+				clicker:get_inventory():add_item("main", mobitem)
 			else
 				-- or drop as item entity if no room
-				minetest.add_item(self.object:get_pos(), mobname)
+				minetest.add_item(self.object:get_pos(), mobitem)
 			end
 
 			minetest.log("action", "[rp_mobs] Mob of type '"..self.name.."' captured by " .. name .. " at "..minetest.pos_to_string(self.object:get_pos(), 1))

@@ -293,14 +293,22 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
     * `"idle"`: Played when mob has nothing to do (empty task queue)
     * `"dead_static"`: Played when mob is dead (no animation, just a static frame)
 
-#### `rp_mobs.register_mob_item(mobname, invimg, desc)`
+#### `rp_mobs.register_mob_item(mobname, invimg, desc, on_create_capture_item)`
 
 Registers an item representing a mob. It can be used by players to spawn
 the mob by placing it. This item is also used when a mob is captured.
 
+The mob item may contain metadata to store the mob's HP and internal state
+of the mob.
+
 * `mobname`: Mob identifier
 * `invimg`: Inventory image texture
 * `desc`: Description for inventory
+* `on_create_capture_item`: (optional) Function is called with arguments
+   `mob, itemstack` when mob has been captured and is becoming an itemstack.
+   You can use this function to modify the itemstack's metadata, e.g. to
+   use a item image override if the mob can have different appearances.
+   **Must** return an itemstack for the itemstack that is *actually* created.
 
 #### `rp_mobs.register_capture_tool(itemname, definition)`
 
@@ -640,9 +648,14 @@ A mob capture may or may not succeed. A mob capture succeeds if all of these are
 1. The wielded item is in `capture_chances`
 2. The random capture chance succeeds
 3. The mob is tamed _or_ `force_take` is `true`
+4. The mob is not a child
 
 If successful, `capturer` will get the mob in item form and it will wear out the wielded tool
-(exception: no wear in Creative Mode). `capturer` might receive a message.
+(exception: no wear in Creative Mode). `capturer` might receive a message. If the mob
+was horny, the mob will stop being horny.
+
+The created mob item stores the internal mob state and HP so it will be restored
+when the mob is being placed again.
 
 Parameters:
 

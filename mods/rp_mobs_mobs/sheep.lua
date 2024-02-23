@@ -198,4 +198,11 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 	},
 })
 
-rp_mobs.register_mob_item("rp_mobs_mobs:sheep", "mobs_sheep_inventory.png")
+rp_mobs.register_mob_item("rp_mobs_mobs:sheep", "mobs_sheep_inventory.png", nil, function(mob, itemstack)
+	if mob._custom_state.shorn then
+		local meta = itemstack:get_meta()
+		meta:set_string("inventory_image", "mobs_sheep_shaved_inventory.png")
+		meta:set_string("wield_image", "mobs_sheep_shaved_inventory.png")
+	end
+	return itemstack
+end)
