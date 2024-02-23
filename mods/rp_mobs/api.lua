@@ -147,9 +147,15 @@ rp_mobs.get_staticdata_default = function(self)
 	return staticdata
 end
 
-local flip_over_collisionbox = function(box)
+local flip_over_collisionbox = function(box, is_child)
+	local off
+	if is_child then
+		off = DEAD_COLLISIONBOX_Y_OFFSET / 2
+	else
+		off = DEAD_COLLISIONBOX_Y_OFFSET
+	end
 	-- Y
-	box[2] = box[2] + DEAD_COLLISIONBOX_Y_OFFSET
+	box[2] = box[2] + off
 	box[5] = box[2] + (box[6] - box[3])
 	return box
 end
@@ -157,7 +163,7 @@ end
 local get_dying_boxes = function(mob)
 	local props = mob.object:get_properties()
 	local colbox = props.collisionbox
-	colbox = flip_over_collisionbox(colbox)
+	colbox = flip_over_collisionbox(colbox, mob._child)
 	local selbox = props.selectionbox
 	return colbox, selbox
 end
