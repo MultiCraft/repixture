@@ -9,7 +9,21 @@ local REBREATH_TIME = 0.5
 -- Minimum Y fall height before starting to take fall damage
 local FALL_DAMAGE_HEIGHT = 5
 
-
+function rp_mobs.scan_environment(self)
+	local pos = self.object:get_pos()
+	local props = self.object:get_properties()
+	if not props then
+		return
+	end
+	local yoff = props.collisionbox[2] + (props.collisionbox[5] - props.collisionbox[2]) / 2
+	pos = vector.offset(pos, 0, yoff, 0)
+	local cpos = vector.round(pos)
+	if (not self._env_lastpos) or (not vector.equals(cpos, self._env_lastpos)) then
+		self._env_lastpos = cpos
+		self._env_node = minetest.get_node(pos)
+		self._env_node_floor = minetest.get_node(vector.offset(pos, 0, -1, 0))
+	end
+end
 
 function rp_mobs.init_breath(self, can_drown, def)
 	if self._can_drown ~= nil then
