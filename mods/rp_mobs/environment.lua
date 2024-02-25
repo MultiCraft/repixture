@@ -117,6 +117,30 @@ function rp_mobs.handle_drowning(self, dtime)
 
 	-- Reduce breath and deal damage if 0
 	if def and def.drowning and def.drowning > 0 then
+		-- Show bubble particles
+		minetest.add_particlespawner({
+			amount = 2,
+			time = 0.1,
+			pos = {
+				min = vector.add(pos, vector.new(-0.1, -0.1, -0.1)),
+				max = vector.add(pos, vector.new(-0.1, 0.1, 0.1)),
+			},
+			vel = {
+				min = {x = -0.5, y = 0, z = -0.5},
+				max = {x = 0.5, y = 0, z = 0.5},
+			},
+			acc = {
+				min = {x = -0.5, y = 4, z = -0.5},
+				max = {x = 0.5, y = 1, z = 0.5},
+			},
+			exptime = {min=0.3,max=0.8},
+			size = {min=0.7, max=2.4},
+			texture = {
+				name = "bubble.png",
+				alpha_tween = { 1, 0, start = 0.75 }
+			}
+		})
+
 		self._drowning_timer = self._drowning_timer + dtime
 		if self._drowning_timer >= DROWNING_TIME then
 			self._breath = math.max(0, self._breath - 1)
