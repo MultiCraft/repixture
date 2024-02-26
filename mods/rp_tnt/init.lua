@@ -125,7 +125,7 @@ local function check_destroy(drops, pos, cid)
 end
 
 
-local function calc_velocity(pos1, pos2, old_vel, power)
+local function calc_velocity(pos1, pos2, power)
    local vel = vector.direction(pos1, pos2)
    vel = vector.normalize(vel)
    vel = vector.multiply(vel, power)
@@ -135,8 +135,6 @@ local function calc_velocity(pos1, pos2, old_vel, power)
    dist = math.max(dist, 1)
    vel = vector.divide(vel, dist)
 
-   -- Add old velocity
-   vel = vector.add(vel, old_vel)
    return vel
 end
 
@@ -151,8 +149,7 @@ local function entity_physics(pos, radius)
       local dist = math.max(1, vector.distance(pos, obj_pos))
 
       if obj_vel ~= nil then
-	 obj:set_velocity(calc_velocity(pos, obj_pos,
-				       obj_vel, radius * 10))
+	 obj:add_velocity(calc_velocity(pos, obj_pos, radius*2.5))
       end
 
       local damage = (4 / dist) * radius
