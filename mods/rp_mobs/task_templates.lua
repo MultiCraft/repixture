@@ -59,7 +59,7 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 			self.statedata.path = path
 		end
 		if not path then
-			minetest.log("error", "can't find target")
+			minetest.log("error", "[rp_mobs] pathfind_and_walk_to: Mob can't find target")
 			return
 		end
 		if PATH_DEBUG then
@@ -130,7 +130,7 @@ local collides_with_wall = function(moveresult, include_objects)
 		for c=1, #moveresult.collisions do
 			local coll = moveresult.collisions[c]
 			if (coll.type == "node" or (coll.type == "object" and include_objects)) and (coll.axis == "x" or coll.axis == "z") then
-				return true, coll.type
+				return true, coll
 			end
 		end
 	end
@@ -232,8 +232,8 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 					end
 				end
 			end
-			local wall_collision, wall_collision_type = collides_with_wall(moveresult, true)
-			if wall_collision and wall_collision_type == "object" then
+			local wall_collision, wall_collision_data = collides_with_wall(moveresult, true)
+			if wall_collision and wall_collision_data.type == "object" then
 				self.statedata.stop = true
 				vel.x = 0
 				vel.z = 0
@@ -326,8 +326,8 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 			end
 			local yaw = minetest.dir_to_yaw(dir)
 			local set_vel = false
-			local wall_collision, wall_collision_type = collides_with_wall(moveresult, true)
-			if wall_collision and wall_collision_type == "object" then
+			local wall_collision, wall_collision_data = collides_with_wall(moveresult, true)
+			if wall_collision and wall_collision_data.type == "object" then
 				self.statedata.stop = true
 				local ovel = vector.new(0, oldvel.y, 0)
 				mob.object:set_velocity(vector.new(0, oldvel.y, 0))
