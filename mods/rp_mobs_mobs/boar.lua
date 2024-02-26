@@ -145,7 +145,6 @@ local roam_decider = function(task_queue, mob)
 		mt_walk.start_animation = "walk"
 		rp_mobs.add_microtask_to_task(mob, mt_yaw, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(vector.zero()), task_roam)
-		rp_mobs.add_microtask_to_task(mob, mt_set_velocity(vector.zero()), task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 	else
@@ -159,7 +158,6 @@ local roam_decider = function(task_queue, mob)
 		rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(rp_mobs.GRAVITY_VECTOR), task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_yaw, task_roam)
-		rp_mobs.add_microtask_to_task(mob, mt_set_velocity(vector.zero()), task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
 	end
 
