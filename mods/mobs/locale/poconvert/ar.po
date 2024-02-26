@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Minetest textdomain mobs x.x.x\n"
 "Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-09-23 01:53+0000\n"
+"PO-Revision-Date: 2024-02-27 21:56+0000\n"
 "Last-Translator: AbduSharif <narukomanroom@gmail.com>\n"
 "Language-Team: Arabic <https://translate.codeberg.org/projects/repixture/"
 "mobs/ar/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.4\n"
 
 msgid "Hunter"
 msgstr "الصياد"
@@ -31,10 +31,10 @@ msgid "Gotcha!"
 msgstr "نلت منك!"
 
 msgid "Capture a tame animal."
-msgstr "أمسك حيوانا مروضا."
+msgstr "امسك حيوانا مروضا."
 
 msgid "Best Friends Forever"
-msgstr "أصدقاء إلى الأبد"
+msgstr "أفضل أصدقاء إلى الأبد"
 
 msgid "Tame an animal."
 msgstr "روض حيوانا."
@@ -46,28 +46,28 @@ msgid "Get two animals to breed."
 msgstr "اجعل حيوانين يتكاثران."
 
 msgid "Taking a Cut"
-msgstr "إصابة"
+msgstr "أخذ قسمة"
 
 msgid "Shear a sheep."
-msgstr "جلم نعجة."
+msgstr "جز خروفا."
 
 msgid "Smalltalk"
-msgstr "حديث قصير"
+msgstr "محادثة قصيرة"
 
 msgid "Have a friendly chat with a villager."
-msgstr "قم بمحادثة قروي."
+msgstr "تبادل الحديث معى قروي."
 
 msgid "Gonna Feed ’em All"
 msgstr "سأطعمهم جميعا"
 
 msgid "Feed an animal of each species once."
-msgstr "أطعم حيوانا من نوع مرة واحدة."
+msgstr "اطعم حيوانا من كل صنف مرة واحدة."
 
 msgid "Spawned @1 at @2"
-msgstr ""
+msgstr "ظهر @1 عند @2"
 
 msgid "@1 (disabled)"
-msgstr ""
+msgstr "@1 (غير مفعل)"
 
 msgid "Hostile mobs are disabled!"
 msgstr "تم إلغاء تفعيل الحيوانات الشرسة!"
@@ -76,7 +76,7 @@ msgid "Not tamed!"
 msgstr "ليس مروضا!"
 
 msgid "@1 is owner!"
-msgstr ""
+msgstr "@1 هو المالك!"
 
 msgid "Missed!"
 msgstr "أخفقت!"
@@ -94,205 +94,210 @@ msgid "Net"
 msgstr "شبكة"
 
 msgid "Good for capturing small animals"
-msgstr "مفيد لصيد الحيوانات الصغيرة"
+msgstr "مفيد للامساك الحيوانات الصغيرة"
 
 msgid "Lasso"
-msgstr "حبل اقتناص الحيوانات"
+msgstr "وهق"
 
 msgid "Good for capturing large animals"
-msgstr "جيد للإمساك بالحيوانات الكبيرة"
+msgstr "جيد لصيد الحيوانات الكبيرة"
 
 msgid "Boar"
 msgstr "خنزير بري"
 
 msgid "Raw Porkchop"
-msgstr ""
+msgstr "لحم خنزير نيء"
 
 msgid "Cooked Porkchop"
-msgstr ""
+msgstr "لحم خنزير مطبوخ"
 
 msgid "Mine Turtle"
-msgstr ""
+msgstr "سلحفاة المنجم"
 
 msgid "Farmer"
-msgstr ""
+msgstr "مزارع"
 
 msgid "Tavern Keeper"
-msgstr ""
+msgstr "حارس حانة"
 
 msgid "Blacksmith"
-msgstr ""
+msgstr "حداد"
 
 msgid "Butcher"
-msgstr ""
+msgstr "جزار"
 
 msgid "Carpenter"
-msgstr ""
+msgstr "نجار"
 
 msgid "Hi! I'm a farmer. I sell farming goods."
-msgstr ""
+msgstr "أهلا! أنا أبيع بضائع زراعة."
 
 msgid "Hi! I'm a tavernkeeper. I trade with assorted goods."
-msgstr ""
+msgstr "أهلا! أنا حارس حانة. أنا أتاجر بضائع متنوعة."
 
 msgid "Hi! I'm a blacksmith. I sell metal products."
-msgstr ""
+msgstr "أهلا! أنا حداد. أنا أبيع منتجات معدنية."
 
 msgid "Hi! I'm a butcher. Want to buy something?"
-msgstr ""
+msgstr "أهلا! أنا جزار. هل تريد شراء شيئ ما؟"
 
 msgid "Hi! I'm a carpenter. Making things out of wood is my job."
-msgstr ""
+msgstr "أهلا! أنا نجار. عملي هو صنع أشياء من خشب."
 
 msgid "If you want to trade, show me a trading book."
-msgstr ""
+msgstr "إذا أردت التجارة، أرني كتاب تجارة."
 
 msgid "Hello!"
-msgstr ""
+msgstr "مرحبا!"
 
 msgid "Nice to see you."
-msgstr ""
+msgstr "سعيد بلقائك."
 
 msgid "Life is beautiful."
-msgstr ""
+msgstr "الحياة جميلة."
 
 msgid "I feel good."
-msgstr ""
+msgstr "أنا بخير."
 
 msgid "Have a nice day!"
-msgstr ""
+msgstr "يوما سعيدا لك!"
 
 msgid "I'm not in a good mood."
-msgstr ""
+msgstr "أنا لست بمزاج جيد."
 
 msgid "I'm tired."
-msgstr ""
+msgstr "أنا متعب."
 
 msgid "I need to rest."
-msgstr ""
+msgstr "أريد أن أرتاح."
 
 msgid "Life could be better."
-msgstr ""
+msgstr "الحياة يمكن أن تكون أفضل."
 
 msgid "I don't feel so good."
-msgstr ""
+msgstr "أنا لست بصحة جيدة."
 
 msgid "I ... I am hurt."
-msgstr ""
+msgstr "أنا ... أنا مصاب."
 
 msgid "I feel weak."
-msgstr ""
+msgstr "أشعر بالضعف."
 
 msgid "My head hurts."
-msgstr ""
+msgstr "رأسي يألمني."
 
 msgid "I have a bad day today."
-msgstr ""
+msgstr "كان يومي سيئا."
 
 msgid "Screw you!"
-msgstr ""
+msgstr "تبا لك!"
 
 msgid "Villager says: “@1”"
-msgstr ""
+msgstr "القروي يقول: \"@1\""
 
 msgid "Villager"
-msgstr ""
+msgstr "قروي"
 
 msgid "Get this thing out of my face!"
-msgstr ""
+msgstr "أبعد هاذا الشيء عني!"
 
 msgid "Ah, a cactus. You'd be surprised how well they burn in a furnace."
-msgstr ""
+msgstr "أه، صبار. سيفاجئك كيف أنه يحترق في فرن."
 
 msgid "You can quickly kindle it in the furnace."
-msgstr ""
+msgstr "يمكنك إشعالها بسرعة في الفرن."
 
 msgid "A truly amazing block!"
-msgstr ""
+msgstr "كتلة رائعة بحق!"
 
 msgid "Trees are a classic furnace fuel, but you can also cook them to get coal lumps."
-msgstr ""
+msgstr "الأشجار هي وقود معتاد للفرن، لكن يمكنك أن تصنع منهن فحما حجريا."
 
 msgid "You can cook it in the furnace to get: @1. But you can also use it as a furnace fuel."
 msgstr ""
+"يمكنك أن تطبخها في الفرن للحصول على: @1. لكن يمكنك أيضا أن تستعملها كوقود "
+"للفرن."
 
 msgid "Cook it in the furnace to get: @1."
-msgstr ""
+msgstr "إطبخها في الفرن للحصول علي: @1."
 
 msgid "This is an amazing furnace fuel, it burns for a very, very, very long time."
-msgstr ""
+msgstr "هذا وقود فرن مذهل، تحترق لوقت طويل جدا، جدا، جدا."
 
 msgid "This is a great furnace fuel, and it burns for a very, very long time."
-msgstr ""
+msgstr "هذا وقود فرن عظيم، و يحترق لوقت طويل جدا، جدا."
 
 msgid "This is a very good furnace fuel, and it burns for a very long time."
-msgstr ""
+msgstr "هذا وقود فرن جيد جدا، ويحترق لوقت طويل جدا."
 
 msgid "This is a good furnace fuel, it burns for a long time."
-msgstr ""
+msgstr "هذا وقود فرن جيد، ويحترق لوقت طويل."
 
 msgid "This is a nice furnace fuel."
-msgstr ""
+msgstr "هذا وقد فرن جيد."
 
 msgid "You can use this as a furnace fuel, but it's meh."
-msgstr ""
+msgstr "يمكنك إستعمال هذا كوقود فرن، لكنه غير جيد."
 
 msgid "You can use this as a furnace fuel, but it is gone quickly."
-msgstr ""
+msgstr "يمكن إستعمال هذا كوقود فرن، لكنه ينتهي بسرعة."
 
 msgid "You can use this as a furnace fuel, but it is gone very quickly."
-msgstr ""
+msgstr "يمكن إستعمال هذا كوقود فرن، لكنه ينتهي بسرعة شديدة."
 
 msgid "You can theoretically use this as a furnace fuel, but it is gone almost instantly. You will need a large amount of these to cook anything."
 msgstr ""
+"نظريا يمكنك إستعمال هذا كوقود فرن، لكن تقريبيا سينتهي بسرعه. ستحتاج لكمية "
+"كبيرة من هذه لتتمكن من أن تطبخ أي شيء."
 
 msgid "I'm impressed! Your weapon is a true masterpiece."
-msgstr ""
+msgstr "أنا مندهش! سلاحك حقا تحفة."
 
 msgid "This is a mighty weapon, but have you considered upgrading it with jewels?"
-msgstr ""
+msgstr "هذا سلاح جبار، لكن هل فكرت بترقيته بالمجوهرات؟"
 
 msgid "Offense is the best defense."
-msgstr ""
+msgstr "الهجوم هو أفضل دفاع."
 
 msgid "If you equip a full set of armor made from the same material, you'll get a protection bonus."
-msgstr ""
+msgstr "لو لبست كل قطع درع من نفس المادة، ستحصل على حماية إضافية."
 
 msgid "You can put anything inside a bookshelf, not just books."
-msgstr ""
+msgstr "غير الكتب، يمكنك أن تضع أي شيء في رف كتب."
 
 msgid "This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."
 msgstr ""
+"هذا يجعل البذور تنمو أسرع. ضع السماد على التربة، ثم ازرع البذرة بأعلاها."
 
 msgid "Sorry, I don't know how to use this. Maybe ask a farmer."
-msgstr ""
+msgstr "آسف، لا أعلم كيف أستعمل هذا، ربما اسأل مزارعا."
 
 msgid "Remember to put water near to your seeds."
-msgstr ""
+msgstr "تذكر أن تضع مياها قرب بذورك."
 
 msgid "Try magnetizing it on iron."
-msgstr ""
+msgstr "جرب ممغنطتها على حديد."
 
 msgid "If you use it on a cotton bale, it will point to the North again."
-msgstr ""
+msgstr "لو استعملتها على رزمة قطن، سوف تشير إلى الشمال مجددا."
 
 msgid "If you use it on wool, it will point to the North again."
-msgstr ""
+msgstr "لو استعملتها على صوف، سوف تشير إلى الشمال مجددا."
 
 msgid "We live in a lovely place, don't we?"
-msgstr ""
+msgstr "نحن نعيش في عالم جميل، أليس كذلك؟"
 
 msgid "It's used to capture large animals."
-msgstr ""
+msgstr "إنها تستعمل للإمساك بالحيوانات للكبيرة."
 
 msgid "Why are you carrying this around? Do you want crack open our locked chests?"
-msgstr ""
+msgstr "لماذا تحمل هذا بالأرجاء؟ هل تريد أن تفتح أحد صناديقنا المقفلة؟"
 
 msgid "It's used to capture small animals."
-msgstr ""
+msgstr "إنه مستعمل للإمساك بالحيوانات الصغيرة."
 
 msgid "Every kid knows seeds need soil, water and sunlight."
-msgstr ""
+msgstr "كل طفل يعلم أن البذور تحتاج إلى التربة، المياه، و ضوء الشمس."
 
 msgid "Sheep love to eat wheat. Give them enough wheat and they'll multiply!"
 msgstr ""
