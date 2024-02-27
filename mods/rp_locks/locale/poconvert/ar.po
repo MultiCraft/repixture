@@ -1,69 +1,70 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_locks x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-02-27 21:56+0000\n"
+"Last-Translator: AbduSharif <narukomanroom@gmail.com>\n"
+"Language-Team: Arabic <https://translate.codeberg.org/projects/repixture/"
+"rp_locks/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: Weblate 5.4\n"
 
 msgid "Locked Chest"
-msgstr ""
+msgstr "صندوق مقفل"
 
 msgid "Locked Chest (Owned by @1)"
-msgstr ""
+msgstr "صندوق مقفل(يمتلكه @1)"
 
 msgid "Locked Chest (cracked open)"
-msgstr ""
+msgstr "صندق مقفل (مفتوح)"
 
 msgid "Locked Chest (cracked open) (Owned by @1)"
-msgstr ""
+msgstr "صندوق مقفل (مفتوح) (يمتلكه @1)"
 
 msgid "@1 (Owned by @2)"
-msgstr ""
+msgstr "@1 (يمتلكه @2)"
 
 msgid "Lock Pick"
-msgstr ""
+msgstr "أداة فتح الأقفال"
 
 msgid "Cracks locked chests"
-msgstr ""
+msgstr "يفتح الصناديق المقفلة"
 
 msgid "@1 has broken into your locked chest!"
-msgstr ""
+msgstr "@1 قد قام بفتح صندوقك المقفول!"
 
 msgid "You have broken the lock!"
-msgstr ""
+msgstr "لقد كسرت للقفل!"
 
 msgid "You have broken into your own locked chest!"
-msgstr ""
+msgstr "لقد قمت بفتح صتدوقك المقفل!"
 
 msgid "Lock"
-msgstr ""
+msgstr "قفل"
 
 msgid "Used to craft locked chests"
-msgstr ""
+msgstr "يستعمل لصناعة صناديق مقفلة"
 
 msgid "Provides 32 inventory slots"
-msgstr ""
+msgstr "يوفر 32 مساحة تخزينية"
 
 msgid "Can only be opened by its owner and those who have a lockpick"
-msgstr ""
+msgstr "لا يمكن أن يفتح إلا بواسطة مالكه أو من لديه أداة فتح أثفال"
 
 msgid "Locksmith"
-msgstr ""
+msgstr "خبير أقفال"
 
 msgid "Craft a lock."
-msgstr ""
+msgstr "اصنع قفلا."
 
 msgid "Burglar"
-msgstr ""
+msgstr "سارق"
 
 msgid "Break into a locked chest."
-msgstr ""
+msgstr "افتح صندوقا مقفلا."
