@@ -450,17 +450,17 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 
 		local activeTaskQueue = active_task_queue_entry.data
 
-		-- Run step decider
-		if activeTaskQueue.step_decider then
-			activeTaskQueue:step_decider(self)
-		end
-
 		-- Run empty decider if active task queue is empty
 		local activeTaskEntry
 		if activeTaskQueue.tasks:isEmpty() then
 			if activeTaskQueue.empty_decider then
 				activeTaskQueue:empty_decider(self)
 			end
+		end
+
+		-- Run step decider
+		if activeTaskQueue.step_decider then
+			activeTaskQueue:step_decider(self)
 		end
 
 		activeTaskEntry = activeTaskQueue.tasks:getFirst()

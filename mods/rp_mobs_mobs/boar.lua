@@ -5,6 +5,7 @@ local WALK_DURATION_MIN = 3000
 local WALK_DURATION_MAX = 4000
 local FIND_LAND_DURATION_MIN = 7000
 local FIND_LAND_DURATION_MAX = 10000
+local FIND_SAFE_LAND_DURATION = 1000
 local IDLE_DURATION_MIN = 500
 local IDLE_DURATION_MAX = 2000
 local RANDOM_SOUND_TIMER_MIN = 10000
@@ -42,6 +43,11 @@ end
 local function is_liquid(nodename)
 	local ndef = minetest.registered_nodes[nodename]
 	return ndef and (ndef.liquid_move_physics == true or (ndef.liquid_move_physics == nil and ndef.liquidtype ~= "none"))
+end
+
+local function is_damaging(nodename)
+	local ndef = minetest.registered_nodes[nodename]
+	return ndef and ndef.damage_per_second > 0
 end
 
 local function is_walkable(nodename)
@@ -105,6 +111,73 @@ local find_land_from_liquid = function(pos)
 	return best_pos, best_angle
 end
 
+-- Argument:
+-- * pos: Start position
+--
+-- returns: <position>, <angle from position>
+-- or nil, nil if no position found
+local find_safe_node_from_pos = function(pos)
+	local startpos = table.copy(pos)
+	startpos.y = math.floor(startpos.y)
+	startpos.y = startpos.y - 1
+	local startnode = minetest.get_node(startpos)
+	local best_pos
+	local best_dist
+	local best_angle
+	local vec_y = vector.new(0, 1, 0)
+	for angle=0, 359, FIND_LAND_ANGLE_STEP do
+		local angle_rad = (angle/360) * (math.pi*2)
+		local vec = vector.new(0, 0, 1)
+		vec = vector.rotate_around_axis(vec, vec_y, angle_rad)
+		vec = vector.multiply(vec, FIND_LAND_LENGTH)
+		local rc = minetest.raycast(startpos, vector.add(startpos, vec), false, false)
+		for pt in rc do
+			if pt.type == "node" then
+				local floor = pt.under
+				local floornode = minetest.get_node(floor)
+				local up = vector.add(floor, vector.new(0, 1, 0))
+				local upnode = minetest.get_node(up)
+				if is_walkable(floornode.name) then
+					if is_walkable(upnode.name) then
+						break
+					elseif not is_walkable(upnode.name) and not is_damaging(upnode.name) then
+						minetest.add_particlespawner({
+							amount = 1,
+							time = 0.01,
+							pos = up,
+							exptime = 1,
+							size = 2,
+							texture = {
+								name = "heart.png^[brighten",
+								alpha_tween = { 1, 0, start = 0.75 }
+							}
+						})
+						local dist = vector.distance(startpos, floor)
+						if not best_dist or dist < best_dist then
+							best_pos = up
+							best_dist = dist
+							best_angle = angle_rad
+						end
+						break
+					end
+				end
+			end
+		end
+	end
+	minetest.add_particlespawner({
+		amount = 1,
+		time = 0.01,
+		pos = best_pos,
+		exptime = 1,
+		size = 3,
+		texture = {
+			name = "heart.png",
+			alpha_tween = { 1, 0, start = 0.75 }
+		}
+	})
+	return best_pos, best_angle
+end
+
 local roam_decider = function(task_queue, mob)
 	local task_roam
 	local mt_sleep = rp_mobs.microtasks.sleep(math.random(IDLE_DURATION_MIN, IDLE_DURATION_MAX)/1000)
@@ -113,6 +186,29 @@ local roam_decider = function(task_queue, mob)
 	if mob._env_node.name == "ignore" then
 		task_roam = rp_mobs.create_task({label="stand still"})
 		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
+	elseif is_damaging(mob._env_node.name) then
+		task_roam = rp_mobs.create_task({label="escape from damaging node"})
+
+		local yaw
+		-- Find direction to walk to
+		local safepos, safeangle = find_safe_node_from_pos(mob.object:get_pos())
+		local walk_duration
+		-- Prefer walking towards safe place
+		if safepos and safeangle then
+			yaw = safeangle
+			walk_duration = math.random(FIND_LAND_DURATION_MIN, FIND_LAND_DURATION_MAX)/1000
+		else
+			-- If no safe place found, walk randomly (panic!)
+			yaw = math.random(0, 360) / 360 * (math.pi*2)
+			walk_duration = math.random(WALK_DURATION_MIN, WALK_DURATION_MAX)/1000
+		end
+		local mt_walk = rp_mobs.microtasks.walk_straight(WALK_SPEED, yaw, nil, walk_duration)
+		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
+		mt_walk.start_animation = "walk"
+		rp_mobs.add_microtask_to_task(mob, mt_yaw, task_roam)
+		rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(rp_mobs.GRAVITY_VECTOR), task_roam)
+		rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
+
 	elseif is_liquid(mob._env_node.name) then
 		task_roam = rp_mobs.create_task({label="swim upwards"})
 		local yaw = math.random(0, 360) / 360 * (math.pi*2)
@@ -134,7 +230,7 @@ local roam_decider = function(task_queue, mob)
 		if landpos and landangle then
 			-- towards land
 			yaw = landangle
-			walk_duration = math.random(FIND_LAND_DURATION_MIN, FIND_LAND_DURATION_MAX)/1000
+			walk_duration = FIND_SAFE_LAND_DURATION
 		else
 			-- If no land found, go randomly on water
 			yaw = math.random(0, 360) / 360 * (math.pi*2)
@@ -156,9 +252,9 @@ local roam_decider = function(task_queue, mob)
 		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 		mt_walk.start_animation = "walk"
 		rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(rp_mobs.GRAVITY_VECTOR), task_roam)
-		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_yaw, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
+		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 	end
 
 	rp_mobs.add_task_to_task_queue(task_queue, task_roam)
@@ -168,8 +264,12 @@ local roam_decider_step = function(task_queue, mob)
 	if mob._env_node then
 		local current = task_queue.tasks:getFirst()
 		if current and current.data then
-			if current.data.label == "roam land" then
-				if is_liquid(mob._env_node.name) then
+			if current.data.label == "escape from damaging node" then
+				if not is_damaging(mob._env_node.name) or is_liquid(mob._env_node.name) then
+					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+				end
+			elseif current.data.label == "roam land" then
+				if is_damaging(mob._env_node.name) or is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 				end
 			elseif current.data.label == "swim upwards" then

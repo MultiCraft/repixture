@@ -8,6 +8,11 @@ local JUMP_REPEAT_TIME = 1
 -- the mob will reset the walk speed
 local WALK_SPEED_RESET_THRESHOLD = 0.9
 
+-- if the ratio of the current walk angle to the
+-- target walk angle is lower than this number,
+-- the mob will reset the walk angle
+local WALK_ANGLE_RESET_THRESHOLD = 0.99
+
 local MOVE_SPEED_MAX_DIFFERENCE = 0.01
 
 local show_pathfinder_path = function(path)
@@ -209,6 +214,7 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 	return rp_mobs.create_microtask({
 		label = label,
 		on_start = function(self, mob)
+			minetest.log("error", "walk start")
 			self.statedata.jumping = false -- is true when mob is currently jumpin
 			self.statedata.jump_timer = 0 -- timer counting the time of the current jump, in seconds
 			self.statedata.stop = false -- is set to true if microtask is supposed to be finished after the current step finishes
@@ -271,7 +277,8 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 			realvel_hor.y = 0
 			local targetvel_hor = table.copy(vel)
 			targetvel_hor.y = 0
-			if vector.length(realvel_hor) < WALK_SPEED_RESET_THRESHOLD * vector.length(targetvel_hor) then
+			if (vector.length(realvel_hor) < WALK_SPEED_RESET_THRESHOLD * vector.length(targetvel_hor)) or
+					(0.01 > math.abs(vector.angle(vector.zero(), realvel_hor) - vector.angle(vector.zero(), targetvel_hor))) then
 				mob.object:set_velocity(vel)
 			end
 		end,
