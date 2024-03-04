@@ -619,10 +619,19 @@ rp_mobs.register_mob_item = function(mobname, invimg, desc, on_create_capture_it
 			if pointed_thing.type == "node" then
 				local pos = pointed_thing.above
 				local pname = placer:get_player_name()
+				-- Can't violate protection
 				if minetest.is_protected(pos, pname) and
 						not minetest.check_player_privs(placer, "protection_bypass") then
 					 minetest.record_protection_violation(pos, pname)
 					 return itemstack
+				end
+
+				-- Can't place into solid or unknown node
+				local pnode = minetest.get_node(pos)
+				local pdef = minetest.registered_nodes[pnode.name]
+				if not pdef or pdef.walkable then
+					rp_sounds.play_place_failed_sound(placer)
+					return itemstack
 				end
 
 				-- Get HP and staticdata from metadata
