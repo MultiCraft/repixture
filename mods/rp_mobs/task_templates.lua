@@ -214,7 +214,6 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 	return rp_mobs.create_microtask({
 		label = label,
 		on_start = function(self, mob)
-			minetest.log("error", "walk start")
 			self.statedata.jumping = false -- is true when mob is currently jumpin
 			self.statedata.jump_timer = 0 -- timer counting the time of the current jump, in seconds
 			self.statedata.stop = false -- is set to true if microtask is supposed to be finished after the current step finishes

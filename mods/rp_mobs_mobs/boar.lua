@@ -98,7 +98,11 @@ local find_land_from_liquid = function(pos)
 							not is_walkable(upnode.name) then
 						best_pos = up
 						best_dist = dist
-						best_angle = angle_rad
+						local pos1 = vector.copy(startpos)
+						local pos2 = vector.copy(up)
+						pos1.y = 0
+						pos2.y = 0
+						best_angle = minetest.dir_to_yaw(vector.direction(pos1, pos2))
 						break
 					end
 				end
@@ -156,7 +160,11 @@ local find_safe_node_from_pos = function(pos)
 						if not best_dist or dist < best_dist then
 							best_pos = up
 							best_dist = dist
-							best_angle = angle_rad
+							local pos1 = vector.copy(startpos)
+							local pos2 = vector.copy(up)
+							pos1.y = 0
+							pos2.y = 0
+							best_angle = minetest.dir_to_yaw(vector.direction(pos1, pos2))
 						end
 						break
 					end
