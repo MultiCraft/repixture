@@ -145,17 +145,6 @@ local find_safe_node_from_pos = function(pos)
 					if is_walkable(upnode.name) then
 						break
 					elseif not is_walkable(upnode.name) and not is_damaging(upnode.name) then
-						minetest.add_particlespawner({
-							amount = 1,
-							time = 0.01,
-							pos = up,
-							exptime = 1,
-							size = 2,
-							texture = {
-								name = "heart.png^[brighten",
-								alpha_tween = { 1, 0, start = 0.75 }
-							}
-						})
 						local dist = vector.distance(startpos, floor)
 						if not best_dist or dist < best_dist then
 							best_pos = up
@@ -172,17 +161,6 @@ local find_safe_node_from_pos = function(pos)
 			end
 		end
 	end
-	minetest.add_particlespawner({
-		amount = 1,
-		time = 0.01,
-		pos = best_pos,
-		exptime = 1,
-		size = 3,
-		texture = {
-			name = "heart.png",
-			alpha_tween = { 1, 0, start = 0.75 }
-		}
-	})
 	return best_pos, best_angle
 end
 
