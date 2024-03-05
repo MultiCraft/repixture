@@ -50,6 +50,7 @@ rp_mobs.add_persisted_entity_vars({
 	"_custom_state",	-- table to store mob-specific state variables
 	"_dying",		-- true if mob is currently dying (for animation)
 	"_dying_timer",		-- time since mob dying started
+	"_killer_player_name",	-- if mob was killed by a player, this contains their name. Otherwise nil
 })
 
 local microtask_to_string = function(microtask)
@@ -329,7 +330,7 @@ rp_mobs.on_punch_default = function(self, puncher, time_from_last_punch, tool_ca
 	end
 	if self.object:get_hp() - damage <= 0 then
 		-- This punch kills the mob
-		rp_mobs.die(self)
+		rp_mobs.die(self, puncher)
 		return true
 	end
 	-- Play default punch/damage sound
@@ -340,14 +341,14 @@ rp_mobs.on_punch_default = function(self, puncher, time_from_last_punch, tool_ca
 	end
 end
 
-rp_mobs.damage = function(self, damage, no_sound)
+rp_mobs.damage = function(self, damage, no_sound, damager)
 	if damage <= 0 or self._dying then
 		return false
 	end
 	local hp = self.object:get_hp()
 	hp = math.max(0, hp - damage)
 	if hp <= 0 then
-		rp_mobs.die(self)
+		rp_mobs.die(self, damager)
 		return true
 	else
 		self.object:set_hp(hp)
@@ -547,11 +548,14 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 	end
 end
 
-rp_mobs.die = function(self)
+rp_mobs.die = function(self, killer)
 	if not rp_mobs.is_alive(self) then
 		return
 	end
 
+	if killer and killer:is_player() and not self._killer_player_name then
+		self._killer_player_name = killer:get_player_name()
+	end
 	self.object:set_hp(1)
 	rp_mobs.default_mob_sound(self, "death")
 	self._dying = true
@@ -601,6 +605,14 @@ rp_mobs.handle_dying = function(self, dtime)
 	self._dying_timer = self._dying_timer + dtime
 	if self._dying_timer >= DYING_TIME then
 		self.object:set_hp(0)
+
+		-- Award achievement if appropriate
+		if self._killer_player_name then
+			local killer = minetest.get_player_by_name(self._killer_player_name)
+			if killer then
+				rp_mobs.check_and_trigger_hunter_achievement(self, killer)
+			end
+		end
 	end
 end
 

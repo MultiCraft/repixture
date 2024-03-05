@@ -749,17 +749,19 @@ Returns `true` if the given mob is alive, false otherwise. `mob` *must* be a mob
 
 Adds `heal` HP to mob. `heal` must not be negative.
 
-#### `rp_mobs.damage(mob, damage, no_sound)`
+#### `rp_mobs.damage(mob, damage, no_sound, damager)`
 
 Removes `damage` HP from mob, optionally playing the mob's `"damage"` sound. `damage` must not be negative. If the mob HP reaches 0, the mob dies.
+`damager` is an optional object that damaged the mob (used for Hunter achievement).
 
 If `no_sound` is true, then no damage sound will be played.
 
 It is recommended to damage a mob only with this function instead of calling `mob:set_hp` directly in order to ensure consistency across mobs.
 
-#### `rp_mobs.die(mob)`
+#### `rp_mobs.die(mob, killer)`
 
 Kill the mob by putting it into the 'dying' state.
+`killer` is an optional object that killed the mob (used for Hunter achievement).
 
 See the section about the “Dying” subsystem for details.
 
