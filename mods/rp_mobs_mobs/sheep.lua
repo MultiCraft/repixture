@@ -102,7 +102,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 		initial_properties = {
 			hp_max = 14,
 			physical = true,
-			collisionbox = {-0.5, -1, -0.5, 0.5, 0.1, 0.5},
+			collisionbox = {-0.49, -1, -0.49, 0.49, 0.1, 0.49},
 			selectionbox = {-0.4, -1, -0.6, 0.4, 0.1, 0.7, rotate = true},
 			visual = "mesh",
 			mesh = "mobs_sheep.x",
