@@ -13,6 +13,8 @@ local RANDOM_SOUND_TIMER_MAX = 60000
 local VIEW_RANGE = 10
 local FIND_LAND_ANGLE_STEP = 15
 local FIND_LAND_LENGTH = 20
+local MAX_FALL_DAMAGE_ADD_PERCENT_DROP_ON = 10
+local FALL_HEIGHT = 4
 
 
 local FOOD = { "rp_default:apple", "rp_default:acorn" }
@@ -55,6 +57,55 @@ local function is_walkable(nodename)
 	return ndef and ndef.walkable
 end
 
+local function is_front_safe(mob, check_liquids, cliff_depth)
+	local vel = mob.object:get_velocity()
+	vel.y = 0
+	local yaw = mob.object:get_yaw()
+	local dir = vector.normalize(vel)
+	if vector.length(dir) > 0.5 then
+		yaw = minetest.dir_to_yaw(dir)
+	else
+		yaw = mob.object:get_yaw()
+		dir = minetest.yaw_to_dir(yaw)
+	end
+	local pos = mob.object:get_pos()
+	if mob._front_body_point then
+		local fbp = table.copy(mob._front_body_point)
+		fbp = vector.rotate_around_axis(fbp, vector.new(0, 1, 0), yaw)
+		pos = vector.add(pos, fbp)
+	end
+	local pos_front = vector.add(pos, dir)
+	local node_front = minetest.get_node(pos_front)
+	local def_front = minetest.registered_nodes[node_front.name]
+	if def_front and (def_front.drowning > 0 or def_front.damage_per_second > 0) then
+		return false
+	end
+	if def_front and not def_front.walkable then
+		local safe_drop = false
+		for c=1, cliff_depth do
+			local cpos = vector.add(pos_front, vector.new(0, -c, 0))
+			local cnode = minetest.get_node(cpos)
+			local cdef = minetest.registered_nodes[cnode.name]
+			if check_liquids and cdef.drowning > 0 then
+				return false
+			elseif cdef.damage_per_second > 0 then
+				return false
+			elseif cdef.walkable then
+				-- Mob doesn't like to land on node with high fall damage addition
+				if c > 1 and minetest.get_item_group(cnode.name, "fall_damage_add_percent") >= MAX_FALL_DAMAGE_ADD_PERCENT_DROP_ON then
+					return false
+				else
+					safe_drop = true
+					break
+				end
+			end
+		end
+		if not safe_drop then
+			return false
+		end
+	end
+	return true
+end
 
 -- This function helps the mob find safe land from a lake or ocean.
 --
@@ -258,9 +309,37 @@ local roam_decider_step = function(task_queue, mob)
 				if is_damaging(mob._env_node.name) or is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 				end
+				if not is_front_safe(mob, true, FALL_HEIGHT) then
+					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+					local mt_sleep = rp_mobs.microtasks.sleep(math.random(IDLE_DURATION_MIN, IDLE_DURATION_MAX)/1000)
+					mt_sleep.start_animation = "idle"
+					local task = rp_mobs.create_task({label="stand still"})
+					local vel = mob.object:get_velocity()
+					vel.x = 0
+					vel.z = 0
+					rp_mobs.add_microtask_to_task(mob, mt_set_velocity(vel), task)
+					rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(rp_mobs.GRAVITY_VECTOR), task)
+					rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
+					-- Rotate by 70° to 180° left or right
+					local sign = math.random(0, 1)
+					local yawplus = math.random(70, 180)/360 * (math.pi*2)
+					local yaw = mob.object:get_yaw() + yawplus
+					if sign == 1 then
+						yaw = -yaw
+					end
+					local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
+					rp_mobs.add_microtask_to_task(mob, mt_yaw, task)
+					rp_mobs.add_task_to_task_queue(task_queue, task)
+				end
 			elseif current.data.label == "swim upwards" then
 				if not is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+					local vel = mob.object:get_velocity()
+					vel.y = 0
+					-- Transitionary task to reset velocity.
+					local task = rp_mobs.create_task({label="surface"})
+					rp_mobs.add_microtask_to_task(mob, mt_set_velocity(vel), task)
+					rp_mobs.add_task_to_task_queue(task_queue, task)
 				end
 			elseif current.data.label == "swim on liquid surface" then
 				if not is_liquid(mob._env_node.name) and not is_liquid(mob._env_node_floor.name) then
@@ -308,6 +387,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		["punch"] = { frame_range = { x = 90, y = 101 }, default_frame_speed = 20 },
 	},
 	textures_child = { "mobs_boar_child.png" },
+	front_body_point = vector.new(0, -0.4, 0.5),
 	entity_definition = {
 		initial_properties = {
 			hp_max = 20,

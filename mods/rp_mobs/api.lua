@@ -130,6 +130,9 @@ rp_mobs.register_mob = function(mobname, def)
 		mdef.entity_definition._textures_child = def.textures_child
 		mdef.entity_definition._textures_adult = initprop.textures
 	end
+	if def.front_body_point then
+		mdef.entity_definition._front_body_point = table.copy(def.front_body_point)
+	end
 
 	rp_mobs.registered_mobs[mobname] = mdef
 

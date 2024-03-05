@@ -282,6 +282,9 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
   * `call`: Occassional mob call (only played manually)
   * `horny`: When mob becomes horny
   * `give_birth`: When mob gives birth to a child
+* `front_body_point`: A point of the front side of the mob. Used by the mob to "see"
+                      forwards to detect dangerous land (cliffs, damaging blocks, etc.)
+                      Should be on the mob model and roughly in the center of that side.
 * `entity_definition`: Entity definition table. It may contain this custom function:
   * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
                                    Triggered by `rp_mobs.call_on_capture`
