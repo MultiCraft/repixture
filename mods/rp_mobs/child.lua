@@ -33,6 +33,9 @@ rp_mobs.add_persisted_entity_vars({
 	"_pregnant", -- true if mob is 'pregnant' and about to spawn a child
 	"_pregnant_timer" -- timer the mob has been pregnant (seconds)
 })
+--[[ NOT persisted variables:
+	_last_breeder: Name of the player who last breeded the mob, used for achievement
+]]
 
 -- Make mob horny, if possible
 rp_mobs.make_horny = function(mob, force)
@@ -156,11 +159,12 @@ local pregnancy = function(mob, dtime)
 				rp_mobs.turn_into_child(child)
 
 				-- Award achievement to player who has breeded the mobs
-				if mob._breeder_name then
-					local pfeeder = minetest.get_player_by_name(mob._breeder_name)
-					if pfeeder:is_player() then
-						achievements.trigger_achievement(pfeeder, "wonder_of_life")
+				if mob._last_breeder then
+					local breeder = minetest.get_player_by_name(mob._last_breeder)
+					if breeder:is_player() then
+						achievements.trigger_achievement(breeder, "wonder_of_life")
 					end
+					mob._last_breeder = nil
 				end
 				mob._pregnant = false
 				mob._pregnant_timer = nil
@@ -279,10 +283,9 @@ rp_mobs.handle_breeding = function(mob, dtime)
 		child_giver._horny_timer = HORNY_TIME + 1
 		child_bearer._horny = false
 		child_giver._horny = false
-		local feeder_name
-		-- Record feeder name if player has fed both parents
+		-- Record breeder name if player has fed both parents (for achievement)
 		if child_bearer._last_feeder and child_bearer._last_feeder ~= "" and child_bearer._last_feeder == child_giver._last_feeder then
-			feeder_name = child_bearer._last_feeder
+			child_bearer._last_breeder = child_bearer._last_feeder
 		end
 		-- Induce pregnancy; the actual child will happen in rp_mobs.pregnancy
 		child_bearer._pregnant = true
