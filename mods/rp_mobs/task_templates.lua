@@ -147,7 +147,7 @@ end
 -- * yaw: look direction in radians
 -- * drag: (optional) if set as a vector, will adjust the velocity smoothly towards the target
 --   velocity, with higher axis values leading to faster change. If unset, will set
---   velocity instantly
+--   velocity instantly. If drag is 0 or very small on an axis, this axis will see no velocity change
 -- * max_timer: automatically finish microtask after this many seconds (nil = infinite)
 rp_mobs.microtasks.move_straight = function(move_vector, yaw, drag, max_timer)
 	local label
@@ -175,20 +175,23 @@ rp_mobs.microtasks.move_straight = function(move_vector, yaw, drag, max_timer)
 			local changevel = false
 			if drag then
 				for _, axis in pairs({"x","y","z"}) do
-					if math.abs(targetvel[axis] - realvel[axis]) > MOVE_SPEED_MAX_DIFFERENCE then
-						if targetvel[axis] > realvel[axis] then
-							targetvel[axis] = realvel[axis] + drag[axis] * math.sign(targetvel[axis])
+					if drag[axis] > 0.001 and math.abs(targetvel[axis] - realvel[axis]) > MOVE_SPEED_MAX_DIFFERENCE then
+						if realvel[axis] > targetvel[axis] then
+							targetvel[axis] = math.max(targetvel[axis], realvel[axis] - drag[axis])
 						else
-							targetvel[axis] = realvel[axis] - drag[axis] * math.sign(targetvel[axis])
+							targetvel[axis] = math.min(targetvel[axis], realvel[axis] + drag[axis])
 						end
 						changevel = true
 					end
 				end
 			else
-				velchanged = true
+				changevel = true
+				self.statedata.stop = true
 			end
 			if changevel then
 				mob.object:set_velocity(targetvel)
+			else
+				self.statedata.stop = true
 			end
 		end,
 		is_finished = function(self, mob)

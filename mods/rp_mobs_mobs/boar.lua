@@ -22,16 +22,6 @@ local FOOD = { "rp_default:apple", "rp_default:acorn" }
 -- TODO: Change to rp_mobs_mobs when ready
 local S = minetest.get_translator("mobs")
 
-local mt_set_velocity = function(velocity)
-	return rp_mobs.create_microtask({
-		label = "set velocity",
-		singlestep = true,
-		on_step = function(self, mob, dtime)
-			mob.object:set_velocity(velocity)
-		end,
-	})
-end
-
 local mt_set_acceleration = function(acceleration)
 	return rp_mobs.create_microtask({
 		label = "set acceleration",
@@ -317,8 +307,8 @@ local roam_decider_step = function(task_queue, mob)
 					local vel = mob.object:get_velocity()
 					vel.x = 0
 					vel.z = 0
-					rp_mobs.add_microtask_to_task(mob, mt_set_velocity(vel), task)
 					rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(rp_mobs.GRAVITY_VECTOR), task)
+					rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.move_straight(vel, mob.object:get_yaw(), vector.new(0.5,0,0.5), 1), task)
 					rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
 					-- Rotate by 70° to 180° left or right
 					local sign = math.random(0, 1)
@@ -334,11 +324,10 @@ local roam_decider_step = function(task_queue, mob)
 			elseif current.data.label == "swim upwards" then
 				if not is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
-					local vel = mob.object:get_velocity()
-					vel.y = 0
+					local vel = vector.zero()
 					-- Transitionary task to reset velocity.
 					local task = rp_mobs.create_task({label="surface"})
-					rp_mobs.add_microtask_to_task(mob, mt_set_velocity(vel), task)
+					rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.move_straight(vel, mob.object:get_yaw()), task)
 					rp_mobs.add_task_to_task_queue(task_queue, task)
 				end
 			elseif current.data.label == "swim on liquid surface" then
