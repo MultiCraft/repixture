@@ -295,11 +295,11 @@ local roam_decider_step = function(task_queue, mob)
 				if not is_damaging(mob._env_node.name) or is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 				end
-			elseif current.data.label == "roam land" then
+			elseif current.data.label == "roam land" or current.data.label == "stand still" then
 				if is_damaging(mob._env_node.name) or is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 				end
-				if not is_front_safe(mob, true, FALL_HEIGHT) then
+				if not is_front_safe(mob, true, FALL_HEIGHT) and current.data.label ~= "stand still" then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 					local mt_sleep = rp_mobs.microtasks.sleep(math.random(IDLE_DURATION_MIN, IDLE_DURATION_MAX)/1000)
 					mt_sleep.start_animation = "idle"
