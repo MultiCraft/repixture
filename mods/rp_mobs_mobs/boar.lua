@@ -15,6 +15,7 @@ local FIND_LAND_ANGLE_STEP = 15
 local FIND_LAND_LENGTH = 20
 local MAX_FALL_DAMAGE_ADD_PERCENT_DROP_ON = 10
 local FALL_HEIGHT = 4
+local FOLLOW_CHECK_TIME = 1.0
 
 
 local FOOD = { "rp_default:apple", "rp_default:acorn" }
@@ -298,8 +299,7 @@ local roam_decider_step = function(task_queue, mob)
 			elseif current.data.label == "roam land" or current.data.label == "stand still" then
 				if is_damaging(mob._env_node.name) or is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
-				end
-				if not is_front_safe(mob, true, FALL_HEIGHT) and current.data.label ~= "stand still" then
+				elseif not is_front_safe(mob, true, FALL_HEIGHT) and current.data.label ~= "stand still" then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 					local mt_sleep = rp_mobs.microtasks.sleep(math.random(IDLE_DURATION_MIN, IDLE_DURATION_MAX)/1000)
 					mt_sleep.start_animation = "idle"
@@ -337,6 +337,142 @@ local roam_decider_step = function(task_queue, mob)
 			end
 		end
 	end
+end
+
+-- This microtasks scans the mob's surroundings within
+-- VIEW_RANGE for other interesting entities:
+-- 1) Players holding food
+-- 2) Mobs of same species to mate with
+-- The result is stored in mob._temp_custom_state.follow_partner
+-- and mob._temp_custom_state.follow_player.
+-- This microtask only *searches* for suitable targets to follow,
+-- it does *NOT* actually follow them. Other microtasks
+-- are supposed to decide what do do with this information.
+local mt_find_follow = rp_mobs.create_microtask({
+	label = "find entities to follow",
+	on_start = function(self, mob)
+		self.statedata.timer = 0
+	end,
+	on_step = function(self, mob, dtime)
+		-- Perform the follow check periodically
+		self.statedata.timer = self.statedata.timer + dtime
+		if self.statedata.timer < FOLLOW_CHECK_TIME then
+			return
+		end
+		self.statedata.timer = 0
+
+		local s = mob.object:get_pos()
+		local objs = minetest.get_objects_inside_radius(s, VIEW_RANGE)
+
+		-- Look for other horny mob nearby
+		if mob._horny then
+			if mob._temp_custom_state.follow_partner == nil then
+				local min_dist, closest_partner
+				local min_dist_h, closest_partner_h
+				for o=1, #objs do
+					local obj = objs[o]
+					local ent = obj:get_luaentity()
+					-- Find other mob of same species
+					if ent and ent._cmi_is_mob and ent.name == "rp_mobs_mobs:boar" and not ent._child then
+						local p = obj:get_pos()
+						local dist = vector.distance(s, p)
+						-- Find closest one
+						if dist <= VIEW_RANGE then
+							-- Closest partner
+							if ((not min_dist) or dist < min_dist) then
+								min_dist = dist
+								closest_partner = obj
+							end
+							-- Closest horny partner
+							if ((not min_dist_h) or dist < min_dist_h) then
+								min_dist_h = dist
+								closest_partner_h = obj
+							end
+						end
+					end
+				end
+				-- Set new partner to follow (prefer horny
+				if closest_partner_h then
+					mob._temp_custom_state.follow_partner = closest_partner_h
+					minetest.log("error", "Horny partner found at "..minetest.pos_to_string(closest_partner:get_pos(),1))
+				elseif closest_partner_h then
+					mob._temp_custom_state.follow_partner = closest_partner
+					minetest.log("error", "Partner found at "..minetest.pos_to_string(closest_partner:get_pos(),1))
+				end
+			-- Unfollow partner if out of range
+			elseif mob._temp_custom_state.follow_partner:get_luaentity() then
+				local p = mob._temp_custom_state.follow_partner:get_pos()
+				local dist = vector.distance(s, p)
+				-- Out of range
+				if dist > VIEW_RANGE then
+					mob._temp_custom_state.follow_partner = nil
+					minetest.log("error", "Partner lost (out of range)")
+				end
+			else
+				-- Partner object is gone
+				mob._temp_custom_state.follow_partner = nil
+				minetest.log("error", "Partner lost (gone)")
+			end
+		end
+
+		if (mob._temp_custom_state.follow_player == nil) then
+			-- Mark closest player holding food within view range as player to follow
+			local p, dist
+			local min_dist, closest_player
+			for o=1, #objs do
+				local obj = objs[o]
+				if obj:is_player() then
+					local player = obj
+					p = player:get_pos()
+					dist = vector.distance(s, p)
+					if dist <= VIEW_RANGE and ((not min_dist) or dist < min_dist) then
+						local wield = player:get_wielded_item()
+						-- Is holding food?
+						for f=1, #FOOD do
+							if wield:get_name() == FOOD[f] then
+								min_dist = dist
+								closest_player = player
+								break
+							end
+						end
+					end
+				end
+			end
+			if closest_player then
+				mob._temp_custom_state.follow_player = closest_player:get_player_name()
+			end
+		else
+			-- Unfollow player if out of view range or not holding food
+			local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
+			if player then
+				local p = player:get_pos()
+				local dist = vector.distance(s, p)
+				-- Out of range
+				if dist > VIEW_RANGE then
+					mob._temp_custom_state.follow_player = nil
+				else
+					local wield = player:get_wielded_item()
+					for f=1, #FOOD do
+						if wield:get_name() == FOOD[f] then
+							return
+						end
+					end
+					-- Not holding food
+					mob._temp_custom_state.follow_player = nil
+					return
+				end
+			end
+		end
+	end,
+	is_finished = function()
+		return false
+	end,
+})
+
+local follow_decider = function(task_queue, mob)
+	local task = rp_mobs.create_task({label="find player to follow"})
+	rp_mobs.add_microtask_to_task(mob, mt_find_follow, task)
+	rp_mobs.add_task_to_task_queue(task_queue, task)
 end
 
 local call_sound_decider = function(task_queue, mob)
@@ -401,6 +537,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(roam_decider, roam_decider_step))
+			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(follow_decider))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(call_sound_decider))
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
