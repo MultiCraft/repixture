@@ -78,6 +78,7 @@ end
 rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 	description = S("Sheep"),
 	is_animal = true,
+	is_peaceful = true,
 	drops = {"rp_mobs_mobs:meat_raw"},
 	drop_func = function(self)
 		-- Drop wool if a non-shorn adult

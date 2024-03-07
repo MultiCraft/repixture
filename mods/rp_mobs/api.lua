@@ -118,7 +118,10 @@ rp_mobs.register_mob = function(mobname, def)
 	mdef.entity_definition.initial_properties = initprop
 	mdef.entity_definition._cmi_is_mob = true
 	mdef.entity_definition._description = def.description
+	-- TODO: Put in a group-like system
 	mdef.entity_definition._is_animal = def.is_animal
+	-- TODO: Put in a group-like system
+	mdef.entity_definition._is_peaceful = def.is_peaceful
 	mdef.entity_definition._base_size = table.copy(initprop.visual_size or { x=1, y=1, z=1 })
 	mdef.entity_definition._base_selbox = table.copy(initprop.selectionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate = false })
 	mdef.entity_definition._base_colbox = table.copy(initprop.collisionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5})

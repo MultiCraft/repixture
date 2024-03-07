@@ -6,8 +6,7 @@ local dummy_texture = "mobs_dummy.png"
 -- Dummy mob only for testing
 rp_mobs.register_mob("rp_mobs_mobs:dummy", {
 	description = S("Dummy"),
-	decider = function(self)
-	end,
+	is_peaceful = true,
 	entity_definition = {
 		initial_properties = {
 			hp_max = 20,

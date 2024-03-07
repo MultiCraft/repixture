@@ -575,6 +575,7 @@ end
 rp_mobs.register_mob("rp_mobs_mobs:boar", {
 	description = S("Boar"),
 	is_animal = true,
+	is_peaceful = true,
 	drops = {"rp_mobs_mobs:pork_raw"},
 	default_sounds = {
 		death = "mobs_boar_die",
