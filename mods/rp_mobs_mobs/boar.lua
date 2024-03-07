@@ -18,7 +18,7 @@ local FALL_HEIGHT = 4
 local FOLLOW_CHECK_TIME = 1.0
 local FOLLOW_REACH_DISTANCE = 2
 local FOLLOW_GIVE_UP_TIME = 10.0
-
+local MAX_NO_FOLLOW_TIME = 6.0
 
 local FOOD = { "rp_default:apple", "rp_default:acorn" }
 
@@ -290,7 +290,42 @@ local roam_decider = function(task_queue, mob)
 	rp_mobs.add_task_to_task_queue(task_queue, task_roam)
 end
 
-local roam_decider_step = function(task_queue, mob)
+-- Add a "stand still" task to the mob's task queue with
+-- an optional yaw
+local halt = function(task_queue, mob, set_yaw)
+	local mt_sleep = rp_mobs.microtasks.sleep(math.random(IDLE_DURATION_MIN, IDLE_DURATION_MAX)/1000)
+	mt_sleep.start_animation = "idle"
+	local task = rp_mobs.create_task({label="stand still"})
+	local vel = mob.object:get_velocity()
+	vel.x = 0
+	vel.z = 0
+	local yaw
+	if not set_yaw then
+		yaw = mob.object:get_yaw()
+	else
+		yaw = set_yaw
+	end
+	local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
+
+	rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(rp_mobs.GRAVITY_VECTOR), task)
+	if set_yaw then
+		rp_mobs.add_microtask_to_task(mob, mt_yaw, task)
+	end
+	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.move_straight(vel, yaw, vector.new(0.5,0,0.5), 1), task)
+	rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
+	rp_mobs.add_task_to_task_queue(task_queue, task)
+end
+
+local roam_decider_step = function(task_queue, mob, dtime)
+	-- Re-enable following after a few seconds
+	if mob._temp_custom_state.no_follow then
+		mob._temp_custom_state.no_follow_timer = mob._temp_custom_state.no_follow_timer + dtime
+		if mob._temp_custom_state.no_follow_timer > MAX_NO_FOLLOW_TIME then
+			mob._temp_custom_state.no_follow = false
+			mob._temp_custom_state.no_follow_timer = 0
+		end
+	end
+
 	if mob._env_node then
 		local current = task_queue.tasks:getFirst()
 		if current and current.data then
@@ -299,21 +334,23 @@ local roam_decider_step = function(task_queue, mob)
 				if not is_damaging(mob._env_node.name) or is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 				end
-			-- Update land movement
-			elseif current.data.label == "roam land" or current.data.label == "stand still" then
+			-- Stop following player or partner if gone
+			elseif (current.data.label == "follow player holding food" and not mob._temp_custom_state.follow_player) or
+					(current.data.label == "follow mating partner" and not mob._temp_custom_state.follow_partner) then
+				rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+				halt(task_queue, mob)
+			-- Update land movement (roam, standing, following)
+			-- Note: The follow tasks are all considered to be land movement.
+			-- There is no following while swimming!
+			elseif current.data.label == "roam land" or current.data.label == "stand still" or
+					current.data.label == "follow player holding food" or current.data.label == "follow mating partner" then
+				-- Abort when in damaging or liquid node
 				if is_damaging(mob._env_node.name) or is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+				-- Abort and stop movement when walking towards of a cliff or other dangerous node
 				elseif not is_front_safe(mob, true, FALL_HEIGHT) and current.data.label ~= "stand still" then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
-					local mt_sleep = rp_mobs.microtasks.sleep(math.random(IDLE_DURATION_MIN, IDLE_DURATION_MAX)/1000)
-					mt_sleep.start_animation = "idle"
-					local task = rp_mobs.create_task({label="stand still"})
-					local vel = mob.object:get_velocity()
-					vel.x = 0
-					vel.z = 0
-					rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(rp_mobs.GRAVITY_VECTOR), task)
-					rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.move_straight(vel, mob.object:get_yaw(), vector.new(0.5,0,0.5), 1), task)
-					rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
+
 					-- Rotate by 70° to 180° left or right
 					local sign = math.random(0, 1)
 					local yawplus = math.random(70, 180)/360 * (math.pi*2)
@@ -321,25 +358,37 @@ local roam_decider_step = function(task_queue, mob)
 					if sign == 1 then
 						yaw = -yaw
 					end
-					local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
-					rp_mobs.add_microtask_to_task(mob, mt_yaw, task)
-					rp_mobs.add_task_to_task_queue(task_queue, task)
-				elseif mob._temp_custom_state.follow_partner or mob._temp_custom_state.follow_player then
-					local target
+					halt(task_queue, mob, yaw)
+					-- Disable following for a few seconds if mob just avoided a danger
+					if current.data.label == "follow player holding food" or current.data.label == "follow mating partner" then
+						mob._temp_custom_state.no_follow = true
+						mob._temp_custom_state.no_follow_timer = 0
+					end
+				-- Follow player holding food or mating partner
+				elseif (mob._temp_custom_state.follow_partner or mob._temp_custom_state.follow_player) and not mob._temp_custom_state.no_follow then
+					local target, task_label
+					-- If horny, following mating partner
 					if mob._horny and mob._temp_custom_state.follow_partner then
 						if mob._temp_custom_state.follow_partner:get_luaentity() then
 							target = mob._temp_custom_state.follow_partner
+							task_label = "follow mating partner"
 						end
 					end
-					if not target and mob._temp_custom_state.follow_player then
+					-- Follow player holding food only if not horny
+					if not mob._horny and mob._temp_custom_state.follow_player then
 						local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
 						if player then
 							target = player
+							task_label = "follow player holding food"
 						end
 					end
 					if target then
+						if task_label == current.data.label then
+							-- We're already doing this task - no change
+							return
+						end
 						rp_mobs.end_current_task_in_task_queue(mob, task_queue)
-						local task = rp_mobs.create_task({label="follow player or partner"})
+						local task = rp_mobs.create_task({label=task_label})
 						rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(rp_mobs.GRAVITY_VECTOR), task)
 						local mt_follow = rp_mobs.microtasks.walk_straight_towards(WALK_SPEED, "object", target, true, FOLLOW_REACH_DISTANCE, JUMP_STRENGTH, FOLLOW_GIVE_UP_TIME)
 						mt_follow.start_animation = "walk"

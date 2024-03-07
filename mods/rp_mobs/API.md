@@ -546,16 +546,22 @@ See also `rp_mobs.init_tasks` and `rp_mobs.handle_tasks`.
 #### `rp_mobs.create_task_queue(empty_decider, step_decider)`
 
 Create a task queue object and returns it. The two arguments are
-optional decider functions. Each of them is a function with
-signature `(task_queue, mob)`.
+optional decider functions.
 
 In this function you can update the task queue by adding new
 tasks to it. Avoid complex and slow algorithms here!
 
-* `empty_decider`: called when the task queue is empty
-* `step_decider`: called at every server step
+* `empty_decider(task_queue, mob)`: called when the task queue is empty
+* `step_decider(task_queue, mob, dtime)`: called at every server step
 
-Set a decider argument to do nothing for that event.
+The function arguments are:
+
+* `task_queue`: Reference to task queue on which the decider is run on.
+                You can modify it at will.
+* `mob`: Refernence to mob object
+* `dtime`: Time in seconds the last time the step decider was called (from `on_step`)
+
+If decider argument is nil, nothing will be done for that event.
 
 #### `rp_mobs.create_task(def)`
 

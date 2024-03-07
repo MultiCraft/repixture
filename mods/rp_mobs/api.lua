@@ -464,7 +464,7 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 
 		-- Run step decider
 		if activeTaskQueue.step_decider then
-			activeTaskQueue:step_decider(self)
+			activeTaskQueue:step_decider(self, dtime)
 		end
 
 		activeTaskEntry = activeTaskQueue.tasks:getFirst()
