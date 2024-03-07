@@ -297,10 +297,11 @@ end
 -- * walk_speed: walk speed
 -- * target_type: "pos" (position) or "object"
 -- * target: target, depending on target_type: position or object handle
+-- * set_yaw: If true, will set mob's yaw to face target
 -- * reach_distance: If mob is within this distance towards target, finish task
 -- * jump: jump strength if mob needs to jump or nil if no jumping
 -- * max_timer: automatically finish microtask after this many seconds (nil = infinite)
-rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, reach_distance, jump, max_timer)
+rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, set_yaw, reach_distance, jump, max_timer)
 	local label
 	if max_timer then
 		label = "walk towards something for "..string.format("%.1f", max_timer).."s"
@@ -316,13 +317,33 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 		end,
 		on_step = function(self, mob, dtime, moveresult)
 			self.statedata.timer = self.statedata.timer + dtime
+			local vel = mob.object:get_velocity()
 			local oldvel = mob.object:get_velocity()
 			if max_timer and self.statedata.timer >= max_timer then
 				self.statedata.stop = true
-				mob.object:set_velocity(vector.zero())
+				vel.x = 0
+				vel.z = 0
+				mob.object:set_velocity(vel)
 				return
 			end
-			local vel = vector.new()
+			if self.statedata.jumping then
+				self.statedata.jump_timer = self.statedata.jump_timer + dtime
+				if self.statedata.jump_timer >= JUMP_REPEAT_TIME then
+					if moveresult.touching_ground then
+						self.statedata.jumping = false
+					end
+				end
+			end
+			local wall_collision, wall_collision_data = collides_with_wall(moveresult, true)
+			if wall_collision and wall_collision_data.type == "object" then
+				self.statedata.stop = true
+				vel.x = 0
+				vel.z = 0
+				mob.object:set_velocity(vel)
+				return
+			end
+
+			-- Get target position
 			local mypos = mob.object:get_pos()
 			local dir
 			if target_type == "pos" then
@@ -331,41 +352,49 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				local tpos = target:get_pos()
 				dir = vector.direction(mypos, tpos)
 			else
-				return
-			end
-			local yaw = minetest.dir_to_yaw(dir)
-			local set_vel = false
-			local wall_collision, wall_collision_data = collides_with_wall(moveresult, true)
-			if wall_collision and wall_collision_data.type == "object" then
 				self.statedata.stop = true
-				local ovel = vector.new(0, oldvel.y, 0)
-				mob.object:set_velocity(vector.new(0, oldvel.y, 0))
 				return
 			end
-			if self.statedata.jumping then
-				if moveresult.touching_ground then
-					self.statedata.jumping = false
+
+			-- Face target
+			local yaw = minetest.dir_to_yaw(dir)
+			if set_yaw then
+				mob.object:set_yaw(yaw)
+			end
+
+			-- Jump
+			if jump and not self.statedata.jumping and moveresult.touching_ground and wall_collision then
+				local can_jump = true
+				-- Can't jump if standing on a disable_jump node
+				if mob._env_node_floor then
+					local floordef = minetest.registered_nodes[mob._env_node_floor.name]
+					if floordef.walkable and minetest.get_item_group(mob._env_node_floor.name, "disable_jump") > 0 then
+						can_jump = false
+					end
+				end
+				-- Can't jump inside a disable_jump node either
+				if can_jump and mob._env_node then
+					local def = minetest.registered_nodes[mob._env_node.name]
+					if minetest.get_item_group(mob._env_node.name, "disable_jump") > 0 then
+						can_jump = false
+					end
+				end
+				if can_jump then
+					self.statedata.jumping = true
+					self.statedata.jump_timer = 0
+					vel.y = jump
 				end
 			end
-			if jump and not self.statedata.jumping and moveresult.touching_ground and wall_collision then
-				vel.y = jump
-				set_vel = true
-			else
-				vel.y = oldvel.y
-			end
+
 			vel.x = math.sin(yaw) * -walk_speed
 			vel.z = math.cos(yaw) * walk_speed
-			if not set_vel then
-				oldvel.y = 0
-				if vector.length(oldvel) < WALK_SPEED_RESET_THRESHOLD * vector.length(vel) then
-					set_vel = true
-				end
-			end
-			if set_vel or not self.statedata.vel_set or target_type == "object" then
-				self.object:set_velocity(vel)
-				if target_type == "pos" then
-					self.statedata.vel_set = true
-				end
+			local realvel_hor = mob.object:get_velocity()
+			realvel_hor.y = 0
+			local targetvel_hor = table.copy(vel)
+			targetvel_hor.y = 0
+			if (vector.length(realvel_hor) < WALK_SPEED_RESET_THRESHOLD * vector.length(targetvel_hor)) or
+					(0.01 > math.abs(vector.angle(vector.zero(), realvel_hor) - vector.angle(vector.zero(), targetvel_hor))) then
+				mob.object:set_velocity(vel)
 			end
 		end,
 		is_finished = function(self, mob)

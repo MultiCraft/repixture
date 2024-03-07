@@ -16,6 +16,8 @@ local FIND_LAND_LENGTH = 20
 local MAX_FALL_DAMAGE_ADD_PERCENT_DROP_ON = 10
 local FALL_HEIGHT = 4
 local FOLLOW_CHECK_TIME = 1.0
+local FOLLOW_REACH_DISTANCE = 2
+local FOLLOW_GIVE_UP_TIME = 10.0
 
 
 local FOOD = { "rp_default:apple", "rp_default:acorn" }
@@ -292,10 +294,12 @@ local roam_decider_step = function(task_queue, mob)
 	if mob._env_node then
 		local current = task_queue.tasks:getFirst()
 		if current and current.data then
+			-- Escape from damaging node has reached safety
 			if current.data.label == "escape from damaging node" then
 				if not is_damaging(mob._env_node.name) or is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 				end
+			-- Update land movement
 			elseif current.data.label == "roam land" or current.data.label == "stand still" then
 				if is_damaging(mob._env_node.name) or is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
@@ -320,7 +324,33 @@ local roam_decider_step = function(task_queue, mob)
 					local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 					rp_mobs.add_microtask_to_task(mob, mt_yaw, task)
 					rp_mobs.add_task_to_task_queue(task_queue, task)
+				elseif mob._temp_custom_state.follow_partner or mob._temp_custom_state.follow_player then
+					local target
+					if mob._horny and mob._temp_custom_state.follow_partner then
+						if mob._temp_custom_state.follow_partner:get_luaentity() then
+							target = mob._temp_custom_state.follow_partner
+						end
+					end
+					if not target and mob._temp_custom_state.follow_player then
+						local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
+						if player then
+							target = player
+						end
+					end
+					if target then
+						rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+						local task = rp_mobs.create_task({label="follow player or partner"})
+						rp_mobs.add_microtask_to_task(mob, mt_set_acceleration(rp_mobs.GRAVITY_VECTOR), task)
+						local mt_follow = rp_mobs.microtasks.walk_straight_towards(WALK_SPEED, "object", target, true, FOLLOW_REACH_DISTANCE, JUMP_STRENGTH, FOLLOW_GIVE_UP_TIME)
+						mt_follow.start_animation = "walk"
+						rp_mobs.add_microtask_to_task(mob, mt_follow, task)
+						local mt_sleep = rp_mobs.microtasks.sleep(math.random(IDLE_DURATION_MIN, IDLE_DURATION_MAX)/1000)
+						mt_sleep.start_animation = "idle"
+						rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
+						rp_mobs.add_task_to_task_queue(task_queue, task)
+					end
 				end
+			-- Surface from liquid
 			elseif current.data.label == "swim upwards" then
 				if not is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
@@ -330,6 +360,7 @@ local roam_decider_step = function(task_queue, mob)
 					rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.move_straight(vel, mob.object:get_yaw()), task)
 					rp_mobs.add_task_to_task_queue(task_queue, task)
 				end
+			-- Reaching land or air when swimming on liquid
 			elseif current.data.label == "swim on liquid surface" then
 				if not is_liquid(mob._env_node.name) and not is_liquid(mob._env_node_floor.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
@@ -373,7 +404,7 @@ local mt_find_follow = rp_mobs.create_microtask({
 					local obj = objs[o]
 					local ent = obj:get_luaentity()
 					-- Find other mob of same species
-					if ent and ent._cmi_is_mob and ent.name == "rp_mobs_mobs:boar" and not ent._child then
+					if obj ~= mob.object and ent and ent._cmi_is_mob and ent.name == "rp_mobs_mobs:boar" and not ent._child then
 						local p = obj:get_pos()
 						local dist = vector.distance(s, p)
 						-- Find closest one
@@ -384,20 +415,18 @@ local mt_find_follow = rp_mobs.create_microtask({
 								closest_partner = obj
 							end
 							-- Closest horny partner
-							if ((not min_dist_h) or dist < min_dist_h) then
+							if ent._horny and ((not min_dist_h) or dist < min_dist_h) then
 								min_dist_h = dist
 								closest_partner_h = obj
 							end
 						end
 					end
 				end
-				-- Set new partner to follow (prefer horny
+				-- Set new partner to follow (prefer horny)
 				if closest_partner_h then
 					mob._temp_custom_state.follow_partner = closest_partner_h
-					minetest.log("error", "Horny partner found at "..minetest.pos_to_string(closest_partner:get_pos(),1))
-				elseif closest_partner_h then
+				elseif closest_partner then
 					mob._temp_custom_state.follow_partner = closest_partner
-					minetest.log("error", "Partner found at "..minetest.pos_to_string(closest_partner:get_pos(),1))
 				end
 			-- Unfollow partner if out of range
 			elseif mob._temp_custom_state.follow_partner:get_luaentity() then
@@ -406,12 +435,10 @@ local mt_find_follow = rp_mobs.create_microtask({
 				-- Out of range
 				if dist > VIEW_RANGE then
 					mob._temp_custom_state.follow_partner = nil
-					minetest.log("error", "Partner lost (out of range)")
 				end
 			else
 				-- Partner object is gone
 				mob._temp_custom_state.follow_partner = nil
-				minetest.log("error", "Partner lost (gone)")
 			end
 		end
 
