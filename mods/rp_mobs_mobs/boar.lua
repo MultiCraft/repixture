@@ -489,6 +489,9 @@ local mt_find_follow = rp_mobs.create_microtask({
 				-- Partner object is gone
 				mob._temp_custom_state.follow_partner = nil
 			end
+		else
+			-- Unfollow partner if no longer horny
+			mob._temp_custom_state.follow_partner = nil
 		end
 
 		if (mob._temp_custom_state.follow_player == nil) then
@@ -546,7 +549,7 @@ local mt_find_follow = rp_mobs.create_microtask({
 })
 
 local follow_decider = function(task_queue, mob)
-	local task = rp_mobs.create_task({label="find player to follow"})
+	local task = rp_mobs.create_task({label="scan for entities to follow"})
 	rp_mobs.add_microtask_to_task(mob, mt_find_follow, task)
 	rp_mobs.add_task_to_task_queue(task_queue, task)
 end
