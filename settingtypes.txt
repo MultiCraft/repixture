@@ -101,10 +101,6 @@ headbars_enable (Enable over-head health bars) bool true
 # Scale of the health display over the player heads.
 headbars_scale (Scale of over-head health bars) float 1.0 0.25
 
-# Enables blood particles when attacking mobs.
-# If disabled, there will be other, less “gruesome” particle effects.
-mobs_enable_blood (Enable blood) bool false
-
 # Enables ambient sounds, such as birds, crickets, etc.
 ambiance_enable (Enable ambient sounds) bool true
 
