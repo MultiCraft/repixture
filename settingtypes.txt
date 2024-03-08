@@ -38,6 +38,11 @@ weather_enable (Enable dynamic weather) bool true
 # If enabled, villages will no longer be generated.
 mapgen_disable_villages (Disable villages) bool false
 
+# This number specifies the radius around the spawn point
+# in which villages won't generate.
+# The number 0 disables this restriction.
+static_spawn_radius (Village-free radius) int 256 0
+
 [Blocks]
 # This enables TNT. TNT is a block that, when ignited, will explode, deal damage and destroy blocks around it.
 # If disabled, all TNTs will be defused and thus unable to explode.
@@ -83,13 +88,6 @@ mobs_spawn_protected (Mobs spawn in protected area) bool true
 # If enabled, hostile mobs will not attack near the player spawn on multiplayer servers. This setting is ignored in singleplayer, mobs will attack regardless.
 # The safety radius is set in static_spawn_radius.
 mobs_safe_spawn (Safe spawn from mobs) bool true
-
-# Radius around the player spawn point in which mobs don't attack.
-# This is only the case in multiplayer servers and if the setting 'mobs_safe_spawn' is enabled. In singleplayer, mobs will attack regardless.
-#
-# Additionally, this radius also specifies the radius around
-# the spawn point in which villages don't generate.
-static_spawn_radius (Spawn point safety radius) int 256 0
 
 [Graphics and audio]
 # This will add an graphical effect that slightly darkens the edges of the screen.

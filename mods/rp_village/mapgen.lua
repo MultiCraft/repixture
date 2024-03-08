@@ -5,7 +5,7 @@
 local S = minetest.get_translator("rp_village")
 
 local spawn_pos = minetest.setting_get_pos("static_spawnpoint") or {x = 0, y = 0, z = 0}
-local spawn_radius = minetest.settings:get("static_spawn_radius") or 256
+local spawn_radius = tonumber(minetest.settings:get("static_spawn_radius")) or 256
 local mapseed = minetest.get_mapgen_setting("seed")
 
 local bitwise_and = function(x,y)
@@ -200,7 +200,7 @@ local function attempt_village_spawn(pos, village_type)
        local nearest = village.get_nearest_village(spos)
 
        if not nearest or nearest.dist > village.min_spawn_dist then
-          if vector.distance(spawn_pos, spos) > spawn_radius then
+          if spawn_radius == 0 or vector.distance(spawn_pos, spos) > spawn_radius then
              minetest.log("action", "[rp_village] Spawning a village at " .. "(" .. spos.x
                              .. ", " .. spos.y .. ", " .. spos.z .. ")")
              local ground = village_info[village_type].ground
