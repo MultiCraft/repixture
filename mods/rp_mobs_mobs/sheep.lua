@@ -112,6 +112,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			stepheight = 0.6,
 		},
 		on_activate = function(self, staticdata)
+			rp_mobs.init_mob(self)
 			rp_mobs.restore_state(self, staticdata)
 			if self._custom_state.shorn then
 				self.object:set_properties({

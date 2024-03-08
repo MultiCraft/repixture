@@ -5,10 +5,7 @@ rp_mobs_spawn = {}
 -- If true, mobs may spawn naturally
 local setting_spawn_mobs = minetest.settings:get_bool("mobs_spawn", true)
 
--- If true, then only peaceful mobs may spawn
-local setting_peaceful_only = minetest.settings:get_bool("only_peaceful_mobs", false)
-
--- Whether to allow spawnining mobs in protected areas.
+-- Whether to allow *natural* spawning mobs in protected areas.
 -- * number 1 or non-false value = disallow spawning in protected areas
 -- (the numeric value is used for backwards-compability)
 local setting_spawn_protected = minetest.settings:get("mobs_spawn_protected")

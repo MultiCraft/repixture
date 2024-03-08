@@ -7,6 +7,9 @@ local TASK_DEBUG = true
 -- Default gravity that affects the mobs
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
 
+-- If true, then only peaceful mobs may spawn
+local setting_peaceful_only = minetest.settings:get_bool("only_peaceful_mobs", false)
+
 -- Time it takes for a mob to die
 local DYING_TIME = 2
 
@@ -381,6 +384,15 @@ rp_mobs.init_tasks = function(self)
 	self._active_task_queue = nil
 end
 
+rp_mobs.init_mob = function(self)
+	local entdef = minetest.registered_entities[self.name]
+	if setting_peaceful_only and not entdef._is_peaceful then
+		self.object:remove()
+		minetest.log("action", "[mobs] Hostile mob '"..self.name.."' removed at "..minetest.pos_to_string(self.object:get_pos(), 1).." (only peaceful mobs allowed)")
+		return
+	end
+end
+
 rp_mobs.create_task_queue = function(empty_decider, step_decider)
 	return {
 		tasks = rp_mobs.DoublyLinkedList(),
@@ -624,12 +636,24 @@ rp_mobs.register_mob_item = function(mobname, invimg, desc, on_create_capture_it
 	if not desc then
 		desc = rp_mobs.registered_mobs[mobname].description
 	end
+	local entdef = minetest.registered_entities[mobname]
+	if not entdef then
+		minetest.log("error", "[rp_mobs] rp_mobs.register_mob_item was called for mob '"..mobname.."' but it doesn't exist!")
+		return
+	end
 	minetest.register_craftitem(mobname, {
 		description = desc,
 		inventory_image = invimg,
 		groups = { spawn_egg = 1 },
 		stack_max = 1,
 		on_place = function(itemstack, placer, pointed_thing)
+			if setting_peaceful_only and not entdef._is_peaceful then
+				if placer and placer:is_player() then
+					local pname = placer:get_player_name()
+					minetest.chat_send_player(pname, minetest.colorize("#FFFF00", S("Hostile mobs are disabled!")))
+				end
+				return itemstack
+			end
 			local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
 			if handled then
 				return handled_itemstack

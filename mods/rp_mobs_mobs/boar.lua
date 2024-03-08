@@ -606,6 +606,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			stepheight = 0.6,
 		},
 		on_activate = function(self, staticdata)
+			rp_mobs.init_mob(self)
 			rp_mobs.restore_state(self, staticdata)
 
 			rp_mobs.init_fall_damage(self, true)

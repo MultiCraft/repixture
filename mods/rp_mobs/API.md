@@ -55,6 +55,7 @@ You can use the following template:
 		drops = { ADD_YOUR_DROPS_HERE },
 		entity_definition = {
 			on_activate = function(self, staticdata)
+				rp_mobs.init_mob(self)
 				rp_mobs.restore_state(self, staticdata)
 				rp_mobs.init_tasks(self)
 			end,
@@ -134,6 +135,7 @@ This overview is a list of all subsystems and the required functions you need to
 
     Subsystem   | on_activate function     | on_step function
     ------------+--------------------------+----------------------------
+    Core*       | rp_mobs.init_mob         | **
     Tasks*      | rp_mobs.init_tasks       | rp_mobs.handle_tasks
     Dying       | **                       | rp_mobs.handle_dying
     Node damage | rp_mobs.init_node_damage | rp_mobs.handle_node_damage***
@@ -144,6 +146,12 @@ This overview is a list of all subsystems and the required functions you need to
     *   = mandatory
     **  = no init function required
     *** = can be replaced with rp_mobs.handle_environment_damage
+
+### Core subsystem
+
+The core subsystem must always be added to the mob. It does initialization
+work that is mandatory for all mobs. Add `rp_mobs.init_mob` to the beginning
+of the `on_activate` function.
 
 ### Dying
 
@@ -370,6 +378,13 @@ This will play a the `damage` sound if the mob took damage, otherwise, `hit_no_d
 These are functions to be used in the `on_activate` handler to initialize certain subsystems, like tasks.
 
 Calling `rp_mobs.restore_state` in `on_activate` is a requirement, but everything else is optional depending on your needs.
+
+#### `rp_mobs.init_mob(mob)`
+
+This initializes the mob and does initalization work in order to do things that
+are required for all mobs.
+
+This function **must** be called in `on_activate` before any other mob-related function.
 
 #### `rp_mobs.restore_state(mob, staticdata)`
 

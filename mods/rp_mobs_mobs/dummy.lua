@@ -6,7 +6,6 @@ local dummy_texture = "mobs_dummy.png"
 -- Dummy mob only for testing
 rp_mobs.register_mob("rp_mobs_mobs:dummy", {
 	description = S("Dummy"),
-	is_peaceful = true,
 	entity_definition = {
 		initial_properties = {
 			hp_max = 20,
@@ -18,6 +17,7 @@ rp_mobs.register_mob("rp_mobs_mobs:dummy", {
 			makes_footstep_sound = false,
 		},
 		on_activate = function(self)
+			rp_mobs.init_mob(self)
 			rp_mobs.init_fall_damage(self, true)
 			rp_mobs.init_tasks(self)
 			self.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)
