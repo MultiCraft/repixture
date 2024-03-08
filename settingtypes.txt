@@ -85,10 +85,6 @@ only_peaceful_mobs (Only peaceful mobs) bool false
 # This setting is only read at startup.
 mobs_spawn_protected (Mobs spawn in protected area) bool true
 
-# If enabled, hostile mobs will not attack near the player spawn on multiplayer servers. This setting is ignored in singleplayer, mobs will attack regardless.
-# The safety radius is set in static_spawn_radius.
-mobs_safe_spawn (Safe spawn from mobs) bool true
-
 [Graphics and audio]
 # This will add an graphical effect that slightly darkens the edges of the screen.
 vignette_enable (Enable vignette) bool true
