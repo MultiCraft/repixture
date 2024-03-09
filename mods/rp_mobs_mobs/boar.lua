@@ -1,29 +1,74 @@
-local WALK_SPEED = 2
-local LIQUID_RISE_SPEED = 2
-local JUMP_STRENGTH = 5
-local WALK_DURATION_MIN = 3000
-local WALK_DURATION_MAX = 4000
-local FIND_LAND_DURATION_MIN = 7000
-local FIND_LAND_DURATION_MAX = 10000
-local FIND_SAFE_LAND_DURATION = 1000
-local IDLE_DURATION_MIN = 500
-local IDLE_DURATION_MAX = 2000
-local RANDOM_SOUND_TIMER_MIN = 10000
-local RANDOM_SOUND_TIMER_MAX = 60000
-local VIEW_RANGE = 10
-local FIND_LAND_ANGLE_STEP = 15
-local FIND_LAND_LENGTH = 20
-local MAX_FALL_DAMAGE_ADD_PERCENT_DROP_ON = 10
-local FALL_HEIGHT = 4
-local FOLLOW_CHECK_TIME = 1.0
-local FOLLOW_REACH_DISTANCE = 2
-local FOLLOW_GIVE_UP_TIME = 10.0
-local MAX_NO_FOLLOW_TIME = 6.0
-
-local FOOD = { "rp_default:apple", "rp_default:acorn" }
+-- Boar
 
 -- TODO: Change to rp_mobs_mobs when ready
 local S = minetest.get_translator("mobs")
+
+-- Boar constants
+
+-- How fast it walks
+local WALK_SPEED = 2
+
+-- How fast it rises in a liquid
+local LIQUID_RISE_SPEED = 2
+
+-- How strong it jumps
+local JUMP_STRENGTH = 5
+
+-- Maximum fall height
+local FALL_HEIGHT = 4
+
+-- When mob is about to decide to fall on a block, this is the
+-- maximum fall_damage_add_percent group value this node
+-- is allowed to have. Otherwise, the mob will avoid this node.
+local MAX_FALL_DAMAGE_ADD_PERCENT_DROP_ON = 10
+
+-- Random duration in ms (minimum and maximum)
+local WALK_DURATION_MIN = 3000
+local WALK_DURATION_MAX = 4000
+
+-- Random duration in milliseconds (minimum and maximum)
+local FIND_LAND_DURATION_MIN = 7000
+local FIND_LAND_DURATION_MAX = 10000
+
+-- Duration to find safe land (no danger)
+local FIND_SAFE_LAND_DURATION = 1000
+
+-- Random duration the mob just stands still
+local IDLE_DURATION_MIN = 500
+local IDLE_DURATION_MAX = 2000
+
+-- Play the random 'call' sound after this duration
+local RANDOM_SOUND_TIMER_MIN = 10000
+local RANDOM_SOUND_TIMER_MAX = 60000
+
+-- When trying to find a safe spot, the mob makes multiple raycasts
+-- from the mob all around the mob horizontally. This number is
+-- the angle difference in degrees between each ray.
+local FIND_LAND_ANGLE_STEP = 15
+
+-- How far the mob looks away for safe land (raycast length)
+local FIND_LAND_LENGTH = 20
+
+-- Range the mob can 'see' players and mods for following/attacking
+local VIEW_RANGE = 10
+
+-- Scan for players/mobs and update the following state every this many seconds
+local FOLLOW_CHECK_TIME = 1.0
+
+-- When the mob is this far away from a follow target, or closer, the target
+-- is supposed to be "reached" and the mob stops walking.
+local FOLLOW_REACH_DISTANCE = 2
+
+-- Stop following after this many seconds (if not reached first)
+local FOLLOW_GIVE_UP_TIME = 10.0
+
+-- If mob stops following players/mobs due to danger,
+-- disable following for this many seconds.
+local NO_FOLLOW_TIME = 6.0
+
+-- List of foods the mob can eat. All foods may also
+-- activate Love Mode.
+local FOOD = { "rp_default:apple", "rp_default:acorn" }
 
 local mt_set_acceleration = function(acceleration)
 	return rp_mobs.create_microtask({
@@ -320,7 +365,7 @@ local roam_decider_step = function(task_queue, mob, dtime)
 	-- Re-enable following after a few seconds
 	if mob._temp_custom_state.no_follow then
 		mob._temp_custom_state.no_follow_timer = mob._temp_custom_state.no_follow_timer + dtime
-		if mob._temp_custom_state.no_follow_timer > MAX_NO_FOLLOW_TIME then
+		if mob._temp_custom_state.no_follow_timer > NO_FOLLOW_TIME then
 			mob._temp_custom_state.no_follow = false
 			mob._temp_custom_state.no_follow_timer = 0
 		end
