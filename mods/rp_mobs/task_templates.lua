@@ -496,3 +496,14 @@ rp_mobs.microtasks.sleep = function(time)
 	})
 end
 
+-- Instantly set mob acceleration to the given parameter
+rp_mobs.microtasks.set_acceleration = function(acceleration)
+	return rp_mobs.create_microtask({
+		label = "set acceleration",
+		singlestep = true,
+		on_step = function(self, mob, dtime)
+			mob.object:set_acceleration(acceleration)
+		end,
+	})
+end
+

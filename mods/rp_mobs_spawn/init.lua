@@ -17,6 +17,9 @@ else
 	setting_spawn_protected = true
 end
 
+-- If true, then only peaceful mobs may spawn
+local setting_peaceful_only = minetest.settings:get_bool("only_peaceful_mobs", false)
+
 -- END OF SETTINGS
 
 local mg_corner_1, mg_corner_2 = minetest.get_mapgen_edges()

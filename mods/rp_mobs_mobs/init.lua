@@ -1,5 +1,8 @@
 rp_mobs_mobs = {}
 
+-- Shared functions
+dofile(minetest.get_modpath("rp_mobs_mobs").."/shared.lua")
+
 -- Crafting stuff
 dofile(minetest.get_modpath("rp_mobs_mobs").."/crafts.lua")
 
