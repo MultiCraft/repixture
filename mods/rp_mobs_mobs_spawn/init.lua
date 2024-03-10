@@ -37,7 +37,6 @@ rp_mobs_spawn.register_spawn("rp_mobs_mobs:skunk", {
 })
 
 
---[[ TODO
 -- Mine Turtle
 rp_mobs_spawn.register_spawn("rp_mobs_mobs:mineturtle", {
 	nodes = { "rp_default:dirt_with_grass" },
@@ -59,4 +58,4 @@ rp_mobs_spawn.register_spawn("rp_mobs_mobs:walker", {
 	active_object_limit = 1,
 	active_object_limit_wider = 1,
 })
-]]
+

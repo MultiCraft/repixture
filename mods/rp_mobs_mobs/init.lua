@@ -13,6 +13,8 @@ dofile(minetest.get_modpath("rp_mobs_mobs").."/sheep.lua")
 dofile(minetest.get_modpath("rp_mobs_mobs").."/skunk.lua")
 
 -- Monsters (TODO)
+dofile(minetest.get_modpath("rp_mobs_mobs").."/walker.lua")
+dofile(minetest.get_modpath("rp_mobs_mobs").."/mineturtle.lua")
 
 -- Dummy mob used only for testing
 dofile(minetest.get_modpath("rp_mobs_mobs").."/dummy.lua")
