@@ -13,8 +13,6 @@ rp_mobs_spawn.register_spawn("rp_mobs_mobs:boar", {
 	active_object_limit_wider = 1,
 })
 
---[[
-TODO
 -- Sheep
 rp_mobs_spawn.register_spawn("rp_mobs_mobs:sheep", {
 	nodes = { "rp_default:dirt_with_grass" },
@@ -25,10 +23,7 @@ rp_mobs_spawn.register_spawn("rp_mobs_mobs:sheep", {
 	active_object_limit = 2,
 	active_object_limit_wider = 2,
 })
-]]
 
---[[
-TODO
 -- Skunk
 rp_mobs_spawn.register_spawn("rp_mobs_mobs:skunk", {
 	nodes = { "rp_default:dirt_with_grass" },
@@ -41,6 +36,8 @@ rp_mobs_spawn.register_spawn("rp_mobs_mobs:skunk", {
 	max_height = 50,
 })
 
+
+--[[ TODO
 -- Mine Turtle
 rp_mobs_spawn.register_spawn("rp_mobs_mobs:mineturtle", {
 	nodes = { "rp_default:dirt_with_grass" },

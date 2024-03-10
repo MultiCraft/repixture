@@ -115,7 +115,10 @@ function rp_mobs.handle_drowning(self, dtime)
 	local drowning_point = self._drowning_point or vector.zero()
 	drowning_point = rotate_vector_yaw(drowning_point, yaw)
 	pos = vector.add(pos, drowning_point)
+
 	local node = minetest.get_node(pos)
+
+
 	if node.name == "ignore" then
 		-- No breath change in ignore
 		return
