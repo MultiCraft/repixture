@@ -91,7 +91,7 @@ rp_mobs.feed_tame_breed = function(mob, feeder, allowed_foods, food_till_tamed, 
 
 	 		-- Update achievement
 			local entdef = minetest.registered_entities[mob.name]
-			if entdef and entdef.type == "animal" then
+			if entdef and entdef._is_animal == true then
 				achievements.trigger_subcondition(feeder, "gonna_feed_em_all", mob.name)
 			end
 
