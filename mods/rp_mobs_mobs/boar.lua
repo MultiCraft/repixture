@@ -11,7 +11,7 @@ local VIEW_RANGE = 10
 
 local FOOD = { "rp_default:apple", "rp_default:acorn" }
 
-task_queue_roam_settings = {
+local task_queue_roam_settings = {
 	walk_speed = 2,
 	liquid_rise_speed = 2,
 	jump_strength = 5,
@@ -26,7 +26,7 @@ task_queue_roam_settings = {
 	idle_duration_min = 500,
 	idle_duration_max = 2000,
 	find_land_length = 20,
-	view_range = 10,
+	view_range = VIEW_RANGE,
 	follow_reach_distance = 2,
 	follow_give_up_time = 10.0,
 	no_follow_time = 6.0,
