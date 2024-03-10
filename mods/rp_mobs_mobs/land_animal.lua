@@ -51,7 +51,7 @@ return function(task_queue, mob)
 
 		local yaw
 		-- Find direction to walk to
-		local landpos, landangle = rp_mobs_mobs.find_land_duration_from_liquid(mob.object:get_pos())
+		local landpos, landangle = rp_mobs_mobs.find_land_from_liquid(mob.object:get_pos(), settings.find_land_length)
 		local walk_duration
 		-- Prefer walking towards land. Mob wants to stay dry. ;-)
 		if landpos and landangle then

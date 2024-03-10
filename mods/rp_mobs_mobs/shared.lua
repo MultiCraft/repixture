@@ -104,7 +104,7 @@ rp_mobs_mobs.find_land_from_liquid = function(pos, find_land_length)
 	local startpos = table.copy(pos)
 	startpos.y = startpos.y - 1
 	local startnode = minetest.get_node(startpos)
-	if not is_liquid(startnode.name) then
+	if not rp_mobs_mobs.is_liquid(startnode.name) then
 		startpos.y = startpos.y - 1
 	end
 	local vec_y = vector.new(0, 1, 0)
@@ -126,7 +126,7 @@ rp_mobs_mobs.find_land_from_liquid = function(pos, find_land_length)
 					-- Ignore if ray collided with overhigh selection boxes (kelp, seagrass, etc.)
 					if pt.intersection_point.y - 0.5 < pt.under.y and
 							-- Node above must be non-walkable
-							not is_walkable(upnode.name) then
+							not rp_mobs_mobs.is_walkable(upnode.name) then
 						best_pos = up
 						best_dist = dist
 						local pos1 = vector.copy(startpos)
@@ -137,7 +137,7 @@ rp_mobs_mobs.find_land_from_liquid = function(pos, find_land_length)
 						break
 					end
 				end
-				if is_walkable(upnode.name) then
+				if rp_mobs_mobs.is_walkable(upnode.name) then
 					break
 				end
 			end
@@ -173,10 +173,10 @@ rp_mobs_mobs.find_safe_node_from_pos = function(pos)
 				local floornode = minetest.get_node(floor)
 				local up = vector.add(floor, vector.new(0, 1, 0))
 				local upnode = minetest.get_node(up)
-				if is_walkable(floornode.name) then
-					if is_walkable(upnode.name) then
+				if rp_mobs_mobs.is_walkable(floornode.name) then
+					if rp_mobs_mobs.is_walkable(upnode.name) then
 						break
-					elseif not is_walkable(upnode.name) and not is_damaging(upnode.name) then
+					elseif not rp_mobs_mobs.is_walkable(upnode.name) and not rp_mobs_mobs.is_damaging(upnode.name) then
 						local dist = vector.distance(startpos, floor)
 						if not best_dist or dist < best_dist then
 							best_pos = up
