@@ -255,29 +255,6 @@ local roam_decider_step = function(task_queue, mob, dtime)
 	end
 end
 
-mt_find_follow = rp_mobs_mobs.microtask_find_follow(VIEW_RANGE, FOOD)
-
-local follow_decider = function(task_queue, mob)
-	local task = rp_mobs.create_task({label="scan for entities to follow"})
-	rp_mobs.add_microtask_to_task(mob, mt_find_follow, task)
-	rp_mobs.add_task_to_task_queue(task_queue, task)
-end
-
-local call_sound_decider = function(task_queue, mob)
-	local task = rp_mobs.create_task({label="random call sound"})
-	local mt_sleep = rp_mobs.microtasks.sleep(math.random(RANDOM_SOUND_TIMER_MIN, RANDOM_SOUND_TIMER_MAX)/1000)
-	local mt_call = rp_mobs.create_microtask({
-		label = "play call sound",
-		singlestep = true,
-		on_step = function(self, mob, dtime)
-			rp_mobs.default_mob_sound(mob, "call", false)
-		end
-	})
-	rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
-	rp_mobs.add_microtask_to_task(mob, mt_call, task)
-	rp_mobs.add_task_to_task_queue(task_queue, task)
-end
-
 -- Warthog (boar) by KrupnoPavel
 -- Changed to Boar and tweaked by KaadmY
 --
@@ -327,8 +304,8 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(roam_decider, roam_decider_step))
-			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(follow_decider))
-			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(call_sound_decider))
+			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_follow_scan(VIEW_RANGE, FOOD))
+			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_call_sound(RANDOM_SOUND_TIMER_MIN, RANDOM_SOUND_TIMER_MAX))
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)

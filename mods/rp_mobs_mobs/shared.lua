@@ -234,8 +234,8 @@ end
 -- are supposed to decide what do do with this information.
 -- Parameters:
 -- * view_range: Range in which mob can detect other objects
--- * foodlist: List of food items the mob likes to follow (itemstrings)
-rp_mobs_mobs.microtask_find_follow = function(view_range, foodlist)
+-- * food_list: List of food items the mob likes to follow (itemstrings)
+rp_mobs_mobs.microtask_find_follow = function(view_range, food_list)
 	return rp_mobs.create_microtask({
 		label = "find entities to follow",
 		on_start = function(self, mob)
@@ -315,8 +315,8 @@ rp_mobs_mobs.microtask_find_follow = function(view_range, foodlist)
 						if dist <= view_range and ((not min_dist) or dist < min_dist) then
 							local wield = player:get_wielded_item()
 							-- Is holding food?
-							for f=1, #foodlist do
-								if wield:get_name() == foodlist[f] then
+							for f=1, #food_list do
+								if wield:get_name() == food_list[f] then
 									min_dist = dist
 									closest_player = player
 									break
@@ -339,8 +339,8 @@ rp_mobs_mobs.microtask_find_follow = function(view_range, foodlist)
 						mob._temp_custom_state.follow_player = nil
 					else
 						local wield = player:get_wielded_item()
-						for f=1, #foodlist do
-							if wield:get_name() == foodlist[f] then
+						for f=1, #food_list do
+							if wield:get_name() == food_list[f] then
 								return
 							end
 						end
@@ -356,3 +356,45 @@ rp_mobs_mobs.microtask_find_follow = function(view_range, foodlist)
 		end,
 	})
 end
+
+-- Creates and returns a task queue that randomly plays the mob's 'call'
+-- sound from time to time.
+-- Parameters:
+-- * sound_timer_min: Minimum time between call sounds (milliseconds)
+-- * sound_timer_max: Maximum time between call sounds (milliseconds)
+rp_mobs_mobs.task_queue_call_sound = function(sound_timer_min, sound_timer_max)
+	local decider = function(task_queue, mob)
+		local task = rp_mobs.create_task({label="random call sound"})
+		local mt_sleep = rp_mobs.microtasks.sleep(math.random(sound_timer_min, sound_timer_max)/1000)
+		local mt_call = rp_mobs.create_microtask({
+			label = "play call sound",
+			singlestep = true,
+			on_step = function(self, mob, dtime)
+				rp_mobs.default_mob_sound(mob, "call", false)
+			end
+		})
+		rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
+		rp_mobs.add_microtask_to_task(mob, mt_call, task)
+		rp_mobs.add_task_to_task_queue(task_queue, task)
+	end
+	local tq = rp_mobs.create_task_queue(decider)
+	return tq
+end
+
+-- Creates and returns a task queue that exclusively performs the 'find_follow'
+-- microtask. Provided for convenience.
+-- See `rp_mobs_mobs.microtask_find_follow` for details.
+-- Parameters:
+-- * view_range: Range in which mob can detect other objects
+-- * food_list: List of food items the mob likes to follow (itemstrings)
+rp_mobs_mobs.task_queue_follow_scan = function(view_range, food_list)
+	local decider = function(task_queue, mob)
+		local task = rp_mobs.create_task({label="scan for entities to follow"})
+		local mt_find_follow = rp_mobs_mobs.microtask_find_follow(view_range, food_list)
+		rp_mobs.add_microtask_to_task(mob, mt_find_follow, task)
+		rp_mobs.add_task_to_task_queue(task_queue, task)
+	end
+	local tq = rp_mobs.create_task_queue(decider)
+	return tq
+end
+
