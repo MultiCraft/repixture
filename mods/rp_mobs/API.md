@@ -750,19 +750,30 @@ Make a mob play its “hurt” sound. The pitch will be slightly randomized. Chi
 
 
 
-### Achievement function
+### Achievement functions
 
 This section is for manually triggering the built-in achievement(s) of this mod.
 
-#### `rp_mobs.check_and_trigger_hunter_achievement(mob, killer)`
+#### `rp_mobs.register_on_kill_achievement(callback)`
+
+Registers a function `callback(mob, killer)` where `mob` is a mob reference and `killer`
+is an object reference to the mob killer.
+
+The function `callback` will be called when the mob has been killed.
+This is specifically to trigger kill-related achievements.
+
+Do not use this function to do anything else except achievement stuff.
+
+#### `rp_mobs.check_and_trigger_kill_achievements(mob, killer)`
 
 Checks if the mob is an animal and has a food item in its drop table and if yes,
-will award the “Hunter” achievement to `killer` if `killer` is a player.
+will award kill-related achievements for `killer` if `killer` is a player.
+
+This mod adds the 'Hunter' achievement by default, but other mods might add
+additional mobkill-related achievements.
 
 This is called in the default death handler (`rp_mobs.on_death_default`) so by default, you don’t need to call this yourself.
 But if you a custom death handler for `on_death`, it is recommended to call this function for animals.
-
-
 
 ### Utility functions
 

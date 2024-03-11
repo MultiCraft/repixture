@@ -291,32 +291,6 @@ rp_mobs.drop_death_items = function(self, pos)
 	end
 end
 
-rp_mobs.check_and_trigger_hunter_achievement = function(mob, killer)
-	-- Hunter achievement: If mob is a food-dropping animal, it counts.
-	local mobdef = rp_mobs.registered_mobs[mob.name]
-	if not mobdef then
-		error("[rp_mobs] rp_mobs.check_and_trigger_hunter_achievement was called on something that is not a registered mob! name="..tostring(self.name))
-	end
-	local drops_food = false
-	local drops
-	if not mob._child and mobdef.drops then
-		drops = mobdef.drops
-	elseif mob._child and mobdef.child_drops then
-		drops = mobdef.child_drops
-	end
-	if drops then
-		for _,drop in ipairs(drops) do
-			if minetest.get_item_group(drop, "food") ~= 0 then
-				drops_food = true
-				break
-			end
-		end
-	end
-	if drops_food and killer ~= nil and killer:is_player() and mobdef.entity_definition._is_animal then
-		achievements.trigger_achievement(killer, "hunter")
-	end
-end
-
 local get_mob_death_particle_radius = function(self)
 	local colbox = self._base_colbox
 	local x,y,z
@@ -334,7 +308,7 @@ local get_mob_death_particle_radius = function(self)
 end
 
 rp_mobs.on_death_default = function(self, killer)
-	rp_mobs.check_and_trigger_hunter_achievement(self, killer)
+	rp_mobs.check_and_trigger_kill_achievements(self, killer)
 	local radius = get_mob_death_particle_radius(self)
 	local pos = self.object:get_pos()
 	minetest.add_particlespawner({
@@ -668,7 +642,7 @@ rp_mobs.handle_dying = function(self, dtime)
 		if self._killer_player_name then
 			local killer = minetest.get_player_by_name(self._killer_player_name)
 			if killer then
-				rp_mobs.check_and_trigger_hunter_achievement(self, killer)
+				rp_mobs.check_and_trigger_kill_achievements(self, killer)
 			end
 		end
 	end

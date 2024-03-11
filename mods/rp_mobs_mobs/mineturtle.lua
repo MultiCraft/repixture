@@ -82,14 +82,16 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)
 		end,
-		on_death = function(self, killer)
-			if killer and killer:is_player() then
-				achievements.trigger_achievement(killer, "bomb_has_been_defused")
-			end
-			return rp_mobs.on_death_default(self, killer)
-		end,
+		on_death = rp_mobs.on_death_default,
 		on_punch = rp_mobs.on_punch_default,
 	},
 })
 
 rp_mobs.register_mob_item("rp_mobs_mobs:mineturtle", "mobs_mineturtle_inventory.png")
+
+
+rp_mobs.register_on_kill_achievement(function(mob, killer)
+	if killer and killer:is_player() then
+		achievements.trigger_achievement(killer, "bomb_has_been_defused")
+	end
+end)

@@ -1,6 +1,27 @@
 -- TODO: Change to rp_mobs when ready
 local S = minetest.get_translator("mobs")
 
+local registered_on_kills = {}
+
+rp_mobs.register_on_kill_achievement = function(callback)
+	table.insert(registered_on_kills, callback)
+end
+
+
+-- Achievements helper function
+
+rp_mobs.check_and_trigger_kill_achievements = function(mob, killer)
+	-- Hunter achievement: If mob is a food-dropping animal, it counts.
+	local mobdef = rp_mobs.registered_mobs[mob.name]
+	if not mobdef then
+		error("[rp_mobs] rp_mobs.check_and_trigger_kill_achievements was called on something that is not a registered mob! name="..tostring(self.name))
+	end
+	for f=1, #registered_on_kills do
+		local func = registered_on_kills[f]
+		func(mob, killer)
+	end
+end
+
 --
 -- Achievements
 --
@@ -49,3 +70,30 @@ achievements.register_achievement(
 })
 
 
+rp_mobs.register_on_kill_achievement(function(mob, killer)
+	local drops_food = false
+	local drops
+	if not mob or not mob.name then
+		return
+	end
+	local mobdef = rp_mobs.registered_mobs[mob.name]
+	if not mobdef then
+		return
+	end
+	if not mob._child and mobdef.drops then
+		drops = mobdef.drops
+	elseif mob._child and mobdef.child_drops then
+		drops = mobdef.child_drops
+	end
+	if drops then
+		for _,drop in ipairs(drops) do
+			if minetest.get_item_group(drop, "food") ~= 0 then
+				drops_food = true
+				break
+			end
+		end
+	end
+	if drops_food and killer ~= nil and killer:is_player() and mobdef.entity_definition._is_animal then
+		achievements.trigger_achievement(killer, "hunter")
+	end
+end)
