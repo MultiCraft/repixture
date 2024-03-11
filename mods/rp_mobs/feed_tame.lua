@@ -2,7 +2,8 @@ local DEFAULT_ADD_CHILD_GROW_TIMER = 20
 
 -- Entity variables to persist:
 rp_mobs.add_persisted_entity_vars({
-	"_tb_level", -- tame/breed level. Increases when a mob was fed; used to trigger taming and breeding
+	"_tame_level", -- Tame level. Increases when a mob was fed; used to trigger taming
+	"_horny_level", -- Horny level. Increases when an adult mob was fed; used to trigger breeding
 	"_tamed", -- true if mob is tame
 })
 --[[ NOT persisted variables:
@@ -10,8 +11,12 @@ rp_mobs.add_persisted_entity_vars({
 ]]
 
 
-local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, can_breed, add_child_grow_timer) -- Check if a mob is fed
-	mob._tb_level = (mob._tb_level or 0) + food_points
+local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, food_till_horny, add_child_grow_timer) -- Check if a mob is fed
+	-- Increase tame and horny level
+	mob._tame_level = (mob._tame_level or 0) + food_points
+	if not mob._child and not mob._horny then
+		mob._horny_level = (mob._horny_level or 0) + food_points
+	end
 
 	-- Remember name of feeder for achievements
 	if feeder_name then
@@ -25,12 +30,8 @@ local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, c
 	end
 
 	-- Tame mob if threshold was reached
-	if food_till_tamed and mob._tb_level >= food_till_tamed then
-		mob._tb_level = 0
-
-		if can_breed and mob._horny_timer == 0 then
-			rp_mobs.make_horny(mob, true)
-		end
+	if food_till_tamed and mob._tame_level >= food_till_tamed then
+		mob._tame_level = 0
 
 		if (not mob._tamed) and feeder_name ~= nil then
 			mob._tamed = true
@@ -41,18 +42,25 @@ local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, c
 			end
 		end
 	end
+
+	-- Make mob horny if threshold was reached
+	if food_till_horny and mob._horny_level >= food_till_horny and mob._horny_timer == 0 and not mob._child and not mob._horny then
+		mob._horny_level = 0
+
+		rp_mobs.make_horny(mob, true)
+	end
 end
 
 -- Let a player feed a mob with their wielded item and optionally tame it and make it horny
 -- * mob: The mob that is fed
 -- * feeder: Player who feeds the mob
 -- * allowed_foods: List of allowed food items
--- * food_till_tamed: How many food points the mob needs until it is tamed
--- * can_breed: true if feeding may cause this mob to become horny, false otherwise
+-- * food_till_tamed: How many food points the mob needs until it is tamed (nil = no taming)
+-- * food_till_horny: How many food points the mob needs until it becomes horny (nil = no horny)
 -- * add_child_growth_timer: (optional) By how many seconds the child growth timer is increased (default: 20)
 -- * effect: (optional) true to show particle effects, false otherwise (default: true)
 -- * eat_sound: (optional) Name of sound to play for the mob eating (default: "mobs_eat")
-rp_mobs.feed_tame_breed = function(mob, feeder, allowed_foods, food_till_tamed, can_breed, add_child_grow_timer, effect, eat_sound)
+rp_mobs.feed_tame_breed = function(mob, feeder, allowed_foods, food_till_tamed, food_till_horny, add_child_grow_timer, effect, eat_sound)
 	if not rp_mobs.is_alive(mob) then
 		return false
 	end
@@ -126,7 +134,7 @@ rp_mobs.feed_tame_breed = function(mob, feeder, allowed_foods, food_till_tamed, 
 			})
 		end
 
-		feed_handling(mob, feeder_name, food_points, food_till_tamed, can_breed, add_child_grow_timer)
+		feed_handling(mob, feeder_name, food_points, food_till_tamed, food_till_horny, add_child_grow_timer)
 
 		return true
 	else

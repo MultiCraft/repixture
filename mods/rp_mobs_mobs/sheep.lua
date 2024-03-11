@@ -184,7 +184,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			end
 
 			-- Are we feeding?
-			if rp_mobs.feed_tame_breed(self, clicker, FOOD, 8, true) then
+			if rp_mobs.feed_tame_breed(self, clicker, FOOD, 8, 8) then
 				-- Update wool status if shorn
 				if not self._custom_state.shorn then
 					self.object:set_properties({

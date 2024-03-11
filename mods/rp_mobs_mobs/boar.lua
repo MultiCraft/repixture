@@ -95,7 +95,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			rp_mobs.handle_breeding(self, dtime)
 		end,
 		on_rightclick = function(self, clicker)
-			rp_mobs.feed_tame_breed(self, clicker, FOOD, 8, true)
+			rp_mobs.feed_tame_breed(self, clicker, FOOD, 8, 8)
 			rp_mobs.call_on_capture(self, clicker)
 		end,
 		_on_capture = function(self, capturer)

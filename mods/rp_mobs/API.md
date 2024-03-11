@@ -233,9 +233,10 @@ These fields are available:
 ### Status
 
 * `_tamed`: `true` if mob is tame
-* `_tb_level`: tame/breed level. Starts at 0 and increases for any food given, used to trigger taming/breeding
+* `_tame_level`: tame level. Starts at 0 and increases for any food given, used to trigger taming
+* `_horny_level`: 'horny' level. Starts at 0 and increases for any food given to an adult, used to trigger horny mode
 * `_child`: `true` if mob is a child
-* `_horny`: `true` if mob is “horny”. If another horny mob is nearby, they will mate and spawn a child
+* `_horny`: `true` if mob is “horny”. If another horny mob is nearby, they will mate and spawn a child soon
 * `_pregnant`: `true` if mob is pregnant and about to spawn a child
 
 ### Damage
