@@ -276,14 +276,14 @@ village.chunkdefs["lamppost"] = { -- not road because of road height limit of 1 
    can_cache = true,
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:npc_carpenter"] = 1,
+      ["rp_mobs_mobs:villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["well"] = {
    ruins = {"well_ruins"},
    entities = {
-      ["rp_mobs_mobs:npc_farmer"] = 1,
-      ["rp_mobs_mobs:npc_tavernkeeper"] = 1,
+      ["rp_mobs_mobs:villager_farmer"] = 1,
+      ["rp_mobs_mobs:villager_tavernkeeper"] = 1,
    },
 }
 village.chunkdefs["house"] = {
@@ -295,7 +295,7 @@ village.chunkdefs["house"] = {
    ruins = {"house_ruins", "house_ruins_2"},
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:npc_carpenter"] = 1,
+      ["rp_mobs_mobs:villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["hut_s"] = {
@@ -305,7 +305,7 @@ village.chunkdefs["hut_s"] = {
    ruins = {"reed_hut_s_ruins", "reed_hut_s_ruins_2"},
    entitity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:npc_farmer"] = 1,
+      ["rp_mobs_mobs:villager_farmer"] = 1,
    },
 }
 village.chunkdefs["hut_m"] = {
@@ -315,7 +315,7 @@ village.chunkdefs["hut_m"] = {
    ruins = {"reed_hut_m_ruins", "reed_hut_m_ruins_2"},
    entitity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:npc_farmer"] = 1,
+      ["rp_mobs_mobs:villager_farmer"] = 1,
    },
 }
 
@@ -334,7 +334,7 @@ village.chunkdefs["workshop"] = {
    },
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:npc_carpenter"] = 1,
+      ["rp_mobs_mobs:villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["townhall"] = {
@@ -352,10 +352,10 @@ village.chunkdefs["townhall"] = {
    },
    entity_chance = 1,
    entities = {
-      ["rp_mobs_mobs:npc_tavernkeeper"] = 1,
-      ["rp_mobs_mobs:npc_farmer"] = 1,
-      ["rp_mobs_mobs:npc_blacksmith"] = 1,
-      ["rp_mobs_mobs:npc_carpenter"] = 1,
+      ["rp_mobs_mobs:villager_tavernkeeper"] = 1,
+      ["rp_mobs_mobs:villager_farmer"] = 1,
+      ["rp_mobs_mobs:villager_blacksmith"] = 1,
+      ["rp_mobs_mobs:villager_carpenter"] = 1,
    },
 }
 
@@ -375,7 +375,7 @@ village.chunkdefs["tavern"] = {
    },
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:npc_tavernkeeper"] = 1,
+      ["rp_mobs_mobs:villager_tavernkeeper"] = 1,
    },
 }
 village.chunkdefs["library"] = {
@@ -393,7 +393,7 @@ village.chunkdefs["library"] = {
    },
    entity_chance = 3,
    entities = {
-      ["rp_mobs_mobs:npc_carpenter"] = 1,
+      ["rp_mobs_mobs:villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["reading_club"] = {
@@ -405,8 +405,8 @@ village.chunkdefs["reading_club"] = {
    ruins = {"house_ruins", "house_ruins_2"},
    entity_chance = 3,
    entities = {
-      ["rp_mobs_mobs:npc_farmer"] = 1,
-      ["rp_mobs_mobs:npc_blacksmith"] = 1,
+      ["rp_mobs_mobs:villager_farmer"] = 1,
+      ["rp_mobs_mobs:villager_blacksmith"] = 1,
    },
 }
 
@@ -419,7 +419,7 @@ village.chunkdefs["bakery"] = {
    ruins = {"bakery_ruins"},
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:npc_farmer"] = 1,
+      ["rp_mobs_mobs:villager_farmer"] = 1,
    },
 }
 
@@ -439,7 +439,7 @@ village.chunkdefs["forge"] = {
    },
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:npc_blacksmith"] = 1,
+      ["rp_mobs_mobs:villager_blacksmith"] = 1,
    },
 }
 village.chunkdefs["orchard"] = {
@@ -450,7 +450,7 @@ village.chunkdefs["orchard"] = {
    can_cache = true,
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:npc_farmer"] = 1,
+      ["rp_mobs_mobs:villager_farmer"] = 1,
    },
 }
 village.chunkdefs["road"] = {
@@ -500,7 +500,7 @@ village.chunkdefs["farm_small_plants"] = {
    },
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:npc_farmer"] = 1,
+      ["rp_mobs_mobs:villager_farmer"] = 1,
    }
 }
 
@@ -517,7 +517,7 @@ village.chunkdefs["farm_papyrus"] = {
    },
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:npc_farmer"] = 1,
+      ["rp_mobs_mobs:villager_farmer"] = 1,
    }
 }
 

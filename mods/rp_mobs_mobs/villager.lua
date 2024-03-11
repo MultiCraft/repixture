@@ -425,9 +425,9 @@ for _, villager_type_table in pairs(villager_types) do
 				collisionbox = { -0.35, -1.0, -0.35, 0.35, 0.77, 0.35},
 				selectionbox = { -0.32, -1.0, -0.22, 0.32, 0.77, 0.22, rotate=true},
 				visual = "mesh",
-				mesh = "mobs_npc.b3d",
+				mesh = "mobs_villager.b3d",
 				-- TODO: Random texture
-				textures = { "mobs_npc1.png" },
+				textures = { "mobs_villager1.png" },
 				makes_footstep_sound = true,
 				stepheight = 0.6,
 			},
@@ -522,5 +522,5 @@ for _, villager_type_table in pairs(villager_types) do
 		},
 	})
 
-	rp_mobs.register_mob_item("rp_mobs_mobs:villager_" .. villager_type, "mobs_npc_"..villager_type.."_inventory.png")
+	rp_mobs.register_mob_item("rp_mobs_mobs:villager_" .. villager_type, "mobs_villager_"..villager_type.."_inventory.png")
 end
