@@ -3,7 +3,7 @@ local S = minetest.get_translator("mobs")
 
 -- If true, will write the task queues of mobs as their nametag
 local TASK_DEBUG = false
-local STATE_DEBUG = true
+local STATE_DEBUG = false
 
 -- Default gravity that affects the mobs
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
