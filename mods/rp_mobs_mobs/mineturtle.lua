@@ -48,6 +48,7 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 		["punch"] = { frame_range = { x = 51, y = 60 }, default_frame_speed = 25 },
 	},
 	front_body_point = vector.new(0, -0.4, 0.5),
+	dead_y_offset = -0.4,
 	entity_definition = {
 		initial_properties = {
 			hp_max = 15,

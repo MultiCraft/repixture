@@ -13,9 +13,6 @@ local setting_peaceful_only = minetest.settings:get_bool("only_peaceful_mobs", f
 -- Time it takes for a mob to die
 local DYING_TIME = 2
 
--- Change of Y coordinate for collisionbox of dying mob
-local DEAD_COLLISIONBOX_Y_OFFSET = 0.6
-
 -- Default texture modifier when mob takes damage
 local DAMAGE_TEXTURE_MODIFIER = "^[colorize:#df2222:180"
 
@@ -140,6 +137,7 @@ rp_mobs.register_mob = function(mobname, def)
 	if def.front_body_point then
 		mdef.entity_definition._front_body_point = table.copy(def.front_body_point)
 	end
+	mdef.entity_definition._dead_y_offset = def.dead_y_offset
 
 	rp_mobs.registered_mobs[mobname] = mdef
 
@@ -157,12 +155,12 @@ rp_mobs.get_staticdata_default = function(self)
 	return staticdata
 end
 
-local flip_over_collisionbox = function(box, is_child)
+local flip_over_collisionbox = function(box, is_child, y_offset)
 	local off
 	if is_child then
-		off = DEAD_COLLISIONBOX_Y_OFFSET / 2
+		off = y_offset / 2
 	else
-		off = DEAD_COLLISIONBOX_Y_OFFSET
+		off = y_offset
 	end
 	-- Y
 	box[2] = box[2] + off
@@ -173,7 +171,10 @@ end
 local get_dying_boxes = function(mob)
 	local props = mob.object:get_properties()
 	local colbox = props.collisionbox
-	colbox = flip_over_collisionbox(colbox, mob._child)
+	if not mob._dead_y_offset then
+		minetest.log("warning", "[rp_mobs_mobs] No dead_y_offset specified for mob '"..mob.name.."'!")
+	end
+	colbox = flip_over_collisionbox(colbox, mob._child, mob._dead_y_offset or 0)
 	local selbox = props.selectionbox
 	return colbox, selbox
 end
@@ -579,6 +580,12 @@ rp_mobs.die = function(self, killer)
 	rp_mobs.set_animation(self, "dead_static")
 
 	local colbox, selbox = get_dying_boxes(self)
+	if self._dead_y_offset and self._dead_y_offset < 0 then
+		local repos = self.object:get_pos()
+		local y = math.abs(self._dead_y_offset)
+		repos = vector.offset(repos, 0, y, 0)
+		self.object:set_pos(repos)
+	end
 	self.object:set_properties({
 		collisionbox = colbox,
 		selectionbox = selbox,

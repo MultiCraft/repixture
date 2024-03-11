@@ -293,6 +293,9 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
 * `front_body_point`: A point of the front side of the mob. Used by the mob to "see"
                       forwards to detect dangerous land (cliffs, damaging blocks, etc.)
                       Should be on the mob model and roughly in the center of that side.
+* `dead_y_offset`: Y offset of collisionbox when mob is in 'dying' state. Set this to
+                   a number so that the mob lies on top of the ground (it should neither
+                   float nor be inside the ground)
 * `entity_definition`: Entity definition table. It may contain this custom function:
   * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
                                    Triggered by `rp_mobs.call_on_capture`

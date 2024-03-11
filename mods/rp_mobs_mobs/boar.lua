@@ -56,6 +56,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 	},
 	textures_child = { "mobs_boar_child.png" },
 	front_body_point = vector.new(0, -0.4, 0.5),
+	dead_y_offset = 0.6,
 	entity_definition = {
 		initial_properties = {
 			hp_max = 20,
