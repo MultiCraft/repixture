@@ -43,6 +43,9 @@ rp_mobs.make_horny = function(mob, force)
 	if mob._child or mob._horny_recover or mob._pregnant or not rp_mobs.is_alive(mob) then
 		return
 	end
+	if not mob._horny_timer then
+		mob._horny_timer = 0
+	end
 	if (not mob._horny) and (force or (mob._horny_timer < HORNY_AGAIN_TIME)) then
 		rp_mobs.default_mob_sound(mob, "horny")
 		mob._horny = true
