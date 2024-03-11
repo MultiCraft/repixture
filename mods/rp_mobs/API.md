@@ -618,7 +618,7 @@ If the task queue is empty, nothing happens.
 
 ### Breeding functions
 
-#### `rp_mobs.feed_tame_breed(mob, feeder, allowed_foods, food_till_tamed, can_breed, add_child_grow_timer, effect, eat_sound)`
+#### `rp_mobs.feed_tame_breed(mob, feeder, allowed_foods, food_till_tamed, food_till_horny, add_child_grow_timer, effect, eat_sound)`
 
 Requires the Breeding subsystem.
 
@@ -628,8 +628,8 @@ Should be called in `on_rightclick`.
 * `mob`: The mob that is fed
 * `feeder`: Player who feeds the mob
 * `allowed_foods`: List of allowed food items
-* `food_till_tamed`: How many food points the mob needs until it is tamed
-* `can_breed`: `true` if feeding may cause this mob to become horny, `false` otherwise
+* `food_till_tamed`: How many food points the mob needs until it is tamed (if nil, can't be tamed by food)
+* `food_till_horny`: How many food points the adult mob needs until it becomes horny (if nil, can't be made horny by food)
 * `add_child_growth_timer`: (optional) If mob is a child, by how many seconds the child growth timer is increased (default: `20`)
 * `effect`: (optional) `true` to show particle effects, `false` otherwise (default: `true`)
 * `eat_sound`: (optional) Name of sound to play (default: `"mobs_eat"`)

@@ -13,7 +13,9 @@ rp_mobs.add_persisted_entity_vars({
 
 local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, food_till_horny, add_child_grow_timer) -- Check if a mob is fed
 	-- Increase tame and horny level
-	mob._tame_level = (mob._tame_level or 0) + food_points
+	if not mob._tamed then
+		mob._tame_level = (mob._tame_level or 0) + food_points
+	end
 	if not mob._child and not mob._horny then
 		mob._horny_level = (mob._horny_level or 0) + food_points
 	end
@@ -21,12 +23,6 @@ local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, f
 	-- Remember name of feeder for achievements
 	if feeder_name then
 		mob._last_feeder = feeder_name
-	end
-
-	-- Make children grow quicker
-	if mob._child and add_child_grow_timer then
-		mob._child_grow_timer = mob._child_grow_timer + add_child_grow_timer
-		return true
 	end
 
 	-- Tame mob if threshold was reached
@@ -43,8 +39,13 @@ local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, f
 		end
 	end
 
+	-- Make children grow quicker
+	if mob._child and add_child_grow_timer then
+		mob._child_grow_timer = mob._child_grow_timer + add_child_grow_timer
+	end
+
 	-- Make mob horny if threshold was reached
-	if food_till_horny and mob._horny_level >= food_till_horny and mob._horny_timer == 0 and not mob._child and not mob._horny then
+	if not mob._child and not mob._horny and food_till_horny and mob._horny_level >= food_till_horny and mob._horny_timer == 0 then
 		mob._horny_level = 0
 
 		rp_mobs.make_horny(mob, true)
