@@ -6,7 +6,7 @@
 local HORNY_TIME = 40
 
 -- How long a mob needs to wait before being able to become horny again (seconds)
-local HORNY_AGAIN_TIME = 240	
+local HORNY_AGAIN_TIME = 240
 
 -- How long it takes by default for a child mob to grow into an adult (seconds)
 local CHILD_GROW_TIME = 240
@@ -28,7 +28,8 @@ rp_mobs.add_persisted_entity_vars({
 	"_child", -- true if this is a child mob
 	"_child_grow_timer", -- counts the time the mob has been a child (seconds)
 	"_horny", -- true if mob is horny and ready to mate
-	"_horny_timer", -- time the mob has been horny (seconds)
+	"_horny_timer", -- time the mob has been horny, or, if _horny_recover is true, time mob has been recovering from a previous horny phase
+	"_horny_recover", -- true if mob is currently recovering from a previous horny phase
 	"_breed_check_timer", -- timer for the breed check; if it reaches BREED_CHECK_INTERVAL, mob will attempt to mate, then the timer resets (in seconds)
 	"_pregnant", -- true if mob is 'pregnant' and about to spawn a child
 	"_pregnant_timer" -- timer the mob has been pregnant (seconds)
@@ -39,12 +40,13 @@ rp_mobs.add_persisted_entity_vars({
 
 -- Make mob horny, if possible
 rp_mobs.make_horny = function(mob, force)
-	if mob._child or not rp_mobs.is_alive(mob) then
+	if mob._child or mob._horny_recover or mob._pregnant or not rp_mobs.is_alive(mob) then
 		return
 	end
 	if (not mob._horny) and (force or (mob._horny_timer < HORNY_AGAIN_TIME)) then
 		rp_mobs.default_mob_sound(mob, "horny")
 		mob._horny = true
+		mob._horny_recover = false
 		mob._horny_timer = 0
 		-- Start spawning breed particles in next step
 		mob._breed_check_timer = BREED_CHECK_INTERVAL
@@ -53,6 +55,9 @@ end
 
 -- Disable mob being horny again
 rp_mobs.make_unhorny = function(mob)
+	if mob._horny then
+		mob._horny_recover = true
+	end
 	mob._horny = false
 	mob._horny_timer = 0
 end
@@ -188,10 +193,17 @@ rp_mobs.handle_breeding = function(mob, dtime)
 	end
 
 	-- Horny mob can mate for HORNY_TIME seconds, afterwards the mob cannot mate again for HORNY_AGAIN_TIME seconds
-	if mob._horny and mob._horny_timer < HORNY_AGAIN_TIME and not mob._child then
+	if mob._horny then
+		mob._horny_timer = mob._horny_timer + dtime
+		if mob._horny_timer >= HORNY_TIME then
+			rp_mobs.make_unhorny(mob)
+		end
+	-- Also, the horny recover time does not start while the mob is still pregnant
+	elseif mob._horny_recover and not mob._pregnant then
 		mob._horny_timer = mob._horny_timer + dtime
 		if mob._horny_timer >= HORNY_AGAIN_TIME then
-			rp_mobs.make_unhorny(mob)
+			mob._horny_recover = false
+			mob._horny_timer = 0
 		end
 	end
 
@@ -279,10 +291,8 @@ rp_mobs.handle_breeding = function(mob, dtime)
 			child_bearer = partner
 			child_giver = mob
 		end
-		child_bearer._horny_timer = HORNY_TIME + 1
-		child_giver._horny_timer = HORNY_TIME + 1
-		child_bearer._horny = false
-		child_giver._horny = false
+		rp_mobs.make_unhorny(child_bearer)
+		rp_mobs.make_unhorny(child_giver)
 		-- Record breeder name if player has fed both parents (for achievement)
 		if child_bearer._last_feeder and child_bearer._last_feeder ~= "" and child_bearer._last_feeder == child_giver._last_feeder then
 			child_bearer._last_breeder = child_bearer._last_feeder

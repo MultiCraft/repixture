@@ -16,7 +16,7 @@ local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, f
 	if not mob._tamed then
 		mob._tame_level = (mob._tame_level or 0) + food_points
 	end
-	if not mob._child and not mob._horny then
+	if not mob._child and not mob._horny and not mob._horny_recover and not mob._pregnant then
 		mob._horny_level = (mob._horny_level or 0) + food_points
 	end
 
@@ -40,12 +40,12 @@ local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, f
 	end
 
 	-- Make children grow quicker
-	if mob._child and add_child_grow_timer then
+	if add_child_grow_timer and mob._child then
 		mob._child_grow_timer = mob._child_grow_timer + add_child_grow_timer
 	end
 
 	-- Make mob horny if threshold was reached
-	if not mob._child and not mob._horny and food_till_horny and mob._horny_level >= food_till_horny and mob._horny_timer == 0 then
+	if food_till_horny and not mob._child and not mob._horny and not mob._horny_recover and not mob._pregnant and mob._horny_level >= food_till_horny and mob._horny_timer == 0 then
 		mob._horny_level = 0
 
 		rp_mobs.make_horny(mob, true)
