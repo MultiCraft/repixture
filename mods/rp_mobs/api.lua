@@ -2,7 +2,8 @@
 local S = minetest.get_translator("mobs")
 
 -- If true, will write the task queues of mobs as their nametag
-local TASK_DEBUG = true
+local TASK_DEBUG = false
+local STATE_DEBUG = true
 
 -- Default gravity that affects the mobs
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity")) or 9.81
@@ -81,9 +82,9 @@ local task_queue_to_string = function(task_queue)
 	end
 	return str
 end
-local set_task_queues_as_nametag = function(self)
+local mob_task_queues_to_string = function(mob)
 	local str = ""
-	local next_task_queue = self._task_queues:iterator()
+	local next_task_queue = mob._task_queues:iterator()
 	local task_queue = next_task_queue()
 	local first = true
 	local num = 1
@@ -97,7 +98,36 @@ local set_task_queues_as_nametag = function(self)
 		task_queue = next_task_queue()
 		first = false
 	end
-	self.object:set_properties({
+	return str
+end
+local mob_state_to_string = function(mob)
+	local str = "Mob state:\n"
+	str = str .. "* HP = "..mob.object:get_hp().."\n"
+	for p=1, #persisted_entity_vars do
+		local var = persisted_entity_vars[p]
+		local val = mob[var]
+		local sval
+		if type(val) == "number" then
+			sval = string.format("%.1f", val)
+		else
+			sval = tostring(val)
+		end
+		str = str .. var .." = "..sval.."\n"
+	end
+	return str
+end
+local set_debug_nametag = function(mob)
+	local str = ""
+	if STATE_DEBUG then
+		str = str .. mob_state_to_string(mob)
+	end
+	if TASK_DEBUG and not mob._dying then
+		if STATE_DEBUG then
+			str = str .. "\n"
+		end
+		str = str .. mob_task_queues_to_string(mob)
+	end
+	mob.object:set_properties({
 		nametag = str,
 	})
 end
@@ -452,8 +482,8 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 		return
 	end
 	if not rp_mobs.is_alive(self) then
-		if TASK_DEBUG then
-			self.object:set_properties({nametag=""})
+		if TASK_DEBUG or STATE_DEBUG then
+			set_debug_nametag(self)
 		end
 		return
 	end
@@ -504,8 +534,8 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 			activeMicroTaskEntry = activeTask.microTasks:getFirst()
 			if not activeMicroTaskEntry then
 				activeTaskQueue.tasks:remove(activeTaskEntry)
-				if TASK_DEBUG then
-					set_task_queues_as_nametag(self)
+				if TASK_DEBUG or STATE_DEBUG then
+					set_debug_nametag(self)
 				end
 				task_queue_done = true
 			end
@@ -559,8 +589,8 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 		end
 	end
 
-	if TASK_DEBUG then
-		set_task_queues_as_nametag(self)
+	if TASK_DEBUG or STATE_DEBUG then
+		set_debug_nametag(self)
 	end
 end
 
