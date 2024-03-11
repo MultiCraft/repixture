@@ -47,7 +47,7 @@ gold.trade_names = {}
 
 local TRADE_FORMSPEC_OFFSET = 2.5
 
-if minetest.get_modpath("mobs") ~= nil then
+if minetest.get_modpath("rp_mobs") ~= nil then
    gold.trades["farmer"] = {
       -- seeds/plants
       {"rp_gold:ingot_gold", "", "rp_farming:wheat_1 6"},
