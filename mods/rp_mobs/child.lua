@@ -290,11 +290,16 @@ rp_mobs.handle_breeding = function(mob, dtime)
 		-- Induce pregnancy; the actual child will happen in rp_mobs.pregnancy
 		child_bearer._pregnant = true
 		child_bearer._pregnant_timer = 0
+
+		local ppos = child_bearer.object:get_pos()
+		local effect2_pos = {x = ppos.x, y = ppos.y, z = ppos.z}
+		props = child_bearer.object:get_properties()
+		effect2_pos.y = effect2_pos.y + props.collisionbox[5]
 		minetest.add_particlespawner({
 			amount = 1,
 			time = 0.01,
-			minpos = effect_pos,
-			maxpos = effect_pos,
+			minpos = effect2_pos,
+			maxpos = effect2_pos,
 			minvel = {x = 0, y = 2, z = -0},
 			maxvel = {x = 0,  y = 2,  z = 0},
 			minexptime = 2,
