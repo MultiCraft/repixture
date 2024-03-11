@@ -406,7 +406,13 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 			if target_type == "pos" then
 				tpos = table.copy(target)
 			elseif target_type == "object" then
+				if not target then
+					return true
+				end
 				tpos = target:get_pos()
+				if not tpos then
+					return true
+				end
 			else
 				minetest.log("error", "[rp_mobs] Incorrect target_type provided in rp_mobs.microtask.walk_straight_towards!")
 				return true
