@@ -17,10 +17,10 @@ local BLINK_TIMER = 0.2
 local EXPLODE_RADIUS = 3
 
 -- Max. distance required to activate mine
-local MINE_ACTIVATION_RANGE = 2
+local MINE_ACTIVATION_RANGE = 3
 
 -- Min. distance required to deactivate mine
-local MINE_DEACTIVATION_RANGE = 3
+local MINE_DEACTIVATION_RANGE = 3.5
 
 local task_queue_roam_settings = {
 	walk_speed = 2,
