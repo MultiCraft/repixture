@@ -132,6 +132,25 @@ local set_debug_nametag = function(mob)
 	})
 end
 
+-- on_die callback function support
+local registered_on_dies = {}
+local trigger_on_die = function(mob, killer)
+	local mobdef = rp_mobs.registered_mobs[mob.name]
+	if not mobdef then
+		error("[rp_mobs] trigger_on_die was called on something that is not a registered mob! name="..tostring(self.name))
+	end
+	for f=1, #registered_on_dies do
+		local func = registered_on_dies[f]
+		func(mob, killer)
+	end
+end
+
+rp_mobs.register_on_die = function(callback)
+	table.insert(registered_on_dies, callback)
+end
+
+-- Register mob
+
 rp_mobs.registered_mobs = {}
 
 rp_mobs.register_mob = function(mobname, def)
@@ -332,7 +351,7 @@ local get_mob_death_particle_radius = function(self)
 end
 
 rp_mobs.on_death_default = function(self, killer)
-	rp_mobs.check_and_trigger_kill_achievements(self, killer)
+	trigger_on_die(self, killer)
 	local radius = get_mob_death_particle_radius(self)
 	local pos = self.object:get_pos()
 	minetest.add_particlespawner({
@@ -662,12 +681,9 @@ rp_mobs.handle_dying = function(self, dtime)
 	if self._dying_timer >= DYING_TIME then
 		self.object:set_hp(0)
 
-		-- Award achievement if appropriate
 		if self._killer_player_name then
 			local killer = minetest.get_player_by_name(self._killer_player_name)
-			if killer then
-				rp_mobs.check_and_trigger_kill_achievements(self, killer)
-			end
+			trigger_on_die(self, killer)
 		end
 	end
 end
@@ -784,3 +800,4 @@ function rp_mobs.set_animation(self, animation_name, animation_speed)
 		self.object:set_animation_frame_speed(anim_speed)
 	end
 end
+

@@ -200,8 +200,8 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 rp_mobs.register_mob_item("rp_mobs_mobs:mineturtle", "mobs_mineturtle_inventory.png")
 
 
-rp_mobs.register_on_kill_achievement(function(mob, killer)
-	if killer and killer:is_player() then
+rp_mobs.register_on_die(function(mob, killer)
+	if killer and killer:is_player() and mob.name == "rp_mobs_mobs:mineturtle" then
 		achievements.trigger_achievement(killer, "bomb_has_been_defused")
 	end
 end)
