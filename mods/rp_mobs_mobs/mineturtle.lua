@@ -99,7 +99,7 @@ local function microtask_mine()
 					if mob._temp_custom_state.mine_blink_timer >= BLINK_TIMER then
 						mob._temp_custom_state.mine_blink_state = not mob._temp_custom_state.mine_blink_state
 						if mob._temp_custom_state.mine_blink_state == true then
-							mob.object:set_texture_mod("^[brighten")
+							mob.object:set_texture_mod("^mobs_mineturtle_blink_overlay.png")
 						else
 							mob.object:set_texture_mod("")
 						end
@@ -113,7 +113,7 @@ local function microtask_mine()
 			else
 				local closest = find_closest_player_in_range(mobpos, MINE_ACTIVATION_RANGE)
 				if closest then
-					mob.object:set_properties({textures = { "mobs_mineturtle_angry.png" }})
+					mob.object:set_properties({textures = { "mobs_mineturtle.png^mobs_mineturtle_angry_overlay.png" }})
 					mob._temp_custom_state.mine_active = true
 					mob._temp_custom_state.mine_timer = 0
 					mob._temp_custom_state.mine_blink_timer = 0
