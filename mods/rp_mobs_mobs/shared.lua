@@ -65,7 +65,10 @@ rp_mobs_mobs.is_front_safe = function(mob, cliff_depth, max_fall_damage_add_perc
 			local cpos = vector.add(pos_front, vector.new(0, -c, 0))
 			local cnode = minetest.get_node(cpos)
 			local cdef = minetest.registered_nodes[cnode.name]
-			if cdef.drowning > 0 then
+			if not cdef then
+				-- Unknown node
+				return false
+			elseif cdef.drowning > 0 then
 				return false
 			elseif cdef.damage_per_second > 0 then
 				return false
