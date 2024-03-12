@@ -30,6 +30,14 @@ local EAT_GRASS_STAND_TIMER = 0.7
 -- Timer starts after sheep is shorn.
 local WOOL_REGROW_TIMER = 45.0
 
+-- Wool drop count if shorn
+local WOOL_SHEAR_MIN = 1
+local WOOL_SHEAR_MAX = 3
+
+-- Wool drop count if killed
+local WOOL_DROP_MIN = 1
+local WOOL_DROP_MAX = 1
+
 -- Distance in which sheep can "see" player holding food
 local VIEW_RANGE = 5
 
@@ -146,11 +154,14 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 	description = S("Sheep"),
 	is_animal = true,
 	is_peaceful = true,
-	drops = {"rp_mobs_mobs:meat_raw"},
+	drops = {
+		{name="rp_mobs_mobs:meat_raw", chance=1, min=2, max=4},
+	},
 	drop_func = function(self)
 		-- Drop wool if a non-shorn adult
 		if (not self._child) and (self._custom_state and (not self._custom_state.shorn)) then
-			return { "rp_mobs_mobs:wool" }
+			local count = math.random(WOOL_DROP_MIN, WOOL_DROP_MAX)
+			return { "rp_mobs_mobs:wool "..count }
 		end
 		return {}
 	end,
@@ -251,7 +262,8 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 					self._custom_state.shorn = true
 					local pos = self.object:get_pos()
 					pos.y = pos.y + 0.5
-					local obj = rp_mobs.spawn_mob_drop(pos, ItemStack("mobs:wool"))
+					local count = math.random(WOOL_SHEAR_MIN, WOOL_SHEAR_MAX)
+					local obj = rp_mobs.spawn_mob_drop(pos, ItemStack("mobs:wool "..count))
 					minetest.sound_play({name = "default_shears_cut", gain = 0.5}, {pos = clicker:get_pos(), max_hear_distance = 8}, true)
 					if not minetest.is_creative_enabled(clicker:get_player_name()) then
 						local def = item:get_definition()
