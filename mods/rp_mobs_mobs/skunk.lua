@@ -35,7 +35,9 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 	description = S("Skunk"),
 	is_animal = true,
 	is_peaceful = true,
-	drops = {"rp_mobs_mobs:meat_raw"},
+	drops = {
+		{name="rp_mobs_mobs:meat_raw", chance=1, min=1, max=2},
+	},
 	default_sounds = {
 		attack = "mobs_skunk_hiss",
 		damage = "mobs_skunk_hiss",

@@ -39,7 +39,9 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 	description = S("Boar"),
 	is_animal = true,
 	is_peaceful = true,
-	drops = {"rp_mobs_mobs:pork_raw"},
+	drops = {
+		{name="rp_mobs_mobs:pork_raw", chance=1, min=1, max=4},
+	},
 	default_sounds = {
 		death = "mobs_boar_die",
 		damage = "mobs_boar_hurt",
