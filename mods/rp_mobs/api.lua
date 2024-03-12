@@ -253,6 +253,28 @@ rp_mobs.is_alive = function(mob)
 	end
 end
 
+local get_drops = function(droptable)
+	local to_drop = {}
+	for d=1, #droptable do
+		local drop = droptable[d]
+		if type(drop) == "string" then
+			table.insert(to_drop, drop)
+		elseif type(drop) == "table" then
+			local rnd = math.random(1, drop.chance)
+			if rnd == 1 then
+				local count = math.random(drop.min, drop.max)
+				if count > 0 then
+					drop = drop.name .. " "..count
+					table.insert(to_drop, drop)
+				end
+			end
+		else
+			minetest.log("error", "[rp_mobs] Invalid drop in mob drop table: "..tostring(drop))
+		end
+	end
+	return to_drop
+end
+
 rp_mobs.spawn_mob_drop = function(pos, item)
 	local obj = minetest.add_item(pos, item)
 	if obj then
@@ -274,13 +296,15 @@ rp_mobs.drop_death_items = function(self, pos)
 		error("[rp_mobs] rp_mobs.drop_death_items was called on something that is not a registered mob! name="..tostring(self.name))
 	end
 	if not self._child and mobdef.drops then
-		for d=1, #mobdef.drops do
-			rp_mobs.spawn_mob_drop(pos, mobdef.drops[d])
+		local drops = get_drops(mobdef.drops)
+		for d=1, #drops do
+			rp_mobs.spawn_mob_drop(pos, drops[d])
 		end
 	end
 	if self._child and mobdef.child_drops then
-		for d=1, #mobdef.child_drops do
-			rp_mobs.spawn_mob_drop(pos, mobdef.child_drops[d])
+		local drops = get_drops(mobdef.child_drops)
+		for d=1, #drops do
+			rp_mobs.spawn_mob_drop(pos, drops[d])
 		end
 	end
 	if mobdef.drop_func then

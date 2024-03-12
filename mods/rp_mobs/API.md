@@ -278,8 +278,8 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
 `def` is a definition table with the following optional fields:
 
 * `description`: Short mob name used for display purposes
-* `drops`: Table of itemstrings to be always dropped when the mob dies as an adult (default: empty table)
-* `child_drops`: Table of itemstrings to be always dropped when the mob dies as a child (default: empty table)
+* `drops`: Items to drop (see 'Drop table' below) on death when mob dies as adult (default: empty table)
+* `child_drops`: Items to drop when mob dies as child (default: empty table)
 * `drop_func(self)`: (optional) Called when mob is dropping its death drop items. Must return table of items to drop.
                      These items are dropped on top of the items in `drops` and `child_drops`.
                      This function **must not** manipulate the mob in any way.
@@ -310,6 +310,17 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
   * Built-in animations are:
     * `"idle"`: Played when mob has nothing to do (empty task queue)
     * `"dead_static"`: Played when mob is dead (no animation, just a static frame)
+
+##### Drop table
+
+For the arguments `drops` and `child_drops`, two types of values are supported:
+
+1. List of itemstrings: Will drop every item in this list
+2. List of drop probabilities: Will drop items by a given chance
+    * `name`: Technical itemname
+    * `chance`: Chance given in 1/`chance` for this item to drop
+    * `min`: Minimum item count when it drops
+    * `max`: Maximum item count when it drops
 
 #### `rp_mobs.register_mob_item(mobname, invimg, desc, on_create_capture_item)`
 
