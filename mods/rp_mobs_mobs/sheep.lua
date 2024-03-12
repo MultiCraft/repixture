@@ -26,6 +26,10 @@ local EAT_GRASS_TIMER_MAX = 75000
 -- Mimimum time sheep has to stand still before eating (s)
 local EAT_GRASS_STAND_TIMER = 0.7
 
+-- Minimum time to wait before wool can regrow (s).
+-- Timer starts after sheep is shorn.
+local WOOL_REGROW_TIMER = 45.0
+
 -- Distance in which sheep can "see" player holding food
 local VIEW_RANGE = 5
 
@@ -55,11 +59,25 @@ local task_queue_roam_settings = {
 
 local microtask_eat_grass = function()
 	return rp_mobs.create_microtask({
-		label = "Eat blocks",
+		label = "Eat blocks and regrow wool",
 		on_start = function(self, mob)
 			self.statedata.stand_timer = 0
+			self.statedata.eat_grass_timer = 0
+			self.statedata.eat_grass_timer_goal = math.random(EAT_GRASS_TIMER_MIN, EAT_GRASS_TIMER_MAX)/1000
 		end,
 		on_step = function(self, mob, dtime)
+			self.statedata.eat_grass_timer = self.statedata.eat_grass_timer + dtime
+			if not mob._custom_state.wool_regrow_timer then
+				mob._custom_state.wool_regrow_timer = 0
+			end
+			if mob._custom_state.shorn then
+				mob._custom_state.wool_regrow_timer = mob._custom_state.wool_regrow_timer + dtime
+			end
+
+			if self.statedata.eat_grass_timer < self.statedata.eat_grass_timer_goal then
+				return
+			end
+
 			local mobpos = mob.object:get_pos()
 
 			local plantpos = {x=mobpos.x, y=mobpos.y-1, z=mobpos.z}
@@ -95,16 +113,18 @@ local microtask_eat_grass = function()
 			end
 
 			if eaten then
-				self.statedata.eaten = true
+				self.statedata.eat_grass_timer_goal = math.random(EAT_GRASS_TIMER_MIN, EAT_GRASS_TIMER_MAX)/1000
+				self.statedata.eat_grass_timer = 0
 			end
 
 			-- Regrow wool
-			if eaten and mob._custom_state.shorn then
+			if eaten and mob._custom_state.shorn and mob._custom_state.wool_regrow_timer >= WOOL_REGROW_TIMER then
 				mob.object:set_properties(
 				{
 					textures = {"mobs_sheep.png"},
 				})
 				mob._custom_state.shorn = false
+				mob._custom_state.wool_regrow_timer = 0
 			end
 		end,
 		is_finished = function(self, mob)
@@ -116,8 +136,6 @@ end
 -- Decide when to eat grass
 local eat_decider = function(task_queue, mob)
 	local task = rp_mobs.create_task({label="eat grass"})
-	local mt_sleep = rp_mobs.microtasks.sleep(math.random(EAT_GRASS_TIMER_MIN, EAT_GRASS_TIMER_MAX)/1000)
-	rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
 	local mtask = microtask_eat_grass()
 	rp_mobs.add_microtask_to_task(mob, mtask, task)
 
@@ -250,6 +268,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 					self.object:set_properties({
 						textures = {"mobs_sheep_shaved.png"},
 					})
+					self._custom_state.wool_regrow_timer = 0
 					achievements.trigger_achievement(clicker, "shear_time")
 				end
 				return
