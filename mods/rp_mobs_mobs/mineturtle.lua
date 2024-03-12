@@ -80,46 +80,59 @@ local function microtask_mine()
 			local mobpos = mob.object:get_pos()
 			local range
 			if mob._temp_custom_state.mine_active then
+				-- Mine active
 				local closest = find_closest_player_in_range(mobpos, MINE_DEACTIVATION_RANGE)
 				if not closest then
+					-- Target out of range: Disable mine
 					mob._temp_custom_state.mine_active = false
 					mob._temp_custom_state.mine_timer = 0
 					mob._temp_custom_state.mine_blink_timer = 0
 					mob._temp_custom_state.mine_blink_state = false
 					mob._temp_custom_state.mine_notifications = 0
+					-- Blink off
 					mob.object:set_texture_mod("")
+					-- Normal texture (happy face)
 					mob.object:set_properties({textures = { "mobs_mineturtle.png" }})
 				else
+					-- Target in range: Keep ticking until BOOM
 					mob._temp_custom_state.mine_timer = mob._temp_custom_state.mine_timer + dtime
 					mob._temp_custom_state.mine_blink_timer = mob._temp_custom_state.mine_blink_timer + dtime
 					if mob._temp_custom_state.mine_timer >= BOOM_TIMER then
+						-- BOOM!
 						explode(mob)
 						return
 					end
+					-- Blink
 					if mob._temp_custom_state.mine_blink_timer >= BLINK_TIMER then
 						mob._temp_custom_state.mine_blink_state = not mob._temp_custom_state.mine_blink_state
 						if mob._temp_custom_state.mine_blink_state == true then
+							-- Blink on
 							mob.object:set_texture_mod("^mobs_mineturtle_blink_overlay.png")
 						else
+							-- Blink off
 							mob.object:set_texture_mod("")
 						end
 						mob._temp_custom_state.mine_blink_timer = 0
 					end
+					-- Attack sound, played periodically
 					if mob._temp_custom_state.mine_notifications < math.floor(mob._temp_custom_state.mine_timer) then
 						rp_mobs.default_mob_sound(mob, "war_cry", false)
 						mob._temp_custom_state.mine_notifications = math.floor(mob._temp_custom_state.mine_timer)
 					end
 				end
 			else
+				-- Mine inactive
 				local closest = find_closest_player_in_range(mobpos, MINE_ACTIVATION_RANGE)
 				if closest then
-					mob.object:set_properties({textures = { "mobs_mineturtle.png^mobs_mineturtle_angry_overlay.png" }})
+					-- Target in range: Activate mine
 					mob._temp_custom_state.mine_active = true
 					mob._temp_custom_state.mine_timer = 0
 					mob._temp_custom_state.mine_blink_timer = 0
 					mob._temp_custom_state.mine_blink_state = false
 					mob._temp_custom_state.mine_notifications = 0
 					rp_mobs.default_mob_sound(mob, "war_cry", false)
+					-- Angry face
+					mob.object:set_properties({textures = { "mobs_mineturtle.png^mobs_mineturtle_angry_overlay.png" }})
 				end
 			end
 		end,
@@ -201,7 +214,12 @@ rp_mobs.register_mob_item("rp_mobs_mobs:mineturtle", "mobs_mineturtle_inventory.
 
 
 rp_mobs.register_on_die(function(mob, killer)
-	if killer and killer:is_player() and mob.name == "rp_mobs_mobs:mineturtle" then
-		achievements.trigger_achievement(killer, "bomb_has_been_defused")
+	if mob.name == "rp_mobs_mobs:mineturtle" then
+		-- Blink off (in case the blink was on when dying)
+		mob.object:set_texture_mod("")
+		-- Achievements
+		if killer and killer:is_player() then
+			achievements.trigger_achievement(killer, "bomb_has_been_defused")
+		end
 	end
 end)
