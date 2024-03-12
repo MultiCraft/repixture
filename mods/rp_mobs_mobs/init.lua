@@ -2,6 +2,7 @@ rp_mobs_mobs = {}
 
 -- Shared functions
 dofile(minetest.get_modpath("rp_mobs_mobs").."/shared.lua")
+dofile(minetest.get_modpath("rp_mobs_mobs").."/attack.lua")
 dofile(minetest.get_modpath("rp_mobs_mobs").."/land_animal.lua")
 
 -- Mobs: Animals
