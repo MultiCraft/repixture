@@ -257,9 +257,9 @@ rp_mobs.spawn_mob_drop = function(pos, item)
 	local obj = minetest.add_item(pos, item)
 	if obj then
 		obj:set_velocity({
-			x = math.random(-1, 1),
+			x = math.random(-100, 100)/100,
 			y = 5,
-			z = math.random(-1, 1)
+			z = math.random(-100, 100)/100
 		})
 	end
 	return obj
