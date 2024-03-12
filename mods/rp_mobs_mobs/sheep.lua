@@ -15,9 +15,21 @@ local dirt_cover = {
 	["rp_default:dirt_with_grass"] = "rp_default:dirt",
 }
 
+-- Time between random call sounds (ms)
 local RANDOM_SOUND_TIMER_MIN = 10000
 local RANDOM_SOUND_TIMER_MAX = 60000
+
+-- Time to wait between eating grass (ms)
+local EAT_GRASS_TIMER_MIN = 45000
+local EAT_GRASS_TIMER_MAX = 75000
+
+-- Mimimum time sheep has to stand still before eating (s)
+local EAT_GRASS_STAND_TIMER = 0.7
+
+-- Distance in which sheep can "see" player holding food
 local VIEW_RANGE = 5
+
+-- What the sheep eats
 local FOOD = { "rp_farming:wheat" }
 
 local task_queue_roam_settings = {
@@ -44,7 +56,9 @@ local task_queue_roam_settings = {
 local microtask_eat_grass = function()
 	return rp_mobs.create_microtask({
 		label = "Eat blocks",
-		singlestep = true,
+		on_start = function(self, mob)
+			self.statedata.stand_timer = 0
+		end,
 		on_step = function(self, mob, dtime)
 			local mobpos = mob.object:get_pos()
 
@@ -53,23 +67,39 @@ local microtask_eat_grass = function()
 			local np = minetest.get_node(plantpos)
 			local ng = minetest.get_node(groundpos)
 
+			local vel = mob.object:get_velocity()
+			-- Don't eat while moving
+			if vector.length(vel) > 0.5 then
+				self.statedata.stand_timer = 0
+				return
+			else
+				self.statedata.stand_timer = self.statedata.stand_timer + dtime
+			end
+			-- Needs to have stood for a minimum amount of time before eating
+			if self.statedata.stand_timer <= EAT_GRASS_STAND_TIMER then
+				return
+			end
+
+			local eaten = false
 			-- Eat grass
 			if np.name == "air" then
 				-- Eat grass from dirt node
 				if dirt_cover[ng.name] then
 					minetest.set_node(groundpos, {name = dirt_cover[ng.name]})
-				else
-					return
+					eaten = true
 				end
 			elseif top_grass[np.name] then
 				-- If grass plant on top, eat it first
 				minetest.set_node(plantpos, {name = top_grass[np.name]})
-			else
-				return
+				eaten = true
+			end
+
+			if eaten then
+				self.statedata.eaten = true
 			end
 
 			-- Regrow wool
-			if mob._custom_state.shorn then
+			if eaten and mob._custom_state.shorn then
 				mob.object:set_properties(
 				{
 					textures = {"mobs_sheep.png"},
@@ -77,13 +107,16 @@ local microtask_eat_grass = function()
 				mob._custom_state.shorn = false
 			end
 		end,
+		is_finished = function(self, mob)
+			return self.statedata.eaten
+		end,
 	})
 end
 
 -- Decide when to eat grass
 local eat_decider = function(task_queue, mob)
 	local task = rp_mobs.create_task({label="eat grass"})
-	local mt_sleep = rp_mobs.microtasks.sleep(3.0)
+	local mt_sleep = rp_mobs.microtasks.sleep(math.random(EAT_GRASS_TIMER_MIN, EAT_GRASS_TIMER_MAX)/1000)
 	rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
 	local mtask = microtask_eat_grass()
 	rp_mobs.add_microtask_to_task(mob, mtask, task)
