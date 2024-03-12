@@ -223,7 +223,85 @@ rp_mobs_mobs.add_halt_to_task_queue = function(task_queue, mob, set_yaw, idle_mi
 	rp_mobs.add_task_to_task_queue(task_queue, task)
 end
 
--- This function creates and returns a microtask thta scans the
+-- This function creates and returns a microtask that scans the
+-- mob's surroundings within view_range for players.
+-- The result is stored in mob._temp_custom_state.follow_player.
+-- This microtask only *searches* for suitable targets to follow,
+-- it does *NOT* actually follow them. Other microtasks
+-- are supposed to decide what do do with this information.
+-- Parameters:
+-- * view_range: Range in which mob can detect players
+rp_mobs_mobs.microtask_player_find_follow = function(view_range)
+	return rp_mobs.create_microtask({
+		label = "find player to follow",
+		on_start = function(self, mob)
+			self.statedata.timer = 0
+		end,
+		on_step = function(self, mob, dtime)
+			-- Perform the follow check periodically
+			self.statedata.timer = self.statedata.timer + dtime
+			if self.statedata.timer < FOLLOW_CHECK_TIME then
+				return
+			end
+			self.statedata.timer = 0
+			local s = mob.object:get_pos()
+			if (mob._temp_custom_state.follow_player == nil) then
+				-- Mark closest player within view range as player to follow
+				local p, dist
+				local min_dist, closest_player
+				local objs = minetest.get_objects_inside_radius(s, view_range)
+				for o=1, #objs do
+					local obj = objs[o]
+					if obj:is_player() then
+						local player = obj
+						p = player:get_pos()
+						dist = vector.distance(s, p)
+						if dist <= view_range and ((not min_dist) or dist < min_dist) then
+							min_dist = dist
+							closest_player = player
+							break
+						end
+					end
+				end
+				if closest_player then
+					mob._temp_custom_state.follow_player = closest_player:get_player_name()
+				end
+			else
+				-- Unfollow player if out of view range
+				local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
+				if player then
+					local p = player:get_pos()
+					local dist = vector.distance(s, p)
+					-- Out of range
+					if dist > view_range then
+						mob._temp_custom_state.follow_player = nil
+					end
+				end
+			end
+		end,
+		is_finished = function()
+			return false
+		end,
+	})
+end
+
+-- Creates and returns a task queue that exclusively performs the
+-- 'player_find_follow' microtask. Provided for convenience.
+-- See `rp_mobs_mobs.microtask_player_find_follow` for details.
+-- Parameters:
+-- * view_range: Range in which mob can detect players
+rp_mobs_mobs.task_queue_player_follow_scan = function(view_range)
+	local decider = function(task_queue, mob)
+		local task = rp_mobs.create_task({label="scan for entities to follow"})
+		local mt_find_follow = rp_mobs_mobs.microtask_player_find_follow(view_range)
+		rp_mobs.add_microtask_to_task(mob, mt_find_follow, task)
+		rp_mobs.add_task_to_task_queue(task_queue, task)
+	end
+	local tq = rp_mobs.create_task_queue(decider)
+	return tq
+end
+
+-- This function creates and returns a microtask that scans the
 -- mob's surroundings within view_range for other interesting entities:
 -- 1) Players holding food
 -- 2) Mobs of same species to mate with
@@ -235,9 +313,9 @@ end
 -- Parameters:
 -- * view_range: Range in which mob can detect other objects
 -- * food_list: List of food items the mob likes to follow (itemstrings)
-rp_mobs_mobs.microtask_find_follow = function(view_range, food_list)
+rp_mobs_mobs.microtask_food_breed_find_follow = function(view_range, food_list)
 	return rp_mobs.create_microtask({
-		label = "find entities to follow",
+		label = "find entities to follow (partners and players holding food)",
 		on_start = function(self, mob)
 			self.statedata.timer = 0
 		end,
@@ -357,6 +435,23 @@ rp_mobs_mobs.microtask_find_follow = function(view_range, food_list)
 	})
 end
 
+-- Creates and returns a task queue that exclusively performs the 'find_follow'
+-- microtask. Provided for convenience.
+-- See `rp_mobs_mobs.microtask_food_breed_find_follow` for details.
+-- Parameters:
+-- * view_range: Range in which mob can detect other objects
+-- * food_list: List of food items the mob likes to follow (itemstrings)
+rp_mobs_mobs.task_queue_food_breed_follow_scan = function(view_range, food_list)
+	local decider = function(task_queue, mob)
+		local task = rp_mobs.create_task({label="scan for entities to follow"})
+		local mt_find_follow = rp_mobs_mobs.microtask_food_breed_find_follow(view_range, food_list)
+		rp_mobs.add_microtask_to_task(mob, mt_find_follow, task)
+		rp_mobs.add_task_to_task_queue(task_queue, task)
+	end
+	local tq = rp_mobs.create_task_queue(decider)
+	return tq
+end
+
 -- Creates and returns a task queue that randomly plays the mob's 'call'
 -- sound from time to time.
 -- Parameters:
@@ -381,20 +476,4 @@ rp_mobs_mobs.task_queue_call_sound = function(sound_timer_min, sound_timer_max)
 	return tq
 end
 
--- Creates and returns a task queue that exclusively performs the 'find_follow'
--- microtask. Provided for convenience.
--- See `rp_mobs_mobs.microtask_find_follow` for details.
--- Parameters:
--- * view_range: Range in which mob can detect other objects
--- * food_list: List of food items the mob likes to follow (itemstrings)
-rp_mobs_mobs.task_queue_follow_scan = function(view_range, food_list)
-	local decider = function(task_queue, mob)
-		local task = rp_mobs.create_task({label="scan for entities to follow"})
-		local mt_find_follow = rp_mobs_mobs.microtask_find_follow(view_range, food_list)
-		rp_mobs.add_microtask_to_task(mob, mt_find_follow, task)
-		rp_mobs.add_task_to_task_queue(task_queue, task)
-	end
-	local tq = rp_mobs.create_task_queue(decider)
-	return tq
-end
 

@@ -212,7 +212,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			self.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_land_animal_roam(task_queue_roam_settings))
-			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_follow_scan(VIEW_RANGE, FOOD))
+			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_food_breed_follow_scan(VIEW_RANGE, FOOD))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(eat_decider))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_call_sound(RANDOM_SOUND_TIMER_MIN, RANDOM_SOUND_TIMER_MAX))
 		end,

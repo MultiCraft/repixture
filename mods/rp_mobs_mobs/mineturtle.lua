@@ -195,7 +195,7 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_land_animal_roam(task_queue_roam_settings))
-			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_follow_scan(VIEW_RANGE, {}))
+			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_player_follow_scan(VIEW_RANGE))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(mine_decider))
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
