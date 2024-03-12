@@ -74,6 +74,7 @@ local function microtask_mine()
 			mob._temp_custom_state.mine_blink_timer = 0
 			mob._temp_custom_state.mine_blink_state = false
 			mob._temp_custom_state.mine_active = false
+			mob.object:set_properties({textures = { "mobs_mineturtle.png" }})
 		end,
 		on_step = function(self, mob, dtime)
 			local mobpos = mob.object:get_pos()
@@ -87,6 +88,7 @@ local function microtask_mine()
 					mob._temp_custom_state.mine_blink_state = false
 					mob._temp_custom_state.mine_notifications = 0
 					mob.object:set_texture_mod("")
+					mob.object:set_properties({textures = { "mobs_mineturtle.png" }})
 				else
 					mob._temp_custom_state.mine_timer = mob._temp_custom_state.mine_timer + dtime
 					mob._temp_custom_state.mine_blink_timer = mob._temp_custom_state.mine_blink_timer + dtime
@@ -111,6 +113,7 @@ local function microtask_mine()
 			else
 				local closest = find_closest_player_in_range(mobpos, MINE_ACTIVATION_RANGE)
 				if closest then
+					mob.object:set_properties({textures = { "mobs_mineturtle_angry.png" }})
 					mob._temp_custom_state.mine_active = true
 					mob._temp_custom_state.mine_timer = 0
 					mob._temp_custom_state.mine_blink_timer = 0
