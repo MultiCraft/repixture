@@ -23,6 +23,10 @@ local DEFAULT_BREED_RANGE = 4
 -- Interval in which the mob checks for partners to breed with (seconds)
 local BREED_CHECK_INTERVAL = 1
 
+-- Duration that mobs need to breed (be close to each other) before pregnancy starts (seconds).
+-- Not a precise time, it is only as accurate as BREED_CHECK_INTERVAL.
+local BREED_TIME = 3
+
 -- Entity variables to persist:
 rp_mobs.add_persisted_entity_vars({
 	"_child", -- true if this is a child mob
@@ -31,6 +35,7 @@ rp_mobs.add_persisted_entity_vars({
 	"_horny_timer", -- time the mob has been horny, or, if _horny_recover is true, time mob has been recovering from a previous horny phase
 	"_horny_recover", -- true if mob is currently recovering from a previous horny phase
 	"_breed_check_timer", -- timer for the breed check; if it reaches BREED_CHECK_INTERVAL, mob will attempt to mate, then the timer resets (in seconds)
+	"_breed_timer", -- timer for checking how long 2 mobs have been breeding (mating)
 	"_pregnant", -- true if mob is 'pregnant' and about to spawn a child
 	"_pregnant_timer" -- timer the mob has been pregnant (seconds)
 })
@@ -63,6 +68,7 @@ rp_mobs.make_unhorny = function(mob)
 	end
 	mob._horny = false
 	mob._horny_timer = 0
+	mob._breed_timer = 0
 end
 
 -- Turn the mob into an adult
@@ -191,6 +197,9 @@ rp_mobs.handle_breeding = function(mob, dtime)
 	if not mob._horny_timer then
 		mob._horny_timer = 0
 	end
+	if not mob._breed_timer then
+		mob._breed_timer = 0
+	end
 	if not mob._breed_check_timer then
 		mob._breed_check_timer = 0
 	end
@@ -207,11 +216,14 @@ rp_mobs.handle_breeding = function(mob, dtime)
 		if mob._horny_timer >= HORNY_AGAIN_TIME then
 			mob._horny_recover = false
 			mob._horny_timer = 0
+			mob._breed_timer = 0
 		end
 	end
 
 	-- Update pregnancy status, if pregnant
 	pregnancy(mob, dtime)
+
+	local breed_dtime = 0
 
 	-- If mob is horny, find another same mob who is horny, and mate
 	if (not mob._pregnant) and mob._horny and mob._horny_timer <= HORNY_TIME then
@@ -221,6 +233,7 @@ rp_mobs.handle_breeding = function(mob, dtime)
 		if mob._breed_check_timer < BREED_CHECK_INTERVAL then
 			return
 		end
+		breed_dtime = mob._breed_check_timer
 		mob._breed_check_timer = 0
 
 		-- Particles show that the mob is horny
@@ -277,13 +290,20 @@ rp_mobs.handle_breeding = function(mob, dtime)
 		end
 		-- No partners found, abort
 		if #potential_partners == 0 then
+			mob._breed_timer = 0
+			return
+		end
+
+		-- Mob has have to had been close to a potential partner for BREED_TIME at least
+		mob._breed_timer = mob._breed_timer + breed_dtime
+		if mob._breed_timer < BREED_TIME then
 			return
 		end
 
 		-- Of all eligible partners, pick a random one
 		local r = math.random(1, #potential_partners)
 		local partner = potential_partners[r]
-		
+
 		-- Of the two parents, a random mob will become pregnant and bear the child
 		local child_bearer, child_giver
 		r = math.random(1, 2)
@@ -303,6 +323,8 @@ rp_mobs.handle_breeding = function(mob, dtime)
 		-- Induce pregnancy; the actual child will happen in rp_mobs.pregnancy
 		child_bearer._pregnant = true
 		child_bearer._pregnant_timer = 0
+		child_bearer._breed_timer = 0
+		child_giver._breed_timer = 0
 
 		local ppos = child_bearer.object:get_pos()
 		local effect2_pos = {x = ppos.x, y = ppos.y, z = ppos.z}
