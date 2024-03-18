@@ -17,9 +17,6 @@ dofile(minetest.get_modpath("rp_mobs_mobs").."/mineturtle.lua")
 -- Mob: Villager
 dofile(minetest.get_modpath("rp_mobs_mobs").."/villager.lua")
 
--- Dummy mob used only for testing
-dofile(minetest.get_modpath("rp_mobs_mobs").."/dummy.lua")
-
 -- Other
 dofile(minetest.get_modpath("rp_mobs_mobs").."/crafts.lua")
 dofile(minetest.get_modpath("rp_mobs_mobs").."/achievements.lua")
