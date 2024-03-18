@@ -1,5 +1,4 @@
--- TODO: Change to rp_mobs when ready
-local S = minetest.get_translator("mobs")
+local S = minetest.get_translator("rp_mobs")
 
 local animals = {}
 local animal_names = {}

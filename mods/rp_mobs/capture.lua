@@ -1,5 +1,4 @@
--- TODO: Change to rp_mobs when ready
-local S = minetest.get_translator("mobs")
+local S = minetest.get_translator("rp_mobs")
 
 local capture_tools = {}
 rp_mobs.register_capture_tool = function(toolname, def)

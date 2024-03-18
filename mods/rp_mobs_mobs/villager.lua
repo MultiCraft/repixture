@@ -1,7 +1,6 @@
 -- Villager
 
--- TODO: Update to rp_mobs when ready
-local S = minetest.get_translator("mobs")
+local S = minetest.get_translator("rp_mobs_mobs")
 
 -- How many different trades a villager offers 
 local TRADES_COUNT = 4

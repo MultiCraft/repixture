@@ -1,5 +1,4 @@
--- TODO: Change to rp_mobs when ready
-local S = minetest.get_translator("mobs")
+local S = minetest.get_translator("rp_mobs")
 
 -- If true, will write the task queues of mobs as their nametag
 local TASK_DEBUG = false

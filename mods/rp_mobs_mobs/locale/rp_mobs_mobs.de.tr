@@ -1,37 +1,19 @@
-# textdomain: mobs
-Hunter=Jäger
-Kill an animal for food.=Töten Sie ein Tier für Nahrung.
+# textdomain: rp_mobs_mobs
 Bomb has Been Defused!=Bombe entschärft!
 Kill a mine turtle.=Töten Sie eine Minenschildkröte.
-Gotcha!=Hab’ dich!
-Capture a tame animal.=Fangen Sie ein zahmes Tier.
-Best Friends Forever=Beste Freunde
-Tame an animal.=Zähmen Sie ein Tier.
-Wonder of Life=Wunder des Lebens
-Get two animals to breed.=Bringen Sie zwei Tiere dazu, sich zu vermehren.
 Taking a Cut=Gut abschneiden
 Shear a sheep.=Scheren Sie ein Schaf.
 Smalltalk=Gerede
 Have a friendly chat with a villager.=Reden Sie nett mit einem Dorfbewohner.
-Gonna Feed ’em All=Fütter sie alle
-Feed an animal of each species once.=Füttern Sie ein Tier jeder Art.
-Spawned @1 at @2=@1 bei @2 gespawnt
-@1 (disabled)=@1 (deaktiviert)
-Hostile mobs are disabled!=Feindliche Mobs sind deaktiviert!
-Not tamed!=Nicht gezähmt!
-@1 is owner!=@1 ist der Eigentümer!
-Missed!=Verfehlt!
+Boar=Wildschwein
 Wool Bundle=Wollbündel
 Raw Meat=Rohes Fleisch
 Cooked Meat=Gekochtes Fleisch
-Net=Netz
-Good for capturing small animals=Gut zum Fangen kleiner Tiere
-Lasso=Lasso
-Good for capturing large animals=Gut zum Fangen großer Tiere
-Boar=Wildschwein
 Raw Porkchop=Rohes Schweinekotelett
 Cooked Porkchop=Gekochtes Schweinekotelett
 Mine Turtle=Minenschildkröte
+Sheep=Schaf
+Skunk=Stinktier
 Farmer=Bauer
 Tavern Keeper=Wirt
 Blacksmith=Schmied
@@ -59,8 +41,6 @@ My head hurts.=Mein Kopf tut weh.
 I have a bad day today.=Ich hab heute einen schlechten Tag.
 Screw you!=Verdammt seist du!
 Villager says: “@1”=Dorfbewohner sagt: „@1“
-Villager=Dorfbewohner
-Get this thing out of my face!=Nimm dieses Ding aus meinem Gesicht!
 Ah, a cactus. You'd be surprised how well they burn in a furnace.=Ah, ein Kaktus. Du wirst staunen, wie gut sie im Ofen brennen.
 You can quickly kindle it in the furnace.=Du kannst sie rasch in einem Ofen anzünden.
 A truly amazing block!=Ein wirklich großartiger Block!
@@ -152,13 +132,5 @@ You can use sand to grow cacti.=Auf Sand kann man Kakteen wachsen lassen.
 Be careful not to let it fall on your head!=Pass auf, dass dir das nicht auf deinem Kopf fällt!
 This is like my ex-lover's heart. Made out of stone.=Dies ist wie das Herz meines Exliebhabers. Aus Stein.
 Stay healthy!=Bleib gesund!
-Sheep=Schaf
-Skunk=Stinktier
+Get this thing out of my face!=Nimm dieses Ding aus meinem Gesicht!
 Walker=Läufer
-
-
-##### not used anymore #####
-
-Ranger=Waldhüter
-You can use this to light up torches and ignite TNT.=Damit kannst du Fackeln und TNT anzünden.
-You can use this to light up torches.=Damit kannst du Fackeln anzünden.

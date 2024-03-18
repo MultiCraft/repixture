@@ -1,5 +1,4 @@
--- TODO: Change to rp_mobs_mobs when ready
-local S = minetest.get_translator("mobs")
+local S = minetest.get_translator("rp_mobs_mobs")
 
 local peaceful_only = minetest.settings:get_bool("only_peaceful_mobs") or false
 
