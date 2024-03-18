@@ -638,7 +638,10 @@ Should be called in `on_rightclick`.
 
 * `mob`: The mob that is fed
 * `feeder`: Player who feeds the mob
-* `allowed_foods`: List of allowed food items
+* `allowed_foods`: List of allowed food items, where each entry must be a table with these fields:
+    * `name`: item name of food item
+    * `points` optional food points to add to mob when eaten, defaults to `_rp_hunger_food`
+       of item definition, and if that one is nil, too, defaults to 1
 * `food_till_tamed`: How many food points the mob needs until it is tamed (if nil, can't be tamed by food)
 * `food_till_horny`: How many food points the adult mob needs until it becomes horny (if nil, can't be made horny by food)
 * `add_child_growth_timer`: (optional) If mob is a child, by how many seconds the child growth timer is increased (default: `20`)

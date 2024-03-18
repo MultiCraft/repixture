@@ -8,7 +8,7 @@ local RANDOM_SOUND_TIMER_MIN = 10000
 local RANDOM_SOUND_TIMER_MAX = 60000
 local VIEW_RANGE = 15
 
-local FOOD = { "rp_default:apple" }
+local FOOD = {{ name = "rp_default:apple", points = 1 }}
 
 local task_queue_roam_settings = {
 	walk_speed = 1.5,

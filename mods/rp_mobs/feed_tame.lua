@@ -55,7 +55,10 @@ end
 -- Let a player feed a mob with their wielded item and optionally tame it and make it horny
 -- * mob: The mob that is fed
 -- * feeder: Player who feeds the mob
--- * allowed_foods: List of allowed food items
+-- * allowed_foods: List of allowed food items, where each entry must be in this format:
+--      * name = <item name of food item>
+--      * points = <optional food points to add to mob when eaten, defaults to _rp_hunger_food
+--        of item definition, and if that one is nil, too, defaults to 1>
 -- * food_till_tamed: How many food points the mob needs until it is tamed (nil = no taming)
 -- * food_till_horny: How many food points the mob needs until it becomes horny (nil = no horny)
 -- * add_child_growth_timer: (optional) By how many seconds the child growth timer is increased (default: 20)
@@ -70,22 +73,29 @@ rp_mobs.feed_tame_breed = function(mob, feeder, allowed_foods, food_till_tamed, 
 	end
 
 	local fed_item = nil
-	local fed_itemstring = nil
+	local fed_itemname = nil
 	local feeder_name = nil
 
 	if feeder and feeder:is_player() then
 		fed_item = feeder:get_wielded_item()
-		fed_itemstring = fed_item:get_name()
+		fed_itemname = fed_item:get_name()
 		feeder_name = feeder:get_player_name()
 	end
 
 	local can_eat = false
-	local food_points
 	for f=1, #allowed_foods do
-		if allowed_foods[f] == fed_itemstring then
+		if allowed_foods[f].name == fed_itemname then
 			can_eat = true
-			-- TODO: Add custom food points
-			food_points = 1
+			food_points = allowed_foods[f].points
+			if not food_points then
+				local idef = minetest.registered_items[fed_itemname]
+				if idef then
+					food_points = idef._rp_hunger_food
+				end
+			end
+			if not food_points then
+				food_points = 1
+			end
 			break
 		end
 	end

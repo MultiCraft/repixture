@@ -41,7 +41,7 @@ local WOOL_DROP_MAX = 1
 local VIEW_RANGE = 5
 
 -- What the sheep eats
-local FOOD = { "rp_farming:wheat" }
+local FOOD = {{ name = "rp_farming:wheat", points = 1 }}
 
 local task_queue_roam_settings = {
 	walk_speed = 1,
