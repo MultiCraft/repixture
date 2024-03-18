@@ -288,7 +288,7 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
   * `damage`: When mob takes non-fatal damage
   * `punch_no_damage`: When mob was punched but took no damage
   * `eat`: When mob eats something (this has a default sound)
-  * `call`: Occassional mob call (only played manually)
+  * `call`: Occasional mob call (only played manually)
   * `horny`: When mob becomes horny
   * `give_birth`: When mob gives birth to a child
 * `front_body_point`: A point of the front side of the mob. Used by the mob to "see"
@@ -408,7 +408,7 @@ Calling `rp_mobs.restore_state` in `on_activate` is a requirement, but everythin
 
 #### `rp_mobs.init_mob(mob)`
 
-This initializes the mob and does initalization work in order to do things that
+This initializes the mob and does initialization work in order to do things that
 are required for all mobs.
 
 This function **must** be called in `on_activate` before any other mob-related function.
@@ -600,7 +600,7 @@ The function arguments are:
 
 * `task_queue`: Reference to task queue on which the decider is run on.
                 You can modify it at will.
-* `mob`: Refernence to mob object
+* `mob`: Reference to mob object
 * `dtime`: Time in seconds the last time the step decider was called (from `on_step`)
 
 If decider argument is nil, nothing will be done for that event.
@@ -638,6 +638,14 @@ Add the microtask `microtask` to the specified `task`.
 
 Ends the currently active task in the given `task_queue` of `mob`.
 If the task queue is empty, nothing happens.
+
+
+
+### Task template functions
+
+This mod comes with a number of template functions for common microtasks like walking. See `API_template.md` for a reference.
+
+
 
 ### Breeding functions
 

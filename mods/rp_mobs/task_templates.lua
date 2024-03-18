@@ -40,14 +40,12 @@ local random_yaw = function()
 	return (math.random(0, YAW_PRECISION) / YAW_PRECISION) * (math.pi*2)
 end
 
--- Task templates
-
-rp_mobs.tasks = {}
-
 -- Microtask templates
+-- See `API_templates.md` for documentation
 
 rp_mobs.microtasks = {}
 
+-- FIXME: Mob does not walk the path very well, gets stuck a lot
 rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, max_jump, max_drop)
 	local mtask = {}
 	mtask.label = "pathfind and walk to coordinate"
@@ -110,7 +108,6 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 	return rp_mobs.create_microtask(mtask)
 end
 
--- Set yaw instantly
 rp_mobs.microtasks.set_yaw = function(yaw)
 	local label
 	if yaw == "random" then
@@ -142,13 +139,6 @@ local collides_with_wall = function(moveresult, include_objects)
 	return false
 end
 
--- Move in a straight line on any axis
--- * move_vector: velocity vector to target.
--- * yaw: look direction in radians
--- * drag: (optional) if set as a vector, will adjust the velocity smoothly towards the target
---   velocity, with higher axis values leading to faster change. If unset, will set
---   velocity instantly. If drag is 0 or very small on an axis, this axis will see no velocity change
--- * max_timer: automatically finish microtask after this many seconds (nil = infinite)
 rp_mobs.microtasks.move_straight = function(move_vector, yaw, drag, max_timer)
 	local label
 	if max_timer then
@@ -203,10 +193,6 @@ rp_mobs.microtasks.move_straight = function(move_vector, yaw, drag, max_timer)
 	})
 end
 
--- Walk in a straight line, jumping if hitting obstable and jump~=nil
--- * yaw: walk direction in radians
--- * jump: jump strength if mob needs to jump or nil if no jumping
--- * max_timer: automatically finish microtask after this many seconds (nil = infinite)
 rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 	local label
 	if max_timer then
@@ -293,14 +279,6 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 	})
 end
 
--- Walk in a straight line towards a position or object
--- * walk_speed: walk speed
--- * target_type: "pos" (position) or "object"
--- * target: target, depending on target_type: position or object handle
--- * set_yaw: If true, will set mob's yaw to face target
--- * reach_distance: If mob is within this distance towards target, finish task
--- * jump: jump strength if mob needs to jump or nil if no jumping
--- * max_timer: automatically finish microtask after this many seconds (nil = infinite)
 rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, set_yaw, reach_distance, jump, max_timer)
 	local label
 	if max_timer then
@@ -431,7 +409,6 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 	})
 end
 
--- Rotate yaw linearly over time
 rp_mobs.microtasks.rotate_yaw_smooth = function(yaw, time)
 	local label
 	if yaw == "random" then
@@ -468,7 +445,6 @@ rp_mobs.microtasks.rotate_yaw_smooth = function(yaw, time)
 	})
 end
 
--- Set yaw based on XZ velocity
 rp_mobs.microtasks.autoyaw = function()
 	return rp_mobs.create_microtask({
 		label = "automatically set yaw",
@@ -486,7 +462,6 @@ rp_mobs.microtasks.autoyaw = function()
 	})
 end
 
--- Do nothing for the given time in seconds
 rp_mobs.microtasks.sleep = function(time)
 	return rp_mobs.create_microtask({
 		label = "sleep for "..time.."s",
@@ -502,7 +477,6 @@ rp_mobs.microtasks.sleep = function(time)
 	})
 end
 
--- Instantly set mob acceleration to the given parameter
 rp_mobs.microtasks.set_acceleration = function(acceleration)
 	return rp_mobs.create_microtask({
 		label = "set acceleration",
