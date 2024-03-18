@@ -12,11 +12,26 @@ local register_mob_alias = function(old_name, new_name)
 			pointable = false,
 			physical = false,
 		},
-		on_activate = function(self)
+		on_activate = function(self, staticdata)
 			local pos = self.object:get_pos()
+			local hp = self.object:get_hp()
 			self.object:remove()
-			minetest.add_entity(pos, new_name)
-			minetest.log("action", "[rp_mobs_legacy] Replaced legacy mob '"..old_name.."' at "..minetest.pos_to_string(pos, 1).." with '"..new_name.."'")
+			local mobent = minetest.add_entity(pos, new_name)
+			if mobent then
+				-- Restore child status
+				if staticdata then
+					local data = minetest.deserialize(staticdata)
+					if data and data.child then
+						rp_mobs.turn_into_child(mobent)
+					end
+				end
+				-- Note: We don't restore any other attributes to keep it simple.
+				-- Most notably, the HP of the legacy mob apparently cannot be
+				-- retrieved so the new mob will spawn with full HP.
+				minetest.log("action", "[rp_mobs_legacy] Replaced legacy mob '"..old_name.."' at "..minetest.pos_to_string(pos, 1).." with '"..new_name.."'")
+			else
+				minetest.log("error", "[rp_mobs_legacy] Could not replaced legacy mob '"..old_name.."' at "..minetest.pos_to_string(pos, 1).." with '"..new_name.."'!")
+			end
 		end,
 	})
 
