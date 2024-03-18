@@ -18,35 +18,7 @@ local DAMAGE_TEXTURE_MODIFIER = "^[colorize:#df2222:180"
 
 rp_mobs.GRAVITY_VECTOR = vector.new(0, -GRAVITY, 0)
 
--- List of entity variables to store in staticdata
--- (so they are persisted when unloading)
-local persisted_entity_vars = {}
-
--- Getter function for persisted_entity_vars
-rp_mobs.get_persisted_entity_vars = function()
-	return persisted_entity_vars
-end
-
--- Declare an entity variable name to be persisted on shutdown
--- (recommended only for internal rp_mobs use)
-rp_mobs.add_persisted_entity_var = function(name)
-	for i=1, #persisted_entity_vars do
-		if persisted_entity_vars[i] == name then
-			return
-		end
-	end
-	table.insert(persisted_entity_vars, name)
-end
-
--- Same as above, but for a list of variables
--- (recommended only for internal rp_mobs use)
-rp_mobs.add_persisted_entity_vars = function(names)
-	for n=1, #names do
-		rp_mobs.add_persisted_entity_var(names[n])
-	end
-end
-
-rp_mobs.add_persisted_entity_vars({
+rp_mobs.internal.add_persisted_entity_vars({
 	"_custom_state",	-- table to store mob-specific state variables
 	"_dying",		-- true if mob is currently dying (for animation)
 	"_dying_timer",		-- time since mob dying started
@@ -102,8 +74,9 @@ end
 local mob_state_to_string = function(mob)
 	local str = "Mob state:\n"
 	str = str .. "* HP = "..mob.object:get_hp().."\n"
-	for p=1, #persisted_entity_vars do
-		local var = persisted_entity_vars[p]
+	local pevars = rp_mobs.internal.get_persisted_entity_vars()
+	for p=1, #pevars do
+		local var = pevars[p]
 		local val = mob[var]
 		local sval
 		if type(val) == "number" then
@@ -191,8 +164,9 @@ end
 
 rp_mobs.get_staticdata_default = function(self)
 	local staticdata_table = {}
-	for p=1, #persisted_entity_vars do
-		local pvar = persisted_entity_vars[p]
+	local pevars = rp_mobs.internal.get_persisted_entity_vars()
+	for p=1, #pevars do
+		local pvar = pevars[p]
 		local pvalue = self[pvar]
 		staticdata_table[pvar] = pvalue
 	end
@@ -766,7 +740,7 @@ rp_mobs.register_mob_item = function(mobname, invimg, desc, on_create_capture_it
 	})
 end
 
-function rp_mobs.mob_sound(self, sound, keep_pitch)
+rp_mobs.mob_sound = function(self, sound, keep_pitch)
 	local pitch
 	if not keep_pitch then
 		if self._child then
@@ -782,18 +756,18 @@ function rp_mobs.mob_sound(self, sound, keep_pitch)
 	}, true)
 end
 
-function rp_mobs.default_mob_sound(self, default_sound, keep_pitch)
+rp_mobs.default_mob_sound = function(self, default_sound, keep_pitch)
 	local sound = self._default_sounds[default_sound]
 	if sound then
 		rp_mobs.mob_sound(self, sound, keep_pitch)
 	end
 end
 
-function rp_mobs.default_hurt_sound(self, keep_pitch)
+rp_mobs.default_hurt_sound = function(self, keep_pitch)
 	rp_mobs.default_mob_sound(self, "damage", keep_pitch)
 end
 
-function rp_mobs.set_animation(self, animation_name, animation_speed)
+rp_mobs.set_animation = function(self, animation_name, animation_speed)
 	local anim = self._animations[animation_name]
 	if not anim then
 		minetest.log("error", "[rp_mobs] set_animation for mob '"..tostring(self.name).."' called with unknown animation_name: "..tostring(animation_name))

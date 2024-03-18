@@ -247,7 +247,7 @@ end
 
 
 -- Entity variables to persist:
-rp_mobs.add_persisted_entity_vars({
+rp_mobs.internal.add_persisted_entity_vars({
 	"_get_node_damage",	-- true when mob can take damage from nodes (damage_per_second)
 	"_get_fall_damage",	-- true when mob can take fall damage
 	"_standing_y",		-- Y coordinate when mob was standing on ground. Internally used for fall damage calculations

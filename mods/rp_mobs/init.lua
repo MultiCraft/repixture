@@ -5,6 +5,9 @@ local path = minetest.get_modpath("rp_mobs")
 -- Helper data structure for tasks
 dofile(path.."/doubly_linked_list.lua")
 
+-- Other internal helper stuff
+dofile(path.."/internal.lua")
+
 -- Mob API
 
 dofile(path.."/api.lua")

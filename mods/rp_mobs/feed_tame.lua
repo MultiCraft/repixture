@@ -1,7 +1,7 @@
 local DEFAULT_ADD_CHILD_GROW_TIMER = 20
 
 -- Entity variables to persist:
-rp_mobs.add_persisted_entity_vars({
+rp_mobs.internal.add_persisted_entity_vars({
 	"_tame_level", -- Tame level. Increases when a mob was fed; used to trigger taming
 	"_horny_level", -- Horny level. Increases when an adult mob was fed; used to trigger breeding
 	"_tamed", -- true if mob is tame

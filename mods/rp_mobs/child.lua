@@ -28,7 +28,7 @@ local BREED_CHECK_INTERVAL = 1
 local BREED_TIME = 3
 
 -- Entity variables to persist:
-rp_mobs.add_persisted_entity_vars({
+rp_mobs.internal.add_persisted_entity_vars({
 	"_child", -- true if this is a child mob
 	"_child_grow_timer", -- counts the time the mob has been a child (seconds)
 	"_horny", -- true if mob is horny and ready to mate
