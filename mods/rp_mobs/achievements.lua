@@ -78,7 +78,7 @@ rp_mobs.register_on_die(function(mob, killer)
 			end
 		end
 	end
-	if drops_food and killer ~= nil and killer:is_player() and mobdef.entity_definition._is_animal then
+	if drops_food and killer ~= nil and killer:is_player() and rp_mobs.has_tag(mob, "animal") then
 		achievements.trigger_achievement(killer, "hunter")
 	end
 end)

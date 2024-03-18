@@ -310,6 +310,18 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
   * Built-in animations are:
     * `"idle"`: Played when mob has nothing to do (empty task queue)
     * `"dead_static"`: Played when mob is dead (no animation, just a static frame)
+* `tags`: Table of tags.
+  * Tags are arbitrary strings used to logically categorize the mob.
+  * The table keys are tag names and value for each key must always be 1.
+  * You can check if a mob has a tag with `rp_mobs.has_tag` or `rp_mobs.mobdef_has_tag`.
+  * Built-in tag names:
+    * `"animal"`: This mob is an animal. Some items and achievements check for this tag
+    * `"peaceful"`: Mob is considered 'peaceful' towards players if unprovoked. It normally leaves
+      the player alone. Peaceful mobs may still turn hostile when provoked.
+      Mobs that start hostile towards the player do not count as peaceful.
+      If the setting `spawn_peaceful_only` is enabled, only mobs with this tag can spawn.
+  * Example: `tags = { animal = 1, peaceful = 1, exploder = 1 }`
+      * A peaceful animal, plus a custom `"exploder"` tag.
 
 ##### Drop table
 
@@ -826,7 +838,18 @@ by a mob, usually on death, but it may also be used on other events.
 The difference from `minetest.add_item` is that it adds some random velocity
 so this is the recommended function to make a mob drop something.
 
+#### `rp_mobs.has_tag(mob, tag_name)`
 
+Returns true if mob has the given `tag_name` or false if not.
+
+See `rp_mobs.register_mob` for for info about tags.
+
+#### `rp_mobs.mobdef_has_tag(mob_name, tag_name)
+
+Return true if the mob definition for the mob with the given `mob_name` exists
+and has a tag with the given `tag_name`. Returns false otherwise.
+
+See `rp_mobs.register_mob` for for info about tags.
 
 
 ## Appendix

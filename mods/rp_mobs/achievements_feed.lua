@@ -4,13 +4,13 @@ local animals = {}
 local animal_names = {}
 
 minetest.register_on_mods_loaded(function()
-	for k,v in pairs(minetest.registered_entities) do
-		if v._cmi_is_mob and v._is_animal then
-			table.insert(animals, k)
-			if v._description then
-				table.insert(animal_names, v._description)
+	for mobname, mobdef in pairs(rp_mobs.registered_mobs) do
+		if mobdef._cmi_is_mob and rp_mobs.mobdef_has_tag(mobname, "animal") then
+			table.insert(animals, mobname)
+			if mobdef._description then
+				table.insert(animal_names, mobdef._description)
 			else
-				table.insert(animal_names, k)
+				table.insert(animal_names, mobname)
 			end
 		end
 	end

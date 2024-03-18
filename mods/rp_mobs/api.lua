@@ -166,10 +166,7 @@ rp_mobs.register_mob = function(mobname, def)
 	mdef.entity_definition.initial_properties = initprop
 	mdef.entity_definition._cmi_is_mob = true
 	mdef.entity_definition._description = def.description
-	-- TODO: Put in a group-like system
-	mdef.entity_definition._is_animal = def.is_animal
-	-- TODO: Put in a group-like system
-	mdef.entity_definition._is_peaceful = def.is_peaceful
+	mdef.entity_definition._tags = table.copy(def.tags or {})
 	mdef.entity_definition._base_size = table.copy(initprop.visual_size or { x=1, y=1, z=1 })
 	mdef.entity_definition._base_selbox = table.copy(initprop.selectionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, rotate = false })
 	mdef.entity_definition._base_colbox = table.copy(initprop.collisionbox or { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5})
@@ -201,6 +198,18 @@ rp_mobs.get_staticdata_default = function(self)
 	end
 	local staticdata = minetest.serialize(staticdata_table)
 	return staticdata
+end
+
+rp_mobs.has_tag = function(mob, tag_name)
+	return mob._tags[tag_name] == 1
+end
+
+rp_mobs.mobdef_has_tag = function(mobname, tag_name)
+	local mobdef = rp_mobs.registered_mobs[mobname]
+	if not mobdef then
+		return false
+	end
+	return mobdef._tags[tag_name] == 1
 end
 
 local flip_over_collisionbox = function(box, is_child, y_offset)
@@ -438,8 +447,7 @@ rp_mobs.init_tasks = function(self)
 end
 
 rp_mobs.init_mob = function(self)
-	local entdef = minetest.registered_entities[self.name]
-	if setting_peaceful_only and not entdef._is_peaceful then
+	if setting_peaceful_only and not rp_mobs.has_tag(self, "peaceful") then
 		self.object:remove()
 		minetest.log("action", "[mobs] Hostile mob '"..self.name.."' removed at "..minetest.pos_to_string(self.object:get_pos(), 1).." (only peaceful mobs allowed)")
 		return
@@ -703,7 +711,7 @@ rp_mobs.register_mob_item = function(mobname, invimg, desc, on_create_capture_it
 		groups = { spawn_egg = 1 },
 		stack_max = 1,
 		on_place = function(itemstack, placer, pointed_thing)
-			if setting_peaceful_only and not entdef._is_peaceful then
+			if setting_peaceful_only and not rp_mobs.mobdef_has_tag(mobname, "peaceful") then
 				if placer and placer:is_player() then
 					local pname = placer:get_player_name()
 					minetest.chat_send_player(pname, minetest.colorize("#FFFF00", S("Hostile mobs are disabled!")))

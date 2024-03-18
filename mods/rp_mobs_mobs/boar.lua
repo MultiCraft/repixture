@@ -36,8 +36,7 @@ local task_queue_roam_settings = {
 --
 rp_mobs.register_mob("rp_mobs_mobs:boar", {
 	description = S("Boar"),
-	is_animal = true,
-	is_peaceful = true,
+	tags = { animal = 1, peaceful = 1 },
 	drops = {
 		{name="rp_mobs_mobs:pork_raw", chance=1, min=1, max=4},
 	},

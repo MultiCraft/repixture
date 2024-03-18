@@ -150,8 +150,6 @@ end
 
 rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 	description = S("Mine Turtle"),
-	is_animal = false,
-	is_peaceful = false,
 	drops = {
 		{name = "rp_tnt:tnt", chance = 1, min = 1, max = 3},
 	},

@@ -35,8 +35,6 @@ local task_queue_roam_settings = {
 
 rp_mobs.register_mob("rp_mobs_mobs:walker", {
 	description = S("Walker"),
-	is_animal = false,
-	is_peaceful = false,
 	drops = {
 		{
 			name = "rp_default:stick",

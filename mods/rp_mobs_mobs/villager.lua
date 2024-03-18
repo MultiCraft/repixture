@@ -401,8 +401,7 @@ for _, villager_type_table in pairs(villager_types) do
 
 	rp_mobs.register_mob("rp_mobs_mobs:villager_"..villager_type, {
 		description = villager_name,
-		is_animal = false,
-		is_peaceful = true,
+		tags = { peaceful = 1 },
 		drops = {
 			{ name = "rp_default:planks_oak", chance = 1, min = 1, max = 3 },
 			{ name = "rp_default:apple", chance = 2, min = 1, max = 2 },
