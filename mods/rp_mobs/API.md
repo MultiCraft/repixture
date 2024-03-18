@@ -783,16 +783,18 @@ Make a mob play its “hurt” sound. The pitch will be slightly randomized. Chi
 Registers a function `callback(mob, killer)` where `mob` is a mob reference and `killer`
 is an object reference to the mob killer (or nil if there's no killer).
 
-The function `callback` will be called when a mob has been killed.
+The function `callback` will be called when a mob has entered the 'dying' state, i.e.
+lying on the side but not disappeared yet.
 
 This is useful to trigger kill-related achievements but it could be used
 for other reasons.
 
 NOTE: This function differs from `on_death` in the entity definition. This callback
 triggers when the mob enters the 'dying' state, while `on_death` triggers when
-the entity is being *actually* removed. Due to the implementation,
-`on_death` will *not* provide the correct `killer` argument.
+the entity is being *actually* removed.
 
+IMPORTANT: Due to the implementation details, `on_death` will *not* provide
+the correct `killer` argument.
 
 
 

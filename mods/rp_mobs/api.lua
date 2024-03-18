@@ -359,7 +359,6 @@ local get_mob_death_particle_radius = function(self)
 end
 
 rp_mobs.on_death_default = function(self, killer)
-	trigger_on_die(self, killer)
 	local radius = get_mob_death_particle_radius(self)
 	local pos = self.object:get_pos()
 	minetest.add_particlespawner({
@@ -629,14 +628,21 @@ rp_mobs.die = function(self, killer)
 		return
 	end
 
+	trigger_on_die(self, killer)
+
 	if killer and killer:is_player() and not self._killer_player_name then
 		self._killer_player_name = killer:get_player_name()
 	end
+
+	-- Set HP to 1 and _dying to true.
+	-- This indicates the mob is currently dying.
+	-- We can't set HP to 0 yet because that would insta-remove
+	-- the mob (and thus skip the 'dying' delay and animation)
 	self.object:set_hp(1)
-	rp_mobs.default_mob_sound(self, "death")
 	self._dying = true
 	self._dying_timer = 0
 
+	rp_mobs.default_mob_sound(self, "death")
 	rp_mobs.set_animation(self, "dead_static")
 
 	local colbox, selbox = get_dying_boxes(self)
@@ -687,11 +693,6 @@ rp_mobs.handle_dying = function(self, dtime)
 	self._dying_timer = self._dying_timer + dtime
 	if self._dying_timer >= DYING_TIME then
 		self.object:set_hp(0)
-
-		if self._killer_player_name then
-			local killer = minetest.get_player_by_name(self._killer_player_name)
-			trigger_on_die(self, killer)
-		end
 	end
 end
 
