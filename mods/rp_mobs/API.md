@@ -239,6 +239,14 @@ These fields are available:
 * `_horny`: `true` if mob is “horny”. If another horny mob is nearby, they will mate and spawn a child soon
 * `_pregnant`: `true` if mob is pregnant and about to spawn a child
 
+### Textures
+
+NOTE: You must update these whenever you want to change a mob's texture. If the mob does not use a custom
+child texture, `_textures_child` can be skipped.
+
+* `_textures_adult`: Stores a copy of the current mob textures table for the mob in adult form
+* `_textures_child`: Stores a copy of the current mob textures table for the mob in child form
+
 ### Damage
 
 * `_get_node_damage`: `true` when mob can take damage from nodes (`damage_per_second`) (default: false)

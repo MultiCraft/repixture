@@ -395,6 +395,15 @@ local heal_decider = function(task_queue, mob)
 	rp_mobs.add_task_to_task_queue(task_queue, task)
 end
 
+local set_random_textures = function(mob)
+	local r = math.random(1, 6)
+	local tex = { "mobs_villager"..r..".png" }
+	mob.object:set_properties({
+		textures = tex,
+	})
+	mob._textures_adult = tex
+end
+
 for _, villager_type_table in pairs(villager_types) do
 	local villager_type = villager_type_table[1]
 	local villager_name = villager_type_table[2]
@@ -424,7 +433,7 @@ for _, villager_type_table in pairs(villager_types) do
 				selectionbox = { -0.32, -1.0, -0.22, 0.32, 0.77, 0.22, rotate=true},
 				visual = "mesh",
 				mesh = "mobs_villager.b3d",
-				-- TODO: Random texture
+				-- Texture will be overridden on first spawn
 				textures = { "mobs_villager1.png" },
 				makes_footstep_sound = true,
 				stepheight = 0.6,
@@ -435,6 +444,11 @@ for _, villager_type_table in pairs(villager_types) do
 			on_activate = function(self, staticdata)
 				rp_mobs.init_mob(self)
 				rp_mobs.restore_state(self, staticdata)
+				if not self._textures_adult then
+					set_random_textures(self)
+				else
+					self.object:set_properties({textures = self._textures_adult})
+				end
 
 				rp_mobs.init_fall_damage(self, true)
 				rp_mobs.init_breath(self, true, {

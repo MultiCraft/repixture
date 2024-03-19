@@ -23,6 +23,8 @@ rp_mobs.internal.add_persisted_entity_vars({
 	"_dying",		-- true if mob is currently dying (for animation)
 	"_dying_timer",		-- time since mob dying started
 	"_killer_player_name",	-- if mob was killed by a player, this contains their name. Otherwise nil
+	"_textures_adult",	-- persisted textures of mob in adult state
+	"_textures_child",	-- persisted textures of mob in child state
 })
 
 local microtask_to_string = function(microtask)
@@ -150,8 +152,8 @@ rp_mobs.register_mob = function(mobname, def)
 	mdef.entity_definition._dying_timer = 0
 	if def.textures_child then
 		mdef.entity_definition._textures_child = def.textures_child
-		mdef.entity_definition._textures_adult = initprop.textures
 	end
+	mdef.entity_definition._textures_adult = initprop.textures
 	if def.front_body_point then
 		mdef.entity_definition._front_body_point = table.copy(def.front_body_point)
 	end
