@@ -89,7 +89,7 @@ rp_mobs.register_mob("rp_mobs_mobs:walker", {
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)
 			rp_mobs.handle_dying(self, dtime)
-			rp_mobs.scan_environment(self, dtime)
+			rp_mobs.scan_environment(self, dtime, -0.5)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)
 		end,

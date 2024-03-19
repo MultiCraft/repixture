@@ -11,7 +11,7 @@ local FALL_DAMAGE_HEIGHT = 5
 -- Force a new node environment check after this many seconds
 local ENV_RECHECK_TIME = 1.0
 
-function rp_mobs.scan_environment(self, dtime)
+function rp_mobs.scan_environment(self, dtime, y_offset)
 	if not self._env_timer then
 		self._env_timer = 0
 	end
@@ -21,7 +21,10 @@ function rp_mobs.scan_environment(self, dtime)
 	if not props then
 		return
 	end
-	local yoff = props.collisionbox[2] + (props.collisionbox[5] - props.collisionbox[2]) / 2
+	if not y_offset then
+		y_offset = 0
+	end
+	local yoff = (props.collisionbox[2] + (props.collisionbox[5] - props.collisionbox[2]) / 2) + y_offset
 	pos = vector.offset(pos, 0, yoff, 0)
 	local cpos = vector.round(pos)
 	if self._env_timer > ENV_RECHECK_TIME or ((not self._env_lastpos) or (not vector.equals(cpos, self._env_lastpos))) then
