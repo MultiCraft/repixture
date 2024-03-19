@@ -155,7 +155,7 @@ end
 --
 -- returns: <position>, <angle from position>
 -- or nil, nil if no position found
-rp_mobs_mobs.find_safe_node_from_pos = function(pos)
+rp_mobs_mobs.find_safe_node_from_pos = function(pos, find_land_length)
 	local startpos = table.copy(pos)
 	startpos.y = math.floor(startpos.y)
 	startpos.y = startpos.y - 1

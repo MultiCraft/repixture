@@ -16,7 +16,7 @@ return function(task_queue, mob)
 
 		local yaw
 		-- Find direction to walk to
-		local safepos, safeangle = rp_mobs_mobs.find_safe_node_from_pos(mob.object:get_pos())
+		local safepos, safeangle = rp_mobs_mobs.find_safe_node_from_pos(mob.object:get_pos(), settings.find_land_length)
 		local walk_duration
 		-- Prefer walking towards safe place
 		if safepos and safeangle then
