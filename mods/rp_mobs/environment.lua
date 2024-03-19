@@ -73,7 +73,9 @@ function rp_mobs.handle_node_damage(self, dtime)
 	end
 
 	local pos = self.object:get_pos()
-	pos.y = pos.y - 0.5
+	local props = self.object:get_properties()
+	local yoff = props.collisionbox[2] + 0.5
+	pos = vector.offset(pos, 0, yoff, 0)
 	local node = minetest.get_node(pos)
 	local def = minetest.registered_nodes[node.name]
 
