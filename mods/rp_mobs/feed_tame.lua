@@ -83,6 +83,7 @@ rp_mobs.feed_tame_breed = function(mob, feeder, allowed_foods, food_till_tamed, 
 	end
 
 	local can_eat = false
+	local food_points = 0
 	for f=1, #allowed_foods do
 		if allowed_foods[f].name == fed_itemname then
 			can_eat = true
