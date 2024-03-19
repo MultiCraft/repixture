@@ -46,7 +46,7 @@ local FOOD = {{ name = "rp_farming:wheat", points = 1 }}
 local task_queue_roam_settings = {
 	walk_speed = 1,
 	liquid_rise_speed = 2,
-	jump_strength = 5,
+	jump_strength = 4.6,
 	fall_height = 4,
 	max_fall_damage_add_percent_drop_on = 10,
 	walk_duration_min = 2000,
@@ -189,7 +189,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			mesh = "mobs_sheep.x",
 			textures = { "mobs_sheep.png" },
 			makes_footstep_sound = true,
-			stepheight = 0.6,
+			stepheight = 0.26,
 		},
 		on_activate = function(self, staticdata)
 			rp_mobs.init_mob(self)

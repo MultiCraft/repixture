@@ -13,7 +13,7 @@ local FOOD = { { name = "rp_default:apple", points = 1 }, { name = "rp_default:a
 local task_queue_roam_settings = {
 	walk_speed = 2,
 	liquid_rise_speed = 2,
-	jump_strength = 5,
+	jump_strength = 4.6,
 	fall_height = 4,
 	max_fall_damage_add_percent_drop_on = 10,
 	walk_duration_min = 3000,
@@ -67,7 +67,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			mesh = "mobs_boar.x",
 			textures = { "mobs_boar.png" },
 			makes_footstep_sound = true,
-			stepheight = 0.6,
+			stepheight = 0.26,
 		},
 		on_activate = function(self, staticdata)
 			rp_mobs.init_mob(self)

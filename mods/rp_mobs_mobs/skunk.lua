@@ -13,7 +13,7 @@ local FOOD = {{ name = "rp_default:apple", points = 1 }}
 local task_queue_roam_settings = {
 	walk_speed = 1.5,
 	liquid_rise_speed = 3,
-	jump_strength = 5,
+	jump_strength = 4.6,
 	fall_height = 4,
 	walk_duration_min = 3000,
 	walk_duration_max = 8000,
@@ -60,7 +60,7 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 			mesh = "mobs_skunk.x",
 			textures = { "mobs_skunk.png" },
 			makes_footstep_sound = true,
-			stepheight = 0.6,
+			stepheight = 0.26,
 		},
 		on_activate = function(self, staticdata)
 			rp_mobs.init_mob(self)
