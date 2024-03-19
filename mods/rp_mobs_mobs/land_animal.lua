@@ -27,7 +27,7 @@ return function(task_queue, mob)
 			yaw = math.random(0, 360) / 360 * (math.pi*2)
 			walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
 		end
-		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, nil, walk_duration)
+		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, nil, nil, walk_duration)
 		local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
 		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 		mt_walk.start_animation = "walk"
@@ -63,7 +63,7 @@ return function(task_queue, mob)
 			yaw = math.random(0, 360) / 360 * (math.pi*2)
 			walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
 		end
-		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, walk_duration)
+		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, walk_duration)
 		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 		local mt_acceleration = rp_mobs.microtasks.set_acceleration(vector.zero())
 		mt_walk.start_animation = "walk"
@@ -76,7 +76,7 @@ return function(task_queue, mob)
 
 		local yaw = math.random(0, 360) / 360 * (math.pi*2)
 		local walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
-		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, walk_duration)
+		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, walk_duration)
 		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 		local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
 		mt_walk.start_animation = "walk"
@@ -168,7 +168,7 @@ return function(task_queue, mob, dtime)
 						local task = rp_mobs.create_task({label=task_label})
 						local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
 						rp_mobs.add_microtask_to_task(mob, mt_acceleration, task)
-						local mt_follow = rp_mobs.microtasks.walk_straight_towards(settings.walk_speed, "object", target, true, settings.follow_reach_distance, settings.jump_strength, settings.follow_give_up_time)
+						local mt_follow = rp_mobs.microtasks.walk_straight_towards(settings.walk_speed, "object", target, true, settings.follow_reach_distance, settings.jump_strength, settings.jump_clear_height, settings.follow_give_up_time)
 						mt_follow.start_animation = "walk"
 						rp_mobs.add_microtask_to_task(mob, mt_follow, task)
 						local mt_sleep = rp_mobs.microtasks.sleep(math.random(settings.idle_duration_min, settings.idle_duration_max)/1000)
@@ -210,6 +210,7 @@ end
 	walk_duration_max: Random walk duration in ms (maximum)
 	liquid_rise_speed: How fast it rises in a lquid
 	jump_strength: How strong it jumps
+	jump_clear_height: Up to how many nodes high it will try to jump to higher land
 	fall_height: Maximum fall height
 	max_fall_damage_add_percent_drop_on: When mob is about to decide to fall
 		on a block, this is the maximum fall_damage_add_percent group value

@@ -14,6 +14,7 @@ local task_queue_roam_settings = {
 	walk_speed = 1.5,
 	liquid_rise_speed = 3,
 	jump_strength = 4.6,
+	jump_clear_height = 1,
 	fall_height = 4,
 	walk_duration_min = 3000,
 	walk_duration_max = 8000,

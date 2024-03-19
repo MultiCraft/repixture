@@ -193,7 +193,36 @@ rp_mobs.microtasks.move_straight = function(move_vector, yaw, drag, max_timer)
 	})
 end
 
-rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
+local can_clear_jump = function(mob, jump_clear_height)
+	local yaw = mob.object:get_yaw()
+	local dir = minetest.yaw_to_dir(yaw)
+	local pos = mob.object:get_pos()
+	if mob._front_body_point then
+		local fbp = table.copy(mob._front_body_point)
+		fbp = vector.rotate_around_axis(fbp, vector.new(0, 1, 0), yaw)
+		pos = vector.add(pos, fbp)
+	end
+	dir = vector.multiply(dir, 0.5)
+	local pos_front = vector.add(pos, dir)
+
+	local h = -1
+	while h <= jump_clear_height do
+		h = h + 1
+		local node_front = minetest.get_node(pos_front)
+		local def_front = minetest.registered_nodes[node_front.name]
+		if def_front and not def_front.walkable then
+			break
+		end
+		pos_front.y = pos_front.y + 1
+	end
+
+	if h <= jump_clear_height then
+		return true
+	end
+	return false
+end
+
+rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, jump_clear_height, max_timer)
 	local label
 	if max_timer then
 		label = "walk straight for "..string.format("%.1f", max_timer).."s"
@@ -252,6 +281,17 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 						can_jump = false
 					end
 				end
+				-- Check if mob can jump over the obstacle or if the wall is too high
+				if can_jump then
+					can_jump = can_clear_jump(mob, jump_clear_height)
+					if not can_jump and wall_collision then
+						self.statedata.stop = true
+						vel.x = 0
+						vel.z = 0
+						mob.object:set_velocity(vel)
+						return
+					end
+				end
 				if can_jump then
 					self.statedata.jumping = true
 					self.statedata.jump_timer = 0
@@ -279,7 +319,7 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, max_timer)
 	})
 end
 
-rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, set_yaw, reach_distance, jump, max_timer)
+rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, set_yaw, reach_distance, jump, jump_clear_height, max_timer)
 	local label
 	if max_timer then
 		label = "walk towards something for "..string.format("%.1f", max_timer).."s"
@@ -356,6 +396,15 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 					if minetest.get_item_group(mob._env_node.name, "disable_jump") > 0 then
 						can_jump = false
 					end
+				end
+				-- Check if mob can jump over the obstacle or if the wall is too high
+				can_jump = can_clear_jump(mob, jump_clear_height)
+				if not can_jump and wall_collision then
+					self.statedata.stop = true
+					vel.x = 0
+					vel.z = 0
+					mob.object:set_velocity(vel)
+					return
 				end
 				if can_jump then
 					self.statedata.jumping = true

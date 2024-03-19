@@ -2,8 +2,6 @@
 
 local S = minetest.get_translator("rp_mobs_mobs")
 
--- Boar constants
-
 local VIEW_RANGE = 14
 
 local ATTACK_REACH = 2
@@ -17,6 +15,7 @@ local task_queue_roam_settings = {
 	walk_speed = 1,
 	liquid_rise_speed = 2,
 	jump_strength = 5,
+	jump_clear_height = 1,
 	fall_height = 4,
 	walk_duration_min = 10000,
 	walk_duration_max = 20000,
