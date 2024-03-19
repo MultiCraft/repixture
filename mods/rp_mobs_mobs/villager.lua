@@ -425,6 +425,10 @@ for _, villager_type_table in pairs(villager_types) do
 		},
 		front_body_point = vector.new(0, -0.6, 0.2),
 		dead_y_offset = 0.6,
+		default_sounds = {
+			damage = "default_punch",
+			death = "default_punch",
+		},
 		entity_definition = {
 			initial_properties = {
 				hp_max = 20,

@@ -156,7 +156,8 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 	},
 	default_sounds = {
 		war_cry = "mobs_mineturtle",
-		random = "mobs_mineturtle",
+		damage = "default_punch",
+		death = "default_punch",
 		explode = "tnt_explode",
 		distance = 16,
 	},
