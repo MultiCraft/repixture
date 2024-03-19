@@ -211,7 +211,8 @@ by manipulating the drowning fields (see the mob field reference).
 ### Breeding
 
 Breeding will make mobs mate and create offspring. To enable, call
-`rp_mobs.handle_breeding` in `on_step`.
+`rp_mobs.handle_breeding` in `on_step`. You also need to add the tag
+`"child_exists"` to the mob definition.
 
 In particular, to breed, two adult mobs of the same type need to be “horny” and close
 to each other. Then, a random mob of the pair gets pregnant and will soon
@@ -328,6 +329,8 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
       the player alone. Peaceful mobs may still turn hostile when provoked.
       Mobs that start hostile towards the player do not count as peaceful.
       If the setting `spawn_peaceful_only` is enabled, only mobs with this tag can spawn.
+    * `"child_exists"`: Mob has a functional child version. This tag is only
+      for informing other mobs; it does not have an effect in the `rp_mobs` code
   * Example: `tags = { animal = 1, peaceful = 1, exploder = 1 }`
       * A peaceful animal, plus a custom `"exploder"` tag.
 
@@ -697,6 +700,8 @@ Turns the mob into an adult.
 #### `rp_mobs.turn_into_child(mob)`
 
 Turns the mob into a child.
+IMPORTANT: You *must* check whether the mob has the `"child_exists"` tag before calling this.
+Don't call this function if the mob does not have this tag.
 
 #### `rp_mobs.advance_child_growth(mob, dtime)`
 

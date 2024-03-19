@@ -152,7 +152,7 @@ end
 
 rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 	description = S("Sheep"),
-	tags = { animal = 1, peaceful = 1 },
+	tags = { animal = 1, child_exists = 1, peaceful = 1 },
 	drops = {
 		{name="rp_mobs_mobs:meat_raw", chance=1, min=2, max=4},
 	},

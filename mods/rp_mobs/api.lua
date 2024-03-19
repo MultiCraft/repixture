@@ -182,10 +182,10 @@ end
 
 rp_mobs.mobdef_has_tag = function(mobname, tag_name)
 	local mobdef = rp_mobs.registered_mobs[mobname]
-	if not mobdef then
+	if not mobdef or not mobdef.entity_definition or not mobdef.entity_definition._tags then
 		return false
 	end
-	return mobdef._tags[tag_name] == 1
+	return mobdef.entity_definition._tags[tag_name] == 1
 end
 
 local flip_over_collisionbox = function(box, is_child, y_offset)

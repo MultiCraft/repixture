@@ -164,7 +164,7 @@ minetest.register_craftitem(
          end
          local obj = pointed_thing.ref
          local ent = obj:get_luaentity()
-         if ent and ent._cmi_is_mob and not ent._child then
+         if ent and ent._cmi_is_mob and not ent._child and rp_mobs.mobdef_has_tag(ent.name, "child_exists") then
             local pos = obj:get_pos()
             rp_mobs.turn_into_child(obj)
             if not minetest.is_creative_enabled(placer:get_player_name()) then
