@@ -189,7 +189,7 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 			rp_mobs.init_fall_damage(self, true)
 			rp_mobs.init_breath(self, true, {
 				breath_max = 20,
-				drowning_point = vector.new(0, -0.1, 0.49)
+				drowning_point = vector.new(0, 0.5, 0.79)
 			})
 
 			rp_mobs.init_tasks(self)
