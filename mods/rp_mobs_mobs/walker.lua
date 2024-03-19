@@ -58,7 +58,7 @@ rp_mobs.register_mob("rp_mobs_mobs:walker", {
 		["run"] = { frame_range = { x = 35, y = 45 }, default_frame_speed = 15 },
 		["punch"] = { frame_range = { x = 25, y = 34 }, default_frame_speed = 20 },
 	},
-	front_body_point = vector.new(0, -0.4, 0.5),
+	front_body_point = vector.new(0, 0.5, 0.5),
 	dead_y_offset = -0.3,
 	entity_definition = {
 		initial_properties = {

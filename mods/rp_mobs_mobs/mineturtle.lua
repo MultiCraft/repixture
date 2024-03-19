@@ -167,7 +167,7 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 		["run"] = { frame_range = { x = 31, y = 50 }, default_frame_speed = 35 },
 		["punch"] = { frame_range = { x = 51, y = 60 }, default_frame_speed = 25 },
 	},
-	front_body_point = vector.new(0, -0.4, 0.5),
+	front_body_point = vector.new(0, 0.35, 0.8),
 	dead_y_offset = -0.4,
 	entity_definition = {
 		initial_properties = {

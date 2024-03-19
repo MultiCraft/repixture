@@ -423,7 +423,7 @@ for _, villager_type_table in pairs(villager_types) do
 			["run"] = { frame_range = { x = 168, y = 187 }, default_frame_speed = 30 },
 			["punch"] = { frame_range = { x = 200, y = 219 }, default_frame_speed = 30 },
 		},
-		front_body_point = vector.new(0, -0.4, 0.5),
+		front_body_point = vector.new(0, -0.6, 0.2),
 		dead_y_offset = 0.6,
 		entity_definition = {
 			initial_properties = {

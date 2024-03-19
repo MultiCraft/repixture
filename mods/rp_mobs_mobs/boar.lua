@@ -56,7 +56,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		["punch"] = { frame_range = { x = 90, y = 101 }, default_frame_speed = 20 },
 	},
 	textures_child = { "mobs_boar_child.png" },
-	front_body_point = vector.new(0, -0.4, 0.5),
+	front_body_point = vector.new(0, -0.4, 0.6),
 	dead_y_offset = 0.6,
 	entity_definition = {
 		initial_properties = {

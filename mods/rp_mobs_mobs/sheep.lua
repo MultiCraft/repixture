@@ -178,7 +178,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 		["walk"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 15 },
 		["run"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 25 },
 	},
-	front_body_point = vector.new(0, -0.4, 0.5),
+	front_body_point = vector.new(0, -0.4, 0.6),
 	dead_y_offset = 0.6,
 	entity_definition = {
 		initial_properties = {

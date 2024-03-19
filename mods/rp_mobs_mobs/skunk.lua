@@ -2,8 +2,6 @@
 
 local S = minetest.get_translator("rp_mobs_mobs")
 
--- Boar constants
-
 local RANDOM_SOUND_TIMER_MIN = 10000
 local RANDOM_SOUND_TIMER_MAX = 60000
 local VIEW_RANGE = 15
@@ -49,7 +47,7 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 		["walk"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 20 },
 		["punch"] = { frame_range = { x = 90, y = 101 }, default_frame_speed = 20 },
 	},
-	front_body_point = vector.new(0, -0.4, 0.5),
+	front_body_point = vector.new(0, -0.1, 0.5),
 	dead_y_offset = 0.3,
 	entity_definition = {
 		initial_properties = {
