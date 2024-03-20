@@ -72,18 +72,33 @@ return function(task_queue, mob)
 		rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 	else
-		task_roam = rp_mobs.create_task({label="roam land"})
+		if settings.hunt_players and mob._temp_custom_state.follow_player then
+			task_roam = rp_mobs.create_task({label="hunt player"})
 
-		local yaw = math.random(0, 360) / 360 * (math.pi*2)
-		local walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
-		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, walk_duration)
-		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
-		local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
-		mt_walk.start_animation = "walk"
-		rp_mobs.add_microtask_to_task(mob, mt_acceleration, task_roam)
-		rp_mobs.add_microtask_to_task(mob, mt_yaw, task_roam)
-		rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
-		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
+			local yaw = math.random(0, 360) / 360 * (math.pi*2)
+			local walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
+			local mt_walk = rp_mobs.microtasks.walk_straight(settings.hunt_speed, yaw, settings.jump_strength, settings.jump_clear_height, walk_duration)
+			local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
+			local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
+			mt_walk.start_animation = "run"
+			rp_mobs.add_microtask_to_task(mob, mt_acceleration, task_roam)
+			rp_mobs.add_microtask_to_task(mob, mt_yaw, task_roam)
+			rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
+			rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
+		else
+			task_roam = rp_mobs.create_task({label="roam land"})
+
+			local yaw = math.random(0, 360) / 360 * (math.pi*2)
+			local walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
+			local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, walk_duration)
+			local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
+			local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
+			mt_walk.start_animation = "walk"
+			rp_mobs.add_microtask_to_task(mob, mt_acceleration, task_roam)
+			rp_mobs.add_microtask_to_task(mob, mt_yaw, task_roam)
+			rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
+			rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
+		end
 	end
 
 	rp_mobs.add_task_to_task_queue(task_queue, task_roam)
@@ -111,6 +126,7 @@ return function(task_queue, mob, dtime)
 				end
 			-- Stop following player or partner if gone
 			elseif (current.data.label == "follow player holding food" and not mob._temp_custom_state.follow_player) or
+					(current.data.label == "hunt player" and not mob._temp_custom_state.follow_player) or
 					(current.data.label == "follow mating partner" and not mob._temp_custom_state.follow_partner) then
 				rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 				rp_mobs_mobs.add_halt_to_task_queue(task_queue, mob, nil, settings.idle_duration_min, settings.idle_duration_max)
@@ -118,7 +134,8 @@ return function(task_queue, mob, dtime)
 			-- Note: The follow tasks are all considered to be land movement.
 			-- There is no following while swimming!
 			elseif current.data.label == "roam land" or current.data.label == "stand still" or
-					current.data.label == "follow player holding food" or current.data.label == "follow mating partner" then
+					current.data.label == "follow player holding food" or current.data.label == "follow mating partner" or
+					current.data.label == "hunt player" then
 				-- Abort when in damaging or liquid node
 				if rp_mobs_mobs.is_damaging(mob._env_node.name) or rp_mobs_mobs.is_liquid(mob._env_node.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
@@ -137,11 +154,11 @@ return function(task_queue, mob, dtime)
 
 
 					-- Disable following for a few seconds if mob just avoided a danger
-					if current.data.label == "follow player holding food" or current.data.label == "follow mating partner" then
+					if current.data.label == "follow player holding food" or current.data.label == "follow mating partner" or current.data.label == "hunt player" then
 						mob._temp_custom_state.no_follow = true
 						mob._temp_custom_state.no_follow_timer = 0
 					end
-				-- Follow player holding food or mating partner
+				-- Follow player or mating partner
 				elseif (mob._temp_custom_state.follow_partner or mob._temp_custom_state.follow_player) and not mob._temp_custom_state.no_follow then
 					local target, task_label
 					-- If horny, following mating partner
@@ -151,12 +168,22 @@ return function(task_queue, mob, dtime)
 							task_label = "follow mating partner"
 						end
 					end
-					-- Follow player holding food only if not horny
-					if not mob._horny and mob._temp_custom_state.follow_player then
-						local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
-						if player then
-							target = player
-							task_label = "follow player holding food"
+					if mob._temp_custom_state.follow_player then
+						-- Hunt player
+						if settings.hunt_players and mob._temp_custom_state.follow_player then
+							local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
+							if player then
+								target = player
+								task_label = "hunt player"
+							end
+						end
+						-- Follow player holding food only if not horny
+						if not mob._horny then
+							local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
+							if player then
+								target = player
+								task_label = "follow player holding food"
+							end
 						end
 					end
 					if target then
@@ -168,12 +195,36 @@ return function(task_queue, mob, dtime)
 						local task = rp_mobs.create_task({label=task_label})
 						local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
 						rp_mobs.add_microtask_to_task(mob, mt_acceleration, task)
-						local mt_follow = rp_mobs.microtasks.walk_straight_towards(settings.walk_speed, "object", target, true, settings.follow_reach_distance, settings.jump_strength, settings.jump_clear_height, settings.follow_give_up_time)
-						mt_follow.start_animation = "walk"
+						local speed
+						if task_label == "hunt player" then
+							speed = settings.hunt_speed or settings.walk_speed
+						else
+							speed = settings.walk_speed
+						end
+						local mt_follow = rp_mobs.microtasks.walk_straight_towards(speed, "object", target, true, settings.follow_reach_distance, settings.jump_strength, settings.jump_clear_height, settings.follow_give_up_time)
+						if task_label == "hunt player" then
+							mt_follow.start_animation = "run"
+						else
+							mt_follow.start_animation = "walk"
+						end
 						rp_mobs.add_microtask_to_task(mob, mt_follow, task)
-						local mt_sleep = rp_mobs.microtasks.sleep(math.random(settings.idle_duration_min, settings.idle_duration_max)/1000)
-						mt_sleep.start_animation = "idle"
-						rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
+						local dogfight = false
+						-- Dogfight, if enabled in settings
+						if settings.dogfight and task_label == "hunt player" then
+							local mpos = mob.object:get_pos()
+							local tpos = target:get_pos()
+							local dist = vector.distance(mpos, tpos)
+							if dist <= settings.dogfight_range then
+								local mt_attack = rp_mobs_mobs.create_dogfight_microtask(settings.dogfight_range, settings.dogfight_toolcaps, settings.dogfight_interval)
+								rp_mobs.add_microtask_to_task(mob, mt_attack, task)
+								dogfight = true
+							end
+						end
+						if not dogfight then
+							local mt_sleep = rp_mobs.microtasks.sleep(math.random(settings.idle_duration_min, settings.idle_duration_max)/1000)
+							mt_sleep.start_animation = "idle"
+							rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
+						end
 						rp_mobs.add_task_to_task_queue(task_queue, task)
 					end
 				end

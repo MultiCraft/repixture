@@ -13,6 +13,7 @@ local ATTACK_TOOLCAPS = {
 
 local task_queue_roam_settings = {
 	walk_speed = 1,
+	hunt_speed = 3,
 	liquid_rise_speed = 2,
 	jump_strength = 5,
 	jump_clear_height = 1,
@@ -30,6 +31,12 @@ local task_queue_roam_settings = {
 	follow_reach_distance = 1,
 	follow_give_up_time = 10.0,
 	no_follow_time = 6.0,
+
+	hunt_players = true,
+	dogfight = true,
+	dogfight_range = 2,
+	dogfight_toolcaps = { damage_groups = { fleshy = 3 } },
+	dogfight_interval = 1.0,
 }
 
 rp_mobs.register_mob("rp_mobs_mobs:walker", {
@@ -83,7 +90,6 @@ rp_mobs.register_mob("rp_mobs_mobs:walker", {
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_land_animal_roam(task_queue_roam_settings))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_player_follow_scan(VIEW_RANGE))
-			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(rp_mobs_mobs.create_dogfight_decider(ATTACK_REACH, ATTACK_TOOLCAPS, ATTACK_TIME)))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(rp_mobs_mobs.create_player_attack_decider()))
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,

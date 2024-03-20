@@ -23,6 +23,7 @@ local MINE_DEACTIVATION_RANGE = 3.5
 
 local task_queue_roam_settings = {
 	walk_speed = 2,
+	hunt_speed = 4,
 	liquid_rise_speed = 2,
 	jump_strength = 5,
 	jump_clear_height = 1,
@@ -40,6 +41,9 @@ local task_queue_roam_settings = {
 	follow_reach_distance = 1,
 	follow_give_up_time = 10.0,
 	no_follow_time = 4.0,
+
+	hunt_players = true,
+	dogfight = false,
 }
 
 local function find_closest_player_in_range(pos, range)
