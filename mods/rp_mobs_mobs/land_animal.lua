@@ -72,33 +72,18 @@ return function(task_queue, mob)
 		rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
 		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 	else
-		if settings.hunt_players and mob._temp_custom_state.follow_player then
-			task_roam = rp_mobs.create_task({label="hunt player"})
+		task_roam = rp_mobs.create_task({label="roam land"})
 
-			local yaw = math.random(0, 360) / 360 * (math.pi*2)
-			local walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
-			local mt_walk = rp_mobs.microtasks.walk_straight(settings.hunt_speed, yaw, settings.jump_strength, settings.jump_clear_height, walk_duration)
-			local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
-			local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
-			mt_walk.start_animation = "run"
-			rp_mobs.add_microtask_to_task(mob, mt_acceleration, task_roam)
-			rp_mobs.add_microtask_to_task(mob, mt_yaw, task_roam)
-			rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
-			rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
-		else
-			task_roam = rp_mobs.create_task({label="roam land"})
-
-			local yaw = math.random(0, 360) / 360 * (math.pi*2)
-			local walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
-			local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, walk_duration)
-			local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
-			local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
-			mt_walk.start_animation = "walk"
-			rp_mobs.add_microtask_to_task(mob, mt_acceleration, task_roam)
-			rp_mobs.add_microtask_to_task(mob, mt_yaw, task_roam)
-			rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
-			rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
-		end
+		local yaw = math.random(0, 360) / 360 * (math.pi*2)
+		local walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
+		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, walk_duration)
+		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
+		local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
+		mt_walk.start_animation = "walk"
+		rp_mobs.add_microtask_to_task(mob, mt_acceleration, task_roam)
+		rp_mobs.add_microtask_to_task(mob, mt_yaw, task_roam)
+		rp_mobs.add_microtask_to_task(mob, mt_walk, task_roam)
+		rp_mobs.add_microtask_to_task(mob, mt_sleep, task_roam)
 	end
 
 	rp_mobs.add_task_to_task_queue(task_queue, task_roam)
@@ -170,15 +155,14 @@ return function(task_queue, mob, dtime)
 					end
 					if mob._temp_custom_state.follow_player then
 						-- Hunt player
-						if settings.hunt_players and mob._temp_custom_state.follow_player then
+						if settings.hunt_players then
 							local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
 							if player then
 								target = player
 								task_label = "hunt player"
 							end
-						end
 						-- Follow player holding food only if not horny
-						if not mob._horny then
+						elseif not mob._horny then
 							local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
 							if player then
 								target = player
@@ -211,16 +195,10 @@ return function(task_queue, mob, dtime)
 						local dogfight = false
 						-- Dogfight, if enabled in settings
 						if settings.dogfight and task_label == "hunt player" then
-							local mpos = mob.object:get_pos()
-							local tpos = target:get_pos()
-							local dist = vector.distance(mpos, tpos)
-							if dist <= settings.dogfight_range then
-								local mt_attack = rp_mobs_mobs.create_dogfight_microtask(settings.dogfight_range, settings.dogfight_toolcaps, settings.dogfight_interval)
-								rp_mobs.add_microtask_to_task(mob, mt_attack, task)
-								dogfight = true
-							end
+							local mt_attack = rp_mobs_mobs.create_dogfight_microtask(settings.dogfight_range, settings.dogfight_toolcaps, settings.dogfight_interval)
+							rp_mobs.add_microtask_to_task(mob, mt_attack, task)
 						end
-						if not dogfight then
+						if not settings.dogfight then
 							local mt_sleep = rp_mobs.microtasks.sleep(math.random(settings.idle_duration_min, settings.idle_duration_max)/1000)
 							mt_sleep.start_animation = "idle"
 							rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
