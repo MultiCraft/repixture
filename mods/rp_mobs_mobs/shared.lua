@@ -255,7 +255,7 @@ rp_mobs_mobs.microtask_player_find_follow = function(view_range)
 				local objs = minetest.get_objects_inside_radius(s, view_range)
 				for o=1, #objs do
 					local obj = objs[o]
-					if obj:is_player() then
+					if obj:is_player() and obj:get_hp() > 0 then
 						local player = obj
 						p = player:get_pos()
 						dist = vector.distance(s, p)
@@ -270,7 +270,7 @@ rp_mobs_mobs.microtask_player_find_follow = function(view_range)
 					mob._temp_custom_state.follow_player = closest_player:get_player_name()
 				end
 			else
-				-- Unfollow player if out of view range
+				-- Unfollow player if out of view range, dead or gone
 				local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
 				if player then
 					local p = player:get_pos()
@@ -278,7 +278,11 @@ rp_mobs_mobs.microtask_player_find_follow = function(view_range)
 					-- Out of range
 					if dist > view_range then
 						mob._temp_custom_state.follow_player = nil
+					elseif player:get_hp() == 0 then
+						mob._temp_custom_state.follow_player = nil
 					end
+				else
+					mob._temp_custom_state.follow_player = nil
 				end
 			end
 		end,

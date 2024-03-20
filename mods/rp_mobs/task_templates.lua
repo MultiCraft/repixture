@@ -440,6 +440,9 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				if not tpos then
 					return true
 				end
+				if target:get_hp() == 0 or target._dying then
+					return true
+				end
 			else
 				minetest.log("error", "[rp_mobs] Incorrect target_type provided in rp_mobs.microtask.walk_straight_towards!")
 				return true

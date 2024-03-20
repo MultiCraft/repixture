@@ -85,9 +85,13 @@ rp_mobs_mobs.create_player_attack_decider = function()
 				if mob._temp_custom_state.follow_player then
 					local playername = mob._temp_custom_state.follow_player
 					local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
-					if player and player:is_player() then
+					if player and player:is_player() and player:get_hp() > 0 then
 						mob._temp_custom_state.attack_target = player
+					else
+						mob._temp_custom_state.attack_target = nil
 					end
+				else
+					mob._temp_custom_state.attack_target = nil
 				end
 			end,
 			is_finished = function()
