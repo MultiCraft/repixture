@@ -57,8 +57,9 @@ rp_mobs.register_mob("rp_mobs_mobs:walker", {
 	},
 	default_sounds = {
 		attack = "mobs_swing",
-		damage = "default_punch",
-		death = "default_punch",
+		damage = "mobs_walker_damage",
+		punch_no_damage = "mobs_walker_punch_no_damage",
+		death = "mobs_walker_die",
 	},
 	animations = {
 		["idle"] = { frame_range = { x = 0, y = 24 }, default_frame_speed = 20 },
