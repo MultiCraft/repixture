@@ -51,35 +51,48 @@ Parameters:
 Finish condition: If the time runs out (if set with `max_timer`), otherwise does not finish
 on its own.
 
-### `rp_mobs.microtasks.walk_straight(walk_speed, yaw, jump, max_timer)`
+### `rp_mobs.microtasks.walk_straight(walk_speed, yaw, jump, jump_clear_height, stop_at_object_collision, max_timer)`
 
-Walk in a straight line, jumping if hitting obstacle and `jump~=nil`.
+Walk in a straight horizontal line (on the XZ plane), will jump if hitting a node obstacle and `jump~=nil`.
+
+It's recommended the mob is subject to gravity.
 
 Parameters:
 
+* `walk_speed`: How fast to walk
 * `yaw`: walk direction in radians
 * `jump`: jump strength if mob needs to jump or nil if no jumping
+* `jump_clear_height`: how many nodes to jump up at most
+* `stop_at_object_collision`: stop walking if colliding with object
 * `max_timer`: automatically finish microtask after this many seconds (nil = infinite)
 
-Finish condition: If the time runs out (if set with `max_timer`), otherwise does not finish
-on its own.
+Finish condition: If the time runs out (if set with `max_timer`) or collides with
+and object if `stop_at_object_collision` is true.
 
-### `rp_mobs.microtasks.walk_straight_towards(walk_speed, target_type, target, set_yaw, reach_distance, jump, max_timer)`
+### `rp_mobs.microtasks.walk_straight_towards(walk_speed, target_type, target, set_yaw, reach_distance, jump, jump_clear_height, stop_at_reached, stop_at_object_collision, max_timer)`
 
-Walk in a straight line towards a position or object.
+Walk in a straight horizontal line (on the XZ plane) towards a position or object,
+will jump if hitting node obstacle and `jump~=nil`.
+
+It's recommended the mob is subject to gravity.
 
 Parameters:
 
-* `walk_speed`: walk speed
+* `walk_speed`: How fast to walk
 * `target_type`: "pos" (position) or "object"
 * `target`: target, depending on `target_type`: position or object handle
 * `set_yaw`: If true, will set mob's yaw to face target
-* `reach_distance`: If mob is within this distance towards target, finish task
+* `reach_distance`: If mob is within this distance towards target, stop walking. If `nil`, has no effect
 * `jump`: jump strength if mob needs to jump or nil if no jumping
+* `jump_clear_height`: how many nodes to jump up at most
+* `stop_at_reached`: stop walking and finish if within `reach_distance` of target
+* `stop_at_object_collision`: stop walking and finish if colliding with object
 * `max_timer`: automatically finish microtask after this many seconds (nil = infinite)
 
-Finish condition: If the target is within `reach_distance` of the mob. Otherwise, when
-the time runs out (if `max_timer` was set)
+Finish condition: If any of the following is true:
+* When the time runs out (if `max_timer` was set)
+* Target is within `reach_distance` of the mob and `stop_at_reached` is true
+* When colliding with object if `stop_at_object_collision` is true
 
 ### `rp_mobs.microtasks.set_yaw(yaw)`
 

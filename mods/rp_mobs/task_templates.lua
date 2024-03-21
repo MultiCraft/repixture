@@ -222,7 +222,7 @@ local can_clear_jump = function(mob, jump_clear_height)
 	return false
 end
 
-rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, jump_clear_height, max_timer)
+rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, jump_clear_height, stop_at_object_collision, max_timer)
 	local label
 	if max_timer then
 		label = "walk straight for "..string.format("%.1f", max_timer).."s"
@@ -256,7 +256,7 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, jump_clear_he
 				end
 			end
 			local wall_collision, wall_collision_data = collides_with_wall(moveresult, true)
-			if wall_collision and wall_collision_data.type == "object" then
+			if stop_at_object_collision and wall_collision and wall_collision_data.type == "object" then
 				self.statedata.stop = true
 				vel.x = 0
 				vel.z = 0
@@ -319,7 +319,7 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, jump_clear_he
 	})
 end
 
-rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, set_yaw, reach_distance, jump, jump_clear_height, max_timer)
+rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, set_yaw, reach_distance, jump, jump_clear_height, stop_at_reached, stop_at_object_collision, max_timer)
 	local label
 	if max_timer then
 		label = "walk towards something for "..string.format("%.1f", max_timer).."s"
@@ -353,7 +353,7 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				end
 			end
 			local wall_collision, wall_collision_data = collides_with_wall(moveresult, true)
-			if wall_collision and wall_collision_data.type == "object" then
+			if stop_at_object_collision and wall_collision and wall_collision_data.type == "object" then
 				self.statedata.stop = true
 				vel.x = 0
 				vel.z = 0
@@ -363,11 +363,12 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 
 			-- Get target position
 			local mypos = mob.object:get_pos()
-			local dir
+			local dir, tpos
 			if target_type == "pos" then
+				tpos = target
 				dir = vector.direction(mypos, target)
 			elseif target_type == "object" then
-				local tpos = target:get_pos()
+				tpos = target:get_pos()
 				dir = vector.direction(mypos, tpos)
 			else
 				self.statedata.stop = true
@@ -380,8 +381,19 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				mob.object:set_yaw(yaw)
 			end
 
-			-- Jump
-			if jump and not self.statedata.jumping and moveresult.touching_ground and wall_collision then
+			-- Stop walking if within reach_distance
+			if reach_distance and vector.distance(mypos, tpos) <= reach_distance then
+				vel.x = 0
+				vel.z = 0
+				mob.object:set_velocity(vel)
+				if stop_at_reached then
+					self.statedata.stop = true
+				end
+				return
+			end
+
+			-- Jump over nodes (but not objects)
+			if jump and not self.statedata.jumping and moveresult.touching_ground and wall_collision and wall_collision_data.type == "node" then
 				local can_jump = true
 				-- Can't jump if standing on a disable_jump node
 				if mob._env_node_floor then
@@ -449,11 +461,7 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 			end
 			mypos.y = 0
 			tpos.y = 0
-			if vector.distance(mypos, tpos) <= reach_distance then
-				return true
-			else
-				return false
-			end
+			return false
 		end,
 		on_end = function(self, mob)
 			mob.object:set_velocity(vector.zero())

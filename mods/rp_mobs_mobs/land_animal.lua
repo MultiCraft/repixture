@@ -27,7 +27,7 @@ return function(task_queue, mob)
 			yaw = math.random(0, 360) / 360 * (math.pi*2)
 			walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
 		end
-		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, nil, nil, walk_duration)
+		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, nil, nil, false, walk_duration)
 		local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
 		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 		mt_walk.start_animation = "walk"
@@ -63,7 +63,7 @@ return function(task_queue, mob)
 			yaw = math.random(0, 360) / 360 * (math.pi*2)
 			walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
 		end
-		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, walk_duration)
+		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, true, walk_duration)
 		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 		local mt_acceleration = rp_mobs.microtasks.set_acceleration(vector.zero())
 		mt_walk.start_animation = "walk"
@@ -76,7 +76,7 @@ return function(task_queue, mob)
 
 		local yaw = math.random(0, 360) / 360 * (math.pi*2)
 		local walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
-		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, walk_duration)
+		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, true, walk_duration)
 		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 		local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
 		mt_walk.start_animation = "walk"
@@ -179,20 +179,21 @@ return function(task_queue, mob, dtime)
 						local task = rp_mobs.create_task({label=task_label})
 						local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
 						rp_mobs.add_microtask_to_task(mob, mt_acceleration, task)
-						local speed
+						local speed, stop_at_reached
 						if task_label == "hunt player" then
 							speed = settings.hunt_speed or settings.walk_speed
+							stop_at_reached = settings.dogfight == true
 						else
 							speed = settings.walk_speed
+							stop_at_reached = true
 						end
-						local mt_follow = rp_mobs.microtasks.walk_straight_towards(speed, "object", target, true, settings.follow_reach_distance, settings.jump_strength, settings.jump_clear_height, settings.follow_give_up_time)
+						local mt_follow = rp_mobs.microtasks.walk_straight_towards(speed, "object", target, true, settings.follow_reach_distance, settings.jump_strength, settings.jump_clear_height, stop_at_reached, false, settings.follow_give_up_time)
 						if task_label == "hunt player" then
 							mt_follow.start_animation = "run"
 						else
 							mt_follow.start_animation = "walk"
 						end
 						rp_mobs.add_microtask_to_task(mob, mt_follow, task)
-						local dogfight = false
 						-- Dogfight, if enabled in settings
 						if settings.dogfight and task_label == "hunt player" then
 							local mt_attack = rp_mobs_mobs.create_dogfight_microtask(settings.dogfight_range, settings.dogfight_toolcaps, settings.dogfight_interval)
