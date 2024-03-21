@@ -124,6 +124,10 @@ List of sounds and credits:
 	* A slight pitch change was applied
 	* Source: <https://opengameart.org/content/fantasy-sound-effects-library>
 	* License: CC BY 3.0
+* rp_sounds_disappear.ogg
+	* Sound by smidoid
+	* Source: <https://freesound.org/people/smidoid/sounds/49146/>
+	* License: CC BY 4.0
 
 * rp_sounds_footstep_dirt.*.ogg
 * rp_sounds_footstep_dry_dirt.*.ogg

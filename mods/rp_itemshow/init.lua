@@ -57,7 +57,7 @@ local update_item = function(pos, node, check_item)
 			local posad = FOURDIR[node.param2 % 4]
 			if not posad then return end
 			local def = minetest.registered_items[stack:get_name()]
-			local offset = def._rp_itemshow_offset or vector.new(0,0,0)
+			local offset = (def and def._rp_itemshow_offset) or vector.new(0,0,0)
 			pos.x = pos.x + posad.x * 6.5 / 16 + posad.x * offset.x
 			pos.y = pos.y + posad.y * 6.5 / 16 + offset.y
 			pos.z = pos.z + posad.z * 6.5 / 16 + posad.z * offset.z

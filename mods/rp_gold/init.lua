@@ -47,7 +47,7 @@ gold.trade_names = {}
 
 local TRADE_FORMSPEC_OFFSET = 2.5
 
-if minetest.get_modpath("mobs") ~= nil then
+if minetest.get_modpath("rp_mobs") ~= nil then
    gold.trades["farmer"] = {
       -- seeds/plants
       {"rp_gold:ingot_gold", "", "rp_farming:wheat_1 6"},
@@ -81,14 +81,14 @@ if minetest.get_modpath("mobs") ~= nil then
       {"rp_gold:ingot_gold 5", "", "rp_bed:bed"},
       {"rp_gold:ingot_gold 2", "", "rp_default:chest"},
       {"rp_gold:ingot_gold 10", "", "rp_locks:chest"},
-      {"rp_gold:ingot_gold", "mobs:wool 3", "rp_bed:bed"},
+      {"rp_gold:ingot_gold", "rp_mobs_mobs:wool 3", "rp_bed:bed"},
    }
    gold.trades["tavernkeeper"] = {
       -- edibles
       {"rp_gold:ingot_gold", "", "rp_default:apple 6"},
       {"rp_gold:ingot_gold", "", "rp_farming:bread 2"},
-      {"rp_gold:ingot_gold", "", "mobs:meat"},
-      {"rp_gold:ingot_gold 2", "", "mobs:pork"},
+      {"rp_gold:ingot_gold", "", "rp_mobs_mobs:meat"},
+      {"rp_gold:ingot_gold 2", "", "rp_mobs_mobs:pork"},
 
       -- filling buckets
       {"rp_gold:ingot_gold", "rp_default:bucket", "rp_default:bucket_water"},
@@ -128,12 +128,12 @@ if minetest.get_modpath("mobs") ~= nil then
    }
    gold.trades["butcher"] = {
       -- raw edibles
-      {"rp_gold:ingot_gold", "", "mobs:meat_raw"},
-      {"rp_gold:ingot_gold 3", "", "mobs:pork_raw 2"},
+      {"rp_gold:ingot_gold", "", "rp_mobs_mobs:meat_raw"},
+      {"rp_gold:ingot_gold 3", "", "rp_mobs_mobs:pork_raw 2"},
 
       -- cooking edibles
-      {"rp_gold:ingot_gold 1", "mobs:meat_raw", "mobs:meat"},
-      {"rp_gold:ingot_gold 2", "mobs:pork_raw", "mobs:pork"},
+      {"rp_gold:ingot_gold 1", "rp_mobs_mobs:meat_raw", "rp_mobs_mobs:meat"},
+      {"rp_gold:ingot_gold 2", "rp_mobs_mobs:pork_raw", "rp_mobs_mobs:pork"},
 
       -- tool repair
       {"rp_gold:ingot_gold 1", "rp_default:spear_stone", "rp_default:spear_stone"},
@@ -187,13 +187,13 @@ if minetest.get_modpath("mobs") ~= nil then
    table.insert(gold.trades["carpenter"], {"rp_default:tree_birch 5", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_default:tree_oak 4", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_default:fiber 50", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["carpenter"], {"mobs:wool 8", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["carpenter"], {"rp_mobs_mobs:wool 8", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_farming:cotton_bale 10", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_default:glass 10", "", "rp_gold:ingot_gold"})
 
    -- butcher
-   table.insert(gold.trades["butcher"], {"mobs:meat_raw 4", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["butcher"], {"mobs:pork_raw 3", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["butcher"], {"rp_mobs_mobs:meat_raw 4", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["butcher"], {"rp_mobs_mobs:pork_raw 3", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"rp_default:flint 12", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"rp_default:paper 30", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"rp_default:sandstone 28", "", "rp_gold:ingot_gold"})

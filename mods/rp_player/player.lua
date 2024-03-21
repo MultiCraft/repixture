@@ -10,6 +10,9 @@ local particlespawners = {}
 
 local AQUALUNG_TIME = 150 -- seconds required for aqualung achievement
 
+-- texture modifier when player takes damage
+local DAMAGE_TEXTURE_MODIFIER = "^[colorize:#df2222:180"
+
 local mod_achievements = minetest.get_modpath("rp_achievements") ~= nil
 
 if mod_achievements then
@@ -148,6 +151,34 @@ local function step(dtime)
    end
 end
 
+local function on_respawnplayer(player)
+	local pos = player:get_pos()
+	minetest.add_particlespawner({
+		amount = 16,
+		time = 0.02,
+		pos = {
+			min = vector.add(pos, vector.new(-0.4, 0.0, -0.4)),
+			max = vector.add(pos, vector.new(0.4, 0.1, 0.4)),
+		},
+		vel = {
+			min = vector.new(-1, 0.2, -1),
+			max = vector.new(1, 2, 1),
+		},
+		acc = vector.zero(),
+		exptime = { min = 1.0, max = 1.5 },
+		size = { min = 8, max = 12 },
+		drag = vector.new(1,1,1),
+		-- TODO: Move particle to particle mod
+		texture = {
+			name = "rp_mobs_death_smoke_anim_1.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+			name = "rp_mobs_death_smoke_anim_2.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+			name = "rp_mobs_death_smoke_anim_1.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+			name = "rp_mobs_death_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+		},
+	})
+	minetest.sound_play({name="rp_sounds_disappear", gain=0.4}, {pos=pos, max_hear_distance=12}, true)
+end
+
 local function on_joinplayer(player)
    local name=player:get_player_name()
 
@@ -162,6 +193,7 @@ local function on_joinplayer(player)
 
    player:set_properties({
       stepheight = 0.626, -- slightly above 10/16
+      damage_texture_modifier = DAMAGE_TEXTURE_MODIFIER,
       collisionbox = { -0.3, 0, -0.3, 0.3, 1.77, 0.3 },
       selectionbox = { -0.32, 0, -0.22, 0.32, 1.77, 0.22, rotate=true},
    })
@@ -181,5 +213,9 @@ end
 
 minetest.register_on_joinplayer(on_joinplayer)
 minetest.register_on_leaveplayer(on_leaveplayer)
+-- TODO: Remove mod requirement if particle moved to particle mod
+if minetest.get_modpath("rp_mobs") then
+   minetest.register_on_respawnplayer(on_respawnplayer)
+end
 
 minetest.register_globalstep(step)
