@@ -28,7 +28,7 @@ local task_queue_roam_settings = {
 	idle_duration_max = 2000,
 	find_land_length = 20,
 	view_range = VIEW_RANGE,
-	follow_reach_distance = 2,
+	follow_reach_distance = 1,
 	follow_give_up_time = 10.0,
 	no_follow_time = 6.0,
 
@@ -92,6 +92,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_land_animal_roam(task_queue_roam_settings))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_food_breed_follow_scan(VIEW_RANGE, FOOD))
+			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_player_follow_scan(VIEW_RANGE))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_call_sound(RANDOM_SOUND_TIMER_MIN, RANDOM_SOUND_TIMER_MAX))
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,

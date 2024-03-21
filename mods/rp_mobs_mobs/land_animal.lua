@@ -111,7 +111,7 @@ return function(task_queue, mob, dtime)
 				end
 			-- Stop following player or partner if gone
 			elseif (current.data.label == "follow player holding food" and not mob._temp_custom_state.closest_food_player) or
-					(current.data.label == "hunt player" and not mob._temp_custom_state.closest_food_player) or
+					(current.data.label == "hunt player" and not mob._temp_custom_state.angry_at) or
 					(current.data.label == "follow mating partner" and not mob._temp_custom_state.closest_mating_partner) then
 				rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 				rp_mobs_mobs.add_halt_to_task_queue(task_queue, mob, nil, settings.idle_duration_min, settings.idle_duration_max)
@@ -144,7 +144,7 @@ return function(task_queue, mob, dtime)
 						mob._temp_custom_state.no_follow_timer = 0
 					end
 				-- Follow player or mating partner
-				elseif (mob._temp_custom_state.closest_mating_partner or mob._temp_custom_state.closest_food_player) and not mob._temp_custom_state.no_follow then
+				elseif (mob._temp_custom_state.closest_mating_partner or mob._temp_custom_state.closest_food_player or mob._temp_custom_state.angry_at) and not mob._temp_custom_state.no_follow then
 					local target, task_label
 					-- If horny, following mating partner
 					if mob._horny and mob._temp_custom_state.closest_mating_partner then
@@ -153,17 +153,17 @@ return function(task_queue, mob, dtime)
 							task_label = "follow mating partner"
 						end
 					end
-					if mob._temp_custom_state.closest_food_player then
+					if mob._temp_custom_state.closest_player then
 						-- Hunt player
 						if settings.hunt_players then
-							local player = minetest.get_player_by_name(mob._temp_custom_state.closest_food_player)
-							if player then
+							local player = mob._temp_custom_state.angry_at
+							if player and player:is_player() then
 								target = player
 								task_label = "hunt player"
 							end
 						-- Follow player holding food only if not horny
 						elseif not mob._horny then
-							local player = minetest.get_player_by_name(mob._temp_custom_state.closest_food_player)
+							local player = mob._temp_custom_state.closest_food_player
 							if player then
 								target = player
 								task_label = "follow player holding food"

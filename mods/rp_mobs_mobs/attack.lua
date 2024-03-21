@@ -3,7 +3,7 @@ rp_mobs_mobs.create_dogfight_microtask = function(attack_range, attack_toolcaps,
 		label = "dogfight",
 		start_animation = "punch",
 		on_start = function(self, mob)
-			mob._temp_custom_state.attack_target = nil
+			self.statedata.attack_target = mob._temp_custom_state.angry_at
 			-- For attack timer; initialize at attack_time + 1 to guarantee an instant attack
 			self.statedata.attack_timer = attack_time + 1
 			-- Time of last punch for punch() function
@@ -13,13 +13,13 @@ rp_mobs_mobs.create_dogfight_microtask = function(attack_range, attack_toolcaps,
 			if self.statedata.last_punch then
 				self.statedata.last_punch = self.statedata.last_punch + dtime
 			end
-			if not mob._temp_custom_state.attack_target then
+			if not self.statedata.attack_target then
 				return
-			elseif mob._temp_custom_state.attack_target:get_hp() == 0 then
+			elseif self.statedata.attack_target:get_hp() == 0 then
 				return
 			end
 			local mpos = mob.object:get_pos()
-			local tpos = mob._temp_custom_state.attack_target:get_pos()
+			local tpos = self.statedata.attack_target:get_pos()
 			local mpos_h = table.copy(mpos)
 			local tpos_h = table.copy(tpos)
 			mpos_h.y = 0
@@ -37,7 +37,7 @@ rp_mobs_mobs.create_dogfight_microtask = function(attack_range, attack_toolcaps,
 					local time_from_last_punch = self.statedata.last_punch or 1000000
 					local dir = vector.direction(mpos, tpos)
 					rp_mobs.default_mob_sound(mob, "attack", true)
-					mob._temp_custom_state.attack_target:punch(mob.object, time_from_last_punch, attack_toolcaps, dir)
+					self.statedata.attack_target:punch(mob.object, time_from_last_punch, attack_toolcaps, dir)
 					self.statedata.attack_timer = 0
 				end
 			else
@@ -45,15 +45,15 @@ rp_mobs_mobs.create_dogfight_microtask = function(attack_range, attack_toolcaps,
 			end
 		end,
 		is_finished = function(self, mob)
-			if mob._temp_custom_state.attack_target == nil then
+			if self.statedata.attack_target == nil then
 				return true
-			elseif mob._temp_custom_state.attack_target:get_hp() == 0 then
+			elseif self.statedata.attack_target:get_hp() == 0 then
 				return true
-			elseif mob._temp_custom_state.attack_target._dying then
+			elseif self.statedata.attack_target._dying then
 				return true
 			else
 				local mpos = mob.object:get_pos()
-				local tpos = mob._temp_custom_state.attack_target:get_pos()
+				local tpos = self.statedata.attack_target:get_pos()
 				if not tpos then
 					return true
 				end
@@ -76,21 +76,20 @@ rp_mobs_mobs.create_dogfight_decider = function(attack_range, attack_toolcaps, a
 	end
 end
 
-rp_mobs_mobs.create_player_attack_decider = function()
+rp_mobs_mobs.create_player_angry_decider = function()
 	return function (task_queue, mob)
 		local mt = rp_mobs.create_microtask({
 			label = "mark players as attack target",
 			on_step = function(self, mob, dtime)
-				if mob._temp_custom_state.closest_food_player then
-					local playername = mob._temp_custom_state.closest_food_player
-					local player = minetest.get_player_by_name(mob._temp_custom_state.closest_food_player)
+				if mob._temp_custom_state.closest_player then
+					local player = mob._temp_custom_state.closest_player
 					if player and player:is_player() and player:get_hp() > 0 then
-						mob._temp_custom_state.attack_target = player
+						mob._temp_custom_state.angry_at = player
 					else
-						mob._temp_custom_state.attack_target = nil
+						mob._temp_custom_state.angry_at = nil
 					end
 				else
-					mob._temp_custom_state.attack_target = nil
+					mob._temp_custom_state.angry_at = nil
 				end
 			end,
 			is_finished = function()
@@ -105,7 +104,7 @@ end
 
 rp_mobs_mobs.on_punch_make_hostile = function(mob, puncher, time_from_last_punch, tool_capabilities, dir, damage, ...)
 	if puncher and puncher:is_player() then
-		mob._temp_custom_state.attack_target = puncher
+		mob._temp_custom_state.angry_at = puncher
 	end
 	return rp_mobs.on_punch_default(mob, puncher, time_from_last_punch, tool_capabilities, dir, damage, ...)
 end

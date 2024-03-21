@@ -228,10 +228,7 @@ end
 
 -- This function creates and returns a microtask that scans the
 -- mob's surroundings within view_range for players.
--- The result is stored in mob._temp_custom_state.closest_food_player.
--- This microtask only *searches* for suitable targets to follow,
--- it does *NOT* actually follow them. Other microtasks
--- are supposed to decide what do do with this information.
+-- The result is stored in mob._temp_custom_state.closest_player.
 -- Parameters:
 -- * view_range: Range in which mob can detect players
 rp_mobs_mobs.microtask_player_find_follow = function(view_range)
@@ -248,7 +245,7 @@ rp_mobs_mobs.microtask_player_find_follow = function(view_range)
 			end
 			self.statedata.timer = 0
 			local s = mob.object:get_pos()
-			if (mob._temp_custom_state.closest_food_player == nil) then
+			if (mob._temp_custom_state.closest_player == nil) then
 				-- Mark closest player within view range as player to follow
 				local p, dist
 				local min_dist, closest_player
@@ -267,22 +264,22 @@ rp_mobs_mobs.microtask_player_find_follow = function(view_range)
 					end
 				end
 				if closest_player then
-					mob._temp_custom_state.closest_food_player = closest_player:get_player_name()
+					mob._temp_custom_state.closest_player = closest_player
 				end
 			else
 				-- Unfollow player if out of view range, dead or gone
-				local player = minetest.get_player_by_name(mob._temp_custom_state.closest_food_player)
+				local player = mob._temp_custom_state.closest_player
 				if player then
 					local p = player:get_pos()
 					local dist = vector.distance(s, p)
 					-- Out of range
 					if dist > view_range then
-						mob._temp_custom_state.closest_food_player = nil
+						mob._temp_custom_state.closest_player = nil
 					elseif player:get_hp() == 0 then
-						mob._temp_custom_state.closest_food_player = nil
+						mob._temp_custom_state.closest_player = nil
 					end
 				else
-					mob._temp_custom_state.closest_food_player = nil
+					mob._temp_custom_state.closest_player = nil
 				end
 			end
 		end,
@@ -411,11 +408,11 @@ rp_mobs_mobs.microtask_food_breed_find_follow = function(view_range, food_list)
 					end
 				end
 				if closest_player then
-					mob._temp_custom_state.closest_food_player = closest_player:get_player_name()
+					mob._temp_custom_state.closest_food_player = closest_player
 				end
 			else
 				-- Unfollow player if out of view range or not holding food
-				local player = minetest.get_player_by_name(mob._temp_custom_state.closest_food_player)
+				local player = mob._temp_custom_state.closest_food_player
 				if player then
 					local p = player:get_pos()
 					local dist = vector.distance(s, p)
