@@ -459,7 +459,12 @@ for _, villager_type_table in pairs(villager_types) do
 					breath_max = 11,
 					drowning_point = vector.new(0, 0.5, 0.1)
 				})
-				rp_mobs.init_node_damage(self, true)
+				rp_mobs.init_node_damage(self, true, {
+					node_damage_points={
+						vector.new(0, -0.5, 0),
+						vector.new(0, 0.5, 0),
+					},
+				})
 
 				rp_mobs.init_tasks(self)
 				local movement_task_queue = rp_mobs.create_task_queue(movement_decider)

@@ -463,11 +463,17 @@ initialized.
 		node at the drowning point is a drowning node, the mob can drown.
 		Default: no offset
 
-#### `rp_mobs.init_node_damage(mob, get_node_damage)`
+#### `rp_mobs.init_node_damage(mob, get_node_damage, def)`
 
 Initializes the node damage mechanic for the given mob,
 activating damage from nodes with `damage_per_second`.
 If you want the mob to have this, put this into `on_activate`.
+
+Node damage is dealt by checking one or more "node damage
+points" for a node with node damage. By default, the mob
+position (`get_pos()`) is checked.
+
+Negative damage heals the mob.
 
 If this is the first time the function is called, the
 associated entity fields will be initialized. On subsequent
@@ -478,6 +484,24 @@ Parameters:
 
 * `mob`: The mob
 * `get_node_damage`: If `true`, mob will receive damage from nodes
+* `def`: A table with the following field:
+	* `node_damage_points`: Optional list of position offset vectors that will be checked
+		when doing the node damage check. Each vector is an offset from the
+		mob position (`get_pos()`). If any of the checked positions has a
+		node with a non-zero `damage_per_second`, then the node with the highest
+		such value will be the damage dealt.
+		Default: no offset
+
+Recommendations:
+
+It is strongly recommended you always explicitly define the node damage point(s).
+
+For small mobs, one node damage point is sufficient.
+For large mobs (usually that occupy a space much larger than 1 node),
+multiple points should be used.
+Each damage point should be inside the mob's "body" and be roughly centered.
+Use as few points as possible for performance reasons, and don't put them
+too close to each other.
 
 #### `rp_mobs.init_fall_damage(mob, get_fall_damage)`
 
@@ -523,13 +547,11 @@ See the section about the “Dying” subsystem for details.
 
 Handles node damage for the mob if the entity
 field `_get_node_damage` is `true`. Node damage is taken
-in nodes with a non-zero `damage_per_second`.
+when the mob is inside any node with a non-zero `damage_per_second`.
+Negative damage heals the mob.
 
-In the current implementation, only the mob position is checked,
-other nodes are ignored. This behavior may change in the future.
-
-Checks if the mob is standing in a damaging node and if yes, damage it.
-Otherwise, no damage will be taken.
+See `rp_mobs.init_node_damage` for details on how the mod
+determines when the mob is inside such a node.
 
 Must be called in the `on_step` function in every step.
 `dtime` is the `dtime` argument of `on_step`.

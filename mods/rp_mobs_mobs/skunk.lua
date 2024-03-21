@@ -78,7 +78,9 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 				breath_max = 7,
 				drowning_point = vector.new(0, -0.1, 0.49)
 			})
-			rp_mobs.init_node_damage(self, true)
+			rp_mobs.init_node_damage(self, true, {
+				node_damage_points={vector.new(0, -0.1, 0)},
+			})
 
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_land_animal_roam(task_queue_roam_settings))

@@ -44,9 +44,12 @@ function rp_mobs.init_breath(self, can_drown, def)
 	self._breath = def.breath_max
 	self._drowning_point = def.drowning_point
 end
-function rp_mobs.init_node_damage(self, get_node_damage)
+function rp_mobs.init_node_damage(self, get_node_damage, def)
 	if self._get_node_damage ~= nil then
 		return
+	end
+	if def then
+		self._node_damage_points = def.node_damage_points
 	end
 	self._get_node_damage = get_node_damage
 end
@@ -58,6 +61,17 @@ function rp_mobs.init_fall_damage(self, get_fall_damage)
 	if not self._standing_y then
 		self._standing_y = self.object:get_pos().y
 	end
+end
+
+-- Rotate vector `vec` around yaw (in radians)
+local function rotate_vector_yaw(vec, yaw)
+	local sy = math.sin(-yaw)
+	local cy = math.cos(yaw)
+	local rotated_vector = vector.new()
+	rotated_vector.x = sy * vec.z
+	rotated_vector.y = vec.y
+	rotated_vector.z = -sy * vec.x + cy * vec.z
+	return rotated_vector
 end
 
 function rp_mobs.handle_node_damage(self, dtime)
@@ -72,33 +86,37 @@ function rp_mobs.handle_node_damage(self, dtime)
 		self._node_damage_timer = 0.0
 	end
 
-	local pos = self.object:get_pos()
-	local props = self.object:get_properties()
-	local yoff = props.collisionbox[2] + 0.5
-	pos = vector.offset(pos, 0, yoff, 0)
-	local node = minetest.get_node(pos)
-	local def = minetest.registered_nodes[node.name]
-
 	self._node_damage_timer = self._node_damage_timer + dtime
-	if self._node_damage_timer >= NODE_DAMAGE_TIME then
-		if def and def.damage_per_second and def.damage_per_second > 0 then
-			if rp_mobs.damage(self, def.damage_per_second) then
-				return
-			end
-		end
-		self._node_damage_timer = 0.0
+	if self._node_damage_timer < NODE_DAMAGE_TIME then
+		return
 	end
-end
+	self._node_damage_timer = 0.0
 
--- Rotate vector `vec` around yaw (in radians)
-local function rotate_vector_yaw(vec, yaw)
-	local sy = math.sin(-yaw)
-	local cy = math.cos(yaw)
-	local rotated_vector = vector.new()
-	rotated_vector.x = sy * vec.z
-	rotated_vector.y = vec.y
-	rotated_vector.z = -sy * vec.x + cy * vec.z
-	return rotated_vector
+	local pos = self.object:get_pos()
+	local yaw = self.object:get_yaw()
+
+	local max_node_damage
+	local node_damage_points = self._node_damage_points or { vector.zero() }
+	for n=1, #node_damage_points do
+		local node_damage_point = node_damage_points[n]
+		node_damage_point = rotate_vector_yaw(node_damage_point, yaw)
+		local ndpos = vector.add(pos, node_damage_point)
+		local ndnode = minetest.get_node(ndpos)
+		local def = minetest.registered_nodes[ndnode.name]
+		local dps = def and def.damage_per_second
+		if dps and dps ~= 0 and ((not max_node_damage) or dps > max_node_damage) then
+			max_node_damage = dps
+		end
+	end
+	if not max_node_damage then
+		return
+	end
+	if max_node_damage > 0 then
+		rp_mobs.damage(self, max_node_damage)
+	elseif max_node_damage < 0 then
+		-- Heal mob in case of negative node damage
+		rp_mobs.heal(self, -max_node_damage)
+	end
 end
 
 function rp_mobs.handle_drowning(self, dtime)
@@ -258,6 +276,7 @@ rp_mobs.internal.add_persisted_entity_vars({
 	"_standing_y",		-- Y coordinate when mob was standing on ground. Internally used for fall damage calculations
 	"_can_drown",		-- true when mob has breath and can drown in nodes with `drowning` attribute
 	"_drowning_point",	-- The position offset that will be checked when doing the drowning check
+	"_node_damage_points",	-- The position offsets that will be checked when doing the node damage check
 	"_breath_max",		-- Maximum breath
 	"_breath",		-- Current breath
 })

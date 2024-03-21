@@ -206,7 +206,9 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 				breath_max = 10,
 				drowning_point = vector.new(0, -0.1, 0.49)
 			})
-			rp_mobs.init_node_damage(self, true)
+			rp_mobs.init_node_damage(self, true, {
+				node_damage_points={vector.new(0, -0.3, 0)},
+			})
 
 			self.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)
 			rp_mobs.init_tasks(self)
