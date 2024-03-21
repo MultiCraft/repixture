@@ -390,7 +390,7 @@ rp_mobs_mobs.microtask_food_breed_find_follow = function(view_range, food_list)
 				local min_dist, closest_player
 				for o=1, #objs do
 					local obj = objs[o]
-					if obj:is_player() then
+					if obj:is_player() and obj:get_hp() > 0 then
 						local player = obj
 						p = player:get_pos()
 						dist = vector.distance(s, p)
@@ -398,7 +398,7 @@ rp_mobs_mobs.microtask_food_breed_find_follow = function(view_range, food_list)
 							local wield = player:get_wielded_item()
 							-- Is holding food?
 							for f=1, #food_list do
-								if wield:get_name() == food_list[f] then
+								if wield:get_name() == food_list[f].name then
 									min_dist = dist
 									closest_player = player
 									break
@@ -416,17 +416,20 @@ rp_mobs_mobs.microtask_food_breed_find_follow = function(view_range, food_list)
 				if player then
 					local p = player:get_pos()
 					local dist = vector.distance(s, p)
-					-- Out of range
-					if dist > view_range then
+					-- Non-player or dead
+					if not player:is_player() or player:get_hp() == 0 then
 						mob._temp_custom_state.closest_food_player = nil
+					-- Out of range
+					elseif dist > view_range then
+						mob._temp_custom_state.closest_food_player = nil
+					-- Not holding food
 					else
 						local wield = player:get_wielded_item()
 						for f=1, #food_list do
-							if wield:get_name() == food_list[f] then
+							if wield:get_name() == food_list[f].name then
 								return
 							end
 						end
-						-- Not holding food
 						mob._temp_custom_state.closest_food_player = nil
 						return
 					end
