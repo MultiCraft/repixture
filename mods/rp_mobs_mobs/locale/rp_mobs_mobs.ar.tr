@@ -5,13 +5,15 @@ Taking a Cut=أخذ قسمة
 Shear a sheep.=جز خروفا.
 Smalltalk=محادثة قصيرة
 Have a friendly chat with a villager.=تبادل الحديث معى قروي.
+Boar=خنزير بري
 Wool Bundle=حزمة صوف
 Raw Meat=لحم نيء
 Cooked Meat=لحم مطبوخ
-Boar=خنزير بري
 Raw Porkchop=لحم خنزير نيء
 Cooked Porkchop=لحم خنزير مطبوخ
 Mine Turtle=سلحفاة المنجم
+Sheep=
+Skunk=
 Farmer=مزارع
 Tavern Keeper=حارس حانة
 Blacksmith=حداد
@@ -39,8 +41,6 @@ My head hurts.=رأسي يألمني.
 I have a bad day today.=كان يومي سيئا.
 Screw you!=تبا لك!
 Villager says: “@1”=القروي يقول: "@1"
-Villager=قروي
-Get this thing out of my face!=أبعد هاذا الشيء عني!
 Ah, a cactus. You'd be surprised how well they burn in a furnace.=أه، صبار. سيفاجئك كيف أنه يحترق في فرن.
 You can quickly kindle it in the furnace.=يمكنك إشعالها بسرعة في الفرن.
 A truly amazing block!=كتلة رائعة بحق!
@@ -132,6 +132,10 @@ You can use sand to grow cacti.=
 Be careful not to let it fall on your head!=
 This is like my ex-lover's heart. Made out of stone.=
 Stay healthy!=
-Sheep=
-Skunk=
+Get this thing out of my face!=أبعد هاذا الشيء عني!
 Walker=
+
+
+##### not used anymore #####
+
+Villager=قروي

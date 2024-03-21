@@ -5,13 +5,15 @@ Taking a Cut=Prendre une part
 Shear a sheep.=Tondre un mouton.
 Smalltalk=Petite causette
 Have a friendly chat with a villager.=Avoir une conversation amicale avec un habitant du village.
+Boar=Sanglier
 Wool Bundle=Paquet de laine
 Raw Meat=Viande crue
 Cooked Meat=Viande cuite
-Boar=Sanglier
 Raw Porkchop=Côtelette de porc crue
 Cooked Porkchop=Côtelette de porc cuite
 Mine Turtle=Tortue des mines
+Sheep=Mouton
+Skunk=Moufette
 Farmer=Agriculteur
 Tavern Keeper=Tavernier
 Blacksmith=Forgeron
@@ -39,8 +41,6 @@ My head hurts.=J'ai mal à la tête.
 I have a bad day today.=Je passe une mauvaise journée.
 Screw you!=Allez au diable !
 Villager says: “@1”=Villageois dit : « @1 »
-Villager=Villageois
-Get this thing out of my face!=Enlevez ça de mon visage !
 Ah, a cactus. You'd be surprised how well they burn in a furnace.=Ah, un cactus. Vous seriez surpris de voir à quel point ils brûlent dans un four.
 You can quickly kindle it in the furnace.=Vous pouvez l'enflammer rapidement dans un four.
 A truly amazing block!=Un bloc vraiment incroyable !
@@ -132,6 +132,10 @@ You can use sand to grow cacti.=
 Be careful not to let it fall on your head!=
 This is like my ex-lover's heart. Made out of stone.=
 Stay healthy!=
-Sheep=Mouton
-Skunk=Moufette
+Get this thing out of my face!=Enlevez ça de mon visage !
 Walker=Marcheur
+
+
+##### not used anymore #####
+
+Villager=Villageois
