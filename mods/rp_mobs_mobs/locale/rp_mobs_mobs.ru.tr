@@ -1,19 +1,17 @@
-# textdomain: ru_mobs_mobs
+# textdomain: rp_mobs_mobs
 Bomb has Been Defused!=Бомба обезврежена!
 Kill a mine turtle.=Убей шахточерепаху.
-Taking a Cut=
-Shear a sheep.=
+Taking a Cut=Один раз отрежь
+Shear a sheep.=Подстриги овцу.
 Smalltalk=Светская беседа
 Have a friendly chat with a villager.=Дружелюбно поговори с жителем.
-Boar=Кабан
 Wool Bundle=Пучок шерсти
 Raw Meat=Сырое мясо
 Cooked Meat=Жареное мясо
+Boar=Кабан
 Raw Porkchop=Сырая свинина
 Cooked Porkchop=Жареная свинина
 Mine Turtle=Шахточерепаха
-Sheep=Овца
-Skunk=Скунс
 Farmer=Фермер
 Tavern Keeper=Хозяин таверны
 Blacksmith=Кузнец
@@ -81,7 +79,7 @@ Did you know cotton seed not only grow on dirt, but also on sand? But it still n
 If you have grown a cotton plant, try using scissors to perform a precise cut.=Если ты вырастил хлопчатник, попробуй срезать его ножницами..
 This can be used to make cotton bales.=Это можно использовать, чтобы сделать тюки хлопка.
 A truly epic story!=Действительно эпическая история!
-Ooh, a shiny pearl! It's beautiful.=
+Ooh, a shiny pearl! It's beautiful.=Ууу, жемчужина! Прелесть.
 I heard the tavernkeeper likes these.=Я слыхал, что хозяину таверны нравятся такие.
 Just place it on the ground and it will grow after a while.=
 If the sapling refuses to grow, make sure it has enough open space above it.=
@@ -134,5 +132,6 @@ You can use sand to grow cacti.=Ты можешь использовать пе�
 Be careful not to let it fall on your head!=
 This is like my ex-lover's heart. Made out of stone.=
 Stay healthy!=
-Get this thing out of my face!=Убери эту штуку от моего лица!
+Sheep=Овца
+Skunk=Скунс
 Walker=Ходок

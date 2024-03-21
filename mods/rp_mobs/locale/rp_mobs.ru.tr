@@ -1,14 +1,16 @@
-# textdomain: ru_mobs
+# textdomain: rp_mobs
 Hunter=Охотник
 Kill an animal for food.=Убей животное ради еды.
-Gotcha!=
+Gotcha!=Поймал!
 Capture a tame animal.=Поймай прирученное животное.
 Best Friends Forever=Не разлей вода
 Tame an animal.=Приручи животное.
 Wonder of Life=Цветок жизни
 Get two animals to breed.=Скрести двух животных.
-Gonna Feed ’em All=
-Feed an animal of each species once.=
+Smalltalk=Светская беседа
+Have a friendly chat with a villager.=Дружелюбно поговори с жителем.
+Gonna Feed ’em All=Кормилица
+Feed an animal of each species once.=Покорми по животному каждого вида.
 Hostile mobs are disabled!=Враждебные мобы отключены!
 Not tamed!=Не приручен!
 Missed!=Мимо!
