@@ -429,11 +429,12 @@ rp_mobs.init_mob = function(self)
 	end
 end
 
-rp_mobs.create_task_queue = function(empty_decider, step_decider)
+rp_mobs.create_task_queue = function(empty_decider, step_decider, start_decider)
 	return {
 		tasks = rp_mobs.DoublyLinkedList(),
 		empty_decider = empty_decider,
 		step_decider = step_decider,
+		start_decider = start_decider,
 	}
 end
 
@@ -505,6 +506,11 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 
 		local activeTaskQueue = active_task_queue_entry.data
 
+		-- Run start decider in very first step
+		if activeTaskQueue.start_decider and not activeTaskQueue.started then
+			activeTaskQueue:start_decider(self)
+		end
+
 		-- Run empty decider if active task queue is empty
 		local activeTaskEntry
 		if activeTaskQueue.tasks:isEmpty() then
@@ -517,6 +523,9 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 		if activeTaskQueue.step_decider then
 			activeTaskQueue:step_decider(self, dtime)
 		end
+
+		-- Mark task queue as started
+		activeTaskQueue.started = true
 
 		activeTaskEntry = activeTaskQueue.tasks:getFirst()
 

@@ -604,9 +604,9 @@ This section contains the functions to create tasks, microtasks and task queues 
 
 See also `rp_mobs.init_tasks` and `rp_mobs.handle_tasks`.
 
-#### `rp_mobs.create_task_queue(empty_decider, step_decider)`
+#### `rp_mobs.create_task_queue(empty_decider, step_decider, start_decider)`
 
-Create a task queue object and returns it. The two arguments are
+Create a task queue object and returns it. The arguments are
 optional decider functions.
 
 In this function you can update the task queue by adding new
@@ -614,6 +614,7 @@ tasks to it. Avoid complex and slow algorithms here!
 
 * `empty_decider(task_queue, mob)`: called when the task queue is empty
 * `step_decider(task_queue, mob, dtime)`: called at every server step
+* `start_decider(task_queue, mob)`: called right after the task queue starts
 
 The function arguments are:
 

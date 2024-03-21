@@ -1,6 +1,19 @@
 -- Behavior functions for land animals
 
+local random_yaw = function()
+	return math.random(0, 360) / 360 * (math.pi*2)
+end
+
 -- Decider functions for random roaming behavior (and following)
+
+local create_roam_decider_start = function(settings)
+return function(task_queue, mob)
+	-- Initial task to stand still
+	local yaw = random_yaw()
+
+	rp_mobs_mobs.add_halt_to_task_queue(task_queue, mob, yaw, settings.idle_duration_min, settings.idle_duration_max)
+end
+end
 
 local create_roam_decider_empty = function(settings)
 return function(task_queue, mob)
@@ -24,7 +37,7 @@ return function(task_queue, mob)
 			walk_duration = math.random(settings.find_land_duration_min, settings.find_land_duration_max)/1000
 		else
 			-- If no safe place found, walk randomly (panic!)
-			yaw = math.random(0, 360) / 360 * (math.pi*2)
+			yaw = random_yaw()
 			walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
 		end
 		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, nil, nil, false, walk_duration)
@@ -37,7 +50,7 @@ return function(task_queue, mob)
 
 	elseif rp_mobs_mobs.is_liquid(mob._env_node.name) then
 		task_roam = rp_mobs.create_task({label="swim upwards"})
-		local yaw = math.random(0, 360) / 360 * (math.pi*2)
+		local yaw = random_yaw()
 		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 		local move_vector = vector.new(0, settings.liquid_rise_speed, 0)
 		local mt_swim_up = rp_mobs.microtasks.move_straight(move_vector, yaw, vector.new(2, 0.3, 2))
@@ -60,7 +73,7 @@ return function(task_queue, mob)
 			walk_duration = math.random(settings.find_safe_land_duration_min, settings.find_safe_land_duration_max)/1000
 		else
 			-- If no land found, go randomly on water
-			yaw = math.random(0, 360) / 360 * (math.pi*2)
+			yaw = random_yaw()
 			walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
 		end
 		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, true, walk_duration)
@@ -74,7 +87,7 @@ return function(task_queue, mob)
 	else
 		task_roam = rp_mobs.create_task({label="roam land"})
 
-		local yaw = math.random(0, 360) / 360 * (math.pi*2)
+		local yaw = random_yaw()
 		local walk_duration = math.random(settings.walk_duration_min, settings.walk_duration_max)/1000
 		local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, true, walk_duration)
 		local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
@@ -260,6 +273,7 @@ end
 rp_mobs_mobs.task_queue_land_animal_roam = function(settings)
 	local roam_decider_empty = create_roam_decider_empty(settings)
 	local roam_decider_step = create_roam_decider_step(settings)
-	local tq = rp_mobs.create_task_queue(roam_decider_empty, roam_decider_step)
+	local roam_decider_start = create_roam_decider_start(settings)
+	local tq = rp_mobs.create_task_queue(roam_decider_empty, roam_decider_step, roam_decider_start)
 	return tq
 end
