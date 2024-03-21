@@ -68,8 +68,14 @@ Pixture was inspired by [Kenney](http://kenney.nl).
 
 ### Music
 
-* "earthen lullaby" by vozh-kc <https://www.youtube.com/@vozh-kc>
-* See `mods/rp_music` for details
+Original music for Repixture created by vozh-kc <https://www.youtube.com/@vozh-kc>.
+The music is played by a craftable music box.
+
+Track list:
+* "earthen lullaby"
+* "you may not rest, there are turtles nearby"
+
+See `mods/rp_music` for details.
 
 ### Special thanks
 
