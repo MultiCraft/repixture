@@ -36,7 +36,7 @@ rp_mobs_mobs.create_dogfight_microtask = function(attack_range, attack_toolcaps,
 				if self.statedata.attack_timer > attack_time then
 					local time_from_last_punch = self.statedata.last_punch or 1000000
 					local dir = vector.direction(mpos, tpos)
-					rp_mobs.default_mob_sound(mob, "attack", true)
+					rp_mobs.default_mob_sound(mob, "attack")
 					self.statedata.attack_target:punch(mob.object, time_from_last_punch, attack_toolcaps, dir)
 					self.statedata.attack_timer = 0
 				end
@@ -81,6 +81,10 @@ rp_mobs_mobs.create_player_angry_decider = function()
 		local mt = rp_mobs.create_microtask({
 			label = "mark players as attack target",
 			on_step = function(self, mob, dtime)
+				-- Children are never angry
+				if mob._child then
+					return
+				end
 				-- Closest player becomes target
 				if mob._temp_custom_state.closest_player then
 					-- Don't change attack target if already set
@@ -150,7 +154,8 @@ end
 
 
 rp_mobs_mobs.on_punch_make_hostile = function(mob, puncher, time_from_last_punch, tool_capabilities, dir, damage, ...)
-	if puncher and puncher:is_player() then
+	-- Children are never angry
+	if not mob._child and puncher and puncher:is_player() then
 		mob._temp_custom_state.angry_at = puncher
 		mob._temp_custom_state.angry_at_timer = 0
 	end
