@@ -5,6 +5,7 @@ local S = minetest.get_translator("rp_mobs_mobs")
 -- Constants
 
 local VIEW_RANGE = 10
+local ANGRY_COOLDOWN_TIME = 10.0
 
 -- Time until mine goes boom (seconds)
 local BOOM_TIMER = 3
@@ -198,6 +199,7 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_land_animal_roam(task_queue_roam_settings))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_player_follow_scan(VIEW_RANGE))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(rp_mobs_mobs.create_player_angry_decider()))
+			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(rp_mobs_mobs.create_angry_cooldown_decider(VIEW_RANGE, ANGRY_COOLDOWN_TIME)))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(mine_decider))
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,

@@ -7,6 +7,7 @@ local S = minetest.get_translator("rp_mobs_mobs")
 local RANDOM_SOUND_TIMER_MIN = 10000
 local RANDOM_SOUND_TIMER_MAX = 60000
 local VIEW_RANGE = 10
+local ANGRY_COOLDOWN_TIME = 30.0
 
 local FOOD = { { name = "rp_default:apple", points = 1 }, { name = "rp_default:acorn", points = 1 } }
 
@@ -93,6 +94,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_land_animal_roam(task_queue_roam_settings))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_food_breed_follow_scan(VIEW_RANGE, FOOD))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_player_follow_scan(VIEW_RANGE))
+			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(rp_mobs_mobs.create_angry_cooldown_decider(VIEW_RANGE, ANGRY_COOLDOWN_TIME)))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_call_sound(RANDOM_SOUND_TIMER_MIN, RANDOM_SOUND_TIMER_MAX))
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,

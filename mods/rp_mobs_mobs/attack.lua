@@ -81,15 +81,22 @@ rp_mobs_mobs.create_player_angry_decider = function()
 		local mt = rp_mobs.create_microtask({
 			label = "mark players as attack target",
 			on_step = function(self, mob, dtime)
+				-- Closest player becomes target
 				if mob._temp_custom_state.closest_player then
-					local player = mob._temp_custom_state.closest_player
-					if player and player:is_player() and player:get_hp() > 0 then
-						mob._temp_custom_state.angry_at = player
-					else
-						mob._temp_custom_state.angry_at = nil
+					-- Don't change attack target if already set
+					if not mob._temp_custom_state.angry_at then
+						local player = mob._temp_custom_state.closest_player
+						if player and player:is_player() and player:get_hp() > 0 then
+							mob._temp_custom_state.angry_at = player
+							mob._temp_custom_state.angry_at_timer = 0
+						else
+							mob._temp_custom_state.angry_at = nil
+							mob._temp_custom_state.angry_at_timer = 0
+						end
 					end
 				else
 					mob._temp_custom_state.angry_at = nil
+					mob._temp_custom_state.angry_at_timer = 0
 				end
 			end,
 			is_finished = function()
@@ -102,9 +109,50 @@ rp_mobs_mobs.create_player_angry_decider = function()
 	end
 end
 
+rp_mobs_mobs.create_angry_cooldown_decider = function(range, cooldown_time)
+	return function (task_queue, mob)
+		local mt = rp_mobs.create_microtask({
+			label = "stop being angry at target when out of range for a time",
+			on_start = function(self, mob)
+				mob._temp_custom_state.angry_at_timer = 0
+			end,
+			on_step = function(self, mob, dtime)
+				if mob._temp_custom_state.angry_at then
+					local mobpos = mob.object:get_pos()
+					local targetpos = mob._temp_custom_state.angry_at:get_pos()
+					if not targetpos then
+						mob._temp_custom_state.angry_at = nil
+						mob._temp_custom_state.angry_at_timer = 0
+						return
+					end
+					local dist = vector.distance(mobpos, targetpos)
+					if dist > range then
+						mob._temp_custom_state.angry_at_timer = mob._temp_custom_state.angry_at_timer + dtime
+						if mob._temp_custom_state.angry_at_timer > cooldown_time then
+							mob._temp_custom_state.angry_at = nil
+							mob._temp_custom_state.angry_at_timer = 0
+						end
+					else
+						mob._temp_custom_state.angry_at_timer = 0
+					end
+				end
+			end,
+			is_finished = function()
+				return false
+			end,
+		})
+		local task = rp_mobs.create_task({label="anger cooldown"})
+		rp_mobs.add_microtask_to_task(mob, mt, task)
+		rp_mobs.add_task_to_task_queue(task_queue, task)
+	end
+end
+
+
+
 rp_mobs_mobs.on_punch_make_hostile = function(mob, puncher, time_from_last_punch, tool_capabilities, dir, damage, ...)
 	if puncher and puncher:is_player() then
 		mob._temp_custom_state.angry_at = puncher
+		mob._temp_custom_state.angry_at_timer = 0
 	end
 	return rp_mobs.on_punch_default(mob, puncher, time_from_last_punch, tool_capabilities, dir, damage, ...)
 end
