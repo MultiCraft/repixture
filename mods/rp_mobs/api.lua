@@ -1,5 +1,7 @@
 local S = minetest.get_translator("rp_mobs")
 
+local mod_textures = minetest.get_modpath("rp_textures") ~= nil
+
 -- If true, will write the task queues of mobs as their nametag
 local TASK_DEBUG = false
 local STATE_DEBUG = false
@@ -337,29 +339,30 @@ end
 rp_mobs.on_death_default = function(self, killer)
 	local radius = get_mob_death_particle_radius(self)
 	local pos = self.object:get_pos()
-	minetest.add_particlespawner({
-		amount = 16,
-		time = 0.02,
-		pos = {
-			min = vector.subtract(pos, radius / 2),
-			max = vector.add(pos, radius / 2),
-		},
-		vel = {
-			min = vector.new(-1, 0, -1),
-			max = vector.new(1, 2, 1),
-		},
-		acc = vector.zero(),
-		exptime = { min = 0.4, max = 0.8 },
-		size = { min = 8, max = 12 },
-		drag = vector.new(1,1,1),
-		-- TODO: Move particle to particle mod
-		texture = {
-			name = "rp_mobs_death_smoke_anim_1.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-			name = "rp_mobs_death_smoke_anim_2.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-			name = "rp_mobs_death_smoke_anim_1.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-			name = "rp_mobs_death_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-		},
-	})
+	if mod_textures then
+		minetest.add_particlespawner({
+			amount = 16,
+			time = 0.02,
+			pos = {
+				min = vector.subtract(pos, radius / 2),
+				max = vector.add(pos, radius / 2),
+			},
+			vel = {
+				min = vector.new(-1, 0, -1),
+				max = vector.new(1, 2, 1),
+			},
+			acc = vector.zero(),
+			exptime = { min = 0.4, max = 0.8 },
+			size = { min = 8, max = 12 },
+			drag = vector.new(1,1,1),
+			texture = {
+				name = "rp_textures_death_smoke_anim_1.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+				name = "rp_textures_death_smoke_anim_2.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+				name = "rp_textures_death_smoke_anim_1.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+				name = "rp_textures_death_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+			},
+		})
+	end
 	minetest.sound_play({name="rp_sounds_disappear", gain=0.4}, {pos=pos, max_hear_distance=12}, true)
 	rp_mobs.drop_death_items(self)
 end

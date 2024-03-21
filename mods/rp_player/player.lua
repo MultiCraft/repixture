@@ -1,5 +1,7 @@
 local S = minetest.get_translator("rp_player")
 
+local mod_textures = minetest.get_modpath("rp_textures") ~= nil
+
 local player_soundspec = {}
 local player_lastsound = {}
 local player_health = {}
@@ -153,29 +155,30 @@ end
 
 local function on_respawnplayer(player)
 	local pos = player:get_pos()
-	minetest.add_particlespawner({
-		amount = 16,
-		time = 0.02,
-		pos = {
-			min = vector.add(pos, vector.new(-0.4, 0.0, -0.4)),
-			max = vector.add(pos, vector.new(0.4, 0.1, 0.4)),
-		},
-		vel = {
-			min = vector.new(-1, 0.2, -1),
-			max = vector.new(1, 2, 1),
-		},
-		acc = vector.zero(),
-		exptime = { min = 1.0, max = 1.5 },
-		size = { min = 8, max = 12 },
-		drag = vector.new(1,1,1),
-		-- TODO: Move particle to particle mod
-		texture = {
-			name = "rp_mobs_death_smoke_anim_1.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-			name = "rp_mobs_death_smoke_anim_2.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-			name = "rp_mobs_death_smoke_anim_1.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-			name = "rp_mobs_death_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-		},
-	})
+	if mod_textures then
+		minetest.add_particlespawner({
+			amount = 16,
+			time = 0.02,
+			pos = {
+				min = vector.add(pos, vector.new(-0.4, 0.0, -0.4)),
+				max = vector.add(pos, vector.new(0.4, 0.1, 0.4)),
+			},
+			vel = {
+				min = vector.new(-1, 0.2, -1),
+				max = vector.new(1, 2, 1),
+			},
+			acc = vector.zero(),
+			exptime = { min = 1.0, max = 1.5 },
+			size = { min = 8, max = 12 },
+			drag = vector.new(1,1,1),
+			texture = {
+				name = "rp_textures_death_smoke_anim_1.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+				name = "rp_textures_death_smoke_anim_2.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+				name = "rp_textures_death_smoke_anim_1.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+				name = "rp_textures_death_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+			},
+		})
+	end
 	minetest.sound_play({name="rp_sounds_disappear", gain=0.4}, {pos=pos, max_hear_distance=12}, true)
 end
 
@@ -213,9 +216,6 @@ end
 
 minetest.register_on_joinplayer(on_joinplayer)
 minetest.register_on_leaveplayer(on_leaveplayer)
--- TODO: Remove mod requirement if particle moved to particle mod
-if minetest.get_modpath("rp_mobs") then
-   minetest.register_on_respawnplayer(on_respawnplayer)
-end
+minetest.register_on_respawnplayer(on_respawnplayer)
 
 minetest.register_globalstep(step)
