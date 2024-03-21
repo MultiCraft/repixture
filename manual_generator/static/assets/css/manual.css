@@ -38,9 +38,11 @@ kbd {
 	padding-right: 0.5em;
 }
 li {
-	list-style-type: square;
 	margin-top: 0.2em;
 	margin-bottom: 0.2em;
+}
+ul li {
+	list-style-type: square;
 }
 p {
 	padding-top: 0.4em;
