@@ -55,6 +55,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		call = "mobs_boar_call",
 		give_birth = "mobs_boar_give_birth",
 		horny = "mobs_boar_horny",
+		attack = "mobs_boar_attack",
 	},
 	animations = {
 		["idle"] = { frame_range = { x = 0, y = 60 }, default_frame_speed = 20 },
