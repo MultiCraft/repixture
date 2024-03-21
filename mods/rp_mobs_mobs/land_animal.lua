@@ -110,9 +110,9 @@ return function(task_queue, mob, dtime)
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 				end
 			-- Stop following player or partner if gone
-			elseif (current.data.label == "follow player holding food" and not mob._temp_custom_state.follow_player) or
-					(current.data.label == "hunt player" and not mob._temp_custom_state.follow_player) or
-					(current.data.label == "follow mating partner" and not mob._temp_custom_state.follow_partner) then
+			elseif (current.data.label == "follow player holding food" and not mob._temp_custom_state.closest_food_player) or
+					(current.data.label == "hunt player" and not mob._temp_custom_state.closest_food_player) or
+					(current.data.label == "follow mating partner" and not mob._temp_custom_state.closest_mating_partner) then
 				rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 				rp_mobs_mobs.add_halt_to_task_queue(task_queue, mob, nil, settings.idle_duration_min, settings.idle_duration_max)
 			-- Update land movement (roam, standing, following)
@@ -144,26 +144,26 @@ return function(task_queue, mob, dtime)
 						mob._temp_custom_state.no_follow_timer = 0
 					end
 				-- Follow player or mating partner
-				elseif (mob._temp_custom_state.follow_partner or mob._temp_custom_state.follow_player) and not mob._temp_custom_state.no_follow then
+				elseif (mob._temp_custom_state.closest_mating_partner or mob._temp_custom_state.closest_food_player) and not mob._temp_custom_state.no_follow then
 					local target, task_label
 					-- If horny, following mating partner
-					if mob._horny and mob._temp_custom_state.follow_partner then
-						if mob._temp_custom_state.follow_partner:get_luaentity() then
-							target = mob._temp_custom_state.follow_partner
+					if mob._horny and mob._temp_custom_state.closest_mating_partner then
+						if mob._temp_custom_state.closest_mating_partner:get_luaentity() then
+							target = mob._temp_custom_state.closest_mating_partner
 							task_label = "follow mating partner"
 						end
 					end
-					if mob._temp_custom_state.follow_player then
+					if mob._temp_custom_state.closest_food_player then
 						-- Hunt player
 						if settings.hunt_players then
-							local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
+							local player = minetest.get_player_by_name(mob._temp_custom_state.closest_food_player)
 							if player then
 								target = player
 								task_label = "hunt player"
 							end
 						-- Follow player holding food only if not horny
 						elseif not mob._horny then
-							local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
+							local player = minetest.get_player_by_name(mob._temp_custom_state.closest_food_player)
 							if player then
 								target = player
 								task_label = "follow player holding food"

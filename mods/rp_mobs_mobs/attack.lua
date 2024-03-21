@@ -3,7 +3,6 @@ rp_mobs_mobs.create_dogfight_microtask = function(attack_range, attack_toolcaps,
 		label = "dogfight",
 		start_animation = "punch",
 		on_start = function(self, mob)
-			mob._temp_custom_state.attacking = false
 			mob._temp_custom_state.attack_target = nil
 			-- For attack timer; initialize at attack_time + 1 to guarantee an instant attack
 			self.statedata.attack_timer = attack_time + 1
@@ -82,9 +81,9 @@ rp_mobs_mobs.create_player_attack_decider = function()
 		local mt = rp_mobs.create_microtask({
 			label = "mark players as attack target",
 			on_step = function(self, mob, dtime)
-				if mob._temp_custom_state.follow_player then
-					local playername = mob._temp_custom_state.follow_player
-					local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
+				if mob._temp_custom_state.closest_food_player then
+					local playername = mob._temp_custom_state.closest_food_player
+					local player = minetest.get_player_by_name(mob._temp_custom_state.closest_food_player)
 					if player and player:is_player() and player:get_hp() > 0 then
 						mob._temp_custom_state.attack_target = player
 					else
@@ -104,3 +103,9 @@ rp_mobs_mobs.create_player_attack_decider = function()
 	end
 end
 
+rp_mobs_mobs.on_punch_make_hostile = function(mob, puncher, time_from_last_punch, tool_capabilities, dir, damage, ...)
+	if puncher and puncher:is_player() then
+		mob._temp_custom_state.attack_target = puncher
+	end
+	return rp_mobs.on_punch_default(mob, puncher, time_from_last_punch, tool_capabilities, dir, damage, ...)
+end

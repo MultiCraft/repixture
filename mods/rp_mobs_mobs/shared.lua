@@ -228,7 +228,7 @@ end
 
 -- This function creates and returns a microtask that scans the
 -- mob's surroundings within view_range for players.
--- The result is stored in mob._temp_custom_state.follow_player.
+-- The result is stored in mob._temp_custom_state.closest_food_player.
 -- This microtask only *searches* for suitable targets to follow,
 -- it does *NOT* actually follow them. Other microtasks
 -- are supposed to decide what do do with this information.
@@ -248,7 +248,7 @@ rp_mobs_mobs.microtask_player_find_follow = function(view_range)
 			end
 			self.statedata.timer = 0
 			local s = mob.object:get_pos()
-			if (mob._temp_custom_state.follow_player == nil) then
+			if (mob._temp_custom_state.closest_food_player == nil) then
 				-- Mark closest player within view range as player to follow
 				local p, dist
 				local min_dist, closest_player
@@ -267,22 +267,22 @@ rp_mobs_mobs.microtask_player_find_follow = function(view_range)
 					end
 				end
 				if closest_player then
-					mob._temp_custom_state.follow_player = closest_player:get_player_name()
+					mob._temp_custom_state.closest_food_player = closest_player:get_player_name()
 				end
 			else
 				-- Unfollow player if out of view range, dead or gone
-				local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
+				local player = minetest.get_player_by_name(mob._temp_custom_state.closest_food_player)
 				if player then
 					local p = player:get_pos()
 					local dist = vector.distance(s, p)
 					-- Out of range
 					if dist > view_range then
-						mob._temp_custom_state.follow_player = nil
+						mob._temp_custom_state.closest_food_player = nil
 					elseif player:get_hp() == 0 then
-						mob._temp_custom_state.follow_player = nil
+						mob._temp_custom_state.closest_food_player = nil
 					end
 				else
-					mob._temp_custom_state.follow_player = nil
+					mob._temp_custom_state.closest_food_player = nil
 				end
 			end
 		end,
@@ -312,8 +312,8 @@ end
 -- mob's surroundings within view_range for other interesting entities:
 -- 1) Players holding food
 -- 2) Mobs of same species to mate with
--- The result is stored in mob._temp_custom_state.follow_partner
--- and mob._temp_custom_state.follow_player.
+-- The result is stored in mob._temp_custom_state.closest_mating_partner
+-- and mob._temp_custom_state.closest_food_player.
 -- This microtask only *searches* for suitable targets to follow,
 -- it does *NOT* actually follow them. Other microtasks
 -- are supposed to decide what do do with this information.
@@ -339,7 +339,7 @@ rp_mobs_mobs.microtask_food_breed_find_follow = function(view_range, food_list)
 
 			-- Look for other horny mob nearby
 			if mob._horny then
-				if mob._temp_custom_state.follow_partner == nil then
+				if mob._temp_custom_state.closest_mating_partner == nil then
 					local min_dist, closest_partner
 					local min_dist_h, closest_partner_h
 					for o=1, #objs do
@@ -366,28 +366,28 @@ rp_mobs_mobs.microtask_food_breed_find_follow = function(view_range, food_list)
 					end
 					-- Set new partner to follow (prefer horny)
 					if closest_partner_h then
-						mob._temp_custom_state.follow_partner = closest_partner_h
+						mob._temp_custom_state.closest_mating_partner = closest_partner_h
 					elseif closest_partner then
-						mob._temp_custom_state.follow_partner = closest_partner
+						mob._temp_custom_state.closest_mating_partner = closest_partner
 					end
 				-- Unfollow partner if out of range
-				elseif mob._temp_custom_state.follow_partner:get_luaentity() then
-					local p = mob._temp_custom_state.follow_partner:get_pos()
+				elseif mob._temp_custom_state.closest_mating_partner:get_luaentity() then
+					local p = mob._temp_custom_state.closest_mating_partner:get_pos()
 					local dist = vector.distance(s, p)
 					-- Out of range
 					if dist > view_range then
-						mob._temp_custom_state.follow_partner = nil
+						mob._temp_custom_state.closest_mating_partner = nil
 					end
 				else
 					-- Partner object is gone
-					mob._temp_custom_state.follow_partner = nil
+					mob._temp_custom_state.closest_mating_partner = nil
 				end
 			else
 				-- Unfollow partner if no longer horny
-				mob._temp_custom_state.follow_partner = nil
+				mob._temp_custom_state.closest_mating_partner = nil
 			end
 
-			if (mob._temp_custom_state.follow_player == nil) then
+			if (mob._temp_custom_state.closest_food_player == nil) then
 				-- Mark closest player holding food within view range as player to follow
 				local p, dist
 				local min_dist, closest_player
@@ -411,17 +411,17 @@ rp_mobs_mobs.microtask_food_breed_find_follow = function(view_range, food_list)
 					end
 				end
 				if closest_player then
-					mob._temp_custom_state.follow_player = closest_player:get_player_name()
+					mob._temp_custom_state.closest_food_player = closest_player:get_player_name()
 				end
 			else
 				-- Unfollow player if out of view range or not holding food
-				local player = minetest.get_player_by_name(mob._temp_custom_state.follow_player)
+				local player = minetest.get_player_by_name(mob._temp_custom_state.closest_food_player)
 				if player then
 					local p = player:get_pos()
 					local dist = vector.distance(s, p)
 					-- Out of range
 					if dist > view_range then
-						mob._temp_custom_state.follow_player = nil
+						mob._temp_custom_state.closest_food_player = nil
 					else
 						local wield = player:get_wielded_item()
 						for f=1, #food_list do
@@ -430,7 +430,7 @@ rp_mobs_mobs.microtask_food_breed_find_follow = function(view_range, food_list)
 							end
 						end
 						-- Not holding food
-						mob._temp_custom_state.follow_player = nil
+						mob._temp_custom_state.closest_food_player = nil
 						return
 					end
 				end
