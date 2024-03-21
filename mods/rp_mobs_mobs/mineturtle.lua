@@ -120,7 +120,7 @@ local function microtask_mine()
 					end
 					-- Attack sound, played periodically
 					if mob._temp_custom_state.mine_notifications < math.floor(mob._temp_custom_state.mine_timer) then
-						rp_mobs.default_mob_sound(mob, "war_cry", false)
+						rp_mobs.default_mob_sound(mob, "_mine_timer", false)
 						mob._temp_custom_state.mine_notifications = math.floor(mob._temp_custom_state.mine_timer)
 					end
 				end
@@ -134,7 +134,7 @@ local function microtask_mine()
 					mob._temp_custom_state.mine_blink_timer = 0
 					mob._temp_custom_state.mine_blink_state = false
 					mob._temp_custom_state.mine_notifications = 0
-					rp_mobs.default_mob_sound(mob, "war_cry", false)
+					rp_mobs.default_mob_sound(mob, "_mine_timer", false)
 					-- Angry face
 					mob.object:set_properties({textures = { "mobs_mineturtle.png^mobs_mineturtle_angry_overlay.png" }})
 				end
@@ -159,10 +159,9 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 		{name = "rp_tnt:tnt", chance = 1, min = 1, max = 3},
 	},
 	default_sounds = {
-		war_cry = "mobs_mineturtle",
+		_mine_timer = "mobs_mineturtle",
 		damage = "default_punch",
 		death = "default_punch",
-		explode = "tnt_explode",
 		distance = 16,
 	},
 	animations = {
