@@ -10,6 +10,7 @@ local FOOD = {{ name = "rp_default:apple", points = 1 }}
 
 local task_queue_roam_settings = {
 	walk_speed = 1.5,
+	hunt_speed = 2,
 	liquid_rise_speed = 3,
 	jump_strength = 4.6,
 	jump_clear_height = 1,
@@ -24,9 +25,14 @@ local task_queue_roam_settings = {
 	idle_duration_max = 4000,
 	find_land_length = 20,
 	view_range = VIEW_RANGE,
-	follow_reach_distance = 2,
+	follow_reach_distance = 1,
 	follow_give_up_time = 10.0,
 	no_follow_time = 6.0,
+
+	dogfight = true,
+	dogfight_range = 1.5,
+	dogfight_toolcaps = { damage_groups = { fleshy = 1 } },
+	dogfight_interval = 1.0,
 }
 
 rp_mobs.register_mob("rp_mobs_mobs:skunk", {
@@ -45,6 +51,7 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 		["idle"] = { frame_range = { x = 0, y = 60 }, default_frame_speed = 20 },
 		["dead_static"] = { frame_range = { x = 0, y = 0 } },
 		["walk"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 20 },
+		["run"] = { frame_range = { x = 61, y = 80 }, default_frame_speed = 26.66667 },
 		["punch"] = { frame_range = { x = 90, y = 101 }, default_frame_speed = 20 },
 	},
 	front_body_point = vector.new(0, -0.1, 0.5),
@@ -75,6 +82,7 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_land_animal_roam(task_queue_roam_settings))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_food_breed_follow_scan(VIEW_RANGE, FOOD))
+			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_player_follow_scan(VIEW_RANGE))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_call_sound(RANDOM_SOUND_TIMER_MIN, RANDOM_SOUND_TIMER_MAX))
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
@@ -94,7 +102,7 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 			rp_mobs.attempt_capture(self, capturer, { ["rp_mobs:net"] = 40, ["rp_mobs:lasso"] = 20 })
 		end,
 		on_death = rp_mobs.on_death_default,
-		on_punch = rp_mobs.on_punch_default,
+		on_punch = rp_mobs_mobs.on_punch_make_hostile,
 	},
 })
 
