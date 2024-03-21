@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Minetest textdomain mobs x.x.x\n"
+"Project-Id-Version: Minetest textdomain rp_mobs x.x.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
@@ -63,3 +63,4 @@ msgstr "Lasso"
 
 msgid "Good for capturing large animals"
 msgstr "Idéal pour capturer de grands animaux"
+

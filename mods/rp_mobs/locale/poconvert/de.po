@@ -6,7 +6,7 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: ar\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,53 +14,53 @@ msgstr ""
 "X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Hunter"
-msgstr "الصياد"
+msgstr "Jäger"
 
 msgid "Kill an animal for food."
-msgstr "اقتل حيوانا للغذاء."
+msgstr "Töten Sie ein Tier für Nahrung."
 
 msgid "Gotcha!"
-msgstr "نلت منك!"
+msgstr "Hab’ dich!"
 
 msgid "Capture a tame animal."
-msgstr "امسك حيوانا مروضا."
+msgstr "Fangen Sie ein zahmes Tier."
 
 msgid "Best Friends Forever"
-msgstr "أفضل أصدقاء إلى الأبد"
+msgstr "Beste Freunde"
 
 msgid "Tame an animal."
-msgstr "روض حيوانا."
+msgstr "Zähmen Sie ein Tier."
 
 msgid "Wonder of Life"
-msgstr "أعجوبة الحياة"
+msgstr "Wunder des Lebens"
 
 msgid "Get two animals to breed."
-msgstr "اجعل حيوانين يتكاثران."
+msgstr "Bringen Sie zwei Tiere dazu, sich zu vermehren."
 
 msgid "Gonna Feed ’em All"
-msgstr "سأطعمهم جميعا"
+msgstr "Fütter sie alle"
 
 msgid "Feed an animal of each species once."
-msgstr "اطعم حيوانا من كل صنف مرة واحدة."
+msgstr "Füttern Sie ein Tier jeder Art."
 
 msgid "Hostile mobs are disabled!"
-msgstr "تم إلغاء تفعيل الحيوانات الشرسة!"
+msgstr "Feindliche Mobs sind deaktiviert!"
 
 msgid "Not tamed!"
-msgstr "ليس مروضا!"
+msgstr "Nicht gezähmt!"
 
 msgid "Missed!"
-msgstr "أخفقت!"
+msgstr "Verfehlt!"
 
 msgid "Net"
-msgstr "شبكة"
+msgstr "Netz"
 
 msgid "Good for capturing small animals"
-msgstr "مفيد للامساك الحيوانات الصغيرة"
+msgstr "Gut zum Fangen kleiner Tiere"
 
 msgid "Lasso"
-msgstr "وهق"
+msgstr "Lasso"
 
 msgid "Good for capturing large animals"
-msgstr "جيد لصيد الحيوانات الكبيرة"
+msgstr "Gut zum Fangen großer Tiere"
 
