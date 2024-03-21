@@ -550,6 +550,9 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 		local activeMicroTask
 		if not task_queue_done then
 			activeMicroTask = activeMicroTaskEntry.data
+			if not activeMicroTask.has_started and activeMicroTask.on_start then
+				activeMicroTask:on_start(self)
+			end
 			if not activeMicroTask.singlestep and activeMicroTask:is_finished(self) then
 				if activeMicroTask.on_end then
 					activeMicroTask:on_end(self)
@@ -561,13 +564,10 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 
 		-- Execute microtask
 
-		-- Call on_start and set microtask animation before the first step
+		-- Set microtask animation before the first step
 		if not task_queue_done and not activeMicroTask.has_started then
 			if activeMicroTask.start_animation then
 				rp_mobs.set_animation(self, activeMicroTask.start_animation)
-			end
-			if activeMicroTask.on_start then
-				activeMicroTask:on_start(self)
 			end
 			activeMicroTask.has_started = true
 		end

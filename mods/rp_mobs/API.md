@@ -90,22 +90,30 @@ A microtask is a table with the following fields:
 
 * `label`: Same as for tasks
 * `on_step`: Called every step of the mob. Handle the microtask behavior here
-* `on_finished`: Return true if the microtask is complete, false otherwise
+* `is_finished`: Must return true if the microtask is complete, false otherwise
 * `on_end`: Called when the microtask has ended. Useful for cleaning up state
 * `on_start`: Called when the microtask has begun. Called just before `on_step`
-* `singlestep`: If true, this microtask will run for only 1 step and automatically succeeds (default: false)
+* `singlestep`: If true, this microtask will run for only 1 step and automatically finishes (default: false)
 * `statedata`: Table containing data that can be modified and read at runtime
 
-Every microtask needs to have `on_step` and either `on_finished` or `singlestep = true`.
+Every microtask needs to have `on_step` and either `is_finished` or `singlestep = true`.
 All other fields are optional. It is not allowed to add any fields not listed above.
 
-`on_finished`, `on_end` and `on_start` have parameters `self, mob` with `self` being
+`is_finished`, `on_end` and `on_start` have parameters `self, mob` with `self` being
 a reference to the microtask table itself and `mob` being the mob object that is affected.
 
 `on_step` has the parameters `self, mob, dtime, moveresult`, where `dtime` is the time in
 seconds that have passed since it was last called, or 0 on the first call (like for the entity
 `on_step` function), and `moveresult` is the `moveresult` of the entity `on_step`
 function (only available if `physical=true` in the entity definition, otherwise it'll be `nil`).
+
+The normal order of execution of the callbacks is as follows: `on_start` is called once
+right after the microtask started. Then, in a a loop, first `is_finished` and then
+`on_step` is called. If `is_finished` returned `false`, the microtask immediately
+finishes (skipping the next `on_step`), causing `on_end` to get called.
+
+In case of a `singlestep` microtask, the execution order is simply `on_start`,
+`on_step` (once) and `on_end`. `is_finished` is not called.
 
 The `statedata` field can be used to associate arbitrary data with the microtask in
 order to preserve some state. You may read and write to it in functions
