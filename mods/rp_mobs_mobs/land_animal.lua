@@ -155,7 +155,7 @@ return function(task_queue, mob, dtime)
 					end
 					if mob._temp_custom_state.closest_player then
 						-- Hunt player
-						if settings.hunt_players then
+						if mob._temp_custom_state.angry_at then
 							local player = mob._temp_custom_state.angry_at
 							if player and player:is_player() then
 								target = player

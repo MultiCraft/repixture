@@ -32,7 +32,6 @@ local task_queue_roam_settings = {
 	follow_give_up_time = 10.0,
 	no_follow_time = 6.0,
 
-	hunt_players = true,
 	dogfight = true,
 	dogfight_range = 2,
 	dogfight_toolcaps = { damage_groups = { fleshy = 3 } },

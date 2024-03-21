@@ -42,7 +42,6 @@ local task_queue_roam_settings = {
 	follow_give_up_time = 10.0,
 	no_follow_time = 4.0,
 
-	hunt_players = true,
 	dogfight = false,
 }
 
