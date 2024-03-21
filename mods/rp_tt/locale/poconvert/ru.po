@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Minetest textdomain rp_tt x.x.x\n"
 "Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-01-28 10:56+0000\n"
-"Last-Translator: Application-Maker <application-maker.uinwad@erine.email>\n"
+"PO-Revision-Date: 2024-03-18 14:53+0000\n"
+"Last-Translator: rudzik8 <rudzik8@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/repixture/"
 "rp_tt/ru/>\n"
 "Language: ru\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.3.1\n"
+"X-Generator: Weblate 5.4.2\n"
 
 msgid "Magnetic"
 msgstr "Магнитный"
@@ -24,11 +24,9 @@ msgstr "Немагнитный"
 msgid "Ignitible"
 msgstr "Воспламеняющийся"
 
-#, fuzzy
 msgid "Place: Scrape off paint"
-msgstr "Поставить: Соскрести краску"
+msgstr "Использовать: Соскрести краску"
 
-#, fuzzy
 msgid "Punch: Scrape off paint"
 msgstr "Ударить: Соскрести краску"
 

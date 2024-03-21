@@ -1,63 +1,64 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_hunger x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-02-27 21:56+0000\n"
+"Last-Translator: AbduSharif <narukomanroom@gmail.com>\n"
+"Language-Team: Arabic <https://translate.codeberg.org/projects/repixture/"
+"rp_hunger/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: Weblate 5.4\n"
 
 msgid "Hunger Debug:"
-msgstr ""
+msgstr "تصحيح الجوع:"
 
 msgid "<hunger disabled>"
-msgstr ""
+msgstr "<تم إيقاف تفعيل الجوع>"
 
 msgid "You are hungry."
-msgstr ""
+msgstr "أنت تشعر بالجوع."
 
 msgid "You are starving."
-msgstr ""
+msgstr "أنت تشعر بالجوع الشديد."
 
 msgid "You starved to death."
-msgstr ""
+msgstr "لقد جعت حتى الموت."
 
 msgid "Eating"
-msgstr ""
+msgstr "أكل"
 
 msgid "You're eating food, which slows you down"
-msgstr ""
+msgstr "أنت تأكل لذا ستكون أبطأ"
 
 msgid "Gourmet"
-msgstr ""
+msgstr "ذواق"
 
 msgid "Eat everything that can be eaten."
-msgstr ""
+msgstr "قم بأكل كل شيء يمكن أكله."
 
 msgid "Set hunger level of player or yourself"
-msgstr ""
+msgstr "حدد مستوى جوع لعب أو نفسك"
 
 msgid "[<player>] <hunger>"
-msgstr ""
+msgstr "[<لاعب>] <جوع>"
 
 msgid "Player is not online."
-msgstr ""
+msgstr "الاعب غير متصل."
 
 msgid "No player."
-msgstr ""
+msgstr "لا لاعب."
 
 msgid "Food item"
-msgstr ""
+msgstr "طعام"
 
 msgid "Food points: +@1"
-msgstr ""
+msgstr "نقاط الطعام: +@1"
 
 msgid "Saturation points: +@1"
-msgstr ""
+msgstr "نقاط التشبع: +@1"

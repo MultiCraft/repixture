@@ -1,204 +1,205 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_jewels x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-02-27 21:56+0000\n"
+"Last-Translator: AbduSharif <narukomanroom@gmail.com>\n"
+"Language-Team: Arabic <https://translate.codeberg.org/projects/repixture/"
+"rp_jewels/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: Weblate 5.4\n"
 
 msgid "1. Place tool here"
-msgstr ""
+msgstr "1. قم بوضع الأداة هنا"
 
 msgid "2. Hold a jewel and punch the bench"
-msgstr ""
+msgstr "2. أمسك بالجوهرة وألكم طاولة العمل"
 
 msgid "Jeweled @1"
-msgstr ""
+msgstr "@1 رصع بالجواهر"
 
 msgid "Range bonus: @1"
-msgstr ""
+msgstr "علاوة النطاق: @1"
 
 msgid "Drop level bonus: @1"
-msgstr ""
+msgstr "علاوة مستوى السقوط: @1"
 
 msgid "Dig time bonus: @1 s"
-msgstr ""
+msgstr "علاوة وقت الحفر: @1 s"
 
 msgid "Durability bonus: @1"
-msgstr ""
+msgstr "علاوة المتانة: @1"
 
 msgid "Dig level bonus: @1"
-msgstr ""
+msgstr "علاوة مستوى الحفر: @1"
 
 msgid "Jewel"
-msgstr ""
+msgstr "جوهرة"
 
 msgid "Jeweler's Workbench"
-msgstr ""
+msgstr "طاولة عمل جواهري"
 
 msgid "Tools can be upgraded with jewels here"
-msgstr ""
+msgstr "الأدوات يمكن أن ترقى بواسطة الجواهر هنا"
 
 msgid "Jewel Ore"
-msgstr ""
+msgstr "خام جوهرة"
 
 msgid "Jeweler"
-msgstr ""
+msgstr "جواهري"
 
 msgid "Jewel a tool."
-msgstr ""
+msgstr "ارصع أداتا بالجواهر."
 
 msgid "True Mighty Weapon"
-msgstr ""
+msgstr "سلاح الجبار حقيقي"
 
 msgid "Use jewels to create a serrated jewel broadsword."
-msgstr ""
+msgstr "استعمل الجواهر لصناعة صيف عريض النصل مرصع بالجواهر."
 
 msgid "Secret of Jewels"
-msgstr ""
+msgstr "سر الجواهر"
 
 msgid "Discover the origin of jewels."
-msgstr ""
+msgstr "اكشف عن أصل الجواهر."
 
 msgid "Swift Jewel Steel Pickaxe"
-msgstr ""
+msgstr "معول فولاذي سريع مرصع بالجواهر"
 
 msgid "Harming Jewel Steel Pickaxe"
-msgstr ""
+msgstr "معول فولاذي مؤذ مرصع بالجواهر"
 
 msgid "Durable Jewel Steel Pickaxe"
-msgstr ""
+msgstr "معول فولاذي متين مرصع بالجواهر"
 
 msgid "Swift Jewel Carbon Steel Pickaxe"
-msgstr ""
+msgstr "معول كربون فولاذي سريع مرصع بالجواهر"
 
 msgid "Harming Jewel Carbon Steel Pickaxe"
-msgstr ""
+msgstr "معول كربون فولاذي مؤذ مرصع بالجواهر"
 
 msgid "Durable Jewel Carbon Steel Pickaxe"
-msgstr ""
+msgstr "معول كربون فولاذي متين مرصع بالجواهر"
 
 msgid "Swift Jewel Bronze Pickaxe"
-msgstr ""
+msgstr "معول برونزي سريع مرصع بالجواهر"
 
 msgid "Harming Jewel Bronze Pickaxe"
-msgstr ""
+msgstr "معول برونزي مؤذ مرصع بالجواهر"
 
 msgid "Durable Jewel Bronze Pickaxe"
-msgstr ""
+msgstr "معول برونزي متين مرصع بالجواهر"
 
 msgid "Swift Jewel Steel Shovel"
-msgstr ""
+msgstr "مجرفة فولاذية سريعة مرصعة بالجواهر"
 
 msgid "Harming Jewel Steel Shovel"
-msgstr ""
+msgstr "مجرفة فولاذية مؤذية مرصعة بالجواهر"
 
 msgid "Durable Jewel Steel Shovel"
-msgstr ""
+msgstr "مجرفة فولاذية متينة مرصعة بالجواهر"
 
 msgid "Swift Jewel Carbon Steel Shovel"
-msgstr ""
+msgstr "مجرفة كربون فولاذي سريعة مرصعة بالجواهر"
 
 msgid "Harming Jewel Carbon Steel Shovel"
-msgstr ""
+msgstr "مجرفة كربون فولاذي مؤذية مرصعة بالجواهر"
 
 msgid "Durable Jewel Carbon Steel Shovel"
-msgstr ""
+msgstr "مجرفة كربون فولاذي متينة مرصعة بالجواهر"
 
 msgid "Swift Jewel Bronze Shovel"
-msgstr ""
+msgstr "مجرفة برونزية سريعة مرصعة بالجواهر"
 
 msgid "Harming Jewel Bronze Shovel"
-msgstr ""
+msgstr "مجرفة برونزية مؤذية مرصعة بالجواهر"
 
 msgid "Durable Jewel Bronze Shovel"
-msgstr ""
+msgstr "مجرفة برونزية متينة مرصعة بالجواهر"
 
 msgid "Swift Jewel Steel Axe"
-msgstr ""
+msgstr "فأس فولاذي سريع مرصع بالجواهر"
 
 msgid "Harming Jewel Steel Axe"
-msgstr ""
+msgstr "فأس فولاذي مؤذ مرصع بالجواهر"
 
 msgid "Durable Jewel Steel Axe"
-msgstr ""
+msgstr "فأس فولاذي متين مرصع بالجواهر"
 
 msgid "Swift Jewel Carbon Steel Axe"
-msgstr ""
+msgstr "فأس كربون فولاذي سريع مرصع بالجواهر"
 
 msgid "Harming Jewel Carbon Steel Axe"
-msgstr ""
+msgstr "فأس كربون فولاذي مؤذ مرصع بالجواهر"
 
 msgid "Durable Jewel Carbon Steel Axe"
-msgstr ""
+msgstr "فأس كربون فولاذي متين مرصع بالجواهر"
 
 msgid "Swift Jewel Bronze Axe"
-msgstr ""
+msgstr "فأس برونزي سريع مرصع بالجواهر"
 
 msgid "Harming Jewel Bronze Axe"
-msgstr ""
+msgstr "فأس بروتزي مؤذ مرصع بالجواهر"
 
 msgid "Durable Jewel Bronze Axe"
-msgstr ""
+msgstr "فأس برونزي متين مرصع بالجواهر"
 
 msgid "Extended Jewel Steel Spear"
-msgstr ""
+msgstr "رمح فولاذي ممتد مرصع بالجواهر"
 
 msgid "Harming Jewel Steel Spear"
-msgstr ""
+msgstr "رمح فولاذي مؤذ مرصع بالجواهر"
 
 msgid "Durable Jewel Steel Spear"
-msgstr ""
+msgstr "رمح فولاذي متين مرصع بالجواهر"
 
 msgid "Extended Jewel Carbon Steel Spear"
-msgstr ""
+msgstr "رمح كربون فولاذي ممتد مرصع بالجواهر"
 
 msgid "Harming Jewel Carbon Steel Spear"
-msgstr ""
+msgstr "رمح كربون فولاذي مؤذ مرصع بالجواهر"
 
 msgid "Durable Jewel Carbon Steel Spear"
-msgstr ""
+msgstr "رمح كربون فولاذي متين مرصع بالجواهر"
 
 msgid "Extended Jewel Bronze Spear"
-msgstr ""
+msgstr "رمح برونزي ممتد مرصع بالجواهر"
 
 msgid "Harming Jewel Bronze Spear"
-msgstr ""
+msgstr "رمح برونزي مؤذ مرصع بالجواهر"
 
 msgid "Durable Jewel Bronze Spear"
-msgstr ""
+msgstr "رمح برونزي متين مرصع بالجواهر"
 
 msgid "Swift Jewel Steel Shears"
-msgstr ""
+msgstr "مجزات فولاذية سريعة مرصعة بالجواهر"
 
 msgid "Durable Jewel Steel Shears"
-msgstr ""
+msgstr "مجزات فولاذية متينة مرصعة بالجواهر"
 
 msgid "Swift Jewel Carbon Steel Shears"
-msgstr ""
+msgstr "مجزات كربون فولاذية سريعة مرصعة بالجواهر"
 
 msgid "Durable Jewel Carbon Steel Shears"
-msgstr ""
+msgstr "مجزات كربون فولاذي متينة مرصعة بالجواهر"
 
 msgid "Swift Jewel Bronze Shears"
-msgstr ""
+msgstr "مجزات برونزية سريعة مرصعة بالجواهر"
 
 msgid "Durable Jewel Bronze Shears"
-msgstr ""
+msgstr "مجزات برونزية متينة مرصعة بالجواهر"
 
 msgid "Pommel Jewel Broadsword"
-msgstr ""
+msgstr "سيف عريض النصل ذو عجرة مدورة مرصع بالجواهر"
 
 msgid "Pommel&Guard Jewel Broadsword"
-msgstr ""
+msgstr "سيف عريض النصل ذو عجرة وحماية مرصع بالجواهر"
 
 msgid "Serrated Jewel Broadsword"
-msgstr ""
+msgstr "سيف عريض النصل مسنن مرصع بالجواهر"
