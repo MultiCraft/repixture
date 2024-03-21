@@ -16,6 +16,12 @@ msgstr ""
 msgid "Growth Tool"
 msgstr ""
 
-msgid "Make plants grow instantly"
+msgid "Make plants and mobs grow instantly"
+msgstr ""
+
+msgid "Degrowth Tool"
+msgstr ""
+
+msgid "Turn mobs into children"
 msgstr ""
 

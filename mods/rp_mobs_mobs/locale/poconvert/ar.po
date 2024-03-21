@@ -31,6 +31,9 @@ msgstr "محادثة قصيرة"
 msgid "Have a friendly chat with a villager."
 msgstr "تبادل الحديث معى قروي."
 
+msgid "Boar"
+msgstr "خنزير بري"
+
 msgid "Wool Bundle"
 msgstr "حزمة صوف"
 
@@ -40,9 +43,6 @@ msgstr "لحم نيء"
 msgid "Cooked Meat"
 msgstr "لحم مطبوخ"
 
-msgid "Boar"
-msgstr "خنزير بري"
-
 msgid "Raw Porkchop"
 msgstr "لحم خنزير نيء"
 
@@ -51,6 +51,12 @@ msgstr "لحم خنزير مطبوخ"
 
 msgid "Mine Turtle"
 msgstr "سلحفاة المنجم"
+
+msgid "Sheep"
+msgstr ""
+
+msgid "Skunk"
+msgstr ""
 
 msgid "Farmer"
 msgstr "مزارع"
@@ -132,12 +138,6 @@ msgstr "تبا لك!"
 
 msgid "Villager says: “@1”"
 msgstr "القروي يقول: \"@1\""
-
-msgid "Villager"
-msgstr "قروي"
-
-msgid "Get this thing out of my face!"
-msgstr "أبعد هاذا الشيء عني!"
 
 msgid "Ah, a cactus. You'd be surprised how well they burn in a furnace."
 msgstr "أه، صبار. سيفاجئك كيف أنه يحترق في فرن."
@@ -412,11 +412,8 @@ msgstr ""
 msgid "Stay healthy!"
 msgstr ""
 
-msgid "Sheep"
-msgstr ""
-
-msgid "Skunk"
-msgstr ""
+msgid "Get this thing out of my face!"
+msgstr "أبعد هاذا الشيء عني!"
 
 msgid "Walker"
 msgstr ""

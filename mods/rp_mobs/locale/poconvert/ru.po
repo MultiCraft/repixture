@@ -37,12 +37,6 @@ msgstr "Цветок жизни"
 msgid "Get two animals to breed."
 msgstr "Скрести двух животных."
 
-msgid "Smalltalk"
-msgstr "Светская беседа"
-
-msgid "Have a friendly chat with a villager."
-msgstr "Дружелюбно поговори с жителем."
-
 msgid "Gonna Feed ’em All"
 msgstr "Кормилица"
 

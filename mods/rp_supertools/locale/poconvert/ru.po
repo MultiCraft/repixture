@@ -16,6 +16,12 @@ msgstr ""
 msgid "Growth Tool"
 msgstr "Инструмент роста"
 
-msgid "Make plants grow instantly"
-msgstr "Заставляет растения мгновенно вырастать"
+msgid "Make plants and mobs grow instantly"
+msgstr ""
+
+msgid "Degrowth Tool"
+msgstr ""
+
+msgid "Turn mobs into children"
+msgstr ""
 
