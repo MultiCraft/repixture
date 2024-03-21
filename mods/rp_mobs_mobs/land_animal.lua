@@ -189,7 +189,7 @@ return function(task_queue, mob, dtime)
 							stop_at_reached = true
 							stop_at_object_collision = true
 						end
-						local mt_follow = rp_mobs.microtasks.walk_straight_towards(speed, "object", target, true, settings.follow_reach_distance, settings.jump_strength, settings.jump_clear_height, stop_at_reached, stop_at_object_collision, settings.follow_give_up_time)
+						local mt_follow = rp_mobs.microtasks.walk_straight_towards(speed, "object", target, true, settings.follow_reach_distance, settings.follow_max_distance, settings.jump_strength, settings.jump_clear_height, stop_at_reached, stop_at_object_collision, settings.follow_give_up_time)
 						if task_label == "hunt player" then
 							mt_follow.start_animation = "run"
 						else
@@ -251,6 +251,7 @@ end
 		this node is allowed to have. Otherwise, the mob will avoid this node.
 	follow_reach_distance: When the mob is this far away from a follow target,
 		or closer, the target is supposed to be "reached" and the mob stops walking.
+	follow_max_distance: Maximum distance at which mob is willing to follow
 	follow_give_up_time: Stop following after this many seconds (if not reached first)
 	no_follow_time: If mob stops following due to danger, this is is the time (in ms)
 		that the mob will not follow anything after that happened.

@@ -319,7 +319,7 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, jump_clear_he
 	})
 end
 
-rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, set_yaw, reach_distance, jump, jump_clear_height, stop_at_reached, stop_at_object_collision, max_timer)
+rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, target, set_yaw, reach_distance, max_distance, jump, jump_clear_height, stop_at_reached, stop_at_object_collision, max_timer)
 	local label
 	if max_timer then
 		label = "walk towards something for "..string.format("%.1f", max_timer).."s"
@@ -381,14 +381,23 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				mob.object:set_yaw(yaw)
 			end
 
+			local distance = vector.distance(mypos, tpos)
 			-- Stop walking if within reach_distance
-			if reach_distance and vector.distance(mypos, tpos) <= reach_distance then
+			if reach_distance and distance <= reach_distance then
 				vel.x = 0
 				vel.z = 0
 				mob.object:set_velocity(vel)
 				if stop_at_reached then
 					self.statedata.stop = true
 				end
+				return
+			end
+			-- Stop walking and finish if out of range
+			if max_distance and distance > max_distance then
+				self.statedata.stop = true
+				vel.x = 0
+				vel.z = 0
+				mob.object:set_velocity(vel)
 				return
 			end
 

@@ -83,6 +83,7 @@ Parameters:
 * `target`: target, depending on `target_type`: position or object handle
 * `set_yaw`: If true, will set mob's yaw to face target
 * `reach_distance`: If mob is within this distance towards target, stop walking. If `nil`, has no effect
+* `max_distance`: If mob is further away from target than this distance, stop walking. If `nil`, has no effect
 * `jump`: jump strength if mob needs to jump or nil if no jumping
 * `jump_clear_height`: how many nodes to jump up at most
 * `stop_at_reached`: stop walking and finish if within `reach_distance` of target
@@ -92,6 +93,7 @@ Parameters:
 Finish condition: If any of the following is true:
 * When the time runs out (if `max_timer` was set)
 * Target is within `reach_distance` of the mob and `stop_at_reached` is true
+* Target is further away than `max_distance`
 * When colliding with object if `stop_at_object_collision` is true
 
 ### `rp_mobs.microtasks.set_yaw(yaw)`
