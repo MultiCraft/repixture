@@ -1,7 +1,13 @@
-local PATH_DEBUG = true
+-- If enabled, show path waypoints of pathfinder microtask
+local PATH_DEBUG = false
+-- How close mob needs to be to waypoint of pathfinder before continuing
 local PATH_DISTANCE_TO_GOAL_POINT = 0.7
+-- Precision for random yaw calculation
 local YAW_PRECISION = 10000
+-- How long in seconds to wait before jumping again
 local JUMP_REPEAT_TIME = 1
+-- 'very close' distance horizontally when following a target
+local VERY_CLOSE_DISTANCE_HORIZONTAL = 0.25
 
 -- if the ratio of the current walk speed to the
 -- target walk speed is lower than this number,
@@ -13,6 +19,10 @@ local WALK_SPEED_RESET_THRESHOLD = 0.9
 -- the mob will reset the walk angle
 local WALK_ANGLE_RESET_THRESHOLD = 0.99
 
+-- Maximum permitted speed difference from aimed speed
+-- and actual speed when trying to reach a certain
+-- speed. When the difference is below this value,
+-- target speed is considered to be reached.
 local MOVE_SPEED_MAX_DIFFERENCE = 0.01
 
 local show_pathfinder_path = function(path)
@@ -382,8 +392,13 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 			end
 
 			local distance = vector.distance(mypos, tpos)
-			-- Stop walking if within reach_distance
-			if reach_distance and distance <= reach_distance then
+			local mypos_h = table.copy(mypos)
+			local tpos_h = table.copy(tpos)
+			mypos_h.y = 0
+			tpos_h.y = 0
+			local distance_h = vector.distance(mypos_h, tpos_h)
+			-- Stop walking if within reach_distance in 3D or very close horizontally
+			if reach_distance and (distance <= reach_distance or distance_h <= VERY_CLOSE_DISTANCE_HORIZONTAL) then
 				vel.x = 0
 				vel.z = 0
 				mob.object:set_velocity(vel)
