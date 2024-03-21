@@ -150,12 +150,12 @@ minetest.register_craftitem(
 })
 
 minetest.register_craftitem(
-   "rp_supertools:child_tool",
+   "rp_supertools:degrowth_tool",
    {
-      description = S("Child Tool"),
+      description = S("Degrowth Tool"),
       _tt_help = S("Turn mobs into children"),
-      inventory_image = "rp_supertools_child_tool.png",
-      wield_image = "rp_supertools_child_tool.png",
+      inventory_image = "rp_supertools_degrowth_tool.png",
+      wield_image = "rp_supertools_degrowth_tool.png",
       groups = { supertool = 1, tool = 1 },
       stack_max = 1,
       on_secondary_use = function(itemstack, placer, pointed_thing)
@@ -170,7 +170,7 @@ minetest.register_craftitem(
             if not minetest.is_creative_enabled(placer:get_player_name()) then
                itemstack:add_wear_by_uses(CHILD_TOOL_USES)
             end
-            minetest.log("action", "[rp_supertools] " .. placer:get_player_name() .. " used child tool on '"..ent.name.."' at "..minetest.pos_to_string(pos, 1))
+            minetest.log("action", "[rp_supertools] " .. placer:get_player_name() .. " used degrowth tool on '"..ent.name.."' at "..minetest.pos_to_string(pos, 1))
          end
          return itemstack
       end,
