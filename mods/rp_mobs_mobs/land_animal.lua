@@ -179,15 +179,17 @@ return function(task_queue, mob, dtime)
 						local task = rp_mobs.create_task({label=task_label})
 						local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
 						rp_mobs.add_microtask_to_task(mob, mt_acceleration, task)
-						local speed, stop_at_reached
+						local speed, stop_at_reached, stop_at_object_collision
 						if task_label == "hunt player" then
 							speed = settings.hunt_speed or settings.walk_speed
 							stop_at_reached = settings.dogfight == true
+							stop_at_object_collision = false
 						else
 							speed = settings.walk_speed
 							stop_at_reached = true
+							stop_at_object_collision = true
 						end
-						local mt_follow = rp_mobs.microtasks.walk_straight_towards(speed, "object", target, true, settings.follow_reach_distance, settings.jump_strength, settings.jump_clear_height, stop_at_reached, false, settings.follow_give_up_time)
+						local mt_follow = rp_mobs.microtasks.walk_straight_towards(speed, "object", target, true, settings.follow_reach_distance, settings.jump_strength, settings.jump_clear_height, stop_at_reached, stop_at_object_collision, settings.follow_give_up_time)
 						if task_label == "hunt player" then
 							mt_follow.start_animation = "run"
 						else
@@ -195,11 +197,13 @@ return function(task_queue, mob, dtime)
 						end
 						rp_mobs.add_microtask_to_task(mob, mt_follow, task)
 						-- Dogfight, if enabled in settings
+						local dogfight = false
 						if settings.dogfight and task_label == "hunt player" then
+							dogfight = true
 							local mt_attack = rp_mobs_mobs.create_dogfight_microtask(settings.dogfight_range, settings.dogfight_toolcaps, settings.dogfight_interval)
 							rp_mobs.add_microtask_to_task(mob, mt_attack, task)
 						end
-						if not settings.dogfight then
+						if not dogfight then
 							local mt_sleep = rp_mobs.microtasks.sleep(math.random(settings.idle_duration_min, settings.idle_duration_max)/1000)
 							mt_sleep.start_animation = "idle"
 							rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
