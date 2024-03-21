@@ -1,0 +1,73 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain mobs x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-03-18 14:53+0000\n"
+"Last-Translator: rudzik8 <rudzik8@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Russian <https://translate.codeberg.org/projects/repixture/"
+"mobs/ru/>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.4.2\n"
+
+msgid "Hunter"
+msgstr "Охотник"
+
+msgid "Kill an animal for food."
+msgstr "Убей животное ради еды."
+
+msgid "Gotcha!"
+msgstr "Поймал!"
+
+msgid "Capture a tame animal."
+msgstr "Поймай прирученное животное."
+
+msgid "Best Friends Forever"
+msgstr "Не разлей вода"
+
+msgid "Tame an animal."
+msgstr "Приручи животное."
+
+msgid "Wonder of Life"
+msgstr "Цветок жизни"
+
+msgid "Get two animals to breed."
+msgstr "Скрести двух животных."
+
+msgid "Smalltalk"
+msgstr "Светская беседа"
+
+msgid "Have a friendly chat with a villager."
+msgstr "Дружелюбно поговори с жителем."
+
+msgid "Gonna Feed ’em All"
+msgstr "Кормилица"
+
+msgid "Feed an animal of each species once."
+msgstr "Покорми по животному каждого вида."
+
+msgid "Hostile mobs are disabled!"
+msgstr "Враждебные мобы отключены!"
+
+msgid "Not tamed!"
+msgstr "Не приручен!"
+
+msgid "Missed!"
+msgstr "Мимо!"
+
+msgid "Net"
+msgstr "Сачок"
+
+msgid "Good for capturing small animals"
+msgstr "Подходит для поимки маленьких животных"
+
+msgid "Lasso"
+msgstr "Лассо"
+
+msgid "Good for capturing large animals"
+msgstr "Подходит для поимки больших животных"

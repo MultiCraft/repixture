@@ -13,35 +13,11 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.0\n"
 
-msgid "Hunter"
-msgstr "Chasseur"
-
-msgid "Kill an animal for food."
-msgstr "Tuer un animal pour la nourriture."
-
 msgid "Bomb has Been Defused!"
 msgstr "La bombe a été désamorcée !"
 
 msgid "Kill a mine turtle."
 msgstr "Tuer une tortue de la mine."
-
-msgid "Gotcha!"
-msgstr "Je te tiens !"
-
-msgid "Capture a tame animal."
-msgstr "Capturer un animal apprivoisé."
-
-msgid "Best Friends Forever"
-msgstr "Meilleurs amis pour toujours"
-
-msgid "Tame an animal."
-msgstr "Dompter un animal."
-
-msgid "Wonder of Life"
-msgstr "Merveille de la vie"
-
-msgid "Get two animals to breed."
-msgstr "Faire se reproduire deux animaux."
 
 msgid "Taking a Cut"
 msgstr "Prendre une part"
@@ -55,30 +31,6 @@ msgstr "Petite causette"
 msgid "Have a friendly chat with a villager."
 msgstr "Avoir une conversation amicale avec un habitant du village."
 
-msgid "Gonna Feed ’em All"
-msgstr "Nourrissez les tous"
-
-msgid "Feed an animal of each species once."
-msgstr "Nourrir une fois un animal de chaque espèce."
-
-msgid "Spawned @1 at @2"
-msgstr "@1 a engendré @2"
-
-msgid "@1 (disabled)"
-msgstr "@1 (désactivé)"
-
-msgid "Hostile mobs are disabled!"
-msgstr "Monstres hostiles désactivés !"
-
-msgid "Not tamed!"
-msgstr "Non apprivoisé !"
-
-msgid "@1 is owner!"
-msgstr "@1 est propriétaire !"
-
-msgid "Missed!"
-msgstr "Manqué !"
-
 msgid "Wool Bundle"
 msgstr "Paquet de laine"
 
@@ -87,18 +39,6 @@ msgstr "Viande crue"
 
 msgid "Cooked Meat"
 msgstr "Viande cuite"
-
-msgid "Net"
-msgstr "Filet"
-
-msgid "Good for capturing small animals"
-msgstr "Idéal pour capturer de petits animaux"
-
-msgid "Lasso"
-msgstr "Lasso"
-
-msgid "Good for capturing large animals"
-msgstr "Idéal pour capturer de grands animaux"
 
 msgid "Boar"
 msgstr "Sanglier"
