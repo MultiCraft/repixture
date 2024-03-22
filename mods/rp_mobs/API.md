@@ -905,6 +905,26 @@ and has a tag with the given `tag_name`. Returns false otherwise.
 
 See `rp_mobs.register_mob` for for info about tags.
 
+#### `rp_mobs.scan_environment(mob, dtime, y_offset)`
+
+Call this function for a mob at every step in an `on_step` handler
+to regularily check for nodes nearby the mob, so that other functions
+don't have to call `minetest.get_node` over and over again.
+
+After this function was called, the mob will have the following fields added which you can read from:
+
+* `_env_node`: Node table of the node at the mob position.
+* `_env_node_floor`: Same as `_env_node`, but for exactly 1 node below the mob position
+
+These fields should only be read from, not written to.
+
+Parameters:
+
+* `mob`: Mob object
+* `dtime`: `dtime` from `on_step`
+* `y_offset`: Y offset of roughly the "center point" of the mob,
+  relative to the mob position (`get_pos()`)
+
 
 ## Appendix
 

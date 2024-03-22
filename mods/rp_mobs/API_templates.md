@@ -57,6 +57,8 @@ Walk in a straight horizontal line (on the XZ plane), will jump if hitting a nod
 
 It's recommended the mob is subject to gravity.
 
+NOTE: You **MUST** call `rp_mobs.scan_environment` in the entity's `on_step` function every step for this to work.
+
 Parameters:
 
 * `walk_speed`: How fast to walk
@@ -75,6 +77,8 @@ Walk in a straight horizontal line (on the XZ plane) towards a position or objec
 will jump if hitting node obstacle and `jump~=nil`.
 
 It's recommended the mob is subject to gravity.
+
+NOTE: You **MUST** call `rp_mobs.scan_environment` in the entity's `on_step` function every step for this to work.
 
 Parameters:
 
