@@ -6,6 +6,10 @@ local S = minetest.get_translator("rp_mobs_mobs")
 local TRADES_COUNT = 4
 -- Time after which to heal 1 HP (in seconds)
 local HEAL_TIME = 7.0
+-- Time it takes for villager to forget being mad at player
+local ANGRY_COOLDOWN_TIME = 60.0
+-- View range for hostilities
+local VIEW_RANGE = 16
 
 local get_item_fuel_burntime = function(itemstring)
 	local input = {
@@ -444,7 +448,7 @@ for _, villager_type_table in pairs(villager_types) do
 			},
 			get_staticdata = rp_mobs.get_staticdata_default,
 			on_death = rp_mobs.on_death_default,
-			on_punch = rp_mobs.on_punch_default,
+			on_punch = rp_mobs_mobs.on_punch_make_hostile,
 			on_activate = function(self, staticdata)
 				rp_mobs.init_mob(self)
 				rp_mobs.restore_state(self, staticdata)
@@ -471,6 +475,7 @@ for _, villager_type_table in pairs(villager_types) do
 				local heal_task_queue = rp_mobs.create_task_queue(heal_decider)
 				rp_mobs.add_task_queue(self, movement_task_queue)
 				rp_mobs.add_task_queue(self, heal_task_queue)
+				rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(rp_mobs_mobs.create_angry_cooldown_decider(VIEW_RANGE, ANGRY_COOLDOWN_TIME)))
 
 				self._villager_type = villager_type
 			end,
@@ -484,8 +489,7 @@ for _, villager_type_table in pairs(villager_types) do
 				local item = clicker:get_wielded_item()
 				local name = clicker:get_player_name()
 
-				-- TODO: Reject all interaction when hostile
-				if self.attack and self.attack.player == clicker then
+				if self._temp_custom_state.angry_at and self._temp_custom_state.angry_at:is_player() and self._temp_custom_state.angry_at == clicker then
 					say_random("hostile", name)
 					return
 				end
@@ -525,7 +529,7 @@ for _, villager_type_table in pairs(villager_types) do
 						if not self._trade then
 							self._trade = self._trades[self._trade_index]
 						end
-						minetest.log("action", "[mobs] Villager trades of villager at "..minetest.pos_to_string(self.object:get_pos(), 1).." initialized")
+						minetest.log("action", "[rp_mobs_mobs] Villager trades of villager at "..minetest.pos_to_string(self.object:get_pos(), 1).." initialized")
 					end
 
 					if not gold.trade(self._trade, villager_type, clicker, self, self._trade_index, self._trades) then
