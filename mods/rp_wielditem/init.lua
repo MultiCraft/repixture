@@ -70,12 +70,17 @@ minetest.register_entity("rp_wielditem:wielditem", {
 			return
 		end
 
-		local itemname = player:get_wielded_item():get_name()
+		local item = player:get_wielded_item()
+		local itemname = item:get_name()
+		local old_item
+		if self._itemstring then
+			old_item = ItemStack(self._itemstring)
+		end
 
 		-- Update displayed item if it has changed
-		if itemname ~= self._itemname then
+		if (not old_item) or (not item:equals(old_item)) then
 			if itemname ~= "" then
-				self.object:set_properties({wield_item = itemname, is_visible=true})
+				self.object:set_properties({wield_item = item, is_visible=true})
 				local def = minetest.registered_items[itemname]
 				if def and def._rp_wielditem_rotation then
 					-- Custom rotation
@@ -88,7 +93,7 @@ minetest.register_entity("rp_wielditem:wielditem", {
 				self.object:set_properties({is_visible=false})
 			end
 			-- Remember item name for the next step
-			self._itemname = itemname
+			self._itemstring = item:to_string()
 		end
 	end
 })
