@@ -1,17 +1,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_mobs_mobs x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2024-03-22 10:45+0000\n"
+"Last-Translator: standmit <standmit@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Russian <https://translate.codeberg.org/projects/repixture/"
+"rp_mobs_mobs/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.4.2\n"
 
 msgid "Bomb has Been Defused!"
 msgstr "Бомба обезврежена!"
@@ -224,7 +226,7 @@ msgid "If you use it on wool, it will point to the North again."
 msgstr "Если вы используете его на шерсти, он снова укажет на Север."
 
 msgid "We live in a lovely place, don't we?"
-msgstr "Эхх, всё как у людей..."
+msgstr "Мы живём в прекрасном месте. Не правда ли?"
 
 msgid "It's used to capture large animals."
 msgstr "Оно используется для поимки больших животных."
@@ -270,18 +272,20 @@ msgstr ""
 
 msgid "If the sapling refuses to grow, make sure it has enough open space above it."
 msgstr ""
+"Если саженец не растёт, проверь, чтобы над ним было достаточно свободного "
+"пространства."
 
 msgid "Try placing it on different grounds. It might grow differently."
 msgstr ""
 
 msgid "Use this to trim plants and get wool from sheep."
-msgstr ""
+msgstr "Используй это, чтобы срезать траву и листья, а также стричь овец."
 
 msgid "Papyrus grows best on fertilized swamp dirt."
 msgstr ""
 
 msgid "Papyrus likes to grow next to water."
-msgstr ""
+msgstr "Папирус любит расти возле воды."
 
 msgid "The papyrus grows tall in the swamp. But it can grow even taller."
 msgstr ""
@@ -291,12 +295,15 @@ msgstr ""
 
 msgid "Cacti grow best on sand. They are also a food source, if you're really desperate."
 msgstr ""
+"Кактусы лучше всего растут в песке. Их даже можно есть, если ты достаточно "
+"отчаялся."
 
 msgid "This is the secret ingredient for my special drink. But don't tell anyone!"
 msgstr ""
+"Это особый ингредиент для моего особого напитка. Только не говори никому!"
 
 msgid "Now what can you possibly do with a cactus? I don't know!"
-msgstr ""
+msgstr "И что ты теперь будешь делать с кактусом? Я не знаю!"
 
 msgid "Jewels are great! If you have a jeweller's workbench, you can enhance your tools."
 msgstr ""
@@ -317,7 +324,7 @@ msgid "Let’s light up some caves!"
 msgstr "Давай осветим-ка немного пещер!"
 
 msgid "A flower? I love flowers! Let's make the world bloom!"
-msgstr "Цветок? Я люблю цветки! Давай заставим мир цвести!"
+msgstr "Цветок? Я люблю цветы! Давай заставим мир цвести!"
 
 msgid "You can use this to light up torches and bonfires and ignite TNT."
 msgstr ""
@@ -335,10 +342,10 @@ msgid "You need flint and steel to light the fire. But don't walk into the flame
 msgstr ""
 
 msgid "Isn't it stressful to carry this heavy bed around?"
-msgstr ""
+msgstr "Тебе не надоело таскать эту тяжёлую кровать?"
 
 msgid "Sleeping makes the night go past in the blink of an eye."
-msgstr ""
+msgstr "Сон позволяет пропустить ночь в мгновение ока."
 
 msgid "Hole in dirt, put bronze in. Bell’s complete, bim, bim, bim!"
 msgstr ""
@@ -348,6 +355,7 @@ msgstr "Яблоки такие вкусные!"
 
 msgid "Boars love to eat acorns! If you feed enough of these to them, they will multiply."
 msgstr ""
+"Кабаны любят жёлуди! Если дать им достаточно желудей, они будут размножаться."
 
 msgid "Did you try to dry it in the furnace?"
 msgstr ""
@@ -368,13 +376,15 @@ msgid "Airweed needs a moment to refill after you used it. The time it needs dep
 msgstr ""
 
 msgid "If you fertilize the ground, an alga will grow higher."
-msgstr ""
+msgstr "Если удобрить землю, водоросль вырастет выше."
 
 msgid "The tallest algae always grow on alga blocks."
 msgstr ""
 
 msgid "If an alga tries to grow but something blocks its path, it'll stop growing, even if the barrier is removed later."
 msgstr ""
+"Если растущая водоросль во что-нибудь упрётся, она перестанет расти, даже "
+"если потом убрать препятствие."
 
 msgid "Algae grow underwater in different heights."
 msgstr ""
@@ -396,6 +406,8 @@ msgstr "Вы все в грязи!"
 
 msgid "Swamp dirt is really interesting. The famous swamp oak grows on it, and papyrus also grows exceptionally well."
 msgstr ""
+"Болотная грязь очень интересна. На ней растёт знаменитый болотный дуб. И "
+"даже папирус растёт на ней исключительно хорошо."
 
 msgid "Disgusting!"
 msgstr "Отвратительно!"
@@ -410,14 +422,13 @@ msgid "You can use sand to grow cacti."
 msgstr "Ты можешь использовать песок чтобы вырастить кактус."
 
 msgid "Be careful not to let it fall on your head!"
-msgstr ""
+msgstr "Смотри, чтобы не упало на голову!"
 
 msgid "This is like my ex-lover's heart. Made out of stone."
-msgstr ""
+msgstr "Это как сердце моей бывшей. Сделано из камня."
 
 msgid "Stay healthy!"
-msgstr ""
+msgstr "Будь здоров!"
 
 msgid "Walker"
 msgstr "Ходок"
-
