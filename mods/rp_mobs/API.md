@@ -688,7 +688,7 @@ If the task queue is empty, nothing happens.
 
 ### Task template functions
 
-This mod comes with a number of template functions for common microtasks like walking. See `API_template.md` for a reference.
+This mod comes with a number of template functions for common microtasks like walking. See `API_TEMPLATES.md` for a reference.
 
 
 
