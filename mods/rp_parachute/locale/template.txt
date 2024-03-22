@@ -1,4 +1,4 @@
-# textdomain: parachute
+# textdomain: rp_parachute
 Parachute=
 Lets you glide safely to the ground when falling=
 You can open the parachute only in air!=

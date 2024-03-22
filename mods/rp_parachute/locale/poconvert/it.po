@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Minetest textdomain parachute x.x.x\n"
+"Project-Id-Version: Minetest textdomain rp_parachute x.x.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,23 +14,23 @@ msgstr ""
 "X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Parachute"
-msgstr ""
+msgstr "Paracadute"
 
 msgid "Lets you glide safely to the ground when falling"
-msgstr ""
+msgstr "Permette di planare a terra in sicurezza quando si cade"
 
 msgid "You can open the parachute only in air!"
-msgstr ""
+msgstr "Puoi aprire il paracadute solo in aria!"
 
 msgid "Not enough space to open parachute!"
-msgstr ""
+msgstr "Non c'è abbastanza spazio per aprire il paracadute!"
 
 msgid "The parachute fails to open for some reason."
-msgstr ""
+msgstr "Il paracadute non si apre per qualche motivo."
 
 msgid "Skydiver"
-msgstr ""
+msgstr "Paracadutista"
 
 msgid "Descend over 100 blocks with a parachute."
-msgstr ""
+msgstr "Discendi per più di 100 blocchi con un paracadute."
 

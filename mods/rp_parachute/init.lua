@@ -3,7 +3,7 @@
 -- Parachute mod
 --
 
-local S = minetest.get_translator("parachute")
+local S = minetest.get_translator("rp_parachute")
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
 
@@ -150,7 +150,7 @@ local function open_parachute_for_player(player, play_sound, load_area)
 
    if rp_player.player_attached[name] then
       if play_sound then
-         minetest.sound_play({name="parachute_fail", gain=SND_GAIN_FAIL}, {object=player}, true)
+         minetest.sound_play({name="rp_parachute_fail", gain=SND_GAIN_FAIL}, {object=player}, true)
       end
       return false, "already_attached"
    end
@@ -171,14 +171,14 @@ local function open_parachute_for_player(player, play_sound, load_area)
       local in_node = minetest.get_node(pos)
       if in_node.name == "ignore" then
          if play_sound then
-            minetest.sound_play({name="parachute_fail", gain=SND_GAIN_FAIL}, {object=player}, true)
+            minetest.sound_play({name="rp_parachute_fail", gain=SND_GAIN_FAIL}, {object=player}, true)
          end
          return false, "ignore"
       end
 
-      local obj = minetest.add_entity(ppos, "parachute:entity")
+      local obj = minetest.add_entity(ppos, "rp_parachute:entity")
       if play_sound then
-         minetest.sound_play({name="parachute_open", gain=SND_GAIN_OPEN}, {object=player}, true)
+         minetest.sound_play({name="rp_parachute_open", gain=SND_GAIN_OPEN}, {object=player}, true)
       end
 
       obj:set_velocity(
@@ -208,18 +208,18 @@ local function open_parachute_for_player(player, play_sound, load_area)
          meta:set_int("parachute:start_y_set", 1)
       end
 
-      minetest.log("action", "[parachute] "..name.." opens a parachute at "..minetest.pos_to_string(obj:get_pos(), 1))
+      minetest.log("action", "[rp_parachute] "..name.." opens a parachute at "..minetest.pos_to_string(obj:get_pos(), 1))
       return true
    else
       if play_sound then
-         minetest.sound_play({name="parachute_fail", gain=SND_GAIN_FAIL}, {object=player}, true)
+         minetest.sound_play({name="rp_parachute_fail", gain=SND_GAIN_FAIL}, {object=player}, true)
       end
       return false, fail_reason
    end
 end
 
 minetest.register_craftitem(
-   "parachute:parachute", {
+   "rp_parachute:parachute", {
       description = S("Parachute"),
       _tt_help = S("Lets you glide safely to the ground when falling"),
       inventory_image = "parachute_inventory.png",
@@ -256,11 +256,11 @@ minetest.register_craftitem(
 })
 
 minetest.register_entity(
-   "parachute:entity",
+   "rp_parachute:entity",
    {
       initial_properties = {
           visual = "mesh",
-          mesh = "parachute.b3d",
+          mesh = "rp_parachute.b3d",
           textures = {"parachute_mesh.png"},
           pointable = false,
           physical = true,
@@ -279,7 +279,7 @@ minetest.register_entity(
       ignore_mode = false,
 
       on_activate = function(self, staticdata, dtime_s)
-         minetest.log("info", "[parachute] Parachute at "..minetest.pos_to_string(self.object:get_pos(), 1).." is activating (dtime_s="..dtime_s..")")
+         minetest.log("info", "[rp_parachute] Parachute at "..minetest.pos_to_string(self.object:get_pos(), 1).." is activating (dtime_s="..dtime_s..")")
          self.object:set_armor_groups({immortal=1})
          if dtime_s == 0 then
            local pos = self.object:get_pos()
@@ -428,19 +428,19 @@ minetest.register_entity(
             else
                snd_object = self.object
             end
-            minetest.sound_play({name="parachute_close", gain=SND_GAIN_CLOSE}, {object=snd_object}, true)
+            minetest.sound_play({name="rp_parachute_close", gain=SND_GAIN_CLOSE}, {object=snd_object}, true)
 
             local final_pos_str = minetest.pos_to_string(self.object:get_pos(), 1)
             if player then
-               minetest.log("action", "[parachute] Parachute of "..player:get_player_name().." getting destroyed at "..final_pos_str)
+               minetest.log("action", "[rp_parachute] Parachute of "..player:get_player_name().." getting destroyed at "..final_pos_str)
             else
-               minetest.log("action", "[parachute] Parachute getting destroyed at "..final_pos_str)
+               minetest.log("action", "[rp_parachute] Parachute getting destroyed at "..final_pos_str)
             end
             self.object:remove()
          end
       end,
       on_deactivate = function(self, removal)
-         minetest.log("info", "[parachute] Parachute at "..minetest.pos_to_string(self.object:get_pos(), 1).." is deactivating (removal="..tostring(removal)..")")
+         minetest.log("info", "[rp_parachute] Parachute at "..minetest.pos_to_string(self.object:get_pos(), 1).." is deactivating (removal="..tostring(removal)..")")
          if self.attached ~= nil then
             if rp_player.player_attached[self.attached] then
                local player = minetest.get_player_by_name(self.attached)
@@ -465,11 +465,11 @@ minetest.register_on_joinplayer(function(player)
    -- This isn't perfect as the old velocity isn't preserved but better
    -- better than nothing.
    if meta:get_int("parachute:active") == 1 then
-      minetest.log("action", "[parachute] Trying to open parachute for reconnected player "..player:get_player_name().." ...")
+      minetest.log("action", "[rp_parachute] Trying to open parachute for reconnected player "..player:get_player_name().." ...")
       local pos = player:get_pos()
       local ok, fail_reason = open_parachute_for_player(player, false, true)
       if not ok then
-         minetest.log("action", "[parachute] Parachute opening failed because: "..fail_reason)
+         minetest.log("action", "[rp_parachute] Parachute opening failed because: "..fail_reason)
       end
    end
 end)
@@ -478,7 +478,7 @@ end)
 
 crafting.register_craft(
    {
-      output = "parachute:parachute",
+      output = "rp_parachute:parachute",
       items = {
          "group:fuzzy 3",
          "rp_default:rope 4",
@@ -497,3 +497,21 @@ achievements.register_achievement(
       icon = "rp_parachute_achievement_sky_diver.png",
       difficulty = 6.2,
 })
+
+-- Legacy support
+minetest.register_alias("parachute:parachute", "rp_parachute:parachute")
+
+-- Remove legacy parachute entity
+minetest.register_entity(":parachute:entity", {
+	initial_properties = {
+		is_visible = false,
+		pointable = false,
+		physical = false,
+		static_save = false,
+	},
+	on_activate = function(self)
+		self.object:remove()
+		minetest.log("action", "[rp_parachute] Legacy parachute entity at "..minetest.pos_to_string(self.object:get_pos(), 1).." removed")
+	end,
+})
+	

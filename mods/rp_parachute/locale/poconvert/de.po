@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Minetest textdomain parachute x.x.x\n"
+"Project-Id-Version: Minetest textdomain rp_parachute x.x.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: fr\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,23 +14,23 @@ msgstr ""
 "X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Parachute"
-msgstr "Parachute"
+msgstr "Fallschirm"
 
 msgid "Lets you glide safely to the ground when falling"
-msgstr "Vous permet de planer jusqu'au sol en toute sécurité lors d'une chute"
+msgstr "Damit gleitet man sicher im Sinkflug zu Boden"
 
 msgid "You can open the parachute only in air!"
-msgstr "Vous ne pouvez ouvrir le parachute que dans les airs !"
+msgstr "Fallschirm kann nur in der Luft geöffnet werden!"
 
 msgid "Not enough space to open parachute!"
-msgstr "Pas assez d'espace pour ouvrir le parachute !"
+msgstr "Nicht genügend Platz, um Fallschirm zu öffnen!"
 
 msgid "The parachute fails to open for some reason."
-msgstr "Le parachute n'arrive pas à s'ouvrir pour une raison quelconque."
+msgstr "Der Fallschirm öffnet sich nicht."
 
 msgid "Skydiver"
-msgstr "Parachutiste"
+msgstr "Fallschirmspringer"
 
 msgid "Descend over 100 blocks with a parachute."
-msgstr "Descendre 100 blocs ou plus avec un parachute."
+msgstr "Sinken Sie 100 Blöcke mit einem Fallschirm ab."
 
