@@ -2,6 +2,9 @@
 
 NOTE: This API is EXPERIMENTAL and subject to change! Use at your own risk.
 
+This is the API documentation for the Repixture Mobs API. This is the document
+you want to read if you want to develop your own Repixture mobs.
+
 ## Core concepts
 
 ### Mobs
@@ -908,7 +911,7 @@ See `rp_mobs.register_mob` for for info about tags.
 #### `rp_mobs.scan_environment(mob, dtime, y_offset)`
 
 Call this function for a mob at every step in an `on_step` handler
-to regularily check for nodes nearby the mob, so that other functions
+to regularly check for nodes nearby the mob, so that other functions
 don't have to call `minetest.get_node` over and over again.
 
 After this function was called, the mob will have the following fields added which you can read from:
@@ -930,8 +933,67 @@ Parameters:
 
 ### Glossary
 
-* Mob: Non-player entity with added capabilities and a task queue
+* Mob: Non-player entity with added capabilities
 * Task queue: Sequence of tasks a mob will execute in order; can run in parallel
 * Task: A sequence of microtasks a mob will execute in order; can’t run in parallel
 * Microtask: A simple function a mob will execute every step until a goal condition is met
-* Decider: A function that is called when the task queue is empty in order to generate new tasks
+* Decider: A function that is called in order to determine what to do next in a task queue
+* Subsystem: An implementation of core mob features; must be enabled with special functions
+* Tag: A simple property that can be assigned to mobs. Used to categorize mobs
+* Breed: Bringing two mobs of the same kind together with food to create a child mob
+* Tame: A mob eventually becomes tame when it has been fed. Tame mobs behave differently
+
+
+### Why yet another Mob API?
+
+If you know the Minetest community, you might have noticed there are a lot of Mob APIs around.
+So why introduce another one?
+
+The reason is that I (Wuzzy) was dissatisfied with the current mod situation.
+
+The mob mods that existed went into one of two extremes:
+
+The one extreme is Mobs Redo, hardcoding a lot of features into the core mod, but
+this created unmaintainable spaghetti code, made it hard to actually customize the mobs apart
+from changing some parameters. This usually was also quite wasteful since mobs executed
+code they didn't need. Repixture previously used an ancient fork for Mobs Redo.
+But the upside of Mobs Redo was that it was very easy to add lots of new mobs, but they
+couldn't differ that much.
+
+The other extreme is mobkit. This mod basically wanted to do away with all the hardcoded
+behavior and instead give the developer
+This approach sounded good at first but the problem was that mobkit offered so
+little in useful features that you basically still had to start from (almost) zero.
+But this defeats the point of an API.
+Other mods that looked promising disappointed me because they are very poorly documented,
+making them useless for productive development.
+
+Since none of the available options was satisfying, I finally decided to create
+my own mobs API, which should allow me to add a diverse set of mobs relatively
+easy.
+
+I want to have a middle ground between offering many useful built-in features
+and flexibility. Performance and documentation are also very important.
+
+#### How this mod aims to reach these goals
+
+The core of this mod is the 'task queue' system. This system serves two
+purposes: First, to allow mobs to execute tasks in a certain order, one
+after another. This idea was directly inspired by 'The Sims'. In this
+game, the sims (the characters you control) also have queue of tasks.
+
+Second, and more importantly, mobs can have multiple task queues at
+once, each of which will be run in parallel. This was loosely
+inspired by multitasking in operating systems.
+
+Parallelization helps greatly improve performance and flexibility,
+and it simplifies many complex things. For example, a mob can now
+continuously scan its surroundings for enemies while still moving
+around. The code for both tasks can be cleanly separated.
+
+Another core concept in this mod is modularization. While this mod
+offers built-in high-level features such as drowning, fall damage, breeding
+and more, almost everything is optional. Features need to be explicitly
+enabled for a mob before they are used. So mobs can only use the
+features they need, which is again good for performance and
+flexibility.
