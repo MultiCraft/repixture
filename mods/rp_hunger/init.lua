@@ -203,7 +203,7 @@ local function update_bar(player)
 	    hud_elem_type = "statbar",
 	    position = {x=0.5,y=1.0},
 	    text = "hunger.png",
-	    text2 = "hunger.png^[colorize:#666666:255",
+	    text2 = "hunger_gone.png",
 	    number = userdata[name].hunger,
 	    item = hunger.MAX_HUNGER,
 	    dir = 0,
