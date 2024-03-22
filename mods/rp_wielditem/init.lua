@@ -1,7 +1,12 @@
-
 --
 -- Wielditem mod
 --
+
+-- Time it takes for a wielditem entity to respawn after it was removed (seconds)
+local RESPAWN_TIME = 3.0
+
+-- Time it takes for a wielditem entity to spawn after a player joined (seconds)
+local SPAWN_TIME_AFTER_JOIN = 3.0
 
 local wielditem = {}
 
@@ -63,7 +68,7 @@ minetest.register_entity("rp_wielditem:wielditem", {
 		-- Respawn wielditem entity if neccessary
 		local wielder = self._wielder
 		if wielder and wielder:is_player() then
-			minetest.after(3, function(player)
+			minetest.after(RESPAWN_TIME, function(player)
 				if player and player:is_player() then
 					minetest.log("info", "[rp_wielditem] Respawning wielditem entity for "..wielder:get_player_name())
 					attach_wielditem(player)
@@ -119,7 +124,7 @@ minetest.register_on_joinplayer(function(player)
 		end
 		attach_wielditem(player)
 	end
-	minetest.after(3, spawn_wielditem, player)
+	minetest.after(SPAWN_TIME_AFTER_JOIN, spawn_wielditem, player)
 end)
 
 minetest.register_on_leaveplayer(function(player)
