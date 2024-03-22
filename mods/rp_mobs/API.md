@@ -19,7 +19,7 @@ Additionally, every task consists of a number of microtasks. These are intended 
 
 To use tasks, they must be initialized by calling `rp_mobs.init_tasks` in `on_activate` and be handled (i.e. executed) every step by calling `rp_mobs.handle_tasks` in `on_step`.
 
-Finally, task queues organize the execution of tasks. A task queue is a sequence of tasks that get executed in order. Tasks get automatically removed from the queue once finished. Task queues also optionally have a `decider` function which is called every time the task queue is empty.
+Finally, task queues organize the execution of tasks. A task queue is a sequence of tasks that get executed in order. Tasks get automatically removed from the queue once finished. Task queues also optionally have a number of decider function which are called to determine which tasks to add next.
 
 A mob can have any number of task queues active at a time. While tasks and microtasks are executed sequentially, task queues run in parallel.
 
@@ -44,19 +44,23 @@ This mod doesn't handle physics. Just use Minetest’s built-in functions like `
 
 There’s one exception: Gravity. This mod provides a default gravity vector at `rp_mobs.GRAVITY_VECTOR`.
 
-To activate gravity for a mob, you can call `mob.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)`.
+To activate gravity for a mob, you use the `set_acceleration` microtask template (see the section about task templates).
 
 ### Registering a mob
 You add (register) a mob via `rp_mobs.register_mob`. Mob definitions in this API are very low-level and similar to typical entity definitions in Minetest. You still have to provide a full entity definition via `entity_definition` including the callback functions like `on_activate` and `on_rightclick`.
 
 You're supposed to use the Repixture Mob API functionality by inserting the various helper functions into the callbacks like `on_step` and `on_activate` where appropriate.
 
-You can use the following template:
+A template for a minimal mob looks like this:
 
 	rp_mobs.register_mob("MOBNAME", {
 		description = "MOB DESCRIPTION",
 		drops = { ADD_YOUR_DROPS_HERE },
 		entity_definition = {
+			initial_properties = {
+				-- Add the initial entity properties here
+				-- e.g. physical, hp_max, textures, etc.
+			},
 			on_activate = function(self, staticdata)
 				rp_mobs.init_mob(self)
 				rp_mobs.restore_state(self, staticdata)
@@ -128,8 +132,9 @@ Microtasks can be created with `rp_mobs.create_microtask`.
 
 Subsystems implement core mob features. The task handling is also a subsystem.
 
-Each subsystem can be enabled by adding a `handle_*` function in `on_step` and
-most of the time, also an `init_*` function in `on_activate`.
+Each subsystem is enabled by adding both a `handle_*` function in `on_step`
+and an `init_*` function in `on_activate`. Some subsystems only require
+one of these functions.
 
 The `handle_*` function in `on_step` **must** be called on *every* step.
 Failing to do so leads to undefined behavior.
@@ -138,7 +143,7 @@ For example, to enable the Tasks subsystem, call `rp_mobs.init_tasks` in `on_act
 of the mob entity definition, and `rp_mobs.handle_tasks` in `on_step`. See the
 function reference for details.
 
-The Tasks subsystem is mandatory and must be enabled for all mobs.
+Some subsystems are mandatory (see overview below).
 
 ### Subsystem overview
 
@@ -155,7 +160,7 @@ This overview is a list of all subsystems and the required functions you need to
     Breeding    | **                       | rp_mobs.handle_breeding
     
     *   = mandatory
-    **  = no init function required
+    **  = no function required
     *** = can be replaced with rp_mobs.handle_environment_damage
 
 ### Core subsystem
@@ -169,10 +174,11 @@ of the `on_activate` function.
 An entity “dies” in Minetest when its HP reaches 0, which instantly removes it and
 triggers the `on_death` function.
 
-We do not like instant removal so this mod provides a simple graphical death effect
-delay. This flips over the mob and makes it come to a screeching halt.
+We do not like instant removal so this subsystem provides a simple graphical death
+effect and delay. This flips over the mob and makes it come to a screeching halt.
 The mob is still visible but all player interactions are disabled. After a short
-delay, the mob disappears, causing `on_death` to be called.
+delay, the mob disappears in a cloud of dust by setting the HP to 0,
+causing `on_death` to be called.
 
 To use this subsystem, add `rp_mobs.handle_dying` into `on_step`.
 
@@ -186,7 +192,7 @@ When the mob has received fatal damage, the HP remains at 1 but the mob
 counts as dead.
 
 If this subsystem is not used, the mob will instantly disappear when the HP reaches 0.
-But `on_death` is still called (allowing for mob drops).
+But `on_death` is still called because this is built-in by Minetest.
 
 ### Node damage
 
@@ -217,7 +223,7 @@ and `rp_mobs.handle_drowning` in `on_step`. Read the documentation of these
 functions to learn more about the drowning mechanic in general.
 
 The drowning status can also be changed during the mob’s lifetime in `on_step`
-by manipulating the drowning fields (see the mob field reference).
+by manipulating the mob fields (see the mob field reference).
 
 ### Breeding
 
@@ -265,6 +271,7 @@ child texture, `_textures_child` can be skipped.
 * `_get_fall_damage`: `true` when mob can take fall damage (default: false)
 * `_can_drown`: `true` when mob has breath and can drown in nodes with `drowning` attribute (default: false)
 * `_drowning_point`: See `rp_mobs.init_breath`.
+* `_node_damage_points`: See `rp_mobs_init_node_damage`.
 * `_breath_max`: Maximum breath (ignored if `_can_drown` isn’t true)
 * `_breath`: Current breath (ignored if `_can_drown` isn’t true)
 
@@ -297,7 +304,12 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
 
 `def` is a definition table with the following optional fields:
 
-* `description`: Short mob name used for display purposes
+* `description`: Mob name used for display purposes (can be translated)
+* `entity_definition`: Entity definition table. Put everything in here that is also used
+                       for normal entities (`on_step`, `on_activate`, `initial_properties`, etc.).
+  * It may also contain this custom function:
+    * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
+                                     Triggered by `rp_mobs.call_on_capture`
 * `drops`: Items to drop (see 'Drop table' below) on death when mob dies as adult (default: empty table)
 * `child_drops`: Items to drop when mob dies as child (default: empty table)
 * `drop_func(self)`: (optional) Called when mob is dropping its death drop items. Must return table of items to drop.
@@ -313,13 +325,10 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
   * `give_birth`: When mob gives birth to a child
 * `front_body_point`: A point of the front side of the mob. Used by the mob to "see"
                       forwards to detect dangerous land (cliffs, damaging blocks, etc.)
-                      Should be on the mob model and roughly in the center of that side.
+                      Should be on the front face of the mob model and roughly in the center of that side.
 * `dead_y_offset`: Y offset of collisionbox when mob is in 'dying' state. Set this to
                    a number so that the mob lies on top of the ground (it should neither
                    float nor be inside the ground)
-* `entity_definition`: Entity definition table. It may contain this custom function:
-  * `_on_capture(self, capturer)`: Called when a mob capture is attempted by capturer (a player).
-                                   Triggered by `rp_mobs.call_on_capture`
 * `textures_child`: If set, this will be the mob texture for the mob as a child. Same syntax as `textures`
                     of the entity definition. Adult mobs will use `textures`
 * `animations`: Table of available mob animations
@@ -329,7 +338,7 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
     * `default_frame_speed`: Default `frame_speed` (from `object:set_animation`) when this animation is played
   * Built-in animations are:
     * `"idle"`: Played when mob has nothing to do (empty task queue)
-    * `"dead_static"`: Played when mob is dead (no animation, just a static frame)
+    * `"dead_static"`: Played when mob is dead (there normally should be no animation, just a static frame)
 * `tags`: Table of tags.
   * Tags are arbitrary strings used to logically categorize the mob.
   * The table keys are tag names and value for each key must always be 1.
@@ -384,6 +393,10 @@ Registers an *existing* tool as a capture tool.
     * `sound_gain`: (optional) Gain of that sound (as in `SimpleSoundSpec`)
     * `sound_max_hear_distance`: (optional) `max_hear_distance` of that sound (as in `SimpleSoundSpec`)
 
+This mod comes with a lasso (`rp_mobs:lasso`) and a net (`rp_mobs:net`) by default.
+
+
+
 ### Default entity handlers
 
 These functions should be set as the callback functions of the mob entity.
@@ -409,10 +422,13 @@ Set `get_staticdata = rp_mobs.get_staticdata_default` to use this.
 #### `rp_mobs.on_death_default(mob, killer)`
 
 The default handler for `on_death` of the mob's entity definition.
-It must be set explicitly for every mob, unless you want to have a custom death handling.
+It should be set explicitly for every mob, unless you want to have a custom death handling.
 Currently, the default death handler just drops the mob death items.
 
 Set `on_death = rp_mobs.on_death_default` to use the default death behavior.
+
+Remember that `on_death` is a built-in Minetest event, so it is triggered even
+if the mob doesn't use the 'Dying' subsystem.
 
 #### `rp_mobs.on_punch_default(mob, puncher, time_from_last_punch, tool_capabilities, dir, damage)`
 
@@ -426,7 +442,7 @@ This will play a the `damage` sound if the mob took damage, otherwise, `hit_no_d
 
 These are functions to be used in the `on_activate` handler to initialize certain subsystems, like tasks.
 
-Calling `rp_mobs.restore_state` in `on_activate` is a requirement, but everything else is optional depending on your needs.
+Calling `rp_mobs.init_mob`, `rp_mobs.restore_state` and `rp_mobs.init_tasks` in `on_activate` are required, but everything else is optional depending on your needs.
 
 #### `rp_mobs.init_mob(mob)`
 
@@ -439,13 +455,16 @@ This function **must** be called in `on_activate` before any other mob-related f
 
 This will restore the mob's state data from the given `staticdata` in `on_activate`.
 
-This *must* be called in `on_activate`.
+This *must* be called in `on_activate` before any other mob-related function except
+`rp_mobs.init_mob`.
 
 #### `rp_mobs.init_tasks(mob)`
 
 Initialize the task and microtask queues for the mob.
 This is supposed to go into `on_activate` of the entity definition.
-This function **must** be called before any other task-related function is called.
+
+This *must* be called in `on_activate` before any other mob-related function except
+`rp_mobs.init_mob` and `rp_mobs.restore_state`.
 
 #### `rp_mobs.init_breath(mob, can_drown, def)`
 
@@ -500,7 +519,7 @@ Recommendations:
 It is strongly recommended you always explicitly define the node damage point(s).
 
 For small mobs, one node damage point is sufficient.
-For large mobs (usually that occupy a space much larger than 1 node),
+For large mobs (that usually occupy a space much larger than 1 node),
 multiple points should be used.
 Each damage point should be inside the mob's "body" and be roughly centered.
 Use as few points as possible for performance reasons, and don't put them
@@ -526,7 +545,7 @@ Parameters:
 ### Subsystems: `on_step` handlers
 
 These are functions you need to call in the `on_step` callback function of the mob entity in order for a subsystem to work properly.
-Each of these functions assumes the corresponding `rp_mobs.init_*` function has been called before.
+Each of these functions assumes the corresponding `rp_mobs.init_*` function (if any) has been called before.
 
 #### `rp_mobs.handle_tasks(mob, dtime, moveresult)`
 
@@ -602,7 +621,7 @@ which node is checked for the `drowning` field. If
 `_drowning_point` is set, is must be a vector added to
 the mob position to check a different position. This
 is usually where the mob’s “head” is. The drowning point
-should be inside the collisionbox, otherwise the mob
+must be inside the collisionbox, otherwise the mob
 might regain breath when touching a wall.
 The drowning point will automatically be rotated with the
 mob’s yaw.
@@ -634,7 +653,7 @@ See also `rp_mobs.init_tasks` and `rp_mobs.handle_tasks`.
 Create a task queue object and returns it. The arguments are
 optional decider functions.
 
-In this function you can update the task queue by adding new
+In these decider functions you can update the task queue by adding new
 tasks to it. Avoid complex and slow algorithms here!
 
 * `empty_decider(task_queue, mob)`: called when the task queue is empty
@@ -748,8 +767,6 @@ Should be added into the `on_step` function of the mob if you want children to g
 
 #### `rp_mobs.attempt_capture = function(mob, capturer, capture_chances, force_take, replace_with)`
 
-Requires the Capturing subsystem.
-
 Attempt to capture mob by capturer (a player). This requires a mob to have a mob available as
 an item (see `rp_mobs.register_mob_items`), unless `replace_with` is set.
 
@@ -782,8 +799,6 @@ Parameters:
 
 #### `rp_mobs.call_on_capture(mob, capture)`
 
-Requires the Capturing subsystem.
-
 Handle the mob’s capturing logic by calling the `_on_capture` function of the mob’s entity definition. This function *must* exist.
 
 It is recommended to put this into `on_rightclick`, if you want this mob to be capturable.
@@ -794,7 +809,7 @@ It is recommended to put this into `on_rightclick`, if you want this mob to be c
 
 #### `rp_mobs.set_animation(mob, animation_name, animation_speed)`
 
-Set the animation for the given mob. The animation name is set in the mob definition in `_animations`. The name *must* exist in this table
+Set the animation for the given mob. The animation name is set in the mob definition in `_animations`. The name *must* exist in this table.
 
 * `mob`: Mob object
 * `animation_name`: Name of the animation to play, as specified in mob definition
@@ -961,14 +976,15 @@ But the upside of Mobs Redo was that it was very easy to add lots of new mobs, b
 couldn't differ that much.
 
 The other extreme is mobkit. This mod basically wanted to do away with all the hardcoded
-behavior and instead give the developer
+behavior and instead give the developer more freedom.
 This approach sounded good at first but the problem was that mobkit offered so
-little in useful features that you basically still had to start from (almost) zero.
-But this defeats the point of an API.
+little in useful features that you basically still had to start from (almost) zero
+to re-implement common features that the mod should have already given you.
+This defeats the point of an API.
 Other mods that looked promising disappointed me because they are very poorly documented,
 making them useless for productive development.
 
-Since none of the available options was satisfying, I finally decided to create
+Since none of the available options were satisfying, I've finally decided to create
 my own mobs API, which should allow me to add a diverse set of mobs relatively
 easy.
 
@@ -981,10 +997,11 @@ The core of this mod is the 'task queue' system. This system serves two
 purposes: First, to allow mobs to execute tasks in a certain order, one
 after another. This idea was directly inspired by 'The Sims'. In this
 game, the sims (the characters you control) also have queue of tasks.
+This should allow to add complex tasks that require multiple steps.
 
 Second, and more importantly, mobs can have multiple task queues at
 once, each of which will be run in parallel. This was loosely
-inspired by multitasking in operating systems.
+inspired by multitasking of operating systems.
 
 Parallelization helps greatly improve performance and flexibility,
 and it simplifies many complex things. For example, a mob can now
