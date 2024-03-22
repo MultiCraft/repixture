@@ -459,6 +459,79 @@ local sounds = rp_sounds.node_sound_planks_defaults({
    place = {name="rp_sounds_place_planks", gain=1.0, pitch=0.8},
 })
 
+local on_rightclick_bed_foot = function(pos, node, clicker, itemstack)
+	if not clicker:is_player() then
+		return itemstack
+	end
+
+	local clicker_name = clicker:get_player_name()
+
+	local sleeper_name = get_player_in_bed(pos)
+
+	if clicker_name == sleeper_name then
+		take_player_from_bed(clicker)
+	elseif sleeper_name == nil and not rp_player.player_attached[clicker_name]
+			and bed.userdata.temp[clicker_name].in_bed == false then
+		if not minetest.settings:get_bool("bed_enable", true) then
+			minetest.chat_send_player(clicker_name, minetest.colorize("#FFFF00", S("Sleeping is disabled.")))
+			return itemstack
+		end
+
+		local dir = minetest.fourdir_to_dir(node.param2)
+		local above_posses = {
+			{x=pos.x, y=pos.y+1, z=pos.z},
+			vector.add({x=pos.x, y=pos.y+1, z=pos.z}, dir),
+			{x=pos.x, y=pos.y+2, z=pos.z},
+			vector.add({x=pos.x, y=pos.y+2, z=pos.z}, dir),
+			}
+		for a=1,#above_posses do
+			local apos = above_posses[a]
+			local anode = minetest.get_node(apos)
+			local is_spawnable, fail_reason = node_is_spawnable_in(anode, true)
+			if not is_spawnable then
+				local msg
+				if fail_reason == "damage" then
+					msg = S("It’s too painful to sleep here!")
+				elseif fail_reason == "drowning" then
+					msg = S("You can’t sleep while holding your breath!")
+				elseif fail_reason == "blocked" then
+					msg = S("Not enough space to sleep!")
+				else
+					msg = S("You can’t sleep here!")
+				end
+				minetest.chat_send_player(clicker_name, minetest.colorize("#FFFF00", msg))
+				return itemstack
+			end
+		end
+
+		-- No sleeping while moving
+		if vector.length(clicker:get_velocity()) > 0.001 then
+			minetest.chat_send_player(clicker_name, minetest.colorize("#FFFF00", S("You have to stop moving before going to bed!")))
+			return itemstack
+		end
+
+		local put_pos = table.copy(pos)
+
+		local yaw = (-(node.param2 / 2.0) * math.pi) + math.pi
+
+		bed.userdata.temp[clicker_name].in_bed = true
+
+		local changed = bed.set_spawn(clicker, put_pos)
+		if changed then
+			minetest.chat_send_player(clicker_name, minetest.colorize("#00FFFF", S("Respawn position set!")))
+		end
+
+		bed.userdata.temp[clicker_name].node_pos = pos
+		local sleep_pos = vector.add(pos, vector.divide(minetest.fourdir_to_dir(node.param2), 2))
+		bed.userdata.temp[clicker_name].sleep_pos = sleep_pos
+
+		set_bed_occupier(pos, clicker_name)
+
+		put_player_in_bed(clicker)
+	end
+	return itemstack
+end
+
 minetest.register_node(
    "rp_bed:bed_foot",
    {
@@ -495,12 +568,9 @@ minetest.register_node(
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 2/16, 0.5}
       },
-      selection_box = {
-	 type = "fixed",
-	 fixed = {-0.5, -0.5, -0.5, 0.5, 2/16, 1.5}
-      },
 
       node_placement_prediction = "",
+      on_rightclick = on_rightclick_bed_foot,
       on_place = function(itemstack, placer, pointed_thing)
               local under = pointed_thing.under
 
@@ -571,8 +641,9 @@ minetest.register_node(
          end
 
 	 set_bed_occupier(pos, nil)
-         local node = minetest.get_node(pos)
-         local dir = minetest.fourdir_to_dir(node.param2)
+      end,
+      after_destruct = function(pos, oldnode)
+         local dir = minetest.fourdir_to_dir(oldnode.param2)
          local head_pos = vector.add(pos, dir)
          if minetest.get_node(head_pos).name == "rp_bed:bed_head" then
             minetest.remove_node(head_pos)
@@ -580,82 +651,9 @@ minetest.register_node(
          end
       end,
       on_blast = function(pos)
-         -- Needed to force on_destruct to be called
+         -- Needed to force on_destruct/after_destruct to be called
          minetest.remove_node(pos)
          minetest.check_for_falling({x=pos.x, y=pos.y+1, z=pos.z})
-      end,
-
-      on_rightclick = function(pos, node, clicker, itemstack)
-         if not clicker:is_player() then
-            return itemstack
-         end
-
-         local clicker_name = clicker:get_player_name()
-
-	 local sleeper_name = get_player_in_bed(pos)
-
-         if clicker_name == sleeper_name then
-            take_player_from_bed(clicker)
-         elseif sleeper_name == nil and not rp_player.player_attached[clicker_name]
-         and bed.userdata.temp[clicker_name].in_bed == false then
-            if not minetest.settings:get_bool("bed_enable", true) then
-               minetest.chat_send_player(clicker_name, minetest.colorize("#FFFF00", S("Sleeping is disabled.")))
-               return itemstack
-            end
-
-            local dir = minetest.fourdir_to_dir(node.param2)
-            local above_posses = {
-                {x=pos.x, y=pos.y+1, z=pos.z},
-                vector.add({x=pos.x, y=pos.y+1, z=pos.z}, dir),
-                {x=pos.x, y=pos.y+2, z=pos.z},
-                vector.add({x=pos.x, y=pos.y+2, z=pos.z}, dir),
-            }
-            for a=1,#above_posses do
-                local apos = above_posses[a]
-                local anode = minetest.get_node(apos)
-		local is_spawnable, fail_reason = node_is_spawnable_in(anode, true)
-                if not is_spawnable then
-                    local msg
-                    if fail_reason == "damage" then
-                        msg = S("It’s too painful to sleep here!")
-		    elseif fail_reason == "drowning" then
-                        msg = S("You can’t sleep while holding your breath!")
-		    elseif fail_reason == "blocked" then
-                        msg = S("Not enough space to sleep!")
-		    else
-                        msg = S("You can’t sleep here!")
-		    end
-                    minetest.chat_send_player(clicker_name, minetest.colorize("#FFFF00", msg))
-                    return itemstack
-                end
-            end
-
-            -- No sleeping while moving
-            if vector.length(clicker:get_velocity()) > 0.001 then
-               minetest.chat_send_player(clicker_name, minetest.colorize("#FFFF00", S("You have to stop moving before going to bed!")))
-               return itemstack
-            end
-
-            local put_pos = table.copy(pos)
-
-            local yaw = (-(node.param2 / 2.0) * math.pi) + math.pi
-
-            bed.userdata.temp[clicker_name].in_bed = true
-
-            local changed = bed.set_spawn(clicker, put_pos)
-            if changed then
-               minetest.chat_send_player(clicker_name, minetest.colorize("#00FFFF", S("Respawn position set!")))
-            end
-
-            bed.userdata.temp[clicker_name].node_pos = pos
-            local sleep_pos = vector.add(pos, vector.divide(minetest.fourdir_to_dir(node.param2), 2))
-            bed.userdata.temp[clicker_name].sleep_pos = sleep_pos
-
-            set_bed_occupier(pos, clicker_name)
-
-            put_player_in_bed(clicker)
-         end
-         return itemstack
       end,
 
       can_dig = function(pos)
@@ -686,8 +684,6 @@ minetest.register_node(
       paramtype2 = "color4dir",
       palette = "bed_palette.png",
       is_ground_content = false,
-      pointable = false,
-      diggable = false,
 
       tiles = {
          "bed_head.png",
@@ -706,13 +702,55 @@ minetest.register_node(
          {name="bed_inside_overlay.png",color="white"},
       },
       use_texture_alpha = "clip",
-      groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, not_in_creative_inventory = 1 },
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, not_in_creative_inventory = 1, paintable = 1 },
       sounds = sounds,
       node_box = {
 	 type = "fixed",
 	 fixed = {-0.5, -0.5, -0.5, 0.5, 2/16, 0.5}
       },
-      on_blast = function() end,
+
+      on_rightclick = function(pos, node, clicker, itemstack)
+         local dir = minetest.fourdir_to_dir(node.param2)
+         local foot_pos = vector.subtract(pos, dir)
+         local foot_node = minetest.get_node(foot_pos)
+         if foot_node.name == "rp_bed:bed_foot" then
+            return on_rightclick_bed_foot(foot_pos, foot_node, clicker, itemstack)
+         end
+         return itemstack
+      end,
+
+      after_destruct = function(pos, oldnode)
+         local dir = minetest.fourdir_to_dir(oldnode.param2)
+         local foot_pos = vector.subtract(pos, dir)
+         if minetest.get_node(foot_pos).name == "rp_bed:bed_foot" then
+            minetest.remove_node(foot_pos)
+         end
+      end,
+
+      on_blast = function(pos)
+         -- Needed to force after_destruct to be called
+         minetest.remove_node(pos)
+         minetest.check_for_falling({x=pos.x, y=pos.y+1, z=pos.z})
+      end,
+
+      can_dig = function(pos)
+         local node = minetest.get_node(pos)
+         local dir = minetest.fourdir_to_dir(node.param2)
+         local foot_pos = vector.subtract(pos, dir)
+	 local sleeper = get_player_in_bed(foot_pos)
+	 return sleeper == nil
+      end,
+
+      -- Paint support for rp_paint mod
+      _on_paint = function(pos, new_param2)
+         local node = minetest.get_node(pos)
+         local dir = minetest.fourdir_to_dir(node.param2)
+         local foot_pos = vector.subtract(pos, dir)
+         if minetest.get_node(foot_pos).name == "rp_bed:bed_foot" then
+            minetest.swap_node(foot_pos, {name = "rp_bed:bed_foot", param2=new_param2})
+         end
+         return true
+      end,
       drop = "",
 })
 
