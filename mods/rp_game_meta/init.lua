@@ -1,0 +1,1 @@
+-- No code, this mod only contains locale files for the game.conf translation
