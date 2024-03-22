@@ -1,111 +1,113 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_paint x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2024-03-22 23:54+0000\n"
+"Last-Translator: Wuzzy <Wuzzy@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Russian <https://translate.codeberg.org/projects/repixture/"
+"rp_paint/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.4.2\n"
 
 msgid "White"
-msgstr ""
+msgstr "белый"
 
 msgid "Gray"
-msgstr ""
+msgstr "серый"
 
 msgid "Black"
-msgstr ""
+msgstr "чёрный"
 
 msgid "Red"
-msgstr ""
+msgstr "красный"
 
 msgid "Orange"
-msgstr ""
+msgstr "оранжевый"
 
 msgid "Amber"
-msgstr ""
+msgstr "янтарный"
 
 msgid "Yellow"
-msgstr ""
+msgstr "жёлтый"
 
 msgid "Lime"
-msgstr ""
+msgstr "лаймовый"
 
 msgid "Green"
-msgstr ""
+msgstr "зелёный"
 
 msgid "Bluegreen"
-msgstr ""
+msgstr "морской"
 
 msgid "Turquoise"
-msgstr ""
+msgstr "бирюзовый"
 
 msgid "Cyan"
-msgstr ""
+msgstr "голубой"
 
 msgid "Skyblue"
-msgstr ""
+msgstr "небесный"
 
 msgid "Azure Blue"
-msgstr ""
+msgstr "лазурный"
 
 msgid "Blue"
-msgstr ""
+msgstr "синий"
 
 msgid "Violet"
-msgstr ""
+msgstr "фиолетовый"
 
 msgid "Magenta"
-msgstr ""
+msgstr "пурпурный"
 
 msgid "Redviolet"
-msgstr ""
+msgstr "малиновый"
 
 msgid "Hot Pink"
-msgstr ""
+msgstr "розовый"
 
 msgid "Paint Bucket (Empty)"
-msgstr ""
+msgstr "Ведро краски (пустое)"
 
 msgid "Paint Bucket (@1)"
-msgstr ""
+msgstr "Ведро краски (Цвет: @1)"
 
 msgid "Paint Brush"
-msgstr ""
+msgstr "Кисть"
 
 msgid "Paints blocks"
-msgstr ""
+msgstr "Окрашивает блоки"
 
 msgid "Punch paint bucket to pick color"
-msgstr ""
+msgstr "Ударьте по ведру краски, чтобы выбрать цвет"
 
 msgid "Paint Bucket"
 msgstr "Ведро краски"
 
 msgid "Paint Bucket with Paint"
-msgstr ""
+msgstr "Ведро краски (полное)"
 
 msgid "Use place key to change color"
-msgstr ""
+msgstr "Используйте, чтобы изменить цвет"
 
 msgid "Point at left/right part to get previous/next color"
 msgstr ""
+"Нацельтесь на левую/правую часть чтобы получить предыдущий/следующий цвет"
 
 msgid "Refill with flowers"
-msgstr ""
+msgstr "Наполните цветами"
 
 msgid "Fill with flowers to get paint"
-msgstr ""
+msgstr "Наполните цветами, чтобы получить краску"
 
 msgid "Colorful World"
-msgstr ""
+msgstr "Цветной мир"
 
 msgid "Paint a block."
-msgstr ""
-
+msgstr "Покрасьте блок."
