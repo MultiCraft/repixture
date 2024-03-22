@@ -63,6 +63,7 @@ Mods with documented APIs:
 * `rp_jewels`: Register jeweled tools, and more
 * `rp_localize`: Localize numbers
 * `rp_locks`: Get info about lockable nodes
+* `rp_mobs`: Add mobs (animals, monsters) (EXPERIMENTAL!)
 * `rp_music`: Add or remove tracks; start/stop/toggle a music player
 * `rp_paint`: Add paintable nodes; set/remove paint of node
 * `rp_partialblocks`: Register partial blocks (slabs, stairs)
@@ -74,8 +75,8 @@ Mods with documented APIs:
 * `rp_wielditem`: Custom rotation of item in hand in 3rd person view (in case it looks awkward)
 * `tt`: Custom tooltips
 
-Beware: Calling functions that are not documented are NOT guaranteed to be stable
-in future versions, so use them with care.
+Beware: Calling functions that are declared experimental, or not documented
+are NOT guaranteed to be stable in future versions, so use them with care.
 
 ## Groups
 
