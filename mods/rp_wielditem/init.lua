@@ -48,6 +48,15 @@ minetest.register_entity("rp_wielditem:wielditem", {
 	_itemname = nil,
 
 	on_activate = function(self, staticdata)
+		local wieldername = staticdata
+		if type(wieldername) == "string" and wieldername ~= "" then
+			self._wielder = wieldername
+		else
+			minetest.log("info", "[rp_wielditem] Removing orphan wielditem entity at "..minetest.pos_to_string(self.object:get_pos(), 1))
+			self.object:remove()
+			return
+		end
+		minetest.log("info", "[rp_wielditem] Activated wielditem entity for "..wieldername)
 		self.object:set_armor_groups({immortal=1})
 	end,
 	on_deactivate = function(self)
@@ -56,16 +65,20 @@ minetest.register_entity("rp_wielditem:wielditem", {
 		if wielder and wielder:is_player() then
 			minetest.after(3, function(player)
 				if player and player:is_player() then
+					minetest.log("info", "[rp_wielditem] Respawning wielditem entity for "..wielder:get_player_name())
 					attach_wielditem(player)
 				end
 			end, wielder)
+			minetest.log("info", "[rp_wielditem] Deactivated wielditem entity for "..wielder:get_player_name())
+		else
+			minetest.log("info", "[rp_wielditem] Deactivated orphan wielditem entity at "..minetest.pos_to_string(self.object:get_pos(), 1))
 		end
 	end,
 	on_step = function(self, dtime)
 		local player = self._wielder
 		-- Remove orphan wielditem
 		if player == nil or (minetest.get_player_by_name(player:get_player_name()) == nil) then
-			minetest.log("info", "[rp_wielditem] Removed orphan wielditem!")
+			minetest.log("info", "[rp_wielditem] Removing orphan wielditem entity at "..minetest.pos_to_string(self.object:get_pos(), 1))
 			self.object:remove()
 			return
 		end
