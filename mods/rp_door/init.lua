@@ -65,16 +65,24 @@ local function open_or_close_door_segment_raw(pos, dir, check_name, replace, rep
    return true
 end
 
+local door_params = {
+   ["_b_1"] = { 1, 2, 3, 0 },
+   ["_t_1"] = { 1, 2, 3, 0 },
+   ["_b_2"] = { 3, 0, 1, 2 },
+   ["_t_2"] = { 3, 0, 1, 2 },
+}
+
 local on_toggle = function(pos, snddef, segment_type, base_name, blocked_sound)
    local ok = false
+   local params = door_params[segment_type]
    if segment_type == "_b_1" then
-      ok = open_or_close_door_segment_raw(pos, 1, base_name.."_t_1", base_name.."_b_2", base_name.."_t_2", {1,2,3,0}, snddef.sound_open_door, snddef.sound_close_door)
+      ok = open_or_close_door_segment_raw(pos, 1, base_name.."_t_1", base_name.."_b_2", base_name.."_t_2", params, snddef.sound_open_door, snddef.sound_close_door)
    elseif segment_type == "_t_1" then
-      ok = open_or_close_door_segment_raw(pos, -1, base_name.."_b_1", base_name.."_t_2", base_name.."_b_2", {1,2,3,0}, snddef.sound_open_door, snddef.sound_close_door)
+      ok = open_or_close_door_segment_raw(pos, -1, base_name.."_b_1", base_name.."_t_2", base_name.."_b_2", params, snddef.sound_open_door, snddef.sound_close_door)
    elseif segment_type == "_b_2" then
-      ok = open_or_close_door_segment_raw(pos, 1, base_name.."_t_2", base_name.."_b_1", base_name.."_t_1", {3,0,1,2}, snddef.sound_open_door, snddef.sound_close_door)
+      ok = open_or_close_door_segment_raw(pos, 1, base_name.."_t_2", base_name.."_b_1", base_name.."_t_1", params, snddef.sound_open_door, snddef.sound_close_door)
    elseif segment_type == "_t_2" then
-      ok = open_or_close_door_segment_raw(pos, -1, base_name.."_b_2", base_name.."_t_1", base_name.."_b_1", {3,0,1,2}, snddef.sound_open_door, snddef.sound_close_door)
+      ok = open_or_close_door_segment_raw(pos, -1, base_name.."_b_2", base_name.."_t_1", base_name.."_b_1", params, snddef.sound_open_door, snddef.sound_close_door)
    else
       minetest.log("error", "[rp_door] Called on_toggle with wrong segment_type!")
       return false
@@ -94,6 +102,31 @@ local on_toggle = function(pos, snddef, segment_type, base_name, blocked_sound)
    return true
 end
 
+door.is_open = function(pos)
+   local node = minetest.get_node(pos)
+   if minetest.get_item_group(node.name, "door") == 0 then
+      return nil
+   end
+
+   -- Get door segment type
+   local suffix = string.sub(node.name, -4, -1)
+   local params = door_params[suffix]
+
+   -- Open/closed state (true = open, false = closed)
+   local state1 = true
+   local state2 = false
+   if params[1] == 3 then
+      state1, state2 = state2, state1
+   end
+   local state
+   -- left/right hinge
+   if minetest.get_meta(pos):get_int("right") ~= 0 then
+      state = state1
+   else
+      state = state2
+   end
+   return state
+end
 
 
 -- Registers a door

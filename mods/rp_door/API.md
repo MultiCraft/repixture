@@ -69,3 +69,11 @@ A door is valid if:
 * Both door segments have a matching door type and state
 
 Single door segments or mismatching door segments don't count as valid.
+
+### `door.is_open(pos)`
+
+Returns `true` is the node at pos is a segment of an open door,
+returns `false` if it's a segment of a closed door.
+Returns `nil` if the node is not a door segment.
+
+The node does not have to be a part of a valid door.
