@@ -23,9 +23,9 @@ local MAX_HOME_BED_DISTANCE = 48
 -- Time in seconds it takes for villager to forget home bed
 local HOME_BED_FORGET_TIME = 10.0
 -- How fast to walk
-local WALK_SPEED = 6
+local WALK_SPEED = 2
 -- How strong to jump
-local JUMP_STRENGTH = 4
+local JUMP_STRENGTH = 6
 -- Time the mob idles around
 local IDLE_TIME = 3.0
 
