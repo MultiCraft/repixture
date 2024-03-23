@@ -5,10 +5,14 @@ local animal_names = {}
 
 minetest.register_on_mods_loaded(function()
 	for mobname, mobdef in pairs(rp_mobs.registered_mobs) do
-		if mobdef._cmi_is_mob and rp_mobs.mobdef_has_tag(mobname, "animal") then
-			table.insert(animals, mobname)
-			if mobdef._description then
-				table.insert(animal_names, mobdef._description)
+		if rp_mobs.mobdef_has_tag(mobname, "animal") then
+			local subcondition_name = mobname
+			if rp_mobs.feed_achievement_subcondition_aliases[subcondition_name] then
+				subcondition_name = rp_mobs.feed_achievement_subcondition_aliases[subcondition_name]
+			end
+			table.insert(animals, subcondition_name)
+			if mobdef.entity_definition and mobdef.entity_definition._description then
+				table.insert(animal_names, mobdef.entity_definition._description)
 			else
 				table.insert(animal_names, mobname)
 			end
