@@ -85,7 +85,7 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queues.land_roam(task_queue_roam_settings))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queues.food_breed_follow_scan(VIEW_RANGE, FOOD))
-			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queue_player_follow_scan(VIEW_RANGE))
+			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queues.player_follow_scan(VIEW_RANGE))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(rp_mobs_mobs.create_angry_cooldown_decider(VIEW_RANGE, ANGRY_COOLDOWN_TIME)))
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
