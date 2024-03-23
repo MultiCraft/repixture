@@ -24,7 +24,7 @@ local function remove_node_and_check_falling(pos)
    minetest.check_for_falling(pos2)
 end
 
-local function open_or_close_door_segment_raw(pos, dir, check_name, replace, replace_dir, params, sound_close_door, sound_open_door)
+local function open_or_close_door_segment_raw(pos, dir, check_name, replace, replace_dir, params, sound_open_door, sound_close_door)
    local other_pos = table.copy(pos)
    other_pos.y = pos.y+dir
    -- Check for the other door segment.
