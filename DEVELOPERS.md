@@ -48,7 +48,7 @@ Mods with documented APIs:
 
 * `rp_armor`: Armor information
 * `rp_achievements`: Add and trigger achievements
-* `rp_bed`: Get, set and unset (re)spawn position
+* `rp_bed`: Get, set and unset (re)spawn position; query bed info
 * `rp_crafting`: Add crafting recipes
 * `rp_default`: Sapling helpers, biome information
 * `rp_door`: Add doors
