@@ -2,7 +2,7 @@
 
 local S = minetest.get_translator("rp_mobs_mobs")
 
--- How many different trades a villager offers 
+-- How many different trades a villager offers
 local TRADES_COUNT = 4
 -- Time after which to heal 1 HP (in seconds)
 local HEAL_TIME = 7.0
@@ -10,6 +10,20 @@ local HEAL_TIME = 7.0
 local ANGRY_COOLDOWN_TIME = 60.0
 -- View range for hostilities
 local VIEW_RANGE = 16
+-- Maximum jump height
+local MAX_JUMP = 1
+-- Maximum tolerated drop
+local MAX_DROP = 4
+-- Villager wants to stay this close to their home bed at all times
+local HOME_BED_DISTANCE = 32
+-- 'searchdistance' argument for minetest.find_path for pathfinding towards bed
+local HOME_BED_PATHFIND_DISTANCE = 8
+-- If villager is at least this many nodes away from home bed, it will be forgotten
+local MAX_HOME_BED_DISTANCE = 48
+-- Time in seconds it takes for villager to forget home bed
+local HOME_BED_FORGET_TIME = 10.0
+-- Time the mob idles around
+local IDLE_TIME = 3.0
 
 local get_item_fuel_burntime = function(itemstring)
 	local input = {
@@ -26,6 +40,17 @@ local get_item_cooking_result = function(itemstring)
 	}
 	local res = minetest.get_craft_result(input)
 	return res.item
+end
+
+-- Returns a string for the phase of the day.
+-- Possible values: "day", "night"
+local get_day_phase = function()
+	local tod = minetest.get_timeofday()
+	if tod < 0.25 or tod > 0.75 then
+		return "night"
+	else
+		return "day"
+	end
 end
 
 local villager_types = {
@@ -365,13 +390,157 @@ local function talk_about_item(villager_type, iname, name)
 	end
 end
 
+-- Advanced pathfinder that finds a path between two positions.
+-- Like minetest.find_path, but can also traverse a single door.
+-- This is a greedy algorithm so it won't neccessary find the
+-- shortest path if there's a door.
+-- Arguments are the same as for minetest.find_path.
+-- This algorithm performs up to 5 path searches so it is less efficient
+-- than calling minetest.find_path.
+local find_path_advanced = function(pos1, pos2, searchdistance, max_jump, max_drop)
+	local algorithm = "A*_noprefetch"
+	-- First check if we can find a direct path
+	local path = minetest.find_path(pos1, pos2, searchdistance, max_jump, max_drop, algorithm)
+	if path then
+		return path
+	end
+	local doorarea_min = vector.add(pos2, vector.new(-12, -6, -12))
+	local doorarea_max = vector.add(pos2, vector.new(12, 6, 12))
+	local doors = minetest.find_nodes_in_area(doorarea_min, doorarea_max, {"group:door"})
+	if #doors == 0 then
+		return nil
+	end
+	-- Door neighbors
+	local neighbors = {
+		{ vector.new(-1,0,0), vector.new(1,0,0) }, -- X neighbors
+		{ vector.new(0,0,-1), vector.new(0,0,1) }, -- Z neighbors
+	}
+	-- Splits contains a list of positions where the path is
+	-- "split" by a door that is in the way.
+	local splits = {}
+	for d=1, #doors do
+		local doorpos = doors[d]
+		local node = minetest.get_node(doorpos)
+		-- Look at bottom door segments only
+		if minetest.get_item_group(node.name, "door_position") == 1 then
+			-- Check if node below door is walkable
+			local below = vector.offset(doorpos, 0, -1, 0)
+			local bnode = minetest.get_node(below)
+			local bdef = minetest.registered_nodes[bnode.name]
+			if bdef and bdef.walkable then
+				-- Check if 2 sides of the door are clear,
+				-- either both on the X axis or both on the Z axis.
+				-- These sides will become the start and end
+				-- points of the following pathfindings.
+				for n=1, #neighbors do
+					local splits_ok = 0
+					local new_split = {}
+					for s=1, #neighbors[n] do
+						local split = neighbors[n][s]
+						local spos = vector.add(doorpos, split)
+						local snode = minetest.get_node(spos)
+						local sdef = minetest.registered_nodes[snode.name]
+						-- Non-walkable and non-damaging = "clear" to walk
+						if sdef and not sdef.walkable and sdef.damage_per_second <= 0 then
+							splits_ok = splits_ok + 1
+							table.insert(new_split, spos)
+						else
+							break
+						end
+					end
+					if splits_ok == 2 then
+						-- Add the 2 door neighbor nodes and the door position itself
+						table.insert(splits, { new_split[1], doorpos, new_split[2] })
+					end
+				end
+			end
+		end
+	end
+
+	for s=1, #splits do
+		local splitpos1 = splits[s][1]
+		local doorpos = splits[s][2]
+		local splitpos2 = splits[s][3]
+		-- Do a path search from start to the side of the door (splitpos1),
+		-- then another path search from the other side (splitpos2) to the goal position.
+		local path1 = minetest.find_path(pos1, splitpos1, searchdistance, max_jump, max_drop, algorithm)
+		if path1 then
+			local path2 = minetest.find_path(splitpos2, pos2, searchdistance, max_jump, max_drop, algorithm)
+			if path2 then
+				-- Both paths found. Join them together to create a single path
+				-- (includes the door position)
+				table.insert(path1, doorpos)
+				table.insert_all(path1, path2)
+				return path1
+			end
+		end
+		-- On failure, try it again but do it from start to the *other* side of the door (splitpos2) first.
+		local path3 = minetest.find_path(pos1, splitpos2, searchdistance, max_jump, max_drop, algorithm)
+		if path3 then
+			local path4 = minetest.find_path(splitpos1, splitpos2, searchdistance, max_jump, max_drop, algorithm)
+			if path4 then
+				table.insert(path3, doorpos)
+				table.insert_all(path3, path4)
+				return path3
+			end
+		end
+	end
+end
+
+local find_free_horizontal_neighbor = function(pos)
+	local neighbors = {
+		vector.new(-1,0,0),
+		vector.new(1,0,0),
+		vector.new(0,0,-1),
+		vector.new(0,0,1),
+	}
+	for n=1,#neighbors do
+		local npos = vector.add(pos, neighbors[n])
+		local nnode = minetest.get_node(npos)
+		local ndef = minetest.registered_nodes[nnode.name]
+		if ndef and not ndef.walkable and ndef.drowning == 0 and ndef.damage_per_second <= 0 then
+			return npos
+		end
+	end
+	return nil
+end
+
+local microtask_find_new_home_bed = rp_mobs.create_microtask({
+	label = "find new home bed",
+	singlestep = true,
+	on_step = function(self, mob)
+		-- No-op if mob already has home bed
+		if mob._custom_state.home_bed then
+			return
+		end
+		local mobpos = mob.object:get_pos()
+		local offset = vector.new(MAX_HOME_BED_DISTANCE, MAX_HOME_BED_DISTANCE, MAX_HOME_BED_DISTANCE)
+		local smin = vector.subtract(mobpos, offset)
+		local smax = vector.add(mobpos, offset)
+		local bednodes = minetest.find_nodes_in_area(smin, smax, { "group:bed" })
+		while #bednodes > 0 do
+			local r = math.random(1, #bednodes)
+			local bedpos = bednodes[r]
+			local searchpos = find_free_horizontal_neighbor(bedpos)
+			local path_to_bed = find_path_advanced(mobpos, searchpos, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
+			if path_to_bed then
+				mob._custom_state.home_bed = bedpos
+				minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." found new home bed at "..minetest.pos_to_string(bedpos))
+				break
+			end
+			table.remove(beds, r)
+		end
+	end,
+})
+
 local movement_decider = function(task_queue, mob)
 	local task = rp_mobs.create_task({label="stand still"})
 	local yaw = math.random(0, 360) / 360 * (math.pi*2)
 	local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR), task)
 	rp_mobs.add_microtask_to_task(mob, mt_yaw, task)
-	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.sleep(10), task)
+	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.sleep(IDLE_TIME), task)
+	rp_mobs.add_microtask_to_task(mob, microtask_find_new_home_bed, task)
 	rp_mobs.add_task_to_task_queue(task_queue, task)
 end
 
@@ -382,7 +551,6 @@ local heal_decider = function(task_queue, mob)
 			mob._custom_state.healing_timer = 0
 		end,
 		on_step = function(self, mob, dtime)
-			-- Regrow wool
 			-- Slowly heal over time
 			mob._custom_state.healing_timer = mob._custom_state.healing_timer + dtime
 			if mob._custom_state.healing_timer >= HEAL_TIME then
