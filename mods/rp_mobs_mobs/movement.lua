@@ -1,11 +1,6 @@
 -- Scan for players/mobs and update the following state every this many seconds
 local FOLLOW_CHECK_TIME = 1.0
 
--- When trying to find a safe spot, the mob makes multiple raycasts
--- from the mob all around the mob horizontally. This number is
--- the angle difference in degrees between each ray.
-local FIND_LAND_ANGLE_STEP = 15
-
 -- This function creates and returns a microtask that scans the
 -- mob's surroundings within view_range for players.
 -- The result is stored in mob._temp_custom_state.closest_player.

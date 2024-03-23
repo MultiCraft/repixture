@@ -1,3 +1,8 @@
+-- When trying to find a safe spot, the mob makes multiple raycasts
+-- from the mob all around the mob horizontally. This number is
+-- the angle difference in degrees between each ray.
+local FIND_LAND_ANGLE_STEP = 15
+
 rp_mobs_mobs.microtasks = {}
 rp_mobs_mobs.tasks = {}
 rp_mobs_mobs.task_queues = {}
