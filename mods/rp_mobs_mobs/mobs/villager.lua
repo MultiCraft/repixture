@@ -338,6 +338,9 @@ for _, villager_type_table in pairs(villager_types) do
 				rp_mobs.handle_tasks(self, dtime, moveresult)
 			end,
 			on_rightclick = function(self, clicker)
+				if self._dying then
+					return
+				end
 				local item = clicker:get_wielded_item()
 				local name = clicker:get_player_name()
 
