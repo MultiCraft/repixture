@@ -280,7 +280,7 @@ rp_mobs.microtasks.walk_straight = function(walk_speed, yaw, jump, jump_clear_he
 				-- Can't jump if standing on a disable_jump node
 				if mob._env_node_floor then
 					local floordef = minetest.registered_nodes[mob._env_node_floor.name]
-					if floordef.walkable and minetest.get_item_group(mob._env_node_floor.name, "disable_jump") > 0 then
+					if floordef and floordef.walkable and minetest.get_item_group(mob._env_node_floor.name, "disable_jump") > 0 then
 						can_jump = false
 					end
 				end
@@ -422,13 +422,12 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				-- Can't jump if standing on a disable_jump node
 				if mob._env_node_floor then
 					local floordef = minetest.registered_nodes[mob._env_node_floor.name]
-					if floordef.walkable and minetest.get_item_group(mob._env_node_floor.name, "disable_jump") > 0 then
+					if floordef and floordef.walkable and minetest.get_item_group(mob._env_node_floor.name, "disable_jump") > 0 then
 						can_jump = false
 					end
 				end
 				-- Can't jump inside a disable_jump node either
 				if can_jump and mob._env_node then
-					local def = minetest.registered_nodes[mob._env_node.name]
 					if minetest.get_item_group(mob._env_node.name, "disable_jump") > 0 then
 						can_jump = false
 					end
