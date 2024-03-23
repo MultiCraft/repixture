@@ -24,6 +24,78 @@ local function remove_node_and_check_falling(pos)
    minetest.check_for_falling(pos2)
 end
 
+local function open_or_close_door_segment_raw(pos, dir, check_name, replace, replace_dir, params, sound_close_door, sound_open_door)
+   local other_pos = table.copy(pos)
+   other_pos.y = pos.y+dir
+   -- Check for the other door segment.
+   -- If it's is missing, it doesn't budge.
+   if minetest.get_node(other_pos).name ~= check_name then
+      return false
+   end
+   local p2 = minetest.get_node(pos).param2
+   local p2mod = p2 % 4
+   local p2flat = p2 - p2mod
+   p2mod = params[p2mod+1]
+   p2 = p2flat + p2mod
+
+   minetest.swap_node(other_pos, {name=replace_dir, param2=p2})
+
+   minetest.swap_node(pos, {name=replace, param2=p2})
+
+   local snd_1 = sound_close_door
+   local snd_2 = sound_open_door
+
+   if params[1] == 3 then
+      snd_1, snd_2 = snd_2, snd_1
+   end
+
+   local snd
+   if minetest.get_meta(pos):get_int("right") ~= 0 then
+      snd = snd_1
+   else
+      snd = snd_2
+   end
+   minetest.sound_play(
+      snd,
+      {
+         pos = pos,
+         gain = 0.8,
+         max_hear_distance = 10
+      }, true)
+   return true
+end
+
+local on_toggle = function(pos, snddef, segment_type, base_name, blocked_sound)
+   local ok = false
+   if segment_type == "_b_1" then
+      ok = open_or_close_door_segment_raw(pos, 1, base_name.."_t_1", base_name.."_b_2", base_name.."_t_2", {1,2,3,0}, snddef.sound_open_door, snddef.sound_close_door)
+   elseif segment_type == "_t_1" then
+      ok = open_or_close_door_segment_raw(pos, -1, base_name.."_b_1", base_name.."_t_2", base_name.."_b_2", {1,2,3,0}, snddef.sound_open_door, snddef.sound_close_door)
+   elseif segment_type == "_b_2" then
+      ok = open_or_close_door_segment_raw(pos, 1, base_name.."_t_2", base_name.."_b_1", base_name.."_t_1", {3,0,1,2}, snddef.sound_open_door, snddef.sound_close_door)
+   elseif segment_type == "_t_2" then
+      ok = open_or_close_door_segment_raw(pos, -1, base_name.."_b_2", base_name.."_t_1", base_name.."_b_1", {3,0,1,2}, snddef.sound_open_door, snddef.sound_close_door)
+   else
+      minetest.log("error", "[rp_door] Called on_toggle with wrong segment_type!")
+      return false
+   end
+   if blocked_sound and not ok then
+      -- Play sound if door could not be toggled due to it being a single door segment,
+      -- not a full door
+      minetest.sound_play(
+         snddef.sound_blocked,
+         {
+            pos = pos,
+            gain = 0.8,
+            max_hear_distance = 10
+         }, true)
+      return false
+   end
+   return true
+end
+
+
+
 -- Registers a door
 
 function door.register_door(name, def)
@@ -155,52 +227,6 @@ function door.register_door(name, def)
       end
    end
 
-   local function on_rightclick(pos, dir, check_name, replace, replace_dir, params)
-      local other_pos = table.copy(pos)
-      other_pos.y = pos.y+dir
-      -- Check for the other door segment.
-      -- If it's is missing, it doesn't budge.
-      if minetest.get_node(other_pos).name ~= check_name then
-         minetest.sound_play(
-            def.sound_blocked,
-            {
-               pos = pos,
-               gain = 0.8,
-               max_hear_distance = 10
-            }, true)
-         return
-      end
-      local p2 = minetest.get_node(pos).param2
-      local p2mod = p2 % 4
-      local p2flat = p2 - p2mod
-      p2mod = params[p2mod+1]
-      p2 = p2flat + p2mod
-
-      minetest.swap_node(other_pos, {name=replace_dir, param2=p2})
-
-      minetest.swap_node(pos, {name=replace, param2=p2})
-
-      local snd_1 = def.sound_close_door
-      local snd_2 = def.sound_open_door
-      if params[1] == 3 then
-	 snd_1, snd_2 = snd_2, snd_1
-      end
-
-      local snd
-      if minetest.get_meta(pos):get_int("right") ~= 0 then
-         snd = snd_1
-      else
-         snd = snd_2
-      end
-      minetest.sound_play(
-         snd,
-         {
-            pos = pos,
-            gain = 0.8,
-            max_hear_distance = 10
-         }, true)
-   end
-
    local on_paint_or_unpaint = function(pos, new_param2, dir, check_name, replace_name)
        local other_pos = table.copy(pos)
        other_pos.y = pos.y+dir
@@ -212,14 +238,6 @@ function door.register_door(name, def)
           minetest.swap_node(other_pos, other_node)
        end
        return true
-   end
-
-   local function check_player_priv(pos, player)
-      if not def.only_placer_can_open then
-	 return true
-      end
-      local meta = minetest.get_meta(pos)
-      local pn = player:get_player_name()
    end
 
    --[[ Register door segments
@@ -263,6 +281,13 @@ function door.register_door(name, def)
    else
       drop_name = name
    end
+   local sounds = {}
+   if def.sounds then
+      sounds = table.copy(def.sounds)
+   end
+   sounds._rp_door_close = def.sound_close_door
+   sounds._rp_door_open = def.sound_open_door
+   sounds._rp_door_blocked = def.sound_blocked
 
    -- Door segment: bottom, state 1
    minetest.register_node(
@@ -289,9 +314,7 @@ function door.register_door(name, def)
 	 groups = groups_node_b_1,
 
 	 on_rightclick = function(pos, node, clicker)
-            if check_player_priv(pos, clicker) then
-               on_rightclick(pos, 1, name.."_t_1", name.."_b_2", name.."_t_2", {1,2,3,0})
-            end
+            on_toggle(pos, def, "_b_1", name, true)
          end,
          _on_paint = function(pos, new_param2)
             local node = minetest.get_node(pos)
@@ -318,8 +341,7 @@ function door.register_door(name, def)
          end,
 
 	 is_ground_content = false,
-	 can_dig = check_player_priv,
-	 sounds = def.sounds,
+	 sounds = sounds,
 	 sunlight_propagates = def.sunlight,
 
          -- Additional fields for rp_paint mod
@@ -352,9 +374,7 @@ function door.register_door(name, def)
 	 groups = groups_node_t_1,
 
 	 on_rightclick = function(pos, node, clicker)
-            if check_player_priv(pos, clicker) then
-               on_rightclick(pos, -1, name.."_b_1", name.."_t_2", name.."_b_2", {1,2,3,0})
-            end
+            on_toggle(pos, def, "_t_1", name, true)
          end,
          _on_paint = function(pos, new_param2)
             local node = minetest.get_node(pos)
@@ -382,8 +402,7 @@ function door.register_door(name, def)
          end,
 
 	 is_ground_content = false,
-	 can_dig = check_player_priv,
-	 sounds = def.sounds,
+	 sounds = sounds,
 	 sunlight_propagates = def.sunlight,
 
          -- Additional fields for rp_paint mod
@@ -416,9 +435,7 @@ function door.register_door(name, def)
 	 groups = groups_node_b_2,
 
 	 on_rightclick = function(pos, node, clicker)
-            if check_player_priv(pos, clicker) then
-               on_rightclick(pos, 1, name.."_t_2", name.."_b_1", name.."_t_1", {3,0,1,2})
-            end
+            on_toggle(pos, def, "_b_2", name, true)
          end,
          _on_paint = function(pos, new_param2)
             local node = minetest.get_node(pos)
@@ -445,8 +462,7 @@ function door.register_door(name, def)
          end,
 
 	 is_ground_content = false,
-	 can_dig = check_player_priv,
-	 sounds = def.sounds,
+	 sounds = sounds,
 	 sunlight_propagates = def.sunlight,
 
          -- Additional fields for rp_paint mod
@@ -479,9 +495,7 @@ function door.register_door(name, def)
 	 groups = groups_node_t_2,
 
 	 on_rightclick = function(pos, node, clicker)
-            if check_player_priv(pos, clicker) then
-               on_rightclick(pos, -1, name.."_b_2", name.."_t_1", name.."_b_1", {3,0,1,2})
-            end
+            on_toggle(pos, def, "_t_2", name, true)
          end,
          _on_paint = function(pos, new_param2)
             local node = minetest.get_node(pos)
@@ -508,8 +522,7 @@ function door.register_door(name, def)
          end,
 
 	 is_ground_content = false,
-	 can_dig = check_player_priv,
-	 sounds = def.sounds,
+	 sounds = sounds,
 	 sunlight_propagates = def.sunlight,
 
          -- Additional fields for rp_paint mod
@@ -678,6 +691,25 @@ door.register_door(
       sound_open_door = "door_open_stone",
       sound_close_door = "door_close_stone",
 })
+
+door.toggle_door = function(pos)
+   local node = minetest.get_node(pos)
+   if minetest.get_item_group(node.name, "door") == 0 then
+      return false
+   end
+   local suffix = string.sub(node.name, -4, -1)
+   local prefix = string.sub(node.name, 1, -5)
+   local nodedef = minetest.registered_nodes[node.name]
+   local snddef = {}
+   if nodedef and nodedef.sounds then
+      snddef = {
+         sound_open_door = nodedef.sounds._rp_door_open,
+         sound_close_door = nodedef.sounds._rp_door_close,
+         sound_blocked = nodedef.sounds._rp_door_blocked,
+      }
+   end
+   return on_toggle(pos, snddef, suffix, prefix, false)
+end
 
 crafting.register_craft(
    {

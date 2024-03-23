@@ -58,3 +58,14 @@ for this mod to know about the open/close state.
 * `is_open`: (optional) `true` if this door segment is open,
              `false` otherwise (default: `false`)
 
+### `door.toggle_door(pos)`
+
+This opens or closes the door at pos.
+If there is no valid door node at pos, nothing happens.
+
+A door is valid if:
+
+* It consists of two nodes (door segments), one top, one bottom
+* Both door segments have a matching door type and state
+
+Single door segments or mismatching door segments don't count as valid.
