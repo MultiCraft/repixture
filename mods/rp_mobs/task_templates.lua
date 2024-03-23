@@ -94,6 +94,9 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, jump_
 		start_pos = vector.round(start_pos)
 		local path = minetest.find_path(start_pos, target_pos, searchdistance, max_jump, max_drop, "A*")
 		self.statedata.path = path
+		if path then
+			self.statedata.stuck_last_path_length = #self.statedata.path
+		end
 	end
 	mtask.on_step = function(self, mob, dtime, moveresult)
 		if not self.statedata.path then
@@ -111,8 +114,9 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, jump_
 				self.statedata.stuck_last_position = mobpos
 			else
 				local stuck_dist = vector.distance(mobpos, self.statedata.stuck_last_position)
-				-- Mob didn't move much since the last check, it seems we're stuck!
-				if stuck_dist < PATH_UNSTUCK_DISTANCE then
+				local stuck_path_length = #self.statedata.path
+				-- Mob didn't move much and did not advance the path since the last check, it seems we're stuck!
+				if stuck_dist < PATH_UNSTUCK_DISTANCE and stuck_path_length == self.statedata.stuck_path_length then
 					self.statedata.stuck_timer = self.statedata.stuck_timer + self.statedata.stuck_recheck_timer
 				else
 					self.statedata.stuck_timer = 0
@@ -124,10 +128,11 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, jump_
 					vel.x = 0
 					vel.z = 0
 					mob.object:set_velocity(vel)
-					minetest.log("verbose", "[rp_mobs] pathfind_and_walk_to: Mob at "..mobpos.." stops due to being stuck")
+					minetest.log("verbose", "[rp_mobs] pathfind_and_walk_to: Mob at "..minetest.pos_to_string(mobpos, 1).." stops due to being stuck")
 					return
 				end
 				self.statedata.stuck_last_position = mobpos
+				self.statedata.stuck_path_length = #self.statedata.path
 			end
 			self.statedata.stuck_recheck_timer = 0
 		end
