@@ -397,12 +397,14 @@ end
 -- Arguments are the same as for minetest.find_path.
 -- This algorithm performs up to 5 path searches so it is less efficient
 -- than calling minetest.find_path.
+--
+-- Returns: list of paths on success, nil on failure.
 local find_path_advanced = function(pos1, pos2, searchdistance, max_jump, max_drop)
 	local algorithm = "A*_noprefetch"
 	-- First check if we can find a direct path
 	local path = minetest.find_path(pos1, pos2, searchdistance, max_jump, max_drop, algorithm)
 	if path then
-		return path
+		return { path }
 	end
 	local doorarea_min = vector.add(pos2, vector.new(-12, -6, -12))
 	local doorarea_max = vector.add(pos2, vector.new(12, 6, 12))
@@ -467,11 +469,8 @@ local find_path_advanced = function(pos1, pos2, searchdistance, max_jump, max_dr
 		if path1 then
 			local path2 = minetest.find_path(splitpos2, pos2, searchdistance, max_jump, max_drop, algorithm)
 			if path2 then
-				-- Both paths found. Join them together to create a single path
-				-- (includes the door position)
-				table.insert(path1, doorpos)
-				table.insert_all(path1, path2)
-				return path1
+				-- Both paths found. Return them
+				return { path1, path2 }
 			end
 		end
 		-- On failure, try it again but do it from start to the *other* side of the door (splitpos2) first.
@@ -479,9 +478,7 @@ local find_path_advanced = function(pos1, pos2, searchdistance, max_jump, max_dr
 		if path3 then
 			local path4 = minetest.find_path(splitpos1, splitpos2, searchdistance, max_jump, max_drop, algorithm)
 			if path4 then
-				table.insert(path3, doorpos)
-				table.insert_all(path3, path4)
-				return path3
+				return { path3, path4 }
 			end
 		end
 	end
@@ -509,9 +506,13 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 	label = "find new home bed",
 	singlestep = true,
 	on_step = function(self, mob)
-		-- No-op if mob already has home bed
 		if mob._custom_state.home_bed then
-			return
+			if bed.is_valid_bed(mob._custom_state.home_bed) then
+				return
+			else
+				mob._custom_state.home_bed = nil
+				minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." lost their home bed")
+			end
 		end
 		local mobpos = mob.object:get_pos()
 		local offset = vector.new(MAX_HOME_BED_DISTANCE, MAX_HOME_BED_DISTANCE, MAX_HOME_BED_DISTANCE)
@@ -534,14 +535,31 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 })
 
 local movement_decider = function(task_queue, mob)
-	local task = rp_mobs.create_task({label="stand still"})
+	local task_stand = rp_mobs.create_task({label="stand still"})
 	local yaw = math.random(0, 360) / 360 * (math.pi*2)
 	local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
-	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR), task)
-	rp_mobs.add_microtask_to_task(mob, mt_yaw, task)
-	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.sleep(IDLE_TIME), task)
-	rp_mobs.add_microtask_to_task(mob, microtask_find_new_home_bed, task)
-	rp_mobs.add_task_to_task_queue(task_queue, task)
+	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR), task_stand)
+	rp_mobs.add_microtask_to_task(mob, mt_yaw, task_stand)
+	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.sleep(IDLE_TIME), task_stand)
+	rp_mobs.add_task_to_task_queue(task_queue, task_stand)
+
+	local task_find_new_home_bed = rp_mobs.create_task({label="find new home bed"})
+	rp_mobs.add_microtask_to_task(mob, microtask_find_new_home_bed, task_find_new_home_bed)
+	rp_mobs.add_task_to_task_queue(task_queue, task_find_new_home_bed)
+
+	if mob._custom_state.home_bed then
+		local searchpos = find_free_horizontal_neighbor(mob._custom_state.home_bed)
+		local mobpos = mob.object:get_pos()
+		local pathlist_to_bed = find_path_advanced(mobpos, searchpos, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
+		if pathlist_to_bed then
+			local path = pathlist_to_bed[1]
+			local target = path[#path]
+			local mt_walk_to_bed = rp_mobs.microtasks.pathfind_and_walk_to(target, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
+			local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
+			rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
+			rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
+		end
+	end
 end
 
 local heal_decider = function(task_queue, mob)
