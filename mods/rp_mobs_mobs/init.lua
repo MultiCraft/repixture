@@ -7,16 +7,16 @@ dofile(minetest.get_modpath("rp_mobs_mobs").."/attack.lua")
 dofile(minetest.get_modpath("rp_mobs_mobs").."/land_roam.lua")
 
 -- Mobs: Animals
-dofile(minetest.get_modpath("rp_mobs_mobs").."/boar.lua")
-dofile(minetest.get_modpath("rp_mobs_mobs").."/sheep.lua")
-dofile(minetest.get_modpath("rp_mobs_mobs").."/skunk.lua")
+dofile(minetest.get_modpath("rp_mobs_mobs").."/mobs/boar.lua")
+dofile(minetest.get_modpath("rp_mobs_mobs").."/mobs/sheep.lua")
+dofile(minetest.get_modpath("rp_mobs_mobs").."/mobs/skunk.lua")
 
 -- Mobs: Monsters
-dofile(minetest.get_modpath("rp_mobs_mobs").."/walker.lua")
-dofile(minetest.get_modpath("rp_mobs_mobs").."/mineturtle.lua")
+dofile(minetest.get_modpath("rp_mobs_mobs").."/mobs/walker.lua")
+dofile(minetest.get_modpath("rp_mobs_mobs").."/mobs/mineturtle.lua")
 
 -- Mob: Villager
-dofile(minetest.get_modpath("rp_mobs_mobs").."/villager.lua")
+dofile(minetest.get_modpath("rp_mobs_mobs").."/mobs/villager.lua")
 
 -- Other
 dofile(minetest.get_modpath("rp_mobs_mobs").."/crafts.lua")
