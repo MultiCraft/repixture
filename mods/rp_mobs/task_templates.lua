@@ -50,71 +50,137 @@ local random_yaw = function()
 	return (math.random(0, YAW_PRECISION) / YAW_PRECISION) * (math.pi*2)
 end
 
+local collides_with_wall = function(moveresult, include_objects)
+	if moveresult and moveresult.collides then
+		for c=1, #moveresult.collisions do
+			local coll = moveresult.collisions[c]
+			if (coll.type == "node" or (coll.type == "object" and include_objects)) and (coll.axis == "x" or coll.axis == "z") then
+				return true, coll
+			end
+		end
+	end
+	return false
+end
+
 -- Microtask templates
 -- See `API_templates.md` for documentation
 
 rp_mobs.microtasks = {}
 
 -- FIXME: Mob does not walk the path very well, gets stuck a lot
-rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, searchdistance, max_jump, max_drop)
+rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, jump_strength, set_yaw, searchdistance, max_jump, max_drop)
 	local mtask = {}
 	mtask.label = "pathfind and walk to coordinate"
-	mtask.on_step = function(self, mob, dtime)
-		if self.statedata.moving == nil then
-			self.statedata.moving = false
-		end
+	mtask.on_start = function(self, mob)
+		self.statedata.moving = false
+		self.statedata.jumping = false
+		self.statedata.jump_timer = 0
+
 		local start_pos = mob.object:get_pos()
 		start_pos.y = math.floor(start_pos.y)
 		start_pos = vector.round(start_pos)
-		local path = self.statedata.path
-		if not path then
-			path = minetest.find_path(start_pos, target_pos, searchdistance, max_jump, max_drop, "A*")
-			self.statedata.path = path
-		end
-		if not path then
+		local path = minetest.find_path(start_pos, target_pos, searchdistance, max_jump, max_drop, "A*")
+		self.statedata.path = path
+	end
+	mtask.on_step = function(self, mob, dtime, moveresult)
+		local mobpos = mob.object:get_pos()
+		if not self.statedata.path then
 			minetest.log("error", "[rp_mobs] pathfind_and_walk_to: Mob can't find target")
 			return
 		end
 		if PATH_DEBUG then
-			show_pathfinder_path(path)
+			show_pathfinder_path(self.statedata.path)
 		end
-		local next_pos = path[1]
+
+		-- Get next target position
+		local next_pos = self.statedata.path[1]
 		local mob_pos = mob.object:get_pos()
-		if path[2] then
+		if self.statedata.path[2] then
 			local dist_mob_to_next = vector.distance(mob_pos, next_pos)
-			local dist_mob_to_next_next = vector.distance(mob_pos, path[2])
+			local dist_mob_to_next_next = vector.distance(mob_pos, self.statedata.path[2])
 			if dist_mob_to_next < PATH_DISTANCE_TO_GOAL_POINT or dist_mob_to_next_next < dist_mob_to_next then
-				table.remove(path, 1)
-				self.statedata.path = path
-				if #path == 0 then
+				table.remove(self.statedata.path, 1)
+				if #self.statedata.path == 0 then
 					return
 				end
-				next_pos = path[1]
+				next_pos = self.statedata.path[1]
 			end
 		end
-		-- Pretend that next_pos is on same height as the mob so the direction
-		-- vector is always horizontal
+
+		if set_yaw then
+			local dir_to_next_pos = vector.direction(mobpos, next_pos)
+			local yaw = minetest.dir_to_yaw(dir_to_next_pos)
+			mob.object:set_yaw(yaw)
+		end
+
+		-- Stop at object collision
+		local wall_collision, wall_collision_data = collides_with_wall(moveresult, true)
+		if wall_collision and wall_collision_data.type == "object" then
+			self.statedata.stop = true
+			vel.x = 0
+			vel.z = 0
+			mob.object:set_velocity(vel)
+			minetest.log("error", "[rp_mobs] pathfind_and_walk_to: Mob stops due to object collision")
+			return
+		end
+
+		local vel = mob.object:get_velocity()
+		-- Jump
+		if max_jump > 0 and not self.statedata.jumping and moveresult.touching_ground and wall_collision then
+			local can_jump = true
+			-- Can't jump if standing on a disable_jump node
+			if mob._env_node_floor then
+				local floordef = minetest.registered_nodes[mob._env_node_floor.name]
+				if floordef and floordef.walkable and minetest.get_item_group(mob._env_node_floor.name, "disable_jump") > 0 then
+					can_jump = false
+				end
+			end
+			-- Can't jump inside a disable_jump node either
+			if can_jump and mob._env_node then
+				local def = minetest.registered_nodes[mob._env_node.name]
+				if minetest.get_item_group(mob._env_node.name, "disable_jump") > 0 then
+					can_jump = false
+				end
+			end
+			if can_jump then
+				self.statedata.jumping = true
+				self.statedata.jump_timer = 0
+				vel.y = jump_strength
+			end
+		end
+
+		-- Walk to target
 		local dir_next_pos = table.copy(next_pos)
 		dir_next_pos.y = mob_pos.y
-		local dir = vector.direction(mob_pos, dir_next_pos)
-		local dist = vector.distance(mob_pos, dir_next_pos)
-		if vector.length(dir) > 0.001 and dist > 0.1 then
-			local vel = vector.multiply(dir, walk_speed)
+		local hdir = vector.direction(mob_pos, dir_next_pos)
+		local hdist = vector.distance(mob_pos, dir_next_pos)
+		if vector.length(hdir) > 0.001 and hdist > 0.1 then
+			local hvel = vector.multiply(hdir, walk_speed)
+			vel.x = hvel.x
+			vel.z = hvel.z
 			mob.object:set_velocity(vel)
 			self.statedata.moving = true
 		else
 			if self.statedata.moving ~= false then
-				mob.object:set_velocity(vector.zero())
+				vel.x = 0
+				vel.z = 0
+				mob.object:set_velocity(vel)
 				self.statedata.moving = false
 			end
 		end
 	end
 	mtask.is_finished = function(self, mob)
+		if not self.statedata.path or #self.statedata.path == 0 then
+			return true
+		end
 		local pos = mob.object:get_pos()
 		return vector.distance(pos, target_pos) < PATH_DISTANCE_TO_GOAL_POINT
 	end
 	mtask.on_end = function(self, mob)
-		mob.object:set_velocity(vector.zero())
+		local vel = mob.object:get_velocity()
+		vel.x = 0
+		vel.z = 0
+		mob.object:set_velocity(vel)
 	end
 	return rp_mobs.create_microtask(mtask)
 end
@@ -136,18 +202,6 @@ rp_mobs.microtasks.set_yaw = function(yaw)
 			mob.object:set_yaw(yaw)
 		end,
 	})
-end
-
-local collides_with_wall = function(moveresult, include_objects)
-	if moveresult and moveresult.collides then
-		for c=1, #moveresult.collisions do
-			local coll = moveresult.collisions[c]
-			if (coll.type == "node" or (coll.type == "object" and include_objects)) and (coll.axis == "x" or coll.axis == "z") then
-				return true, coll
-			end
-		end
-	end
-	return false
 end
 
 rp_mobs.microtasks.move_straight = function(move_vector, yaw, drag, max_timer)

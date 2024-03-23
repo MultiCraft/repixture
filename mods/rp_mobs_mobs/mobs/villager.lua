@@ -24,6 +24,8 @@ local MAX_HOME_BED_DISTANCE = 48
 local HOME_BED_FORGET_TIME = 10.0
 -- How fast to walk
 local WALK_SPEED = 6
+-- How strong to jump
+local JUMP_STRENGTH = 4
 -- Time the mob idles around
 local IDLE_TIME = 3.0
 
@@ -559,7 +561,7 @@ local movement_decider = function(task_queue, mob)
 		if pathlist_to_bed then
 			local path = pathlist_to_bed[1]
 			local target = path[#path]
-			local mt_walk_to_bed = rp_mobs.microtasks.pathfind_and_walk_to(target, WALK_SPEED, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
+			local mt_walk_to_bed = rp_mobs.microtasks.pathfind_and_walk_to(target, WALK_SPEED, JUMP_STRENGTH, true, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
 			mt_walk_to_bed.start_animation = "walk"
 			local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
 			rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
