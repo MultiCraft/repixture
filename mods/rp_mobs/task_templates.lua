@@ -1,5 +1,5 @@
 -- If enabled, show path waypoints of pathfinder microtask
-local PATH_DEBUG = false
+local PATH_DEBUG = true
 -- How close mob needs to be to waypoint of pathfinder before continuing
 local PATH_DISTANCE_TO_GOAL_POINT = 0.7
 -- Precision for random yaw calculation
@@ -56,7 +56,7 @@ end
 rp_mobs.microtasks = {}
 
 -- FIXME: Mob does not walk the path very well, gets stuck a lot
-rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, max_jump, max_drop)
+rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, searchdistance, max_jump, max_drop)
 	local mtask = {}
 	mtask.label = "pathfind and walk to coordinate"
 	mtask.on_step = function(self, mob, dtime)
@@ -99,7 +99,8 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, searchdistance, m
 		local dir = vector.direction(mob_pos, dir_next_pos)
 		local dist = vector.distance(mob_pos, dir_next_pos)
 		if vector.length(dir) > 0.001 and dist > 0.1 then
-			mob.object:set_velocity(dir)
+			local vel = vector.multiply(dir, walk_speed)
+			mob.object:set_velocity(vel)
 			self.statedata.moving = true
 		else
 			if self.statedata.moving ~= false then

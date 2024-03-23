@@ -22,6 +22,8 @@ local HOME_BED_PATHFIND_DISTANCE = 8
 local MAX_HOME_BED_DISTANCE = 48
 -- Time in seconds it takes for villager to forget home bed
 local HOME_BED_FORGET_TIME = 10.0
+-- How fast to walk
+local WALK_SPEED = 6
 -- Time the mob idles around
 local IDLE_TIME = 3.0
 
@@ -511,6 +513,7 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 				return
 			else
 				mob._custom_state.home_bed = nil
+				local mobpos = mob.object:get_pos()
 				minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." lost their home bed")
 			end
 		end
@@ -529,7 +532,7 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 				minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." found new home bed at "..minetest.pos_to_string(bedpos))
 				break
 			end
-			table.remove(beds, r)
+			table.remove(bednodes, r)
 		end
 	end,
 })
@@ -540,7 +543,9 @@ local movement_decider = function(task_queue, mob)
 	local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
 	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR), task_stand)
 	rp_mobs.add_microtask_to_task(mob, mt_yaw, task_stand)
-	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.sleep(IDLE_TIME), task_stand)
+	local mt_sleep = rp_mobs.microtasks.sleep(IDLE_TIME)
+	mt_sleep.start_animation = "idle"
+	rp_mobs.add_microtask_to_task(mob, mt_sleep, task_stand)
 	rp_mobs.add_task_to_task_queue(task_queue, task_stand)
 
 	local task_find_new_home_bed = rp_mobs.create_task({label="find new home bed"})
@@ -554,7 +559,8 @@ local movement_decider = function(task_queue, mob)
 		if pathlist_to_bed then
 			local path = pathlist_to_bed[1]
 			local target = path[#path]
-			local mt_walk_to_bed = rp_mobs.microtasks.pathfind_and_walk_to(target, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
+			local mt_walk_to_bed = rp_mobs.microtasks.pathfind_and_walk_to(target, WALK_SPEED, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
+			mt_walk_to_bed.start_animation = "walk"
 			local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
 			rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
 			rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)

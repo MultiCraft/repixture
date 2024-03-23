@@ -133,7 +133,7 @@ Instantly set mob acceleration to the given `acceleration` parameter (a vector).
 
 Finish condition: Finishes instantly.
 
-### `rp_mobs.microtasks.pathfind_and_walk_to(target_pos, searchdistance, max_jump, max_drop)`
+### `rp_mobs.microtasks.pathfind_and_walk_to(target_pos, walk_speed, searchdistance, max_jump, max_drop)`
 
 WARNING: This function isn't very accurate stable. Use at your own risk!
 
@@ -145,6 +145,7 @@ part of the pathfinding.
 Parameters:
 
 * `target_pos`: Target position
+* `walk_speed`: How fast to walk
 * `searchdistance`: How far (in nodes) from the mob's original position the pathfinder
   will search before stopping
 * `max_jump`: Maximum allowed jump height (can be 0)
