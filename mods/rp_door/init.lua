@@ -366,6 +366,9 @@ function door.register_door(name, def)
                minetest.add_item(bottom, drop_name)
             end
          end,
+         on_blast = function(bottom)
+            minetest.remove_node(bottom)
+         end,
          after_destruct = function(bottom, oldnode)
             local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
             if minetest.get_node(bottom).name ~= name.."_b_2" and minetest.get_node(top).name == name.."_t_1" then
@@ -427,6 +430,9 @@ function door.register_door(name, def)
                minetest.add_item(bottom, drop_name)
             end
          end,
+         on_blast = function(top)
+            minetest.remove_node(top)
+         end,
          after_destruct = function(top, oldnode)
             local bottom = { x = top.x, y = top.y - 1, z = top.z }
             if minetest.get_node(top).name ~= name.."_t_2" and minetest.get_node(bottom).name == name.."_b_1" and oldnode.name == name.."_t_1" then
@@ -487,6 +493,9 @@ function door.register_door(name, def)
 	       minetest.add_item(bottom, drop_name)
             end
          end,
+         on_blast = function(bottom)
+            minetest.remove_node(bottom)
+         end,
          after_destruct = function(bottom, oldnode)
             local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
             if minetest.get_node(bottom).name ~= name.."_b_1" and minetest.get_node(top).name == name.."_t_2" then
@@ -546,6 +555,9 @@ function door.register_door(name, def)
                minetest.dig_node(bottom)
 	       minetest.add_item(bottom, drop_name)
             end
+         end,
+         on_blast = function(top)
+            minetest.remove_node(top)
          end,
          after_destruct = function(top, oldnode)
             local bottom = { x = top.x, y = top.y - 1, z = top.z }
