@@ -1,4 +1,4 @@
-rp_mobs_mobs.create_dogfight_microtask = function(attack_range, attack_toolcaps, attack_time)
+rp_mobs_mobs.microtasks.dogfight = function(attack_range, attack_toolcaps, attack_time)
 	return rp_mobs.create_microtask({
 		label = "dogfight",
 		start_animation = "punch",
@@ -69,7 +69,7 @@ end
 
 rp_mobs_mobs.create_dogfight_decider = function(attack_range, attack_toolcaps, attack_time)
 	return function (task_queue, mob)
-		local mt_dogfight = rp_mobs_mobs.microtask_dogfight
+		local mt_dogfight = rp_mobs_mobs.microtasks.dogfight
 		local task = rp_mobs.create_task({label="dogfight"})
 		rp_mobs.add_microtask_to_task(mob, mt_dogfight, task)
 		rp_mobs.add_task_to_task_queue(task_queue, task)

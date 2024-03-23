@@ -4,6 +4,8 @@ local random_yaw = function()
 	return math.random(0, 360) / 360 * (math.pi*2)
 end
 
+
+
 -- Decider functions for random roaming behavior (and following)
 
 local create_roam_decider_start = function(settings)
@@ -213,7 +215,7 @@ return function(task_queue, mob, dtime)
 						local dogfight = false
 						if settings.dogfight and task_label == "hunt player" then
 							dogfight = true
-							local mt_attack = rp_mobs_mobs.create_dogfight_microtask(settings.dogfight_range, settings.dogfight_toolcaps, settings.dogfight_interval)
+							local mt_attack = rp_mobs_mobs.microtasks.dogfight(settings.dogfight_range, settings.dogfight_toolcaps, settings.dogfight_interval)
 							rp_mobs.add_microtask_to_task(mob, mt_attack, task)
 						end
 						if not dogfight then
@@ -270,7 +272,7 @@ end
 		that the mob will not follow anything after that happened.
 ]]
 
-rp_mobs_mobs.task_queue_land_animal_roam = function(settings)
+rp_mobs_mobs.task_queues.land_roam = function(settings)
 	local roam_decider_empty = create_roam_decider_empty(settings)
 	local roam_decider_step = create_roam_decider_step(settings)
 	local roam_decider_start = create_roam_decider_start(settings)
