@@ -20,6 +20,8 @@ local HOME_BED_DISTANCE = 32
 local HOME_BED_PATHFIND_DISTANCE = 8
 -- If villager is at least this many nodes away from home bed, it will be forgotten
 local MAX_HOME_BED_DISTANCE = 48
+-- Maximum distance to look for work
+local WORK_DISTANCE = 24
 -- Time in seconds it takes for villager to forget home bed
 local HOME_BED_FORGET_TIME = 10.0
 -- How fast to walk
@@ -164,6 +166,30 @@ local find_free_horizontal_neighbor = function(pos)
 	return nil
 end
 
+local find_reachable_node = function(startpos, nodenames, searchdistance, look_for_neighbor)
+	local offset = vector.new(searchdistance, searchdistance, searchdistance)
+	local smin = vector.subtract(startpos, offset)
+	local smax = vector.add(startpos, offset)
+	local nodes = minetest.find_nodes_in_area(smin, smax, nodenames)
+	while #nodes > 0 do
+		local r = math.random(1, #nodes)
+		local npos = nodes[r]
+		local searchpos
+		if look_for_neighbor then
+			searchpos = find_free_horizontal_neighbor(npos)
+		else
+			searchpos = npos
+		end
+		if searchpos then
+			local path_to_node = find_path_advanced(startpos, searchpos, searchdistance, MAX_JUMP, MAX_DROP)
+			if path_to_node then
+				return npos, path_to_node
+			end
+		end
+		table.remove(nodes, r)
+	end
+end
+
 local microtask_find_new_home_bed = rp_mobs.create_microtask({
 	label = "find new home bed",
 	singlestep = true,
@@ -178,21 +204,14 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 			end
 		end
 		local mobpos = mob.object:get_pos()
-		local offset = vector.new(MAX_HOME_BED_DISTANCE, MAX_HOME_BED_DISTANCE, MAX_HOME_BED_DISTANCE)
-		local smin = vector.subtract(mobpos, offset)
-		local smax = vector.add(mobpos, offset)
-		local bednodes = minetest.find_nodes_in_area(smin, smax, { "group:bed" })
-		while #bednodes > 0 do
-			local r = math.random(1, #bednodes)
-			local bedpos = bednodes[r]
-			local searchpos = find_free_horizontal_neighbor(bedpos)
-			local path_to_bed = find_path_advanced(mobpos, searchpos, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
-			if path_to_bed then
-				mob._custom_state.home_bed = bedpos
-				minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." found new home bed at "..minetest.pos_to_string(bedpos))
-				break
-			end
-			table.remove(bednodes, r)
+		if not mobpos then
+			minetest.log("error", "No mobpos yet!")
+			return
+		end
+		local bedpos = find_reachable_node(mobpos, { "group:bed" }, MAX_HOME_BED_DISTANCE, true)
+		if bedpos then
+			mob._custom_state.home_bed = bedpos
+			minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." found new home bed at "..minetest.pos_to_string(bedpos))
 		end
 	end,
 })
@@ -212,18 +231,36 @@ local movement_decider = function(task_queue, mob)
 	rp_mobs.add_microtask_to_task(mob, microtask_find_new_home_bed, task_find_new_home_bed)
 	rp_mobs.add_task_to_task_queue(task_queue, task_find_new_home_bed)
 
-	if mob._custom_state.home_bed then
-		local searchpos = find_free_horizontal_neighbor(mob._custom_state.home_bed)
+	local day_phase = get_day_phase()
+	if day_phase == "night" then
+		-- Go to home bed at night
+		if mob._custom_state.home_bed then
+			local mobpos = mob.object:get_pos()
+			local searchpos = find_free_horizontal_neighbor(mob._custom_state.home_bed)
+			local pathlist_to_bed = find_path_advanced(mobpos, searchpos, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
+			if pathlist_to_bed then
+				local path = pathlist_to_bed[1]
+				local target = path[#path]
+				local mt_walk_to_bed = rp_mobs.microtasks.pathfind_and_walk_to(target, WALK_SPEED, JUMP_STRENGTH, true, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
+				mt_walk_to_bed.start_animation = "walk"
+				local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
+				rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
+				rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
+			end
+		end
+	elseif day_phase == "day" then
+		-- Go to farm at day
+		-- TODO: Change interest depending on profession
 		local mobpos = mob.object:get_pos()
-		local pathlist_to_bed = find_path_advanced(mobpos, searchpos, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
-		if pathlist_to_bed then
-			local path = pathlist_to_bed[1]
+		local targetpos, pathlist_to_target = find_reachable_node(mobpos, { "group:farming_plant" }, WORK_DISTANCE, false)
+		if targetpos and pathlist_to_target then
+			local path = pathlist_to_target[1]
 			local target = path[#path]
-			local mt_walk_to_bed = rp_mobs.microtasks.pathfind_and_walk_to(target, WALK_SPEED, JUMP_STRENGTH, true, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
-			mt_walk_to_bed.start_animation = "walk"
-			local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
-			rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
-			rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
+			local mt_walk_to_target = rp_mobs.microtasks.pathfind_and_walk_to(target, WALK_SPEED, JUMP_STRENGTH, true, WORK_DISTANCE, MAX_JUMP, MAX_DROP)
+			mt_walk_to_target.start_animation = "walk"
+			local task_walk_to_target = rp_mobs.create_task({label="walk to farm"})
+			rp_mobs.add_microtask_to_task(mob, mt_walk_to_target, task_walk_to_target)
+			rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_target)
 		end
 	end
 end
