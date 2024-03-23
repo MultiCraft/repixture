@@ -2,6 +2,14 @@
 local PATH_DEBUG = true
 -- How close mob needs to be to waypoint of pathfinder before continuing
 local PATH_DISTANCE_TO_GOAL_POINT = 0.7
+
+-- If mob is stuck in pathfinding microtask for this many seconds, give up
+local PATH_STUCK_GIVE_UP_TIME = 5.0
+-- Interval to check mob position for stuck checker (seconds)
+local PATH_STUCK_RECHECK_TIME = 1.0
+-- Minimum distance a mob has to have moved to count as no longer stuck
+local PATH_UNSTUCK_DISTANCE = 0.1
+
 -- Precision for random yaw calculation
 local YAW_PRECISION = 10000
 -- How long in seconds to wait before jumping again
@@ -67,14 +75,19 @@ end
 
 rp_mobs.microtasks = {}
 
--- FIXME: Mob does not walk the path very well, gets stuck a lot
 rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, jump_strength, set_yaw, searchdistance, max_jump, max_drop)
 	local mtask = {}
 	mtask.label = "pathfind and walk to coordinate"
 	mtask.on_start = function(self, mob)
-		self.statedata.moving = false
+		self.statedata.walking = false
+		self.statedata.stop = false
 		self.statedata.jumping = false
 		self.statedata.jump_timer = 0
+
+		-- Counts up when mob is stuck at the same position
+		self.statedata.stuck_timer = 0
+		self.statedata.stuck_last_position = nil
+		self.statedata.stuck_recheck_timer = 0
 
 		local start_pos = mob.object:get_pos()
 		start_pos.y = math.floor(start_pos.y)
@@ -83,13 +96,40 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, jump_
 		self.statedata.path = path
 	end
 	mtask.on_step = function(self, mob, dtime, moveresult)
-		local mobpos = mob.object:get_pos()
 		if not self.statedata.path then
-			minetest.log("error", "[rp_mobs] pathfind_and_walk_to: Mob can't find target")
 			return
 		end
 		if PATH_DEBUG then
 			show_pathfinder_path(self.statedata.path)
+		end
+
+		-- Check if mob is stuck
+		local mobpos = mob.object:get_pos()
+		self.statedata.stuck_recheck_timer = self.statedata.stuck_recheck_timer + dtime
+		if self.statedata.stuck_recheck_timer >= PATH_STUCK_RECHECK_TIME then
+			if not self.statedata.stuck_last_position then
+				self.statedata.stuck_last_position = mobpos
+			else
+				local stuck_dist = vector.distance(mobpos, self.statedata.stuck_last_position)
+				-- Mob didn't move much since the last check, it seems we're stuck!
+				if stuck_dist < PATH_UNSTUCK_DISTANCE then
+					self.statedata.stuck_timer = self.statedata.stuck_timer + self.statedata.stuck_recheck_timer
+				else
+					self.statedata.stuck_timer = 0
+				end
+				-- Mob is stuck for too long. Give up and finish
+				if self.statedata.stuck_timer > PATH_STUCK_GIVE_UP_TIME then
+					self.statedata.stop = true
+					local vel = mob.object:get_velocity()
+					vel.x = 0
+					vel.z = 0
+					mob.object:set_velocity(vel)
+					minetest.log("verbose", "[rp_mobs] pathfind_and_walk_to: Mob at "..mobpos.." stops due to being stuck")
+					return
+				end
+				self.statedata.stuck_last_position = mobpos
+			end
+			self.statedata.stuck_recheck_timer = 0
 		end
 
 		-- Get next target position
@@ -104,8 +144,17 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, jump_
 					return
 				end
 				next_pos = self.statedata.path[1]
+
+				-- If there's a fence below next_pos, adjust the Y coordinate
+				-- due to the overhigh collisionbox
+				local next_pos_below = vector.offset(next_pos, 0, -1, 0)
+				local next_node_below = minetest.get_node(next_pos_below)
+				if minetest.get_item_group(next_node_below.name, "fence") == 1 then
+					next_pos.y = next_pos.y + 0.5
+				end
 			end
 		end
+		local next_pos_higher = mob_pos.y < next_pos.y
 
 		if set_yaw then
 			local dir_to_next_pos = vector.direction(mobpos, next_pos)
@@ -113,20 +162,20 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, jump_
 			mob.object:set_yaw(yaw)
 		end
 
-		-- Stop at object collision
-		local wall_collision, wall_collision_data = collides_with_wall(moveresult, true)
-		if wall_collision and wall_collision_data.type == "object" then
-			self.statedata.stop = true
-			vel.x = 0
-			vel.z = 0
-			mob.object:set_velocity(vel)
-			minetest.log("error", "[rp_mobs] pathfind_and_walk_to: Mob stops due to object collision")
-			return
+		local vel = mob.object:get_velocity()
+
+		-- Reset jump status
+		if self.statedata.jumping then
+			self.statedata.jump_timer = self.statedata.jump_timer + dtime
+			if self.statedata.jump_timer >= JUMP_REPEAT_TIME then
+				if moveresult.touching_ground then
+					self.statedata.jumping = false
+				end
+			end
 		end
 
-		local vel = mob.object:get_velocity()
-		-- Jump
-		if max_jump > 0 and not self.statedata.jumping and moveresult.touching_ground and wall_collision then
+		-- Try to jump if next position is higher
+		if next_pos_higher and max_jump > 0 and not self.statedata.jumping and moveresult.touching_ground then
 			local can_jump = true
 			-- Can't jump if standing on a disable_jump node
 			if mob._env_node_floor then
@@ -146,6 +195,13 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, jump_
 				self.statedata.jumping = true
 				self.statedata.jump_timer = 0
 				vel.y = jump_strength
+			else
+				-- Can't jump: We're stuck
+				self.statedata.stop = true
+				vel.x = 0
+				vel.z = 0
+				mob.object:set_velocity(vel)
+				return
 			end
 		end
 
@@ -159,21 +215,23 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, jump_
 			vel.x = hvel.x
 			vel.z = hvel.z
 			mob.object:set_velocity(vel)
-			self.statedata.moving = true
+			self.statedata.walking = true
 		else
-			if self.statedata.moving ~= false then
+			if self.statedata.walking ~= false then
 				vel.x = 0
 				vel.z = 0
 				mob.object:set_velocity(vel)
-				self.statedata.moving = false
+				self.statedata.walking = false
 			end
 		end
 	end
 	mtask.is_finished = function(self, mob)
-		if not self.statedata.path or #self.statedata.path == 0 then
+		-- Finish if aborted or path is gone
+		if self.statedata.stop or not self.statedata.path or #self.statedata.path == 0 then
 			return true
 		end
 		local pos = mob.object:get_pos()
+		-- Finish if goal point was reached
 		return vector.distance(pos, target_pos) < PATH_DISTANCE_TO_GOAL_POINT
 	end
 	mtask.on_end = function(self, mob)

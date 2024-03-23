@@ -135,18 +135,16 @@ Finish condition: Finishes instantly.
 
 ### `rp_mobs.microtasks.pathfind_and_walk_to(target_pos, walk_speed, set_yaw, jump_strength, searchdistance, max_jump, max_drop)`
 
-WARNING: This function isn't very accurate stable. Use at your own risk!
+Make the mob find a path (using pathfinding algorithm) towards `target_pos`, then starts to walk that path.
+This assumes the mob is bound to gravity. Jumping up and falling down a few blocks is part of the pathfinding.
 
-Make the mob find a path (using the A\* algorithm) towards `target_pos`,
-then starts to walk that path.
-This assumes the mob is bound to gravity. Jumping up and falling down a few blocks is
-part of the pathfinding.
+This function uses `minetest.find_path` internally, so it is bound to the same restrictions as that function.
 
 Parameters:
 
 * `target_pos`: Target position
 * `walk_speed`: How fast to walk
-* `jump_strength`: How strong to jump
+* `jump_strength`: How strong to jump (must be able to clear a height of `max_jump` at least)
 * `set_yaw`: If true, mob will automatically set the yaw to face towards
   the next path position (default: false)
 * `searchdistance`: How far (in nodes) from the mob's original position the pathfinder
@@ -154,7 +152,10 @@ Parameters:
 * `max_jump`: Maximum allowed jump height (if 0, mob will not jump)
 * `max_drop`: Maximum allowed fall height (can be 0)
 
-Finish condition: When the mob has reached `target_pos` (within a small tolerance).
-Also, finished instantly when no path was found.
+Finish condition: There are multiple reasons for finishing:
+
+* When the mob has reached `target_pos` (within a small tolerance)
+* When no path to the `target_pos` was found
+* When mob was stuck and unable to continue walking for a few seconds
 
 
