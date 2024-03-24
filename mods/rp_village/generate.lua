@@ -247,8 +247,14 @@ village chunk definition:
       [entity_1] = <number>,
       ...
       [entity_n] = <number>,
-   }, -- list of entities that can spawn (needs entity spawner node in schematic)
+   },
+   -- list of entities that can spawn (needs entity spawner node in schematic).
+   -- For villagers, the key must be of the form '__villager_<profession>',
+   -- e.g. '__villager_farmer'.
+   -- For all other entities, use the entitystring, e.g. 'rp_mobs_mobs:sheep'.
+
    entity_chance = <number>,
+   -- Chance for an entity to spawn by an entity spawner. Chance is 1/<number>
 }
 ]]
 
@@ -277,14 +283,14 @@ village.chunkdefs["lamppost"] = { -- not road because of road height limit of 1 
    can_cache = true,
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:villager_carpenter"] = 1,
+      ["__villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["well"] = {
    ruins = {"well_ruins"},
    entities = {
-      ["rp_mobs_mobs:villager_farmer"] = 1,
-      ["rp_mobs_mobs:villager_tavernkeeper"] = 1,
+      ["__villager_farmer"] = 1,
+      ["__villager_tavernkeeper"] = 1,
    },
 }
 village.chunkdefs["house"] = {
@@ -296,7 +302,7 @@ village.chunkdefs["house"] = {
    ruins = {"house_ruins", "house_ruins_2"},
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:villager_carpenter"] = 1,
+      ["__villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["hut_s"] = {
@@ -306,7 +312,7 @@ village.chunkdefs["hut_s"] = {
    ruins = {"reed_hut_s_ruins", "reed_hut_s_ruins_2"},
    entitity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:villager_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    },
 }
 village.chunkdefs["hut_m"] = {
@@ -316,7 +322,7 @@ village.chunkdefs["hut_m"] = {
    ruins = {"reed_hut_m_ruins", "reed_hut_m_ruins_2"},
    entitity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:villager_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    },
 }
 
@@ -335,7 +341,7 @@ village.chunkdefs["workshop"] = {
    },
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:villager_carpenter"] = 1,
+      ["__villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["townhall"] = {
@@ -353,10 +359,10 @@ village.chunkdefs["townhall"] = {
    },
    entity_chance = 1,
    entities = {
-      ["rp_mobs_mobs:villager_tavernkeeper"] = 1,
-      ["rp_mobs_mobs:villager_farmer"] = 1,
-      ["rp_mobs_mobs:villager_blacksmith"] = 1,
-      ["rp_mobs_mobs:villager_carpenter"] = 1,
+      ["__villager_tavernkeeper"] = 1,
+      ["__villager_farmer"] = 1,
+      ["__villager_blacksmith"] = 1,
+      ["__villager_carpenter"] = 1,
    },
 }
 
@@ -376,7 +382,7 @@ village.chunkdefs["tavern"] = {
    },
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:villager_tavernkeeper"] = 1,
+      ["__villager_tavernkeeper"] = 1,
    },
 }
 village.chunkdefs["library"] = {
@@ -394,7 +400,7 @@ village.chunkdefs["library"] = {
    },
    entity_chance = 3,
    entities = {
-      ["rp_mobs_mobs:villager_carpenter"] = 1,
+      ["__villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["reading_club"] = {
@@ -406,8 +412,8 @@ village.chunkdefs["reading_club"] = {
    ruins = {"house_ruins", "house_ruins_2"},
    entity_chance = 3,
    entities = {
-      ["rp_mobs_mobs:villager_farmer"] = 1,
-      ["rp_mobs_mobs:villager_blacksmith"] = 1,
+      ["__villager_farmer"] = 1,
+      ["__villager_blacksmith"] = 1,
    },
 }
 
@@ -420,7 +426,7 @@ village.chunkdefs["bakery"] = {
    ruins = {"bakery_ruins"},
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:villager_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    },
 }
 
@@ -440,7 +446,7 @@ village.chunkdefs["forge"] = {
    },
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:villager_blacksmith"] = 1,
+      ["__villager_blacksmith"] = 1,
    },
 }
 village.chunkdefs["orchard"] = {
@@ -451,7 +457,7 @@ village.chunkdefs["orchard"] = {
    can_cache = true,
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:villager_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    },
 }
 village.chunkdefs["road"] = {
@@ -501,7 +507,7 @@ village.chunkdefs["farm_small_plants"] = {
    },
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:villager_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    }
 }
 
@@ -518,7 +524,7 @@ village.chunkdefs["farm_papyrus"] = {
    },
    entity_chance = 2,
    entities = {
-      ["rp_mobs_mobs:villager_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    }
 }
 
@@ -1621,6 +1627,11 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
                -- Initialize entity spawners
 	       if #ent_spawns > 0 then
 	          for ent, amt in pairs(chunkdef.entities) do
+                     local profession
+                     if string.sub(ent, 1, 11) == "__villager_" then
+                        profession = string.sub(ent, 12, -1)
+                        ent = "rp_mobs_mobs:villager"
+                     end
                      for j = 1, pr:next(1, amt) do
                         if #ent_spawns == 0 then
                            break
@@ -1629,6 +1640,9 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
                         if spawn ~= nil then
                            local meta = minetest.get_meta(spawn)
                            meta:set_string("entity", ent)
+                           if profession then
+                              meta:set_string("villager_profession", profession)
+                           end
                            minetest.get_node_timer(spawn):start(1)
                            -- Prevent spawning on same tile
                            table.remove(ent_spawns, index)

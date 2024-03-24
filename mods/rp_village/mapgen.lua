@@ -102,11 +102,25 @@ minetest.register_node(
           -- ... but not TOO nearby (occupying the pos)
           local objs_near = minetest.get_objects_inside_radius(pos, 1.2)
           if #objs_around > 0 and #objs_near == 0 then
-              local ent_name = minetest.get_meta(pos):get_string("entity")
+              local meta = minetest.get_meta(pos)
+              local ent_name = meta:get_string("entity")
               if ent_name ~= "" then
                   local ent = minetest.add_entity({x=pos.x, y=pos.y+0.6, z=pos.z}, ent_name)
-                  -- All spawned animals are tamed
                   if ent ~= nil and ent:get_luaentity() ~= nil then
+                     -- Set villager profession
+                     if ent_name == "rp_mobs_mobs:villager" then
+                        local profession = meta:get_string("villager_profession")
+                        if profession ~= "" then
+                           local luaent = ent:get_luaentity()
+                           if luaent then
+                              luaent._custom_state.profession = profession
+                              minetest.log("info", "[rp_village] Profession of villager spawned at "..minetest.pos_to_string(pos).." set to: "..tostring(profession))
+                           end
+                        else
+                           minetest.log("info", "[rp_village] Entity spawner at "..minetest.pos_to_string(pos).." spawned a villager but without villager_profession set in meta. Not setting profession")
+                        end
+                     end
+                     -- FIXME: All spawned animals are tamed
                      if minetest.registered_entities[ent_name].type == "animal" then
                          ent:get_luaentity().tamed = true
                      end

@@ -67,12 +67,12 @@ local function say_random(mtype, to_player)
 end
 
 -- Make villager talk about an item to a player
--- * villager_type: Villager type
+-- * profession: Villager's profession
 -- * iname: Item name (itemstring)
 -- * name: Player name
-local function talk_about_item(villager_type, iname, name)
+local function talk_about_item(profession, iname, name)
 	-- Fuel time / cooking hint by blacksmith
-	if villager_type == "blacksmith" then
+	if profession == "blacksmith" then
 		-- First some hardcoded texts
 		if iname == "rp_default:cactus" then
 			say(S("Ah, a cactus. You'd be surprised how well they burn in a furnace."), name)
@@ -126,7 +126,7 @@ local function talk_about_item(villager_type, iname, name)
 	if iname == "rp_gold:ingot_gold" then
 		say_random("trade", name)
 	elseif iname == "rp_jewels:serrated_broadsword" then
-		if villager_type == "blacksmith" then
+		if profession == "blacksmith" then
 			say(S("I'm impressed! Your weapon is a true masterpiece."), name)
 		else
 			say_random("happy", name)
@@ -140,13 +140,13 @@ local function talk_about_item(villager_type, iname, name)
 	elseif iname == "rp_default:bookshelf" then
 		say(S("You can put anything inside a bookshelf, not just books.", name))
 	elseif iname == "rp_default:fertilizer" then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 			say(S("This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."), name)
 		else
 			say(S("Sorry, I don't know how to use this. Maybe ask a farmer."), name)
 		end
 	elseif minetest.get_item_group(iname, "bucket") > 0 then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 			say(S("Remember to put water near to your seeds."), name)
 		else
 			say_random("happy", name)
@@ -171,7 +171,7 @@ local function talk_about_item(villager_type, iname, name)
 	elseif iname == "rp_farming:wheat_1" then
 		say(S("Every kid knows seeds need soil, water and sunlight."), name)
 	elseif iname == "rp_farming:wheat" then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 			say(S("Sheep love to eat wheat. Give them enough wheat and they'll multiply!"), name)
 		else
 			say(S("We use wheat to make flour and bake bread."), name)
@@ -179,9 +179,9 @@ local function talk_about_item(villager_type, iname, name)
 	elseif iname == "rp_farming:flour" then
 		say(S("Put it in a furnace to bake tasty bread."), name)
 	elseif iname == "rp_farming:cotton_1" then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 			say(S("Did you know cotton seed not only grow on dirt, but also on sand? But it still needs water."), name)
-		elseif villager_type == "carpenter" then
+		elseif profession == "carpenter" then
 			say(S("If you have grown a cotton plant, try using scissors to perform a precise cut."), name)
 		else
 			say(S("Every kid knows seeds need soil, water and sunlight."), name)
@@ -191,7 +191,7 @@ local function talk_about_item(villager_type, iname, name)
 	elseif iname == "rp_default:book" then
 		say(S("A truly epic story!"), name)
 	elseif iname == "rp_default:pearl" then
-		if villager_type == "tavernkeeper" then
+		if profession == "tavernkeeper" then
 			say(S("Ooh, a shiny pearl! It's beautiful."), name)
 		else
 			say(S("I heard the tavernkeeper likes these."), name)
@@ -208,25 +208,25 @@ local function talk_about_item(villager_type, iname, name)
 	elseif minetest.get_item_group(iname, "shears") > 0 then
 		say(S("Use this to trim plants and get wool from sheep."), name)
 	elseif iname == "rp_default:papyrus" then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 				say(S("Papyrus grows best on fertilized swamp dirt."), name)
-		elseif villager_type == "carpenter" then
+		elseif profession == "carpenter" then
 				say(S("Papyrus likes to grow next to water."), name)
-		elseif villager_type == "tavernkeeper" then
+		elseif profession == "tavernkeeper" then
 				say(S("The papyrus grows tall in the swamp. But it can grow even taller."), name)
 		else
 				say(S("When I was I kid, I always liked to climb on the papyrus."), name)
 		end
 	elseif iname == "rp_default:cactus" then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 			say(S("Cacti grow best on sand. They are also a food source, if you're really desperate."), name)
-		elseif villager_type == "tavernkeeper" then
+		elseif profession == "tavernkeeper" then
 			say(S("This is the secret ingredient for my special drink. But don't tell anyone!"), name)
 		else
 			say(S("Now what can you possibly do with a cactus? I don't know!"), name)
 		end
 	elseif iname == "jewels:jewel" then
-		if villager_type == "blacksmith" then
+		if profession == "blacksmith" then
 			say(S("Jewels are great! If you have a jeweller's workbench, you can enhance your tools."), name)
 		else
 			say(S("Did you know we sometimes sell jewels?"), name)
@@ -256,7 +256,7 @@ local function talk_about_item(villager_type, iname, name)
 	elseif iname == "rp_fire:bonfire" then
 		say(S("You need flint and steel to light the fire. But don't walk into the flame!"), name)
 	elseif iname == "rp_bed:bed_foot" then
-		if villager_type == "carpenter" then
+		if profession == "carpenter" then
 			say(S("Isn't it stressful to carry this heavy bed around?"), name)
 		else
 			say(S("Sleeping makes the night go past in the blink of an eye."), name)
@@ -267,7 +267,7 @@ local function talk_about_item(villager_type, iname, name)
 	elseif iname == "rp_default:apple" then
 		say(S("Apples are so tasty!"), name)
 	elseif iname == "rp_default:acorn" then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 			say(S("Boars love to eat acorns! If you feed enough of these to them, they will multiply."), name)
 		else
 			say(S("Apples are so tasty!"), name)
@@ -275,62 +275,62 @@ local function talk_about_item(villager_type, iname, name)
 	elseif iname == "rp_default:reed_block" then
 		say(S("Did you try to dry it in the furnace?"), name)
 	elseif minetest.get_item_group(iname, "airweed") > 0 then
-		if villager_type == "carpenter" then
+		if profession == "carpenter" then
 			say(S("Airweed is an underwater plant with little capsules filled with air. Use it underwater to release air bubbles and catch some breath."), name)
-		elseif villager_type == "butcher" then
+		elseif profession == "butcher" then
 			say(S("If you use the airweed plant, you will catch some breath. Other people near the plant will also benefit."), name)
-		elseif villager_type == "tavernkeeper" then
+		elseif profession == "tavernkeeper" then
 			say(S("Airweed is very useful, but it can't give you breath from your hand. You must place it on the ground first."), name)
-		elseif villager_type == "farmer" then
+		elseif profession == "farmer" then
 			say(S("You can multiply airweed with fertilizer."), name)
 		else
 			say(S("Airweed needs a moment to refill after you used it. The time it needs depends on the surface."), name)
 		end
 	elseif iname == "rp_default:alga" then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 			say(S("If you fertilize the ground, an alga will grow higher."), name)
-		elseif villager_type == "tavernkeeper" then
+		elseif profession == "tavernkeeper" then
 			say(S("The tallest algae always grow on alga blocks.", name))
-		elseif villager_type == "carpenter" then
+		elseif profession == "carpenter" then
 			say(S("If an alga tries to grow but something blocks its path, it'll stop growing, even if the barrier is removed later.", name))
 		else
 			say(S("Algae grow underwater in different heights."), name)
 		end
 	elseif iname == "rp_default:vine" then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 			say(S("Place it at the ceiling and watch it grow."), name)
-		elseif villager_type == "carpenter" then
+		elseif profession == "carpenter" then
 			say(S("If you want the vine to stops growing, make a precise cut using scissors."), name)
 		else
 			say(S("It's climbing time!"), name)
 		end
 	elseif iname == "rp_default:dirt" then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 			say(S("Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized."), name)
 		else
 			say(S("You're dirty!"), name)
 		end
 	elseif iname == "rp_default:swamp_dirt" then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 			say(S("Swamp dirt is really interesting. The famous swamp oak grows on it, and papyrus also grows exceptionally well."), name)
 		else
 			say(S("Disgusting!"), name)
 		end
 	elseif iname == "rp_default:dry_dirt" then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 			say(S("Not much grows on dry dirt."), name)
 		else
 			say(S("This dirt is as dry as my jokes."), name)
 		end
 	elseif iname == "rp_default:sand" then
-		if villager_type == "farmer" then
+		if profession == "farmer" then
 			say(S("You can use sand to grow cacti."), name)
 		else
 			say(S("Be careful not to let it fall on your head!"), name)
 		end
 
 	elseif minetest.get_item_group(iname, "stone") > 0 then
-		if villager_type == "butcher" then
+		if profession == "butcher" then
 			say(S("This is like my ex-lover's heart. Made out of stone."), name)
 		else
 			say_random("happy", name)
@@ -342,7 +342,7 @@ local function talk_about_item(villager_type, iname, name)
 		if r == 1 then
 			say_random("trade", name)
 		elseif r == 2 then
-			say(msgs.villager[villager_type], name)
+			say(msgs.villager[profession], name)
 		else
 			say_random("happy", name)
 		end

@@ -46,13 +46,52 @@ local get_day_phase = function()
 	end
 end
 
-local villager_types = {
+local professions = {
 	{ "farmer", S("Farmer") },
 	{ "tavernkeeper", S("Tavern Keeper") },
 	{ "blacksmith", S("Blacksmith") },
 	{ "butcher", S("Butcher") },
 	{ "carpenter", S("Carpenter") },
 }
+local professions_keys = {}
+for p=1, #professions do
+	local profession = professions[p][1]
+	professions_keys[profession] = true
+end
+
+local profession_exists = function(profession)
+	if professions_keys[profession] then
+		return true
+	else
+		return false
+	end
+end
+
+local set_random_profession = function(mob)
+	local p = math.random(1, #professions)
+	local profession = professions[p][1]
+	mob._custom_state.profession = profession
+	minetest.log("action", "[rp_mobs_mobs] Profession of villager at "..minetest.pos_to_string(mob.object:get_pos(), 1).." initialized as: "..tostring(profession))
+end
+
+-- Gets profession of villager; also initializes
+-- the profession if none set, and re-initializes
+-- profession if set to an invalid one
+local get_profession = function(mob)
+	if mob._custom_state.profession then
+		if profession_exists(mob._custom_state.profession) then
+			return mob._custom_state.profession
+		else
+			local old_profession = mob._custom_state.profession
+			minetest.log("warning", "[rp_mobs_mobs] Profession of villager at "..minetest.pos_to_string(mob.object:get_pos(), 1).." was invalid ("..tostring(old_profession).."). Re-rolling ...")
+			set_random_profession(mob)
+			return mob._custom_state.profession
+		end
+	else
+		set_random_profession(mob)
+		return mob._custom_state.profession
+	end
+end
 
 -- Advanced pathfinder that finds a path between two positions.
 -- Like minetest.find_path, but can also traverse a single door.
@@ -276,12 +315,12 @@ local movement_decider = function(task_queue, mob)
 		end
 	elseif day_phase == "day" then
 		local r = math.random(1, 2)
-		local profession = mob.name
+		local profession = mob._custom_state.profession
 		local targetnodes
 		local under_air = true
 		if r == 1 then
 			-- profession
-			if profession == "rp_mobs_mobs:villager_farmer" then
+			if profession == "farmer" then
 				local a = math.random(1, 2)
 				if a == 1 then
 					targetnodes = { "group:farming_plant" }
@@ -290,16 +329,16 @@ local movement_decider = function(task_queue, mob)
 					targetnodes = { "rp_default:papyrus" }
 					under_air = false
 				end
-			elseif profession == "rp_mobs_mobs:villager_blacksmith" then
+			elseif profession == "blacksmith" then
 				targetnodes = { "group:furnace" }
 				under_air = false
-			elseif profession == "rp_mobs_mobs:villager_tavernkeeper" then
+			elseif profession == "tavernkeeper" then
 				targetnodes = { "group:bucket", "rp_decor:barrel" }
 				under_air = false
-			elseif profession == "rp_mobs_mobs:villager_butcher" then
+			elseif profession == "butcher" then
 				targetnodes = { "group:tree", "rp_jewels:bench" }
 				under_air = true
-			elseif profession == "rp_mobs_mobs:villager_carpenter" then
+			elseif profession == "carpenter" then
 				targetnodes = { "rp_default:bookshelf" }
 				under_air = false
 			end
@@ -364,147 +403,144 @@ local set_random_textures = function(mob)
 	mob._textures_adult = tex
 end
 
-for _, villager_type_table in pairs(villager_types) do
-	local villager_type = villager_type_table[1]
-	local villager_name = villager_type_table[2]
-
-	rp_mobs.register_mob("rp_mobs_mobs:villager_"..villager_type, {
-		description = villager_name,
-		tags = { peaceful = 1 },
-		drops = {
-			{ name = "rp_default:planks_oak", chance = 1, min = 1, max = 3 },
-			{ name = "rp_default:apple", chance = 2, min = 1, max = 2 },
-			{ name = "rp_default:axe_stone", chance = 5, min = 1, max = 1 },
+rp_mobs.register_mob("rp_mobs_mobs:villager", {
+	description = S("Villager"),
+	tags = { peaceful = 1 },
+	drops = {
+		{ name = "rp_default:planks_oak", chance = 1, min = 1, max = 3 },
+		{ name = "rp_default:apple", chance = 2, min = 1, max = 2 },
+		{ name = "rp_default:axe_stone", chance = 5, min = 1, max = 1 },
+	},
+	animations = {
+		["idle"] = { frame_range = { x = 0, y = 79 }, default_frame_speed = 30 },
+		["dead_static"] = { frame_range = { x = 0, y = 0 } },
+		["walk"] = { frame_range = { x = 168, y = 187 }, default_frame_speed = 30 },
+		["run"] = { frame_range = { x = 168, y = 187 }, default_frame_speed = 30 },
+		["punch"] = { frame_range = { x = 200, y = 219 }, default_frame_speed = 30 },
+	},
+	front_body_point = vector.new(0, -0.6, 0.2),
+	dead_y_offset = 0.6,
+	default_sounds = {
+		damage = "default_punch",
+		death = "default_punch",
+	},
+	entity_definition = {
+		initial_properties = {
+			hp_max = 20,
+			physical = true,
+			collisionbox = { -0.35, -1.0, -0.35, 0.35, 0.77, 0.35},
+			selectionbox = { -0.32, -1.0, -0.22, 0.32, 0.77, 0.22, rotate=true},
+			visual = "mesh",
+			mesh = "mobs_villager.b3d",
+			-- Texture will be overridden on first spawn
+			textures = { "mobs_villager1.png" },
+			makes_footstep_sound = true,
+			stepheight = 0.6,
 		},
-		animations = {
-			["idle"] = { frame_range = { x = 0, y = 79 }, default_frame_speed = 30 },
-			["dead_static"] = { frame_range = { x = 0, y = 0 } },
-			["walk"] = { frame_range = { x = 168, y = 187 }, default_frame_speed = 30 },
-			["run"] = { frame_range = { x = 168, y = 187 }, default_frame_speed = 30 },
-			["punch"] = { frame_range = { x = 200, y = 219 }, default_frame_speed = 30 },
-		},
-		front_body_point = vector.new(0, -0.6, 0.2),
-		dead_y_offset = 0.6,
-		default_sounds = {
-			damage = "default_punch",
-			death = "default_punch",
-		},
-		entity_definition = {
-			initial_properties = {
-				hp_max = 20,
-				physical = true,
-				collisionbox = { -0.35, -1.0, -0.35, 0.35, 0.77, 0.35},
-				selectionbox = { -0.32, -1.0, -0.22, 0.32, 0.77, 0.22, rotate=true},
-				visual = "mesh",
-				mesh = "mobs_villager.b3d",
-				-- Texture will be overridden on first spawn
-				textures = { "mobs_villager1.png" },
-				makes_footstep_sound = true,
-				stepheight = 0.6,
-			},
-			get_staticdata = rp_mobs.get_staticdata_default,
-			on_death = rp_mobs.on_death_default,
-			on_punch = rp_mobs_mobs.on_punch_make_hostile,
-			on_activate = function(self, staticdata)
-				rp_mobs.init_mob(self)
-				rp_mobs.restore_state(self, staticdata)
-				if not self._textures_adult then
-					set_random_textures(self)
-				else
-					self.object:set_properties({textures = self._textures_adult})
-				end
+		get_staticdata = rp_mobs.get_staticdata_default,
+		on_death = rp_mobs.on_death_default,
+		on_punch = rp_mobs_mobs.on_punch_make_hostile,
+		on_activate = function(self, staticdata)
+			rp_mobs.init_mob(self)
+			rp_mobs.restore_state(self, staticdata)
+			if not self._textures_adult then
+				set_random_textures(self)
+			else
+				self.object:set_properties({textures = self._textures_adult})
+			end
 
-				rp_mobs.init_fall_damage(self, true)
-				rp_mobs.init_breath(self, true, {
-					breath_max = 11,
-					drowning_point = vector.new(0, 0.5, 0.1)
-				})
-				rp_mobs.init_node_damage(self, true, {
-					node_damage_points={
-						vector.new(0, -0.5, 0),
-						vector.new(0, 0.5, 0),
-					},
-				})
+			rp_mobs.init_fall_damage(self, true)
+			rp_mobs.init_breath(self, true, {
+				breath_max = 11,
+				drowning_point = vector.new(0, 0.5, 0.1)
+			})
+			rp_mobs.init_node_damage(self, true, {
+				node_damage_points={
+					vector.new(0, -0.5, 0),
+					vector.new(0, 0.5, 0),
+				},
+			})
 
-				rp_mobs.init_tasks(self)
-				local movement_task_queue = rp_mobs.create_task_queue(movement_decider)
-				local heal_task_queue = rp_mobs.create_task_queue(heal_decider)
-				rp_mobs.add_task_queue(self, movement_task_queue)
-				rp_mobs.add_task_queue(self, heal_task_queue)
-				rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(rp_mobs_mobs.create_angry_cooldown_decider(VIEW_RANGE, ANGRY_COOLDOWN_TIME)))
+			rp_mobs.init_tasks(self)
+			local movement_task_queue = rp_mobs.create_task_queue(movement_decider)
+			local heal_task_queue = rp_mobs.create_task_queue(heal_decider)
+			rp_mobs.add_task_queue(self, movement_task_queue)
+			rp_mobs.add_task_queue(self, heal_task_queue)
+			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(rp_mobs_mobs.create_angry_cooldown_decider(VIEW_RANGE, ANGRY_COOLDOWN_TIME)))
 
-				self._villager_type = villager_type
-			end,
-			on_step = function(self, dtime, moveresult)
-				rp_mobs.handle_dying(self, dtime)
-				rp_mobs.scan_environment(self, dtime)
-				rp_mobs.handle_environment_damage(self, dtime, moveresult)
-				rp_mobs.handle_tasks(self, dtime, moveresult)
-			end,
-			on_rightclick = function(self, clicker)
-				if self._dying then
+			if not self._custom_state.profession then
+				set_random_profession(self)
+			end
+		end,
+		on_step = function(self, dtime, moveresult)
+			rp_mobs.handle_dying(self, dtime)
+			rp_mobs.scan_environment(self, dtime)
+			rp_mobs.handle_environment_damage(self, dtime, moveresult)
+			rp_mobs.handle_tasks(self, dtime, moveresult)
+		end,
+		on_rightclick = function(self, clicker)
+			if self._dying then
+				return
+			end
+			local item = clicker:get_wielded_item()
+			local name = clicker:get_player_name()
+
+			if self._temp_custom_state.angry_at and self._temp_custom_state.angry_at:is_player() and self._temp_custom_state.angry_at == clicker then
+				villager_speech.say_random("hostile", name)
+				return
+			end
+
+			local profession = get_profession(self)
+
+			local iname = item:get_name()
+			if profession ~= "blacksmith" and (minetest.get_item_group(iname, "sword") > 0 or minetest.get_item_group(iname, "spear") > 0) then
+				villager_speech.say_random("annoying_weapon", name)
+				return
+			end
+
+			achievements.trigger_achievement(clicker, "smalltalk")
+
+			local hp = self.object:get_hp()
+			local hp_max = self.object:get_properties().hp_max
+			do
+				-- No trading if low health
+				if hp < 5 then
+					villager_speech.say_random("hurt", name)
 					return
 				end
-				local item = clicker:get_wielded_item()
-				local name = clicker:get_player_name()
 
-				if self._temp_custom_state.angry_at and self._temp_custom_state.angry_at:is_player() and self._temp_custom_state.angry_at == clicker then
-					villager_speech.say_random("hostile", name)
-					return
+				if not self._trades or not self._trade or not self._trade_index then
+					self._trades = {}
+					local possible_trades = table.copy(gold.trades[profession])
+					for t=1, TRADES_COUNT do
+						if #possible_trades == 0 then
+							break
+						end
+						local index = util.choice(possible_trades, gold.pr)
+						local trade = possible_trades[index]
+						table.insert(self._trades, trade)
+						table.remove(possible_trades, index)
+					end
+					self._trade_index = 1
+					if not self._trade then
+						self._trade = self._trades[self._trade_index]
+					end
+					minetest.log("action", "[rp_mobs_mobs] Villager trades of villager at "..minetest.pos_to_string(self.object:get_pos(), 1).." initialized")
 				end
 
-				local villager_type = self._villager_type
-
-				local iname = item:get_name()
-				if villager_type ~= "blacksmith" and (minetest.get_item_group(iname, "sword") > 0 or minetest.get_item_group(iname, "spear") > 0) then
-					villager_speech.say_random("annoying_weapon", name)
-					return
-				end
-
-				achievements.trigger_achievement(clicker, "smalltalk")
-
-				local hp = self.object:get_hp()
-				local hp_max = self.object:get_properties().hp_max
-				do
-					-- No trading if low health
-					if hp < 5 then
+				if not gold.trade(self._trade, profession, clicker, self, self._trade_index, self._trades) then
+					-- Good mood: Give hint or funny text
+					if hp >= hp_max-7 then
+						villager_speech.talk_about_item(profession, iname, name)
+					elseif hp >= 5 then
+						villager_speech.say_random("exhausted", name)
+					else
 						villager_speech.say_random("hurt", name)
-						return
-					end
-
-					if not self._trades or not self._trade or not self._trade_index then
-						self._trades = {}
-						local possible_trades = table.copy(gold.trades[villager_type])
-						for t=1, TRADES_COUNT do
-							if #possible_trades == 0 then
-								break
-							end
-							local index = util.choice(possible_trades, gold.pr)
-							local trade = possible_trades[index]
-							table.insert(self._trades, trade)
-							table.remove(possible_trades, index)
-						end
-						self._trade_index = 1
-						if not self._trade then
-							self._trade = self._trades[self._trade_index]
-						end
-						minetest.log("action", "[rp_mobs_mobs] Villager trades of villager at "..minetest.pos_to_string(self.object:get_pos(), 1).." initialized")
-					end
-
-					if not gold.trade(self._trade, villager_type, clicker, self, self._trade_index, self._trades) then
-						-- Good mood: Give hint or funny text
-						if hp >= hp_max-7 then
-							villager_speech.talk_about_item(villager_type, iname, name)
-						elseif hp >= 5 then
-							villager_speech.say_random("exhausted", name)
-						else
-							villager_speech.say_random("hurt", name)
-						end
 					end
 				end
-			end,
-		},
-	})
+			end
+		end,
+	},
+})
 
-	rp_mobs.register_mob_item("rp_mobs_mobs:villager_" .. villager_type, "mobs_villager_"..villager_type.."_inventory.png")
-end
+rp_mobs.register_mob_item("rp_mobs_mobs:villager", "mobs_villager_farmer_inventory.png")

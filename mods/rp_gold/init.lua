@@ -16,15 +16,15 @@ Table of trades offered by villagers.
 Format:
 
    gold.trades = {
-      -- List of trades for this villager type
-      ["villager_type_1"] = {
+      -- List of trades for this villager profession
+      ["profession_1"] = {
          -- first trade table (see below)
          trade_1,
          -- second trade table (see below)
          trade_2,
          -- ...
       },
-      ["villager_type_1"] = {
+      ["profession_2"] = {
          -- ...
       },
       -- ...
