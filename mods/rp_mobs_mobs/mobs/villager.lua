@@ -163,7 +163,7 @@ local find_free_horizontal_neighbor = function(pos)
 		local bpos = vector.offset(npos, 0, -1, 0)
 		local bnode = minetest.get_node(bpos)
 		local bdef = minetest.registered_nodes[bnode.name]
-		if ndef and not ndef.walkable and ndef.drowning == 0 and ndef.damage_per_second <= 0 and bdef and bdef.walkable then
+		if ndef and not ndef.walkable and ndef.drowning == 0 and ndef.damage_per_second <= 0 and bdef and bdef.walkable and minetest.get_item_group(bnode.name, "fence") == 0 then
 			table.insert(possible, npos)
 		end
 	end
@@ -172,6 +172,17 @@ local find_free_horizontal_neighbor = function(pos)
 		return possible[r]
 	end
 	return nil
+end
+
+local needs_look_for_neighbor = function(nodename, nodedef)
+	if nodedef.walkable then
+		return true
+	else
+		if nodename == "rp_default:papyrus" or minetest.get_item_group(nodename, "bonfire") == 1 then
+			return true
+		end
+	end
+	return false
 end
 
 local find_reachable_node = function(startpos, nodenames, searchdistance, under_air)
@@ -190,7 +201,7 @@ local find_reachable_node = function(startpos, nodenames, searchdistance, under_
 		local searchpos
 		local nnode = minetest.get_node(nodes[r])
 		local ndef = minetest.registered_nodes[nnode.name]
-		local look_for_neighbor = ndef.walkable == true or minetest.get_item_group(nnode.name, "bonfire") == 1
+		local look_for_neighbor = needs_look_for_neighbor(nnode.name, ndef)
 		if look_for_neighbor then
 			searchpos = find_free_horizontal_neighbor(npos)
 		else
