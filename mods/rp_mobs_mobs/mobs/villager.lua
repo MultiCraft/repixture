@@ -166,15 +166,18 @@ local find_free_horizontal_neighbor = function(pos)
 	return nil
 end
 
-local find_reachable_node = function(startpos, nodenames, searchdistance, look_for_neighbor)
+local find_reachable_node = function(startpos, nodenames, searchdistance)
 	local offset = vector.new(searchdistance, searchdistance, searchdistance)
 	local smin = vector.subtract(startpos, offset)
 	local smax = vector.add(startpos, offset)
-	local nodes = minetest.find_nodes_in_area(smin, smax, nodenames)
+	local nodes = minetest.find_nodes_in_area_under_air(smin, smax, nodenames)
 	while #nodes > 0 do
 		local r = math.random(1, #nodes)
 		local npos = nodes[r]
 		local searchpos
+		local nnode = minetest.get_node(nodes[r])
+		local ndef = minetest.registered_nodes[nnode.name]
+		local look_for_neighbor = ndef.walkable == true or minetest.get_item_group(nnode.name, "bonfire") == 1
 		if look_for_neighbor then
 			searchpos = find_free_horizontal_neighbor(npos)
 		else
@@ -205,10 +208,9 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 		end
 		local mobpos = mob.object:get_pos()
 		if not mobpos then
-			minetest.log("error", "No mobpos yet!")
 			return
 		end
-		local bedpos = find_reachable_node(mobpos, { "group:bed" }, MAX_HOME_BED_DISTANCE, true)
+		local bedpos = find_reachable_node(mobpos, { "group:bed" }, MAX_HOME_BED_DISTANCE)
 		if bedpos then
 			mob._custom_state.home_bed = bedpos
 			minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." found new home bed at "..minetest.pos_to_string(bedpos))
@@ -249,18 +251,40 @@ local movement_decider = function(task_queue, mob)
 			end
 		end
 	elseif day_phase == "day" then
-		-- Go to farm at day
-		-- TODO: Change interest depending on profession
-		local mobpos = mob.object:get_pos()
-		local targetpos, pathlist_to_target = find_reachable_node(mobpos, { "group:farming_plant" }, WORK_DISTANCE, false)
-		if targetpos and pathlist_to_target then
-			local path = pathlist_to_target[1]
-			local target = path[#path]
-			local mt_walk_to_target = rp_mobs.microtasks.pathfind_and_walk_to(target, WALK_SPEED, JUMP_STRENGTH, true, WORK_DISTANCE, MAX_JUMP, MAX_DROP)
-			mt_walk_to_target.start_animation = "walk"
-			local task_walk_to_target = rp_mobs.create_task({label="walk to farm"})
-			rp_mobs.add_microtask_to_task(mob, mt_walk_to_target, task_walk_to_target)
-			rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_target)
+		local r = math.random(1, 2)
+		local profession = mob.name
+		local targetnodes
+		if r == 1 then
+			-- profession
+			if profession == "rp_mobs_mobs:villager_farmer" then
+				targetnodes = { "group:farming_plant" }
+			elseif profession == "rp_mobs_mobs:villager_blacksmith" then
+				targetnodes = { "group:furnace" }
+			elseif profession == "rp_mobs_mobs:villager_tavernkeeper" then
+				targetnodes = { "group:bucket", "rp_decor:barrel" }
+			elseif profession == "rp_mobs_mobs:villager_butcher" then
+				targetnodes = { "group:tree", "rp_jewels:bench" }
+			elseif profession == "rp_mobs_mobs:villager_carpenter" then
+				targetnodes = { "rp_default:bookshelf" }
+			end
+		else
+			-- recreational
+			targetnodes = { "group:bookshelf", "group:chest", "rp_itemshow:showcase", "rp_fire:bonfire" }
+		end
+
+		if targetnodes then
+			-- Go to workplace/recreational node at day
+			local mobpos = mob.object:get_pos()
+			local targetpos, pathlist_to_target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE)
+			if targetpos and pathlist_to_target then
+				local path = pathlist_to_target[1]
+				local target = path[#path]
+				local mt_walk_to_target = rp_mobs.microtasks.pathfind_and_walk_to(target, WALK_SPEED, JUMP_STRENGTH, true, WORK_DISTANCE, MAX_JUMP, MAX_DROP)
+				mt_walk_to_target.start_animation = "walk"
+				local task_walk_to_target = rp_mobs.create_task({label="walk to recreation/workplace"})
+				rp_mobs.add_microtask_to_task(mob, mt_walk_to_target, task_walk_to_target)
+				rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_target)
+			end
 		end
 	end
 end

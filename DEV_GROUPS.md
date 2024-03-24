@@ -162,6 +162,7 @@ Unlike `attached_node`, they also work if the node is not `walkable`. Use these 
 * `spikes`: Spikes
 * `item_showcase`: Item showcase
 * `chest`: Chest (1=not locked, 2=with lock)
+* `furnace`: Furnace (1=inactive, 2=active)
 
 * `plantable_dry`: You can plant farming plants on it and this node is considered to be dry
 * `plantable_wet`: You can plant farming plants on it and this node is considered to be wet
