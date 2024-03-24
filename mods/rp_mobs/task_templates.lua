@@ -75,7 +75,7 @@ end
 
 rp_mobs.microtasks = {}
 
-rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, jump_strength, set_yaw, searchdistance, max_jump, max_drop)
+rp_mobs.microtasks.pathfind_and_walk_to = function(start_pos, target_pos, walk_speed, jump_strength, set_yaw, searchdistance, max_jump, max_drop)
 	local mtask = {}
 	mtask.label = "pathfind and walk to coordinate"
 	mtask.on_start = function(self, mob)
@@ -89,8 +89,10 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(target_pos, walk_speed, jump_
 		self.statedata.stuck_last_position = nil
 		self.statedata.stuck_recheck_timer = 0
 
-		local start_pos = mob.object:get_pos()
-		start_pos.y = math.floor(start_pos.y)
+		if not start_pos then
+			start_pos = mob.object:get_pos()
+			start_pos.y = math.floor(start_pos.y)
+		end
 		start_pos = vector.round(start_pos)
 		local path = minetest.find_path(start_pos, target_pos, searchdistance, max_jump, max_drop, "A*")
 		self.statedata.path = path

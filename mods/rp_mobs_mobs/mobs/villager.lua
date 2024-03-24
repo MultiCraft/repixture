@@ -101,13 +101,24 @@ end
 -- This algorithm performs up to 5 path searches so it is less efficient
 -- than calling minetest.find_path.
 --
--- Returns: list of paths on success, nil on failure.
+-- Returns: Lists of 'goals' the mob has to reach to get to the
+-- destination. Each goal is a table with a 'goal_type' field and other fields.
+-- Possible goal types:
+--
+--    { goal_type = "path", path = <path> }
+--    Path goal. path is a list of positions the mob has to walk in that order
+--
+--    { goal_type = "door", pos = <door position> }
+--    Door obstacle. Mob may have to interact with the door in order to
+--    get through. pos is the position of the lower door segment.
+--
+-- If no path was found, returns nil.
 local find_path_advanced = function(pos1, pos2, searchdistance, max_jump, max_drop)
 	local algorithm = "A*_noprefetch"
 	-- First check if we can find a direct path
 	local path = minetest.find_path(pos1, pos2, searchdistance, max_jump, max_drop, algorithm)
 	if path then
-		return { path }
+		return { { goal_type = "path", path = path } }
 	end
 	local doorarea_min = vector.add(pos2, vector.new(-12, -6, -12))
 	local doorarea_max = vector.add(pos2, vector.new(12, 6, 12))
@@ -172,8 +183,12 @@ local find_path_advanced = function(pos1, pos2, searchdistance, max_jump, max_dr
 		if path1 then
 			local path2 = minetest.find_path(splitpos2, pos2, searchdistance, max_jump, max_drop, algorithm)
 			if path2 then
-				-- Both paths found. Return them
-				return { path1, path2 }
+				-- Both paths found. Join them by putting the door between them
+				return {
+					{ goal_type = "path", path = path1 },
+					{ goal_type = "door", pos = doorpos },
+					{ goal_type = "path", path = path2 },
+				}
 			end
 		end
 		-- On failure, try it again but do it from start to the *other* side of the door (splitpos2) first.
@@ -181,7 +196,11 @@ local find_path_advanced = function(pos1, pos2, searchdistance, max_jump, max_dr
 		if path3 then
 			local path4 = minetest.find_path(splitpos1, splitpos2, searchdistance, max_jump, max_drop, algorithm)
 			if path4 then
-				return { path3, path4 }
+				return {
+					{ goal_type = "path", path = path3 },
+					{ goal_type = "door", pos = doorpos },
+					{ goal_type = "path", path = path4 },
+				}
 			end
 		end
 	end
@@ -247,9 +266,9 @@ local find_reachable_node = function(startpos, nodenames, searchdistance, under_
 			searchpos = npos
 		end
 		if searchpos then
-			local path_to_node = find_path_advanced(startpos, searchpos, searchdistance, MAX_JUMP, MAX_DROP)
-			if path_to_node then
-				return npos, path_to_node
+			local goals = find_path_advanced(startpos, searchpos, searchdistance, MAX_JUMP, MAX_DROP)
+			if goals then
+				return npos, goals
 			end
 		end
 		table.remove(nodes, r)
@@ -281,6 +300,18 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 	end,
 })
 
+local create_microtask_open_door = function(door_pos)
+	return rp_mobs.create_microtask({
+		label = "open door",
+		singlestep = true,
+		on_step = function(self, mob)
+			if door.is_open(door_pos) == false then
+				door.toggle_door(door_pos)
+			end
+		end,
+	})
+end
+
 local movement_decider = function(task_queue, mob)
 	local task_stand = rp_mobs.create_task({label="stand still"})
 	local yaw = math.random(0, 360) / 360 * (math.pi*2)
@@ -302,15 +333,17 @@ local movement_decider = function(task_queue, mob)
 		if mob._custom_state.home_bed then
 			local mobpos = mob.object:get_pos()
 			local searchpos = find_free_horizontal_neighbor(mob._custom_state.home_bed)
-			local pathlist_to_bed = find_path_advanced(mobpos, searchpos, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
-			if pathlist_to_bed then
-				local path = pathlist_to_bed[1]
-				local target = path[#path]
-				local mt_walk_to_bed = rp_mobs.microtasks.pathfind_and_walk_to(target, WALK_SPEED, JUMP_STRENGTH, true, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
-				mt_walk_to_bed.start_animation = "walk"
-				local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
-				rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
-				rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
+			local goals = find_path_advanced(mobpos, searchpos, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
+			if goals then
+				if goals[1] and goals[1].goal_type == "path" then
+					local path = goals[1].path
+					local target = path[#path]
+					local mt_walk_to_bed = rp_mobs.microtasks.pathfind_and_walk_to(nil, target, WALK_SPEED, JUMP_STRENGTH, true, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
+					mt_walk_to_bed.start_animation = "walk"
+					local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
+					rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
+					rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
+				end
 			end
 		end
 	elseif day_phase == "day" then
@@ -357,14 +390,29 @@ local movement_decider = function(task_queue, mob)
 		if targetnodes then
 			-- Go to workplace/recreational node at day
 			local mobpos = mob.object:get_pos()
-			local targetpos, pathlist_to_target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
-			if targetpos and pathlist_to_target then
-				local path = pathlist_to_target[1]
-				local target = path[#path]
-				local mt_walk_to_target = rp_mobs.microtasks.pathfind_and_walk_to(target, WALK_SPEED, JUMP_STRENGTH, true, WORK_DISTANCE, MAX_JUMP, MAX_DROP)
-				mt_walk_to_target.start_animation = "walk"
+			local targetpos, goals = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
+			if targetpos and goals and #goals > 0 then
 				local task_walk_to_target = rp_mobs.create_task({label="walk to recreation/workplace"})
-				rp_mobs.add_microtask_to_task(mob, mt_walk_to_target, task_walk_to_target)
+				for g=1, #goals do
+					local goal = goals[g]
+					-- Open door
+					if goal.goal_type == "door" then
+						local mt_open_door = create_microtask_open_door(goal.pos)
+						mt_open_door.start_animation = "idle"
+						rp_mobs.add_microtask_to_task(mob, mt_open_door, task_walk_to_target)
+					-- Traverse path
+					elseif goal.goal_type == "path" then
+						local path = goal.path
+						local target = path[#path]
+						local start = path[1]
+						local mt_walk_to_target = rp_mobs.microtasks.pathfind_and_walk_to(start, target, WALK_SPEED, JUMP_STRENGTH, true, WORK_DISTANCE, MAX_JUMP, MAX_DROP)
+						mt_walk_to_target.start_animation = "walk"
+						rp_mobs.add_microtask_to_task(mob, mt_walk_to_target, task_walk_to_target)
+					else
+						minetest.log("error", "[rp_mobs_mobs] Villager walk algorithm: Invalid goal_type!")
+						return
+					end
+				end
 				rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_target)
 			end
 		end
