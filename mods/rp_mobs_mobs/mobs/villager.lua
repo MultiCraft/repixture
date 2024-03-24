@@ -155,22 +155,35 @@ local find_free_horizontal_neighbor = function(pos)
 		vector.new(0,0,-1),
 		vector.new(0,0,1),
 	}
+	local possible = {}
 	for n=1,#neighbors do
 		local npos = vector.add(pos, neighbors[n])
 		local nnode = minetest.get_node(npos)
 		local ndef = minetest.registered_nodes[nnode.name]
-		if ndef and not ndef.walkable and ndef.drowning == 0 and ndef.damage_per_second <= 0 then
-			return npos
+		local bpos = vector.offset(npos, 0, -1, 0)
+		local bnode = minetest.get_node(bpos)
+		local bdef = minetest.registered_nodes[bnode.name]
+		if ndef and not ndef.walkable and ndef.drowning == 0 and ndef.damage_per_second <= 0 and bdef and bdef.walkable then
+			table.insert(possible, npos)
 		end
+	end
+	if #possible > 0 then
+		local r = math.random(1, #possible)
+		return possible[r]
 	end
 	return nil
 end
 
-local find_reachable_node = function(startpos, nodenames, searchdistance)
+local find_reachable_node = function(startpos, nodenames, searchdistance, under_air)
 	local offset = vector.new(searchdistance, searchdistance, searchdistance)
 	local smin = vector.subtract(startpos, offset)
 	local smax = vector.add(startpos, offset)
-	local nodes = minetest.find_nodes_in_area_under_air(smin, smax, nodenames)
+	local nodes
+	if under_air then
+		nodes = minetest.find_nodes_in_area_under_air(smin, smax, nodenames)
+	else
+		nodes = minetest.find_nodes_in_area(smin, smax, nodenames)
+	end
 	while #nodes > 0 do
 		local r = math.random(1, #nodes)
 		local npos = nodes[r]
@@ -210,7 +223,7 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 		if not mobpos then
 			return
 		end
-		local bedpos = find_reachable_node(mobpos, { "group:bed" }, MAX_HOME_BED_DISTANCE)
+		local bedpos = find_reachable_node(mobpos, { "group:bed" }, MAX_HOME_BED_DISTANCE, true)
 		if bedpos then
 			mob._custom_state.home_bed = bedpos
 			minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." found new home bed at "..minetest.pos_to_string(bedpos))
@@ -254,28 +267,47 @@ local movement_decider = function(task_queue, mob)
 		local r = math.random(1, 2)
 		local profession = mob.name
 		local targetnodes
+		local under_air = true
 		if r == 1 then
 			-- profession
 			if profession == "rp_mobs_mobs:villager_farmer" then
-				targetnodes = { "group:farming_plant" }
+				local a = math.random(1, 2)
+				if a == 1 then
+					targetnodes = { "group:farming_plant" }
+					under_air = true
+				else
+					targetnodes = { "rp_default:papyrus" }
+					under_air = false
+				end
 			elseif profession == "rp_mobs_mobs:villager_blacksmith" then
 				targetnodes = { "group:furnace" }
+				under_air = false
 			elseif profession == "rp_mobs_mobs:villager_tavernkeeper" then
 				targetnodes = { "group:bucket", "rp_decor:barrel" }
+				under_air = false
 			elseif profession == "rp_mobs_mobs:villager_butcher" then
 				targetnodes = { "group:tree", "rp_jewels:bench" }
+				under_air = true
 			elseif profession == "rp_mobs_mobs:villager_carpenter" then
 				targetnodes = { "rp_default:bookshelf" }
+				under_air = false
 			end
 		else
 			-- recreational
-			targetnodes = { "group:bookshelf", "group:chest", "rp_itemshow:showcase", "rp_fire:bonfire" }
+			local a = math.random(1, 4)
+			if a == 1 then
+				targetnodes = { "group:bonfire" }
+				under_air = true
+			else
+				targetnodes = { "group:bookshelf", "group:chest", "rp_itemshow:showcase" }
+				under_air = false
+			end
 		end
 
 		if targetnodes then
 			-- Go to workplace/recreational node at day
 			local mobpos = mob.object:get_pos()
-			local targetpos, pathlist_to_target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE)
+			local targetpos, pathlist_to_target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
 			if targetpos and pathlist_to_target then
 				local path = pathlist_to_target[1]
 				local target = path[#path]
