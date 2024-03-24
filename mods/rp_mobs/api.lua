@@ -797,3 +797,18 @@ rp_mobs.set_animation = function(self, animation_name, animation_speed)
 	end
 end
 
+minetest.register_on_chatcommand(function(name, command, params)
+	if not setting_peaceful_only then
+		return
+	end
+	if command == "spawnentity" then
+		local entityname = string.match(params, "[a-zA-Z0-9_:]+")
+		if not entityname or not rp_mobs.registered_mobs[entityname] then
+			return
+		end
+		if not rp_mobs.mobdef_has_tag(entityname, "peaceful") then
+			minetest.chat_send_player(pname, minetest.colorize("#FFFF00", S("Hostile mobs are disabled!")))
+			return true
+		end
+	end
+end)

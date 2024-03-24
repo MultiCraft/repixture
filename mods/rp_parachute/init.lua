@@ -514,4 +514,13 @@ minetest.register_entity(":parachute:entity", {
 		minetest.log("action", "[rp_parachute] Legacy parachute entity at "..minetest.pos_to_string(self.object:get_pos(), 1).." removed")
 	end,
 })
-	
+
+minetest.register_on_chatcommand(function(name, command, params)
+	if command == "spawnentity" then
+		local entityname = string.match(params, "[a-zA-Z0-9_:]+")
+		if entityname == "parachute:entity" then
+			minetest.chat_send_player(name, S("Entity name “@1” is outdated. Use “@2” instead.", entityname, "rp_parachute:parachute"))
+			return true
+		end
+	end
+end)

@@ -1,8 +1,13 @@
+local legacy_mobs = {}
+local S = minetest.get_translator("rp_mobs_legacy")
+
 -- Register alias for legacy Repixture mob from Repixture 3.12.1 or earlier
 -- so it still works after a world upgrade.
 -- These are mobs with the 'mobs:' prefix.
 -- Also registers item alias for the mob items
 local register_mob_alias = function(old_name, new_name, villager_profession)
+	legacy_mobs[old_name] = new_name
+
 	-- It's a hack! We register a dummy entity with
 	-- the old prefix but we instantly replace it
 	-- with the modern version.
@@ -62,3 +67,12 @@ register_mob_alias("mobs:npc_farmer", "rp_mobs_mobs:villager", "farmer")
 register_mob_alias("mobs:npc_blacksmith", "rp_mobs_mobs:villager", "blacksmith")
 register_mob_alias("mobs:npc_carpenter", "rp_mobs_mobs:villager", "carpenter")
 
+minetest.register_on_chatcommand(function(name, command, params)
+	if command == "spawnentity" then
+		local entityname = string.match(params, "[a-zA-Z0-9_:]+")
+		if legacy_mobs[entityname] then
+			minetest.chat_send_player(name, S("Entity name “@1” is outdated. Use “@2” instead.", entityname, legacy_mobs[entityname]))
+			return true
+		end
+	end
+end)
