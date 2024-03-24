@@ -449,6 +449,9 @@ local set_random_textures = function(mob)
 		textures = tex,
 	})
 	mob._textures_adult = tex
+
+	-- Remember when the mob has chosen its initial textures
+	mob._custom_state.textures_chosen = true
 end
 
 rp_mobs.register_mob("rp_mobs_mobs:villager", {
@@ -491,7 +494,7 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 		on_activate = function(self, staticdata)
 			rp_mobs.init_mob(self)
 			rp_mobs.restore_state(self, staticdata)
-			if not self._textures_adult then
+			if not self._custom_state.textures_chosen then
 				set_random_textures(self)
 			else
 				self.object:set_properties({textures = self._textures_adult})
