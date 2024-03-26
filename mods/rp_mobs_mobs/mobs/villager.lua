@@ -63,6 +63,7 @@ local is_node_blocking = function(node)
 	end
 end
 
+local PATHFINDER_SEARCHDISTANCE = 30
 local PATHFINDER_TIMEOUT = 1.0
 local PATHFINDER_OPTIONS = {
 	max_jump = MAX_JUMP,
@@ -202,7 +203,7 @@ local find_reachable_node = function(startpos, nodenames, searchdistance, under_
 			local timeout = PATHFINDER_TIMEOUT
 			local path = rp_pathfinder.find_path(startpos, searchpos, searchdistance, options, timeout)
 			if path then
-				return npos
+				return npos, path
 			end
 		end
 		table.remove(nodes, r)
@@ -270,16 +271,14 @@ local movement_decider = function(task_queue, mob)
 			local mobpos = mob.object:get_pos()
 			local target = find_free_horizontal_neighbor(mob._custom_state.home_bed)
 
-			local pparams = {
-				searchdistance = 30,
-				timeout = PATHFINDER_TIMEOUT,
-				options = PATHFINDER_OPTIONS,
-			}
-			local mt_walk_to_bed = rp_mobs.microtasks.pathfind_and_walk_to(nil, target, WALK_SPEED, JUMP_STRENGTH, true, "rp_pathfinder", pparams)
-			mt_walk_to_bed.start_animation = "walk"
-			local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
-			rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
-			rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
+			local path = rp_pathfinder.find_path(mobpos, target, PATHFINDER_SEARCHDISTANCE, PATHFINDER_OPTIONS, PATHFINDER_TIMEOUT)
+			if path then
+				local mt_walk_to_bed = rp_mobs.microtasks.follow_path(path, WALK_SPEED, JUMP_STRENGTH, true)
+				mt_walk_to_bed.start_animation = "walk"
+				local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
+				rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
+				rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
+			end
 		end
 	elseif day_phase == "day" then
 		local r = math.random(1, 2)

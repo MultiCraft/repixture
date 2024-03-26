@@ -75,9 +75,12 @@ end
 
 rp_mobs.microtasks = {}
 
-rp_mobs.microtasks.pathfind_and_walk_to = function(start_pos, target_pos, walk_speed, jump_strength, set_yaw, pathfinder, params)
+rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_yaw, can_jump)
+	if can_jump == nil then
+		can_jump = true
+	end
 	local mtask = {}
-	mtask.label = "pathfind and walk to coordinate"
+	mtask.label = "follow path"
 	mtask.on_start = function(self, mob)
 		self.statedata.walking = false
 		self.statedata.stop = false
@@ -89,29 +92,7 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(start_pos, target_pos, walk_s
 		self.statedata.stuck_last_position = nil
 		self.statedata.stuck_recheck_timer = 0
 
-		if not start_pos then
-			start_pos = mob.object:get_pos()
-			start_pos.y = math.floor(start_pos.y)
-		end
-		start_pos = vector.round(start_pos)
-		local path
-		if pathfinder == "Minetest" then
-			-- built-in pathfinder of Minetest
-			if not params.algorithm then
-				params.algorithm = "A*"
-			end
-			path = minetest.find_path(start_pos, target_pos, params.searchdistance, params.max_jump, params.max_drop, params.algorithm)
-		elseif pathfinder == "rp_pathfinder" then
-			-- Advanced pathfinder of Repixture
-			if not minetest.get_modpath("rp_pathfinder") then
-				error("[rp_mobs] tried to call 'rp_pathfinder' pathfinder but 'rp_pathfinder' mod is missing!")
-			end
-			path = rp_pathfinder.find_path(start_pos, target_pos, params.searchdistance, params.options, params.timeout)
-		end
 		self.statedata.path = path
-		if path then
-			self.statedata.stuck_last_path_length = #self.statedata.path
-		end
 	end
 	mtask.on_step = function(self, mob, dtime, moveresult)
 		if not self.statedata.path then
@@ -185,7 +166,7 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(start_pos, target_pos, walk_s
 		local vel = mob.object:get_velocity()
 
 		-- Reset jump status
-		if self.statedata.jumping then
+		if can_jump and self.statedata.jumping then
 			self.statedata.jump_timer = self.statedata.jump_timer + dtime
 			if self.statedata.jump_timer >= JUMP_REPEAT_TIME then
 				if moveresult.touching_ground then
@@ -194,33 +175,24 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(start_pos, target_pos, walk_s
 			end
 		end
 
-		local max_jump
-		if pathfinder == "Minetest" then
-			max_jump = params.max_jump
-		elseif pathfinder == "rp_pathfinder" then
-			max_jump = params.options.max_jump
-		else
-			max_jump = 0
-		end
-
 		-- Try to jump if next position is higher
-		if next_pos_higher and max_jump > 0 and not self.statedata.jumping and moveresult.touching_ground then
-			local can_jump = true
+		if next_pos_higher and can_jump and not self.statedata.jumping and moveresult.touching_ground then
+			local will_jump = true
 			-- Can't jump if standing on a disable_jump node
 			if mob._env_node_floor then
 				local floordef = minetest.registered_nodes[mob._env_node_floor.name]
 				if floordef and floordef.walkable and minetest.get_item_group(mob._env_node_floor.name, "disable_jump") > 0 then
-					can_jump = false
+					will_jump = false
 				end
 			end
 			-- Can't jump inside a disable_jump node either
-			if can_jump and mob._env_node then
+			if will_jump and mob._env_node then
 				local def = minetest.registered_nodes[mob._env_node.name]
 				if minetest.get_item_group(mob._env_node.name, "disable_jump") > 0 then
-					can_jump = false
+					will_jump = false
 				end
 			end
-			if can_jump then
+			if will_jump then
 				self.statedata.jumping = true
 				self.statedata.jump_timer = 0
 				vel.y = jump_strength
@@ -261,6 +233,7 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(start_pos, target_pos, walk_s
 		end
 		local pos = mob.object:get_pos()
 		-- Finish if goal point was reached
+		local target_pos = self.statedata.path[#self.statedata.path]
 		return vector.distance(pos, target_pos) < PATH_DISTANCE_TO_GOAL_POINT
 	end
 	mtask.on_end = function(self, mob)
