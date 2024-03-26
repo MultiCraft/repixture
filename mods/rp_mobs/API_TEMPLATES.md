@@ -133,7 +133,7 @@ Instantly set mob acceleration to the given `acceleration` parameter (a vector).
 
 Finish condition: Finishes instantly.
 
-### `rp_mobs.microtasks.pathfind_and_walk_to(target_pos, walk_speed, set_yaw, jump_strength, searchdistance, max_jump, max_drop)`
+### `rp_mobs.microtasks.pathfind_and_walk_to(start_pos, target_pos, walk_speed, jump_strength, set_yaw, pathfinder, params)
 
 Make the mob find a path (using pathfinding algorithm) towards `target_pos`, then starts to walk that path.
 This assumes the mob is bound to gravity. Jumping up and falling down a few blocks is part of the pathfinding.
@@ -142,6 +142,7 @@ This function uses `minetest.find_path` internally, so it is bound to the same r
 
 Parameters:
 
+* `start_pos`: (optional) Start position (if nil, will be set to mob position at start of microtask)
 * `target_pos`: Target position
 * `walk_speed`: How fast to walk
 * `jump_strength`: How strong to jump (must be able to clear a height of `max_jump` at least)
@@ -149,13 +150,43 @@ Parameters:
   the next path position (default: false)
 * `searchdistance`: How far (in nodes) from the mob's original position the pathfinder
   will search before stopping
-* `max_jump`: Maximum allowed jump height (if 0, mob will not jump)
-* `max_drop`: Maximum allowed fall height (can be 0)
+* `pathfinder`: What pathfinder to use. Allowed are:
+  * `"Minetest"`: Built-in Minetest pathfinder (`minetest.find_path`)
+  * `"rp_pathfinder"`: Advanced Repixture pathfinder
+* `params`: Table of parameters to pass to the pathfinder
 
 Finish condition: There are multiple reasons for finishing:
 
 * When the mob has reached `target_pos` (within a small tolerance)
 * When no path to the `target_pos` was found
 * When mob was stuck and unable to continue walking for a few seconds
+
+#### Pathfinder params
+
+The `params` parameter depends on the chosen pathfinder. Some options may be mandatory.
+`params` is a table with each key representing a parameter name of the
+pathfinding functions, and each value representing the value of those parameters.
+
+For example, `params.max_drop` corresponds to `max_drop` in `minetest.find_path`.
+
+##### Params for the Minetest pathfinder
+
+For the Minetest pathfinder, the params are:
+
+* `max_drop`
+* `max_jump`
+* `searchdistance`
+
+See `lua_api.md` for details.
+
+##### Params for the `rp_pathfinder` pathfinder
+
+For the `rp_pathfinder` pathfinder, the available params are:
+
+* `searchdistance`
+* `options`
+* `timeout`
+
+See the `rp_pathfinder` documentation for details.
 
 

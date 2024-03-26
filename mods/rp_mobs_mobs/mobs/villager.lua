@@ -31,6 +31,51 @@ local JUMP_STRENGTH = 6
 -- Time the mob idles around
 local IDLE_TIME = 3.0
 
+-- Pathfinder stuff
+local is_node_walkable = function(node)
+	local def = minetest.registered_nodes[node.name]
+	if not def or def.walkable then
+		if minetest.get_item_group(node.name, "door") ~= 0 then
+			return false
+		else
+			return true
+		end
+	else
+		return false
+	end
+end
+local is_node_blocking = function(node)
+	local def = minetest.registered_nodes[node.name]
+	if not def or def.walkable then
+		if minetest.get_item_group(node.name, "door") ~= 0 then
+			return false
+		else
+			return true
+		end
+	elseif def.damage_per_second > 0 then
+		return true
+	elseif minetest.get_item_group(node.name, "water") ~= 0 then
+		return true
+	elseif minetest.get_item_group(node.name, "door") ~= 0 then
+		return false
+	else
+		return false
+	end
+end
+
+local PATHFINDER_TIMEOUT = 1.0
+local PATHFINDER_OPTIONS = {
+	max_jump = MAX_JUMP,
+	max_drop = MAX_DROP,
+	climb = false,
+	clear_height = 2,
+	use_vmanip = false,
+	respect_disable_jump = true,
+	handler_walkable = is_node_walkable,
+	handler_blocking = is_node_blocking,
+}
+
+
 -- Load villager speech functions
 
 local villager_speech = dofile(minetest.get_modpath("rp_mobs_mobs").."/mobs/villager_speech.lua")
@@ -266,9 +311,11 @@ local find_reachable_node = function(startpos, nodenames, searchdistance, under_
 			searchpos = npos
 		end
 		if searchpos then
-			local goals = find_path_advanced(startpos, searchpos, searchdistance, MAX_JUMP, MAX_DROP)
-			if goals then
-				return npos, goals
+			local options = PATHFINDER_OPTIONS
+			local timeout = PATHFINDER_TIMEOUT
+			local path = rp_pathfinder.find_path(startpos, searchpos, searchdistance, options, timeout)
+			if path then
+				return npos
 			end
 		end
 		table.remove(nodes, r)
@@ -312,6 +359,8 @@ local create_microtask_open_door = function(door_pos)
 	})
 end
 
+
+
 local movement_decider = function(task_queue, mob)
 	local task_stand = rp_mobs.create_task({label="stand still"})
 	local yaw = math.random(0, 360) / 360 * (math.pi*2)
@@ -332,19 +381,18 @@ local movement_decider = function(task_queue, mob)
 		-- Go to home bed at night
 		if mob._custom_state.home_bed then
 			local mobpos = mob.object:get_pos()
-			local searchpos = find_free_horizontal_neighbor(mob._custom_state.home_bed)
-			local goals = find_path_advanced(mobpos, searchpos, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
-			if goals then
-				if goals[1] and goals[1].goal_type == "path" then
-					local path = goals[1].path
-					local target = path[#path]
-					local mt_walk_to_bed = rp_mobs.microtasks.pathfind_and_walk_to(nil, target, WALK_SPEED, JUMP_STRENGTH, true, HOME_BED_PATHFIND_DISTANCE, MAX_JUMP, MAX_DROP)
-					mt_walk_to_bed.start_animation = "walk"
-					local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
-					rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
-					rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
-				end
-			end
+			local target = find_free_horizontal_neighbor(mob._custom_state.home_bed)
+
+			local pparams = {
+				searchdistance = 30,
+				timeout = PATHFINDER_TIMEOUT,
+				options = PATHFINDER_OPTIONS,
+			}
+			local mt_walk_to_bed = rp_mobs.microtasks.pathfind_and_walk_to(nil, target, WALK_SPEED, JUMP_STRENGTH, true, "rp_pathfinder", pparams)
+			mt_walk_to_bed.start_animation = "walk"
+			local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
+			rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
+			rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
 		end
 	elseif day_phase == "day" then
 		local r = math.random(1, 2)

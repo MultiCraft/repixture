@@ -75,7 +75,7 @@ end
 
 rp_mobs.microtasks = {}
 
-rp_mobs.microtasks.pathfind_and_walk_to = function(start_pos, target_pos, walk_speed, jump_strength, set_yaw, searchdistance, max_jump, max_drop)
+rp_mobs.microtasks.pathfind_and_walk_to = function(start_pos, target_pos, walk_speed, jump_strength, set_yaw, pathfinder, params)
 	local mtask = {}
 	mtask.label = "pathfind and walk to coordinate"
 	mtask.on_start = function(self, mob)
@@ -94,7 +94,20 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(start_pos, target_pos, walk_s
 			start_pos.y = math.floor(start_pos.y)
 		end
 		start_pos = vector.round(start_pos)
-		local path = minetest.find_path(start_pos, target_pos, searchdistance, max_jump, max_drop, "A*")
+		local path
+		if pathfinder == "Minetest" then
+			-- built-in pathfinder of Minetest
+			if not params.algorithm then
+				params.algorithm = "A*"
+			end
+			path = minetest.find_path(start_pos, target_pos, params.searchdistance, params.max_jump, params.max_drop, params.algorithm)
+		elseif pathfinder == "rp_pathfinder" then
+			-- Advanced pathfinder of Repixture
+			if not minetest.get_modpath("rp_pathfinder") then
+				error("[rp_mobs] tried to call 'rp_pathfinder' pathfinder but 'rp_pathfinder' mod is missing!")
+			end
+			path = rp_pathfinder.find_path(start_pos, target_pos, params.searchdistance, params.options, params.timeout)
+		end
 		self.statedata.path = path
 		if path then
 			self.statedata.stuck_last_path_length = #self.statedata.path
@@ -179,6 +192,15 @@ rp_mobs.microtasks.pathfind_and_walk_to = function(start_pos, target_pos, walk_s
 					self.statedata.jumping = false
 				end
 			end
+		end
+
+		local max_jump
+		if pathfinder == "Minetest" then
+			max_jump = params.max_jump
+		elseif pathfinder == "rp_pathfinder" then
+			max_jump = params.options.max_jump
+		else
+			max_jump = 0
 		end
 
 		-- Try to jump if next position is higher
