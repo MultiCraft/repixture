@@ -207,6 +207,20 @@ local function build_finished_path(closed_set, start_hash, final_hash)
 	return reverse_path
 end
 
+function rp_pathfinder.get_voxelmanip_for_path(pos1, pos2, searchdistance)
+	local min_pos = {
+		x = math.min(pos1.x, pos2.x) - searchdistance,
+		y = math.min(pos1.y, pos2.y) - searchdistance,
+		z = math.min(pos1.z, pos2.z) - searchdistance,
+	}
+	local max_pos = {
+		x = math.max(pos1.x, pos2.x) + searchdistance,
+		y = math.max(pos1.y, pos2.y) + searchdistance,
+		z = math.max(pos1.z, pos2.z) + searchdistance,
+	}
+	return minetest.get_voxel_manip(min_pos, max_pos)
+end
+
 -- The main pathfinding function (see API.md)
 function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 	-- Keep track of time
@@ -251,7 +265,12 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 	}
 	local get_node
 	if options.use_vmanip then
-		local vmanip = minetest.get_voxel_manip(min_pos, max_pos)
+		local vmanip
+		if options.vmanip then
+			vmanip = options.vmanip
+		else
+			vmanip = minetest.get_voxel_manip(min_pos, max_pos)
+		end
 		get_node = function(pos)
 			return vmanip:get_node_at(pos)
 		end
@@ -461,3 +480,4 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 	-- No path exists within searched area
 	return nil, "no_path"
 end
+

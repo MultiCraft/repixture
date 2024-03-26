@@ -42,7 +42,14 @@ restrictions and does not cut corners.
           true if the node shall block the path
           (default: same as `handler_walkable`)
 	* `use_vmanip`: If true, nodes will be queried using a LuaVoxelManip;
-	  otherwise, `minetest.get_node` will be used.
+	  otherwise, `minetest.get_node` will be used. Required for async
+	  usage.
+	* `vmanip`: Only neccessary for asyn usage. Optionally pass a
+	  pre-generated LuaVoxelManip object for the corresponding `pos1`,
+	  `pos2` and `searchdistance` arguments. Use the return value of
+	  `rp_pathfinder.get_voxelmanip_for_path` here.
+	  If this is `nil` and `use_vmanip` is `true`, the LuaVoxelManip object will
+	  be generated on the fly.
 * `timeout`: Abort search if pathfinder ran for longer than this time (in seconds)
 
 ### Return value
@@ -60,7 +67,15 @@ On failure, returns `nil, <reason>`, where `<reason>` is one of:
 ### Asynchronous usage
 
 By default, this function can not be called in an async environment because it keeps calling `minetest.get_node`,
-which is not permitted. If you set `use_vmanip` to `true`, this function is safe to be used in an async environment.
+which is not permitted. To use the pathfinder asynchronously, you need to do the following:
+
+* Register `init.lua` of this mod with `minetest.register_async_dofile`
+* In the global environment, call `rp_pathfinder.get_voxelmanip_for_path`
+  and store the return value
+* For the `options` of `rp_pathfinder.find_path` set `use_vmanip=true`
+  and `vmanip=<the previously stored value>`
+* In the async environment, call `rp_pathfinder.find_path`
+* Note: `pos1`, `pos2` and `searchdistance` **MUST** be equal for both function calls
 
 ### Performance notes
 
@@ -71,3 +86,9 @@ For long-distance destinations, calling this function asynchronously is a good i
 performance doesn't lock up the server.
 
 
+## `rp_pathfinder.get_voxelmanip_for_path(pos1, pos2, searchdistance)`
+
+Returns a LuaVoxelManip object for a path between `pos1` and `pos2` and the given
+`searchdistance`. Required function for asynchronous usage.
+
+The parameters mean the same as for `rp_pathfinder.find_path`.

@@ -92,6 +92,9 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 		self.statedata.stuck_last_position = nil
 		self.statedata.stuck_recheck_timer = 0
 
+		if not path then
+			path = mob._temp_custom_state.follow_path
+		end
 		self.statedata.path = path
 	end
 	mtask.on_step = function(self, mob, dtime, moveresult)

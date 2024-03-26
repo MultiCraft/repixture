@@ -75,6 +75,8 @@ local PATHFINDER_OPTIONS = {
 	handler_walkable = is_node_walkable,
 	handler_blocking = is_node_blocking,
 }
+local PATHFINDER_OPTIONS_ASYNC = table.copy(PATHFINDER_OPTIONS)
+PATHFINDER_OPTIONS_ASYNC.use_vmanip = true
 
 
 -- Load villager speech functions
@@ -210,6 +212,40 @@ local find_reachable_node = function(startpos, nodenames, searchdistance, under_
 	end
 end
 
+-- This microtask asynchronically searches a path from start to target.
+-- When it's done, it will put the path in mob._temp_custom_state.found_path
+local create_microtask_find_path_async = function(start, target)
+	return rp_mobs.create_microtask({
+		label = "find path",
+		on_start = function(self, mob)
+			self.statedata.done = false
+			mob._temp_custom_state.found_path = nil
+			local find_path = function(start, target, searchdistance, options, timeout)
+				local path = rp_pathfinder.find_path(start, target, searchdistance, options, timeout)
+				return path
+			end
+			local callback = function(path)
+				mob._temp_custom_state.follow_path = path
+				self.statedata.done = true
+			end
+			local options = table.copy(PATHFINDER_OPTIONS_ASYNC)
+			local vmanip = rp_pathfinder.get_voxelmanip_for_path(start, target, PATHFINDER_SEARCHDISTANCE)
+			options.vmanip = vmanip
+			minetest.handle_async(find_path, callback, start, target, PATHFINDER_SEARCHDISTANCE, options, PATHFINDER_TIMEOUT)
+		end,
+		on_step = function()
+			-- no-op
+		end,
+		is_finished = function(self, mob)
+			if self.statedata.done then
+				return true
+			else
+				return false
+			end
+		end,
+	})
+end
+
 local microtask_find_new_home_bed = rp_mobs.create_microtask({
 	label = "find new home bed",
 	singlestep = true,
@@ -271,14 +307,19 @@ local movement_decider = function(task_queue, mob)
 			local mobpos = mob.object:get_pos()
 			local target = find_free_horizontal_neighbor(mob._custom_state.home_bed)
 
-			local path = rp_pathfinder.find_path(mobpos, target, PATHFINDER_SEARCHDISTANCE, PATHFINDER_OPTIONS, PATHFINDER_TIMEOUT)
-			if path then
-				local mt_walk_to_bed = rp_mobs.microtasks.follow_path(path, WALK_SPEED, JUMP_STRENGTH, true)
-				mt_walk_to_bed.start_animation = "walk"
-				local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
-				rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
-				rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
-			end
+			-- First find the path asynchronously ...
+			local mt_find_bed_path = create_microtask_find_path_async(mobpos, target)
+			mt_find_bed_path.start_animation = "idle"
+
+			-- ... then follow it
+			local mt_walk_to_bed = rp_mobs.microtasks.follow_path(nil, WALK_SPEED, JUMP_STRENGTH, true)
+			mt_walk_to_bed.start_animation = "walk"
+
+			local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
+			rp_mobs.add_microtask_to_task(mob, mt_find_bed_path, task_walk_to_bed)
+			rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
+
+			rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
 		end
 	elseif day_phase == "day" then
 		local r = math.random(1, 2)
@@ -529,3 +570,6 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 })
 
 rp_mobs.register_mob_item("rp_mobs_mobs:villager", "mobs_villager_farmer_inventory.png")
+
+
+minetest.register_async_dofile(minetest.get_modpath("rp_pathfinder").."/init.lua")

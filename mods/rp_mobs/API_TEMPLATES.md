@@ -140,7 +140,9 @@ This assumes the mob is bound to gravity. Jumping and falling is supported.
 
 Parameters:
 
-* `path`: List of positions to follow.
+* `path`: List of positions to follow. Can alternatively be set to `nil`,
+  in which case the path will be read from `mob._temp_custom_state.follow_path`
+  when the microtask starts
 * `walk_speed`: How fast to walk
 * `jump_strength`: How strong to jump (must be able to clear a height of `max_jump` at least)
 * `set_yaw`: If true, mob will automatically set the yaw to face towards
