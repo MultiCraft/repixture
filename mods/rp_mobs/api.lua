@@ -447,6 +447,7 @@ end
 
 rp_mobs.add_task_to_task_queue = function(task_queue, task)
 	task_queue.tasks:append(task)
+	task.task_queue = task_queue
 	if task.generateMicroTasks then
 		task:generateMicroTasks()
 	end
@@ -482,7 +483,9 @@ rp_mobs.create_microtask = function(def)
 end
 
 rp_mobs.add_microtask_to_task  = function(self, microtask, task)
-	return task.microTasks:append(microtask)
+	local ret = task.microTasks:append(microtask)
+	microtask.task = task
+	return ret
 end
 
 rp_mobs.handle_tasks = function(self, dtime, moveresult)

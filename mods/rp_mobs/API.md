@@ -82,9 +82,11 @@ This section defines the data structures used in the functions below.
 
 ### Task
 
-A task is just a table. You can optionally define this field:
+A task is just a table. It can have the following fields:
 
 * `label`: Brief string explaining what the task does. Only for debug
+* `task_queue`: Read-only reference to the task queue this task is part of or nil.
+  Will be set automatically when the task is added to a task queue.
 
 Tasks can be created with `rp_mobs.create_task`.
 
@@ -102,6 +104,8 @@ A microtask is a table with the following fields:
 * `on_start`: Called when the microtask has begun. Called just before `on_step`
 * `singlestep`: If true, this microtask will run for only 1 step and automatically finishes (default: false)
 * `statedata`: Table containing data that can be modified and read at runtime
+* `task`: Read-only reference to the task this microtask is part of, or nil.
+  Will be set automatically when it is added to a task
 
 Every microtask needs to have `on_step` and either `is_finished` or `singlestep = true`.
 All other fields are optional. It is not allowed to add any fields not listed above.
@@ -692,11 +696,11 @@ Add a task queue to the given mob.
 
 #### `rp_mobs.add_task_to_task_queue(task, task_queue)`
 
-Add a task `task` to the given task queue object.
+Add a task `task` to the given task queue object. Will also initialize the `task_queue` field of `task`.
 
 #### `rp_mobs.add_microtask_to_task(mob, microtask, task)`
 
-Add the microtask `microtask` to the specified `task`.
+Add the microtask `microtask` to the specified `task`. Will also initialize the `task` field of `microtask`.
 
 #### `rp_mobs.end_current_task_in_task_queue(mob, task_queue)`
 
