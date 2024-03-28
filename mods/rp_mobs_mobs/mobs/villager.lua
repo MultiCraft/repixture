@@ -36,32 +36,52 @@ local IDLE_TIME = 3.0
 local REACH = 4.0
 
 -- Pathfinder stuff
+
+-- For pathfinder: returns true if node can be walked *on*
 local is_node_walkable = function(node)
 	local def = minetest.registered_nodes[node.name]
-	if not def or def.walkable then
-		if minetest.get_item_group(node.name, "door") ~= 0 then
-			return false
-		else
-			return true
-		end
+	if not def then
+		-- Unknown nodes are walkable
+		return true
+	elseif node.name == "rp_itemshow:frame" then
+		-- Item frames are to thin to walk *on*
+		return false
+	elseif minetest.get_item_group(node.name, "door") ~= 0 then
+		-- Same for doors
+		return false
+	elseif minetest.get_item_group(node.name, "fence") ~= 0 then
+		-- We refuse to walk on fences (although we could)
+		-- due to the overhigh collisionbox. Also it looks weird
+		-- when the villagers jump over the fence at farms.
+		return false
+	elseif def.walkable then
+		-- Walkable by definition
+		return true
 	else
 		return false
 	end
 end
+
+-- For pathfinder: returns true if node is blocking the path
 local is_node_blocking = function(node)
 	local def = minetest.registered_nodes[node.name]
-	if not def or def.walkable then
-		if minetest.get_item_group(node.name, "door") ~= 0 then
-			return false
-		else
-			return true
-		end
+	if not def then
+		-- Unknown nodes are blocking
+		return true
+	--elseif minetest.get_item_group(node.name, "fence") ~= 0 then
+		--return true
+	elseif minetest.get_item_group(node.name, "door") ~= 0 then
+		-- Villagers know how to open doors so they pathfind through them
+		return false
 	elseif def.damage_per_second > 0 then
+		-- No damage allowed
 		return true
 	elseif minetest.get_item_group(node.name, "water") ~= 0 then
+		-- No water allowed
 		return true
-	elseif minetest.get_item_group(node.name, "door") ~= 0 then
-		return false
+	elseif def.walkable then
+		-- Walkable by definition = blocking
+		return true
 	else
 		return false
 	end
