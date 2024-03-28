@@ -306,7 +306,6 @@ local create_microtask_climb = function(target, speed)
 	return rp_mobs.create_microtask({
 		label = "climb",
 		on_start = function(self, mob)
-			mob.object:set_acceleration(vector.zero())
 			local mobpos = mob.object:get_pos()
 			local rmobpos = vector.round(mobpos)
 			if rmobpos.y < target.y then
@@ -342,7 +341,6 @@ local create_microtask_climb = function(target, speed)
 		end,
 		on_end = function(self, mob)
 			mob.object:set_velocity(vector.zero())
-			mob.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)
 		end,
 		is_finished = function(self, mob)
 			if self.statedata.stop then
@@ -357,6 +355,69 @@ local create_microtask_climb = function(target, speed)
 		end,
 	})
 end
+
+-- Handle basic physics (gravity)
+local physics_decider = function(task_queue, mob)
+	local mt_gravity = rp_mobs.create_microtask({
+		label = "gravity",
+		on_start = function(self, mob)
+			-- Is true when mob is in climbable node
+			mob._temp_custom_state.in_climbable_node = false
+
+			-- Is true when mob is in liquid node
+			mob._temp_custom_state.in_liquid_node = false
+
+			-- Is true when gravity is enabled
+			self.statedata.gravity = nil
+
+			self.statedata.timer = 0
+		end,
+		on_step = function(self, mob, dtime)
+			local mobpos = mob.object:get_pos()
+
+			local rmobpos = vector.round(mobpos)
+			local hash = minetest.hash_node_position(rmobpos)
+			self.statedata.timer = self.statedata.timer + dtime
+			if self.statedata.last_pos_hash ~= hash or self.statedata.timer >= 1 then
+
+				local ndef = minetest.registered_nodes[mob._env_node.name]
+				local nfdef = minetest.registered_nodes[mob._env_node_floor.name]
+
+				if (ndef and ndef.climbable) or (nfdef and nfdef.climbable) then
+					mob._temp_custom_state.in_climbable_node = true
+				else
+					mob._temp_custom_state.in_climbable_node = false
+				end
+				if (ndef and ndef.liquid_move_physics) or (nfdef and nfdef.liquid_move_physics) then
+					mob._temp_custom_state.in_liquid_node = true
+				else
+					mob._temp_custom_state.in_liquid_node = false
+				end
+
+				local grav = not (mob._temp_custom_state.in_climbable_node or mob._temp_custom_state.in_liquid_node)
+				if grav ~= self.statedata.gravity then
+					self.statedata.gravity = grav
+					if grav then
+						mob.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)
+					else
+						mob.object:set_acceleration(vector.zero())
+					end
+				end
+
+				self.statedata.last_pos_hash = hash
+				self.statedata.timer = 0
+			end
+		end,
+		is_finished = function(self, mob)
+			return false
+		end,
+	})
+
+	local task = rp_mobs.create_task({label="physics handling"})
+	rp_mobs.add_microtask_to_task(mob, mt_gravity, task)
+	rp_mobs.add_task_to_task_queue(task_queue, task)
+end
+
 
 -- Walk through all nodes along the given path
 -- and create a table of "to-do" tasks.
@@ -505,7 +566,6 @@ local movement_decider = function(task_queue, mob)
 	local task_stand = rp_mobs.create_task({label="stand still"})
 	local yaw = math.random(0, 360) / 360 * (math.pi*2)
 	local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
-	rp_mobs.add_microtask_to_task(mob, rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR), task_stand)
 	rp_mobs.add_microtask_to_task(mob, mt_yaw, task_stand)
 	local mt_sleep = rp_mobs.microtasks.sleep(IDLE_TIME)
 	mt_sleep.start_animation = "idle"
@@ -716,11 +776,14 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 			})
 
 			rp_mobs.init_tasks(self)
+			local physics_task_queue = rp_mobs.create_task_queue(physics_decider)
 			local movement_task_queue = rp_mobs.create_task_queue(movement_decider)
 			local heal_task_queue = rp_mobs.create_task_queue(heal_decider)
+			local angry_task_queue = rp_mobs.create_task_queue(rp_mobs_mobs.create_angry_cooldown_decider(VIEW_RANGE, ANGRY_COOLDOWN_TIME))
+			rp_mobs.add_task_queue(self, physics_task_queue)
 			rp_mobs.add_task_queue(self, movement_task_queue)
 			rp_mobs.add_task_queue(self, heal_task_queue)
-			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(rp_mobs_mobs.create_angry_cooldown_decider(VIEW_RANGE, ANGRY_COOLDOWN_TIME)))
+			rp_mobs.add_task_queue(self, angry_task_queue)
 
 			if not self._custom_state.profession then
 				set_random_profession(self)
