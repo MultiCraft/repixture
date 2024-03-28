@@ -128,6 +128,18 @@ door.is_open = function(pos)
    return state
 end
 
+door.get_free_axis = function(pos)
+   local node = minetest.get_node(pos)
+   if minetest.get_item_group(node.name, "door") == 0 then
+      return nil
+   end
+   local p2m = node.param2 % 4
+   if p2m == 0 or p2m == 2 then
+      return "x"
+   else
+      return "z"
+   end
+end
 
 -- Registers a door
 

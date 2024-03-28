@@ -77,3 +77,12 @@ returns `false` if it's a segment of a closed door.
 Returns `nil` if the node is not a door segment.
 
 The node does not have to be a part of a valid door.
+
+### `door.get_free_axis(pos)`
+
+Returns the horizontal axis that the door at pos *currently* can be moved through,
+regardless of open/close state.
+Returns `"x"` when you can move through on the X axis;
+returns `"z"` when you can move through on the Z axis.
+
+Returns `nil` if node is not a door.
