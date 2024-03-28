@@ -891,6 +891,10 @@ for p=1, #professions do
 	meta:set_string("wield_image", "mobs_villager_"..profession.."_inventory.png")
 	meta:set_string("description", desc)
 
+	local staticdata_table = { _custom_state = { profession = profession } }
+	local staticdata = minetest.serialize(staticdata_table)
+	meta:set_string("staticdata", staticdata)
+
 	creative.register_special_item(item)
 end
 
