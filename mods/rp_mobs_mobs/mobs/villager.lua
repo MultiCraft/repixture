@@ -24,6 +24,8 @@ local MAX_HOME_BED_DISTANCE = 48
 local WORK_DISTANCE = 24
 -- Time in seconds it takes for villager to forget home bed
 local HOME_BED_FORGET_TIME = 10.0
+-- Time in second to check the home bed again
+local HOME_BED_RECHECK_TIME = 6.0
 -- How fast to walk
 local WALK_SPEED = 2
 -- How fast to climb
@@ -273,7 +275,17 @@ end
 local microtask_find_new_home_bed = rp_mobs.create_microtask({
 	label = "find new home bed",
 	singlestep = true,
-	on_step = function(self, mob)
+	on_start = function(self, mob)
+		-- Timer to reduce the load of this microtask
+		self.statedata.timer = 0
+	end,
+	on_step = function(self, mob, dtime)
+		self.statedata.timer = self.statedata.timer + dtime
+		if self.statedata.timer < HOME_BED_RECHECK_TIME then
+			return
+		end
+		self.statedata.timer = 0
+
 		if mob._custom_state.home_bed then
 			if bed.is_valid_bed(mob._custom_state.home_bed) then
 				return
