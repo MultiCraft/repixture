@@ -283,7 +283,75 @@ local create_microtask_open_door = function(door_pos)
 	})
 end
 
+-- Walk through all nodes along the given path
+-- and create a table of "to-do" tasks.
+-- each element in the todo table is either:
+-- { type = "path", path = <path> }
+-- or:
+-- { type = "door", pos = <door pos> }
 
+-- The point of this is to split the input path
+-- into multiple paths separated by doors.
+local path_to_todo_list = function(path)
+	if not path then
+		return
+	end
+
+	local todo = {}
+
+	local current_path = {}
+	local flush_path = function()
+		if #current_path > 0 then
+			table.insert(todo, {
+				type = "path",
+				path = table.copy(current_path),
+			})
+			current_path = {}
+		end
+	end
+	for p=1, #path do
+		local pos = path[p]
+		local node = minetest.get_node(pos)
+		if minetest.get_item_group(node.name, "door") ~= 0 then
+			flush_path()
+			table.insert(todo, {
+				type = "door",
+				pos = pos,
+			})
+		else
+			table.insert(current_path, pos)
+		end
+	end
+	flush_path()
+
+	return todo
+end
+
+-- Turns a path (sequence of coordinates) into a sequence of
+-- microtasks
+local path_to_microtasks = function(path)
+	local todo = path_to_todo_list(path)
+	local microtasks = {}
+	if not todo then
+		return {}
+	end
+	for t=1, #todo do
+		local entry = todo[t]
+		local mt
+		if entry.type == "path" then
+			mt = rp_mobs.microtasks.follow_path(entry.path, WALK_SPEED, JUMP_STRENGTH, true)
+			mt.start_animation = "walk"
+		elseif entry.type == "door" then
+			mt = create_microtask_open_door(entry.pos)
+			mt.start_animation = "idle"
+		else
+			minetest.log("error", "[rp_mobs_mobs] path_to_microtasks: Invalid entry type in TODO list!")
+			return
+		end
+		table.insert(microtasks, mt)
+	end
+	return microtasks
+end
 
 local movement_decider = function(task_queue, mob)
 	local task_stand = rp_mobs.create_task({label="stand still"})
@@ -312,12 +380,22 @@ local movement_decider = function(task_queue, mob)
 			mt_find_bed_path.start_animation = "idle"
 
 			-- ... then follow it
-			local mt_walk_to_bed = rp_mobs.microtasks.follow_path(nil, WALK_SPEED, JUMP_STRENGTH, true)
-			mt_walk_to_bed.start_animation = "walk"
+			local mt_generate_microtasks = rp_mobs.create_microtask({
+				label = "generate",
+				singlestep = true,
+				on_step = function(self, mob)
+					local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
+					for m=1, #mts do
+						local parent_task = self.task
+						local microtask = mts[m]
+						rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
+					end
+				end,
+			})
 
 			local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
 			rp_mobs.add_microtask_to_task(mob, mt_find_bed_path, task_walk_to_bed)
-			rp_mobs.add_microtask_to_task(mob, mt_walk_to_bed, task_walk_to_bed)
+			rp_mobs.add_microtask_to_task(mob, mt_generate_microtasks, task_walk_to_bed)
 
 			rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
 		end
@@ -384,7 +462,7 @@ local movement_decider = function(task_queue, mob)
 						mt_walk_to_target.start_animation = "walk"
 						rp_mobs.add_microtask_to_task(mob, mt_walk_to_target, task_walk_to_target)
 					else
-						minetest.log("error", "[rp_mobs_mobs] Villager walk algorithm: Invalid goal_type!")
+						minetest.log("error", "[rp_mobs_mobs] Villager walk algorithm: Invalid goal_type '"..tostring(goal.goal_type).."'!")
 						return
 					end
 				end
