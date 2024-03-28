@@ -229,7 +229,7 @@ local find_reachable_node = function(startpos, nodenames, searchdistance, under_
 			local timeout = PATHFINDER_TIMEOUT
 			local path = rp_pathfinder.find_path(startpos, searchpos, searchdistance, options, timeout)
 			if path then
-				return npos, path
+				return searchpos, path
 			end
 		end
 		table.remove(nodes, r)
@@ -605,59 +605,32 @@ local movement_decider = function(task_queue, mob)
 	rp_mobs.add_task_to_task_queue(task_queue, task_find_new_home_bed)
 
 	local day_phase = get_day_phase()
+	local target
+	local task_label
+	local mobpos = mob.object:get_pos()
 	if day_phase == "night" then
 		-- Go to home bed at night
 		if mob._custom_state.home_bed then
-			local mobpos = mob.object:get_pos()
-			local target = find_free_horizontal_neighbor(mob._custom_state.home_bed)
-
-			if target then
-				-- First find the path asynchronously ...
-				local mt_find_bed_path = create_microtask_find_path_async(mobpos, target)
-				mt_find_bed_path.start_animation = "idle"
-
-				-- ... then follow it
-				local mt_generate_microtasks = rp_mobs.create_microtask({
-					label = "generate",
-					singlestep = true,
-					on_step = function(self, mob)
-						local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
-						for m=1, #mts do
-							local parent_task = self.task
-							local microtask = mts[m]
-							rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
-						end
-					end,
-				})
-
-				local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
-				rp_mobs.add_microtask_to_task(mob, mt_find_bed_path, task_walk_to_bed)
-				rp_mobs.add_microtask_to_task(mob, mt_generate_microtasks, task_walk_to_bed)
-
-				rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
-			end
+			target = find_free_horizontal_neighbor(mob._custom_state.home_bed)
+			task_label = "walk to bed"
 		end
 	elseif day_phase == "day" then
-		local r = math.random(1, 2)
+		-- Go to worksite or recreation site at day
+		local r = 1
 		local profession = mob._custom_state.profession
 		local targetnodes
 		local under_air = true
 		if r == 1 then
 			-- profession
+			task_label = "walk to workplace"
 			if profession == "farmer" then
-				local a = math.random(1, 2)
-				if a == 1 then
-					targetnodes = { "group:farming_plant" }
-					under_air = true
-				else
-					targetnodes = { "rp_default:papyrus" }
-					under_air = false
-				end
+				targetnodes = { "group:farming_plant" }
+				under_air = true
 			elseif profession == "blacksmith" then
 				targetnodes = { "group:furnace" }
 				under_air = false
 			elseif profession == "tavernkeeper" then
-				targetnodes = { "group:bucket", "rp_decor:barrel" }
+				targetnodes = { "rp_decor:barrel" }
 				under_air = false
 			elseif profession == "butcher" then
 				targetnodes = { "group:tree", "rp_jewels:bench" }
@@ -668,6 +641,7 @@ local movement_decider = function(task_queue, mob)
 			end
 		else
 			-- recreational
+			task_label = "walk to recreation site"
 			local a = math.random(1, 4)
 			if a == 1 then
 				targetnodes = { "group:bonfire" }
@@ -679,34 +653,34 @@ local movement_decider = function(task_queue, mob)
 		end
 
 		if targetnodes then
-			-- Go to workplace/recreational node at day
-			local mobpos = mob.object:get_pos()
-			local targetpos, goals = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
-			if targetpos and goals and #goals > 0 then
-				local task_walk_to_target = rp_mobs.create_task({label="walk to recreation/workplace"})
-				for g=1, #goals do
-					local goal = goals[g]
-					-- Open door
-					if goal.goal_type == "door" then
-						local mt_open_door = create_microtask_open_door(goal.pos)
-						mt_open_door.start_animation = "idle"
-						rp_mobs.add_microtask_to_task(mob, mt_open_door, task_walk_to_target)
-					-- Traverse path
-					elseif goal.goal_type == "path" then
-						local path = goal.path
-						local target = path[#path]
-						local start = path[1]
-						local mt_walk_to_target = rp_mobs.microtasks.pathfind_and_walk_to(start, target, WALK_SPEED, JUMP_STRENGTH, true, WORK_DISTANCE, MAX_JUMP, MAX_DROP)
-						mt_walk_to_target.start_animation = "walk"
-						rp_mobs.add_microtask_to_task(mob, mt_walk_to_target, task_walk_to_target)
-					else
-						minetest.log("error", "[rp_mobs_mobs] Villager walk algorithm: Invalid goal_type '"..tostring(goal.goal_type).."'!")
-						return
-					end
-				end
-				rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_target)
-			end
+			target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
 		end
+	end
+
+	if target then
+		-- First find the path asynchronously ...
+		local mt_find_path = create_microtask_find_path_async(mobpos, target)
+		mt_find_path.start_animation = "idle"
+
+		-- ... then follow it
+		local mt_generate_microtasks = rp_mobs.create_microtask({
+			label = "generate microtasks from path",
+			singlestep = true,
+			on_step = function(self, mob)
+				local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
+					for m=1, #mts do
+						local parent_task = self.task
+						local microtask = mts[m]
+						rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
+					end
+				end,
+		})
+
+		local task_walk = rp_mobs.create_task({label=task_label or "walk to somewhere"})
+		rp_mobs.add_microtask_to_task(mob, mt_find_path, task_walk)
+		rp_mobs.add_microtask_to_task(mob, mt_generate_microtasks, task_walk)
+
+		rp_mobs.add_task_to_task_queue(task_queue, task_walk)
 	end
 end
 
