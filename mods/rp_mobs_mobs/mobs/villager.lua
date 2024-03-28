@@ -26,6 +26,8 @@ local WORK_DISTANCE = 24
 local HOME_BED_FORGET_TIME = 10.0
 -- How fast to walk
 local WALK_SPEED = 2
+-- How fast to climb
+local CLIMB_SPEED = 1
 -- How strong to jump
 local JUMP_STRENGTH = 6
 -- Time the mob idles around
@@ -68,7 +70,7 @@ local PATHFINDER_TIMEOUT = 1.0
 local PATHFINDER_OPTIONS = {
 	max_jump = MAX_JUMP,
 	max_drop = MAX_DROP,
-	climb = false,
+	climb = true,
 	clear_height = 2,
 	use_vmanip = false,
 	respect_disable_jump = true,
@@ -296,6 +298,66 @@ local create_microtask_open_door = function(door_pos, walk_axis)
 	})
 end
 
+-- Climb
+local create_microtask_climb = function(target, speed)
+	-- Climbing is straight movement towards a target
+	-- while gravity is disabled.
+	-- This only supports vertical climbing.
+	return rp_mobs.create_microtask({
+		label = "climb",
+		on_start = function(self, mob)
+			mob.object:set_acceleration(vector.zero())
+			local mobpos = mob.object:get_pos()
+			local rmobpos = vector.round(mobpos)
+			if rmobpos.y < target.y then
+				self.statedata.dir = vector.new(0, 1, 0)
+			else
+				self.statedata.dir = vector.new(0, -1, 0)
+			end
+		end,
+		on_step = function(self, mob)
+			local mobpos = mob.object:get_pos()
+
+			-- Abort climbing if mob is no longer in climbable node
+			local rmobpos = vector.round(mobpos)
+			local hash = minetest.hash_node_position(rmobpos)
+			if self.statedata.last_pos_hash ~= hash then
+				local node = minetest.get_node(rmobpos)
+				local def = minetest.registered_nodes[node.name]
+				if not def or not def.climbable then
+					--self.statedata.stop = true
+					return
+				end
+				self.statedata.last_pos_hash = hash
+			end
+
+			-- Climb by setting velocity
+			local vel
+			if self.statedata.dir.y > 0 then
+				vel = vector.new(0, speed, 0)
+			else
+				vel = vector.new(0, -speed, 0)
+			end
+			mob.object:set_velocity(vel)
+		end,
+		on_end = function(self, mob)
+			mob.object:set_velocity(vector.zero())
+			mob.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)
+		end,
+		is_finished = function(self, mob)
+			if self.statedata.stop then
+				return true
+			end
+			local mobpos = mob.object:get_pos()
+			if (self.statedata.dir.y > 0 and mobpos.y >= target.y) or (self.statedata.dir.y < 0 and mobpos.y <= target.y) then
+				return true
+			else
+				return false
+			end
+		end,
+	})
+end
+
 -- Walk through all nodes along the given path
 -- and create a table of "to-do" tasks.
 -- each element in the todo table is either:
@@ -313,6 +375,8 @@ local path_to_todo_list = function(path)
 	local todo = {}
 
 	local current_path = {}
+	local current_climb_path = {}
+
 	local flush_path = function()
 		if #current_path > 0 then
 			table.insert(todo, {
@@ -322,12 +386,43 @@ local path_to_todo_list = function(path)
 			current_path = {}
 		end
 	end
+	local flush_climb = function()
+		if #current_climb_path > 0 then
+			local target = current_climb_path[#current_climb_path]
+			-- Increase climb target by 1 if climbing upwards
+			if #current_climb_path >= 2 then
+				if current_climb_path[#current_climb_path-1].y < current_climb_path[#current_climb_path].y then
+					target.y = target.y + 1
+				end
+			end
+			table.insert(todo, {
+				type = "climb",
+				pos = current_climb_path[#current_climb_path]
+			})
+			current_climb_path = {}
+		end
+	end
+
 	local prev_pos
 	for p=1, #path do
 		local pos = path[p]
 		local node = minetest.get_node(pos)
-		if minetest.get_item_group(node.name, "door") ~= 0 then
+		local def = minetest.registered_nodes[node.name]
+
+		-- Climbable node (ladder, etc.)
+		if def and def.climbable then
+			if #current_climb_path == 0 then
+				table.insert(current_path, pos)
+				flush_path(current_path)
+			end
+
+			table.insert(current_climb_path, pos)
+
+		-- Door
+		elseif minetest.get_item_group(node.name, "door") ~= 0 then
+			flush_climb()
 			flush_path()
+
 			-- Get the mob walking direction
 			-- by looking at previous or next position in the path
 			local axis
@@ -362,11 +457,16 @@ local path_to_todo_list = function(path)
 			-- that are placed right behind each other to be opened all at once.
 			table.insert(current_path, pos)
 			flush_path()
+		-- Any other node ...
 		else
+			flush_climb()
+
+			-- ... is part of a normal path to walk on
 			table.insert(current_path, pos)
 		end
 		prev_pos = pos
 	end
+	flush_climb()
 	flush_path()
 
 	return todo
@@ -388,6 +488,9 @@ local path_to_microtasks = function(path)
 			mt.start_animation = "walk"
 		elseif entry.type == "door" then
 			mt = create_microtask_open_door(entry.pos, entry.axis)
+			mt.start_animation = "idle"
+		elseif entry.type == "climb" then
+			mt = create_microtask_climb(entry.pos, CLIMB_SPEED)
 			mt.start_animation = "idle"
 		else
 			minetest.log("error", "[rp_mobs_mobs] path_to_microtasks: Invalid entry type in TODO list!")
@@ -420,29 +523,31 @@ local movement_decider = function(task_queue, mob)
 			local mobpos = mob.object:get_pos()
 			local target = find_free_horizontal_neighbor(mob._custom_state.home_bed)
 
-			-- First find the path asynchronously ...
-			local mt_find_bed_path = create_microtask_find_path_async(mobpos, target)
-			mt_find_bed_path.start_animation = "idle"
+			if target then
+				-- First find the path asynchronously ...
+				local mt_find_bed_path = create_microtask_find_path_async(mobpos, target)
+				mt_find_bed_path.start_animation = "idle"
 
-			-- ... then follow it
-			local mt_generate_microtasks = rp_mobs.create_microtask({
-				label = "generate",
-				singlestep = true,
-				on_step = function(self, mob)
-					local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
-					for m=1, #mts do
-						local parent_task = self.task
-						local microtask = mts[m]
-						rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
-					end
-				end,
-			})
+				-- ... then follow it
+				local mt_generate_microtasks = rp_mobs.create_microtask({
+					label = "generate",
+					singlestep = true,
+					on_step = function(self, mob)
+						local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
+						for m=1, #mts do
+							local parent_task = self.task
+							local microtask = mts[m]
+							rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
+						end
+					end,
+				})
 
-			local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
-			rp_mobs.add_microtask_to_task(mob, mt_find_bed_path, task_walk_to_bed)
-			rp_mobs.add_microtask_to_task(mob, mt_generate_microtasks, task_walk_to_bed)
+				local task_walk_to_bed = rp_mobs.create_task({label="walk to bed"})
+				rp_mobs.add_microtask_to_task(mob, mt_find_bed_path, task_walk_to_bed)
+				rp_mobs.add_microtask_to_task(mob, mt_generate_microtasks, task_walk_to_bed)
 
-			rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
+				rp_mobs.add_task_to_task_queue(task_queue, task_walk_to_bed)
+			end
 		end
 	elseif day_phase == "day" then
 		local r = math.random(1, 2)
