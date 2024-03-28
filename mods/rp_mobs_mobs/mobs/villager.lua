@@ -318,6 +318,8 @@ local path_to_todo_list = function(path)
 				type = "door",
 				pos = pos,
 			})
+			table.insert(current_path, pos)
+			flush_path()
 		else
 			table.insert(current_path, pos)
 		end
