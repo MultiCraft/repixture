@@ -160,17 +160,28 @@ local function get_neighbor_floor_pos(neighbor_pos, current_pos, clear_height, j
 		end
 	end
 	-- Drop down
-	if not nh.walkable(nnode) then
+	if not nh.walkable(nnode) and not nh.blocking(nnode) then
 		local floor = drop_down(npos, drop_height, false, nh, get_node)
 		return floor
 	-- Jump
 	else
+		local stop = function(node)
+			return (not nh.walkable(node)) or nh.blocking(node)
+		end
+
 		-- Get the first non-walkable node above the neighbor
-		local target_pos, height = vertical_walk(npos, 1, jump_height, nh.walkable, false, get_node)
+		local target_pos, height = vertical_walk(npos, 1, jump_height, stop, true, get_node)
 
 		-- Also check the nodes above current pos for any blocking nodes,
 		-- since this is where the player has to jump
 		if target_pos then
+			-- If the top node is non-walkable,
+			-- we don't want to jump on it
+			local tnode = get_node(vector.offset(target_pos, 0, -1, 0))
+			if not nh.walkable(tnode) then
+				return
+			end
+
 			-- Also take height clearance into account
 			height = height + (clear_height - 1)
 			local jump_blocking_pos = vertical_walk(current_pos, 1, height, nh.blocking, true, get_node)
