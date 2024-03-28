@@ -128,7 +128,7 @@ local professions = {
 local professions_keys = {}
 for p=1, #professions do
 	local profession = professions[p][1]
-	professions_keys[profession] = true
+	professions_keys[profession] = professions[p][2]
 end
 
 local profession_exists = function(profession)
@@ -862,7 +862,37 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 	},
 })
 
-rp_mobs.register_mob_item("rp_mobs_mobs:villager", "mobs_villager_farmer_inventory.png")
+
+rp_mobs.register_mob_item("rp_mobs_mobs:villager", "mobs_villager_inventory.png", nil, function(mob, itemstack)
+	local profession = mob._custom_state.profession
+	if profession then
+		local meta = itemstack:get_meta()
+		meta:set_string("inventory_image", "mobs_villager_"..profession.."_inventory.png")
+		meta:set_string("wield_image", "mobs_villager_"..profession.."_inventory.png")
+		meta:set_string("description", professions_keys[profession])
+	else
+		meta:set_string("inventory_image", "")
+		meta:set_string("wield_image", "")
+	end
+	return itemstack
+end)
+do
+	local groups = minetest.registered_items["rp_mobs_mobs:villager"].groups
+	groups.not_in_creative_inventory = 1
+	minetest.override_item("rp_mobs_mobs:villager", { groups = groups })
+end
+
+for p=1, #professions do
+	local profession = professions[p][1]
+	local desc = professions[p][2]
+	local item = ItemStack("rp_mobs_mobs:villager")
+	local meta = item:get_meta()
+	meta:set_string("inventory_image", "mobs_villager_"..profession.."_inventory.png")
+	meta:set_string("wield_image", "mobs_villager_"..profession.."_inventory.png")
+	meta:set_string("description", desc)
+
+	creative.register_special_item(item)
+end
 
 
 minetest.register_async_dofile(minetest.get_modpath("rp_pathfinder").."/init.lua")
