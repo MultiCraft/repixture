@@ -29,7 +29,7 @@ local WALK_SPEED = 2
 -- How fast to climb
 local CLIMB_SPEED = 1
 -- How strong to jump
-local JUMP_STRENGTH = 6
+local JUMP_STRENGTH = 4
 -- Time the mob idles around
 local IDLE_TIME = 3.0
 -- How many nodes the villager can be away from nodes and entities to interact with them
