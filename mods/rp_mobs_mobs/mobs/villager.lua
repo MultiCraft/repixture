@@ -507,7 +507,9 @@ local path_to_todo_list = function(path)
 	local prev_pos
 	for p=1, #path do
 		local pos = path[p]
+		local pos2 = vector.offset(pos, 0, 1, 0)
 		local node = minetest.get_node(pos)
+		local node2 = minetest.get_node(pos2)
 		local def = minetest.registered_nodes[node.name]
 
 		-- Climbable node (ladder, etc.)
@@ -520,7 +522,7 @@ local path_to_todo_list = function(path)
 			table.insert(current_climb_path, pos)
 
 		-- Door
-		elseif minetest.get_item_group(node.name, "door") ~= 0 then
+		elseif minetest.get_item_group(node.name, "door") ~= 0 or minetest.get_item_group(node2.name, "door") ~= 0 then
 			flush_climb()
 			flush_path()
 
@@ -547,9 +549,15 @@ local path_to_todo_list = function(path)
 				axis = "z"
 			end
 
+			local door_pos
+			if minetest.get_item_group(node.name, "door") == 0 then
+				door_pos = pos2
+			else
+				door_pos = pos
+			end
 			table.insert(todo, {
 				type = "door",
-				pos = pos,
+				pos = door_pos,
 				axis = axis,
 			})
 
