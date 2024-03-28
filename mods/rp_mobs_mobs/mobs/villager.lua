@@ -789,6 +789,12 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 				},
 			})
 
+			-- Stop horizontal movement on (re-)spawn
+			local vel = self.object:get_velocity()
+			vel.x = 0
+			vel.z = 0
+			self.object:set_velocity(vel)
+
 			rp_mobs.init_tasks(self)
 			local physics_task_queue = rp_mobs.create_task_queue(physics_decider)
 			local movement_task_queue = rp_mobs.create_task_queue(movement_decider)
