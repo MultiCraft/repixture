@@ -32,6 +32,8 @@ local CLIMB_SPEED = 1
 local JUMP_STRENGTH = 6
 -- Time the mob idles around
 local IDLE_TIME = 3.0
+-- How many nodes the villager can be away from nodes and entities to interact with them
+local REACH = 4.0
 
 -- Pathfinder stuff
 local is_node_walkable = function(node)
@@ -278,6 +280,12 @@ local create_microtask_open_door = function(door_pos, walk_axis)
 		label = "open door",
 		singlestep = true,
 		on_step = function(self, mob)
+			local dist = vector.distance(mob.object:get_pos(), door_pos)
+			if dist > REACH then
+				-- Fail microtask if mob is too far away from door
+				return
+			end
+
 			-- Technically, this does not *really* open
 			-- the door but instead check if the current
 			-- free axis (that the mob can move through)
