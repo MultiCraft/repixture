@@ -271,12 +271,25 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 	end,
 })
 
-local create_microtask_open_door = function(door_pos)
+local create_microtask_open_door = function(door_pos, walk_axis)
 	return rp_mobs.create_microtask({
 		label = "open door",
 		singlestep = true,
 		on_step = function(self, mob)
-			if door.is_open(door_pos) == false then
+			-- Technically, this does not *really* open
+			-- the door but instead check if the current
+			-- free axis (that the mob can move through)
+			-- mismatches the axis the mob wants to walk in
+			-- and only *then* toggles the door.
+			-- This may not always align with the door's
+			-- open/close state but the mob doesn't need to
+			-- care, it just wants to free the way.
+			-- The door will be "opened" from the mob's perspective.
+			local free_axis = door.get_free_axis(door_pos)
+			if not free_axis then
+				return
+			end
+			if free_axis ~= walk_axis then
 				door.toggle_door(door_pos)
 			end
 		end,
@@ -309,20 +322,50 @@ local path_to_todo_list = function(path)
 			current_path = {}
 		end
 	end
+	local prev_pos
 	for p=1, #path do
 		local pos = path[p]
 		local node = minetest.get_node(pos)
 		if minetest.get_item_group(node.name, "door") ~= 0 then
 			flush_path()
+			-- Get the mob walking direction
+			-- by looking at previous or next position in the path
+			local axis
+			local other_pos
+			if prev_pos then
+				other_pos = prev_pos
+			else
+				if p < #path then
+					other_pos = path[p+1]
+				else
+					-- Fallback if path is only 1 entry long
+					other_pos = vector.zero()
+				end
+			end
+
+			-- Record the axis the mob wants to walk,
+			-- so the mob knows whether the door needs to be toggled
+			if other_pos.x ~= pos.x then
+				axis = "x"
+			else
+				axis = "z"
+			end
+
 			table.insert(todo, {
 				type = "door",
 				pos = pos,
+				axis = axis,
 			})
+
+			-- Add a 1-entry long path todo right after the door to force the mob
+			-- to walk into the door node. This avoids the mob opening multiple doors
+			-- that are placed right behind each other to be opened all at once.
 			table.insert(current_path, pos)
 			flush_path()
 		else
 			table.insert(current_path, pos)
 		end
+		prev_pos = pos
 	end
 	flush_path()
 
@@ -344,7 +387,7 @@ local path_to_microtasks = function(path)
 			mt = rp_mobs.microtasks.follow_path(entry.path, WALK_SPEED, JUMP_STRENGTH, true)
 			mt.start_animation = "walk"
 		elseif entry.type == "door" then
-			mt = create_microtask_open_door(entry.pos)
+			mt = create_microtask_open_door(entry.pos, entry.axis)
 			mt.start_animation = "idle"
 		else
 			minetest.log("error", "[rp_mobs_mobs] path_to_microtasks: Invalid entry type in TODO list!")
