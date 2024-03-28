@@ -275,17 +275,7 @@ end
 local microtask_find_new_home_bed = rp_mobs.create_microtask({
 	label = "find new home bed",
 	singlestep = true,
-	on_start = function(self, mob)
-		-- Timer to reduce the load of this microtask
-		self.statedata.timer = 0
-	end,
 	on_step = function(self, mob, dtime)
-		self.statedata.timer = self.statedata.timer + dtime
-		if self.statedata.timer < HOME_BED_RECHECK_TIME then
-			return
-		end
-		self.statedata.timer = 0
-
 		if mob._custom_state.home_bed then
 			if bed.is_valid_bed(mob._custom_state.home_bed) then
 				return
