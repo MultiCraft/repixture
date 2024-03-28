@@ -628,7 +628,7 @@ local movement_decider = function(task_queue, mob)
 		end
 	elseif day_phase == "day" then
 		-- Go to worksite or recreation site at day
-		local r = 1
+		local r = math.random(1, 2)
 		local profession = mob._custom_state.profession
 		local targetnodes
 		local under_air = true
@@ -645,7 +645,7 @@ local movement_decider = function(task_queue, mob)
 				targetnodes = { "rp_decor:barrel" }
 				under_air = false
 			elseif profession == "butcher" then
-				targetnodes = { "group:tree", "rp_jewels:bench" }
+				targetnodes = { "group:furnace" }
 				under_air = true
 			elseif profession == "carpenter" then
 				targetnodes = { "rp_default:bookshelf" }
