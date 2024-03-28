@@ -61,6 +61,7 @@ On failure, returns `nil, <reason>`, where `<reason>` is one of:
 * `"no_path"`: No path exists within the searched area
 * `"pos1_blocked"`: The node at `pos1` is blocked
 * `"pos2_blocked"`: The node at `pos2` is blocked
+* `"pos1_too_high"`: The node at `pos1` is too high above the floor
 * `"path_complexity_reached"`: The path search became too complex
 * `"timeout"`: Search was aborted because the time ran out
 

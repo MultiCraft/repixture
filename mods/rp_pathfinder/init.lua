@@ -113,6 +113,8 @@ local function vertical_walk(start_pos, vdir, max_height, stop_func, stop_value,
 	end
 end
 
+-- Simulate falling with a given drop_height limit
+-- and returns the final node we land *in*
 local function drop_down(pos, drop_height, nh, get_node)
 	local blocking_or_walkable = function(node)
 		return nh.blocking(node) or nh.walkable(node)
@@ -120,9 +122,9 @@ local function drop_down(pos, drop_height, nh, get_node)
 	local dpos = table.copy(pos)
 	-- Get the first blocking or walkable node below neighbor
 
-	-- add 2 nodes to drop height because:
-	-- 1 node for the starting height, 1 node for the floor (on which we drop on top)
-	drop_height = drop_height + 2
+	-- add 1 node to drop height because
+	-- we need an 1 node offset for the floor (on which we drop on top)
+	drop_height = drop_height + 1
 
 	local floor = vertical_walk(dpos, -1, drop_height, blocking_or_walkable, true, get_node)
 	if not floor then
@@ -301,6 +303,11 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 	if nh.blocking(start_node) then
 		-- Start position blocked
 		return nil, "pos1_blocked"
+	end
+
+	pos1 = drop_down(pos1, max_drop, nh, get_node)
+	if not pos1 then
+		return nil, "pos1_too_high"
 	end
 
 	local start_hash = minetest.hash_node_position(pos1)
