@@ -113,6 +113,33 @@ local function vertical_walk(start_pos, vdir, max_height, stop_func, stop_value,
 	end
 end
 
+local function drop_down(pos, drop_height, nh, get_node)
+	local blocking_or_walkable = function(node)
+		return nh.blocking(node) or nh.walkable(node)
+	end
+	local dpos = table.copy(pos)
+	-- Get the first blocking or walkable node below neighbor
+
+	-- add 2 nodes to drop height because:
+	-- 1 node for the starting height, 1 node for the floor (on which we drop on top)
+	drop_height = drop_height + 2
+
+	local floor = vertical_walk(dpos, -1, drop_height, blocking_or_walkable, true, get_node)
+	if not floor then
+		return nil
+	end
+
+	local fnode = get_node(floor)
+	if nh.blocking(fnode) and not nh.walkable(fnode) then
+		-- If node is blocking but not walkable, we must not take it;
+		-- its a potential danger
+		return nil
+	else
+		floor.y = floor.y + 1
+		return floor
+	end
+end
+
 local function get_neighbor_floor_pos(neighbor_pos, current_pos, clear_height, jump_height, drop_height, climb, nh, get_node)
 	local npos = table.copy(neighbor_pos)
 	local nnode = get_node(npos)
@@ -132,24 +159,8 @@ local function get_neighbor_floor_pos(neighbor_pos, current_pos, clear_height, j
 	end
 	-- Drop down
 	if not nh.walkable(nnode) then
-		drop_height = drop_height + 1
-		local blocking_or_walkable = function(node)
-			return nh.blocking(node) or nh.walkable(node)
-		end
-		-- Get the first blocking or walkable node below neighbor
-		local floor = vertical_walk(npos, -1, drop_height, blocking_or_walkable, true, get_node)
-		if not floor then
-			return nil
-		end
-		local fnode = get_node(floor)
-		if nh.blocking(fnode) and not nh.walkable(fnode) then
-			-- If node is blocking but not walkable, we must not take it;
-			-- its a potential danger
-			return nil
-		else
-			floor.y = floor.y + 1
-			return floor
-		end
+		local floor = drop_down(npos, drop_height, nh, get_node)
+		return floor
 	-- Jump
 	else
 		-- Get the first non-walkable node above the neighbor
