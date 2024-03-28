@@ -2,6 +2,7 @@
 local PATH_DEBUG = true
 -- How close mob needs to be to waypoint of pathfinder before continuing
 local PATH_DISTANCE_TO_GOAL_POINT = 0.7
+local PATH_H_DISTANCE_TO_GOAL_POINT = 0.1
 
 -- If mob is stuck in pathfinding microtask for this many seconds, give up
 local PATH_STUCK_GIVE_UP_TIME = 5.0
@@ -139,15 +140,34 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 		-- Get next target position
 		local next_pos = self.statedata.path[1]
 		local mob_pos = mob.object:get_pos()
+
+		local next_pos_h = table.copy(next_pos)
+		local mob_pos_h = table.copy(mob_pos)
+		next_pos_h.y = 0
+		mob_pos_h.y = 0
+
 		if self.statedata.path[2] then
 			local dist_mob_to_next = vector.distance(mob_pos, next_pos)
-			local dist_mob_to_next_next = vector.distance(mob_pos, self.statedata.path[2])
-			if dist_mob_to_next < PATH_DISTANCE_TO_GOAL_POINT or dist_mob_to_next_next < dist_mob_to_next then
+			local h_dist_mob_to_next = vector.distance(mob_pos_h, next_pos_h)
+
+			local crossed = false
+			if self.statedata.walkdir then
+				local walkdir = {}
+				walkdir.x = math.sign(next_pos.x - mob_pos.x)
+				walkdir.z = math.sign(next_pos.z - mob_pos.z)
+				crossed = self.statedata.walkdir.x ~= walkdir.x or self.statedata.walkdir.z ~= walkdir.z
+			end
+
+			if crossed or (dist_mob_to_next < PATH_DISTANCE_TO_GOAL_POINT and h_dist_mob_to_next < PATH_H_DISTANCE_TO_GOAL_POINT) then
 				table.remove(self.statedata.path, 1)
 				if #self.statedata.path == 0 then
 					return
 				end
 				next_pos = self.statedata.path[1]
+
+				self.statedata.walkdir = {}
+				self.statedata.walkdir.x = math.sign(next_pos.x - mob_pos.x)
+				self.statedata.walkdir.z = math.sign(next_pos.z - mob_pos.z)
 
 				-- If there's a fence below next_pos, adjust the Y coordinate
 				-- due to the overhigh collisionbox
@@ -230,14 +250,29 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 		end
 	end
 	mtask.is_finished = function(self, mob)
-		-- Finish if aborted or path is gone
+		-- Finish if aborted or path is gone or empty
 		if self.statedata.stop or not self.statedata.path or #self.statedata.path == 0 then
 			return true
 		end
-		local pos = mob.object:get_pos()
+
 		-- Finish if goal point was reached
-		local target_pos = self.statedata.path[#self.statedata.path]
-		return vector.distance(pos, target_pos) < PATH_DISTANCE_TO_GOAL_POINT
+
+		local pos = mob.object:get_pos()
+		local goal = self.statedata.path[#self.statedata.path]
+
+		local pos_h = table.copy(pos)
+		local goal_h = table.copy(goal)
+		pos_h.y = 0
+		goal_h.y = 0
+
+		local dist_mob_to_goal = vector.distance(pos, goal)
+		local h_dist_mob_to_goal = vector.distance(pos_h, goal_h)
+
+		if dist_mob_to_goal < PATH_DISTANCE_TO_GOAL_POINT and h_dist_mob_to_goal < PATH_H_DISTANCE_TO_GOAL_POINT then
+			return true
+		else
+			return false
+		end
 	end
 	mtask.on_end = function(self, mob)
 		local vel = mob.object:get_velocity()
