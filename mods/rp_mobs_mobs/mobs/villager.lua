@@ -484,67 +484,6 @@ local create_microtask_open_door = function(door_pos, walk_axis)
 	})
 end
 
--- Climb
-local create_microtask_climb = function(target, speed)
-	-- Climbing is straight movement towards a target
-	-- while gravity is disabled.
-	-- This only supports vertical climbing.
-	return rp_mobs.create_microtask({
-		label = "climb",
-		on_start = function(self, mob)
-			local mobpos = mob.object:get_pos()
-			local rmobpos = vector.round(mobpos)
-			if rmobpos.y < target.y then
-				self.statedata.dir = vector.new(0, 1, 0)
-			else
-				self.statedata.dir = vector.new(0, -1, 0)
-			end
-		end,
-		on_step = function(self, mob)
-			local mobpos = mob.object:get_pos()
-
-			-- Abort climbing if mob is no longer in climbable node
-			--[[
-			local rmobpos = vector.round(mobpos)
-			local hash = minetest.hash_node_position(rmobpos)
-			if self.statedata.last_pos_hash ~= hash then
-				local node = minetest.get_node(rmobpos)
-				local def = minetest.registered_nodes[node.name]
-				if not def or not def.climbable then
-					self.statedata.stop = true
-					return
-				end
-				self.statedata.last_pos_hash = hash
-			end
-			]]
-
-			-- Climb by setting velocity
-			local vel
-			if self.statedata.dir.y > 0 then
-				vel = vector.new(0, speed, 0)
-			else
-				vel = vector.new(0, -speed, 0)
-			end
-			mob.object:set_velocity(vel)
-		end,
-		on_end = function(self, mob)
-			mob.object:set_velocity(vector.zero())
-		end,
-		is_finished = function(self, mob)
-			if self.statedata.stop then
-				return true
-			end
-			local mobpos = mob.object:get_pos()
-			mobpos.y = mobpos.y - CLIMB_CHECK_Y_OFFSET
-			if (self.statedata.dir.y > 0 and mobpos.y >= target.y) or (self.statedata.dir.y < 0 and mobpos.y <= target.y) then
-				return true
-			else
-				return false
-			end
-		end,
-	})
-end
-
 -- Handle basic physics (gravity)
 local physics_decider = function(task_queue, mob)
 	local mt_gravity = rp_mobs.create_microtask({
@@ -638,16 +577,9 @@ local path_to_todo_list = function(path)
 	end
 	local flush_climb = function()
 		if #current_climb_path > 0 then
-			local target = table.copy(current_climb_path[#current_climb_path])
-			-- Increase climb target by 1 if climbing upwards
-			if #current_climb_path >= 2 then
-				if current_climb_path[#current_climb_path-1].y < current_climb_path[#current_climb_path].y then
-					target.y = target.y + 1
-				end
-			end
 			table.insert(todo, {
 				type = "climb",
-				pos = target,
+				path = table.copy(current_climb_path),
 			})
 			current_climb_path = {}
 		end
@@ -662,23 +594,23 @@ local path_to_todo_list = function(path)
 		local node2 = minetest.get_node(pos2)
 		local node3 = minetest.get_node(pos3)
 		local def = minetest.registered_nodes[node.name]
+		local def2 = minetest.registered_nodes[node2.name]
 		local def3 = minetest.registered_nodes[node3.name]
 
-		local going_down = false
+		local going_down, going_up = false, false
 		local next_pos
 		if p < #path then
 			next_pos = path[p+1]
 			if pos.y > next_pos.y then
 				going_down = true
+			elseif pos.y < next_pos.y then
+				going_up = true
 			end
 		end
 
 		-- Climbable node (ladder, etc.)
-		if def and (def.climbable or (def3.climbable and going_down)) then
-			if #current_climb_path == 0 then
-				table.insert(current_path, pos)
-				flush_path(current_path)
-			end
+		if (def and def.climbable) or (def3 and def3.climbable) then
+			flush_path()
 
 			table.insert(current_climb_path, pos)
 
@@ -760,8 +692,7 @@ local path_to_microtasks = function(path)
 			mt = create_microtask_open_door(entry.pos, entry.axis)
 			mt.start_animation = "idle"
 		elseif entry.type == "climb" then
-			mt = create_microtask_climb(entry.pos, CLIMB_SPEED)
-			mt.start_animation = "idle"
+			mt = rp_mobs.microtasks.follow_path_climb(entry.path, WALK_SPEED, CLIMB_SPEED, true)
 		else
 			minetest.log("error", "[rp_mobs_mobs] path_to_microtasks: Invalid entry type in TODO list!")
 			return
