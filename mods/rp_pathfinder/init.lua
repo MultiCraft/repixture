@@ -155,7 +155,7 @@ local function get_neighbor_floor_pos(neighbor_pos, current_pos, clear_height, j
 			local bpos = vector.offset(npos, 0, -1, 0)
 			local bnode = get_node(bpos)
 			if climbable(bnode) and not nh.blocking(bnode) then
-				return bpos
+				return npos
 			end
 		end
 	end
@@ -398,21 +398,21 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 		if climb then
 			current_neighbor_dirs = table.copy(neighbor_dirs)
 			if respect_climb_restrictions then
-				if climbable(current_node, 1) then
-					table.insert(current_neighbor_dirs, {x=0,y=1,z=0})
-				elseif climbable(current_node) then
-					current_max_jump = 0
-				end
-				if climbable(current_node, -1) then
+				if climbable(current_node) then
+					if climbable(current_node, 1) then
+						table.insert(current_neighbor_dirs, {x=0,y=1,z=0})
+					end
+					if climbable(current_node, -1) then
+						table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
+					end
+				else
 					table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
-				elseif climbable(current_node) then
-					current_max_drop = 0
 				end
 			else
 				if climbable(current_node) then
 					table.insert(current_neighbor_dirs, {x=0,y=1,z=0})
-					table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
 				end
+				table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
 			end
 		end
 		-- Prevent jumping from disable_jump nodes (if enabled)
