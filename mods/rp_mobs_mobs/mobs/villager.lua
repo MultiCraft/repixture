@@ -762,14 +762,63 @@ local set_random_textures = function(mob)
 	mob._custom_state.textures_chosen = true
 end
 
+-- Profession-specific drops
+local droptables = {
+	-- The drops are intentionally pretty cheap. While this allows the player
+	-- to kill villagers for loot, the reward isn't great and there
+	-- are usually more efficient methods to get these items.
+	tavernkeeper = {
+		{ name = "rp_default:apple", chance = 2, min = 1, max = 2 },
+		{ name = "rp_default:bucket", chance = 4, min = 1, max = 1 },
+	},
+	blacksmith = {
+		{ name = "rp_default:lump_coal", chance = 2, min = 1, max = 2 },
+	},
+	farmer = {
+		{ name = "rp_farming:wheat", chance = 2, min = 1, max = 3 },
+	},
+	carpenter = {
+		{ name = "rp_default:planks_oak", chance = 1, min = 1, max = 3 },
+		{ name = "rp_default:stick", chance = 3, min = 2, max = 6 },
+	},
+	butcher = {
+		{ name = "rp_default:axe_stone", chance = 8, min = 1, max = 1 },
+		{ name = "rp_mobs_mobs:meat_raw", chance = 4, min = 1, max = 1 },
+	},
+}
+
 rp_mobs.register_mob("rp_mobs_mobs:villager", {
 	description = S("Villager"),
 	tags = { peaceful = 1 },
-	drops = {
-		{ name = "rp_default:planks_oak", chance = 1, min = 1, max = 3 },
-		{ name = "rp_default:apple", chance = 2, min = 1, max = 2 },
-		{ name = "rp_default:axe_stone", chance = 5, min = 1, max = 1 },
-	},
+
+	-- Profession-specific drops
+	drop_func = function(self)
+		if (self._child) then
+			return {}
+		end
+		if not self._custom_state then
+			return {}
+		end
+		local profession = self._custom_state.profession
+		local droptable = droptables[profession]
+		if not droptable then
+			return {}
+		end
+
+		local to_drop = {}
+		for d=1, #droptable do
+			local drop = droptable[d]
+			local rnd = math.random(1, drop.chance)
+			if rnd == 1 then
+				local count = math.random(drop.min, drop.max)
+				if count > 0 then
+					drop = drop.name .. " "..count
+					table.insert(to_drop, drop)
+				end
+			end
+		end
+		return to_drop
+	end,
 	animations = {
 		["idle"] = { frame_range = { x = 0, y = 79 }, default_frame_speed = 30 },
 		["dead_static"] = { frame_range = { x = 0, y = 0 } },
