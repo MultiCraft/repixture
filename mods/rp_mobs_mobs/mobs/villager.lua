@@ -38,6 +38,8 @@ local JUMP_STRENGTH = 4
 local IDLE_TIME = 3.0
 -- How many nodes the villager can be away from nodes and entities to interact with them
 local REACH = 4.0
+-- Y offset to apply when checking if vertical climb is complete
+local CLIMB_CHECK_Y_OFFSET = 0.6
 
 -- Pathfinder stuff
 
@@ -380,17 +382,19 @@ local create_microtask_climb = function(target, speed)
 			local mobpos = mob.object:get_pos()
 
 			-- Abort climbing if mob is no longer in climbable node
+			--[[
 			local rmobpos = vector.round(mobpos)
 			local hash = minetest.hash_node_position(rmobpos)
 			if self.statedata.last_pos_hash ~= hash then
 				local node = minetest.get_node(rmobpos)
 				local def = minetest.registered_nodes[node.name]
 				if not def or not def.climbable then
-					--self.statedata.stop = true
+					self.statedata.stop = true
 					return
 				end
 				self.statedata.last_pos_hash = hash
 			end
+			]]
 
 			-- Climb by setting velocity
 			local vel
@@ -409,6 +413,7 @@ local create_microtask_climb = function(target, speed)
 				return true
 			end
 			local mobpos = mob.object:get_pos()
+			mobpos.y = mobpos.y - CLIMB_CHECK_Y_OFFSET
 			if (self.statedata.dir.y > 0 and mobpos.y >= target.y) or (self.statedata.dir.y < 0 and mobpos.y <= target.y) then
 				return true
 			else
@@ -511,7 +516,7 @@ local path_to_todo_list = function(path)
 	end
 	local flush_climb = function()
 		if #current_climb_path > 0 then
-			local target = current_climb_path[#current_climb_path]
+			local target = table.copy(current_climb_path[#current_climb_path])
 			-- Increase climb target by 1 if climbing upwards
 			if #current_climb_path >= 2 then
 				if current_climb_path[#current_climb_path-1].y < current_climb_path[#current_climb_path].y then
@@ -520,7 +525,7 @@ local path_to_todo_list = function(path)
 			end
 			table.insert(todo, {
 				type = "climb",
-				pos = current_climb_path[#current_climb_path]
+				pos = target,
 			})
 			current_climb_path = {}
 		end
@@ -530,12 +535,24 @@ local path_to_todo_list = function(path)
 	for p=1, #path do
 		local pos = path[p]
 		local pos2 = vector.offset(pos, 0, 1, 0)
+		local pos3 = vector.offset(pos, 0, -1, 0)
 		local node = minetest.get_node(pos)
 		local node2 = minetest.get_node(pos2)
+		local node3 = minetest.get_node(pos3)
 		local def = minetest.registered_nodes[node.name]
+		local def3 = minetest.registered_nodes[node3.name]
+
+		local going_down = false
+		local next_pos
+		if p < #path then
+			next_pos = path[p+1]
+			if pos.y > next_pos.y then
+				going_down = true
+			end
+		end
 
 		-- Climbable node (ladder, etc.)
-		if def and def.climbable then
+		if def and (def.climbable or (def3.climbable and going_down)) then
 			if #current_climb_path == 0 then
 				table.insert(current_path, pos)
 				flush_path(current_path)
