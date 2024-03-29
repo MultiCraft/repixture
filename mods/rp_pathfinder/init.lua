@@ -1,5 +1,5 @@
 -- Maximum allowed elements in the open list before aborting
-local MAX_OPEN = 700
+local MAX_OPEN = 300
 
 rp_pathfinder = {}
 

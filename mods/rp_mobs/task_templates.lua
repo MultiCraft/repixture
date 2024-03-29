@@ -5,7 +5,7 @@ local PATH_DISTANCE_TO_GOAL_POINT = 0.7
 local PATH_H_DISTANCE_TO_GOAL_POINT = 0.1
 
 -- If mob is stuck in pathfinding microtask for this many seconds, give up
-local PATH_STUCK_GIVE_UP_TIME = 5.0
+local PATH_STUCK_GIVE_UP_TIME = 0.7
 -- Interval to check mob position for stuck checker (seconds)
 local PATH_STUCK_RECHECK_TIME = 1.0
 -- Minimum distance a mob has to have moved to count as no longer stuck
