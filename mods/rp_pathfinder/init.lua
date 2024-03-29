@@ -405,14 +405,24 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 					if climbable(current_node, -1) then
 						table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
 					end
+					current_max_jump = 0
 				else
 					table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
 				end
 			else
 				if climbable(current_node) then
 					table.insert(current_neighbor_dirs, {x=0,y=1,z=0})
+					current_max_jump = 0
 				end
 				table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
+			end
+
+			if current_max_jump > 0 then
+				local below_pos = vector.offset(current_pos, 0, -1, 0)
+				local below_node = get_node(below_pos)
+				if climbable(below_node) then
+					current_max_jump = 0
+				end
 			end
 		end
 		-- Prevent jumping from disable_jump nodes (if enabled)
