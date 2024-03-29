@@ -231,7 +231,7 @@ local find_reachable_node = function(startpos, nodenames, searchdistance, under_
 			local timeout = PATHFINDER_TIMEOUT
 			local path = rp_pathfinder.find_path(startpos, searchpos, searchdistance, options, timeout)
 			if path then
-				return searchpos, path
+				return npos, searchpos, path
 			end
 		end
 		table.remove(nodes, r)
@@ -272,12 +272,39 @@ local create_microtask_find_path_async = function(start, target)
 	})
 end
 
+local resolve_home_bed_conflicts = function(mob)
+	local pos = mob.object:get_pos()
+	local objs = minetest.get_objects_inside_radius(pos, 5)
+	local my_home_bed = mob._custom_state.home_bed
+	if not my_home_bed then
+		return
+	end
+	for o=1, #objs do
+		local obj = objs[o]
+		local ent = obj:get_luaentity()
+		if ent and mob ~= ent and ent.name == "rp_mobs_mobs:villager" then
+			local other_home_bed = ent._custom_state.home_bed
+			if other_home_bed and vector.equals(my_home_bed, other_home_bed) then
+				local pos2 = obj:get_pos()
+				-- The villager who is further away from bed loses it
+				if vector.distance(pos, my_home_bed) > vector.distance(pos2, my_home_bed) then
+					mob._custom_state.home_bed = nil
+				else
+					ent._custom_state.home_bed = nil
+				end
+				break
+			end
+		end
+	end
+end
+
 local microtask_find_new_home_bed = rp_mobs.create_microtask({
 	label = "find new home bed",
 	singlestep = true,
 	on_step = function(self, mob, dtime)
 		if mob._custom_state.home_bed then
 			if bed.is_valid_bed(mob._custom_state.home_bed) then
+				resolve_home_bed_conflicts(mob)
 				return
 			else
 				mob._custom_state.home_bed = nil
@@ -289,7 +316,7 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 		if not mobpos then
 			return
 		end
-		local bedpos = find_reachable_node(mobpos, { "group:bed" }, MAX_HOME_BED_DISTANCE, true)
+		local bedpos = find_reachable_node(mobpos, { "rp_bed:bed_foot" }, MAX_HOME_BED_DISTANCE, true)
 		if bedpos then
 			mob._custom_state.home_bed = bedpos
 			minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." found new home bed at "..minetest.pos_to_string(bedpos))
@@ -663,7 +690,7 @@ local movement_decider = function(task_queue, mob)
 		end
 
 		if targetnodes then
-			target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
+			_, target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
 		end
 	end
 
