@@ -114,13 +114,35 @@ PATHFINDER_OPTIONS_ASYNC.use_vmanip = true
 local villager_speech = dofile(minetest.get_modpath("rp_mobs_mobs").."/mobs/villager_speech.lua")
 
 -- Returns a string for the phase of the day.
--- Possible values: "day", "night"
 local get_day_phase = function()
 	local tod = minetest.get_timeofday()
-	if tod < 0.25 or tod > 0.75 then
-		return "night"
+	-- 0:00 to 5:00
+	if tod < 0.20833 then
+		return "early_night"
+	-- 5:00 to 6:00
+	elseif tod < 0.25 then
+		return "sunrise"
+	-- 6:00 to 8:00
+	elseif tod < 0.33333 then
+		return "morning"
+	-- 8:00 to 12:00
+	elseif tod < 0.5 then
+		return "forenoon"
+	-- 12:00 to 13:00
+	elseif tod < 0.54167 then
+		return "noon"
+	-- 13:00 to 16:30
+	elseif tod < 0.6837 then
+		return "afternoon"
+	-- 16:00 to 18:30
+	elseif tod < 0.7708 then
+		return "evening"
+	-- 18:30 to 19:30
+	elseif tod < 0.8125 then
+		return "sunset"
+	-- 19:30 to 0:00
 	else
-		return "day"
+		return "late_night"
 	end
 end
 
@@ -136,6 +158,47 @@ for p=1, #professions do
 	local profession = professions[p][1]
 	professions_keys[profession] = professions[p][2]
 end
+
+local schedules = {}
+schedules.farmer = {
+	early_night = "sleep",
+	morning = "sleep",
+	sunrise = "play",
+	morning = "work",
+	forenoon = "work",
+	noon = "play",
+	afternoon = "work",
+	evening = "work",
+	sunset = "play",
+	late_night = "sleep",
+}
+schedules.butcher = schedules.farmer
+schedules.carpenter = schedules.farmer
+schedules.blacksmith = schedules.farmer
+schedules.tavernkeeper = {
+	early_night = "sleep",
+	morning = "sleep",
+	sunrise = "sleep",
+	morning = "sleep",
+	forenoon = "play",
+	noon = "work",
+	afternoon = "play",
+	evening = "play",
+	sunset = "work",
+	late_night = "work",
+}
+schedules.none = {
+	early_night = "sleep",
+	morning = "sleep",
+	sunrise = "sleep",
+	morning = "play",
+	forenoon = "play",
+	noon = "play",
+	afternoon = "play",
+	evening = "play",
+	sunset = "play",
+	late_night = "sleep",
+}
 
 local profession_exists = function(profession)
 	if professions_keys[profession] then
@@ -664,57 +727,75 @@ local movement_decider = function(task_queue, mob)
 	rp_mobs.add_task_to_task_queue(task_queue, task_find_new_home_bed)
 
 	local day_phase = get_day_phase()
+	local profession = mob._custom_state.profession
+	local schedule
+	if profession then
+		schedule = schedules[profession]
+	else
+		schedule = schedules.none
+	end
+
+	local activity = schedule[day_phase]
+	if not activity then
+		minetest.log("error", "[rp_mobs_mobs] No villager schedule for villager at "..minetest.pos_to_string(mob.object:get_pos(), 1).."! (day_phase='"..tostring(day_phase).."', profession='"..tostring(profession).."'")
+		return
+	end
+
 	local target
 	local task_label
 	local mobpos = mob.object:get_pos()
-	if day_phase == "night" then
-		-- Go to home bed at night
+	if activity == "sleep" then
+		-- Go to home bed
 		if mob._custom_state.home_bed then
 			target = find_free_horizontal_neighbor(mob._custom_state.home_bed)
 			task_label = "walk to bed"
 		end
-	elseif day_phase == "day" then
-		-- Go to worksite or recreation site at day
-		local r = math.random(1, 2)
+	elseif activity == "work" then
+		-- Go to worksite
 		local profession = mob._custom_state.profession
 		local targetnodes
 		local under_air = true
-		if r == 1 then
-			-- profession
-			task_label = "walk to workplace"
-			if profession == "farmer" then
-				targetnodes = { "group:farming_plant" }
-				under_air = true
-			elseif profession == "blacksmith" then
-				targetnodes = { "group:furnace" }
-				under_air = false
-			elseif profession == "tavernkeeper" then
-				targetnodes = { "rp_decor:barrel" }
-				under_air = false
-			elseif profession == "butcher" then
-				targetnodes = { "group:furnace" }
-				under_air = true
-			elseif profession == "carpenter" then
-				targetnodes = { "rp_default:bookshelf" }
-				under_air = false
-			end
-		else
-			-- recreational
-			task_label = "walk to recreation site"
-			local a = math.random(1, 4)
-			if a == 1 then
-				targetnodes = { "group:bonfire" }
-				under_air = true
-			else
-				targetnodes = { "group:bookshelf", "group:chest", "rp_itemshow:showcase" }
-				under_air = false
-			end
+		task_label = "walk to workplace"
+		if profession == "farmer" then
+			targetnodes = { "group:farming_plant" }
+			under_air = true
+		elseif profession == "blacksmith" then
+			targetnodes = { "group:furnace" }
+			under_air = false
+		elseif profession == "tavernkeeper" then
+			targetnodes = { "rp_decor:barrel" }
+			under_air = false
+		elseif profession == "butcher" then
+			targetnodes = { "group:furnace" }
+			under_air = true
+		elseif profession == "carpenter" then
+			targetnodes = { "rp_default:bookshelf" }
+			under_air = false
 		end
-
 		if targetnodes then
 			local _
 			_, target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
 		end
+	elseif activity == "play" then
+		-- Go around sites of interest in village
+		local targetnodes
+		local under_air = true
+		task_label = "walk to recreation site"
+		local a = math.random(1, 4)
+		if a == 1 then
+			targetnodes = { "group:bonfire" }
+			under_air = true
+		else
+			targetnodes = { "group:bookshelf", "group:chest", "rp_itemshow:showcase" }
+			under_air = false
+		end
+		if targetnodes then
+			local _
+			_, target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
+		end
+	else
+		minetest.log("error", "[rp_mobs_mobs] Unknown villager schedule type: "..tostring(activity))
+		return
 	end
 
 	if target then
