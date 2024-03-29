@@ -304,14 +304,8 @@ local find_reachable_node = function(startpos, nodenames, searchdistance, under_
 			searchpos = npos
 		end
 		if searchpos then
-			local options = PATHFINDER_OPTIONS
-			local timeout = PATHFINDER_TIMEOUT
-			local path = rp_pathfinder.find_path(startpos, searchpos, searchdistance, options, timeout)
-			if path then
-				return npos, searchpos, path
-			end
+			return npos, searchpos
 		end
-		table.remove(nodes, r)
 	end
 end
 
@@ -884,13 +878,16 @@ local movement_decider = function(task_queue, mob)
 			label = "generate microtasks from path",
 			singlestep = true,
 			on_step = function(self, mob)
+				if not mob._temp_custom_state.follow_path then
+					return
+				end
 				local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
-					for m=1, #mts do
-						local parent_task = self.task
-						local microtask = mts[m]
-						rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
-					end
-				end,
+				for m=1, #mts do
+					local parent_task = self.task
+					local microtask = mts[m]
+					rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
+				end
+			end,
 		})
 
 		local task_walk = rp_mobs.create_task({label=task_label or "walk to somewhere"})
