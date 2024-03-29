@@ -26,8 +26,8 @@ local WORK_DISTANCE = 24
 local HOME_BED_FORGET_TIME = 10.0
 -- Time in second to check the home bed again
 local HOME_BED_RECHECK_TIME = 6.0
--- Radius within which villagers resolve home bed conflicts
-local HOME_BED_CONFLICT_RESOLVE_RADIUS = 5
+-- Radius within which villagers resolve home bed and worksite conflicts
+local SITE_CONFLICT_RESOLVE_RADIUS = 5
 -- How fast to walk
 local WALK_SPEED = 2
 -- How fast to climb
@@ -36,6 +36,8 @@ local CLIMB_SPEED = 1
 local JUMP_STRENGTH = 4
 -- Time the mob idles around
 local IDLE_TIME = 3.0
+-- Delay between attempting to find new home bed or work site
+local FIND_SITE_IDLE_TIME = 6.0
 -- How many nodes the villager can be away from nodes and entities to interact with them
 local REACH = 4.0
 -- Y offset to apply when checking if vertical climb is complete
@@ -200,6 +202,14 @@ schedules.none = {
 	late_night = "sleep",
 }
 
+local worksites = {
+	farmer = { "group:farming_plant", true },
+	blacksmith = { "group:furnace", false },
+	tavernkeeper = { "rp_decor:barrel", false },
+	butcher = { "group:furnace", true },
+	carpenter = { "rp_default:bookshelf", false },
+}
+
 local profession_exists = function(profession)
 	if professions_keys[profession] then
 		return true
@@ -339,30 +349,33 @@ local create_microtask_find_path_async = function(start, target)
 	})
 end
 
-local resolve_home_bed_conflicts = function(mob)
+-- Resolve conflicts of the villagers's villager sites with nearby villagers,
+-- i.e. when 2 or more villagers same home bed or worksite.
+-- site_type is either 'home_bed' or 'worksite'.
+local resolve_site_conflicts = function(mob, site_type)
 	local pos = mob.object:get_pos()
-	local objs = minetest.get_objects_inside_radius(pos, 5)
-	local home_beds = {}
+	local objs = minetest.get_objects_inside_radius(pos, SITE_CONFLICT_RESOLVE_RADIUS)
+	local sites = {}
 	for o=1, #objs do
 		local obj = objs[o]
 		local ent = obj:get_luaentity()
 		if ent and ent.name == "rp_mobs_mobs:villager" then
-			local home_bed = ent._custom_state.home_bed
-			if home_bed then
-				local hash = minetest.hash_node_position(home_bed)
-				if home_beds[hash] then
-					table.insert(home_beds[hash], ent)
+			local site = ent._custom_state[site_type]
+			if site then
+				local hash = minetest.hash_node_position(site)
+				if sites[hash] then
+					table.insert(sites[hash], ent)
 				else
-					home_beds[hash] = { ent }
+					sites[hash] = { ent }
 				end
 			end
 		end
 	end
 
-	for hash, users in pairs(home_beds) do
+	for hash, users in pairs(sites) do
 		if #users >= 2 then
 			for u=2, #users do
-				users[u]._custom_state.home_bed = nil
+				users[u]._custom_state[site_type] = nil
 			end
 		end
 	end
@@ -374,7 +387,7 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 	on_step = function(self, mob, dtime)
 		if mob._custom_state.home_bed then
 			if bed.is_valid_bed(mob._custom_state.home_bed) then
-				resolve_home_bed_conflicts(mob)
+				resolve_site_conflicts(mob, "home_bed")
 				return
 			else
 				mob._custom_state.home_bed = nil
@@ -390,6 +403,58 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 		if bedpos then
 			mob._custom_state.home_bed = bedpos
 			minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." found new home bed at "..minetest.pos_to_string(bedpos))
+		end
+	end,
+})
+
+local is_valid_worksite = function(pos, profession)
+	local expected_worksite = worksites[profession]
+	if not expected_worksite then
+		return false
+	end
+	local node = minetest.get_node(pos)
+	local expected_nodename = expected_worksite[1]
+	if string.sub(expected_nodename, 1, 6) == "group:" then
+		local groupname = string.sub(expected_nodename, 7)
+		return minetest.get_item_group(node.name, groupname) ~= 0
+	else
+		return node.name == expected_nodename
+	end
+end
+
+local microtask_find_new_worksite = rp_mobs.create_microtask({
+	label = "find new worksite",
+	singlestep = true,
+	on_step = function(self, mob, dtime)
+		local profession = mob._custom_state.profession
+		if mob._custom_state.worksite then
+			if is_valid_worksite(mob._custom_state.worksite, profession) then
+				resolve_site_conflicts(mob, "worksite")
+			else
+				mob._custom_state.worksite = nil
+				local mobpos = mob.object:get_pos()
+				minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." lost their worksite")
+			end
+			return
+		end
+		local mobpos = mob.object:get_pos()
+		if not mobpos then
+			return
+		end
+
+		local targetnodes
+		local under_air = true
+		if worksites[profession] then
+			targetnodes = worksites[profession][1]
+			under_air = worksites[profession][2]
+		end
+		local target
+		if targetnodes then
+			target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
+		end
+		if target then
+			mob._custom_state.worksite = target
+			minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." found new worksite at "..minetest.pos_to_string(target))
 		end
 	end,
 })
@@ -722,10 +787,6 @@ local movement_decider = function(task_queue, mob)
 	rp_mobs.add_microtask_to_task(mob, mt_sleep, task_stand)
 	rp_mobs.add_task_to_task_queue(task_queue, task_stand)
 
-	local task_find_new_home_bed = rp_mobs.create_task({label="find new home bed"})
-	rp_mobs.add_microtask_to_task(mob, microtask_find_new_home_bed, task_find_new_home_bed)
-	rp_mobs.add_task_to_task_queue(task_queue, task_find_new_home_bed)
-
 	local day_phase = get_day_phase()
 	local profession = mob._custom_state.profession
 	local schedule
@@ -752,29 +813,14 @@ local movement_decider = function(task_queue, mob)
 		end
 	elseif activity == "work" then
 		-- Go to worksite
-		local profession = mob._custom_state.profession
-		local targetnodes
-		local under_air = true
-		task_label = "walk to workplace"
-		if profession == "farmer" then
-			targetnodes = { "group:farming_plant" }
-			under_air = true
-		elseif profession == "blacksmith" then
-			targetnodes = { "group:furnace" }
-			under_air = false
-		elseif profession == "tavernkeeper" then
-			targetnodes = { "rp_decor:barrel" }
-			under_air = false
-		elseif profession == "butcher" then
-			targetnodes = { "group:furnace" }
-			under_air = true
-		elseif profession == "carpenter" then
-			targetnodes = { "rp_default:bookshelf" }
-			under_air = false
-		end
-		if targetnodes then
-			local _
-			_, target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
+		if mob._custom_state.worksite then
+			if profession == "farmer" then
+				-- Farmer's worksite is crops, so we can stand directly on top
+				target = mob._custom_state.worksite
+			else
+				target = find_free_horizontal_neighbor(mob._custom_state.worksite)
+			end
+			task_label = "walk to workplace"
 		end
 	elseif activity == "play" then
 		-- Go around sites of interest in village
@@ -823,6 +869,18 @@ local movement_decider = function(task_queue, mob)
 
 		rp_mobs.add_task_to_task_queue(task_queue, task_walk)
 	end
+end
+
+local find_sites_decider = function(task_queue, mob)
+	local task = rp_mobs.create_task({label="find new home bed and worksite"})
+	local mt_sleep = rp_mobs.microtasks.sleep(FIND_SITE_IDLE_TIME)
+
+	rp_mobs.add_microtask_to_task(mob, microtask_find_new_home_bed, task)
+	rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
+	rp_mobs.add_microtask_to_task(mob, microtask_find_new_worksite, task)
+	rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
+
+	rp_mobs.add_task_to_task_queue(task_queue, task)
 end
 
 local heal_decider = function(task_queue, mob)
@@ -980,10 +1038,12 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 			local movement_task_queue = rp_mobs.create_task_queue(movement_decider)
 			local heal_task_queue = rp_mobs.create_task_queue(heal_decider)
 			local angry_task_queue = rp_mobs.create_task_queue(rp_mobs_mobs.create_angry_cooldown_decider(VIEW_RANGE, ANGRY_COOLDOWN_TIME))
+			local find_sites_task_queue = rp_mobs.create_task_queue(find_sites_decider)
 			rp_mobs.add_task_queue(self, physics_task_queue)
 			rp_mobs.add_task_queue(self, movement_task_queue)
 			rp_mobs.add_task_queue(self, heal_task_queue)
 			rp_mobs.add_task_queue(self, angry_task_queue)
+			rp_mobs.add_task_queue(self, find_sites_task_queue)
 
 			if not self._custom_state.profession then
 				set_random_profession(self)
