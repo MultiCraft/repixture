@@ -57,14 +57,48 @@ local function get_distance_2d(pos1, pos2)
 	return distX + distZ
 end
 
--- 3D distance heuristic between pos1 and pos2
-local function get_distance_3d(pos1, pos2)
-	local distX = math.abs(pos1.x - pos2.x)
-	local distY = math.abs(pos1.y - pos2.y)
-	local distZ = math.abs(pos1.z - pos2.z)
-
-	-- Manhattan distance
-	return distX + distY + distZ
+-- Get actual cost to walk from pos1 to pos2 (which must be a neighbor)
+local function get_neighbor_cost(pos1, pos2, get_node)
+	local floor = vector.offset(pos2, 0, -1, 0)
+	local floornode = get_node(floor)
+	local fnn = floornode.name
+	if fnn == "rp_default:heated_dirt_path" then
+		return 1
+	elseif minetest.get_item_group(fnn, "path") ~= 0 then
+		return 3
+	elseif minetest.get_item_group(fnn, "stone") ~= 0 or
+			minetest.get_item_group(fnn, "bricks") ~= 0 or
+			fnn == "rp_default:cobble" or
+			fnn == "rp_default:compressed_sandstone" or
+			fnn == "rp_default:reinforced_compressed_sandstone" or
+			fnn == "rp_default:reinforced_frame" or
+			fnn == "rp_default:reinforced_cobble" or
+			fnn == "rp_default:frame" or
+			fnn == "rp_default:glass" or
+			fnn == "rp_mobs_mobs:wool" or
+			fnn == "rp_mobs_mobs:wool_painted" or
+			fnn == "rp_default:block_bronze" or
+			fnn == "rp_default:block_steel" or
+			fnn == "rp_default:block_carbon_steel" or
+			fnn == "rp_default:block_wrought_iron" or
+			fnn == "rp_default:block_tin" or
+			fnn == "rp_default:block_copper" or
+			minetest.get_item_group(fnn, "planks") ~= 0 then
+		return 6
+	elseif minetest.get_item_group(fnn, "furnace") ~= 0 or
+			minetest.get_item_group(fnn, "chest") ~= 0 or
+			minetest.get_item_group(fnn, "bed") ~= 0 or
+			fnn == "rp_itemshow:showcase" or
+			fnn == "rp_default:bookshelf" or
+			fnn == "rp_decor:barrel" or
+			fnn == "rp_music:player" or
+			fnn == "rp_jewel:bench" then
+		return 50
+	elseif fnn == "rp_default:cactus" or fnn == "rp_tnt:tnt" or fnn == "rp_tnt:tnt_burning" then
+		return 100
+	else
+		return 9
+	end
 end
 
 -- Checks nodes above pos to be non-blocking.
@@ -360,7 +394,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 
 	-- Add the first search node to open set at the start
 
-	local h_first = get_distance_3d(pos1, pos2)
+	local h_first = get_neighbor_cost(pos1, pos2, get_node)
 	set_search_node(open_set, start_hash, {
 		pos = pos1,
 		parent = nil,
@@ -472,7 +506,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 				local g = 0 -- cost from start
 				local h -- estimated cost from search node to finish
 				local f -- g+h
-				local neighbor_cost = current_data.g + get_distance_3d(current_data.pos, neighbor.pos)
+				local neighbor_cost = current_data.g + get_neighbor_cost(current_data.pos, neighbor.pos, get_node)
 				local neighbor_data = get_search_node(open_set, neighbor.hash)
 				local neighbor_exists
 				if neighbor_data then
@@ -482,7 +516,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 					neighbor_exists = false
 				end
 				if not neighbor_exists or neighbor_cost < g then
-					h = get_distance_3d(neighbor.pos, pos2)
+					h = get_neighbor_cost(neighbor.pos, pos2, get_node)
 					g = neighbor_cost
 					f = g + h
 					set_search_node(open_set, neighbor.hash, {
