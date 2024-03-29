@@ -26,6 +26,8 @@ local WORK_DISTANCE = 24
 local HOME_BED_FORGET_TIME = 10.0
 -- Time in second to check the home bed again
 local HOME_BED_RECHECK_TIME = 6.0
+-- Radius within which villagers resolve home bed conflicts
+local HOME_BED_CONFLICT_RESOLVE_RADIUS = 5
 -- How fast to walk
 local WALK_SPEED = 2
 -- How fast to climb
@@ -275,24 +277,27 @@ end
 local resolve_home_bed_conflicts = function(mob)
 	local pos = mob.object:get_pos()
 	local objs = minetest.get_objects_inside_radius(pos, 5)
-	local my_home_bed = mob._custom_state.home_bed
-	if not my_home_bed then
-		return
-	end
+	local home_beds = {}
 	for o=1, #objs do
 		local obj = objs[o]
 		local ent = obj:get_luaentity()
-		if ent and mob ~= ent and ent.name == "rp_mobs_mobs:villager" then
-			local other_home_bed = ent._custom_state.home_bed
-			if other_home_bed and vector.equals(my_home_bed, other_home_bed) then
-				local pos2 = obj:get_pos()
-				-- The villager who is further away from bed loses it
-				if vector.distance(pos, my_home_bed) > vector.distance(pos2, my_home_bed) then
-					mob._custom_state.home_bed = nil
+		if ent and ent.name == "rp_mobs_mobs:villager" then
+			local home_bed = ent._custom_state.home_bed
+			if home_bed then
+				local hash = minetest.hash_node_position(home_bed)
+				if home_beds[hash] then
+					table.insert(home_beds[hash], ent)
 				else
-					ent._custom_state.home_bed = nil
+					home_beds[hash] = { ent }
 				end
-				break
+			end
+		end
+	end
+
+	for hash, users in pairs(home_beds) do
+		if #users >= 2 then
+			for u=2, #users do
+				users[u]._custom_state.home_bed = nil
 			end
 		end
 	end
@@ -690,6 +695,7 @@ local movement_decider = function(task_queue, mob)
 		end
 
 		if targetnodes then
+			local _
 			_, target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
 		end
 	end
