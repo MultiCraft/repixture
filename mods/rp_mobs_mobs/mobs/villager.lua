@@ -790,7 +790,7 @@ local movement_decider = function(task_queue, mob)
 	-- Test if mob is stuck and unstuck it if that's the case
 	local mobpos = mob.object:get_pos()
 	local umobpos = vector.offset(mobpos, 0, -0.5, 0)
-	local rmobpos = vector.round(rmobpos)
+	local rmobpos = vector.round(umobpos)
 	local mnode = minetest.get_node(rmobpos)
 	if is_node_blocking(mnode) then
 		-- Mob is stuck in some solid node;
