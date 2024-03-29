@@ -836,6 +836,8 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 		initial_properties = {
 			hp_max = 20,
 			physical = true,
+			-- disable object collision to simplify pathfinding
+			collide_with_objects = false,
 			collisionbox = { -0.35, -1.0, -0.35, 0.35, 0.77, 0.35},
 			selectionbox = { -0.32, -1.0, -0.22, 0.32, 0.77, 0.22, rotate=true},
 			visual = "mesh",
