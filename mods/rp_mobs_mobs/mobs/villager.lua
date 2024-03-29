@@ -787,6 +787,37 @@ local movement_decider = function(task_queue, mob)
 	rp_mobs.add_microtask_to_task(mob, mt_sleep, task_stand)
 	rp_mobs.add_task_to_task_queue(task_queue, task_stand)
 
+	-- Test if mob is stuck and unstuck it if that's the case
+	local mobpos = mob.object:get_pos()
+	local umobpos = vector.offset(mobpos, 0, -0.5, 0)
+	local rmobpos = vector.round(rmobpos)
+	local mnode = minetest.get_node(rmobpos)
+	if is_node_blocking(mnode) then
+		-- Mob is stuck in some solid node;
+		-- try to find a free neighbor.
+		local target = find_free_horizontal_neighbor(rmobpos)
+		if not target then
+			target = find_free_horizontal_neighbor(vector.offset(rmobpos, 0, 1, 0))
+			if not target then
+				return
+			end
+		end
+
+		-- Add a minimal microtask to walk to a neighboring free node
+		mob._temp_custom_state.follow_path = {target}
+		local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
+		local task_walk = rp_mobs.create_task({label="get unstuck"})
+		for m=1, #mts do
+			local microtask = mts[m]
+			rp_mobs.add_microtask_to_task(mob, microtask, task_walk)
+		end
+
+		rp_mobs.add_task_to_task_queue(task_queue, task_walk)
+		return
+	end
+
+	-- Regular day activity based on schedule: Go to bed, go to work or play
+
 	local day_phase = get_day_phase()
 	local profession = mob._custom_state.profession
 	local schedule
@@ -804,7 +835,6 @@ local movement_decider = function(task_queue, mob)
 
 	local target
 	local task_label
-	local mobpos = mob.object:get_pos()
 	if activity == "sleep" then
 		-- Go to home bed
 		if mob._custom_state.home_bed then
