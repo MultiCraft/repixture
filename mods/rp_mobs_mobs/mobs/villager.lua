@@ -758,17 +758,21 @@ local movement_decider = function(task_queue, mob)
 		return
 	end
 
-	local target
+	-- target is the position where we actually go to;
+	-- target_block is the position of the block we target
+	local target, target_block
 	local task_label
 	if activity == "sleep" then
 		-- Go to home bed
 		if mob._custom_state.home_bed then
+			target_block = mob._custom_state.home_bed
 			target = find_free_horizontal_neighbor(mob._custom_state.home_bed)
 			task_label = "walk to bed"
 		end
 	elseif activity == "work" then
 		-- Go to worksite
 		if mob._custom_state.worksite then
+			target_block = mob._custom_state.worksite
 			if profession == "farmer" then
 				-- Farmer's worksite is crops, so we can stand directly on top
 				target = mob._custom_state.worksite
@@ -791,41 +795,46 @@ local movement_decider = function(task_queue, mob)
 			under_air = false
 		end
 		if targetnodes then
-			local _
-			_, target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
+			target_block, target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
 		end
 	else
 		minetest.log("error", "[rp_mobs_mobs] Unknown villager schedule type: "..tostring(activity))
 		return
 	end
 
-	if target then
-		-- First find the path asynchronously ...
-		local mt_find_path = create_microtask_find_path_async(mobpos, target)
-		mt_find_path.start_animation = "idle"
+	if target and target_block then
+		-- Check if we are already close to the target block.
+		-- If yes, no need to pathfind again.
+		local dist = vector.distance(mobpos, target_block)
+		local ydist = math.abs(target_block.y - mobpos.y)
+		if dist >= 1.42 or ydist >= 1 then
+			-- First find the path asynchronously ...
+			local mt_find_path = create_microtask_find_path_async(mobpos, target)
+			mt_find_path.start_animation = "idle"
 
-		-- ... then follow it
-		local mt_generate_microtasks = rp_mobs.create_microtask({
-			label = "generate microtasks from path",
-			singlestep = true,
-			on_step = function(self, mob)
-				if not mob._temp_custom_state.follow_path then
-					return
-				end
-				local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
-				for m=1, #mts do
-					local parent_task = self.task
-					local microtask = mts[m]
-					rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
-				end
-			end,
-		})
+			-- ... then follow it
+			local mt_generate_microtasks = rp_mobs.create_microtask({
+				label = "generate microtasks from path",
+				singlestep = true,
+				on_step = function(self, mob)
+					if not mob._temp_custom_state.follow_path then
+						return
+					end
+					local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
+					for m=1, #mts do
+						local parent_task = self.task
+						local microtask = mts[m]
+						rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
+					end
+				end,
+			})
 
-		local task_walk = rp_mobs.create_task({label=task_label or "walk to somewhere"})
-		rp_mobs.add_microtask_to_task(mob, mt_find_path, task_walk)
-		rp_mobs.add_microtask_to_task(mob, mt_generate_microtasks, task_walk)
+			local task_walk = rp_mobs.create_task({label=task_label or "walk to somewhere"})
+			rp_mobs.add_microtask_to_task(mob, mt_find_path, task_walk)
+			rp_mobs.add_microtask_to_task(mob, mt_generate_microtasks, task_walk)
 
-		rp_mobs.add_task_to_task_queue(task_queue, task_walk)
+			rp_mobs.add_task_to_task_queue(task_queue, task_walk)
+		end
 	end
 end
 
