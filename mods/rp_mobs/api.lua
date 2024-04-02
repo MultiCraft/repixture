@@ -561,6 +561,9 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 			end
 		end
 
+		local microtaskFinished = false
+		local microtaskSuccess
+
 		-- Remove microtask if completed
 		local activeMicroTask
 		if not task_queue_done then
@@ -568,12 +571,15 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 			if not activeMicroTask.has_started and activeMicroTask.on_start then
 				activeMicroTask:on_start(self)
 			end
-			if not activeMicroTask.singlestep and activeMicroTask:is_finished(self) then
-				if activeMicroTask.on_end then
-					activeMicroTask:on_end(self)
+			if not activeMicroTask.singlestep then
+				microtaskFinished, microtaskSuccess = activeMicroTask:is_finished(self)
+				if microtaskFinished then
+					if activeMicroTask.on_end then
+						activeMicroTask:on_end(self)
+					end
+					activeTask.microTasks:remove(activeMicroTaskEntry)
+					task_queue_done = true
 				end
-				activeTask.microTasks:remove(activeMicroTaskEntry)
-				task_queue_done = true
 			end
 		end
 
@@ -594,11 +600,17 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 
 		-- If singlestep is set, finish microtask after its first and only step
 		if not task_queue_done and activeMicroTask.singlestep then
+			microtaskFinished, microtaskSuccess = true, true
 			if activeMicroTask.on_end then
 				activeMicroTask:on_end(self)
 			end
 			activeTask.microTasks:remove(activeMicroTaskEntry)
 			task_queue_done = true
+		end
+
+		-- If microtask failed, clear the whole task
+		if microtaskFinished == true and microtaskSuccess == false then
+			activeTask.microTasks:removeAll()
 		end
 
 		-- Select next task queue

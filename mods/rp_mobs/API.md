@@ -15,7 +15,7 @@ In this mod, a "mob" refers a non-player entity with added capabilities like a t
 
 The heart of this mod are tasks. A task is a single defined goal that a mob has to achieve in some manner. Every task can either succeed or fail. Tasks include high-level goals such as "find and eat food", "flee from the player", "kill the player", "roam randomly", etc.
 
-Additionally, every task consists of a number of microtasks. These are intended for more low-level and simple activities such as "go to point XYZ", "jump", "attack in direction A".
+Additionally, every task consists of a number of microtasks. These are intended for more low-level and simple activities such as "go to point XYZ", "jump", "attack in direction A". Microtasks are executed sequentially and can either succeed or fail. If a microtask fails, the task it is part of will end. If all microtasks in a task have finished, the task also ends.
 
 To use tasks, they must be initialized by calling `rp_mobs.init_tasks` in `on_activate` and be handled (i.e. executed) every step by calling `rp_mobs.handle_tasks` in `on_step`.
 
@@ -99,7 +99,10 @@ A microtask is a table with the following fields:
 
 * `label`: Same as for tasks
 * `on_step`: Called every step of the mob. Handle the microtask behavior here
-* `is_finished`: Must return true if the microtask is complete, false otherwise
+* `is_finished`: Must returns `<finished>, <success>`
+  `<finished>` must be `true` once the microtask is finished.
+  `<success>` (optional) can be set when the microtask finished to either `true`
+  if it *successfully* finishes (default) or `false` if it finishes in failure
 * `on_end`: Called when the microtask has ended. Useful for cleaning up state
 * `on_start`: Called when the microtask has begun. Called just before `on_step`
 * `singlestep`: If true, this microtask will run for only 1 step and automatically finishes (default: false)
@@ -125,6 +128,12 @@ finishes (skipping the next `on_step`), causing `on_end` to get called.
 
 In case of a `singlestep` microtask, the execution order is simply `on_start`,
 `on_step` (once) and `on_end`. `is_finished` is not called.
+
+When a microtask finishes, it either ends in success or failure. The default
+is success. Setting the `success` return value of `is_finished` to `false` will
+finish the microtask in failure. If a microtask finished in failure, the task
+it contains will end, skipping the remaining microtasks. `singlestep` microtasks always end
+in success.
 
 The `statedata` field can be used to associate arbitrary data with the microtask in
 order to preserve some state. You may read and write to it in functions
@@ -706,6 +715,7 @@ Add the microtask `microtask` to the specified `task`. Will also initialize the 
 
 Ends the currently active task in the given `task_queue` of `mob`.
 If the task queue is empty, nothing happens.
+
 
 
 

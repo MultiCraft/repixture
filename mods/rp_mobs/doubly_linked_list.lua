@@ -9,6 +9,7 @@ Function documentation:
 * list:insertBefore(data, previous): Insert data before the entry 'previous'. data MUST NOT be nil. Returns entry
 * list:insertAfter(data, nexxt): Insert data after the entry 'nexxt'. data MUST NOT be nil. Returns entry
 * list:remove(entry): Removes entry from list
+* list:removeAll(): Removes all entries from list
 * list:find(data, reverse): Returns the first entry that is equal to data and returns it.
        Returns nil if it does not exist. If `reverse` is `true`, will traverse the list backwards instead
 * list:iterator(reverse): Returns a function that will return a new element data each time it is called,
@@ -119,6 +120,10 @@ local remove = function(self, entryToRemove)
 		self.first = neighborNext
 	end
 end
+local removeAll = function(self)
+	self.first = nil
+	self.last = nil
+end
 
 local find = function(self, dataToFind, inReverse)
 	local entry
@@ -191,6 +196,7 @@ rp_mobs.DoublyLinkedList = function()
 	dllist.insertAfter = insertAfter
 	dllist.insertBefore = insertBefore
 	dllist.remove = remove
+	dllist.removeAll = removeAll
 	dllist.find = find
 	dllist.iterator = iterator
 	dllist.getFirst = getFirst
