@@ -31,7 +31,8 @@ rp_mobs.add_task_to_task_queue(task_queue, task)
 
 Also, all microtasks come with a 'finish' condition. If this condition is met,
 the microtask is finished and removed from the task, continuing the processing
-with the next microtask (if any).
+with the next microtask (if any). If not noted otherwise, the microtask
+finishes successfully.
 
 ## Microtask template reference
 
@@ -100,6 +101,8 @@ Finish condition: If any of the following is true:
 * Target is further away than `max_distance`
 * When colliding with object if `stop_at_object_collision` is true
 
+This microtask finishes successfully unless there is an error.
+
 ### `rp_mobs.microtasks.set_yaw(yaw)`
 
 Set mob yaw instantly to `yaw`. Finishes instantly.
@@ -151,8 +154,6 @@ Parameters:
 
 Finish condition: There are multiple reasons for finishing:
 
-* When the mob has reached the final position (within a small tolerance)
-* When mob was stuck and unable to continue to walk for a few seconds
-
-
+* When the mob has reached the final position (within a small tolerance) (considered success)
+* When mob was stuck and unable to continue to walk for a few seconds (considered failure)
 

@@ -83,6 +83,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 	mtask.on_start = function(self, mob)
 		self.statedata.walking = false
 		self.statedata.stop = false
+		self.statedata.success = true
 
 		-- Counts up when mob is stuck at the same position
 		self.statedata.stuck_timer = 0
@@ -120,6 +121,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 				-- Mob is stuck for too long. Give up and finish
 				if self.statedata.stuck_timer > PATH_STUCK_GIVE_UP_TIME then
 					self.statedata.stop = true
+					self.statedata.success = false
 					local vel = mob.object:get_velocity()
 					vel.x = 0
 					vel.z = 0
@@ -208,7 +210,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 	mtask.is_finished = function(self, mob)
 		-- Finish if aborted or path is gone or empty
 		if self.statedata.stop or not self.statedata.path or #self.statedata.path == 0 then
-			return true
+			return true, self.statedata.success
 		end
 
 		-- Finish if goal point was reached
@@ -225,7 +227,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 		local h_dist_mob_to_goal = vector.distance(pos_h, goal_h)
 
 		if dist_mob_to_goal < PATH_CLIMB_DISTANCE_TO_GOAL_POINT and h_dist_mob_to_goal < PATH_H_DISTANCE_TO_GOAL_POINT then
-			return true
+			return true, self.statedata.success
 		else
 			return false
 		end
@@ -250,6 +252,7 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 	mtask.on_start = function(self, mob)
 		self.statedata.walking = false
 		self.statedata.stop = false
+		self.statedata.success = true
 		self.statedata.jumping = false
 		self.statedata.jump_timer = 0
 
@@ -289,6 +292,7 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 				-- Mob is stuck for too long. Give up and finish
 				if self.statedata.stuck_timer > PATH_STUCK_GIVE_UP_TIME then
 					self.statedata.stop = true
+					self.statedata.success = false
 					local vel = mob.object:get_velocity()
 					vel.x = 0
 					vel.z = 0
@@ -417,7 +421,7 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 	mtask.is_finished = function(self, mob)
 		-- Finish if aborted or path is gone or empty
 		if self.statedata.stop or not self.statedata.path or #self.statedata.path == 0 then
-			return true
+			return true, self.statedata.success
 		end
 
 		-- Finish if goal point was reached
@@ -434,7 +438,7 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 		local h_dist_mob_to_goal = vector.distance(pos_h, goal_h)
 
 		if dist_mob_to_goal < PATH_DISTANCE_TO_GOAL_POINT and h_dist_mob_to_goal < PATH_H_DISTANCE_TO_GOAL_POINT then
-			return true
+			return true, self.statedata.success
 		else
 			return false
 		end
@@ -798,7 +802,7 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 				end
 			else
 				minetest.log("error", "[rp_mobs] Incorrect target_type provided in rp_mobs.microtask.walk_straight_towards!")
-				return true
+				return true, false
 			end
 			mypos.y = 0
 			tpos.y = 0
