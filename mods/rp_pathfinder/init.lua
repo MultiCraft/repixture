@@ -22,7 +22,7 @@ local blocking_default = walkable_default
 --    * 1: Check if can climb up (no 'disable_jump' group)
 --    * -1: Check if can climb down (no 'disable_descend' group)
 --    * nil: Ignore climb restrictions
-local function climbable(node, dir)
+local function climbable_default(node, dir)
 	local def = minetest.registered_nodes[node.name]
 	if not def then
 		return false
@@ -117,7 +117,7 @@ end
 -- and returns the final node we land *in*
 local function drop_down(pos, drop_height, stop_at_climb, nh, get_node)
 	local stop = function(node)
-		return nh.blocking(node) or nh.walkable(node) or (stop_at_climb and climbable(node))
+		return nh.blocking(node) or nh.walkable(node) or (stop_at_climb and nh.climbable(node))
 	end
 	local dpos = table.copy(pos)
 	-- Get the first blocking or walkable node below neighbor
@@ -148,13 +148,13 @@ local function get_neighbor_floor_pos(neighbor_pos, current_pos, clear_height, j
 	-- Climb
 	if climb then
 		-- If neighbor is climbable
-		if climbable(nnode) and not nh.blocking(nnode) then
+		if nh.climbable(nnode) and not nh.blocking(nnode) then
 			return npos
 		-- If node *below* neighbor is climbable
 		elseif not nh.blocking(nnode) then
 			local bpos = vector.offset(npos, 0, -1, 0)
 			local bnode = get_node(bpos)
-			if climbable(bnode) and not nh.blocking(bnode) then
+			if nh.climbable(bnode) and not nh.blocking(bnode) then
 				return npos
 			end
 		end
@@ -286,6 +286,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 	local nh = {
 		walkable = options.handler_walkable or walkable_default,
 		blocking = options.handler_blocking or blocking_default,
+		climbable = options.handler_climbable or climbable_default,
 	}
 	local get_node
 	if options.use_vmanip then
@@ -398,11 +399,11 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 		if climb then
 			current_neighbor_dirs = table.copy(neighbor_dirs)
 			if respect_climb_restrictions then
-				if climbable(current_node) then
-					if climbable(current_node, 1) then
+				if nh.climbable(current_node) then
+					if nh.climbable(current_node, 1) then
 						table.insert(current_neighbor_dirs, {x=0,y=1,z=0})
 					end
-					if climbable(current_node, -1) then
+					if nh.climbable(current_node, -1) then
 						table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
 					end
 					current_max_jump = 0
@@ -410,7 +411,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 					table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
 				end
 			else
-				if climbable(current_node) then
+				if nh.climbable(current_node) then
 					table.insert(current_neighbor_dirs, {x=0,y=1,z=0})
 					current_max_jump = 0
 				end
@@ -420,7 +421,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 			if current_max_jump > 0 then
 				local below_pos = vector.offset(current_pos, 0, -1, 0)
 				local below_node = get_node(below_pos)
-				if climbable(below_node) then
+				if nh.climbable(below_node) then
 					current_max_jump = 0
 				end
 			end
