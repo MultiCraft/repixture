@@ -716,6 +716,9 @@ Add the microtask `microtask` to the specified `task`. Will also initialize the 
 Ends the currently active task in the given `task_queue` of `mob`.
 If the task queue is empty, nothing happens.
 
+#### `rp_mobs.clear_task_queue(mob, task_queue)`
+
+Remove all tasks in the given `task_queue`.
 
 
 

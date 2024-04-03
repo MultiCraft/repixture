@@ -460,6 +460,10 @@ rp_mobs.end_current_task_in_task_queue = function(mob, task_queue)
 	end
 end
 
+rp_mobs.clear_task_queue = function(task_queue)
+	task_queue.tasks:removeAll()
+end
+
 rp_mobs.create_task = function(def)
 	local task
 	if def then
