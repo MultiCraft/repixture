@@ -220,11 +220,37 @@ local profession_exists = function(profession)
 	end
 end
 
+local set_random_textures = function(mob)
+	local r = math.random(1, 6)
+	local tex_base = "mobs_villager_base_"..r..".png"
+	local profession = mob._custom_state.profession or "unemployed"
+	local tex_clothes = "mobs_villager_clothes_"..profession..".png"
+	local tex = { tex_base .. "^" .. tex_clothes }
+
+	mob.object:set_properties({
+		textures = tex,
+	})
+	mob._textures_adult = tex
+
+	-- Remember when the mob has chosen its initial textures
+	mob._custom_state.textures_chosen = true
+end
+
 local set_random_profession = function(mob)
 	local p = math.random(1, #professions)
 	local profession = professions[p][1]
+	rp_mobs_mobs.set_villager_profession(mob, profession)
+end
+
+-- Set profession of villager mob to the given profession.
+-- NOTE: This function must only be called right after the spawning of a villager.
+-- Calling it at a later time will change the skin!
+rp_mobs_mobs.set_villager_profession = function(mob, profession)
 	mob._custom_state.profession = profession
 	minetest.log("action", "[rp_mobs_mobs] Profession of villager at "..minetest.pos_to_string(mob.object:get_pos(), 1).." initialized as: "..tostring(profession))
+
+	set_random_textures(mob)
+	mob._custom_state.textures_chosen = true
 end
 
 -- Gets profession of villager; also initializes
@@ -958,22 +984,6 @@ local heal_decider = function(task_queue, mob)
 	local task = rp_mobs.create_task({label="regenerate health"})
 	rp_mobs.add_microtask_to_task(mob, mt_heal, task)
 	rp_mobs.add_task_to_task_queue(task_queue, task)
-end
-
-local set_random_textures = function(mob)
-	local r = math.random(1, 6)
-	local tex_base = "mobs_villager_base_"..r..".png"
-	local profession = mob._custom_state.profession or "unemployed"
-	local tex_clothes = "mobs_villager_clothes_"..profession..".png"
-	local tex = { tex_base .. "^" .. tex_clothes }
-
-	mob.object:set_properties({
-		textures = tex,
-	})
-	mob._textures_adult = tex
-
-	-- Remember when the mob has chosen its initial textures
-	mob._custom_state.textures_chosen = true
 end
 
 -- Profession-specific drops

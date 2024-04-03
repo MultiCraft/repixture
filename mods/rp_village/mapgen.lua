@@ -109,10 +109,11 @@ minetest.register_node(
                   local luaent = ent and ent:get_luaentity()
                   if luaent ~= nil then
                      -- Set villager profession
+
                      if ent_name == "rp_mobs_mobs:villager" then
                         local profession = meta:get_string("villager_profession")
                         if profession ~= "" then
-                           luaent._custom_state.profession = profession
+                           rp_mobs_mobs.set_villager_profession(luaent, profession)
                            minetest.log("info", "[rp_village] Profession of villager spawned at "..minetest.pos_to_string(pos).." set to: "..tostring(profession))
                         else
                            minetest.log("info", "[rp_village] Entity spawner at "..minetest.pos_to_string(pos).." spawned a villager but without villager_profession set in meta. Not setting profession")
