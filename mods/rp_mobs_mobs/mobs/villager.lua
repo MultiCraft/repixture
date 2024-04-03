@@ -46,6 +46,10 @@ local REACH = 4.0
 local CLIMB_CHECK_Y_OFFSET = 0.6
 -- Interval in seconds for mob to react to being in danger, blocking node, liquid, ...
 local REFLEX_TIME = 0.333
+-- Range within to search for safe dry nodes when stuck in liquid
+local LIQUID_ESCAPE_RANGE = 6
+-- Number of tries to find safe dry nodes when stuck in liquid
+local LIQUID_ESCAPE_TRIES = 10
 
 -- Pathfinder stuff
 
@@ -80,8 +84,6 @@ local is_node_blocking = function(node)
 	if not def then
 		-- Unknown nodes are blocking
 		return true
-	--elseif minetest.get_item_group(node.name, "fence") ~= 0 then
-		--return true
 	elseif minetest.get_item_group(node.name, "door") ~= 0 then
 		-- Villagers know how to open doors so they pathfind through them
 		return false
@@ -99,6 +101,38 @@ local is_node_blocking = function(node)
 	end
 end
 
+-- Same as is_node_blocking, but water is OK
+local is_node_blocking_water_ok = function(node)
+	local def = minetest.registered_nodes[node.name]
+	if not def then
+		-- Unknown nodes are blocking
+		return true
+	elseif minetest.get_item_group(node.name, "door") ~= 0 then
+		-- Villagers know how to open doors so they pathfind through them
+		return false
+	elseif def.damage_per_second > 0 then
+		-- No damage allowed
+		return true
+	elseif def.walkable then
+		-- Walkable by definition = blocking
+		return true
+	else
+		return false
+	end
+end
+
+-- Returns true if node is swimmable
+local is_node_swimmable = function(node)
+	local def = minetest.registered_nodes[node.name]
+	if not def then
+		return false
+	elseif def.liquid_move_physics == true or (def.liquid_move_physics == nil and def.liquidtype ~= "none") then
+		return true
+	else
+		return false
+	end
+end
+
 local PATHFINDER_SEARCHDISTANCE = 30
 local PATHFINDER_TIMEOUT = 1.0
 local PATHFINDER_OPTIONS = {
@@ -110,9 +144,8 @@ local PATHFINDER_OPTIONS = {
 	respect_disable_jump = true,
 	handler_walkable = is_node_walkable,
 	handler_blocking = is_node_blocking,
+	use_vmanip = true,
 }
-local PATHFINDER_OPTIONS_ASYNC = table.copy(PATHFINDER_OPTIONS)
-PATHFINDER_OPTIONS_ASYNC.use_vmanip = true
 
 
 -- Load villager speech functions
@@ -311,6 +344,36 @@ local needs_look_for_neighbor = function(nodename, nodedef)
 	return false
 end
 
+-- Checks random nodes around startpos within distance searchdistance and
+-- returns a node position that is both safe to stand on and
+-- "dry" (i.e. no liquid move physics). tries is the maximum number of
+-- node checks before giving up.
+-- Returns nil if nothing was found.
+local find_safe_and_dry_pos = function(startpos, searchdistance, tries)
+	local offset = vector.new(searchdistance, searchdistance, searchdistance)
+	local smin = vector.subtract(startpos, offset)
+	local smax = vector.add(startpos, offset)
+	for t=1, tries do
+		local pos = vector.new()
+		pos.x = math.random(smin.x, smax.x)
+		pos.y = math.random(smin.y, smax.y)
+		pos.z = math.random(smin.z, smax.z)
+		local node = minetest.get_node(pos)
+		local pos2 = vector.offset(pos, 0, 1, 0)
+		local node2 = minetest.get_node(pos2)
+		local pos3 = vector.offset(pos, 0, -1, 0)
+		local node3 = minetest.get_node(pos3)
+		-- Target position must be both non-blocking and non-swimmable (includes the node above)
+		if not is_node_blocking(node) and not is_node_blocking(node2) and
+				not is_node_swimmable(node) and not is_node_swimmable(node2) and
+				-- We must be able to stand
+				is_node_walkable(node3) then
+			return pos
+		end
+	end
+end
+
+
 local find_reachable_node = function(startpos, nodenames, searchdistance, under_air, check_site)
 	local offset = vector.new(searchdistance, searchdistance, searchdistance)
 	local smin = vector.subtract(startpos, offset)
@@ -349,8 +412,9 @@ local find_reachable_node = function(startpos, nodenames, searchdistance, under_
 end
 
 -- This microtask asynchronically searches a path from start to target.
--- When it's done, it will put the path in mob._temp_custom_state.found_path
-local create_microtask_find_path_async = function(start, target)
+-- When it's done, it will put the path in mob._temp_custom_state.found_path.
+-- options are the pathfinder options
+local create_microtask_find_path_async = function(start, target, options)
 	return rp_mobs.create_microtask({
 		label = "find path",
 		on_start = function(self, mob)
@@ -364,10 +428,10 @@ local create_microtask_find_path_async = function(start, target)
 				mob._temp_custom_state.follow_path = path
 				self.statedata.done = true
 			end
-			local options = table.copy(PATHFINDER_OPTIONS_ASYNC)
+			local options_ = table.copy(options)
 			local vmanip = rp_pathfinder.get_voxelmanip_for_path(start, target, PATHFINDER_SEARCHDISTANCE)
-			options.vmanip = vmanip
-			minetest.handle_async(find_path, callback, start, target, PATHFINDER_SEARCHDISTANCE, options, PATHFINDER_TIMEOUT)
+			options_.vmanip = vmanip
+			minetest.handle_async(find_path, callback, start, target, PATHFINDER_SEARCHDISTANCE, options_, PATHFINDER_TIMEOUT)
 		end,
 		on_step = function()
 			-- no-op
@@ -588,7 +652,7 @@ local physics_decider = function(task_queue, mob)
 				else
 					mob._temp_custom_state.in_climbable_node = false
 				end
-				if (ndef and ndef.liquid_move_physics) or (nfdef and nfdef.liquid_move_physics) then
+				if (ndef and is_node_swimmable(mob._env_node)) or (nfdef and is_node_swimmable(mob._env_node_floor)) then
 					mob._temp_custom_state.in_liquid_node = true
 				else
 					mob._temp_custom_state.in_liquid_node = false
@@ -680,8 +744,11 @@ local path_to_todo_list = function(path)
 			end
 		end
 
-		-- Climbable node (ladder, etc.)
-		if (def and def.climbable) or (def3 and def3.climbable) then
+
+		-- Climbable node (ladder, etc.).
+		-- Also: swimmable node
+		if (def and def.climbable) or (def3 and def3.climbable) or
+				is_node_swimmable(node) or is_node_swimmable(node3) then
 			flush_path()
 
 			table.insert(current_climb_path, pos)
@@ -819,6 +886,22 @@ local microtask_look_around = rp_mobs.create_microtask({
 	start_animation = "idle",
 })
 
+local microtask_generate_microtasks_from_path = rp_mobs.create_microtask({
+	label = "generate microtasks from path",
+	singlestep = true,
+	on_step = function(self, mob)
+		if not mob._temp_custom_state.follow_path then
+			return
+		end
+		local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
+		for m=1, #mts do
+			local parent_task = self.task
+			local microtask = mts[m]
+			rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
+		end
+	end,
+})
+
 local movement_decider_step = function(task_queue, mob, dtime)
 	-- Reduce load
 	if not mob._temp_custom_state.reflex_timer then
@@ -833,12 +916,12 @@ local movement_decider_step = function(task_queue, mob, dtime)
 	local mobpos = mob.object:get_pos()
 	local umobpos = vector.offset(mobpos, 0, -0.5, 0)
 	local rmobpos = vector.round(umobpos)
-	local rmobpos2 = vector.offset(umobpos, 0, 1, 0)
+	local rmobpos2 = vector.offset(rmobpos, 0, 1, 0)
 	local mnode = minetest.get_node(rmobpos)
 	local mnode2 = minetest.get_node(rmobpos2)
 
-	-- Test if mob is stuck and unstuck it if that's the case
-	if is_node_blocking(mnode) or is_node_blocking(mnode2) then
+	-- Test if mob is stuck; unstuck it if that's the case
+	if is_node_blocking_water_ok(mnode) or is_node_blocking_water_ok(mnode2) then
 		local current_task_entry = task_queue.tasks:getFirst()
 		if current_task_entry and current_task_entry.data and current_task_entry.data.label == "get unstuck" then
 			return
@@ -866,6 +949,29 @@ local movement_decider_step = function(task_queue, mob, dtime)
 
 		rp_mobs.add_task_to_task_queue(task_queue, task_walk)
 		return
+	-- Test if node is in a swimmable node; pathfind out of that if that's the case
+	elseif is_node_swimmable(mnode) or is_node_swimmable(mnode2) then
+		local current_task_entry = task_queue.tasks:getFirst()
+		if current_task_entry and current_task_entry.data and current_task_entry.data.label == "swim to safety" then
+			return
+		end
+		local safe_pos = find_safe_and_dry_pos(mobpos, LIQUID_ESCAPE_RANGE, LIQUID_ESCAPE_TRIES)
+		if safe_pos then
+			rp_mobs.clear_task_queue(task_queue)
+
+			local options = table.copy(PATHFINDER_OPTIONS)
+			options.handler_blocking = is_node_blocking_water_ok
+			options.handler_climbable = is_node_swimmable
+
+			local mt_find_path = create_microtask_find_path_async(mobpos, safe_pos, options)
+			mt_find_path.start_animation = "idle"
+
+			local task = rp_mobs.create_task({label="swim to safety"})
+			rp_mobs.add_microtask_to_task(mob, mt_find_path, task)
+			rp_mobs.add_microtask_to_task(mob, microtask_generate_microtasks_from_path, task)
+			rp_mobs.add_task_to_task_queue(task_queue, task)
+			return
+		end
 	end
 end
 
@@ -947,29 +1053,14 @@ local movement_decider_empty = function(task_queue, mob)
 		local ydist = math.abs(target_block.y - mobpos.y)
 		if dist >= 1.42 or ydist >= 1 then
 			-- First find the path asynchronously ...
-			local mt_find_path = create_microtask_find_path_async(mobpos, target)
+			local mt_find_path = create_microtask_find_path_async(mobpos, target, PATHFINDER_OPTIONS)
 			mt_find_path.start_animation = "idle"
-
-			-- ... then follow it
-			local mt_generate_microtasks = rp_mobs.create_microtask({
-				label = "generate microtasks from path",
-				singlestep = true,
-				on_step = function(self, mob)
-					if not mob._temp_custom_state.follow_path then
-						return
-					end
-					local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
-					for m=1, #mts do
-						local parent_task = self.task
-						local microtask = mts[m]
-						rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
-					end
-				end,
-			})
 
 			local task_walk = rp_mobs.create_task({label=task_label or "walk to somewhere"})
 			rp_mobs.add_microtask_to_task(mob, mt_find_path, task_walk)
-			rp_mobs.add_microtask_to_task(mob, mt_generate_microtasks, task_walk)
+
+			-- ... then follow it
+			rp_mobs.add_microtask_to_task(mob, microtask_generate_microtasks_from_path, task_walk)
 
 			rp_mobs.add_task_to_task_queue(task_queue, task_walk)
 		end
