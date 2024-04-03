@@ -917,7 +917,11 @@ end
 
 local set_random_textures = function(mob)
 	local r = math.random(1, 6)
-	local tex = { "mobs_villager"..r..".png" }
+	local tex_base = "mobs_villager_base_"..r..".png"
+	local profession = mob._custom_state.profession or "unemployed"
+	local tex_clothes = "mobs_villager_clothes_"..profession..".png"
+	local tex = { tex_base .. "^" .. tex_clothes }
+
 	mob.object:set_properties({
 		textures = tex,
 	})
@@ -1018,6 +1022,10 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 		on_activate = function(self, staticdata)
 			rp_mobs.init_mob(self)
 			rp_mobs.restore_state(self, staticdata)
+
+			if not self._custom_state.profession then
+				set_random_profession(self)
+			end
 			if not self._custom_state.textures_chosen then
 				set_random_textures(self)
 			else
@@ -1054,9 +1062,6 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 			rp_mobs.add_task_queue(self, angry_task_queue)
 			rp_mobs.add_task_queue(self, find_sites_task_queue)
 
-			if not self._custom_state.profession then
-				set_random_profession(self)
-			end
 		end,
 		on_step = function(self, dtime, moveresult)
 			rp_mobs.handle_dying(self, dtime)
