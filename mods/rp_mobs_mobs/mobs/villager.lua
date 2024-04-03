@@ -28,6 +28,8 @@ local HOME_BED_FORGET_TIME = 10.0
 local HOME_BED_RECHECK_TIME = 6.0
 -- Radius within which villagers resolve home bed and worksite conflicts
 local SITE_CONFLICT_RESOLVE_RADIUS = 5
+-- Range at which villager looks at nearby player
+local PLAYER_LOOK_AT_RANGE = 3
 -- How fast to walk
 local WALK_SPEED = 2
 -- How fast to climb
@@ -744,11 +746,54 @@ local path_to_microtasks = function(path)
 	return microtasks
 end
 
+-- Make mob look at target object (by setting yaw)
+local look_at = function(mob, target)
+	local mpos = mob.object:get_pos()
+	local tpos = target:get_pos()
+	mpos.y = 0
+	tpos.y = 0
+	local dir = vector.direction(mpos, tpos)
+	local yaw = minetest.dir_to_yaw(dir)
+	mob.object:set_yaw(yaw)
+end
+
+-- Look at random direction or nearby player
+local microtask_look_around = rp_mobs.create_microtask({
+	label = "look around",
+	singlestep = true,
+	on_step = function(self, mob, dtime)
+		local look_at_player = true
+
+		-- Villager must not be angry to look at player
+		if not mob._temp_custom_state.angry_at then
+
+			-- Pick random player in range and look at them
+			local mpos = mob.object:get_pos()
+			local objs = minetest.get_objects_inside_radius(mpos, PLAYER_LOOK_AT_RANGE)
+			local players = {}
+			for o=1, #objs do
+				local obj = objs[o]
+				if obj:is_player() then
+					table.insert(players, obj)
+				end
+			end
+			if #players > 0 then
+				local r = math.random(1, #players)
+				look_at(mob, players[r])
+				return
+			end
+		end
+
+		-- Look randomly if no player found
+		local yaw = math.random(0, 360) / 360 * (math.pi*2)
+		mob.object:set_yaw(yaw)
+	end,
+	start_animation = "idle",
+})
+
 local movement_decider = function(task_queue, mob)
 	local task_stand = rp_mobs.create_task({label="stand still"})
-	local yaw = math.random(0, 360) / 360 * (math.pi*2)
-	local mt_yaw = rp_mobs.microtasks.set_yaw(yaw)
-	rp_mobs.add_microtask_to_task(mob, mt_yaw, task_stand)
+	rp_mobs.add_microtask_to_task(mob, microtask_look_around, task_stand)
 	local mt_sleep = rp_mobs.microtasks.sleep(IDLE_TIME)
 	mt_sleep.start_animation = "idle"
 	rp_mobs.add_microtask_to_task(mob, mt_sleep, task_stand)
@@ -1061,7 +1106,6 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 			rp_mobs.add_task_queue(self, heal_task_queue)
 			rp_mobs.add_task_queue(self, angry_task_queue)
 			rp_mobs.add_task_queue(self, find_sites_task_queue)
-
 		end,
 		on_step = function(self, dtime, moveresult)
 			rp_mobs.handle_dying(self, dtime)
