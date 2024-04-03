@@ -886,21 +886,23 @@ local microtask_look_around = rp_mobs.create_microtask({
 	start_animation = "idle",
 })
 
-local microtask_generate_microtasks_from_path = rp_mobs.create_microtask({
-	label = "generate microtasks from path",
-	singlestep = true,
-	on_step = function(self, mob)
-		if not mob._temp_custom_state.follow_path then
-			return
-		end
-		local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
-		for m=1, #mts do
-			local parent_task = self.task
-			local microtask = mts[m]
-			rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
-		end
-	end,
-})
+local create_microtask_generate_microtasks_from_path = function()
+	return rp_mobs.create_microtask({
+		label = "generate microtasks from path",
+		singlestep = true,
+		on_step = function(self, mob)
+			if not mob._temp_custom_state.follow_path then
+				return
+			end
+			local mts = path_to_microtasks(mob._temp_custom_state.follow_path)
+			for m=1, #mts do
+				local parent_task = self.task
+				local microtask = mts[m]
+				rp_mobs.add_microtask_to_task(mob, microtask, parent_task)
+			end
+		end,
+	})
+end
 
 local movement_decider_step = function(task_queue, mob, dtime)
 	-- Reduce load
@@ -966,9 +968,11 @@ local movement_decider_step = function(task_queue, mob, dtime)
 			local mt_find_path = create_microtask_find_path_async(mobpos, safe_pos, options)
 			mt_find_path.start_animation = "idle"
 
+			local mt_generate_microtasks = create_microtask_generate_microtasks_from_path()
+
 			local task = rp_mobs.create_task({label="swim to safety"})
 			rp_mobs.add_microtask_to_task(mob, mt_find_path, task)
-			rp_mobs.add_microtask_to_task(mob, microtask_generate_microtasks_from_path, task)
+			rp_mobs.add_microtask_to_task(mob, mt_generate_microtasks, task)
 			rp_mobs.add_task_to_task_queue(task_queue, task)
 			return
 		end
@@ -1056,11 +1060,13 @@ local movement_decider_empty = function(task_queue, mob)
 			local mt_find_path = create_microtask_find_path_async(mobpos, target, PATHFINDER_OPTIONS)
 			mt_find_path.start_animation = "idle"
 
+			-- ... then follow it
+			local mt_generate_microtasks = create_microtask_generate_microtasks_from_path()
+
 			local task_walk = rp_mobs.create_task({label=task_label or "walk to somewhere"})
 			rp_mobs.add_microtask_to_task(mob, mt_find_path, task_walk)
 
-			-- ... then follow it
-			rp_mobs.add_microtask_to_task(mob, microtask_generate_microtasks_from_path, task_walk)
+			rp_mobs.add_microtask_to_task(mob, mt_generate_microtasks, task_walk)
 
 			rp_mobs.add_task_to_task_queue(task_queue, task_walk)
 		end
