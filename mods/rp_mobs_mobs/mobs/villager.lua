@@ -44,6 +44,8 @@ local FIND_SITE_IDLE_TIME = 6.0
 local REACH = 4.0
 -- Y offset to apply when checking if vertical climb is complete
 local CLIMB_CHECK_Y_OFFSET = 0.6
+-- Interval in seconds for mob to react to being in danger, blocking node, liquid, ...
+local REFLEX_TIME = 0.333
 
 -- Pathfinder stuff
 
@@ -817,20 +819,32 @@ local microtask_look_around = rp_mobs.create_microtask({
 	start_animation = "idle",
 })
 
-local movement_decider = function(task_queue, mob)
-	local task_stand = rp_mobs.create_task({label="stand still"})
-	rp_mobs.add_microtask_to_task(mob, microtask_look_around, task_stand)
-	local mt_sleep = rp_mobs.microtasks.sleep(IDLE_TIME)
-	mt_sleep.start_animation = "idle"
-	rp_mobs.add_microtask_to_task(mob, mt_sleep, task_stand)
-	rp_mobs.add_task_to_task_queue(task_queue, task_stand)
+local movement_decider_step = function(task_queue, mob, dtime)
+	-- Reduce load
+	if not mob._temp_custom_state.reflex_timer then
+		mob._temp_custom_state.reflex_timer = 0
+	end
+	mob._temp_custom_state.reflex_timer = mob._temp_custom_state.reflex_timer + dtime
+	if mob._temp_custom_state.reflex_timer < REFLEX_TIME then
+		return
+	end
+	mob._temp_custom_state.reflex_timer = 0
 
-	-- Test if mob is stuck and unstuck it if that's the case
 	local mobpos = mob.object:get_pos()
 	local umobpos = vector.offset(mobpos, 0, -0.5, 0)
 	local rmobpos = vector.round(umobpos)
+	local rmobpos2 = vector.offset(umobpos, 0, 1, 0)
 	local mnode = minetest.get_node(rmobpos)
-	if is_node_blocking(mnode) then
+	local mnode2 = minetest.get_node(rmobpos2)
+
+	-- Test if mob is stuck and unstuck it if that's the case
+	if is_node_blocking(mnode) or is_node_blocking(mnode2) then
+		local current_task_entry = task_queue.tasks:getFirst()
+		if current_task_entry and current_task_entry.data and current_task_entry.data.label == "get unstuck" then
+			return
+		end
+		rp_mobs.clear_task_queue(task_queue)
+
 		-- Mob is stuck in some solid node;
 		-- try to find a free neighbor.
 		local target = find_free_horizontal_neighbor(rmobpos)
@@ -853,6 +867,17 @@ local movement_decider = function(task_queue, mob)
 		rp_mobs.add_task_to_task_queue(task_queue, task_walk)
 		return
 	end
+end
+
+local movement_decider_empty = function(task_queue, mob)
+	local mobpos = mob.object:get_pos()
+
+	local task_stand = rp_mobs.create_task({label="stand still"})
+	rp_mobs.add_microtask_to_task(mob, microtask_look_around, task_stand)
+	local mt_sleep = rp_mobs.microtasks.sleep(IDLE_TIME)
+	mt_sleep.start_animation = "idle"
+	rp_mobs.add_microtask_to_task(mob, mt_sleep, task_stand)
+	rp_mobs.add_task_to_task_queue(task_queue, task_stand)
 
 	-- Regular day activity based on schedule: Go to bed, go to work or play
 
@@ -1107,7 +1132,7 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 
 			rp_mobs.init_tasks(self)
 			local physics_task_queue = rp_mobs.create_task_queue(physics_decider)
-			local movement_task_queue = rp_mobs.create_task_queue(movement_decider)
+			local movement_task_queue = rp_mobs.create_task_queue(movement_decider_empty, movement_decider_step)
 			local heal_task_queue = rp_mobs.create_task_queue(heal_decider)
 			local angry_task_queue = rp_mobs.create_task_queue(rp_mobs_mobs.create_angry_cooldown_decider(VIEW_RANGE, ANGRY_COOLDOWN_TIME))
 			local find_sites_task_queue = rp_mobs.create_task_queue(find_sites_decider)
