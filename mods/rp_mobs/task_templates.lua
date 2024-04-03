@@ -35,7 +35,15 @@ local WALK_ANGLE_RESET_THRESHOLD = 0.99
 -- target speed is considered to be reached.
 local MOVE_SPEED_MAX_DIFFERENCE = 0.01
 
-local show_pathfinder_path = function(path)
+local show_pathfinder_path = function(path, timer, dtime)
+	if timer == nil then
+		timer = 0
+	end
+	timer = timer + dtime
+	if timer < 1.0 then
+		return timer
+	end
+	timer = 0
 	local pathstr = ""
 	for p=1, #path do
 		local tex
@@ -54,6 +62,7 @@ local show_pathfinder_path = function(path)
 			glow = minetest.LIGHT_MAX,
 		})
 	end
+	return timer
 end
 
 local random_yaw = function()
@@ -100,7 +109,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 			return
 		end
 		if PATH_DEBUG then
-			show_pathfinder_path(self.statedata.path)
+			self.statedata.path_debug_timer = show_pathfinder_path(self.statedata.path, self.statedata.path_debug_timer, dtime)
 		end
 
 		-- Check if mob is stuck
@@ -271,7 +280,7 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 			return
 		end
 		if PATH_DEBUG then
-			show_pathfinder_path(self.statedata.path)
+			self.statedata.path_debug_timer = show_pathfinder_path(self.statedata.path, self.statedata.path_debug_timer, dtime)
 		end
 
 		-- Check if mob is stuck
