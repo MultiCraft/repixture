@@ -314,6 +314,7 @@ local find_reachable_node = function(startpos, nodenames, searchdistance, under_
 				return npos, searchpos
 			end
 		end
+		table.remove(nodes, r)
 	end
 end
 
