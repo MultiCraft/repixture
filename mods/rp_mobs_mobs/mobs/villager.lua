@@ -281,7 +281,7 @@ local needs_look_for_neighbor = function(nodename, nodedef)
 	return false
 end
 
-local find_reachable_node = function(startpos, nodenames, searchdistance, under_air)
+local find_reachable_node = function(startpos, nodenames, searchdistance, under_air, check_site)
 	local offset = vector.new(searchdistance, searchdistance, searchdistance)
 	local smin = vector.subtract(startpos, offset)
 	local smax = vector.add(startpos, offset)
@@ -304,7 +304,15 @@ local find_reachable_node = function(startpos, nodenames, searchdistance, under_
 			searchpos = npos
 		end
 		if searchpos then
-			return npos, searchpos
+			local taken = false
+			if check_site then
+				taken = check_site(npos)
+			end
+			if taken then
+			end
+			if not taken then
+				return npos, searchpos
+			end
 		end
 	end
 end
@@ -342,6 +350,33 @@ local create_microtask_find_path_async = function(start, target)
 		end,
 	})
 end
+
+
+-- Check if villager site at site_pos is already taken by any nearby
+-- mob besides `mob`.
+-- site_type is either 'home_bed' or 'worksite'.
+-- Returns true if site is taken, false otherwise.
+local check_site_taken = function(mob, site_pos, site_type)
+	local objs = minetest.get_objects_inside_radius(site_pos, SITE_CONFLICT_RESOLVE_RADIUS)
+	local sites = {}
+	local site_hash = minetest.hash_node_position(site_pos)
+	for o=1, #objs do
+		local obj = objs[o]
+		local ent = obj:get_luaentity()
+		if ent and ent ~= mob and ent.name == "rp_mobs_mobs:villager" then
+			local site = ent._custom_state[site_type]
+			if site then
+				local hash = minetest.hash_node_position(site)
+				if hash == site_hash then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+
+
 
 -- Resolve conflicts of the villagers's villager sites with nearby villagers,
 -- i.e. when 2 or more villagers same home bed or worksite.
@@ -393,7 +428,10 @@ local microtask_find_new_home_bed = rp_mobs.create_microtask({
 		if not mobpos then
 			return
 		end
-		local bedpos = find_reachable_node(mobpos, { "rp_bed:bed_foot" }, MAX_HOME_BED_DISTANCE, true)
+		local check_site = function(pos)
+			return check_site_taken(mob, pos, "home_bed")
+		end
+		local bedpos = find_reachable_node(mobpos, { "rp_bed:bed_foot" }, MAX_HOME_BED_DISTANCE, true, check_site)
 		if bedpos then
 			mob._custom_state.home_bed = bedpos
 			minetest.log("action", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mobpos, 1).." found new home bed at "..minetest.pos_to_string(bedpos))
@@ -444,7 +482,10 @@ local microtask_find_new_worksite = rp_mobs.create_microtask({
 		end
 		local target
 		if targetnodes then
-			target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air)
+			local check_site = function(pos)
+				return check_site_taken(mob, pos, "worksite")
+			end
+			target = find_reachable_node(mobpos, targetnodes, WORK_DISTANCE, under_air, check_site)
 		end
 		if target then
 			mob._custom_state.worksite = target
