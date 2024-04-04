@@ -90,7 +90,6 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 	local mtask = {}
 	mtask.label = "follow climb path"
 	mtask.on_start = function(self, mob)
-		self.statedata.walking = false
 		self.statedata.stop = false
 		self.statedata.success = true
 
@@ -194,7 +193,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 			vel.y = -climb_speed
 		end
 
-		-- Walk to target
+		-- Walk/climb to target
 		local dir_next_pos = table.copy(next_pos)
 		dir_next_pos.y = mob_pos.y
 		local hdir = vector.direction(mob_pos, dir_next_pos)
@@ -204,16 +203,13 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 			vel.x = hvel.x
 			vel.z = hvel.z
 			mob.object:set_velocity(vel)
-			self.statedata.walking = true
 			rp_mobs.set_animation(mob, anim_walk or "walk")
 		else
-			if self.statedata.walking ~= false then
-				vel.x = 0
-				vel.z = 0
-				mob.object:set_velocity(vel)
-				self.statedata.walking = false
-				rp_mobs.set_animation(mob, anim_idle or "idle")
-			end
+			vel.x = 0
+			vel.z = 0
+			mob.object:set_velocity(vel)
+			self.statedata.walking = false
+			rp_mobs.set_animation(mob, anim_idle or "idle")
 		end
 	end
 	mtask.is_finished = function(self, mob)
