@@ -892,8 +892,10 @@ end
 -- Turns a path (sequence of coordinates) into a sequence of
 -- microtasks
 local path_to_microtasks = function(path)
+	-- Stop following the climb path if no longer climbing or in liquid.
+	-- Note: Villagers treat climbable and liquid nodes to be phyiscally equal.
 	local stop_follow_path_climb = function(self, mob, dtime)
-		if not mob._temp_custom_state.in_climbable_node then
+		if not mob._temp_custom_state.in_climbable_node and not mob._temp_custom_state.in_liquid_node then
 			return true, false
 		else
 			return false
