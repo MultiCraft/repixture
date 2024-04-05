@@ -136,7 +136,7 @@ Instantly set mob acceleration to the given `acceleration` parameter (a vector).
 
 Finish condition: Finishes instantly.
 
-### `rp_mobs.microtasks.follow_path(path, walk_speed, jump_strength, set_yaw, can_jump)
+### `rp_mobs.microtasks.follow_path(path, walk_speed, jump_strength, set_yaw, can_jump, stop_func)
 
 Make the mob follow along a path, i.e. a sequence of positions by walking.
 This assumes the mob is bound to gravity. Jumping and falling is supported.
@@ -151,9 +151,15 @@ Parameters:
 * `set_yaw`: If true, mob will automatically set the yaw to face towards
   the next path position (default: false)
 * `can_jump`: If true, mob will jump to increase height (default: true)
+* `finish_func`: Optional function called every step with arguments `self, mob`
+  to force microtask to finish early.
+  `self` is the microtask reference, `mob` the mob reference.
+  Returns `<stop>, <success>`. If `stop` is `true`, microtask will finish.
+  with the given success (`success` = `true`/`false`; `true` is default).
 
 Finish condition: There are multiple reasons for finishing:
 
 * When the mob has reached the final position (within a small tolerance) (considered success)
 * When mob was stuck and unable to continue to walk for a few seconds (considered failure)
+* When `finish_func` is has returned `true` for its 1st return value
 

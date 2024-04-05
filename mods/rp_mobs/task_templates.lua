@@ -86,7 +86,7 @@ end
 
 rp_mobs.microtasks = {}
 
-rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, set_yaw, anim_idle, anim_walk)
+rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, set_yaw, anim_idle, anim_walk, finish_func)
 	local mtask = {}
 	mtask.label = "follow climb path"
 	mtask.on_start = function(self, mob)
@@ -219,6 +219,17 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 			return true, self.statedata.success
 		end
 
+		-- Finish by finish_func
+		if finish_func then
+			local stop, succ = finish_func(self, mob)
+			if stop then
+				if succ == nil then
+					succ = true
+				end
+				return true, succ
+			end
+		end
+
 		-- Finish if goal point was reached
 
 		local pos = mob.object:get_pos()
@@ -250,7 +261,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 end
 
 
-rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_yaw, can_jump)
+rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_yaw, can_jump, finish_func)
 	if can_jump == nil then
 		can_jump = true
 	end
@@ -430,6 +441,17 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 		-- Finish if aborted or path is gone or empty
 		if self.statedata.stop or not self.statedata.path or #self.statedata.path == 0 then
 			return true, self.statedata.success
+		end
+
+		-- Finish by finish_func
+		if finish_func then
+			local stop, succ = finish_func(self, mob)
+			if stop then
+				if succ == nil then
+					succ = true
+				end
+				return true, succ
+			end
 		end
 
 		-- Finish if goal point was reached
