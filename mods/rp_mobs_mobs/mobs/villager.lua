@@ -1237,6 +1237,7 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 		["punch"] = { frame_range = { x = 200, y = 219 }, default_frame_speed = 30 },
 	},
 	front_body_point = vector.new(0, -0.6, 0.2),
+	path_check_point = vector.new(0, -0.5, 0),
 	dead_y_offset = 0.6,
 	default_sounds = {
 		damage = "default_punch",

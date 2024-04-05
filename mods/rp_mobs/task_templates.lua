@@ -3,7 +3,7 @@ local PATH_DEBUG = true
 -- How close mob needs to be to waypoint of pathfinder before continuing
 local PATH_DISTANCE_TO_GOAL_POINT = 0.7
 local PATH_H_DISTANCE_TO_GOAL_POINT = 0.1
-local PATH_CLIMB_DISTANCE_TO_GOAL_POINT = 0.7
+local PATH_CLIMB_DISTANCE_TO_GOAL_POINT = 0.4
 
 -- If mob is stuck in pathfinding microtask for this many seconds, give up
 local PATH_STUCK_GIVE_UP_TIME = 0.7
@@ -112,13 +112,13 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 		end
 
 		-- Check if mob is stuck
-		local mobpos = mob.object:get_pos()
+		local mobstuckpos = mob.object:get_pos()
 		self.statedata.stuck_recheck_timer = self.statedata.stuck_recheck_timer + dtime
 		if self.statedata.stuck_recheck_timer >= PATH_STUCK_RECHECK_TIME then
 			if not self.statedata.stuck_last_position then
-				self.statedata.stuck_last_position = mobpos
+				self.statedata.stuck_last_position = mobstuckpos
 			else
-				local stuck_dist = vector.distance(mobpos, self.statedata.stuck_last_position)
+				local stuck_dist = vector.distance(mobstuckpos, self.statedata.stuck_last_position)
 				local stuck_path_length = #self.statedata.path
 				-- Mob didn't move much and did not advance the path since the last check, it seems we're stuck!
 				if stuck_dist < PATH_UNSTUCK_DISTANCE and stuck_path_length == self.statedata.stuck_path_length then
@@ -134,10 +134,10 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 					vel.x = 0
 					vel.z = 0
 					mob.object:set_velocity(vel)
-					minetest.log("verbose", "[rp_mobs] follow_path_climb: Mob at "..minetest.pos_to_string(mobpos, 1).." stops due to being stuck")
+					minetest.log("verbose", "[rp_mobs] follow_path_climb: Mob at "..minetest.pos_to_string(mobstuckpos, 1).." stops due to being stuck")
 					return
 				end
-				self.statedata.stuck_last_position = mobpos
+				self.statedata.stuck_last_position = mobstuckpos
 				self.statedata.stuck_path_length = #self.statedata.path
 			end
 			self.statedata.stuck_recheck_timer = 0
@@ -146,6 +146,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 		-- Get next target position
 		local next_pos = self.statedata.path[1]
 		local mob_pos = mob.object:get_pos()
+		mob_pos = vector.add(mob_pos, mob._path_check_point or vector.zero())
 
 		local next_pos_h = table.copy(next_pos)
 		local mob_pos_h = table.copy(mob_pos)
@@ -178,7 +179,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 		end
 
 		if set_yaw then
-			local dir_to_next_pos = vector.direction(mobpos, next_pos)
+			local dir_to_next_pos = vector.direction(mob_pos, next_pos)
 			local yaw = minetest.dir_to_yaw(dir_to_next_pos)
 			mob.object:set_yaw(yaw)
 		end
@@ -221,6 +222,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 		-- Finish if goal point was reached
 
 		local pos = mob.object:get_pos()
+		pos = vector.add(pos, mob._path_check_point or vector.zero())
 		local goal = self.statedata.path[#self.statedata.path]
 
 		local pos_h = table.copy(pos)
@@ -280,13 +282,13 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 		end
 
 		-- Check if mob is stuck
-		local mobpos = mob.object:get_pos()
+		local mobstuckpos = mob.object:get_pos()
 		self.statedata.stuck_recheck_timer = self.statedata.stuck_recheck_timer + dtime
 		if self.statedata.stuck_recheck_timer >= PATH_STUCK_RECHECK_TIME then
 			if not self.statedata.stuck_last_position then
-				self.statedata.stuck_last_position = mobpos
+				self.statedata.stuck_last_position = mobstuckpos
 			else
-				local stuck_dist = vector.distance(mobpos, self.statedata.stuck_last_position)
+				local stuck_dist = vector.distance(mobstuckpos, self.statedata.stuck_last_position)
 				local stuck_path_length = #self.statedata.path
 				-- Mob didn't move much and did not advance the path since the last check, it seems we're stuck!
 				if stuck_dist < PATH_UNSTUCK_DISTANCE and stuck_path_length == self.statedata.stuck_path_length then
@@ -302,10 +304,10 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 					vel.x = 0
 					vel.z = 0
 					mob.object:set_velocity(vel)
-					minetest.log("verbose", "[rp_mobs] follow_path: Mob at "..minetest.pos_to_string(mobpos, 1).." stops due to being stuck")
+					minetest.log("verbose", "[rp_mobs] follow_path: Mob at "..minetest.pos_to_string(mobstuckpos, 1).." stops due to being stuck")
 					return
 				end
-				self.statedata.stuck_last_position = mobpos
+				self.statedata.stuck_last_position = mobstuckpos
 				self.statedata.stuck_path_length = #self.statedata.path
 			end
 			self.statedata.stuck_recheck_timer = 0
@@ -314,6 +316,7 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 		-- Get next target position
 		local next_pos = self.statedata.path[1]
 		local mob_pos = mob.object:get_pos()
+		mob_pos = vector.add(mob_pos, mob._path_check_point or vector.zero())
 
 		local next_pos_h = table.copy(next_pos)
 		local mob_pos_h = table.copy(mob_pos)
@@ -355,7 +358,7 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 		local next_pos_higher = mob_pos.y < next_pos.y
 
 		if set_yaw then
-			local dir_to_next_pos = vector.direction(mobpos, next_pos)
+			local dir_to_next_pos = vector.direction(mob_pos, next_pos)
 			local yaw = minetest.dir_to_yaw(dir_to_next_pos)
 			mob.object:set_yaw(yaw)
 		end
@@ -432,6 +435,8 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 		-- Finish if goal point was reached
 
 		local pos = mob.object:get_pos()
+		pos = vector.add(pos, mob._path_check_point or vector.zero())
+
 		local goal = self.statedata.path[#self.statedata.path]
 
 		local pos_h = table.copy(pos)

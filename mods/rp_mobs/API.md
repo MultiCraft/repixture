@@ -336,9 +336,12 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
   * `call`: Occasional mob call (only played manually)
   * `horny`: When mob becomes horny
   * `give_birth`: When mob gives birth to a child
-* `front_body_point`: A point of the front side of the mob. Used by the mob to "see"
-                      forwards to detect dangerous land (cliffs, damaging blocks, etc.)
-                      Should be on the front face of the mob model and roughly in the center of that side.
+* `front_body_point`: A point of the front side of the mob, specified as offset vector from the mob position.
+    Used to "see" forwards to detect dangerous land (cliffs, damaging blocks, etc.)
+    Should be on the front face of the mob model and roughly in the center of that side.
+* `path_check_point`: A point that is used to compare the position to the path goal position,
+    specified as offset vector from the mob position. This point is used to check whether a path point
+    has been 'reached' for the `follow_path*` microtask templates.
 * `dead_y_offset`: Y offset of collisionbox when mob is in 'dying' state. Set this to
                    a number so that the mob lies on top of the ground (it should neither
                    float nor be inside the ground)

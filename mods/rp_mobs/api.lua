@@ -159,6 +159,9 @@ rp_mobs.register_mob = function(mobname, def)
 	if def.front_body_point then
 		mdef.entity_definition._front_body_point = table.copy(def.front_body_point)
 	end
+	if def.path_check_point then
+		mdef.entity_definition._path_check_point = table.copy(def.path_check_point)
+	end
 	mdef.entity_definition._dead_y_offset = def.dead_y_offset
 
 	rp_mobs.registered_mobs[mobname] = mdef
