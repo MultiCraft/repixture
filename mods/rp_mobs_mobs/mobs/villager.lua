@@ -34,6 +34,8 @@ local PLAYER_LOOK_AT_RANGE = 3
 local WALK_SPEED = 2
 -- How fast to climb
 local CLIMB_SPEED = 1
+-- How fast to slow down if Y moving fast in climbable/swimmable node
+local CLIMB_DRAG = 1
 -- How strong to jump
 local JUMP_STRENGTH = 4
 -- Time the mob idles around
@@ -695,6 +697,19 @@ local physics_decider = function(task_queue, mob)
 				end
 
 				local grav = not (mob._temp_custom_state.in_climbable_node or mob._temp_custom_state.in_liquid_node)
+
+				-- If falling or rising fast in climbable/swimmable node, slow down
+				if not grav then
+					local vel = mob.object:get_velocity()
+					local epsilon = 0.05
+					if vel.y > CLIMB_SPEED+epsilon then
+						vel.y = math.max(CLIMB_SPEED+epsilon, vel.y - CLIMB_DRAG)
+						mob.object:set_velocity(vel)
+					elseif vel.y < -CLIMB_SPEED-epsilon then
+						vel.y = math.min(-CLIMB_SPEED-epsilon, vel.y + CLIMB_DRAG)
+						mob.object:set_velocity(vel)
+					end
+				end
 				if grav ~= self.statedata.gravity then
 					self.statedata.gravity = grav
 					if grav then
