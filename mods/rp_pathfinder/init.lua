@@ -458,9 +458,18 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 								current_max_jump, current_max_drop, climb, nh, get_node)
 					-- In case of Y change, we do a climb check
 					elseif climb then
-						-- No additional floor check needed
 						if not nh.blocking(neighbor) then
-							neighbor_floor = neighbor_pos
+							local safe_floor = true
+							-- If we climb downwards, check if the node below our destination
+							-- is safe to stand on
+							if y < 0 then
+								local below = vector.offset(neighbor_pos, 0, -1, 0)
+								local bnode = get_node(below)
+								safe_floor = nh.walkable(bnode) or nh.climbable(bnode)
+							end
+							if safe_floor then
+								neighbor_floor = neighbor_pos
+							end
 						end
 					end
 					if neighbor_floor then
