@@ -336,7 +336,9 @@ local find_free_horizontal_neighbor = function(pos, precise)
 		{ vector.new(0,0,1), "+z" },
 	}
 	-- Check which neighbors are 'free'
-	-- (not blocking, dangerous, on air or fence)
+	-- (not blocking, not dangerous, not on air or fence;
+	-- 2 nodes space;
+	-- on walkable node)
 	local possible = {}
 	for n=1,#neighbors do
 		local npos = vector.add(pos, neighbors[n][1])
@@ -345,7 +347,12 @@ local find_free_horizontal_neighbor = function(pos, precise)
 		local bpos = vector.offset(npos, 0, -1, 0)
 		local bnode = minetest.get_node(bpos)
 		local bdef = minetest.registered_nodes[bnode.name]
-		if ndef and not ndef.walkable and ndef.drowning == 0 and ndef.damage_per_second <= 0 and bdef and bdef.walkable and minetest.get_item_group(bnode.name, "fence") == 0 then
+		local apos = vector.offset(npos, 0, 1, 0)
+		local anode = minetest.get_node(apos)
+		local adef = minetest.registered_nodes[anode.name]
+		if ndef and not ndef.walkable and ndef.drowning == 0 and ndef.damage_per_second <= 0 and
+				adef and not adef.walkable and adef.drowning == 0 and adef.damage_per_second <= 0 and
+				bdef and bdef.walkable and minetest.get_item_group(bnode.name, "fence") == 0 then
 			table.insert(possible, neighbors[n])
 		end
 	end
