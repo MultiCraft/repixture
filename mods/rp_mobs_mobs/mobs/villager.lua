@@ -758,6 +758,7 @@ local path_to_todo_list = function(path)
 	end
 
 	local prev_pos
+	local prev_todo
 	for p=1, #path do
 		local pos = path[p]
 		local pos2 = vector.offset(pos, 0, 1, 0)
@@ -785,9 +786,15 @@ local path_to_todo_list = function(path)
 		-- Also: swimmable node
 		if (def and def.climbable) or (def3 and def3.climbable) or
 				is_node_swimmable(node) or is_node_swimmable(node3) then
+
+			if prev_todo == "walk" or prev_todo == "door" then
+				table.insert(current_path, pos)
+			end
 			flush_path()
 
 			table.insert(current_climb_path, pos)
+
+			prev_todo = "climb"
 
 		-- Door
 		elseif minetest.get_item_group(node.name, "door") ~= 0 or minetest.get_item_group(node2.name, "door") ~= 0 then
@@ -863,12 +870,16 @@ local path_to_todo_list = function(path)
 				})
 			end
 
+			prev_todo = "door"
+
 		-- Any other node ...
 		else
 			flush_climb()
 
 			-- ... is part of a normal path to walk on
 			table.insert(current_path, pos)
+
+			prev_todo = "walk"
 		end
 		prev_pos = pos
 	end
@@ -881,6 +892,14 @@ end
 -- Turns a path (sequence of coordinates) into a sequence of
 -- microtasks
 local path_to_microtasks = function(path)
+	local stop_follow_path_climb = function(self, mob, dtime)
+		if not mob._temp_custom_state.in_climbable_node then
+			return true, false
+		else
+			return false
+		end
+	end
+
 	local todo = path_to_todo_list(path)
 	local microtasks = {}
 	if not todo then
@@ -896,7 +915,7 @@ local path_to_microtasks = function(path)
 			mt = create_microtask_open_door(entry.pos, entry.axis)
 			mt.start_animation = "idle"
 		elseif entry.type == "climb" then
-			mt = rp_mobs.microtasks.follow_path_climb(entry.path, WALK_SPEED, CLIMB_SPEED, true)
+			mt = rp_mobs.microtasks.follow_path_climb(entry.path, WALK_SPEED, CLIMB_SPEED, true, nil, nil, stop_follow_path_climb)
 		else
 			minetest.log("error", "[rp_mobs_mobs] path_to_microtasks: Invalid entry type in TODO list!")
 			return
