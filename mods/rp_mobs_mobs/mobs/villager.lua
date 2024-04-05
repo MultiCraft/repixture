@@ -307,30 +307,66 @@ local get_profession = function(mob)
 	end
 end
 
-local find_free_horizontal_neighbor = function(pos)
+find_closest_horizontal_dir = function(pos)
+	local modpos = table.copy(pos)
+	modpos.x = (modpos.x) % 1
+	modpos.z = (modpos.z) % 1
+	if (1-math.abs(modpos.x-0.5)) > (1-math.abs(modpos.z-0.5)) then
+		if modpos.x < 0.5 then
+			return "+x"
+		else
+			return "-x"
+		end
+	else
+		if modpos.z < 0.5 then
+			return "+z"
+		else
+			return "-z"
+		end
+	end
+end
+
+local find_free_horizontal_neighbor = function(pos, precise)
 	local neighbors = {
-		vector.new(-1,0,0),
-		vector.new(1,0,0),
-		vector.new(0,0,-1),
-		vector.new(0,0,1),
+		{ vector.new(-1,0,0), "-x" },
+		{ vector.new(1,0,0), "+x" },
+		{ vector.new(0,0,-1), "-z" },
+		{ vector.new(0,0,1), "+z" },
 	}
+	-- Check which neighbors are 'free'
+	-- (not blocking, dangerous, on air or fence)
 	local possible = {}
 	for n=1,#neighbors do
-		local npos = vector.add(pos, neighbors[n])
+		local npos = vector.add(pos, neighbors[n][1])
 		local nnode = minetest.get_node(npos)
 		local ndef = minetest.registered_nodes[nnode.name]
 		local bpos = vector.offset(npos, 0, -1, 0)
 		local bnode = minetest.get_node(bpos)
 		local bdef = minetest.registered_nodes[bnode.name]
 		if ndef and not ndef.walkable and ndef.drowning == 0 and ndef.damage_per_second <= 0 and bdef and bdef.walkable and minetest.get_item_group(bnode.name, "fence") == 0 then
-			table.insert(possible, npos)
+			table.insert(possible, neighbors[n])
 		end
 	end
-	if #possible > 0 then
-		local r = math.random(1, #possible)
-		return possible[r]
+	if #possible == 0 then
+		return
 	end
-	return nil
+
+	if precise then
+		-- Find the neighbor closest to pos
+		local closest_dir = find_closest_horizontal_dir(pos)
+		for p=1, #possible do
+			local offset = possible[p][1]
+			local dir = possible[p][2]
+			if closest_dir == dir then
+				return vector.round(vector.add(pos, offset))
+			end
+		end
+	end
+
+	-- Pick random possible neighbor
+	local r = math.random(1, #possible)
+	local offset = possible[r][1]
+	return vector.add(pos, offset)
 end
 
 local needs_look_for_neighbor = function(nodename, nodedef)
@@ -932,12 +968,11 @@ local movement_decider_step = function(task_queue, mob, dtime)
 
 		-- Mob is stuck in some solid node;
 		-- try to find a free neighbor.
-		local target = find_free_horizontal_neighbor(rmobpos)
+		local unstuckmobpos = table.copy(mobpos)
+		unstuckmobpos.y = unstuckmobpos.y - 0.5
+		local target = find_free_horizontal_neighbor(unstuckmobpos, true)
 		if not target then
-			target = find_free_horizontal_neighbor(vector.offset(rmobpos, 0, 1, 0))
-			if not target then
-				return
-			end
+			return
 		end
 
 		-- Add a minimal microtask to walk to a neighboring free node
