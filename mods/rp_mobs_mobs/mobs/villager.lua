@@ -798,11 +798,17 @@ local path_to_todo_list = function(path)
 			-- by looking at previous or next position in the path
 			local axis
 			local other_pos
+			local next_pos
+			if p < #path then
+				next_pos = path[p+1]
+			end
+			local uses_prev = false
 			if prev_pos then
 				other_pos = prev_pos
+				uses_prev = true
 			else
 				if p < #path then
-					other_pos = path[p+1]
+					other_pos = next_pos
 				else
 					-- Fallback if path is only 1 entry long
 					other_pos = vector.zero()
@@ -819,10 +825,15 @@ local path_to_todo_list = function(path)
 
 			local door_pos
 			if minetest.get_item_group(node.name, "door") == 0 then
+				-- In case the door is 1 node above the ground.
 				door_pos = pos2
 			else
 				door_pos = pos
 			end
+			-- Mark the door to be opened.
+			-- Note: This does not mean the mob will always toggle the door,
+			-- only if it is *neccessary* to toggle it to free the way
+			-- once the mob reaches it.
 			table.insert(todo, {
 				type = "door",
 				pos = door_pos,
@@ -834,6 +845,24 @@ local path_to_todo_list = function(path)
 			-- that are placed right behind each other to be opened all at once.
 			table.insert(current_path, pos)
 			flush_path()
+
+			-- Literal Corner Case:
+			-- If the door is right in a position where the path takes a corner (90° turn),
+			-- the door might need to get toggled *again* after the mob is
+			-- inside the door node.
+			if uses_prev and next_pos and next_pos.x ~= prev_pos.x then
+				if next_pos.x ~= pos.x then
+					axis = "x"
+				else
+					axis = "z"
+				end
+				table.insert(todo, {
+					type = "door",
+					pos = door_pos,
+					axis = axis,
+				})
+			end
+
 		-- Any other node ...
 		else
 			flush_climb()
