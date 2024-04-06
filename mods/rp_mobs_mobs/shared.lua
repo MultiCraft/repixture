@@ -227,3 +227,4 @@ rp_mobs_mobs.add_halt_to_task_queue = function(task_queue, mob, set_yaw, idle_mi
 	rp_mobs.add_task_to_task_queue(task_queue, task)
 end
 
+

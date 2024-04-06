@@ -1362,7 +1362,7 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 			rp_mobs.add_task_queue(self, find_sites_task_queue)
 		end,
 		on_step = function(self, dtime, moveresult)
-			rp_mobs.handle_dying(self, dtime)
+			rp_mobs.handle_dying(self, dtime, moveresult, rp_mobs_mobs.land_roamer_dying_step)
 			rp_mobs.scan_environment(self, dtime)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)

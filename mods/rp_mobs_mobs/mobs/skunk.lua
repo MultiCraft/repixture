@@ -90,7 +90,7 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)
-			rp_mobs.handle_dying(self, dtime)
+			rp_mobs.handle_dying(self, dtime, moveresult, rp_mobs_mobs.land_roamer_dying_step)
 			rp_mobs.scan_environment(self, dtime, -0.1)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)

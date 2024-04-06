@@ -216,10 +216,11 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queues.food_breed_follow_scan(VIEW_RANGE, FOOD))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(eat_decider))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queues.call_sound(RANDOM_SOUND_TIMER_MIN, RANDOM_SOUND_TIMER_MAX))
+
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)
-			rp_mobs.handle_dying(self, dtime)
+			rp_mobs.handle_dying(self, dtime, moveresult, rp_mobs_mobs.land_roamer_dying_step)
 			rp_mobs.scan_environment(self, dtime, -0.3)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)

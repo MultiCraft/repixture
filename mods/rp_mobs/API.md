@@ -67,7 +67,7 @@ A template for a minimal mob looks like this:
 				rp_mobs.init_tasks(self)
 			end,
 			on_step = function(self, dtime, moveresult)
-				rp_mobs.handle_dying(self, dtime)
+				rp_mobs.handle_dying(self, dtime, moveresult)
 				rp_mobs.handle_tasks(self, dtime, moveresult)
 			end,
 			get_staticdata = rp_mobs.get_staticdata_default,
@@ -188,7 +188,10 @@ An entity “dies” in Minetest when its HP reaches 0, which instantly removes 
 triggers the `on_death` function.
 
 We do not like instant removal so this subsystem provides a simple graphical death
-effect and delay. This flips over the mob and makes it come to a screeching halt.
+effect and delay. This flips over the mob and calls a special `dying_step`
+function every step. This function is used by the mob to handle death physics stuff.
+
+While dying, no tasks or microtasks are run.
 The mob is still visible but all player interactions are disabled. After a short
 delay, the mob disappears in a cloud of dust by setting the HP to 0,
 causing `on_death` to be called.
@@ -570,7 +573,7 @@ This is supposed to go into `on_step` of the entity definition. It must be calle
 
 `dtime` and `moveresult` must be passed from the arguments of the same name of the entity’s `on_step`.
 
-#### `rp_mobs.handle_dying(self, dtime)`
+#### `rp_mobs.handle_dying(self, dtime, moveresult, dying_step)`
 
 Handles the dying state of the mob if the mob has been killed. If the internal mob state
 `_dying` is true, the dying effect is applied and the mob gets removed after a short delay,
@@ -579,7 +582,13 @@ any other `rp_mobs` subsystem calls.
 
 See the section about the “Dying” subsystem for details.
 
-`dtime` must be passed from the argument of the same name of the entity’s `on_step`.
+Parameters:
+
+* `self`: Reference to mob object
+* `dtime`: Same as for the entity’s `on_step`
+* `moveresult`: Same as for the entity’s `on_step`
+* `dying_step`: Optional function with signature `self, dtime, moveresult`
+  that is called every step while the mob is in *dying* state
 
 #### `rp_mobs.handle_node_damage(mob, dtime)`
 
@@ -963,6 +972,20 @@ Parameters:
 * `y_offset`: Y offset of roughly the "center point" of the mob,
   relative to the mob position (`get_pos()`)
 
+#### `rp_mobs.drag(mob, dtime, drag, drag_axes)`
+
+Slow mob down for the specified drag vector at the specified drag axes.
+The drag vector specifies on each axis how much the mob slows down.
+
+This will call `set_velocity` directly.
+
+Parameters:
+
+* `mob`: Mob object
+* `dtime`: `dtime` from `on_step`
+* `drag`: Drag vector. Higher number = faster slowdown.
+* `drag_axes`: List of axes to which apply drag for (`"x"`, `"y"`, `"z"`).
+  Other axes will be ignored.
 
 ## Appendix
 

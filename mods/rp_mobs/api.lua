@@ -676,30 +676,16 @@ rp_mobs.die = function(self, killer)
 	self.object:set_rotation(rot)
 end
 
-rp_mobs.handle_dying = function(self, dtime)
+rp_mobs.handle_dying = function(self, dtime, moveresult, dying_step)
 	if rp_mobs.is_alive(self) then
 		return
 	end
 
-	-- Make mob come to a halt
-	local realvel = self.object:get_velocity()
-	local targetvel = vector.zero()
-	targetvel.y = realvel.y
-	local drag = vector.new(0.05, 0, 0.05)
-	local MOVE_SPEED_MAX_DIFFERENCE = 0.01
-	for _, axis in pairs({"x","z"}) do
-		if math.abs(realvel[axis]) > MOVE_SPEED_MAX_DIFFERENCE then
-			if realvel[axis] > targetvel[axis] then
-				targetvel[axis] = math.max(0, realvel[axis] - drag[axis])
-			else
-				targetvel[axis] = math.min(0, realvel[axis] + drag[axis])
-			end
-		end
+	if dying_step then
+		dying_step(self, dtime, moveresult)
 	end
 
-	self.object:set_velocity(targetvel)
-
-	-- Trigger final death when timer runs out
+	-- Trigger actual death when timer runs out
 	self._dying_timer = self._dying_timer + dtime
 	if self._dying_timer >= DYING_TIME then
 		self.object:set_hp(0)
@@ -817,6 +803,24 @@ rp_mobs.set_animation = function(self, animation_name, animation_speed)
 	elseif self._current_animation_speed ~= anim_speed then
 		self.object:set_animation_frame_speed(anim_speed)
 	end
+end
+
+rp_mobs.drag = function(self, dtime, drag, drag_axes)
+	local realvel = self.object:get_velocity()
+	local targetvel = vector.zero()
+	targetvel.y = realvel.y
+	local MOVE_SPEED_MAX_DIFFERENCE = 0.01
+	for _, axis in pairs(drag_axes) do
+		if drag[axis] ~= 0 and math.abs(realvel[axis]) > MOVE_SPEED_MAX_DIFFERENCE then
+			if realvel[axis] > targetvel[axis] then
+				targetvel[axis] = math.max(0, realvel[axis] - drag[axis])
+			else
+				targetvel[axis] = math.min(0, realvel[axis] + drag[axis])
+			end
+		end
+	end
+
+	self.object:set_velocity(targetvel)
 end
 
 minetest.register_on_chatcommand(function(name, command, params)

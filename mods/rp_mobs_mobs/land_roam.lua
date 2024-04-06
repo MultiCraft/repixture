@@ -1,5 +1,7 @@
 -- Behavior functions for land animals
 
+local DEATH_DRAG = 0.05
+
 local random_yaw = function()
 	return math.random(0, 360) / 360 * (math.pi*2)
 end
@@ -279,3 +281,10 @@ rp_mobs_mobs.task_queues.land_roam = function(settings)
 	local tq = rp_mobs.create_task_queue(roam_decider_empty, roam_decider_step, roam_decider_start)
 	return tq
 end
+
+-- Default mob physics for dying
+rp_mobs_mobs.land_roamer_dying_step = function(self, dtime)
+	-- Make mob come to a halt horizontally
+	rp_mobs.drag(self, dtime, vector.new(DEATH_DRAG, 0, DEATH_DRAG), {"x", "z"})
+end
+
