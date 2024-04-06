@@ -1,7 +1,13 @@
 -- Behavior functions for land animals
 
+-- Velocity reduction when dead and not in a liquid
 local DEATH_DRAG = 0.05
+-- Velocity reduction when dead and in a liquid
 local DEATH_DRAG_LIQUID = 0.2
+
+-- Time range (ms) to continue walking after escaping damaging nodes
+local FINALIZE_ESCAPE_MIN = 500
+local FINALIZE_ESCAPE_MAX = 1000
 
 local random_yaw = function()
 	return math.random(0, 360) / 360 * (math.pi*2)
@@ -127,11 +133,27 @@ return function(task_queue, mob, dtime)
 				local damaging = rp_mobs_mobs.is_damaging(mob._env_node.name)
 				local liquid = rp_mobs_mobs.is_liquid(mob._env_node.name)
 				if not damaging or liquid then
+					-- End escape task
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
-					if not damaging and not liquid then
-						rp_mobs_mobs.add_halt_to_task_queue(task_queue, mob, nil, settings.idle_duration_min, settings.idle_duration_max)
+
+					if not liquid then
+						-- Continue walking for a few steps so the mob is in a safe distance
+						-- from the danger
+						local task = rp_mobs.create_task({label="roam land"})
+						local yaw = mob.object:get_yaw()
+						local walk_duration = math.random(FINALIZE_ESCAPE_MIN, FINALIZE_ESCAPE_MAX)/1000
+						local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, true, walk_duration)
+						mt_walk.start_animation = "walk"
+						local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
+						local mt_sleep = rp_mobs.microtasks.sleep(math.random(settings.idle_duration_min, settings.idle_duration_max)/1000)
+						mt_sleep.start_animation = "idle"
+						rp_mobs.add_microtask_to_task(mob, mt_acceleration, task)
+						rp_mobs.add_microtask_to_task(mob, mt_walk, task)
+						rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
+						rp_mobs.add_task_to_task_queue(task_queue, task)
 					end
 				end
+
 			-- Stop following player or partner if gone
 			elseif (current.data.label == "follow player holding food" and not mob._temp_custom_state.closest_food_player) or
 					(current.data.label == "hunt player" and not mob._temp_custom_state.angry_at) or
