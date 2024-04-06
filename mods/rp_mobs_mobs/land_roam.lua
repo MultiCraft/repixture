@@ -124,8 +124,13 @@ return function(task_queue, mob, dtime)
 		if current and current.data then
 			-- Escape from damaging node has reached safety
 			if current.data.label == "escape from damaging node" then
-				if not rp_mobs_mobs.is_damaging(mob._env_node.name) or rp_mobs_mobs.is_liquid(mob._env_node.name) then
+				local damaging = rp_mobs_mobs.is_damaging(mob._env_node.name)
+				local liquid = rp_mobs_mobs.is_liquid(mob._env_node.name)
+				if not damaging or liquid then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+					if not damaging and not liquid then
+						rp_mobs_mobs.add_halt_to_task_queue(task_queue, mob, nil, settings.idle_duration_min, settings.idle_duration_max)
+					end
 				end
 			-- Stop following player or partner if gone
 			elseif (current.data.label == "follow player holding food" and not mob._temp_custom_state.closest_food_player) or
