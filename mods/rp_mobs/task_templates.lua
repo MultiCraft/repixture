@@ -366,7 +366,6 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 				end
 			end
 		end
-		local next_pos_higher = mob_pos.y < next_pos.y
 
 		if set_yaw then
 			local dir_to_next_pos = vector.direction(mob_pos, next_pos)
@@ -386,8 +385,11 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 			end
 		end
 
-		-- Try to jump if next position is higher
-		if next_pos_higher and can_jump and not self.statedata.jumping and moveresult.touching_ground then
+		local props = mob.object:get_properties()
+		local next_pos_needs_jump = mob_pos.y < next_pos.y - props.stepheight
+
+		-- Try to jump if neccessary and possible
+		if next_pos_needs_jump and can_jump and not self.statedata.jumping and moveresult.touching_ground then
 			local will_jump = true
 			-- Can't jump if standing on a disable_jump node
 			if mob._env_node_floor then
