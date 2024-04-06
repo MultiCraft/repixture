@@ -144,22 +144,17 @@ return function(task_queue, mob, dtime)
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 				-- Abort and stop movement when walking towards of a cliff or other dangerous node
 				elseif not rp_mobs_mobs.is_front_safe(mob, settings.fall_height, settings.max_fall_damage_add_percent_drop_on) and current.data.label ~= "stand still" then
-					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+					local vel = mob.object:get_velocity()
+					vel.y = 0
+					if vector.length(vel) > 0.01 then
+						rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+						rp_mobs_mobs.add_halt_to_task_queue(task_queue, mob, nil, settings.idle_duration_min, settings.idle_duration_max)
 
-					-- Rotate by 70° to 180° left or right
-					local sign = math.random(0, 1)
-					local yawplus = math.random(70, 180)/360 * (math.pi*2)
-					local yaw = mob.object:get_yaw() + yawplus
-					if sign == 1 then
-						yaw = -yaw
-					end
-					rp_mobs_mobs.add_halt_to_task_queue(task_queue, mob, yaw, settings.idle_duration_min, settings.idle_duration_max)
-
-
-					-- Disable following for a few seconds if mob just avoided a danger
-					if current.data.label == "follow player holding food" or current.data.label == "follow mating partner" or current.data.label == "hunt player" then
-						mob._temp_custom_state.no_follow = true
-						mob._temp_custom_state.no_follow_timer = 0
+						-- Disable following for a few seconds if mob just avoided a danger
+						if current.data.label == "follow player holding food" or current.data.label == "follow mating partner" or current.data.label == "hunt player" then
+							mob._temp_custom_state.no_follow = true
+							mob._temp_custom_state.no_follow_timer = 0
+						end
 					end
 				-- Follow player or mating partner
 				elseif (mob._temp_custom_state.closest_mating_partner or mob._temp_custom_state.closest_food_player or mob._temp_custom_state.angry_at) and not mob._temp_custom_state.no_follow then
