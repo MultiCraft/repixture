@@ -238,6 +238,7 @@ return function(task_queue, mob, dtime)
 			elseif current.data.label == "swim on liquid surface" then
 				if not rp_mobs_mobs.is_liquid(mob._env_node.name) and not rp_mobs_mobs.is_liquid(mob._env_node_floor.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+					rp_mobs_mobs.add_halt_to_task_queue(task_queue, mob, nil, settings.idle_duration_min, settings.idle_duration_max)
 				end
 			end
 		end
