@@ -25,6 +25,12 @@ rp_mobs_mobs.is_walkable = function(nodename)
 	return ndef and ndef.walkable
 end
 
+-- Returns true if node is climbable
+rp_mobs_mobs.is_climbable = function(nodename)
+	local ndef = minetest.registered_nodes[nodename]
+	return ndef and ndef.climbable
+end
+
 -- Returns true if the node(s) in front of the mob are safe.
 -- This is considered unsafe:
 -- * damage_per_second > 0

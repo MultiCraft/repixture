@@ -1,6 +1,7 @@
 -- Behavior functions for land animals
 
 local DEATH_DRAG = 0.05
+local DEATH_DRAG_LIQUID = 0.2
 
 local random_yaw = function()
 	return math.random(0, 360) / 360 * (math.pi*2)
@@ -282,9 +283,38 @@ rp_mobs_mobs.task_queues.land_roam = function(settings)
 	return tq
 end
 
--- Default mob physics for dying
-rp_mobs_mobs.land_roamer_dying_step = function(self, dtime)
-	-- Make mob come to a halt horizontally
-	rp_mobs.drag(self, dtime, vector.new(DEATH_DRAG, 0, DEATH_DRAG), {"x", "z"})
+-- Returns a default dying_step functionn for `rp_mobs.handle_dying`.
+-- If enabled, this can toggle gravity in liquids climbable nodes,
+-- and put the mob smoothly to a halt using drag.
+-- This assumes that `rp_mobs.scan_environment` is used.
+-- Parameters:
+-- * `can_swim`: turn off gravity in swimmable nodes
+-- * `can_climb`: turn off gravity in climbable nodes
+rp_mobs_mobs.get_dying_step = function(can_swim, can_climb)
+	return function(mob, dtime)
+		if not mob._env_node then
+			return
+		end
+		local drag, drag_axes
+		local grav = mob._temp_custom_state.dying_gravity == true
+		if (can_swim and (rp_mobs_mobs.is_liquid(mob._env_node.name) or rp_mobs_mobs.is_liquid(mob._env_node_floor.name)))
+				or (can_climb and (rp_mobs_mobs.is_climbable(mob._env_node.name) or rp_mobs_mobs.is_climbable(mob._env_node_floor.name))) then
+			-- Make mob come to a halt horizontally and vertically
+			drag = vector.new(DEATH_DRAG, DEATH_DRAG_LIQUID, DEATH_DRAG)
+			drag_axes = { "x", "y", "z" }
+			if grav then
+				mob.object:set_acceleration(vector.zero())
+				mob._temp_custom_state.dying_gravity = false
+			end
+		else
+			-- Make mob come to a halt horizontally
+			drag = vector.new(DEATH_DRAG, 0, DEATH_DRAG)
+			drag_axes = { "x", "z" }
+			if not grav then
+				mob.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)
+				mob._temp_custom_state.dying_gravity = true
+			end
+		end
+		rp_mobs.drag(mob, dtime, drag, drag_axes)
+	end
 end
-
