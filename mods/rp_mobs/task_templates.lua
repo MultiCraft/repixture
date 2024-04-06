@@ -568,16 +568,26 @@ local can_clear_jump = function(mob, jump_clear_height)
 	end
 	dir = vector.multiply(dir, 0.5)
 	local pos_front = vector.add(pos, dir)
+	local node_top_walkable
 
 	local h = -1
 	while h <= jump_clear_height do
 		h = h + 1
 		local node_front = minetest.get_node(pos_front)
 		local def_front = minetest.registered_nodes[node_front.name]
-		if def_front and not def_front.walkable then
-			break
+		if def_front then
+			if def_front.walkable then
+				node_top_walkable = node_front
+			else
+				break
+			end
 		end
 		pos_front.y = pos_front.y + 1
+	end
+
+	-- Add 0.5 to height if top node is a fence due to the overhigh collisionbox
+	if node_top_walkable and minetest.get_item_group(node_top_walkable.name, "fence") ~= 0 then
+		h = h + 0.5
 	end
 
 	if h <= jump_clear_height then

@@ -179,7 +179,7 @@ Unlike `attached_node`, they also work if the node is not `walkable`. Use these 
 * `door_wood`: Wooden door
 * `door_state`: Door segment, internal state (1 or 2) (see `rp_door` mod)
 * `door_position`: Door segment, position (1 = bottom, 2 = top)
-* `fence`: Fence
+* `fence`: Fence. Fence nodes MUST have a collisionbox height of 1.5
 * `sign`: Sign
 * `bed`: Bed segment
 * `torch`: Torch
