@@ -457,14 +457,15 @@ local find_reachable_node = function(startpos, nodenames, searchdistance, under_
 end
 
 -- This microtask asynchronically searches a path from start to target.
--- When it's done, it will put the path in mob._temp_custom_state.found_path.
+-- When it's done, it will put the path in mob._temp_custom_state.follow_path
 -- options are the pathfinder options
-local create_microtask_find_path_async = function(start, target, options)
+local create_microtask_find_path_async = function(start, target, options, target_type)
 	return rp_mobs.create_microtask({
 		label = "find path",
 		on_start = function(self, mob)
 			self.statedata.done = false
-			mob._temp_custom_state.found_path = nil
+			self.statedata.target_type = target_type
+			mob._temp_custom_state.follow_path = nil
 			local find_path = function(start, target, searchdistance, options, timeout)
 				local path = rp_pathfinder.find_path(start, target, searchdistance, options, timeout)
 				return path
@@ -1072,7 +1073,7 @@ local movement_decider_step = function(task_queue, mob, dtime)
 			options.handler_blocking = is_node_blocking_water_ok
 			options.handler_climbable = is_node_swimmable
 
-			local mt_find_path = create_microtask_find_path_async(mobpos, safe_pos, options)
+			local mt_find_path = create_microtask_find_path_async(mobpos, safe_pos, options, "swim to safety")
 			mt_find_path.start_animation = "idle"
 
 			local mt_generate_microtasks = create_microtask_generate_microtasks_from_path()
@@ -1164,7 +1165,20 @@ local movement_decider_empty = function(task_queue, mob)
 		local ydist = math.abs(target_block.y - mobpos.y)
 		if dist >= 1.42 or ydist >= 1 then
 			-- First find the path asynchronously ...
-			local mt_find_path = create_microtask_find_path_async(mobpos, target, PATHFINDER_OPTIONS)
+			local mt_find_path = create_microtask_find_path_async(mobpos, target, PATHFINDER_OPTIONS, activity)
+
+			-- Reset home bed or work site if no path found
+			mt_find_path.on_end = function(self, mob)
+				if mob._temp_custom_state.follow_path == nil then
+					if self.statedata.target_type == "work" then
+						mob._custom_state.worksite = nil
+						minetest.log("info", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mob.object:get_pos(), 1).." couldn't find path to worksite; resetting ...")
+					elseif self.statedata.target_type == "sleep" then
+						mob._custom_state.home_bed = nil
+						minetest.log("info", "[rp_mobs_mobs] Villager at "..minetest.pos_to_string(mob.object:get_pos(), 1).." couldn't find path to home bed; resetting ...")
+					end
+				end
+			end
 			mt_find_path.start_animation = "idle"
 
 			-- ... then follow it
