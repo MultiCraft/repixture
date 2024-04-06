@@ -1,5 +1,5 @@
 -- If enabled, show path waypoints of pathfinder microtask
-local PATH_DEBUG = true
+local PATH_DEBUG = false
 -- How close mob needs to be to waypoint of pathfinder before continuing
 local PATH_DISTANCE_TO_GOAL_POINT = 0.7
 local PATH_H_DISTANCE_TO_GOAL_POINT = 0.1
