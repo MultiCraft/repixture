@@ -45,6 +45,10 @@ local register_mob_alias = function(old_name, new_name, villager_profession)
 								textures = {"mobs_sheep_shaved.png"},
 							})
 						end
+						-- Restore tamed status
+						if data.tamed then
+							mobluaent._tamed = true
+						end
 						-- Restore health
 						if data.health and type(data.health) == "number" and data.health > 1 then
 							mobent:set_hp(data.health)
