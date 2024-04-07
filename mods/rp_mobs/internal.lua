@@ -28,13 +28,3 @@ rp_mobs.internal.add_persisted_entity_vars = function(names)
 	end
 end
 
--- List of old subcondition names for the
--- 'gonna_feed_em_all' achievement to support
--- achievement progress from version 3.12.1 and earlier
-
-rp_mobs.feed_achievement_subcondition_aliases = {
-	["rp_mobs_mobs:boar"] = "mobs:boar",
-	["rp_mobs_mobs:skunk"] = "mobs:skunk",
-	["rp_mobs_mobs:sheep"] = "mobs:sheep",
-}
-
