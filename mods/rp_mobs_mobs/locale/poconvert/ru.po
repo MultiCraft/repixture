@@ -31,9 +31,6 @@ msgstr "Светская беседа"
 msgid "Have a friendly chat with a villager."
 msgstr "Дружелюбно поговори с жителем."
 
-msgid "Boar"
-msgstr "Кабан"
-
 msgid "Wool Bundle"
 msgstr "Пучок шерсти"
 
@@ -48,6 +45,9 @@ msgstr "Сырая свинина"
 
 msgid "Cooked Porkchop"
 msgstr "Жареная свинина"
+
+msgid "Boar"
+msgstr "Кабан"
 
 msgid "Mine Turtle"
 msgstr "Шахточерепаха"
@@ -72,6 +72,9 @@ msgstr "Мясник"
 
 msgid "Carpenter"
 msgstr "Плотник"
+
+msgid "Villager"
+msgstr ""
 
 msgid "Hi! I'm a farmer. I sell farming goods."
 msgstr "Здорова! Я фермер. Я продаю товары для фермы."
@@ -135,6 +138,9 @@ msgstr "У меня сегодня плохой день."
 
 msgid "Screw you!"
 msgstr "Пошёл ты!"
+
+msgid "Get this thing out of my face!"
+msgstr "Убери эту штуку от моего лица!"
 
 msgid "Villager says: “@1”"
 msgstr "Житель говорит: \"@1\""
@@ -411,9 +417,6 @@ msgstr ""
 
 msgid "Stay healthy!"
 msgstr ""
-
-msgid "Get this thing out of my face!"
-msgstr "Убери эту штуку от моего лица!"
 
 msgid "Walker"
 msgstr "Ходок"

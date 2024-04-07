@@ -34,3 +34,6 @@ msgstr "Paracadutista"
 msgid "Descend over 100 blocks with a parachute."
 msgstr "Discendi per più di 100 blocchi con un paracadute."
 
+msgid "Entity name “@1” is outdated. Use “@2” instead."
+msgstr ""
+

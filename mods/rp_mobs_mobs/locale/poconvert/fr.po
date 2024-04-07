@@ -31,9 +31,6 @@ msgstr "Petite causette"
 msgid "Have a friendly chat with a villager."
 msgstr "Avoir une conversation amicale avec un habitant du village."
 
-msgid "Boar"
-msgstr "Sanglier"
-
 msgid "Wool Bundle"
 msgstr "Paquet de laine"
 
@@ -48,6 +45,9 @@ msgstr "Côtelette de porc crue"
 
 msgid "Cooked Porkchop"
 msgstr "Côtelette de porc cuite"
+
+msgid "Boar"
+msgstr "Sanglier"
 
 msgid "Mine Turtle"
 msgstr "Tortue des mines"
@@ -72,6 +72,9 @@ msgstr "Boucher"
 
 msgid "Carpenter"
 msgstr "Charpentier"
+
+msgid "Villager"
+msgstr ""
 
 msgid "Hi! I'm a farmer. I sell farming goods."
 msgstr "Salut ! Je suis un agriculteur. Je vends des biens agricoles."
@@ -135,6 +138,9 @@ msgstr "Je passe une mauvaise journée."
 
 msgid "Screw you!"
 msgstr "Allez au diable !"
+
+msgid "Get this thing out of my face!"
+msgstr "Enlevez ça de mon visage !"
 
 msgid "Villager says: “@1”"
 msgstr "Villageois dit : « @1 »"
@@ -411,9 +417,6 @@ msgstr ""
 
 msgid "Stay healthy!"
 msgstr ""
-
-msgid "Get this thing out of my face!"
-msgstr "Enlevez ça de mon visage !"
 
 msgid "Walker"
 msgstr "Marcheur"
