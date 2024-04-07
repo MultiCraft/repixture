@@ -48,6 +48,53 @@ local function jumpable(node)
 	return minetest.get_item_group(node.name, "disable_jump") == 0
 end
 
+-- Return the height of the given node or pessimistic_height
+-- if the node is too complex. This function is not 100% accurate
+-- and does not cover all possible node definitions and param2 values.
+-- TODO: Cover all possible node definitions and param2 values.
+local function get_node_height(node, pessimistic_height)
+	local def = minetest.registered_nodes[node.name]
+	if not def then
+		return 1
+	end
+	if not def.walkable then
+		return 0
+	end
+	local node_box
+	if def.collision_box then
+		node_box = def.collision_box
+	elseif def.node_box then
+		node_box = def.node_box
+	end
+	if node_box then
+		if node_box.type == "regular" then
+			return 1
+		elseif node_box.type == "fixed" or (node_box.type == "connected" and node_box.fixed) then
+			local max_y = 0
+			local fixed = node_box.fixed
+			if type(fixed[1]) == "table" then
+				for f=1, #fixed do
+					max_y = math.max(max_y, fixed[f][5])
+				end
+			else
+				max_y = fixed[5]
+			end
+			return (0.5 + max_y)
+		elseif node_box.type == "leveled" and def.paramtype2 == "leveled" then
+			if node.param2 == 0 then
+				return def.leveled or 0
+			else
+				return (node.param2 % 128) / 64
+			end
+		else
+			return pessimistic_height
+		end
+	else
+		-- No node box, this is a normal cube
+		return 1
+	end
+end
+
 -- 2D distance heuristic between pos1 and pos2
 local function get_distance_2d(pos1, pos2)
 	local distX = math.abs(pos1.x - pos2.x)
@@ -94,11 +141,12 @@ local function check_height_clearance(pos, nodes_above, nh, get_node)
 	return true
 end
 
-local function vertical_walk(start_pos, vdir, max_height, stop_func, stop_value, get_node)
+local function vertical_walk(start_pos, vdir, max_height, stop_func, stop_value, get_node, precise_height)
 	local pos = table.copy(start_pos)
 	local height = 0
 	local ok = false
 
+	local final_node
 	while height < max_height do
 		pos.y = pos.y + vdir
 		local node = get_node(pos)
@@ -107,7 +155,26 @@ local function vertical_walk(start_pos, vdir, max_height, stop_func, stop_value,
 			ok = true
 			break
 		end
+		final_node = node
 	end
+	-- Precide height mode:
+	-- Reduce returned height if the final node is node a standard cube,
+	-- e.g. a slab
+	if precise_height and ok then
+		if not final_node then
+			final_node = get_node(start_pos)
+		end
+		local nheight
+		local pessimistic
+		if vdir > 0 then
+			pessimistic = 0
+		else
+			pessimistic = 2
+		end
+		nheight = get_node_height(final_node, pessimistic)
+		height = height - math.max(0, 1 - nheight)
+	end
+
 	if ok then
 		return pos, height
 	end
@@ -170,11 +237,29 @@ local function get_neighbor_floor_pos(neighbor_pos, current_pos, clear_height, j
 		end
 
 		-- Get the first non-walkable node above the neighbor
-		local target_pos, height = vertical_walk(npos, 1, jump_height, stop, true, get_node)
+		local target_pos, height = vertical_walk(npos, 1, jump_height, stop, true, get_node, true)
 
-		-- Also check the nodes above current pos for any blocking nodes,
-		-- since this is where the player has to jump
 		if target_pos then
+			-- Check if the floor node is lowered and if yes,
+			-- increase the required jump height by the difference.
+			-- E.g. a slab of height 0.5 would increase the
+			-- required jump height by 0.5
+			local floor = vector.offset(current_pos, 0, -1, 0)
+			local fnode = get_node(floor)
+			-- for normal nodes, add_height will be 0.
+			-- for overhigh nodes, add_height will be 0.
+			-- for nodes with a height lower than 1 (like slabs)
+			-- add_height will increase by the difference from a full node.
+			local add_height = math.max(0, 1-get_node_height(fnode, 0))
+			height = height + add_height
+			-- Check if we could still jump high enough
+			if jump_height < height then
+				return
+			end
+
+			-- Also check the nodes above current pos for any blocking nodes,
+			-- since this is where the player has to jump
+
 			-- If the top node is non-walkable,
 			-- we don't want to jump on it
 			local tnode = get_node(vector.offset(target_pos, 0, -1, 0))
