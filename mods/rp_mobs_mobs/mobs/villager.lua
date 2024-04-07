@@ -939,7 +939,7 @@ local path_to_microtasks = function(path)
 			mt = create_microtask_open_door(entry.pos, entry.axis)
 			mt.start_animation = "idle"
 		elseif entry.type == "climb" then
-			mt = rp_mobs.microtasks.follow_path_climb(entry.path, WALK_SPEED, CLIMB_SPEED, true, nil, nil, stop_follow_path_climb)
+			mt = rp_mobs.microtasks.follow_path_climb(entry.path, WALK_SPEED, CLIMB_SPEED, true, stop_follow_path_climb)
 		else
 			minetest.log("error", "[rp_mobs_mobs] path_to_microtasks: Invalid entry type in TODO list!")
 			return

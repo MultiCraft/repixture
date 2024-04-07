@@ -136,10 +136,12 @@ Instantly set mob acceleration to the given `acceleration` parameter (a vector).
 
 Finish condition: Finishes instantly.
 
-### `rp_mobs.microtasks.follow_path(path, walk_speed, jump_strength, set_yaw, can_jump, stop_func)
+### `rp_mobs.microtasks.follow_path(path, walk_speed, jump_strength, set_yaw, can_jump, finish_func)
 
 Make the mob follow along a path, i.e. a sequence of positions by walking.
-This assumes the mob is bound to gravity. Jumping and falling is supported.
+This assumes the mob is bound to gravity along the whole path and the *entire* path is walkable.
+Jumping and falling is supported, but not climbing or swimming.
+Note: This function does not check the nodes along the path for validity.
 
 Parameters:
 
@@ -162,4 +164,26 @@ Finish condition: There are multiple reasons for finishing:
 * When the mob has reached the final position (within a small tolerance) (considered success)
 * When mob was stuck and unable to continue to walk for a few seconds (considered failure)
 * When `finish_func` is has returned `true` for its 1st return value
+
+### `rp_mobs.microtasks.follow_path_climb(path, walk_speed, climb_speed, set_yaw, finish_func, anim_walk, anim_climb, anim_idle)`
+
+Make the mob follow along a path, i.e. a sequence of positions by *climbing*.
+The difference from `rp_mobs.microtask.follow_path` is that the mob climbs instead
+of walks. The path must exclusively consist of nodes that are considered 'climbable'.
+
+This assumes the mob is *not* bound to gravity while climbing and the *entire* path consists of
+climbable (or equivalent) nodes from the viewpoint of the mob.
+
+This function could also be used to follow a path through nodes with liquid physics.
+
+Parameters:
+
+* `path`: See `rp_mobs.microtasks.follow_path`
+* `walk_speed`: Horizontal movement speed
+* `climb_speed`: Vertical movement speed
+* `set_yaw`: See `rp_mobs.microtasks.follow_path`
+* `finish_func`: See `rp_mobs.microtasks.follow_path`
+* `anim_walk`: Mob animation name for horizontal movement (default: `"walk"`)
+* `anim_climb`: Mob animation name for vertical movement (default: `"idle"`)
+* `anim_idle`: Mob animation name when idling (default: `"idle"`)
 

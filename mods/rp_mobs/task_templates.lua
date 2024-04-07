@@ -86,7 +86,7 @@ end
 
 rp_mobs.microtasks = {}
 
-rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, set_yaw, anim_idle, anim_walk, finish_func)
+rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, set_yaw, finish_func, anim_walk, anim_climb, anim_idle)
 	local mtask = {}
 	mtask.label = "follow climb path"
 	mtask.on_start = function(self, mob)
@@ -210,7 +210,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 			vel.z = 0
 			mob.object:set_velocity(vel)
 			self.statedata.walking = false
-			rp_mobs.set_animation(mob, anim_idle or "idle")
+			rp_mobs.set_animation(mob, anim_climb or "idle")
 		end
 	end
 	mtask.is_finished = function(self, mob)
