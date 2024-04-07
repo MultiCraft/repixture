@@ -277,22 +277,39 @@ local profession_exists = function(profession)
 	end
 end
 
-local set_random_textures = function(mob)
+-- Initialize the villager's base skin if not set before.
+-- Set force to true to always set the base skin.
+local set_random_base_skin = function(mob, force)
+	if mob._custom_state.base_skin and not force then
+		return
+	end
 	local r = math.random(1, 6)
-	local tex_base = "mobs_villager_base_"..r..".png"
+	local base_skin = "mobs_villager_base_"..r..".png"
+	mob._custom_state.base_skin = base_skin
+	return base_skin
+end
+
+-- Update the villager textures and related metadata.
+-- The textures have two components:
+-- * base skin for the literal skin (will be initialized on the first call)
+-- * clothes for the profession (depends on the profession)
+rp_mobs_mobs.update_villager_textures = function(mob)
 	local profession = mob._custom_state.profession or "unemployed"
 	local tex_clothes = "mobs_villager_clothes_"..profession..".png"
-	local tex = { tex_base .. "^" .. tex_clothes }
+	if not mob._custom_state.base_skin then
+		set_random_base_skin(mob)
+	end
+	local base_skin = mob._custom_state.base_skin
+	local tex = { base_skin .. "^" .. tex_clothes }
 
 	mob.object:set_properties({
 		textures = tex,
 	})
 	mob._textures_adult = tex
-
-	-- Remember when the mob has chosen its initial textures
-	mob._custom_state.textures_chosen = true
 end
 
+-- Set random villager profession
+-- set_textures should be called afterwards
 local set_random_profession = function(mob)
 	local p = math.random(1, #professions)
 	local profession = professions[p][1]
@@ -300,14 +317,13 @@ local set_random_profession = function(mob)
 end
 
 -- Set profession of villager mob to the given profession.
--- NOTE: This function must only be called right after the spawning of a villager.
--- Calling it at a later time will change the skin!
+-- NOTE: This should only be called right after the villager was created,
+-- not later. This function will not update the villager trades.
 rp_mobs_mobs.set_villager_profession = function(mob, profession)
 	mob._custom_state.profession = profession
 	minetest.log("action", "[rp_mobs_mobs] Profession of villager at "..minetest.pos_to_string(mob.object:get_pos(), 1).." initialized as: "..tostring(profession))
 
-	set_random_textures(mob)
-	mob._custom_state.textures_chosen = true
+	rp_mobs_mobs.update_villager_textures(mob)
 end
 
 -- Gets profession of villager; also initializes
@@ -1345,11 +1361,7 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 			if not self._custom_state.profession then
 				set_random_profession(self)
 			end
-			if not self._custom_state.textures_chosen then
-				set_random_textures(self)
-			else
-				self.object:set_properties({textures = self._textures_adult})
-			end
+			rp_mobs_mobs.update_villager_textures(self)
 
 			rp_mobs.init_fall_damage(self, true)
 			rp_mobs.init_breath(self, true, {
