@@ -1,5 +1,5 @@
 # textdomain: rp_hunger
-Hunger Debug:=
+Hunger Debug:=Отладка голода:
 <hunger disabled>=<голод выключен>
 You are hungry.=Ты голоден.
 You are starving.=Ты голодаешь.
