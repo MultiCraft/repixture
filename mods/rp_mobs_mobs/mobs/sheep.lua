@@ -197,6 +197,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			rp_mobs.restore_state(self, staticdata)
 			if self._custom_state.shorn then
 				self.object:set_properties({
+					-- NOTE: If this is updated, rp_mobs_legacy must be updated as well!
 					textures = {"mobs_sheep_shaved.png"},
 				})
 			end
@@ -280,6 +281,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 					end
 					clicker:set_wielded_item(item)
 					self.object:set_properties({
+						-- NOTE: If this is updated, rp_mobs_legacy must be updated as well!
 						textures = {"mobs_sheep_shaved.png"},
 					})
 					self._custom_state.wool_regrow_timer = 0

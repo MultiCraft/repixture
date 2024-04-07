@@ -19,31 +19,46 @@ local register_mob_alias = function(old_name, new_name, villager_profession)
 		},
 		on_activate = function(self, staticdata)
 			local pos = self.object:get_pos()
-			local hp = self.object:get_hp()
 			self.object:remove()
 			local mobent = minetest.add_entity(pos, new_name)
 			if mobent then
-				-- Restore child status
-				if staticdata then
-					local data = minetest.deserialize(staticdata)
-					if data and data.child then
-						rp_mobs.turn_into_child(mobent)
+				-- Initialize custom state
+				local mobluaent = mobent:get_luaentity()
+				if mobluaent then
+					if not mobluaent._custom_state then
+						mobluaent._custom_state = {}
 					end
 				end
+
+				-- Restore mob status
+				if staticdata then
+					local data = minetest.deserialize(staticdata)
+					if data then
+						minetest.log(dump(data))
+						-- Restore child status
+						if data.child then
+							rp_mobs.turn_into_child(mobent)
+						-- Restore shorn sheep status
+						elseif old_name == "mobs:sheep" and data.gotten == true and mobluaent then
+							mobluaent._custom_state.shorn = true
+							mobent:set_properties({
+								textures = {"mobs_sheep_shaved.png"},
+							})
+						end
+						-- Restore health
+						if data.health and type(data.health) == "number" and data.health > 1 then
+							mobent:set_hp(data.health)
+						end
+					end
+				end
+
 				-- Restore villager profession
 				if villager_profession then
-					local mobluaent = mobent:get_luaentity()
 					if mobluaent then
-						if not mobluaent._custom_state then
-							mobluaent._custom_state = {}
-						end
 						mobluaent._custom_state.profession = villager_profession
 						minetest.log("action", "[rp_mobs_legacy] Restored profession of legacy villager at "..minetest.pos_to_string(pos, 1).." to: "..villager_profession)
 					end
 				end
-				-- Note: We don't restore any other attributes to keep it simple.
-				-- Most notably, the HP of the legacy mob apparently cannot be
-				-- retrieved so the new mob will spawn with full HP.
 				minetest.log("action", "[rp_mobs_legacy] Replaced legacy mob '"..old_name.."' at "..minetest.pos_to_string(pos, 1).." with '"..new_name.."'")
 			else
 				minetest.log("error", "[rp_mobs_legacy] Could not replace legacy mob '"..old_name.."' at "..minetest.pos_to_string(pos, 1).." with '"..new_name.."'!")
