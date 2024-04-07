@@ -8,8 +8,7 @@ gold = {}
 -- Sound pitch modifier of gold nodes
 gold.PITCH = 1.25
 
-local mapseed = minetest.get_mapgen_setting("seed")
-gold.pr = PseudoRandom(mapseed+8732)
+gold.pr = PseudoRandom(os.time())
 
 --[[
 Table of trades offered by villagers.
