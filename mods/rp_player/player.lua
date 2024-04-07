@@ -96,7 +96,7 @@ local function step(dtime)
                exptime = {min=0.3,max=0.8},
                size = {min=0.7, max=2.4},
                texture = {
-                  name = "bubble.png",
+                  name = "rp_textures_bubble_particle.png",
                   alpha_tween = { 1, 0, start = 0.75 }
                }
          })
