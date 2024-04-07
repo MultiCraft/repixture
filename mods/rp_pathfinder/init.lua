@@ -172,7 +172,7 @@ local function vertical_walk(start_pos, vdir, max_height, stop_func, stop_value,
 			pessimistic = 2
 		end
 		nheight = get_node_height(final_node, pessimistic)
-		height = height - math.max(0, 1 - nheight)
+		height = height - (1 - nheight)
 	end
 
 	if ok then

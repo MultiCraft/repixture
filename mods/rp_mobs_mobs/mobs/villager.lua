@@ -69,8 +69,7 @@ local is_node_walkable = function(node)
 		return false
 	elseif minetest.get_item_group(node.name, "fence") ~= 0 then
 		-- We refuse to walk on fences (although we could)
-		-- due to the overhigh collisionbox. Also it looks weird
-		-- when the villagers jump over the fence at farms.
+		-- because it looks weird.
 		return false
 	elseif def.walkable then
 		-- Walkable by definition
