@@ -122,6 +122,27 @@ local is_node_blocking_water_ok = function(node)
 	end
 end
 
+-- Check if node makes villager stuck if inside
+local is_node_stucking = function(node)
+	local def = minetest.registered_nodes[node.name]
+	if not def then
+		-- Unknown nodes are blocking
+		return true
+	elseif minetest.get_item_group(node.name, "door") ~= 0
+			or minetest.get_item_group(node.name, "slab") ~= 0
+			or minetest.get_item_group(node.name, "path") ~= 0 then
+		return false
+	elseif def.damage_per_second > 0 then
+		-- No damage allowed
+		return true
+	elseif def.walkable then
+		-- Walkable by definition = blocking
+		return true
+	else
+		return false
+	end
+end
+
 -- Returns true if node is swimmable
 local is_node_swimmable = function(node)
 	local def = minetest.registered_nodes[node.name]
@@ -1031,9 +1052,9 @@ local movement_decider_step = function(task_queue, mob, dtime)
 	local mnode2 = minetest.get_node(rmobpos2)
 
 	-- Test if mob is stuck; unstuck it if that's the case
-	if is_node_blocking_water_ok(mnode) or is_node_blocking_water_ok(mnode2) then
+	if is_node_stucking(mnode) or is_node_stucking(mnode2) then
 		local current_task_entry = task_queue.tasks:getFirst()
-		if current_task_entry and current_task_entry.data and current_task_entry.data.label == "get unstuck" then
+		if current_task_entry and current_task_entry.data and current_task_entry.data.label ~= "stand still" then
 			return
 		end
 		rp_mobs.clear_task_queue(task_queue)
