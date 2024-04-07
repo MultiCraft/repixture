@@ -134,7 +134,7 @@ Registers an alias for a subcondition identifier of an achievement. This essenti
 an old existing subcondition identifier with a new one.
 
 Useful if for some reason you needed to change a subcondition identifier of an achievement
-and still want to be forwards-compatible.
+and still want to be backwards-compatible.
 
 If you rename a subcondition without using an alias, then all players who have completed
 that subcondition will lose it. By adding an alias, this allows players to still keep
