@@ -629,6 +629,13 @@ if mod_achievements then
 		      difficulty = 6.9,
 		})
 
+		for old, new in pairs(minetest.registered_aliases) do
+			if minetest.get_item_group(new, "food") > 0 then
+				achievements.register_subcondition_alias("eat_everything", old, new)
+				minetest.log("verbose", "[rp_hunger] Registered subcondition alias for 'eat_everything' achievement: "..old.." -> "..new)
+			end
+		end
+
 	end)
 end
 
