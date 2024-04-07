@@ -167,9 +167,9 @@ local function vertical_walk(start_pos, vdir, max_height, stop_func, stop_value,
 		local nheight
 		local pessimistic
 		if vdir > 0 then
-			pessimistic = 0
-		else
 			pessimistic = 2
+		else
+			pessimistic = 0
 		end
 		nheight = get_node_height(final_node, pessimistic)
 		height = height - (1 - nheight)
