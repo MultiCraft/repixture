@@ -59,8 +59,26 @@ local register_mob_alias = function(old_name, new_name, villager_profession)
 						end
 						-- Restore health
 						if data.health and type(data.health) == "number" and data.health > 0 then
-							mobent:set_hp(data.health)
-							minetest.log("info", "[rp_mobs_legacy] Restored health of legacy villager at "..minetest.pos_to_string(pos, 1).." to: "..data.health)
+							local real_health
+							if villager_profession then
+								-- Villager health is correct
+								real_health = data.health
+							elseif old_name == "mobs:skunk" then
+								-- Health of skunk is 70% compared to 3.12.1
+								-- due to armor=130 in old definition
+								real_health = math.max(1, math.ceil(data.health * 0.7))
+							else
+								-- Health of other mobs is half compared to 3.12.1
+								-- due to armor=200 in old definition
+								real_health = math.max(1, math.ceil(data.health * 0.5))
+							end
+
+							-- Limit to hp_max
+							local props = mobent:get_properties()
+							real_health = math.min(real_health, props.hp_max)
+
+							mobent:set_hp(real_health)
+							minetest.log("info", "[rp_mobs_legacy] Restored health of legacy mob at "..minetest.pos_to_string(pos, 1).." to: "..real_health)
 						end
 						-- Set villager base skin based on villager textures.
 						-- This keepps the literal skin intact, but the clothes
