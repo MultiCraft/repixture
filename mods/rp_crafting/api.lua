@@ -126,8 +126,15 @@ function crafting.get_crafts(player_inventory, player_name)
    end
 
    local function get_all()
-      for craft_id in pairs(crafting.registered_crafts) do
-         table.insert(results, craft_id)
+      for craft_id, craft in pairs(crafting.registered_crafts) do
+         local output_stack = ItemStack(craft.output)
+         local name = output_stack:get_name()
+         -- Hide items with the 'not_in_craft_guide' group when the crafting guide is active;
+         -- These items are only craftable with the craft guide disabled.
+         -- This is useful for secret crafting recipes.
+         if minetest.get_item_group(name, "not_in_craft_guide") == 0 then
+            table.insert(results, craft_id)
+         end
       end
    end
 
