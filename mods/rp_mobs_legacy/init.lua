@@ -80,6 +80,11 @@ local register_mob_alias = function(old_name, new_name, villager_profession)
 								end
 							end
 						end
+						-- Restore villager trades
+						if villager_profession and data.npc_trades then
+							mobluaent._custom_state.trades = data.npc_trades
+							minetest.log("info", "[rp_mobs_legacy] Restored trades of villager at "..minetest.pos_to_string(pos, 1))
+						end
 					end
 				end
 
