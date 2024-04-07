@@ -1430,8 +1430,8 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 					return
 				end
 
-				if not self._trades or not self._trade or not self._trade_index then
-					self._trades = {}
+				if not self._custom_state.trades then
+					self._custom_state.trades = {}
 					local possible_trades = table.copy(gold.trades[profession])
 					for t=1, TRADES_COUNT do
 						if #possible_trades == 0 then
@@ -1439,17 +1439,19 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 						end
 						local index = util.choice(possible_trades, gold.pr)
 						local trade = possible_trades[index]
-						table.insert(self._trades, trade)
+						table.insert(self._custom_state.trades, trade)
 						table.remove(possible_trades, index)
-					end
-					self._trade_index = 1
-					if not self._trade then
-						self._trade = self._trades[self._trade_index]
 					end
 					minetest.log("action", "[rp_mobs_mobs] Villager trades of villager at "..minetest.pos_to_string(self.object:get_pos(), 1).." initialized")
 				end
+				if not self._temp_custom_state.trade or not self._temp_custom_state.trade_index then
+					self._temp_custom_state.trade_index = 1
+					if not self._temp_custom_state.trade then
+						self._temp_custom_state.trade = self._custom_state.trades[self._temp_custom_state.trade_index]
+					end
+				end
 
-				if not gold.trade(self._trade, profession, clicker, self, self._trade_index, self._trades) then
+				if not gold.trade(self._temp_custom_state.trade, profession, clicker, self, self._temp_custom_state.trade_index, self._custom_state.trades) then
 					-- Good mood: Give hint or funny text
 					if hp >= hp_max-7 then
 						villager_speech.talk_about_item(profession, iname, name)
