@@ -161,6 +161,17 @@ function achievements.register_achievement(name, def)
    table.sort(achievements.registered_achievements_list, sort_by_difficulty)
 end
 
+function achievements.register_subcondition_alias(aname, old_subcondition_name, new_subcondition_name)
+   local achv = achievements.registered_achievements[aname]
+   if not achv then
+      return
+   end
+   if not achv.subcondition_aliases then
+      achv.subcondition_aliases = {}
+   end
+   achv.subcondition_aliases[old_subcondition_name] = new_subcondition_name
+end
+
 local function get_completed_subconditions(player, aname)
    local reg_subconds = achievements.registered_achievements[aname].subconditions
    local reg_subconds_readable = achievements.registered_achievements[aname].subconditions_readable
@@ -349,6 +360,29 @@ local function remove_achievement(player, aname)
    minetest.log("action", "[rp_achievements] " .. playername .. " lost achievement '"..aname.."'")
 end
 
+-- Iterate through all subconditions of the player's achievements
+-- and move the subcondition completion status of aliased
+-- subcondition names to the new subcondition name.
+-- Required if an achievmement has subcondition aliases
+-- and the player comes from a version with old subcondition
+-- names.
+local function update_aliased_subconditions(player)
+   local subconds = get_achievement_subconditions(player)
+
+   for aname, achv in pairs(achievements.registered_achievements) do
+      if subconds[aname] and achv.subcondition_aliases then
+         for old_name, new_name in pairs(achv.subcondition_aliases) do
+            if subconds[aname][old_name] == true then
+               minetest.log("action", "[rp_achievements] Updating aliased subcondition name for "..player:get_player_name()..": "..old_name.." -> "..new_name.." (aname="..aname..")")
+               subconds[aname][new_name] = true
+               subconds[aname][old_name] = nil
+            end
+         end
+      end
+   end
+   set_achievement_subconditions(player, subconds)
+end
+
 function achievements.trigger_subcondition(player, aname, subcondition)
    if not achievements.registered_achievements[aname] then
       minetest.log("error", "[rp_achievements] Cannot find registered achievement " .. aname)
@@ -489,6 +523,7 @@ local function on_joinplayer(player)
       meta:set_int("rp_achievements:version", 1)
    end
 
+   update_aliased_subconditions(player)
    -- Mark subcondition achievement that are marked as complete
    -- as incomplete again if it no longer meets all subconditions.
    -- This can happen if the player joins in a new version

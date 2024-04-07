@@ -127,3 +127,22 @@ Parameters:
 
 * `player`: Player to check the achievement for
 * `name`: Achievement identifier
+
+### `achievements.register_subcondition_alias(name, old_subcondition_name, new_subcondition_name)`
+
+Registers an alias for a subcondition identifier of an achievement. This essentially replaces
+an old existing subcondition identifier with a new one.
+
+Useful if for some reason you needed to change a subcondition identifier of an achievement
+and still want to be forwards-compatible.
+
+If you rename a subcondition without using an alias, then all players who have completed
+that subcondition will lose it. By adding an alias, this allows players to still keep
+it after an update.
+
+Parameters:
+
+* `name`: Achievement identifier
+* `old_subcondition_name`: The old/legacy subcondition name you wish to replace
+* `new_subcondition_name`: The new subcondition name you consider to be canonical now.
+
