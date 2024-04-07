@@ -72,7 +72,7 @@ rp_mobs.register_mob("rp_mobs_mobs:walker", {
 	dead_y_offset = -0.3,
 	entity_definition = {
 		initial_properties = {
-			hp_max = 16,
+			hp_max = 8,
 			physical = true,
 			collisionbox = {-0.3, 0, -0.3, 0.3, 1.5, 0.3},
 			selectionbox = {-0.3, 0, -0.3, 0.3, 1.5, 0.3, rotate=true},

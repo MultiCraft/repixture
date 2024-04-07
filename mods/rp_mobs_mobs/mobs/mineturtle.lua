@@ -175,7 +175,7 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 	dead_y_offset = -0.4,
 	entity_definition = {
 		initial_properties = {
-			hp_max = 15,
+			hp_max = 8,
 			physical = true,
 			collisionbox = {-0.4, 0, -0.4, 0.4, 0.7, 0.4},
 			selectionbox = {-0.4, 0, -0.5, 0.4, 0.7, 0.8, rotate=true},

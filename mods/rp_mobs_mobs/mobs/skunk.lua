@@ -59,7 +59,7 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 	dead_y_offset = 0.3,
 	entity_definition = {
 		initial_properties = {
-			hp_max = 16,
+			hp_max = 15,
 			physical = true,
 			collisionbox = {-0.2, -0.45, -0.2, 0.2, 0.1, 0.2},
 			selectionbox = {-0.15, -0.45, -0.35, 0.15, 0.1, 0.45, rotate=true},

@@ -69,7 +69,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 	dead_y_offset = 0.6,
 	entity_definition = {
 		initial_properties = {
-			hp_max = 20,
+			hp_max = 10,
 			physical = true,
 			collisionbox = {-0.49, -1, -0.49, 0.49, 0.1, 0.49},
 			selectionbox = {-0.4, -1, -0.6, 0.4, 0.1, 0.7, rotate = true},
