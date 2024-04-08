@@ -241,14 +241,14 @@ msgstr "Слиток кованого железа"
 msgid "Ladder"
 msgstr "Лестница"
 
-msgid "@1 Underwater"
-msgstr "@1 Под водой"
-
-msgid "@1 Beach"
-msgstr "@1 Пляж"
-
 msgid "Marsh"
 msgstr "Топь"
+
+msgid "Marsh Underwater"
+msgstr ""
+
+msgid "Marsh Beach"
+msgstr ""
 
 msgid "Dense Grassland"
 msgstr "Густой луг"
@@ -259,14 +259,38 @@ msgstr "Гига берёзовый лес"
 msgid "Mixed Forest"
 msgstr "Смешанный лес"
 
+msgid "Mixed Forest Underwater"
+msgstr ""
+
+msgid "Mixed Forest Beach"
+msgstr ""
+
 msgid "Grove"
 msgstr "Роща"
+
+msgid "Grove Underwater"
+msgstr ""
+
+msgid "Grove Beach"
+msgstr ""
 
 msgid "Wilderness"
 msgstr "Пустыня"
 
+msgid "Wilderness Underwater"
+msgstr ""
+
+msgid "Wilderness Beach"
+msgstr ""
+
 msgid "Grassland"
 msgstr "Луг"
+
+msgid "Grassland Underwater"
+msgstr ""
+
+msgid "Grassland Beach"
+msgstr ""
 
 msgid "Orchard"
 msgstr "Фруктовый сад"
@@ -274,50 +298,140 @@ msgstr "Фруктовый сад"
 msgid "Shrubbery"
 msgstr "Кустарниковая заросль"
 
+msgid "Shrubbery Underwater"
+msgstr ""
+
+msgid "Shrubbery Beach"
+msgstr ""
+
 msgid "Chaparral"
 msgstr "Колючниковая заросль"
 
 msgid "Savanna"
 msgstr "Саванна"
 
+msgid "Savanna Underwater"
+msgstr ""
+
+msgid "Savanna Beach"
+msgstr ""
+
 msgid "Wasteland"
 msgstr "Пустошь"
+
+msgid "Wasteland Underwater"
+msgstr ""
+
+msgid "Wasteland Beach"
+msgstr ""
 
 msgid "Rocky Dryland"
 msgstr "Скалистая засушь"
 
+msgid "Rocky Dryland Underwater"
+msgstr ""
+
+msgid "Rocky Dryland Beach"
+msgstr ""
+
 msgid "Wooded Dryland"
 msgstr "Лесистая засушь"
+
+msgid "Wooded Dryland Underwater"
+msgstr ""
+
+msgid "Wooded Dryland Beach"
+msgstr ""
 
 msgid "Savannic Wasteland"
 msgstr "Саваннская пустошь"
 
+msgid "Savannic Wasteland Underwater"
+msgstr ""
+
+msgid "Savannic Wasteland Beach"
+msgstr ""
+
 msgid "Thorny Shrubs"
 msgstr "Колючие кустарники"
+
+msgid "Thorny Shrubs Underwater"
+msgstr ""
+
+msgid "Thorny Shrubs Beach"
+msgstr ""
 
 msgid "Mystery Forest"
 msgstr "Мистический лес"
 
+msgid "Mystery Forest Underwater"
+msgstr ""
+
+msgid "Mystery Forest Beach"
+msgstr ""
+
 msgid "Poplar Plains"
 msgstr "Равнины тополя"
+
+msgid "Poplar Plains Underwater"
+msgstr ""
+
+msgid "Poplar Plains Beach"
+msgstr ""
 
 msgid "Baby Poplar Plains"
 msgstr "Малые равнины тополя"
 
+msgid "Baby Poplar Plains Underwater"
+msgstr ""
+
+msgid "Baby Poplar Plains Beach"
+msgstr ""
+
 msgid "Tall Birch Forest"
 msgstr "Высокий берёзовый лес"
+
+msgid "Tall Birch Forest Underwater"
+msgstr ""
+
+msgid "Tall Birch Forest Beach"
+msgstr ""
 
 msgid "Birch Forest"
 msgstr "Берёзовый лес"
 
+msgid "Birch Forest Underwater"
+msgstr ""
+
+msgid "Birch Forest Beach"
+msgstr ""
+
 msgid "Oak Shrubbery"
 msgstr "Дубовая кустарниковая заросль"
+
+msgid "Oak Shrubbery Underwater"
+msgstr ""
+
+msgid "Oak Shrubbery Beach"
+msgstr ""
 
 msgid "Oak Forest"
 msgstr "Дубовый лес"
 
+msgid "Oak Forest Underwater"
+msgstr ""
+
+msgid "Oak Forest Beach"
+msgstr ""
+
 msgid "Tall Oak Forest"
 msgstr "Высокий дубовый лес"
+
+msgid "Tall Oak Forest Underwater"
+msgstr ""
+
+msgid "Tall Oak Forest Beach"
+msgstr ""
 
 msgid "Dense Oak Forest"
 msgstr "Густой дубовый лес"
@@ -325,11 +439,23 @@ msgstr "Густой дубовый лес"
 msgid "Swamp Meadow"
 msgstr "Болотный луг"
 
+msgid "Swamp Meadow Underwater"
+msgstr ""
+
+msgid "Swamp Meadow Beach"
+msgstr ""
+
 msgid "Swamp Meadow Highland"
 msgstr "Болотное луговое нагорье"
 
 msgid "Mixed Swamp"
 msgstr "Смешанное болото"
+
+msgid "Mixed Swamp Underwater"
+msgstr ""
+
+msgid "Mixed Swamp Beach"
+msgstr ""
 
 msgid "Mixed Swamp Highland"
 msgstr "Смешанное болотное нагорье"
@@ -337,17 +463,35 @@ msgstr "Смешанное болотное нагорье"
 msgid "Swamp Forest"
 msgstr "Болотный лес"
 
+msgid "Swamp Forest Underwater"
+msgstr ""
+
+msgid "Swamp Forest Beach"
+msgstr ""
+
 msgid "Swamp Forest Highland"
 msgstr "Болотное лесное нагорье"
 
 msgid "Dry Swamp"
 msgstr "Сухое болото"
 
+msgid "Dry Swamp Underwater"
+msgstr ""
+
+msgid "Dry Swamp Beach"
+msgstr ""
+
 msgid "Dry Swamp Highland"
 msgstr "Сухое болотное нагорье"
 
 msgid "Papyrus Swamp"
 msgstr "Папирусное болото"
+
+msgid "Papyrus Swamp Underwater"
+msgstr ""
+
+msgid "Papyrus Swamp Beach"
+msgstr ""
 
 msgid "Underground"
 msgstr "Подземелье"

@@ -19,8 +19,8 @@ msgstr "1.: Werkzeug hier ablegen"
 msgid "2. Hold a jewel and punch the bench"
 msgstr "2.: Juwel halten und auf Bank hauen"
 
-msgid "Jeweled @1"
-msgstr "@1 (Juwel)"
+msgid "@1 (jeweled)"
+msgstr ""
 
 msgid "Range bonus: @1"
 msgstr "Reichweitenbonus: @1"

@@ -241,14 +241,14 @@ msgstr "Lingot de fer forgé"
 msgid "Ladder"
 msgstr "Échelle"
 
-msgid "@1 Underwater"
-msgstr "@1 sous-marin"
-
-msgid "@1 Beach"
-msgstr "@1 plage"
-
 msgid "Marsh"
 msgstr "Marais"
+
+msgid "Marsh Underwater"
+msgstr ""
+
+msgid "Marsh Beach"
+msgstr ""
 
 msgid "Dense Grassland"
 msgstr "Prairie dense"
@@ -259,14 +259,38 @@ msgstr "Forêt de giga bouleaux"
 msgid "Mixed Forest"
 msgstr "Forêt mixte"
 
+msgid "Mixed Forest Underwater"
+msgstr ""
+
+msgid "Mixed Forest Beach"
+msgstr ""
+
 msgid "Grove"
 msgstr "Bocage"
+
+msgid "Grove Underwater"
+msgstr ""
+
+msgid "Grove Beach"
+msgstr ""
 
 msgid "Wilderness"
 msgstr "Jungle"
 
+msgid "Wilderness Underwater"
+msgstr ""
+
+msgid "Wilderness Beach"
+msgstr ""
+
 msgid "Grassland"
 msgstr "Prairie"
+
+msgid "Grassland Underwater"
+msgstr ""
+
+msgid "Grassland Beach"
+msgstr ""
 
 msgid "Orchard"
 msgstr "Verger"
@@ -274,50 +298,140 @@ msgstr "Verger"
 msgid "Shrubbery"
 msgstr "Fruticée"
 
+msgid "Shrubbery Underwater"
+msgstr ""
+
+msgid "Shrubbery Beach"
+msgstr ""
+
 msgid "Chaparral"
 msgstr "Chaparral"
 
 msgid "Savanna"
 msgstr "Savane"
 
+msgid "Savanna Underwater"
+msgstr ""
+
+msgid "Savanna Beach"
+msgstr ""
+
 msgid "Wasteland"
 msgstr "Désert"
+
+msgid "Wasteland Underwater"
+msgstr ""
+
+msgid "Wasteland Beach"
+msgstr ""
 
 msgid "Rocky Dryland"
 msgstr "Terres arides rocheuses"
 
+msgid "Rocky Dryland Underwater"
+msgstr ""
+
+msgid "Rocky Dryland Beach"
+msgstr ""
+
 msgid "Wooded Dryland"
 msgstr "Terres arides boisées"
+
+msgid "Wooded Dryland Underwater"
+msgstr ""
+
+msgid "Wooded Dryland Beach"
+msgstr ""
 
 msgid "Savannic Wasteland"
 msgstr "Désert savanique"
 
+msgid "Savannic Wasteland Underwater"
+msgstr ""
+
+msgid "Savannic Wasteland Beach"
+msgstr ""
+
 msgid "Thorny Shrubs"
 msgstr "Arbustes épineux"
+
+msgid "Thorny Shrubs Underwater"
+msgstr ""
+
+msgid "Thorny Shrubs Beach"
+msgstr ""
 
 msgid "Mystery Forest"
 msgstr "Forêt mystérieuse"
 
+msgid "Mystery Forest Underwater"
+msgstr ""
+
+msgid "Mystery Forest Beach"
+msgstr ""
+
 msgid "Poplar Plains"
 msgstr "Plaines de peupliers"
+
+msgid "Poplar Plains Underwater"
+msgstr ""
+
+msgid "Poplar Plains Beach"
+msgstr ""
 
 msgid "Baby Poplar Plains"
 msgstr "Plaines de bébés peupliers"
 
+msgid "Baby Poplar Plains Underwater"
+msgstr ""
+
+msgid "Baby Poplar Plains Beach"
+msgstr ""
+
 msgid "Tall Birch Forest"
 msgstr "Forêt de grands bouleaux"
+
+msgid "Tall Birch Forest Underwater"
+msgstr ""
+
+msgid "Tall Birch Forest Beach"
+msgstr ""
 
 msgid "Birch Forest"
 msgstr "Forêt de bouleaux"
 
+msgid "Birch Forest Underwater"
+msgstr ""
+
+msgid "Birch Forest Beach"
+msgstr ""
+
 msgid "Oak Shrubbery"
 msgstr "Fruticée de chênes"
+
+msgid "Oak Shrubbery Underwater"
+msgstr ""
+
+msgid "Oak Shrubbery Beach"
+msgstr ""
 
 msgid "Oak Forest"
 msgstr "Forêt de chênes"
 
+msgid "Oak Forest Underwater"
+msgstr ""
+
+msgid "Oak Forest Beach"
+msgstr ""
+
 msgid "Tall Oak Forest"
 msgstr "Forêt de grands chênes"
+
+msgid "Tall Oak Forest Underwater"
+msgstr ""
+
+msgid "Tall Oak Forest Beach"
+msgstr ""
 
 msgid "Dense Oak Forest"
 msgstr "Forêt de chênes denses"
@@ -325,11 +439,23 @@ msgstr "Forêt de chênes denses"
 msgid "Swamp Meadow"
 msgstr "Pré marécageux"
 
+msgid "Swamp Meadow Underwater"
+msgstr ""
+
+msgid "Swamp Meadow Beach"
+msgstr ""
+
 msgid "Swamp Meadow Highland"
 msgstr "Pré marécageux des hauts-plateaux"
 
 msgid "Mixed Swamp"
 msgstr "Marécage mixte"
+
+msgid "Mixed Swamp Underwater"
+msgstr ""
+
+msgid "Mixed Swamp Beach"
+msgstr ""
 
 msgid "Mixed Swamp Highland"
 msgstr "Marécage mixte des hauts-plateaux"
@@ -337,17 +463,35 @@ msgstr "Marécage mixte des hauts-plateaux"
 msgid "Swamp Forest"
 msgstr "Forêt marécageuse"
 
+msgid "Swamp Forest Underwater"
+msgstr ""
+
+msgid "Swamp Forest Beach"
+msgstr ""
+
 msgid "Swamp Forest Highland"
 msgstr "Forêt marécageuse des hauts-plateaux"
 
 msgid "Dry Swamp"
 msgstr "Marécage sec"
 
+msgid "Dry Swamp Underwater"
+msgstr ""
+
+msgid "Dry Swamp Beach"
+msgstr ""
+
 msgid "Dry Swamp Highland"
 msgstr "Marécage sec des hauts-plateaux"
 
 msgid "Papyrus Swamp"
 msgstr "Marécage de papyrus"
+
+msgid "Papyrus Swamp Underwater"
+msgstr ""
+
+msgid "Papyrus Swamp Beach"
+msgstr ""
 
 msgid "Underground"
 msgstr "Sous-sol"

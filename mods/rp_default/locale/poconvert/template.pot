@@ -241,13 +241,13 @@ msgstr ""
 msgid "Ladder"
 msgstr ""
 
-msgid "@1 Underwater"
-msgstr ""
-
-msgid "@1 Beach"
-msgstr ""
-
 msgid "Marsh"
+msgstr ""
+
+msgid "Marsh Underwater"
+msgstr ""
+
+msgid "Marsh Beach"
 msgstr ""
 
 msgid "Dense Grassland"
@@ -259,13 +259,37 @@ msgstr ""
 msgid "Mixed Forest"
 msgstr ""
 
+msgid "Mixed Forest Underwater"
+msgstr ""
+
+msgid "Mixed Forest Beach"
+msgstr ""
+
 msgid "Grove"
+msgstr ""
+
+msgid "Grove Underwater"
+msgstr ""
+
+msgid "Grove Beach"
 msgstr ""
 
 msgid "Wilderness"
 msgstr ""
 
+msgid "Wilderness Underwater"
+msgstr ""
+
+msgid "Wilderness Beach"
+msgstr ""
+
 msgid "Grassland"
+msgstr ""
+
+msgid "Grassland Underwater"
+msgstr ""
+
+msgid "Grassland Beach"
 msgstr ""
 
 msgid "Orchard"
@@ -274,49 +298,139 @@ msgstr ""
 msgid "Shrubbery"
 msgstr ""
 
+msgid "Shrubbery Underwater"
+msgstr ""
+
+msgid "Shrubbery Beach"
+msgstr ""
+
 msgid "Chaparral"
 msgstr ""
 
 msgid "Savanna"
 msgstr ""
 
+msgid "Savanna Underwater"
+msgstr ""
+
+msgid "Savanna Beach"
+msgstr ""
+
 msgid "Wasteland"
+msgstr ""
+
+msgid "Wasteland Underwater"
+msgstr ""
+
+msgid "Wasteland Beach"
 msgstr ""
 
 msgid "Rocky Dryland"
 msgstr ""
 
+msgid "Rocky Dryland Underwater"
+msgstr ""
+
+msgid "Rocky Dryland Beach"
+msgstr ""
+
 msgid "Wooded Dryland"
+msgstr ""
+
+msgid "Wooded Dryland Underwater"
+msgstr ""
+
+msgid "Wooded Dryland Beach"
 msgstr ""
 
 msgid "Savannic Wasteland"
 msgstr ""
 
+msgid "Savannic Wasteland Underwater"
+msgstr ""
+
+msgid "Savannic Wasteland Beach"
+msgstr ""
+
 msgid "Thorny Shrubs"
+msgstr ""
+
+msgid "Thorny Shrubs Underwater"
+msgstr ""
+
+msgid "Thorny Shrubs Beach"
 msgstr ""
 
 msgid "Mystery Forest"
 msgstr ""
 
+msgid "Mystery Forest Underwater"
+msgstr ""
+
+msgid "Mystery Forest Beach"
+msgstr ""
+
 msgid "Poplar Plains"
+msgstr ""
+
+msgid "Poplar Plains Underwater"
+msgstr ""
+
+msgid "Poplar Plains Beach"
 msgstr ""
 
 msgid "Baby Poplar Plains"
 msgstr ""
 
+msgid "Baby Poplar Plains Underwater"
+msgstr ""
+
+msgid "Baby Poplar Plains Beach"
+msgstr ""
+
 msgid "Tall Birch Forest"
+msgstr ""
+
+msgid "Tall Birch Forest Underwater"
+msgstr ""
+
+msgid "Tall Birch Forest Beach"
 msgstr ""
 
 msgid "Birch Forest"
 msgstr ""
 
+msgid "Birch Forest Underwater"
+msgstr ""
+
+msgid "Birch Forest Beach"
+msgstr ""
+
 msgid "Oak Shrubbery"
+msgstr ""
+
+msgid "Oak Shrubbery Underwater"
+msgstr ""
+
+msgid "Oak Shrubbery Beach"
 msgstr ""
 
 msgid "Oak Forest"
 msgstr ""
 
+msgid "Oak Forest Underwater"
+msgstr ""
+
+msgid "Oak Forest Beach"
+msgstr ""
+
 msgid "Tall Oak Forest"
+msgstr ""
+
+msgid "Tall Oak Forest Underwater"
+msgstr ""
+
+msgid "Tall Oak Forest Beach"
 msgstr ""
 
 msgid "Dense Oak Forest"
@@ -325,10 +439,22 @@ msgstr ""
 msgid "Swamp Meadow"
 msgstr ""
 
+msgid "Swamp Meadow Underwater"
+msgstr ""
+
+msgid "Swamp Meadow Beach"
+msgstr ""
+
 msgid "Swamp Meadow Highland"
 msgstr ""
 
 msgid "Mixed Swamp"
+msgstr ""
+
+msgid "Mixed Swamp Underwater"
+msgstr ""
+
+msgid "Mixed Swamp Beach"
 msgstr ""
 
 msgid "Mixed Swamp Highland"
@@ -337,16 +463,34 @@ msgstr ""
 msgid "Swamp Forest"
 msgstr ""
 
+msgid "Swamp Forest Underwater"
+msgstr ""
+
+msgid "Swamp Forest Beach"
+msgstr ""
+
 msgid "Swamp Forest Highland"
 msgstr ""
 
 msgid "Dry Swamp"
 msgstr ""
 
+msgid "Dry Swamp Underwater"
+msgstr ""
+
+msgid "Dry Swamp Beach"
+msgstr ""
+
 msgid "Dry Swamp Highland"
 msgstr ""
 
 msgid "Papyrus Swamp"
+msgstr ""
+
+msgid "Papyrus Swamp Underwater"
+msgstr ""
+
+msgid "Papyrus Swamp Beach"
 msgstr ""
 
 msgid "Underground"
