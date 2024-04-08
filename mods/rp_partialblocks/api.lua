@@ -162,9 +162,22 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
                -- Place node normally when sneak is pressed
                shift = placer:get_player_control().sneak
             end
-            if (not shift) and minetest.get_node(pos).name == itemstack:get_name()
-            and itemstack:get_count() >= 1 then
-               minetest.set_node(pos, {name = node})
+
+            -- If stacking paintable stacks, check for matching color
+            local old_node = minetest.get_node(pos)
+            local paint_match = true
+            if minetest.get_item_group(old_node.name, "paintable") == 1 then
+               local old_node_paint_index = old_node.param2
+               local imeta = itemstack:get_meta()
+               local item_paint_index = imeta:get_int("palette_index") or 0
+               paint_match = old_node_paint_index == item_paint_index
+            end
+
+            -- Create full block if both slabs are compatible
+            -- and not sneaking
+            if (not shift) and old_node.name == itemstack:get_name()
+            and itemstack:get_count() >= 1 and paint_match then
+               minetest.swap_node(pos, {name = node, param2 = old_node.param2})
 
 	       if not minetest.is_creative_enabled(placer:get_player_name()) then
                    itemstack:take_item()
