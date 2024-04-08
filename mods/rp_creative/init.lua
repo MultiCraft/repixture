@@ -10,9 +10,9 @@ local playerdata = {}
 
 local form = rp_formspec.get_page("rp_formspec:2part")
 
-form = form .. "list[current_player;main;0.25,4.75;8,4;]"
-form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 5.35, 8, 1)
+form = form .. rp_formspec.get_itemslot_bg(0.25, 5.35+1+0.15, 8, 3)
+form = form .. "list[current_player;main;0.25,5.35;8,4;]"
 
 creative.slots_num = 7*4
 
@@ -233,15 +233,16 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 	local pagemax = math.floor((size-1) / (creative.slots_num) + 1)
 	return
 		"list[detached:creative_"..player_name..";main;0.25,0.25;7,4;"..tostring(start_i).."]"..
-		"label[7.5,0.75;"..FS("@1/@2", pagenum, pagemax).."]"..
+		"style_type[label;font_size=*1.5]"..
+		"label[9.15,1;"..FS("@1/@2", pagenum, pagemax).."]"..
 
-                rp_formspec.image_button(7.25, 1.25, 1, 1, "creative_prev", "ui_icon_prev.png")..
-                rp_formspec.image_button(7.25, 2.25, 1, 1, "creative_next", "ui_icon_next.png")..
+                rp_formspec.image_button(9, 1.40, 1, 1, "creative_prev", "ui_icon_prev.png")..
+                rp_formspec.image_button(9, 2.55, 1, 1, "creative_next", "ui_icon_next.png")..
 
                 rp_formspec.get_itemslot_bg(0.25, 0.25, 7,4)..
-		"image[7.25,3.25;1,1;creative_trash_icon.png]"..
-		"list[detached:creative!trash;main;7.25,3.25;1,1;]"..
-                rp_formspec.get_itemslot_bg(7.25, 3.25, 1,1)..
+		"image[9,3.70;1,1;creative_trash_icon.png]"..
+		"list[detached:creative!trash;main;9,3.70;1,1;]"..
+                rp_formspec.get_itemslot_bg(9, 3.70, 1,1)..
 		"listring[current_player;main]"..
 		"listring[detached:creative!trash;main]"..
 		"listring[detached:creative_"..player_name..";main]"..

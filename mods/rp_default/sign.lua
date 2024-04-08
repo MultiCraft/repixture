@@ -7,12 +7,13 @@ local sign_pages = {}
 local register_sign_page = function(id, node_names)
 	local page_name = "rp_default:"..id
 
-	local form = "size[8.5,5]"
+	local form = rp_formspec.default.version
+        form = form .. "size[8.5,4.5]"
 	form = form .. rp_formspec.default.boilerplate
 	form = form .. "background[0,0;8.5,4.5;ui_formspec_bg_"..id..".png]"
 	form = form .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 	form = form .. "set_focus[text;true]"
-	form = form .. "field[1,1.75;7,0;text;;${text}]"
+	form = form .. "field[0.5,1.75;7,0.5;text;;${text}]"
 	rp_formspec.register_page(page_name, form)
 
 	for n=1, #node_names do

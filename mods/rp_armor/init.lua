@@ -34,14 +34,15 @@ armor.slots = {"helmet", "chestplate", "boots"}
 
 local form_armor = rp_formspec.get_page("rp_formspec:2part")
 
-form_armor = form_armor .. "list[current_player;main;0.25,4.75;8,4;]"
-form_armor = form_armor .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_armor = form_armor .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_armor = form_armor .. rp_formspec.get_hotbar_itemslot_bg(0.25, 5.35, 8, 1)
+form_armor = form_armor .. rp_formspec.get_itemslot_bg(0.25, 5.35+1+0.15, 8, 3)
+form_armor = form_armor .. "list[current_player;main;0.25,5.35;8,4;]"
+
 form_armor = form_armor .. "listring[current_player;main]"
 
-form_armor = form_armor .. "label[3.25,1;"..minetest.formspec_escape(S("Helmet")).."]"
-form_armor = form_armor .. "label[3.25,2;"..minetest.formspec_escape(S("Chestplate")).."]"
-form_armor = form_armor .. "label[3.25,3;"..minetest.formspec_escape(S("Boots")).."]"
+form_armor = form_armor .. "label[3.4,1.25;"..minetest.formspec_escape(S("Helmet")).."]"
+form_armor = form_armor .. "label[3.4,2.4;"..minetest.formspec_escape(S("Chestplate")).."]"
+form_armor = form_armor .. "label[3.4,3.55;"..minetest.formspec_escape(S("Boots")).."]"
 
 form_armor = form_armor .. "list[current_player;armor;2.25,0.75;1,3;]"
 form_armor = form_armor .. "listring[current_player;armor]"

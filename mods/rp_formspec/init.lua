@@ -60,12 +60,18 @@ local global_prepend =
     "listcolors[#7d6f52;#00000010;#786848;#68B259;#FFF]" ..
     "background9[0,0;8.5,4.5;ui_formspec_bg_9tiles.png;true;20,20,-20,-28]"
 
+local LIST_SPACING_X = 0.25
+local LIST_SPACING_Y = 0.15
+
 local repixture_prepend =
     shared_prepend ..
-    "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]"
+    "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]"..
+    "style_type[list;spacing="..LIST_SPACING_X..","..LIST_SPACING_Y.."]"
 
 -- Legacy variable that used to contain a bgcolor[] but is no longer needed
 rp_formspec.default.bg = ""
+
+rp_formspec.default.version = "formspec_version[6]"
 
 -- Must be included in every page after size[]
 rp_formspec.default.boilerplate = "no_prepend[]" .. repixture_prepend
@@ -97,8 +103,10 @@ rp_formspec.group_names = {
 function rp_formspec.get_itemslot_bg(x, y, w, h)
    local out = ""
    for i = 0, w - 1, 1 do
+      local ii = i * LIST_SPACING_X
       for j = 0, h - 1, 1 do
-	 out = out .."image["..x+i..","..y+j..";1,1;ui_itemslot.png]"
+         local jj = j * LIST_SPACING_Y
+	 out = out .."image["..x+i+ii..","..y+j+jj..";1,1;ui_itemslot.png]"
       end
    end
    return out
@@ -107,8 +115,10 @@ end
 function rp_formspec.get_hotbar_itemslot_bg(x, y, w, h)
    local out = ""
    for i = 0, w - 1, 1 do
+      local ii = i * LIST_SPACING_X
       for j = 0, h - 1, 1 do
-	 out = out .."image["..x+i..","..y+j
+         local jj = j * LIST_SPACING_Y
+	 out = out .."image["..x+i+ii..","..y+j+jj
             ..";1,1;ui_itemslot.png^ui_itemslot_dark.png]"
       end
    end
@@ -282,7 +292,7 @@ function rp_formspec.item_group(x, y, group, count, name)
    local result = ""
    if itemname ~= "" then
       result = result
-         .."box["..x..","..y..";0.85,0.9;#00000040]"
+         .."box["..x..","..y..";1,1;#00000040]"
          .."item_image["..x..","..y..";1,1;"
          ..minetest.formspec_escape(itemname .. " " .. count).."]"
 
@@ -331,9 +341,9 @@ local function get_invtabs()
       return invtabs_cached
    end
    local form = ""
-   local tabx = -0.9
+   local tabx = -1
    local taby = 0.5
-   local tabplus = 0.78
+   local tabplus = 0.9
    for o=1, #registered_invtabs_order do
       local tabname = registered_invtabs_order[o]
       local def = rp_formspec.registered_invtabs[tabname]
@@ -382,10 +392,11 @@ end
 -- Default formspec boilerplates
 
 local form_default = ""
-form_default = form_default .. "size[8.5,9]"
+form_default = form_default .. rp_formspec.default.version
+form_default = form_default .. "size[10.25,10]"
 form_default = form_default .. rp_formspec.default.boilerplate
-form_default = form_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
-local form_2part = form_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
+form_default = form_default .. "background[0,0;10.25,10.25;ui_formspec_bg_tall.png]"
+local form_2part = form_default .. "background[0,0;10.25,5.125;ui_formspec_bg_short.png]"
 
 -- 1-part frame
 rp_formspec.register_page("rp_formspec:default", form_default)
@@ -394,20 +405,22 @@ rp_formspec.register_page("rp_formspec:2part", form_2part)
 
 -- Simple text input field
 local form_default_field = ""
-form_default_field = form_default_field .. "size[8.5,5]"
+form_default_field = form_default_field .. "size[11.75,6.75]"
+form_default_field = form_default_field .. rp_formspec.default.version
 form_default_field = form_default_field .. rp_formspec.default.boilerplate
-form_default_field = form_default_field .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
-form_default_field = form_default_field .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
+form_default_field = form_default_field .. "background[1.625,1.625;8.5,4.5;ui_formspec_bg_short.png]"
+form_default_field = form_default_field .. rp_formspec.button_exit(5.0625, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 form_default_field = form_default_field .. "set_focus[text;true]"
-form_default_field = form_default_field .. "field[1,1.75;7,0;text;;${text}]"
+form_default_field = form_default_field .. "field[2.875,3.8125;7,0;text;;${text}]"
 rp_formspec.register_page("rp_formspec:field", form_default_field)
 
 -- A page (and invpage) with only the player inventory, used as fallback
 local form_inventory = ""
 form_inventory = form_inventory .. rp_formspec.get_page("rp_formspec:default")
-form_inventory = form_inventory .. "list[current_player;main;0.25,4.75;8,4;]"
-form_inventory = form_inventory .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_inventory = form_inventory .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_inventory = form_inventory .. rp_formspec.get_hotbar_itemslot_bg(0.25, 5.35, 8, 1)
+form_inventory = form_inventory .. rp_formspec.get_itemslot_bg(0.25, 5.35+1+0.15, 8, 3)
+form_inventory = form_inventory .. "list[current_player;main;0.25,5.35;8,4;]"
+
 rp_formspec.register_page("rp_formspec:inventory", form_inventory)
 
 function rp_formspec.receive_fields(player, form_name, fields)
