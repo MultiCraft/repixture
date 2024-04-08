@@ -18,7 +18,29 @@ rp_formspec.default = {}
 
 local current_invpage = {}
 
--- Colors
+-- Variables for the default 9-slice button
+
+local btn_scale = 4 -- change this to scale the entire button
+
+-- Button size in pixels
+local btn_x = 44 * btn_scale
+local btn_y = 12 * btn_scale
+local btn_resize = btn_x.."x"..btn_y
+
+-- for bgimg_middle
+local btn_middle_i_x = 4 * btn_scale
+local btn_middle_i_y = 4 * btn_scale
+local btn_middle_i_x2 = -4 * btn_scale
+local btn_middle_i_y2 = -6 * btn_scale
+local btn_middle_a_x = 4 * btn_scale
+local btn_middle_a_y = 5 * btn_scale
+local btn_middle_a_x2 = -4 * btn_scale
+local btn_middle_a_y2 = -6 * btn_scale
+local btn_middle_i = btn_middle_i_x..","..btn_middle_i_y..","..btn_middle_i_x2..","..btn_middle_i_y2
+local btn_middle_a = btn_middle_a_x..","..btn_middle_a_y..","..btn_middle_a_x2..","..btn_middle_a_y2
+
+-- Use negative padding to disable padding; otherwise the text is squeezed too much
+local btn_padding = -6 * btn_scale
 
 local prepend = "formspec_version[6]" ..
     "real_coordinates[false]" ..
@@ -26,8 +48,8 @@ local prepend = "formspec_version[6]" ..
     "tableoptions[background=#DDDDDD30;highlight=#539646]" ..
     "style_type[button,image_button,item_image_button,checkbox,tabheader;sound=default_gui_button]" ..
     "style_type[image_button:pressed,item_image_button:pressed;content_offset=0]" ..
-    "style_type[button;bgimg=ui_button_esc_inactive.png;border=false;bgimg_middle=4,4,4,6;content_offset=0,-5]" ..
-    "style_type[button:pressed;bgimg=ui_button_esc_active.png;bgimg_middle=4,4,4,6;content_offset=0,-3]" ..
+    "style_type[button;bgimg=ui_button_9slice_inactive.png^[resize:"..btn_resize..";border=false;bgimg_middle="..btn_middle_i..";content_offset=0,0;padding="..btn_padding.."]" ..
+    "style_type[button:pressed;bgimg=ui_button_9slice_active.png^[resize:"..btn_resize..";border=false;bgimg_middle="..btn_middle_a..";content_offset=0,2;padding="..btn_padding.."]" ..
     "bgcolor[#00000000]" ..
     "background9[0,0;8.5,4.5;ui_formspec_bg_9tiles.png;true;20,20,-20,-28]"
 
