@@ -203,10 +203,23 @@ function door.register_door(name, def)
                return handled_itemstack
             end
 
+            if pointed_thing.type ~= "node" then
+               return itemstack
+            end
+
+            -- Get position where the bottom door segment will go
+            local pos
+            local undername = minetest.get_node(pointed_thing.under).name
+            -- Respect buildable_to when building
+            if minetest.registered_items[undername] and minetest.registered_items[undername].buildable_to then
+               pos = pointed_thing.under
+            else
+               pos = pointed_thing.above
+            end
+
 	    -- Check protection
-            local pos_protected = minetest.get_pointed_thing_position(pointed_thing, true)
 	    for i=0, 1 do
-               local protpos = vector.add(pos_protected, vector.new(0, i, 0))
+               local protpos = vector.add(pos, vector.new(0, i, 0))
                if minetest.is_protected(protpos, placer:get_player_name()) and
                      not minetest.check_player_privs(placer, "protection_bypass") then
                   minetest.record_protection_violation(protpos, placer:get_player_name())
@@ -214,16 +227,15 @@ function door.register_door(name, def)
                end
             end
 
-            local pt = pointed_thing.above
-            local pt2 = {x=pt.x, y=pt.y, z=pt.z}
-            pt2.y = pt2.y+1
-	    local ptdef = minetest.registered_nodes[minetest.get_node(pt).name]
-	    local pt2def = minetest.registered_nodes[minetest.get_node(pt2).name]
+            -- Position of top door segment
+            local pos2 = vector.offset(pos, 0, 1, 0)
+            local posdef = minetest.registered_nodes[minetest.get_node(pos).name]
+            local pos2def = minetest.registered_nodes[minetest.get_node(pos2).name]
             if
-               not ptdef or
-               not pt2def or
-               not ptdef.buildable_to or
-               not pt2def.buildable_to or
+               not posdef or
+               not pos2def or
+               not posdef.buildable_to or
+               not pos2def.buildable_to or
                not placer or
                not placer:is_player()
             then
@@ -235,27 +247,27 @@ function door.register_door(name, def)
             -- If yes, the door hinge will be right, otherwise it will be left.
             -- This allows to build double doors.
             local p2 = minetest.dir_to_fourdir(placer:get_look_dir())
-            local pt3 = {x=pt.x, y=pt.y, z=pt.z}
+            local pos3 = table.copy(pos)
             if p2 == 0 then
-               pt3.x = pt3.x-1
+               pos3.x = pos3.x-1
             elseif p2 == 1 then
-               pt3.z = pt3.z+1
+               pos3.z = pos3.z+1
             elseif p2 == 2 then
-               pt3.x = pt3.x+1
+               pos3.x = pos3.x+1
             elseif p2 == 3 then
-               pt3.z = pt3.z-1
+               pos3.z = pos3.z-1
             end
-            if minetest.get_item_group(minetest.get_node(pt3).name, "door") == 0 then
-               minetest.set_node(pt, {name=name.."_b_1", param2=p2})
-               minetest.set_node(pt2, {name=name.."_t_1", param2=p2})
+            if minetest.get_item_group(minetest.get_node(pos3).name, "door") == 0 then
+               minetest.set_node(pos, {name=name.."_b_1", param2=p2})
+               minetest.set_node(pos2, {name=name.."_t_1", param2=p2})
             else
-               minetest.set_node(pt, {name=name.."_b_2", param2=p2})
-               minetest.set_node(pt2, {name=name.."_t_2", param2=p2})
-               set_segment_hinge_right(pt)
-               set_segment_hinge_right(pt2)
+               minetest.set_node(pos, {name=name.."_b_2", param2=p2})
+               minetest.set_node(pos2, {name=name.."_t_2", param2=p2})
+               set_segment_hinge_right(pos)
+               set_segment_hinge_right(pos2)
             end
             if def.sounds and def.sounds.place then
-               minetest.sound_play(def.sounds.place, {pos=pt}, true)
+               minetest.sound_play(def.sounds.place, {pos=pos}, true)
             end
 
             if not minetest.is_creative_enabled(placer:get_player_name()) then
