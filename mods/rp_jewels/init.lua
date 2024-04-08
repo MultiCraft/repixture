@@ -123,7 +123,8 @@ function jewels.register_jewel(toolname, new_toolname, def)
       if not desc then
          desc = new_toolname
       else
-         desc = S("Jeweled @1", desc)
+         -- Fallback description
+         desc = S("@1 (jeweled)", desc)
       end
    end
    new_tooldef.description = desc
