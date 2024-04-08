@@ -29,8 +29,10 @@ default.UNDERGROUND_Y_MAX = -200
 default.ORCHARD_Y_MIN = 20
 default.SWAMP_Y_MAX = 7
 default.SWAMP_HIGH_Y_MAX = 24
-default.GLOBAL_Y_MAX = 31000
-default.GLOBAL_Y_MIN = -31000
+
+local mg_edge_min, mg_edge_max = minetest.get_mapgen_edges()
+default.GLOBAL_Y_MAX = mg_edge_max.y
+default.GLOBAL_Y_MIN = mg_edge_min.y
 
 
 -- Aliases for map generator outputs
