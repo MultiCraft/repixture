@@ -1815,6 +1815,133 @@ default.register_decoration(
       flags = "force_placement",
 })
 
+-- Airweed
+--
+local airweed_biomes_core = { "Thorny Shrubs Underwater", "Wilderness Underwater", "Mystery Forest Underwater", "Grove Underwater", "Forest Underwater", "Birch Forest Underwater", "Oak Forest Underwater", "Poplar Plains Underwater", "Savanna Underwater", "Savannic Dryland Underwater", "Shrubbery Underwater", "Grassland Underwater", "Dense Grassland Underwater" }
+
+default.register_decoration(
+{
+     deco_type = "simple",
+     place_on = {"rp_default:sand"},
+     sidelen = 16,
+     fill_ratio = 0.0125,
+     biomes = airweed_biomes_core,
+     decoration = {"rp_default:airweed_on_sand"},
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -6,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+     num_spawn_by = 1,
+     place_offset_y = -1,
+     flags = "force_placement",
+})
+default.register_decoration(
+{
+     deco_type = "simple",
+     place_on = {"rp_default:dirt"},
+     sidelen = 16,
+     fill_ratio = 0.0125,
+     biomes = airweed_biomes_core,
+     decoration = {"rp_default:airweed_on_dirt"},
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -6,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+     num_spawn_by = 1,
+     place_offset_y = -1,
+     flags = "force_placement",
+})
+
+default.register_decoration(
+{
+     deco_type = "simple",
+     place_on = {"rp_default:dirt"},
+     sidelen = 16,
+     fill_ratio = 0.0025,
+     biomes = {"Dry Swamp Underwater"},
+     decoration = {"rp_default:airweed_on_dirt"},
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -8,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+     num_spawn_by = 1,
+     place_offset_y = -1,
+     flags = "force_placement",
+})
+
+default.register_decoration(
+{
+     deco_type = "simple",
+     place_on = {"rp_default:sand"},
+     sidelen = 16,
+     fill_ratio = 0.0075,
+     biomes = {"Savannic Wasteland Underwater"},
+     decoration = {"rp_default:airweed_on_sand"},
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -6,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+     num_spawn_by = 1,
+     place_offset_y = -1,
+     flags = "force_placement",
+})
+default.register_decoration(
+  {
+     deco_type = "simple",
+     place_on = {"rp_default:dry_dirt"},
+     sidelen = 16,
+     fill_ratio = 0.005,
+     biomes = {"Rocky Dryland Underwater", "Wooded Dryland Underwater"},
+     decoration = {"rp_default:airweed_on_dry_dirt"},
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -7,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+     num_spawn_by = 1,
+     place_offset_y = -1,
+     flags = "force_placement",
+})
+default.register_decoration(
+{
+     deco_type = "simple",
+     place_on = {"rp_default:gravel"},
+     sidelen = 16,
+     fill_ratio = 0.005,
+     biomes = {"Rocky Dryland Underwater", "Wooded Dryland Underwater"},
+     decoration = {"rp_default:airweed_on_gravel"},
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -7,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+     num_spawn_by = 1,
+     place_offset_y = -1,
+     flags = "force_placement",
+})
+
+default.register_decoration(
+{
+     deco_type = "simple",
+     place_on = {"rp_default:sand"},
+     sidelen = 16,
+     fill_ratio = 0.0220,
+     biomes = {"Wilderness Underwater", "Mystery Forest Underwater", "Grove Underwater"},
+     decoration = {"rp_default:airweed_on_sand"},
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -3,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+     num_spawn_by = 1,
+     place_offset_y = -1,
+     flags = "force_placement",
+})
+default.register_decoration(
+{
+     deco_type = "simple",
+     place_on = {"rp_default:dirt"},
+     sidelen = 16,
+     fill_ratio = 0.0220,
+     biomes = {"Wilderness Underwater", "Mystery Forest Underwater", "Grove Underwater"},
+     decoration = {"rp_default:airweed_on_dirt"},
+     y_min = default.GLOBAL_Y_MIN,
+     y_max = -3,
+     spawn_by = { "rp_default:water_source", "rp_default:river_water_source" },
+     num_spawn_by = 1,
+     place_offset_y = -1,
+     flags = "force_placement",
+})
 
 
 -- Algae

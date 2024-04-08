@@ -4,13 +4,13 @@
 --
 
 local S = minetest.get_translator("rp_locks")
-local N = function(s) return s end
+local NS = function(s) return s end
 
-local INFOTEXT_PUBLIC = N("Locked Chest")
-local INFOTEXT_OWNED = N("Locked Chest (Owned by @1)")
-local INFOTEXT_CRACKED_PUBLIC = N("Locked Chest (cracked open)")
-local INFOTEXT_CRACKED_OWNED = N("Locked Chest (cracked open) (Owned by @1)")
-local INFOTEXT_NAMED_OWNED = N("@1 (Owned by @2)")
+local INFOTEXT_PUBLIC = NS("Locked Chest")
+local INFOTEXT_OWNED = NS("Locked Chest (Owned by @1)")
+local INFOTEXT_CRACKED_PUBLIC = NS("Locked Chest (cracked open)")
+local INFOTEXT_CRACKED_OWNED = NS("Locked Chest (cracked open) (Owned by @1)")
+local INFOTEXT_NAMED_OWNED = NS("@1 (Owned by @2)")
 
 local GRAVITY = minetest.settings:get("movement_gravity") or 9.81
 
@@ -134,7 +134,7 @@ minetest.register_tool(
             minetest.sound_play({name="locks_unlock",gain=0.8},{pos=pos, max_hear_distance=16}, true)
 
             -- Spawn particles at lock to indicate lock break
-            local dir = minetest.facedir_to_dir(node.param2)
+            local dir = minetest.fourdir_to_dir(node.param2)
             local w = 1/16
             local k = 11/16
             local l = 7/16
@@ -253,9 +253,7 @@ minetest.register_craftitem(
       on_place = put_lock_place,
 })
 
-minetest.register_node(
-   "rp_locks:chest",
-   {
+local chest_def = {
       description = S("Locked Chest"),
       _tt_help = S("Provides 32 inventory slots") .. "\n" .. S("Can only be opened by its owner and those who have a lockpick"),
       tiles ={
@@ -266,10 +264,11 @@ minetest.register_node(
          "default_chest_sides.png",
          "locks_chest_front.png"
       },
-      paramtype2 = "facedir",
-      groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, locked = 1, container = 1},
+      use_texture_alpha = "blend",
+      paramtype2 = "4dir",
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, locked = 1, chest = 2, container = 1, paintable = 2},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_planks_defaults(),
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
          meta:set_int("lock_cracked", 0)
@@ -372,7 +371,37 @@ minetest.register_node(
 ]]
       end,
       on_blast = function() end,
-})
+}
+
+minetest.register_node("rp_locks:chest", chest_def)
+
+local chest_defp = table.copy(chest_def)
+chest_defp.description = S("Painted Locked Chest")
+chest_defp.tiles ={
+	"default_chest_top_painted.png",
+	"default_chest_top_painted.png",
+	"default_chest_sides_painted.png",
+	"default_chest_sides_painted.png",
+	"default_chest_sides_painted.png",
+	"locks_chest_front_painted.png"
+}
+chest_defp.overlay_tiles ={
+	-- HACK: This is a workaround to fix the coloring of the crack overlay
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	-- This tile is part of the legit overlay
+	{name="locks_chest_front_painted_overlay.png",color="white"},
+}
+chest_defp.paramtype2 = "color4dir"
+chest_defp.palette = "rp_paint_palette_64d.png"
+chest_defp.drop = "rp_locks:chest"
+chest_defp.groups.paintable = 1
+chest_defp.groups.not_in_creative_inventory = 1
+
+minetest.register_node("rp_locks:chest_painted", chest_defp)
 
 -- Crafting
 
@@ -418,6 +447,7 @@ achievements.register_achievement(
       description = S("Craft a lock."),
       times = 1,
       craftitem = "rp_locks:lock",
+      difficulty = 5.7,
 })
 
 achievements.register_achievement(
@@ -427,6 +457,7 @@ achievements.register_achievement(
       description = S("Break into a locked chest."),
       times = 1,
       item_icon = "rp_locks:pick",
+      difficulty = 5.8,
 })
 
 -- Update node after the rename orgy after 1.5.3

@@ -1,0 +1,423 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_mobs_mobs x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Bomb has Been Defused!"
+msgstr "Бомба обезврежена!"
+
+msgid "Kill a mine turtle."
+msgstr "Убей шахточерепаху."
+
+msgid "Taking a Cut"
+msgstr "Один раз отрежь"
+
+msgid "Shear a sheep."
+msgstr "Подстриги овцу."
+
+msgid "Smalltalk"
+msgstr "Светская беседа"
+
+msgid "Have a friendly chat with a villager."
+msgstr "Дружелюбно поговори с жителем."
+
+msgid "Wool Bundle"
+msgstr "Пучок шерсти"
+
+msgid "Raw Meat"
+msgstr "Сырое мясо"
+
+msgid "Cooked Meat"
+msgstr "Жареное мясо"
+
+msgid "Raw Porkchop"
+msgstr "Сырая свинина"
+
+msgid "Cooked Porkchop"
+msgstr "Жареная свинина"
+
+msgid "Boar"
+msgstr "Кабан"
+
+msgid "Mine Turtle"
+msgstr "Шахточерепаха"
+
+msgid "Sheep"
+msgstr "Овца"
+
+msgid "Skunk"
+msgstr "Скунс"
+
+msgid "Farmer"
+msgstr "Фермер"
+
+msgid "Tavern Keeper"
+msgstr "Хозяин таверны"
+
+msgid "Blacksmith"
+msgstr "Кузнец"
+
+msgid "Butcher"
+msgstr "Мясник"
+
+msgid "Carpenter"
+msgstr "Плотник"
+
+msgid "Villager"
+msgstr ""
+
+msgid "Hi! I'm a farmer. I sell farming goods."
+msgstr "Здорова! Я фермер. Я продаю товары для фермы."
+
+msgid "Hi! I'm a tavernkeeper. I trade with assorted goods."
+msgstr "Привет! Я трактирщик. Я торгую всяким добром."
+
+msgid "Hi! I'm a blacksmith. I sell metal products."
+msgstr "Эй! Я кузнец. Я продаю изделия из металла."
+
+msgid "Hi! I'm a butcher. Want to buy something?"
+msgstr "Здравствуй! Я мясник. Хочешь чего купить?"
+
+msgid "Hi! I'm a carpenter. Making things out of wood is my job."
+msgstr "Здорова! Я плотник. Делаю деревянные изделия."
+
+msgid "If you want to trade, show me a trading book."
+msgstr "Если хочешь поторговаться, покажи торговую книгу."
+
+msgid "Hello!"
+msgstr "Привет!"
+
+msgid "Nice to see you."
+msgstr "Приятно видеть тебя."
+
+msgid "Life is beautiful."
+msgstr "Жизнь прекрасна."
+
+msgid "I feel good."
+msgstr "Я себя чувствую хорошо."
+
+msgid "Have a nice day!"
+msgstr "Хорошего тебе дня!"
+
+msgid "I'm not in a good mood."
+msgstr "Я не в лучшем настроении."
+
+msgid "I'm tired."
+msgstr "Я устал."
+
+msgid "I need to rest."
+msgstr "Мне нужно отдохнуть."
+
+msgid "Life could be better."
+msgstr "Жизнь могла бы быть лучше."
+
+msgid "I don't feel so good."
+msgstr "Мне не очень хорошо."
+
+msgid "I ... I am hurt."
+msgstr "Я... я ранен."
+
+msgid "I feel weak."
+msgstr "Я чувствую слабость."
+
+msgid "My head hurts."
+msgstr "Моя голова болит."
+
+msgid "I have a bad day today."
+msgstr "У меня сегодня плохой день."
+
+msgid "Screw you!"
+msgstr "Пошёл ты!"
+
+msgid "Get this thing out of my face!"
+msgstr "Убери эту штуку от моего лица!"
+
+msgid "Villager says: “@1”"
+msgstr "Житель говорит: \"@1\""
+
+msgid "Ah, a cactus. You'd be surprised how well they burn in a furnace."
+msgstr "А, кактус. Ты бы удивился, как хорошо он горит в печке."
+
+msgid "You can quickly kindle it in the furnace."
+msgstr "Ты можешь по-быстрому растопить это в печи."
+
+msgid "A truly amazing block!"
+msgstr "Вот это блок!"
+
+msgid "Trees are a classic furnace fuel, but you can also cook them to get coal lumps."
+msgstr "Древесиной можно не только печь топить, но и угля с неё собрать."
+
+msgid "You can cook it in the furnace to get: @1. But you can also use it as a furnace fuel."
+msgstr "Ты можешь приготовить это в печи и получить @1. Но можешь использовать и как топливо."
+
+msgid "Cook it in the furnace to get: @1."
+msgstr "Приготовь это в печи чтобы получить @1."
+
+msgid "This is an amazing furnace fuel, it burns for a very, very, very long time."
+msgstr "Для печи вообще то что нужно, веками топить будешь."
+
+msgid "This is a great furnace fuel, and it burns for a very, very long time."
+msgstr "Отличное топливо для печи, можно долго топить."
+
+msgid "This is a very good furnace fuel, and it burns for a very long time."
+msgstr "Хорошее топливо для печи, протопишь хорошенько."
+
+msgid "This is a good furnace fuel, it burns for a long time."
+msgstr "Неплохое топливо для печи, горит какое-то время."
+
+msgid "This is a nice furnace fuel."
+msgstr "Топливо для печи."
+
+msgid "You can use this as a furnace fuel, but it's meh."
+msgstr "Такое себе топливо для печи."
+
+msgid "You can use this as a furnace fuel, but it is gone quickly."
+msgstr "Ну горит, но быстро потухнет в печи."
+
+msgid "You can use this as a furnace fuel, but it is gone very quickly."
+msgstr "Ну горит, но очень быстро тухнет в печи."
+
+msgid "You can theoretically use this as a furnace fuel, but it is gone almost instantly. You will need a large amount of these to cook anything."
+msgstr "В теории можно этим печь топить, но на практике сразу кончится. Таких штук сто надо чтоб хоть что-то приготовить."
+
+msgid "I'm impressed! Your weapon is a true masterpiece."
+msgstr "Моё почтение! Да это не оружие, это шедевр."
+
+msgid "This is a mighty weapon, but have you considered upgrading it with jewels?"
+msgstr "Мощное оружие, но не хотел бы его прокачать с помощью самоцветов?"
+
+msgid "Offense is the best defense."
+msgstr "Лучшая защита — это нападение."
+
+msgid "If you equip a full set of armor made from the same material, you'll get a protection bonus."
+msgstr "Если оденешь набор брони из одинакового материала, получишь бонус по защите."
+
+msgid "You can put anything inside a bookshelf, not just books."
+msgstr "На книжную полку можно класть не только книги."
+
+msgid "This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."
+msgstr "Это ускоряет рост семян. Используй удобрение на почве, потом на неё посади семяна."
+
+msgid "Sorry, I don't know how to use this. Maybe ask a farmer."
+msgstr "Я без понятия как это использовать. Спроси фермера."
+
+msgid "Remember to put water near to your seeds."
+msgstr "Не забывай держать воду около семян."
+
+msgid "Try magnetizing it on iron."
+msgstr "Попробуй намагнитить на железе."
+
+msgid "If you use it on a cotton bale, it will point to the North again."
+msgstr "Если вы используете его на тюке хлопка, он снова укажет на север."
+
+msgid "If you use it on wool, it will point to the North again."
+msgstr "Если вы используете его на шерсти, он снова укажет на Север."
+
+msgid "We live in a lovely place, don't we?"
+msgstr "Мы живём в прекрасном месте. Не правда ли?"
+
+msgid "It's used to capture large animals."
+msgstr "Оно используется для поимки больших животных."
+
+msgid "Why are you carrying this around? Do you want crack open our locked chests?"
+msgstr "Почему ты носишь это с собой? Хочешь взломать наши запертые сундуки?"
+
+msgid "It's used to capture small animals."
+msgstr "Оно используется для поимки мелких животных."
+
+msgid "Every kid knows seeds need soil, water and sunlight."
+msgstr "Каждый ребенок знает, что семенам нужна почва, вода и солнечный свет."
+
+msgid "Sheep love to eat wheat. Give them enough wheat and they'll multiply!"
+msgstr "Овцы любят есть пшеницу. Дай им достаточно пшеницы, и они размножатся!"
+
+msgid "We use wheat to make flour and bake bread."
+msgstr "Мы используем пшеницу, чтобы делать муку и печь хлеб."
+
+msgid "Put it in a furnace to bake tasty bread."
+msgstr "Положи это в печь, чтобы сделать вкусный хлеб."
+
+msgid "Did you know cotton seed not only grow on dirt, but also on sand? But it still needs water."
+msgstr "Ты знал, что семена хлопка растут не только на земле, но и на песке? Но ему все равно нужна вода."
+
+msgid "If you have grown a cotton plant, try using scissors to perform a precise cut."
+msgstr "Если ты вырастил хлопчатник, попробуй срезать его ножницами.."
+
+msgid "This can be used to make cotton bales."
+msgstr "Это можно использовать, чтобы сделать тюки хлопка."
+
+msgid "A truly epic story!"
+msgstr "Действительно эпическая история!"
+
+msgid "Ooh, a shiny pearl! It's beautiful."
+msgstr "Ууу, жемчужина! Прелесть."
+
+msgid "I heard the tavernkeeper likes these."
+msgstr "Я слыхал, что хозяину таверны нравятся такие."
+
+msgid "Just place it on the ground and it will grow after a while."
+msgstr ""
+
+msgid "If the sapling refuses to grow, make sure it has enough open space above it."
+msgstr "Если саженец не растёт, проверь, чтобы над ним было достаточно свободного пространства."
+
+msgid "Try placing it on different grounds. It might grow differently."
+msgstr ""
+
+msgid "Use this to trim plants and get wool from sheep."
+msgstr "Используй это, чтобы срезать траву и листья, а также стричь овец."
+
+msgid "Papyrus grows best on fertilized swamp dirt."
+msgstr ""
+
+msgid "Papyrus likes to grow next to water."
+msgstr "Папирус любит расти возле воды."
+
+msgid "The papyrus grows tall in the swamp. But it can grow even taller."
+msgstr ""
+
+msgid "When I was I kid, I always liked to climb on the papyrus."
+msgstr ""
+
+msgid "Cacti grow best on sand. They are also a food source, if you're really desperate."
+msgstr "Кактусы лучше всего растут в песке. Их даже можно есть, если ты достаточно отчаялся."
+
+msgid "This is the secret ingredient for my special drink. But don't tell anyone!"
+msgstr "Это особый ингредиент для моего особого напитка. Только не говори никому!"
+
+msgid "Now what can you possibly do with a cactus? I don't know!"
+msgstr "И что ты теперь будешь делать с кактусом? Я не знаю!"
+
+msgid "Jewels are great! If you have a jeweller's workbench, you can enhance your tools."
+msgstr ""
+
+msgid "Did you know we sometimes sell jewels?"
+msgstr ""
+
+msgid "This looks like it could be a good wall decoration."
+msgstr ""
+
+msgid "It’s burned out. Use flint and steel to kindle it."
+msgstr ""
+
+msgid "With flint and steel you could stabilize the flame."
+msgstr ""
+
+msgid "Let’s light up some caves!"
+msgstr "Давай осветим-ка немного пещер!"
+
+msgid "A flower? I love flowers! Let's make the world bloom!"
+msgstr "Цветок? Я люблю цветы! Давай заставим мир цвести!"
+
+msgid "You can use this to light up torches and bonfires and ignite TNT."
+msgstr ""
+
+msgid "You can use this to light up torches and bonfires."
+msgstr ""
+
+msgid "TNT needs to be ignited by a flint and steel."
+msgstr ""
+
+msgid "For some reason, TNT can't be ignited. Strange."
+msgstr ""
+
+msgid "You need flint and steel to light the fire. But don't walk into the flame!"
+msgstr ""
+
+msgid "Isn't it stressful to carry this heavy bed around?"
+msgstr "Тебе не надоело таскать эту тяжёлую кровать?"
+
+msgid "Sleeping makes the night go past in the blink of an eye."
+msgstr "Сон позволяет пропустить ночь в мгновение ока."
+
+msgid "Hole in dirt, put bronze in. Bell’s complete, bim, bim, bim!"
+msgstr ""
+
+msgid "Apples are so tasty!"
+msgstr "Яблоки такие вкусные!"
+
+msgid "Boars love to eat acorns! If you feed enough of these to them, they will multiply."
+msgstr "Кабаны любят жёлуди! Если дать им достаточно желудей, они будут размножаться."
+
+msgid "Did you try to dry it in the furnace?"
+msgstr ""
+
+msgid "Airweed is an underwater plant with little capsules filled with air. Use it underwater to release air bubbles and catch some breath."
+msgstr ""
+
+msgid "If you use the airweed plant, you will catch some breath. Other people near the plant will also benefit."
+msgstr ""
+
+msgid "Airweed is very useful, but it can't give you breath from your hand. You must place it on the ground first."
+msgstr ""
+
+msgid "You can multiply airweed with fertilizer."
+msgstr ""
+
+msgid "Airweed needs a moment to refill after you used it. The time it needs depends on the surface."
+msgstr ""
+
+msgid "If you fertilize the ground, an alga will grow higher."
+msgstr "Если удобрить землю, водоросль вырастет выше."
+
+msgid "The tallest algae always grow on alga blocks."
+msgstr ""
+
+msgid "If an alga tries to grow but something blocks its path, it'll stop growing, even if the barrier is removed later."
+msgstr "Если растущая водоросль во что-нибудь упрётся, она перестанет расти, даже если потом убрать препятствие."
+
+msgid "Algae grow underwater in different heights."
+msgstr ""
+
+msgid "Place it at the ceiling and watch it grow."
+msgstr ""
+
+msgid "If you want the vine to stops growing, make a precise cut using scissors."
+msgstr ""
+
+msgid "It's climbing time!"
+msgstr ""
+
+msgid "Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized."
+msgstr ""
+
+msgid "You're dirty!"
+msgstr "Вы все в грязи!"
+
+msgid "Swamp dirt is really interesting. The famous swamp oak grows on it, and papyrus also grows exceptionally well."
+msgstr "Болотная грязь очень интересна. На ней растёт знаменитый болотный дуб. И даже папирус растёт на ней исключительно хорошо."
+
+msgid "Disgusting!"
+msgstr "Отвратительно!"
+
+msgid "Not much grows on dry dirt."
+msgstr "Мало чего растёт на сухой земле."
+
+msgid "This dirt is as dry as my jokes."
+msgstr "Эта земля такая сухая, прям как мои шутки."
+
+msgid "You can use sand to grow cacti."
+msgstr "Ты можешь использовать песок чтобы вырастить кактус."
+
+msgid "Be careful not to let it fall on your head!"
+msgstr "Смотри, чтобы не упало на голову!"
+
+msgid "This is like my ex-lover's heart. Made out of stone."
+msgstr "Это как сердце моей бывшей. Сделано из камня."
+
+msgid "Stay healthy!"
+msgstr "Будь здоров!"
+
+msgid "Walker"
+msgstr "Ходок"
+

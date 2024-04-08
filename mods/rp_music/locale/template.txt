@@ -2,4 +2,5 @@
 Music Player (on)=
 Music Player (off)=
 Music Player (disabled by server)=
+Now playing: @1 by @2=
 Music Player=

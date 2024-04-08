@@ -1,0 +1,110 @@
+/* Style sheet for the Repixture manual */
+* {
+	font-family: sans-serif;
+}
+body {
+	background-color: #8c7c5b;
+	color: white;
+}
+code {
+	font-family: monospace;
+	background-color: #99855c;
+	padding-left: 0.3em;
+	padding-right: 0.3em;
+}
+a, a:link {
+	color: #FFCF60;
+}
+a:visited {
+	color: #FFEF80;
+}
+a:hover {
+	color: #FFB0B0;
+}
+a:active {
+	color: #FFD0D0;
+}
+
+kbd {
+	font-family: sans-serif;
+	background-color: #909090;
+	border-style: solid;
+	border-width: 1px;
+	border-left-color: #FFFFFF;
+	border-top-color: #FFFFFF;
+	border-right-color: #202020;
+	border-bottom-color: #202020;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+li {
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+}
+ul li {
+	list-style-type: square;
+}
+p {
+	padding-top: 0.4em;
+	padding-left: 0.4em;
+	padding-right: 0.4em;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+.item {
+	color: #00FF00;
+}
+.itemgroup {
+	color: #B0FFB0;
+}
+.concept {
+	color: #FFFF00;
+}
+h1, h2, h3, h4, h5, h6 {
+	margin-left: 0em;
+	margin-right: 0em;
+	margin-top: 0.5em;
+	margin-bottom: 0.1em;
+	padding-top:0.2em;
+	padding-bottom: 0.2em;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+h1 {
+	font-size: 275%;
+	background-color: #539646;
+	border: 5px solid #333333;
+}
+h2 {
+	font-size: 200%;
+	background-color: #99855c;
+	border: 3px solid #333333;
+}
+h3 {
+	font-size: 150%;
+	background-color: #9b8e73;
+	border: 1px solid #333333;
+}
+h4 {
+	border-bottom: 1px solid #333333;
+	font-size: 140%;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+h5 {
+	border-bottom: 1px dotted #333333;
+	font-size: 130%;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+h6 {
+	font-size: 120%;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+img {
+	border: 2px solid #333333;
+	/* Auto-shrink image if too wide for the screen */
+	max-width: 100%;
+	height: auto;
+}

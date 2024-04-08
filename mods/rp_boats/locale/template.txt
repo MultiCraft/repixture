@@ -1,0 +1,9 @@
+# textdomain: rp_boats
+Not enough space to enter!=
+Wooden Log Boat=
+Birch Log Boat=
+Oak Log Boat=
+Water vehicle=
+Wooden Raft=
+Birch Raft=
+Oak Raft=

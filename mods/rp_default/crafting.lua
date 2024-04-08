@@ -211,6 +211,13 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
+      recipe = "rp_default:bucket",
+      burntime = 8,
+})
+
+minetest.register_craft(
+   {
+      type = "fuel",
       recipe = "rp_default:pick_wood",
       burntime = 15,
 })
@@ -313,13 +320,6 @@ minetest.register_craft(
       type = "fuel",
       recipe = "rp_default:chest",
       burntime = 25,
-})
-
-minetest.register_craft(
-   {
-      type = "fuel",
-      recipe = "rp_default:bookshelf",
-      burntime = 32,
 })
 
 minetest.register_craft(
@@ -707,6 +707,14 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
+      output = "rp_default:dirt_path",
+      items = {
+         "rp_default:path_slab 2",
+      }
+})
+
+crafting.register_craft(
+   {
       output = "rp_default:dirt_path 8",
       items = {
          "group:soil 3",
@@ -890,7 +898,7 @@ crafting.register_craft(
       }
 })
 
--- Tool nodes (chests, furnaces, bookshelves)
+-- Tool nodes (chests, furnaces)
 
 crafting.register_craft(
    {
@@ -908,15 +916,6 @@ crafting.register_craft(
       items = {
          "rp_default:torch",
          "group:stone 6",
-      }
-})
-
-crafting.register_craft(
-   {
-      output = "rp_default:bookshelf",
-      items = {
-         "rp_default:book_empty 3",
-         "group:planks 6",
       }
 })
 

@@ -1,0 +1,96 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_achievements x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "You have earned the achievement “@1”."
+msgstr "Vous avez réalisé avec succès “@1”."
+
+msgid "@1 has earned the achievement “@2”."
+msgstr "@1 a réalisé avec succès \"@2\"."
+
+msgid "You have gotten all achievements!"
+msgstr "Vous avez obtenu toutes les réalisations !"
+
+msgid "@1 has gotten all achievements!"
+msgstr "@1 a obtenu toutes les réalisations !"
+
+msgid "You have lost all achievements!"
+msgstr "Vous avez perdu toutes les réalisations !"
+
+msgid "@1 has lost all achievements!"
+msgstr "@1 a perdu toutes les réalisations !"
+
+msgid "You have lost the achievement “@1”."
+msgstr "Vous avez perdu la réalisation “@1”."
+
+msgid "@1 has lost the achievement “@2”."
+msgstr "@1 a perdu la réalisation “@2”."
+
+msgid "The achievement “@1” has new goals."
+msgstr "La réalisation “@1” a de nouveaux objectifs."
+
+msgid "Achievements"
+msgstr "Réalisations"
+
+msgid "Gotten"
+msgstr "Obtenu"
+
+msgid "@1/@2"
+msgstr "@1/@2"
+
+msgid "Missing"
+msgstr "Manquant"
+
+msgid "@1 of @2 achievements gotten, @3 in progress"
+msgstr "@1 sur @2 réalisations obtenues, @3 en cours"
+
+msgid ", "
+msgstr ", "
+
+msgid "Completed: @1"
+msgstr "Complété : @1"
+
+msgid "(list [<player>]) | ((give | remove) <player> (<achievement> | all))"
+msgstr "(list [<joueur>]) | ((give | remove) <joueur> (<réalisation> | all))"
+
+msgid "List, give or remove achievements of player"
+msgstr "Liste, donne ou enlève les réalisations du joueur"
+
+msgid "@1: @2 (@3)"
+msgstr "@1 : @2 (@3)"
+
+msgid "unset"
+msgstr "non défini"
+
+msgid "No achievements."
+msgstr "Pas de réalisations."
+
+msgid "List of achievements (difficulty rating in brackets):"
+msgstr "Liste les réalisations (note de difficulté entre parenthèses)"
+
+msgid "Player is not online!"
+msgstr "Le joueur n'est pas en ligne !"
+
+msgid "@1: Gotten"
+msgstr "@1 : obtenu"
+
+msgid "@1: In progress (@2/@3)"
+msgstr "@1 : en cours (@2/@3)"
+
+msgid "Achievements of @1:"
+msgstr "Réalisations de @1 :"
+
+msgid "Unknown achievement! Use “/achievement list” to list valid achievement names."
+msgstr "Réalisation inconnue ! Utilisez “/achievement list” pour lister les noms des réalisations valides."
+

@@ -1,5 +1,5 @@
 local S = minetest.get_translator("rp_creative")
-local F = minetest.formspec_escape
+local FS = function(...) return minetest.formspec_escape(S(...)) end
 
 creative = {}
 
@@ -15,6 +15,18 @@ form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
 form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
 creative.slots_num = 7*4
+
+local special_items = {}
+
+-- Register a special itemstack to the Creative Inventory.
+-- Use this to add an item stack with custom metadata.
+-- Item count MUST be 1.
+-- Note: Item stacks registered with this function will
+-- apper in Creative Inventory even if the item has the
+-- `not_in_creative_inventory` group.
+creative.register_special_item = function(itemstack)
+	table.insert(special_items, itemstack)
+end
 
 -- Create detached creative inventory for player
 local function create_creative_inventory(player)
@@ -52,8 +64,11 @@ local function create_creative_inventory(player)
 	for name,def in pairs(minetest.registered_items) do
 		if (not def.groups.not_in_creative_inventory or def.groups.not_in_creative_inventory == 0)
 				and def.description and def.description ~= "" then
-			table.insert(creative_list, name)
+			table.insert(creative_list, ItemStack(name))
 		end
+	end
+	for i=1, #special_items do
+		table.insert(creative_list, special_items[i])
 	end
 	local get_type = function(def)
 		if not def.groups then
@@ -76,8 +91,10 @@ local function create_creative_inventory(player)
 		return "craftitem" -- fallback
 	end
 	local function creative_sort(item1, item2)
-		local def1 = minetest.registered_items[item1]
-		local def2 = minetest.registered_items[item2]
+		local itemname1 = item1:get_name()
+		local itemname2 = item2:get_name()
+		local def1 = minetest.registered_items[itemname1]
+		local def2 = minetest.registered_items[itemname2]
 		local groups1 = def1.groups or {}
 		local groups2 = def2.groups or {}
 		local type1 = get_type(def1)
@@ -176,7 +193,7 @@ local function create_creative_inventory(player)
 		elseif not groups1.interactive_node and groups2.interactive_node then
 			return false
 		else
-			return item1 < item2
+			return itemname1 < itemname2
 		end
 	end
 	table.sort(creative_list, creative_sort)
@@ -216,7 +233,7 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 	local pagemax = math.floor((size-1) / (creative.slots_num) + 1)
 	return
 		"list[detached:creative_"..player_name..";main;0.25,0.25;7,4;"..tostring(start_i).."]"..
-		"label[7.5,0.75;"..F(S("@1/@2", pagenum, pagemax)).."]"..
+		"label[7.5,0.75;"..FS("@1/@2", pagenum, pagemax).."]"..
 
                 rp_formspec.image_button(7.25, 1.25, 1, 1, "creative_prev", "ui_icon_prev.png")..
                 rp_formspec.image_button(7.25, 2.25, 1, 1, "creative_next", "ui_icon_next.png")..

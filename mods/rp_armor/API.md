@@ -12,6 +12,24 @@ You *can* make changes to this inventory list yourself, but you
 *must* make sure only valid items are added and you also *must*
 call `armor.update` after every change.
 
+## Armor piercing of nodes
+
+By default, armor also protects from damage taken by nodes
+(`damage_per_second`).
+But the effectiveness of armor can be reduced by adding the
+group `armor_piercing` to the node.
+
+Its rating ranges from 1 to 100 and modifies the effectiveness
+of armor protecting from this node in percent. If the armor
+effectiveness is reduced, it's as if the player had worn a weaker
+armor.
+
+Examples:
+* `50`: Armor is 50% less effective
+* `100`: Armor has no effect, player takes full damage
+
+Negative values are ignored.
+
 ## Functions
 
 ### `armor.is_armor(itemname)`

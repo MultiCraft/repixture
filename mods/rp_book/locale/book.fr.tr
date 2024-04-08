@@ -1,13 +1,13 @@
 # textdomain: book
-Unnamed Book=Livre sans nom
-Write down some notes=
-Title:=Titre:
-Contents:=Contenu:
+Title:=Titre :
+Contents:=Contenu :
 Write=Écrire
-Book: “@1”=Livre: "@1"
-
-
-##### not used anymore #####
-
-Scribe=Scribe
-Craft a book.=Constuire un livre.
+Book=Livre
+Write down some notes=Écrire quelques notes
+Book: “@1”=Livre : "@1"
+Unnamed Book=Livre sans nom
+Read book=Lire le livre
+Bookshelf=Étagère à livres
+Provides 8 inventory slots=Fournit 8 emplacements d'inventaire
+Painted Bookshelf=
+Return=Retour

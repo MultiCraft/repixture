@@ -27,9 +27,9 @@ hunger_enable (Enable hunger) bool true
 hunger_step (Hunger frequency) float 3.0 0.0
 
 # If enabled, all players will get a notification in chat when a player
-# earned an achievement. If disabled, only the achiever will get a
+# earned or lost an achievement. If disabled, only that player will get a
 # notification.
-rp_achievements_notify_all (Announce achievements to all) bool false
+rp_achievements_notify_all (Announce achievements to all players) bool false
 
 [World]
 # If enabled, the weather will change from time to time.
@@ -37,6 +37,11 @@ weather_enable (Enable dynamic weather) bool true
 
 # If enabled, villages will no longer be generated.
 mapgen_disable_villages (Disable villages) bool false
+
+# This number specifies the radius around the spawn point
+# in which villages won't generate.
+# The number 0 disables this restriction.
+static_spawn_radius (Village-free radius) int 256 0
 
 [Blocks]
 # This enables TNT. TNT is a block that, when ignited, will explode, deal damage and destroy blocks around it.
@@ -67,20 +72,18 @@ locks_all_unlocked (Unlock all locks) bool false
 locks_picked_time (Picked lock time) float 15 1.0
 
 [Mobs]
-# If enabled, only peaceful, non-hostile mobs will appear. Hostile mobs will disappear and cannot be spawned at all.
+# If enabled, mobs will appear/spawn naturally in the world.
+# If disabled, mobs won't spawn naturally, but they can still spawn by other means.
+# This setting is only read at startup.
+mobs_spawn (Mobs spawn) bool true
+
+# If enabled, only peaceful, non-hostile mobs are able to appear/spawn. Hostile mobs will disappear and cannot be spawned at all.
 # This setting is only read at startup.
 only_peaceful_mobs (Only peaceful mobs) bool false
 
-# If enabled, hostile mobs will not attack near the player spawn on multiplayer servers. This setting is ignored in singleplayer, mobs will attack regardless.
-# The safety radius is set in static_spawn_radius.
-mobs_safe_spawn (Safe spawn from mobs) bool true
-
-# Radius around the player spawn point in which mobs don't attack.
-# This is only the case in multiplayer servers and if the setting mobs_safe_spawn is enabled. In singleplayer, mobs will attack regardless.
-#
-# Additionally, this radius also specifies the radius around
-# spawn in which villages don't generate.
-static_spawn_radius (Spawn point safety radius) int 256 0
+# If enabled, mobs can naturally spawn in areas that are protected by someone (e.g. using a protection mod).
+# This setting is only read at startup.
+mobs_spawn_protected (Mobs spawn in protected area) bool true
 
 [Graphics and audio]
 # This will add an graphical effect that slightly darkens the edges of the screen.
@@ -91,10 +94,6 @@ headbars_enable (Enable over-head health bars) bool true
 
 # Scale of the health display over the player heads.
 headbars_scale (Scale of over-head health bars) float 1.0 0.25
-
-# Enables blood particles when attacking mobs.
-# If disabled, there will be other, less “gruesome” particle effects.
-mobs_enable_blood (Enable blood) bool false
 
 # Enables ambient sounds, such as birds, crickets, etc.
 ambiance_enable (Enable ambient sounds) bool true

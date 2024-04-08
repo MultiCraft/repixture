@@ -1,4 +1,6 @@
 # textdomain: rp_hunger
+Hunger Debug:=Hunger-Debug:
+<hunger disabled>=<Hunger deaktiviert>
 You are hungry.=Sie haben Hunger.
 You are starving.=Sie verhungern.
 You starved to death.=Sie sind verhungert.
@@ -6,7 +8,10 @@ Eating=Essen
 You're eating food, which slows you down=Sie essen etwas und sind langsamer
 Gourmet=Feinschmecker
 Eat everything that can be eaten.=Essen Sie alles, was man essen kann.
-Set hunger level of player or yourself=Setzen Sie den Hungerpegel eines Spieler oder von Ihnen selbst.
+Set hunger level of player or yourself=Setzen Sie den Hungerpegel eines Spielers oder von Ihnen selbst
 [<player>] <hunger>=[<Spieler>] <Hunger>
 Player is not online.=Spieler ist nicht online.
 No player.=Kein Spieler.
+Food item=Lebensmittel
+Food points: +@1=Nahrungspunkte: +@1
+Saturation points: +@1=Sättigungspunkte: +@1

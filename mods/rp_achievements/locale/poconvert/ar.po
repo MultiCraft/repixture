@@ -1,0 +1,98 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_achievements x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-02-27 21:56+0000\n"
+"Last-Translator: AbduSharif <narukomanroom@gmail.com>\n"
+"Language-Team: Arabic <https://translate.codeberg.org/projects/repixture/"
+"rp_achievements/ar/>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 5.4\n"
+
+msgid "You have earned the achievement “@1”."
+msgstr "كسبت الإنجاز \"@1\"."
+
+msgid "@1 has earned the achievement “@2”."
+msgstr "@1 كسب الإنجاز \"@2\"."
+
+msgid "You have gotten all achievements!"
+msgstr "كسبت جميع الإنجازات!"
+
+msgid "@1 has gotten all achievements!"
+msgstr "@1 كسب جميع الإنجازات!"
+
+msgid "You have lost all achievements!"
+msgstr "خسرت كل إلإنجازات!"
+
+msgid "@1 has lost all achievements!"
+msgstr "@1 خسر كل الإنجازات!"
+
+msgid "You have lost the achievement “@1”."
+msgstr "خسرت الإنجاز \"@1\"."
+
+msgid "@1 has lost the achievement “@2”."
+msgstr "@1 خسر الإنجاز \"@2\"."
+
+msgid "The achievement “@1” has new goals."
+msgstr "لدى الإنجاز \"@1\" أهداف جديدة."
+
+msgid "Achievements"
+msgstr "الإنجازات"
+
+msgid "Gotten"
+msgstr "أنجز"
+
+msgid "@1/@2"
+msgstr "@1/@2"
+
+msgid "Missing"
+msgstr "مفقود"
+
+msgid "@1 of @2 achievements gotten, @3 in progress"
+msgstr "تم اكتساب إنجازات @1 من @2 ، @3 قيد التقدم"
+
+msgid ", "
+msgstr "،. "
+
+msgid "Completed: @1"
+msgstr "إكتمل: @1"
+
+msgid "(list [<player>]) | ((give | remove) <player> (<achievement> | all))"
+msgstr "(list [<لاعب>]) | ((give | remove) <لاعب> (<إنجاز> | all))"
+
+msgid "List, give or remove achievements of player"
+msgstr "سجل إنجازات أو قم بإعطاء إنجازات أو حذف إنجازات اللاعب"
+
+msgid "@1: @2 (@3)"
+msgstr "@1: @2 (@3)"
+
+msgid "unset"
+msgstr "غير محدد"
+
+msgid "No achievements."
+msgstr "لا إنجازات."
+
+msgid "List of achievements (difficulty rating in brackets):"
+msgstr "قائمة الإنجازات (مدى الصعوبة محدد بين قوسين):"
+
+msgid "Player is not online!"
+msgstr "اللاعب غير متصل!"
+
+msgid "@1: Gotten"
+msgstr "@1 : أنجز"
+
+msgid "@1: In progress (@2/@3)"
+msgstr "@1 قيد الإنجاز (@2/@3)"
+
+msgid "Achievements of @1:"
+msgstr "الإنجازات من @1:"
+
+msgid "Unknown achievement! Use “/achievement list” to list valid achievement names."
+msgstr ""
+"إنجاز غير معروف! إستعمل “/achievement list\" لتسجيل أسماء الإنجازات الصالحة."

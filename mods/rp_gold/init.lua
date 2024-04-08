@@ -5,23 +5,25 @@ local S = minetest.get_translator("rp_gold")
 
 gold = {}
 
-local mapseed = minetest.get_mapgen_setting("seed")
-gold.pr = PseudoRandom(mapseed+8732)
+-- Sound pitch modifier of gold nodes
+gold.PITCH = 1.25
+
+gold.pr = PseudoRandom(os.time())
 
 --[[
 Table of trades offered by villagers.
 Format:
 
    gold.trades = {
-      -- List of trades for this villager type
-      ["villager_type_1"] = {
+      -- List of trades for this villager profession
+      ["profession_1"] = {
          -- first trade table (see below)
          trade_1,
          -- second trade table (see below)
          trade_2,
          -- ...
       },
-      ["villager_type_1"] = {
+      ["profession_2"] = {
          -- ...
       },
       -- ...
@@ -43,9 +45,8 @@ gold.trades = {}
 gold.trade_names = {}
 
 local TRADE_FORMSPEC_OFFSET = 2.5
-local GOLD_COLOR = "#FFFF00FF"
 
-if minetest.get_modpath("mobs") ~= nil then
+if minetest.get_modpath("rp_mobs") ~= nil then
    gold.trades["farmer"] = {
       -- seeds/plants
       {"rp_gold:ingot_gold", "", "rp_farming:wheat_1 6"},
@@ -79,14 +80,14 @@ if minetest.get_modpath("mobs") ~= nil then
       {"rp_gold:ingot_gold 5", "", "rp_bed:bed"},
       {"rp_gold:ingot_gold 2", "", "rp_default:chest"},
       {"rp_gold:ingot_gold 10", "", "rp_locks:chest"},
-      {"rp_gold:ingot_gold", "mobs:wool 3", "rp_bed:bed"},
+      {"rp_gold:ingot_gold", "rp_mobs_mobs:wool 3", "rp_bed:bed"},
    }
    gold.trades["tavernkeeper"] = {
       -- edibles
       {"rp_gold:ingot_gold", "", "rp_default:apple 6"},
       {"rp_gold:ingot_gold", "", "rp_farming:bread 2"},
-      {"rp_gold:ingot_gold", "", "mobs:meat"},
-      {"rp_gold:ingot_gold 2", "", "mobs:pork"},
+      {"rp_gold:ingot_gold", "", "rp_mobs_mobs:meat"},
+      {"rp_gold:ingot_gold 2", "", "rp_mobs_mobs:pork"},
 
       -- filling buckets
       {"rp_gold:ingot_gold", "rp_default:bucket", "rp_default:bucket_water"},
@@ -126,12 +127,12 @@ if minetest.get_modpath("mobs") ~= nil then
    }
    gold.trades["butcher"] = {
       -- raw edibles
-      {"rp_gold:ingot_gold", "", "mobs:meat_raw"},
-      {"rp_gold:ingot_gold 3", "", "mobs:pork_raw 2"},
+      {"rp_gold:ingot_gold", "", "rp_mobs_mobs:meat_raw"},
+      {"rp_gold:ingot_gold 3", "", "rp_mobs_mobs:pork_raw 2"},
 
       -- cooking edibles
-      {"rp_gold:ingot_gold 1", "mobs:meat_raw", "mobs:meat"},
-      {"rp_gold:ingot_gold 2", "mobs:pork_raw", "mobs:pork"},
+      {"rp_gold:ingot_gold 1", "rp_mobs_mobs:meat_raw", "rp_mobs_mobs:meat"},
+      {"rp_gold:ingot_gold 2", "rp_mobs_mobs:pork_raw", "rp_mobs_mobs:pork"},
 
       -- tool repair
       {"rp_gold:ingot_gold 1", "rp_default:spear_stone", "rp_default:spear_stone"},
@@ -185,13 +186,13 @@ if minetest.get_modpath("mobs") ~= nil then
    table.insert(gold.trades["carpenter"], {"rp_default:tree_birch 5", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_default:tree_oak 4", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_default:fiber 50", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["carpenter"], {"mobs:wool 8", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["carpenter"], {"rp_mobs_mobs:wool 8", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_farming:cotton_bale 10", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_default:glass 10", "", "rp_gold:ingot_gold"})
 
    -- butcher
-   table.insert(gold.trades["butcher"], {"mobs:meat_raw 4", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["butcher"], {"mobs:pork_raw 3", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["butcher"], {"rp_mobs_mobs:meat_raw 4", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["butcher"], {"rp_mobs_mobs:pork_raw 3", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"rp_default:flint 12", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"rp_default:paper 30", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"rp_default:sandstone 28", "", "rp_gold:ingot_gold"})
@@ -274,18 +275,6 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    active_tradings[name] = { all_trades = all_trades, trade_index = trade_index, trade_type = trade_type, trader = trader }
 
    local inv = player:get_inventory()
-
-   if inv:get_size("gold_trade_wanted") ~= 2 then
-      inv:set_size("gold_trade_wanted", 2)
-   end
-
-   if inv:get_size("gold_trade_out") ~= 1 then
-      inv:set_size("gold_trade_out", 1)
-   end
-
-   if inv:get_size("gold_trade_in") ~= 2 then
-      inv:set_size("gold_trade_in", 2)
-   end
 
    inv:set_stack("gold_trade_wanted", 1, trade[1])
    inv:set_stack("gold_trade_wanted", 2, trade[2])
@@ -490,6 +479,20 @@ minetest.register_on_player_receive_fields(
       end
 end)
 
+local function init_inventory(player)
+   local inv = player:get_inventory()
+   if inv:get_size("gold_trade_wanted") ~= 2 then
+      inv:set_size("gold_trade_wanted", 2)
+   end
+
+   if inv:get_size("gold_trade_out") ~= 1 then
+      inv:set_size("gold_trade_out", 1)
+   end
+
+   if inv:get_size("gold_trade_in") ~= 2 then
+      inv:set_size("gold_trade_in", 2)
+   end
+end
 -- Make sure to clean up the trading slots properly
 -- on rejoining, respawning and dying
 local function clear_trading_slots_move_main(player)
@@ -497,6 +500,7 @@ local function clear_trading_slots_move_main(player)
    local pos = player:get_pos()
    clear_trading_slots(inv, pos, false)
 end
+minetest.register_on_joinplayer(init_inventory)
 minetest.register_on_joinplayer(clear_trading_slots_move_main)
 minetest.register_on_respawnplayer(clear_trading_slots_move_main)
 
@@ -508,22 +512,32 @@ local function clear_trading_slots_drop(player)
 end
 minetest.register_on_dieplayer(clear_trading_slots_drop)
 
--- Items
+-- Items / nodes
 
-minetest.register_craftitem(
+book.register_book_node(
    "rp_gold:trading_book",
    {
       description = S("Trading Book"),
       _tt_help = S("Show this to a villager to trade"),
-      inventory_image = "gold_book.png^gold_bookribbon.png",
+      texture = "gold_book.png^gold_bookribbon.png",
       stack_max = 1,
-      groups = { book = 1, tool = 1 },
+      tiles = {
+         "rp_gold_book_node_top.png^gold_bookribbon.png",
+         "rp_gold_book_node_bottom.png",
+         "rp_gold_book_node_pages.png",
+         "rp_gold_book_node_spine.png^rp_gold_book_node_spine_bookribbon.png",
+         "rp_gold_book_node_side_1.png",
+         "rp_gold_book_node_side_2.png",
+
+      },
+      groups = { book = 1, tool = 1, dig_immediate = 3 },
 })
 
 minetest.register_craftitem(
    "rp_gold:lump_gold",
    {
       description = S("Gold Lump"),
+      groups = { mineral_lump = 1, mineral_natural = 1 },
       inventory_image = "gold_lump_gold.png",
 })
 
@@ -531,10 +545,22 @@ minetest.register_craftitem(
    "rp_gold:ingot_gold",
    {
       description = S("Gold Ingot"),
+      groups = { ingot = 1 },
       inventory_image = "gold_ingot_gold.png",
 })
 
--- Nodes
+default.register_ingot("rp_gold:ingot_gold", {
+	description = S("Gold Ingot"),
+	texture = "gold_ingot_gold.png",
+	tilesdef = {
+		top = "rp_gold_ingot_gold_node_top.png",
+		side_short = "rp_gold_ingot_gold_node_side_short.png",
+		side_long = "rp_gold_ingot_gold_node_side_long.png",
+	},
+	pitch = gold.PITCH,
+})
+
+-- Classic nodes
 
 minetest.register_node(
    "rp_gold:stone_with_gold",
@@ -547,13 +573,30 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
 
+local make_metal_sounds = function(pitch)
+	local sounds = rp_sounds.node_sound_metal_defaults()
+	if sounds.footstep then
+		sounds.footstep.pitch = pitch
+	end
+	if sounds.dig then
+		sounds.dig.pitch = pitch
+	end
+	if sounds.dug then
+		sounds.dug.pitch = pitch
+	end
+	if sounds.place then
+		sounds.place.pitch = pitch
+	end
+	return sounds
+end
+
 minetest.register_node(
    "rp_gold:block_gold",
    {
       description = S("Gold Block"),
       tiles = {"gold_block.png"},
       groups = {cracky = 2},
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = make_metal_sounds(gold.PITCH),
       is_ground_content = false,
 })
 
@@ -622,6 +665,7 @@ achievements.register_achievement(
       description = S("Trade with a villager."),
       times = 1,
       item_icon = "rp_gold:trading_book",
+      difficulty = 5.4,
 })
 
 achievements.register_achievement(
@@ -631,6 +675,7 @@ achievements.register_achievement(
       description = S("Dig a gold ore."),
       times = 1,
       dignode = "rp_gold:stone_with_gold",
+      difficulty = 5.2,
 })
 
 minetest.register_on_leaveplayer(function(player)

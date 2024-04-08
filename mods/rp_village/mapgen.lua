@@ -5,7 +5,7 @@
 local S = minetest.get_translator("rp_village")
 
 local spawn_pos = minetest.setting_get_pos("static_spawnpoint") or {x = 0, y = 0, z = 0}
-local spawn_radius = minetest.settings:get("static_spawn_radius") or 256
+local spawn_radius = tonumber(minetest.settings:get("static_spawn_radius")) or 256
 local mapseed = minetest.get_mapgen_setting("seed")
 
 local bitwise_and = function(x,y)
@@ -102,13 +102,26 @@ minetest.register_node(
           -- ... but not TOO nearby (occupying the pos)
           local objs_near = minetest.get_objects_inside_radius(pos, 1.2)
           if #objs_around > 0 and #objs_near == 0 then
-              local ent_name = minetest.get_meta(pos):get_string("entity")
+              local meta = minetest.get_meta(pos)
+              local ent_name = meta:get_string("entity")
               if ent_name ~= "" then
                   local ent = minetest.add_entity({x=pos.x, y=pos.y+0.6, z=pos.z}, ent_name)
-                  -- All spawned animals are tamed
-                  if ent ~= nil and ent:get_luaentity() ~= nil then
-                     if minetest.registered_entities[ent_name].type == "animal" then
-                         ent:get_luaentity().tamed = true
+                  local luaent = ent and ent:get_luaentity()
+                  if luaent ~= nil then
+                     -- Set villager profession
+
+                     if ent_name == "rp_mobs_mobs:villager" then
+                        local profession = meta:get_string("villager_profession")
+                        if profession ~= "" then
+                           rp_mobs_mobs.set_villager_profession(luaent, profession)
+                           minetest.log("info", "[rp_village] Profession of villager spawned at "..minetest.pos_to_string(pos).." set to: "..tostring(profession))
+                        else
+                           minetest.log("info", "[rp_village] Entity spawner at "..minetest.pos_to_string(pos).." spawned a villager but without villager_profession set in meta. Not setting profession")
+                        end
+                     end
+                     -- Tame animal
+                     if rp_mobs.mobdef_has_tag(ent_name, "animal") then
+                        luaent._tamed = true
                      end
                   end
               else
@@ -125,7 +138,9 @@ minetest.register_node(
 
 local village_info = {
    ["grassland"] = { ground = "rp_default:dirt", ground_top = "rp_default:dirt_with_grass" },
+   ["swamp"] = { ground = "rp_default:swamp_dirt", ground_top = "rp_default:dirt_with_swamp_grass" },
    ["savanna"] = { ground = "rp_default:dry_dirt", ground_top = "rp_default:dirt_with_dry_grass" },
+   ["dry"] = { ground = "rp_default:dry_dirt", ground_top = "rp_default:dry_dirt" },
 }
 
 local use_village_spawner = function(itemstack, placer, pointed_thing)
@@ -157,8 +172,12 @@ local use_village_spawner = function(itemstack, placer, pointed_thing)
 
     local below = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
     local vinfo
-    if below.name == "rp_default:dirt_with_dry_grass" or minetest.get_item_group(below.name, "dry_dirt") == 1 then
+    if below.name == "rp_default:dirt_with_dry_grass" then
        vinfo = village_info["savanna"]
+    elseif minetest.get_item_group(below.name, "dry_dirt") ~= 0 then
+       vinfo = village_info["dry"]
+    elseif below.name == "rp_default:dirt_with_swamp_grass" or below.name == "rp_default:swamp_dirt" then
+       vinfo = village_info["swamp"]
     else
        vinfo = village_info["grassland"]
     end
@@ -194,7 +213,7 @@ local function attempt_village_spawn(pos, village_type)
        local nearest = village.get_nearest_village(spos)
 
        if not nearest or nearest.dist > village.min_spawn_dist then
-          if vector.distance(spawn_pos, spos) > spawn_radius then
+          if spawn_radius == 0 or vector.distance(spawn_pos, spos) > spawn_radius then
              minetest.log("action", "[rp_village] Spawning a village at " .. "(" .. spos.x
                              .. ", " .. spos.y .. ", " .. spos.z .. ")")
              local ground = village_info[village_type].ground
@@ -212,40 +231,51 @@ local function attempt_village_spawn(pos, village_type)
     end
 end
 
-local village_decoration_id
 if not minetest.settings:get_bool("mapgen_disable_villages") then
-   -- Dummy decoration to find possible village spawn points
+   -- Register dummy decorations to find possible village spawn points
    -- via gennotify.
-   minetest.register_decoration(
-      {
-         name = "village_grassland",
-         deco_type = "schematic",
-         place_on = "rp_default:dirt_with_grass",
-         sidelen = 16,
-         fill_ratio = 0.005,
-         biomes = {
-            "Grassland",
-            "Dense Grassland",
-            "Poplar Plains",
-            "Baby Poplar Plains",
-         },
-         -- empty schematic
-         schematic = {
-             size = { x = 1, y = 1, z = 1 },
-             data = {
-                 { name = "air", prob = 0 },
-             },
-         },
-         y_min = 1,
-         y_max = 1000,
-   })
 
-   local grassland_village_decoration_id = minetest.get_decoration_id("village_grassland")
+   local decoration_ids = {}
+   local village_types = {}
+   -- decoration template
+   local function new_decoration(name, place_on, biomes, fill_ratio)
+      if not fill_ratio then
+         fill_ratio = 0.005
+      end
+      local deconame = "village_"..name
+      minetest.register_decoration(
+         {
+            name = deconame,
+            deco_type = "schematic",
+            place_on = place_on,
+            sidelen = 16,
+            fill_ratio = fill_ratio,
+            biomes = biomes,
+            -- empty schematic
+            schematic = {
+                size = { x = 1, y = 1, z = 1 },
+                data = {
+                    { name = "air", prob = 0 },
+                },
+            },
+            y_min = 1,
+            y_max = 1000,
+      })
 
-   local decoration_ids = { grassland_village_decoration_id }
-   local village_types = { "grassland" }
+      local decoration_id = minetest.get_decoration_id(deconame)
+      if decoration_id then
+         table.insert(decoration_ids, decoration_id)
+         table.insert(village_types, name)
+      else
+         minetest.log("error", "[rp_village] Decoration ID could not be found for village dummy decoration '"..deconame.."'")
+      end
+   end
 
-   if grassland_village_decoration_id then
+   new_decoration("grassland", "rp_default:dirt_with_grass", {"Grassland","Dense Grassland","Poplar Plains","Baby Poplar Plains"})
+   new_decoration("swamp", "rp_default:dirt_with_swamp_grass", {"Swamp Meadow", "Swamp Meadow Highland", "Papyrus Swamp"})
+   new_decoration("savanna", "rp_default:dirt_with_dry_grass", {"Savanna", "Savannic Wasteland"})
+
+   if #decoration_ids > 0 then
        minetest.set_gen_notify({decoration=true}, decoration_ids)
        minetest.register_on_generated(function(minp, maxp, blockseed)
            local mgobj = minetest.get_mapgen_object("gennotify")

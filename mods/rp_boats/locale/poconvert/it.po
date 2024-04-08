@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_boats x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Not enough space to enter!"
+msgstr "Non c’è abbastanza spazio per entrare!"
+
+msgid "Wooden Log Boat"
+msgstr "Barca di tronco d’albero"
+
+msgid "Birch Log Boat"
+msgstr "Barca di tronco di betulla"
+
+msgid "Oak Log Boat"
+msgstr "Barca di tronco di quercia"
+
+msgid "Water vehicle"
+msgstr "Veicolo acquatico"
+
+msgid "Wooden Raft"
+msgstr "Zattera di legno"
+
+msgid "Birch Raft"
+msgstr "Zattera di betulla"
+
+msgid "Oak Raft"
+msgstr "Zattera di quercia"
+

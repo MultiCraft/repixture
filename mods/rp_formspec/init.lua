@@ -38,12 +38,14 @@ local formspec_prepend = prepend
 -- Group default items
 
 rp_formspec.group_defaults = {
-   fuzzy = "mobs:wool",
+   fuzzy = "rp_mobs_mobs:wool",
    planks = "rp_default:planks",
    soil = "rp_default:dirt",
    stone = "rp_default:stone",
    tree = "rp_default:tree",
    green_grass = "rp_default:grass",
+   paint_bucket = "rp_paint:bucket",
+   paint_bucket_not_full = "rp_paint:bucket_0",
 }
 rp_formspec.group_names = {
    fuzzy = { S("Fuzzy"), S("Any fuzzy block") },
@@ -51,6 +53,8 @@ rp_formspec.group_names = {
    soil = { S("Soil"), S("Any soil") },
    stone = { S("Stone"), S("Any stone") },
    green_grass = { S("Green Grass Clump"), S("Any green grass clump") },
+   paint_bucket = { S("Paint Bucket"), S("Any paint bucket") },
+   paint_bucket_not_full = { S("Non-full Paint Bucket"), S("Any paint bucket that isn’t full") },
 }
 
 -- Itemslot backgrounds

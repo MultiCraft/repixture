@@ -7,6 +7,10 @@ local S = minetest.get_translator("rp_tnt")
 -- Time in seconds before TNT explodes after ignited
 local TNT_TIMER = 2.0
 
+-- For performance debugging
+local TNT_NO_PARTICLES = false
+local TNT_NO_SOUNDS = false
+
 tnt = {}
 
 local particlespawners = {}
@@ -15,6 +19,7 @@ local particlespawners = {}
 
 local singleplayer = minetest.is_singleplayer()
 local setting = minetest.settings:get_bool("tnt_enable")
+local mod_attached = minetest.get_modpath("rp_attached") ~= nil
 
 local tnt_enable
 if (not singleplayer and setting ~= true) or (singleplayer and setting == false) then
@@ -101,27 +106,26 @@ local function add_drop(drops, item)
    end
 end
 
-local function destroy(drops, pos, cid)
+local function check_destroy(drops, pos, cid)
    if minetest.is_protected(pos, "") then
-      return
+      return false, "protected"
    end
    local def = cid_data[cid]
    if def and def.on_blast then
-      def.on_blast(vector.new(pos), 1)
-      return
+      return false, "on_blast"
    end
 
-   minetest.remove_node(pos)
    if def then
       local node_drops = minetest.get_node_drops(def.name, "")
       for _, item in ipairs(node_drops) do
 	 add_drop(drops, item)
       end
    end
+   return true
 end
 
 
-local function calc_velocity(pos1, pos2, old_vel, power)
+local function calc_velocity(pos1, pos2, power)
    local vel = vector.direction(pos1, pos2)
    vel = vector.normalize(vel)
    vel = vector.multiply(vel, power)
@@ -131,12 +135,10 @@ local function calc_velocity(pos1, pos2, old_vel, power)
    dist = math.max(dist, 1)
    vel = vector.divide(vel, dist)
 
-   -- Add old velocity
-   vel = vector.add(vel, old_vel)
    return vel
 end
 
-local function entity_physics(pos, radius)
+local function entity_physics(pos, radius, igniter)
    -- Make the damage radius larger than the destruction radius
    radius = radius * 2
 
@@ -147,17 +149,25 @@ local function entity_physics(pos, radius)
       local dist = math.max(1, vector.distance(pos, obj_pos))
 
       if obj_vel ~= nil then
-	 obj:set_velocity(calc_velocity(pos, obj_pos,
-				       obj_vel, radius * 10))
+	 obj:add_velocity(calc_velocity(pos, obj_pos, radius*2.5))
       end
 
       local damage = (4 / dist) * radius
       local dir = vector.direction(pos, obj_pos)
-      obj:punch(obj, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, dir)
+      local puncher
+      if igniter then
+         puncher = igniter
+      else
+         puncher = obj
+      end
+      obj:punch(puncher, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, dir)
    end
 end
 
 local function add_node_break_effects(pos, node, node_tile)
+   if TNT_NO_PARTICLES then
+      return
+   end
    minetest.add_particlespawner(
       {
          amount = 40,
@@ -176,10 +186,12 @@ local function add_node_break_effects(pos, node, node_tile)
          node = node,
 	 node_tile = node_tile,
    })
-
 end
 
 local function add_explosion_effects(pos, radius)
+   if TNT_NO_PARTICLES then
+      return
+   end
    minetest.add_particlespawner(
       {
          amount = 128,
@@ -238,11 +250,12 @@ local function add_explosion_effects(pos, radius)
          texture = "rp_tnt_smoke_ball_small.png",
          animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
    })
-
-
 end
 
 local function emit_fuse_smoke(pos)
+	if TNT_NO_PARTICLES then
+		return
+	end
 	local minpos = vector.add(pos, vector.new(1/16, 0.5, 4/16))
 	local maxpos = vector.add(pos, vector.new(2/16, 0.5, 5/16))
 	local minvel = vector.new(0.2 - 0.1, 2.0, 0.2 - 0.1)
@@ -273,14 +286,22 @@ function tnt.burn(pos, igniter)
       minetest.set_node(pos, {name = "rp_tnt:tnt_burning"})
 
       if igniter then
+         achievements.trigger_achievement(igniter, "boom")
+         if igniter:is_player() then
+            local meta = minetest.get_meta(pos)
+            meta:set_string("igniter", igniter:get_player_name())
+         end
          minetest.log("action", "[rp_tnt] TNT ignited by "..igniter:get_player_name().." at "..minetest.pos_to_string(pos, 0))
       else
-         minetest.log("action", "[rp_tnt] TNT ignited at "..minetest.pos_to_string(pos, 0))
+         minetest.log("verbose", "[rp_tnt] TNT ignited at "..minetest.pos_to_string(pos, 0))
       end
    end
 end
 
 local function play_tnt_sound(pos, sound)
+   if TNT_NO_SOUNDS then
+      return
+   end
    minetest.sound_play(
       sound,
       {
@@ -299,7 +320,7 @@ function tnt.explode(pos, radius)
    local p1 = vector.subtract(pos, radius)
    local p2 = vector.add(pos, radius)
    local minp, maxp = vm:read_from_map(p1, p2)
-   local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
+   local area = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
    local data = vm:get_data()
 
    local drops = {}
@@ -307,9 +328,12 @@ function tnt.explode(pos, radius)
 
    local c_air = minetest.get_content_id("air")
 
+   local destroyed_nodes = {}
+   local on_blasts = {}
+
    for z = -radius, radius do
       for y = -radius, radius do
-	 local vi = a:index(pos.x + (-radius), pos.y + y, pos.z + z)
+	 local vi = area:index(pos.x + (-radius), pos.y + y, pos.z + z)
 	 for x = -radius, radius do
 	    if (x * x) + (y * y) + (z * z) <= (radius * radius) + pr:next(-radius, radius) then
 	       local cid = data[vi]
@@ -317,12 +341,38 @@ function tnt.explode(pos, radius)
 	       p.y = pos.y + y
 	       p.z = pos.z + z
 	       if cid ~= c_air then
-		  destroy(drops, p, cid)
-		  minetest.check_for_falling({x=p.x, y=p.y, z=p.z})
+		  local destroy, fail_reason = check_destroy(drops, p, cid)
+		  if destroy == true then
+                     data[vi] = minetest.CONTENT_AIR
+                     local pp = {x=p.x, y=p.y, z=p.z}
+                     table.insert(destroyed_nodes, {vi=vi, pos=pp})
+                  elseif destroy == false and fail_reason == "on_blast" then
+                     local pp = {x=p.x, y=p.y, z=p.z}
+                     table.insert(on_blasts, {pos=pp, cid=cid})
+	          end
 	       end
 	    end
 	    vi = vi + 1
 	 end
+      end
+   end
+
+   vm:set_data(data)
+   vm:write_to_map()
+
+   for i=1, #on_blasts do
+      local pp = on_blasts[i].pos
+      local cid = on_blasts[i].cid
+      local def = cid_data[cid]
+      def.on_blast(vector.new(pp), 1)
+   end
+
+   for i=1, #destroyed_nodes do
+      local pp = destroyed_nodes[i].pos
+      local vi = destroyed_nodes[i].vi
+      minetest.check_for_falling(pp)
+      if mod_attached then
+         rp_attached.detach_from_node(pp)
       end
    end
 
@@ -331,13 +381,17 @@ end
 
 -- TNT node explosion
 
-local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
+local function rawboom(pos, radius, sound, remove_nodes, is_tnt, igniter)
    if is_tnt then
       local node = minetest.get_node(pos)
       minetest.remove_node(pos)
       add_node_break_effects(pos, node, 0)
       if is_tnt and not tnt_enable then
-          minetest.check_for_falling({x=pos.x, y=pos.y, z=pos.z})
+          local pp = {x=pos.x, y=pos.y, z=pos.z}
+          minetest.check_for_falling(pp)
+          if mod_attached then
+             rp_attached.detach_from_node(pp)
+          end
           return
       end
    end
@@ -345,31 +399,31 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
       local drops = tnt.explode(pos, radius, sound)
       play_tnt_sound(pos, sound)
       if is_tnt then
-          minetest.log("action", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
+          minetest.log("verbose", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
       else
-          minetest.log("action", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
+          minetest.log("verbose", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
       end
-      entity_physics(pos, radius)
+      entity_physics(pos, radius, igniter)
       eject_drops(drops, pos, radius)
    else
-      entity_physics(pos, radius)
+      entity_physics(pos, radius, igniter)
       play_tnt_sound(pos, sound)
    end
    add_explosion_effects(pos, radius)
 end
 
 
-function tnt.boom(pos, radius, sound)
+function tnt.boom(pos, radius, sound, igniter)
    if not radius then
       radius = tnt_radius
    end
    if not sound then
       sound = "tnt_explode"
    end
-   rawboom(pos, radius, sound, true, true)
+   rawboom(pos, radius, sound, true, true, igniter)
 end
 
-function tnt.boom_notnt(pos, radius, sound, remove_nodes)
+function tnt.boom_notnt(pos, radius, sound, remove_nodes, igniter)
    if not radius then
       radius = tnt_radius
    end
@@ -379,7 +433,7 @@ function tnt.boom_notnt(pos, radius, sound, remove_nodes)
    if remove_nodes == nil then
       remove_nodes = tnt_enable
    end
-   rawboom(pos, radius, sound, remove_nodes, false)
+   rawboom(pos, radius, sound, remove_nodes, false, igniter)
 end
 
 -- On load register content IDs
@@ -414,41 +468,31 @@ minetest.register_node(
    {
       description = desc,
       _tt_help = tt,
+      _rp_tt_has_ignitible_text = true, -- prevent rp_tt mod from adding automatic tooltip
       tiles = {top_tex, "tnt_bottom.png", "tnt_sides.png"},
       is_ground_content = false,
       groups = {handy = 2, interactive_node=1},
       sounds = rp_sounds.node_sound_wood_defaults(),
 
-      on_punch = function(pos, node, puncher)
-         if not tnt_enable then
-            return
-         end
-         local item = puncher:get_wielded_item()
-         local itemname = item:get_name()
-
-         if itemname == "rp_default:flint_and_steel" then
-            if minetest.is_protected(pos, puncher:get_player_name()) and
-                    not minetest.check_player_privs(puncher, "protection_bypass") then
-                minetest.record_protection_violation(pos, puncher:get_player_name())
-                return
-            end
-	    if not minetest.is_creative_enabled(puncher:get_player_name()) then
-                item:add_wear_by_uses(82)
-                puncher:set_wielded_item(item)
-            end
-            tnt.burn(pos, puncher)
-            achievements.trigger_achievement(puncher, "boom")
-         end
-      end,
       on_blast = function(pos, intensity)
          if tnt_enable then
             tnt.burn(pos)
          end
       end,
+      _rp_on_ignite = function(pos, itemstack, user)
+         if not tnt_enable then
+            return
+         end
+         tnt.burn(pos, user)
+         return { sound = false }
+      end,
 })
 
 local tnt_burning_on_timer = function(pos)
-	tnt.boom(pos)
+	local meta = minetest.get_meta(pos)
+	local igniter_name = meta:get_string("igniter")
+	local igniter = minetest.get_player_by_name(igniter_name)
+	tnt.boom(pos, nil, nil, igniter)
 end
 
 -- Nodes
@@ -478,9 +522,11 @@ minetest.register_node(
       on_construct = function(pos)
 	  if tnt_enable then
              local timer = minetest.get_node_timer(pos)
-             minetest.sound_play("tnt_ignite", {pos = pos}, true)
+             if TNT_NO_SOUNDS == false then
+                minetest.sound_play("tnt_ignite", {pos = pos}, true)
+             end
              local id = emit_fuse_smoke(pos)
-	     if id ~= -1 then
+	     if id ~= -1 and TNT_NO_PARTICLES == false then
                 local hash = minetest.hash_node_position(pos)
                 particlespawners[hash] = id
                 minetest.after(TNT_TIMER, function()
@@ -495,6 +541,9 @@ minetest.register_node(
 	  end
       end,
       after_destruct = function(pos)
+         if TNT_NO_PARTICLES then
+            return
+         end
          local hash = minetest.hash_node_position(pos)
          local id = particlespawners[hash]
 	 if id then
@@ -506,7 +555,9 @@ minetest.register_node(
 	  -- Force timer to restart if the timer was halted for some reason
           local timer = minetest.get_node_timer(pos)
 	  if not timer:is_started() then
-             minetest.sound_play("tnt_ignite", {pos = pos}, true)
+             if TNT_NO_SOUNDS == false then
+                minetest.sound_play("tnt_ignite", {pos = pos}, true)
+             end
              timer:start(TNT_TIMER)
 	  end
       end,
@@ -535,6 +586,7 @@ if tnt_enable then
          description = S("Ignite TNT."),
          times = 1,
          item_icon = "rp_tnt:tnt_burning",
+	 difficulty = 4.9,
    })
 else
    achievements.register_achievement(
@@ -544,6 +596,8 @@ else
          description = S("Craft defused TNT."),
          times = 1,
          craftitem = "rp_tnt:tnt",
+         -- difficulty slightly lower than for “Boom!” because of fewer materials required
+	 difficulty = 4.6,
    })
 end
 

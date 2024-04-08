@@ -10,15 +10,14 @@ minetest.clear_registered_biomes()
 
 local mg_name = minetest.get_mapgen_setting("mg_name")
 
-local register_underwater_and_beach = function(biomename, node_underwater, beach_depth, node_beach)
+local register_underwater_and_beach = function(biomename, underwater_description, beach_description, node_underwater, beach_depth, node_beach)
 	local orig_biome = minetest.registered_biomes[biomename]
 	if not orig_biome then
 		return
 	end
 	local newdef = table.copy(orig_biome)
-	local orig_description = orig_biome._description or biomename
 	newdef.name = biomename .. " Underwater"
-	newdef._description = S("@1 Underwater", orig_description)
+	newdef._description = underwater_description
 	newdef.node_top = node_underwater or "rp_default:sand"
 	newdef.node_filler = newdef.node_top
 	newdef.y_min = default.UNDERGROUND_Y_MAX + 1
@@ -34,7 +33,7 @@ local register_underwater_and_beach = function(biomename, node_underwater, beach
 
 		local newdef2 = table.copy(orig_biome)
 		newdef2.name = biomename .. " Beach"
-		newdef2._description = S("@1 Beach", orig_description)
+		newdef2._description = beach_description
 		newdef2.node_top = node_beach or "rp_default:sand"
 		newdef2.node_filler = newdef2.node_top
 		newdef2.y_min = orig_biome.y_min - beach_depth
@@ -66,7 +65,7 @@ minetest.register_biome(
       heat_point = 81,
       humidity_point = 80,
 })
-register_underwater_and_beach("Marsh", "rp_default:dirt", 2, "rp_default:sand")
+register_underwater_and_beach("Marsh", S("Marsh Underwater"), S("Marsh Beach"), "rp_default:dirt", 2, "rp_default:sand")
 default.set_biome_info("Marsh", "grassy")
 
 -- 'highland' version of Marsh biome
@@ -135,7 +134,7 @@ minetest.register_biome(
       heat_point = 29,
       humidity_point = 36,
 })
-register_underwater_and_beach("Forest", "rp_default:sand")
+register_underwater_and_beach("Forest", S("Mixed Forest Underwater"), S("Mixed Forest Beach"), "rp_default:sand")
 default.set_biome_info("Forest", "grassy")
 
 minetest.register_biome(
@@ -157,7 +156,7 @@ minetest.register_biome(
       heat_point = 35,
       humidity_point = 19,
 })
-register_underwater_and_beach("Grove", "rp_default:sand")
+register_underwater_and_beach("Grove", S("Grove Underwater"), S("Grove Beach"), "rp_default:sand")
 default.set_biome_info("Grove", "grassy")
 
 minetest.register_biome(
@@ -179,7 +178,7 @@ minetest.register_biome(
       heat_point = 55,
       humidity_point = 24,
 })
-register_underwater_and_beach("Wilderness", "rp_default:sand")
+register_underwater_and_beach("Wilderness", S("Wilderness Underwater"), S("Wilderness Beach"), "rp_default:sand")
 default.set_biome_info("Wilderness", "grassy")
 
 -- Note: Grassland is below Orchard
@@ -202,7 +201,7 @@ minetest.register_biome(
       heat_point = 55,
       humidity_point = 56,
 })
-register_underwater_and_beach("Grassland", "rp_default:sand")
+register_underwater_and_beach("Grassland", S("Grassland Underwater"), S("Grassland Beach"), "rp_default:sand")
 default.set_biome_info("Grassland", "grassy")
 
 -- Note: Orchard is the 'highland' version of Grassland
@@ -247,7 +246,7 @@ minetest.register_biome(
       heat_point = 76,
       humidity_point = 50,
 })
-register_underwater_and_beach("Shrubbery", "rp_default:sand")
+register_underwater_and_beach("Shrubbery", S("Shrubbery Underwater"), S("Shrubbery Beach"), "rp_default:sand")
 default.set_biome_info("Shrubbery", "grassy")
 
 -- Note: High biome. This is the highland version of Shrubbery
@@ -291,7 +290,7 @@ minetest.register_biome(
       heat_point = 77,
       humidity_point = 12,
 })
-register_underwater_and_beach("Savanna", "rp_default:sand")
+register_underwater_and_beach("Savanna", S("Savanna Underwater"), S("Savanna Beach"), "rp_default:sand")
 default.set_biome_info("Savanna", "savannic")
 
 minetest.register_biome(
@@ -313,7 +312,7 @@ minetest.register_biome(
       heat_point = 100,
       humidity_point = 0,
 })
-register_underwater_and_beach("Wasteland", "rp_default:dry_dirt", 5, "rp_default:gravel")
+register_underwater_and_beach("Wasteland", S("Wasteland Underwater"), S("Wasteland Beach"), "rp_default:dry_dirt", 5, "rp_default:gravel")
 default.set_biome_info("Wasteland", "drylandic")
 
 minetest.register_biome(
@@ -335,7 +334,7 @@ minetest.register_biome(
       heat_point = 86,
       humidity_point = 7,
 })
-register_underwater_and_beach("Rocky Dryland", "rp_default:gravel")
+register_underwater_and_beach("Rocky Dryland", S("Rocky Dryland Underwater"), S("Rocky Dryland Beach"), "rp_default:gravel")
 default.set_biome_info("Rocky Dryland", "drylandic")
 
 minetest.register_biome(
@@ -357,7 +356,7 @@ minetest.register_biome(
       heat_point = 94,
       humidity_point = 10,
 })
-register_underwater_and_beach("Wooded Dryland", "rp_default:dry_dirt")
+register_underwater_and_beach("Wooded Dryland", S("Wooded Dryland Underwater"), S("Wooded Dryland Beach"), "rp_default:dry_dirt")
 default.set_biome_info("Wooded Dryland", "drylandic")
 
 minetest.register_biome(
@@ -379,7 +378,7 @@ minetest.register_biome(
       heat_point = 80,
       humidity_point = 10,
 })
-register_underwater_and_beach("Savannic Wasteland", "rp_default:sand")
+register_underwater_and_beach("Savannic Wasteland", S("Savannic Wasteland Underwater"), S("Savannic Wasteland Beach"), "rp_default:sand")
 default.set_biome_info("Savannic Wasteland", "savannic")
 
 minetest.register_biome(
@@ -401,7 +400,7 @@ minetest.register_biome(
       heat_point = 54,
       humidity_point = 0,
 })
-register_underwater_and_beach("Thorny Shrubs", "rp_default:sand")
+register_underwater_and_beach("Thorny Shrubs", S("Thorny Shrubs Underwater"), S("Thorny Shrubs Beach"), "rp_default:sand")
 default.set_biome_info("Thorny Shrubs", "grassy")
 
 minetest.register_biome(
@@ -423,7 +422,7 @@ minetest.register_biome(
       heat_point = 15,
       humidity_point = 0,
 })
-register_underwater_and_beach("Mystery Forest", "rp_default:dirt")
+register_underwater_and_beach("Mystery Forest", S("Mystery Forest Underwater"), S("Mystery Forest Beach"), "rp_default:dirt")
 default.set_biome_info("Mystery Forest", "grassy")
 
 minetest.register_biome(
@@ -445,7 +444,7 @@ minetest.register_biome(
       heat_point = 100,
       humidity_point = 56,
 })
-register_underwater_and_beach("Poplar Plains", "rp_default:dirt")
+register_underwater_and_beach("Poplar Plains", S("Poplar Plains Underwater"), S("Poplar Plains Beach"), "rp_default:dirt")
 default.set_biome_info("Poplar Plains", "grassy")
 
 minetest.register_biome(
@@ -467,7 +466,7 @@ minetest.register_biome(
       heat_point = 100,
       humidity_point = 42,
 })
-register_underwater_and_beach("Baby Poplar Plains", "rp_default:sand")
+register_underwater_and_beach("Baby Poplar Plains", S("Baby Poplar Plains Underwater"), S("Baby Poplar Plains Beach"), "rp_default:sand")
 default.set_biome_info("Baby Poplar Plains", "grassy")
 
 minetest.register_biome(
@@ -489,7 +488,7 @@ minetest.register_biome(
       heat_point = 0,
       humidity_point = 15,
 })
-register_underwater_and_beach("Tall Birch Forest", "rp_default:sand")
+register_underwater_and_beach("Tall Birch Forest", S("Tall Birch Forest Underwater"), S("Tall Birch Forest Beach"), "rp_default:sand")
 default.set_biome_info("Tall Birch Forest", "grassy")
 
 minetest.register_biome(
@@ -511,7 +510,7 @@ minetest.register_biome(
       heat_point = 14,
       humidity_point = 16,
 })
-register_underwater_and_beach("Birch Forest", "rp_default:sand")
+register_underwater_and_beach("Birch Forest", S("Birch Forest Underwater"), S("Birch Forest Beach"), "rp_default:sand")
 default.set_biome_info("Birch Forest", "grassy")
 
 minetest.register_biome(
@@ -533,7 +532,7 @@ minetest.register_biome(
       heat_point = 33,
       humidity_point = 62,
 })
-register_underwater_and_beach("Oak Shrubbery", "rp_default:dirt")
+register_underwater_and_beach("Oak Shrubbery", S("Oak Shrubbery Underwater"), S("Oak Shrubbery Beach"), "rp_default:dirt")
 default.set_biome_info("Oak Shrubbery", "grassy")
 
 minetest.register_biome(
@@ -555,7 +554,7 @@ minetest.register_biome(
       heat_point = 32,
       humidity_point = 61,
 })
-register_underwater_and_beach("Oak Forest", "rp_default:sand")
+register_underwater_and_beach("Oak Forest", S("Oak Forest Underwater"), S("Oak Forest Beach"), "rp_default:sand")
 default.set_biome_info("Oak Forest", "grassy")
 
 minetest.register_biome(
@@ -577,7 +576,7 @@ minetest.register_biome(
       heat_point = 10,
       humidity_point = 52,
 })
-register_underwater_and_beach("Tall Oak Forest", "rp_default:sand")
+register_underwater_and_beach("Tall Oak Forest", S("Tall Oak Forest Underwater"), S("Tall Oak Forest Beach"), "rp_default:sand")
 default.set_biome_info("Tall Oak Forest", "grassy")
 
 minetest.register_biome(
@@ -622,7 +621,7 @@ minetest.register_biome(
       heat_point = 54,
       humidity_point = 97,
 })
-register_underwater_and_beach("Swamp Meadow", "rp_default:swamp_dirt", 3, "rp_default:sand")
+register_underwater_and_beach("Swamp Meadow", S("Swamp Meadow Underwater"), S("Swamp Meadow Beach"), "rp_default:swamp_dirt", 3, "rp_default:sand")
 default.set_biome_info("Swamp Meadow", "swampy")
 
 minetest.register_biome(
@@ -667,7 +666,7 @@ minetest.register_biome(
       heat_point = 32,
       humidity_point = 92,
 })
-register_underwater_and_beach("Mixed Swamp", "rp_default:dirt", 5, "rp_default:swamp_dirt")
+register_underwater_and_beach("Mixed Swamp", S("Mixed Swamp Underwater"), S("Mixed Swamp Beach"), "rp_default:dirt", 5, "rp_default:swamp_dirt")
 default.set_biome_info("Mixed Swamp", "swampy")
 
 minetest.register_biome(
@@ -712,7 +711,7 @@ minetest.register_biome(
       heat_point = 11,
       humidity_point = 91,
 })
-register_underwater_and_beach("Swamp Forest", "rp_default:dirt", 5, "rp_default:swamp_dirt")
+register_underwater_and_beach("Swamp Forest", S("Swamp Forest Underwater"), S("Swamp Forest Beach"), "rp_default:dirt", 5, "rp_default:swamp_dirt")
 default.set_biome_info("Swamp Forest", "swampy")
 
 minetest.register_biome(
@@ -757,7 +756,7 @@ minetest.register_biome(
       heat_point = 83,
       humidity_point = 84,
 })
-register_underwater_and_beach("Dry Swamp", "rp_default:dirt", 3, "rp_default:swamp_dirt") -- force creation of beach sub-biome
+register_underwater_and_beach("Dry Swamp", S("Dry Swamp Underwater"), S("Dry Swamp Beach"), "rp_default:dirt", 3, "rp_default:swamp_dirt") -- force creation of beach sub-biome
 default.set_biome_info("Dry Swamp", "swampy")
 
 minetest.register_biome(
@@ -801,7 +800,7 @@ minetest.register_biome(
       heat_point = 44,
       humidity_point = 98,
 })
-register_underwater_and_beach("Papyrus Swamp", "rp_default:swamp_dirt")
+register_underwater_and_beach("Papyrus Swamp", S("Papyrus Swamp Underwater"), S("Papyrus Swamp Beach"), "rp_default:swamp_dirt")
 default.set_biome_info("Papyrus Swamp", "swampy")
 
 -- Special Underground biome

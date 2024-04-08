@@ -24,9 +24,4 @@ Cotton Seed=
 Cotton Plant (stage @1)=
 Grows on dirt, dry dirt and sand; it likes water=
 Cotton Bale=
-
-
-##### not used anymore #####
-
-# textdomain: rp_farming
-Wannabe Farmer=
+Straw=

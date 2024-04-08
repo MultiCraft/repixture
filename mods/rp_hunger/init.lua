@@ -8,7 +8,8 @@ local S = minetest.get_translator("rp_hunger")
 
 hunger = {}
 
--- If enabled, show advanced player hunger values
+-- If enabled, show advanced player hunger values in the HUD
+-- and the saturation value of foods in their item tooltips
 local HUNGER_DEBUG = minetest.settings:get_bool("hunger_debug", false)
 
 -- Maximum possible hunger value
@@ -148,25 +149,39 @@ local function update_bar(player)
    local name = player:get_player_name()
 
    if HUNGER_DEBUG then
+      local getval = function(valtype)
+         local val
+         if valtype == "step" then
+            val = player_step[name]
+         elseif valtype == "health_step" then
+            val = player_health_step[name]
+         else
+            val = userdata[name][valtype]
+         end
+         return tostring(val)
+      end
+      local text = S("Hunger Debug:").."\n"
+      if minetest.settings:get_bool("hunger_enable", true) then
+         -- Intentionally untranslated as these are technical values
+         text = text .. "hunger = " .. getval("hunger") .. "\n"
+         text = text .. "saturation = " .. getval("saturation") .. "\n"
+         text = text .. "moving = " .. getval("moving") .. "\n"
+         text = text .. "active = " .. getval("active") .. "\n"
+         text = text .. "step = " .. getval("step") .. "\n"
+      else
+         text = text .. S("<hunger disabled>").."\n"
+      end
+      -- Intentionally untranslated as this is a technical value
+      text = text .. "health_step = " .. getval("health_step")
+
       if player_debughud[name] then
-          local text = "Hunger Debug:\n"
-          if minetest.settings:get_bool("hunger_enable", true) then
-             text = text .. "hunger = " .. tostring(userdata[name].hunger) .. "\n"
-             text = text .. "saturation = " .. tostring(userdata[name].saturation) .. "\n"
-             text = text .. "moving = " .. tostring(userdata[name].moving) .. "\n"
-             text = text .. "active = " .. tostring(userdata[name].active) .. "\n"
-             text = text .. "step = " .. tostring(player_step[name]) .. "\n"
-          else
-             text = text .. "<hunger disabled>\n"
-	  end
-          text = text .. "health_step = " .. tostring(player_health_step[name])
           player:hud_change(player_debughud[name], "text", text)
       else
          player_debughud[name] = player:hud_add(
 	 {
 	    hud_elem_type = "text",
             position = {x=0.75,y=1.0},
-            text = "",
+            text = text,
             number = 0xFFFFFFFF,
             alignment = {x=-1, y=-1},
 	    scale = {x=100, y=100},
@@ -188,7 +203,7 @@ local function update_bar(player)
 	    hud_elem_type = "statbar",
 	    position = {x=0.5,y=1.0},
 	    text = "hunger.png",
-	    text2 = "hunger.png^[colorize:#666666:255",
+	    text2 = "hunger_gone.png",
 	    number = userdata[name].hunger,
 	    item = hunger.MAX_HUNGER,
 	    dir = 0,
@@ -238,6 +253,8 @@ local function on_joinplayer(player)
          saturation = 0,
       }
    end
+   player_step[name] = 0
+   player_health_step[name] = 0
 
    update_bar(player)
 end
@@ -248,6 +265,8 @@ local function on_leaveplayer(player)
    player_bar[name] = nil
    player_debughud[name] = nil
    userdata[name] = nil
+   player_step[name] = nil
+   player_health_step[name] = nil
 end
 
 local function on_respawnplayer(player)
@@ -273,24 +292,51 @@ local function on_respawnplayer_nohunger(player)
    end
 end
 
-local function on_item_eat(hpdata, replace_with_item, itemstack,
+local function on_item_eat(hp_change, replace_with_item, itemstack,
                            player, pointed_thing)
-   if not player then return end
-   if not hpdata then return end
+   if not player then
+      return
+   end
+   if not hp_change then
+      minetest.log("error", "[rp_hunger] minetest.item_eat called with nil hp_change (item="..itemstack:get_name()..")!")
+      return
+   end
 
-   local hp_change = 0
-   local saturation = 2
+   local food = 0
+   local saturation = 0
 
-   if type(hpdata) == "number" then
-      hp_change = hpdata
+   if type(hp_change) == "table" then
+      -- Legacy support for old Repixture versions: table form:
+      -- { hp = <food points>, sat = <saturation }
+      food = hp_change.hp
+      saturation = hp_change.sat
+   elseif type(hp_change) == "number" then
+      -- Recommended method: Try to take food data from item definition
+      local def = itemstack:get_definition()
+      if def then
+         food = def._rp_hunger_food
+         saturation = def._rp_hunger_sat
+         if not food or not saturation then
+            minetest.log("error", "[rp_hunger] Missing _rp_hunger_food and/or _rp_hunger_sat field in item definition (item="..itemstack:get_name()..")!")
+            return
+         end
+      else
+         -- Fallback
+         if not food then
+            food = 0
+         end
+         if not saturation then
+            saturation = 0
+         end
+      end
    else
-      hp_change = hpdata.hp
-      saturation = hpdata.sat
+      minetest.log("error", "[rp_hunger] minetest.item_eat called with invalid hp_change (item="..itemstack:get_name()..")!")
+      return
    end
 
    local name = player:get_player_name()
 
-   userdata[name].hunger = userdata[name].hunger + hp_change
+   userdata[name].hunger = userdata[name].hunger + food
 
 
    userdata[name].hunger = math.min(hunger.MAX_HUNGER, userdata[name].hunger)
@@ -368,7 +414,8 @@ local function health_step(player, phunger)
       player_health_step[name] = HEAL_EVERY_N_HEALTH_STEPS
       if hp > 0 and hp < minetest.PLAYER_MAX_HP_DEFAULT and (phunger == nil or phunger >= HUNGER_HEAL_LEVEL) then
          player_health_step[name] = 0
-         player:set_hp(hp+1)
+         -- health regeneration
+         player:set_hp(hp+1, { type = "set_hp", from = "mod", _reason_precise = "regenerate" })
       end
    end
 end
@@ -443,7 +490,8 @@ local function on_globalstep(dtime)
             end
             if userdata[name].hunger <= HUNGER_STARVE_LEVEL and hp >= 0 then
                local old_hp = hp
-               player:set_hp(hp - 1)
+               -- Hurt player due to starving
+               player:set_hp(hp - 1, { type = "set_hp", from = "mod", _reason_precise = "starve" })
                userdata[name].hunger = 0
                if hp > 1 then
                   minetest.chat_send_player(name, minetest.colorize("#f00", S("You are starving.")))
@@ -466,7 +514,7 @@ end
 
 -- Eating food when hunger is disabled.
 -- This just removes the food.
-local function fake_on_item_eat(hpdata, replace_with_item, itemstack,
+local function fake_on_item_eat(hp_change, replace_with_item, itemstack,
                                 player, pointed_thing)
    local headpos  = player:get_pos()
    headpos.y = headpos.y + 1
@@ -578,7 +626,15 @@ if mod_achievements then
 		      subconditions_readable = all_foods_readable,
 		      times = 0,
 		      icon = "rp_hunger_achievement_eat_everything.png",
+		      difficulty = 6.9,
 		})
+
+		for old, new in pairs(minetest.registered_aliases) do
+			if minetest.get_item_group(new, "food") > 0 then
+				achievements.register_subcondition_alias("eat_everything", old, new)
+				minetest.log("verbose", "[rp_hunger] Registered subcondition alias for 'eat_everything' achievement: "..old.." -> "..new)
+			end
+		end
 
 	end)
 end
@@ -589,29 +645,31 @@ minetest.register_chatcommand("hunger", {
 	params = S("[<player>] <hunger>"),
 	func = function(playername, param)
 		-- Set hunger of specified target player
-		local target, hungr = string.match(param, "^([a-zA-Z0-9-_]+) ([0-9]+)$")
+		local target, hungr = string.match(param, "^([a-zA-Z0-9-_]+) (~?-?[0-9]+)$")
 		if target and hungr then
-			hungr = tonumber(hungr)
-			if not hungr then
-				return false
-			end
 			local player = minetest.get_player_by_name(target)
 			if not player then
 				return false, S("Player is not online.")
+			end
+			local current_hungr = hunger.get_hunger(target)
+			hungr = minetest.parse_relative_number(hungr, current_hungr)
+			if not hungr then
+				return false
 			end
 			hunger.set_hunger(target, hungr)
 			return true
 		end
 
 		-- Set hunger of commander
-		local hungr = string.match(param, "^([0-9]+)$")
-		hungr = tonumber(hungr)
-		if not hungr then
-			return false
-		end
 		local player = minetest.get_player_by_name(playername)
 		if not player then
 			return false, S("No player.")
+		end
+		hungr = string.match(param, "^(~?-?[0-9]+)$")
+		local current_hungr = hunger.get_hunger(playername)
+		hungr = minetest.parse_relative_number(hungr, current_hungr)
+		if not hungr then
+			return false
 		end
 		hunger.set_hunger(playername, hungr)
 		hunger.set_saturation(playername, 0)
@@ -619,3 +677,20 @@ minetest.register_chatcommand("hunger", {
 	end
 })
 
+if minetest.get_modpath("tt") ~= nil then
+	tt.register_snippet(function(itemstring)
+		local def = minetest.registered_items[itemstring]
+		local msg
+		local is_food = minetest.get_item_group(itemstring, "food") > 0
+		if def and is_food then
+			msg = S("Food item")
+			if def._rp_hunger_food then
+				msg = msg .."\n" .. S("Food points: +@1", def._rp_hunger_food)
+			end
+			if HUNGER_DEBUG and def._rp_hunger_sat then
+				msg = msg .. "\n" .. S("Saturation points: +@1", def._rp_hunger_sat)
+			end
+		end
+		return msg
+	end)
+end

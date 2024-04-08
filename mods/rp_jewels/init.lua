@@ -6,7 +6,7 @@
 
 local S = minetest.get_translator("rp_jewels")
 local NS = function(s) return s end
-local F = minetest.formspec_escape
+local FS = function(...) return minetest.formspec_escape(S(...)) end
 
 jewels = {}
 
@@ -24,8 +24,8 @@ form_bench = form_bench .. "list[current_name;main;2.25,1.75;1,1;]"
 form_bench = form_bench .. "listring[current_name;main]"
 form_bench = form_bench .. rp_formspec.get_itemslot_bg(2.25, 1.75, 1, 1)
 
-form_bench = form_bench .. "label[3.25,1.75;"..F(S("1. Place tool here")).."]"
-form_bench = form_bench .. "label[3.25,2.25;"..F(S("2. Hold a jewel and punch the bench")).."]"
+form_bench = form_bench .. "label[3.25,1.75;"..FS("1. Place tool here").."]"
+form_bench = form_bench .. "label[3.25,2.25;"..FS("2. Hold a jewel and punch the bench").."]"
 
 form_bench = form_bench .. "list[current_player;main;0.25,4.75;8,4;]"
 form_bench = form_bench .. "listring[current_player;main]"
@@ -123,7 +123,8 @@ function jewels.register_jewel(toolname, new_toolname, def)
       if not desc then
          desc = new_toolname
       else
-         desc = S("Jeweled @1", desc)
+         -- Fallback description
+         desc = S("@1 (jeweled)", desc)
       end
    end
    new_tooldef.description = desc
@@ -237,18 +238,38 @@ function jewels.get_jeweled(toolname)
    end
 end
 
--- Items
+-- Nodes
 
-minetest.register_craftitem(
+minetest.register_node(
    "rp_jewels:jewel",
    {
       description = S("Jewel"),
       inventory_image = "jewels_jewel.png",
-      stack_max = 10
+      wield_image  = "jewels_jewel.png",
+      wield_scale = { x=1, y=1, z=2 },
+      tiles = {"rp_jewels_node_top.png", "rp_jewels_node_top.png", "rp_jewels_node_side.png"},
+      use_texture_alpha = "clip",
+      paramtype = "light",
+      sunlight_propagates = true,
+      is_ground_content = false,
+      drawtype = "nodebox",
+      walkable = false,
+      floodable = true,
+      on_flood = function(pos, oldnode, newnode)
+         minetest.add_item(pos, "rp_jewels:jewel")
+      end,
+      node_box = {
+         type = "fixed",
+         fixed = {-4/16, -0.5, -4/16, 4/16, -0.5+(3/16), 4/16}
+      },
+      -- Note: The jewel does NOT count as a mineral, it is special
+      groups = {dig_immediate = 3, craftitem = 1, attached_node = 1},
+      sounds = rp_sounds.node_sound_crystal_defaults({
+         footstep = {name="rp_sounds_footstep_glass",gain=0.5,pitch=1.2},
+         place = {name="rp_sounds_place_crystal",gain=1,pitch=1.4},
+         dug = {name="rp_sounds_dug_crystal",gain=1,pitch=1.35},
+      }),
 })
-
-
--- Nodes
 
 local check_put = function(pos, listname, index, stack, player)
     if minetest.is_protected(pos, player:get_player_name()) and
@@ -291,9 +312,8 @@ minetest.register_node(
       description = S("Jeweler's Workbench"),
       _tt_help = S("Tools can be upgraded with jewels here"),
       tiles ={"jewels_bench_top.png", "jewels_bench_bottom.png", "jewels_bench_sides.png"},
-      paramtype2 = "facedir",
-      groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,interactive_node=1},
-      legacy_facedir_simple = true,
+      paramtype2 = "4dir",
+      groups = {choppy=2,oddly_breakable_by_hand=2,interactive_node=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
 
@@ -423,7 +443,7 @@ minetest.register_node(
          "default_tree_birch.png^jewels_ore.png"
       },
       drop = "rp_jewels:jewel",
-      groups = {snappy=1, choppy=1, tree=1, ore=1},
+      groups = {choppy=1, tree=1, ore=1},
       sounds = rp_sounds.node_sound_wood_defaults(),
 })
 
@@ -448,30 +468,36 @@ minetest.register_craft(
 -- Achievements
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 7
    "jeweler",
    {
       title = S("Jeweler"),
       description = S("Jewel a tool."),
       times = 1,
       item_icon = "rp_jewels:shovel_steel_uses",
+      difficulty = 7,
 })
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 8
    "true_mighty_weapon",
    {
       title = S("True Mighty Weapon"),
       description = S("Use jewels to create a serrated jewel broadsword."),
       times = 1,
       item_icon = "rp_jewels:serrated_broadsword",
+      difficulty = 8,
 })
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 9
    "secret_of_jewels",
    {
       title = S("Secret of Jewels"),
       description = S("Discover the origin of jewels."),
       times = 1,
       dignode = "rp_jewels:jewel_ore",
+      difficulty = 9,
 })
 
 -- Force node to update infotext/formspec

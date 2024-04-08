@@ -14,7 +14,7 @@ Note: The `igniter` is only used for logging purposes.
 
 
 
-## `tnt.boom(pos, radius, sound)`
+## `tnt.boom(pos, radius, sound, igniter)`
 
 Blows up a TNT node.
 This will remove the TNT node, cause an explosion at `pos`,
@@ -26,10 +26,10 @@ Parameters:
 * `pos`: Position of the TNT node. The TNT node is required!
 * `radius`: Explosion radius (default: read from `tnt_radius` setting)
 * `sound`: Sound name for explosion (default: `tnt_explode`)
+* `igniter`: Optional player object of player who ignited it or `nil` if nobody/unknown
 
 
-
-## `tnt.boom_notnt(pos, radius, sound, remove_nodes)`
+## `tnt.boom_notnt(pos, radius, sound, remove_nodes, igniter)`
 
 Does an explosion.
 Same as `tnt.boom` but works for non-TNT nodes as well. No TNT required.
@@ -40,6 +40,7 @@ Parameters:
 * `radius`: Explosion radius (default: read from `tnt_radius` setting)
 * `sound`: Sound name for explosion (default: `tnt_explode`)
 * `remove_nodes`: If true, will remove nodes, otherwise won't. (default: false)
+* `igniter`: Optional player object of player who ignited it or `nil` if nobody/unknown
 
 
 ## `tnt.explode(pos, radius)`

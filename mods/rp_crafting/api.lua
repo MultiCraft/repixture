@@ -126,8 +126,15 @@ function crafting.get_crafts(player_inventory, player_name)
    end
 
    local function get_all()
-      for craft_id in pairs(crafting.registered_crafts) do
-         table.insert(results, craft_id)
+      for craft_id, craft in pairs(crafting.registered_crafts) do
+         local output_stack = ItemStack(craft.output)
+         local name = output_stack:get_name()
+         -- Hide items with the 'not_in_craft_guide' group when the crafting guide is active;
+         -- These items are only craftable with the craft guide disabled.
+         -- This is useful for secret crafting recipes.
+         if minetest.get_item_group(name, "not_in_craft_guide") == 0 then
+            table.insert(results, craft_id)
+         end
       end
    end
 
@@ -527,6 +534,7 @@ local function on_player_receive_fields(player, form_name, fields)
       end
 
       -- Do the craft
+      local has_crafted = false
       repeat
          -- Repeat the craft count times or until materials or space run out
          output_itemstack = ItemStack("")
@@ -542,14 +550,17 @@ local function on_player_receive_fields(player, form_name, fields)
                    new_list[i] = ItemStack(crafted.items[i])
                end
                inv:set_list("craft_in", new_list)
-
-               crafting.update_crafting_formspec(player, old_craft_id)
+               has_crafted = true
             end
          else
             break
          end
          count = count - 1
       until count < 1
+      if has_crafted then
+         crafting.update_crafting_formspec(player, old_craft_id)
+      end
+
    elseif fields.craft_list then
       local selection = minetest.explode_table_event(fields.craft_list)
 

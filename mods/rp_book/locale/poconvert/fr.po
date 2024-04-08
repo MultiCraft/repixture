@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_book x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Title:"
+msgstr "Titre :"
+
+msgid "Contents:"
+msgstr "Contenu :"
+
+msgid "Write"
+msgstr "Écrire"
+
+msgid "Book"
+msgstr "Livre"
+
+msgid "Write down some notes"
+msgstr "Écrire quelques notes"
+
+msgid "Book: “@1”"
+msgstr "Livre : \"@1\""
+
+msgid "Unnamed Book"
+msgstr "Livre sans nom"
+
+msgid "Read book"
+msgstr "Lire le livre"
+
+msgid "Bookshelf"
+msgstr "Étagère à livres"
+
+msgid "Provides 8 inventory slots"
+msgstr "Fournit 8 emplacements d'inventaire"
+
+msgid "Painted Bookshelf"
+msgstr ""
+
+msgid "Return"
+msgstr "Retour"
+

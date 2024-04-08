@@ -38,6 +38,8 @@ not part of the official API and should not be used outside this mod.
 ## `crafting.registered_crafts`
 
 This is a table which contains all registered crafting recipes. It is indexed
-by the output itemstring and the values are tables with this field:
+by a number and the values are tables with this field:
 
+* `output`: Output item as an ItemStack
+* `output_str`: Output item as a string
 * `items`: List of input items (same as `crafting.register_craft`)

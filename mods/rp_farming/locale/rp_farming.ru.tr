@@ -1,0 +1,27 @@
+# textdomain: rp_farming
+Farmer=Фермер
+Plant a crop.=Посади росток.
+Cotton=Хлопок
+Wheat=Пшеница
+Flour=Мука
+Bread=Хлеб
+Asparagus=Спаржа
+Cooked Asparagus=Приготовленная спаржа
+Baked Potato=Жаренная картошка
+Wheat Seed=Семя пшеницы
+Wheat Plant (stage @1)=Пшеница (рост @1)
+Grows on dirt; it likes water=Растёт на земле, любит воду
+Potato=Картофель
+Potato Plant (stage @1)=Картофель (рост @1)
+Grows on dirt and swamp dirt; it likes water=Растёт на обычной и болотной земле, любит воду
+Carrot=Морковь
+Carrot Plant (stage @1)=Морковь (рост @1)
+Grows on dry dirt; it likes water=Растёт на сухой земле, любит воду
+Asparagus Seed=Семя спаржи
+Asparagus Plant (stage @1)=Спаржа (рост @1)
+Grows on swamp dirt; it likes water=Растёт на болотной земле, любит воду
+Cotton Seed=Семя хлопка
+Cotton Plant (stage @1)=Хлопок (рост @1)
+Grows on dirt, dry dirt and sand; it likes water=Растёт на обычной и сухой земле и на песке, любит воду
+Cotton Bale=Хлопковый тюк
+Straw=Солома

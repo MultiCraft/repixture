@@ -1,9 +1,10 @@
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
-local S = minetest.get_translator("rp_default")
 
 -- If a sapling fails to grow, check the sapling again after this many seconds
 local SAPLING_RECHECK_TIME_MIN = 60
 local SAPLING_RECHECK_TIME_MAX = 70
+
+local AIRWEED_RECHARGE_TIME_DEFAULT = 10.0 -- how many seconds it takes for an airweed to become usable again by default
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
 
@@ -16,15 +17,22 @@ local CACTUS_MAX_HEIGHT_SAND = 4
 -- Maximum growth height of cactus on sand, fertilized
 local CACTUS_MAX_HEIGHT_SAND_PLUS = 6
 -- Maximum growth height of thistle, normally
-local THISTLE_MAX_HEIGHT = 2
+local THISTLE_MAX_HEIGHT_NORMAL = 2
 -- Maximum growth height of thistle, fertilized
 local THISTLE_MAX_HEIGHT_PLUS = 3
 -- Maximum growth height of papyrus, normally
-local PAPYRUS_MAX_HEIGHT = 3
+local PAPYRUS_MAX_HEIGHT_NORMAL = 3
 -- Maximum growth height of papyrus, fertilized
 local PAPYRUS_MAX_HEIGHT_PLUS = 4
 -- Bonus height for papyrus when growing on swamp dirt
 local PAPYRUS_SWAMP_HEIGHT_BONUS = 1
+
+-- Maximum possible cactus growth height
+default.CACTUS_MAX_HEIGHT_TOTAL = CACTUS_MAX_HEIGHT_SAND_PLUS
+-- Maximum possible thistle growth height
+default.THISTLE_MAX_HEIGHT_TOTAL = THISTLE_MAX_HEIGHT_PLUS
+-- Maximum possible papyrus growth height
+default.PAPYRUS_MAX_HEIGHT_TOTAL = PAPYRUS_MAX_HEIGHT_PLUS + PAPYRUS_SWAMP_HEIGHT_BONUS
 
 --
 -- Functions/ABMs
@@ -80,6 +88,7 @@ function default.place_sapling(itemstack, placer, pointed_thing)
    -- Find position to place sapling at
    local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
    if place_in == nil then
+      rp_sounds.play_place_failed_sound(placer)
       return itemstack
    end
    local floornode = minetest.get_node(place_floor)
@@ -93,11 +102,14 @@ function default.place_sapling(itemstack, placer, pointed_thing)
 
    -- Floor must be soil
    if minetest.get_item_group(floornode.name, "soil") == 0 then
+      rp_sounds.play_place_failed_sound(placer)
       return itemstack
    end
 
    -- Place sapling
-   minetest.set_node(place_in, {name = itemstack:get_name()})
+   local newnode = {name = itemstack:get_name()}
+   minetest.set_node(place_in, newnode)
+   rp_sounds.play_node_sound(place_in, newnode, "place")
 
    -- Reduce item count
    if not minetest.is_creative_enabled(placer:get_player_name()) then
@@ -411,9 +423,24 @@ function default.grow_underwater_leveled_plant(pos, node, add)
 			return false
 		end
 	end
-	minetest.set_node(pos, node)
+	minetest.swap_node(pos, node)
 	local top = vector.new(pos.x, pos.y + height, pos.z)
 	return true, top
+end
+
+-- Starts the timer of an inert airweed at pos
+-- (if not started already) so it will become
+-- usable to get air bubbles soon.
+-- Do not call this function on any other node type!
+function default.start_inert_airweed_timer(pos)
+	local timer = minetest.get_node_timer(pos)
+	if timer:is_started() then
+		return
+	else
+		local node = minetest.get_node(pos)
+		local def = minetest.registered_nodes[node.name]
+		timer:start(def._airweed_recharge_time or AIRWEED_RECHARGE_TIME_DEFAULT)
+	end
 end
 
 -- Make preexisting sapling restart the growing process
@@ -431,15 +458,27 @@ minetest.register_lbm(
    }
 )
 
+-- Make sure to restart the timer of inert airweeds
+minetest.register_lbm(
+   {
+      label = "Restart inert airweed timers",
+      name = "rp_default:restart_inert_airweed_timers",
+      nodenames = {"group:airweed_inert"},
+      action = function(pos, node)
+         default.start_inert_airweed_timer(pos)
+      end
+   }
+)
+
 -- Update sign formspecs/infotexts
 minetest.register_lbm(
    {
       label = "Update signs",
-      name = "rp_default:update_signs_3_5_0",
+      name = "rp_default:update_signs_3_7_0",
       nodenames = {"group:sign"},
       action = function(pos, node)
          local meta = minetest.get_meta(pos)
-         default.refresh_sign(meta)
+         default.refresh_sign(meta, node)
       end
    }
 )
@@ -555,6 +594,10 @@ minetest.register_abm( -- leaf decay
             end
             -- Remove node
             minetest.remove_node(p0)
+            -- Trigger fall
+            local above = {x=p0.x, y=p0.y+1, z=p0.z}
+            minetest.check_for_falling(above)
+            -- Particles
 	    if not leafdecay_drop then
                minetest.add_particlespawner({
                   amount = math.random(10, 20),
@@ -694,7 +737,7 @@ minetest.register_abm( -- dirt and grass footsteps becomes dirt with grass if un
          local name = minetest.get_node(above).name
          local partialblock = minetest.get_item_group(name, "path") ~= 0 or minetest.get_item_group(name, "slab") ~= 0 or minetest.get_item_group(name, "stair") ~= 0
          local nodedef = minetest.registered_nodes[name]
-         if nodedef and (not partialblock) and (nodedef.sunlight_propagates or nodedef.paramtype == "light") and nodedef.liquidtype == "none" and (minetest.get_node_light(above) or 0) >= 8 then
+         if nodedef and (not partialblock) and (nodedef.sunlight_propagates or nodedef.paramtype == "light") and nodedef.liquidtype == "none" and nodedef.drawtype ~= "plantlike_rooted" and (minetest.get_node_light(above) or 0) >= 8 then
             local biomedata = minetest.get_biome_data(pos)
             local biomename = minetest.get_biome_name(biomedata.biome)
             if node.name == "rp_default:swamp_dirt" then
@@ -723,7 +766,7 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
          local name = minetest.get_node(above).name
          local partialblock = minetest.get_item_group(name, "path") ~= 0 or minetest.get_item_group(name, "slab") ~= 0 or minetest.get_item_group(name, "stair") ~= 0
          local nodedef = minetest.registered_nodes[name]
-         if name ~= "ignore" and nodedef and (partialblock or nodedef.paramtype ~= "light" or nodedef.liquidtype ~= "none") then
+         if name ~= "ignore" and nodedef and (partialblock or nodedef.paramtype ~= "light" or nodedef.liquidtype ~= "none" or nodedef.drawtype == "plantlike_rooted") then
             if node.name == "rp_default:dirt_with_swamp_grass" then
                 minetest.set_node(pos, {name = "rp_default:swamp_dirt"})
             else
@@ -733,10 +776,10 @@ minetest.register_abm( -- dirt with grass becomes dirt if covered
       end
 })
 
-minetest.register_abm( -- seagrass dies if not underwater
+minetest.register_abm( -- seagrass and airweed dies if not underwater
    {
-      label = "Sea grass decay",
-      nodenames = {"group:seagrass"},
+      label = "Sea grass / airweed decay",
+      nodenames = {"group:seagrass", "group:airweed"},
       interval = 10,
       chance = 20,
       action = function(pos, node)
@@ -756,6 +799,7 @@ minetest.register_abm( -- seagrass dies if not underwater
 })
 
 minetest.register_abm( -- algae die/become smaller if not fully underwater
+-- also reset age to 0 (no growth) by implication
    {
       label = "Alga decay",
       nodenames = {"group:alga"},
@@ -808,6 +852,80 @@ minetest.register_abm( -- algae die/become smaller if not fully underwater
          })
       end,
 })
+
+-- Spread airweed that is 'filled' and on fertilized ground
+minetest.register_abm({
+    label = "Airweed expansion",
+    nodenames = {"group:airweed_full"},
+    neighbors = {"group:water"},
+    interval = 300,
+    chance = 13,
+    action = function(pos, node)
+        if minetest.get_item_group(node.name, "plantable_fertilizer") == 0 then
+           return
+        end
+        local above = {x=pos.x, y=pos.y+1, z=pos.z}
+        local anode = minetest.get_node(above)
+        local adef = minetest.registered_nodes[anode.name]
+        if minetest.get_item_group(anode.name, "water") == 0 or not adef or adef.liquidtype ~= "source" then
+           return
+        end
+
+        -- Overcrowding: Stop spreading if too many in area
+        local offset = vector.new(1,1,1)
+        local pos0 = vector.subtract(pos, offset)
+        local pos1 = vector.add(pos, offset)
+        local same_plants = minetest.find_nodes_in_area(pos0, pos1, {"group:airweed"})
+        if #same_plants >= 3 then
+           return
+        end
+
+        -- Find a suitable ground
+        local grounds = minetest.find_nodes_in_area(pos0, pos1, {"rp_default:dirt", "rp_default:sand", "rp_default:gravel", "rp_default:swamp_dirt", "rp_default:dry_dirt", "rp_default:fertilized_dirt", "rp_default:fertilized_swamp_dirt", "rp_default:fertilized_dry_dirt", "rp_default:fertilized_sand"})
+        local candidates = {}
+        for g=1, #grounds do
+           local ground = grounds[g]
+           local gnode = minetest.get_node(ground)
+           local wnode = minetest.get_node({x=ground.x, y=ground.y+1, z=ground.z})
+           local wdef = minetest.registered_nodes[wnode.name]
+           if minetest.get_item_group(wnode.name, "water") ~= 0 and wdef and wdef.liquidtype == "source" then
+              local newnode
+              if gnode.name == "rp_default:dirt" then
+                 newnode = "rp_default:airweed_inert_on_dirt"
+              elseif gnode.name == "rp_default:sand" then
+                 newnode = "rp_default:airweed_inert_on_sand"
+              elseif gnode.name == "rp_default:gravel" then
+                 newnode = "rp_default:airweed_inert_on_gravel"
+              elseif gnode.name == "rp_default:swamp_dirt" then
+                 newnode = "rp_default:airweed_inert_on_swamp_dirt"
+              elseif gnode.name == "rp_default:dry_dirt" then
+                 newnode = "rp_default:airweed_inert_on_dry_dirt"
+              elseif gnode.name == "rp_default:fertilized_sand" then
+                 newnode = "rp_default:airweed_inert_on_fertilized_sand"
+              elseif gnode.name == "rp_default:fertilized_dirt" then
+                 newnode = "rp_default:airweed_inert_on_fertilized_dirt"
+              elseif gnode.name == "rp_default:fertilized_swamp_dirt" then
+                 newnode = "rp_default:airweed_inert_on_fertilized_swamp_dirt"
+              elseif gnode.name == "rp_default:fertilized_dry_dirt" then
+                 newnode = "rp_default:airweed_inert_on_fertilized_dry_dirt"
+              end
+              if newnode then
+                 table.insert(candidates, {pos=grounds[g], nodename=newnode})
+              end
+           end
+        end
+        if #candidates == 0 then
+           return
+        end
+
+        -- Place new airweed (inert)
+        local c = math.random(1, #candidates)
+        local choice = candidates[c]
+        minetest.set_node(choice.pos, {name=choice.nodename})
+    end,
+})
+
+
 
 minetest.register_abm({
     label = "Flower/fern expansion",
@@ -934,6 +1052,72 @@ minetest.register_abm({
     end,
 })
 
+-- Grow vine
+minetest.register_abm(
+   {
+      label = "Grow vines",
+      name = "rp_default:grow_vines",
+      nodenames = {"rp_default:vine"},
+      interval = 21,
+      chance = 120,
+      action = function(pos, node)
+         local meta = minetest.get_meta(pos)
+         local age = node.param2
+         if node.param2 == 0 or node.param2 >= default.VINE_MAX_AGE then
+            return
+         end
+         local below = {x=pos.x, y=pos.y-1, z=pos.z}
+         local nbelow = minetest.get_node(below)
+         if nbelow.name == "air" then
+            age = math.min(default.VINE_MAX_AGE, age + 1)
+            minetest.set_node(below, {name="rp_default:vine", param2 = age})
+         end
+      end,
+   }
+)
+
+-- Grow algae
+minetest.register_abm(
+   {
+      label = "Grow algae",
+      name = "rp_default:grow_algae",
+      nodenames = {"group:alga"},
+      neighbors = {"group:water"},
+      interval = 20,
+      chance = 90,
+      action = function(pos, node)
+	 local def = minetest.registered_nodes[node.name]
+	 if not def or not def._waterplant_max_height then
+	    return
+	 end
+
+         local meta = minetest.get_meta(pos)
+         local age = meta:get_int("age")
+         if age == 0 then
+            return
+         end
+         local height = math.ceil(node.param2 / 16)
+         local new_height = height + 1
+
+	 -- Stop growh at max height
+         if new_height > def._waterplant_max_height or age+1 > def._waterplant_max_height then
+            return
+         end
+
+         local grown = default.grow_underwater_leveled_plant(pos, node, 1)
+         if not grown then
+            -- Stop growth once blocked
+            meta:set_int("age", 0) -- age = 0 means no growth
+            return
+         else
+            -- Increase age by 1
+            age = math.min(age + 1, 255)
+            meta:set_int("age", age)
+         end
+      end,
+   }
+)
+
 minetest.register_abm({
     label = "Grass clump expansion",
     nodenames = {"group:grass"},
@@ -986,6 +1170,91 @@ minetest.register_abm({
 })
 
 minetest.register_abm({
+    label = "Sea grass clump expansion",
+    nodenames = {"group:seagrass"},
+    neighbors = {"group:water"},
+    interval = 20,
+    chance = 160,
+    action = function(pos, node)
+        local abovenode = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
+        local abovedef = minetest.registered_nodes[abovenode.name]
+
+        if minetest.get_item_group(abovenode.name, "water") == 0 or not abovedef or abovedef.liquidtype ~= "source" then
+           return
+        end
+
+        local pos0 = vector.subtract(pos, 4)
+        local pos1 = vector.add(pos, 4)
+        local soils = minetest.find_nodes_in_area(pos0, pos1, {"rp_default:dirt", "rp_default:swamp_dirt", "rp_default:sand"})
+        local fsoils = minetest.find_nodes_in_area(pos0, pos1, {"rp_default:fertilized_dirt", "rp_default:fertilized_swamp_dirt", "rp_default:fertilized_sand"})
+
+        local to_set = math.min(3, #soils + #fsoils)
+        local has_set = 0
+
+	local function replace(grounds, lhas_set, lto_set)
+           if lhas_set >= lto_set then
+              return
+           end
+           local num_nodes = #grounds
+           if num_nodes >= 1 then
+	       while true do
+                   local rnd = math.random(1, #grounds)
+                   local ground = grounds[rnd]
+                   local ground_above = {x = ground.x, y = ground.y + 1, z = ground.z}
+
+                   local ground_above_node = minetest.get_node(ground_above)
+                   local ground_above_def = minetest.registered_nodes[ground_above_node.name]
+                   if minetest.get_item_group(ground_above_node.name, "water") ~= 0 and ground_above_def and ground_above_def.liquidtype == "source" then
+                      local ground_node = minetest.get_node(ground)
+                      local newnode
+                      if ground_node.name == "rp_default:dirt" then
+                         newnode = "rp_default:seagrass_on_dirt"
+                      elseif ground_node.name == "rp_default:swamp_dirt" then
+                         newnode = "rp_default:seagrass_on_swamp_dirt"
+                      elseif ground_node.name == "rp_default:sand" then
+                         newnode = "rp_default:seagrass_on_sand"
+                      elseif ground_node.name == "rp_default:fertilized_dirt" then
+                         newnode = "rp_default:seagrass_on_fertilized_dirt"
+                      elseif ground_node.name == "rp_default:fertilized_swamp_dirt" then
+                         newnode = "rp_default:seagrass_on_fertilized_swamp_dirt"
+                      elseif ground_node.name == "rp_default:fertilized_sand" then
+                         newnode = "rp_default:seagrass_on_fertilized_sand"
+                      else
+                         return
+                      end
+		      minetest.set_node(ground, {name=newnode})
+		      lhas_set = lhas_set + 1
+                      if lhas_set >= lto_set then
+                         break
+                      end
+                   end
+		   table.remove(grounds, rnd)
+                   if #grounds == 0 then
+                      break
+                   end
+               end
+            end
+        end
+
+	-- Seagrass prefers to grow on fertilized soils first (no overcrowding limit)
+	replace(fsoils, has_set, to_set)
+
+	-- For remaining soils, check overcrowding. Stop growth if too much seagrass nearby
+        -- Testing shows that a threshold of 3 results in an appropriate maximum
+        -- density of approximately 7 nodes per 9x9 area.
+        if #minetest.find_nodes_in_area(pos0, pos1, {"group:seagrass"}) > 3 then
+            return
+        end
+
+	-- Grow on unfertilized soil after the overcrowding check was passed
+	replace(soils, has_set, to_set)
+
+    end
+})
+
+
+
+minetest.register_abm({
     label = "Sand Grass clump expansion",
     nodenames = {"group:sand_grass"},
     neighbors = {"group:sand"},
@@ -1024,22 +1293,47 @@ minetest.register_abm({
     end
 })
 
+-- Clams "washing up" at shallow sand and gravel beaches
 minetest.register_abm({
     label = "Growing clams",
     nodenames = {"rp_default:sand", "rp_default:gravel"},
     neighbors = {"rp_default:water_source"},
     interval = 20,
     chance = 160,
+    min_y = water_level,
+    max_y = water_level+2,
     action = function(pos, node)
-        if pos.y ~= water_level then
+        if pos.y < water_level or pos.y > water_level+2 then
            return
         end
+        -- Abort if there's a clam nearby
         local pos0 = vector.add(pos, {x=-5, y=0, z=-5})
         local pos1 = vector.add(pos, {x=5, y=2, z=5})
         if #minetest.find_nodes_in_area(pos0, pos1, "group:clam") >= 1 then
             return
         end
 
+        -- Check the terrain around pos if it roughly resembles a shallow beach.
+        -- Done to prevent clam spawning in trivial cases like
+        -- 1 water source + 1 sand
+
+        -- Count water around pos 1 level below where the clam would be
+        pos0 = vector.add(pos, {x=-5, y=0, z=-5})
+        pos1 = vector.add(pos, {x=5, y=0, z=5})
+        local waternodes = #minetest.find_nodes_in_area(pos0, pos1, "rp_default:water_source")
+        -- Count sand and gravel around pos 2 levels below where the clam would be.
+        -- This is 1 level below the water.
+        pos0 = vector.add(pos, {x=-5, y=-1, z=-5})
+        pos1 = vector.add(pos, {x=5, y=-1, z=5})
+        -- Seagrass also counts as the node position is the solid sand-/dirt-like node, not the plant itself
+        local beachnodes = #minetest.find_nodes_in_area(pos0, pos1, {"rp_default:sand", "rp_default:gravel", "group:seagrass"})
+        -- Check if enough nodes were found. 30 is roughly 1/4 of an 11×11 area
+        if waternodes < 30 or beachnodes < 30 then
+           return
+        end
+
+        -- All checks passed! Clam spawning begins.
+        -- Check for places for 1 or multiple clams to spawn on.
         pos0 = vector.add(pos, {x=-2, y=0, z=-2})
         pos1 = vector.add(pos, {x=2, y=0, z=2})
         local soils = minetest.find_nodes_in_area_under_air( pos0, pos1, {"rp_default:sand", "rp_default:gravel"})
@@ -1130,7 +1424,7 @@ minetest.register_abm( -- papyrus grows
          if fertilized then
             maxh = PAPYRUS_MAX_HEIGHT_PLUS
          else
-            maxh = PAPYRUS_MAX_HEIGHT
+            maxh = PAPYRUS_MAX_HEIGHT_NORMAL
          end
          -- Bonus max. height on swamp dirt
          local is_swampy = minetest.get_item_group(name, "swamp_dirt") == 1
@@ -1145,7 +1439,10 @@ minetest.register_abm( -- papyrus grows
          end
          if height < maxh then
             if minetest.get_node(pos).name == "air" then
-               minetest.set_node(pos, {name="rp_default:papyrus"})
+               -- Set param2 to the height. This tells the game
+	       -- this papyrus node was grown
+               local p2 = height + 1
+               minetest.set_node(pos, {name="rp_default:papyrus", param2=p2})
             end
          end
       end,
@@ -1174,7 +1471,7 @@ minetest.register_abm( -- thistle grows (slowly)
          if fertilized then
             maxh = THISTLE_MAX_HEIGHT_PLUS
          else
-            maxh = THISTLE_MAX_HEIGHT
+            maxh = THISTLE_MAX_HEIGHT_NORMAL
          end
          -- Get node above the highest node and grow, if possible
          while minetest.get_node(pos).name == "rp_default:thistle" and height < maxh do

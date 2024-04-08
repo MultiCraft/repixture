@@ -1,18 +1,17 @@
 # textdomain: rp_formspec
 Fuzzy=Flausch
 Any fuzzy block=Beliebiger flauschiger Block
-Planks=
+Planks=Planken
 Any planks=Beliebige Planken
 Soil=Boden
 Any soil=Beliebiger Boden
-Stone=
+Stone=Stein
 Any stone=Beliebiger Stein
 Green Grass Clump=Grünes Grasbüschel
 Any green grass clump=Beliebiges grünes Grasbüschel
+Paint Bucket=Farbeimer
+Any paint bucket=Beliebiger Farbeimer
+Non-full Paint Bucket=Nichtvoller Farbeimer
+Any paint bucket that isn’t full=Beliebiger Farbeimer, der nicht voll ist
 Group: @1=Gruppe: @1
 Write=Schreiben
-
-
-##### not used anymore #####
-
-Any tree=Beliebiger Baum
