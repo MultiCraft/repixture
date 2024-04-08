@@ -141,6 +141,17 @@ door.get_free_axis = function(pos)
    end
 end
 
+local drop_door = function(pos, player, item)
+   if player and player:is_player() and minetest.is_creative_enabled(player:get_player_name()) then
+      local inv = player:get_inventory()
+      if not inv:contains_item("main", item) then
+         inv:add_item("main", item)
+      end
+   else
+      minetest.add_item(pos, item)
+   end
+end
+
 -- Registers a door
 
 function door.register_door(name, def)
@@ -345,7 +356,8 @@ function door.register_door(name, def)
 	 paramtype = "light",
 	 paramtype2 = paramtype2,
          palette = palette,
-	 drop = drop_name,
+         -- item is dropped via drop_door()
+	 drop = "",
 	 drawtype = "nodebox",
 	 node_box = {
 	    type = "fixed",
@@ -375,7 +387,7 @@ function door.register_door(name, def)
             local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
             if minetest.get_node(bottom).name ~= name.."_b_2" and minetest.get_node(top).name == name.."_t_1" then
                remove_node_and_check_falling(top)
-               minetest.add_item(bottom, drop_name)
+               drop_door(bottom, nil, drop_name)
             end
          end,
          on_blast = function(bottom)
@@ -386,6 +398,13 @@ function door.register_door(name, def)
             if minetest.get_node(bottom).name ~= name.."_b_2" and minetest.get_node(top).name == name.."_t_1" then
                remove_node_and_check_falling(top)
             end
+         end,
+         on_dig = function(bottom, node, digger)
+            local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
+            if minetest.get_node(top).name == name.."_t_1" then
+               drop_door(bottom, digger, drop_name)
+            end
+            return minetest.node_dig(bottom, node, digger)
          end,
 
 	 is_ground_content = false,
@@ -439,7 +458,6 @@ function door.register_door(name, def)
             local bottom = { x = top.x, y = top.y - 1, z = top.z }
             if minetest.get_node(top).name ~= name.."_t_2" and minetest.get_node(bottom).name == name.."_b_1" and oldnode.name == name.."_t_1" then
                minetest.dig_node(bottom)
-               minetest.add_item(bottom, drop_name)
             end
          end,
          on_blast = function(top)
@@ -450,6 +468,13 @@ function door.register_door(name, def)
             if minetest.get_node(top).name ~= name.."_t_2" and minetest.get_node(bottom).name == name.."_b_1" and oldnode.name == name.."_t_1" then
                minetest.dig_node(bottom)
             end
+         end,
+         on_dig = function(top, node, digger)
+            local bottom = { x = top.x, y = top.y - 1, z = top.z }
+            if minetest.get_node(bottom).name == name.."_b_1" then
+               drop_door(bottom, digger, drop_name)
+            end
+            return minetest.node_dig(top, node, digger)
          end,
 
 	 is_ground_content = false,
@@ -473,7 +498,7 @@ function door.register_door(name, def)
 	 paramtype = "light",
 	 paramtype2 = paramtype2,
          palette = palette,
-	 drop = drop_name,
+	 drop = "",
 	 drawtype = "nodebox",
 	 node_box = {
 	    type = "fixed",
@@ -502,7 +527,7 @@ function door.register_door(name, def)
             local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
             if minetest.get_node(bottom).name ~= name.."_b_1" and minetest.get_node(top).name == name.."_t_2" then
                remove_node_and_check_falling(top)
-	       minetest.add_item(bottom, drop_name)
+               drop_door(bottom, nil, drop_name)
             end
          end,
          on_blast = function(bottom)
@@ -513,6 +538,13 @@ function door.register_door(name, def)
             if minetest.get_node(bottom).name ~= name.."_b_1" and minetest.get_node(top).name == name.."_t_2" then
                remove_node_and_check_falling(top)
             end
+         end,
+         on_dig = function(bottom, node, digger)
+            local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
+            if minetest.get_node(top).name == name.."_t_2" then
+               drop_door(bottom, digger, drop_name)
+            end
+            return minetest.node_dig(bottom, node, digger)
          end,
 
 	 is_ground_content = false,
@@ -565,7 +597,6 @@ function door.register_door(name, def)
             local bottom = { x = top.x, y = top.y - 1, z = top.z }
             if minetest.get_node(top).name ~= name.."_t_1" and minetest.get_node(bottom).name == name.."_b_2" and oldnode.name == name.."_t_2" then
                minetest.dig_node(bottom)
-	       minetest.add_item(bottom, drop_name)
             end
          end,
          on_blast = function(top)
@@ -576,6 +607,13 @@ function door.register_door(name, def)
             if minetest.get_node(top).name ~= name.."_t_1" and minetest.get_node(bottom).name == name.."_b_2" and oldnode.name == name.."_t_2" then
                minetest.dig_node(bottom)
             end
+         end,
+         on_dig = function(top, node, digger)
+            local bottom = { x = top.x, y = top.y - 1, z = top.z }
+            if minetest.get_node(bottom).name == name.."_b_2" then
+               drop_door(bottom, digger, drop_name)
+            end
+            return minetest.node_dig(top, node, digger)
          end,
 
 	 is_ground_content = false,
