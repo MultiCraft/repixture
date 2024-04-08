@@ -28,9 +28,10 @@ local prepend = "formspec_version[6]" ..
     "style_type[image_button:pressed,item_image_button:pressed;content_offset=0]" ..
     "style_type[button;bgimg=ui_button_esc_inactive.png;border=false;bgimg_middle=4,4,4,6;content_offset=0,-5]" ..
     "style_type[button:pressed;bgimg=ui_button_esc_active.png;bgimg_middle=4,4,4,6;content_offset=0,-3]" ..
-    "bgcolor[#8c7c5bF0]"
+    "bgcolor[#00000000]" ..
+    "background9[0,0;8.5,4.5;ui_formspec_bg_9tiles.png;true;20,20,-20,-28]"
 
-rp_formspec.default.bg = "bgcolor[#00000000]"
+rp_formspec.default.bg = ""
 
 -- bgcolor intentionally not included because it would make pause menu transparent, too :(
 local formspec_prepend = prepend
