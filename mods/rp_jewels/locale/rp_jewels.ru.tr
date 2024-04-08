@@ -1,7 +1,7 @@
 # textdomain: rp_jewels
 1. Place tool here=1. Положи инструмент сюда
 2. Hold a jewel and punch the bench=2. Возьми кристалл и ударь по верстаку
-Jeweled @1=
+@1 (jeweled)=
 Range bonus: @1=Бонус к дальности: @1
 Drop level bonus: @1=
 Dig time bonus: @1 s=

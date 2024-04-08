@@ -1,7 +1,7 @@
 # textdomain: rp_jewels
 1. Place tool here=1. Placer l'outil ici
 2. Hold a jewel and punch the bench=2. Tenir un bijou et frapper l'établi
-Jeweled @1=Plaqué @1
+@1 (jeweled)=
 Range bonus: @1=
 Drop level bonus: @1=
 Dig time bonus: @1 s=
