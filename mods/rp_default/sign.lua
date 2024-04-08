@@ -8,8 +8,7 @@ local register_sign_page = function(id, node_names)
 	local page_name = "rp_default:"..id
 
 	local form = "size[8.5,5]"
-	form = form .. rp_formspec.default.no_prepend
-	form = form .. rp_formspec.default.bg
+	form = form .. rp_formspec.default.boilerplate
 	form = form .. "background[0,0;8.5,4.5;ui_formspec_bg_"..id..".png]"
 	form = form .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 	form = form .. "set_focus[text;true]"

@@ -64,8 +64,11 @@ local repixture_prepend =
     shared_prepend ..
     "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]"
 
+-- Legacy variable that used to contain a bgcolor[] but is no longer needed
 rp_formspec.default.bg = ""
-rp_formspec.default.no_prepend = "no_prepend[]" .. repixture_prepend
+
+-- Must be included in every page after size[]
+rp_formspec.default.boilerplate = "no_prepend[]" .. repixture_prepend
 
 -- Group default items
 
@@ -380,8 +383,7 @@ end
 
 local form_default = ""
 form_default = form_default .. "size[8.5,9]"
-form_default = form_default .. rp_formspec.default.no_prepend
-form_default = form_default .. rp_formspec.default.bg
+form_default = form_default .. rp_formspec.default.boilerplate
 form_default = form_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
 local form_2part = form_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
 
@@ -393,8 +395,7 @@ rp_formspec.register_page("rp_formspec:2part", form_2part)
 -- Simple text input field
 local form_default_field = ""
 form_default_field = form_default_field .. "size[8.5,5]"
-form_default_field = form_default_field .. rp_formspec.default.no_prepend
-form_default_field = form_default_field .. rp_formspec.default.bg
+form_default_field = form_default_field .. rp_formspec.default.boilerplate
 form_default_field = form_default_field .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
 form_default_field = form_default_field .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 form_default_field = form_default_field .. "set_focus[text;true]"

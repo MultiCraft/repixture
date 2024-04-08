@@ -50,8 +50,10 @@ and register the result as a new page.
 ### `rp_formspec.register_page(name, form)`
 
 Registers a page with the identifier `name` and formspec string `form`.
-`form` **must not** be the empty string.
+`form` must follow the following rules:
 
+* Contains the `size[]` element
+* Contains `rp_formspec.default.boilerplate` right after `size[]`
 
 
 ### `rp_formspec.get_page(name, with_invtabs)`
@@ -328,10 +330,11 @@ the crafting guide. The group **must** exist in `rp_formspec.group_names`.
 
 ## Other features
 
-### `rp_formspec.default.bg`
+### `rp_formspec.default.boilerplate`
 
-A formspec string containing a `bgcolor[]` element with the default background color.
-Read-only!
+A formspec string that **must** be added to every inventory page
+right after the `size[]` element.
+
 
 
 
@@ -358,3 +361,15 @@ A table with user-readable group-names.
 The short names and long descriptions should start with a capital letter in English.
 
 Used by `rp_formspec.item_group`. Read-only!
+
+
+
+## Legacy
+
+### `rp_formspec.default.bg`
+
+Legacy string formspec containing info about the formspec background.
+As this is no longer needed, this contains the empty string.
+You can safely remove it from scripts.
+
+
