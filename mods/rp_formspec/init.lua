@@ -47,7 +47,6 @@ local shared_prepend =
     "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]" ..
     "tableoptions[background=#DDDDDD30;highlight=#539646]" ..
     "bgcolor[#00000000]" ..
-    "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]" ..
     "style_type[image_button:pressed,item_image_button:pressed;content_offset=0]" ..
     "tableoptions[background=#DDDDDD30;highlight=#539646]" ..
     "style_type[button,image_button,item_image_button,checkbox,tabheader;sound=default_gui_button]"
@@ -58,10 +57,15 @@ local global_prepend =
     "style_type[button:pressed,image_button:pressed;bgimg=ui_button_9slice_active.png^[resize:"..btn_resize..";border=false;bgimg_middle="..btn_middle_a..";content_offset=0,2]" ..
     "style_type[button,button:pressed;padding="..btn_padding.."]" ..
     "style_type[image_button,image_button:pressed;padding="..btn_padding_img.."]" ..
+    "listcolors[#7d6f52;#00000010;#786848;#68B259;#FFF]" ..
     "background9[0,0;8.5,4.5;ui_formspec_bg_9tiles.png;true;20,20,-20,-28]"
 
+local repixture_prepend =
+    shared_prepend ..
+    "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]"
+
 rp_formspec.default.bg = ""
-rp_formspec.default.no_prepend = "no_prepend[]" .. shared_prepend
+rp_formspec.default.no_prepend = "no_prepend[]" .. repixture_prepend
 
 -- Group default items
 
