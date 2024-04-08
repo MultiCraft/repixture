@@ -6,9 +6,17 @@ and you can also register new pages/tabs.
 There are also some functions for adding special
 formspec elements, some of them are required.
 
+## Compability note
+
+This mod provides a reasonable formspec prepend so that formspecs
+from mods that do not know about `rp_formspec` should still
+be acceptable. However, they might not be fully in Repixture style.
+
+Use mod if you want to make use Repixture-specific features.
+
 ## Formspec version
 
-Formspec version 6 is used, but `real_coordinates` is set to `false`.
+Formspec version 1 is used. Sorry. :-(
 
 ## Recommended usage
 
@@ -334,7 +342,8 @@ the crafting guide. The group **must** exist in `rp_formspec.group_names`.
 
 A formspec string that **must** be added to every inventory page
 right after the `size[]` element.
-
+It contains a `no_prepend[]` and other information required for
+Repixture formspecs to work.
 
 
 
