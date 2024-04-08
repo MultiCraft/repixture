@@ -2,13 +2,13 @@
 
 This function lets you register partial blocks.
 
-## `partialblocks.register_material(name, desc_slab, desc_stair, node, groups, is_fuel, tiles_slab, tiles_stair, overlay_tiles_slab, overlay_tiles_stair)`
+## `partialblocks.register_material(name, desc_slab, desc_stair, node, groups, is_fuel, tiles_slab, tiles_stair, overlay_tiles_slab, overlay_tiles_stair, register_crafts)`
 
 Registers a new material as a partial block (slab and stair). This requires a base node (`node`) from which
 the partial blocks will be derived.
 
-This adds a stair, a slab and crafting recipes. If the base node is paintable, the new nodes will be paintable
-as well.
+This adds a stair and a slab. If the base node is paintable, the new nodes will be paintable as well.
+Crafting recipes will be added by default but can be disabled.
 
 Parameters:
 
@@ -35,6 +35,7 @@ Parameters:
                from the first base node tile
 * `overlay_tiles_slab`: Overlay tiles definition for slab (same syntax as for `tiles_slab`)
 * `overlay_tiles_stair`: Overlay tiles definition for stair (same syntax as for `tiles_stair`)
+* `register_crafts`: If true, will register crafting recipes (default: true)
 
 ### Additional notes
 
@@ -53,6 +54,24 @@ If `is_fuel` is true, the burning time of the partial blocks is based on the bur
 time of the base node. It’s 75% of the base node burn time for the stair and 50%
 of the base node burn time for the slab.
 If the base node is not a fuel, the burn time will be 7 seconds for both stair and slab.
+
+### Crafting
+
+The following crafting recipes will be added if `register_crafts` is true:
+
+* 1 block → 2 slabs
+* 3 blocks → 4 stairs
+* 2 slabs → 1 block
+* 2 stairs → 3 slabs
+
+If `is_fuel` is true, fuel recipes will be added:
+
+* slab: default burntime is 50% of `node` (rounded down, minimum of 1)
+* stairs: default burntime is 75% of `node` (rounded down, minimum of 1)
+
+If `node` is not a fuel, the burntime will be 7.
+
+Note that the crafting recipes and fuel recipes are independent of each other.
 
 ### Painting
 
