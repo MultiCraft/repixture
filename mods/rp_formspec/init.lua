@@ -41,6 +41,7 @@ local btn_middle_a = btn_middle_a_x..","..btn_middle_a_y..","..btn_middle_a_x2..
 
 -- Use negative padding to disable padding; otherwise the text is squeezed too much
 local btn_padding = -6 * btn_scale
+local btn_padding_img = -2 * btn_scale
 
 local shared_prepend =
     "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]" ..
@@ -53,8 +54,10 @@ local shared_prepend =
 
 local global_prepend =
     shared_prepend ..
-    "style_type[button;bgimg=ui_button_9slice_inactive.png^[resize:"..btn_resize..";border=false;bgimg_middle="..btn_middle_i..";content_offset=0,0;padding="..btn_padding.."]" ..
-    "style_type[button:pressed;bgimg=ui_button_9slice_active.png^[resize:"..btn_resize..";border=false;bgimg_middle="..btn_middle_a..";content_offset=0,2;padding="..btn_padding.."]" ..
+    "style_type[button,image_button;bgimg=ui_button_9slice_inactive.png^[resize:"..btn_resize..";border=false;bgimg_middle="..btn_middle_i..";content_offset=0,0]" ..
+    "style_type[button:pressed,image_button:pressed;bgimg=ui_button_9slice_active.png^[resize:"..btn_resize..";border=false;bgimg_middle="..btn_middle_a..";content_offset=0,2]" ..
+    "style_type[button,button:pressed;padding="..btn_padding.."]" ..
+    "style_type[image_button,image_button:pressed;padding="..btn_padding_img.."]" ..
     "background9[0,0;8.5,4.5;ui_formspec_bg_9tiles.png;true;20,20,-20,-28]"
 
 rp_formspec.default.bg = ""
