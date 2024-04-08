@@ -42,21 +42,23 @@ local btn_middle_a = btn_middle_a_x..","..btn_middle_a_y..","..btn_middle_a_x2..
 -- Use negative padding to disable padding; otherwise the text is squeezed too much
 local btn_padding = -6 * btn_scale
 
-local prepend = "formspec_version[6]" ..
-    "real_coordinates[false]" ..
+local shared_prepend =
     "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]" ..
     "tableoptions[background=#DDDDDD30;highlight=#539646]" ..
-    "style_type[button,image_button,item_image_button,checkbox,tabheader;sound=default_gui_button]" ..
+    "bgcolor[#00000000]" ..
+    "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]" ..
     "style_type[image_button:pressed,item_image_button:pressed;content_offset=0]" ..
+    "tableoptions[background=#DDDDDD30;highlight=#539646]" ..
+    "style_type[button,image_button,item_image_button,checkbox,tabheader;sound=default_gui_button]"
+
+local global_prepend =
+    shared_prepend ..
     "style_type[button;bgimg=ui_button_9slice_inactive.png^[resize:"..btn_resize..";border=false;bgimg_middle="..btn_middle_i..";content_offset=0,0;padding="..btn_padding.."]" ..
     "style_type[button:pressed;bgimg=ui_button_9slice_active.png^[resize:"..btn_resize..";border=false;bgimg_middle="..btn_middle_a..";content_offset=0,2;padding="..btn_padding.."]" ..
-    "bgcolor[#00000000]" ..
     "background9[0,0;8.5,4.5;ui_formspec_bg_9tiles.png;true;20,20,-20,-28]"
 
 rp_formspec.default.bg = ""
-
--- bgcolor intentionally not included because it would make pause menu transparent, too :(
-local formspec_prepend = prepend
+rp_formspec.default.no_prepend = "no_prepend[]" .. shared_prepend
 
 -- Group default items
 
@@ -371,6 +373,7 @@ end
 
 local form_default = ""
 form_default = form_default .. "size[8.5,9]"
+form_default = form_default .. rp_formspec.default.no_prepend
 form_default = form_default .. rp_formspec.default.bg
 form_default = form_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
 local form_2part = form_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
@@ -383,6 +386,7 @@ rp_formspec.register_page("rp_formspec:2part", form_2part)
 -- Simple text input field
 local form_default_field = ""
 form_default_field = form_default_field .. "size[8.5,5]"
+form_default_field = form_default_field .. rp_formspec.default.no_prepend
 form_default_field = form_default_field .. rp_formspec.default.bg
 form_default_field = form_default_field .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
 form_default_field = form_default_field .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
@@ -460,7 +464,7 @@ end)
 minetest.register_on_joinplayer(
    function(player)
       -- Initialize player formspec and set initial invpage
-      player:set_formspec_prepend(formspec_prepend)
+      player:set_formspec_prepend(global_prepend)
       local pname = player:get_player_name()
       local first_page
       for invpagename,def in pairs(rp_formspec.registered_invpages) do
