@@ -32,12 +32,15 @@ end)
 local form_bookshelf = rp_formspec.get_page("rp_formspec:2part")
 form_bookshelf = form_bookshelf .. rp_formspec.default.player_inventory
 
-form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(0.25, 2, 8, 1)
+local xstart = rp_formspec.default.start_point.x
+local ystart = rp_formspec.default.start_point.y + 1.75
+
+form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(xstart, ystart, 8, 1)
 local function get_bookshelf_formspec(pos)
    local x, y, z = pos.x, pos.y, pos.z
    local context = "nodemeta:"..x..","..y..","..z
    local form = form_bookshelf
-   form = form .. "list["..context..";main;0.25,2;8,1;]"
+   form = form .. "list["..context..";main;"..xstart..","..ystart..";8,1;]"
    form = form .. "listring["..context..";main]"
    form = form .. "listring[current_player;main]"
    local meta = minetest.get_meta(pos)
@@ -45,7 +48,7 @@ local function get_bookshelf_formspec(pos)
    for i=1,8 do
       if inv:get_stack("main", i):get_name() == "rp_default:book" then
          local xoff = (i-1) * 1.25
-         form = form .. rp_formspec.image_button(0.25+xoff, 3.15, 1, 1, "open_"..i, "ui_icon_view.png", S("Read book"))
+         form = form .. rp_formspec.image_button(xstart+xoff, ystart + 1.15, 1, 1, "open_"..i, "ui_icon_view.png", S("Read book"))
       end
    end
    return form

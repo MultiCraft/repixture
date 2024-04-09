@@ -35,11 +35,13 @@ local on_use = function(itemstack, player, pointed_thing)
    end
 
    local form = rp_formspec.get_page("rp_formspec:default")
+   form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
    form = form .. "style_type[field;font_size=*2]"
-   form = form .. "field[0.5,0.7;9.25,0.5;title;"..FS("Title:")..";"..F(title).."]"
-   form = form .. "textarea[0.5,1.7;9.25,7;text;"..FS("Contents:")..";"..F(text).."]"
+   form = form .. "field[0,0.4;9.75,0.5;title;"..FS("Title:")..";"..F(title).."]"
+   form = form .. "textarea[0,1.4;9.75,7;text;"..FS("Contents:")..";"..F(text).."]"
    form = form .. "style[write;sound=]"
-   form = form .. rp_formspec.button_exit(3.5, 9, 3, 1, "write", S("Write"))
+   form = form .. rp_formspec.button_exit(3.5, 8.6, 3, 1, "write", S("Write"))
+   form = form .. "container_end[]"
 
    minetest.sound_play({name="rp_book_open_book", gain=0.5}, {pos=player:get_pos(), max_hear_distance=16}, true)
    minetest.show_formspec(name, "rp_book:book", form)

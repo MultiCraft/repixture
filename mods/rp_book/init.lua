@@ -1,7 +1,7 @@
 rp_book = {}
 
 local bookform = rp_formspec.default.version ..
-	"size[10.25,10.25]" ..
+	"size["..rp_formspec.default.size.x..","..rp_formspec.default.size.y.."]" ..
 	rp_formspec.default.boilerplate ..
 	"background[0,0;10.25,10.25;ui_formspec_bg_book.png]"
 rp_formspec.register_page("rp_book:book_page", bookform)
