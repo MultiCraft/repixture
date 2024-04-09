@@ -30,24 +30,25 @@ minetest.register_on_leaveplayer(function(player)
 end)
 
 local form_bookshelf = rp_formspec.get_page("rp_formspec:2part")
-form_bookshelf = form_bookshelf .. "list[current_player;main;0.25,4.75;8,4;]"
-form_bookshelf = form_bookshelf .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_bookshelf = form_bookshelf .. rp_formspec.default.player_inventory
 
-form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(0.25, 1.5, 8, 1)
+local xstart = rp_formspec.default.start_point.x
+local ystart = rp_formspec.default.start_point.y + 1.75
+
+form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(xstart, ystart, 8, 1)
 local function get_bookshelf_formspec(pos)
    local x, y, z = pos.x, pos.y, pos.z
    local context = "nodemeta:"..x..","..y..","..z
    local form = form_bookshelf
-   form = form .. "list["..context..";main;0.25,1.5;8,1;]"
+   form = form .. "list["..context..";main;"..xstart..","..ystart..";8,1;]"
    form = form .. "listring["..context..";main]"
    form = form .. "listring[current_player;main]"
    local meta = minetest.get_meta(pos)
    local inv = meta:get_inventory()
    for i=1,8 do
       if inv:get_stack("main", i):get_name() == "rp_default:book" then
-         local xoff = i-1
-         form = form .. rp_formspec.image_button(0.25+xoff, 2.5, 1, 1, "open_"..i, "ui_icon_view.png", S("Read book"))
+         local xoff = (i-1) * 1.25
+         form = form .. rp_formspec.image_button(xstart+xoff, ystart + 1.15, 1, 1, "open_"..i, "ui_icon_view.png", S("Read book"))
       end
    end
    return form
@@ -161,9 +162,9 @@ minetest.register_on_player_receive_fields(
             title = bmeta:get_string("book:title")
          end
          local form = rp_formspec.get_page("rp_book:book_page")
-         form = form .. "label[0.45,0.25;"..F(title).."]"
-         form = form .. "textarea[0.7,0.75;7.7,7.75;;;"..F(text).."]"
-         form = form .. rp_formspec.button(2.75, 7.75, 3, 1, "return", S("Return"))
+         form = form .. rp_book.make_read_book_page_formspec(title, text)
+
+         form = form .. rp_formspec.button(3.5, 9, 3, 1, "return", S("Return"))
          minetest.sound_play({name="rp_book_open_book", gain=0.5}, {pos=player:get_pos(), max_hear_distance=16}, true)
          minetest.show_formspec(pname, "rp_default:read_book_in_bookshelf", form)
 

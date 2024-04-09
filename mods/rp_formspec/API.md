@@ -6,9 +6,17 @@ and you can also register new pages/tabs.
 There are also some functions for adding special
 formspec elements, some of them are required.
 
+## Compability note
+
+This mod provides a reasonable formspec prepend so that formspecs
+from mods that do not know about `rp_formspec` should still
+be acceptable. However, they might not be fully in Repixture style.
+
+Use mod if you want to make use Repixture-specific features.
+
 ## Formspec version
 
-Formspec version 1 is used (sorry …).
+Formspec version 7 is used.
 
 ## Recommended usage
 
@@ -50,8 +58,10 @@ and register the result as a new page.
 ### `rp_formspec.register_page(name, form)`
 
 Registers a page with the identifier `name` and formspec string `form`.
-`form` **must not** be the empty string.
+`form` must follow the following rules:
 
+* Contains the `size[]` element
+* Contains `rp_formspec.default.boilerplate` right after `size[]`
 
 
 ### `rp_formspec.get_page(name, with_invtabs)`
@@ -328,10 +338,28 @@ the crafting guide. The group **must** exist in `rp_formspec.group_names`.
 
 ## Other features
 
-### `rp_formspec.default.bg`
+### `rp_formspec.default.boilerplate`
 
-A formspec string containing a `bgcolor[]` element with the default background color.
-Read-only!
+A formspec string that **must** be added to every inventory page
+right after the `size[]` element.
+It contains a `no_prepend[]` and other information required for
+Repixture formspecs to work.
+
+
+
+### `rp_formspec.default.player_inventory`
+
+A formspec string that contains the player inventory as well
+as its default position.
+Useful to create pages that want to include the player
+inventory.
+
+
+
+### `rp_formspec.default.version`
+
+A formspec string that contains the current `formspec_version[]`
+element used by `rp_formspec`.
 
 
 
@@ -358,3 +386,15 @@ A table with user-readable group-names.
 The short names and long descriptions should start with a capital letter in English.
 
 Used by `rp_formspec.item_group`. Read-only!
+
+
+
+## Legacy
+
+### `rp_formspec.default.bg`
+
+Legacy string formspec containing info about the formspec background.
+As this is no longer needed, this contains the empty string.
+You can safely remove it from scripts.
+
+

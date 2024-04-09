@@ -10,9 +10,7 @@ local playerdata = {}
 
 local form = rp_formspec.get_page("rp_formspec:2part")
 
-form = form .. "list[current_player;main;0.25,4.75;8,4;]"
-form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+form = form .. rp_formspec.default.player_inventory
 
 creative.slots_num = 7*4
 
@@ -232,16 +230,18 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 	local size = creative.creative_sizes[player_name]
 	local pagemax = math.floor((size-1) / (creative.slots_num) + 1)
 	return
-		"list[detached:creative_"..player_name..";main;0.25,0.25;7,4;"..tostring(start_i).."]"..
-		"label[7.5,0.75;"..FS("@1/@2", pagenum, pagemax).."]"..
+		"container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"..
+                rp_formspec.get_itemslot_bg(0, 0, 7,4)..
+		"list[detached:creative_"..player_name..";main;0,0;7,4;"..tostring(start_i).."]"..
+		"label[8.95,0.75;"..FS("@1/@2", pagenum, pagemax).."]"..
 
-                rp_formspec.image_button(7.25, 1.25, 1, 1, "creative_prev", "ui_icon_prev.png")..
-                rp_formspec.image_button(7.25, 2.25, 1, 1, "creative_next", "ui_icon_next.png")..
+                rp_formspec.image_button(8.75, 1.15, 1, 1, "creative_prev", "ui_icon_prev.png")..
+                rp_formspec.image_button(8.75, 2.30, 1, 1, "creative_next", "ui_icon_next.png")..
 
-                rp_formspec.get_itemslot_bg(0.25, 0.25, 7,4)..
-		"image[7.25,3.25;1,1;creative_trash_icon.png]"..
-		"list[detached:creative!trash;main;7.25,3.25;1,1;]"..
-                rp_formspec.get_itemslot_bg(7.25, 3.25, 1,1)..
+		"image[8.75,3.45;1,1;creative_trash_icon.png]"..
+                rp_formspec.get_itemslot_bg(8.75, 3.45, 1,1)..
+		"list[detached:creative!trash;main;8.75,3.45;1,1;]"..
+		"container_end[]"..
 		"listring[current_player;main]"..
 		"listring[detached:creative!trash;main]"..
 		"listring[detached:creative_"..player_name..";main]"..
@@ -308,6 +308,10 @@ minetest.register_on_leaveplayer(function(player)
 end)
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
+        local invpage = rp_formspec.get_current_invpage(player)
+        if not (formname == "" and invpage == "rp_creative:creative") then
+           return
+        end
 	if not minetest.is_creative_enabled(player:get_player_name()) then
 		return
 	end

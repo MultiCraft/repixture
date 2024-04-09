@@ -658,8 +658,9 @@ function achievements.get_formspec(name)
 
    local form = rp_formspec.get_page("rp_achievements:achievements", true)
 
+   form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
    form = form .. "set_focus[achievement_list]"
-   form = form .. "table[0.25,2.5;7.9,5.5;achievement_list;" .. achievement_list
+   form = form .. "table[0,2.8;9.75,6.4;achievement_list;" .. achievement_list
       .. ";" .. row .. "]"
 
    local aname = achievements.registered_achievements_list[row]
@@ -701,14 +702,14 @@ function achievements.get_formspec(name)
    end
 
 
-   form = form .. "label[0.25,8.15;"
+   form = form .. "label[0,9.5;"
       .. minetest.formspec_escape(progress_total)
       .. "]"
 
-   form = form .. "label[0.25,0.25;" .. minetest.formspec_escape(title) .. "]"
-   form = form .. "label[7.25,0.25;" .. minetest.formspec_escape(progress) .. "]"
+   form = form .. "label[0,0.4;" .. minetest.formspec_escape(title) .. "]"
+   form = form .. "label[8.5,0.4;" .. minetest.formspec_escape(progress) .. "]"
 
-   form = form .. "textarea[2.5,0.75;5.75,2;;;" .. minetest.formspec_escape(description) .. "]"
+   form = form .. "textarea[3,0.6;5.25,2;;;" .. minetest.formspec_escape(description) .. "]"
 
    local icon, item_icon
    if not gotten then
@@ -735,10 +736,11 @@ function achievements.get_formspec(name)
    end
 
    if icon then
-      form = form .. "image[0.25,0.75;1.8,1.8;" .. minetest.formspec_escape(icon) .. "]"
+      form = form .. "image[0,0.75;1.8,1.8;" .. minetest.formspec_escape(icon) .. "]"
    elseif item_icon then
-      form = form .. "item_image[0.25,0.75;1.8,1.8;" .. minetest.formspec_escape(item_icon) .. "]"
+      form = form .. "item_image[0,0.75;1.8,1.8;" .. minetest.formspec_escape(item_icon) .. "]"
    end
+   form = form .. "container_end[]"
 
    return form
 end
@@ -762,25 +764,16 @@ function achievements.get_completion_status(player, aname)
 end
 
 local function receive_fields(player, form_name, fields)
-   local name = player:get_player_name()
+   local invpage = rp_formspec.get_current_invpage(player)
+   if not (form_name == "" and invpage == "rp_achievements:achievements") then
+      return
+   end
 
-   local in_achievements_menu = false
-   if form_name == "rp_achievements:achievements" then
-      in_achievements_menu = true
-   elseif form_name ~= "" then
-      return
-   end
-   if fields.quit then
-      return
-   end
+   local name = player:get_player_name()
 
    local selected = 1
 
-   if fields.tab_achievements then
-      in_achievements_menu = true
-   end
    if fields.achievement_list then
-      in_achievements_menu = true
       local selection = minetest.explode_table_event(fields.achievement_list)
 
       if selection.type == "CHG" or selection.type == "DCL" then
@@ -789,9 +782,6 @@ local function receive_fields(player, form_name, fields)
       elseif selection.type == "INV" then
 	 selected_row[name] = nil
       end
-
-   end
-   if in_achievements_menu then
       rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
    end
 end

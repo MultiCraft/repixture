@@ -35,10 +35,13 @@ local on_use = function(itemstack, player, pointed_thing)
    end
 
    local form = rp_formspec.get_page("rp_formspec:default")
-   form = form .. "field[0.7,1.25;7.7,0;title;"..FS("Title:")..";"..F(title).."]"
-   form = form .. "textarea[0.7,1.75;7.7,6.75;text;"..FS("Contents:")..";"..F(text).."]"
+   form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
+   form = form .. "style_type[field;font_size=*2]"
+   form = form .. "field[0,0.4;9.75,0.5;title;"..FS("Title:")..";"..F(title).."]"
+   form = form .. "textarea[0,1.4;9.75,7;text;"..FS("Contents:")..";"..F(text).."]"
    form = form .. "style[write;sound=]"
-   form = form .. rp_formspec.button_exit(2.75, 7.75, 3, 1, "write", S("Write"))
+   form = form .. rp_formspec.button_exit(3.5, 8.6, 3, 1, "write", S("Write"))
+   form = form .. "container_end[]"
 
    minetest.sound_play({name="rp_book_open_book", gain=0.5}, {pos=player:get_pos(), max_hear_distance=16}, true)
    minetest.show_formspec(name, "rp_book:book", form)
@@ -196,8 +199,7 @@ book.register_book_node(
          local nmeta = minetest.get_meta(pos)
          local title = nmeta:get_string("book:title")
          local text = nmeta:get_string("book:text")
-         form = form .. "label[0.45,0.25;"..F(title).."]"
-         form = form .. "textarea[0.7,0.75;7.7,8.75;;;"..F(text).."]"
+         form = form .. rp_book.make_read_book_page_formspec(title, text)
 
          minetest.sound_play({name="rp_book_open_book", gain=0.5}, {pos=clicker:get_pos(), max_hear_distance=16}, true)
          minetest.show_formspec(clicker:get_player_name(), "rp_book:read_book", form)

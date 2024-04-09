@@ -84,14 +84,25 @@ minetest.register_node(
       drop = "rp_default:chest",
 })
 
+local xstart = rp_formspec.default.start_point.x
+local ystart = rp_formspec.default.start_point.y
 local form_chest = rp_formspec.get_page("rp_formspec:2part")
-form_chest = form_chest .. "list[current_name;main;0.25,0.25;8,4;]"
+form_chest = form_chest .. rp_formspec.get_itemslot_bg(xstart, ystart, 8, 4)
+form_chest = form_chest .. "list[current_name;main;"..xstart..","..ystart..";8,4;]"
 form_chest = form_chest .. "listring[current_name;main]"
-form_chest = form_chest .. rp_formspec.get_itemslot_bg(0.25, 0.25, 8, 4)
 
-form_chest = form_chest .. "list[current_player;main;0.25,4.75;8,4;]"
+form_chest = form_chest .. rp_formspec.default.player_inventory
 form_chest = form_chest .. "listring[current_player;main]"
-form_chest = form_chest .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_chest = form_chest .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 rp_formspec.register_page("rp_default:chest", form_chest)
 
+minetest.register_lbm({
+	label = "Update chest formspec",
+	name = "rp_default:update_chest_formspec_3_14_0",
+	nodenames = { "rp_default:chest", "rp_default:chest_painted" },
+	action = function(pos, node)
+		local def = minetest.registered_nodes[node.name]
+		if def and def.on_construct then
+			def.on_construct(pos)
+		end
+	end,
+})

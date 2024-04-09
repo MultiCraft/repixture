@@ -15,19 +15,69 @@ rp_formspec.registered_invpages = {}
 -- UI defaults
 
 rp_formspec.default = {}
+-- Holds the formspec version
+rp_formspec.default.version = "formspec_version[7]"
+
+-- Default formspec coordinates
+rp_formspec.default.size = { x = 10.75, y = 10.25 }
+rp_formspec.default.list_spacing = { x = 0.25, y = 0.15 }
+rp_formspec.default.start_point = { x = 0.5, y = 0.25 }
+
+-- Legacy variable that used to contain a bgcolor[] but is no longer needed
+rp_formspec.default.bg = ""
 
 local current_invpage = {}
 
--- Colors
+-- Variables for the default 9-slice button
 
-local prepend = "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]" ..
+local btn_scale = 4 -- change this to scale the entire button
+
+-- Button size in pixels
+local btn_x = 44 * btn_scale
+local btn_y = 12 * btn_scale
+local btn_resize = btn_x.."x"..btn_y
+
+-- for bgimg_middle
+local btn_middle_i_x = 4 * btn_scale
+local btn_middle_i_y = 4 * btn_scale
+local btn_middle_i_x2 = -4 * btn_scale
+local btn_middle_i_y2 = -6 * btn_scale
+local btn_middle_a_x = 4 * btn_scale
+local btn_middle_a_y = 5 * btn_scale
+local btn_middle_a_x2 = -4 * btn_scale
+local btn_middle_a_y2 = -6 * btn_scale
+local btn_middle_i = btn_middle_i_x..","..btn_middle_i_y..","..btn_middle_i_x2..","..btn_middle_i_y2
+local btn_middle_a = btn_middle_a_x..","..btn_middle_a_y..","..btn_middle_a_x2..","..btn_middle_a_y2
+
+-- Use negative padding to disable padding; otherwise the text is squeezed too much
+local btn_padding = -6 * btn_scale
+local btn_padding_img = -2 * btn_scale
+
+local shared_prepend =
+    "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]" ..
     "tableoptions[background=#DDDDDD30;highlight=#539646]" ..
-    "style_type[button,image_button,item_image_button,checkbox,tabheader;sound=default_gui_button]" ..
-    "style_type[button:pressed,image_button:pressed,item_image_button:pressed;content_offset=0]"
-rp_formspec.default.bg = "bgcolor[#00000000]"
+    "bgcolor[#00000000]" ..
+    "style_type[image_button:pressed,item_image_button:pressed;content_offset=0]" ..
+    "tableoptions[background=#DDDDDD30;highlight=#539646]" ..
+    "style_type[button,image_button,item_image_button,checkbox,tabheader;sound=default_gui_button]"
 
--- bgcolor intentionally not included because it would make pause menu transparent, too :(
-local formspec_prepend = prepend
+local global_prepend =
+    shared_prepend ..
+    "style_type[button,image_button;bgimg=ui_button_9slice_inactive.png^[resize:"..btn_resize..";border=false;bgimg_middle="..btn_middle_i..";content_offset=0,0]" ..
+    "style_type[button:pressed,image_button:pressed;bgimg=ui_button_9slice_active.png^[resize:"..btn_resize..";border=false;bgimg_middle="..btn_middle_a..";content_offset=0,2]" ..
+    "style_type[button,button:pressed;padding="..btn_padding.."]" ..
+    "style_type[image_button,image_button:pressed;padding="..btn_padding_img.."]" ..
+    "listcolors[#7d6f52;#00000010;#786848;#68B259;#FFF]" ..
+    "background9[0,0;8.5,4.5;ui_formspec_bg_9tiles.png;true;20,20,-20,-28]"
+
+
+local repixture_prepend =
+    shared_prepend ..
+    "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]"..
+    "style_type[list;spacing="..rp_formspec.default.list_spacing.x..","..rp_formspec.default.list_spacing.y.."]"
+
+-- Must be included in every page after size[]
+rp_formspec.default.boilerplate = "no_prepend[]" .. repixture_prepend
 
 -- Group default items
 
@@ -56,8 +106,10 @@ rp_formspec.group_names = {
 function rp_formspec.get_itemslot_bg(x, y, w, h)
    local out = ""
    for i = 0, w - 1, 1 do
+      local ii = i * rp_formspec.default.list_spacing.x
       for j = 0, h - 1, 1 do
-	 out = out .."image["..x+i..","..y+j..";1,1;ui_itemslot.png]"
+         local jj = j * rp_formspec.default.list_spacing.y
+	 out = out .."image["..x+i+ii..","..y+j+jj..";1,1;ui_itemslot.png]"
       end
    end
    return out
@@ -66,8 +118,10 @@ end
 function rp_formspec.get_hotbar_itemslot_bg(x, y, w, h)
    local out = ""
    for i = 0, w - 1, 1 do
+      local ii = i * rp_formspec.default.list_spacing.x
       for j = 0, h - 1, 1 do
-	 out = out .."image["..x+i..","..y+j
+         local jj = j * rp_formspec.default.list_spacing.y
+	 out = out .."image["..x+i+ii..","..y+j+jj
             ..";1,1;ui_itemslot.png^ui_itemslot_dark.png]"
       end
    end
@@ -75,6 +129,11 @@ function rp_formspec.get_hotbar_itemslot_bg(x, y, w, h)
 end
 
 rp_formspec.get_output_itemslot_bg = rp_formspec.get_hotbar_itemslot_bg
+
+-- Default player inventory
+rp_formspec.default.player_inventory = rp_formspec.get_hotbar_itemslot_bg(rp_formspec.default.start_point.x, 5.35, 8, 1)
+	.. rp_formspec.get_itemslot_bg(rp_formspec.default.start_point.x, 5.35+1+rp_formspec.default.list_spacing.y, 8, 3)
+	.. "list[current_player;main;"..rp_formspec.default.start_point.x..",5.35;8,4;]"
 
 -- Buttons
 
@@ -214,7 +273,7 @@ function rp_formspec.fake_itemstack(x, y, itemstack)
       result = result .. "item_image["..x..","..y..";1,1;"
          ..minetest.formspec_escape(itemstring).."]"
 
-      result = result .. "tooltip["..x..","..y..";0.8,0.8;"..minetest.formspec_escape(itemdesc).."]"
+      result = result .. "tooltip["..x..","..y..";1,1;"..minetest.formspec_escape(itemdesc).."]"
    end
 
    return result
@@ -241,7 +300,7 @@ function rp_formspec.item_group(x, y, group, count, name)
    local result = ""
    if itemname ~= "" then
       result = result
-         .."box["..x..","..y..";0.85,0.9;#00000040]"
+         .."box["..x..","..y..";1,1;#00000040]"
          .."item_image["..x..","..y..";1,1;"
          ..minetest.formspec_escape(itemname .. " " .. count).."]"
 
@@ -290,9 +349,9 @@ local function get_invtabs()
       return invtabs_cached
    end
    local form = ""
-   local tabx = -0.9
+   local tabx = -1
    local taby = 0.5
-   local tabplus = 0.78
+   local tabplus = 0.9
    for o=1, #registered_invtabs_order do
       local tabname = registered_invtabs_order[o]
       local def = rp_formspec.registered_invtabs[tabname]
@@ -341,10 +400,12 @@ end
 -- Default formspec boilerplates
 
 local form_default = ""
-form_default = form_default .. "size[8.5,9]"
-form_default = form_default .. rp_formspec.default.bg
-form_default = form_default .. "background[0,0;8.5,9;ui_formspec_bg_tall.png]"
-local form_2part = form_default .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
+form_default = form_default .. rp_formspec.default.version
+form_default = form_default .. "size[10.75,10.25]"
+form_default = form_default .. rp_formspec.default.boilerplate
+form_default = form_default .. "background[0,0;10.75,10.25;ui_formspec_bg_tall.png]"
+local form_2part = form_default .. "background[0,0;10.75,5.125;ui_formspec_bg_short.png]"
+
 
 -- 1-part frame
 rp_formspec.register_page("rp_formspec:default", form_default)
@@ -353,20 +414,20 @@ rp_formspec.register_page("rp_formspec:2part", form_2part)
 
 -- Simple text input field
 local form_default_field = ""
-form_default_field = form_default_field .. "size[8.5,5]"
-form_default_field = form_default_field .. rp_formspec.default.bg
-form_default_field = form_default_field .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
-form_default_field = form_default_field .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
+form_default_field = form_default_field .. "size[11.75,6.75]"
+form_default_field = form_default_field .. rp_formspec.default.version
+form_default_field = form_default_field .. rp_formspec.default.boilerplate
+form_default_field = form_default_field .. "background[1.625,1.625;8.5,4.5;ui_formspec_bg_short.png]"
+form_default_field = form_default_field .. rp_formspec.button_exit(5.0625, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 form_default_field = form_default_field .. "set_focus[text;true]"
-form_default_field = form_default_field .. "field[1,1.75;7,0;text;;${text}]"
+form_default_field = form_default_field .. "field[2.875,3.8125;7,0;text;;${text}]"
 rp_formspec.register_page("rp_formspec:field", form_default_field)
 
 -- A page (and invpage) with only the player inventory, used as fallback
 local form_inventory = ""
 form_inventory = form_inventory .. rp_formspec.get_page("rp_formspec:default")
-form_inventory = form_inventory .. "list[current_player;main;0.25,4.75;8,4;]"
-form_inventory = form_inventory .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_inventory = form_inventory .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_inventory = form_inventory .. rp_formspec.default.player_inventory
+
 rp_formspec.register_page("rp_formspec:inventory", form_inventory)
 
 function rp_formspec.receive_fields(player, form_name, fields)
@@ -431,7 +492,7 @@ end)
 minetest.register_on_joinplayer(
    function(player)
       -- Initialize player formspec and set initial invpage
-      player:set_formspec_prepend(formspec_prepend)
+      player:set_formspec_prepend(global_prepend)
       local pname = player:get_player_name()
       local first_page
       for invpagename,def in pairs(rp_formspec.registered_invpages) do
