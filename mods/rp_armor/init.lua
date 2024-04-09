@@ -3,6 +3,7 @@
 --
 
 local S = minetest.get_translator("rp_armor")
+local FS = function(...) return minetest.formspec_escape(S(...)) end
 
 local mod_player_skins = minetest.get_modpath("rp_player_skins") ~= nil
 
@@ -56,12 +57,13 @@ form_armor = form_armor .. "container_end[]"
 form_armor = form_armor .. "listring[current_player;armor]"
 
 function armor.get_formspec(name)
+   local player = minetest.get_player_by_name(name)
+
    -- Base page
    local form = rp_formspec.get_page("rp_armor:armor", true)
 
    -- Player model with armor
    if form then
-      local player = minetest.get_player_by_name(name)
       if player then
          local base_skin = armor.get_base_skin(player)
          if base_skin then
@@ -74,6 +76,22 @@ function armor.get_formspec(name)
          end
       end
    end
+
+   -- Armor percentage
+   local armor_full, armor_base, armor_bonus = armor.get_armor_protection(player)
+   local x = rp_formspec.default.start_point.x
+   local y = rp_formspec.default.start_point.y
+   form = form .. "style_type[label;font_size=*2]"
+   form = form .. "image["..(x+5.5)..","..(y+1.75)..";1,1;rp_armor_icon_protection.png]"
+   form = form .. "tooltip["..(x+5.5)..","..(y+1.75)..";1,1;"..FS("Protection").."]"
+   form = form .. "label["..(x+6.5)..","..(y+2.25)..";"..S("@1%", armor_full).."]"
+   if armor_bonus ~= 0 then
+      form = form .. "style_type[label;font_size=]"
+      form = form .. "image["..(x+2.5)..","..(y+4.1)..";0.4,0.4;rp_armor_icon_bonus.png]"
+      form = form .. "tooltip["..(x+2.5)..","..(y+4.1)..";0.4,0.4;"..FS("Protection bonus for full set").."]"
+      form = form .. "label["..(x+3)..","..(y+4.3)..";"..S("+@1%", armor_bonus).."]"
+   end
+
    return form
 end
 
@@ -136,24 +154,44 @@ function armor_local.get_texture(player, base)
    return image
 end
 
--- Returns the correct and relevant armor groups of player.
--- Also checks the `full_armor` achievement if `check_achievement` is true.
-function armor_local.get_groups(player, check_achievement)
-   local groups = {fleshy = 100}
-
-   local match_mat = nil
-   local match_amt = 0
-
+-- Checks if the player qualifies for the `full_armor`
+-- achievement and awards it if that's the case
+function armor_local.check_achievement(player)
    local inv = player:get_inventory()
 
-   local ach_ok = true
+   local achv_ok = true
    for slot_index, slot in ipairs(armor.slots) do
       local itemstack = inv:get_stack("armor", slot_index)
       local itemname = itemstack:get_name()
 
       if itemstack:get_name() ~= "rp_armor:"..slot.."_bronze" then
-         ach_ok = false
+         achv_ok = false
+         break
       end
+   end
+   if achv_ok then
+      achievements.trigger_achievement(player, "full_armor")
+   end
+end
+
+-- Returns the player's current armor protection,
+-- as a percentage.
+-- Returns <full>, <base>, <bonus>
+-- <full>: Full armor protection percentage (base + bonus)
+-- <base>: Armor without bonus
+-- <bonus>: Armor bonus
+function armor.get_armor_protection(player)
+   local match_mat = nil
+   local match_amt = 0
+
+   local inv = player:get_inventory()
+
+   local armor_base = 0 -- armor percentage points (without bonus)
+   local armor_bonus = 0 -- armor bonus percentage points
+
+   for slot_index, slot in ipairs(armor.slots) do
+      local itemstack = inv:get_stack("armor", slot_index)
+      local itemname = itemstack:get_name()
 
       if armor.is_armor(itemname) then
 	 local item = minetest.registered_items[itemname]
@@ -162,7 +200,7 @@ function armor_local.get_groups(player, check_achievement)
 	    local mat = armor.materials[mat_index][1]
 
 	    if mat_index == item.groups.armor_material then
-	       groups.fleshy = groups.fleshy - item.groups.armor
+	       armor_base = armor_base + item.groups.armor
 	       if match_mat == nil then
 		  match_mat = mat
 	       end
@@ -176,14 +214,27 @@ function armor_local.get_groups(player, check_achievement)
 	 end
       end
    end
-   if check_achievement and ach_ok then
-      achievements.trigger_achievement(player, "full_armor")
-   end
 
    -- If full set of same armor material, then boost armor protection
    if match_amt == #armor.slots then
-      groups.fleshy = math.max(0, groups.fleshy - SAME_ARMOR_BONUS_PERCENT)
+      armor_bonus = SAME_ARMOR_BONUS_PERCENT
    end
+
+   -- Final armor protection is sum of base armor and bonus,
+   -- as percentage points
+   local armor_all = math.min(100, armor_base + armor_bonus)
+   -- Negative armor is allowed, but limited by Minetest's
+   -- armor group value range.
+   armor_all = math.max(armor_all, -32767+100)
+   return armor_all, armor_base, armor_bonus
+end
+
+-- Returns the correct and relevant armor groups of player.
+function armor_local.get_groups(player)
+   local groups = {fleshy = 100}
+
+   local armor_pct = armor.get_armor_protection(player)
+   groups.fleshy = groups.fleshy - armor_pct
 
    if minetest.settings:get_bool("enable_damage", true) == false then
       groups.immortal = 1
@@ -203,7 +254,8 @@ end
 
 -- This function must be called whenever the armor inventory has been changed
 function armor.update(player)
-   local groups = armor_local.get_groups(player, true)
+   local groups = armor_local.get_groups(player)
+   armor_local.check_achievement(player)
    player:set_armor_groups({fleshy = groups.fleshy, immortal = groups.immortal})
 
    local image = armor_local.get_texture(player, armor.get_base_skin(player))
@@ -238,7 +290,7 @@ minetest.register_on_player_hpchange(function(player, hp_change, reason)
          end
       end
       -- Get player fleshy value
-      local groups = armor_local.get_groups(player, false)
+      local groups = armor_local.get_groups(player)
       local fleshy = groups.fleshy
 
       -- Armor piercing

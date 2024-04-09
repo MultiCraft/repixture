@@ -65,7 +65,15 @@ Returns the regular skin (=texture) for `player` without the armor. Is a string.
 
 This function **must** be called whenever the armor inventory of `player` has been changed.
 
+### `armor.get_armor_protection(player)
 
+Returns the current armor protection of the given player, given as percentage points.
+
+Returns `<full>, <base>, <bonus>`, where:
+
+* `<full>`: Effective armor protection (base+bonus)
+* `<base>`: Sum of armor protection from armor pieces
+* `<bonus>`: Protection bonus
 
 ## Tables
 
