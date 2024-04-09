@@ -347,6 +347,14 @@ Repixture formspecs to work.
 
 
 
+### `rp_formspec.default.player_inventory`
+
+A formspec string that contains the player inventory as well
+as its default position.
+Useful to create pages that want to include the player
+inventory.
+
+
 ### `rp_formspec.group_defaults`
 
 A table specifying items that represents groups, as an example.

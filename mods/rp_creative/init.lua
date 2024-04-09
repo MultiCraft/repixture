@@ -10,9 +10,7 @@ local playerdata = {}
 
 local form = rp_formspec.get_page("rp_formspec:2part")
 
-form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 5.35, 8, 1)
-form = form .. rp_formspec.get_itemslot_bg(0.25, 5.35+1+0.15, 8, 3)
-form = form .. "list[current_player;main;0.25,5.35;8,4;]"
+form = form .. rp_formspec.default.player_inventory
 
 creative.slots_num = 7*4
 

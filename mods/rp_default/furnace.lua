@@ -6,18 +6,17 @@ local S = minetest.get_translator("rp_default")
 
 function default.furnace_active_formspec(percent, item_percent)
    local form = rp_formspec.get_page("rp_formspec:2part")
-   form = form .. "list[current_player;main;0.25,4.75;8,4;]"
-   form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-   form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
-   form = form .. "list[current_name;src;2.25,0.75;1,1;]"
+   form = form .. rp_formspec.default.player_inventory
+
    form = form .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 1)
+   form = form .. "list[current_name;src;2.25,0.75;1,1;]"
 
-   form = form .. "list[current_name;fuel;2.25,2.75;1,1;]"
    form = form .. rp_formspec.get_itemslot_bg(2.25, 2.75, 1, 1)
+   form = form .. "list[current_name;fuel;2.25,2.75;1,1;]"
 
-   form = form .. "list[current_name;dst;4.25,1.25;2,2;]"
    form = form .. rp_formspec.get_output_itemslot_bg(4.25, 1.25, 2, 2)
+   form = form .. "list[current_name;dst;4.25,1.25;2,2;]"
 
    form = form .. "listring[current_player;main]"
    form = form .. "listring[current_name;src]"
@@ -35,18 +34,16 @@ function default.furnace_active_formspec(percent, item_percent)
 end
 
 local form_furnace = rp_formspec.get_page("rp_formspec:2part")
-form_furnace = form_furnace .. "list[current_player;main;0.25,4.75;8,4;]"
-form_furnace = form_furnace .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_furnace = form_furnace .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_furnace = form_furnace .. rp_formspec.default.player_inventory
 
-form_furnace = form_furnace .. "list[current_name;src;2.25,0.75;1,1;]"
 form_furnace = form_furnace .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 1)
+form_furnace = form_furnace .. "list[current_name;src;2.25,0.75;1,1;]"
 
-form_furnace = form_furnace .. "list[current_name;fuel;2.25,2.75;1,1;]"
 form_furnace = form_furnace .. rp_formspec.get_itemslot_bg(2.25, 2.75, 1, 1)
+form_furnace = form_furnace .. "list[current_name;fuel;2.25,2.75;1,1;]"
 
-form_furnace = form_furnace .. "list[current_name;dst;4.25,1.25;2,2;]"
 form_furnace = form_furnace .. rp_formspec.get_hotbar_itemslot_bg(4.25, 1.25, 2, 2)
+form_furnace = form_furnace .. "list[current_name;dst;4.25,1.25;2,2;]"
 
 form_furnace = form_furnace .. "listring[current_player;main]"
 form_furnace = form_furnace .. "listring[current_name;src]"

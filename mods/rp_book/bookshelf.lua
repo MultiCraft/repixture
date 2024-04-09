@@ -30,16 +30,14 @@ minetest.register_on_leaveplayer(function(player)
 end)
 
 local form_bookshelf = rp_formspec.get_page("rp_formspec:2part")
-form_bookshelf = form_bookshelf .. "list[current_player;main;0.25,4.75;8,4;]"
-form_bookshelf = form_bookshelf .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_bookshelf = form_bookshelf .. rp_formspec.default.player_inventory
 
-form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(0.25, 1.5, 8, 1)
+form_bookshelf = form_bookshelf .. rp_formspec.get_itemslot_bg(0.25, 2, 8, 1)
 local function get_bookshelf_formspec(pos)
    local x, y, z = pos.x, pos.y, pos.z
    local context = "nodemeta:"..x..","..y..","..z
    local form = form_bookshelf
-   form = form .. "list["..context..";main;0.25,1.5;8,1;]"
+   form = form .. "list["..context..";main;0.25,2;8,1;]"
    form = form .. "listring["..context..";main]"
    form = form .. "listring[current_player;main]"
    local meta = minetest.get_meta(pos)

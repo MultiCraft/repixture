@@ -20,17 +20,15 @@ jewels.registered_jewel_parents = {}
 
 local form_bench = rp_formspec.get_page("rp_formspec:2part")
 
-form_bench = form_bench .. "list[current_name;main;2.25,1.75;1,1;]"
+form_bench = form_bench .. rp_formspec.get_itemslot_bg(2.25, 2, 1, 1)
+form_bench = form_bench .. "list[current_name;main;2.25,2;1,1;]"
 form_bench = form_bench .. "listring[current_name;main]"
-form_bench = form_bench .. rp_formspec.get_itemslot_bg(2.25, 1.75, 1, 1)
 
-form_bench = form_bench .. "label[3.25,1.75;"..FS("1. Place tool here").."]"
-form_bench = form_bench .. "label[3.25,2.25;"..FS("2. Hold a jewel and punch the bench").."]"
+form_bench = form_bench .. "label[3.5,2.2;"..FS("1. Place tool here").."]"
+form_bench = form_bench .. "label[3.5,2.7;"..FS("2. Hold a jewel and punch the bench").."]"
 
-form_bench = form_bench .. "list[current_player;main;0.25,4.75;8,4;]"
+form_bench = form_bench .. rp_formspec.default.player_inventory
 form_bench = form_bench .. "listring[current_player;main]"
-form_bench = form_bench .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_bench = form_bench .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
 rp_formspec.register_page("rp_jewels:bench", form_bench)
 

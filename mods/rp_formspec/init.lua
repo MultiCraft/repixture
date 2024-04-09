@@ -127,6 +127,11 @@ end
 
 rp_formspec.get_output_itemslot_bg = rp_formspec.get_hotbar_itemslot_bg
 
+-- Default player inventory
+rp_formspec.default.player_inventory = rp_formspec.get_hotbar_itemslot_bg(0.25, 5.35, 8, 1)
+	.. rp_formspec.get_itemslot_bg(0.25, 5.35+1+LIST_SPACING_Y, 8, 3)
+	.. "list[current_player;main;0.25,5.35;8,4;]"
+
 -- Buttons
 
 function rp_formspec.image_button(x, y, w, h, name, image, tooltip)
@@ -417,9 +422,7 @@ rp_formspec.register_page("rp_formspec:field", form_default_field)
 -- A page (and invpage) with only the player inventory, used as fallback
 local form_inventory = ""
 form_inventory = form_inventory .. rp_formspec.get_page("rp_formspec:default")
-form_inventory = form_inventory .. rp_formspec.get_hotbar_itemslot_bg(0.25, 5.35, 8, 1)
-form_inventory = form_inventory .. rp_formspec.get_itemslot_bg(0.25, 5.35+1+0.15, 8, 3)
-form_inventory = form_inventory .. "list[current_player;main;0.25,5.35;8,4;]"
+form_inventory = form_inventory .. rp_formspec.default.player_inventory
 
 rp_formspec.register_page("rp_formspec:inventory", form_inventory)
 

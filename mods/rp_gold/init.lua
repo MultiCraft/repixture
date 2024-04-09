@@ -217,16 +217,14 @@ local form_trading = ""
 
 form_trading = form_trading .. rp_formspec.get_page("rp_formspec:2part")
 
-form_trading = form_trading .. "list[current_player;main;0.25,4.75;8,4;]"
-form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_trading = form_trading .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_trading = form_trading .. rp_formspec.default.player_inventory
 
 form_trading = form_trading .. "container["..TRADE_FORMSPEC_OFFSET..",0]"
-form_trading = form_trading .. "list[current_player;gold_trade_out;4.75,2.25;1,1;]"
 form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(4.75, 2.25, 1, 1)
+form_trading = form_trading .. "list[current_player;gold_trade_out;4.75,2.25;1,1;]"
 
-form_trading = form_trading .. "list[current_player;gold_trade_in;1.25,2.25;2,1;]"
 form_trading = form_trading .. rp_formspec.get_itemslot_bg(1.25, 2.25, 2, 1)
+form_trading = form_trading .. "list[current_player;gold_trade_in;1.25,2.25;2,1;]"
 
 form_trading = form_trading .. "listring[current_player;main]"
 form_trading = form_trading .. "listring[current_player;gold_trade_in]"

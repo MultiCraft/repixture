@@ -34,9 +34,7 @@ armor.slots = {"helmet", "chestplate", "boots"}
 
 local form_armor = rp_formspec.get_page("rp_formspec:2part")
 
-form_armor = form_armor .. rp_formspec.get_hotbar_itemslot_bg(0.25, 5.35, 8, 1)
-form_armor = form_armor .. rp_formspec.get_itemslot_bg(0.25, 5.35+1+0.15, 8, 3)
-form_armor = form_armor .. "list[current_player;main;0.25,5.35;8,4;]"
+form_armor = form_armor .. rp_formspec.default.player_inventory
 
 form_armor = form_armor .. "listring[current_player;main]"
 

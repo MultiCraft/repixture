@@ -89,9 +89,7 @@ form_chest = form_chest .. "list[current_name;main;0.25,0.25;8,4;]"
 form_chest = form_chest .. "listring[current_name;main]"
 form_chest = form_chest .. rp_formspec.get_itemslot_bg(0.25, 0.25, 8, 4)
 
-form_chest = form_chest .. "list[current_player;main;0.25,4.75;8,4;]"
+form_chest = form_chest .. rp_formspec.default.player_inventory
 form_chest = form_chest .. "listring[current_player;main]"
-form_chest = form_chest .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_chest = form_chest .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 rp_formspec.register_page("rp_default:chest", form_chest)
 
