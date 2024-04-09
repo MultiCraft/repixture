@@ -15,6 +15,16 @@ rp_formspec.registered_invpages = {}
 -- UI defaults
 
 rp_formspec.default = {}
+-- Holds the formspec version
+rp_formspec.default.version = "formspec_version[7]"
+
+-- Default formspec coordinates
+rp_formspec.default.size = { x = 10.75, y = 10.25 }
+rp_formspec.default.list_spacing = { x = 0.25, y = 0.15 }
+rp_formspec.default.start_point = { x = 0.5, y = 0.25 }
+
+-- Legacy variable that used to contain a bgcolor[] but is no longer needed
+rp_formspec.default.bg = ""
 
 local current_invpage = {}
 
@@ -60,19 +70,11 @@ local global_prepend =
     "listcolors[#7d6f52;#00000010;#786848;#68B259;#FFF]" ..
     "background9[0,0;8.5,4.5;ui_formspec_bg_9tiles.png;true;20,20,-20,-28]"
 
-local LIST_SPACING_X = 0.25
-local LIST_SPACING_Y = 0.15
 
 local repixture_prepend =
     shared_prepend ..
     "listcolors[#00000000;#00000010;#00000000;#68B259;#FFF]"..
-    "style_type[list;spacing="..LIST_SPACING_X..","..LIST_SPACING_Y.."]"
-
--- Legacy variable that used to contain a bgcolor[] but is no longer needed
-rp_formspec.default.bg = ""
-
--- Holds the formspec version
-rp_formspec.default.version = "formspec_version[7]"
+    "style_type[list;spacing="..rp_formspec.default.list_spacing.x..","..rp_formspec.default.list_spacing.y.."]"
 
 -- Must be included in every page after size[]
 rp_formspec.default.boilerplate = "no_prepend[]" .. repixture_prepend
@@ -104,9 +106,9 @@ rp_formspec.group_names = {
 function rp_formspec.get_itemslot_bg(x, y, w, h)
    local out = ""
    for i = 0, w - 1, 1 do
-      local ii = i * LIST_SPACING_X
+      local ii = i * rp_formspec.default.list_spacing.x
       for j = 0, h - 1, 1 do
-         local jj = j * LIST_SPACING_Y
+         local jj = j * rp_formspec.default.list_spacing.y
 	 out = out .."image["..x+i+ii..","..y+j+jj..";1,1;ui_itemslot.png]"
       end
    end
@@ -116,9 +118,9 @@ end
 function rp_formspec.get_hotbar_itemslot_bg(x, y, w, h)
    local out = ""
    for i = 0, w - 1, 1 do
-      local ii = i * LIST_SPACING_X
+      local ii = i * rp_formspec.default.list_spacing.x
       for j = 0, h - 1, 1 do
-         local jj = j * LIST_SPACING_Y
+         local jj = j * rp_formspec.default.list_spacing.y
 	 out = out .."image["..x+i+ii..","..y+j+jj
             ..";1,1;ui_itemslot.png^ui_itemslot_dark.png]"
       end
@@ -129,9 +131,9 @@ end
 rp_formspec.get_output_itemslot_bg = rp_formspec.get_hotbar_itemslot_bg
 
 -- Default player inventory
-rp_formspec.default.player_inventory = rp_formspec.get_hotbar_itemslot_bg(0.25, 5.35, 8, 1)
-	.. rp_formspec.get_itemslot_bg(0.25, 5.35+1+LIST_SPACING_Y, 8, 3)
-	.. "list[current_player;main;0.25,5.35;8,4;]"
+rp_formspec.default.player_inventory = rp_formspec.get_hotbar_itemslot_bg(rp_formspec.default.start_point.x, 5.35, 8, 1)
+	.. rp_formspec.get_itemslot_bg(rp_formspec.default.start_point.x, 5.35+1+rp_formspec.default.list_spacing.y, 8, 3)
+	.. "list[current_player;main;"..rp_formspec.default.start_point.x..",5.35;8,4;]"
 
 -- Buttons
 
@@ -399,10 +401,11 @@ end
 
 local form_default = ""
 form_default = form_default .. rp_formspec.default.version
-form_default = form_default .. "size[10.25,10.25]"
+form_default = form_default .. "size[10.75,10.25]"
 form_default = form_default .. rp_formspec.default.boilerplate
-form_default = form_default .. "background[0,0;10.25,10.25;ui_formspec_bg_tall.png]"
-local form_2part = form_default .. "background[0,0;10.25,5.125;ui_formspec_bg_short.png]"
+form_default = form_default .. "background[0,0;10.75,10.25;ui_formspec_bg_tall.png]"
+local form_2part = form_default .. "background[0,0;10.75,5.125;ui_formspec_bg_short.png]"
+
 
 -- 1-part frame
 rp_formspec.register_page("rp_formspec:default", form_default)

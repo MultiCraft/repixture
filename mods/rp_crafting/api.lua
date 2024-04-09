@@ -295,19 +295,20 @@ local form = rp_formspec.get_page("rp_formspec:2part")
 
 form = form .. "field[-1,-1;0,0;crafting_tracker;;]"
 
-form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 5.35, 8, 1)
-form = form .. rp_formspec.get_itemslot_bg(0.25, 5.35+1+0.15, 8, 3)
-form = form .. "list[current_player;main;0.25,5.35;8,4;]"
+form = form .. rp_formspec.default.player_inventory
 
-form = form .. rp_formspec.get_itemslot_bg(0.25, 0.25, 1, 4)
-form = form .. "list[current_player;craft_in;0.25,0.25;1,4;]"
+form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
+form = form .. rp_formspec.get_itemslot_bg(0, 0, 1, 4)
+form = form .. "list[current_player;craft_in;0,0;1,4;]"
 
 form = form .. "listring[current_player;main]"
 form = form .. "listring[current_player;craft_in]"
 form = form .. "listring[current_player;main]"
 
-form = form .. rp_formspec.button(9, 1.40, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
-form = form .. rp_formspec.button(9, 2.55, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
+form = form .. rp_formspec.button(8.75, 1.40, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
+form = form .. rp_formspec.button(8.75, 2.55, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
+
+form = form .. "container_end[]"
 
 form = form .. "tablecolumns[text,align=left,width=2;text,align=left,width=40]"
 
@@ -388,31 +389,23 @@ function crafting.get_formspec(name, select_craft_id)
 
    local form = rp_formspec.get_page("rp_crafting:crafting", true)
 
+   form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
    if craft_count > 0 then
-       form = form .. "table[2.75,0.25;6,4.5;craft_list;" .. craft_list
+       form = form .. "table[2.5,0;6,4.5;craft_list;" .. craft_list
           .. ";" .. row .. "]"
    end
 
    if selected_craftdef ~= nil then
-      if selected_craftdef.items[1] ~= nil then
-         form = form .. rp_formspec.fake_itemstack_any(
-            1.5, 0.25, selected_craftdef.items[1], "craftex_in_1")
-      end
-      if selected_craftdef.items[2] ~= nil then
-         form = form .. rp_formspec.fake_itemstack_any(
-            1.5, 1.40, selected_craftdef.items[2], "craftex_in_2")
-      end
-      if selected_craftdef.items[3] ~= nil then
-         form = form .. rp_formspec.fake_itemstack_any(
-            1.5, 2.65, selected_craftdef.items[3], "craftex_in_3")
-      end
-      if selected_craftdef.items[4] ~= nil then
-         form = form .. rp_formspec.fake_itemstack_any(
-            1.5, 3.90, selected_craftdef.items[4], "craftex_in_4")
+      for i=1, crafting.MAX_INPUTS do
+         local y = (i-1) * (1 + rp_formspec.default.list_spacing.y)
+         if selected_craftdef.items[i] ~= nil then
+            form = form .. rp_formspec.fake_itemstack_any(
+               1.25, y, selected_craftdef.items[i], "craftex_in_"..i)
+         end
       end
       if selected_craftdef.output ~= nil then
          form = form .. rp_formspec.fake_itemstack_any(
-            9, 0.25, selected_craftdef.output, "craftex_out")
+            8.75, 0, selected_craftdef.output, "craftex_out")
       end
    end
 
@@ -424,7 +417,8 @@ function crafting.get_formspec(name, select_craft_id)
       guide_icon = "ui_icon_craftingguide.png"
       guide_tip = S("Show all recipes")
    end
-   form = form .. rp_formspec.tab(10.25, 0.5, "toggle_filter", guide_icon, guide_tip, "right")
+   form = form .. "container_end[]"
+   form = form .. rp_formspec.tab(rp_formspec.default.size.x, 0.5, "toggle_filter", guide_icon, guide_tip, "right")
 
    return form
 end

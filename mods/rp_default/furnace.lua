@@ -6,17 +6,18 @@ local S = minetest.get_translator("rp_default")
 
 local generate_furnace_formspec = function(active, percent, item_percent)
    local form = ""
+   form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
    -- Source slot
-   form = form .. rp_formspec.get_itemslot_bg(2.75, 0.75, 1, 1)
-   form = form .. "list[current_name;src;2.75,0.75;1,1;]"
+   form = form .. rp_formspec.get_itemslot_bg(2.5, 0.5, 1, 1)
+   form = form .. "list[current_name;src;2.5,0.5;1,1;]"
 
    -- Fuel slot
-   form = form .. rp_formspec.get_itemslot_bg(2.75, 3.25, 1, 1)
-   form = form .. "list[current_name;fuel;2.75,3.25;1,1;]"
+   form = form .. rp_formspec.get_itemslot_bg(2.5, 3, 1, 1)
+   form = form .. "list[current_name;fuel;2.5,3;1,1;]"
 
    -- Output slots
-   form = form .. rp_formspec.get_hotbar_itemslot_bg(5.25, 1.5, 2, 2)
-   form = form .. "list[current_name;dst;5.25,1.5;2,2;]"
+   form = form .. rp_formspec.get_hotbar_itemslot_bg(5, 1.25, 2, 2)
+   form = form .. "list[current_name;dst;5,1.25;2,2;]"
 
    form = form .. "listring[current_player;main]"
    form = form .. "listring[current_name;src]"
@@ -28,15 +29,16 @@ local generate_furnace_formspec = function(active, percent, item_percent)
    -- Flame and arrow
    if not active then
       -- Inactive
-      form = form .. "image[2.75,2;1,1;ui_fire_bg.png]"
-      form = form .. "image[4,2;1,1;ui_arrow_bg.png^[transformR270]"
+      form = form .. "image[2.5,1.75;1,1;ui_fire_bg.png]"
+      form = form .. "image[3.75,1.75;1,1;ui_arrow_bg.png^[transformR270]"
    else
       -- Active
-      form = form .. "image[2.75,2;1,1;ui_fire_bg.png^[lowpart:"
+      form = form .. "image[2.5,1.75;1,1;ui_fire_bg.png^[lowpart:"
       form = form .. (100-percent) .. ":ui_fire.png]"
-      form = form .. "image[4,2;1,1;ui_arrow_bg.png^[lowpart:"
+      form = form .. "image[3.75,1.75;1,1;ui_arrow_bg.png^[lowpart:"
       form = form .. (item_percent) .. ":ui_arrow.png^[transformR270]"
    end
+   form = form .. "container_end[]"
    return form
 end
 
