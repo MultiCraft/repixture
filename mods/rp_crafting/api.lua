@@ -299,13 +299,12 @@ form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 5.35, 8, 1)
 form = form .. rp_formspec.get_itemslot_bg(0.25, 5.35+1+0.15, 8, 3)
 form = form .. "list[current_player;main;0.25,5.35;8,4;]"
 
+form = form .. rp_formspec.get_itemslot_bg(0.25, 0.25, 1, 4)
 form = form .. "list[current_player;craft_in;0.25,0.25;1,4;]"
 
 form = form .. "listring[current_player;main]"
 form = form .. "listring[current_player;craft_in]"
 form = form .. "listring[current_player;main]"
-
-form = form .. rp_formspec.get_itemslot_bg(0.25, 0.25, 1, 4)
 
 form = form .. rp_formspec.button(9, 1.40, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
 form = form .. rp_formspec.button(9, 2.55, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))

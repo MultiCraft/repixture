@@ -44,9 +44,9 @@ form_armor = form_armor .. "label[3.4,1.25;"..minetest.formspec_escape(S("Helmet
 form_armor = form_armor .. "label[3.4,2.4;"..minetest.formspec_escape(S("Chestplate")).."]"
 form_armor = form_armor .. "label[3.4,3.55;"..minetest.formspec_escape(S("Boots")).."]"
 
+form_armor = form_armor .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 3)
 form_armor = form_armor .. "list[current_player;armor;2.25,0.75;1,3;]"
 form_armor = form_armor .. "listring[current_player;armor]"
-form_armor = form_armor .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 3)
 
 function armor.get_formspec(name)
    local form = rp_formspec.get_page("rp_armor:armor", true)
