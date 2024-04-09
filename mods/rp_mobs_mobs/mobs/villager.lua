@@ -345,7 +345,7 @@ local get_profession = function(mob)
 	end
 end
 
-find_closest_horizontal_dir = function(pos)
+local find_closest_horizontal_dir = function(pos)
 	local modpos = table.copy(pos)
 	modpos.x = (modpos.x) % 1
 	modpos.z = (modpos.z) % 1
