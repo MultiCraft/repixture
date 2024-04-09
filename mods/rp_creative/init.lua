@@ -233,7 +233,6 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 		"container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"..
                 rp_formspec.get_itemslot_bg(0, 0, 7,4)..
 		"list[detached:creative_"..player_name..";main;0,0;7,4;"..tostring(start_i).."]"..
-		"style_type[label;font_size=*1.25]"..
 		"label[8.95,0.75;"..FS("@1/@2", pagenum, pagemax).."]"..
 
                 rp_formspec.image_button(8.75, 1.15, 1, 1, "creative_prev", "ui_icon_prev.png")..
