@@ -16,7 +16,7 @@ Use mod if you want to make use Repixture-specific features.
 
 ## Formspec version
 
-Formspec version 1 is used. Sorry. :-(
+Formspec version 7 is used.
 
 ## Recommended usage
 
@@ -353,6 +353,14 @@ A formspec string that contains the player inventory as well
 as its default position.
 Useful to create pages that want to include the player
 inventory.
+
+
+
+### `rp_formspec.default.version`
+
+A formspec string that contains the current `formspec_version[]`
+element used by `rp_formspec`.
+
 
 
 ### `rp_formspec.group_defaults`

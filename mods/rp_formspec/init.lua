@@ -71,7 +71,8 @@ local repixture_prepend =
 -- Legacy variable that used to contain a bgcolor[] but is no longer needed
 rp_formspec.default.bg = ""
 
-rp_formspec.default.version = "formspec_version[6]"
+-- Holds the formspec version
+rp_formspec.default.version = "formspec_version[7]"
 
 -- Must be included in every page after size[]
 rp_formspec.default.boilerplate = "no_prepend[]" .. repixture_prepend
