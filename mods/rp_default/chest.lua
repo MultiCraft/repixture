@@ -84,10 +84,12 @@ minetest.register_node(
       drop = "rp_default:chest",
 })
 
+local xstart = rp_formspec.default.start_point.x
+local ystart = rp_formspec.default.start_point.y
 local form_chest = rp_formspec.get_page("rp_formspec:2part")
-form_chest = form_chest .. "list[current_name;main;0.25,0.25;8,4;]"
+form_chest = form_chest .. rp_formspec.get_itemslot_bg(xstart, ystart, 8, 4)
+form_chest = form_chest .. "list[current_name;main;"..xstart..","..ystart..";8,4;]"
 form_chest = form_chest .. "listring[current_name;main]"
-form_chest = form_chest .. rp_formspec.get_itemslot_bg(0.25, 0.25, 8, 4)
 
 form_chest = form_chest .. rp_formspec.default.player_inventory
 form_chest = form_chest .. "listring[current_player;main]"
