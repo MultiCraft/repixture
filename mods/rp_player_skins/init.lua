@@ -254,17 +254,27 @@ local function get_formspec(playername)
 end
 
 local form = rp_formspec.get_page("rp_formspec:default")
-form = form .. "container[5.5,0.05]"
-form = form .. rp_formspec.button(0, 0, 3, 1, "player_skins_skin_select_headband_colors", S("Headband"))
-form = form .. rp_formspec.button(0, 1, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
-form = form .. rp_formspec.button(0, 2, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
-form = form .. rp_formspec.button(0, 3, 3, 1, "player_skins_skin_select_beards", S("Beard"))
-form = form .. rp_formspec.button(0, 4, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
-form = form .. rp_formspec.button(0, 5, 3, 1, "player_skins_skin_select_wristband_colors", S("Wristbands"))
-form = form .. rp_formspec.button(0, 6, 3, 1, "player_skins_skin_select_band_colors", S("Trousers"))
-form = form .. rp_formspec.button(0, 7, 3, 1, "player_skins_skin_select_skin_colors", S("Skin"))
-form = form .. rp_formspec.button(0, 8, 3, 1, "player_skins_skin_select_shoe_colors", S("Shoes"))
-form = form .. rp_formspec.button(0, 9, 3, 1, "player_skins_skin_select_random", S("Random"))
+
+-- Add buttons
+local buttons = {
+	{ 0.1, "headband_colors", S("Headband") },
+	{ 1.0, "hairs", S("Hair") },
+	{ 1.9, "eye_colors", S("Eyes") },
+	{ 2.8, "beards", S("Beard") },
+	{ 4.1, "cloth_colors", S("Shirt") },
+	{ 5.3, "wristband_colors", S("Wristbands") },
+	{ 6.3, "band_colors", S("Trousers") },
+	{ 7.25, "skin_colors", S("Skin") },
+	{ 8.2, "shoe_colors", S("Shoes") },
+	{ 9.1, "random", S("Random") },
+}
+form = form .. "container[5.5,0]"
+for b=1, #buttons do
+	local y = buttons[b][1]
+	local texture = buttons[b][2]
+	local label = buttons[b][3]
+	form = form .. rp_formspec.button(0, y, 3, 0.9, "player_skins_skin_select_"..texture, label)
+end
 form = form .. "container_end[]"
 
 rp_formspec.register_page("rp_player_skins:player_skins", form)
