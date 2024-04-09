@@ -38,12 +38,19 @@ form_armor = form_armor .. rp_formspec.default.player_inventory
 
 form_armor = form_armor .. "listring[current_player;main]"
 
-form_armor = form_armor .. "label[3.4,1.25;"..minetest.formspec_escape(S("Helmet")).."]"
-form_armor = form_armor .. "label[3.4,2.4;"..minetest.formspec_escape(S("Chestplate")).."]"
-form_armor = form_armor .. "label[3.4,3.55;"..minetest.formspec_escape(S("Boots")).."]"
+local startx = rp_formspec.default.start_point.x + 2.5
+local starty = rp_formspec.default.start_point.y + 0.6
+form_armor = form_armor .. "container["..startx..","..starty.."]"
 
-form_armor = form_armor .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 3)
-form_armor = form_armor .. "list[current_player;armor;2.25,0.75;1,3;]"
+form_armor = form_armor .. "label[1.25,0.5;"..minetest.formspec_escape(S("Helmet")).."]"
+form_armor = form_armor .. "label[1.25,1.65;"..minetest.formspec_escape(S("Chestplate")).."]"
+form_armor = form_armor .. "label[1.25,2.8;"..minetest.formspec_escape(S("Boots")).."]"
+
+form_armor = form_armor .. rp_formspec.get_itemslot_bg(0, 0, 1, 3)
+form_armor = form_armor .. "list[current_player;armor;0,0;1,3;]"
+
+form_armor = form_armor .. "container_end[]"
+
 form_armor = form_armor .. "listring[current_player;armor]"
 
 function armor.get_formspec(name)
