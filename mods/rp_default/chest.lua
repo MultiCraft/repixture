@@ -95,3 +95,14 @@ form_chest = form_chest .. rp_formspec.default.player_inventory
 form_chest = form_chest .. "listring[current_player;main]"
 rp_formspec.register_page("rp_default:chest", form_chest)
 
+minetest.register_lbm({
+	label = "Update chest formspec",
+	name = "rp_default:update_chest_formspec_3_14_0",
+	nodenames = { "rp_default:chest", "rp_default:chest_painted" },
+	action = function(pos, node)
+		local def = minetest.registered_nodes[node.name]
+		if def and def.on_construct then
+			def.on_construct(pos)
+		end
+	end,
+})

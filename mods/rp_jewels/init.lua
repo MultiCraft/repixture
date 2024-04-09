@@ -504,11 +504,13 @@ achievements.register_achievement(
 minetest.register_lbm(
    {
       label = "Update jeweler's workbench",
-      name = "rp_jewels:update_bench_3_0_1",
+      name = "rp_jewels:update_bench_3_14_0",
       nodenames = {"rp_jewels:bench"},
       action = function(pos, node)
-         local def = minetest.registered_nodes[node.name]
-         def.on_construct(pos)
+          local def = minetest.registered_nodes[node.name]
+          if def and def.on_construct then
+              def.on_construct(pos)
+          end
       end
    }
 )
