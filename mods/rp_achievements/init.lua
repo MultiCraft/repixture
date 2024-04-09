@@ -658,8 +658,9 @@ function achievements.get_formspec(name)
 
    local form = rp_formspec.get_page("rp_achievements:achievements", true)
 
+   form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
    form = form .. "set_focus[achievement_list]"
-   form = form .. "table[0.25,2.8;9.7,6.6;achievement_list;" .. achievement_list
+   form = form .. "table[0,2.8;9.75,6.4;achievement_list;" .. achievement_list
       .. ";" .. row .. "]"
 
    local aname = achievements.registered_achievements_list[row]
@@ -701,11 +702,11 @@ function achievements.get_formspec(name)
    end
 
 
-   form = form .. "label[0.4,9.75;"
+   form = form .. "label[0,9.5;"
       .. minetest.formspec_escape(progress_total)
       .. "]"
 
-   form = form .. "label[0.4,0.4;" .. minetest.formspec_escape(title) .. "]"
+   form = form .. "label[0,0.4;" .. minetest.formspec_escape(title) .. "]"
    form = form .. "label[8.5,0.4;" .. minetest.formspec_escape(progress) .. "]"
 
    form = form .. "textarea[3,0.6;5.25,2;;;" .. minetest.formspec_escape(description) .. "]"
@@ -735,10 +736,11 @@ function achievements.get_formspec(name)
    end
 
    if icon then
-      form = form .. "image[0.25,0.75;1.8,1.8;" .. minetest.formspec_escape(icon) .. "]"
+      form = form .. "image[0,0.75;1.8,1.8;" .. minetest.formspec_escape(icon) .. "]"
    elseif item_icon then
-      form = form .. "item_image[0.25,0.75;1.8,1.8;" .. minetest.formspec_escape(item_icon) .. "]"
+      form = form .. "item_image[0,0.75;1.8,1.8;" .. minetest.formspec_escape(item_icon) .. "]"
    end
+   form = form .. "container_end[]"
 
    return form
 end
