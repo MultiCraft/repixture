@@ -303,9 +303,6 @@ form = form .. "listring[current_player;main]"
 form = form .. "listring[current_player;craft_in]"
 form = form .. "listring[current_player;main]"
 
-form = form .. rp_formspec.button(8.75, 1.15, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
-form = form .. rp_formspec.button(8.75, 2.3, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
-
 form = form .. "container_end[]"
 
 form = form .. "tablecolumns[text,align=left,width=2;text,align=left,width=40]"
@@ -389,11 +386,13 @@ function crafting.get_formspec(name, select_craft_id)
 
    form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
    if craft_count > 0 then
+       -- Crafting list
        form = form .. "table[2.5,0;6,4.5;craft_list;" .. craft_list
           .. ";" .. row .. "]"
    end
 
    if selected_craftdef ~= nil then
+      -- Crafting input slots
       for i=1, crafting.MAX_INPUTS do
          local y = (i-1) * (1 + rp_formspec.default.list_spacing.y)
          if selected_craftdef.items[i] ~= nil then
@@ -401,12 +400,19 @@ function crafting.get_formspec(name, select_craft_id)
                1.25, y, selected_craftdef.items[i], "craftex_in_"..i)
          end
       end
+      -- Crafting buttons and output preview
       if selected_craftdef.output ~= nil then
          form = form .. rp_formspec.fake_itemstack_any(
             8.75, 0, selected_craftdef.output, "craftex_out")
+
+         -- Show crafting buttons only if something is selected
+         form = form .. rp_formspec.button(8.75, 1.15, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
+         form = form .. rp_formspec.button(8.75, 2.3, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
       end
    end
+   form = form .. "container_end[]"
 
+   -- Crafting guide button
    local guide_icon, guide_tip
    if userdata[name] and userdata[name].mode == MODE_GUIDE then
       guide_icon = "ui_icon_craftingguide_active.png"
@@ -415,7 +421,6 @@ function crafting.get_formspec(name, select_craft_id)
       guide_icon = "ui_icon_craftingguide.png"
       guide_tip = S("Show all recipes")
    end
-   form = form .. "container_end[]"
    form = form .. rp_formspec.tab(rp_formspec.default.size.x, 0.5, "toggle_filter", guide_icon, guide_tip, "right")
 
    return form
