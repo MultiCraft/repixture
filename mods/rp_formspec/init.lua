@@ -270,7 +270,7 @@ function rp_formspec.fake_itemstack(x, y, itemstack)
       result = result .. "item_image["..x..","..y..";1,1;"
          ..minetest.formspec_escape(itemstring).."]"
 
-      result = result .. "tooltip["..x..","..y..";0.8,0.8;"..minetest.formspec_escape(itemdesc).."]"
+      result = result .. "tooltip["..x..","..y..";1,1;"..minetest.formspec_escape(itemdesc).."]"
    end
 
    return result
