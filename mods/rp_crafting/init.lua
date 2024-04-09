@@ -303,8 +303,8 @@ form = form .. "listring[current_player;main]"
 form = form .. "listring[current_player;craft_in]"
 form = form .. "listring[current_player;main]"
 
-form = form .. rp_formspec.button(8.75, 1.40, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
-form = form .. rp_formspec.button(8.75, 2.55, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
+form = form .. rp_formspec.button(8.75, 1.15, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
+form = form .. rp_formspec.button(8.75, 2.3, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
 
 form = form .. "container_end[]"
 
