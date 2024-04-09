@@ -659,7 +659,7 @@ function achievements.get_formspec(name)
    local form = rp_formspec.get_page("rp_achievements:achievements", true)
 
    form = form .. "set_focus[achievement_list]"
-   form = form .. "table[0.25,2.5;7.9,5.5;achievement_list;" .. achievement_list
+   form = form .. "table[0.25,2.8;9.7,6.6;achievement_list;" .. achievement_list
       .. ";" .. row .. "]"
 
    local aname = achievements.registered_achievements_list[row]
@@ -701,14 +701,14 @@ function achievements.get_formspec(name)
    end
 
 
-   form = form .. "label[0.25,8.15;"
+   form = form .. "label[0.4,9.75;"
       .. minetest.formspec_escape(progress_total)
       .. "]"
 
-   form = form .. "label[0.25,0.25;" .. minetest.formspec_escape(title) .. "]"
-   form = form .. "label[7.25,0.25;" .. minetest.formspec_escape(progress) .. "]"
+   form = form .. "label[0.4,0.4;" .. minetest.formspec_escape(title) .. "]"
+   form = form .. "label[8.5,0.4;" .. minetest.formspec_escape(progress) .. "]"
 
-   form = form .. "textarea[2.5,0.75;5.75,2;;;" .. minetest.formspec_escape(description) .. "]"
+   form = form .. "textarea[3,0.6;5.25,2;;;" .. minetest.formspec_escape(description) .. "]"
 
    local icon, item_icon
    if not gotten then
