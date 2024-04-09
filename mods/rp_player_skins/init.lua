@@ -254,16 +254,18 @@ local function get_formspec(playername)
 end
 
 local form = rp_formspec.get_page("rp_formspec:default")
-form = form .. rp_formspec.button(5.3, 0, 3, 1, "player_skins_skin_select_headband_colors", S("Headband"))
-form = form .. rp_formspec.button(5.3, 1, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
-form = form .. rp_formspec.button(5.3, 2, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
-form = form .. rp_formspec.button(5.3, 3, 3, 1, "player_skins_skin_select_beards", S("Beard"))
-form = form .. rp_formspec.button(5.3, 4, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
-form = form .. rp_formspec.button(5.3, 5, 3, 1, "player_skins_skin_select_wristband_colors", S("Wristbands"))
-form = form .. rp_formspec.button(5.3, 6, 3, 1, "player_skins_skin_select_band_colors", S("Trousers"))
-form = form .. rp_formspec.button(5.3, 7, 3, 1, "player_skins_skin_select_skin_colors", S("Skin"))
-form = form .. rp_formspec.button(5.3, 8, 3, 1, "player_skins_skin_select_shoe_colors", S("Shoes"))
-form = form .. rp_formspec.button(5.3, 9, 3, 1, "player_skins_skin_select_random", S("Random"))
+form = form .. "container[5.5,0.05]"
+form = form .. rp_formspec.button(0, 0, 3, 1, "player_skins_skin_select_headband_colors", S("Headband"))
+form = form .. rp_formspec.button(0, 1, 3, 1, "player_skins_skin_select_eye_colors", S("Eyes"))
+form = form .. rp_formspec.button(0, 2, 3, 1, "player_skins_skin_select_hairs", S("Hair"))
+form = form .. rp_formspec.button(0, 3, 3, 1, "player_skins_skin_select_beards", S("Beard"))
+form = form .. rp_formspec.button(0, 4, 3, 1, "player_skins_skin_select_cloth_colors", S("Shirt"))
+form = form .. rp_formspec.button(0, 5, 3, 1, "player_skins_skin_select_wristband_colors", S("Wristbands"))
+form = form .. rp_formspec.button(0, 6, 3, 1, "player_skins_skin_select_band_colors", S("Trousers"))
+form = form .. rp_formspec.button(0, 7, 3, 1, "player_skins_skin_select_skin_colors", S("Skin"))
+form = form .. rp_formspec.button(0, 8, 3, 1, "player_skins_skin_select_shoe_colors", S("Shoes"))
+form = form .. rp_formspec.button(0, 9, 3, 1, "player_skins_skin_select_random", S("Random"))
+form = form .. "container_end[]"
 
 rp_formspec.register_page("rp_player_skins:player_skins", form)
 rp_formspec.register_invpage("rp_player_skins:player_skins", {get_formspec = get_formspec})
