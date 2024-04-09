@@ -138,7 +138,7 @@ local function talk_about_item(profession, iname, name)
 	elseif minetest.get_item_group(iname, "is_armor") == 1 then
 		say(S("If you equip a full set of armor made from the same material, you'll get a protection bonus."), name)
 	elseif iname == "rp_default:bookshelf" then
-		say(S("You can put anything inside a bookshelf, not just books.", name))
+		say(S("You can put anything inside a bookshelf, not just books."), name)
 	elseif iname == "rp_default:fertilizer" then
 		if profession == "farmer" then
 			say(S("This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."), name)
@@ -187,7 +187,7 @@ local function talk_about_item(profession, iname, name)
 			say(S("Every kid knows seeds need soil, water and sunlight."), name)
 		end
 	elseif iname == "rp_farming:cotton" then
-		say(S("This can be used to make cotton bales.", name))
+		say(S("This can be used to make cotton bales."), name)
 	elseif iname == "rp_default:book" then
 		say(S("A truly epic story!"), name)
 	elseif iname == "rp_default:pearl" then
@@ -290,9 +290,9 @@ local function talk_about_item(profession, iname, name)
 		if profession == "farmer" then
 			say(S("If you fertilize the ground, an alga will grow higher."), name)
 		elseif profession == "tavernkeeper" then
-			say(S("The tallest algae always grow on alga blocks.", name))
+			say(S("The tallest algae always grow on alga blocks."), name)
 		elseif profession == "carpenter" then
-			say(S("If an alga tries to grow but something blocks its path, it'll stop growing, even if the barrier is removed later.", name))
+			say(S("If an alga tries to grow but something blocks its path, it'll stop growing, even if the barrier is removed later."), name)
 		else
 			say(S("Algae grow underwater in different heights."), name)
 		end
