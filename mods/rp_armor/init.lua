@@ -4,6 +4,8 @@
 
 local S = minetest.get_translator("rp_armor")
 
+local mod_player_skins = minetest.get_modpath("rp_player_skins") ~= nil
+
 -- Gain for equip/unequip sounds
 local SOUND_GAIN = 0.4
 
@@ -54,7 +56,24 @@ form_armor = form_armor .. "container_end[]"
 form_armor = form_armor .. "listring[current_player;armor]"
 
 function armor.get_formspec(name)
+   -- Base page
    local form = rp_formspec.get_page("rp_armor:armor", true)
+
+   -- Player model with armor
+   if form then
+      local player = minetest.get_player_by_name(name)
+      if player then
+         local base_skin = armor.get_base_skin(player)
+         if base_skin then
+            local full_skin = armor_local.get_texture(player, base_skin)
+            if full_skin then
+               local x = rp_formspec.default.start_point.x
+               local y = rp_formspec.default.start_point.y + 0.25
+               form = form .. "model["..x..","..y..";2,4;player_skins_skin_select_model;character.b3d;"..full_skin..";0,180;false;false;0,0]"
+            end
+         end
+      end
+   end
    return form
 end
 
@@ -191,6 +210,7 @@ function armor.update(player)
    if image ~= rp_player.player_get_textures(player)[1] then
       rp_player.player_set_textures(player, {image})
    end
+   rp_formspec.refresh_invpage(player, "rp_armor:armor")
 end
 
 -- Armor reduces player damage taken from nodes
