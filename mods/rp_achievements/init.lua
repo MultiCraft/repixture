@@ -764,25 +764,16 @@ function achievements.get_completion_status(player, aname)
 end
 
 local function receive_fields(player, form_name, fields)
-   local name = player:get_player_name()
+   local invpage = rp_formspec.get_current_invpage(player)
+   if not (form_name == "" and invpage == "rp_achievements:achievements") then
+      return
+   end
 
-   local in_achievements_menu = false
-   if form_name == "rp_achievements:achievements" then
-      in_achievements_menu = true
-   elseif form_name ~= "" then
-      return
-   end
-   if fields.quit then
-      return
-   end
+   local name = player:get_player_name()
 
    local selected = 1
 
-   if fields.tab_achievements then
-      in_achievements_menu = true
-   end
    if fields.achievement_list then
-      in_achievements_menu = true
       local selection = minetest.explode_table_event(fields.achievement_list)
 
       if selection.type == "CHG" or selection.type == "DCL" then
@@ -791,9 +782,6 @@ local function receive_fields(player, form_name, fields)
       elseif selection.type == "INV" then
 	 selected_row[name] = nil
       end
-
-   end
-   if in_achievements_menu then
       rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
    end
 end

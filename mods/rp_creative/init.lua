@@ -308,6 +308,10 @@ minetest.register_on_leaveplayer(function(player)
 end)
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
+        local invpage = rp_formspec.get_current_invpage(player)
+        if not (formname == "" and invpage == "rp_creative:creative") then
+           return
+        end
 	if not minetest.is_creative_enabled(player:get_player_name()) then
 		return
 	end

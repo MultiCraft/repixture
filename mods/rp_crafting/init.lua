@@ -293,8 +293,6 @@ end
 
 local form = rp_formspec.get_page("rp_formspec:2part")
 
-form = form .. "field[-1,-1;0,0;crafting_tracker;;]"
-
 form = form .. rp_formspec.default.player_inventory
 
 form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
@@ -472,12 +470,13 @@ end
 local function on_player_receive_fields(player, form_name, fields)
    local inv = player:get_inventory()
 
-   if fields.quit then
-      clear_craft_slots(player)
+   local invpage = rp_formspec.get_current_invpage(player)
+   if not (form_name == "" and invpage == "rp_crafting:crafting") then
       return
    end
 
-   if fields.crafting_tracker == nil then
+   if fields.quit then
+      clear_craft_slots(player)
       return
    end
 

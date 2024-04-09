@@ -273,6 +273,10 @@ rp_formspec.register_invtab("rp_player_skins:player_skins", {
 })
 
 minetest.register_on_player_receive_fields(function(player, form_name, fields)
+        local invpage = rp_formspec.get_current_invpage(player)
+        if not (form_name == "" and invpage == "rp_player_skins:player_skins") then
+           return
+        end
 	local name = player:get_player_name()
 	local changed = false
 	if fields.player_skins_skin_select_random then
