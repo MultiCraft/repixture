@@ -44,7 +44,7 @@ local function get_bookshelf_formspec(pos)
    local inv = meta:get_inventory()
    for i=1,8 do
       if inv:get_stack("main", i):get_name() == "rp_default:book" then
-         local xoff = i-1
+         local xoff = (i-1) * 1.25
          form = form .. rp_formspec.image_button(0.25+xoff, 3.15, 1, 1, "open_"..i, "ui_icon_view.png", S("Read book"))
       end
    end
