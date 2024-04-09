@@ -399,7 +399,7 @@ end
 
 local form_default = ""
 form_default = form_default .. rp_formspec.default.version
-form_default = form_default .. "size[10.25,10]"
+form_default = form_default .. "size[10.25,10.25]"
 form_default = form_default .. rp_formspec.default.boilerplate
 form_default = form_default .. "background[0,0;10.25,10.25;ui_formspec_bg_tall.png]"
 local form_2part = form_default .. "background[0,0;10.25,5.125;ui_formspec_bg_short.png]"
