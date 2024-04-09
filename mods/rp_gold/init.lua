@@ -44,8 +44,10 @@ gold.trades = {}
 
 gold.trade_names = {}
 
-local TRADE_FORMSPEC_OFFSET_X = 4
-local TRADE_FORMSPEC_OFFSET_Y = 1.0
+local TRADE_FORMSPEC_START_X = rp_formspec.default.start_point.x
+local TRADE_FORMSPEC_START_Y = rp_formspec.default.start_point.y
+local TRADE_FORMSPEC_OFFSET_X = 5
+local TRADE_FORMSPEC_OFFSET_Y = 0.8
 
 if minetest.get_modpath("rp_mobs") ~= nil then
    gold.trades["farmer"] = {
@@ -220,22 +222,24 @@ form_trading = form_trading .. rp_formspec.get_page("rp_formspec:2part")
 
 form_trading = form_trading .. rp_formspec.default.player_inventory
 
+form_trading = form_trading .. "container["..TRADE_FORMSPEC_START_X..","..TRADE_FORMSPEC_START_Y.."]"
 form_trading = form_trading .. "container["..TRADE_FORMSPEC_OFFSET_X..","..TRADE_FORMSPEC_OFFSET_Y.."]"
-form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(5, 1.25, 1, 1)
-form_trading = form_trading .. "list[current_player;gold_trade_out;5,1.25;1,1;]"
+form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(3.75, 1.25, 1, 1)
+form_trading = form_trading .. "list[current_player;gold_trade_out;3.75,1.25;1,1;]"
 
-form_trading = form_trading .. rp_formspec.get_itemslot_bg(1.25, 1.25, 2, 1)
-form_trading = form_trading .. "list[current_player;gold_trade_in;1.25,1.25;2,1;]"
+form_trading = form_trading .. rp_formspec.get_itemslot_bg(0, 1.25, 2, 1)
+form_trading = form_trading .. "list[current_player;gold_trade_in;0,1.25;2,1;]"
 
 form_trading = form_trading .. "listring[current_player;main]"
 form_trading = form_trading .. "listring[current_player;gold_trade_in]"
 form_trading = form_trading .. "listring[current_player;main]"
 form_trading = form_trading .. "listring[current_player;gold_trade_out]"
 
-form_trading = form_trading .. "image[3.75,0;1,1;ui_arrow_bg.png^[transformR270]"
-form_trading = form_trading .. "image[3.75,1.25;1,1;ui_arrow.png^[transformR270]"
+form_trading = form_trading .. "image[2.5,0;1,1;ui_arrow_bg.png^[transformR270]"
+form_trading = form_trading .. "image[2.5,1.25;1,1;ui_arrow.png^[transformR270]"
 
-form_trading = form_trading .. rp_formspec.button(1.25, 2.5, 2, 1, "trade", S("Trade"))
+form_trading = form_trading .. rp_formspec.button(0.15, 2.5, 2, 1, "trade", S("Trade"))
+form_trading = form_trading .. "container_end[]"
 form_trading = form_trading .. "container_end[]"
 
 rp_formspec.register_page("rp_gold:trading_book", form_trading)
@@ -285,7 +289,8 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
 
    local form = rp_formspec.get_page("rp_gold:trading_book")
-   form = form .. "label[0.3,0.6;"..minetest.formspec_escape(label).."]"
+   form = form .. "container["..TRADE_FORMSPEC_START_X..","..TRADE_FORMSPEC_START_Y.."]"
+   form = form .. "label[0,"..(TRADE_FORMSPEC_OFFSET_Y-0.5)..";"..minetest.formspec_escape(label).."]"
 
    local trades_listed = {}
    local print_item = function(itemstring)
@@ -323,7 +328,7 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    end
    local trades_listed_str = table.concat(trades_listed, ",")
    form = form .. "tablecolumns[text]"
-   form = form .. "table[0.3,"..TRADE_FORMSPEC_OFFSET_Y..";4.75,3.5;tradelist;"..trades_listed_str..";"..trade_index.."]"
+   form = form .. "table[0,"..TRADE_FORMSPEC_OFFSET_Y..";4.75,3.5;tradelist;"..trades_listed_str..";"..trade_index.."]"
 
    form = form .. "container["..TRADE_FORMSPEC_OFFSET_X..","..TRADE_FORMSPEC_OFFSET_Y.."]"
    if is_repair_trade(trade) then
@@ -331,9 +336,10 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
       -- repair trades is more obvious
       trade_wanted2:set_wear(58982) -- ca. 90% wear
    end
-   form = form .. rp_formspec.fake_itemstack(1.25, 0, trade_wanted1)
-   form = form .. rp_formspec.fake_itemstack(2.5, 0, trade_wanted2)
-   form = form .. rp_formspec.fake_itemstack(5, 0, ItemStack(trade[3]))
+   form = form .. rp_formspec.fake_itemstack(0, 0, trade_wanted1)
+   form = form .. rp_formspec.fake_itemstack(1.25, 0, trade_wanted2)
+   form = form .. rp_formspec.fake_itemstack(3.75, 0, ItemStack(trade[3]))
+   form = form .. "container_end[]"
    form = form .. "container_end[]"
 
    minetest.show_formspec(name, "rp_gold:trading_book", form)
