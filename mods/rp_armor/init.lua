@@ -4,6 +4,7 @@
 
 local S = minetest.get_translator("rp_armor")
 local FS = function(...) return minetest.formspec_escape(S(...)) end
+local NS = function(s) return s end
 
 local mod_player_skins = minetest.get_modpath("rp_player_skins") ~= nil
 
@@ -32,6 +33,8 @@ armor.materials = {
 -- Usable slots
 
 armor.slots = {"helmet", "chestplate", "boots"}
+armor.slot_names = {S("Helmet"), S("Chestplate"), S("Boots")}
+
 
 -- Formspec
 
@@ -45,11 +48,14 @@ local startx = rp_formspec.default.start_point.x + 2.5
 local starty = rp_formspec.default.start_point.y + 0.6
 form_armor = form_armor .. "container["..startx..","..starty.."]"
 
-form_armor = form_armor .. "label[1.25,0.5;"..minetest.formspec_escape(S("Helmet")).."]"
-form_armor = form_armor .. "label[1.25,1.65;"..minetest.formspec_escape(S("Chestplate")).."]"
-form_armor = form_armor .. "label[1.25,2.8;"..minetest.formspec_escape(S("Boots")).."]"
-
+-- Armor slots
 form_armor = form_armor .. rp_formspec.get_itemslot_bg(0, 0, 1, 3)
+local slot_y = 0
+for a=1, #armor.slot_names do
+	-- Armor slot tooltips
+	form_armor = form_armor .. "tooltip[0,"..slot_y..";1,1;"..minetest.formspec_escape(armor.slot_names[a]).."]"
+	slot_y = slot_y + 1 + rp_formspec.default.list_spacing.y
+end
 form_armor = form_armor .. "list[current_player;armor;0,0;1,3;]"
 
 form_armor = form_armor .. "container_end[]"
@@ -58,6 +64,9 @@ form_armor = form_armor .. "listring[current_player;armor]"
 
 function armor.get_formspec(name)
    local player = minetest.get_player_by_name(name)
+   if not player then
+      return ""
+   end
 
    -- Base page
    local form = rp_formspec.get_page("rp_armor:armor", true)
@@ -77,10 +86,23 @@ function armor.get_formspec(name)
       end
    end
 
-   -- Armor percentage
-   local armor_full, armor_base, armor_bonus = armor.get_armor_protection(player)
+   -- Show armor icons in empty slots
+   local inv = player:get_inventory()
+   form = form .. "container["..startx..","..starty.."]"
+   local slot_y = 0
+   for a=1, #armor.slots do
+      local itemstack = inv:get_stack("armor", a)
+      if itemstack:is_empty() then
+         form = form .. "image[0,"..slot_y..";1,1;armor_"..armor.slots[a].."_slot.png]"
+      end
+      slot_y = slot_y + 1 + rp_formspec.default.list_spacing.y
+   end
+   form = form .. "container_end[]"
+
    local x = rp_formspec.default.start_point.x
    local y = rp_formspec.default.start_point.y
+   -- Armor percentage
+   local armor_full, armor_base, armor_bonus = armor.get_armor_protection(player)
    form = form .. "image["..(x+6.25)..","..(y+1.75)..";1,1;rp_armor_icon_protection.png]"
    form = form .. "tooltip["..(x+6.25)..","..(y+1.75)..";1,1;"..FS("Protection").."]"
    form = form .. "style_type[label;font_size=*1.75]"

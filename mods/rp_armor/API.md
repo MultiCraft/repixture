@@ -79,6 +79,10 @@ Returns `<full>, <base>, <bonus>`, where:
 
 ### `armor.slots`
 
-A list which contains the available armor slot names, starting with the first one.
-The first name correspons to the first inventory list slot, the second name to the
+A list which contains the available armor slot identifiers, starting with the first one.
+The first identifier correspons to the first inventory list slot, the second name to the
 second slot, etc.
+
+### `armor.slot_names`
+
+A list of human-readable armor slot names, in the same order as `armor.slots`.
