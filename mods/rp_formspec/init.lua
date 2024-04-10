@@ -335,36 +335,11 @@ end
 rp_formspec.registered_invtabs = {}
 local registered_invtabs_order = {}
 
-local invtabs_cached
-local invtabs_cached_needs_update = true
-
 -- Register an inventory tab
 function rp_formspec.register_invtab(name, def)
    local rdef = table.copy(def)
    rp_formspec.registered_invtabs[name] = def
    table.insert(registered_invtabs_order, name)
-   invtabs_cached_needs_update = true
-end
-
--- Returns a formspec string for all the inventory tabs
-local function get_invtabs()
-   if not invtabs_cached_needs_update then
-      return invtabs_cached
-   end
-   local form = ""
-   local tabx = -1
-   local taby = 0.5
-   local tabplus = 0.9
-   for o=1, #registered_invtabs_order do
-      local tabname = registered_invtabs_order[o]
-      local def = rp_formspec.registered_invtabs[tabname]
-      if def then
-         form = form .. rp_formspec.tab(tabx, taby, "_rp_formspec_tab_"..tabname, def.icon, def.tooltip)
-         taby = taby + tabplus
-      end
-   end
-   invtabs_cached = form
-   return form
 end
 
 function rp_formspec.set_invtab_order(order)
@@ -382,15 +357,13 @@ end
 
 -- Pages
 
-function rp_formspec.get_page(name, with_invtabs)
+-- Note: Argument 2 was 'show_invtabs' but has been removed
+function rp_formspec.get_page(name)
    local page = rp_formspec.registered_pages[name]
 
    if page == nil then
       minetest.log("warning", "[rp_formspec] UI page '" .. name .. "' is not yet registered")
       return ""
-   end
-   if with_invtabs then
-      page = page .. get_invtabs()
    end
 
    return page
@@ -404,10 +377,10 @@ end
 
 local form_default = ""
 form_default = form_default .. rp_formspec.default.version
-form_default = form_default .. "size[10.75,10.25]"
+form_default = form_default .. "size["..rp_formspec.default.size.x..","..rp_formspec.default.size.y.."]"
 form_default = form_default .. rp_formspec.default.boilerplate
-form_default = form_default .. "background[0,0;10.75,10.25;ui_formspec_bg_tall.png]"
-local form_2part = form_default .. "background[0,0;10.75,5.125;ui_formspec_bg_short.png]"
+form_default = form_default .. "background[0,0;"..rp_formspec.default.size.x..","..rp_formspec.default.size.y..";ui_formspec_bg_tall.png]"
+local form_2part = form_default .. "background[0,0;"..rp_formspec.default.size.x..","..(rp_formspec.default.size.y/2)..";ui_formspec_bg_short.png]"
 
 
 -- 1-part frame
@@ -456,6 +429,32 @@ function rp_formspec.register_invpage(name, def)
    rp_formspec.registered_invpages[name] = def
 end
 
+-- Returns a formspec string for all the inventory tabs,
+-- already correctly positioned (assuming the default
+-- formspec size)
+-- * highlight: Name of invtab to highlight
+local function get_invtabs(highlight)
+   local form = ""
+   local tabx = -1
+   local taby = 0.5
+   local tabplus = 0.9
+   for o=1, #registered_invtabs_order do
+      local tabname = registered_invtabs_order[o]
+      local def = rp_formspec.registered_invtabs[tabname]
+      if def then
+         local icon
+         if highlight == tabname and def.icon_active then
+            icon = def.icon_active
+         else
+            icon = def.icon
+         end
+         form = form .. rp_formspec.tab(tabx, taby, "_rp_formspec_tab_"..tabname, icon, def.tooltip)
+         taby = taby + tabplus
+      end
+   end
+   return form
+end
+
 function rp_formspec.set_current_invpage(player, page)
     local def = rp_formspec.registered_invpages[page]
     local pname = player:get_player_name()
@@ -465,6 +464,7 @@ function rp_formspec.set_current_invpage(player, page)
     else
        formspec = rp_formspec.registered_pages[page]
     end
+    formspec = formspec .. get_invtabs(page)
     player:set_inventory_formspec(formspec)
     current_invpage[pname] = page
 end
@@ -483,7 +483,7 @@ end
 
 rp_formspec.register_invpage("rp_formspec:inventory", {
 	get_formspec = function(pname)
-		return rp_formspec.get_page("rp_formspec:inventory", true)
+		return rp_formspec.get_page("rp_formspec:inventory")
 	end,
 })
 

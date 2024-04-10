@@ -282,7 +282,7 @@ creative.get_formspec = function(playername)
 	end
 	local player = minetest.get_player_by_name(playername)
 	if player then
-                local form = rp_formspec.get_page("rp_creative:creative", true)
+                local form = rp_formspec.get_page("rp_creative:creative")
 		local page, start_i = get_page_and_start_i(playername)
 		form = form .. creative.get_creative_formspec(player, start_i, page)
 		return form
@@ -303,6 +303,7 @@ rp_formspec.register_invpage("rp_creative:creative", {
 if minetest.is_creative_enabled("") then
 	rp_formspec.register_invtab("rp_creative:creative", {
 		icon = "ui_icon_creative.png",
+		icon_active = "ui_icon_creative_active.png",
 		tooltip = S("Creative Inventory"),
 	})
 end

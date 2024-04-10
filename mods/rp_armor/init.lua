@@ -63,7 +63,7 @@ function armor.get_formspec(name)
    end
 
    -- Base page
-   local form = rp_formspec.get_page("rp_armor:armor", true)
+   local form = rp_formspec.get_page("rp_armor:armor")
 
    -- Player model with armor
    if form then
@@ -119,6 +119,7 @@ rp_formspec.register_invpage("rp_armor:armor", {
 
 rp_formspec.register_invtab("rp_armor:armor", {
    icon = "ui_icon_armor.png",
+   icon_active = "ui_icon_armor_active.png",
    tooltip = S("Armor"),
 })
 

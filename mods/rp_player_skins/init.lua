@@ -245,7 +245,7 @@ minetest.register_on_joinplayer(on_joinplayer)
 minetest.register_on_leaveplayer(on_leaveplayer)
 
 local function get_formspec(playername)
-	local form = rp_formspec.get_page("rp_player_skins:player_skins", true)
+	local form = rp_formspec.get_page("rp_player_skins:player_skins")
 	local skin = player_skins.skins[playername]
 	if skin then
 		form = form .. "model[0.5,0.2;4.35,9.7;player_skins_skin_select_model;character.b3d;"..player_skins.skins[playername]..";0,180;false;false;0,0]"
@@ -281,6 +281,7 @@ rp_formspec.register_page("rp_player_skins:player_skins", form)
 rp_formspec.register_invpage("rp_player_skins:player_skins", {get_formspec = get_formspec})
 rp_formspec.register_invtab("rp_player_skins:player_skins", {
 	icon = "ui_icon_player_skins.png",
+	icon_active = "ui_icon_player_skins_active.png",
 	tooltip = S("Player Skins"),
 })
 

@@ -606,6 +606,7 @@ rp_formspec.register_page("rp_achievements:achievements", form)
 
 rp_formspec.register_invtab("rp_achievements:achievements", {
    icon = "ui_icon_achievements.png",
+   icon_active = "ui_icon_achievements_active.png",
    tooltip = S("Achievements"),
 })
 
@@ -656,7 +657,7 @@ function achievements.get_formspec(name)
       achievement_list = achievement_list .. minetest.formspec_escape(def.description)
    end
 
-   local form = rp_formspec.get_page("rp_achievements:achievements", true)
+   local form = rp_formspec.get_page("rp_achievements:achievements")
 
    form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
    form = form .. "set_focus[achievement_list]"

@@ -382,7 +382,7 @@ function crafting.get_formspec(name, select_craft_id)
       end
    end
 
-   local form = rp_formspec.get_page("rp_crafting:crafting", true)
+   local form = rp_formspec.get_page("rp_crafting:crafting")
 
    form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
    if craft_count > 0 then
@@ -439,6 +439,7 @@ rp_formspec.register_invpage("rp_crafting:crafting", {
 
 rp_formspec.register_invtab("rp_crafting:crafting", {
    icon = "ui_icon_crafting.png",
+   icon_active = "ui_icon_crafting_active.png",
    tooltip = S("Crafting"),
 })
 
@@ -468,7 +469,7 @@ local function clear_craft_slots(player)
    end
 
    if items_moved then
-       player:set_inventory_formspec(crafting.get_formspec(player:get_player_name()))
+       rp_formspec.refresh_invpage(player, "rp_crafting:crafting")
    end
 end
 
@@ -574,13 +575,11 @@ local function on_player_receive_fields(player, form_name, fields)
       end
    end
 
-   player:set_inventory_formspec(crafting.get_formspec(name))
+   rp_formspec.refresh_invpage(player, "rp_crafting:crafting")
 end
 
-function crafting.update_crafting_formspec(player, old_craft_id)
-   local name = player:get_player_name()
-   local newform = crafting.get_formspec(name, old_craft_id)
-   player:set_inventory_formspec(newform)
+function crafting.update_crafting_formspec(player)
+   rp_formspec.refresh_invpage(player, "rp_crafting:crafting")
 end
 
 minetest.register_on_player_inventory_action(function(player, action, inventory, inventory_info)

@@ -64,18 +64,12 @@ Registers a page with the identifier `name` and formspec string `form`.
 * Contains `rp_formspec.default.boilerplate` right after `size[]`
 
 
-### `rp_formspec.get_page(name, with_invtabs)`
+### `rp_formspec.get_page(name)`
 
 Returns the formspec string of the page by name `name`.
 If the page does not exist, `""` is returned.
 
 * `name`: Identifier
-* `with_invtabs`: (optional) If true, invtabs (see below) will be attached to the page (default: false)
-  This works for the built-in pages `rp_formspec_default` and
-  `rp_formspec:2part`. Other pages are only guaranteed to work if they have
-  the exact same size as these.
-
-
 
 ### `rp_formspec.registered_pages`
 
@@ -157,6 +151,7 @@ Registers an invtab and associates it with an invpage.
 * `name`: Identifier for the invtab/invpage
 * `def`: Definition table with these fields:
     * `icon`: Tab icon
+    * `icon_active`: (optional) Tab icon when tab is active (default: same as `icon`)
     * `tooltip`: Tooltip when hovering the tab
 
 Note: It is allowed to register an invpage without an invtab.
