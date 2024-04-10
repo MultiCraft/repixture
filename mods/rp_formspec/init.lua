@@ -103,29 +103,41 @@ rp_formspec.group_names = {
 
 -- Itemslot backgrounds
 
-function rp_formspec.get_itemslot_bg(x, y, w, h)
+local function get_itemslot_bg_raw(slot_type, x, y, w, h, count)
+   if count == 0 then
+      return ""
+   end
+   local tex
+   if slot_type == "normal" then
+      tex = "ui_itemslot.png"
+   elseif slot_type == "dark" then
+      tex = "ui_itemslot.png^ui_itemslot_dark.png"
+   else
+      minetest.log("error", "[rp_formspec] get_itemslot_bg_raw called with invalid slot_type!")
+      return ""
+   end
+   local slots = 0
    local out = ""
-   for i = 0, w - 1, 1 do
-      local ii = i * rp_formspec.default.list_spacing.x
-      for j = 0, h - 1, 1 do
-         local jj = j * rp_formspec.default.list_spacing.y
-	 out = out .."image["..x+i+ii..","..y+j+jj..";1,1;ui_itemslot.png]"
+   for i = 0, h - 1, 1 do
+      local ii = i * rp_formspec.default.list_spacing.y
+      for j = 0, w - 1, 1 do
+         local jj = j * rp_formspec.default.list_spacing.x
+	 out = out .."image["..x+j+jj..","..y+i+ii..";1,1;"..tex.."]"
+         slots = slots + 1
+         if count and slots >= count then
+            return out
+         end
       end
    end
    return out
 end
 
-function rp_formspec.get_hotbar_itemslot_bg(x, y, w, h)
-   local out = ""
-   for i = 0, w - 1, 1 do
-      local ii = i * rp_formspec.default.list_spacing.x
-      for j = 0, h - 1, 1 do
-         local jj = j * rp_formspec.default.list_spacing.y
-	 out = out .."image["..x+i+ii..","..y+j+jj
-            ..";1,1;ui_itemslot.png^ui_itemslot_dark.png]"
-      end
-   end
-   return out
+function rp_formspec.get_itemslot_bg(x, y, w, h, count)
+   return get_itemslot_bg_raw("normal", x, y, w, h, count)
+end
+
+function rp_formspec.get_hotbar_itemslot_bg(x, y, w, h, count)
+   return get_itemslot_bg_raw("dark", x, y, w, h, count)
 end
 
 rp_formspec.get_output_itemslot_bg = rp_formspec.get_hotbar_itemslot_bg

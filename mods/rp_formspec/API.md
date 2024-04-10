@@ -215,7 +215,7 @@ Some rules:
 * For item images, use one of the item functions.
 * “tabs” attach to the left and right side.
 
-### `rp_formspec.get_itemslot_bg(x, y, w, h)`
+### `rp_formspec.get_itemslot_bg(x, y, w, h, count)`
 
 Adds a 2D grid of background images for the background of
 “normal” item slots. This needs to be used in combination
@@ -225,6 +225,7 @@ add the item slot images.
 * `x`, `y`: Top left position of the grid
 * `w`: Width of the grid, number of slots horizontally
 * `h`: Height of the grid; number of slots vertically
+* `count`: (optional) Limit the number of slots by `count`
 
 Use the same position and size as the `list[]` element.
 Add this *after* the corresponding `list[]` element
