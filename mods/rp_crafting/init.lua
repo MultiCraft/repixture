@@ -307,11 +307,14 @@ form = form .. "container_end[]"
 
 form = form .. "tablecolumns[text,align=left,width=2;text,align=left,width=40]"
 
-function crafting.get_formspec(name, select_craft_id)
+function crafting.get_formspec(name)
    local row = 1
+   local select_craft_id
 
    if userdata[name] ~= nil then
       row = userdata[name].row
+      select_craft_id = userdata[name].old_craft_id
+      userdata[name].old_craft_id = nil
    end
 
    local inv = minetest.get_player_by_name(name):get_inventory()
@@ -570,6 +573,17 @@ local function on_player_receive_fields(player, form_name, fields)
          userdata[name].row = nil
       end
    elseif fields.toggle_filter then
+      local craftitems
+      if userdata[name] and userdata[name].mode == MODE_GUIDE then
+          craftitems = crafting.get_crafts(nil, name)
+      else
+          craftitems = crafting.get_crafts(inv, name)
+      end
+      if userdata[name] and userdata[name].row then
+          local craft_id = craftitems[userdata[name].row]
+          userdata[name].old_craft_id = craft_id
+      end
+
       if userdata[name].mode == MODE_GUIDE then
           userdata[name].mode = MODE_CRAFTABLE
       else
@@ -580,7 +594,11 @@ local function on_player_receive_fields(player, form_name, fields)
    rp_formspec.refresh_invpage(player, "rp_crafting:crafting")
 end
 
-function crafting.update_crafting_formspec(player)
+function crafting.update_crafting_formspec(player, craft_id)
+   local name = player:get_player_name()
+   if craft_id then
+      userdata[name].old_craft_id = craft_id
+   end
    rp_formspec.refresh_invpage(player, "rp_crafting:crafting")
 end
 
