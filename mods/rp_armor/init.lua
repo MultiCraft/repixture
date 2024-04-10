@@ -50,12 +50,6 @@ form_armor = form_armor .. "container["..startx..","..starty.."]"
 
 -- Armor slots
 form_armor = form_armor .. rp_formspec.get_itemslot_bg(0, 0, 1, 3)
-local slot_y = 0
-for a=1, #armor.slot_names do
-	-- Armor slot tooltips
-	form_armor = form_armor .. "tooltip[0,"..slot_y..";1,1;"..minetest.formspec_escape(armor.slot_names[a]).."]"
-	slot_y = slot_y + 1 + rp_formspec.default.list_spacing.y
-end
 form_armor = form_armor .. "list[current_player;armor;0,0;1,3;]"
 
 form_armor = form_armor .. "container_end[]"
@@ -86,7 +80,7 @@ function armor.get_formspec(name)
       end
    end
 
-   -- Show armor icons in empty slots
+   -- Show armor icons and tooltips in empty slots
    local inv = player:get_inventory()
    form = form .. "container["..startx..","..starty.."]"
    local slot_y = 0
@@ -94,6 +88,7 @@ function armor.get_formspec(name)
       local itemstack = inv:get_stack("armor", a)
       if itemstack:is_empty() then
          form = form .. "image[0,"..slot_y..";1,1;armor_"..armor.slots[a].."_slot.png]"
+         form = form .. "tooltip[0,"..slot_y..";1,1;"..minetest.formspec_escape(armor.slot_names[a]).."]"
       end
       slot_y = slot_y + 1 + rp_formspec.default.list_spacing.y
    end
