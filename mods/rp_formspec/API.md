@@ -252,14 +252,17 @@ Adds a button. When the button is pressed, the formspec
 is not closed.
 
 * `x`, `y`: Position
-* `w`: Button width. 1, 2 and 3 are fully supported, other widths might be weirdly stretched
-* `h`: Button height
+* `w`: Button width. Only 1, 2 and 3 are supported.
+* `h`: Button height. 1 gives the best results; other heights can cause stretching
 * `name`: Internal identifier
 * `label`: Same as for `button[]` formspec element
-* `noclip`: Same as for `button[]` formspec element
+* `noclip`: Unused legacy argument
 * `tooltip`: Tooltip (optional)
 
-
+Note the button will includes a bit of margin and is a bit smaller
+than the given width, so the clickable button area is a little bit
+larger than the visible button. Press F5 in the formspec to
+reveal the clickable area.
 
 ### `rp_formspec.button_exit(x, y, w, h, name, label, noclip, tooltip)`
 

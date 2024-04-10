@@ -162,59 +162,50 @@ function rp_formspec.image_button(x, y, w, h, name, image, tooltip)
    return form
 end
 
-function rp_formspec.button(x, y, w, h, name, label, noclip, tooltip)
-   local nc = "false"
-
-   if noclip then
-      nc = "true"
-   end
-
+-- Wrapper for rp_formspec.button and rp_formspec.button_exit
+-- * button_type: Formspec element name: "button" or "button_exit"
+-- * Other arguments: Same as for rp_formspec.button
+local function button_raw(button_type, x, y, w, h, name, label, tooltip)
    local tt = ""
    if tooltip then
       tt = "tooltip["..name..";"..minetest.formspec_escape(tooltip).."]"
    end
 
+   local ww
    if w == 1 then
-      return "image_button["..x..","..y..";"..w..","..h
-         ..";ui_button_1w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
-         ..nc..";false;ui_button_1w_active.png]"
-         ..tt
+      ww = "1w"
    elseif w == 2 then
-      return "image_button["..x..","..y..";"..w..","..h
-         ..";ui_button_2w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
-         ..nc..";false;ui_button_2w_active.png]"
-         ..tt
+      ww = "2w"
+   elseif w == 3 then
+      ww = "3w"
    else
-      return "image_button["..x..","..y..";"..w..","..h
-         ..";ui_button_3w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
-         ..nc..";false;ui_button_3w_active.png]"
-         ..tt
+      minetest.log("warning", "[rp_formspec] Called rp_formspec."..button_type.." with w unequal to 1, 2 or 3")
+      -- Fallback
+      ww = "3w"
+      w = 3
    end
+
+   local form = ""
+
+   -- Inactive button style
+   form = form .. "style["..name..";bgimg=ui_button_"..ww.."_inactive.png;border=false;content_offset=0,0;padding=;bgimg_middle=]"
+   -- Active button style
+   form = form .. "style["..name..":pressed;bgimg=ui_button_"..ww.."_active.png;border=false;content_offset=0,2;padding=;bgimg_middle=]"
+
+   -- Button
+   form = form .. button_type.."["..x..","..y..";"..w..","..h
+      ..";"..name..";"..minetest.formspec_escape(label).."]"
+
+   form = form .. tt
+   return form
+end
+
+function rp_formspec.button(x, y, w, h, name, label, noclip, tooltip)
+   return button_raw("button", x, y, w, h, name, label, tooltip)
 end
 
 function rp_formspec.button_exit(x, y, w, h, name, label, noclip, tooltip)
-   local nc = "false"
-
-   if noclip then
-      nc = "true"
-   end
-
-   local tt = ""
-   if tooltip then
-      tt = "tooltip["..name..";"..minetest.formspec_escape(tooltip).."]"
-   end
-
-   if w == 2 then
-      return "image_button_exit["..x..","..y..";"..w..","..h
-         ..";ui_button_2w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
-         ..nc..";false;ui_button_2w_active.png]"
-         ..tt
-   else
-      return "image_button_exit["..x..","..y..";"..w..","..h
-         ..";ui_button_3w_inactive.png;"..name..";"..minetest.formspec_escape(label)..";"
-         ..nc..";false;ui_button_3w_active.png]"
-         ..tt
-   end
+   return button_raw("button_exit", x, y, w, h, name, label, tooltip)
 end
 
 -- Tabs
