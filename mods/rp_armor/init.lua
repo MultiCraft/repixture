@@ -81,10 +81,10 @@ function armor.get_formspec(name)
    local armor_full, armor_base, armor_bonus = armor.get_armor_protection(player)
    local x = rp_formspec.default.start_point.x
    local y = rp_formspec.default.start_point.y
-   form = form .. "style_type[label;font_size=*2]"
-   form = form .. "image["..(x+5.5)..","..(y+1.75)..";1,1;rp_armor_icon_protection.png]"
-   form = form .. "tooltip["..(x+5.5)..","..(y+1.75)..";1,1;"..FS("Protection").."]"
-   form = form .. "label["..(x+6.5)..","..(y+2.25)..";"..S("@1%", armor_full).."]"
+   form = form .. "image["..(x+6.25)..","..(y+1.75)..";1,1;rp_armor_icon_protection.png]"
+   form = form .. "tooltip["..(x+6.25)..","..(y+1.75)..";1,1;"..FS("Protection").."]"
+   form = form .. "style_type[label;font_size=*1.75]"
+   form = form .. "label["..(x+7.25)..","..(y+2.25)..";"..S("@1%", armor_full).."]"
    if armor_bonus ~= 0 then
       form = form .. "style_type[label;font_size=]"
       form = form .. "image["..(x+2.5)..","..(y+4.1)..";0.4,0.4;rp_armor_icon_bonus.png]"
