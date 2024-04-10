@@ -12,7 +12,9 @@ local form = rp_formspec.get_page("rp_formspec:2part")
 
 form = form .. rp_formspec.default.player_inventory
 
-creative.slots_num = 7*4
+creative.slots_width = 7
+creative.slots_height = 4
+creative.slots_num = creative.slots_width * creative.slots_height
 
 local special_items = {}
 
@@ -229,10 +231,23 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 	end
 	local size = creative.creative_sizes[player_name]
 	local pagemax = math.floor((size-1) / (creative.slots_num) + 1)
+	local creative_slots = ""
+	if pagenum < pagemax then
+		-- Render all slots for all pages except the last one
+		creative_slots = rp_formspec.get_itemslot_bg(0, 0, creative.slots_width, creative.slots_height)
+	else
+		-- Render fewer slots for last page if it isn't full
+		local last_page_slots = size % creative.slots_num
+		if last_page_slots == 0 then
+			-- Last page is full, no slot limit needed
+			last_page_slots = nil
+		end
+		creative_slots = rp_formspec.get_itemslot_bg(0, 0, creative.slots_width, creative.slots_height, last_page_slots)
+	end
 	return
 		"container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"..
-                rp_formspec.get_itemslot_bg(0, 0, 7,4)..
-		"list[detached:creative_"..player_name..";main;0,0;7,4;"..tostring(start_i).."]"..
+                creative_slots..
+		"list[detached:creative_"..player_name..";main;0,0;"..creative.slots_width..","..creative.slots_height..";"..tostring(start_i).."]"..
 		"label[8.95,0.75;"..FS("@1/@2", pagenum, pagemax).."]"..
 
                 rp_formspec.image_button(8.75, 1.15, 1, 1, "creative_prev", "ui_icon_prev.png")..
