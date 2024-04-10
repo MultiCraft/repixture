@@ -282,18 +282,25 @@ the formspec is not closed.
 
 
 
-### `rp_formspec.tab(x, y, name, icon, tooltip, side)`
+### `rp_formspec.tab(x, y, name, icon, tooltip, side, pushed)`
 
 A sideways tab that is either at the left or right side.
-(Note: Internally, this is a button.)
+A tab can also be in 'pushed' or 'unpushed' state. A pushed tab
+is green. A tab should be in 'pushed' state when the thing it
+represents is being in use.
 
 * `x`, `y`: Position
 * `name`: Internal identifier
 * `icon`: Tab icon (texture file name)
 * `tooltip`: Tooltip (optional)
 * `side`: On which side to put the tab. `"left"` or `"right"`. Default: `"left"`
+* `pushed`: Whether this tab is considered 'pushed'.
 
+It is also recommended to use a different icon for both pushed and
+unpushed state.
 
+(Note: Internally, this tab is a button. It has nothing to do with
+Minetest's builtin 'tabheader')
 
 ### `rp_formspec.fake_itemstack(x, y, itemstack)`
 

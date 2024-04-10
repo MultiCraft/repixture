@@ -222,23 +222,36 @@ end
 
 -- Tabs
 
-function rp_formspec.tab(x, y, name, icon, tooltip, side)
+function rp_formspec.tab(x, y, name, icon, tooltip, side, pushed)
    local tooltip = tooltip or ""
-   local img_active
-   if side == "right" then
-      img_active = "[combine:16x16:0,0=(ui_tab_active.png^[transformFX):0,1="..icon
+   local img_active, img_inactive
+   if pushed then
+      if side == "right" then
+         img_active = "[combine:16x16:0,0=(ui_tab_active_pushed.png^[transformFX):0,1="..icon
+      else
+         img_active = "[combine:16x16:0,0=ui_tab_active_pushed.png:0,1="..icon
+      end
+
+      if side == "right" then
+         img_inactive = "(ui_tab_inactive_pushed.png^[transformFX)^"..icon
+      else
+         img_inactive = "ui_tab_inactive_pushed.png^"..icon
+      end
    else
-      img_active = "[combine:16x16:0,0=ui_tab_active.png:0,1="..icon
+      if side == "right" then
+         img_active = "[combine:16x16:0,0=(ui_tab_active.png^[transformFX):0,1="..icon
+      else
+         img_active = "[combine:16x16:0,0=ui_tab_active.png:0,1="..icon
+      end
+
+      if side == "right" then
+         img_inactive = "(ui_tab_inactive.png^[transformFX)^" .. icon
+      else
+         img_inactive = "ui_tab_inactive.png^" .. icon
+      end
    end
 
    local form = ""
-   local img_inactive
-   if side == "right" then
-      img_inactive = "(ui_tab_inactive.png^[transformFX)^" .. icon
-   else
-      img_inactive = "ui_tab_inactive.png^" .. icon
-   end
-
    form = form .. "image_button["..x..","..y..";1,1;"
       ..minetest.formspec_escape(img_inactive)
       ..";"..name..";;true;false;"
@@ -442,13 +455,15 @@ local function get_invtabs(highlight)
       local tabname = registered_invtabs_order[o]
       local def = rp_formspec.registered_invtabs[tabname]
       if def then
-         local icon
+         local icon, pushed
          if highlight == tabname and def.icon_active then
             icon = def.icon_active
+            pushed = true
          else
             icon = def.icon
+            pushed = false
          end
-         form = form .. rp_formspec.tab(tabx, taby, "_rp_formspec_tab_"..tabname, icon, def.tooltip)
+         form = form .. rp_formspec.tab(tabx, taby, "_rp_formspec_tab_"..tabname, icon, def.tooltip, "left", pushed)
          taby = taby + tabplus
       end
    end

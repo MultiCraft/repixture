@@ -53,7 +53,7 @@ function crafting.register_craft(def)
 
    if not minetest.registered_items[itemstack:get_name()] then
       minetest.log("warning",
-                   "[rp_crafting] Trying to register craft #"..itemkey.." ('" .. output 
+                   "[rp_crafting] Trying to register craft #"..itemkey.." ('" .. output
                       .. "') that has an unknown output item, allowing")
    end
 
@@ -413,15 +413,17 @@ function crafting.get_formspec(name, select_craft_id)
    form = form .. "container_end[]"
 
    -- Crafting guide button
-   local guide_icon, guide_tip
+   local guide_icon, guide_tip, guide_pushed
    if userdata[name] and userdata[name].mode == MODE_GUIDE then
       guide_icon = "ui_icon_craftingguide_active.png"
       guide_tip = S("Show only craftable recipes")
+      guide_pushed = true
    else
       guide_icon = "ui_icon_craftingguide.png"
       guide_tip = S("Show all recipes")
+      guide_pushed = false
    end
-   form = form .. rp_formspec.tab(rp_formspec.default.size.x, 0.5, "toggle_filter", guide_icon, guide_tip, "right")
+   form = form .. rp_formspec.tab(rp_formspec.default.size.x, 0.5, "toggle_filter", guide_icon, guide_tip, "right", guide_pushed)
 
    return form
 end
