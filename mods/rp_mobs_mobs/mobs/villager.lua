@@ -1407,6 +1407,7 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 			local name = clicker:get_player_name()
 
 			if self._temp_custom_state.angry_at and self._temp_custom_state.angry_at:is_player() and self._temp_custom_state.angry_at == clicker then
+				-- Villager is angry at player
 				villager_speech.say_random("hostile", name)
 				return
 			end
@@ -1415,21 +1416,23 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 
 			local iname = item:get_name()
 			if profession ~= "blacksmith" and (minetest.get_item_group(iname, "sword") > 0 or minetest.get_item_group(iname, "spear") > 0) then
+				-- Villager is annoyed by a weapon in hand
 				villager_speech.say_random("annoying_weapon", name)
 				return
 			end
-
-			achievements.trigger_achievement(clicker, "smalltalk")
 
 			local hp = self.object:get_hp()
 			local hp_max = self.object:get_properties().hp_max
 			do
 				-- No trading if low health
 				if hp < 5 then
+					-- Complain about being hurt
 					villager_speech.say_random("hurt", name)
+					achievements.trigger_achievement(clicker, "smalltalk")
 					return
 				end
 
+				-- Initialize the list of offered trades if none so far
 				if not self._custom_state.trades then
 					self._custom_state.trades = {}
 					local possible_trades = table.copy(gold.trades[profession])
@@ -1450,16 +1453,22 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 						self._temp_custom_state.trade = self._custom_state.trades[self._temp_custom_state.trade_index]
 					end
 				end
+				-- Attempt to trade
+				local trading = gold.trade(self._temp_custom_state.trade, profession, clicker, self, self._temp_custom_state.trade_index, self._custom_state.trades)
 
-				if not gold.trade(self._temp_custom_state.trade, profession, clicker, self, self._temp_custom_state.trade_index, self._custom_state.trades) then
-					-- Good mood: Give hint or funny text
+				-- Normal talking
+				if not trading then
 					if hp >= hp_max-7 then
+						-- Good mood: Talk about item in hand or about something random
 						villager_speech.talk_about_item(profession, iname, name)
 					elseif hp >= 5 then
+						-- Low HP: Complain about exhaustion
 						villager_speech.say_random("exhausted", name)
 					else
+						-- Very low HP: Complain about being hurt
 						villager_speech.say_random("hurt", name)
 					end
+					achievements.trigger_achievement(clicker, "smalltalk")
 				end
 			end
 		end,
