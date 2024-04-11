@@ -75,11 +75,11 @@ local achievement_popup = function(player_name, icon_type, icon, caption, messag
    if icon_type == "image" then
       hud_icon = player:hud_add({
          hud_elem_type = "image",
-         text = icon,
+         text = "("..icon..")^[resize:32x32",
          position = { x = 0.5, y = 0 },
          alignment = { x = 1, y = 1 },
          offset = { x = -240, y = 24 },
-         scale = { x = 3.8, y = 3.8 },
+         scale = { x = 1.9, y = 1.9 },
          z_index = 101,
       })
    elseif icon_type == "item_image" then
