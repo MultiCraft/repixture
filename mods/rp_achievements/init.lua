@@ -916,23 +916,28 @@ function achievements.get_formspec(name)
 
    local form = rp_formspec.get_page("rp_achievements:achievements")
 
-   -- Achievement list
+   -- main content container
    form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
 
+   -- Achievement list
+   local aname = achievements.registered_achievements_list[row]
+   local def = achievements.registered_achievements[aname]
+   --[[~~~~~ TEXT-BASED LIST ~~~~~]]
    if usermode[name] == MODE_LIST then
 
-   for _, aname in ipairs(achievements.registered_achievements_list) do
-      local def = achievements.registered_achievements[aname]
+   -- Construct entries for text list
+   for _, paname in ipairs(achievements.registered_achievements_list) do
+      local pdef = achievements.registered_achievements[paname]
 
       local progress_column = ""
       local color = ""
-      local status = achievements.get_completion_status(player, aname)
+      local status = achievements.get_completion_status(player, paname)
       if status == achievements.ACHIEVEMENT_GOTTEN then
          progress_column = "0"
          color = COLOR_GOTTEN
 	 amt_gotten = amt_gotten + 1
       elseif status == achievements.ACHIEVEMENT_IN_PROGRESS then
-         local part, total = get_progress(player, aname, def, states)
+         local part, total = get_progress(player, paname, pdef, states)
          -- One of 8 icons to roughly show achievement progress
          local completion_ratio = math.max(0, math.min(7, math.floor((part / total) * 8)))
          progress_column = tostring(completion_ratio+1)
@@ -947,18 +952,81 @@ function achievements.get_formspec(name)
 
       achievement_list = achievement_list .. color .. ","
       achievement_list = achievement_list .. minetest.formspec_escape(progress_column) .. ","
-      achievement_list = achievement_list .. minetest.formspec_escape(def.title) .. ","
-      achievement_list = achievement_list .. minetest.formspec_escape(def.description)
+      achievement_list = achievement_list .. minetest.formspec_escape(pdef.title) .. ","
+      achievement_list = achievement_list .. minetest.formspec_escape(pdef.description)
    end
 
-
-   -- Text list
+   -- Text list formspec element
    form = form .. "table[0,3.0;9.75,6.2;achievement_list;" .. achievement_list
       .. ";" .. row .. "]"
 
+   -- Achievement title, description and status
+   local progress = ""
+   local title = def.title
+   local description = def.description
+   local gotten = false
+   local achievement_times = states[aname]
+   if achievement_times then
+      if achievement_times == -1 then
+	 gotten = true
+	 progress = minetest.colorize(COLOR_GOTTEN, S("Gotten"))
+         title = minetest.colorize(COLOR_GOTTEN, title)
+         description = minetest.colorize(COLOR_GOTTEN, description)
+      else
+         local part, total = get_progress(player, aname, def, states)
+         progress = S("@1/@2", part, total)
+      end
+   else
+      progress = S("Missing")
+   end
+
+
+   form = form .. "label[0,0.2;" .. minetest.formspec_escape(title) .. "]"
+   form = form .. "label[8.5,0.2;" .. minetest.formspec_escape(progress) .. "]"
+
+   if def.subconditions then
+      local progress_subconds = get_completed_subconditions(player, aname)
+      if #progress_subconds > 0 then
+         local progress_subconds_str = table.concat(progress_subconds, S(", "))
+         description = description .. "\n\n" .. S("Completed: @1", progress_subconds_str)
+      end
+   end
+   form = form .. "textarea[2.55,0.51;5.6,2.15;;;" .. minetest.formspec_escape(description) .. "]"
+
+   -- Achievement icon background
+   form = form .. "container[0,0.51]" -- icon container
+
+   form = form .. "image[0,0;2.2,2.2;"
+   if gotten then
+      form = form .. "rp_achievements_icon_frame_gotten.png]"
+   else
+      form = form .. "rp_achievements_icon_frame.png]"
+   end
+
+   -- Achievement icon
+   local icon, icon_type
+   if not gotten then
+      icon = "rp_achievements_icon_missing.png"
+      icon_type = "image"
+   else
+      icon, icon_type = get_achievement_icon(aname)
+   end
+
+   local ix = 0.12222
+   local iy = 0.12222
+   local isize = 1.9555
+   if icon_type == "image" then
+      form = form .. "image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
+   elseif icon_type == "item_image" then
+      form = form .. "item_image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
+   else
+      minetest.log("error", "[rp_achievements] Invalid icon_type in achievements.get_formspec!")
+   end
+   form = form .. "container_end[]" -- icon container end
+
    else
 
-   -- Icon-based list
+   --[[~~~~~ SYMBOL-BASED LIST ~~~~~]]
    form = form .. "scrollbaroptions[min=0;max=200;thumbsize=50]"
    form = form .. "scrollbar[9.5,3.0;0.275,6.2;vertical;achievement_list_scroller;0]"
    form = form .. "scroll_container[0,3.0;9.4,6.2;achievement_list_scroller;vertical;0.1]"
@@ -1017,30 +1085,8 @@ function achievements.get_formspec(name)
 
    end
 
-   local aname = achievements.registered_achievements_list[row]
-   local def = achievements.registered_achievements[aname]
 
-   -- Achievement title, description and status
-   local progress = ""
-   local title = def.title
-   local description = def.description
-   local gotten = false
-   local achievement_times = states[aname]
-   if achievement_times then
-      if achievement_times == -1 then
-	 gotten = true
-	 progress = minetest.colorize(COLOR_GOTTEN, S("Gotten"))
-         title = minetest.colorize(COLOR_GOTTEN, title)
-         description = minetest.colorize(COLOR_GOTTEN, description)
-      else
-         local part, total = get_progress(player, aname, def, states)
-         progress = S("@1/@2", part, total)
-      end
-   else
-      progress = S("Missing")
-   end
-
-   -- Achievement progress
+   -- Achievement progress summary
    local progress_total =
       S("@1 of @2 achievements gotten, @3 in progress",
       amt_gotten,
@@ -1049,55 +1095,12 @@ function achievements.get_formspec(name)
    if amt_gotten == #achievements.registered_achievements_list then
       progress_total = minetest.colorize(COLOR_GOTTEN, progress_total)
    end
-   if def.subconditions then
-      local progress_subconds = get_completed_subconditions(player, aname)
-      if #progress_subconds > 0 then
-         local progress_subconds_str = table.concat(progress_subconds, S(", "))
-         description = description .. "\n\n" .. S("Completed: @1", progress_subconds_str)
-      end
-   end
-
 
    form = form .. "label[0,9.5;"
       .. minetest.formspec_escape(progress_total)
       .. "]"
 
-   form = form .. "label[0,0.2;" .. minetest.formspec_escape(title) .. "]"
-   form = form .. "label[8.5,0.2;" .. minetest.formspec_escape(progress) .. "]"
-
-   form = form .. "textarea[2.55,0.51;5.6,2.15;;;" .. minetest.formspec_escape(description) .. "]"
-
-   -- Achievement icon background
-   form = form .. "container[0,0.51]"
-
-   form = form .. "image[0,0;2.2,2.2;"
-   if gotten then
-      form = form .. "rp_achievements_icon_frame_gotten.png]"
-   else
-      form = form .. "rp_achievements_icon_frame.png]"
-   end
-
-   -- Achievement icon
-   local icon, icon_type
-   if not gotten then
-      icon = "rp_achievements_icon_missing.png"
-      icon_type = "image"
-   else
-      icon, icon_type = get_achievement_icon(aname)
-   end
-
-   local ix = 0.12222
-   local iy = 0.12222
-   local isize = 1.9555
-   if icon_type == "image" then
-      form = form .. "image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
-   elseif icon_type == "item_image" then
-      form = form .. "item_image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
-   else
-      minetest.log("error", "[rp_achievements] Invalid icon_type in achievements.get_formspec!")
-   end
-   form = form .. "container_end[]"
-   form = form .. "container_end[]"
+   form = form .. "container_end[]" -- main content container end
 
    -- Display mode button
    local mode_icon, mode_tip
