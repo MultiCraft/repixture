@@ -21,6 +21,10 @@ local HUD_TIMER = 5.0
 -- Side length of the square icon in HUD message (in pixels)
 local HUD_ICON_SIZE = 64
 
+-- Current display mode
+local MODE_LIST = 1 -- text list
+local MODE_SYMBOLS = 2 -- symbols
+
 local S = minetest.get_translator("rp_achievements")
 local NS = function(s) return s end
 
@@ -40,6 +44,8 @@ local selected_row = {} -- current selected row, per-player
 local legacy_achievements_file = minetest.get_worldpath() .. "/achievements.dat"
 
 local legacy_achievements_states = {}
+
+local usermode = {} -- current display modes, per-player
 
 local function load_legacy_achievements()
    local f = io.open(legacy_achievements_file, "r")
@@ -837,6 +843,7 @@ local function on_leaveplayer(player)
    selected_row[name] = nil
    huds[name] = nil
    hud_queues[name] = nil
+   usermode[name] = nil
 end
 
 -- Add callback functions
@@ -903,6 +910,17 @@ function achievements.get_formspec(name)
    local amt_gotten = 0
    local amt_progress = 0
 
+   if not usermode[name] then
+      usermode[name] = MODE_LIST
+   end
+
+   local form = rp_formspec.get_page("rp_achievements:achievements")
+
+   -- Achievement list
+   form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
+
+   if usermode[name] == MODE_LIST then
+
    for _, aname in ipairs(achievements.registered_achievements_list) do
       local def = achievements.registered_achievements[aname]
 
@@ -933,18 +951,16 @@ function achievements.get_formspec(name)
       achievement_list = achievement_list .. minetest.formspec_escape(def.description)
    end
 
-   local form = rp_formspec.get_page("rp_achievements:achievements")
-
-   -- Achievement list
-   form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
 
    -- Text list
-   --form = form .. "table[0,3.0;9.75,6.2;achievement_list;" .. achievement_list
-   --   .. ";" .. row .. "]"
+   form = form .. "table[0,3.0;9.75,6.2;achievement_list;" .. achievement_list
+      .. ";" .. row .. "]"
+
+   else
 
    -- Icon-based list
    form = form .. "scrollbaroptions[min=0;max=200;thumbsize=50]"
-   form = form .. "scrollbar[9.5,3.0;0.3,6.2;vertical;achievement_list_scroller;0]"
+   form = form .. "scrollbar[9.5,3.0;0.275,6.2;vertical;achievement_list_scroller;0]"
    form = form .. "scroll_container[0,3.0;9.4,6.2;achievement_list_scroller;vertical;0.1]"
    local iconx = 0
    local icony = 0
@@ -998,6 +1014,8 @@ function achievements.get_formspec(name)
    end
 
    form = form .. "scroll_container_end[]"
+
+   end
 
    local aname = achievements.registered_achievements_list[row]
    local def = achievements.registered_achievements[aname]
@@ -1081,6 +1099,18 @@ function achievements.get_formspec(name)
    form = form .. "container_end[]"
    form = form .. "container_end[]"
 
+   -- Display mode button
+   local mode_icon, mode_tip
+
+   if usermode[name] == MODE_LIST then
+      mode_icon = "ui_icon_achievements_mode_icons.png"
+      mode_tip = S("Show symbols")
+   else
+      mode_icon = "ui_icon_achievements_mode_list.png"
+      mode_tip = S("Show list")
+   end
+   form = form .. rp_formspec.tab(rp_formspec.default.size.x, 0.5, "toggle_display_mode", mode_icon, mode_tip, "right")
+
    return form
 end
 
@@ -1120,6 +1150,18 @@ local function receive_fields(player, form_name, fields)
 	 selected_row[name] = selected
       elseif selection.type == "INV" then
 	 selected_row[name] = nil
+      end
+      rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
+   end
+
+   if fields.toggle_display_mode then
+      if not usermode[name] then
+         usermode[name] = MODE_LIST
+      end
+      if usermode[name] == MODE_LIST then
+         usermode[name] = MODE_SYMBOLS
+      else
+         usermode[name] = MODE_LIST
       end
       rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
    end
