@@ -29,7 +29,7 @@ Registers an achievement.
     * `title`: Title, as shown to the player (default: same as `name`)
     * `description`: Short (!) description that tells the player what to do to get the achievement
       crafting output identifier as provided to the `rp_crafting` mod)
-    * `icon`: Optional icon (texture name)
+    * `icon`: Optional icon (texture name). Should be 32×32 pixels
     * `item_icon`: Optional icon (item name)
     * `difficulty`: Optional difficulty rating of achievement (see below)
     * Additional fields depending on the type (see below)

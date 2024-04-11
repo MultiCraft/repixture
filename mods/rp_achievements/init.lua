@@ -2,16 +2,24 @@
 -- Achievements mod
 --
 
-local COLOR_GOTTEN = "#00FF00"
+-- Achievement message colors
+local COLOR_GOTTEN = "#00FF00" -- gotten (in list)
 
-local COLOR_GOTTEN_MSG = "#00FF00"
-local COLOR_REVERT_MSG = "#FFFF00"
-local COLOR_GOTTEN_HUD = 0x00FF00
-local COLOR_REVERT_HUD = 0xFFFF00
+local COLOR_GOTTEN_MSG = "#00FF00" -- gotten (chat message)
+local COLOR_REVERT_MSG = "#FFFF00" -- lost (chat message)
+local COLOR_GOTTEN_HUD = 0x00FF00 -- gotten (HUD element)
+local COLOR_REVERT_HUD = 0xFFFF00 -- lost (HUD element)
 
+-- Prefix for chat messages
 local MSG_PRE = "*** "
+-- Prefix for achievement list in /achievement command
 local BULLET_PRE = "• "
+
+-- Time that a HUD message stays on the screen (in seconds)
 local HUD_TIMER = 5.0
+
+-- Side length of the square icon in HUD message (in pixels)
+local HUD_ICON_SIZE = 32
 
 local S = minetest.get_translator("rp_achievements")
 local NS = function(s) return s end
@@ -41,6 +49,97 @@ local function load_legacy_achievements()
    end
 end
 
+local function get_achievement_icon(aname)
+   local adef = achievements.registered_achievements[aname]
+   local icon = adef.icon
+   local item_icon = adef.item_icon
+   local icon_type
+   if not icon and not item_icon then
+      if adef.craftitem then
+         item_icon = adef.craftitem
+      elseif adef.dignode then
+         item_icon = adef.dignode
+      elseif adef.placenode then
+         item_icon = adef.placenode
+      end
+      if item_icon and string.sub(item_icon, 1, 6) == "group:" then
+         item_icon = nil
+      end
+   end
+   if item_icon then
+      return item_icon, "item_image"
+   elseif icon then
+      return icon, "image"
+   else
+      -- Fallback icon
+      return "rp_achievements_icon_default.png", "image"
+   end
+end
+
+-- Turns a node tile table to an 'inventorycube' texture
+local tiles_to_inventorycube = function(tiles)
+   if not tiles then
+      return minetest.inventorycube("no_texture.png", "no_texture.png", "no_texture.png")
+   end
+   local real_tiles = {}
+   local max_tile = 0
+   for t=1, #tiles do
+      real_tiles[t] = tiles[t]
+      if tiles[t] == "" then
+         real_tiles[t] = "no_texture.png"
+      end
+      max_tile = t
+   end
+   if max_tile < 6 then
+      local last_tile = tiles[max_tile]
+      for t=max_tile, 6 do
+         real_tiles[t] = last_tile
+      end
+   end
+   local tile1 = real_tiles[1] or "no_texture.png"
+   local tile2 = real_tiles[6] or "no_texture.png"
+   local tile3 = real_tiles[4] or "no_texture.png"
+   return minetest.inventorycube(tile1, tile2, tile3)
+end
+
+-- Convert node to a 2D texture
+local node_to_texture = function(nodename)
+   local def = minetest.registered_nodes[nodename]
+   if not def then
+      -- Unknown Node
+      return minetest.inventorycube("unknown_node.png", "unknown_node.png", "unknown_node.png")
+   end
+   if def.drawtype == "normal" or
+		def.drawtype == "liquid" or
+		def.drawtype == "glasslike" or
+		def.drawtype == "glasslike_framed" or
+		def.drawtype == "glasslike_framed_optional" or
+		def.drawtype == "allfaces" or
+		def.drawtype == "allfaces_optional" then
+      return tiles_to_inventorycube(def.tiles)
+   elseif def.drawtype == "plantlike" or def.drawtype == "firelike" or def.drawtype == "signlike" then
+      if def.tiles and def.tiles[1] then
+         return def.tiles[1]
+      else
+         return "no_texture.png"
+      end
+   elseif def.drawtype == "torchlike" then
+      if def.tiles then
+         if def.paramtype2 == "none" then
+            return def.tiles[1] or "no_texture.png"
+         else
+            return def.tiles[2] or "no_texture.png"
+         end
+      else
+         return "no_texture.png"
+      end
+   elseif def.drawtype == "airlike" then
+      return "blank.png"
+   else
+      return "no_texture.png"
+   end
+end
+
 -- Spawn an achievement popup message. The popup has an icon, caption and message.
 -- Any popup that is currently shown will be instantly replaced.
 -- * player_name: Show to this player
@@ -56,12 +155,15 @@ local achievement_popup = function(player_name, icon_type, icon, caption, messag
    if not player then
       return
    end
+   -- Replace old popup
    if huds[player_name] then
       player:hud_remove(huds[player_name].bg)
       player:hud_remove(huds[player_name].caption)
       player:hud_remove(huds[player_name].message)
       player:hud_remove(huds[player_name].icon)
    end
+
+   -- Background
    local hud_bg = player:hud_add({
       hud_elem_type = "image",
       text = "rp_achievements_hud_bg.png",
@@ -71,32 +173,36 @@ local achievement_popup = function(player_name, icon_type, icon, caption, messag
       scale = { x = 4, y = 4 },
       z_index = 100,
    })
-   local hud_icon
+
+   -- Icon
+   local icon_texture
    if icon_type == "image" then
-      hud_icon = player:hud_add({
-         hud_elem_type = "image",
-         text = "("..icon..")^[resize:32x32",
-         position = { x = 0.5, y = 0 },
-         alignment = { x = 1, y = 1 },
-         offset = { x = -240, y = 24 },
-         scale = { x = 1.9, y = 1.9 },
-         z_index = 101,
-      })
+      icon_texture = icon
    elseif icon_type == "item_image" then
-      -- TODO: Actually support item image
-      hud_icon = player:hud_add({
-         hud_elem_type = "image",
-         text = "rp_achievements_icon_default.png",
-         position = { x = 0.5, y = 0 },
-         alignment = { x = 1, y = 1 },
-         offset = { x = -240, y = 24 },
-         scale = { x = 3.8, y = 3.8 },
-         z_index = 101,
-      })
+      local item = icon
+      local itemdef = minetest.registered_items[item]
+      if itemdef and itemdef.inventory_image and itemdef.inventory_image ~= "" then
+         icon_texture = itemdef.inventory_image
+      elseif itemdef and itemdef.tiles then
+         icon_texture = node_to_texture(item)
+      else
+         icon_texture = "rp_achievements_icon_default.png"
+      end
    else
       minetest.log("error", "[rp_achievements] achievement_popup called with invalid icon_type!")
-      return
    end
+
+   local hud_icon = player:hud_add({
+      hud_elem_type = "image",
+      text = "("..icon_texture..")^[resize:"..HUD_ICON_SIZE.."x"..HUD_ICON_SIZE,
+      position = { x = 0.5, y = 0 },
+      alignment = { x = 1, y = 1 },
+      offset = { x = -240, y = 24 },
+      scale = { x = 1.9, y = 1.9 },
+      z_index = 101,
+   })
+
+   -- Caption text
    local hud_caption = player:hud_add({
       hud_elem_type = "text",
       number = caption_color or 0xFFFFFF,
@@ -109,6 +215,8 @@ local achievement_popup = function(player_name, icon_type, icon, caption, messag
       z_index = 102,
       style = 1,
    })
+
+   -- Message text
    local hud_message = player:hud_add({
       hud_elem_type = "text",
       number = message_color or 0xFFFFFF,
@@ -120,6 +228,7 @@ local achievement_popup = function(player_name, icon_type, icon, caption, messag
       scale = { x = 1, y = 1 },
       z_index = 102,
    })
+
    huds[player_name] = {
       message = hud_message,
       caption = hud_caption,
@@ -184,17 +293,7 @@ local achievement_gotten_message = function(name, aname)
 
    local adef = achievements.registered_achievements[aname]
    local title = adef.title
-   local icon_type, icon
-   if adef.icon then
-      icon_type = "image"
-      icon = adef.icon
-   elseif adef.item_icon then
-      icon_type = "item_image"
-      icon = adef.item_icon
-   else
-      icon_type = "image"
-      icon = "rp_achievements_icon_default.png"
-   end
+   local icon, icon_type = get_achievement_icon(aname)
    achievement_popup(name, icon_type, icon, S("Achievement gotten!"), title, COLOR_GOTTEN_HUD)
 end
 
@@ -850,34 +949,20 @@ function achievements.get_formspec(name)
 
    form = form .. "textarea[3,0.6;5.25,2;;;" .. minetest.formspec_escape(description) .. "]"
 
-   local icon, item_icon
+   local icon, icon_type
    if not gotten then
       icon = "rp_achievements_icon_missing.png"
+      icon_type = "image"
    else
-      icon = def.icon
-      item_icon = def.item_icon
-   end
-   if not icon and not item_icon then
-      if def.craftitem then
-         item_icon = def.craftitem
-      elseif def.dignode then
-         item_icon = def.dignode
-      elseif def.placenode then
-         item_icon = def.placenode
-      end
-      if item_icon and string.sub(item_icon, 1, 6) == "group:" then
-         item_icon = nil
-      end
-   end
-   if not icon and not item_icon then
-      -- Fallback icon
-      icon = "rp_achievements_icon_default.png"
+      icon, icon_type = get_achievement_icon(aname)
    end
 
-   if icon then
+   if icon_type == "image" then
       form = form .. "image[0,0.75;1.8,1.8;" .. minetest.formspec_escape(icon) .. "]"
-   elseif item_icon then
-      form = form .. "item_image[0,0.75;1.8,1.8;" .. minetest.formspec_escape(item_icon) .. "]"
+   elseif icon_type == "item_image" then
+      form = form .. "item_image[0,0.75;1.8,1.8;" .. minetest.formspec_escape(icon) .. "]"
+   else
+      minetest.log("error", "[rp_achievements] Invalid icon_type in achievements.get_formspec!")
    end
    form = form .. "container_end[]"
 
