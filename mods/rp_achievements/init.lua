@@ -3,10 +3,15 @@
 --
 
 local COLOR_GOTTEN = "#00FF00"
+
 local COLOR_GOTTEN_MSG = "#00FF00"
 local COLOR_REVERT_MSG = "#FFFF00"
+local COLOR_GOTTEN_HUD = 0x00FF00
+local COLOR_REVERT_HUD = 0xFFFF00
+
 local MSG_PRE = "*** "
 local BULLET_PRE = "• "
+local HUD_TIMER = 5.0
 
 local S = minetest.get_translator("rp_achievements")
 local NS = function(s) return s end
@@ -18,6 +23,8 @@ achievements.ACHIEVEMENT_NOT_GOTTEN = 3
 
 achievements.registered_achievements = {}
 achievements.registered_achievements_list = {}
+
+local huds = {} -- HUD IDs, per-player
 
 local selected_row = {} -- current selected row, per-player
 
@@ -33,6 +40,115 @@ local function load_legacy_achievements()
       io.close(f)
    end
 end
+
+-- Spawn an achievement popup message. The popup has an icon, caption and message.
+-- Any popup that is currently shown will be instantly replaced.
+-- * player_name: Show to this player
+-- * icon_type: Type of icon. One of "image" or "item_image"
+-- * icon: If icon_type is "image", specify the icon by its texture name here.
+--   If icon_type is "item_image", specify the itemname here.
+-- * caption: Caption text (keep it short)
+-- * message: Message text (keep it short)
+-- * caption_color: RGB color code for caption, as 3-byte number (default: 0xFFFFFF)
+-- * message_color: RGB color code for message, as 3-byte number (default: 0xFFFFFF)
+local achievement_popup = function(player_name, icon_type, icon, caption, message, caption_color, message_color)
+   local player = minetest.get_player_by_name(player_name)
+   if not player then
+      return
+   end
+   if huds[player_name] then
+      player:hud_remove(huds[player_name].bg)
+      player:hud_remove(huds[player_name].caption)
+      player:hud_remove(huds[player_name].message)
+      player:hud_remove(huds[player_name].icon)
+   end
+   local hud_bg = player:hud_add({
+      hud_elem_type = "image",
+      text = "rp_achievements_hud_bg.png",
+      position = { x = 0.5, y = 0 },
+      alignment = { x = 0, y = 1 },
+      offset = { x = 0, y = 10 },
+      scale = { x = 4, y = 4 },
+      z_index = 100,
+   })
+   local hud_icon
+   if icon_type == "image" then
+      hud_icon = player:hud_add({
+         hud_elem_type = "image",
+         text = icon,
+         position = { x = 0.5, y = 0 },
+         alignment = { x = 1, y = 1 },
+         offset = { x = -240, y = 24 },
+         scale = { x = 3.8, y = 3.8 },
+         z_index = 101,
+      })
+   elseif icon_type == "item_image" then
+      -- TODO: Actually support item image
+      hud_icon = player:hud_add({
+         hud_elem_type = "image",
+         text = "rp_achievements_icon_default.png",
+         position = { x = 0.5, y = 0 },
+         alignment = { x = 1, y = 1 },
+         offset = { x = -240, y = 24 },
+         scale = { x = 3.8, y = 3.8 },
+         z_index = 101,
+      })
+   else
+      minetest.log("error", "[rp_achievements] achievement_popup called with invalid icon_type!")
+      return
+   end
+   local hud_caption = player:hud_add({
+      hud_elem_type = "text",
+      number = caption_color or 0xFFFFFF,
+      text = caption,
+      position = { x = 0.5, y = 0 },
+      alignment = { x = 1, y = 1 },
+      offset = { x = -160, y = 24 },
+      size = { x = 1, y = 1 },
+      scale = { x = 1, y = 1 },
+      z_index = 102,
+      style = 1,
+   })
+   local hud_message = player:hud_add({
+      hud_elem_type = "text",
+      number = message_color or 0xFFFFFF,
+      text = message,
+      position = { x = 0.5, y = 0 },
+      alignment = { x = 1, y = 1 },
+      offset = { x = -160, y = 52 },
+      size = { x = 1, y = 1 },
+      scale = { x = 1, y = 1 },
+      z_index = 102,
+   })
+   huds[player_name] = {
+      message = hud_message,
+      caption = hud_caption,
+      icon = hud_icon,
+      bg = hud_bg,
+      timer = 0
+   }
+end
+
+-- Remove achievement HUD elements after some time
+minetest.register_globalstep(function(dtime)
+   for name, hud_ids in pairs(huds) do
+      local player = minetest.get_player_by_name(name)
+      if player and player:is_player() then
+         if huds[name] and huds[name].timer then
+            huds[name].timer = huds[name].timer + dtime
+            if huds[name].timer > HUD_TIMER then
+               player:hud_remove(huds[name].caption)
+               player:hud_remove(huds[name].message)
+               player:hud_remove(huds[name].icon)
+               player:hud_remove(huds[name].bg)
+               huds[name] = nil
+            end
+         end
+      else
+         huds[name] = nil
+      end
+   end
+end)
 
 local achievement_message = function(name, aname, color, msg_private, msg_all)
    local notify_all = minetest.settings:get_bool("rp_achievements_notify_all", false)
@@ -60,6 +176,21 @@ local achievement_gotten_message = function(name, aname)
    achievement_message(name, aname, COLOR_GOTTEN_MSG,
       NS("You have earned the achievement “@1”."),
       NS("@1 has earned the achievement “@2”."))
+
+   local adef = achievements.registered_achievements[aname]
+   local title = adef.title
+   local icon_type, icon
+   if adef.icon then
+      icon_type = "image"
+      icon = adef.icon
+   elseif adef.item_icon then
+      icon_type = "item_image"
+      icon = adef.item_icon
+   else
+      icon_type = "image"
+      icon = "rp_achievements_icon_default.png"
+   end
+   achievement_popup(name, icon_type, icon, S("Achievement gotten!"), title, COLOR_GOTTEN_HUD)
 end
 
 local function set_achievement_states(player, states)
@@ -292,6 +423,7 @@ local function give_all_achievements(player)
    achievement_message(playername, nil, COLOR_GOTTEN_MSG,
       NS("You have gotten all achievements!"),
       NS("@1 has gotten all achievements!"))
+   achievement_popup(playername, "image", "rp_achievements_icon_default.png", S("All achievements gotten!"), "", COLOR_GOTTEN_HUD)
    minetest.log("action", "[rp_achievements] " .. playername .. " got all achievements")
 end
 
@@ -306,6 +438,7 @@ local function remove_all_achievements(player)
    achievement_message(playername, nil, COLOR_REVERT_MSG,
       NS("You have lost all achievements!"),
       NS("@1 has lost all achievements!"))
+   achievement_popup(playername, "image", "rp_achievements_icon_removed.png", S("All achievements lost!"), "", COLOR_REVERT_HUD)
    minetest.log("action", "[rp_achievements] " .. playername .. " lost all achievements")
 end
 
@@ -357,6 +490,8 @@ local function remove_achievement(player, aname)
    achievement_message(playername, aname, COLOR_REVERT_MSG,
       NS("You have lost the achievement “@1”."),
       NS("@1 has lost the achievement “@2”."))
+   local title = achievements.registered_achievements[aname]
+   achievement_popup(playername, "image", "rp_achievements_icon_removed.png", S("Achievement lost!"), title, COLOR_REVERT_HUD)
    minetest.log("action", "[rp_achievements] " .. playername .. " lost achievement '"..aname.."'")
 end
 
@@ -561,6 +696,7 @@ end
 local function on_leaveplayer(player)
    local name = player:get_player_name()
    selected_row[name] = nil
+   huds[name] = nil
 end
 
 -- Add callback functions
@@ -660,7 +796,6 @@ function achievements.get_formspec(name)
    local form = rp_formspec.get_page("rp_achievements:achievements")
 
    form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
-   form = form .. "set_focus[achievement_list]"
    form = form .. "table[0,2.8;9.75,6.4;achievement_list;" .. achievement_list
       .. ";" .. row .. "]"
 
