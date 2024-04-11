@@ -38,24 +38,6 @@ armor.slot_names = {S("Helmet"), S("Chestplate"), S("Boots")}
 
 -- Formspec
 
-local form_armor = rp_formspec.get_page("rp_formspec:2part")
-
-form_armor = form_armor .. rp_formspec.default.player_inventory
-
-form_armor = form_armor .. "listring[current_player;main]"
-
-local startx = rp_formspec.default.start_point.x + 2.5
-local starty = rp_formspec.default.start_point.y + 0.6
-form_armor = form_armor .. "container["..startx..","..starty.."]"
-
--- Armor slots
-form_armor = form_armor .. rp_formspec.get_itemslot_bg(0, 0, 1, 3)
-form_armor = form_armor .. "list[current_player;armor;0,0;1,3;]"
-
-form_armor = form_armor .. "container_end[]"
-
-form_armor = form_armor .. "listring[current_player;armor]"
-
 function armor.get_formspec(name)
    local player = minetest.get_player_by_name(name)
    if not player then
@@ -80,43 +62,71 @@ function armor.get_formspec(name)
       end
    end
 
-   -- Show armor icons and tooltips in empty slots
-   local inv = player:get_inventory()
+   -- Player inventory
+   form = form .. rp_formspec.default.player_inventory
+
+   local startx = rp_formspec.default.start_point.x
+   local starty = rp_formspec.default.start_point.y
    form = form .. "container["..startx..","..starty.."]"
+
+   -- Armor inventory stuff
+   form = form .. "container[2.5,0.6]"
+
+   -- Show armor icons in empty slots (must be *before* the inventory list)
+   local inv = player:get_inventory()
    local slot_y = 0
    for a=1, #armor.slots do
       local itemstack = inv:get_stack("armor", a)
       if itemstack:is_empty() then
          form = form .. "image[0,"..slot_y..";1,1;armor_"..armor.slots[a].."_slot.png]"
+      end
+      slot_y = slot_y + 1 + rp_formspec.default.list_spacing.y
+   end
+
+   -- Armor inventory list
+   form = form .. rp_formspec.get_itemslot_bg(0, 0, 1, 3)
+   form = form .. "list[current_player;armor;0,0;1,3;]"
+   form = form .. "listring[current_player;armor]"
+   form = form .. "listring[current_player;main]"
+
+   -- Show tooltips in empty slots (must be *after* the inventory list)
+   local inv = player:get_inventory()
+   local slot_y = 0
+   for a=1, #armor.slots do
+      local itemstack = inv:get_stack("armor", a)
+      if itemstack:is_empty() then
          form = form .. "tooltip[0,"..slot_y..";1,1;"..minetest.formspec_escape(armor.slot_names[a]).."]"
       end
       slot_y = slot_y + 1 + rp_formspec.default.list_spacing.y
    end
+
    form = form .. "container_end[]"
 
-   local x = rp_formspec.default.start_point.x
-   local y = rp_formspec.default.start_point.y
    -- Armor percentage
    local armor_full, armor_base, armor_bonus = armor.get_armor_protection(player)
-   form = form .. "image["..(x+5)..","..(y+1.75)..";1,1;rp_armor_icon_protection.png]"
-   form = form .. "tooltip["..(x+5)..","..(y+1.75)..";1,1;"..FS("Protection").."]"
+   form = form .. "image[5,1.75;1,1;rp_armor_icon_protection.png]"
+   form = form .. "tooltip[5,1.75;1,1;"..FS("Protection").."]"
    form = form .. "style_type[label;font_size=*2]"
-   form = form .. "label["..(x+6.1)..","..(y+2.25)..";"..S("@1%", armor_full).."]"
+   form = form .. "label[6.1,2.25;"..S("@1%", armor_full).."]"
    if armor_bonus ~= 0 then
       form = form .. "style_type[label;font_size=]"
-      form = form .. "image["..(x+2.45)..","..(y+4.05)..";0.5,0.5;rp_armor_icon_bonus.png]"
-      form = form .. "tooltip["..(x+2.45)..","..(y+4.05)..";0.5,0.5;"..FS("Protection bonus for full set").."]"
-      form = form .. "label["..(x+3)..","..(y+4.3)..";"..S("+@1%", armor_bonus).."]"
+      form = form .. "image[2.45,4.05;0.5,0.5;rp_armor_icon_bonus.png]"
+      form = form .. "tooltip[2.45,4.05;0.5,0.5;"..FS("Protection bonus for full set").."]"
+      form = form .. "label[3,4.3;"..S("+@1%", armor_bonus).."]"
    end
+
+   form = form .. "container_end[]"
 
    return form
 end
 
+-- Only the bare minimum for the base page, the rest is in get_formspec.
+local form_armor = rp_formspec.get_page("rp_formspec:2part")
 rp_formspec.register_page("rp_armor:armor", form_armor)
+
 rp_formspec.register_invpage("rp_armor:armor", {
 	get_formspec = armor.get_formspec,
 })
-
 rp_formspec.register_invtab("rp_armor:armor", {
    icon = "ui_icon_armor.png",
    icon_active = "ui_icon_armor_active.png",
