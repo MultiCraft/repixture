@@ -13,7 +13,7 @@ local register_sign_page = function(id, node_names)
 	form = form .. "background[0,0;8.5,4.5;ui_formspec_bg_"..id..".png]"
 	form = form .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 	form = form .. "set_focus[text;true]"
-	form = form .. "field[0.5,1.75;7,0.5;text;;${text}]"
+	form = form .. "field[0.5,1.7;7.5,0.5;text;;${text}]"
 	rp_formspec.register_page(page_name, form)
 
 	for n=1, #node_names do
