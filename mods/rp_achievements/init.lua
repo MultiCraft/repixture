@@ -1088,12 +1088,24 @@ function achievements.get_formspec(name)
       else
          minetest.log("error", "[rp_achievements] Invalid icon_type in achievements.get_formspec!")
       end
-      local title = def.title or ""
-      local description = def.description or ""
-      local tt = title .. "\n" .. description
+
+      local achievement_times = states[aname]
+      local progress
       if gotten then
-         tt = minetest.colorize(COLOR_GOTTEN, tt)
+	 progress = minetest.colorize(COLOR_GOTTEN, S("Gotten"))
+      elseif achievement_times then
+         local part, total = get_progress(player, aname, def, states)
+         progress = S("@1/@2", part, total)
+      else
+         progress = S("Missing")
       end
+
+      local title = def.title
+      if gotten then
+         title = minetest.colorize(COLOR_GOTTEN, title)
+      end
+      local description = def.description or ""
+      local tt = title .. "\n" .. description .. "\n" .. S("Status: @1", progress)
       form = form .. "tooltip["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(tt) .. "]"
    end
 
