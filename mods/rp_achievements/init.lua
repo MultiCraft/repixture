@@ -922,7 +922,8 @@ function achievements.get_formspec(name)
    -- Achievement list
    local aname = achievements.registered_achievements_list[row]
    local def = achievements.registered_achievements[aname]
-   --[[~~~~~ TEXT-BASED LIST ~~~~~]]
+
+   --[[~~~~~ TEXT LIST MODE ~~~~~]]
    if usermode[name] == MODE_LIST then
 
    -- Construct entries for text list
@@ -1024,12 +1025,21 @@ function achievements.get_formspec(name)
    end
    form = form .. "container_end[]" -- icon container end
 
+   --[[~~~~~ END OF TEXT LIST MODE ~~~~~]]
    else
+   --[[~~~~~ SYMBOL LIST MODE ~~~~~]]
 
-   --[[~~~~~ SYMBOL-BASED LIST ~~~~~]]
-   form = form .. "scrollbaroptions[min=0;max=200;thumbsize=50]"
-   form = form .. "scrollbar[9.5,3.0;0.275,6.2;vertical;achievement_list_scroller;0]"
-   form = form .. "scroll_container[0,3.0;9.4,6.2;achievement_list_scroller;vertical;0.1]"
+   local SYMBOLS_PER_ROW = 4
+
+   local scroll_height = math.ceil(#achievements.registered_achievements_list / SYMBOLS_PER_ROW)
+   scroll_height = scroll_height - 4
+   scroll_height = scroll_height * 24 + 4
+   if scroll_height > 0 then
+      local thumbsize = math.ceil(scroll_height / 10)
+      form = form .. "scrollbaroptions[min=0;max="..scroll_height..";thumbsize="..thumbsize.."]"
+      form = form .. "scrollbar[9.5,0.2;0.275,9;vertical;achievement_list_scroller;0]"
+   end
+   form = form .. "scroll_container[0,0.2;9.4,9;achievement_list_scroller;vertical;0.1]"
    local iconx = 0
    local icony = 0
    for _, aname in ipairs(achievements.registered_achievements_list) do
@@ -1047,7 +1057,7 @@ function achievements.get_formspec(name)
          form = form .. "rp_achievements_icon_frame.png]"
       end
       iconx = iconx + 1
-      if iconx >= 4 then
+      if iconx >= SYMBOLS_PER_ROW then
          iconx = 0
          icony = icony + 1
       end
@@ -1084,6 +1094,7 @@ function achievements.get_formspec(name)
    form = form .. "scroll_container_end[]"
 
    end
+   --[[~~~~~ END OF SYMBOL LIST MODE ~~~~~]]
 
 
    -- Achievement progress summary
