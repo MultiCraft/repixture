@@ -154,22 +154,27 @@ local achievement_message = function(name, aname, color, msg_private, msg_all)
    local notify_all = minetest.settings:get_bool("rp_achievements_notify_all", false)
    local str
    if notify_all and (not minetest.is_singleplayer()) then
-      -- Notify all players
-      if aname then
-         str = MSG_PRE .. S(msg_all, name, achievements.registered_achievements[aname].title)
-      else
-         str = MSG_PRE .. S(msg_all, name)
+      -- Notify all players but the given player
+      local players = minetest.get_connected_players()
+      for p=1, #players do
+         local pname = players[p]:get_player_name()
+         if pname ~= name then
+            if aname then
+               str = MSG_PRE .. S(msg_all, name, achievements.registered_achievements[aname].title)
+            else
+               str = MSG_PRE .. S(msg_all, name)
+            end
+            minetest.chat_send_player(pname, minetest.colorize(color, str))
+         end
       end
-      minetest.chat_send_all(minetest.colorize(color, str))
-   else
-      -- Only notify the given player
-      if aname then
-         str = MSG_PRE .. S(msg_private, achievements.registered_achievements[aname].title)
-      else
-         str = MSG_PRE .. S(msg_private)
-      end
-      minetest.chat_send_player(name, minetest.colorize(color, str))
    end
+   -- Notify the given player
+   if aname then
+      str = MSG_PRE .. S(msg_private, achievements.registered_achievements[aname].title)
+   else
+      str = MSG_PRE .. S(msg_private)
+   end
+   minetest.chat_send_player(name, minetest.colorize(color, str))
 end
 
 local achievement_gotten_message = function(name, aname)
