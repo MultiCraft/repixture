@@ -128,7 +128,7 @@ The <span class="concept">inventory</span> screen shows your inventory as well a
 
 ![Inventory menu](./assets/images/screenshots/inventory_basic.png)
 
-The inventory screen is organized in <span class="concept">pages</span>. The tabs on the left side, shown on the screenshot at the number (1), let you switch the page. The screenshot shows that we’re on the Crafting page right now.
+The inventory screen is organized in <span class="concept">pages</span>. The tabs on the left side, shown on the screenshot at the number (1), let you switch the page. The tab highlighted in green indicates the current tab. On this screenshot, we’re on the Crafting page.
 
 Some pages, like the Crafting page, show your inventory (2). The inventory is where you store and move your items. The top row represents your hotbar, i.e. the items you can actually use while exploring the world.
 
@@ -158,7 +158,11 @@ Finally, the black question mark button (5) toggles the crafting guide and the q
 
 In this page you can view and equip armor, which protects you from some forms of damage.
 
-If you have a helmet, chestplate or a pair of boots, simply put it into the matching slot to equip it. Move an item away from the armor slots to unequip it.
+If you have a helmet, chestplate or a pair of boots, simply put it into the matching slot (1) to equip it. Move an item away from the armor slots to unequip it.
+
+Next to the shield icon (2) you see your current protection level. Damage is reduced by the shown percentage.
+
+If you receive any armor bonuses, additional icons and text may appear on the page. Move the cursor on the icon for an explanation.
 
 #### Achievements
 
@@ -295,7 +299,7 @@ If you equip <span class="concept">armor</span>, and you’ll take less damage f
 
 3 types of armor fit on your body: <span class="itemgroup">Helmet</span>, <span class="itemgroup">chestplate</span> and <span class="itemgroup">boots</span>.
 
-You can equip armor in your inventory menu in the “Armor” tab. Alternatively, just wield the armor and press <kbd>Punch</kbd>. If you have already a piece of armor of the same type equipped, you will switch out your armor.
+You can equip armor in your inventory menu in the “Armor” page. Alternatively, just wield the armor and press <kbd>Punch</kbd>. If you have already a piece of armor of the same type equipped, you will switch out your armor.
 
 Each piece of armor has a certain <span class="concept">protection</span> value which reduces damage by a certain percentage. So for example, if you equip a helmet with 5% protection, you will take 5% less damage. Protection adds up: If you have a helmet with 10% protection and a chestplate with 10% protection, your total protection will be 20%.
 
