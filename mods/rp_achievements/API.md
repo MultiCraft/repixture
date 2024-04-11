@@ -29,8 +29,8 @@ Registers an achievement.
     * `title`: Title, as shown to the player (default: same as `name`)
     * `description`: Short (!) description that tells the player what to do to get the achievement
       crafting output identifier as provided to the `rp_crafting` mod)
-    * `icon`: Optional custom icon, using a texture name. Will be resized to 32×32 pixels.
-      Use a power of 2 for the texture size to avoid ugly stretching
+    * `icon`: Optional custom icon, using a texture name. Recommended size is 32×32 pixels.
+      You can use a different size, but the size must be a power of 2 to avoid stretching.
     * `item_icon`: Alternative optional custom icon to be used instead of `icon`. The icon will
       be based on the given itemname. (See warning below)
     * `difficulty`: Optional difficulty rating of achievement (see below)

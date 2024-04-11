@@ -19,7 +19,7 @@ local BULLET_PRE = "• "
 local HUD_TIMER = 5.0
 
 -- Side length of the square icon in HUD message (in pixels)
-local HUD_ICON_SIZE = 32
+local HUD_ICON_SIZE = 64
 
 local S = minetest.get_translator("rp_achievements")
 local NS = function(s) return s end
@@ -226,7 +226,7 @@ local achievement_popup = function(player_name, icon_type, icon, caption, messag
       position = { x = 0.5, y = 0 },
       alignment = { x = 1, y = 1 },
       offset = { x = -244, y = 22 },
-      scale = { x = 2, y = 2 },
+      scale = { x = 1, y = 1 },
       z_index = 101,
    })
 
