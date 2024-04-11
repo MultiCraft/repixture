@@ -121,13 +121,13 @@ local node_to_texture = function(nodename)
    elseif def.drawtype == "glasslike" or
          def.drawtype == "glasslike_framed" or
          def.drawtype == "glasslike_framed_optional" then
-      if def.tiles and def.tiles[1] then
+      if def.tiles and def.tiles[1] and type(def.tiles[1]) == "string" then
          return def.tiles[1]
       else
          return "no_texture.png"
       end
    elseif def.drawtype == "plantlike" or def.drawtype == "firelike" or def.drawtype == "signlike" then
-      if def.tiles and def.tiles[1] then
+      if def.tiles and def.tiles[1] and type(def.tiles[1]) == "string" then
          return def.tiles[1]
       else
          return "no_texture.png"
@@ -135,9 +135,17 @@ local node_to_texture = function(nodename)
    elseif def.drawtype == "torchlike" then
       if def.tiles then
          if def.paramtype2 == "none" then
-            return def.tiles[1] or "no_texture.png"
+            if def.tiles[1] and type(def.tiles[1]) == "string" then
+               return def.tiles[1]
+            else
+               return "no_texture.png"
+            end
          else
-            return def.tiles[2] or "no_texture.png"
+            if def.tiles[2] and type(def.tiles[2]) == "string" then
+               return def.tiles[2]
+            else
+               return "no_texture.png"
+            end
          end
       else
          return "no_texture.png"
