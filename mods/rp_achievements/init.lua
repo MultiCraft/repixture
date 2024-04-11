@@ -102,7 +102,7 @@ local tiles_to_inventorycube = function(tiles)
    end
    local tile1 = real_tiles[1] or "no_texture.png"
    local tile2 = real_tiles[6] or "no_texture.png"
-   local tile3 = real_tiles[4] or "no_texture.png"
+   local tile3 = real_tiles[3] or "no_texture.png"
    return minetest.inventorycube(tile1, tile2, tile3)
 end
 
