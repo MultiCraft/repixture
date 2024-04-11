@@ -1050,6 +1050,12 @@ function achievements.get_formspec(name)
       local status = achievements.get_completion_status(player, aname)
       local gotten = status == achievements.ACHIEVEMENT_GOTTEN
 
+      if gotten then
+	 amt_gotten = amt_gotten + 1
+      elseif status == achievements.ACHIEVEMENT_IN_PROGRESS then
+	 amt_progress = amt_progress + 1
+      end
+
       form = form .. "image["..imx..","..imy..";2.2,2.2;"
       if gotten then
          form = form .. "rp_achievements_icon_frame_gotten.png]"
