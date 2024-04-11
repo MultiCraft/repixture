@@ -585,7 +585,8 @@ if tnt_enable then
          title = S("Boom!"),
          description = S("Ignite TNT."),
          times = 1,
-         item_icon = "rp_tnt:tnt_burning",
+         -- Use inventorycube to make sure the icon renders correctly
+         icon = minetest.inventorycube("tnt_top_burning_static.png", "tnt_sides.png", "tnt_sides.png"),
 	 difficulty = 4.9,
    })
 else
