@@ -416,23 +416,24 @@ Whatever you do with your Repixture server is up to you, of course, just keep th
 In multiplayer, you can see the name as well as the health bar of every player above their head. The health bar can be disabled in the settings.
 
 
+### Modding support
+
+Repixture supports mods, using the powerful Minetest Lua API. With mods, people can extend or modify the game in many fun and interesting ways. Mods are completely optional, however, as Repixture wants to be a complete game in its own right. Refer to the Minetest documentation to learn how to install and activate mods.
+
+If you’re a mod developer, read the text file `DEVELOPERS.md` in the Repixture directory to get started.
 
 ## Compatibility notes
 
-In this technical section some information is provided about compatibility with mods and older versions of Repixture is provided.
+### Mod compability
 
-### Compatibility with mods
+While Repixture supports Minetest mods, not all mods that were created for Minetest will work in Repixture.
 
-While mods are not the main focus of Repixture, Repixture is still very moddable, thanks to Minetest’s powerful Lua API. However, not every mod for Minetest is automatically compatible with Repixture. If you want to try out a mod, remember to check the dependencies.
+Mods …
 
-Two types of mods in general should work with Repixture:
+* that were created for Repixture specifically and
+* generic mods that don’t depend on any particular game
 
-* Mods that were explicitly developed for Repixture
-* Generic mods that don’t depend on a particular game
-
-Mods that were created specifically for different game only, like Minetest Game, will probably not work.
-
-If you’re a mod developer, reading the text file `DEVELOPERS.md` in the Repixture directory is highly recommended.
+are OK. Other mods, however, may or may not work.
 
 ### Using old biomes from before version 3.0.0
 
