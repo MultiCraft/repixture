@@ -49,15 +49,18 @@ Using `item_icon` for items that have `inventory_image` set is safe.
 However, `item_icon` may not render correctly in the achievement popup
 for some nodes if no `inventory_image` is set.
 
-The drawtypes `"normal"`, `"liquid"`,  `"glasslike"`, `"glasslike_framed"`,
-`"glasslike_framed_optional"`, `"allfaces"`, and `"allfaces_optional"` will
-render as cubes.
+The drawtypes `"normal"`, `"liquid"`, `"allfaces"`, and `"allfaces_optional"`
+will render as cubes.
 
-Drawtypes `"plantlike"`, `"signlike"`, `"torchlike"` and `"firelike"` will render as a flat image.
+Drawtypes `"glasslike"`, `"glasslike_framed"`, `"glasslike_framed_optional"`,
+`"plantlike"`, `"signlike"`, `"torchlike"` and `"firelike"` will render as a flat image.
 
 Drawtype `"airlike"` will render as nothing (this is intentional).
 
 Other drawtypes are not supported!
+
+Also, if any tile in `tiles` is a tile definition table, that node is also
+unsupported.
 
 It is recommended to test the popup message if your achievement uses a node as
 item icon (use the `/achievement give` command).

@@ -79,12 +79,16 @@ end
 -- Turns a node tile table to an 'inventorycube' texture
 local tiles_to_inventorycube = function(tiles)
    if not tiles then
-      return minetest.inventorycube("no_texture.png", "no_texture.png", "no_texture.png")
+      return minetest.inventorycube("no_texture.png")
    end
    local real_tiles = {}
    local max_tile = 0
    for t=1, #tiles do
       real_tiles[t] = tiles[t]
+      if type(real_tiles[t]) == "table" then
+         -- Complex tiles are not supported
+         return minetest.inventorycube("no_texture.png")
+      end
       if tiles[t] == "" then
          real_tiles[t] = "no_texture.png"
       end
@@ -107,16 +111,21 @@ local node_to_texture = function(nodename)
    local def = minetest.registered_nodes[nodename]
    if not def then
       -- Unknown Node
-      return minetest.inventorycube("unknown_node.png", "unknown_node.png", "unknown_node.png")
+      return minetest.inventorycube("unknown_node.png")
    end
    if def.drawtype == "normal" or
-		def.drawtype == "liquid" or
-		def.drawtype == "glasslike" or
-		def.drawtype == "glasslike_framed" or
-		def.drawtype == "glasslike_framed_optional" or
-		def.drawtype == "allfaces" or
-		def.drawtype == "allfaces_optional" then
+         def.drawtype == "liquid" or
+         def.drawtype == "allfaces" or
+         def.drawtype == "allfaces_optional" then
       return tiles_to_inventorycube(def.tiles)
+   elseif def.drawtype == "glasslike" or
+         def.drawtype == "glasslike_framed" or
+         def.drawtype == "glasslike_framed_optional" then
+      if def.tiles and def.tiles[1] then
+         return def.tiles[1]
+      else
+         return "no_texture.png"
+      end
    elseif def.drawtype == "plantlike" or def.drawtype == "firelike" or def.drawtype == "signlike" then
       if def.tiles and def.tiles[1] then
          return def.tiles[1]
