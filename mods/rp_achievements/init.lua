@@ -387,9 +387,7 @@ local function check_achievement_gotten(player, aname)
       -- The state of -1 means the achievement has been completed
       states[aname] = -1
       set_achievement_states(player, states)
-      minetest.after(2.0, function(param)
-         achievement_gotten_message(param.name, param.aname)
-      end, {name=name, aname=aname})
+      achievement_gotten_message(name, aname)
       minetest.log("action", "[rp_achievements] " .. name .. " got achievement '"..aname.."'")
    end
 
