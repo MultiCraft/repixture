@@ -33,6 +33,7 @@ achievements.registered_achievements = {}
 achievements.registered_achievements_list = {}
 
 local huds = {} -- HUD IDs, per-player
+local hud_queues = {} -- queued HUD messages, per-player
 
 local selected_row = {} -- current selected row, per-player
 
@@ -172,12 +173,22 @@ local achievement_popup = function(player_name, icon_type, icon, caption, messag
    if not player then
       return
    end
-   -- Replace old popup
+   -- Put popup in queue if an achievement is currently shown.
+   -- Queued popups will appear later, in the order
+   -- they came in.
    if huds[player_name] then
-      player:hud_remove(huds[player_name].bg)
-      player:hud_remove(huds[player_name].caption)
-      player:hud_remove(huds[player_name].message)
-      player:hud_remove(huds[player_name].icon)
+      if not hud_queues[player_name] then
+         hud_queues[player_name] = {}
+      end
+      table.insert(hud_queues[player_name], {
+         icon_type = icon_type,
+         icon = icon,
+         caption = caption,
+         message = message,
+         caption_color = caption_color,
+         message_color = message_color,
+      })
+      return
    end
 
    -- Background
@@ -263,11 +274,20 @@ minetest.register_globalstep(function(dtime)
          if huds[name] and huds[name].timer then
             huds[name].timer = huds[name].timer + dtime
             if huds[name].timer > HUD_TIMER then
+               -- Remove HUD when ran out of time
                player:hud_remove(huds[name].caption)
                player:hud_remove(huds[name].message)
                player:hud_remove(huds[name].icon)
                player:hud_remove(huds[name].bg)
                huds[name] = nil
+
+               -- If there is something in the popup queue, show it
+               if hud_queues[name] and #hud_queues[name] > 0 then
+                  -- Get first entry in queue, show it, then remove entry
+                  local h = hud_queues[name][1]
+                  achievement_popup(name, h.icon_type, h.icon, h.caption, h.message, h.caption_color, h.message_color)
+                  table.remove(hud_queues[name], 1)
+               end
             end
          end
       else
@@ -816,6 +836,7 @@ local function on_leaveplayer(player)
    local name = player:get_player_name()
    selected_row[name] = nil
    huds[name] = nil
+   hud_queues[name] = nil
 end
 
 -- Add callback functions
