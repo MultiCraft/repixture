@@ -24,6 +24,7 @@ local HUD_ICON_SIZE = 64
 -- Current display mode
 local MODE_LIST = 1 -- text list
 local MODE_SYMBOLS = 2 -- symbols
+local MODE_DEFAULT = MODE_SYMBOLS
 
 local S = minetest.get_translator("rp_achievements")
 local NS = function(s) return s end
@@ -45,7 +46,7 @@ local legacy_achievements_file = minetest.get_worldpath() .. "/achievements.dat"
 
 local legacy_achievements_states = {}
 
-local usermode = {} -- current display modes, per-player
+local userdata = {} -- holds internal state for GUI, per-player
 
 local function load_legacy_achievements()
    local f = io.open(legacy_achievements_file, "r")
@@ -843,7 +844,7 @@ local function on_leaveplayer(player)
    selected_row[name] = nil
    huds[name] = nil
    hud_queues[name] = nil
-   usermode[name] = nil
+   userdata[name] = nil
 end
 
 -- Add callback functions
@@ -910,8 +911,14 @@ function achievements.get_formspec(name)
    local amt_gotten = 0
    local amt_progress = 0
 
-   if not usermode[name] then
-      usermode[name] = MODE_LIST
+   if not userdata[name] then
+      userdata[name] = {}
+   end
+   if not userdata[name].mode then
+      userdata[name].mode = MODE_DEFAULT
+   end
+   if not userdata[name].symbol_scroll then
+      userdata[name].symbol_scroll = 0
    end
 
    local form = rp_formspec.get_page("rp_achievements:achievements")
@@ -924,7 +931,7 @@ function achievements.get_formspec(name)
    local def = achievements.registered_achievements[aname]
 
    --[[~~~~~ TEXT LIST MODE ~~~~~]]
-   if usermode[name] == MODE_LIST then
+   if userdata[name].mode == MODE_LIST then
 
    -- Construct entries for text list
    for _, paname in ipairs(achievements.registered_achievements_list) do
@@ -1037,9 +1044,9 @@ function achievements.get_formspec(name)
    if scroll_height > 0 then
       local thumbsize = math.ceil(scroll_height / 10)
       form = form .. "scrollbaroptions[min=0;max="..scroll_height..";thumbsize="..thumbsize.."]"
-      form = form .. "scrollbar[9.5,0.2;0.275,9;vertical;achievement_list_scroller;0]"
+      form = form .. "scrollbar[9.5,0.2;0.275,9;vertical;symbol_list_scroller;"..tostring(userdata[name].symbol_scroll).."]"
    end
-   form = form .. "scroll_container[0,0.2;9.4,9;achievement_list_scroller;vertical;0.1]"
+   form = form .. "scroll_container[0,0.2;9.4,9;symbol_list_scroller;vertical;0.1]"
    local iconx = 0
    local icony = 0
    for _, aname in ipairs(achievements.registered_achievements_list) do
@@ -1134,7 +1141,7 @@ function achievements.get_formspec(name)
    -- Display mode button
    local mode_icon, mode_tip
 
-   if usermode[name] == MODE_LIST then
+   if userdata[name].mode == MODE_LIST then
       mode_icon = "ui_icon_achievements_mode_icons.png"
       mode_tip = S("Show symbols")
    else
@@ -1172,6 +1179,16 @@ local function receive_fields(player, form_name, fields)
 
    local name = player:get_player_name()
 
+   if fields.symbol_list_scroller then
+      if not userdata[name] then
+         userdata[name] = {}
+      end
+      local evnt = minetest.explode_scrollbar_event(fields.symbol_list_scroller)
+      if evnt.type == "CHG" then
+         userdata[name].symbol_scroll = evnt.value
+      end
+   end
+
    local selected = 1
 
    if fields.achievement_list then
@@ -1187,13 +1204,13 @@ local function receive_fields(player, form_name, fields)
    end
 
    if fields.toggle_display_mode then
-      if not usermode[name] then
-         usermode[name] = MODE_LIST
+      if not userdata[name].mode then
+         userdata[name].mode = MODE_LIST
       end
-      if usermode[name] == MODE_LIST then
-         usermode[name] = MODE_SYMBOLS
+      if userdata[name].mode == MODE_LIST then
+         userdata[name].mode = MODE_SYMBOLS
       else
-         usermode[name] = MODE_LIST
+         userdata[name].mode = MODE_LIST
       end
       rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
    end
