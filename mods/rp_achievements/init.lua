@@ -225,8 +225,8 @@ local achievement_popup = function(player_name, icon_type, icon, caption, messag
       text = "("..icon_texture..")^[resize:"..HUD_ICON_SIZE.."x"..HUD_ICON_SIZE,
       position = { x = 0.5, y = 0 },
       alignment = { x = 1, y = 1 },
-      offset = { x = -240, y = 24 },
-      scale = { x = 1.9, y = 1.9 },
+      offset = { x = -244, y = 22 },
+      scale = { x = 2, y = 2 },
       z_index = 101,
    })
 
@@ -935,13 +935,15 @@ function achievements.get_formspec(name)
 
    local form = rp_formspec.get_page("rp_achievements:achievements")
 
+   -- Achievement list
    form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
-   form = form .. "table[0,2.8;9.75,6.4;achievement_list;" .. achievement_list
+   form = form .. "table[0,3.0;9.75,6.2;achievement_list;" .. achievement_list
       .. ";" .. row .. "]"
 
    local aname = achievements.registered_achievements_list[row]
    local def = achievements.registered_achievements[aname]
 
+   -- Achievement title, description and status
    local progress = ""
    local title = def.title
    local description = def.description
@@ -961,6 +963,7 @@ function achievements.get_formspec(name)
       progress = S("Missing")
    end
 
+   -- Achievement progress
    local progress_total =
       S("@1 of @2 achievements gotten, @3 in progress",
       amt_gotten,
@@ -982,11 +985,16 @@ function achievements.get_formspec(name)
       .. minetest.formspec_escape(progress_total)
       .. "]"
 
-   form = form .. "label[0,0.4;" .. minetest.formspec_escape(title) .. "]"
-   form = form .. "label[8.5,0.4;" .. minetest.formspec_escape(progress) .. "]"
+   form = form .. "label[0,0.2;" .. minetest.formspec_escape(title) .. "]"
+   form = form .. "label[8.5,0.2;" .. minetest.formspec_escape(progress) .. "]"
 
-   form = form .. "textarea[3,0.6;5.25,2;;;" .. minetest.formspec_escape(description) .. "]"
+   form = form .. "textarea[2.55,0.51;5.6,2.15;;;" .. minetest.formspec_escape(description) .. "]"
 
+   -- Achievement icon background
+   form = form .. "container[0,0.51]"
+   form = form .. "image[0,0;2.2,2.2;rp_achievements_icon_frame.png]"
+
+   -- Achievement icon
    local icon, icon_type
    if not gotten then
       icon = "rp_achievements_icon_missing.png"
@@ -995,13 +1003,17 @@ function achievements.get_formspec(name)
       icon, icon_type = get_achievement_icon(aname)
    end
 
+   local ix = 0.12222
+   local iy = 0.12222
+   local isize = 1.9555
    if icon_type == "image" then
-      form = form .. "image[0,0.75;1.8,1.8;" .. minetest.formspec_escape(icon) .. "]"
+      form = form .. "image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
    elseif icon_type == "item_image" then
-      form = form .. "item_image[0,0.75;1.8,1.8;" .. minetest.formspec_escape(icon) .. "]"
+      form = form .. "item_image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
    else
       minetest.log("error", "[rp_achievements] Invalid icon_type in achievements.get_formspec!")
    end
+   form = form .. "container_end[]"
    form = form .. "container_end[]"
 
    return form
