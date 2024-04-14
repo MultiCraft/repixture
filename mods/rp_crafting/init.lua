@@ -358,45 +358,28 @@ function crafting.get_formspec(name)
          end
       end
 
-      -- Check if this recipe is craftable.
+      -- Check if this recipe is craftable with the current input.
       -- In MODE_CRAFTABLE, everything in the list is craftable so no extra check is needed
       local craftable = userdata.mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
 
-      -- Define custom button style for:
-      -- * craftable vs. not craftable right now
-      -- * selected vs. not selected
-      -- * secret vs. non-secret (defined with not_in_craft_guide)
-
-      if craftable and this_selected then
-         -- Highlight selected button
-         if minetest.get_item_group(itemname, "not_in_craft_guide") ~= 0 then
-             -- Hidden in craft guide
-             btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_secret_selected_inactive.png]"
-             btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_secret_selected_active.png]"
+      -- Button styling for non-selected button
+      if not this_selected then
+         if craftable then
+            if minetest.get_item_group(itemname, "not_in_craft_guide") ~= 0 then
+                -- Hidden in craft guide
+                btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_secret_inactive.png]"
+                btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_secret_active.png]"
+            end
+            -- No special style for non-hidden craftable recipes
          else
-             -- Normal craft recipe
-             btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_selected_inactive.png]"
-             btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_selected_active.png]"
+            -- Gray out uncraftable recipes
+            btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_uncraftable_inactive.png]"
+            btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_uncraftable_active.png]"
          end
-      elseif craftable and not this_selected then
-         if minetest.get_item_group(itemname, "not_in_craft_guide") ~= 0 then
-             -- Hidden in craft guide
-             btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_secret_inactive.png]"
-             btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_secret_active.png]"
-         end
-      elseif not craftable and this_selected then
-         -- Gray out uncraftable recipes
-         btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_uncraftable_selected_inactive.png]"
-         btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_uncraftable_selected_active.png]"
-      elseif not craftable and not this_selected then
-         -- Gray out uncraftable recipes
-         btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_uncraftable_inactive.png]"
-         btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_uncraftable_active.png]"
       end
 
-
       if itemdef ~= nil then
-         -- Add a craft button
+         -- Add the craft recipe button
          local iib_item = itemname .. " " .. itemstack:get_count()
          -- Note: The buttons MUST be vertically spaced apart power of two. Otherwise, there will be an awkward Y pixel offset when scrolling
          -- due to floating-point rounding error. In this case, we space apart the buttons by exactly 1 on the Y axis via 'cry'.
@@ -411,9 +394,39 @@ function crafting.get_formspec(name)
          craft_count = craft_count + 1
       end
    end
+
+   -- Select the first entry if there is no selection
    if not selected and #craftitems > 0 then
       selected_craft_id = craftitems[1]
+      selected_craftdef = crafting.registered_crafts[selected_craft_id]
       userdata[name].craft_id = selected_craft_id
+      local craftdef = crafting.registered_crafts[selected_craft_id]
+      local craftable = userdata.mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
+      local itemname = craftdef.output:get_name()
+   end
+
+   -- Button style for selected button
+   if selected_craft_id then
+      local craftdef = crafting.registered_crafts[selected_craft_id]
+      local craftable = userdata.mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
+      local itemname = craftdef.output:get_name()
+
+      if craftable then
+         -- Highlight selected button
+         if minetest.get_item_group(itemname, "not_in_craft_guide") ~= 0 then
+             -- Hidden in craft guide
+             btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..";bgimg=ui_button_crafting_secret_selected_inactive.png]"
+             btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..":pressed;bgimg=ui_button_crafting_secret_selected_active.png]"
+         else
+             -- Normal craft recipe
+             btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..";bgimg=ui_button_crafting_selected_inactive.png]"
+             btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..":pressed;bgimg=ui_button_crafting_selected_active.png]"
+         end
+      elseif not craftable then
+         -- Gray out uncraftable recipes
+         btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..";bgimg=ui_button_crafting_uncraftable_selected_inactive.png]"
+         btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..":pressed;bgimg=ui_button_crafting_uncraftable_selected_active.png]"
+      end
    end
 
    local form = rp_formspec.get_page("rp_crafting:crafting")
