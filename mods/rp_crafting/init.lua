@@ -403,20 +403,24 @@ function crafting.get_formspec(name)
 
    form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
 
-   --[[
+   -- Crafting list
    if craft_count > 0 then
-       -- Crafting list
-       form = form .. "table[2.5,0;6,4.5;craft_list;" .. craft_list
-          .. ";" .. row .. "]"
+       -- Text list
+       --form = form .. "table[2.5,0;6,4.5;craft_list;" .. craft_list
+       --   .. ";" .. row .. "]"
+
+       -- Buttons
+       if craft_count > BUTTONS_WIDTH*BUTTONS_HEIGHT then
+          -- Render scrollbar if scrolling is neccessary
+          local scrollmax = cry * 1 - BUTTONS_HEIGHT
+          local scrollpos = (userdata[name] and userdata[name].scrollpos) or 0
+          form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep="..BUTTONS_HEIGHT..";largestep="..(BUTTONS_HEIGHT*2).."]"
+          form = form .. "scrollbar[8.1,0;0.4,4.4;vertical;craft_scroller;"..scrollpos.."]"
+       end
+       form = form .. "scroll_container[2.5,0;5.5,4.4;craft_scroller;vertical;1.1]"
+       form = form .. craft_list
+       form = form .. "scroll_container_end[]"
    end
-   ]]
-   local scrollmax = cry * 1 - BUTTONS_HEIGHT
-   local scrollpos = (userdata[name] and userdata[name].scrollpos) or 0
-   form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep="..BUTTONS_HEIGHT..";largestep="..(BUTTONS_HEIGHT*2).."]"
-   form = form .. "scrollbar[8.1,0;0.4,4.4;vertical;craft_scroller;"..scrollpos.."]"
-   form = form .. "scroll_container[2.5,0;5.5,4.4;craft_scroller;vertical;1.1]"
-   form = form .. craft_list
-   form = form .. "scroll_container_end[]"
 
    if selected_craftdef ~= nil then
       -- Crafting input slots
