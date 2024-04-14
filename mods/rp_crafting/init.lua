@@ -415,9 +415,9 @@ function crafting.get_formspec(name)
           local scrollmax = math.max(1, cry * 1 - BUTTONS_HEIGHT)
           local scrollpos = (userdata[name] and userdata[name].scrollpos) or 0
           form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep="..BUTTONS_HEIGHT..";largestep="..(BUTTONS_HEIGHT*2).."]"
-          form = form .. "scrollbar[6.7,0;0.4,4.4;vertical;craft_scroller;"..scrollpos.."]"
+          form = form .. "scrollbar[6.7,0.125;0.4,4.2;vertical;craft_scroller;"..scrollpos.."]"
        end
-       form = form .. "scroll_container[1.25,0;5.35,4.25;craft_scroller;vertical;1.1]"
+       form = form .. "scroll_container[1.25,0.125;5.35,4.25;craft_scroller;vertical;1.1]"
 
        -- Craft recipe button style
        form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_inactive.png;border=false;padding=2]"
