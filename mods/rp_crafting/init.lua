@@ -340,6 +340,7 @@ function crafting.get_formspec(name)
       local itemname = itemstack:get_name()
       local itemdef = minetest.registered_items[itemname]
 
+      -- Check if this button will be the selected one
       if selected_craft_id then
          if craft_id == selected_craft_id then
             selected_craftdef = crafting.registered_crafts[craft_id]
@@ -351,7 +352,10 @@ function crafting.get_formspec(name)
       end
 
       if itemdef ~= nil then
+         -- Add a craft button
          local iib_item = itemname .. " " .. itemstack:get_count()
+         -- Note: The buttons MUST be vertically spaced apart power of two. Otherwise, there will be an awkward Y pixel offset when scrolling
+         -- due to floating-point rounding error. In this case, we space apart the buttons by exactly 1 on the Y axis via 'cry'.
          craft_list = craft_list .. "item_image_button["..(crx*1.1)..","..(cry)..";0.9,0.9;"..iib_item..";".."craft_select_"..craft_id..";]"
 	
          crx = crx + 1
