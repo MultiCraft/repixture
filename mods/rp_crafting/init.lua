@@ -441,7 +441,7 @@ function crafting.get_formspec(name)
        -- Recipe selector
        if craft_count > BUTTONS_WIDTH*BUTTONS_HEIGHT then
           -- Render scrollbar if scrolling is neccessary
-          local scrollmax = math.max(1, cry * 1 - BUTTONS_HEIGHT)
+          local scrollmax = math.max(1, cry - (BUTTONS_HEIGHT-1))
           local scrollpos = (userdata[name] and userdata[name].scrollpos)
           if not scrollpos and selected_element then
               scrollpos = math.floor((selected_element-1) / BUTTONS_WIDTH)
