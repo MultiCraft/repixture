@@ -409,17 +409,17 @@ function crafting.get_formspec(name)
        --form = form .. "table[1.5,0;6,4.5;craft_list;" .. craft_list
        --   .. ";" .. row .. "]"
 
-       -- Buttons
+       -- Recipe selector
        if craft_count > BUTTONS_WIDTH*BUTTONS_HEIGHT then
           -- Render scrollbar if scrolling is neccessary
-          local scrollmax = cry * 1 - BUTTONS_HEIGHT
+          local scrollmax = math.max(1, cry * 1 - BUTTONS_HEIGHT)
           local scrollpos = (userdata[name] and userdata[name].scrollpos) or 0
           form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep="..BUTTONS_HEIGHT..";largestep="..(BUTTONS_HEIGHT*2).."]"
           form = form .. "scrollbar[6.7,0;0.4,4.4;vertical;craft_scroller;"..scrollpos.."]"
        end
        form = form .. "scroll_container[1.25,0;5.35,4.25;craft_scroller;vertical;1.1]"
 
-       -- Craft button style
+       -- Craft recipe button style
        form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_inactive.png;border=false;padding=2]"
        form = form .. "style_type[item_image_button:pressed;bgimg=ui_button_crafting_active.png;border=false;padding=2]"
        if row then
@@ -428,6 +428,7 @@ function crafting.get_formspec(name)
           form = form .. "style[craft_select_"..row..":pressed;bgimg=ui_button_crafting_selected_active.png]"
        end
 
+       -- Craft recipe buttons
        form = form .. craft_list
        form = form .. "scroll_container_end[]"
    end
@@ -447,16 +448,16 @@ function crafting.get_formspec(name)
       -- Crafting buttons and output preview
       if selected_craftdef.output ~= nil then
          form = form .. rp_formspec.fake_itemstack_any(
-            8.75, 0, selected_craftdef.output, "craftex_out")
+            8.95, 0, selected_craftdef.output, "craftex_out")
 
          if input_items >= 1 and input_items <= crafting.MAX_INPUTS then
             -- Arrow(s) pointing from input to output (a visual helper)
-            form = form .. "image[8.25,0;0.5,4;ui_crafting_arrow_"..input_items..".png]"
+            form = form .. "image[8.35,0;0.5,4;ui_crafting_arrow_"..input_items..".png]"
          end
 
          -- Show crafting buttons only if something is selected
-         form = form .. rp_formspec.button(8.75, 1.15, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
-         form = form .. rp_formspec.button(8.75, 2.3, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
+         form = form .. rp_formspec.button(8.95, 1.15, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
+         form = form .. rp_formspec.button(8.95, 2.3, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
       end
    end
    form = form .. "container_end[]"
