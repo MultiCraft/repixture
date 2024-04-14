@@ -141,8 +141,6 @@ function crafting.get_crafts(player_inventory, player_name)
    end
 
    local function sort_crafts()
-      local lang_code = minetest.get_player_information(player_name).lang_code
-
       local function sort_function(a, b)
 	 local a_item = crafting.registered_crafts[a].output
 	 local b_item = crafting.registered_crafts[b].output
@@ -150,10 +148,11 @@ function crafting.get_crafts(player_inventory, player_name)
          local a_itemn = a_item:get_name()
          local b_itemn = b_item:get_name()
 
-         local a_name = minetest.get_translated_string(lang_code, minetest.registered_items[a_itemn].description)
-         local b_name = minetest.get_translated_string(lang_code, minetest.registered_items[b_itemn].description)
-
-         return a_name < b_name
+         if a_itemn == b_itemn then
+            return a_item:get_count() < b_item:get_count()
+         else
+            return a_itemn < b_itemn
+         end
       end
       table.sort(results, sort_function)
    end
