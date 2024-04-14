@@ -351,18 +351,6 @@ function crafting.get_formspec(name)
       end
 
       if itemdef ~= nil then
-         if craft_list ~= "" then
-            --craft_list = craft_list .. ","
-         end
-
-         if itemstack:get_count() ~= 1 then
-            local cnt = tostring(itemstack:get_count())
-            --craft_list = craft_list .. minetest.formspec_escape(cnt)
-         end
-
-         local desc = itemstack:get_short_description()
-
-         --craft_list = craft_list .. "," .. minetest.formspec_escape(desc)
          local iib_item = itemname .. " " .. itemstack:get_count()
          craft_list = craft_list .. "item_image_button["..(crx*1.1)..","..(cry*1.1)..";0.9,0.9;"..iib_item..";".."craft_select_"..craft_id..";]"
 	
@@ -386,10 +374,6 @@ function crafting.get_formspec(name)
 
    -- Crafting list
    if craft_count > 0 then
-       -- Text list
-       --form = form .. "table[1.5,0;6,4.5;craft_list;" .. craft_list
-       --   .. ";" .. row .. "]"
-
        -- Recipe selector
        if craft_count > BUTTONS_WIDTH*BUTTONS_HEIGHT then
           -- Render scrollbar if scrolling is neccessary
@@ -539,15 +523,7 @@ local function on_player_receive_fields(player, form_name, fields)
    end
 
    local do_craft_1, do_craft_10 = false, false
-   if fields.craft_list then
-      -- Double-click on list entry crafts single time
-      local selection = minetest.explode_table_event(fields.craft_list)
-      if selection.type == "DCL" then
-          do_craft_1 = true
-      end
-   else
-      do_craft_1 = fields.do_craft_1 ~= nil
-   end
+   do_craft_1 = fields.do_craft_1 ~= nil
    do_craft_10 = fields.do_craft_10 ~= nil
    if do_craft_1 or do_craft_10 then
       local old_craft_id = nil
@@ -599,21 +575,6 @@ local function on_player_receive_fields(player, form_name, fields)
          crafting.update_crafting_formspec(player, old_craft_id)
       end
 
-   elseif fields.craft_list then
-      local selection = minetest.explode_table_event(fields.craft_list)
-
-      if selection.type == "CHG" then
-         local craftitems
-         if userdata[name] and userdata[name].mode == MODE_GUIDE then
-            craftitems = crafting.get_crafts(nil, name)
-         else
-            craftitems = crafting.get_crafts(inv, name)
-         end
-         local craft_id = craftitems[selection.row]
-         userdata[name].craft_id = craft_id
-      elseif selection.type == "INV" then
-         userdata[name].craft_id = nil
-      end
    elseif fields.toggle_filter then
 
       if userdata[name] and userdata[name].craft_id then
@@ -632,7 +593,6 @@ local function on_player_receive_fields(player, form_name, fields)
             local id = tonumber(string.sub(k, 14))
             if id then
                userdata[name].craft_id = id
-               minetest.log("error", id)
                crafting.update_crafting_formspec(player, id)
                break
             end
