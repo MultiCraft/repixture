@@ -361,10 +361,29 @@ function crafting.get_formspec(name)
       -- Check if this recipe is craftable.
       -- In MODE_CRAFTABLE, everything in the list is craftable so no extra check is needed
       local craftable = userdata.mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
+
+      -- Define custom button style for:
+      -- * craftable vs. not craftable right now
+      -- * selected vs. not selected
+      -- * secret vs. non-secret (defined with not_in_craft_guide)
+
       if craftable and this_selected then
          -- Highlight selected button
-         btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_selected_inactive.png]"
-         btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_selected_active.png]"
+         if minetest.get_item_group(itemname, "not_in_craft_guide") ~= 0 then
+             -- Hidden in craft guide
+             btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_secret_selected_inactive.png]"
+             btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_secret_selected_active.png]"
+         else
+             -- Normal craft recipe
+             btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_selected_inactive.png]"
+             btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_selected_active.png]"
+         end
+      elseif craftable and not this_selected then
+         if minetest.get_item_group(itemname, "not_in_craft_guide") ~= 0 then
+             -- Hidden in craft guide
+             btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_secret_inactive.png]"
+             btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_secret_active.png]"
+         end
       elseif not craftable and this_selected then
          -- Gray out uncraftable recipes
          btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_uncraftable_selected_inactive.png]"
