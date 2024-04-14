@@ -336,8 +336,9 @@ function crafting.get_formspec(name)
    local craft_count = 0
    local crx, cry = 0, 0
    local selected = false
+   local selected_element
    local btn_styles = ""
-   for _, craft_id in ipairs(craftitems) do
+   for element_id, craft_id in ipairs(craftitems) do
       local itemstack = crafting.registered_crafts[craft_id].output
       local itemstring = itemstack:to_string()
       local itemname = itemstack:get_name()
@@ -350,6 +351,7 @@ function crafting.get_formspec(name)
          if craft_id == selected_craft_id then
             selected_craftdef = craftdef
             selected = true
+            selected_element = element_id
             this_selected = true
             if userdata[name] ~= nil then
                 userdata[name].craft_id = selected_craft_id
@@ -399,6 +401,7 @@ function crafting.get_formspec(name)
    if not selected and #craftitems > 0 then
       selected_craft_id = craftitems[1]
       selected_craftdef = crafting.registered_crafts[selected_craft_id]
+      selected_element = 1
       userdata[name].craft_id = selected_craft_id
       local craftdef = crafting.registered_crafts[selected_craft_id]
       local craftable = userdata.mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
@@ -439,7 +442,15 @@ function crafting.get_formspec(name)
        if craft_count > BUTTONS_WIDTH*BUTTONS_HEIGHT then
           -- Render scrollbar if scrolling is neccessary
           local scrollmax = math.max(1, cry * 1 - BUTTONS_HEIGHT)
-          local scrollpos = (userdata[name] and userdata[name].scrollpos) or 0
+          local scrollpos = (userdata[name] and userdata[name].scrollpos)
+          if not scrollpos and selected_element then
+              scrollpos = math.floor((selected_element-1) / BUTTONS_WIDTH)
+              userdata[name].scrollpos = scrollpos
+          end
+          if not scrollpos then
+              scrollpos = 0
+              userdata[name].scrollpos = scrollpos
+          end
           form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep=1;largestep="..BUTTONS_HEIGHT.."]"
           form = form .. "scrollbar[6.7,0.25;0.3,3.95;vertical;craft_scroller;"..scrollpos.."]"
        end
@@ -644,6 +655,9 @@ local function on_player_receive_fields(player, form_name, fields)
       else
           userdata[name].mode = MODE_GUIDE
       end
+      -- Invalidate scrollpos on mode switch to force a rescroll
+      -- to that element
+      userdata[name].scrollpos = nil
    else
       for k,v in pairs(fields) do
          if string.sub(k, 1, 13) == "craft_select_" then
@@ -685,7 +699,7 @@ local function on_joinplayer(player)
 
    local inv = player:get_inventory()
 
-   userdata[name] = {mode = MODE_CRAFTABLE, scroll=0}
+   userdata[name] = {mode = MODE_CRAFTABLE}
 
    if inv:get_size("craft_in") ~= 4 then
       inv:set_size("craft_in", 4)
