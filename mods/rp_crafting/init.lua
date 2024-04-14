@@ -478,8 +478,8 @@ function crafting.get_formspec(name)
          end
 
          -- Show crafting buttons only if something is selected
-         form = form .. rp_formspec.button(8.95, 1.15, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
-         form = form .. rp_formspec.button(8.95, 2.3, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
+         form = form .. rp_formspec.image_button(8.95, 1.15, 1, 1, "do_craft_1", "ui_button_crafting_1.png", S("Craft once"))
+         form = form .. rp_formspec.image_button(8.95, 2.3, 1, 1, "do_craft_10", "ui_button_crafting_10.png", S("Craft 10 times"))
       end
    end
    form = form .. "container_end[]"
