@@ -418,6 +418,16 @@ function crafting.get_formspec(name)
           form = form .. "scrollbar[8.1,0;0.4,4.4;vertical;craft_scroller;"..scrollpos.."]"
        end
        form = form .. "scroll_container[2.5,0;5.5,4.4;craft_scroller;vertical;1.1]"
+
+       -- Craft button style
+       form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_inactive.png;border=false;padding=2]"
+       form = form .. "style_type[item_image_button:pressed;bgimg=ui_button_crafting_active.png;border=false;padding=2]"
+       if row then
+          -- Current selected button
+          form = form .. "style[craft_select_"..row..";bgimg=ui_button_crafting_selected_inactive.png]"
+          form = form .. "style[craft_select_"..row..":pressed;bgimg=ui_button_crafting_selected_active.png]"
+       end
+
        form = form .. craft_list
        form = form .. "scroll_container_end[]"
    end
