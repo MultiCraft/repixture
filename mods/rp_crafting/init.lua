@@ -82,6 +82,34 @@ function crafting.register_craft(def)
    return itemkey
 end
 
+-- Checks if the given crafting recipe (given by its craft definition)
+-- can be crafted from the input items of the inventory list 'craft_in'
+local function is_craftable_from_inventory(craftdef, inventory)
+   local input_list = inventory:get_list("craft_in")
+   for c=1, #craftdef.items do
+      local name = craftdef.items[c]:get_name()
+      if string.sub(name, 1, 6) == "group:" then
+         local group = string.sub(name, 7)
+         local gcount = craftdef.items[c]:get_count()
+         if input_list == nil then
+            return false
+         end
+         local count = 0
+         for i=1, #input_list do
+            if minetest.get_item_group(input_list[i]:get_name(), group) ~= 0 then
+               count = count + input_list[i]:get_count()
+            end
+         end
+         if count < gcount then
+            return false
+         end
+      elseif not inventory:contains_item("craft_in", craftdef.items[c]) then
+         return false
+      end
+   end
+   return true
+end
+
 -- Cache the crafting list for the crafting guide for a much faster
 -- loading time.
 -- The crafting guide list only needs to be generated once because
@@ -93,33 +121,7 @@ function crafting.get_crafts(player_inventory, player_name)
 
    local function get_filtered()
       for craft_id, craftdef in pairs(crafting.registered_crafts) do
-         local contains_all = true
-         for c=1, #craftdef.items do
-             local name = craftdef.items[c]:get_name()
-             if string.sub(name, 1, 6) == "group:" then
-                 local group = string.sub(name, 7)
-                 local gcount = craftdef.items[c]:get_count()
-                 local items_in = player_inventory:get_list("craft_in")
-                 if items_in == nil then
-                     contains_all = false
-                     break
-                 end
-                 local count = 0
-                 for i=1, #items_in do
-                     if minetest.get_item_group(items_in[i]:get_name(), group) ~= 0 then
-                         count = count + items_in[i]:get_count()
-                     end
-                 end
-                 if count < gcount then
-                     contains_all = false
-                     break
-                 end
-             elseif not player_inventory:contains_item("craft_in", craftdef.items[c]) then
-                 contains_all = false
-                 break
-             end
-         end
-         if contains_all then
+         if is_craftable_from_inventory(craftdef, player_inventory) then
              table.insert(results, craft_id)
          end
       end
@@ -139,8 +141,6 @@ function crafting.get_crafts(player_inventory, player_name)
    end
 
    local function sort_crafts()
-      local lang_code = minetest.get_player_information(player_name).lang_code
-
       local function sort_function(a, b)
 	 local a_item = crafting.registered_crafts[a].output
 	 local b_item = crafting.registered_crafts[b].output
@@ -148,10 +148,11 @@ function crafting.get_crafts(player_inventory, player_name)
          local a_itemn = a_item:get_name()
          local b_itemn = b_item:get_name()
 
-         local a_name = minetest.get_translated_string(lang_code, minetest.registered_items[a_itemn].description)
-         local b_name = minetest.get_translated_string(lang_code, minetest.registered_items[b_itemn].description)
-
-         return a_name < b_name
+         if a_itemn == b_itemn then
+            return a_item:get_count() < b_item:get_count()
+         else
+            return a_itemn < b_itemn
+         end
       end
       table.sort(results, sort_function)
    end
@@ -308,12 +309,10 @@ form = form .. "container_end[]"
 form = form .. "tablecolumns[text,align=left,width=2;text,align=left,width=40]"
 
 function crafting.get_formspec(name)
-   local row = 1
-   local select_craft_id
+   local selected_craft_id = (userdata[name] and userdata[name].craft_id) or 1
 
-   if userdata[name] ~= nil then
-      row = userdata[name].row
-      select_craft_id = userdata[name].old_craft_id
+   if userdata[name] and userdata[name].old_craft_id then
+      selected_craft_id = userdata[name].old_craft_id
       userdata[name].old_craft_id = nil
    end
 
@@ -327,90 +326,170 @@ function crafting.get_formspec(name)
    else
        craftitems = crafting.get_crafts(inv, name)
    end
-   if select_craft_id == nil then
-       if row > #craftitems then
-           row = #craftitems
-           if userdata[name] ~= nil then
-               userdata[name].row = row
-           end
-       elseif row < 1 and #craftitems >= 1 then
-           row = 1
-           if userdata[name] ~= nil then
-               userdata[name].row = row
-           end
-       end
-   end
 
    local selected_craftdef = nil
 
+   local BUTTONS_WIDTH = 5
+   local BUTTONS_HEIGHT = 4
+
    local craft_count = 0
-   for i, craft_id in ipairs(craftitems) do
+   local crx, cry = 0, 0
+   local selected = false
+   local selected_element
+   local btn_styles = ""
+   for element_id, craft_id in ipairs(craftitems) do
       local itemstack = crafting.registered_crafts[craft_id].output
+      local itemstring = itemstack:to_string()
       local itemname = itemstack:get_name()
       local itemdef = minetest.registered_items[itemname]
+      local craftdef = crafting.registered_crafts[craft_id]
+      local this_selected = false
 
-      if select_craft_id then
-         if craft_id == select_craft_id then
-            selected_craftdef = crafting.registered_crafts[craft_id]
-            row = i
+      -- Check if this button will be the selected one
+      if selected_craft_id then
+         if craft_id == selected_craft_id then
+            selected_craftdef = craftdef
+            selected = true
+            selected_element = element_id
+            this_selected = true
             if userdata[name] ~= nil then
-                userdata[name].row = row
+                userdata[name].craft_id = selected_craft_id
             end
+
          end
-      elseif i == row then
-         selected_craftdef = crafting.registered_crafts[craft_id]
+      end
+
+      -- Check if this recipe is craftable with the current input.
+      -- In MODE_CRAFTABLE, everything in the list is craftable so no extra check is needed
+      local craftable = userdata.mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
+
+      -- Button styling for non-selected button
+      if not this_selected then
+         if craftable then
+            if minetest.get_item_group(itemname, "not_in_craft_guide") ~= 0 then
+                -- Hidden in craft guide
+                btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_secret_inactive.png]"
+                btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_secret_active.png]"
+            end
+            -- No special style for non-hidden craftable recipes
+         else
+            -- Gray out uncraftable recipes
+            btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_uncraftable_inactive.png]"
+            btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_uncraftable_active.png]"
+         end
       end
 
       if itemdef ~= nil then
-         if craft_list ~= "" then
-            craft_list = craft_list .. ","
+         -- Add the craft recipe button
+         local iib_item = itemname .. " " .. itemstack:get_count()
+         -- Note: The buttons MUST be vertically spaced apart power of two. Otherwise, there will be an awkward Y pixel offset when scrolling
+         -- due to floating-point rounding error. In this case, we space apart the buttons by exactly 1 on the Y axis via 'cry'.
+         craft_list = craft_list .. "item_image_button["..(crx*1.1)..","..(cry)..";0.9,0.9;"..iib_item..";".."craft_select_"..craft_id..";]"
+	
+         crx = crx + 1
+         if crx >= BUTTONS_WIDTH then
+            crx = 0
+            cry = cry + 1
          end
 
-         if itemstack:get_count() ~= 1 then
-            local cnt = tostring(itemstack:get_count())
-            craft_list = craft_list .. minetest.formspec_escape(cnt)
-         end
-
-         local desc = itemstack:get_short_description()
-
-         craft_list = craft_list .. "," .. minetest.formspec_escape(desc)
          craft_count = craft_count + 1
       end
    end
-   if select_craft_id and (not selected_craftdef) and #craftitems > 0 then
-      row = 1
-      selected_craftdef = crafting.registered_crafts[craftitems[row]]
-      if userdata[name] ~= nil then
-          userdata[name].row = row
+
+   -- Select the first entry if there is no selection
+   if not selected and #craftitems > 0 then
+      selected_craft_id = craftitems[1]
+      selected_craftdef = crafting.registered_crafts[selected_craft_id]
+      selected_element = 1
+      userdata[name].craft_id = selected_craft_id
+      local craftdef = crafting.registered_crafts[selected_craft_id]
+      local craftable = userdata.mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
+      local itemname = craftdef.output:get_name()
+   end
+
+   -- Button style for selected button
+   if selected_craft_id then
+      local craftdef = crafting.registered_crafts[selected_craft_id]
+      local craftable = userdata.mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
+      local itemname = craftdef.output:get_name()
+
+      if craftable then
+         -- Highlight selected button
+         if minetest.get_item_group(itemname, "not_in_craft_guide") ~= 0 then
+             -- Hidden in craft guide
+             btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..";bgimg=ui_button_crafting_secret_selected_inactive.png]"
+             btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..":pressed;bgimg=ui_button_crafting_secret_selected_active.png]"
+         else
+             -- Normal craft recipe
+             btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..";bgimg=ui_button_crafting_selected_inactive.png]"
+             btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..":pressed;bgimg=ui_button_crafting_selected_active.png]"
+         end
+      elseif not craftable then
+         -- Gray out uncraftable recipes
+         btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..";bgimg=ui_button_crafting_uncraftable_selected_inactive.png]"
+         btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..":pressed;bgimg=ui_button_crafting_uncraftable_selected_active.png]"
       end
    end
 
    local form = rp_formspec.get_page("rp_crafting:crafting")
 
    form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
+
+   -- Crafting list
    if craft_count > 0 then
-       -- Crafting list
-       form = form .. "table[2.5,0;6,4.5;craft_list;" .. craft_list
-          .. ";" .. row .. "]"
+       -- Recipe selector
+       if craft_count > BUTTONS_WIDTH*BUTTONS_HEIGHT then
+          -- Render scrollbar if scrolling is neccessary
+          local scrollmax = math.max(1, cry - (BUTTONS_HEIGHT-1))
+          local scrollpos = (userdata[name] and userdata[name].scrollpos)
+          if not scrollpos and selected_element then
+              scrollpos = math.floor((selected_element-1) / BUTTONS_WIDTH)
+              userdata[name].scrollpos = scrollpos
+          end
+          if not scrollpos then
+              scrollpos = 0
+              userdata[name].scrollpos = scrollpos
+          end
+          form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep=1;largestep="..BUTTONS_HEIGHT.."]"
+          form = form .. "scrollbar[6.7,0.25;0.3,3.95;vertical;craft_scroller;"..scrollpos.."]"
+       end
+       form = form .. "scroll_container[1.25,0.25;5.35,3.9;craft_scroller;vertical;1]"
+
+       -- Craft recipe button style
+       form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_inactive.png;border=false;padding=2]"
+       form = form .. "style_type[item_image_button:pressed;bgimg=ui_button_crafting_active.png;border=false;padding=2]"
+       form = form .. btn_styles
+
+       -- Craft recipe buttons
+       form = form .. craft_list
+       form = form .. "scroll_container_end[]"
    end
 
    if selected_craftdef ~= nil then
+      local input_items = 0
       -- Crafting input slots
       for i=1, crafting.MAX_INPUTS do
          local y = (i-1) * (1 + rp_formspec.default.list_spacing.y)
          if selected_craftdef.items[i] ~= nil then
+            input_items = input_items + 1
             form = form .. rp_formspec.fake_itemstack_any(
-               1.25, y, selected_craftdef.items[i], "craftex_in_"..i)
+               7.25, y, selected_craftdef.items[i], "craftex_in_"..i)
          end
       end
+
       -- Crafting buttons and output preview
       if selected_craftdef.output ~= nil then
          form = form .. rp_formspec.fake_itemstack_any(
-            8.75, 0, selected_craftdef.output, "craftex_out")
+            8.95, 0, selected_craftdef.output, "craftex_out")
+
+         if input_items >= 1 and input_items <= crafting.MAX_INPUTS then
+            -- Arrow(s) pointing from input to output (a visual helper)
+            form = form .. "image[8.35,0;0.5,4.45;ui_crafting_arrow_"..input_items..".png]"
+         end
 
          -- Show crafting buttons only if something is selected
-         form = form .. rp_formspec.button(8.75, 1.15, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
-         form = form .. rp_formspec.button(8.75, 2.3, 1, 1, "do_craft_10", "10", nil, S("Craft 10 times"))
+         form = form .. rp_formspec.image_button(8.95, 1.15, 1, 1, "do_craft_1", "ui_button_crafting_1.png", S("Craft once"))
+         form = form .. rp_formspec.image_button(8.95, 2.3, 1, 1, "do_craft_10", "ui_button_crafting_10.png", S("Craft 10 times"))
       end
    end
    form = form .. "container_end[]"
@@ -493,34 +572,33 @@ local function on_player_receive_fields(player, form_name, fields)
 
    local name = player:get_player_name()
 
-   if not userdata[name].row then
-      return
+   if not userdata[name].craft_id then
+      local craftitems = crafting.get_crafts(nil, name)
+      if #craftitems > 0 then
+         userdata[name].craft_id = craftitems[1]
+      else
+         userdata[name].craft_id = 1
+      end
+   end
+
+   if fields.craft_scroller then
+      local evnt = minetest.explode_scrollbar_event(fields.craft_scroller)
+      if evnt.type == "CHG" then
+         userdata[name].scrollpos = evnt.value
+         return
+      end
    end
 
    local do_craft_1, do_craft_10 = false, false
-   if fields.craft_list then
-      -- Double-click on list entry crafts single time
-      local selection = minetest.explode_table_event(fields.craft_list)
-      if selection.type == "DCL" then
-          do_craft_1 = true
-      end
-   else
-      do_craft_1 = fields.do_craft_1 ~= nil
-   end
+   do_craft_1 = fields.do_craft_1 ~= nil
    do_craft_10 = fields.do_craft_10 ~= nil
    if do_craft_1 or do_craft_10 then
-      local craftitems
-      if userdata[name] and userdata[name].mode == MODE_GUIDE then
-          craftitems = crafting.get_crafts(nil, name)
-      else
-          craftitems = crafting.get_crafts(inv, name)
-      end
       local old_craft_id = nil
       if userdata[name] then
-	  old_craft_id = craftitems[userdata[name].row]
+	  old_craft_id = userdata[name].craft_id
       end
 
-      local wanted_id = craftitems[userdata[name].row]
+      local wanted_id = userdata[name].craft_id
       if not wanted_id then
          return
       end
@@ -564,23 +642,10 @@ local function on_player_receive_fields(player, form_name, fields)
          crafting.update_crafting_formspec(player, old_craft_id)
       end
 
-   elseif fields.craft_list then
-      local selection = minetest.explode_table_event(fields.craft_list)
-
-      if selection.type == "CHG" then
-         userdata[name].row = selection.row
-      elseif selection.type == "INV" then
-         userdata[name].row = nil
-      end
    elseif fields.toggle_filter then
-      local craftitems
-      if userdata[name] and userdata[name].mode == MODE_GUIDE then
-          craftitems = crafting.get_crafts(nil, name)
-      else
-          craftitems = crafting.get_crafts(inv, name)
-      end
-      if userdata[name] and userdata[name].row then
-          local craft_id = craftitems[userdata[name].row]
+
+      if userdata[name] and userdata[name].craft_id then
+          local craft_id = userdata[name].craft_id
           userdata[name].old_craft_id = craft_id
       end
 
@@ -589,6 +654,20 @@ local function on_player_receive_fields(player, form_name, fields)
       else
           userdata[name].mode = MODE_GUIDE
       end
+      -- Invalidate scrollpos on mode switch to force a rescroll
+      -- to that element
+      userdata[name].scrollpos = nil
+   else
+      for k,v in pairs(fields) do
+         if string.sub(k, 1, 13) == "craft_select_" then
+            local id = tonumber(string.sub(k, 14))
+            if id then
+               userdata[name].craft_id = id
+               crafting.update_crafting_formspec(player, id)
+               break
+            end
+         end
+     end
    end
 
    rp_formspec.refresh_invpage(player, "rp_crafting:crafting")
@@ -619,9 +698,7 @@ local function on_joinplayer(player)
 
    local inv = player:get_inventory()
 
-   if userdata[name] == nil then
-      userdata[name] = {row = 1, mode = MODE_CRAFTABLE}
-   end
+   userdata[name] = {mode = MODE_CRAFTABLE}
 
    if inv:get_size("craft_in") ~= 4 then
       inv:set_size("craft_in", 4)
