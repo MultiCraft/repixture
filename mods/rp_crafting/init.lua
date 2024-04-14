@@ -352,7 +352,7 @@ function crafting.get_formspec(name)
 
       if itemdef ~= nil then
          local iib_item = itemname .. " " .. itemstack:get_count()
-         craft_list = craft_list .. "item_image_button["..(crx*1.1)..","..(cry*1.1)..";0.9,0.9;"..iib_item..";".."craft_select_"..craft_id..";]"
+         craft_list = craft_list .. "item_image_button["..(crx*1.1)..","..(cry)..";0.9,0.9;"..iib_item..";".."craft_select_"..craft_id..";]"
 	
          crx = crx + 1
          if crx >= BUTTONS_WIDTH then
@@ -380,9 +380,9 @@ function crafting.get_formspec(name)
           local scrollmax = math.max(1, cry * 1 - BUTTONS_HEIGHT)
           local scrollpos = (userdata[name] and userdata[name].scrollpos) or 0
           form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep="..BUTTONS_HEIGHT..";largestep="..(BUTTONS_HEIGHT*2).."]"
-          form = form .. "scrollbar[6.7,0.125;0.4,4.2;vertical;craft_scroller;"..scrollpos.."]"
+          form = form .. "scrollbar[6.7,0.25;0.3,3.95;vertical;craft_scroller;"..scrollpos.."]"
        end
-       form = form .. "scroll_container[1.25,0.125;5.35,4.25;craft_scroller;vertical;1.1]"
+       form = form .. "scroll_container[1.25,0.25;5.35,3.9;craft_scroller;vertical;1]"
 
        -- Craft recipe button style
        form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_inactive.png;border=false;padding=2]"
