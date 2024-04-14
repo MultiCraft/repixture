@@ -358,7 +358,9 @@ function crafting.get_formspec(name)
          end
       end
 
-      local craftable = is_craftable_from_inventory(craftdef, inv)
+      -- Check if this recipe is craftable.
+      -- In MODE_CRAFTABLE, everything in the list is craftable so no extra check is needed
+      local craftable = userdata.mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
       if craftable and this_selected then
          -- Highlight selected button
          btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_selected_inactive.png]"
