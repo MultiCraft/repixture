@@ -337,7 +337,7 @@ function crafting.get_formspec(name)
    local crx, cry = 0, 0
    local selected = false
    local btn_styles = ""
-   for row, craft_id in ipairs(craftitems) do
+   for _, craft_id in ipairs(craftitems) do
       local itemstack = crafting.registered_crafts[craft_id].output
       local itemstring = itemstack:to_string()
       local itemname = itemstack:get_name()
@@ -440,7 +440,7 @@ function crafting.get_formspec(name)
           -- Render scrollbar if scrolling is neccessary
           local scrollmax = math.max(1, cry * 1 - BUTTONS_HEIGHT)
           local scrollpos = (userdata[name] and userdata[name].scrollpos) or 0
-          form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep="..BUTTONS_HEIGHT..";largestep="..(BUTTONS_HEIGHT*2).."]"
+          form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep=1;largestep="..BUTTONS_HEIGHT.."]"
           form = form .. "scrollbar[6.7,0.25;0.3,3.95;vertical;craft_scroller;"..scrollpos.."]"
        end
        form = form .. "scroll_container[1.25,0.25;5.35,3.9;craft_scroller;vertical;1]"
