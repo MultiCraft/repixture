@@ -344,8 +344,10 @@ function crafting.get_formspec(name)
    local selected_craftdef = nil
 
    local craft_count = 0
+   local crx, cry = 0, 0
    for i, craft_id in ipairs(craftitems) do
       local itemstack = crafting.registered_crafts[craft_id].output
+      local itemstring = itemstack:to_string()
       local itemname = itemstack:get_name()
       local itemdef = minetest.registered_items[itemname]
 
@@ -363,17 +365,26 @@ function crafting.get_formspec(name)
 
       if itemdef ~= nil then
          if craft_list ~= "" then
-            craft_list = craft_list .. ","
+            --craft_list = craft_list .. ","
          end
 
          if itemstack:get_count() ~= 1 then
             local cnt = tostring(itemstack:get_count())
-            craft_list = craft_list .. minetest.formspec_escape(cnt)
+            --craft_list = craft_list .. minetest.formspec_escape(cnt)
          end
 
          local desc = itemstack:get_short_description()
 
-         craft_list = craft_list .. "," .. minetest.formspec_escape(desc)
+         --craft_list = craft_list .. "," .. minetest.formspec_escape(desc)
+         local iib_item = itemname .. " " .. itemstack:get_count()
+         craft_list = craft_list .. "item_image_button["..(crx*1.1)..","..(cry*1.1)..";0.9,0.9;"..iib_item..";".."craft_select_"..i..";]"
+	
+         crx = crx + 1
+         if crx >= 5 then
+            crx = 0
+            cry = cry + 1
+         end
+
          craft_count = craft_count + 1
       end
    end
@@ -388,11 +399,20 @@ function crafting.get_formspec(name)
    local form = rp_formspec.get_page("rp_crafting:crafting")
 
    form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
+
+   --[[
    if craft_count > 0 then
        -- Crafting list
        form = form .. "table[2.5,0;6,4.5;craft_list;" .. craft_list
           .. ";" .. row .. "]"
    end
+   ]]
+   local scrollmax = cry * 1 - 4
+   form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep=4;largestep=8]"
+   form = form .. "scrollbar[8,0;0.4,4.4;vertical;craft_scroller;0]"
+   form = form .. "scroll_container[2.5,0;5.5,4.4;craft_scroller;vertical;1.1]"
+   form = form .. craft_list
+   form = form .. "scroll_container_end[]"
 
    if selected_craftdef ~= nil then
       -- Crafting input slots
@@ -589,6 +609,16 @@ local function on_player_receive_fields(player, form_name, fields)
       else
           userdata[name].mode = MODE_GUIDE
       end
+   else
+      for k,v in pairs(fields) do
+         if string.sub(k, 1, 13) == "craft_select_" then
+            local id = tonumber(string.sub(k, 14))
+            if id then
+               userdata[name].row = id
+            end
+            break
+         end
+     end
    end
 
    rp_formspec.refresh_invpage(player, "rp_crafting:crafting")
