@@ -417,7 +417,7 @@ function crafting.get_formspec(name)
 
          if input_items >= 1 and input_items <= crafting.MAX_INPUTS then
             -- Arrow(s) pointing from input to output (a visual helper)
-            form = form .. "image[8.35,0;0.5,4;ui_crafting_arrow_"..input_items..".png]"
+            form = form .. "image[8.35,0;0.5,4.45;ui_crafting_arrow_"..input_items..".png]"
          end
 
          -- Show crafting buttons only if something is selected
