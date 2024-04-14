@@ -343,6 +343,9 @@ function crafting.get_formspec(name)
 
    local selected_craftdef = nil
 
+   local BUTTONS_WIDTH = 5
+   local BUTTONS_HEIGHT = 4
+
    local craft_count = 0
    local crx, cry = 0, 0
    for i, craft_id in ipairs(craftitems) do
@@ -380,7 +383,7 @@ function crafting.get_formspec(name)
          craft_list = craft_list .. "item_image_button["..(crx*1.1)..","..(cry*1.1)..";0.9,0.9;"..iib_item..";".."craft_select_"..i..";]"
 	
          crx = crx + 1
-         if crx >= 5 then
+         if crx >= BUTTONS_WIDTH then
             crx = 0
             cry = cry + 1
          end
@@ -407,9 +410,10 @@ function crafting.get_formspec(name)
           .. ";" .. row .. "]"
    end
    ]]
-   local scrollmax = cry * 1 - 4
-   form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep=4;largestep=8]"
-   form = form .. "scrollbar[8,0;0.4,4.4;vertical;craft_scroller;0]"
+   local scrollmax = cry * 1 - BUTTONS_HEIGHT
+   local scrollpos = (userdata[name] and userdata[name].scrollpos) or 0
+   form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep="..BUTTONS_HEIGHT..";largestep="..(BUTTONS_HEIGHT*2).."]"
+   form = form .. "scrollbar[8.1,0;0.4,4.4;vertical;craft_scroller;"..scrollpos.."]"
    form = form .. "scroll_container[2.5,0;5.5,4.4;craft_scroller;vertical;1.1]"
    form = form .. craft_list
    form = form .. "scroll_container_end[]"
@@ -515,6 +519,14 @@ local function on_player_receive_fields(player, form_name, fields)
 
    if not userdata[name].row then
       return
+   end
+
+   if fields.craft_scroller then
+      local evnt = minetest.explode_scrollbar_event(fields.craft_scroller)
+      if evnt.type == "CHG" then
+         userdata[name].scrollpos = evnt.value
+         return
+      end
    end
 
    local do_craft_1, do_craft_10 = false, false
