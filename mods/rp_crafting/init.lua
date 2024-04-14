@@ -406,7 +406,7 @@ function crafting.get_formspec(name)
    -- Crafting list
    if craft_count > 0 then
        -- Text list
-       --form = form .. "table[2.5,0;6,4.5;craft_list;" .. craft_list
+       --form = form .. "table[1.5,0;6,4.5;craft_list;" .. craft_list
        --   .. ";" .. row .. "]"
 
        -- Buttons
@@ -415,9 +415,9 @@ function crafting.get_formspec(name)
           local scrollmax = cry * 1 - BUTTONS_HEIGHT
           local scrollpos = (userdata[name] and userdata[name].scrollpos) or 0
           form = form .. "scrollbaroptions[min=0;max="..scrollmax..";smallstep="..BUTTONS_HEIGHT..";largestep="..(BUTTONS_HEIGHT*2).."]"
-          form = form .. "scrollbar[8.1,0;0.4,4.4;vertical;craft_scroller;"..scrollpos.."]"
+          form = form .. "scrollbar[6.7,0;0.4,4.4;vertical;craft_scroller;"..scrollpos.."]"
        end
-       form = form .. "scroll_container[2.5,0;5.5,4.4;craft_scroller;vertical;1.1]"
+       form = form .. "scroll_container[1.25,0;5.35,4.25;craft_scroller;vertical;1.1]"
 
        -- Craft button style
        form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_inactive.png;border=false;padding=2]"
@@ -433,18 +433,26 @@ function crafting.get_formspec(name)
    end
 
    if selected_craftdef ~= nil then
+      local input_items = 0
       -- Crafting input slots
       for i=1, crafting.MAX_INPUTS do
          local y = (i-1) * (1 + rp_formspec.default.list_spacing.y)
          if selected_craftdef.items[i] ~= nil then
+            input_items = input_items + 1
             form = form .. rp_formspec.fake_itemstack_any(
-               1.25, y, selected_craftdef.items[i], "craftex_in_"..i)
+               7.25, y, selected_craftdef.items[i], "craftex_in_"..i)
          end
       end
+
       -- Crafting buttons and output preview
       if selected_craftdef.output ~= nil then
          form = form .. rp_formspec.fake_itemstack_any(
             8.75, 0, selected_craftdef.output, "craftex_out")
+
+         if input_items >= 1 and input_items <= crafting.MAX_INPUTS then
+            -- Arrow(s) pointing from input to output (a visual helper)
+            form = form .. "image[8.25,0;0.5,4;ui_crafting_arrow_"..input_items..".png]"
+         end
 
          -- Show crafting buttons only if something is selected
          form = form .. rp_formspec.button(8.75, 1.15, 1, 1, "do_craft_1", "1", nil, S("Craft once"))
