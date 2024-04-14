@@ -82,6 +82,34 @@ function crafting.register_craft(def)
    return itemkey
 end
 
+-- Checks if the given crafting recipe (given by its craft definition)
+-- can be crafted from the input items of the inventory list 'craft_in'
+local function is_craftable_from_inventory(craftdef, inventory)
+   local input_list = inventory:get_list("craft_in")
+   for c=1, #craftdef.items do
+      local name = craftdef.items[c]:get_name()
+      if string.sub(name, 1, 6) == "group:" then
+         local group = string.sub(name, 7)
+         local gcount = craftdef.items[c]:get_count()
+         if input_list == nil then
+            return false
+         end
+         local count = 0
+         for i=1, #input_list do
+            if minetest.get_item_group(input_list[i]:get_name(), group) ~= 0 then
+               count = count + input_list[i]:get_count()
+            end
+         end
+         if count < gcount then
+            return false
+         end
+      elseif not inventory:contains_item("craft_in", craftdef.items[c]) then
+         return false
+      end
+   end
+   return true
+end
+
 -- Cache the crafting list for the crafting guide for a much faster
 -- loading time.
 -- The crafting guide list only needs to be generated once because
@@ -93,33 +121,7 @@ function crafting.get_crafts(player_inventory, player_name)
 
    local function get_filtered()
       for craft_id, craftdef in pairs(crafting.registered_crafts) do
-         local contains_all = true
-         for c=1, #craftdef.items do
-             local name = craftdef.items[c]:get_name()
-             if string.sub(name, 1, 6) == "group:" then
-                 local group = string.sub(name, 7)
-                 local gcount = craftdef.items[c]:get_count()
-                 local items_in = player_inventory:get_list("craft_in")
-                 if items_in == nil then
-                     contains_all = false
-                     break
-                 end
-                 local count = 0
-                 for i=1, #items_in do
-                     if minetest.get_item_group(items_in[i]:get_name(), group) ~= 0 then
-                         count = count + items_in[i]:get_count()
-                     end
-                 end
-                 if count < gcount then
-                     contains_all = false
-                     break
-                 end
-             elseif not player_inventory:contains_item("craft_in", craftdef.items[c]) then
-                 contains_all = false
-                 break
-             end
-         end
-         if contains_all then
+         if is_craftable_from_inventory(craftdef, player_inventory) then
              table.insert(results, craft_id)
          end
       end
@@ -334,22 +336,43 @@ function crafting.get_formspec(name)
    local craft_count = 0
    local crx, cry = 0, 0
    local selected = false
+   local btn_styles = ""
    for row, craft_id in ipairs(craftitems) do
       local itemstack = crafting.registered_crafts[craft_id].output
       local itemstring = itemstack:to_string()
       local itemname = itemstack:get_name()
       local itemdef = minetest.registered_items[itemname]
+      local craftdef = crafting.registered_crafts[craft_id]
+      local this_selected = false
 
       -- Check if this button will be the selected one
       if selected_craft_id then
          if craft_id == selected_craft_id then
-            selected_craftdef = crafting.registered_crafts[craft_id]
+            selected_craftdef = craftdef
             selected = true
+            this_selected = true
             if userdata[name] ~= nil then
                 userdata[name].craft_id = selected_craft_id
             end
+
          end
       end
+
+      local craftable = is_craftable_from_inventory(craftdef, inv)
+      if craftable and this_selected then
+         -- Highlight selected button
+         btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_selected_inactive.png]"
+         btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_selected_active.png]"
+      elseif not craftable and this_selected then
+         -- Gray out uncraftable recipes
+         btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_uncraftable_selected_inactive.png]"
+         btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_uncraftable_selected_active.png]"
+      elseif not craftable and not this_selected then
+         -- Gray out uncraftable recipes
+         btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_uncraftable_inactive.png]"
+         btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_uncraftable_active.png]"
+      end
+
 
       if itemdef ~= nil then
          -- Add a craft button
@@ -391,11 +414,7 @@ function crafting.get_formspec(name)
        -- Craft recipe button style
        form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_inactive.png;border=false;padding=2]"
        form = form .. "style_type[item_image_button:pressed;bgimg=ui_button_crafting_active.png;border=false;padding=2]"
-       if selected_craft_id then
-          -- Current selected button
-          form = form .. "style[craft_select_"..selected_craft_id..";bgimg=ui_button_crafting_selected_inactive.png]"
-          form = form .. "style[craft_select_"..selected_craft_id..":pressed;bgimg=ui_button_crafting_selected_active.png]"
-       end
+       form = form .. btn_styles
 
        -- Craft recipe buttons
        form = form .. craft_list
