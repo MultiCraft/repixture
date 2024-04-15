@@ -31,48 +31,43 @@ creative.register_special_item = function(itemstack)
 	table.insert(special_items, itemstack)
 end
 
--- Create detached creative inventory for player
-local function create_creative_inventory(player)
-	local player_name = player:get_player_name()
-	local inv = minetest.create_detached_inventory("creative_"..player_name, {
-		allow_move = function(inv, from_list, from_index, to_list, to_index, count, player)
-			local name = player:get_player_name()
-			if minetest.is_creative_enabled(player_name) and to_list ~= "main" then
-				return count
-			else
-				return 0
-			end
-		end,
-		allow_put = function(inv, listname, index, stack, player)
-			return 0
-		end,
-		allow_take = function(inv, listname, index, stack, player)
-			if minetest.is_creative_enabled(player:get_player_name()) then
-				return -1
-			else
-				return 0
-			end
-		end,
-		on_move = function(inv, from_list, from_index, to_list, to_index, count, player)
-		end,
-		on_put = function(inv, listname, index, stack, player)
-		end,
-		on_take = function(inv, listname, index, stack, player)
-			if stack then
-				minetest.log("action", "[rp_creative] " .. player:get_player_name().." takes "..dump(stack:get_name()).." from creative inventory")
-			end
-		end,
-	}, player_name)
+-- Fill creative inventory of player with name <pname>.
+-- If `filter` is a string, only adds items that contain the value of `filter` as a substring.
+-- Otherwise, it will be filled with all available items for Creative Mode.
+local function fill_creative_inventory(pname, filter)
+	local inv = minetest.get_inventory({type="detached", name="creative_"..pname})
 	local creative_list = {}
+
+	local function check_match(name, def, filter)
+		if filter then
+			if def.description ~= "" and string.find(def.description, filter, 1, true) then
+				return true
+			elseif string.find(name, filter, 1, true) then
+				return true
+			else
+				return false
+			end
+			-- TODO: Match in player language
+		else
+			return true
+		end
+	end
+
 	for name,def in pairs(minetest.registered_items) do
 		if (not def.groups.not_in_creative_inventory or def.groups.not_in_creative_inventory == 0)
 				and def.description and def.description ~= "" then
-			table.insert(creative_list, ItemStack(name))
+			if check_match(name, def, filter) then
+				table.insert(creative_list, ItemStack(name))
+			end
 		end
 	end
 	for i=1, #special_items do
+		local item = special_items[i]
+		--if check_match(name, def, filter) then
+		-- TODO: Filter item
 		table.insert(creative_list, special_items[i])
 	end
+
 	local get_type = function(def)
 		if not def.groups then
 			return "craftitem" -- fallback
@@ -204,8 +199,43 @@ local function create_creative_inventory(player)
 	for _,itemstring in ipairs(creative_list) do
 		inv:add_item("main", ItemStack(itemstring))
 	end
+	creative.creative_sizes[pname] = inv:get_size("main")
+end
+
+-- Create detached creative inventory for player
+local function create_creative_inventory(player)
+	local player_name = player:get_player_name()
+	local inv = minetest.create_detached_inventory("creative_"..player_name, {
+		allow_move = function(inv, from_list, from_index, to_list, to_index, count, player)
+			local name = player:get_player_name()
+			if minetest.is_creative_enabled(player_name) and to_list ~= "main" then
+				return count
+			else
+				return 0
+			end
+		end,
+		allow_put = function(inv, listname, index, stack, player)
+			return 0
+		end,
+		allow_take = function(inv, listname, index, stack, player)
+			if minetest.is_creative_enabled(player:get_player_name()) then
+				return -1
+			else
+				return 0
+			end
+		end,
+		on_move = function(inv, from_list, from_index, to_list, to_index, count, player)
+		end,
+		on_put = function(inv, listname, index, stack, player)
+		end,
+		on_take = function(inv, listname, index, stack, player)
+			if stack then
+				minetest.log("action", "[rp_creative] " .. player:get_player_name().." takes "..dump(stack:get_name()).." from creative inventory")
+			end
+		end,
+	}, player_name)
 	creative.creative_inventories[player_name] = inv
-	creative.creative_sizes[player_name] = inv:get_size("main")
+	fill_creative_inventory(player_name)
 	return inv
 end
 
