@@ -360,14 +360,16 @@ creative.get_formspec = function(playername)
 
 		-- Search menu
 		local searching = playerdata[playername].search
-		local tex, search_pushed, tooltip
+		local search_tex, search_pushed, search_tooltip
 		if searching == nil then
-			tex = "ui_icon_creative_search.png"
+			search_tex = "ui_icon_creative_search.png"
 			search_pushed = false
+			search_tooltip = S("Search")
 		else
 			-- Search input field
-			tex = "ui_icon_creative_search_active.png"
+			search_tex = "ui_icon_creative_search_active.png"
 			search_pushed = true
+			search_tooltip = S("Stop search")
 			local text
 			if type(searching) == "string" then
 				text = searching
@@ -383,7 +385,7 @@ creative.get_formspec = function(playername)
 			form = form .. "tooltip[search_submit;"..minetest.formspec_escape(S("Submit")).."]"
 			form = form .. "field_close_on_enter[search_input;false]"
 		end
-		form = form .. rp_formspec.tab(rp_formspec.default.size.x, 0.5, "search", tex, S("Search"), "right", search_pushed)
+		form = form .. rp_formspec.tab(rp_formspec.default.size.x, 0.5, "search", search_tex, search_tooltip, "right", search_pushed)
 
 		return form
 	end
