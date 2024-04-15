@@ -308,7 +308,7 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 	end
 	local inventory_list, page_label
 	if size == 0 then
-		inventory_list = "label[1,2.3;"..S("No items.").."]"
+		inventory_list = "label[1.25,2.5;"..S("No items.").."]"
 		page_label = ""
 	else
 		inventory_list = "list[detached:creative_"..player_name..";main;0,0;"..creative.slots_width..","..creative.slots_height..";"..tostring(start_i).."]"
