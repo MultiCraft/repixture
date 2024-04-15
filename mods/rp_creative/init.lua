@@ -33,27 +33,44 @@ end
 
 -- Fill creative inventory of player with name <pname>.
 -- If `filter` is a string, only adds items that contain the value of `filter` as a substring.
--- Otherwise, it will be filled with all available items for Creative Mode.
+-- If `filter` is nil or the empty string, it will be filled with all available items for Creative Mode.
 local function fill_creative_inventory(pname, filter)
+	local pinfo = minetest.get_player_information(pname)
+	local lang_code
+	if pinfo then
+		lang_code = pinfo.lang_code
+	end
+	if filter == "" then
+		filter = nil
+	end
+	if filter then
+		filter = string.lower(filter)
+	end
 	local inv = minetest.get_inventory({type="detached", name="creative_"..pname})
 	local creative_list = {}
 
 	local function check_match(name, def, filter)
 		if filter then
-			if def.description ~= "" and string.find(def.description, filter, 1, true) then
+			local item = ItemStack(name)
+			local desc = item:get_short_description()
+			local descl = string.lower(desc)
+			local desc_transl
+			if lang_code then
+				desc_transl = string.lower(minetest.get_translated_string(lang_code, desc))
+			end
+			if desc ~= "" and string.find(descl, filter, 1, true) then
 				return true
+			elseif desc_transl and desc_transl ~= "" and string.find(desc_transl, filter, 1, true) then
+				return false
 			elseif string.find(name, filter, 1, true) then
 				return true
-			else
-				return false
 			end
-			-- TODO: Match in player language
 		else
 			return true
 		end
 	end
 
-	for name,def in pairs(minetest.registered_items) do
+	for name, def in pairs(minetest.registered_items) do
 		if (not def.groups.not_in_creative_inventory or def.groups.not_in_creative_inventory == 0)
 				and def.description and def.description ~= "" then
 			if check_match(name, def, filter) then
@@ -63,9 +80,9 @@ local function fill_creative_inventory(pname, filter)
 	end
 	for i=1, #special_items do
 		local item = special_items[i]
-		--if check_match(name, def, filter) then
-		-- TODO: Filter item
-		table.insert(creative_list, special_items[i])
+		if check_match(item:get_name(), item:get_definition(), filter) then
+			table.insert(creative_list, special_items[i])
+		end
 	end
 
 	local get_type = function(def)
@@ -194,10 +211,14 @@ local function fill_creative_inventory(pname, filter)
 			return itemname1 < itemname2
 		end
 	end
+
+	-- Sort items
 	table.sort(creative_list, creative_sort)
+
+	-- Fill inventory
 	inv:set_size("main", #creative_list)
-	for _,itemstring in ipairs(creative_list) do
-		inv:add_item("main", ItemStack(itemstring))
+	for i, itemstring in ipairs(creative_list) do
+		inv:set_stack("main", i, ItemStack(itemstring))
 	end
 	creative.creative_sizes[pname] = inv:get_size("main")
 end
@@ -264,25 +285,34 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 	end
 	local size = creative.creative_sizes[player_name]
 	local pagemax = math.floor((size-1) / (creative.slots_num) + 1)
-	local creative_slots = ""
-	if pagenum < pagemax then
-		-- Render all slots for all pages except the last one
-		creative_slots = rp_formspec.get_itemslot_bg(0, 0, creative.slots_width, creative.slots_height)
-	else
-		-- Render fewer slots for last page if it isn't full
-		local last_page_slots = size % creative.slots_num
-		if last_page_slots == 0 then
-			-- Last page is full, no slot limit needed
-			last_page_slots = nil
+	local creative_slots_bg = ""
+	if size > 0 then
+		if pagenum < pagemax then
+			-- Render all slots for all pages except the last one
+			creative_slots_bg = rp_formspec.get_itemslot_bg(0, 0, creative.slots_width, creative.slots_height)
+		else
+			-- Render fewer slots for last page if it isn't full
+			local last_page_slots = size % creative.slots_num
+			if last_page_slots == 0 then
+				-- Last page is full, no slot limit needed
+				last_page_slots = nil
+			end
+			creative_slots_bg = rp_formspec.get_itemslot_bg(0, 0, creative.slots_width, creative.slots_height, last_page_slots)
 		end
-		creative_slots = rp_formspec.get_itemslot_bg(0, 0, creative.slots_width, creative.slots_height, last_page_slots)
+	end
+	local inventory_list, page_label
+	if size == 0 then
+		inventory_list = "label[1,2.3;"..S("No items.").."]"
+		page_label = ""
+	else
+		inventory_list = "list[detached:creative_"..player_name..";main;0,0;"..creative.slots_width..","..creative.slots_height..";"..tostring(start_i).."]"
+		page_label = "label[8.95,0.75;"..FS("@1/@2", pagenum, pagemax).."]"
 	end
 	return
 		"container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"..
-                creative_slots..
-		"list[detached:creative_"..player_name..";main;0,0;"..creative.slots_width..","..creative.slots_height..";"..tostring(start_i).."]"..
-		"label[8.95,0.75;"..FS("@1/@2", pagenum, pagemax).."]"..
-
+                creative_slots_bg..
+		inventory_list..
+		page_label..
                 rp_formspec.image_button(8.75, 1.15, 1, 1, "creative_prev", "ui_icon_prev.png")..
                 rp_formspec.image_button(8.75, 2.30, 1, 1, "creative_next", "ui_icon_next.png")..
 
@@ -298,7 +328,7 @@ end
 
 local init_playerdata = function(playername)
 	if not playerdata[playername] then
-		playerdata[playername] = { page = 1, search = false }
+		playerdata[playername] = { page = 1, search = nil }
 	end
 end
 
@@ -379,7 +409,7 @@ minetest.register_on_joinplayer(function(player)
 end)
 minetest.register_on_leaveplayer(function(player)
 	local name = player:get_player_name()
-	playerdata[player:get_player_name()] = nil
+	playerdata[name] = nil
 end)
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
@@ -393,16 +423,30 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local playername = player:get_player_name()
 	if fields.search then
 		if playerdata[playername].search == nil then
-			playerdata[playername].search = fields.search_input or ""
-			playerdata[playername].search = string.sub(playerdata[playername].search, MAX_SEARCH_LENGTH)
+			playerdata[playername].search = ""
 		else
 			playerdata[playername].search = nil
+			fill_creative_inventory(playername)
 		end
 		rp_formspec.refresh_invpage(player, "rp_creative:creative")
 		return
 	end
+
+	local changed = false
 	if fields.search_input then
-		playerdata[playername].search = fields.search_input
+		if playerdata[playername].search ~= fields.search_input then
+			local search_input = fields.search_input or ""
+			search_input = string.sub(search_input, 1, MAX_SEARCH_LENGTH)
+			if search_input ~= "" then
+				playerdata[playername].search = search_input
+				fill_creative_inventory(playername, search_input)
+				changed = true
+			else
+				playerdata[playername].search = nil
+				fill_creative_inventory(playername)
+				changed = true
+			end
+		end
 	end
 
 	-- Figure out current page from formspec
@@ -410,7 +454,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local formspec = player:get_inventory_formspec()
 	local page, start_i = get_page_and_start_i(playername)
 
-	local changed = false
 	if fields.creative_prev then
 		page = page - 1
 		start_i = start_i - creative.slots_num
@@ -435,6 +478,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if start_i < 0 or start_i >= creative.creative_sizes[playername] then
 		start_i = 0
 		page = 1
+		playerdata[playername].page = page
 	end
 
 	if changed then
