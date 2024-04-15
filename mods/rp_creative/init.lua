@@ -359,6 +359,7 @@ creative.get_formspec = function(playername)
 			tex = "ui_icon_creative_search.png"
 			search_pushed = false
 		else
+			-- Search input field
 			tex = "ui_icon_creative_search_active.png"
 			search_pushed = true
 			local text
@@ -367,9 +368,13 @@ creative.get_formspec = function(playername)
 			else
 				text = ""
 			end
-			form = form .. "background["..rp_formspec.default.size.x..",1.5;2.3,0.8;ui_creative_text_bg.png]"
+			form = form .. "background["..rp_formspec.default.size.x..",1.6;2.135,0.8;ui_creative_text_bg.png]"
 			form = form .. "style[search_input;noclip=true;border=false]"
-			form = form .. "field["..(rp_formspec.default.size.x+0.05)..",1.6;2,0.5;search_input;;"..minetest.formspec_escape(text).."]"
+			form = form .. "field["..(rp_formspec.default.size.x+0.05)..",1.7;2,0.5;search_input;;"..minetest.formspec_escape(text).."]"
+			form = form .. "style[search_submit;border=false;noclip=true;bgimg=ui_button_search_submit_inactive.png]"
+			form = form .. "style[search_submit:pressed;border=false;noclip=true;bgimg=ui_button_search_submit_active.png]"
+			form = form .. "button["..(rp_formspec.default.size.x+2.134)..",1.6;0.77778,0.8;search_submit;]"
+			form = form .. "tooltip[search_submit;"..minetest.formspec_escape(S("Submit")).."]"
 			form = form .. "field_close_on_enter[search_input;false]"
 		end
 		form = form .. rp_formspec.tab(rp_formspec.default.size.x, 0.5, "search", tex, S("Search"), "right", search_pushed)
@@ -434,7 +439,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
 	local changed = false
 	if fields.search_input then
-		if playerdata[playername].search ~= fields.search_input then
+		if fields.search_submit or playerdata[playername].search ~= fields.search_input then
 			local search_input = fields.search_input or ""
 			search_input = string.sub(search_input, 1, MAX_SEARCH_LENGTH)
 			if search_input ~= "" then
@@ -474,7 +479,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		page = page - 1
 	end
 	playerdata[playername].page = page
-		
+
 	if start_i < 0 or start_i >= creative.creative_sizes[playername] then
 		start_i = 0
 		page = 1
