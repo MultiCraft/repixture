@@ -12,6 +12,9 @@ local form = rp_formspec.get_page("rp_formspec:2part")
 
 form = form .. rp_formspec.default.player_inventory
 
+-- Maximum allowed length for a search string
+local MAX_SEARCH_LENGTH = 100
+
 creative.slots_width = 7
 creative.slots_height = 4
 creative.slots_num = creative.slots_width * creative.slots_height
@@ -265,7 +268,7 @@ end
 
 local init_playerdata = function(playername)
 	if not playerdata[playername] then
-		playerdata[playername] = { page = 1 }
+		playerdata[playername] = { page = 1, search = false }
 	end
 end
 
@@ -283,8 +286,34 @@ creative.get_formspec = function(playername)
 	local player = minetest.get_player_by_name(playername)
 	if player then
                 local form = rp_formspec.get_page("rp_creative:creative")
+		-- Pages
 		local page, start_i = get_page_and_start_i(playername)
+
+		-- Creative inventory
 		form = form .. creative.get_creative_formspec(player, start_i, page)
+
+		-- Search menu
+		local searching = playerdata[playername].search
+		local tex, search_pushed, tooltip
+		if searching == nil then
+			tex = "ui_icon_creative_search.png"
+			search_pushed = false
+		else
+			tex = "ui_icon_creative_search_active.png"
+			search_pushed = true
+			local text
+			if type(searching) == "string" then
+				text = searching
+			else
+				text = ""
+			end
+			form = form .. "background["..rp_formspec.default.size.x..",1.5;2.3,0.8;ui_creative_text_bg.png]"
+			form = form .. "style[search_input;noclip=true;border=false]"
+			form = form .. "field["..(rp_formspec.default.size.x+0.05)..",1.6;2,0.5;search_input;;"..minetest.formspec_escape(text).."]"
+			form = form .. "field_close_on_enter[search_input;false]"
+		end
+		form = form .. rp_formspec.tab(rp_formspec.default.size.x, 0.5, "search", tex, S("Search"), "right", search_pushed)
+
 		return form
 	end
 end
@@ -332,6 +361,20 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		return
 	end
 	local playername = player:get_player_name()
+	if fields.search then
+		if playerdata[playername].search == nil then
+			playerdata[playername].search = fields.search_input or ""
+			playerdata[playername].search = string.sub(playerdata[playername].search, MAX_SEARCH_LENGTH)
+		else
+			playerdata[playername].search = nil
+		end
+		rp_formspec.refresh_invpage(player, "rp_creative:creative")
+		return
+	end
+	if fields.search_input then
+		playerdata[playername].search = fields.search_input
+	end
+
 	-- Figure out current page from formspec
 	local current_page = 0
 	local formspec = player:get_inventory_formspec()
