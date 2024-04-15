@@ -442,7 +442,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				fill_creative_inventory(playername, search_input)
 				changed = true
 			else
-				playerdata[playername].search = nil
+				playerdata[playername].search = ""
 				fill_creative_inventory(playername)
 				changed = true
 			end
