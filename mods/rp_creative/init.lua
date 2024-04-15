@@ -369,7 +369,7 @@ creative.get_formspec = function(playername)
 				text = ""
 			end
 			form = form .. "background["..rp_formspec.default.size.x..",1.6;2.135,0.8;ui_creative_text_bg.png]"
-			form = form .. "style[search_input;noclip=true;border=false]"
+			form = form .. "style[search_input;noclip=true]"
 			form = form .. "field["..(rp_formspec.default.size.x+0.05)..",1.7;2,0.5;search_input;;"..minetest.formspec_escape(text).."]"
 			form = form .. "style[search_submit;border=false;noclip=true;bgimg=ui_button_search_submit_inactive.png]"
 			form = form .. "style[search_submit:pressed;border=false;noclip=true;bgimg=ui_button_search_submit_active.png]"
