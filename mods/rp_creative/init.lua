@@ -61,7 +61,7 @@ local function fill_creative_inventory(pname, filter)
 			if desc ~= "" and string.find(descl, filter, 1, true) then
 				return true
 			elseif desc_transl and desc_transl ~= "" and string.find(desc_transl, filter, 1, true) then
-				return false
+				return true
 			elseif string.find(name, filter, 1, true) then
 				return true
 			end
