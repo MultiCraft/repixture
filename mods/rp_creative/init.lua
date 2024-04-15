@@ -216,11 +216,17 @@ local function fill_creative_inventory(pname, filter)
 	table.sort(creative_list, creative_sort)
 
 	-- Fill inventory
-	inv:set_size("main", #creative_list)
-	for i, itemstring in ipairs(creative_list) do
-		inv:set_stack("main", i, ItemStack(itemstring))
+	if #creative_list == 0 then
+		creative.creative_sizes[pname] = 0
+		inv:set_size("main", 1)
+		inv:set_stack("main", 1, "")
+	else
+		inv:set_size("main", #creative_list)
+		for i, itemstring in ipairs(creative_list) do
+			inv:set_stack("main", i, ItemStack(itemstring))
+		end
+		creative.creative_sizes[pname] = inv:get_size("main")
 	end
-	creative.creative_sizes[pname] = inv:get_size("main")
 end
 
 -- Create detached creative inventory for player
