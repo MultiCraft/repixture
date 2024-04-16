@@ -23,6 +23,7 @@ crafting.registered_crafts = {}
 -- User table of last selected row etc.
 
 local userdata = {}
+local userdata_init = { mode = MODE_CRAFTABLE }
 
 -- Crafting can only take a limited number of itemstacks as
 -- input for sanity/interface reasons
@@ -318,6 +319,9 @@ form = form .. "container_end[]"
 form = form .. "tablecolumns[text,align=left,width=2;text,align=left,width=40]"
 
 function crafting.get_formspec(name)
+   if not userdata[name] then
+      userdata[name] = table.copy(userdata_init)
+   end
    local selected_craft_id = (userdata[name] and userdata[name].craft_id) or 1
 
    if userdata[name] and userdata[name].old_craft_id then
@@ -349,9 +353,9 @@ function crafting.get_formspec(name)
 
    -- In the craft guide, the list of craftable items is cached for
    -- the player so it doesn't have to be recalculated that often.
-   local craftable_cache = userdata[name].craftable_cache
+   local craftable_cache = userdata[name] and userdata[name].craftable_cache
    local cache_update_required
-   if userdata[name].mode == MODE_GUIDE and craftable_cache == nil then
+   if userdata[name] and userdata[name].mode == MODE_GUIDE and craftable_cache == nil then
       cache_update_required = true
       craftable_cache = {}
       userdata[name].craftable_cache = craftable_cache
@@ -749,7 +753,9 @@ local function on_joinplayer(player)
 
    local inv = player:get_inventory()
 
-   userdata[name] = {mode = MODE_CRAFTABLE}
+   if not userdata then
+      userdata[name] = table.copy(userdata_init)
+   end
 
    if inv:get_size("craft_in") ~= 4 then
       inv:set_size("craft_in", 4)
