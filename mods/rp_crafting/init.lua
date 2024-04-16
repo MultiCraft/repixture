@@ -684,6 +684,7 @@ local function on_player_receive_fields(player, form_name, fields)
       if has_crafted then
          invalidate_craftable_cache(player)
          crafting.update_crafting_formspec(player, old_craft_id)
+         return
       end
 
    elseif fields.toggle_filter then
@@ -708,7 +709,7 @@ local function on_player_receive_fields(player, form_name, fields)
             if id then
                userdata[name].craft_id = id
                crafting.update_crafting_formspec(player, id)
-               break
+               return
             end
          end
      end
