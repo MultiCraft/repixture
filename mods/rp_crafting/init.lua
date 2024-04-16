@@ -82,6 +82,16 @@ function crafting.register_craft(def)
    return itemkey
 end
 
+-- Invalidades the cache that contains the list of currently craftable
+-- items, used in crafting guide to reduce calculation times.
+-- This function needs to be called when the input items
+-- have changed.
+local invalidate_craftable_cache = function(player)
+   minetest.log("error", "INVALIDATE")
+   local pname = player:get_player_name()
+   userdata[pname].craftable_cache = nil
+end
+
 -- Checks if the given crafting recipe (given by its craft definition)
 -- can be crafted from the input items of the inventory list 'craft_in'
 local function is_craftable_from_inventory(craftdef, inventory)
@@ -337,6 +347,17 @@ function crafting.get_formspec(name)
    local selected = false
    local selected_element
    local btn_styles = ""
+
+   -- In the craft guide, the list of craftable items is cached for
+   -- the player so it doesn't have to be recalculated that often.
+   local craftable_cache = userdata[name].craftable_cache
+   local cache_update_required
+   if userdata[name].mode == MODE_GUIDE and craftable_cache == nil then
+      cache_update_required = true
+      craftable_cache = {}
+      userdata[name].craftable_cache = craftable_cache
+   end
+
    for element_id, craft_id in ipairs(craftitems) do
       local itemstack = crafting.registered_crafts[craft_id].output
       local itemstring = itemstack:to_string()
@@ -361,7 +382,17 @@ function crafting.get_formspec(name)
 
       -- Check if this recipe is craftable with the current input.
       -- In MODE_CRAFTABLE, everything in the list is craftable so no extra check is needed
-      local craftable = userdata[name].mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
+      local craftable
+      if userdata[name].mode == MODE_CRAFTABLE then
+          craftable = true
+      elseif craftable_cache and not cache_update_required then
+          craftable = craftable_cache[craft_id] == true
+      else
+          craftable = is_craftable_from_inventory(craftdef, inv)
+          if cache_update_required and craftable then 
+             craftable_cache[craft_id] = true
+          end
+      end
 
       -- Button styling for non-selected button
       if not this_selected then
@@ -370,13 +401,12 @@ function crafting.get_formspec(name)
                 -- Hidden in craft guide
                 btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_secret_inactive.png]"
                 btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_secret_active.png]"
-            else
-                if userdata[name].mode == MODE_GUIDE then
-                   btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_inactive.png]"
-                   btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_active.png]"
-                end
+            elseif userdata[name].mode == MODE_GUIDE then
+                -- Craftable button (style explicitly needed in craft guide but otherwise not)
+                btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_inactive.png]"
+                btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_active.png]"
             end
-         else
+         elseif userdata[name].mode == MODE_CRAFTABLE then
             -- Gray out uncraftable recipes
             btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_uncraftable_inactive.png]"
             btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_uncraftable_active.png]"
@@ -463,8 +493,8 @@ function crafting.get_formspec(name)
        if userdata[name].mode == MODE_GUIDE then
            -- The 'uncraftable' button style is default in craft guide since this is the more common one;
            -- this will reduce the amount of style[] elements considerably
-           form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_uncractable_inactive.png;border=false;padding=2]"
-           form = form .. "style_type[item_image_button:pressed;bgimg=ui_button_crafting_uncractable_active.png;border=false;padding=2]"
+           form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_uncraftable_inactive.png;border=false;padding=2]"
+           form = form .. "style_type[item_image_button:pressed;bgimg=ui_button_crafting_uncraftable_active.png;border=false;padding=2]"
        else
            -- Normal buton style otherwise
            form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_inactive.png;border=false;padding=2]"
@@ -565,6 +595,7 @@ local function clear_craft_slots(player)
    end
 
    if items_moved then
+       invalidate_craftable_cache(player)
        rp_formspec.refresh_invpage(player, "rp_crafting:crafting")
    end
 end
@@ -651,6 +682,7 @@ local function on_player_receive_fields(player, form_name, fields)
          count = count - 1
       until count < 1
       if has_crafted then
+         invalidate_craftable_cache(player)
          crafting.update_crafting_formspec(player, old_craft_id)
       end
 
@@ -693,13 +725,17 @@ function crafting.update_crafting_formspec(player, craft_id)
    rp_formspec.refresh_invpage(player, "rp_crafting:crafting")
 end
 
+
+
 minetest.register_on_player_inventory_action(function(player, action, inventory, inventory_info)
    if action == "move" then
       if inventory_info.from_list == "craft_in" or inventory_info.to_list == "craft_in" then
+          invalidate_craftable_cache(player)
           crafting.update_crafting_formspec(player)
       end
    elseif action == "put" or action == "take" then
       if inventory_info.listname == "craft_in" then
+          invalidate_craftable_cache(player)
           crafting.update_crafting_formspec(player)
       end
    end
