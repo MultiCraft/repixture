@@ -21,14 +21,58 @@ local armor_local = {}
 
 -- Wear is wear per HP of damage taken
 
-armor.materials = {
-   -- material, craftitem, description, protection %, equip sound, unequip sound, pitch
-   {"wood",         "group:planks",                  { S("Wooden Helmet"), S("Wooden Chestplate"), S("Wooden Boots") }, 10, "rp_armor_equip_wood", "rp_armor_unequip_wood"},
-   {"steel",        "rp_default:ingot_steel",        { S("Steel Helmet"), S("Steel Chestplate"), S("Steel Boots") }, 20, "rp_armor_equip_metal", "rp_armor_unequip_metal", 0.90},
-   {"chainmail",    "rp_armor:chainmail_sheet",      { S("Chainmail Helmet"), S("Chainmail Chestplate"), S("Chainmail Boots") }, 30, "rp_armor_equip_chainmail", "rp_armor_unequip_chainmail"},
-   {"carbon_steel", "rp_default:ingot_carbon_steel", { S("Carbon Steel Helmet"), S("Carbon Steel Chestplate"), S("Carbon Steel Boots") }, 40, "rp_armor_equip_metal", "rp_armor_unequip_metal", 0.95},
-   {"bronze",       "rp_default:ingot_bronze",       { S("Bronze Helmet"), S("Bronze Chestplate"), S("Bronze Boots") }, 60, "rp_armor_equip_metal", "rp_armor_unequip_metal", 1.0},
-}
+armor.materials = {}
+
+local function register_armor(id, def)
+   table.insert(armor.materials, {
+      id, -- material ID
+      def.craftitem, -- item used for crafting
+      def.descriptions, -- list of description (in order of armor pieces)
+      def.protections, -- protection % per-piece
+      def.sound_equip, -- equip sound name
+      def.sound_unequip, -- unequip sound name
+      def.sound_pitch, -- sound pitch for all sounds
+   })
+end
+
+register_armor("wood", {
+   craftitem = "group:planks",
+   descriptions = { S("Wooden Helmet"), S("Wooden Chestplate"), S("Wooden Boots") },
+   protections = 3,
+   sound_equip = "rp_armor_equip_wood",
+   sound_unequip = "rp_armor_unequip_wood",
+})
+register_armor("steel", {
+   craftitem = "rp_default:ingot_steel",
+   descriptions = { S("Steel Helmet"), S("Steel Chestplate"), S("Steel Boots") },
+   protections = 6,
+   sound_equip = "rp_armor_equip_steel",
+   sound_unequip = "rp_armor_unequip_steel",
+   sound_pitch = 0.90,
+})
+register_armor("chainmail", {
+   craftitem = "rp_armor:chainmail_sheet",
+   descriptions = { S("Chainmail Helmet"), S("Chainmail Chestplate"), S("Chainmail Boots") },
+   protections = 10,
+   sound_equip = "rp_armor_equip_chainmail",
+   sound_unequip = "rp_armor_unequip_chainmail",
+})
+register_armor("carbon_steel", {
+   craftitem = "rp_default:ingot_carbon_steel",
+   descriptions = { S("Carbon Steel Helmet"), S("Carbon Steel Chestplate"), S("Carbon Steel Boots") },
+   protections = 13,
+   sound_equip = "rp_armor_equip_steel",
+   sound_unequip = "rp_armor_unequip_steel",
+   sound_pitch = 0.95,
+})
+register_armor("bronze", {
+   craftitem = "rp_default:ingot_bronze",
+   descriptions = { S("Bronze Helmet"), S("Bronze Chestplate"), S("Bronze Boots") },
+   protections = 20,
+   sound_equip = "rp_armor_equip_steel",
+   sound_unequip = "rp_armor_unequip_steel",
+   sound_pitch = 1.00,
+})
 
 -- Usable slots
 
@@ -387,7 +431,7 @@ for mat_index, matdef in ipairs(armor.materials) do
 
    local mat = matdef[1]
 
-   local armor_def = math.floor(matdef[4] / #armor.slots)
+   local armor_def = matdef[4]
 
    for s, slot in ipairs(armor.slots) do
 
