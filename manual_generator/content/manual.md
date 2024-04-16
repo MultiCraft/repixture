@@ -130,7 +130,7 @@ The <span class="concept">inventory</span> screen shows your inventory as well a
 
 The inventory screen is organized in <span class="concept">pages</span>. The tabs on the left side, shown on the screenshot at the number (1), let you switch the page. The tab highlighted in green indicates the current tab. On this screenshot, we’re on the Crafting page.
 
-Some pages, like the Crafting page, show your inventory (2). The inventory is where you store and move your items. The top row represents your hotbar, i.e. the items you can actually use while exploring the world.
+Some pages, like the Crafting page, show your inventory (2). The inventory is where you store and move your items. The top row represents your <span class="concept">hotbar</span>, i.e. the items you can actually use while exploring the world.
 
 The next sections explain every page.
 
@@ -138,25 +138,43 @@ The next sections explain every page.
 
 ![Crafting menu](./assets/images/screenshots/inventory_crafting.png)
 
-Here you can craft, i.e. combine items to create new items.
+Here you can <span class="concept">craft</span>, i.e. combine items to create new items.
 
-Initially, this page is mostly empty with only the crafting slots (1) and the crafting guide button (5) visible.
+##### Quick start guide
 
-To the left (1), you see 4 crafting slots. If you put one or multiple items into these slots (the order does not matter) and you can craft something useful from it, this will activate the crafting list (3), the recipe (2) and output preview (4).
+Here’s how to craft:
 
-Right from the crafting slots, the recipe is shown (2). This section has up to 4 item icons that tell you which items are required for crafting the currently selected recipe. Hover an icon with a cursor to learn what it is. If an item has a darkened background, that means other, similar items within the same group are accepted as well. For example, in this image, a <span class="item">grass clump</span> is shown but since the background is darkened this means that similar grass clumps will be accepted as well.
+1. Put input item(s) into the <span class="concept">crafting slots</span> (1) until the <span class="concept">crafting list</span> (2) shows something
+2. Select an output item in the crafting list (2)
+3. Click one of the <span class="concept">crafting buttons</span> (5) to craft it 1 or 10 times
 
-Right from the recipe is the recipe list (3). This list shows everything you can currently craft from the items in the crafting slots, in alphabetical order. If there is a number next to the item name, that’s the count of the resulting item. Select the item you want to craft and/or learn the recipe for. If you double click/double-tap something in the list, you will craft the item.
+The result should now be in your inventory.
 
-The crafting buttons labelled “1” and “10” are to the right (6). They let you craft the selected recipe 1 time, or 10 times. Note the “10” button also works even if you don’t have items for 10 crafts; in that case, you will craft it as many times as you can. All crafted items will appear your inventory into the first free slot. Crafting does *not* work when your inventory is full.
+##### Detailed guide
 
-Finally, the black question mark button (5) toggles the crafting guide and the question mark will turn white. If the crafting guide is active, the recipe list will show every possible recipe, even those you can’t craft yet.
+At first, this page is mostly empty with only the <span class="concept">crafting slots</span> (1) and the <span class="concept">crafting guide</span> button (6) visible.
 
-#### Armor
+To the left (1), you see 4 crafting slots. If you put one or multiple items into these slots (the order does not matter) and you can craft something from it, this will activate the <span class="concept">crafting list</span> (2) and the <span class="concept">recipe</span> (3 and 4).
+
+The crafting list shows everything you can craft from the items in the input slots (if any). In the screenshot example, 4 <span class="item">wooden planks</span> are used as input. The crafting list shows what you can craft: 4 <span class="item">sticks</span>, 2 <span class="item">wooden slabs</span> and 4 <span class="item">wooden stairs</span>. In the crafting list, one recipe is selected, it appears in green. In this case, it’s the <span class="item">sticks</span>.
+
+Right from the crafting list, the recipe is shown (3 and 4). A recipe always has 1 to 4 input items (3) and one output (4). The example shows that you need a <span class="item">wooden plank</span> to craft 4 <span class="item">sticks</span>. Hover with the cursor over an item icon to learn what it is.
+
+In the recipe input, if an item has a darkened background, that means other, similar items within the same group are accepted as well. For example, in this image, <span class="item">wooden planks</span> are shown but since the background is darkened this means that other types of wooden planks will be accepted as well.
+
+The crafting buttons labelled “1” and “10” are to the right (5). They let you craft the selected recipe 1 time, or 10 times. The “10” button also works even if you don’t have items for 10 crafts; in that case, you will craft it as many times as you can. All crafted items will appear your inventory into the first free slot (or slots). **Note**: If your inventory is full, nothing happens.
+
+Finally, the black question mark button (6) toggles the crafting guide.
+
+![Crafting guide](./assets/images/screenshots/inventory_crafting_guide.png)
+
+If the crafting guide is active, the button turns green and the crafting list will show every possible recipe, even those you can’t craft at the moment. Items you cannot currently craft from the input items have a darkened background (1) while craftable items have the default color (2).
+
+#### Armor page
 
 ![Armor menu](./assets/images/screenshots/inventory_armor.png)
 
-In this page you can view and equip armor, which protects you from some forms of damage.
+In this page you can view and equip <span class="concept">armor</span>, which protects you from some forms of damage.
 
 If you have a helmet, chestplate or a pair of boots, simply put it into the matching slot (1) to equip it. Move an item away from the armor slots to unequip it.
 
@@ -164,39 +182,71 @@ Next to the shield icon (2) you see your current protection level. Damage is red
 
 If you receive any armor bonuses, additional icons and text may appear on the page. Move the cursor on the icon for an explanation.
 
-#### Achievements
+#### Achievements page
 
-![Achievements menu](./assets/images/screenshots/inventory_achievements.png)
+This page shows all <span class="concept">achievements</span> you can get in this game and which of them you have completed. Achievements are simple optional side tasks.
 
-This page shows all achievements you can get in this game and how many of them you have completed. Achievements are simple optional side tasks. See the section on Achievements below to learn more.
+There are two ways to display achievements: As symbols and as a text list. Click the button to right (1) to switch the display mode.
 
-On the top left side (1), you see the name and symbol of the selected achievement. Right from that (2) there is a description telling you what you have to do to get it. At the right edge (3), the achievement state is shown. There are are 3 possible states: Missing, In progress and Gotten.
+Each achievement has one of 3 states:
 
-The big list (4) is the list of all achievements. This list is organized in 3 columns: Status icon, name and goal description. The following status icons are used:
+* <span class="concept">**Gotten**</span>: You have completed this achievement. Congratulations!
+* <span class="concept">**In progress**</span>: You have only completed this achievement partially
+* <span class="concept">**Missing**</span>: You have not completed this achievement
 
-* **Checkmark**: Achievement gotten (text will also be green)
-* **Circle**: Achievement in progress (this icon is a pie diagram roughly showing the completion percentage)
-* **No icon**: Achievement missing
+At the bottom (6) of both screens, the summary of your achievement progress is shown.
 
-At the bottom (5) the summary of your achievement progress is shown.
+##### Symbols mode
 
-#### Player skins
+![Achievements menu (Symbols mode)](./assets/images/screenshots/inventory_achievements_symbols.png)
+
+This is the default mode. This mode shows all achievements in the game as symbols (2). Achievements you have gotten will have a green background while other achievements have a brown background. Hover a symbol with the cursor to see name, description and current status (gotten, in progress or missing).
+
+Only gotten achievements show their true symbol; others have a question mark.
+
+##### Text list mode
+
+![Achievements menu (Text mode)](./assets/images/screenshots/inventory_achievements_text.png)
+
+This mode shows the achievements as text and offers a little more information.
+
+On the top left side (2), you see the name and symbol of the selected achievement. Right from that (3), there is a description telling you what you have to do to get it. At the right edge (4), the achievement state is shown.
+
+The big list (5) is the list of all achievements. This list is organized in 3 columns: Status icon, name and goal description. The following status icons are used:
+
+* **Checkmark**: Gotten (text will also be green)
+* **Circle**: In progress (this icon is a pie diagram roughly showing the completion percentage)
+* **No icon**: Missing
+
+If you select an achievement that is partially completed in the text list, you can see which steps have already been completed. For example, which foods you have eaten for food-related achievements. You can only do this in the text list mode.
+
+#### Player skins page
 
 ![Player skins menu](./assets/images/screenshots/inventory_skins.png)
 
 On this page you can look at and change your current player skin. Just click on a button to cycle through the style and color of something. You can also randomize everything with the “Random” button.
 
-#### Creative Inventory
+#### Creative Inventory page
 
 ![Creative inventory](./assets/images/screenshots/inventory_creative.png)
 
-This page is only available when Creative Mode is enabled. Here you can get (almost) all items for free. Note that some items that are too “technical” or items that might break the game if you have them are not visible here.
+This page is only available when Creative Mode is enabled. Here you can get (almost) all items for free. Note that items that are too “technical” for players are hidden here.
 
-From the creative inventory (1), you can get (almost) all items for free. Just drag items from there into your own inventory. You cannot put items into the creative inventory.
+From the <span class="concept">creative inventory</span> (1), you can get the items. Just drag items from there into your own inventory. You cannot put items into the creative inventory.
 
 The creative inventory does not fit on a single screen, so with the arrow buttons (3) and (4) you can change to the previous and next screen, respectively. (2) indicates the number of the current screen and the total number of screens.
 
-The item slot with an “X” symbol (5) is the trash. Put items here to destroy them. Alternatively, you can <kbd>Sneak</kbd>+<kbd>Click</kbd> on an item in your inventory to trash it instantly.
+The item slot with the “X” symbol (5) is the <span class="concept">trash</span>. Put items here to destroy them. Alternatively, you can <kbd>Sneak</kbd>+<kbd>Click</kbd> on an item in your inventory to trash it instantly.
+
+The magnifying glass button (6) starts a <span class="concept">search</span>, where you can search for items by name. A text field appears in which you can enter anything you want. The game will search for:
+
+* Item name as it appears in the tooltip (usually first line only)
+* Item name in English
+* The “technical” item name (e.g. `rp_default:stone`)
+
+Hit <kbd>Enter</kbd> (on PC) or click the button next to the text field to submit the search.
+
+While the search is active, only items that match the search will appear. To stop the search (which makes all items appear again), click on the magnifying glass again.
 
 ### Other screens
 
@@ -424,7 +474,7 @@ If you’re a mod developer, read the text file `DEVELOPERS.md` in the Repixture
 
 ## Compatibility notes
 
-### Mod compability
+### Mod compatibility
 
 While Repixture supports Minetest mods, not all mods that were created for Minetest will work in Repixture.
 
