@@ -87,7 +87,6 @@ end
 -- This function needs to be called when the input items
 -- have changed.
 local invalidate_craftable_cache = function(player)
-   minetest.log("error", "INVALIDATE")
    local pname = player:get_player_name()
    userdata[pname].craftable_cache = nil
 end
@@ -475,6 +474,9 @@ function crafting.get_formspec(name)
        if craft_count > BUTTONS_WIDTH*BUTTONS_HEIGHT then
           -- Render scrollbar if scrolling is neccessary
           local scrollmax = math.max(1, cry - (BUTTONS_HEIGHT-1))
+          if craft_count % BUTTONS_WIDTH == 0 then
+              scrollmax = scrollmax - 1
+          end
           local scrollpos = (userdata[name] and userdata[name].scrollpos)
           if not scrollpos and selected_element then
               scrollpos = math.floor((selected_element-1) / BUTTONS_WIDTH)
