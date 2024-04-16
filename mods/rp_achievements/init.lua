@@ -26,6 +26,15 @@ local MODE_LIST = 1 -- text list
 local MODE_SYMBOLS = 2 -- symbols
 local MODE_DEFAULT = MODE_SYMBOLS
 
+-- Offset from big achievement icon from frame border (x and y)
+local ICON_OFFSET = 0.12222
+-- Size of big achievement icon
+local ICON_SIZE = 1.9555
+-- Distance between 2 achievment icons in symbols mode
+local ICON_FRAME_SPACING = 0.2
+-- Size of frame around the big achievement icon (including frame)
+local ICON_FRAME_SIZE = 2.2
+
 local S = minetest.get_translator("rp_achievements")
 local NS = function(s) return s end
 
@@ -894,6 +903,46 @@ rp_formspec.register_invtab("rp_achievements:achievements", {
    tooltip = S("Achievements"),
 })
 
+-- Generate formspec string for large achievement icon
+-- * x, y: Coordinates in formspec
+-- * aname: Achievment identifier
+-- * gotten: true if achievement was gotten
+-- * tooltip: Optional tooltip text
+local achievement_icon_frame = function(x, y, aname, gotten, tooltip)
+   local form = ""
+   form = form .. "image["..x..","..y..";"..ICON_FRAME_SIZE..","..ICON_FRAME_SIZE..";"
+   if gotten then
+      form = form .. "rp_achievements_icon_frame_gotten.png]"
+   else
+      form = form .. "rp_achievements_icon_frame.png]"
+   end
+
+   local icon, icon_type
+   if not gotten then
+      icon = "rp_achievements_icon_missing.png"
+      icon_type = "image"
+   else
+      icon, icon_type = get_achievement_icon(aname)
+   end
+
+   local ix = x+ICON_OFFSET
+   local iy = y+ICON_OFFSET
+   local isize = ICON_SIZE
+   if icon_type == "image" then
+      form = form .. "image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
+   elseif icon_type == "item_image" then
+      form = form .. "item_image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
+   else
+      minetest.log("error", "[rp_achievements] Invalid icon_type in achievemnet_icon()!")
+      return ""
+   end
+
+   if tooltip then
+      form = form .. "tooltip["..ix..","..iy..";"..ICON_SIZE..","..ICON_SIZE..";" .. minetest.formspec_escape(tooltip) .. "]"
+   end
+   return form
+end
+
 function achievements.get_formspec(name)
    local row = 1
 
@@ -1004,32 +1053,8 @@ function achievements.get_formspec(name)
    -- Achievement icon background
    form = form .. "container[0,0.51]" -- icon container
 
-   form = form .. "image[0,0;2.2,2.2;"
-   if gotten then
-      form = form .. "rp_achievements_icon_frame_gotten.png]"
-   else
-      form = form .. "rp_achievements_icon_frame.png]"
-   end
-
    -- Achievement icon
-   local icon, icon_type
-   if not gotten then
-      icon = "rp_achievements_icon_missing.png"
-      icon_type = "image"
-   else
-      icon, icon_type = get_achievement_icon(aname)
-   end
-
-   local ix = 0.12222
-   local iy = 0.12222
-   local isize = 1.9555
-   if icon_type == "image" then
-      form = form .. "image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
-   elseif icon_type == "item_image" then
-      form = form .. "item_image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
-   else
-      minetest.log("error", "[rp_achievements] Invalid icon_type in achievements.get_formspec!")
-   end
+   form = form .. achievement_icon_frame(0, 0, aname, gotten)
    form = form .. "container_end[]" -- icon container end
 
    --[[~~~~~ END OF TEXT LIST MODE ~~~~~]]
@@ -1051,8 +1076,8 @@ function achievements.get_formspec(name)
    local icony = 0
    for _, aname in ipairs(achievements.registered_achievements_list) do
       local def = achievements.registered_achievements[aname]
-      local imx = iconx * 2.4
-      local imy = icony * 2.4
+      local imx = iconx * (ICON_FRAME_SIZE+ICON_FRAME_SPACING)
+      local imy = icony * (ICON_FRAME_SIZE+ICON_FRAME_SPACING)
 
       local status = achievements.get_completion_status(player, aname)
       local gotten = status == achievements.ACHIEVEMENT_GOTTEN
@@ -1063,38 +1088,12 @@ function achievements.get_formspec(name)
 	 amt_progress = amt_progress + 1
       end
 
-      form = form .. "image["..imx..","..imy..";2.2,2.2;"
-      if gotten then
-         form = form .. "rp_achievements_icon_frame_gotten.png]"
-      else
-         form = form .. "rp_achievements_icon_frame.png]"
-      end
       iconx = iconx + 1
       if iconx >= SYMBOLS_PER_ROW then
          iconx = 0
          icony = icony + 1
       end
       -- Achievement icon
-      local icon, icon_type
-
- 
-      if not gotten then
-         icon = "rp_achievements_icon_missing.png"
-         icon_type = "image"
-      else
-         icon, icon_type = get_achievement_icon(aname)
-      end
-
-      local ix = imx+0.12222
-      local iy = imy+0.12222
-      local isize = 1.9555
-      if icon_type == "image" then
-         form = form .. "image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
-      elseif icon_type == "item_image" then
-         form = form .. "item_image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
-      else
-         minetest.log("error", "[rp_achievements] Invalid icon_type in achievements.get_formspec!")
-      end
 
       local achievement_times = states[aname]
       local progress
@@ -1113,7 +1112,7 @@ function achievements.get_formspec(name)
       end
       local description = def.description or ""
       local tt = title .. "\n" .. description .. "\n" .. S("Status: @1", progress)
-      form = form .. "tooltip["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(tt) .. "]"
+      form = form .. achievement_icon_frame(imx, imy, aname, gotten, tt)
    end
 
    form = form .. "scroll_container_end[]"
