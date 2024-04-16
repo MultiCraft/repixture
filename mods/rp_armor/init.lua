@@ -17,6 +17,11 @@ local SAME_ARMOR_BONUS_PERCENT = 10
 
 armor = {}
 
+-- Usable slots
+
+armor.slots = {"helmet", "chestplate", "boots"}
+armor.slot_names = {S("Helmet"), S("Chestplate"), S("Boots")}
+
 local armor_local = {}
 
 -- Wear is wear per HP of damage taken
@@ -24,11 +29,22 @@ local armor_local = {}
 armor.materials = {}
 
 local function register_armor(id, def)
+   local protections
+   -- If def.protections is number, use this number for all armor slots
+   if type(def.protections) == "number" then
+      protections = {}
+      for i=1, #armor.slots do
+         table.insert(protections, def.protections)
+      end
+   else
+      -- Otherwise we assume def.protections is a table
+      protections = def.protections
+   end
    table.insert(armor.materials, {
       id, -- material ID
       def.craftitem, -- item used for crafting
-      def.descriptions, -- list of description (in order of armor pieces)
-      def.protections, -- protection % per-piece
+      def.descriptions, -- list of description (in order of armor.slots)
+      protections, -- protection % per-piece (in order of armor.slots)
       def.sound_equip, -- equip sound name
       def.sound_unequip, -- unequip sound name
       def.sound_pitch, -- sound pitch for all sounds
@@ -73,11 +89,6 @@ register_armor("bronze", {
    sound_unequip = "rp_armor_unequip_steel",
    sound_pitch = 1.00,
 })
-
--- Usable slots
-
-armor.slots = {"helmet", "chestplate", "boots"}
-armor.slot_names = {S("Helmet"), S("Chestplate"), S("Boots")}
 
 
 -- Formspec
@@ -431,9 +442,9 @@ for mat_index, matdef in ipairs(armor.materials) do
 
    local mat = matdef[1]
 
-   local armor_def = matdef[4]
 
    for s, slot in ipairs(armor.slots) do
+      local armor_protection = matdef[4][s]
 
       minetest.register_craftitem(
 	 "rp_armor:" .. slot .. "_" .. mat,
@@ -445,7 +456,7 @@ for mat_index, matdef in ipairs(armor.materials) do
 
 	    groups = {
 	       is_armor = 1,
-	       armor = armor_def,
+	       armor = armor_protection,
 	       armor_material = mat_index,
 	       armor_slot = s,
 	    },
