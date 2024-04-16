@@ -16,10 +16,10 @@ msgstr ""
 msgid "Headband"
 msgstr ""
 
-msgid "Eyes"
+msgid "Hair"
 msgstr ""
 
-msgid "Hair"
+msgid "Eyes"
 msgstr ""
 
 msgid "Beard"

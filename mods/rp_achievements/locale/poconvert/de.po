@@ -19,11 +19,17 @@ msgstr "Sie haben die Errungenschaft „@1“ erhalten."
 msgid "@1 has earned the achievement “@2”."
 msgstr "@1 hat die Errungenschaft „@2“ erhalten."
 
+msgid "Achievement gotten!"
+msgstr "Errungenschaft erhalten!"
+
 msgid "You have gotten all achievements!"
 msgstr "Sie haben alle Errungenschaften erhalten!"
 
 msgid "@1 has gotten all achievements!"
 msgstr "@1 hat alle Errungenschaften erhalten!"
+
+msgid "All achievements gotten!"
+msgstr "Alle Errungenschaften erhalten!"
 
 msgid "You have lost all achievements!"
 msgstr "Sie haben alle Errungenschaften verloren!"
@@ -31,11 +37,17 @@ msgstr "Sie haben alle Errungenschaften verloren!"
 msgid "@1 has lost all achievements!"
 msgstr "@1 hat alle Errungenschaften verloren!"
 
+msgid "All achievements lost!"
+msgstr "Alle Errungenschaften verloren!"
+
 msgid "You have lost the achievement “@1”."
 msgstr "Sie haben die Errungenschaft „@1“ verloren."
 
 msgid "@1 has lost the achievement “@2”."
 msgstr "@1 hat die Errungenschaft „@2“ verloren."
+
+msgid "Achievement lost!"
+msgstr "Errungenschaft verloren!"
 
 msgid "The achievement “@1” has new goals."
 msgstr "Die Errungenschaft „@1“ hat neue Ziele."
@@ -52,14 +64,23 @@ msgstr "@1/@2"
 msgid "Missing"
 msgstr "Fehlt"
 
-msgid "@1 of @2 achievements gotten, @3 in progress"
-msgstr "@1 von @2 Errungenschaften erhalten, @3 in Arbeit"
-
 msgid ", "
 msgstr ", "
 
 msgid "Completed: @1"
 msgstr "Fertig: @1"
+
+msgid "Status: @1"
+msgstr "Status: @1"
+
+msgid "@1 of @2 achievements gotten, @3 in progress"
+msgstr "@1 von @2 Errungenschaften erhalten, @3 in Arbeit"
+
+msgid "Show symbols"
+msgstr "Symbole anzeigen"
+
+msgid "Show list"
+msgstr "Liste anzeigen"
 
 msgid "(list [<player>]) | ((give | remove) <player> (<achievement> | all))"
 msgstr "(list [<Spieler>]) | ((give | remove) <Spieler> (<Errungenschaft> | all))"

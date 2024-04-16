@@ -13,6 +13,15 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.0\n"
 
+msgid "Helmet"
+msgstr "Шлем"
+
+msgid "Chestplate"
+msgstr "Нагрудник"
+
+msgid "Boots"
+msgstr "Ботинки"
+
 msgid "Wooden Helmet"
 msgstr "Деверянный шлем"
 
@@ -58,14 +67,17 @@ msgstr "Бронзовый нагрудник"
 msgid "Bronze Boots"
 msgstr "Бронзовые ботинки"
 
-msgid "Helmet"
-msgstr "Шлем"
+msgid "Protection"
+msgstr ""
 
-msgid "Chestplate"
-msgstr "Нагрудник"
+msgid "@1%"
+msgstr ""
 
-msgid "Boots"
-msgstr "Ботинки"
+msgid "Protection bonus for full set"
+msgstr ""
+
+msgid "+@1%"
+msgstr ""
 
 msgid "Armor"
 msgstr "Броня"

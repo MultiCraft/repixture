@@ -13,6 +13,15 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.0\n"
 
+msgid "Helmet"
+msgstr "Casque"
+
+msgid "Chestplate"
+msgstr "Plastron"
+
+msgid "Boots"
+msgstr "Bottes"
+
 msgid "Wooden Helmet"
 msgstr "Casque en bois"
 
@@ -58,14 +67,17 @@ msgstr "Plastron en bronze"
 msgid "Bronze Boots"
 msgstr "Bottes en bronze"
 
-msgid "Helmet"
-msgstr "Casque"
+msgid "Protection"
+msgstr ""
 
-msgid "Chestplate"
-msgstr "Plastron"
+msgid "@1%"
+msgstr ""
 
-msgid "Boots"
-msgstr "Bottes"
+msgid "Protection bonus for full set"
+msgstr ""
+
+msgid "+@1%"
+msgstr ""
 
 msgid "Armor"
 msgstr "Armure"
