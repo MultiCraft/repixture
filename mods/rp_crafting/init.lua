@@ -407,14 +407,14 @@ function crafting.get_formspec(name)
       selected_element = 1
       userdata[name].craft_id = selected_craft_id
       local craftdef = crafting.registered_crafts[selected_craft_id]
-      local craftable = userdata.mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
+      local craftable = userdata[name].mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
       local itemname = craftdef.output:get_name()
    end
 
    -- Button style for selected button
    if selected_craft_id then
       local craftdef = crafting.registered_crafts[selected_craft_id]
-      local craftable = userdata.mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
+      local craftable = userdata[name].mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
       local itemname = craftdef.output:get_name()
 
       if craftable then
