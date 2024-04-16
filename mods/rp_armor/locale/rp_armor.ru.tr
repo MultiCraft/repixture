@@ -1,4 +1,7 @@
 # textdomain: rp_armor
+Helmet=Шлем
+Chestplate=Нагрудник
+Boots=Ботинки
 Wooden Helmet=Деверянный шлем
 Wooden Chestplate=Деревянный нагрудник
 Wooden Boots=Деревянные ботинки
@@ -14,9 +17,10 @@ Carbon Steel Boots=Ботинки из углеродистой стали
 Bronze Helmet=Бронзовый шлем
 Bronze Chestplate=Бронзовый нагрудник
 Bronze Boots=Бронзовые ботинки
-Helmet=Шлем
-Chestplate=Нагрудник
-Boots=Ботинки
+Protection=
+@1%=
+Protection bonus for full set=
++@1%=
 Armor=Броня
 Chainmail Sheet=Лист кольчуги
 Armored=Бронирован

@@ -1,4 +1,7 @@
 # textdomain: rp_armor
+Helmet=
+Chestplate=
+Boots=
 Wooden Helmet=
 Wooden Chestplate=
 Wooden Boots=
@@ -14,9 +17,10 @@ Carbon Steel Boots=
 Bronze Helmet=
 Bronze Chestplate=
 Bronze Boots=
-Helmet=
-Chestplate=
-Boots=
+Protection=
+@1%=
+Protection bonus for full set=
++@1%=
 Armor=
 Chainmail Sheet=
 Armored=
