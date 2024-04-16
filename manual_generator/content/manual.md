@@ -353,7 +353,7 @@ You can equip armor in your inventory menu in the “Armor” page. Alternativel
 
 Each piece of armor has a certain <span class="concept">protection</span> value which reduces damage by a certain percentage. So for example, if you equip a helmet with 5% protection, you will take 5% less damage. Protection adds up: If you have a helmet with 10% protection and a chestplate with 10% protection, your total protection will be 20%.
 
-<span class="concept">Protection bonus</span>: If you have all armor slots equipped and each piece of armor is made of the same material, you get a +10% protection bonus.
+<span class="concept">Protection bonus</span>: If you have all armor slots equipped and each piece of armor is made of the same material, you get a protection bonus.
 
 
 ### Fighting

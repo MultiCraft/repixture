@@ -11,10 +11,6 @@ local mod_player_skins = minetest.get_modpath("rp_player_skins") ~= nil
 -- Gain for equip/unequip sounds
 local SOUND_GAIN = 0.4
 
--- Boost protection value by this many percentage points if
--- wearing a full set of armor
-local SAME_ARMOR_BONUS_PERCENT = 10
-
 armor = {}
 
 -- Usable slots
@@ -26,7 +22,18 @@ local armor_local = {}
 
 -- Wear is wear per HP of damage taken
 
+-- List of armor materials (contains all armor definitions)
 armor.materials = {}
+
+-- This is a table in which each entry is a list with elements in that order:
+local A_MAT = 1 -- material ID
+local A_CRAFTITEM = 2 -- item used for crafting
+local A_DESCRIPTIONS = 3 -- per-piece descripton list (in the order of armor.slots)
+local A_PROTECTIONS = 4 -- per-piece protection % (in the order of armor.slots)
+local A_SOUND_EQUIP = 5 -- equip sound
+local A_SOUND_UNEQUIP = 6 -- unequip sound
+local A_SOUND_PITCH = 7 -- pitch of all sounds
+local A_FULL_SUIT_BONUS = 8 -- bonus for wearing full suit
 
 local function register_armor(id, def)
    local protections
@@ -48,13 +55,17 @@ local function register_armor(id, def)
       def.sound_equip, -- equip sound name
       def.sound_unequip, -- unequip sound name
       def.sound_pitch, -- sound pitch for all sounds
+      def.full_suit_bonus, -- bonus % for wearing full suit
    })
 end
+
+--[[~~~~~ ARMOR REGISTRATIONS ~~~~~]]
 
 register_armor("wood", {
    craftitem = "group:planks",
    descriptions = { S("Wooden Helmet"), S("Wooden Chestplate"), S("Wooden Boots") },
    protections = 3,
+   full_suit_bonus = 1,
    sound_equip = "rp_armor_equip_wood",
    sound_unequip = "rp_armor_unequip_wood",
 })
@@ -62,6 +73,7 @@ register_armor("steel", {
    craftitem = "rp_default:ingot_steel",
    descriptions = { S("Steel Helmet"), S("Steel Chestplate"), S("Steel Boots") },
    protections = 6,
+   full_suit_bonus = 2,
    sound_equip = "rp_armor_equip_steel",
    sound_unequip = "rp_armor_unequip_steel",
    sound_pitch = 0.90,
@@ -70,6 +82,7 @@ register_armor("chainmail", {
    craftitem = "rp_armor:chainmail_sheet",
    descriptions = { S("Chainmail Helmet"), S("Chainmail Chestplate"), S("Chainmail Boots") },
    protections = 10,
+   full_suit_bonus = 3,
    sound_equip = "rp_armor_equip_chainmail",
    sound_unequip = "rp_armor_unequip_chainmail",
 })
@@ -77,6 +90,7 @@ register_armor("carbon_steel", {
    craftitem = "rp_default:ingot_carbon_steel",
    descriptions = { S("Carbon Steel Helmet"), S("Carbon Steel Chestplate"), S("Carbon Steel Boots") },
    protections = 13,
+   full_suit_bonus = 4,
    sound_equip = "rp_armor_equip_steel",
    sound_unequip = "rp_armor_unequip_steel",
    sound_pitch = 0.95,
@@ -85,11 +99,11 @@ register_armor("bronze", {
    craftitem = "rp_default:ingot_bronze",
    descriptions = { S("Bronze Helmet"), S("Bronze Chestplate"), S("Bronze Boots") },
    protections = 20,
+   full_suit_bonus = 5,
    sound_equip = "rp_armor_equip_steel",
    sound_unequip = "rp_armor_unequip_steel",
    sound_pitch = 1.00,
 })
-
 
 -- Formspec
 
@@ -228,7 +242,7 @@ function armor_local.get_texture(player, base)
 
       if armor.is_armor(itemname) and armor.is_slot(itemname, slot) then
 	 local item = minetest.registered_items[itemname]
-	 local mat = armor.materials[item.groups.armor_material][1]
+	 local mat = armor.materials[item.groups.armor_material][A_MAT]
 
 	 image = image .. "^armor_" .. slot .. "_" .. mat ..".png"
       end
@@ -271,6 +285,7 @@ function armor.get_armor_protection(player)
 
    local armor_base = 0 -- armor percentage points (without bonus)
    local armor_bonus = 0 -- armor bonus percentage points
+   local last_material_index
 
    for slot_index, slot in ipairs(armor.slots) do
       local itemstack = inv:get_stack("armor", slot_index)
@@ -280,7 +295,8 @@ function armor.get_armor_protection(player)
 	 local item = minetest.registered_items[itemname]
 
 	 for mat_index, _ in ipairs(armor.materials) do
-	    local mat = armor.materials[mat_index][1]
+	    local mat = armor.materials[mat_index][A_MAT]
+            last_material_index = mat_index
 
 	    if mat_index == item.groups.armor_material then
 	       armor_base = armor_base + item.groups.armor
@@ -300,7 +316,7 @@ function armor.get_armor_protection(player)
 
    -- If full set of same armor material, then boost armor protection
    if match_amt == #armor.slots then
-      armor_bonus = SAME_ARMOR_BONUS_PERCENT
+      armor_bonus = armor.materials[last_material_index][A_FULL_SUIT_BONUS]
    end
 
    -- Final armor protection is sum of base armor and bonus,
@@ -440,16 +456,16 @@ crafting.register_craft(
 
 for mat_index, matdef in ipairs(armor.materials) do
 
-   local mat = matdef[1]
+   local mat = matdef[A_MAT]
 
 
    for s, slot in ipairs(armor.slots) do
-      local armor_protection = matdef[4][s]
+      local armor_protection = matdef[A_PROTECTIONS][s]
 
       minetest.register_craftitem(
 	 "rp_armor:" .. slot .. "_" .. mat,
 	 {
-	    description = matdef[3][s],
+	    description = matdef[A_DESCRIPTIONS][s],
 
 	    inventory_image = "armor_" .. slot .. "_" .. mat .. "_inventory.png",
 	    wield_image = "armor_" .. slot .. "_" .. mat .. "_inventory.png",
@@ -478,7 +494,7 @@ for mat_index, matdef in ipairs(armor.materials) do
                   armor_changed = true
                end
                if armor_changed then
-                  minetest.sound_play({name=matdef[5] or "rp_armor_equip_metal", gain=SOUND_GAIN, pitch=matdef[7]}, {object=user}, true)
+                  minetest.sound_play({name=matdef[A_SOUND_EQUIP] or "rp_armor_equip_metal", gain=SOUND_GAIN, pitch=matdef[A_SOUND_PITCH]}, {object=user}, true)
                   armor.update(user)
                   return itemstack
                end
@@ -494,7 +510,7 @@ for mat_index, matdef in ipairs(armor.materials) do
       {
 	 output = "rp_armor:helmet_" .. mat,
 	 items = {
-            matdef[2] .. " 5",
+            matdef[A_CRAFTITEM] .. " 5",
 	 }
    })
 
@@ -502,7 +518,7 @@ for mat_index, matdef in ipairs(armor.materials) do
       {
 	 output = "rp_armor:chestplate_" .. mat,
 	 items = {
-            matdef[2] .. " 8",
+            matdef[A_CRAFTITEM] .. " 8",
 	 }
    })
 
@@ -510,7 +526,7 @@ for mat_index, matdef in ipairs(armor.materials) do
       {
 	 output = "rp_armor:boots_" .. mat,
 	 items = {
-            matdef[2] .. " 6",
+            matdef[A_CRAFTITEM] .. " 6",
 	 }
    })
 
@@ -592,10 +608,10 @@ minetest.register_on_player_inventory_action(function(player, action, inventory,
        if itemdef and itemdef._rp_armor_material then
           for a=1, #armor.materials do
              local arm = armor.materials[a]
-             if arm[1] == itemdef._rp_armor_material then
-                equip_sound = arm[5] or "rp_armor_equip_metal"
-                unequip_sound = arm[6] or "rp_armor_unequip_metal"
-                pitch = arm[7]
+             if arm[A_MAT] == itemdef._rp_armor_material then
+                equip_sound = arm[A_SOUND_EQUIP] or "rp_armor_equip_metal"
+                unequip_sound = arm[A_SOUND_UNEQUIP] or "rp_armor_unequip_metal"
+                pitch = arm[A_SOUND_PITCH]
                 break
              end
           end
@@ -607,6 +623,8 @@ minetest.register_on_player_inventory_action(function(player, action, inventory,
         minetest.sound_play({name=unequip_sound, gain=SOUND_GAIN, pitch=pitch}, {object=player}, true)
     end
 end)
+
+
 
 -- Wooden armor fuel recipes
 minetest.register_craft({
