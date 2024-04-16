@@ -1,17 +1,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_default x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2024-04-09 13:18+0000\n"
+"Last-Translator: Wuzzy <Wuzzy@users.noreply.translate.codeberg.org>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/repixture/"
+"rp_default/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.4.3\n"
 
 msgid "Timber"
 msgstr "Bauholz"
@@ -245,10 +246,10 @@ msgid "Marsh"
 msgstr "Moor"
 
 msgid "Marsh Underwater"
-msgstr ""
+msgstr "Moor im Wasser"
 
 msgid "Marsh Beach"
-msgstr ""
+msgstr "Moorstrand"
 
 msgid "Dense Grassland"
 msgstr "Dichtes Grasland"
@@ -260,37 +261,37 @@ msgid "Mixed Forest"
 msgstr "Mischwald"
 
 msgid "Mixed Forest Underwater"
-msgstr ""
+msgstr "Mischwald im Wasser"
 
 msgid "Mixed Forest Beach"
-msgstr ""
+msgstr "Mischwaldstrand"
 
 msgid "Grove"
 msgstr "Hain"
 
 msgid "Grove Underwater"
-msgstr ""
+msgstr "Hain im Wasser"
 
 msgid "Grove Beach"
-msgstr ""
+msgstr "Hainstrand"
 
 msgid "Wilderness"
 msgstr "Wildnis"
 
 msgid "Wilderness Underwater"
-msgstr ""
+msgstr "Wildnis im Wasser"
 
 msgid "Wilderness Beach"
-msgstr ""
+msgstr "Wildnisstrand"
 
 msgid "Grassland"
 msgstr "Grasland"
 
 msgid "Grassland Underwater"
-msgstr ""
+msgstr "Grasland im Wasser"
 
 msgid "Grassland Beach"
-msgstr ""
+msgstr "Graslandstrand"
 
 msgid "Orchard"
 msgstr "Obstgarten"
@@ -299,10 +300,10 @@ msgid "Shrubbery"
 msgstr "Buschland"
 
 msgid "Shrubbery Underwater"
-msgstr ""
+msgstr "Buschland im Wasser"
 
 msgid "Shrubbery Beach"
-msgstr ""
+msgstr "Buschlandstrand"
 
 msgid "Chaparral"
 msgstr "Unterholz"
@@ -311,127 +312,127 @@ msgid "Savanna"
 msgstr "Savanne"
 
 msgid "Savanna Underwater"
-msgstr ""
+msgstr "Savanne im Wasser"
 
 msgid "Savanna Beach"
-msgstr ""
+msgstr "Savannenstrand"
 
 msgid "Wasteland"
 msgstr "Ödnis"
 
 msgid "Wasteland Underwater"
-msgstr ""
+msgstr "Ödnis im Wasser"
 
 msgid "Wasteland Beach"
-msgstr ""
+msgstr "Ödnisstrand"
 
 msgid "Rocky Dryland"
 msgstr "Steinige Ödnis"
 
 msgid "Rocky Dryland Underwater"
-msgstr ""
+msgstr "Steinige Ödnis im Wasser"
 
 msgid "Rocky Dryland Beach"
-msgstr ""
+msgstr "Steiniger Ödnisstrand"
 
 msgid "Wooded Dryland"
 msgstr "Bewaldete Ödnis"
 
 msgid "Wooded Dryland Underwater"
-msgstr ""
+msgstr "Bewaldete Ödnis im Wasser"
 
 msgid "Wooded Dryland Beach"
-msgstr ""
+msgstr "Strand der bewaldeten Ödnis"
 
 msgid "Savannic Wasteland"
 msgstr "Savannenödnis"
 
 msgid "Savannic Wasteland Underwater"
-msgstr ""
+msgstr "Savannenödnis im Wasser"
 
 msgid "Savannic Wasteland Beach"
-msgstr ""
+msgstr "Savannenödnisstrand"
 
 msgid "Thorny Shrubs"
 msgstr "Dornige Büsche"
 
 msgid "Thorny Shrubs Underwater"
-msgstr ""
+msgstr "Dornige Büsche im Wasser"
 
 msgid "Thorny Shrubs Beach"
-msgstr ""
+msgstr "Dornige-Büsche-Strand"
 
 msgid "Mystery Forest"
 msgstr "Wunderwald"
 
 msgid "Mystery Forest Underwater"
-msgstr ""
+msgstr "Wunderwald im Wasser"
 
 msgid "Mystery Forest Beach"
-msgstr ""
+msgstr "Wunderwaldstrand"
 
 msgid "Poplar Plains"
 msgstr "Pappelprärie"
 
 msgid "Poplar Plains Underwater"
-msgstr ""
+msgstr "Pappelprärie im Wasser"
 
 msgid "Poplar Plains Beach"
-msgstr ""
+msgstr "Pappelpräriestrand"
 
 msgid "Baby Poplar Plains"
 msgstr "Jungpappelprärie"
 
 msgid "Baby Poplar Plains Underwater"
-msgstr ""
+msgstr "Jungpappelprärie im Wasser"
 
 msgid "Baby Poplar Plains Beach"
-msgstr ""
+msgstr "Jungpappelpräriestrand"
 
 msgid "Tall Birch Forest"
 msgstr "Großbirkenwald"
 
 msgid "Tall Birch Forest Underwater"
-msgstr ""
+msgstr "Großbirkenwald im Wasser"
 
 msgid "Tall Birch Forest Beach"
-msgstr ""
+msgstr "Großbirkenwaldstrand"
 
 msgid "Birch Forest"
 msgstr "Birkenwald"
 
 msgid "Birch Forest Underwater"
-msgstr ""
+msgstr "Birkenwald im Wasser"
 
 msgid "Birch Forest Beach"
-msgstr ""
+msgstr "Birkenwaldstrand"
 
 msgid "Oak Shrubbery"
 msgstr "Eichenbuschland"
 
 msgid "Oak Shrubbery Underwater"
-msgstr ""
+msgstr "Eichenbuschland im Wasser"
 
 msgid "Oak Shrubbery Beach"
-msgstr ""
+msgstr "Eichenbuschlandstrand"
 
 msgid "Oak Forest"
 msgstr "Eichenwald"
 
 msgid "Oak Forest Underwater"
-msgstr ""
+msgstr "Eichenwald im Wasser"
 
 msgid "Oak Forest Beach"
-msgstr ""
+msgstr "Eichenwaldstrand"
 
 msgid "Tall Oak Forest"
 msgstr "Großeichenwald"
 
 msgid "Tall Oak Forest Underwater"
-msgstr ""
+msgstr "Großeichenwald im Wasser"
 
 msgid "Tall Oak Forest Beach"
-msgstr ""
+msgstr "Großeichenwaldstrand"
 
 msgid "Dense Oak Forest"
 msgstr "Dichter Eichenwald"
@@ -440,10 +441,10 @@ msgid "Swamp Meadow"
 msgstr "Sumpfwiese"
 
 msgid "Swamp Meadow Underwater"
-msgstr ""
+msgstr "Sumpfwiese im Wasser"
 
 msgid "Swamp Meadow Beach"
-msgstr ""
+msgstr "Sumpfwiesenstrand"
 
 msgid "Swamp Meadow Highland"
 msgstr "Sumpfwiesenhochland"
@@ -452,10 +453,10 @@ msgid "Mixed Swamp"
 msgstr "Mischsumpf"
 
 msgid "Mixed Swamp Underwater"
-msgstr ""
+msgstr "Mischsumpf im Wasser"
 
 msgid "Mixed Swamp Beach"
-msgstr ""
+msgstr "Mischsumpfstrand"
 
 msgid "Mixed Swamp Highland"
 msgstr "Mischsumpfhochland"
@@ -464,10 +465,10 @@ msgid "Swamp Forest"
 msgstr "Sumpfwald"
 
 msgid "Swamp Forest Underwater"
-msgstr ""
+msgstr "Sumpwald im Wasser"
 
 msgid "Swamp Forest Beach"
-msgstr ""
+msgstr "Sumpfwaldstrand"
 
 msgid "Swamp Forest Highland"
 msgstr "Sumpfwaldhochland"
@@ -476,10 +477,10 @@ msgid "Dry Swamp"
 msgstr "Trockensumpf"
 
 msgid "Dry Swamp Underwater"
-msgstr ""
+msgstr "Trockensumpf im Wasser"
 
 msgid "Dry Swamp Beach"
-msgstr ""
+msgstr "Trockensumpfstrand"
 
 msgid "Dry Swamp Highland"
 msgstr "Trockensumpfhochland"
@@ -488,10 +489,10 @@ msgid "Papyrus Swamp"
 msgstr "Papyrussumpf"
 
 msgid "Papyrus Swamp Underwater"
-msgstr ""
+msgstr "Papyrussumpf im Wasser"
 
 msgid "Papyrus Swamp Beach"
-msgstr ""
+msgstr "Papyrussumpfstrand"
 
 msgid "Underground"
 msgstr "Untergrund"
@@ -954,4 +955,3 @@ msgstr "Fackel"
 
 msgid "It's bright and burns forever"
 msgstr "Sie ist hell und brennt für immer"
-
