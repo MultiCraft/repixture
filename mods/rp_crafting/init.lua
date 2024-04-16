@@ -361,7 +361,7 @@ function crafting.get_formspec(name)
 
       -- Check if this recipe is craftable with the current input.
       -- In MODE_CRAFTABLE, everything in the list is craftable so no extra check is needed
-      local craftable = userdata.mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
+      local craftable = userdata[name].mode == MODE_CRAFTABLE or is_craftable_from_inventory(craftdef, inv)
 
       -- Button styling for non-selected button
       if not this_selected then
@@ -370,8 +370,12 @@ function crafting.get_formspec(name)
                 -- Hidden in craft guide
                 btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_secret_inactive.png]"
                 btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_secret_active.png]"
+            else
+                if userdata[name].mode == MODE_GUIDE then
+                   btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_inactive.png]"
+                   btn_styles = btn_styles .. "style[craft_select_"..craft_id..":pressed;bgimg=ui_button_crafting_active.png]"
+                end
             end
-            -- No special style for non-hidden craftable recipes
          else
             -- Gray out uncraftable recipes
             btn_styles = btn_styles .. "style[craft_select_"..craft_id..";bgimg=ui_button_crafting_uncraftable_inactive.png]"
@@ -425,7 +429,7 @@ function crafting.get_formspec(name)
              btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..":pressed;bgimg=ui_button_crafting_selected_active.png]"
          end
       elseif not craftable then
-         -- Gray out uncraftable recipes
+         -- Gray out uncraftable selected recipe
          btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..";bgimg=ui_button_crafting_uncraftable_selected_inactive.png]"
          btn_styles = btn_styles .. "style[craft_select_"..selected_craft_id..":pressed;bgimg=ui_button_crafting_uncraftable_selected_active.png]"
       end
@@ -455,9 +459,17 @@ function crafting.get_formspec(name)
        end
        form = form .. "scroll_container[1.25,0.25;5.35,3.9;craft_scroller;vertical;1]"
 
-       -- Craft recipe button style
-       form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_inactive.png;border=false;padding=2]"
-       form = form .. "style_type[item_image_button:pressed;bgimg=ui_button_crafting_active.png;border=false;padding=2]"
+       -- Default craft recipe button style
+       if userdata[name].mode == MODE_GUIDE then
+           -- The 'uncraftable' button style is default in craft guide since this is the more common one;
+           -- this will reduce the amount of style[] elements considerably
+           form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_uncractable_inactive.png;border=false;padding=2]"
+           form = form .. "style_type[item_image_button:pressed;bgimg=ui_button_crafting_uncractable_active.png;border=false;padding=2]"
+       else
+           -- Normal buton style otherwise
+           form = form .. "style_type[item_image_button;bgimg=ui_button_crafting_inactive.png;border=false;padding=2]"
+           form = form .. "style_type[item_image_button:pressed;bgimg=ui_button_crafting_active.png;border=false;padding=2]"
+       end
        form = form .. btn_styles
 
        -- Craft recipe buttons
