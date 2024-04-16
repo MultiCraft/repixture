@@ -342,20 +342,60 @@ function armor_local.get_groups(player)
    return groups
 end
 
+local armor_icon_definitions = {}
+
+for a=1, #armor.slots do
+   armor_icon_definitions[a] = {
+      hud_elem_type = "image",
+      position = { x=0.5, y=1 },
+      text = "blank.png",
+      direction = 0,
+      size = { x=12, y=12 },
+      scale = { x=2, y=2 },
+      offset = { x=-274, y=-64 + 24*(a-1) },
+      z_index = 1,
+   }
+end
+
+local hud_ids = {}
+
 -- Initialize armor for player
 function armor_local.init(player)
+   local name = player:get_player_name()
+   local huds = {}
+   for a=1, #armor_icon_definitions do
+      local id = player:hud_add(armor_icon_definitions[a])
+      table.insert(huds, id)
+   end
+   hud_ids[name] = huds
+
    local inv = player:get_inventory()
 
-   if inv:get_size("armor") ~= 3 then
-      inv:set_size("armor", 3)
+   if inv:get_size("armor") ~= #armor.slots then
+      inv:set_size("armor", #armor.slots)
    end
 end
+
+
 
 -- This function must be called whenever the armor inventory has been changed
 function armor.update(player)
    local groups = armor_local.get_groups(player)
    armor_local.check_achievement(player)
    player:set_armor_groups({fleshy = groups.fleshy, immortal = groups.immortal})
+
+   local huds = hud_ids[player:get_player_name()]
+   local inv = player:get_inventory()
+   for a=1, #huds do
+      local item = inv:get_stack("armor", a)
+      if item:is_empty() then
+         player:hud_change(huds[a], "text", "blank.png")
+      else
+         local idef = item:get_definition()
+         local tex = idef._rp_armor_hud_image or "no_texture.png"
+         player:hud_change(huds[a], "text", tex)
+      end
+   end
 
    local image = armor_local.get_texture(player, armor.get_base_skin(player))
    if image ~= rp_player.player_get_textures(player)[1] then
@@ -419,6 +459,10 @@ local function on_joinplayer(player)
    armor.update(player)
 end
 
+local function on_leaveplayer(player)
+   hud_ids[player:get_player_name()] = nil
+end
+
 local function on_respawnplayer(player)
    armor.update(player)
 end
@@ -469,6 +513,9 @@ for mat_index, matdef in ipairs(armor.materials) do
 
 	    inventory_image = "armor_" .. slot .. "_" .. mat .. "_inventory.png",
 	    wield_image = "armor_" .. slot .. "_" .. mat .. "_inventory.png",
+
+            -- Image for armor HUD display
+            _rp_armor_hud_image = "armor_" .. slot .. "_" .. mat .. "_hud.png",
 
 	    groups = {
 	       is_armor = 1,
