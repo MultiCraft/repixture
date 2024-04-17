@@ -657,9 +657,17 @@ minetest.register_node(
          minetest.check_for_falling({x=pos.x, y=pos.y+1, z=pos.z})
       end,
 
-      can_dig = function(pos)
-	 local sleeper = get_player_in_bed(pos)
-	 return sleeper == nil
+      -- Can be dug if no sleeper or digger equaals sleeper
+      can_dig = function(pos, digger)
+         local sleeper_name = get_player_in_bed(pos)
+         if not sleeper_name then
+            return true
+         end
+         local sleeper = minetest.get_player_by_name(sleeper_name)
+         if (not digger) or (not sleeper) or (digger and digger:is_player() and sleeper == digger) then
+            return true
+         end
+         return false
       end,
 
       -- Paint support for rp_paint mod
@@ -734,12 +742,23 @@ minetest.register_node(
          minetest.check_for_falling({x=pos.x, y=pos.y+1, z=pos.z})
       end,
 
-      can_dig = function(pos)
+      -- Can be dug if no sleeper or digger equaals sleeper
+      can_dig = function(pos, digger)
          local node = minetest.get_node(pos)
          local dir = minetest.fourdir_to_dir(node.param2)
          local foot_pos = vector.subtract(pos, dir)
-	 local sleeper = get_player_in_bed(foot_pos)
-	 return sleeper == nil
+	 local sleeper_name = get_player_in_bed(foot_pos)
+         if not sleeper_name then
+            return true
+         end
+         local sleeper = minetest.get_player_by_name(sleeper_name)
+         if (not digger) or (not sleeper) or (digger and digger:is_player() and sleeper == digger) then
+            return true
+         end
+         if sleeper and sleeper:is_player() and digger and digger:is_player() and sleeper == digger then
+            return true
+         end
+         return false
       end,
 
       -- Paint support for rp_paint mod
