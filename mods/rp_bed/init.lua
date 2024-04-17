@@ -592,7 +592,17 @@ minetest.register_node(
       },
 
       node_placement_prediction = "",
-      on_rightclick = on_rightclick_bed_foot,
+      on_rightclick = function(pos, node, clicker, itemstack)
+         local dir = minetest.fourdir_to_dir(node.param2)
+         local head_pos = vector.add(pos, dir)
+         local head_node = minetest.get_node(head_pos)
+         -- Make sure the bed is complete
+         if head_node.name == "rp_bed:bed_head" then
+            return on_rightclick_bed_foot(pos, node, clicker, itemstack)
+         end
+         return itemstack
+      end,
+
       on_place = function(itemstack, placer, pointed_thing)
               local under = pointed_thing.under
 
