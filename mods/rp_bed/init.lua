@@ -58,7 +58,7 @@ local saving = false
 
 -- Timer
 
-local timer_interval = 1
+local TIMER_INTERVAL = 1
 local timer = 0
 
 local delay_daytime = false
@@ -362,24 +362,33 @@ end
 local function on_globalstep(dtime)
    timer = timer + dtime
 
-   if timer < timer_interval then
-      return
-   end
-
-   timer = 0
-
    local sleeping_players = 0
 
+   -- Count number of sleeping players;
+   -- also check for Sneak key
    local in_bed = {}
    for name, data in pairs(bed.userdata.temp) do
       if data.in_bed then
          local player = minetest.get_player_by_name(name)
          if player then
-             table.insert(in_bed, name)
-             sleeping_players = sleeping_players + 1
+             local ctrl = player:get_player_control()
+             -- Get up from bed if holding down Sneak
+             if ctrl and ctrl.sneak then
+                take_player_from_bed(player)
+             -- Count player
+             else
+                table.insert(in_bed, name)
+                sleeping_players = sleeping_players + 1
+             end
          end
       end
    end
+
+   -- Reduce load of the following section
+   if timer < TIMER_INTERVAL then
+      return
+   end
+   timer = 0
 
    local players = minetest.get_connected_players()
    local player_count = #players
