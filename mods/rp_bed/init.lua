@@ -38,7 +38,7 @@ bed.set_spawn = function(player, spawn_pos)
    local name = player:get_player_name()
    local old_spawn_pos = bed.userdata.saved[name].spawn_pos
    if old_spawn_pos and vector.equals(spawn_pos, old_spawn_pos) then
-	   return false
+      return false
    end
    bed.userdata.saved[name].spawn_pos = table.copy(spawn_pos)
    minetest.log("action", "[rp_bed] Respawn position of "..name.." set to "..minetest.pos_to_string(spawn_pos, 1))
@@ -542,6 +542,18 @@ local on_rightclick_bed_foot = function(pos, node, clicker, itemstack)
 	return itemstack
 end
 
+local function drop_bed(pos, player)
+	local item = ItemStack("rp_bed:bed_foot")
+	if player and player:is_player() and minetest.is_creative_enabled(player:get_player_name()) then
+		local inv = player:get_inventory()
+		if not inv:contains_item("main", item) then
+			inv:add_item("main", item)
+		end
+	else
+		minetest.add_item(pos, item)
+	end
+end
+
 minetest.register_node(
    "rp_bed:bed_foot",
    {
@@ -679,6 +691,18 @@ minetest.register_node(
          return false
       end,
 
+      on_dig = function(pos, node, digger)
+         -- Drop bed if neccessary
+         local dir = minetest.fourdir_to_dir(node.param2)
+         local head_pos = vector.add(pos, dir)
+         if minetest.get_node(head_pos).name == "rp_bed:bed_head" then
+            drop_bed(pos, digger)
+         end
+         return minetest.node_dig(pos, node, digger)
+      end,
+
+
+
       -- Paint support for rp_paint mod
       _on_paint = function(pos, new_param2)
          local node = minetest.get_node(pos)
@@ -690,8 +714,8 @@ minetest.register_node(
          return true
       end,
 
-      -- Drop itself, but without metadata
-      drop = "rp_bed:bed_foot",
+      -- Drop is handled in on_dig
+      drop = "",
 })
 
 minetest.register_node(
@@ -745,25 +769,7 @@ minetest.register_node(
          end
       end,
 
-      on_dig = function(pos, node, digger)
-         -- Drop bed if neccessary
-         local dir = minetest.fourdir_to_dir(node.param2)
-         local foot_pos = vector.subtract(pos, dir)
-         if minetest.get_node(foot_pos).name == "rp_bed:bed_foot" then
-            local item = ItemStack("rp_bed:bed_foot")
-            if digger and digger:is_player() and minetest.is_creative_enabled(digger:get_player_name()) then
-               local inv = digger:get_inventory()
-               if not inv:contains_item("main", item) then
-                  inv:add_item("main", item)
-               end
-            else
-               minetest.add_item(foot_pos, item)
-            end
-         end
-         return minetest.node_dig(pos, node, digger)
-      end,
-
-      on_blast = function(pos)
+     on_blast = function(pos)
          -- Needed to force after_destruct to be called
          minetest.remove_node(pos)
          minetest.check_for_falling({x=pos.x, y=pos.y+1, z=pos.z})
@@ -786,6 +792,15 @@ minetest.register_node(
             return true
          end
          return false
+      end,
+      on_dig = function(pos, node, digger)
+         -- Drop bed if neccessary
+         local dir = minetest.fourdir_to_dir(node.param2)
+         local foot_pos = vector.subtract(pos, dir)
+         if minetest.get_node(foot_pos).name == "rp_bed:bed_foot" then
+            drop_bed(foot_pos, digger)
+         end
+         return minetest.node_dig(pos, node, digger)
       end,
 
       -- Paint support for rp_paint mod
