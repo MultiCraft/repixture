@@ -156,10 +156,10 @@ local sapling_data = {
 	},
 	["rp_default:sapling_fir"] = {
 		grows_to = {
-			["dry"] = "fir",
-			-- TODO: More tree variety
-			["default"] = "fir",
-			["swamp"] = "fir",
+			["dry"] = "fir_large",
+			["swamp"] = "fir_swamp",
+			["normal"] = "fir_small",
+			["default"] = "fir_small",
 		},
 		grow_time_min = 700,
 		grow_time_max = 960,
@@ -257,7 +257,7 @@ local tree_data = {
 			{ vector.new(-1,2,-1), vector.new(1,4,1) },
 		},
 	},
-	["fir"] = {
+	["fir_small"] = {
 		schem = "rp_default_fir_tree.mts",
 		offset = vector.new(-2, -1, -2),
 		space = {
@@ -265,6 +265,24 @@ local tree_data = {
 			{ vector.new(-2,5,-2), vector.new(2,9,2) },
 		},
 	},
+	["fir_large"] = {
+		schem = "rp_default_fir_tree_large.mts",
+		offset = vector.new(-3, -1, -3),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,4,0) },
+			{ vector.new(-2,5,-2), vector.new(2,12,2) },
+		},
+	},
+	["fir_swamp"] = {
+		schem = "rp_default_fir_tree_swamp.mts",
+		offset = vector.new(-2, -1, -2),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,1,0) },
+			{ vector.new(-2,2,-2), vector.new(2,6,2) },
+		},
+	},
+
+
 	["dry_bush"] = {
 		schem = "rp_default_dry_bush.mts",
 		offset = vector.new(-1, -1, -1),
