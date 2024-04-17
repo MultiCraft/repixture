@@ -15,6 +15,20 @@ local grow_tall = function(pos, y_dir, nodename)
 	return false
 end
 
+local degrow_tall = function(pos, y_dir, nodename)
+	local prevpos, newpos
+	for i=1, 10 do
+		prevpos = vector.add(pos, vector.new(0,(i-1)*y_dir,0))
+		newpos = vector.add(pos, vector.new(0,i*y_dir,0))
+		local newnode = minetest.get_node(newpos)
+		if newnode.name ~= nodename then
+			minetest.remove_node(prevpos)
+			return true
+		end
+	end
+	return false
+end
+
 -- Cacti
 
 minetest.register_node(
@@ -54,6 +68,9 @@ minetest.register_node(
       on_use = minetest.item_eat(0),
       _on_grow = function(pos, node)
 		grow_tall(pos, 1, node.name)
+      end,
+      _on_degrow = function(pos, node)
+		degrow_tall(pos, 1, node.name)
       end,
 })
 
@@ -116,6 +133,9 @@ minetest.register_node(
       end,
       _on_grow = function(pos, node)
 		grow_tall(pos, 1, node.name)
+      end,
+      _on_degrow = function(pos, node)
+		degrow_tall(pos, 1, node.name)
       end,
 })
 
@@ -262,7 +282,10 @@ minetest.register_node(
           return itemstack
       end,
       _on_grow = function(pos, node)
-		grow_tall(pos, -1, node.name)
+         grow_tall(pos, -1, node.name)
+      end,
+      _on_degrow = function(pos, node)
+         degrow_tall(pos, -1, node.name)
       end,
 })
 
@@ -443,6 +466,9 @@ minetest.register_node(
           end
           return itemstack
       end,
+      _on_degrow = function(pos)
+         minetest.set_node(pos, {name="rp_default:grass"})
+      end,
 })
 
 minetest.register_node(
@@ -548,7 +574,10 @@ minetest.register_node(
 	 return itemstack
       end,
       _on_grow = function(pos, node)
-		grow_tall(pos, 1, node.name)
+         grow_tall(pos, 1, node.name)
       end,
+      _on_degrow = function(pos, node)
+         degrow_tall(pos, 1, node.name)
+      end
 })
 

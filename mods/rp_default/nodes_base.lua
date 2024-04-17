@@ -296,6 +296,9 @@ minetest.register_node(
       }),
       _fertilized_node = "rp_default:fertilized_dirt",
       _on_grow = grow_grass_on_dirt({name="rp_default:dry_grass"}),
+      _on_degrow = function(pos)
+         minetest.set_node(pos, {name="rp_default:dirt"})
+      end,
 })
 
 minetest.register_node(
@@ -323,6 +326,9 @@ minetest.register_node(
       }),
       _fertilized_node = "rp_default:fertilized_swamp_dirt",
       _on_grow = grow_grass_on_dirt({name="rp_default:swamp_grass"}),
+      _on_degrow = function(pos)
+         minetest.set_node(pos, {name="rp_default:swamp_dirt"})
+      end,
 })
 
 minetest.register_node(
@@ -351,6 +357,9 @@ minetest.register_node(
       }),
       _fertilized_node = "rp_default:fertilized_dirt",
       _on_grow = grow_grass_on_dirt({name="rp_default:grass"}),
+      _on_degrow = function(pos)
+         minetest.set_node(pos, {name="rp_default:dirt"})
+      end,
 })
 
 -- Paths

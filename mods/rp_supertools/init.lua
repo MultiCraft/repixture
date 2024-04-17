@@ -24,7 +24,7 @@ end
 
 minetest.register_craftitem("rp_supertools:growth_tool", {
 	description = S("Growth Tool"),
-	_tt_help = S("Make plants and mobs grow instantly"),
+	_tt_help = S("Make plants and creatures grow instantly"),
 	inventory_image = "rp_supertools_growth_tool.png",
 	wield_image = "rp_supertools_growth_tool.png",
 	groups = { supertool = 1, tool = 1 },
@@ -93,7 +93,7 @@ minetest.register_craftitem("rp_supertools:growth_tool", {
 
 minetest.register_craftitem("rp_supertools:degrowth_tool", {
 	description = S("Degrowth Tool"),
-	_tt_help = S("Turn mobs into children"),
+	_tt_help = S("Make plants and creatures reverse their growth"),
 	inventory_image = "rp_supertools_degrowth_tool.png",
 	wield_image = "rp_supertools_degrowth_tool.png",
 	groups = { supertool = 1, tool = 1 },
