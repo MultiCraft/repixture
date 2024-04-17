@@ -220,7 +220,9 @@ register_sign("sign_birch", {
 })
 register_sign("sign_fir", {
 	description = S("Fir Sign"),
+	description_painted = S("Painted Fir Sign"),
 	tile = "rp_default_sign_fir.png",
+	tile_painted = "rp_default_sign_fir_painted.png",
 	inv_image = "rp_default_sign_fir_inventory.png",
-	sounds = rp_sounds.node_sound_defaults(),
+	sounds = sounds_wood_sign,
 })
