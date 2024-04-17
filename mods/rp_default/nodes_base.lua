@@ -98,6 +98,7 @@ minetest.register_node(
       is_ground_content = false,
       groups = {cracky = 1, stone = 1},
       sounds = rp_sounds.node_sound_stone_defaults(),
+      _rp_blast_resistance = 1000000,
 })
 
 minetest.register_node(
@@ -462,6 +463,7 @@ minetest.register_node(
          dug = {name="rp_sounds_dug_stone", gain=0.9, pitch=1.2},
          dig = {name="rp_sounds_dig_stone", gain=0.5, pitch=1.2},
       }),
+      _rp_blast_resistance = 1000000,
 })
 
 -- Glass
@@ -612,6 +614,7 @@ minetest.register_node(
       groups = {wood = 1, choppy = 1, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
+      _rp_blast_resistance = 1000000,
 })
 minetest.register_node(
    "rp_default:reinforced_frame_painted",
@@ -625,6 +628,7 @@ minetest.register_node(
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
       drop = "rp_default:reinforced_frame",
+      _rp_blast_resistance = 1000000,
 })
 
 

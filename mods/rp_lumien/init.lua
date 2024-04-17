@@ -156,6 +156,7 @@ minetest.register_node(
       groups = {cracky = 1},
       light_source = LUMIEN_BLOCK_LIGHT,
       sounds = get_sounds(),
+      _rp_blast_resistance = 1000000,
 })
 
 -- Ores
