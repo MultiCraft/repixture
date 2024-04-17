@@ -623,8 +623,8 @@ minetest.register_node(
 
               local bot = minetest.get_node(botpos)
               local botdef = minetest.registered_nodes[bot.name]
-              -- Check if the 2nd node for the bed is free or already a bed head.
-              if not (bot.name == "rp_bed:bed_head" and bot.param2 == dir) and (not botdef or not botdef.buildable_to) then
+              -- Check if the 2nd node for the bed is free to build to
+              if not botdef or not botdef.buildable_to then
                      rp_sounds.play_place_failed_sound(placer)
                      return itemstack
               end
