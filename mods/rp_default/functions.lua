@@ -155,9 +155,11 @@ local sapling_data = {
 		grow_time_max = 780,
 	},
 	["rp_default:sapling_fir"] = {
-		-- TODO: Trees
 		grows_to = {
-			["default"] = "apple",
+			["dry"] = "fir",
+			-- TODO: More tree variety
+			["default"] = "fir",
+			["swamp"] = "fir",
 		},
 		grow_time_min = 700,
 		grow_time_max = 960,
@@ -253,6 +255,14 @@ local tree_data = {
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
 			{ vector.new(-1,2,-1), vector.new(1,4,1) },
+		},
+	},
+	["fir"] = {
+		schem = "rp_default_fir_tree.mts",
+		offset = vector.new(-2, -1, -2),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,7,0) },
+			{ vector.new(-2,5,-2), vector.new(2,9,2) },
 		},
 	},
 	["dry_bush"] = {
