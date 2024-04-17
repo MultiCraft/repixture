@@ -708,7 +708,7 @@ for w=1, #woods do
       "rp_door:door_"..id.."_painted",
       {
          description = desc_paint,
-         inventory_image = tex.."_oak.png^[hsl:0:-100:0",
+         inventory_image = tex..".png^[hsl:0:-100:0",
          groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=1,not_in_creative_inventory=1},
          tiles_top = {tex.."_a_painted.png", {name=tex.."_side_a.png",color="white"}, {name=tex.."_top.png",color="white"}},
          tiles_bottom = {tex.."_b_painted.png", {name=tex.."_side_b.png",color="white"}, {name=tex.."_bottom.png",color="white"}},
