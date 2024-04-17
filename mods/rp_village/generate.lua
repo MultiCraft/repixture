@@ -15,12 +15,31 @@ local HILL_W, HILL_H = 24, 6
 -- Number of dirt nodes to extend below hill
 local HILL_EXTEND_BELOW = 15
 
+-- Chance values. Each chance is provided in a 1:x value,
+-- e.g. a value of 8 means a chance of 1:8.
+-- Only positive integers are allowed.
+
+-- Chance that a ground node has a decor node on top (grass, etc.)
+local DECOR_CHANCE = 8
+
+-- Chance that a village is abandoned
+local ABANDONED_CHANCE = 25
+
+-- Chance a village chunk in an abandoned village spawns using
+-- a 'ruins' variant (if one is available)
+local ABANDONED_RUINS_CHANCE = 2
+
+-- VoxelManip buffers for get_data() for more efficient memory usage
+local vdata_main = {}
+local vdata_spawn_chunk = {}
+
 -- Savefile
 
 local village_file = minetest.get_worldpath() .. "/villages.dat"
 
 local modpath = minetest.get_modpath("rp_village")
 local mod_locks = minetest.get_modpath("rp_locks") ~= nil
+local mod_paint = minetest.get_modpath("rp_paint") ~= nil
 local mapseed = minetest.get_mapgen_setting("seed")
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
 
@@ -33,12 +52,16 @@ local village_replaces = {
    -- Birch → Normal (Normal + Oak)
    {
       ["rp_default:planks_birch"] = "rp_default:planks",
+      ["rp_partialblocks:stair_birch"] = "rp_partialblocks:stair_wood",
+      ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_wood",
       ["rp_default:tree_birch"] = "rp_default:tree",
       ["rp_default:fence_birch"] = "rp_default:fence",
    },
    -- Oak → Normal (Normal + Birch)
    {
       ["rp_default:planks_oak"] = "rp_default:planks",
+      ["rp_partialblocks:stair_oak"] = "rp_partialblocks:stair_wood",
+      ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_wood",
       ["rp_default:tree_oak"] = "rp_default:tree",
       ["rp_default:fence_oak"] = "rp_default:fence",
    },
@@ -46,6 +69,10 @@ local village_replaces = {
    {
       ["rp_default:planks_birch"] = "rp_default:planks",
       ["rp_default:planks_oak"] = "rp_default:planks",
+      ["rp_partialblocks:stair_birch"] = "rp_partialblocks:stair_wood",
+      ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_wood",
+      ["rp_partialblocks:stair_oak"] = "rp_partialblocks:stair_wood",
+      ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_wood",
       ["rp_default:tree_birch"] = "rp_default:tree",
       ["rp_default:tree_oak"] = "rp_default:tree",
       ["rp_default:fence_birch"] = "rp_default:fence",
@@ -55,6 +82,10 @@ local village_replaces = {
    {
       ["rp_default:planks"] = "rp_default:planks_birch",
       ["rp_default:planks_oak"] = "rp_default:planks_birch",
+      ["rp_partialblocks:stair_wood"] = "rp_partialblocks:stair_birch",
+      ["rp_partialblocks:slab_wood"] = "rp_partialblocks:slab_birch",
+      ["rp_partialblocks:stair_oak"] = "rp_partialblocks:stair_birch",
+      ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_birch",
       ["rp_default:tree"] = "rp_default:tree_birch",
       ["rp_default:tree_oak"] = "rp_default:tree_birch",
       ["rp_default:fence"] = "rp_default:fence_birch",
@@ -66,6 +97,10 @@ local village_replaces = {
    {
       ["rp_default:planks"] = "rp_default:planks_oak",
       ["rp_default:planks_birch"] = "rp_default:planks_oak",
+      ["rp_partialblocks:stair_wood"] = "rp_partialblocks:stair_oak",
+      ["rp_partialblocks:slab_wood"] = "rp_partialblocks:slab_oak",
+      ["rp_partialblocks:stair_birch"] = "rp_partialblocks:stair_oak",
+      ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_oak",
       ["rp_default:tree"] = "rp_default:tree_oak",
       ["rp_default:tree_birch"] = "rp_default:tree_oak",
       ["rp_default:fence"] = "rp_default:fence_oak",
@@ -78,15 +113,14 @@ local village_replaces = {
 local schematic_cache = {}
 -- Wrapper around minetest.read_schematic to
 -- speed up loading time on subsequent reads.
--- returns a schematic specifier for the schematic
--- assigned to `chunktype`.
-local function read_cached_chunk_schematic(chunktype)
-   if schematic_cache[chunktype] then
-      return schematic_cache[chunktype], true
+-- returns a schematic specifier.
+local function read_cached_chunk_schematic(subchunktype)
+   if schematic_cache[subchunktype] then
+      return schematic_cache[subchunktype], true
    end
-   local schem_path = modpath .. "/schematics/village_" .. chunktype .. ".mts"
+   local schem_path = modpath .. "/schematics/village_" .. subchunktype .. ".mts"
    local schem_spec = minetest.read_schematic(schem_path, {})
-   schematic_cache[chunktype] = schem_spec
+   schematic_cache[subchunktype] = schem_spec
    return schem_spec, false
 end
 
@@ -164,89 +198,353 @@ function village.get_nearest_village(pos)
    return {dist = nearest, pos = npos, name = name, fname = fname}
 end
 
-local farmchunkdef = {
-   entity_chance = 2,
-   entities = {
-      ["mobs:npc_farmer"] = 1,
-   }
-}
-
 village.chunkdefs = {}
 
---[[ village chunk definition:
+--[[
+Village chunks are the square sections of a village. This includes buildings,
+farms, roads, and the like.
+
+village chunk definition:
 {
    -- every field is optional
    can_cache = <bool>, -- if true, schematic can be cached by Minetest
                        -- use this if no random node replacements (like wood)
-                       -- are required (default: false)
+                      -- are required (default: false)
+   variants = { "variant_1", ..., "variant_n" },
+   -- list of chunktype variants. One random variatn will be picked at random
+   -- on placement. Each name must correspond to a file
+   -- in `schematics/village_<variant_name>.mts`. By default, a chunktype has
+   -- 1 variant with the name equal to the chunktype identifier
+   groundclass_variants = {
+      [ "groundclass_1"] = { "variant_1", ... "variant_n" },
+      ...,
+      [ "groundclass_n"] = { "another_variant_1", ... "another_variant_n" },
+   },
+   -- An alternative way to specify variants. Instead of a single list of
+   -- variants, this specifies multiple lists of variants, each assigned
+   -- a groundclass. In this case, the chunktype can only be placed if
+   -- the village has this given groundclass. If it has that groundclass,
+   -- a random variant in that groundclass is selected.
+
+   -- Note: either variants, groundclass_variants or neither can be specified,
+   -- but not both.
+
+   ruins = { "ruins_1", ..., "ruins_n" },
+   -- Like variants, but for a ruined version of this chunktype. In abandoned
+   -- villages, one random ruined variant MAY be chosen from the list, or the
+   -- 'intact' schematic is placed (but "generic" ruinations like broken glass
+   -- still apply).
+   -- If unused, the 'intact' schematic will be placed.
+
+   groundclass_ruins = {
+      [ "groundclass_1"] = { "ruins_1", ... "ruins_n" },
+      ...,
+      [ "groundclass_n"] = { "another_ruins_1", ... "another_ruins_n" },
+   },
+   -- Like groundclass_variants, but for ruins.
+
    entities = {
       [entity_1] = <number>,
       ...
       [entity_n] = <number>,
-   }, -- list of entities that can spawn (needs entity spawner node in schematic)
+   },
+   -- list of entities that can spawn (needs entity spawner node in schematic).
+   -- For villagers, the key must be of the form '__villager_<profession>',
+   -- e.g. '__villager_farmer'.
+   -- For all other entities, use the entitystring, e.g. 'rp_mobs_mobs:sheep'.
+
    entity_chance = <number>,
+   -- Chance for an entity to spawn by an entity spawner. Chance is 1/<number>
 }
 ]]
 
 village.chunkdefs["livestock_pen"] = {
+   groundclass_variants = {
+      ["grassland"] = {"livestock_pen"},
+   },
    entities = {
-      ["mobs:sheep"] = 3,
-      ["mobs:boar"] = 1,
+      ["rp_mobs_mobs:sheep"] = 3,
+      ["rp_mobs_mobs:boar"] = 1,
    },
 }
 village.chunkdefs["lamppost"] = { -- not road because of road height limit of 1 nodes
+   groundclass_variants = {
+      ["grassland"] = {"lamppost"},
+      ["dry"] = {"lamppost"},
+      ["savanna"] = {"lamppost"},
+      ["swamp"] = {"swamp_lamppost"},
+   },
+   groundclass_ruins = {
+      ["grassland"] = {"lamppost_ruins"},
+      ["dry"] = {"lamppost_ruins"},
+      ["savanna"] = {"lamppost_ruins"},
+      ["swamp"] = {"swamp_lamppost_ruins", "swamp_lamppost_ruins_2"},
+   },
    can_cache = true,
    entity_chance = 2,
    entities = {
-      ["mobs:npc_carpenter"] = 1,
+      ["__villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["well"] = {
+   ruins = {"well_ruins"},
    entities = {
-      ["mobs:npc_farmer"] = 1,
-      ["mobs:npc_tavernkeeper"] = 1,
+      ["__villager_farmer"] = 1,
+      ["__villager_tavernkeeper"] = 1,
    },
 }
 village.chunkdefs["house"] = {
+   groundclass_variants = {
+      ["grassland"] = {"house", "house_2", "house_3", "house_4", "house_5", "house_6", "house_7", "house_8", "house_9"},
+      ["dry"] = {"house", "house_2", "house_3", "house_4", "house_5", "house_6", "house_7", "house_8", "house_9"},
+      ["savanna"] = {"house", "house_2", "house_3", "house_4", "house_5", "house_6", "house_7", "house_8", "house_9"},
+   },
+   ruins = {"house_ruins", "house_ruins_2"},
    entity_chance = 2,
    entities = {
-      ["mobs:npc_carpenter"] = 1,
+      ["__villager_carpenter"] = 1,
    },
 }
-village.chunkdefs["tavern"] = {
-   entity_chance = 2,
+village.chunkdefs["hut_s"] = {
+   groundclass_variants = {
+      ["swamp"] = {"reed_hut_s_1","reed_hut_s_2","reed_hut_s_3","reed_hut_s_4","reed_hut_s_5","reed_hut_s_6","reed_hut_s_7"},
+   },
+   ruins = {"reed_hut_s_ruins", "reed_hut_s_ruins_2"},
+   entitity_chance = 2,
    entities = {
-      ["mobs:npc_tavernkeeper"] = 1,
+      ["__villager_farmer"] = 1,
+   },
+}
+village.chunkdefs["hut_m"] = {
+   groundclass_variants = {
+      ["swamp"] = {"reed_hut_m_1","reed_hut_m_2","reed_hut_m_3","reed_hut_m_4","reed_hut_m_5","reed_hut_m_6","reed_hut_m_7"},
+   },
+   ruins = {"reed_hut_m_ruins", "reed_hut_m_ruins_2"},
+   entitity_chance = 2,
+   entities = {
+      ["__villager_farmer"] = 1,
    },
 }
 
-village.chunkdefs["forge"] = {
+village.chunkdefs["workshop"] = {
+   groundclass_variants = {
+      grassland = {"workshop"},
+      dry = {"workshop"},
+      savanna = {"workshop"},
+      swamp = {"reed_workshop"},
+   },
+   groundclass_ruins = {
+      grassland = {"workshop_ruins", "rubble"},
+      dry = {"workshop_ruins", "rubble"},
+      savanna = {"workshop_ruins", "rubble"},
+      swamp = {"reed_workshop_ruins"},
+   },
    entity_chance = 2,
    entities = {
-      ["mobs:npc_blacksmith"] = 1,
+      ["__villager_carpenter"] = 1,
+   },
+}
+village.chunkdefs["townhall"] = {
+   groundclass_variants = {
+      grassland = {"townhall"},
+      dry = {"townhall"},
+      savanna = {"townhall"},
+      swamp = {"reed_townhall"},
+   },
+   groundclass_ruins = {
+      grassland = {"townhall_ruins", "rubble"},
+      dry = {"townhall_ruins", "rubble"},
+      savanna = {"townhall_ruins", "rubble"},
+      swamp = {"reed_townhall_ruins"},
+   },
+   entity_chance = 1,
+   entities = {
+      ["__villager_tavernkeeper"] = 1,
+      ["__villager_farmer"] = 1,
+      ["__villager_blacksmith"] = 1,
+      ["__villager_carpenter"] = 1,
+   },
+}
+
+
+village.chunkdefs["tavern"] = {
+   groundclass_variants = {
+      grassland = {"tavern"},
+      dry = {"tavern"},
+      savanna = {"tavern"},
+      swamp = {"reed_tavern_1"},
+   },
+   groundclass_ruins = {
+      grassland = {"tavern_ruins"},
+      dry = {"tavern_ruins"},
+      savanna = {"tavern_ruins"},
+      swamp = {"reed_tavern_ruins_1", "reed_tavern_ruins_2"},
+   },
+   entity_chance = 2,
+   entities = {
+      ["__villager_tavernkeeper"] = 1,
+   },
+}
+
+village.chunkdefs["inn"] = {
+   groundclass_variants = {
+      grassland = {"inn"},
+      dry = {"inn"},
+      savanna = {"inn"},
+   },
+   groundclass_ruins = {
+      grassland = {"tavern_ruins"},
+      dry = {"tavern_ruins"},
+      savanna = {"tavern_ruins"},
+   },
+   entity_chance = 2,
+   entities = {
+      ["__villager_tavernkeeper"] = 1,
+   },
+}
+
+village.chunkdefs["library"] = {
+   groundclass_variants = {
+      grassland = {"library"},
+      dry = {"library"},
+      savanna = {"library"},
+      swamp = {"reed_library"},
+   },
+   groundclass_ruins = {
+      grassland = {"library_ruins"},
+      dry = {"library_ruins"},
+      savanna = {"library_ruins"},
+      swamp = {"reed_library_ruins"},
+   },
+   entity_chance = 3,
+   entities = {
+      ["__villager_carpenter"] = 1,
+   },
+}
+village.chunkdefs["reading_club"] = {
+   groundclass_variants = {
+      grassland = {"reading_club"},
+      dry = {"reading_club"},
+      savanna = {"reading_club"},
+   },
+   ruins = {"house_ruins", "house_ruins_2"},
+   entity_chance = 3,
+   entities = {
+      ["__villager_farmer"] = 1,
+      ["__villager_blacksmith"] = 1,
+   },
+}
+
+village.chunkdefs["bakery"] = {
+   groundclass_variants = {
+      grassland = {"bakery"},
+      dry = {"bakery"},
+      savanna = {"bakery"},
+   },
+   ruins = {"bakery_ruins"},
+   entity_chance = 2,
+   entities = {
+      ["__villager_farmer"] = 1,
+   },
+}
+
+
+village.chunkdefs["forge"] = {
+   groundclass_variants = {
+      grassland = {"forge"},
+      dry = {"forge"},
+      savanna = {"forge"},
+      swamp = {"reed_forge"},
+   },
+   groundclass_ruins = {
+      grassland = {"forge_ruins", "rubble"},
+      dry = {"forge_ruins", "rubble"},
+      savanna = {"forge_ruins", "rubble"},
+      swamp = {"reed_forge_ruins"},
+   },
+   entity_chance = 2,
+   entities = {
+      ["__villager_blacksmith"] = 1,
    },
 }
 village.chunkdefs["orchard"] = {
+   groundclass_variants = {
+      ["grassland"] = {"orchard"},
+   },
+   ruins = {"orchard_ragged"},
    can_cache = true,
    entity_chance = 2,
    entities = {
-      ["mobs:npc_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    },
 }
 village.chunkdefs["road"] = {
    can_cache = true,
 }
 
-village.chunkdefs["farm_v24_potato"] = farmchunkdef
-village.chunkdefs["farm_v24_potato_wheat"] = farmchunkdef
-village.chunkdefs["farm_v24_wheat"] = farmchunkdef
-village.chunkdefs["farm_v24_wheat_cotton"] = farmchunkdef
-village.chunkdefs["farm_v24_cotton"] = farmchunkdef
-village.chunkdefs["farm_h246_potato"] = farmchunkdef
-village.chunkdefs["farm_h246_wheat"] = farmchunkdef
-village.chunkdefs["farm_h246_cotton"] = farmchunkdef
-village.chunkdefs["farm_c4_papyrus"] = farmchunkdef
-village.chunkdefs["farm_o4_papyrus"] = farmchunkdef
+-- Farm chunktypes.
+--
+-- Farm chunktype naming scheme:
+--
+--    farm_<water><lines>_<plants>
+--
+-- * <water>: water position:
+--    * "v": vertical lines
+--    * "h": horizontal lines
+--    * "c": center
+--    * "o": outwards
+-- * <lines>:
+--    * for v/h: list of numbers at where the water will be
+--    * for c/o: how much water in total
+-- * <plants>: List of plants (from left to right)
+
+village.chunkdefs["farm_small_plants"] = {
+   groundclass_variants = {
+      ["grassland"] = {
+         "farm_v24_potato",
+         "farm_v24_potato_wheat",
+         "farm_v24_wheat",
+         "farm_v24_wheat_cotton",
+         "farm_v24_cotton",
+         "farm_h246_potato",
+         "farm_h246_wheat",
+         "farm_h246_cotton",
+      },
+      ["swamp"] = {
+         "farm_swamp_v24_asparagus",
+         "farm_swamp_h246_asparagus",
+      },
+      ["savanna"] = {
+         "farm_dry_v24_cotton",
+         "farm_dry_h246_cotton",
+      },
+      ["dry"] = {
+         "farm_dryd_v24_carrot",
+         "farm_dryd_h246_carrot",
+      },
+   },
+   entity_chance = 2,
+   entities = {
+      ["__villager_farmer"] = 1,
+   }
+}
+
+village.chunkdefs["farm_papyrus"] = {
+   groundclass_variants = {
+      ["grassland"] = {
+         "farm_c4_papyrus",
+         "farm_o4_papyrus",
+      },
+      ["swamp"] = {
+         "farm_swamp_c4_papyrus",
+         "farm_swamp_o4_papyrus",
+      },
+   },
+   entity_chance = 2,
+   entities = {
+      ["__villager_farmer"] = 1,
+   }
+}
 
 -- List of chunk types. Chunk types are structurs and buildings
 -- that are not the well and are placed next to roads.
@@ -257,35 +555,24 @@ village.chunktypes = {
    -- { chunktype, absolute frequency }
 
    -- houses
-   { "house", 240 },
+   { "house", 210 },
+   { "hut_s", 105 },
+   { "hut_m", 105 },
+   -- meeting rooms
    { "tavern", 120 },
-   { "forge", 120 },
-   -- other
-   { "livestock_pen", 60 },
+   { "townhall", 60 },
+   { "library", 20 },
+   { "reading_club", 30 },
+   { "inn", 20 },
+   -- workplaces
+   { "forge", 100 },
+   { "workshop", 100 },
+   { "bakery", 60 },
+   -- farming
+   { "farm_small_plants", 120 },
+   { "farm_papyrus", 120 },
    { "orchard", 60 },
-
-   -- farms
-   -- naming scheme: farm_<water><lines>_<plants>
-   -- * <water>: water position:
-   --    * "v": vertical lines
-   --    * "h": horizontal lines
-   --    * "c": center
-   --    * "o": outwards
-   -- * <lines>:
-   --    * for v/h: list of numbers at where the water will be
-   --    * for c/o: how much water in total
-   -- * <plants>: List of plants (from left to right)
-   { "farm_v24_potato", 20 },
-   { "farm_v24_potato_wheat", 10 },
-   { "farm_v24_wheat", 20 },
-   { "farm_v24_wheat_cotton", 10 },
-   { "farm_v24_cotton", 10 },
-   { "farm_h246_potato", 20 },
-   { "farm_h246_wheat", 20 },
-   { "farm_h246_cotton", 10 },
-   { "farm_c4_papyrus", 60 },
-   { "farm_o4_papyrus", 60 },
-
+   { "livestock_pen", 60 },
 }
 
 -- List of chunktypes to be used as fallback for the starting
@@ -295,9 +582,9 @@ village.chunktypes = {
 -- instead. This will create nice "lonely huts".
 village.chunktypes_start_fallback = {
    -- chunktype, absolute frequency
-   { "house", 10 },
-   { "tavern", 5 },
-   { "forge", 2 },
+   { "house", 14 },
+   { "tavern", 7 },
+   { "forge", 3 },
 }
 
 -- Calculate cumulated absolute frequency of a chunktypes
@@ -318,17 +605,62 @@ write_absolute_frequencies(village.chunktypes_start_fallback)
 -- <absolute frequency> / <sum of all absolute frequencies>.
 -- * `pr`: PseudoRandom object
 -- * `chunktypes`: A table of chunktypes (see above) (default: `village.chunktypes`)
-local function random_chunktype(pr, chunktypes)
+-- * `groundclass`: Restrict chunktypes to this ground class
+local function random_chunktype(pr, chunktypes, groundclass)
    if not chunktypes then
       chunktypes = village.chunktypes
    end
-   local rnd = pr:next(1, chunktypes.chunksum)
-   for i=1, #chunktypes do
-      if rnd <= chunktypes[i][3] then
-         return chunktypes[i][1]
+   local check_chunktypes = table.copy(chunktypes)
+   while #check_chunktypes > 0 do
+      local rnd = pr:next(1, check_chunktypes.chunksum)
+      for i=1, #check_chunktypes do
+         if rnd <= check_chunktypes[i][3] then
+            local chunktype = check_chunktypes[i][1]
+            if groundclass and village.chunkdefs[chunktype].groundclass_variants and village.chunkdefs[chunktype].groundclass_variants[groundclass] == nil then
+               table.remove(check_chunktypes, i)
+               break
+            else
+               return chunktype
+            end
+         end
       end
    end
-   return chunktypes[#chunktypes][1]
+   minetest.log("error", "[rp_village] random_chunktype: Failed to find a chunktype, using a fallback")
+   return "house" -- fallback
+end
+
+local function get_chunktype_variant(pr, chunktype, groundclass)
+   local ctd = village.chunkdefs[chunktype]
+   if not ctd then
+      return chunktype
+   end
+   if ctd.variants then
+      return ctd.variants[pr:next(1, #ctd.variants)]
+   elseif groundclass and ctd.groundclass_variants and ctd.groundclass_variants[groundclass] then
+      return ctd.groundclass_variants[groundclass][pr:next(1, #ctd.groundclass_variants[groundclass])]
+   else
+      return chunktype
+   end
+end
+
+-- Given a chunktype, returns a random 'ruins' version
+-- for that chunktype if one is available. Otherwise,
+-- returns `chunktype`.
+-- * `pr`: PseudoRandom object
+-- * `chunktype`: Chunktype identifier
+-- * `groundclass`: Restrict chunktypes to this ground class
+local function get_ruined_chunktype(pr, chunktype, groundclass)
+   local ctd = village.chunkdefs[chunktype]
+   if not ctd then
+      return chunktype
+   end
+   if ctd.ruins then
+      return ctd.ruins[pr:next(1, #ctd.ruins)]
+   elseif groundclass and ctd.groundclass_ruins and ctd.groundclass_ruins[groundclass] then
+      return ctd.groundclass_ruins[groundclass][pr:next(1, #ctd.groundclass_ruins[groundclass])]
+   else
+      return get_chunktype_variant(pr, chunktype, groundclass)
+   end
 end
 
 local function check_column_end(nn)
@@ -354,9 +686,27 @@ function village.get_column_nodes(vmanip, pos, scanheight, dirtnodes)
    end
 end
 
-function village.generate_hill(vmanip, vdata, pos, ground, ground_top)
+-- Generate a hill.
+--
+-- * vmanip: VoxelMapnip object
+-- * vdata: VoxelManip data table
+-- * pos: Hill position
+-- * ground: Ground nodename (below surface)
+-- * ground_top: Ground nodename (surface)
+-- * top_decors: Optional table of possible decorations to place on top of ground_top
+-- * decors_to_place: Table in which positions of decor nodes will be stored (call-by-reference)
+--                    Must be provided if `top_decors` is set
+function village.generate_hill(vmanip, vdata, pos, ground, ground_top, top_decors, decors_to_place)
    local c_ground = minetest.get_content_id(ground)
    local c_ground_top = minetest.get_content_id(ground_top)
+   local c_decors = {}
+   local seed = 13 + minetest.hash_node_position(pos) + mapseed
+   local decor_pr = PcgRandom(seed)
+   if top_decors then
+      for d=1, #top_decors do
+         c_decors[d] = minetest.get_content_id(top_decors[d])
+      end
+   end
    local dirts = {}
    local dirts_with_grass = {}
    local vmin, vmax = vmanip:get_emerged_area()
@@ -368,24 +718,45 @@ function village.generate_hill(vmanip, vdata, pos, ground, ground_top)
    for x=y,HILL_W-1-y do
       local p = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
       local vindex = varea:index(p.x,p.y,p.z)
+      local vindex_above = varea:index(p.x,p.y+1,p.z)
       local n_content = vdata[vindex]
       if n_content then
          local nname = minetest.get_name_from_content_id(n_content)
          local def = minetest.registered_nodes[nname]
          local is_any_dirt = minetest.get_item_group(nname, "dirt") == 1
-         local is_dirt = nname == "rp_default:dirt"
+         local is_dirt = nname == "rp_default:dirt" or nname == "rp_default:swamp_dirt"
          local is_dry_dirt = nname == "rp_default:dry_dirt"
          if (not is_dry_dirt) and (is_dirt or (not is_any_dirt)) and (nname == "air" or nname == "ignore" or (def and (def.liquidtype ~= "none" or (def.is_ground_content)))) then
             local prev_was_ground = n_content == c_ground or n_content == c_ground_top
             if (y == HILL_H-1 or z == y or x == y or z == HILL_W-1-y or x == HILL_W-1-y) and (p.y >= water_level) then
-               local vindex_above = varea:index(p.x,p.y+1,p.z)
+               -- set surface node (e.g. dirt-with-grass)
                vdata[vindex] = c_ground_top
             else
+               -- set 'below ground' node (e.g. dirt)
                vdata[vindex] = c_ground
             end
             if not prev_was_ground then
                nodes_set = nodes_set + 1
             end
+         end
+         -- chance to spawn a decor node (like grass) above ground_top
+         local vindex_above = varea:index(p.x,p.y+1,p.z)
+         if top_decors and #c_decors > 0 and vdata[vindex] == c_ground_top and vdata[vindex_above] == minetest.CONTENT_AIR and decor_pr:next(1,DECOR_CHANCE) == 1 then
+            local decor = c_decors[decor_pr:next(1, #c_decors)]
+            -- Don't place the decor immediately, instead remember this position and decor nodename
+            -- and place all decorations at the end. This makes it easier to avoid conflicts
+            -- with the rest of the generation algorithm.
+            table.insert(decors_to_place, {
+               -- VManip data index of decor position
+               index_decor = vindex_above,
+               -- content ID of decor node
+               content_decor = c_decors[decor_pr:next(1, #c_decors)],
+               -- VManip data index of floor position (on which decor will be placed)
+               index_floor = vindex,
+               -- content ID of floor node
+               content_floor = vdata[vindex],
+            })
+            -- decors_to_place is call-by-reference, the caller can use this table afterwards
          end
       end
    end
@@ -425,6 +796,20 @@ local function check_empty(pos)
    return true
 end
 
+-- Map ground nodes with appropiate decor nodes to place on top
+-- (e.g. grass)
+-- Decors for normal villages
+local decors_from_ground = {
+   ["rp_default:dirt_with_grass"] = { "rp_default:grass" },
+   ["rp_default:dirt_with_dry_grass"] = { "rp_default:dry_grass" },
+   ["rp_default:dirt_with_swamp_grass"] = { "rp_default:swamp_grass" },
+}
+-- Decors for abandoned villages
+local decors_from_ground_abandoned = table.copy(decors_from_ground)
+-- Same as normal villages, except there's also tall grass
+decors_from_ground_abandoned["rp_default:dirt_with_grass"] =
+   {"rp_default:grass", "rp_default:grass", "rp_default:grass", "rp_default:tall_grass"}
+
 -- Spawns a village chunk. This is a section of a village.
 -- By default, this checks for empty space first (fails if no space),
 -- then it generates a foundation of ground nodes, then it deletes
@@ -453,10 +838,33 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
       return false
    end
 
+   if noclear ~= true then
+       local ok = minetest.place_schematic_on_vmanip(
+         vmanip,
+         pos,
+         modpath .. "/schematics/village_empty.mts",
+         "0",
+         {},
+         true
+      )
+      if not ok then
+         minetest.log("warning", "[rp_village] Could not fully place empty schematic in village at "..minetest.pos_to_string(pos, 0))
+      end
+   end
+
    if nofill ~= true then
-      local vdata = vmanip:get_data()
+      vmanip:get_data(vdata_spawn_chunk)
       -- Make a hill for the buildings to stand on
-      local full_hill = village.generate_hill(vmanip, vdata, {x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top)
+      local decors
+      if state.is_abandoned then
+         decors = decors_from_ground_abandoned[ground_top] or {}
+      else
+         decors = decors_from_ground[ground_top] or {}
+      end
+      if not state.decors_to_place then
+         state.decors_to_place = {}
+      end
+      local full_hill = village.generate_hill(vmanip, vdata_spawn_chunk, {x=pos.x-6, y=pos.y-5, z=pos.z-6}, ground, ground_top, decors, state.decors_to_place)
 
       if full_hill then
          -- Extend the dirt below the hill, in case the hill is floating
@@ -471,41 +879,36 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
             village.get_column_nodes(vmanip, {x=x, y=py, z=z}, HILL_EXTEND_BELOW, dirtnodes)
             for d=1, #dirtnodes do
                local vindex = varea:index(dirtnodes[d].x, dirtnodes[d].y, dirtnodes[d].z)
-               vdata[vindex] = c_ground
+               vdata_spawn_chunk[vindex] = c_ground
             end
          end
          end
       end
-      vmanip:set_data(vdata)
-   end
-   if noclear ~= true then
-      local ok = minetest.place_schematic_on_vmanip(
-         vmanip,
-         pos,
-         modpath .. "/schematics/village_empty.mts",
-         "0",
-         {},
-         true
-      )
-      if not ok then
-         minetest.log("warning", "[rp_village] Could not fully place empty schematic in village at "..minetest.pos_to_string(pos, 0))
-      end
+      vmanip:set_data(vdata_spawn_chunk)
    end
 
    if type(replace) == "number" then
       replace = village_replaces[replace]
    end
    local sreplace = table.copy(replace)
-   if chunktype == "orchard" then
+   if chunktype == "orchard" or chunktype == "orchard_ragged" then
       sreplace["rp_default:tree"] = nil
    end
-   local schem_path = modpath .. "/schematics/village_" .. chunktype .. ".mts"
+
+   -- Select random variant (ruins or normal) for schematic name
+   local schem_segment = chunktype
+   if state.is_abandoned and pr:next(1, ABANDONED_RUINS_CHANCE) == 1 then
+      schem_segment = get_ruined_chunktype(pr, chunktype, state.groundclass)
+   else
+      schem_segment = get_chunktype_variant(pr, chunktype, state.groundclass)
+   end
+
    local schem_spec
    if village.chunkdefs[chunktype] and village.chunkdefs[chunktype].can_cache then
       -- Minetest's caching is allowed for this chunktype, so we call the schematic place function
       -- in the normal way (schematics are cached by Minetest if the schematic path is
       -- specified in the place function)
-      schem_spec = schem_path
+      schem_spec = modpath .. "/schematics/village_" .. schem_segment .. ".mts"
    else
       -- load schematic from table definition (read_schematic). This will force Minetest
       -- to skip its schematic cache and guarantee that node replacements are
@@ -513,7 +916,7 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
       -- However, this mod still caches the result of read_schematic itself to save
       -- a bit of time.
       local cached
-      schem_spec, cached = read_cached_chunk_schematic(chunktype)
+      schem_spec, cached = read_cached_chunk_schematic(schem_segment)
    end
    local ok = minetest.place_schematic_on_vmanip(
       vmanip,
@@ -582,7 +985,7 @@ function village.spawn_road(vmanip, pos, state, houses, built, roads, depth, pr,
 	 if depth <= 0 or is_at_village_border or pr:next(1, 8) < 6 then
 	    houses[hnp] = {pos = nextpos, front = pos}
 
-	    local structure = random_chunktype(pr)
+	    local structure = random_chunktype(pr, nil, state.groundclass)
 	    chunk_ok = village.spawn_chunk(vmanip, nextpos, state, orient, replace, pr, structure, nil, nil, nil, ground, ground_top)
             if not chunk_ok then
                houses[hnp] = false
@@ -599,10 +1002,351 @@ function village.spawn_road(vmanip, pos, state, houses, built, roads, depth, pr,
    return true
 end
 
-local ROAD_NODE_NORTH = "rp_default:planks"
-local ROAD_NODE_EAST = "rp_default:cobble"
-local ROAD_NODE_SOUTH = "rp_default:planks_oak"
-local ROAD_NODE_WEST = "rp_default:planks_birch"
+-- Village modifiy functions: These are called after the VManip has placed
+-- the village for further changes like setting metadata or tweak
+-- nodes.
+--
+-- Parameters for all village_modify_* functions:
+-- * upos, upos2: Lower and upper bounds of the village
+-- * pr: PseudoRandom object used for randomness
+-- * extras: Table with extra infos (function-specific, not always used)
+
+-- Village modifier: Abandoned village. A complex modifier that
+-- makes a village look like it was abandoned. It does these things:
+-- * Turns all torches into dead torches
+-- * Removes music players
+-- * Makes grass overgrow on floor
+-- * Randomly destroys farming plants, fences, glass, doors
+-- * Generates seagrass and algae in water
+--
+-- The `extras` parameter must specify:
+-- {
+--    path = <itemname of path node>,
+--    path_slab = <itemname of path node slab>,
+--    ground_top = <itemname of top surface node outdoors (e.g. rp_default:dirt_with_grass>>,
+-- }
+local function village_modify_abandoned_village(upos, upos2, pr, extras)
+      -- Replace all torches with dead torches
+      util.nodefunc(
+         upos, upos2,
+	 {"rp_default:torch", "rp_default:torch_weak"},
+         function(pos)
+           local node = minetest.get_node(pos)
+           minetest.set_node(pos, {name="rp_default:torch_dead", param2=node.param2})
+         end, true)
+      util.nodefunc(
+         upos, upos2,
+	 {"rp_default:torch_wall", "rp_default:torch_weak_wall"},
+         function(pos)
+           local node = minetest.get_node(pos)
+           minetest.set_node(pos, {name="rp_default:torch_dead_wall", param2=node.param2})
+         end, true)
+
+      -- Remove all music players
+      util.nodefunc(
+         upos, upos2,
+         "rp_music:player",
+         function(pos)
+           minetest.remove_node(pos)
+         end, true)
+
+      -- Remove 95% of farming plants
+      util.nodefunc(
+         upos, upos2,
+	 "group:farming_plant",
+         function(pos)
+           if pr:next(1,100) <= 95 then
+              -- 30% chance to replace with a decor (grass), if the ground type allows it
+              if pr:next(1,10) <= 3 then
+                 local below = vector.add(pos, vector.new(0,-1,0))
+                 local belownode = minetest.get_node(below)
+                 local decors = decors_from_ground_abandoned[belownode.name]
+                 if decors then
+                    local plant = decors[pr:next(1, #decors)]
+                    minetest.set_node(pos, {name=plant})
+                 else
+                    minetest.remove_node(pos)
+                 end
+              else
+                 minetest.remove_node(pos)
+              end
+           end
+         end, true)
+
+      -- Remove 80% of glass
+      util.nodefunc(
+         upos, upos2,
+	 "group:glass",
+         function(pos)
+           if pr:next(1,5) >= 4 then
+              minetest.remove_node(pos)
+           end
+         end, true)
+
+      -- Replace 25% of path nodes
+      util.nodefunc(
+         upos, upos2,
+	 {extras.path},
+         function(pos)
+           if pr:next(1,4) == 1 then
+              minetest.set_node(pos, {name=extras.ground_top})
+              local above = {x=pos.x,y=pos.y+1,z=pos.z}
+              local abovenode = minetest.get_node(above)
+              if abovenode.name == "air" and pr:next(1,DECOR_CHANCE) == 1 then
+                 local decors = decors_from_ground_abandoned[extras.ground_top]
+		 if decors then
+		    local decor = decors[pr:next(1, #decors)]
+                    minetest.set_node(above, {name=decor})
+                 end
+              end
+           end
+         end, true)
+      -- Remove 25% of path slab nodes
+      util.nodefunc(
+         upos, upos2,
+	 {extras.path_slab},
+         function(pos)
+           if pr:next(1,4) == 1 then
+              minetest.remove_node(pos)
+	      local below = vector.add(pos, vector.new(0,-1,0))
+	      if minetest.get_node(below).name == "rp_default:dirt" then
+                 if pr:next(1,3) == 1 then
+                    minetest.set_node(below, {name=extras.path})
+                 else
+                    minetest.set_node(below, {name=extras.ground_top})
+                 end
+              end
+           end
+         end, true)
+
+      -- Replace 25% of brick/cobble floor with ground
+      util.nodefunc(
+         upos, upos2,
+	 {"rp_default:cobble", "rp_default:brick"},
+         function(pos)
+           if pr:next(1,4) == 1 then
+	      local below = vector.add(pos, vector.new(0,-1,0))
+	      local above = vector.add(pos, vector.new(0,1,0))
+	      local nbelow = minetest.get_node(below)
+	      local nabove = minetest.get_node(above)
+	      if nabove.name == "air" and (nbelow.name == "rp_default:dirt" or nbelow.name == "rp_default:stone") then
+                 minetest.set_node(pos, {name=extras.ground_top})
+                 local plant = pr:next(1,5)
+                 if plant == 1 then
+                    minetest.set_node(above, {name="rp_default:grass"})
+                 end
+              end
+           end
+         end, true)
+
+      -- Remove 50% of doors
+      util.nodefunc(
+         upos, upos2,
+	 "group:door",
+         function(pos)
+           if pr:next(1,2) == 1 then
+              local posup = vector.add(pos, vector.new(0,1,0))
+              local posdn = vector.add(pos, vector.new(0,-1,0))
+
+              local nup = minetest.get_node(posup)
+              local ndn = minetest.get_node(posdn)
+              if minetest.get_item_group(ndn.name, "door") == 1 then
+                 return
+              end
+              minetest.remove_node(pos)
+              if minetest.get_item_group(nup.name, "door") == 1 then
+                 minetest.remove_node(posup)
+              end
+           end
+         end, true)
+
+      -- Remove 10% of fences
+      util.nodefunc(
+         upos, upos2,
+	 "group:fence",
+         function(pos)
+            if pr:next(1,10) == 1 then
+               local posup = vector.add(pos, vector.new(0,1,0))
+               local posdn = vector.add(pos, vector.new(0,-1,0))
+	       local nup = minetest.get_node(posup)
+	       local ndn = minetest.get_node(posdn)
+               -- make sure only fences on floor and below air are removed so we don't
+               -- leave floating fences behind
+	       if nup.name == "air" and minetest.get_item_group(ndn.name, "group:fence") == 0 then
+                  minetest.remove_node(pos)
+               end
+            end
+         end, true)
+
+      -- Place seagrass or alga underwater
+      util.nodefunc(
+         upos, upos2,
+         {"rp_default:water_source", "rp_default:swamp_water_source"},
+         function(pos)
+            if pr:next(1,2) == 1 then
+               local posdn = vector.add(pos, vector.new(0,-1,0))
+               local posup = vector.add(pos, vector.new(0,1,0))
+               local ndn = minetest.get_node(posdn)
+               local nup = minetest.get_node(posup)
+               -- Alga may replaces seagrass if water is at least 2 nodes deep and if we're VERY lucky
+               local alga = pr:next(1,100) == 1 and minetest.get_item_group(nup.name, "water") ~= 0
+               local plant, p2
+               if alga then
+                  plant = "alga"
+                  p2 = 16
+               else
+                  plant = "seagrass"
+                  p2 = 0
+               end
+               if ndn.name == "rp_default:dirt" or ndn.name == "rp_default:dirt_with_grass" or ndn.name == "rp_default:dirt_with_dry_grass" then
+                  minetest.set_node(posdn, {name="rp_default:"..plant.."_on_dirt", param2=p2})
+               elseif ndn.name == "rp_default:swamp_dirt" or ndn.name == "rp_default:dirt_with_swamp_grass" then
+                  minetest.set_node(posdn, {name="rp_default:"..plant.."_on_swamp_dirt", param2=p2})
+               end
+            end
+      end, true)
+end
+
+-- Village modifier: Fills containers with goodies
+local function village_modify_populate_containers(upos, upos2, pr, extras)
+      -- Populate chests
+      -- TODO: Damaged tools in abandoned villages
+      util.nodefunc(
+         upos, upos2,
+         {"rp_default:chest", "rp_locks:chest"},
+         function(pos)
+            goodies.fill(pos, extras.chunktype, pr, "main", 3)
+         end, true)
+
+      -- Populate bookshelves
+      util.nodefunc(
+         upos, upos2,
+         {"rp_default:bookshelf"},
+         function(pos)
+            goodies.fill(pos, "BOOKSHELF", pr, "main", 1)
+         end, true)
+
+      -- Populate furnaces
+      if extras.chunktype == "forge" or extras.chunktype == "bakery" then
+         local g_src, g_fuel, g_dst
+         if extras.chunktype == "bakery" then
+            g_src = "FURNACE_SRC_bakery"
+            g_fuel = "FURNACE_FUEL_bakery"
+            g_dst = "FURNACE_DST_bakery"
+         else
+            g_src = "FURNACE_SRC_general"
+            g_fuel = "FURNACE_FUEL_general"
+            g_dst = "FURNACE_DST_general"
+         end
+         util.nodefunc(
+            upos, upos2,
+            "rp_default:furnace",
+            function(pos)
+               goodies.fill(pos, g_src, pr, "src", 1)
+               goodies.fill(pos, g_fuel, pr, "fuel", 1)
+               goodies.fill(pos, g_dst, pr, "dst", 1)
+               -- If both the src and fuel slots have an item,
+               -- simulate the cooking process.
+               -- We convert the src item into its cooked version,,,,
+               -- put it into dst and reduce the fuel itemstack by 1.
+               -- This prevents the furnace from going into
+               -- active state when the village generates.
+               local inv = minetest.get_meta(pos):get_inventory()
+               local src = inv:get_stack("src", 1)
+               local fuel = inv:get_stack("fuel", 1)
+               if not src:is_empty() and not fuel:is_empty() then
+                  local output = minetest.get_craft_result({method="cooking", items={src:get_name()}, width=1})
+                  if output and not output.item:is_empty() then
+                     local cooked = output.item
+                     cooked:set_count(src:get_count()*cooked:get_count())
+                     if cooked:get_count() > cooked:get_stack_max() then
+                        cooked:set_count(cooked:set_stack_max())
+                     end
+                     inv:set_stack("src", 1, "")
+                     inv:add_item("dst", cooked)
+                     fuel:set_count(fuel:get_count()-1)
+                     inv:set_stack("fuel", 1, fuel)
+                  end
+               end
+            end, true)
+      end
+end
+
+-- Village modifier: Limit number of music players in village to 1.
+-- Also set random color for the remaning music player.
+local function village_modify_limit_music_players(upos, upos2, pr)
+      -- Maximum of 1 music player per village; remove excess music players
+      local music_players = 0
+      util.nodefunc(
+         upos, upos2,
+         "rp_music:player",
+         function(pos)
+           if music_players >= 1 or pr:next(1,8) > 1 then
+              minetest.remove_node(pos)
+           else
+              music_players = music_players + 1
+
+              -- Also initialize music box with random color
+              local color = math.random(1, rp_paint.COLOR_COUNT)
+              minetest.swap_node(pos, {name="rp_music:player", param2 = color-1})
+              local meta = minetest.get_meta(pos)
+              meta:set_int("music_player_legacy_color", 1)
+           end
+         end, true)
+end
+
+-- Village modifier: Random bed color
+local function village_modify_bed_colors(upos, upos2, pr)
+      if not mod_paint then
+         return
+      end
+      util.nodefunc(
+         upos, upos2,
+         "rp_bed:bed_foot",
+         function(pos)
+             local node = minetest.get_node(pos)
+             local dir = minetest.fourdir_to_dir(node.param2)
+             local param2 = node.param2 % 4 + math.random(0, rp_paint.COLOR_COUNT-1)*4
+             node.param2 = param2
+             minetest.swap_node(pos, node)
+
+             local pos2 = vector.add(pos, dir)
+             local node2 = minetest.get_node(pos2)
+             node2.param2 = param2
+             if node2.name == "rp_bed:bed_head" then
+                 minetest.swap_node(pos2, node2)
+             end
+         end, true)
+end
+
+-- Village modifier: Randomly turn some chests into locked chests
+local function village_modify_lock_chests(upos, upos2, pr)
+      -- Replace 25% of chests with locked chests
+      if mod_locks then
+         util.nodefunc(
+            upos, upos2,
+            "rp_default:chest",
+            function(pos)
+               if pr:next(1,4) == 1 then
+                  local node = minetest.get_node(pos)
+                  node.name = "rp_locks:chest"
+                  minetest.swap_node(pos, node)
+               end
+            end, true)
+      end
+end
+
+-- Village modifier: Inizialize doors
+local function village_modify_init_doors(upos, upos2, pr)
+     util.nodefunc(
+          upos, upos2,
+          "group:door",
+          function(pos)
+             -- The `is_open` parameter is false because we assume all
+             -- doors in the village chunks are closed
+             door.init_segment(pos, false)
+          end, true)
+end
 
 local function after_village_area_emerged(blockpos, action, calls_remaining, params)
    local done = action == minetest.EMERGE_GENERATED or action == minetest.EMERGE_FROM_DISK or action == minetest.EMERGE_FROM_MEMORY
@@ -618,6 +1362,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    local ground = params.ground
    local ground_top = params.ground_top
    local force_place_starter = params.force_place_starter
+   local is_abandoned = params.is_abandoned == true
    local village_name = params.village_name
 
    minetest.log("info", "[rp_village] Village area emerged at startpos = "..minetest.pos_to_string(pos))
@@ -629,14 +1374,32 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    local roads = {}
    local state = {}
 
+   state.is_abandoned = is_abandoned
+   state.groundclass = "grassland"
+   if ground_top == "rp_default:dirt_with_swamp_grass" or ground_top == "rp_default:swamp_dirt" then
+      state.groundclass = "swamp"
+   elseif ground_top == "rp_default:dirt_with_dry_grass" then
+      state.groundclass = "savanna"
+   elseif ground_top == "rp_default:dry_dirt" then
+      state.groundclass = "dry"
+   end
+
    local spawnpos = pos
 
-   -- Get random village wood type for this village
+   -- Get village wood type for this village
    local vpr = PcgRandom(mapseed + poshash)
-   local village_replace_id = vpr:next(1,#village_replaces)
+   local village_replace_id
+   if state.groundclass == "swamp" then
+      -- swamp village: always oak wood
+      village_replace_id = 6
+   else
+      -- other villages: random
+      village_replace_id = vpr:next(1,#village_replaces)
+   end
    minetest.log("verbose", "[rp_village] village_replace_id="..village_replace_id)
    local replace = village_replaces[village_replace_id]
    local dirt_path = "rp_default:dirt_path"
+   local dirt_path_slab = "rp_default:path_slab"
 
    -- For measuring the generation time
    local t1 = os.clock()
@@ -671,43 +1434,29 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    roads[poshash] = { pos = pos, is_starter = true }
 
    -- Connect dirt paths with other village tiles.
-   -- The dirt path schematic uses planks and cobble for each of the 4 cardinal
+   -- The road schematic uses planks and cobble for each of the 4 cardinal
    -- directions and it will be replaced either with a dirt path or
    -- the ground.
 
    local c_path = minetest.get_content_id(dirt_path)
    local c_ground_top = minetest.get_content_id(ground_top)
-   local c_road_north = minetest.get_content_id(ROAD_NODE_NORTH)
-   local c_road_west = minetest.get_content_id(ROAD_NODE_WEST)
-   local c_road_south = minetest.get_content_id(ROAD_NODE_SOUTH)
-   local c_road_east = minetest.get_content_id(ROAD_NODE_EAST)
 
-   local vdata_bulk_set_node = function(vdata, varea, minpos, maxpos, content_id, check_for_road)
-      for z=minpos.z, maxpos.z do
-      for y=minpos.y, maxpos.y do
-      for x=minpos.x, maxpos.x do
-         local vindex = varea:index(x, y, z)
-	 if check_for_road then
-            local content = vdata[vindex]
-	    if content == c_road_north or content == c_road_west or content == c_road_south or content == c_road_east then
-               vdata[vindex] = content_id
-            end
-	 else
-            vdata[vindex] = content_id
-         end
-      end
-      end
-      end
-   end
-
+   -- Generate road center tiles
    for _,road in pairs(roads) do
-   if road ~= false then
-      village.spawn_chunk(vmanip, road.pos, state, "0", {}, pr, "road", false, false, true, ground, ground_top)
-   end
+      -- No road center tile for starter chunk since we expect it to occupy the center
+      if road ~= false and not road.is_starter then
+         -- This only places the center of the road, the connections will be manually placed
+         village.spawn_chunk(vmanip, road.pos, state, "0", {}, pr, "road", false, false, true, ground, ground_top)
+      end
    end
 
-   local vdata = vmanip:get_data()
+   -- Iterate through the road tiles and determine where to place dirt path nodes and lamps
+
+   -- Lamp positions
    local lamps = {}
+   -- Store positions of nodes to replace, they will be set after the last village chunk
+   -- was generated
+   local road_bulk_set = {}
 
    for _,road in pairs(roads) do
    if road ~= false then
@@ -720,30 +1469,28 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
 	    nextpos.z = nextpos.z + 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               vdata_bulk_set_node(vdata, varea, vector.add(road.pos, {x=4,y=0,z=8}), vector.add(road.pos, {x=7,y=0,z=11}), c_path)
+               table.insert(road_bulk_set, {vector.add(road.pos, {x=4, y=0, z=8}), vector.add(road.pos, {x=7,y=0,z=11}), c_path})
 	    end
 	 elseif i == 2 then -- East (cobble)
 	    nextpos.x = nextpos.x + 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               vdata_bulk_set_node(vdata, varea, vector.add(road.pos, {x=8,y=0,z=4}), vector.add(road.pos, {x=11,y=0,z=7}), c_path)
+               table.insert(road_bulk_set, {vector.add(road.pos, {x=8, y=0, z=4}), vector.add(road.pos, {x=11, y=0, z=7}), c_path})
 	    end
 	 elseif i == 3 then -- South (oak planks)
 	    nextpos.z = nextpos.z - 12
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               vdata_bulk_set_node(vdata, varea, vector.add(road.pos, {x=4,y=0,z=0}), vector.add(road.pos, {x=7,y=0,z=3}), c_path)
+               table.insert(road_bulk_set, {vector.add(road.pos, {x=4, y=0, z=0}), vector.add(road.pos, {x=7, y=0, z=3}), c_path})
 	    end
 	 else
 	    nextpos.x = nextpos.x - 12 -- West (birch planks)
 	    if connects(road.pos, nextpos) then
                amt_connections = amt_connections + 1
-               vdata_bulk_set_node(vdata, varea, vector.add(road.pos, {x=0,y=0,z=4}), vector.add(road.pos, {x=3,y=0,z=7}), c_path)
+               table.insert(road_bulk_set, {vector.add(road.pos, {x=0, y=0, z=4}), vector.add(road.pos, {x=3, y=0, z=7}), c_path})
 	    end
 	 end
-
       end
-      vdata_bulk_set_node(vdata, varea, road.pos, vector.add(road.pos, {x=11,y=0,z=11}), c_ground_top, true)
 
 
       if amt_connections >= 2 and not road.is_starter then
@@ -752,8 +1499,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    end
    end
 
-   vmanip:set_data(vdata)
-
+   -- Place lamp posts
    for l=1, #lamps do
       village.spawn_chunk(
          vmanip,
@@ -771,22 +1517,25 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
          )
    end
 
+   -- <<< FINAL VILLAGE CHUNK! >>>
+
    -- Check if this village has created any houses so far
    local has_house = false
    for k,v in pairs(houses) do
       if v ~= false then
          has_house = true
+         break
       end
    end
-   local chunk_ok
    -- Place a building at the start position as the final step.
-   -- Normally this is the well
+   -- Normally, this is the well.
+   local chunk_ok
    if has_house then
       chunk_ok = village.spawn_chunk(vmanip, pos, state, "0", replace, pr, "well", true, nil, true, ground, ground_top)
    else
       -- Place a fallback building instead of the well if the village does not have any buildings yet.
       -- A nice side-effect of this is that this will create 'lonely huts'.
-      local structure = random_chunktype(pr, village.chunktypes_start_fallback)
+      local structure = random_chunktype(pr, village.chunktypes_start_fallback, state.groundclass)
       chunk_ok = village.spawn_chunk(vmanip, pos, state, "random", replace, pr, structure, true, nil, true, ground, ground_top)
       minetest.log("info", "[rp_village] Village generated with fallback building instead of well")
    end
@@ -794,72 +1543,89 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
       minetest.log("warning", string.format("[rp_village] Failed to generated starter chunk at %s", minetest.pos_to_string(pos)))
    end
 
+   -- <<< END OF VILLAGE CHUNK GENERATION >>>
+
+   -- All village chunks have been generated!
+   -- Now we apply changes to the VoxelManip data
+   vmanip:get_data(vdata_main)
+
+   local vdata_bulk_set_node = function(vdata, varea, minpos, maxpos, content_id)
+      for z=minpos.z, maxpos.z do
+      for y=minpos.y, maxpos.y do
+      for x=minpos.x, maxpos.x do
+         local vindex = varea:index(x, y, z)
+         vdata[vindex] = content_id
+      end
+      end
+      end
+   end
+
+   -- Apply the road node replacements that were calculated above
+   for r=1, #road_bulk_set do
+      local rdata = road_bulk_set[r]
+      vdata_bulk_set_node(vdata_main, varea, rdata[1], rdata[2], rdata[3])
+   end
+
+   -- Generate ground decorations (like grass)
+   for d=1, #state.decors_to_place do
+      -- We just iterate through the positions we have collected earlier
+      local decor_info = state.decors_to_place[d]
+      -- Check if this position is still valid for the decor. Prevents placing decorations
+      -- in non-air nodes and if the floor node has changed (e.g. dirt path).
+      if vdata_main[decor_info.index_decor] == minetest.CONTENT_AIR and vdata_main[decor_info.index_floor] == decor_info.content_floor then
+          vdata_main[decor_info.index_decor] = decor_info.content_decor
+      end
+   end
+
+   vmanip:set_data(vdata_main)
+
    -- The main village generation is complete here
    vmanip:write_to_map()
    vmanip:update_liquids()
 
+   -- <<< END OF VOXELMANIP CHANGES >>>
+
    -- Final step: set node metadata (stuff that cannot be done in VManip)
+   -- and perform other manipulations
    if state.nodeupdates then
    for u=1, #state.nodeupdates do
+      local chunktype = state.nodeupdates[u].chunktype
       local upos = state.nodeupdates[u].pos
       local upos2 = vector.add(upos, vector.new(VILLAGE_CHUNK_SIZE, VILLAGE_CHUNK_SIZE, VILLAGE_CHUNK_SIZE))
-      local chunktype = state.nodeupdates[u].chunktype
-      -- Replace some chests with locked chests
-      if mod_locks then
-         util.nodefunc(
-            upos, upos2,
-            "rp_default:chest",
-            function(pos)
-               if pr:next(1,4) == 1 then
-                  local node = minetest.get_node(pos)
-                  node.name = "rp_locks:chest"
-                  minetest.swap_node(pos, node)
-               end
-            end, true)
-      end
 
-      -- Force on_construct to be called
-      util.reconstruct(upos, upos2)
-
-      -- Populate chests
-      util.nodefunc(
-         upos, upos2,
-         {"rp_default:chest", "rp_locks:chest"},
-         function(pos)
-            goodies.fill(pos, chunktype, pr, "main", 3)
-         end, true)
-
-      -- Populate furnaces
-      if chunktype == "forge" then
-         util.nodefunc(
-            upos, upos2,
-            "rp_default:furnace",
-            function(pos)
-               goodies.fill(pos, "FURNACE_SRC", pr, "src", 1)
-               goodies.fill(pos, "FURNACE_DST", pr, "dst", 1)
-               goodies.fill(pos, "FURNACE_FUEL", pr, "fuel", 1)
-            end, true)
-      end
+      -- Replace random chests with locked chests
+      village_modify_lock_chests(upos, upos2, pr)
 
       -- Maximum of 1 music player per village
-      local music_players = 0
-      util.nodefunc(
-         upos, upos2,
-         "rp_music:player",
-         function(pos)
-           if music_players >= 1 or pr:next(1,8) > 1 then
-              minetest.remove_node(pos)
-           else
-              music_players = music_players + 1
-           end
-         end, true)
+      village_modify_limit_music_players(upos, upos2, pr)
 
-      -- Set entity spawner metadata
+      -- Village modifier: Abandoned village
+      if state.is_abandoned then
+         village_modify_abandoned_village(upos, upos2, pr, {path=dirt_path, path_slab=dirt_path_slab, ground_top=ground_top})
+      end
+
+      -- Colorize beds
+      village_modify_bed_colors(upos, upos2, pr)
+
+      -- Force on_construct to be called on all nodes
+      util.reconstruct(upos, upos2, pr)
+
+      -- Initialize doors (required by rp_doors mod)
+      village_modify_init_doors(upos, upos2, pr)
+
+      -- Fill containers with goodies
+      village_modify_populate_containers(upos, upos2, pr, {chunktype=chunktype})
+
+      -- Handle entity spawner nodes.
+      -- In abandoned villages, remove all spawners and don't spawn anything.
+      -- Otherwise, randomly spawn an entity at each
+      -- spawner (chance of 1:chunkdef.entity_chance), then
+      -- remove the spawner nodes.
       local chunkdef = village.chunkdefs[chunktype]
       if chunkdef ~= nil then
          if chunkdef.entities ~= nil then
-	    if chunkdef.entity_chance ~= nil and pr:next(1, chunkdef.entity_chance) == 1 then
-               -- Remove some entity spawners
+	    if state.is_abandoned or (chunkdef.entity_chance ~= nil and pr:next(1, chunkdef.entity_chance) == 1) then
+               -- Remove entity spawners
 	       util.nodefunc(
 	          upos, upos2,
 	          "rp_village:entity_spawner",
@@ -880,6 +1646,11 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
                -- Initialize entity spawners
 	       if #ent_spawns > 0 then
 	          for ent, amt in pairs(chunkdef.entities) do
+                     local profession
+                     if string.sub(ent, 1, 11) == "__villager_" then
+                        profession = string.sub(ent, 12, -1)
+                        ent = "rp_mobs_mobs:villager"
+                     end
                      for j = 1, pr:next(1, amt) do
                         if #ent_spawns == 0 then
                            break
@@ -888,6 +1659,9 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
                         if spawn ~= nil then
                            local meta = minetest.get_meta(spawn)
                            meta:set_string("entity", ent)
+                           if profession then
+                              meta:set_string("villager_profession", profession)
+                           end
                            minetest.get_node_timer(spawn):start(1)
                            -- Prevent spawning on same tile
                            table.remove(ent_spawns, index)
@@ -940,7 +1714,17 @@ function village.spawn_village(pos, pr, force_place_starter, ground, ground_top)
    local vspread = vector.new(spread, spread, spread)
    local emerge_min = vector.add(pos, vector.new(-spread, -(HILL_H + HILL_EXTEND_BELOW + 1), -spread))
    local emerge_max = vector.add(pos, vector.new(spread, VILLAGE_CHUNK_HEIGHT, spread))
-   minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {pos=pos, pr=pr, force_place_starter=force_place_starter, ground=ground, ground_top=ground_top, village_name=village_name, emin=emerge_min, emax=emerge_max})
+   -- chance for village to be abandoned
+   local is_abandoned = pr:next(1,ABANDONED_CHANCE) == 1
+   minetest.emerge_area(emerge_min, emerge_max, after_village_area_emerged, {
+      pos=pos,
+      pr=pr,
+      force_place_starter=force_place_starter,
+      ground=ground,ground_top=ground_top,
+      village_name=village_name,
+      emin=emerge_min,
+      emax=emerge_max,
+      is_abandoned=is_abandoned})
    return true
 end
 

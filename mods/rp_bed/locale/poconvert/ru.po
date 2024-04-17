@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_bed x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Your respawn position was blocked or dangerous. You’ve lost your old respawn position."
+msgstr "Твоя точка возрождения блокирована или опасна. Ты потерял свою предыдущую точку возрождения."
+
+msgid "You have slept, rise and shine!"
+msgstr "Ты поспал, проснись и пой!"
+
+msgid "Players have slept, rise and shine!"
+msgstr "Игроки поспали, проснись и пой!"
+
+msgid "Bed"
+msgstr "Кровать"
+
+msgid "Sets the respawn position and allows to pass the night"
+msgstr "Ставит точку возрождения и пропускает ночь"
+
+msgid "Sleeping is disabled."
+msgstr "Сон отключен."
+
+msgid "It’s too painful to sleep here!"
+msgstr "Здесь слишком больно чтобы спать!"
+
+msgid "You can’t sleep while holding your breath!"
+msgstr "Ты не можешь спать когда задерживаешь дыхание!"
+
+msgid "Not enough space to sleep!"
+msgstr "Недостаточно места для сна!"
+
+msgid "You can’t sleep here!"
+msgstr "Ты не можешь здесь спать!"
+
+msgid "You have to stop moving before going to bed!"
+msgstr "Тебе нужно остановиться прежде чем ложиться спать!"
+
+msgid "Respawn position set!"
+msgstr "Точка возрождения установлена!"
+
+msgid "In bed"
+msgstr "В кровати"
+
+msgid "You're in a bed"
+msgstr "Ты в кровати"
+
+msgid "Bed Time"
+msgstr "Время спать"
+
+msgid "Craft a bed."
+msgstr "Скрафти кровать."
+

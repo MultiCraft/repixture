@@ -1,4 +1,7 @@
 # textdomain: rp_armor
+Helmet=Casque
+Chestplate=Plastron
+Boots=Bottes
 Wooden Helmet=Casque en bois
 Wooden Chestplate=Plastron en bois
 Wooden Boots=Bottes en bois
@@ -14,13 +17,14 @@ Carbon Steel Boots=Bottes en acier carbone
 Bronze Helmet=Casque en bronze
 Bronze Chestplate=Plastron en bronze
 Bronze Boots=Bottes en bronze
-Helmet=Casque
-Chestplate=Plastron
-Boots=Bottes
+Protection=
+@1%=
+Protection bonus for full set=
++@1%=
 Armor=Armure
 Chainmail Sheet=Drap en cotte de mailles
 Armored=Blindé
-Craft a piece of armor.=Constuire une pièce d'armure.
+Craft a piece of armor.=Fabriquer une pièce d'armure.
 Skin of Bronze=Costume de bronze
 Equip a full suit of bronze armor.=Équiper une armure complète en bronze.
-Protection: +@1%=
+Protection: +@1%=Protection : +@1%

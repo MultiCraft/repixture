@@ -1,20 +1,55 @@
 --
--- Gold and NPC Trading
+-- Gold and trading
 --
 local S = minetest.get_translator("rp_gold")
 
 gold = {}
 
-local mapseed = minetest.get_mapgen_setting("seed")
-gold.pr = PseudoRandom(mapseed+8732)
+-- Sound pitch modifier of gold nodes
+gold.PITCH = 1.25
 
+gold.pr = PseudoRandom(os.time())
+
+--[[
+Table of trades offered by villagers.
+Format:
+
+   gold.trades = {
+      -- List of trades for this villager profession
+      ["profession_1"] = {
+         -- first trade table (see below)
+         trade_1,
+         -- second trade table (see below)
+         trade_2,
+         -- ...
+      },
+      ["profession_2"] = {
+         -- ...
+      },
+      -- ...
+   },
+
+A trade table is a list of 3 itemstrings:
+
+   { wanted_item_1, wanted_item_2, given_item }
+
+The first 2 items are the items you give to the villager.
+`wanted_item_2` can be the empty string.
+`given_item` is the item you get.
+If `wanted_item_2` and `given_item` are equal and tools
+(via `minetest.registered_tool`), this trade is considered
+to be a repair trade
+]]
 gold.trades = {}
+
 gold.trade_names = {}
 
-local TRADE_FORMSPEC_OFFSET = 2.5
-local GOLD_COLOR = "#FFFF00FF"
+local TRADE_FORMSPEC_START_X = rp_formspec.default.start_point.x
+local TRADE_FORMSPEC_START_Y = rp_formspec.default.start_point.y
+local TRADE_FORMSPEC_OFFSET_X = 5
+local TRADE_FORMSPEC_OFFSET_Y = 0.8
 
-if minetest.get_modpath("mobs") ~= nil then
+if minetest.get_modpath("rp_mobs") ~= nil then
    gold.trades["farmer"] = {
       -- seeds/plants
       {"rp_gold:ingot_gold", "", "rp_farming:wheat_1 6"},
@@ -48,14 +83,14 @@ if minetest.get_modpath("mobs") ~= nil then
       {"rp_gold:ingot_gold 5", "", "rp_bed:bed"},
       {"rp_gold:ingot_gold 2", "", "rp_default:chest"},
       {"rp_gold:ingot_gold 10", "", "rp_locks:chest"},
-      {"rp_gold:ingot_gold", "mobs:wool 3", "rp_bed:bed"},
+      {"rp_gold:ingot_gold", "rp_mobs_mobs:wool 3", "rp_bed:bed"},
    }
    gold.trades["tavernkeeper"] = {
       -- edibles
       {"rp_gold:ingot_gold", "", "rp_default:apple 6"},
       {"rp_gold:ingot_gold", "", "rp_farming:bread 2"},
-      {"rp_gold:ingot_gold", "", "mobs:meat"},
-      {"rp_gold:ingot_gold 2", "", "mobs:pork"},
+      {"rp_gold:ingot_gold", "", "rp_mobs_mobs:meat"},
+      {"rp_gold:ingot_gold 2", "", "rp_mobs_mobs:pork"},
 
       -- filling buckets
       {"rp_gold:ingot_gold", "rp_default:bucket", "rp_default:bucket_water"},
@@ -95,12 +130,12 @@ if minetest.get_modpath("mobs") ~= nil then
    }
    gold.trades["butcher"] = {
       -- raw edibles
-      {"rp_gold:ingot_gold", "", "mobs:meat_raw"},
-      {"rp_gold:ingot_gold 3", "", "mobs:pork_raw 2"},
+      {"rp_gold:ingot_gold", "", "rp_mobs_mobs:meat_raw"},
+      {"rp_gold:ingot_gold 3", "", "rp_mobs_mobs:pork_raw 2"},
 
       -- cooking edibles
-      {"rp_gold:ingot_gold 1", "mobs:meat_raw", "mobs:meat"},
-      {"rp_gold:ingot_gold 2", "mobs:pork_raw", "mobs:pork"},
+      {"rp_gold:ingot_gold 1", "rp_mobs_mobs:meat_raw", "rp_mobs_mobs:meat"},
+      {"rp_gold:ingot_gold 2", "rp_mobs_mobs:pork_raw", "rp_mobs_mobs:pork"},
 
       -- tool repair
       {"rp_gold:ingot_gold 1", "rp_default:spear_stone", "rp_default:spear_stone"},
@@ -154,13 +189,13 @@ if minetest.get_modpath("mobs") ~= nil then
    table.insert(gold.trades["carpenter"], {"rp_default:tree_birch 5", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_default:tree_oak 4", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_default:fiber 50", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["carpenter"], {"mobs:wool 8", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["carpenter"], {"rp_mobs_mobs:wool 8", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_farming:cotton_bale 10", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_default:glass 10", "", "rp_gold:ingot_gold"})
 
    -- butcher
-   table.insert(gold.trades["butcher"], {"mobs:meat_raw 4", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["butcher"], {"mobs:pork_raw 3", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["butcher"], {"rp_mobs_mobs:meat_raw 4", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["butcher"], {"rp_mobs_mobs:pork_raw 3", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"rp_default:flint 12", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"rp_default:paper 30", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"rp_default:sandstone 28", "", "rp_gold:ingot_gold"})
@@ -185,34 +220,39 @@ local form_trading = ""
 
 form_trading = form_trading .. rp_formspec.get_page("rp_formspec:2part")
 
-form_trading = form_trading .. "list[current_player;main;0.25,4.75;8,4;]"
-form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_trading = form_trading .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_trading = form_trading .. rp_formspec.default.player_inventory
 
-form_trading = form_trading .. "container["..TRADE_FORMSPEC_OFFSET..",0]"
-form_trading = form_trading .. "list[current_player;gold_trade_out;4.75,2.25;1,1;]"
-form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(4.75, 2.25, 1, 1)
+form_trading = form_trading .. "container["..TRADE_FORMSPEC_START_X..","..TRADE_FORMSPEC_START_Y.."]"
+form_trading = form_trading .. "container["..TRADE_FORMSPEC_OFFSET_X..","..TRADE_FORMSPEC_OFFSET_Y.."]"
+form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(3.75, 1.25, 1, 1)
+form_trading = form_trading .. "list[current_player;gold_trade_out;3.75,1.25;1,1;]"
 
-form_trading = form_trading .. "list[current_player;gold_trade_in;1.25,2.25;2,1;]"
-form_trading = form_trading .. rp_formspec.get_itemslot_bg(1.25, 2.25, 2, 1)
+form_trading = form_trading .. rp_formspec.get_itemslot_bg(0, 1.25, 2, 1)
+form_trading = form_trading .. "list[current_player;gold_trade_in;0,1.25;2,1;]"
 
 form_trading = form_trading .. "listring[current_player;main]"
 form_trading = form_trading .. "listring[current_player;gold_trade_in]"
 form_trading = form_trading .. "listring[current_player;main]"
 form_trading = form_trading .. "listring[current_player;gold_trade_out]"
 
-form_trading = form_trading .. "image[3.5,1.25;1,1;ui_arrow_bg.png^[transformR270]"
-form_trading = form_trading .. "image[3.5,2.25;1,1;ui_arrow.png^[transformR270]"
+form_trading = form_trading .. "image[2.5,0;1,1;ui_arrow_bg.png^[transformR270]"
+form_trading = form_trading .. "image[2.5,1.25;1,1;ui_arrow.png^[transformR270]"
 
-form_trading = form_trading .. rp_formspec.button(1.25, 3.25, 2, 1, "trade", S("Trade"))
+form_trading = form_trading .. rp_formspec.button(0.15, 2.5, 2, 1, "trade", S("Trade"))
+form_trading = form_trading .. "container_end[]"
 form_trading = form_trading .. "container_end[]"
 
 rp_formspec.register_page("rp_gold:trading_book", form_trading)
 
+-- Returns true if the given trade is a repair trade
+local is_repair_trade = function(trade)
+   return trade[2] == trade[3] and ItemStack(trade[2]):get_definition().type == "tool"
+end
+
 -- Remember with which traders the players trade
 local active_tradings = {}
 
--- Open the trading formspec that allows players to trade with NPCs.
+-- Open the trading formspec that allows players to trade with traders.
 -- * trade: Single trade table from gold.trades table
 -- * trade_type: Trader type name
 -- * player: Player object of player who trades
@@ -239,25 +279,8 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
 
    local inv = player:get_inventory()
 
-   if inv:get_size("gold_trade_wanted") ~= 2 then
-      inv:set_size("gold_trade_wanted", 2)
-   end
-
-   if inv:get_size("gold_trade_out") ~= 1 then
-      inv:set_size("gold_trade_out", 1)
-   end
-
-   if inv:get_size("gold_trade_in") ~= 2 then
-      inv:set_size("gold_trade_in", 2)
-   end
-
    inv:set_stack("gold_trade_wanted", 1, trade[1])
    inv:set_stack("gold_trade_wanted", 2, trade[2])
-
-   local meta = minetest.deserialize(item:get_metadata())
-
-   if not meta then meta = {} end
-   meta.trade = trade
 
    local trade_name = gold.trade_names[trade_type]
    local label = S("Trading with @1", trade_name)
@@ -266,7 +289,8 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
 
    local form = rp_formspec.get_page("rp_gold:trading_book")
-   form = form .. "label[0.25,0.25;"..minetest.formspec_escape(label).."]"
+   form = form .. "container["..TRADE_FORMSPEC_START_X..","..TRADE_FORMSPEC_START_Y.."]"
+   form = form .. "label[0,"..(TRADE_FORMSPEC_OFFSET_Y-0.5)..";"..minetest.formspec_escape(label).."]"
 
    local trades_listed = {}
    local print_item = function(itemstring)
@@ -294,26 +318,31 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
       else
          take = S("@1 + @2", print_item(all_trades[t][1]), print_item(all_trades[t][2]))
       end
-      give = print_item(all_trades[t][3])
+      if is_repair_trade(all_trades[t]) then
+         give = S("(repair)")
+      else
+         give = print_item(all_trades[t][3])
+      end
       local entry = S("@1 → @2", take, give)
       table.insert(trades_listed, minetest.formspec_escape(entry))
    end
    local trades_listed_str = table.concat(trades_listed, ",")
    form = form .. "tablecolumns[text]"
-   form = form .. "table[0.15,1.25;3.5,2.5;tradelist;"..trades_listed_str..";"..trade_index.."]"
+   form = form .. "table[0,"..TRADE_FORMSPEC_OFFSET_Y..";4.75,3.5;tradelist;"..trades_listed_str..";"..trade_index.."]"
 
-   form = form .. "container["..TRADE_FORMSPEC_OFFSET..",0]"
-   form = form .. rp_formspec.fake_itemstack(1.25, 1.25, trade_wanted1)
-   form = form .. rp_formspec.fake_itemstack(2.25, 1.25, trade_wanted2)
-   form = form .. rp_formspec.fake_itemstack(4.75, 1.25, ItemStack(trade[3]))
+   form = form .. "container["..TRADE_FORMSPEC_OFFSET_X..","..TRADE_FORMSPEC_OFFSET_Y.."]"
+   if is_repair_trade(trade) then
+      -- Display repairable tool as damaged so the purpose of
+      -- repair trades is more obvious
+      trade_wanted2:set_wear(58982) -- ca. 90% wear
+   end
+   form = form .. rp_formspec.fake_itemstack(0, 0, trade_wanted1)
+   form = form .. rp_formspec.fake_itemstack(1.25, 0, trade_wanted2)
+   form = form .. rp_formspec.fake_itemstack(3.75, 0, ItemStack(trade[3]))
+   form = form .. "container_end[]"
    form = form .. "container_end[]"
 
    minetest.show_formspec(name, "rp_gold:trading_book", form)
-
-   meta.trade_type = trade_type
-
-   item:set_metadata(minetest.serialize(meta))
-   player:set_wielded_item(item)
 
    return true
 end
@@ -378,7 +407,7 @@ minetest.register_on_player_receive_fields(
 
       if not active_tradings[name] then
          -- No trading possible if active_tradings table is empty (mustn't happen)
-	 minetest.log("error", "[rp_gold] active_tradings["..tostring(name).."] was nil after receiving trading book fields!")
+	 minetest.log("error", "[rp_gold] active_tradings["..tostring(name).."] was nil after receiving trading formspec fields!")
          return
       end
 
@@ -405,8 +434,6 @@ minetest.register_on_player_receive_fields(
 	 return
       end
       if fields.trade then
-	 local item = player:get_wielded_item()
-
 	 local trade_wanted1 = inv:get_stack("gold_trade_wanted", 1)
 	 local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
 	 local trade_wanted1_n = trade_wanted1:get_name()
@@ -436,14 +463,14 @@ minetest.register_on_player_receive_fields(
 	    end
 	 end
 
-	 local meta = minetest.deserialize(item:get_metadata())
-
-	 local trade = {"rp_gold:ingot_gold", "rp_gold:ingot_gold", "rp_default:stick"}
-	 local trade_type = ""
-
-	 if meta then
-	    trade = meta.trade
-	    trade_type = meta.trade_type
+	 local trade
+	 local active_trade = active_tradings[name]
+	 if active_trade then
+	    trade = active_trade.all_trades[active_trade.trade_index]
+	 end
+	 if not trade then
+	    minetest.log("error", "[rp_gold] "..player:get_player_name().." tried to trade with invalid/unknown active trade!")
+	    return
 	 end
 
 	 if matches then
@@ -457,6 +484,20 @@ minetest.register_on_player_receive_fields(
       end
 end)
 
+local function init_inventory(player)
+   local inv = player:get_inventory()
+   if inv:get_size("gold_trade_wanted") ~= 2 then
+      inv:set_size("gold_trade_wanted", 2)
+   end
+
+   if inv:get_size("gold_trade_out") ~= 1 then
+      inv:set_size("gold_trade_out", 1)
+   end
+
+   if inv:get_size("gold_trade_in") ~= 2 then
+      inv:set_size("gold_trade_in", 2)
+   end
+end
 -- Make sure to clean up the trading slots properly
 -- on rejoining, respawning and dying
 local function clear_trading_slots_move_main(player)
@@ -464,6 +505,7 @@ local function clear_trading_slots_move_main(player)
    local pos = player:get_pos()
    clear_trading_slots(inv, pos, false)
 end
+minetest.register_on_joinplayer(init_inventory)
 minetest.register_on_joinplayer(clear_trading_slots_move_main)
 minetest.register_on_respawnplayer(clear_trading_slots_move_main)
 
@@ -475,22 +517,32 @@ local function clear_trading_slots_drop(player)
 end
 minetest.register_on_dieplayer(clear_trading_slots_drop)
 
--- Items
+-- Items / nodes
 
-minetest.register_craftitem(
+book.register_book_node(
    "rp_gold:trading_book",
    {
       description = S("Trading Book"),
       _tt_help = S("Show this to a villager to trade"),
-      inventory_image = "default_book.png^gold_bookribbon.png",
+      texture = "gold_book.png^gold_bookribbon.png",
       stack_max = 1,
-      groups = { tool = 1 },
+      tiles = {
+         "rp_gold_book_node_top.png^gold_bookribbon.png",
+         "rp_gold_book_node_bottom.png",
+         "rp_gold_book_node_pages.png",
+         "rp_gold_book_node_spine.png^rp_gold_book_node_spine_bookribbon.png",
+         "rp_gold_book_node_side_1.png",
+         "rp_gold_book_node_side_2.png",
+
+      },
+      groups = { book = 1, tool = 1, dig_immediate = 3 },
 })
 
 minetest.register_craftitem(
    "rp_gold:lump_gold",
    {
       description = S("Gold Lump"),
+      groups = { mineral_lump = 1, mineral_natural = 1 },
       inventory_image = "gold_lump_gold.png",
 })
 
@@ -498,10 +550,22 @@ minetest.register_craftitem(
    "rp_gold:ingot_gold",
    {
       description = S("Gold Ingot"),
+      groups = { ingot = 1 },
       inventory_image = "gold_ingot_gold.png",
 })
 
--- Nodes
+default.register_ingot("rp_gold:ingot_gold", {
+	description = S("Gold Ingot"),
+	texture = "gold_ingot_gold.png",
+	tilesdef = {
+		top = "rp_gold_ingot_gold_node_top.png",
+		side_short = "rp_gold_ingot_gold_node_side_short.png",
+		side_long = "rp_gold_ingot_gold_node_side_long.png",
+	},
+	pitch = gold.PITCH,
+})
+
+-- Classic nodes
 
 minetest.register_node(
    "rp_gold:stone_with_gold",
@@ -514,13 +578,30 @@ minetest.register_node(
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
 
+local make_metal_sounds = function(pitch)
+	local sounds = rp_sounds.node_sound_metal_defaults()
+	if sounds.footstep then
+		sounds.footstep.pitch = pitch
+	end
+	if sounds.dig then
+		sounds.dig.pitch = pitch
+	end
+	if sounds.dug then
+		sounds.dug.pitch = pitch
+	end
+	if sounds.place then
+		sounds.place.pitch = pitch
+	end
+	return sounds
+end
+
 minetest.register_node(
    "rp_gold:block_gold",
    {
       description = S("Gold Block"),
       tiles = {"gold_block.png"},
       groups = {cracky = 2},
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = make_metal_sounds(gold.PITCH),
       is_ground_content = false,
 })
 
@@ -544,7 +625,7 @@ crafting.register_craft(
    {
       output = "rp_gold:trading_book",
       items = {
-         "rp_default:book",
+         "rp_default:book_empty",
          "rp_gold:ingot_gold",
       }
 })
@@ -589,6 +670,7 @@ achievements.register_achievement(
       description = S("Trade with a villager."),
       times = 1,
       item_icon = "rp_gold:trading_book",
+      difficulty = 5.4,
 })
 
 achievements.register_achievement(
@@ -598,6 +680,7 @@ achievements.register_achievement(
       description = S("Dig a gold ore."),
       times = 1,
       dignode = "rp_gold:stone_with_gold",
+      difficulty = 5.2,
 })
 
 minetest.register_on_leaveplayer(function(player)

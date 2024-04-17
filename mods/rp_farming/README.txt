@@ -17,6 +17,8 @@ Media license: CC BY-SA 4.0
   * Author for asparagus plant textures: TenPlus (onion textures, modified by Wuzzy)
   * Author for asparagus textures: Wuzzy
   * Author for all carrot textures: Gambit, modified by Wuzzy
+  * Author of `rp_farming_place_seed.*.ogg`: Wuzzy
+  * Author of `rp_farming_place_nonseed.ogg`: Wuzzy and freenode.org user fleurescence
 
 Source code license: LGPLv2.1
   * Coders: Kaadmy and Wuzzy

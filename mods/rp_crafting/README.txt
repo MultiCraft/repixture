@@ -14,6 +14,8 @@ But unlike typical Minetest, it is possible to provide item stacks
 in each item slot; the player doesn't have to spread out multiple items across
 multiple input slots. E.g. if a crafting recipe needs 64 wool, then you don't
 need 64 slots with 1 wool each, but only 1 slot with 64 wool.
+Also, recipe collisions are *not* possible. It *is* possible for two recipes
+with identical input items to co-exist as the player selects the recipe from a list.
 
 This mod does not support other crafting methods like cooking or furnace fuels.
 

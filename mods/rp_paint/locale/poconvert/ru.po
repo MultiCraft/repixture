@@ -1,0 +1,111 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_paint x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "White"
+msgstr "белый"
+
+msgid "Gray"
+msgstr "серый"
+
+msgid "Black"
+msgstr "чёрный"
+
+msgid "Red"
+msgstr "красный"
+
+msgid "Orange"
+msgstr "оранжевый"
+
+msgid "Amber"
+msgstr "янтарный"
+
+msgid "Yellow"
+msgstr "жёлтый"
+
+msgid "Lime"
+msgstr "лаймовый"
+
+msgid "Green"
+msgstr "зелёный"
+
+msgid "Bluegreen"
+msgstr "морской"
+
+msgid "Turquoise"
+msgstr "бирюзовый"
+
+msgid "Cyan"
+msgstr "голубой"
+
+msgid "Skyblue"
+msgstr "небесный"
+
+msgid "Azure Blue"
+msgstr "лазурный"
+
+msgid "Blue"
+msgstr "синий"
+
+msgid "Violet"
+msgstr "фиолетовый"
+
+msgid "Magenta"
+msgstr "пурпурный"
+
+msgid "Redviolet"
+msgstr "малиновый"
+
+msgid "Hot Pink"
+msgstr "розовый"
+
+msgid "Paint Bucket (Empty)"
+msgstr "Ведро краски (пустое)"
+
+msgid "Paint Bucket (@1)"
+msgstr "Ведро краски (Цвет: @1)"
+
+msgid "Paint Brush"
+msgstr "Кисть"
+
+msgid "Paints blocks"
+msgstr "Окрашивает блоки"
+
+msgid "Punch paint bucket to pick color"
+msgstr "Ударьте по ведру краски, чтобы выбрать цвет"
+
+msgid "Paint Bucket"
+msgstr "Ведро краски"
+
+msgid "Paint Bucket with Paint"
+msgstr "Ведро краски (полное)"
+
+msgid "Use place key to change color"
+msgstr "Используйте, чтобы изменить цвет"
+
+msgid "Point at left/right part to get previous/next color"
+msgstr "Нацельтесь на левую/правую часть чтобы получить предыдущий/следующий цвет"
+
+msgid "Refill with flowers"
+msgstr "Наполните цветами"
+
+msgid "Fill with flowers to get paint"
+msgstr "Наполните цветами, чтобы получить краску"
+
+msgid "Colorful World"
+msgstr "Цветной мир"
+
+msgid "Paint a block."
+msgstr "Покрасьте блок."
+

@@ -12,5 +12,6 @@ achievements.register_achievement(
       times = 1,
       placenode = "group:seed",
       item_icon = "rp_farming:wheat_1",
+      difficulty = 3.5,
    })
 

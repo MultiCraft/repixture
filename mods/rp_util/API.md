@@ -9,7 +9,9 @@ but the one with the lower coordinates comes first.
 
 ## `util.fixlight(pos1, pos2)`
 
-Repair most lighting between positions `pos1` and `pos2`.
+THIS FUNCTION IS DEPRECATED! Use `minetest.fix_light` instead.
+
+Repairs most lighting between positions `pos1` and `pos2`.
 
 
 
@@ -38,6 +40,7 @@ Parameters:
 * `pos2`: Second corner of area
 * `nomanip`: If true, will not use VoxelManip (default: false)
 
+Note: VoxelManip is currently not used for this function.
 
 
 ## `util.areafunc(pos1, pos2, func, nomanip)`
@@ -92,19 +95,23 @@ Parameters:
 
 
 
-## `util.dig_up(pos, node, digger)`
+## `util.dig_up(pos, node, digger, drop_item)`
 
 Dig the node above `pos` if nodename is equal to `node.name`.
 `digger` is a player object that will be treated as
 the 'digger' of said nodes.
+If `drop_item` is an itemstring, it will drop this item for
+each node that is dug.
 
 
 
-## `util.dig_down(pos, node, digger)`
+## `util.dig_down(pos, node, digger, drop_item)`
 
 Dig the node below `pos` if nodename is equal to `node.name`.
 `digger` is a player object that will be treated as
 the 'digger' of said nodes.
+If `drop_item` is an itemstring, it will drop this item for
+each node that is dug.
 
 
 
@@ -139,9 +146,9 @@ Parameters: Same as the `on_place` of nodes.
 Returns `<handled>, <handled_itemstack>`.
 
 * `<handled>`: true if the function handled the placement. Your `on_place` handler should return <handled_itemstack>.
-             false if the function did not handle the placement. Your on_place handler can proceed normally.
+             false if the function did not handle the placement. Your `on_place` handler can proceed normally.
 * `<handled_itemstack>`: Only set if `<handled>` is true. Contains the itemstack you should return in your
-                       on_place handler
+                         `on_place` handler
 
 Recommended usage is by putting this boilerplate code at the beginning of your function:
 
@@ -165,3 +172,22 @@ Always returns `false` for non-nodes.
 
 Returns `true` if node at given pos is water AND either a source or a "waterfall"
 (water flowing downwards)
+
+
+
+## ` util.contains_item_canonical(inv, list, stack)`
+
+Checks if the inventory contains `stack` with the same metadata.
+Unlike `inv:contains_item`, it will treat two item names as equal
+if the *canonical name* of each item is equal.
+The canonical name of an item is specified by the item definition field
+`_rp_canonical_item`. If this is nil, the canonical item name is
+same the item name.
+
+Parameters:
+
+* `inv`: InvRef of inventory to check
+* `list`: Inventory list name
+* `stack`: ItemStack to compare to
+
+Returns `true` if a matching item was found, `false` otherwise.

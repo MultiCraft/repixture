@@ -5,25 +5,29 @@
 goodies = {}
 
 goodies.max_stack_default = 6
-goodies.max_items = 20
 
 goodies.types = {}
 goodies.types_valuable = {}
 -- custom types
-goodies.types["FURNACE_SRC"] = {
+goodies.types["FURNACE_SRC_general"] = {
    ["rp_default:lump_iron"] = 3,
    ["rp_farming:flour"] = 5,
    ["rp_farming:potato_1"] = 8,
 }
-goodies.types["FURNACE_FUEL"] = {
+goodies.types["FURNACE_FUEL_general"] = {
    ["rp_default:lump_coal"] = 2,
    ["rp_default:planks_oak"] = 4,
    ["rp_default:planks_birch"] = 5,
 }
-goodies.types["FURNACE_DST"] = {
+goodies.types["FURNACE_DST_general"] = {
    ["rp_default:ingot_wrought_iron"] = 5,
    ["rp_farming:bread"] = 8,
    ["rp_farming:potato_baked"] = 9,
+}
+
+goodies.types["BOOKSHELF"] = {
+   ["rp_default:book_empty"] = { chance = 4, max_stack = 1 },
+   ["rp_default:paper"] = 16,
 }
 
 -- chunk types for villages
@@ -47,8 +51,8 @@ if minetest.get_modpath("rp_village") ~= nil then
    }
    goodies.types_valuable["tavern"] = {
       ["rp_farming:bread"] = 5,
-      ["mobs:meat"] = 7,
-      ["mobs:pork"] = 9,
+      ["rp_mobs_mobs:meat"] = 7,
+      ["rp_mobs_mobs:pork"] = 9,
       ["rp_farming:asparagus_cooked"] = 9,
    }
    goodies.types["house"] = {
@@ -61,23 +65,94 @@ if minetest.get_modpath("rp_village") ~= nil then
       ["rp_default:bucket"] = 8,
       ["rp_default:bucket_water"] = 12,
    }
+   goodies.types["reading_club"] = {
+      ["rp_default:paper"] = 2,
+   }
+   goodies.types["hut_s"] = {
+      ["rp_default:stick"] = 2,
+      ["rp_farming:asparagus_cooked"] = 6,
+      ["rp_farming:asparagus_1"] = 9,
+      ["rp_default:axe_stone"] = 13,
+      ["rp_default:shovel_stone"] = 13,
+      ["rp_default:acorn"] = 3,
+      ["rp_default:bucket"] = 8,
+      ["rp_default:bucket_swamp_water"] = 12,
+   }
+   goodies.types["workshop"] = {
+      ["rp_default:stick"] = 2,
+      ["rp_default:fiber"] = 2,
+      ["rp_default:planks_oak"] = 6,
+      ["rp_default:planks_birch"] = 6,
+      ["rp_default:bucket"] = 8,
+      ["rp_default:axe_stone"] = 10,
+      ["rp_default:pick_stone"] = 10,
+      ["rp_default:spear_stone"] = 10,
+      ["rp_default:shovel_stone"] = 10,
+      ["rp_default:ladder"] = 10,
+      ["rp_farming:cotton"] = 12,
+   }
+   goodies.types["bakery"] = {
+      ["rp_farming:bread"] = 4,
+      ["rp_farming:flour"] = 8,
+      ["rp_farming:wheat"] = 12,
+      ["rp_default:lump_coal"] = 15,
+   }
+   goodies.types["FURNACE_SRC_bakery"] = {
+      ["rp_farming:flour"] = 4,
+   }
+   goodies.types["FURNACE_FUEL_bakery"] = {
+      ["rp_default:lump_coal"] = 2,
+      ["rp_default:planks_oak"] = 6,
+      ["rp_default:planks_birch"] = 6,
+   }
+   goodies.types["FURNACE_DST_bakery"] = {
+      ["rp_farming:bread"] = 7,
+   }
+
+   goodies.types_valuable["bakery"] = {
+      ["rp_farming:bread"] = 5,
+   }
+   goodies.types_valuable["workshop"] = {
+      ["rp_default:reinforced_frame"] = 20,
+      ["rp_default:reinforced_cobble"] = 5,
+      ["rp_default:axe_wrought_iron"] = 10,
+      ["rp_default:pick_wrought_iron"] = 10,
+      ["rp_default:spear_wrought_iron"] = 10,
+      ["rp_default:shovel_wrought_iron"] = 10,
+      ["rp_default:ingot_steel"] = 20,
+      ["rp_locks:lock"] = 20,
+   }
    goodies.types_valuable["house"] = {}
+   goodies.types_valuable["hut_s"] = {}
+   goodies.types_valuable["reading_club"] = {
+      ["rp_default:pearl"] = 10,
+   }
 
    -- jewels and gold
    if minetest.get_modpath("rp_jewels") ~= nil then
       goodies.types_valuable["house"]["rp_jewels:bench"] = { chance = 24, max_stack = 1 }
       goodies.types_valuable["house"]["rp_jewels:jewel"] = 34
+      goodies.types_valuable["hut_s"]["rp_jewels:bench"] = { chance = 24, max_stack = 1 }
+      goodies.types_valuable["hut_s"]["rp_jewels:jewel"] = 34
       goodies.types_valuable["tavern"]["rp_jewels:jewel"] = 32
       goodies.types_valuable["forge"]["rp_jewels:jewel"] = 30
+      goodies.types_valuable["reading_club"]["rp_jewels:jewel"] = 29
+      goodies.types_valuable["workshop"]["rp_jewels:jewel"] = 28
    end
    if minetest.get_modpath("rp_gold") ~= nil then
       goodies.types["forge"]["rp_gold:ingot_gold"] = { chance = 24, max_stack = 2 }
       goodies.types["forge"]["rp_gold:lump_gold"] = { chance = 18, max_stack = 6 }
       goodies.types_valuable["house"]["rp_gold:ingot_gold"] = 12
+      goodies.types_valuable["hut_s"]["rp_gold:ingot_gold"] = 12
       goodies.types_valuable["tavern"]["rp_gold:ingot_gold"] = 10
       goodies.types_valuable["forge"]["rp_gold:ingot_gold"] = 8
+      goodies.types_valuable["reading_club"]["rp_gold:ingot_gold"] = 9
+      goodies.types_valuable["bakery"]["rp_gold:ingot_gold"] = 11
    end
 end
+
+goodies.types["hut_m"] = table.copy(goodies.types["hut_s"])
+goodies.types_valuable["hut_m"] = table.copy(goodies.types_valuable["hut_s"])
 
 goodies.types_all = {}
 
@@ -94,13 +169,46 @@ for k,v in pairs(goodies.types_valuable) do
   end
 end
 
+-- Remove node at pos with a certain chance.
+-- Takes falling nodes into account.
+-- Returns true if node was kept.
+local apply_keepchance = function(pos, pr, keepchance)
+   -- Remove/replace node with a certain chance
+   if pr:next(1, keepchance) ~= 1 then
+      -- Check if node above is a falling node
+      local above = vector.add(pos, vector.new(0, 1, 0))
+      local anode = minetest.get_node(above)
+      if minetest.get_item_group(anode.name, "falling_node") >= 1 then
+         -- If yes, make sure we don't end up with a floating
+	 -- falling node.
+         local below = vector.add(pos, vector.new(0, -1, 0))
+         local bnode = minetest.get_node(below)
+         local bdef = minetest.registered_nodes[bnode.name]
+	 -- If node below is walkable, copy the falling node to the container pos
+	 if bdef.walkable then
+            minetest.set_node(pos, anode)
+         else
+            -- Wooden planks are the final fallback for the container
+	    -- (this is just a block to stop the fall)
+            minetest.set_node(pos, {name="rp_default:planks"})
+         end
+	 return false
+      end
+      -- Regular case: Just remove the node
+      minetest.remove_node(pos)
+      return false
+   end
+   return true
+end
+
 function goodies.fill(pos, ctype, pr, listname, keepchance)
    -- fill an inventory with a specified type's goodies
 
    if goodies.types_all[ctype] == nil then return end
 
-   if pr:next(1, keepchance) ~= 1 then
-      minetest.remove_node(pos)
+   -- Remove/replace node with a certain chance
+   local keep = apply_keepchance(pos, pr, keepchance)
+   if not keep then
       return
    end
 

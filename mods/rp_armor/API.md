@@ -12,6 +12,24 @@ You *can* make changes to this inventory list yourself, but you
 *must* make sure only valid items are added and you also *must*
 call `armor.update` after every change.
 
+## Armor piercing of nodes
+
+By default, armor also protects from damage taken by nodes
+(`damage_per_second`).
+But the effectiveness of armor can be reduced by adding the
+group `armor_piercing` to the node.
+
+Its rating ranges from 1 to 100 and modifies the effectiveness
+of armor protecting from this node in percent. If the armor
+effectiveness is reduced, it's as if the player had worn a weaker
+armor.
+
+Examples:
+* `50`: Armor is 50% less effective
+* `100`: Armor has no effect, player takes full damage
+
+Negative values are ignored.
+
 ## Functions
 
 ### `armor.is_armor(itemname)`
@@ -47,12 +65,24 @@ Returns the regular skin (=texture) for `player` without the armor. Is a string.
 
 This function **must** be called whenever the armor inventory of `player` has been changed.
 
+### `armor.get_armor_protection(player)
 
+Returns the current armor protection of the given player, given as percentage points.
+
+Returns `<full>, <base>, <bonus>`, where:
+
+* `<full>`: Effective armor protection (base+bonus)
+* `<base>`: Sum of armor protection from armor pieces
+* `<bonus>`: Protection bonus
 
 ## Tables
 
 ### `armor.slots`
 
-A list which contains the available armor slot names, starting with the first one.
-The first name correspons to the first inventory list slot, the second name to the
+A list which contains the available armor slot identifiers, starting with the first one.
+The first identifier correspons to the first inventory list slot, the second name to the
 second slot, etc.
+
+### `armor.slot_names`
+
+A list of human-readable armor slot names, in the same order as `armor.slots`.

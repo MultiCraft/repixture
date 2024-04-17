@@ -163,6 +163,13 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
+      recipe = "rp_default:hay",
+      burntime = 3,
+})
+
+minetest.register_craft(
+   {
+      type = "fuel",
       recipe = "rp_default:papyrus",
       burntime = 2,
 })
@@ -178,13 +185,6 @@ minetest.register_craft(
       type = "fuel",
       recipe = "rp_default:dried_reed_block",
       burntime = 12,
-})
-
-minetest.register_craft(
-   {
-      type = "fuel",
-      recipe = "rp_default:book",
-      burntime = 2,
 })
 
 minetest.register_craft(
@@ -206,6 +206,13 @@ minetest.register_craft(
       type = "fuel",
       recipe = "group:planks",
       burntime = 9,
+})
+
+minetest.register_craft(
+   {
+      type = "fuel",
+      recipe = "rp_default:bucket",
+      burntime = 8,
 })
 
 minetest.register_craft(
@@ -319,13 +326,6 @@ minetest.register_craft(
       type = "fuel",
       recipe = "rp_default:chest",
       burntime = 25,
-})
-
-minetest.register_craft(
-   {
-      type = "fuel",
-      recipe = "rp_default:bookshelf",
-      burntime = 32,
 })
 
 minetest.register_craft(
@@ -549,19 +549,17 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "rp_default:alga_block",
+      output = "rp_default:hay",
       items = {
-         "rp_default:alga 9",
+         "rp_default:dry_grass 9",
       }
 })
 
 crafting.register_craft(
    {
-      output = "rp_default:book",
+      output = "rp_default:alga_block",
       items = {
-         "rp_default:paper 3",
-         "rp_default:stick",
-         "rp_default:fiber",
+         "rp_default:alga 9",
       }
 })
 
@@ -715,6 +713,14 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
+      output = "rp_default:dirt_path",
+      items = {
+         "rp_default:path_slab 2",
+      }
+})
+
+crafting.register_craft(
+   {
       output = "rp_default:dirt_path 8",
       items = {
          "group:soil 3",
@@ -803,6 +809,16 @@ crafting.register_craft(
          "rp_default:fiber 8",
          "rp_default:stick 6",
          "rp_default:cobble",
+      }
+})
+
+crafting.register_craft(
+   {
+      output = "rp_default:reinforced_compressed_sandstone",
+      items = {
+         "rp_default:fiber 8",
+         "rp_default:stick 6",
+         "rp_default:compressed_sandstone",
       }
 })
 
@@ -918,7 +934,7 @@ crafting.register_craft(
       }
 })
 
--- Tool nodes (chests, furnaces, bookshelves)
+-- Tool nodes (chests, furnaces)
 
 crafting.register_craft(
    {
@@ -936,15 +952,6 @@ crafting.register_craft(
       items = {
          "rp_default:torch",
          "group:stone 6",
-      }
-})
-
-crafting.register_craft(
-   {
-      output = "rp_default:bookshelf",
-      items = {
-         "rp_default:book 3",
-         "group:planks 6",
       }
 })
 

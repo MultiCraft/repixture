@@ -1,0 +1,111 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_paint x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "White"
+msgstr "Weiß"
+
+msgid "Gray"
+msgstr "Grau"
+
+msgid "Black"
+msgstr "Schwarz"
+
+msgid "Red"
+msgstr "Rot"
+
+msgid "Orange"
+msgstr "Orange"
+
+msgid "Amber"
+msgstr "Bernstein"
+
+msgid "Yellow"
+msgstr "Gelb"
+
+msgid "Lime"
+msgstr "Lindgrün"
+
+msgid "Green"
+msgstr "Grün"
+
+msgid "Bluegreen"
+msgstr "Blaugrün"
+
+msgid "Turquoise"
+msgstr "Türkis"
+
+msgid "Cyan"
+msgstr "Cyan"
+
+msgid "Skyblue"
+msgstr "Himmelblau"
+
+msgid "Azure Blue"
+msgstr "Azurblau"
+
+msgid "Blue"
+msgstr "Blau"
+
+msgid "Violet"
+msgstr "Violett"
+
+msgid "Magenta"
+msgstr "Magenta"
+
+msgid "Redviolet"
+msgstr "Rotviolett"
+
+msgid "Hot Pink"
+msgstr "Pink"
+
+msgid "Paint Bucket (Empty)"
+msgstr "Farbeimer (Leer)"
+
+msgid "Paint Bucket (@1)"
+msgstr "Farbeimer (@1)"
+
+msgid "Paint Brush"
+msgstr "Farbpinsel"
+
+msgid "Paints blocks"
+msgstr "Färbt Blöcke"
+
+msgid "Punch paint bucket to pick color"
+msgstr "Farbeimer hauen, um Farbe aufzunehmen"
+
+msgid "Paint Bucket"
+msgstr "Farbeimer"
+
+msgid "Paint Bucket with Paint"
+msgstr "Farbeimer mit Farbe"
+
+msgid "Use place key to change color"
+msgstr "Platzierentaste benutzen, um Farbe zu wechseln"
+
+msgid "Point at left/right part to get previous/next color"
+msgstr "Auf linken/rechten Teil zeigen für die vorherige/nächste Farbe"
+
+msgid "Refill with flowers"
+msgstr "Mit Blumen auffüllen"
+
+msgid "Fill with flowers to get paint"
+msgstr "Mit Blumen auffüllen, um Farbe zu erhalten"
+
+msgid "Colorful World"
+msgstr "Bunte Welt"
+
+msgid "Paint a block."
+msgstr "Malen Sie einen Block an."
+

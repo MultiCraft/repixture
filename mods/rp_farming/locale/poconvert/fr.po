@@ -1,0 +1,93 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_farming x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Farmer"
+msgstr "Fermier"
+
+msgid "Plant a crop."
+msgstr "Planter une plante."
+
+msgid "Cotton"
+msgstr "Coton"
+
+msgid "Wheat"
+msgstr "Blé"
+
+msgid "Flour"
+msgstr "Farine"
+
+msgid "Bread"
+msgstr "Pain"
+
+msgid "Asparagus"
+msgstr "Asperge"
+
+msgid "Cooked Asparagus"
+msgstr "Asperge cuisinée"
+
+msgid "Baked Potato"
+msgstr "Patate cuite"
+
+msgid "Wheat Seed"
+msgstr "Graine de blé"
+
+msgid "Wheat Plant (stage @1)"
+msgstr "Plant de blé (étape @1)"
+
+msgid "Grows on dirt; it likes water"
+msgstr "Pousse sur la terre ; aime l'eau"
+
+msgid "Potato"
+msgstr "Patate"
+
+msgid "Potato Plant (stage @1)"
+msgstr "Plant de patate (étape @1)"
+
+msgid "Grows on dirt and swamp dirt; it likes water"
+msgstr "Pousse sur la terre et la terre de marais ; aime l'eau"
+
+msgid "Carrot"
+msgstr "Carotte"
+
+msgid "Carrot Plant (stage @1)"
+msgstr "Plant de carotte (étape @1)"
+
+msgid "Grows on dry dirt; it likes water"
+msgstr "Pousse sur la terre sèche ; aime l'eau"
+
+msgid "Asparagus Seed"
+msgstr "Graine d'asperge"
+
+msgid "Asparagus Plant (stage @1)"
+msgstr "Plant d'asperge (étape @1)"
+
+msgid "Grows on swamp dirt; it likes water"
+msgstr "Pousse sur la terre de marais ; aime l'eau"
+
+msgid "Cotton Seed"
+msgstr "Graines de coton"
+
+msgid "Cotton Plant (stage @1)"
+msgstr "Plant de coton (étape @1)"
+
+msgid "Grows on dirt, dry dirt and sand; it likes water"
+msgstr "Pousse sur la terre, la terre sèche et le sable ; aime l'eau"
+
+msgid "Cotton Bale"
+msgstr "Ballot de coton"
+
+msgid "Straw"
+msgstr "Paille"
+

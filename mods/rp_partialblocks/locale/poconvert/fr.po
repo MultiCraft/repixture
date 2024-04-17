@@ -1,0 +1,195 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_partialblocks x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Cobble Slab"
+msgstr "Dalle en pavé"
+
+msgid "Cobble Stair"
+msgstr "Escalier en pavé"
+
+msgid "Stone Slab"
+msgstr "Dalle en pierre"
+
+msgid "Stone Stair"
+msgstr "Escalier en pierre"
+
+msgid "Sandstone Slab"
+msgstr "Dalle en grès"
+
+msgid "Sandstone Stair"
+msgstr "Escalier en grès"
+
+msgid "Brick Slab"
+msgstr "Dalle en brique"
+
+msgid "Brick Stair"
+msgstr "Escalier en brique"
+
+msgid "Painted Brick Slab"
+msgstr ""
+
+msgid "Painted Brick Stair"
+msgstr ""
+
+msgid "Wooden Slab"
+msgstr "Dalle en bois"
+
+msgid "Wooden Stair"
+msgstr "Escalier en bois"
+
+msgid "Painted Wooden Slab"
+msgstr ""
+
+msgid "Painted Wooden Stair"
+msgstr ""
+
+msgid "Oak Slab"
+msgstr "Dalle en chêne"
+
+msgid "Oak Stair"
+msgstr "Escalier en chêne"
+
+msgid "Painted Oak Slab"
+msgstr ""
+
+msgid "Painted Oak Stair"
+msgstr ""
+
+msgid "Birch Slab"
+msgstr "Dalle en bouleau"
+
+msgid "Birch Stair"
+msgstr "Escalier en bouleau"
+
+msgid "Painted Birch Slab"
+msgstr ""
+
+msgid "Painted Birch Stair"
+msgstr ""
+
+msgid "Reed Slab"
+msgstr "Dalle en roseau"
+
+msgid "Reed Stair"
+msgstr "Escalier en roseau"
+
+msgid "Dried Reed Slab"
+msgstr "Dalle en roseau sec"
+
+msgid "Dried Reed Stair"
+msgstr "Escalier en roseau sec"
+
+msgid "Straw Slab"
+msgstr "Dalle en paille"
+
+msgid "Straw Stair"
+msgstr "Escalier en paille"
+
+msgid "Hay Slab"
+msgstr "Dalle en foin"
+
+msgid "Hay Stair"
+msgstr "Escalier en foin"
+
+msgid "Frame Slab"
+msgstr "Dalle en cadre"
+
+msgid "Frame Stair"
+msgstr "Escalier en cadre"
+
+msgid "Painted Frame Slab"
+msgstr ""
+
+msgid "Painted Frame Stair"
+msgstr ""
+
+msgid "Reinforced Frame Slab"
+msgstr "Dalle en cadre renforcé"
+
+msgid "Reinforced Frame Stair"
+msgstr "Escalier en cadre renforcé"
+
+msgid "Painted Reinforced Frame Slab"
+msgstr ""
+
+msgid "Painted Reinforced Frame Stair"
+msgstr ""
+
+msgid "Reinforced Cobble Slab"
+msgstr "Dalle en pavé renforcé"
+
+msgid "Reinforced Cobble Stair"
+msgstr "Escalier en pavé renforcé"
+
+msgid "Coal Slab"
+msgstr "Dalle en charbon"
+
+msgid "Coal Stair"
+msgstr "Escalier en charbon"
+
+msgid "Steel Slab"
+msgstr "Dalle en acier"
+
+msgid "Steel Stair"
+msgstr "Escalier en acier"
+
+msgid "Carbon Steel Slab"
+msgstr "Dalle en acier carbone"
+
+msgid "Carbon Steel Stair"
+msgstr "Escalier en acier carbone"
+
+msgid "Wrought Iron Slab"
+msgstr "Dalle en fer forgé"
+
+msgid "Wrought Iron Stair"
+msgstr "Escalier en fer forgé"
+
+msgid "Bronze Slab"
+msgstr "Dalle en bronze"
+
+msgid "Bronze Stair"
+msgstr "Escalier en bronze"
+
+msgid "Copper Slab"
+msgstr "Dalle en cuivre"
+
+msgid "Copper Stair"
+msgstr "Escalier en cuivre"
+
+msgid "Tin Slab"
+msgstr "Dalle en étain"
+
+msgid "Tin Stair"
+msgstr "Escalier en étain"
+
+msgid "Gold Slab"
+msgstr "Dalle en or"
+
+msgid "Gold Stair"
+msgstr "Escalier en or"
+
+msgid "Compressed Sandstone Slab"
+msgstr "Dalle en grès comprimé"
+
+msgid "Compressed Sandstone Stair"
+msgstr "Escalier en grès comprimé"
+
+msgid "Reinforced Compressed Sandstone Slab"
+msgstr "Dalle en grès comprimé renforcé"
+
+msgid "Reinforced Compressed Sandstone Stair"
+msgstr "Escalier en grès comprimé renforcé"
+

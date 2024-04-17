@@ -1,5 +1,5 @@
 local S = minetest.get_translator("rp_farming")
-local N = function(s) return s end
+local NS = function(s) return s end
 --
 -- Nodes
 --
@@ -7,7 +7,7 @@ local N = function(s) return s end
 -- Wheat
 farming.register_plant_nodes("rp_farming:wheat", {
    description_stage_1 = S("Wheat Seed"),
-   description_general = N("Wheat Plant (stage @1)"),
+   description_general = NS("Wheat Plant (stage @1)"),
    tooltip_stage_1 = S("Grows on dirt; it likes water"),
    texture_prefix = "farming_wheat",
    drop_stages = {
@@ -41,7 +41,7 @@ farming.register_plant_nodes("rp_farming:wheat", {
 -- Potato
 farming.register_plant_nodes("rp_farming:potato", {
    description_stage_1 = S("Potato"),
-   description_general = N("Potato Plant (stage @1)"),
+   description_general = NS("Potato Plant (stage @1)"),
    tooltip_stage_1 = S("Grows on dirt and swamp dirt; it likes water"),
    texture_prefix = "farming_potato",
    meshoptions = 1,
@@ -74,10 +74,9 @@ farming.register_plant_nodes("rp_farming:potato", {
    -- Potato is both a "seed" and food item at the same time
    stage_extras = {
       [1] = {
-         _tt_food = true,
-         _tt_food_hp = 3,
-         _tt_food_satiation = 30,
-         on_use = minetest.item_eat({hp = 3, sat = 30}),
+         _rp_hunger_food = 3,
+         _rp_hunger_sat = 30,
+         on_use = minetest.item_eat(0),
       },
    },
    stage_extra_groups = {
@@ -86,12 +85,13 @@ farming.register_plant_nodes("rp_farming:potato", {
       },
    },
 
+   sound_seed_place = { name = "rp_farming_place_nonseed", gain = 0.4 },
 })
 
 -- Carrot
 farming.register_plant_nodes("rp_farming:carrot", {
    description_stage_1 = S("Carrot"),
-   description_general = N("Carrot Plant (stage @1)"),
+   description_general = NS("Carrot Plant (stage @1)"),
    tooltip_stage_1 = S("Grows on dry dirt; it likes water"),
    texture_prefix = "farming_carrot",
    meshoptions = 2,
@@ -125,10 +125,9 @@ farming.register_plant_nodes("rp_farming:carrot", {
    -- Carrot is both a "seed" and food item at the same time
    stage_extras = {
       [1] = {
-         _tt_food = true,
-         _tt_food_hp = 2,
-         _tt_food_satiation = 20,
-         on_use = minetest.item_eat({hp = 2, sat = 20}),
+         _rp_hunger_food = 2,
+         _rp_hunger_sat = 20,
+         on_use = minetest.item_eat(0),
       },
    },
    stage_extra_groups = {
@@ -137,12 +136,13 @@ farming.register_plant_nodes("rp_farming:carrot", {
       },
    },
 
+   sound_seed_place = { name = "rp_farming_place_nonseed", gain = 0.4 },
 })
 
 -- Asparagus
 farming.register_plant_nodes("rp_farming:asparagus", {
    description_stage_1 = S("Asparagus Seed"),
-   description_general = N("Asparagus Plant (stage @1)"),
+   description_general = NS("Asparagus Plant (stage @1)"),
    tooltip_stage_1 = S("Grows on swamp dirt; it likes water"),
    texture_prefix = "farming_asparagus",
    drop_stages = {
@@ -217,7 +217,7 @@ end
 
 farming.register_plant_nodes("rp_farming:cotton", {
    description_stage_1 = S("Cotton Seed"),
-   description_general = N("Cotton Plant (stage @1)"),
+   description_general = NS("Cotton Plant (stage @1)"),
    tooltip_stage_1 = S("Grows on dirt, dry dirt and sand; it likes water"),
    texture_prefix = "farming_cotton",
    drop_stages = {
@@ -265,10 +265,32 @@ minetest.register_node(
    {
       description = S("Cotton Bale"),
       tiles ={"farming_cotton_bale.png"},
+      -- HACK: This is a workaround to fix the coloring of the crack overlay
+      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
       is_ground_content = false,
       groups = {snappy = 2, oddly_breakable_by_hand = 3,
                 fall_damage_add_percent = -15, fuzzy = 1,
-		unmagnetic = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+		unmagnetic = 1, paintable = 1},
+      sounds = rp_sounds.node_sound_fuzzy_defaults({
+         footstep = { name = "rp_sounds_footstep_fuzzy", gain = 0.7, pitch = 1.3 },
+         dig = {name="rp_sounds_dig_fuzzy", gain=0.5, pitch = 1.3 },
+         dug = {name="rp_sounds_dug_fuzzy", gain=0.4, pitch = 1.3 },
+         place = {name="rp_sounds_place_fuzzy", gain=0.4, pitch = 1.3 },
+      }),
+      paramtype2 = "color",
+      palette = "rp_paint_palette_256.png",
+      -- clear the color when breaking
+      drop = "rp_farming:cotton_bale",
+   }
+)
+
+minetest.register_node(
+   "rp_farming:straw",
+   {
+      description = S("Straw"),
+      tiles = {"rp_farming_straw.png"},
+      is_ground_content = false,
+      groups = {snappy = 3, fall_damage_add_percent = -15},
+      sounds = rp_sounds.node_sound_straw_defaults(),
    }
 )

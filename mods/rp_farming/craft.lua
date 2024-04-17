@@ -30,48 +30,44 @@ minetest.register_craftitem(
    "rp_farming:bread",
    {
       description = S("Bread"),
-      _tt_food = true,
-      _tt_food_hp = 5,
-      _tt_food_satiation = 50,
+      _rp_hunger_food = 5,
+      _rp_hunger_sat = 50,
       inventory_image = "farming_bread.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat({hp = 5, sat = 50})
+      on_use = minetest.item_eat(0),
 })
 
 minetest.register_craftitem(
    "rp_farming:asparagus",
    {
       description = S("Asparagus"),
-      _tt_food = true,
-      _tt_food_hp = 2,
-      _tt_food_satiation = 15,
+      _rp_hunger_food = 2,
+      _rp_hunger_sat = 15,
       inventory_image = "farming_asparagus.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat({hp = 2, sat = 15})
+      on_use = minetest.item_eat(0),
 })
 
 minetest.register_craftitem(
    "rp_farming:asparagus_cooked",
    {
       description = S("Cooked Asparagus"),
-      _tt_food = true,
-      _tt_food_hp = 3,
-      _tt_food_satiation = 40,
+      _rp_hunger_food = 3,
+      _rp_hunger_sat = 40,
       inventory_image = "farming_asparagus_cooked.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat({hp = 3, sat = 40})
+      on_use = minetest.item_eat(0),
 })
 
 minetest.register_craftitem(
    "rp_farming:potato_baked",
    {
       description = S("Baked Potato"),
-      _tt_food = true,
-      _tt_food_hp = 4,
-      _tt_food_satiation = 35,
+      _rp_hunger_food = 4,
+      _rp_hunger_sat = 35,
       inventory_image = "farming_potato_baked.png",
       groups = { food = 2 },
-      on_use = minetest.item_eat({hp = 4, sat = 35})
+      on_use = minetest.item_eat(0),
 })
 
 -- Craft recipes
@@ -89,6 +85,14 @@ crafting.register_craft(
       output = "rp_farming:cotton_bale",
       items = {
          "rp_farming:cotton 3",
+      }
+})
+
+crafting.register_craft(
+   {
+      output = "rp_farming:straw",
+      items = {
+         "rp_farming:wheat 3",
       }
 })
 
@@ -117,3 +121,12 @@ minetest.register_craft(
       recipe = "rp_farming:potato_1",
       cooktime = 7,
 })
+
+minetest.register_craft(
+   {
+      type = "fuel",
+      recipe = "rp_farming:straw",
+      burntime = 4,
+})
+
+

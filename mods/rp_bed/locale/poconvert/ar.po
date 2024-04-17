@@ -1,0 +1,64 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_bed x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-02-27 21:56+0000\n"
+"Last-Translator: AbduSharif <narukomanroom@gmail.com>\n"
+"Language-Team: Arabic <https://translate.codeberg.org/projects/repixture/"
+"rp_bed/ar/>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 5.4\n"
+
+msgid "Your respawn position was blocked or dangerous. You’ve lost your old respawn position."
+msgstr "مكان عودتك ضيق أو خطير. لقد أضعت مكان عودتك القديم."
+
+msgid "You have slept, rise and shine!"
+msgstr "لقد نمت، صباح الخير!"
+
+msgid "Players have slept, rise and shine!"
+msgstr "لاعبين قد ناموا، صباح الخير!"
+
+msgid "Bed"
+msgstr "سرير"
+
+msgid "Sets the respawn position and allows to pass the night"
+msgstr "يعد مكان عودتك ويسمح بمضي الليل"
+
+msgid "Sleeping is disabled."
+msgstr "النوم غير مسموح به."
+
+msgid "It’s too painful to sleep here!"
+msgstr "النوم هنا مألم جدا!"
+
+msgid "You can’t sleep while holding your breath!"
+msgstr "لا يمكنك النوم بينما تحبس نفسك!"
+
+msgid "Not enough space to sleep!"
+msgstr "غير كافي للنوم!"
+
+msgid "You can’t sleep here!"
+msgstr "لا يمكنك النوم هنا!"
+
+msgid "You have to stop moving before going to bed!"
+msgstr "يجب أن تتوقف عن الحركة قبل النوم!"
+
+msgid "Respawn position set!"
+msgstr "تم إعداد مكان عودتك!"
+
+msgid "In bed"
+msgstr "في السرير"
+
+msgid "You're in a bed"
+msgstr "أنت في سرير"
+
+msgid "Bed Time"
+msgstr "موعد النوم"
+
+msgid "Craft a bed."
+msgstr "إصنع سريرا."

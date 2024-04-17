@@ -21,9 +21,10 @@ function util.sort_pos(pos1, pos2)
    return pos1, pos2
 end
 
+-- TODO: Remove this function (it's deprecated)
 function util.fixlight(pos1, pos2)
    -- (function taken from WorldEdit)
-   local pos1, pos2 = util.sort_pos(pos1, pos2)
+   pos1, pos2 = util.sort_pos(pos1, pos2)
 
    --make area stay loaded
 
@@ -60,20 +61,17 @@ function util.remove_area(pos1, pos2, nomanip)
    -- (function based off fixlight)
    local pos1, pos2 = util.sort_pos(pos1, pos2)
 
-   if not nomanip then
-      local manip = minetest.get_voxel_manip()
-      manip:read_from_map(pos1, pos2)
-   end
+   -- TODO: VoxelManip support
 
-   for i = pos1.x, pos2.x-1 do
-      for j = pos1.y, pos2.y-1 do
-	 for k = pos1.z, pos2.z-1 do
-	    minetest.remove_node({x = i, y = j, z = k})
-	 end
+   local posses = {}
+   for x = pos1.x, pos2.x-1 do
+      for y = pos1.y, pos2.y-1 do
+         for z = pos1.z, pos2.z-1 do
+            table.insert(posses, {x = x, y = y, z = z})
+         end
       end
    end
-
-   manip:write_to_map()
+   minetest.bulk_set_node(posses, {name="air"})
 end
 
 function util.areafunc(pos1, pos2, func, nomanip)
@@ -104,7 +102,10 @@ function util.reconstruct(pos1, pos2, nomanip)
    end
 
    -- Fix chests, locked chests, music players, furnaces
-   local nodetypes = { "rp_default:chest", "rp_locks:chest", "rp_music:player", "rp_default:furnace", "rp_jewels:bench" }
+   local nodetypes = {
+      "rp_default:chest", "rp_locks:chest", "rp_music:player", "rp_default:furnace",
+      "rp_jewels:bench", "rp_default:bookshelf", "rp_itemshow:frame", "rp_itemshow:showcase",
+   }
    for n=1, #nodetypes do
        local nodes = minetest.find_nodes_in_area(pos1, pos2, nodetypes[n])
        local node = minetest.registered_nodes[nodetypes[n]]
@@ -150,7 +151,7 @@ function util.choice_element(tab, pr)
    return choices[rnd], rnd
 end
 
-function util.dig_up(pos, node, digger)
+function util.dig_up(pos, node, digger, drop_item)
    if node.name == "ignore" then
       return
    end
@@ -159,9 +160,15 @@ function util.dig_up(pos, node, digger)
    if nn.name == node.name then
       if digger then
           minetest.node_dig(np, nn, digger)
+          if drop_item then
+             minetest.add_item(pos, drop_item)
+          end
       else
 	  while nn.name == node.name do
 	     minetest.remove_node(np)
+             if drop_item then
+                minetest.add_item(np, drop_item)
+             end
 	     np.y = np.y + 1
 	     nn = minetest.get_node(np)
           end
@@ -169,7 +176,7 @@ function util.dig_up(pos, node, digger)
    end
 end
 
-function util.dig_down(pos, node, digger)
+function util.dig_down(pos, node, digger, drop_item)
    if node.name == "ignore" then
       return
    end
@@ -178,9 +185,15 @@ function util.dig_down(pos, node, digger)
    if nn.name == node.name then
       if digger then
           minetest.node_dig(np, nn, digger)
+          if drop_item then
+             minetest.add_item(pos, drop_item)
+          end
       else
 	  while nn.name == node.name do
 	     minetest.remove_node(np)
+             if drop_item then
+                minetest.add_item(np, drop_item)
+             end
 	     np.y = np.y - 1
 	     nn = minetest.get_node(np)
           end
@@ -268,6 +281,45 @@ function util.is_water_source_or_waterfall(pos)
 	 if minetest.get_item_group(anode.name, "water") > 0 then
             return true
 	 end
+      end
+   end
+   return false
+end
+
+function util.contains_item_canonical(inv, list, stack)
+   stack = ItemStack(stack)
+   if stack:is_empty() then
+      return false
+   end
+   -- Set count and wear of stack and comparison stack
+   -- to identical value because we don't care about
+   -- those
+   stack:set_count(1)
+   stack:set_wear(0)
+   local def = stack:get_definition()
+   if not def then
+      return false
+   end
+   if def._rp_canonical_item then
+      stack:set_name(def._rp_canonical_item)
+   else
+      -- If no canonical item, just use the regular contains_item check instead
+      return inv:contains_item(list, stack, true)
+   end
+   -- Iterate through all items in the list and check if the item
+   -- is equal
+   for i=1, inv:get_size(list) do
+      local cstack = inv:get_stack(list, i)
+      if not cstack:is_empty() then
+         cstack:set_count(1)
+         cstack:set_wear(0)
+         local cdef = cstack:get_definition()
+         if cdef and cdef._rp_canonical_item then
+            cstack:set_name(cdef._rp_canonical_item)
+         end
+         if stack:equals(cstack) then
+            return true
+         end
       end
    end
    return false

@@ -151,12 +151,13 @@ tt.register_snippet(function(itemstring)
 	end
 
 	-- Node appearance
-	tmp = def.light_source
-	if tmp and tmp >= 1 then
-		desc = newline(desc)
+	tmp = def.light_source or 0
+	do
 		if def._tt_light_source_max then
+			desc = newline(desc)
 			desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("Luminance: @1-@2", tmp, def._tt_light_source_max))
-		else
+		elseif tmp >= 1 then
+			desc = newline(desc)
 			desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("Luminance: @1", tmp))
 		end
 	end

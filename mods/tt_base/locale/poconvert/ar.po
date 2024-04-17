@@ -1,0 +1,82 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain tt_base x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-02-27 21:56+0000\n"
+"Last-Translator: AbduSharif <narukomanroom@gmail.com>\n"
+"Language-Team: Arabic <https://translate.codeberg.org/projects/repixture/"
+"tt_base/ar/>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 5.4\n"
+
+msgid "Damage: @1"
+msgstr "الضرر: @1"
+
+msgid "Healing: @1"
+msgstr "الشفاء: @1"
+
+msgid "Damage (@1): @2"
+msgstr "الضرر (@1): @2"
+
+msgid "Healing (@1): @2"
+msgstr "الشفاء (@1): @2"
+
+msgid "Full punch interval: @1s"
+msgstr "الفاصل الزمني لاللكمة الكاملة: @1s"
+
+msgid "Food item"
+msgstr "طعام"
+
+msgid "+@1 food points"
+msgstr "+@1 نقاط طعام"
+
+msgid "Contact damage: @1 per second"
+msgstr "ضرر اللمس: @1 ضمن ثانية"
+
+msgid "Contact healing: @1 per second"
+msgstr "شفاء من لمس: @1 ضمن ثانية"
+
+msgid "Drowning damage: @1"
+msgstr "ضرر الغرق: @1"
+
+msgid "Fall damage: +@1%"
+msgstr "ضرر السقوط: +@1%"
+
+msgid "No fall damage"
+msgstr "لا ضرر سقوط"
+
+msgid "Fall damage: @1%"
+msgstr "ضرر السقوط: @1%"
+
+msgid "No jumping"
+msgstr "لا قفز"
+
+msgid "No swimming upwards"
+msgstr "لا سباحة إلى الأعلى"
+
+msgid "No rising"
+msgstr "لا صعود"
+
+msgid "Climbable (only downwards)"
+msgstr "يمكن صعوده (للأسفل فقط)"
+
+msgid "Climbable"
+msgstr "يمكن صعوده"
+
+msgid "Slippery"
+msgstr "زلق"
+
+msgid "Bouncy (@1%)"
+msgstr "نطاط (@1%)"
+
+msgid "Luminance: @1-@2"
+msgstr "الإنارة: @1-@2"
+
+msgid "Luminance: @1"
+msgstr "الإنارة: @1"

@@ -100,7 +100,8 @@ function minetest.handle_node_drops(pos, drops, digger)
      local inv = digger:get_inventory()
      if inv then
         for _,item in ipairs(drops) do
-           if not inv:contains_item("main", item, true) then
+           item = ItemStack(item)
+           if not inv:contains_item("main", item, true) and not util.contains_item_canonical(inv, "main", item) then
               inv:add_item("main", item)
            end
         end

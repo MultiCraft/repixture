@@ -62,8 +62,8 @@ local function on_globalstep(dtime)
 		local yaw = player:get_look_horizontal()
 		local pos = player:get_pos()
 
-		-- Cycle through hotbar slots
-		for i = 1, 8 do
+		-- Cycle through all inventory slots
+		for i = 1, inv:get_size("main") do
 			local itemstack = inv:get_stack("main", i)
 			local changed
 			itemstack, changed = update_compass_itemstack(itemstack, pos, yaw)
@@ -214,12 +214,18 @@ for c=0,7 do
 				end
 			-- Otherwise, adjust the compass needle so it shows to the correct direction
 			else
-				local nodedef = minetest.registered_nodes[node.name]
 				local nodeyaw = 0
-				if nodedef and (nodedef.paramtype2 == "wallmounted" or nodedef.paramtype2 == "colorwallmounted") then
-					nodeyaw = minetest.dir_to_yaw(minetest.wallmounted_to_dir(node.param2))
-				elseif nodedef and (nodedef.paramtype2 == "facedir" or nodedef.paramtype2 == "colorfacedir") then
-					nodeyaw = minetest.dir_to_yaw(minetest.facedir_to_dir(node.param2))
+				-- If this group is set, calculate the node's "yaw" and use that
+				-- for the placed magnocompass
+				if minetest.get_item_group(node.name, "special_magnocompass_place_handling") == 1 then
+					local nodedef = minetest.registered_nodes[node.name]
+					if nodedef and (nodedef.paramtype2 == "wallmounted" or nodedef.paramtype2 == "colorwallmounted") then
+						nodeyaw = minetest.dir_to_yaw(minetest.wallmounted_to_dir(node.param2))
+					elseif nodedef and (nodedef.paramtype2 == "facedir" or nodedef.paramtype2 == "colorfacedir") then
+						nodeyaw = minetest.dir_to_yaw(minetest.facedir_to_dir(node.param2))
+					elseif nodedef and (nodedef.paramtype2 == "4dir" or nodedef.paramtype2 == "color4dir") then
+						nodeyaw = minetest.dir_to_yaw(minetest.fourdir_to_dir(node.param2))
+					end
 				end
 				-- Special case: Item frame. Add a little offset for nodepos as
 				-- the compass entity is at the side of the node rather than the center.
@@ -265,6 +271,7 @@ for c=0,7 do
 
 		local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
 		if place_in == nil then
+			rp_sounds.play_place_failed_sound(placer)
 			return itemstack
 		end
 
@@ -293,6 +300,7 @@ for c=0,7 do
 		local node_floor = minetest.get_node(place_floor)
 		local def_floor = minetest.registered_nodes[node_floor.name]
 		if (not def_floor) or (not def_floor.walkable) or minetest.get_item_group(node_floor.name, "attached_node") == 1 then
+			rp_sounds.play_place_failed_sound(placer)
 			return itemstack
 		end
 		-- Place node
@@ -347,13 +355,17 @@ for c=0,7 do
 			      "rp_nav_compass_side.png",
 		      },
 		      use_texture_alpha = "clip",
-		      sounds = rp_sounds.node_sound_defaults(),
+		      sounds = rp_sounds.node_sound_small_defaults(),
 
 		      inventory_image = inv_imgs[c],
 		      wield_image = wield_imgs[c],
 
 		      node_placement_prediction = "",
 		      on_place = magnetize_on_place,
+                      floodable = true,
+                      on_flood = function(pos, oldnode, newnode)
+                         minetest.add_item(pos, "rp_nav:compass_0")
+                      end,
 
 		      groups = {nav_compass = 1, tool=1, attached_node=1, dig_immediate=3 },
 		      stack_max = 1,
@@ -374,37 +386,29 @@ for c=0,7 do
 
 		      on_place = magnetize_on_place,
 
+                      floodable = true,
+                      on_flood = function(pos, oldnode, newnode)
+                         minetest.add_item(pos, "rp_nav:compass_0")
+                      end,
+
 		      groups = {nav_compass = 1, tool=1, not_in_creative_inventory = 1 },
 		      stack_max = 1,
 		})
 	end
 
-        local after_dig_magnocompass = function(pos, oldnode, oldmetadata, digger)
-                local dname = ""
-                local is_digger = false
-                if digger and digger:is_player() then
-                        is_digger = true
-                        dname = digger:get_player_name()
-                end
-
-                local item = ItemStack(oldnode.name)
-                -- Don't drop item if digger is in Creative Mode and already has an
-                -- identical item (including metadata) in inventory.
-                if minetest.is_creative_enabled(dname) and is_digger then
-                        local inv = digger:get_inventory()
-                        if inv:contains_item("main", item:get_name()) then
-                         return
-                        end
-                end
-                local itemmeta = item:get_meta()
-
-                local mx = tonumber(oldmetadata.fields.magno_x) or 0
-                local my = tonumber(oldmetadata.fields.magno_y) or 0
-                local mz = tonumber(oldmetadata.fields.magno_z) or 0
-                itemmeta:set_int("magno_x", mx)
-                itemmeta:set_int("magno_y", my)
-                itemmeta:set_int("magno_z", mz)
-                minetest.add_item(pos, item)
+        local preserve_metadata_magnocompass = function(pos, oldnode, oldmeta, drops)
+		for d=1, #drops do
+			local item = drops[d]
+			if minetest.get_item_group(item:get_name(), "nav_compass") == 2 then
+				local mx = tonumber(oldmeta.magno_x) or 0
+				local my = tonumber(oldmeta.magno_y) or 0
+				local mz = tonumber(oldmeta.magno_z) or 0
+				local itemmeta = item:get_meta()
+				itemmeta:set_int("magno_x", mx)
+				itemmeta:set_int("magno_y", my)
+				itemmeta:set_int("magno_z", mz)
+			end
+		end
         end
 
 	-- Magno compass, points to a position.
@@ -429,7 +433,7 @@ for c=0,7 do
 		      "rp_nav_magnocompass_side.png",
               },
               use_texture_alpha = "clip",
-	      sounds = rp_sounds.node_sound_defaults(),
+              sounds = rp_sounds.node_sound_small_defaults(),
 
 	      inventory_image = inv_imgs_magno[c],
 	      wield_image = wield_imgs_magno[c],
@@ -437,8 +441,13 @@ for c=0,7 do
 	      node_placement_prediction = "",
 	      on_place = magnetize_on_place,
 
-	      drop = "",
-              after_dig_node = after_dig_magnocompass,
+	      drop = "rp_nav:magnocompass_0",
+	      floodable = true,
+	      on_flood = function(pos, oldnode, newnode)
+		      minetest.add_item(pos, "rp_nav:compass_0")
+	      end,
+
+              preserve_metadata = preserve_metadata_magnocompass,
 
 	      groups = {nav_compass = 2, tool=1, attached_node=1, dig_immediate=3, not_in_creative_inventory = 1 },
 	      stack_max = 1,
@@ -470,13 +479,19 @@ for c=0,7 do
 		      "rp_nav_magnocompass_side.png",
               },
               use_texture_alpha = "clip",
-	      sounds = rp_sounds.node_sound_defaults(),
+	      sounds = rp_sounds.node_sound_small_defaults(),
 
 	      inventory_image = "rp_nav_magnocompass_inventory_0.png",
 	      wield_image = "rp_nav_magnocompass_inventory_0.png",
 
-	      drop = "",
-              after_dig_node = after_dig_magnocompass,
+	      drop = "rp_nav:magnocompass_0",
+	      preserve_metadata = preserve_metadata_magnocompass,
+
+	      floodable = true,
+	      on_flood = function(pos, oldnode, newnode)
+		      minetest.add_item(pos, "rp_nav:compass_0")
+	      end,
+
 
 	      groups = {nav_compass = 2, tool=1, attached_node=1, dig_immediate=3, not_in_creative_inventory=1 },
 	      stack_max = 1,
@@ -502,12 +517,14 @@ crafting.register_craft(
 -- Achievements
 
 achievements.register_achievement(
+   -- REFERENCE ACHIEVEMENT 5
    "true_navigator_v2",
    {
       title = S("True Navigator"),
       description = S("Magnetize a compass."),
       times = 1,
       item_icon = "rp_nav:magnocompass",
+      difficulty = 5,
 })
 
 minetest.register_alias("nav:compass", "rp_nav:compass_0")
