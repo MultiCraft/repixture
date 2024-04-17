@@ -208,6 +208,26 @@ minetest.register_node(
       groups = {crumbly = 3, soil = 1, dirt = 1, normal_dirt = 1, plantable_soil = 1, fall_damage_add_percent = -5},
       sounds = rp_sounds.node_sound_dirt_defaults(),
       _fertilized_node = "rp_default:fertilized_dirt",
+
+      _on_grow = function(pos, node, grower)
+         local above = vector.offset(pos, 0, 1, 0)
+         local anode = minetest.get_node(above)
+         if anode.name == "air" then
+            local growername = grower and grower:get_player_name()
+            if growername and minetest.is_protected(above, growername) and not minetest.check_player_privs(grower, "protection_bypass") then
+               minetest.record_protection_violation(above, growername)
+               return false
+            end
+         end
+
+         local biomedata = minetest.get_biome_data(pos)
+         local biome = minetest.get_biome_name(biomedata.biome)
+         if default.is_dry_biome(biome) then
+            minetest.set_node(pos, {name="rp_default:dirt_with_dry_grass"})
+         else
+            minetest.set_node(pos, {name="rp_default:dirt_with_grass"})
+         end
+      end,
 })
 
 minetest.register_node(
@@ -230,7 +250,26 @@ minetest.register_node(
       groups = {crumbly = 3, soil = 1, dirt = 1, swamp_dirt = 1, plantable_wet = 1, fall_damage_add_percent = -10},
       sounds = rp_sounds.node_sound_swamp_dirt_defaults(),
       _fertilized_node = "rp_default:fertilized_swamp_dirt",
+
+      _on_grow = function(pos)
+         minetest.set_node(pos, {name="rp_default:dirt_with_swamp_grass"})
+      end,
 })
+
+local function grow_grass_on_dirt(newnode)
+   return function(pos, node, grower)
+      local above = vector.offset(pos, 0, 1, 0)
+      local anode = minetest.get_node(above)
+      if anode.name == "air" then
+         local growername = grower and grower:get_player_name()
+         if growername and minetest.is_protected(above, growername) and not minetest.check_player_privs(grower, "protection_bypass") then
+            minetest.record_protection_violation(above, growername)
+            return false
+         end
+         minetest.set_node(above, newnode)
+      end
+   end
+end
 
 minetest.register_node(
    "rp_default:dirt_with_dry_grass",
@@ -256,6 +295,7 @@ minetest.register_node(
          footstep = { name = "rp_sounds_footstep_grass", gain = 1.0 },
       }),
       _fertilized_node = "rp_default:fertilized_dirt",
+      _on_grow = grow_grass_on_dirt({name="rp_default:dry_grass"}),
 })
 
 minetest.register_node(
@@ -282,6 +322,7 @@ minetest.register_node(
          footstep = { name = "rp_sounds_footstep_swamp_grass", gain = 1.0 },
       }),
       _fertilized_node = "rp_default:fertilized_swamp_dirt",
+      _on_grow = grow_grass_on_dirt({name="rp_default:swamp_grass"}),
 })
 
 minetest.register_node(
@@ -309,6 +350,7 @@ minetest.register_node(
          footstep = { name = "rp_sounds_footstep_grass", gain = 1.0 },
       }),
       _fertilized_node = "rp_default:fertilized_dirt",
+      _on_grow = grow_grass_on_dirt({name="rp_default:grass"}),
 })
 
 -- Paths

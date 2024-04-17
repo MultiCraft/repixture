@@ -101,6 +101,9 @@ function farming.register_plant_nodes(name, def)
          groups = {snappy=3, handy=2, attached_node=1, seed=1, plant=1, farming_plant=1, ["plant_"..name]=1},
          sounds = sounds_seed,
          _rp_farming_plant_name = name,
+         _on_grow = function(pos)
+            farming.next_stage(pos, name)
+         end,
    }
 
    for s=2, 4 do
@@ -125,6 +128,9 @@ function farming.register_plant_nodes(name, def)
             groups = {snappy=3, handy=2, attached_node=1, plant=1, farming_plant=1, ["plant_"..name]=s, not_in_craft_guide = 1, not_in_creative_inventory = 1},
             sounds = sounds_plant,
             _rp_farming_plant_name = name,
+            _on_grow = function(pos)
+               farming.next_stage(pos, name)
+            end,
       }
    end
 
