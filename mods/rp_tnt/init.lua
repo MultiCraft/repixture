@@ -311,72 +311,8 @@ local function play_tnt_sound(pos, sound)
    }, true)
 end
 
--- TNT ground removal
-
-function tnt.explode(pos, radius)
-   local pos = vector.round(pos)
-   local vm = VoxelManip()
-   local pr = PseudoRandom(os.time())
-   local p1 = vector.subtract(pos, radius)
-   local p2 = vector.add(pos, radius)
-   local minp, maxp = vm:read_from_map(p1, p2)
-   local area = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-   local data = vm:get_data()
-
-   local drops = {}
-   local p = {}
-
-   local c_air = minetest.get_content_id("air")
-
-   local destroyed_nodes = {}
-   local on_blasts = {}
-
-   for z = -radius, radius do
-      for y = -radius, radius do
-	 local vi = area:index(pos.x + (-radius), pos.y + y, pos.z + z)
-	 for x = -radius, radius do
-	    if (x * x) + (y * y) + (z * z) <= (radius * radius) + pr:next(-radius, radius) then
-	       local cid = data[vi]
-	       p.x = pos.x + x
-	       p.y = pos.y + y
-	       p.z = pos.z + z
-	       if cid ~= c_air then
-		  local destroy, fail_reason = check_destroy(drops, p, cid)
-		  if destroy == true then
-                     data[vi] = minetest.CONTENT_AIR
-                     local pp = {x=p.x, y=p.y, z=p.z}
-                     table.insert(destroyed_nodes, {vi=vi, pos=pp})
-                  elseif destroy == false and fail_reason == "on_blast" then
-                     local pp = {x=p.x, y=p.y, z=p.z}
-                     table.insert(on_blasts, {pos=pp, cid=cid})
-	          end
-	       end
-	    end
-	    vi = vi + 1
-	 end
-      end
-   end
-
-   vm:set_data(data)
-   vm:write_to_map()
-
-   for i=1, #on_blasts do
-      local pp = on_blasts[i].pos
-      local cid = on_blasts[i].cid
-      local def = cid_data[cid]
-      def.on_blast(vector.new(pp), 1)
-   end
-
-   for i=1, #destroyed_nodes do
-      local pp = destroyed_nodes[i].pos
-      local vi = destroyed_nodes[i].vi
-      minetest.check_for_falling(pp)
-      if mod_attached then
-         rp_attached.detach_from_node(pp)
-      end
-   end
-
-   return drops
+function tnt.explode(pos, radius, sound, remove_nodes, causer)
+   rp_explosions.explode(pos, radius, {sound=sound, griefing=remove_nodes}, causer)
 end
 
 -- TNT node explosion
@@ -396,20 +332,20 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt, igniter)
       end
    end
    if remove_nodes then
-      local drops = tnt.explode(pos, radius, sound)
-      play_tnt_sound(pos, sound)
+      tnt.explode(pos, radius, sound, remove_nodes, igniter)
+      --play_tnt_sound(pos, sound)
       if is_tnt then
           minetest.log("verbose", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
       else
           minetest.log("verbose", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
       end
-      entity_physics(pos, radius, igniter)
-      eject_drops(drops, pos, radius)
+      --entity_physics(pos, radius, igniter)
+      --eject_drops(drops, pos, radius)
    else
-      entity_physics(pos, radius, igniter)
-      play_tnt_sound(pos, sound)
+      --entity_physics(pos, radius, igniter)
+      --play_tnt_sound(pos, sound)
    end
-   add_explosion_effects(pos, radius)
+   --add_explosion_effects(pos, radius)
 end
 
 
