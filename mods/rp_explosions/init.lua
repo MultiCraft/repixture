@@ -10,6 +10,8 @@ This mod originally was created by Elias Astrom <ryvnf@riseup.net> and is releas
 under the LGPLv2.1 license.
 --]]
 
+local PARTICLES = true
+
 rp_explosions = {}
 
 local explosions_griefing = minetest.settings:get_bool("rp_explosions_griefing", true)
@@ -125,24 +127,70 @@ end
 -- Parameters:
 -- pos - The position of the explosion
 -- radius - The radius of the explosion
--- TODO: New and better particle effect
-local function add_particles(pos, radius)
-	minetest.add_particlespawner({
-		amount = 64,
-		time = 0.125,
-		minpos = pos,
-		maxpos = pos,
-		minvel = vector.new(-radius, -radius, -radius),
-		maxvel = vector.new(radius, radius, radius),
-		minacc = vector.zero(),
-		maxacc = vector.zero(),
-		minexptime = 0.5,
-		maxexptime = 1.0,
-		minsize = radius * 0.5,
-		maxsize = radius * 1.0,
-		texture = "tnt_smoke.png",
-	})
+local function add_explosion_particles(pos, radius)
+   if not PARTICLES then
+      return
+   end
+   minetest.add_particlespawner(
+      {
+         amount = 128,
+         time = 0.6,
+         pos = {
+            min = vector.subtract(pos, radius / 2),
+            max = vector.add(pos, radius / 2),
+         },
+         vel = {
+            min = vector.new(-20, -20, -20),
+            max = vector.new(20, 20, 20),
+         },
+         acc = vector.zero(),
+         exptime = { min = 0.2, max = 1.0 },
+         size = { min = 16, max = 24 },
+	 drag = vector.new(1,1,1),
+         texture = {
+	    name = "rp_tnt_smoke_anim_1.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+	    name = "rp_tnt_smoke_anim_2.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+	    name = "rp_tnt_smoke_anim_1.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+	    name = "rp_tnt_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+         },
+   })
+   minetest.add_particlespawner({
+         amount = 1,
+         time = 0.01,
+         pos = pos,
+         vel = vector.zero(),
+         acc = vector.zero(),
+         exptime = 1,
+         size = radius*10,
+         texture = "rp_tnt_smoke_ball_big.png",
+         animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
+   })
+   minetest.add_particlespawner({
+         amount = 4,
+         time = 0.25,
+         pos = pos,
+         vel = vector.zero(),
+         acc = vector.zero(),
+         exptime = { min = 0.6, max = 0.9 },
+         size = { min = 8, max = 12 },
+	 radius = { min = 0.5, max = math.max(0.6, radius*0.75) },
+         texture = "rp_tnt_smoke_ball_medium.png",
+         animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
+   })
+   minetest.add_particlespawner({
+         amount = 28,
+         time = 0.5,
+         pos = pos,
+         vel = vector.zero(),
+         acc = vector.zero(),
+         exptime = { min = 0.5, max = 0.8 },
+         size = { min = 6, max = 8 },
+	 radius = { min = 1, max = math.max(1.1, radius+1) },
+         texture = "rp_tnt_smoke_ball_small.png",
+         animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
+   })
 end
+
 
 -- Traces the rays of an explosion, and updates the environment.
 --
@@ -428,7 +476,7 @@ function rp_explosions.explode(pos, strength, info, direct, source)
 	trace_explode(pos, strength, shape, radius, info, direct, source)
 
 	if info.particles then
-		add_particles(pos, radius)
+		add_explosion_particles(pos, radius)
 	end
 	if info.sound then
 		minetest.sound_play("tnt_explode", {

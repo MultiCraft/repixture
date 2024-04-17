@@ -8,8 +8,8 @@ local S = minetest.get_translator("rp_tnt")
 local TNT_TIMER = 2.0
 
 -- For performance debugging
-local TNT_NO_PARTICLES = false
 local TNT_NO_SOUNDS = false
+local TNT_NO_PARTICLES = false
 
 tnt = {}
 
@@ -188,69 +188,6 @@ local function add_node_break_effects(pos, node, node_tile)
    })
 end
 
-local function add_explosion_effects(pos, radius)
-   if TNT_NO_PARTICLES then
-      return
-   end
-   minetest.add_particlespawner(
-      {
-         amount = 128,
-         time = 0.6,
-         pos = {
-            min = vector.subtract(pos, radius / 2),
-            max = vector.add(pos, radius / 2),
-         },
-         vel = {
-            min = vector.new(-20, -20, -20),
-            max = vector.new(20, 20, 20),
-         },
-         acc = vector.zero(),
-         exptime = { min = 0.2, max = 1.0 },
-         size = { min = 16, max = 24 },
-	 drag = vector.new(1,1,1),
-         texture = {
-	    name = "rp_tnt_smoke_anim_1.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-	    name = "rp_tnt_smoke_anim_2.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-	    name = "rp_tnt_smoke_anim_1.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-	    name = "rp_tnt_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-         },
-   })
-   minetest.add_particlespawner({
-         amount = 1,
-         time = 0.01,
-         pos = pos,
-         vel = vector.zero(),
-         acc = vector.zero(),
-         exptime = 1,
-         size = radius*10,
-         texture = "rp_tnt_smoke_ball_big.png",
-         animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
-   })
-   minetest.add_particlespawner({
-         amount = 4,
-         time = 0.25,
-         pos = pos,
-         vel = vector.zero(),
-         acc = vector.zero(),
-         exptime = { min = 0.6, max = 0.9 },
-         size = { min = 8, max = 12 },
-	 radius = { min = 0.5, max = math.max(0.6, radius*0.75) },
-         texture = "rp_tnt_smoke_ball_medium.png",
-         animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
-   })
-   minetest.add_particlespawner({
-         amount = 28,
-         time = 0.5,
-         pos = pos,
-         vel = vector.zero(),
-         acc = vector.zero(),
-         exptime = { min = 0.5, max = 0.8 },
-         size = { min = 6, max = 8 },
-	 radius = { min = 1, max = math.max(1.1, radius+1) },
-         texture = "rp_tnt_smoke_ball_small.png",
-         animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
-   })
-end
 
 local function emit_fuse_smoke(pos)
 	if TNT_NO_PARTICLES then
@@ -345,7 +282,6 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt, igniter)
       --entity_physics(pos, radius, igniter)
       --play_tnt_sound(pos, sound)
    end
-   --add_explosion_effects(pos, radius)
 end
 
 
