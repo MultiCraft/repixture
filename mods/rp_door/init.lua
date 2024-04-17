@@ -297,9 +297,16 @@ function door.register_door(name, def)
 
    local transformTileFX = function(tile)
       if type(tile) == "string" then
-         return tile .. "^[transformFX"
+         if tile == "" then
+            return tile
+         else
+            return tile .. "^[transformFX"
+         end
       elseif type(tile) == "table" then
          local newtile = table.copy(tile)
+         if newtile.name == "" then
+            return newtile.name
+         end
          newtile.name = newtile.name .. "^[transformFX"
          return newtile
       else
