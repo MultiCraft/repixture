@@ -745,6 +745,24 @@ minetest.register_node(
          end
       end,
 
+      on_dig = function(pos, node, digger)
+         -- Drop bed if neccessary
+         local dir = minetest.fourdir_to_dir(node.param2)
+         local foot_pos = vector.subtract(pos, dir)
+         if minetest.get_node(foot_pos).name == "rp_bed:bed_foot" then
+            local item = ItemStack("rp_bed:bed_foot")
+            if digger and digger:is_player() and minetest.is_creative_enabled(digger:get_player_name()) then
+               local inv = digger:get_inventory()
+               if not inv:contains_item("main", item) then
+                  inv:add_item("main", item)
+               end
+            else
+               minetest.add_item(foot_pos, item)
+            end
+         end
+         return minetest.node_dig(pos, node, digger)
+      end,
+
       on_blast = function(pos)
          -- Needed to force after_destruct to be called
          minetest.remove_node(pos)
