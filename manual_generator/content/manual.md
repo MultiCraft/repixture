@@ -83,7 +83,7 @@ Repixture recognizes the following game-related controls offered by Minetest:
 * <kbd>Look around</kbd>
 * <kbd>Left</kbd> / <kbd>Right</kbd> / <kbd>Forwards</kbd> / <kbd>Backwards</kbd>
 * <kbd>Jump</kbd>
-* <kbd>Sneak</kbd> (also unmounts you on boats)
+* <kbd>Sneak</kbd> (also unmounts you on boats and gets you up from a bed)
 * <kbd>Drop item</kbd>
 * <kbd>Punch</kbd> (see below)
 * <kbd>Place</kbd> (see below)
