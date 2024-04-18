@@ -11,6 +11,36 @@ local hud_ids = {} -- HUD IDs, per-player
 local hidden_huds = {} -- List of hidden HUDs, per-player
 local breath_timers = {} -- count the time each player has a full breath bar
 
+-- Adds the statbar of the given type if it does not exist yet.
+-- Returns ID if statbar was added, nil otherwise
+local add_statbar_raw = function(player, statbarname, initial_value)
+   local name = player:get_player_name()
+   if hud_ids[name]["id_"..statbarname] then
+      return
+   else
+      local hud_def = table.copy(rp_hud.registered_statbars[statbarname])
+      if initial_value then
+         hud_def.number = initial_value
+      end
+      local id = player:hud_add(hud_def)
+      hud_ids[name]["id_"..statbarname] = id
+      return id
+   end
+end
+
+-- Removes the statbar of the given type if it does exist.
+-- Returns true if statbar was actually removed.
+local remove_statbar_raw = function(player, statbarname)
+   local name = player:get_player_name()
+   if not hud_ids[name]["id_"..statbarname] then
+      return false
+   else
+      player:hud_remove(hud_ids[name]["id_"..statbarname])
+      hud_ids[name]["id_"..statbarname] = nil
+      return true
+   end
+end
+
 local function initialize_hotbar(player)
    player:hud_set_hotbar_selected_image("ui_hotbar_selected.png")
    player:hud_set_hotbar_image("ui_hotbar_bg.png")
@@ -52,9 +82,9 @@ local function initialize_builtin_statbars(player)
 
    -- Health bar
    if not hidden_huds[name].healthbar and minetest.settings:get_bool("enable_damage", true) then
-      rp_hud.add_statbar(player, "healthbar", player:get_hp())
+      add_statbar_raw(player, "healthbar", player:get_hp())
    else
-      rp_hud.remove_statbar(player, "healthbar")
+      remove_statbar_raw(player, "healthbar")
    end
 
    -- Breath bar
@@ -63,15 +93,15 @@ local function initialize_builtin_statbars(player)
    -- after it has become full again instead of instantly disappearing.
    if (not hidden_huds[name].breathbar) and ((player:get_breath() < minetest.PLAYER_MAX_BREATH_DEFAULT) or (breath_timers[name] <= BREATH_KEEP_TIME)) then
       if minetest.settings:get_bool("enable_damage", true) then
-         local id = rp_hud.add_statbar(player, "breathbar", player:get_breath()*2)
+         local id = add_statbar_raw(player, "breathbar", player:get_breath()*2)
          if id ~= nil then
             breath_timers[name] = 0
          end
       else
-         rp_hud.remove_statbar(player, "breathbar")
+         remove_statbar_raw(player, "breathbar")
       end
    elseif hud_ids[name].id_breathbar ~= nil then
-      rp_hud.remove_statbar(player, "breathbar")
+      remove_statbar_raw(player, "breathbar")
    end
 end
 
@@ -148,7 +178,7 @@ minetest.register_globalstep(function(dtime)
          if player:get_breath() >= minetest.PLAYER_MAX_BREATH_DEFAULT then
             breath_timers[name] = breath_timers[name] + dtime
             if breath_timers[name] > BREATH_KEEP_TIME then
-               rp_hud.remove_statbar(player, "breathbar")
+               remove_statbar_raw(player, "breathbar")
             end
          else
             breath_timers[name] = 0
@@ -172,7 +202,7 @@ rp_hud.hide_hud = function(player, hud_name)
    if not ids then
       return
    end
-   rp_hud.remove_statbar(player, hud_name)
+   remove_statbar_raw(player, hud_name)
    hidden_huds[name][hud_name] = true
    initialize_builtin_statbars(player)
 end
@@ -219,34 +249,13 @@ rp_hud.register_statbar = function(name, def)
    rp_hud.registered_statbars[name] = statbar_definition
 end
 
--- Adds the statbar of the given type if it does not exist yet.
--- Returns ID if statbar was added, nil otherwise
-rp_hud.add_statbar = function(player, statbarname, initial_value)
+rp_hud.change_statbar = function(player, statbarname, value)
    local name = player:get_player_name()
-   if hud_ids[name]["id_"..statbarname] then
+   local id = hud_ids[name]["id_"..statbarname]
+   if not id then
       return
-   else
-      local hud_def = table.copy(rp_hud.registered_statbars[statbarname])
-      if initial_value then
-         hud_def.number = initial_value
-      end
-      local id = player:hud_add(hud_def)
-      hud_ids[name]["id_"..statbarname] = id
-      return id
    end
-end
-
--- Removes the statbar of the given type if it does exist.
--- Returns true if statbar was actually removed.
-rp_hud.remove_statbar = function(player, statbarname)
-   local name = player:get_player_name()
-   if not hud_ids[name]["id_"..statbarname] then
-      return false
-   else
-      player:hud_remove(hud_ids[name]["id_"..statbarname])
-      hud_ids[name]["id_"..statbarname] = nil
-      return true
-   end
+   player:hud_change(id, "number", value)
 end
 
 rp_hud.register_statbar("healthbar", {
