@@ -190,11 +190,11 @@ end)
 
 --[[ Public functions ]]
 
--- Hide a HUD element from view for player.
--- hud_name is either "breathbar" or "healthbar".
-rp_hud.hide_hud = function(player, hud_name)
-   if not rp_huds.registered_statbars[hud_name] then
-      minetest.log("error", "[rp_hud] rp_hud.hide_hud called with unknown hud_name: "..tostring(hud_name))
+-- Hide a statbar from view for player.
+-- hud_name is one of the registered statbars names.
+rp_hud.hide_statbar = function(player, hud_name)
+   if not rp_hud.registered_statbars[hud_name] then
+      minetest.log("error", "[rp_hud] rp_hud.hide_statbar called with unknown hud_name: "..tostring(hud_name))
       return
    end
    local name = player:get_player_name()
@@ -207,11 +207,11 @@ rp_hud.hide_hud = function(player, hud_name)
    initialize_builtin_statbars(player)
 end
 
--- Un-hide a HUD element from view for player.
+-- Un-hide a statbar from view for player.
 -- hud_name is one of the registered statbars names.
-rp_hud.unhide_hud = function(player, hud_name)
-   if not rp_huds.registered_statbars[hud_name] then
-      minetest.log("error", "[rp_hud] rp_hud.unhide_hud called with unknown hud_name: "..tostring(hud_name))
+rp_hud.unhide_statbar = function(player, hud_name)
+   if not rp_hud.registered_statbars[hud_name] then
+      minetest.log("error", "[rp_hud] rp_hud.unhide_statbar called with unknown hud_name: "..tostring(hud_name))
       return
    end
    local name = player:get_player_name()
