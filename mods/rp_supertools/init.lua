@@ -65,7 +65,7 @@ minetest.register_craftitem("rp_supertools:growth_tool", {
 		local unode = minetest.get_node(upos)
 
 		local udef = minetest.registered_nodes[unode.name]
-		if not udef and not udef._on_grow then
+		if not udef or not udef._on_grow then
 			return itemstack
 		end
 
@@ -134,7 +134,7 @@ minetest.register_craftitem("rp_supertools:degrowth_tool", {
 		local unode = minetest.get_node(upos)
 
 		local udef = minetest.registered_nodes[unode.name]
-		if not udef and not udef._on_degrow then
+		if not udef or not udef._on_degrow then
 			return itemstack
 		end
 
