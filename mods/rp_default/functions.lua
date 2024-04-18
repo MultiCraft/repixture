@@ -428,8 +428,8 @@ function default.grow_underwater_leveled_plant(pos, node, add)
 	return true, top
 end
 
--- Degrows (reduces height) a plantlike_rooted plant that lives underwater by `reduce` node lengths
--- (default: 1).
+-- Degrows (reduces height) a plantlike_rooted plant that lives underwater
+-- by `reduce` node lengths (default: 1).
 -- Returns: <success>, <top_pos>
 -- <success>: true if plant was degrown, false otherwise
 -- <top_pos>: position at which the new highest "plant segment" is (nil if not degrown)
@@ -444,7 +444,7 @@ function default.degrow_underwater_leveled_plant(pos, node, reduce)
 	local old_param2 = node.param2
 	local new_level = node.param2 - (16 * reduce)
 	if new_level % 16 > 0 then
-		new_level = new_level - new_level % 16
+		new_level = new_level + (16 - new_level % 16)
 	end
 	if new_level < 16 then
 		new_level = 16
