@@ -3,7 +3,7 @@ local S = minetest.get_translator("rp_default")
 local grow_tall = function(pos, y_dir, nodename)
 	local newpos
 	for i=1, 10 do
-		newpos = vector.add(pos, vector.new(0,i*y_dir,0))
+		newpos = vector.offset(pos, 0, i*y_dir, 0)
 		local newnode = minetest.get_node(newpos)
 		if newnode.name == "air" then
 			minetest.set_node(newpos, {name=nodename})
@@ -18,16 +18,19 @@ end
 local degrow_tall = function(pos, y_dir, nodename)
 	local prevpos, newpos
 	for i=1, 10 do
-		prevpos = vector.add(pos, vector.new(0,(i-1)*y_dir,0))
-		newpos = vector.add(pos, vector.new(0,i*y_dir,0))
+		prevpos = vector.offset(pos, 0, (i-1)*y_dir, 0)
+		newpos = vector.offset(pos, 0, i*y_dir, 0)
 		local newnode = minetest.get_node(newpos)
 		if newnode.name ~= nodename then
-			-- Don't destroy 1-node tall block
-			if i == 1 then
+			local prevnode = minetest.get_node(prevpos)
+			-- Check if this is *not* the last node
+			if i > 1 and prevnode.name == nodename then
+				minetest.remove_node(prevpos)
+				return true
+			else
+				-- Don't degrow if plant is only 1 node tall
 				return false
 			end
-			minetest.remove_node(prevpos)
-			return true
 		end
 	end
 	return false
