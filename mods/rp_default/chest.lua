@@ -21,6 +21,25 @@ end
 
 -- Chest
 
+local get_chest_formspec = function(meta)
+   return rp_formspec.get_page("rp_default:chest")
+end
+local get_chest_infotext = function(meta)
+   local name = meta:get_string("name")
+   if name ~= "" then
+      return S("Chest") .. "\n" .. S("“@1”", name)
+   else
+      return S("Chest")
+   end
+end
+
+local chest_write_name = function(pos, text)
+   local meta = minetest.get_meta(pos)
+   meta:set_string("name", text)
+   local infotext = get_chest_infotext(meta)
+   meta:set_string("infotext", infotext)
+end
+
 minetest.register_node(
    "rp_default:chest",
    {
@@ -35,8 +54,8 @@ minetest.register_node(
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
 
-         meta:set_string("formspec", rp_formspec.get_page("rp_default:chest"))
-         meta:set_string("infotext", S("Chest"))
+         meta:set_string("formspec", get_chest_formspec(meta))
+         meta:set_string("infotext", get_chest_infotext(meta))
 
          local inv = meta:get_inventory()
 
@@ -45,15 +64,7 @@ minetest.register_node(
       on_destruct = function(pos)
          item_drop.drop_items_from_container(pos, {"main"})
       end,
-      _rp_write_name = function(pos, text)
-         local meta = minetest.get_meta(pos)
-         meta:set_string("name", text)
-         local infotext = S("Chest")
-         if text ~= "" then
-             infotext = infotext .. "\n" .. S("“@1”", text)
-         end
-         meta:set_string("infotext", infotext)
-      end,
+      _rp_write_name = chest_write_name,
 })
 minetest.register_node(
    "rp_default:chest_painted",
@@ -79,6 +90,7 @@ minetest.register_node(
       on_destruct = function(pos)
          item_drop.drop_items_from_container(pos, {"main"})
       end,
+      _rp_write_name = chest_write_name,
       drop = "rp_default:chest",
 })
 
@@ -98,9 +110,10 @@ minetest.register_lbm({
 	name = "rp_default:update_chest_formspec_3_14_0",
 	nodenames = { "rp_default:chest", "rp_default:chest_painted" },
 	action = function(pos, node)
-		local def = minetest.registered_nodes[node.name]
-		if def and def.on_construct then
-			def.on_construct(pos)
-		end
+		local meta = minetest.get_meta(pos)
+		local formspec = get_chest_formspec(meta)
+		local infotext = get_chest_infotext(meta)
+		meta:set_string("formspec", formspec)
+		meta:set_string("infotext", infotext)
 	end,
 })
