@@ -22,15 +22,14 @@ local degrow_tall = function(pos, y_dir, nodename)
 		newpos = vector.offset(pos, 0, i*y_dir, 0)
 		local newnode = minetest.get_node(newpos)
 		if newnode.name ~= nodename then
-			local prevnode = minetest.get_node(prevpos)
-			-- Check if this is *not* the last node
-			if i > 1 and prevnode.name == nodename then
-				minetest.remove_node(prevpos)
-				return true
-			else
-				-- Don't degrow if plant is only 1 node tall
+			-- Check if this is the only node
+			local prevprevpos = vector.offset(pos, 0, (i-2)*y_dir, 0)
+			local prevprevnode = minetest.get_node(prevprevpos)
+			if prevprevnode.name ~= nodename and newnode.name ~= nodename then
 				return false
 			end
+			minetest.remove_node(prevpos)
+			return true
 		end
 	end
 	return false
