@@ -29,6 +29,7 @@ local degrow_tall = function(pos, y_dir, nodename)
 				return false
 			end
 			minetest.remove_node(prevpos)
+			minetest.check_single_for_falling(vector.offset(prevpos, 0, 1, 0))
 			return true
 		end
 	end
