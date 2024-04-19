@@ -22,12 +22,19 @@ end
 -- Chest
 
 local get_chest_formspec = function(meta)
-   return rp_formspec.get_page("rp_default:chest")
+   local form = rp_formspec.get_page("rp_default:chest")
+   local name = meta:get_string("name")
+   if name ~= "" then
+      form = form .. "background9[0.5,-0.5;7,0.5;ui_formspec_bg_label_extension.png;false;15,15,-15,-1]"
+      form = form .. "style_type[label;noclip=true;textcolor=#000000FF]"
+      form = form .. "label[0.7,-0.25;"..minetest.formspec_escape(name).."]"
+   end
+   return form
 end
 local get_chest_infotext = function(meta)
    local name = meta:get_string("name")
    if name ~= "" then
-      return S("Chest") .. "\n" .. S("“@1”", name)
+      return S("Chest") .. "\n" .. S('“@1”', name)
    else
       return S("Chest")
    end
@@ -36,8 +43,8 @@ end
 local chest_write_name = function(pos, text)
    local meta = minetest.get_meta(pos)
    meta:set_string("name", text)
-   local infotext = get_chest_infotext(meta)
-   meta:set_string("infotext", infotext)
+   meta:set_string("infotext", get_chest_infotext(meta))
+   meta:set_string("formspec", get_chest_formspec(meta))
 end
 
 minetest.register_node(
