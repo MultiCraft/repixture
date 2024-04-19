@@ -74,10 +74,10 @@ minetest.register_node(
       end,
       on_use = minetest.item_eat(0),
       _on_grow = function(pos, node)
-		grow_tall(pos, 1, node.name)
+		return grow_tall(pos, 1, node.name)
       end,
       _on_degrow = function(pos, node)
-		degrow_tall(pos, 1, node.name)
+		return degrow_tall(pos, 1, node.name)
       end,
 })
 
@@ -139,10 +139,10 @@ minetest.register_node(
          util.dig_up(pos, node, digger)
       end,
       _on_grow = function(pos, node)
-		grow_tall(pos, 1, node.name)
+		return grow_tall(pos, 1, node.name)
       end,
       _on_degrow = function(pos, node)
-		degrow_tall(pos, 1, node.name)
+		return degrow_tall(pos, 1, node.name)
       end,
 })
 
@@ -289,10 +289,10 @@ minetest.register_node(
           return itemstack
       end,
       _on_grow = function(pos, node)
-         grow_tall(pos, -1, node.name)
+         return grow_tall(pos, -1, node.name)
       end,
       _on_degrow = function(pos, node)
-         degrow_tall(pos, -1, node.name)
+         return degrow_tall(pos, -1, node.name)
       end,
 })
 
@@ -581,10 +581,10 @@ minetest.register_node(
 	 return itemstack
       end,
       _on_grow = function(pos, node)
-         grow_tall(pos, 1, node.name)
+         return grow_tall(pos, 1, node.name)
       end,
       _on_degrow = function(pos, node)
-         degrow_tall(pos, 1, node.name)
+         return degrow_tall(pos, 1, node.name)
       end
 })
 

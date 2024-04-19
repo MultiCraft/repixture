@@ -267,6 +267,8 @@ local function grow_grass_on_dirt(newnode)
             return false
          end
          minetest.set_node(above, newnode)
+      else
+         return false
       end
    end
 end
