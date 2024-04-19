@@ -116,6 +116,7 @@ minetest.register_craftitem("rp_spyglass:spyglass",{
 			use_spyglass(user)
 		end
 	end,
+	_rp_wielditem_rotation = 135,
 })
 
 crafting.register_craft({
