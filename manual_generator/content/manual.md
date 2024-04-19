@@ -437,9 +437,9 @@ A <span class="concept">player skin</span> is a style of your body and clothes, 
 * Items you place or use stay in your inventory
 * Blocks you mine *usually* do not drop as an item (so the world won’t get polluted with items)
 * Tools never wear
-* You can always use the minimap (with the <kbd>Minimap</kbd> key)
+* You can always use the minimap (with the <kbd>Minimap</kbd> key) (no tool required)
 * You can also enable the radar mode for the minimap
-* You can always zoom with the <kbd>Zoom</kbd> key
+* You can always zoom with the <kbd>Zoom</kbd> key (no tool required)
 
 Note: Damage is *not* automatically disabled by Creative Mode. Damage is toggled by a separate setting.
 
