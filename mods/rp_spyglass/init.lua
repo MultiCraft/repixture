@@ -6,6 +6,9 @@ local settings = {
 	fov_zoom = 10, -- FOV value when zooming
 	zoom_in_time = 0.4, -- how long it takes to zoom in (seconds)
 	zoom_out_time = 0.1, -- how long it takes to zoom out (seconds)
+	-- TODO: Spyglass HUD element is disabled because player can switch camera modes.
+	-- Allow it as soon we can restrict camera modes.
+	use_hud = false, -- whether to add a HUD element for the spyglass screen
 }
 local spyglass_users = {}
 
@@ -29,7 +32,7 @@ local function remove_scope(player)
 		return
 	end
 	minetest.sound_play("tph_spyglass_exit2",{pos = player:get_pos(), gain=1, max_hear_distance=8})
-	if data.hud then
+	if settings.use_hud and data.hud then
 		player:hud_remove(data.hud)
 	end
 
@@ -37,10 +40,6 @@ local function remove_scope(player)
 	local set_hud_flags = false
 	if data.show_item then
 		new_hud_flags.wielditem = data.show_item
-		set_hud_flags = true
-	end
-	if data.show_hotbar then
-		new_hud_flags.hotbar = data.show_hotbar
 		set_hud_flags = true
 	end
 	if set_hud_flags then
@@ -65,7 +64,7 @@ local function use_spyglass(player)
 	end
 	local hud_flags = player:hud_get_flags()
 	local data = {
-		hud = player:hud_add({
+		hud = settings.use_hud and player:hud_add({
 			name = "tph_spyglass",
 			hud_elem_type = "image",
 			text = "tph_spyglass_hud.png", -- image is 52x32, any texture pack or edit to the image should have a resolution that properly factors to said resolution or width = height*1.625
@@ -75,17 +74,12 @@ local function use_spyglass(player)
 		}),
 		index = player:get_wield_index(),
 		show_item = hud_flags.wielditem,
-		show_hotbar = hud_flags.hotbar,
 	}
 	spyglass_users[p_name] = data
 	local new_hud_flags = {}
 	local set_hud_flags = false
 	if data.show_item then
 		new_hud_flags.wielditem = false
-		set_hud_flags = true
-	end
-	if data.show_hotbar then
-		new_hud_flags.hotbar = false
 		set_hud_flags = true
 	end
 	if set_hud_flags then
