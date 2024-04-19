@@ -38,6 +38,8 @@ To disable the settings, set them to `false` again.
 * Modifying player physics (like running speed)
   **MUST** be done via `rp_player_effects`.
   Calling `set_physics_override` directly is **FORBIDDEN**.
+* You **MUST NOT** touch the HUD flag `"wielditem"` while the spyglass
+  is active (see `rp_spyglass` mod)
 
 ## Mod APIs
 
@@ -72,6 +74,7 @@ Mods with documented APIs:
 * `rp_player`: Player model handling, model animation, textures
 * `rp_player_effects`: Add player effects (required if you want to modify player physics)
 * `rp_sounds`: Node sounds
+* `rp_spyglass`: Spyglass
 * `rp_util`: Helper functions for Repixture
 * `rp_tnt`: Ignite and blow up TNT, also spawn TNT-less explosions
 * `rp_wielditem`: Custom rotation of item in hand in 3rd person view (in case it looks awkward)

@@ -6,7 +6,8 @@ a player is using the spyglass.
 ## Warning: HUD flag switching
 
 This mod touches the `"wielditem"` HUD flag. It will be disabled while the spyglass is active.
-So be careful if you write a mod that also touches this HUD flag!
+If your mod also wants to touch this HUD flag, don’t do it while the spyglass is active.
+Check first if `rp_spyglass.is_spyglassing` returns `false`.
 
 ## Functions
 

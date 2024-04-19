@@ -42,6 +42,7 @@ local function remove_scope(player)
 		new_hud_flags.wielditem = data.show_item
 		set_hud_flags = true
 	end
+	-- Restore previously remembered HUD flags state
 	if set_hud_flags then
 		player:hud_set_flags(new_hud_flags)
 	end
@@ -82,6 +83,9 @@ local function use_spyglass(player)
 		new_hud_flags.wielditem = false
 		set_hud_flags = true
 	end
+	-- Remember HUD flags state to restore later (when spyglass gets deactivated).
+	-- This assumes that no mod touches the HUD flags we touch while the
+	-- spyglass is active!
 	if set_hud_flags then
 		player:hud_set_flags(new_hud_flags)
 	end
