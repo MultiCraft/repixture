@@ -22,6 +22,10 @@ local degrow_tall = function(pos, y_dir, nodename)
 		newpos = vector.add(pos, vector.new(0,i*y_dir,0))
 		local newnode = minetest.get_node(newpos)
 		if newnode.name ~= nodename then
+			-- Don't destroy 1-node tall block
+			if i == 1 then
+				return false
+			end
 			minetest.remove_node(prevpos)
 			return true
 		end
