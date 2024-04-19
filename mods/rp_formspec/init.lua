@@ -407,7 +407,7 @@ form_default_field = form_default_field .. rp_formspec.default.version
 form_default_field = form_default_field .. "size[8.5,4.5]"
 form_default_field = form_default_field .. rp_formspec.default.boilerplate
 form_default_field = form_default_field .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
-form_default_field = form_default_field .. rp_formspec.button_exit(3, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
+form_default_field = form_default_field .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 form_default_field = form_default_field .. "field[1,1.5;6.5,0.5;text;;${text}]"
 form_default_field = form_default_field .. "set_focus[text;true]"
 rp_formspec.register_page("rp_formspec:field", form_default_field)
