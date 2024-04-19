@@ -202,7 +202,7 @@ local function on_joinplayer(player)
    })
 
    -- No free coordinates for you, sorry!
-   player:hud_set_flags({basic_debug = false})
+   rp_hud.set_hud_flag_semaphore(player, "rp_player:debug", "basic_debug", false)
 end
 
 local function on_leaveplayer(player)

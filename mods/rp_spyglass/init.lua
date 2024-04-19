@@ -36,17 +36,7 @@ local function remove_scope(player)
 		player:hud_remove(data.hud)
 	end
 
-	local new_hud_flags = {}
-	local set_hud_flags = false
-	if data.show_item then
-		new_hud_flags.wielditem = data.show_item
-		set_hud_flags = true
-	end
-	-- Restore previously remembered HUD flags state
-	if set_hud_flags then
-		player:hud_set_flags(new_hud_flags)
-	end
-
+	rp_hud.set_hud_flag_semaphore(player, "rp_spyglass:spyglassing", "wielditem", true)
 
 	spyglass_users[p_name] = nil
 	player:set_fov(settings.fov_default, false, settings.zoom_out_time)
@@ -74,21 +64,11 @@ local function use_spyglass(player)
 			z_index = -350,
 		}),
 		index = player:get_wield_index(),
-		show_item = hud_flags.wielditem,
 	}
 	spyglass_users[p_name] = data
-	local new_hud_flags = {}
-	local set_hud_flags = false
-	if data.show_item then
-		new_hud_flags.wielditem = false
-		set_hud_flags = true
-	end
-	-- Remember HUD flags state to restore later (when spyglass gets deactivated).
-	-- This assumes that no mod touches the HUD flags we touch while the
-	-- spyglass is active!
-	if set_hud_flags then
-		player:hud_set_flags(new_hud_flags)
-	end
+
+	-- Hide wielditem while spyglassing
+	rp_hud.set_hud_flag_semaphore(player, "rp_spyglass:spyglassing", "wielditem", false)
 
 	local spy_fov = settings.fov_zoom
 	player:set_fov(spy_fov, false, settings.zoom_in_time)
