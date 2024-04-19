@@ -1,5 +1,40 @@
 local S = minetest.get_translator("rp_default")
 
+local grow_tall = function(pos, y_dir, nodename)
+	local newpos
+	for i=1, 10 do
+		newpos = vector.offset(pos, 0, i*y_dir, 0)
+		local newnode = minetest.get_node(newpos)
+		if newnode.name == "air" then
+			minetest.set_node(newpos, {name=nodename})
+			return true
+		elseif newnode.name ~= nodename then
+			return false
+		end
+	end
+	return false
+end
+
+local degrow_tall = function(pos, y_dir, nodename)
+	local prevpos, newpos
+	for i=1, 10 do
+		prevpos = vector.offset(pos, 0, (i-1)*y_dir, 0)
+		newpos = vector.offset(pos, 0, i*y_dir, 0)
+		local newnode = minetest.get_node(newpos)
+		if newnode.name ~= nodename then
+			-- Check if this is the only node
+			local prevprevpos = vector.offset(pos, 0, (i-2)*y_dir, 0)
+			local prevprevnode = minetest.get_node(prevprevpos)
+			if prevprevnode.name ~= nodename and newnode.name ~= nodename then
+				return false
+			end
+			minetest.remove_node(prevpos)
+			return true
+		end
+	end
+	return false
+end
+
 -- Cacti
 
 minetest.register_node(
@@ -37,6 +72,12 @@ minetest.register_node(
          util.dig_up(pos, node, digger)
       end,
       on_use = minetest.item_eat(0),
+      _on_grow = function(pos, node)
+		return grow_tall(pos, 1, node.name)
+      end,
+      _on_degrow = function(pos, node)
+		return degrow_tall(pos, 1, node.name)
+      end,
 })
 
 -- Papyrus
@@ -95,6 +136,12 @@ minetest.register_node(
 
          -- Dig up (papyrus can't float)
          util.dig_up(pos, node, digger)
+      end,
+      _on_grow = function(pos, node)
+		return grow_tall(pos, 1, node.name)
+      end,
+      _on_degrow = function(pos, node)
+		return degrow_tall(pos, 1, node.name)
       end,
 })
 
@@ -240,6 +287,12 @@ minetest.register_node(
           end
           return itemstack
       end,
+      _on_grow = function(pos, node)
+         return grow_tall(pos, -1, node.name)
+      end,
+      _on_degrow = function(pos, node)
+         return degrow_tall(pos, -1, node.name)
+      end,
 })
 
 -- Fern
@@ -377,6 +430,9 @@ minetest.register_node(
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1, green_grass = 1, plant = 1, spawn_allowed_in = 1},
       sounds = rp_sounds.node_sound_grass_defaults(),
+      _on_grow = function(pos)
+         minetest.set_node(pos, {name="rp_default:tall_grass"})
+      end,
 })
 
 minetest.register_node(
@@ -415,6 +471,9 @@ minetest.register_node(
              itemstack:add_wear_by_uses(def.tool_capabilities.groupcaps.snappy.uses)
           end
           return itemstack
+      end,
+      _on_degrow = function(pos)
+         minetest.set_node(pos, {name="rp_default:grass"})
       end,
 })
 
@@ -520,6 +579,11 @@ minetest.register_node(
 
 	 return itemstack
       end,
-
+      _on_grow = function(pos, node)
+         return grow_tall(pos, 1, node.name)
+      end,
+      _on_degrow = function(pos, node)
+         return degrow_tall(pos, 1, node.name)
+      end
 })
 
