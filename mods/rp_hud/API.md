@@ -5,6 +5,7 @@
 When your Repixture mod wants to touch HUD flags (like hotbar, wielditem,
 zoom), it is **forbidden** to call `player:hud_set_flags` directly.
 Instead, HUD flags are handled by so-called semaphores.
+(Calling `player:hud_get_flags` is OK.)
 
 This mod uses binary semaphores.
 
