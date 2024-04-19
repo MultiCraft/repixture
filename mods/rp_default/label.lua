@@ -1,7 +1,4 @@
-
---
--- Tool definitions
---
+-- Label
 
 local S = minetest.get_translator("rp_default")
 
@@ -15,7 +12,6 @@ rp_formspec.register_page("rp_default:label", form_label)
 
 local active_posses = {}
 
--- Trim node (as defined by node definition's _on_trim field)
 local write = function(itemstack, player, pointed_thing)
     -- Handle pointed node handlers and protection
     if util.handle_node_protection(player, pointed_thing) then
@@ -53,7 +49,6 @@ minetest.register_craftitem(
       _tt_help = S("Give a name to containers"),
       inventory_image = "rp_default_label.png",
       wield_image = "rp_default_label.png",
-      on_place = write,
       on_use = write,
 })
 
