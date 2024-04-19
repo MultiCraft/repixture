@@ -194,12 +194,16 @@ local function on_joinplayer(player)
    local inv = player:get_inventory()
    inv:set_size("hand", 1)
 
+   local zoom
+   if minetest.is_creative_enabled(name) then
+      zoom = 10 -- to match spyglass zoom
+   end
    player:set_properties({
       stepheight = 0.626, -- slightly above 10/16
       damage_texture_modifier = DAMAGE_TEXTURE_MODIFIER,
       collisionbox = { -0.3, 0, -0.3, 0.3, 1.77, 0.3 },
       selectionbox = { -0.32, 0, -0.22, 0.32, 1.77, 0.22, rotate=true},
-      zoom_fov = 10, -- to match spyglass zoom
+      zoom_fov = zoom,
    })
 
    -- No free coordinates for you, sorry!
