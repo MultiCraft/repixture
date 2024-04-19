@@ -403,8 +403,8 @@ rp_formspec.register_page("rp_formspec:2part", form_2part)
 
 -- Simple text input field
 local form_default_field = ""
-form_default_field = form_default_field .. "size[11.75,6.75]"
 form_default_field = form_default_field .. rp_formspec.default.version
+form_default_field = form_default_field .. "size[11.75,6.75]"
 form_default_field = form_default_field .. rp_formspec.default.boilerplate
 form_default_field = form_default_field .. "background[1.625,1.625;8.5,4.5;ui_formspec_bg_short.png]"
 form_default_field = form_default_field .. rp_formspec.button_exit(5.0625, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)

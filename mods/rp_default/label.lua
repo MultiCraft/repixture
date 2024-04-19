@@ -5,6 +5,14 @@
 
 local S = minetest.get_translator("rp_default")
 
+local form_label = ""
+form_label = form_label .. rp_formspec.default.version
+form_label = form_label .. "size[8.5,4.5]"
+form_label = form_label .. rp_formspec.default.boilerplate
+form_label = form_label .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
+form_label = form_label .. rp_formspec.button_exit(3, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
+rp_formspec.register_page("rp_default:label", form_label)
+
 local active_posses = {}
 
 -- Trim node (as defined by node definition's _on_trim field)
@@ -24,13 +32,10 @@ local write = function(itemstack, player, pointed_thing)
     if def._rp_write_name then
        local meta = minetest.get_meta(pointed_thing.under)
        local text = meta:get_string("name")
-       local form = ""
-       form = form .. "size[8.5,5]"
-       form = form .. rp_formspec.default.bg
-       form = form .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
-       form = form .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
+
+       local form = rp_formspec.get_page("rp_default:label")
+       form = form .. "field[1,1.5;6.5,0.5;text;;"..minetest.formspec_escape(text).."]"
        form = form .. "set_focus[text;true]"
-       form = form .. "field[1,1.75;7,0;text;;"..minetest.formspec_escape(text).."]"
 
        minetest.show_formspec(player:get_player_name(), "rp_default:label", form)
     end
