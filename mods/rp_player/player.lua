@@ -199,6 +199,7 @@ local function on_joinplayer(player)
       damage_texture_modifier = DAMAGE_TEXTURE_MODIFIER,
       collisionbox = { -0.3, 0, -0.3, 0.3, 1.77, 0.3 },
       selectionbox = { -0.32, 0, -0.22, 0.32, 1.77, 0.22, rotate=true},
+      zoom_fov = 10, -- to match spyglass zoom
    })
 
    -- No free coordinates for you, sorry!
