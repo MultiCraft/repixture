@@ -9,7 +9,10 @@ This is the list of all groups used for items. Note: If no number/rating is spec
 
 ## Interactive item groups
 * `not_in_creative_inventory`: Item won't show up in Creative Inventory
-* `not_in_craft_guide`: Item won't show up in crafting guide
+* `not_in_craft_guide`: All recipes that have this item as output will be hidden from the
+   crafting guide, even if the resources are in the input slots. The item can still be crafted
+   when the crafting guide is disabled (assuming there's a recipe). Useful for items that are
+   "secretly craftable" and for rather "technical" items that would pollute the crafting guide.
 * `no_item_drop`: This item can't exist as a dropped item on the ground. When dropping it, it is deleted instantly
 * `immortal_item`: In entity form, this item withstands damage and won't be destroyed by nodes with `destroys_items` group
 
@@ -39,6 +42,10 @@ These groups are mainly used for a better item sorting in Creative Mode.
 * `weapon`: Weapon (item that is *primarily* used for attacks)
 * `supertool`: Super tool, i.e. a powerful tool for Creative Mode use only
 * `sheep_cuts`: For shears. Rating specifies how often it can shear sheep
+* `can_scrape`: Tool is capable of scraping off paint
+    * `can_scrape=2`: ... with “punch” key
+    * `can_scrape=3`: ... with “place” key
+    * `can_scrape=1`: ... by some other or undefined method
 
 ## Armor
 * `is_armor`: Item is an armor piece
@@ -50,6 +57,8 @@ These groups are mainly used for a better item sorting in Creative Mode.
 * `stick`: Stick
 * `bucket`: Any bucket
 * `bucket_water`: Bucket with water
+* `paint_bucket`: Paint bucket. Rating is paint level (1 = empty, 2-10: contains paint)
+* `paint_bucket_not_full`: Paint bucket that isn’t full
 * `food`: Can be eaten by player. Rating: 2 = eatable, 3 = drinkable, 1 = unknown food type
 * `nav_compass`: Compass. Rating: 1 = normal compass, 2 = magnocompass
 * `spawn_egg`: Item that spawns mobs
@@ -67,13 +76,21 @@ These groups are mainly used for a better item sorting in Creative Mode.
 This is the list of all groups used for nodes. Note: If no number/rating is specified, use 1 as rating.
 
 ### Digging groups
+
+These groups determine digging times:
+
 * `choppy`: Can be dug by brute force, like wood
 * `cracky`: Hard material like stone
 * `crumbly`: Soft material like dirt
 * `snappy`: Can be dug with fine tools like shears
 * `fleshy`: Node represents some kind of (semi-)living organism, so it can be "dug" easily by weapons
-* `handy`: Can be dug with bare hand
-* `oddly_breakable_by_hand`: Can be dug with bare hand, but for nodes where it seems unrealistic
+* `handy`: Can be easily dug by the hand (fast)
+* `oddly_breakable_by_hand`: Can be dug by the hand, but it's awkward (slow)
+
+**NOTE**: If you use `handy` or `oddly_breakable_by_hand` in combination with
+any of the other digging groups, make sure dig times of the weakest tool are
+still faster than with the hand (test this in-game to make sure).
+Also, never use `handy` and `oddly_breakable_by_hand` at the same time.
 
 ### Interactive node groups:
 * `soil`: For blocks that allow several plants to grow
@@ -98,7 +115,19 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `special_magnocompass_node_handling=1`: Node will handle placing a magno compass in a special way (see `rp_nav`)
 * `seed`: A farming item that can be planted on the ground to spawn a plant that will grow over time.
           Usually this is a seed, but it does not have to be.
-* `_attached_node_top=1`: Node attaches to the top of another node. If the node above disappears, the node itself detaches
+* `paintable=1`: Node is paintable and is in “painted” state (see `rp_paint` for details)
+* `paintable=2`: Node is paintable and is in “unpainted” state (see `rp_paint` for details)
+* `_attached_node_top=1`: Node attaches to the top of another node or itself. If the node above disappears, the node itself detaches
+* `_attached_node_bottom=1`: Node attaches to the bottom of another node or itself. If the node below disappears, the node itself detaches
+
+#### Note about the `_attached_node_*` groups
+
+These groups are a more specialized variant of the built-in `attached_node` group.
+
+They are specifically designed for nodes that vertically stack and attach to each other, like vines or thistles.
+The unique thing about these groups is that breaking the support of this node will cause a cascade.
+Unlike `attached_node`, they also work if the node is not `walkable`. Use these groups when a standard
+`attached_node` does not suffice.
 
 ### Node categorization
 
@@ -135,6 +164,8 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 
 * `spikes`: Spikes
 * `item_showcase`: Item showcase
+* `chest`: Chest (1=not locked, 2=with lock)
+* `furnace`: Furnace (1=inactive, 2=active)
 
 * `plantable_dry`: You can plant farming plants on it and this node is considered to be dry
 * `plantable_wet`: You can plant farming plants on it and this node is considered to be wet
@@ -151,7 +182,7 @@ This is the list of all groups used for nodes. Note: If no number/rating is spec
 * `door_wood`: Wooden door
 * `door_state`: Door segment, internal state (1 or 2) (see `rp_door` mod)
 * `door_position`: Door segment, position (1 = bottom, 2 = top)
-* `fence`: Fence
+* `fence`: Fence. Fence nodes MUST have a collisionbox height of 1.5
 * `sign`: Sign
 * `bed`: Bed segment
 * `torch`: Torch

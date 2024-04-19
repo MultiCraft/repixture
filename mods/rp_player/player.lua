@@ -1,5 +1,7 @@
 local S = minetest.get_translator("rp_player")
 
+local mod_textures = minetest.get_modpath("rp_textures") ~= nil
+
 local player_soundspec = {}
 local player_lastsound = {}
 local player_health = {}
@@ -9,6 +11,9 @@ local player_watertime = {} -- for aqualung achievement
 local particlespawners = {}
 
 local AQUALUNG_TIME = 150 -- seconds required for aqualung achievement
+
+-- texture modifier when player takes damage
+local DAMAGE_TEXTURE_MODIFIER = "^[colorize:#df2222:180"
 
 local mod_achievements = minetest.get_modpath("rp_achievements") ~= nil
 
@@ -91,7 +96,7 @@ local function step(dtime)
                exptime = {min=0.3,max=0.8},
                size = {min=0.7, max=2.4},
                texture = {
-                  name = "bubble.png",
+                  name = "rp_textures_bubble_particle.png",
                   alpha_tween = { 1, 0, start = 0.75 }
                }
          })
@@ -148,6 +153,35 @@ local function step(dtime)
    end
 end
 
+local function on_respawnplayer(player)
+	local pos = player:get_pos()
+	if mod_textures then
+		minetest.add_particlespawner({
+			amount = 16,
+			time = 0.02,
+			pos = {
+				min = vector.add(pos, vector.new(-0.4, 0.0, -0.4)),
+				max = vector.add(pos, vector.new(0.4, 0.1, 0.4)),
+			},
+			vel = {
+				min = vector.new(-1, 0.2, -1),
+				max = vector.new(1, 2, 1),
+			},
+			acc = vector.zero(),
+			exptime = { min = 1.0, max = 1.5 },
+			size = { min = 8, max = 12 },
+			drag = vector.new(1,1,1),
+			texture = {
+				name = "rp_textures_death_smoke_anim_1.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+				name = "rp_textures_death_smoke_anim_2.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+				name = "rp_textures_death_smoke_anim_1.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+				name = "rp_textures_death_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
+			},
+		})
+	end
+	minetest.sound_play({name="rp_sounds_disappear", gain=0.4}, {pos=pos, max_hear_distance=12}, true)
+end
+
 local function on_joinplayer(player)
    local name=player:get_player_name()
 
@@ -160,9 +194,20 @@ local function on_joinplayer(player)
    local inv = player:get_inventory()
    inv:set_size("hand", 1)
 
+   local zoom
+   if minetest.is_creative_enabled(name) then
+      zoom = 10 -- to match spyglass zoom
+   end
    player:set_properties({
       stepheight = 0.626, -- slightly above 10/16
+      damage_texture_modifier = DAMAGE_TEXTURE_MODIFIER,
+      collisionbox = { -0.3, 0, -0.3, 0.3, 1.77, 0.3 },
+      selectionbox = { -0.32, 0, -0.22, 0.32, 1.77, 0.22, rotate=true},
+      zoom_fov = zoom,
    })
+
+   -- No free coordinates for you, sorry!
+   rp_hud.set_hud_flag_semaphore(player, "rp_player:debug", "basic_debug", false)
 end
 
 local function on_leaveplayer(player)
@@ -179,5 +224,6 @@ end
 
 minetest.register_on_joinplayer(on_joinplayer)
 minetest.register_on_leaveplayer(on_leaveplayer)
+minetest.register_on_respawnplayer(on_respawnplayer)
 
 minetest.register_globalstep(step)

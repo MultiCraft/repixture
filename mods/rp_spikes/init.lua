@@ -1,5 +1,26 @@
 local S = minetest.get_translator("rp_spikes")
 
+local SPIKES_PITCH_MODIFIER = 1.5
+
+local make_metal_sounds = function(pitch)
+	local sounds = rp_sounds.node_sound_metal_defaults()
+	if not pitch then
+		pitch = 1
+	end
+	pitch = pitch * SPIKES_PITCH_MODIFIER
+	sounds.footstep = {}
+	if sounds.dig then
+		sounds.dig.pitch = pitch
+	end
+	if sounds.dug then
+		sounds.dug.pitch = pitch
+	end
+	if sounds.place then
+		sounds.place.pitch = pitch
+	end
+	return sounds
+end
+
 local register_spikes = function(name, def)
 	local disable_jump = 1
 	if def.allow_jump then
@@ -30,7 +51,7 @@ local register_spikes = function(name, def)
 		is_ground_content = false,
 		groups = groups,
 		damage_per_second = def.damage_per_second,
-		sounds = rp_sounds.node_sound_stone_defaults(),
+		sounds = make_metal_sounds(def.pitch),
 	}
 	minetest.register_node(name, spikedef)
 
@@ -46,12 +67,15 @@ local register_spikes = function(name, def)
 	end
 end
 
+local mod_default = minetest.get_modpath("rp_default") ~= nil
+
 register_spikes("rp_spikes:spikes_copper", {
 	description = S("Copper Spikes"),
 	tiles = { "rp_spikes_spikes_copper.png" },
 	image = "rp_spikes_spikes_copper_inventory.png",
 	damage_per_second = 2,
 	craftitem = "rp_default:ingot_copper",
+	pitch = mod_default and default.METAL_PITCH_COPPER,
 })
 register_spikes("rp_spikes:spikes_wrought_iron", {
 	description = S("Wrought Iron Spikes"),
@@ -60,6 +84,7 @@ register_spikes("rp_spikes:spikes_wrought_iron", {
 	damage_per_second = 3,
 	craftitem = "rp_default:ingot_wrought_iron",
 	groups_plus = { magnetic = 1 },
+	pitch = mod_default and default.METAL_PITCH_WROUGHT_IRON,
 })
 register_spikes("rp_spikes:spikes_steel", {
 	description = S("Steel Spikes"),
@@ -67,6 +92,7 @@ register_spikes("rp_spikes:spikes_steel", {
 	image = "rp_spikes_spikes_steel_inventory.png",
 	damage_per_second = 4,
 	craftitem = "rp_default:ingot_steel",
+	pitch = mod_default and default.METAL_PITCH_STEEL,
 })
 register_spikes("rp_spikes:spikes_carbon_steel", {
 	description = S("Carbon Steel Spikes"),
@@ -74,6 +100,7 @@ register_spikes("rp_spikes:spikes_carbon_steel", {
 	image = "rp_spikes_spikes_carbon_steel_inventory.png",
 	damage_per_second = 5,
 	craftitem = "rp_default:ingot_carbon_steel",
+	pitch = mod_default and default.METAL_PITCH_CARBON_STEEL,
 })
 register_spikes("rp_spikes:spikes_bronze", {
 	description = S("Bronze Spikes"),
@@ -81,5 +108,6 @@ register_spikes("rp_spikes:spikes_bronze", {
 	image = "rp_spikes_spikes_bronze_inventory.png",
 	damage_per_second = 6,
 	craftitem = "rp_default:ingot_bronze",
+	pitch = mod_default and default.METAL_PITCH_BRONZE,
 })
 

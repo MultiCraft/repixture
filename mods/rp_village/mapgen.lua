@@ -5,7 +5,7 @@
 local S = minetest.get_translator("rp_village")
 
 local spawn_pos = minetest.setting_get_pos("static_spawnpoint") or {x = 0, y = 0, z = 0}
-local spawn_radius = minetest.settings:get("static_spawn_radius") or 256
+local spawn_radius = tonumber(minetest.settings:get("static_spawn_radius")) or 256
 local mapseed = minetest.get_mapgen_setting("seed")
 
 local bitwise_and = function(x,y)
@@ -102,13 +102,26 @@ minetest.register_node(
           -- ... but not TOO nearby (occupying the pos)
           local objs_near = minetest.get_objects_inside_radius(pos, 1.2)
           if #objs_around > 0 and #objs_near == 0 then
-              local ent_name = minetest.get_meta(pos):get_string("entity")
+              local meta = minetest.get_meta(pos)
+              local ent_name = meta:get_string("entity")
               if ent_name ~= "" then
                   local ent = minetest.add_entity({x=pos.x, y=pos.y+0.6, z=pos.z}, ent_name)
-                  -- All spawned animals are tamed
-                  if ent ~= nil and ent:get_luaentity() ~= nil then
-                     if minetest.registered_entities[ent_name].type == "animal" then
-                         ent:get_luaentity().tamed = true
+                  local luaent = ent and ent:get_luaentity()
+                  if luaent ~= nil then
+                     -- Set villager profession
+
+                     if ent_name == "rp_mobs_mobs:villager" then
+                        local profession = meta:get_string("villager_profession")
+                        if profession ~= "" then
+                           rp_mobs_mobs.set_villager_profession(luaent, profession)
+                           minetest.log("info", "[rp_village] Profession of villager spawned at "..minetest.pos_to_string(pos).." set to: "..tostring(profession))
+                        else
+                           minetest.log("info", "[rp_village] Entity spawner at "..minetest.pos_to_string(pos).." spawned a villager but without villager_profession set in meta. Not setting profession")
+                        end
+                     end
+                     -- Tame animal
+                     if rp_mobs.mobdef_has_tag(ent_name, "animal") then
+                        luaent._tamed = true
                      end
                   end
               else
@@ -200,7 +213,7 @@ local function attempt_village_spawn(pos, village_type)
        local nearest = village.get_nearest_village(spos)
 
        if not nearest or nearest.dist > village.min_spawn_dist then
-          if vector.distance(spawn_pos, spos) > spawn_radius then
+          if spawn_radius == 0 or vector.distance(spawn_pos, spos) > spawn_radius then
              minetest.log("action", "[rp_village] Spawning a village at " .. "(" .. spos.x
                              .. ", " .. spos.y .. ", " .. spos.z .. ")")
              local ground = village_info[village_type].ground
@@ -218,7 +231,6 @@ local function attempt_village_spawn(pos, village_type)
     end
 end
 
-local village_decoration_id
 if not minetest.settings:get_bool("mapgen_disable_villages") then
    -- Register dummy decorations to find possible village spawn points
    -- via gennotify.

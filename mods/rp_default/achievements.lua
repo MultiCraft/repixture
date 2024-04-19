@@ -85,7 +85,7 @@ achievements.register_achievement(
       title = S("Metal Age"),
       description = S("Put a mineral and some fuel in a furnace to smelt an ingot."),
       times = 1,
-      craftitem = "rp_default:ingot_wrought_iron",
+      item_icon = "rp_default:ingot_wrought_iron",
       difficulty = 4,
 })
 
@@ -230,9 +230,6 @@ minetest.register_on_mods_loaded(function()
 		icon = "rp_default_achievement_find_all_minerals.png",
 		difficulty = 6.5,
 	})
-
-	local got_mineral = function(player, item)
-	end
 
 	for m=1, #minerals do
 		rp_checkitem.register_on_got_item(minerals[m], function(player)

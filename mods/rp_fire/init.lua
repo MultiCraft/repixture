@@ -25,6 +25,13 @@ local burnout_effect = function(pos)
    minetest.sound_play({name="rp_default_torch_burnout", gain=0.2, max_hear_distance = 16}, {pos=pos}, true)
 end
 
+local snd = rp_sounds.node_sound_coal_defaults({
+    dig = { name = "rp_sounds_dig_coal", gain = 0.4 },
+    dug = { name = "rp_sounds_dug_coal", gain = 0.7 },
+    place = { name = "rp_sounds_footstep_coal", gain = 0.2 },
+    fall = { name = "rp_sounds_dug_coal", gain = 0.3 },
+})
+
 minetest.register_node(
    "rp_fire:bonfire",
    {
@@ -48,7 +55,7 @@ minetest.register_node(
       end,
       walkable = false,
       groups = {crumbly = 3, oddly_breakable_by_hand = 3, bonfire = 1, attached_node = 1},
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = snd,
       _rp_on_ignite = function(pos, itemstack, user)
          minetest.set_node(pos, {name="rp_fire:bonfire_burning"})
 	 return {}
@@ -82,7 +89,7 @@ minetest.register_node(
       groups = {crumbly = 3, oddly_breakable_by_hand = 3, bonfine = 2, attached_node = 1, not_in_creative_inventory = 1, react_on_rain_hf = 1},
       walkable = false,
       drop = "rp_fire:bonfire",
-      sounds = rp_sounds.node_sound_stone_defaults(),
+      sounds = snd,
 
       _rp_on_rain = function(pos, node)
           minetest.set_node(pos, {name="rp_fire:bonfire", param2 = node.param2})

@@ -11,6 +11,14 @@ default.LIGHT_MAX = 14
 default.WEAK_TORCH_MIN_TIMER = 240
 default.WEAK_TORCH_MAX_TIMER = 360
 
+-- Sound pitch for various metal nodes
+default.METAL_PITCH_COPPER = 0.90
+default.METAL_PITCH_TIN = 0.95
+default.METAL_PITCH_WROUGHT_IRON = 1.00
+default.METAL_PITCH_STEEL = 1.05
+default.METAL_PITCH_CARBON_STEEL = 1.10
+default.METAL_PITCH_BRONZE = 1.15
+
 -- If a sapling is affected by fertilizer,
 -- the growth timer is reduced by this
 -- factor. E.g. if the timeout is 100s
@@ -20,10 +28,6 @@ default.SAPLING_FERTILIZER_TIME_BONUS_FACTOR = 0.1
 
 -- Maximum 'age' of a vine (determines how long it'll grow)
 default.VINE_MAX_AGE = 20
-
-minetest.nodedef_default.stack_max = 60
-minetest.craftitemdef_default.stack_max = 60
-
 
 --[[ This game uses biome versions to allow backwards-compability
 of old maps. A biome version bump is neccessary whenever there's
@@ -55,6 +59,7 @@ minetest.log("action", "[rp_default] Mapgen: Using biome version "..default.biom
 dofile(minetest.get_modpath("rp_default").."/functions.lua")
 
 dofile(minetest.get_modpath("rp_default").."/nodes_base.lua") -- simple nodes
+dofile(minetest.get_modpath("rp_default").."/fertilizer.lua")
 dofile(minetest.get_modpath("rp_default").."/nodes_liquids.lua") -- liquids
 dofile(minetest.get_modpath("rp_default").."/nodes_trees.lua") -- tree-related nodes
 dofile(minetest.get_modpath("rp_default").."/nodes_plants.lua") -- small plant nodes

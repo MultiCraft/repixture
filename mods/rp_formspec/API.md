@@ -6,9 +6,17 @@ and you can also register new pages/tabs.
 There are also some functions for adding special
 formspec elements, some of them are required.
 
+## Compability note
+
+This mod provides a reasonable formspec prepend so that formspecs
+from mods that do not know about `rp_formspec` should still
+be acceptable. However, they might not be fully in Repixture style.
+
+Use mod if you want to make use Repixture-specific features.
+
 ## Formspec version
 
-Formspec version 1 is used (sorry …).
+Formspec version 7 is used.
 
 ## Recommended usage
 
@@ -50,22 +58,18 @@ and register the result as a new page.
 ### `rp_formspec.register_page(name, form)`
 
 Registers a page with the identifier `name` and formspec string `form`.
-`form` **must not** be the empty string.
+`form` must follow the following rules:
+
+* Contains the `size[]` element
+* Contains `rp_formspec.default.boilerplate` right after `size[]`
 
 
-
-### `rp_formspec.get_page(name, with_invtabs)`
+### `rp_formspec.get_page(name)`
 
 Returns the formspec string of the page by name `name`.
 If the page does not exist, `""` is returned.
 
 * `name`: Identifier
-* `with_invtabs`: (optional) If true, invtabs (see below) will be attached to the page (default: false)
-  This works for the built-in pages `rp_formspec_default` and
-  `rp_formspec:2part`. Other pages are only guaranteed to work if they have
-  the exact same size as these.
-
-
 
 ### `rp_formspec.registered_pages`
 
@@ -147,6 +151,7 @@ Registers an invtab and associates it with an invpage.
 * `name`: Identifier for the invtab/invpage
 * `def`: Definition table with these fields:
     * `icon`: Tab icon
+    * `icon_active`: (optional) Tab icon when tab is active (default: same as `icon`)
     * `tooltip`: Tooltip when hovering the tab
 
 Note: It is allowed to register an invpage without an invtab.
@@ -205,7 +210,7 @@ Some rules:
 * For item images, use one of the item functions.
 * “tabs” attach to the left and right side.
 
-### `rp_formspec.get_itemslot_bg(x, y, w, h)`
+### `rp_formspec.get_itemslot_bg(x, y, w, h, count)`
 
 Adds a 2D grid of background images for the background of
 “normal” item slots. This needs to be used in combination
@@ -215,6 +220,7 @@ add the item slot images.
 * `x`, `y`: Top left position of the grid
 * `w`: Width of the grid, number of slots horizontally
 * `h`: Height of the grid; number of slots vertically
+* `count`: (optional) Limit the number of slots by `count`
 
 Use the same position and size as the `list[]` element.
 Add this *after* the corresponding `list[]` element
@@ -242,14 +248,17 @@ Adds a button. When the button is pressed, the formspec
 is not closed.
 
 * `x`, `y`: Position
-* `w`: Button width. 1, 2 and 3 are fully supported, other widths might be weirdly stretched
-* `h`: Button height
+* `w`: Button width. Only 1, 2 and 3 are supported.
+* `h`: Button height. 1 gives the best results; other heights can cause stretching
 * `name`: Internal identifier
 * `label`: Same as for `button[]` formspec element
-* `noclip`: Same as for `button[]` formspec element
+* `noclip`: Unused legacy argument
 * `tooltip`: Tooltip (optional)
 
-
+Note the button will includes a bit of margin and is a bit smaller
+than the given width, so the clickable button area is a little bit
+larger than the visible button. Press F5 in the formspec to
+reveal the clickable area.
 
 ### `rp_formspec.button_exit(x, y, w, h, name, label, noclip, tooltip)`
 
@@ -273,18 +282,25 @@ the formspec is not closed.
 
 
 
-### `rp_formspec.tab(x, y, name, icon, tooltip, side)`
+### `rp_formspec.tab(x, y, name, icon, tooltip, side, pushed)`
 
 A sideways tab that is either at the left or right side.
-(Note: Internally, this is a button.)
+A tab can also be in 'pushed' or 'unpushed' state. A pushed tab
+is green. A tab should be in 'pushed' state when the thing it
+represents is being in use.
 
 * `x`, `y`: Position
 * `name`: Internal identifier
 * `icon`: Tab icon (texture file name)
 * `tooltip`: Tooltip (optional)
 * `side`: On which side to put the tab. `"left"` or `"right"`. Default: `"left"`
+* `pushed`: Whether this tab is considered 'pushed'.
 
+It is also recommended to use a different icon for both pushed and
+unpushed state.
 
+(Note: Internally, this tab is a button. It has nothing to do with
+Minetest's builtin 'tabheader')
 
 ### `rp_formspec.fake_itemstack(x, y, itemstack)`
 
@@ -328,10 +344,28 @@ the crafting guide. The group **must** exist in `rp_formspec.group_names`.
 
 ## Other features
 
-### `rp_formspec.default.bg`
+### `rp_formspec.default.boilerplate`
 
-A formspec string containing a `bgcolor[]` element with the default background color.
-Read-only!
+A formspec string that **must** be added to every inventory page
+right after the `size[]` element.
+It contains a `no_prepend[]` and other information required for
+Repixture formspecs to work.
+
+
+
+### `rp_formspec.default.player_inventory`
+
+A formspec string that contains the player inventory as well
+as its default position.
+Useful to create pages that want to include the player
+inventory.
+
+
+
+### `rp_formspec.default.version`
+
+A formspec string that contains the current `formspec_version[]`
+element used by `rp_formspec`.
 
 
 
@@ -358,3 +392,15 @@ A table with user-readable group-names.
 The short names and long descriptions should start with a capital letter in English.
 
 Used by `rp_formspec.item_group`. Read-only!
+
+
+
+## Legacy
+
+### `rp_formspec.default.bg`
+
+Legacy string formspec containing info about the formspec background.
+As this is no longer needed, this contains the empty string.
+You can safely remove it from scripts.
+
+

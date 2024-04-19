@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_player_effects x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "The @1 effect"
+msgstr "L'effet de @1"
+
+msgid "Show your current player effects"
+msgstr "Affiche vos effets actuels"
+
+msgid "Current player effects:"
+msgstr "Effets actuels :"
+
+msgid "@1: unlimited"
+msgstr "@1 : illimité"
+
+msgid "@1: @2 s remaining"
+msgstr "@1 : @2s restantes"
+
+msgid "You currently have no effects."
+msgstr "Vous n'avez actuellement aucun effet."
+

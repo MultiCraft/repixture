@@ -20,7 +20,6 @@ minetest.register_node(
 	 plantable_soil = 1,
 	 plantable_fertilizer = 1,
 	 fall_damage_add_percent = -5,
-	 not_in_craft_guide = 1,
       },
       drop = "rp_default:dirt",
       sounds = rp_sounds.node_sound_dirt_defaults(),
@@ -43,10 +42,9 @@ minetest.register_node(
 	 plantable_dry = 1,
 	 plantable_fertilizer = 1,
 	 fall_damage_add_percent = -10,
-	 not_in_craft_guide = 1,
       },
       drop = "rp_default:dry_dirt",
-      sounds = rp_sounds.node_sound_dirt_defaults(),
+      sounds = rp_sounds.node_sound_dry_dirt_defaults(),
 })
 
 minetest.register_node(
@@ -66,10 +64,9 @@ minetest.register_node(
 	 plantable_wet = 1,
 	 plantable_fertilizer = 1,
 	 fall_damage_add_percent = -10,
-	 not_in_craft_guide = 1,
       },
       drop = "rp_default:swamp_dirt",
-      sounds = rp_sounds.node_sound_dirt_defaults(),
+      sounds = rp_sounds.node_sound_swamp_dirt_defaults(),
 })
 
 minetest.register_node(
@@ -85,7 +82,6 @@ minetest.register_node(
 	 plantable_sandy = 1,
 	 plantable_fertilizer = 1,
 	 fall_damage_add_percent = -10,
-	 not_in_craft_guide = 1,
       },
       drop = "rp_default:sand",
       sounds = rp_sounds.node_sound_sand_defaults(),

@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_nav x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Compass"
+msgstr "Boussole"
+
+msgid "It points to the North"
+msgstr "Elle pointe vers le nord"
+
+msgid "Can be magnetized at magnetic blocks"
+msgstr "Peut être magnétisée par les blocs magnétiques"
+
+msgid "Magno Compass"
+msgstr "Boussole Magno"
+
+msgid "It points to a position"
+msgstr "Elle pointe vers une position"
+
+msgid "Can be demagnetized at unmagnetic blocks"
+msgstr "Peut être démagnétisée par les blocs non-magnétiques"
+
+msgid "True Navigator"
+msgstr "Vrai navigateur"
+
+msgid "Magnetize a compass."
+msgstr "Magnétiser une boussole."
+
+msgid "Map"
+msgstr "Carte"
+
+msgid "Keep this in your inventory and view the map with the 'minimap' key"
+msgstr "Gardez là dans votre inventaire et regardez la carte avec la touche 'mini-carte'"
+
+msgid "Use the minimap key to show the map."
+msgstr "Utilisez la touche mini-carte pour afficher la carte."
+
+msgid "Navigator"
+msgstr "Navigateur"
+
+msgid "Craft a map."
+msgstr "Fabriquer une carte."
+

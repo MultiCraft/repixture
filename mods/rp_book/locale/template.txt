@@ -4,10 +4,10 @@ Contents:=
 Write=
 Book=
 Write down some notes=
-Unnamed Book=
 Book: “@1”=
+Unnamed Book=
 Read book=
 Bookshelf=
 Provides 8 inventory slots=
+Painted Bookshelf=
 Return=
-

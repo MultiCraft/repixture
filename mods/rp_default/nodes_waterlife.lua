@@ -82,10 +82,7 @@ return function(itemstack, placer, pointed_thing)
                  local is_fertilized = minetest.get_item_group(undernode.name, "plantable_fertilizer") == 1
                  meta:set_int("age", get_init_age(underdef._waterplant_max_height, is_fertilized))
 	      end
-              local snd = underdef.sounds.place
-              if snd and top then
-                 minetest.sound_play(snd, {pos = top}, true)
-              end
+              rp_sounds.play_node_sound(pointed_thing.under, undernode, "place")
               if not minetest.is_creative_enabled(player_name) then
                  itemstack:take_item()
               end
@@ -96,6 +93,7 @@ return function(itemstack, placer, pointed_thing)
         -- Find position to place plant at
         local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
         if place_in == nil then
+           rp_sounds.play_place_failed_sound(placer)
            return itemstack
         end
         local floornode = minetest.get_node(place_floor)
@@ -111,7 +109,8 @@ return function(itemstack, placer, pointed_thing)
 	local def_floor = minetest.registered_nodes[node_floor.name]
 
 	if not util.is_water_source_or_waterfall(place_in) then
-		return itemstack
+           rp_sounds.play_place_failed_sound(placer)
+           return itemstack
 	end
 
 	if node_floor.name == "rp_default:dirt" then
@@ -135,6 +134,7 @@ return function(itemstack, placer, pointed_thing)
 	elseif base == "airweed_inert" and node_floor.name == "rp_default:fertilized_dry_dirt" then
 		node_floor.name = "rp_default:"..base.."_on_fertilized_dry_dirt"
 	else
+		rp_sounds.play_place_failed_sound(placer)
 		return itemstack
 	end
 
@@ -164,7 +164,7 @@ end
 -- Seagrass
 
 
-local register_seagrass = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, _on_trim, fertilize_info)
+local register_seagrass = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, _on_trim, _on_grow, _on_degrow, fertilize_info)
    local groups = {snappy = 2, dig_immediate = 3, seagrass = 1, grass = 1, green_grass = 1, plant = 1, rooted_plant = 1}
    local _fertilized_node
    local def_base = minetest.registered_nodes[basenode]
@@ -175,6 +175,15 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
       groups.plantable_fertilizer = 1
    elseif type(fertilize_info) == "string" then
       _fertilized_node = "rp_default:"..plant_id.."_on_"..fertilize_info
+   end
+   local sounds
+   if def_base.sounds then
+      local base_sounds = table.copy(def_base.sounds)
+      sounds = rp_sounds.node_sound_grass_defaults({
+         footstep = base_sounds.footstep,
+      })
+   else
+      sounds = rp_sounds.node_sound_grass_defaults()
    end
    minetest.register_node(
       "rp_default:"..plant_id.."_on_"..append,
@@ -193,7 +202,7 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
          waving = 1,
          walkable = true,
          groups = groups,
-         sounds = rp_sounds.node_sound_leaves_defaults(),
+         sounds = sounds,
 	 node_dig_prediction = basenode,
          after_destruct = function(pos)
             local newnode = minetest.get_node(pos)
@@ -203,18 +212,23 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
             end
          end,
 	 _on_trim = _on_trim,
+	 _on_grow = _on_grow,
+	 _on_degrow = _on_degrow,
 	 _fertilized_node = _fertilized_node,
 	 _waterplant_base_node = basenode,
 	 drop = drop,
    })
 end
 local register_seagrass_on = function(append, basenode, basenode_tiles, fertilize_info)
+   local _on_grow = function(pos, node)
+      minetest.set_node(pos, {name = "rp_default:tall_seagrass_on_"..append})
+   end
    register_seagrass("seagrass",
       { type = "fixed",
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 17/16, 0.5},
-      }}, "rp_default:seagrass", append, basenode, basenode_tiles, nil, fertilize_info)
+      }}, "rp_default:seagrass", append, basenode, basenode_tiles, nil, _on_grow, nil, fertilize_info)
 
     -- Trim tall sea grass with shears
     local _on_trim = function(pos, node, player, itemstack)
@@ -234,12 +248,15 @@ local register_seagrass_on = function(append, basenode, basenode_tiles, fertiliz
        end
        return itemstack
    end
+   local _on_degrow = function(pos, node)
+      minetest.set_node(pos, {name = "rp_default:seagrass_on_"..append})
+   end
    register_seagrass("tall_seagrass",
       { type = "fixed",
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 1.5, 0.5},
-      }}, "rp_default:seagrass", append, basenode, basenode_tiles, _on_trim, fertilize_info)
+      }}, "rp_default:seagrass", append, basenode, basenode_tiles, _on_trim, nil, _on_degrow, fertilize_info)
 
 end
 
@@ -279,6 +296,7 @@ register_seagrass_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant
 register_seagrass_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "seagrass", true), true)
 register_seagrass_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "seagrass", true), true)
 
+-- Airweed
 
 local register_airweed = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, on_rightclick, on_timer, on_construct, fertilize_info, is_inert, recharge_time)
    local groups = {snappy = 2, dig_immediate = 3, airweed = 1, plant = 1, rooted_plant = 1}
@@ -298,6 +316,15 @@ local register_airweed = function(plant_id, selection_box, drop, append, basenod
    elseif type(fertilize_info) == "string" then
       _fertilized_node = "rp_default:"..plant_id.."_on_"..fertilize_info
    end
+   local sounds
+   if def_base.sounds then
+      local base_sounds = table.copy(def_base.sounds)
+      sounds = rp_sounds.node_sound_grass_defaults({
+         footstep = base_sounds.footstep,
+      })
+   else
+      sounds = rp_sounds.node_sound_grass_defaults()
+   end
    minetest.register_node(
       "rp_default:"..plant_id.."_on_"..append,
       {
@@ -315,7 +342,7 @@ local register_airweed = function(plant_id, selection_box, drop, append, basenod
          waving = 1,
          walkable = true,
          groups = groups,
-         sounds = rp_sounds.node_sound_leaves_defaults(),
+         sounds = sounds,
 	 node_dig_prediction = basenode,
 	 on_rightclick = on_rightclick,
 	 on_timer = on_timer,
@@ -408,7 +435,7 @@ local register_airweed_on = function(append, basenode, basenode_tiles, fertilize
          exptime = {min=0.3,max=0.8},
          size = {min=0.7, max=2.4},
          texture = {
-            name = "bubble.png",
+            name = "rp_textures_bubble_particle.png",
             alpha_tween = { 1, 0, start = 0.75 }
          },
       })
@@ -503,6 +530,15 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
    if basenode == "rp_default:alga_block" then
       groups.slippery = ALGA_BLOCK_SLIPPERY
    end
+   local sounds
+   if def_base.sounds then
+      local base_sounds = table.copy(def_base.sounds)
+      sounds = rp_sounds.node_sound_grass_defaults({
+         footstep = base_sounds.footstep,
+      })
+   else
+      sounds = rp_sounds.node_sound_grass_defaults()
+   end
    minetest.register_node(
       "rp_default:alga_on_"..append,
       {
@@ -528,7 +564,7 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
          wield_image = "rp_default_plantlike_rooted_inv_"..append..".png^rp_default_plantlike_rooted_inv_alga.png",
          walkable = true,
          groups = groups,
-         sounds = rp_sounds.node_sound_leaves_defaults(),
+         sounds = sounds,
 	 node_dig_prediction = basenode,
 	 drop = "rp_default:alga",
          after_destruct = function(pos)
@@ -604,9 +640,40 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
 	 _fertilized_node = _fertilized_node,
          _waterplant_base_node = basenode,
 	 _waterplant_max_height = max_height,
+         _on_grow = function(pos, node)
+            return default.grow_underwater_leveled_plant(pos, node)
+         end,
+         _on_degrow = function(pos, node)
+            return default.degrow_underwater_leveled_plant(pos, node)
+         end,
    })
 end
 
+-- Alga Block
+local alga_block_tiles = {
+   { name="rp_default_alga_block_top.png", backface_culling=true },
+   { name="rp_default_alga_block_top.png", backface_culling=true },
+   { name="rp_default_alga_block_side.png", backface_culling=true },
+}
+minetest.register_node(
+   "rp_default:alga_block",
+   {
+      description = S("Alga Block"),
+      tiles = alga_block_tiles,
+      groups = {snappy=2, fall_damage_add_percent=-10, slippery=ALGA_BLOCK_SLIPPERY},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_grass_defaults({
+         footstep = {name="rp_default_footstep_alga", gain=0.3},
+         dig = {name="rp_default_dig_alga", gain=0.3},
+         dug = {name="rp_default_dug_alga", gain=0.3},
+         place = {name="rp_default_place_alga", gain=0.3},
+      }),
+      _on_grow = function(pos)
+         minetest.set_node(pos, {name="rp_default:alga_on_alga_block", param2=16})
+      end,
+})
+
+-- Alga item
 minetest.register_craftitem("rp_default:alga", {
    description = S("Alga"),
    _tt_help = S("Grows underwater on dirt, swamp dirt, sand or alga block"),
@@ -614,15 +681,15 @@ minetest.register_craftitem("rp_default:alga", {
    wield_image = "rp_default_alga_inventory.png",
    on_place = get_sea_plant_on_place("alga", "leveled"),
    groups = { node = 1, plant = 1, alga = 1 },
+   _on_grow = function(pos, node)
+      default.grow_underwater_leveled_plant(pos, node)
+   end,
+   _on_degrow = function(pos, node)
+      default.degrow_underwater_leveled_plant(pos, node)
+   end,
 })
 
-local alga_block_tiles = {
-   { name="rp_default_alga_block_top.png", backface_culling=true },
-   { name="rp_default_alga_block_top.png", backface_culling=true },
-   { name="rp_default_alga_block_side.png", backface_culling=true },
-}
-
-
+-- Register alga on block nodes
 register_alga_on("alga_block", "rp_default:alga_block", alga_block_tiles, ALGA_MAX_HEIGHT_BLOCK)
 
 register_alga_on("dirt", "rp_default:dirt", waterplant_base_tiles("default_dirt.png", "alga", false), ALGA_MAX_HEIGHT_DIRT, "fertilized_dirt")
@@ -632,15 +699,12 @@ register_alga_on("fertilized_dirt", "rp_default:fertilized_dirt", waterplant_bas
 register_alga_on("fertilized_swamp_dirt", "rp_default:fertilized_swamp_dirt", waterplant_base_tiles("default_swamp_dirt.png", "alga", true), ALGA_MAX_HEIGHT_FERTILIZED_SWAMP_DIRT, true)
 register_alga_on("fertilized_sand", "rp_default:fertilized_sand", waterplant_base_tiles("default_sand.png", "alga", true), ALGA_MAX_HEIGHT_FERTILIZED_SAND, true)
 
--- Alga Block
-minetest.register_node(
-   "rp_default:alga_block",
-   {
-      description = S("Alga Block"),
-      tiles = alga_block_tiles,
-      groups = {snappy=2, fall_damage_add_percent=-10, slippery=ALGA_BLOCK_SLIPPERY},
-      is_ground_content = false,
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+local sounds_clam = rp_sounds.node_sound_small_defaults({
+   place = {name = "rp_default_place_clam", gain = 1.0 },
+   dig = {name = "rp_default_dig_clam", gain = 0.8 },
+   dug = {name = "rp_default_dug_clam", gain = 1.0 },
+   fall = {name = "rp_default_fall_clam", gain = 1.0 },
+   footstep = {},
 })
 
 minetest.register_node(
@@ -674,7 +738,7 @@ minetest.register_node(
       },
       groups = {clam = 1, fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, food = 2},
       on_use = minetest.item_eat(0),
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = sounds_clam,
 
       -- Place node as the 'nopearl' clam to make sure the player can't
       -- place the same clam over and over again to farm pearls.
@@ -706,6 +770,6 @@ minetest.register_node(
       walkable = false,
       floodable = true,
       groups = {clam = 1, fleshy = 3, oddly_breakable_by_hand = 2, choppy = 3, attached_node = 1, not_in_creative_inventory = 1},
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = sounds_clam,
 })
 

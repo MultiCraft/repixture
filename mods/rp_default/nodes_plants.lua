@@ -1,5 +1,41 @@
 local S = minetest.get_translator("rp_default")
 
+local grow_tall = function(pos, y_dir, nodename)
+	local newpos
+	for i=1, 10 do
+		newpos = vector.offset(pos, 0, i*y_dir, 0)
+		local newnode = minetest.get_node(newpos)
+		if newnode.name == "air" then
+			minetest.set_node(newpos, {name=nodename})
+			return true
+		elseif newnode.name ~= nodename then
+			return false
+		end
+	end
+	return false
+end
+
+local degrow_tall = function(pos, y_dir, nodename)
+	local prevpos, newpos
+	for i=1, 10 do
+		prevpos = vector.offset(pos, 0, (i-1)*y_dir, 0)
+		newpos = vector.offset(pos, 0, i*y_dir, 0)
+		local newnode = minetest.get_node(newpos)
+		if newnode.name ~= nodename then
+			-- Check if this is the only node
+			local prevprevpos = vector.offset(pos, 0, (i-2)*y_dir, 0)
+			local prevprevnode = minetest.get_node(prevprevpos)
+			if prevprevnode.name ~= nodename and newnode.name ~= nodename then
+				return false
+			end
+			minetest.remove_node(prevpos)
+			minetest.check_single_for_falling(vector.offset(prevpos, 0, 1, 0))
+			return true
+		end
+	end
+	return false
+end
+
 -- Cacti
 
 minetest.register_node(
@@ -28,11 +64,21 @@ minetest.register_node(
       tiles = {"default_cactus_top.png", "default_cactus_top.png", "default_cactus_sides.png"},
       --	damage_per_second = 1,
       groups = {snappy = 2, choppy = 2, fall_damage_add_percent = 20, plant = 1, food = 2},
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = rp_sounds.node_sound_defaults({
+         footstep = { name = "rp_default_footstep_cactus", gain = 1.0 },
+         dig = { name = "rp_default_dig_cactus", gain = 0.5 },
+         dug = { name = "rp_default_dig_cactus", gain = 0.7, pitch = 0.9 },
+      }),
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_up(pos, node, digger)
       end,
       on_use = minetest.item_eat(0),
+      _on_grow = function(pos, node)
+		return grow_tall(pos, 1, node.name)
+      end,
+      _on_degrow = function(pos, node)
+		return degrow_tall(pos, 1, node.name)
+      end,
 })
 
 -- Papyrus
@@ -70,7 +116,12 @@ minetest.register_node(
 	 }
       },
       groups = {snappy = 3, plant = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults({
+         footstep = {name="rp_sounds_footstep_grass", gain=1.0, pitch=0.8},
+         dug = {name="rp_sounds_dug_grass", gain=0.7, pitch=0.8},
+         dig = {name="rp_sounds_dug_grass", gain=0.3, pitch=0.8},
+         place = {name="rp_sounds_dug_grass", gain=1.0, pitch=0.8},
+      }),
       floodable = true,
       on_flood = function(pos, oldnode)
          minetest.add_item(pos, "rp_default:papyrus")
@@ -87,6 +138,12 @@ minetest.register_node(
          -- Dig up (papyrus can't float)
          util.dig_up(pos, node, digger)
       end,
+      _on_grow = function(pos, node)
+		return grow_tall(pos, 1, node.name)
+      end,
+      _on_degrow = function(pos, node)
+		return degrow_tall(pos, 1, node.name)
+      end,
 })
 
 -- Vine
@@ -98,6 +155,7 @@ minetest.register_node(
       _tt_help = S("Hangs from stone or dirt"),
       drawtype = "plantlike",
       tiles = {"rp_default_vine.png"},
+      is_ground_content = false,
       use_texture_alpha = "clip",
       inventory_image = "rp_default_vine_inventory.png",
       wield_image = "rp_default_vine_inventory.png",
@@ -148,6 +206,7 @@ minetest.register_node(
          minetest.remove_node(pos)
          util.dig_down(pos, oldnode)
       end,
+      node_placement_prediction = "",
       on_place = function(itemstack, placer, pointed_thing)
          -- Boilerplate to handle pointed node handlers
          local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
@@ -158,12 +217,14 @@ minetest.register_node(
          -- Find position to place vine at
          local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing, true)
          if place_in == nil then
+            rp_sounds.play_place_failed_sound(placer)
             return itemstack
          end
          local ceilingnode = minetest.get_node(place_floor)
 
          -- Ceiling must be stone, dirt or another vine
          if minetest.get_item_group(ceilingnode.name, "dirt") == 0 and ceilingnode.name ~= "rp_default:stone" and ceilingnode.name ~= "rp_default:vine" then
+            rp_sounds.play_place_failed_sound(placer)
             return itemstack
          end
 
@@ -191,7 +252,9 @@ minetest.register_node(
 	 end
 
          -- Place vine
-         minetest.set_node(place_in, {name = itemstack:get_name(), param2 = age})
+         local newnode = {name = itemstack:get_name(), param2 = age}
+         minetest.set_node(place_in, newnode)
+         rp_sounds.play_node_sound(place_in, newnode, "place")
 
          -- Reduce item count
          if not minetest.is_creative_enabled(placer:get_player_name()) then
@@ -225,6 +288,12 @@ minetest.register_node(
           end
           return itemstack
       end,
+      _on_grow = function(pos, node)
+         return grow_tall(pos, -1, node.name)
+      end,
+      _on_degrow = function(pos, node)
+         return degrow_tall(pos, -1, node.name)
+      end,
 })
 
 -- Fern
@@ -249,7 +318,7 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, fern = 1, plant = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
 })
 
 -- Flowers
@@ -258,7 +327,6 @@ minetest.register_node(
    "rp_default:flower",
    {
       description = S("Flower"),
-      _tt_help = S("It looks beautiful"),
       drawtype = "nodebox",
       selection_box = {
          type = "fixed",
@@ -289,7 +357,7 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, flower = 1, plant = 1, spawn_allowed_in = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
 })
 
 -- Grasses
@@ -314,7 +382,9 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, swamp_grass = 1, green_grass = 1, plant = 1, spawn_allowed_in = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults({
+         footstep = { name = "rp_sounds_footstep_swamp_grass", gain = 1.0 },
+      }),
 })
 
 minetest.register_node(
@@ -337,7 +407,7 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, dry_grass = 1, plant = 1, spawn_allowed_in = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
 })
 
 minetest.register_node(
@@ -360,7 +430,10 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1, green_grass = 1, plant = 1, spawn_allowed_in = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
+      _on_grow = function(pos)
+         minetest.set_node(pos, {name="rp_default:tall_grass"})
+      end,
 })
 
 minetest.register_node(
@@ -384,7 +457,7 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, normal_grass = 1, green_grass = 1, plant = 1, spawn_allowed_in = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
       -- Trim tall grass with shears
       _on_trim = function(pos, node, player, itemstack)
           -- This turns it to a normal grass clump and drops one bonus grass clump
@@ -399,6 +472,9 @@ minetest.register_node(
              itemstack:add_wear_by_uses(def.tool_capabilities.groupcaps.snappy.uses)
           end
           return itemstack
+      end,
+      _on_degrow = function(pos)
+         minetest.set_node(pos, {name="rp_default:grass"})
       end,
 })
 
@@ -424,7 +500,7 @@ minetest.register_node(
       buildable_to = true,
       floodable = true,
       groups = {snappy = 2, dig_immediate = 3, attached_node = 1, grass = 1, sand_grass = 1, green_grass = 1, plant = 1, spawn_allowed_in = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      sounds = rp_sounds.node_sound_grass_defaults(),
 })
 
 -- Thistle
@@ -447,8 +523,9 @@ minetest.register_node(
       walkable = false,
       floodable = true,
       damage_per_second = 1,
-      groups = {snappy = 3, dig_immediate = 3, falling_node = 1, plant = 1, immortal_item = 1},
-      sounds = rp_sounds.node_sound_leaves_defaults(),
+      groups = {snappy = 3, dig_immediate = 3, _attached_node_bottom = 1, plant = 1, immortal_item = 1},
+      sounds = rp_sounds.node_sound_plant_defaults(),
+      node_placement_prediction = "",
       after_dig_node = function(pos, node, metadata, digger)
          util.dig_up(pos, node, digger)
       end,
@@ -456,5 +533,58 @@ minetest.register_node(
          minetest.add_item(pos, "rp_default:thistle")
          util.dig_up(pos, oldnode, nil, "rp_default:thistle")
       end,
+      on_blast = function(pos)
+         -- Destroy the blasted node and detach thistles above
+         local oldnode = minetest.get_node(pos)
+         minetest.remove_node(pos)
+         util.dig_up(pos, oldnode)
+      end,
+      on_place = function(itemstack, placer, pointed_thing)
+         -- Boilerplate to handle pointed node handlers
+         local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+         if handled then
+            return handled_itemstack
+         end
+
+         -- Find position to place thistle at
+         local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
+         if place_in == nil then
+            rp_sounds.play_place_failed_sound(placer)
+            return itemstack
+         end
+         local floornode = minetest.get_node(place_floor)
+         local floordef = minetest.registered_nodes[floornode.name]
+
+         -- Floor must be a walkable node or another thistle
+         if not (floornode.name == "rp_default:thistle" or (floordef and floordef.walkable)) then
+            rp_sounds.play_place_failed_sound(placer)
+            return itemstack
+         end
+
+         -- Check protection
+         if minetest.is_protected(place_in, placer:get_player_name()) and
+               not minetest.check_player_privs(placer, "protection_bypass") then
+            minetest.record_protection_violation(pos, placer:get_player_name())
+            return itemstack
+         end
+
+         -- Place thistle
+         local newnode = {name = itemstack:get_name()}
+         minetest.set_node(place_in, newnode)
+         rp_sounds.play_node_sound(place_in, newnode, "place")
+
+         -- Reduce item count
+         if not minetest.is_creative_enabled(placer:get_player_name()) then
+             itemstack:take_item()
+         end
+
+	 return itemstack
+      end,
+      _on_grow = function(pos, node)
+         return grow_tall(pos, 1, node.name)
+      end,
+      _on_degrow = function(pos, node)
+         return degrow_tall(pos, 1, node.name)
+      end
 })
 

@@ -1,4 +1,7 @@
 # textdomain: rp_armor
+Helmet=Helm
+Chestplate=Brustplatte
+Boots=Stiefel
 Wooden Helmet=Holzhelm
 Wooden Chestplate=Holzbrustplatte
 Wooden Boots=Holzstiefel
@@ -14,9 +17,10 @@ Carbon Steel Boots=Karbonstahlstiefel
 Bronze Helmet=Bronzehelm
 Bronze Chestplate=Bronzebrustplatte
 Bronze Boots=Bronzestiefel
-Helmet=Helm
-Chestplate=Brustplatte
-Boots=Stiefel
+Protection=Schutz
+@1%=@1%
+Protection bonus for full set=Schutzbonus für vollständiges Set
++@1%=+@1%
 Armor=Rüstung
 Chainmail Sheet=Kettenpanzerplane
 Armored=Gerüstet

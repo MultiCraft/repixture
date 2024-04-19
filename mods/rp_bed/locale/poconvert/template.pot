@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_bed x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Your respawn position was blocked or dangerous. You’ve lost your old respawn position."
+msgstr ""
+
+msgid "You have slept, rise and shine!"
+msgstr ""
+
+msgid "Players have slept, rise and shine!"
+msgstr ""
+
+msgid "Bed"
+msgstr ""
+
+msgid "Sets the respawn position and allows to pass the night"
+msgstr ""
+
+msgid "Sleeping is disabled."
+msgstr ""
+
+msgid "It’s too painful to sleep here!"
+msgstr ""
+
+msgid "You can’t sleep while holding your breath!"
+msgstr ""
+
+msgid "Not enough space to sleep!"
+msgstr ""
+
+msgid "You can’t sleep here!"
+msgstr ""
+
+msgid "You have to stop moving before going to bed!"
+msgstr ""
+
+msgid "Respawn position set!"
+msgstr ""
+
+msgid "In bed"
+msgstr ""
+
+msgid "You're in a bed"
+msgstr ""
+
+msgid "Bed Time"
+msgstr ""
+
+msgid "Craft a bed."
+msgstr ""
+

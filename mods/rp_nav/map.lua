@@ -19,10 +19,8 @@ function nav.map.update_hud_flags(player)
 		player:get_inventory():contains_item("main", "rp_nav:map")
 	local radar_enabled = creative_enabled
 
-	player:hud_set_flags({
-		minimap = minimap_enabled,
-		minimap_radar = radar_enabled
-	})
+	rp_hud.set_hud_flag_semaphore(player, "rp_map:map", "minimap", minimap_enabled)
+	rp_hud.set_hud_flag_semaphore(player, "rp_map:map", "minimap_radar", radar_enabled)
 end
 
 
@@ -73,6 +71,7 @@ minetest.register_craftitem(
       wield_image = "nav_inventory.png",
       stack_max = 1,
       groups = { tool = 1 },
+      sound = {},
       on_use = function(itemstack, user, pointed_thing)
           minetest.chat_send_player(user:get_player_name(), minetest.colorize("#FFFF00", S("Use the minimap key to show the map.")))
           nav.map.update_hud_flags(user)

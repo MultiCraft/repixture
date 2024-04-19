@@ -5,8 +5,8 @@ minetest.register_node("rp_decor:barrel", {
 	tiles = {"rp_decor_barrel_top.png", "rp_decor_barrel_top.png", "rp_decor_barrel_sides.png"},
 	paramtype2 = "facedir",
 	on_place = minetest.rotate_node,
-	groups = { choppy = 2, creative_decoblock = 1, flammable = 2 },
-	sounds = rp_sounds.node_sound_wood_defaults(),
+	groups = { choppy = 2, level = -1, creative_decoblock = 1, flammable = 2 },
+	sounds = rp_sounds.node_sound_planks_defaults(),
 })
 
 crafting.register_craft({

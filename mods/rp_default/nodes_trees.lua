@@ -2,6 +2,8 @@ local S = minetest.get_translator("rp_default")
 
 -- Saplings
 
+local snd_sapling = rp_sounds.node_sound_plant_defaults()
+
 minetest.register_node(
    "rp_default:sapling",
    {
@@ -21,7 +23,7 @@ minetest.register_node(
       },
       groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = snd_sapling,
 
       on_timer = function(pos)
          default.grow_sapling(pos)
@@ -31,7 +33,12 @@ minetest.register_node(
          default.begin_growing_sapling(pos)
       end,
 
+      node_placement_prediction = "",
       on_place = default.place_sapling,
+
+      _on_grow = function(pos)
+         default.grow_sapling(pos)
+      end,
 })
 
 minetest.register_node(
@@ -52,7 +59,7 @@ minetest.register_node(
 	 fixed = {-0.4, -0.5, -0.4, 0.4, 0.4, 0.4},
       },
       groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = snd_sapling,
 
       on_timer = function(pos)
          default.grow_sapling(pos)
@@ -62,7 +69,12 @@ minetest.register_node(
          default.begin_growing_sapling(pos)
       end,
 
+      node_placement_prediction = "",
       on_place = default.place_sapling,
+
+      _on_grow = function(pos)
+         default.grow_sapling(pos)
+      end,
 })
 
 minetest.register_node(
@@ -84,7 +96,7 @@ minetest.register_node(
       },
       groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = snd_sapling,
 
       on_timer = function(pos)
          default.grow_sapling(pos)
@@ -94,7 +106,12 @@ minetest.register_node(
          default.begin_growing_sapling(pos)
       end,
 
+      node_placement_prediction = "",
       on_place = default.place_sapling,
+
+      _on_grow = function(pos)
+         default.grow_sapling(pos)
+      end,
 })
 
 minetest.register_node(
@@ -116,7 +133,7 @@ minetest.register_node(
       },
       groups = {snappy = 2, handy = 1, attached_node = 1, plant = 1, sapling = 1},
       is_ground_content = false,
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = snd_sapling,
 
       on_timer = function(pos)
          default.grow_sapling(pos)
@@ -129,6 +146,10 @@ minetest.register_node(
       on_place = default.place_sapling,
 })
 
+local snd_tree = rp_sounds.node_sound_wood_defaults({
+   footstep = { name = "rp_sounds_footstep_wood", gain = 0.7, pitch = 0.8 },
+})
+
 -- Trees
 
 minetest.register_node(
@@ -137,7 +158,7 @@ minetest.register_node(
       description = S("Tree"),
       tiles = {"default_tree_top.png", "default_tree_top.png", "default_tree.png"},
       groups = {choppy = 2,tree = 1,oddly_breakable_by_hand = 1},
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = snd_tree,
 })
 
 minetest.register_node(
@@ -146,7 +167,7 @@ minetest.register_node(
       description = S("Oak Tree"),
       tiles = {"default_tree_oak_top.png", "default_tree_oak_top.png", "default_tree_oak.png"},
       groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1},
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = snd_tree,
 })
 
 minetest.register_node(
@@ -155,7 +176,7 @@ minetest.register_node(
       description = S("Birch Tree"),
       tiles = {"default_tree_birch_top.png", "default_tree_birch_top.png", "default_tree_birch.png"},
       groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1},
-      sounds = rp_sounds.node_sound_wood_defaults(),
+      sounds = snd_tree,
 })
 
 -- Leaves
@@ -293,6 +314,13 @@ local create_on_place_fruit_function = function(fruitnode)
    end
 end
 
+local sounds_apple = rp_sounds.node_sound_small_defaults({
+   place = {name = "rp_default_place_fruit", gain = 0.5 },
+   dig = {name = "rp_default_dig_fruit", gain = 0.5 },
+   dug = {name = "rp_default_dug_fruit", gain = 1.0 },
+   footstep = {},
+})
+
 -- Food
 --
 minetest.register_node(
@@ -320,10 +348,10 @@ minetest.register_node(
       on_flood = function(pos)
          minetest.add_item(pos, "rp_default:apple")
       end,
-      groups = {snappy = 3, handy = 2, leafdecay = 3, leafdecay_drop = 1, food = 2},
+      groups = {snappy = 3, handy = 3, leafdecay = 3, leafdecay_drop = 1, food = 2},
       on_use = minetest.item_eat(0),
       on_place = create_on_place_fruit_function("rp_default:apple"),
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = sounds_apple,
 })
 
 -- Same as apple, but with the nodebox on the "floor".
@@ -349,8 +377,16 @@ minetest.register_node(
          minetest.add_item(pos, "rp_default:apple")
       end,
       groups = {snappy = 3, handy = 3},
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = sounds_apple,
       drop = "rp_default:apple",
+})
+
+
+local sounds_acorn = rp_sounds.node_sound_small_defaults({
+   place = {name = "rp_default_place_nut", gain = 0.5 },
+   dig = {name = "rp_default_dig_nut", gain = 0.4 },
+   dug = {name = "rp_default_dug_nut", gain = 0.4 },
+   footstep = {},
 })
 
 minetest.register_node(
@@ -383,7 +419,7 @@ minetest.register_node(
       groups = {snappy = 3, handy = 3, leafdecay = 3, leafdecay_drop = 1, food = 2},
       on_use = minetest.item_eat(0),
       on_place = create_on_place_fruit_function("rp_default:acorn"),
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = sounds_acorn,
 })
 
 minetest.register_node(
@@ -409,7 +445,7 @@ minetest.register_node(
          minetest.add_item(pos, "rp_default:acorn")
       end,
       groups = {snappy = 3, handy = 3},
-      sounds = rp_sounds.node_sound_defaults(),
+      sounds = sounds_acorn,
       drop = "rp_default:acorn",
 })
 

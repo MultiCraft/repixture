@@ -67,6 +67,16 @@ function farming.register_plant_nodes(name, def)
       paramtype2 = "meshoptions"
       place_param2 = def.meshoptions
    end
+   local sounds_plant
+   if not def.sounds_plant then
+      sounds_plant = rp_sounds.node_sound_grass_defaults()
+   end
+   local sounds_seed = table.copy(sounds_plant)
+   if def.sound_seed_place then
+      sounds_seed.place = def.sound_seed_place
+   else
+      sounds_seed.place = { name = "rp_farming_place_seed", gain = 0.4 }
+   end
 
    local defs = {}
    defs[1] = {
@@ -89,8 +99,11 @@ function farming.register_plant_nodes(name, def)
          drop = def.drop_stages[1],
          selection_box = selbox,
          groups = {snappy=3, handy=2, attached_node=1, seed=1, plant=1, farming_plant=1, ["plant_"..name]=1},
-         sounds=rp_sounds.node_sound_leaves_defaults(),
+         sounds = sounds_seed,
          _rp_farming_plant_name = name,
+         _on_grow = function(pos)
+            farming.next_stage(pos, name)
+         end,
    }
 
    for s=2, 4 do
@@ -113,8 +126,14 @@ function farming.register_plant_nodes(name, def)
             drop = def.drop_stages[s],
             selection_box = selbox,
             groups = {snappy=3, handy=2, attached_node=1, plant=1, farming_plant=1, ["plant_"..name]=s, not_in_craft_guide = 1, not_in_creative_inventory = 1},
-            sounds=rp_sounds.node_sound_leaves_defaults(),
+            sounds = sounds_plant,
             _rp_farming_plant_name = name,
+            _on_grow = function(pos)
+               farming.next_stage(pos, name)
+            end,
+            _on_degrow = function(pos)
+               farming.previous_stage(pos, name)
+            end,
       }
    end
 
@@ -181,6 +200,7 @@ function farming.place_plant(itemstack, placer, pointed_thing)
    -- Find placement position
    local place_in, place_on = util.pointed_thing_to_place_pos(pointed_thing)
    if not place_in then
+      rp_sounds.play_place_failed_sound(placer)
       return itemstack
    end
 
@@ -188,6 +208,7 @@ function farming.place_plant(itemstack, placer, pointed_thing)
    local place_in_node = minetest.get_node(place_in)
    local pidef = minetest.registered_nodes[place_in_node.name]
    if pidef and pidef._rp_farming_plant_name == name then
+      rp_sounds.play_place_failed_sound(placer)
       return itemstack
    end
 
@@ -203,10 +224,11 @@ function farming.place_plant(itemstack, placer, pointed_thing)
          if idef and idef.sounds and idef.sounds.place then
             minetest.sound_play(idef.sounds.place, {pos=place_on}, true)
          end
-         break
+         return itemstack
       end
    end
 
+   rp_sounds.play_place_failed_sound(placer)
    return itemstack
 end
 
@@ -216,19 +238,32 @@ function farming.next_stage(pos, plant_name)
    local my_node = minetest.get_node(pos)
    local p2 = my_node.param2
 
-   if my_node.name == plant_name .. "_1" then
-      minetest.set_node(pos, {name = plant_name .. "_2", param2 = p2})
-      return true
-   elseif my_node.name == plant_name .. "_2" then
-      minetest.set_node(pos, {name = plant_name .. "_3", param2 = p2})
-      return true
-   elseif my_node.name == plant_name .. "_3" then
-      minetest.set_node(pos, {name = plant_name .. "_4", param2 = p2})
+   for stage=1,3 do
+      if my_node.name == plant_name .. "_"..stage then
+         local next_stage = stage+1
+         minetest.set_node(pos, {name = plant_name .. "_" .. next_stage, param2 = p2})
+         if next_stage >= 4 then
+            -- Stop the timer on the node so no more growing occurs until needed
+            minetest.get_node_timer(pos):stop()
+         end
+         return true
+      end
+   end
+   return false
+end
 
-      -- Stop the timer on the node so no more growing occurs until needed
+-- Return plant to previous stage.
+-- Returns true if plant has changed, false if not (e.g. because of min stage)
+function farming.previous_stage(pos, plant_name)
+   local my_node = minetest.get_node(pos)
+   local p2 = my_node.param2
 
-      minetest.get_node_timer(pos):stop()
-      return true
+   for stage=2,4 do
+      if my_node.name == plant_name .. "_"..stage then
+         local prev_stage = stage - 1
+         minetest.set_node(pos, {name = plant_name .. "_"..prev_stage, param2 = p2})
+         return true
+      end
    end
    return false
 end

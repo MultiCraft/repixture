@@ -5,11 +5,13 @@ Explore random worlds in a temperate climate and gather resources to
 survive, create tools, build a home and explore the various possibilities of
 the world.
 
+**Player Manual**: <https://wuzzy.codeberg.page/Repixture>
+
 ## Version
 
-3.8.0
+3.14.0
 
-Designed for use with Minetest 5.6.0 or later.
+Designed for use with Minetest 5.8.0 or later.
 
 ## Features
 
@@ -25,25 +27,12 @@ Designed for use with Minetest 5.6.0 or later.
 * Weather
 * Beds (skip the night)
 * Boats
+* Paint blocks in 19 colors
 * Change your player appearance
 * Achievements
 * Multi-language support
 * Creative Mode (unlimited building)
 * Over 250 items in total
-
-## Compability notes
-### Using old biomes from before version 3.0.0
-Since Repixture 3.0.0, the game uses a completely revamped biome
-system. If you have a world that was created in an earlier
-version and start it now, there will be biome discontinuities in
-newly generated parts of the map, e.g. a Wasteland biome might
-border in a straignt line to Grassland. This is not a bug, but
-might look a bit strange.
-
-If you want to prevent this, you can manually edit the world file
-BEFORE starting Repixture.
-Edit `map_meta.txt` in a text editor and add the line
-`rp_biome_version = 1`.
 
 ## Credits
 
@@ -61,7 +50,6 @@ Pixture was inspired by [Kenney](http://kenney.nl).
 
 ### Textures
 
-* Sounds in the `rp_default` mod are all by Kenney (CC0)
 * All textures/models by Kaadmy, with some additions/changes by Wuzzy (CC BY-SA 4.0)
    * Exception: Seagrass by jp (CC0)
    * Exception: Barrel, by Wuzzy based on work by jp (CC0)
@@ -69,7 +57,25 @@ Pixture was inspired by [Kenney](http://kenney.nl).
 ### Translators
 
 * Wuzzy: German
-* rudzik8: Russian
+* rudzik8, vintprox: Russian
+* Trent Pic, tgree, syl: French
+
+### Sounds
+
+* There is a large number of authors
+* See the individual README files in the mods for details
+* Note: All sounds are compatible with CC BY-SA 4.0
+
+### Music
+
+Original music for Repixture created by vozh-kc <https://www.youtube.com/@vozh-kc>.
+The music is played by a craftable music box.
+
+Track list:
+* "earthen lullaby"
+* "you may not rest, there are turtles nearby"
+
+See `mods/rp_music` for details.
 
 ### Special thanks
 
@@ -82,7 +88,7 @@ This game is free software, licensed 100% under free software licenses.
 See *LICENSE.txt* or the links below for the full license texts.
 
 - Media files: all licensed under CC BY-SA 4.0 or CC0, with one exception:
-    - The exception: Sounds in the `rp_weather` mod are under GPLv2 (these sounds should be replaced later)
+    - The exception: Sounds in the `rp_weather` mod are under GPLv2
     - See per-mod READMEs for details
 - Source code: all licensed under LGPLv2.1 (or later versions of the LGPL), or MIT License, see per-mod READMEs.
 

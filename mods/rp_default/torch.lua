@@ -50,7 +50,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          },
          groups = {choppy = 2, dig_immediate = 3, attached_node = 1, torch = 1, creative_decoblock = 1},
          is_ground_content = false,
-         sounds = rp_sounds.node_sound_defaults(),
+         sounds = rp_sounds.node_sound_small_defaults(),
 	 on_construct = on_construct,
 	 on_timer = on_timer,
          on_place = function(itemstack, placer, pointed_thing)
@@ -89,8 +89,9 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
                itemstack, place_pos = minetest.item_place(fakestack, placer, pointed_thing, wdir)
             end
             if place_pos then
-               local sounds = minetest.registered_nodes["rp_default:"..subname].sounds
-               minetest.sound_play(sounds.place, {pos = place_pos}, true)
+               rp_sounds.play_node_sound(place_pos, {name="rp_default:"..subname}, "place")
+            else
+               rp_sounds.play_place_failed_sound(placer)
             end
             itemstack:set_name("rp_default:"..subname)
 
@@ -171,7 +172,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
          drop = "rp_default:"..subname,
          groups = {choppy = 2, dig_immediate = 3, attached_node = 1, not_in_creative_inventory = 1, torch = 2},
          is_ground_content = false,
-         sounds = rp_sounds.node_sound_defaults(),
+         sounds = rp_sounds.node_sound_small_defaults(),
 	 on_construct = on_construct,
 	 on_timer = on_timer,
 

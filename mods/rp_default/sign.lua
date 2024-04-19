@@ -7,12 +7,13 @@ local sign_pages = {}
 local register_sign_page = function(id, node_names)
 	local page_name = "rp_default:"..id
 
-	local form = "size[8.5,5]"
-	form = form .. rp_formspec.default.bg
+	local form = rp_formspec.default.version
+        form = form .. "size[8.5,4.5]"
+	form = form .. rp_formspec.default.boilerplate
 	form = form .. "background[0,0;8.5,4.5;ui_formspec_bg_"..id..".png]"
 	form = form .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 	form = form .. "set_focus[text;true]"
-	form = form .. "field[1,1.75;7,0;text;;${text}]"
+	form = form .. "field[0.5,1.7;7.5,0.5;text;;${text}]"
 	rp_formspec.register_page(page_name, form)
 
 	for n=1, #node_names do
@@ -61,13 +62,17 @@ local on_receive_fields = function(pos, formname, fields, sender)
 	local ok = default.write_name(pos, text)
 	if ok then
 	   minetest.log("action", "[rp_default] " .. (sender:get_player_name() or "")..
-                 " wrote \""..text.."\" to sign at "..
+                 " wrote text to sign at "..
                  minetest.pos_to_string(pos))
+	   minetest.sound_play({name="rp_default_write_sign", gain=0.2}, {pos=pos, max_hear_distance=16}, true)
         end
+end
+local on_destruct = function(pos)
+	default.write_name(pos, "")
 end
 
 local function register_sign(id, def)
-	minetest.register_node("rp_default:"..id, {
+	local sdef = {
 		description = def.description,
 		_tt_help = S("Write a short message"),
 		drawtype = "nodebox",
@@ -84,7 +89,7 @@ local function register_sign(id, def)
 			wall_bottom = {-0.5+(1/16), -0.5, -0.5+(4/16), 0.5-(1/16), -0.5+(1/16), 0.5-(4/16)},
 			wall_side = {-0.5, -0.5+(4/16), -0.5+(1/16), -0.5+(1/16), 0.5-(4/16), 0.5-(1/16)},
 		},
-		groups = {choppy = 2,handy = 2,attached_node = 1, sign=1, creative_decoblock = 1},
+		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, creative_decoblock = 1, paintable = 2},
 		is_ground_content = false,
 		sounds = def.sounds,
 		floodable = true,
@@ -127,9 +132,10 @@ local function register_sign(id, def)
 			return itemstack
 		end,
 		_rp_write_name = write_name,
-	})
+	}
+	minetest.register_node("rp_default:"..id, sdef)
 
-	minetest.register_node("rp_default:"..id.."_r90", {
+	local sdef_r90 = {
 		drawtype = "nodebox",
 		tiles = {"("..def.tile..")^[transformR90"},
 		inventory_image = "("..def.inv_image..")^[transformR90",
@@ -144,7 +150,7 @@ local function register_sign(id, def)
 			wall_bottom = {-0.5+(4/16), -0.5, -0.5+(1/16), 0.5-(4/16), -0.5+(1/16), 0.5-(1/16)},
 			wall_side = {-0.5, -0.5+(1/16), -0.5+(4/16), -0.5+(1/16), 0.5-(1/16), 0.5-(4/16)},
 		},
-		groups = {choppy = 2,handy = 2,attached_node = 1, sign=1, not_in_creative_inventory=1},
+		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, not_in_creative_inventory=1, paintable = 2},
 		is_ground_content = false,
 		sounds = def.sounds,
 		floodable = true,
@@ -155,26 +161,63 @@ local function register_sign(id, def)
 		on_receive_fields = on_receive_fields,
 		drop = "rp_default:"..id,
 		_rp_write_name = write_name,
-	})
+	}
+	minetest.register_node("rp_default:"..id.."_r90", sdef_r90)
+
+	local sdef_p = table.copy(sdef)
+	sdef_p.description = def.description_painted
+	sdef_p.paramtype2 = "colorwallmounted"
+	sdef_p.palette = "rp_paint_palette_32.png"
+	sdef_p.groups.paintable = 1
+	sdef_p.groups.not_in_creative_inventory = 1
+	sdef_p.tiles = { def.tile_painted }
+	sdef_p.inventory_image = def.inv_image.."^[hsl:0:-100:0"
+	sdef_p.wield_image = def.inv_image.."^[hsl:0:-100:0"
+	sdef_p.drop = "rp_default:"..id
+	minetest.register_node("rp_default:"..id.."_painted", sdef_p)
+
+	local sdef_r90_p = table.copy(sdef_r90)
+	sdef_r90_p.paramtype2 = "colorwallmounted"
+	sdef_r90_p.palette = "rp_paint_palette_32.png"
+	sdef_r90_p.groups.paintable = 1
+	sdef_r90_p.tiles = { "("..def.tile_painted..")^[transformR90" }
+	sdef_r90_p.inventory_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
+	sdef_r90_p.wield_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
+	sdef_r90_p.drop = "rp_default:"..id
+	minetest.register_node("rp_default:"..id.."_r90_painted", sdef_r90_p)
 
 	register_sign_page(id, {"rp_default:"..id, "rp_default:"..id.."_r90"})
 end
 
+local sounds_wood_sign = rp_sounds.node_sound_planks_defaults({
+	footstep = {},
+	dig = { name = "rp_sounds_dig_wood", pitch = 1.5, gain = 0.5 },
+	dug = { name = "rp_sounds_dug_planks", pitch = 1.2, gain = 0.7 },
+	fall = { name = "rp_sounds_dug_planks", pitch = 1.2, gain = 0.6 },
+	place = { name = "rp_sounds_place_planks", pitch = 1.4, gain = 0.9 },
+})
+
 register_sign("sign", {
 	description = S("Wooden Sign"),
+	description_painted = S("Painted Wooden Sign"),
 	tile = "default_sign.png",
+	tile_painted = "rp_default_sign_painted.png",
 	inv_image = "default_sign_inventory.png",
-	sounds = rp_sounds.node_sound_defaults(),
+	sounds = sounds_wood_sign,
 })
 register_sign("sign_oak", {
 	description = S("Oak Sign"),
+	description_painted = S("Painted Oak Sign"),
 	tile = "rp_default_sign_oak.png",
+	tile_painted = "rp_default_sign_oak_painted.png",
 	inv_image = "rp_default_sign_oak_inventory.png",
-	sounds = rp_sounds.node_sound_defaults(),
+	sounds = sounds_wood_sign,
 })
 register_sign("sign_birch", {
 	description = S("Birch Sign"),
+	description_painted = S("Painted Birch Sign"),
 	tile = "rp_default_sign_birch.png",
+	tile_painted = "rp_default_sign_birch_painted.png",
 	inv_image = "rp_default_sign_birch_inventory.png",
-	sounds = rp_sounds.node_sound_defaults(),
+	sounds = sounds_wood_sign,
 })

@@ -8,11 +8,11 @@ local DEFAULT_ROTATE_DIR = -1 -- clockwise
 -- so the 'itemshow' entities rotate the other way by
 -- default
 
-local FACEDIR = {}
-FACEDIR[0] = {x = 0, y = 0, z = 1}
-FACEDIR[1] = {x = 1, y = 0, z = 0}
-FACEDIR[2] = {x = 0, y = 0, z = -1}
-FACEDIR[3] = {x = -1, y = 0, z = 0}
+local FOURDIR = {}
+FOURDIR[0] = {x = 0, y = 0, z = 1}
+FOURDIR[1] = {x = 1, y = 0, z = 0}
+FOURDIR[2] = {x = 0, y = 0, z = -1}
+FOURDIR[3] = {x = -1, y = 0, z = 0}
 
 -- functions
 
@@ -52,11 +52,12 @@ local update_item = function(pos, node, check_item)
 	local inv = meta:get_inventory()
 	local stack = inv:get_stack("main", 1)
 	if not stack:is_empty() then
+		stack:set_count(1)
 		if node.name == "rp_itemshow:frame" then
-			local posad = FACEDIR[node.param2]
+			local posad = FOURDIR[node.param2 % 4]
 			if not posad then return end
 			local def = minetest.registered_items[stack:get_name()]
-			local offset = def._rp_itemshow_offset or vector.new(0,0,0)
+			local offset = (def and def._rp_itemshow_offset) or vector.new(0,0,0)
 			pos.x = pos.x + posad.x * 6.5 / 16 + posad.x * offset.x
 			pos.y = pos.y + posad.y * 6.5 / 16 + offset.y
 			pos.z = pos.z + posad.z * 6.5 / 16 + posad.z * offset.z
@@ -71,7 +72,8 @@ local update_item = function(pos, node, check_item)
 				if node.param2 == 1 then
 					dir = -dir
 				end
-				lua:_configure(stack:get_name(), node.name, dir)
+				local itemstr = stack:to_string()
+				lua:_configure(itemstr, node.name, dir)
 			end
 		end
 		if e and node.name == "rp_itemshow:frame" then
@@ -93,7 +95,7 @@ local drop_item = function(pos, node, creative)
 			local ent = minetest.add_item(pos, item)
 			if ent and ent:get_luaentity() then
 				-- Set initial yaw of entity according to frame rotation
-				local yaw = minetest.dir_to_yaw(minetest.facedir_to_dir(node.param2))
+				local yaw = minetest.dir_to_yaw(minetest.fourdir_to_dir(node.param2))
 				ent:set_yaw(yaw)
 			end
 			dropped = true
@@ -140,12 +142,14 @@ end
 -- Entity for displayed item
 
 minetest.register_entity("rp_itemshow:item",{
-	hp_max = 1,
-	visual = "wielditem",
-	is_visible = false,
-	visual_size = {x = BASE_ITEM_SIZE, y = BASE_ITEM_SIZE },
-	pointable = false,
-	physical = false,
+	initial_properties = {
+		hp_max = 1,
+		visual = "wielditem",
+		is_visible = false,
+		visual_size = {x = BASE_ITEM_SIZE, y = BASE_ITEM_SIZE },
+		pointable = false,
+		physical = false,
+	},
 	-- Extra fields used:
 	-- * _nodename: Name of node this displayed item belongs to
 	-- * _item: Itemstring of displayed item
@@ -240,24 +244,38 @@ minetest.register_node("rp_itemshow:frame",{
 		fixed = {-7/16, -7/16, 7/16, 7/16, 7/16, 0.5}
 	},
 	tiles = {
-		"rp_itemshow_frame.png",
-		"rp_itemshow_frame.png",
-		"rp_itemshow_frame.png",
-		"rp_itemshow_frame.png",
-		"rp_itemshow_frame_back.png",
-		"rp_itemshow_frame.png",
+		{name="rp_itemshow_frame.png"},
+		{name="rp_itemshow_frame.png"},
+		{name="rp_itemshow_frame.png"},
+		{name="rp_itemshow_frame.png"},
+		{name="rp_itemshow_frame_back.png",color="white"},
+		{name="rp_itemshow_frame.png"},
 	},
+	overlay_tiles = {
+		{name="rp_itemshow_frame_overlay.png",color="white"},
+		{name="rp_itemshow_frame_overlay.png",color="white"},
+		{name="rp_itemshow_frame_overlay.png",color="white"},
+		{name="rp_itemshow_frame_overlay.png",color="white"},
+		"",
+		{name="rp_itemshow_frame_overlay.png",color="white"},
+	},
+	palette = "rp_paint_palette_64.png",
 	inventory_image = "rp_itemshow_frame_inventory.png",
 	wield_image = "rp_itemshow_frame_inventory.png",
 	paramtype = "light",
-	paramtype2 = "facedir",
+	paramtype2 = "color4dir",
 	sunlight_propagates = true,
 	groups = {
-		choppy = 2, dig_immediate = 2, creative_decoblock = 1,
+		choppy = 2, dig_immediate = 2, creative_decoblock = 1, paintable = 1,
 		-- So that placing a magnocompass on it will point
 		-- the needle to the correct direction
 		special_magnocompass_place_handling = 1},
-	sounds = rp_sounds.node_sound_defaults(),
+	sounds = rp_sounds.node_sound_defaults({
+           place = { name = "rp_itemshow_place_frame", gain = 0.5 },
+           dug = { name = "rp_itemshow_dug_frame", gain = 0.5 },
+           dig = { name = "rp_itemshow_dig_frame", gain = 0.35 },
+           footstep = { name = "rp_itemshow_dig_frame", gain = 0.35, pitch = 1.5 },
+	}),
 	is_ground_content = false,
 	on_rotate = function(pos, node, user, mode, new_param2)
 		if mode == screwdriver.ROTATE_AXIS then
@@ -291,6 +309,8 @@ minetest.register_node("rp_itemshow:frame",{
 	on_punch = function(pos, node, puncher)
 		update_item(pos, node, true)
 	end,
+
+	drop = "rp_itemshow:frame",
 })
 
 local function on_place_node_callbacks(place_to, newnode, placer, oldnode, itemstack, pointed_thing)

@@ -1,19 +1,14 @@
 # textdomain: rp_nav
 Compass=Boussole
-It points to the North=
-Can be magnetized at magnetic blocks=
-Magno Compass=
-It points to a position=
-Can be demagnetized at unmagnetic blocks=
-True Navigator=Vrai Navigateur
-Magnetize a compass.=
+It points to the North=Elle pointe vers le nord
+Can be magnetized at magnetic blocks=Peut être magnétisée par les blocs magnétiques
+Magno Compass=Boussole Magno
+It points to a position=Elle pointe vers une position
+Can be demagnetized at unmagnetic blocks=Peut être démagnétisée par les blocs non-magnétiques
+True Navigator=Vrai navigateur
+Magnetize a compass.=Magnétiser une boussole.
 Map=Carte
-Keep this in your inventory and view the map with the 'minimap' key=
-Use the minimap key to show the map.=Utilisez la touche minicarte pour afficher la carte.
+Keep this in your inventory and view the map with the 'minimap' key=Gardez là dans votre inventaire et regardez la carte avec la touche 'mini-carte'
+Use the minimap key to show the map.=Utilisez la touche mini-carte pour afficher la carte.
 Navigator=Navigateur
-Craft a map.=Constuire une carte.
-
-
-##### not used anymore #####
-
-Craft a compass.=Constuire une boussole.
+Craft a map.=Fabriquer une carte.

@@ -1,0 +1,204 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_jewels x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "1. Place tool here"
+msgstr "1.: Werkzeug hier ablegen"
+
+msgid "2. Hold a jewel and punch the bench"
+msgstr "2.: Juwel halten und auf Bank hauen"
+
+msgid "@1 (jeweled)"
+msgstr "@1 (Juwel)"
+
+msgid "Range bonus: @1"
+msgstr "Reichweitenbonus: @1"
+
+msgid "Drop level bonus: @1"
+msgstr "Abwurfstufenbonus: @1"
+
+msgid "Dig time bonus: @1 s"
+msgstr "Grabezeitbonus: @1 s"
+
+msgid "Durability bonus: @1"
+msgstr "Haltbarkeitsbonus: @1"
+
+msgid "Dig level bonus: @1"
+msgstr "Grabestufenbonus: @1"
+
+msgid "Jewel"
+msgstr "Juwel"
+
+msgid "Jeweler's Workbench"
+msgstr "Juwelierswerkbank"
+
+msgid "Tools can be upgraded with jewels here"
+msgstr "Werkzeuge können hier mit Juwelen aufgewertet werden"
+
+msgid "Jewel Ore"
+msgstr "Juwelenerz"
+
+msgid "Jeweler"
+msgstr "Juwelier"
+
+msgid "Jewel a tool."
+msgstr "Besetzen Sie ein Werkzeug mit einem Juwel."
+
+msgid "True Mighty Weapon"
+msgstr "Wahrhaft mächtige Waffe"
+
+msgid "Use jewels to create a serrated jewel broadsword."
+msgstr "Benutzen Sie Juwelen, um ein gezacktes Juwelenbreitschwert zu erschaffen."
+
+msgid "Secret of Jewels"
+msgstr "Juwelengeheimnis"
+
+msgid "Discover the origin of jewels."
+msgstr "Entdecken Sie den Ursprung der Juwelen."
+
+msgid "Swift Jewel Steel Pickaxe"
+msgstr "Schnelle Juwelenstahlspitzhacke"
+
+msgid "Harming Jewel Steel Pickaxe"
+msgstr "Mächtige Juwelenstahlspitzhacke"
+
+msgid "Durable Jewel Steel Pickaxe"
+msgstr "Haltbare Juwelenstahlspitzhacke"
+
+msgid "Swift Jewel Carbon Steel Pickaxe"
+msgstr "Schnelle Juwelenkarbonstahlspitzhacke"
+
+msgid "Harming Jewel Carbon Steel Pickaxe"
+msgstr "Mächtige Juwelenkarbonstahlspitzhacke"
+
+msgid "Durable Jewel Carbon Steel Pickaxe"
+msgstr "Haltbare Juwelenkarbonstahlspitzhacke"
+
+msgid "Swift Jewel Bronze Pickaxe"
+msgstr "Schnelle Juwelenbronzespitzhacke"
+
+msgid "Harming Jewel Bronze Pickaxe"
+msgstr "Mächtige Juwelenbronzespitzhacke"
+
+msgid "Durable Jewel Bronze Pickaxe"
+msgstr "Haltbare Juwelenbronzespitzhacke"
+
+msgid "Swift Jewel Steel Shovel"
+msgstr "Schnelle Juwelenstahlschaufel"
+
+msgid "Harming Jewel Steel Shovel"
+msgstr "Mächtige Juwelenstahlschaufel"
+
+msgid "Durable Jewel Steel Shovel"
+msgstr "Haltbare Juwelenstahlschaufel"
+
+msgid "Swift Jewel Carbon Steel Shovel"
+msgstr "Schnelle Juwelenkarbonstahlschaufel"
+
+msgid "Harming Jewel Carbon Steel Shovel"
+msgstr "Mächtige Juwelenkarbonstahlschaufel"
+
+msgid "Durable Jewel Carbon Steel Shovel"
+msgstr "Haltbare Juwelenkarbonstahlschaufel"
+
+msgid "Swift Jewel Bronze Shovel"
+msgstr "Schnelle Juwelenbronzeschaufel"
+
+msgid "Harming Jewel Bronze Shovel"
+msgstr "Mächtige Juwelenbronzeschaufel"
+
+msgid "Durable Jewel Bronze Shovel"
+msgstr "Haltbare Juwelenbronzeschaufel"
+
+msgid "Swift Jewel Steel Axe"
+msgstr "Schnelle Juwelenstahlaxt"
+
+msgid "Harming Jewel Steel Axe"
+msgstr "Mächtige Juwelenstahlaxt"
+
+msgid "Durable Jewel Steel Axe"
+msgstr "Haltbare Juwelenstahlaxt"
+
+msgid "Swift Jewel Carbon Steel Axe"
+msgstr "Schnelle Juwelenkarbonstahlaxt"
+
+msgid "Harming Jewel Carbon Steel Axe"
+msgstr "Mächtige Juwelenkarbonstahlaxt"
+
+msgid "Durable Jewel Carbon Steel Axe"
+msgstr "Haltbare Juwelenkarbonstahlaxt"
+
+msgid "Swift Jewel Bronze Axe"
+msgstr "Schnelle Juwelenbronzeaxt"
+
+msgid "Harming Jewel Bronze Axe"
+msgstr "Mächtige Juwelenbronzeaxt"
+
+msgid "Durable Jewel Bronze Axe"
+msgstr "Haltbare Juwelenbronzeaxt"
+
+msgid "Extended Jewel Steel Spear"
+msgstr "Verlängerter Juwelenstahlspeer"
+
+msgid "Harming Jewel Steel Spear"
+msgstr "Mächtiger Juwelenstahlspeer"
+
+msgid "Durable Jewel Steel Spear"
+msgstr "Haltbarer Juwelenstahlspeer"
+
+msgid "Extended Jewel Carbon Steel Spear"
+msgstr "Verlängerter Juwelenkarbonstahlspeer"
+
+msgid "Harming Jewel Carbon Steel Spear"
+msgstr "Mächtiger Juwelenkarbonstahlspeer"
+
+msgid "Durable Jewel Carbon Steel Spear"
+msgstr "Haltbarer Juwelenkarbonstahlspeer"
+
+msgid "Extended Jewel Bronze Spear"
+msgstr "Verlängerter Juwelenbronzespeer"
+
+msgid "Harming Jewel Bronze Spear"
+msgstr "Mächtiger Juwelenbronzespeer"
+
+msgid "Durable Jewel Bronze Spear"
+msgstr "Haltbarer Juwelenbronzespeer"
+
+msgid "Swift Jewel Steel Shears"
+msgstr "Schnelle Juwelenstahlschere"
+
+msgid "Durable Jewel Steel Shears"
+msgstr "Haltbare Juwelenstahlschere"
+
+msgid "Swift Jewel Carbon Steel Shears"
+msgstr "Schnelle Juwelenkarbonstahlschere"
+
+msgid "Durable Jewel Carbon Steel Shears"
+msgstr "Haltbare Juwelenkarbonstahlschere"
+
+msgid "Swift Jewel Bronze Shears"
+msgstr "Schnelle Juwelenbronzeschere"
+
+msgid "Durable Jewel Bronze Shears"
+msgstr "Haltbare Juwelenbronzeschere"
+
+msgid "Pommel Jewel Broadsword"
+msgstr "Prügeljuwelenbreitschwert"
+
+msgid "Pommel&Guard Jewel Broadsword"
+msgstr "Prügel- und Wächterjuwelenbreitschwert"
+
+msgid "Serrated Jewel Broadsword"
+msgstr "Gezacktes Juwelenbreitschwert"
+

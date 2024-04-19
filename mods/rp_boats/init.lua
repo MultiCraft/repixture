@@ -144,16 +144,18 @@ local register_boat = function(name, def)
 	end
 
 	minetest.register_entity(itemstring, {
-		physical = true,
-		collide_with_objects = true,
-		visual = "mesh",
+		initial_properties = {
+			physical = true,
+			collide_with_objects = true,
+			visual = "mesh",
 
-		collisionbox = def.collisionbox,
-		selectionbox = def.selectionbox,
-		textures = def.textures,
-		mesh = def.mesh,
-		hp_max = def.hp_max or 4,
-		damage_texture_modifier = "",
+			collisionbox = def.collisionbox,
+			selectionbox = def.selectionbox,
+			textures = def.textures,
+			mesh = def.mesh,
+			hp_max = def.hp_max or 4,
+			damage_texture_modifier = "",
+		},
 
 		_state = STATE_INIT,
 		_driver = nil,
@@ -435,7 +437,20 @@ local register_boat = function(name, def)
 						minetest.log("action", "[rp_boats] "..cname.." attaches to boat at "..minetest.pos_to_string(self.object:get_pos(),1))
 						set_driver(self, clicker, def.collisionbox)
 						rp_player.player_attached[cname] = true
+
 						self._driver:set_attach(self.object, "", def.attach_offset, {x=0,y=0,z=0}, true)
+
+						-- Make player sit down
+						minetest.after(0.1, function(param)
+							-- Check if player still exists and is still attached to the boat
+							if not (param.sitter and param.sitter:is_player()) then
+								return
+							end
+							if (not param.boat) or (param.sitter:get_attach() ~= param.boat.object) then
+								return
+							end
+							rp_player.player_set_animation(param.sitter, "sit", rp_player.player_animation_speed)
+						end, {sitter=self._driver, boat=self})
 					end
 				end
 			end
@@ -444,6 +459,7 @@ local register_boat = function(name, def)
 			if child and child == self._driver then
 				local cname = child:get_player_name()
 				minetest.log("action", "[rp_boats] "..cname.." detaches from boat at "..minetest.pos_to_string(self.object:get_pos(),1))
+				rp_player.player_set_animation(self._driver, "stand", rp_player.player_animation_speed)
 				rp_player.player_attached[cname] = false
 				unset_driver(self, def.collisionbox)
 			end
@@ -463,7 +479,7 @@ local register_boat = function(name, def)
 			end
 			-- If there were def.max_punches consecutive punches on the boat,
 			-- each punch faster than RESET_PUNCH_TIMER, the boat dies.
-			minetest.sound_play({name = "default_dig_hard"}, {pos=self.object:get_pos()}, true)
+			minetest.sound_play(def.sound_punch or {name="rp_sounds_dig_hard", gain=0.3}, {pos=self.object:get_pos()}, true)
 			if time_from_last_punch == nil or time_from_last_punch < RESET_PUNCH_TIMER then
 				-- Increase punch counter if first punch, it it was fast enough
 				self._punches = self._punches + 1
@@ -481,6 +497,7 @@ local register_boat = function(name, def)
 				end
 				minetest.log("action", "[rp_boats] Boat punched to death by "..punchername.." at "..minetest.pos_to_string(self.object:get_pos(),1))
 				-- Kill boat after enough punches
+				minetest.sound_play(def.sound_break or {name = "rp_sounds_dug_node", gain=0.1}, {pos=self.object:get_pos()}, true)
 				self.object:set_hp(0)
 			end
 			-- Ignore punch damage
@@ -544,6 +561,7 @@ local register_boat = function(name, def)
 				if def.check_boat_space then
 					local res = def.check_boat_space(place_pos, on_liquid) -- returns true if enough space, false otherwise
 					if not res then
+						rp_sounds.play_place_failed_sound(placer)
 						return itemstack
 					end
 				end
@@ -551,13 +569,21 @@ local register_boat = function(name, def)
 				-- Place boat
 				local ent = minetest.add_entity(place_pos, itemstring)
 				if ent then
-					-- TODO: Add custom sound
-					minetest.sound_play({name = "default_place_node_hard"}, {pos=place_pos}, true)
+					-- Placement sound(s)
+					minetest.sound_play(def.sound_place or {name = "default_place_node_hard", gain=0.7}, {pos=place_pos}, true)
+					if on_liquid and minetest.get_item_group(node2.name, "water") ~= 0 and ndef1 and ndef1.liquidtype == "none" then
+						-- Extra splash sound if on water
+						minetest.sound_play({name = "rp_boats_place_on_water", gain=0.28}, {pos=place_pos}, true)
+					end
+
+					-- Rotate boat to player dir
 					ent:set_yaw(placer:get_look_horizontal())
-					minetest.log("action", "[rp_boats] "..placer:get_player_name().." spawns rp_boats:"..name.." at "..minetest.pos_to_string(place_pos, 1))
+
 					if not minetest.is_creative_enabled(placer:get_player_name()) then
 						itemstack:take_item()
 					end
+
+					minetest.log("action", "[rp_boats] "..placer:get_player_name().." spawns rp_boats:"..name.." at "..minetest.pos_to_string(place_pos, 1))
 				end
 			end
 			return itemstack
@@ -577,7 +603,7 @@ for l=1, #log_boats do
 		description = log_boats[l][2],
 		_tt_help = S("Water vehicle"),
 		collisionbox = { -0.49, -0.49, -0.49, 0.49, 0.49, 0.49 },
-		selectionbox = { -0.6, -0.501, -0.6, 0.6, 0.501, 0.6 },
+		selectionbox = { -0.5, -0.501, -1, 0.5, 0.501, 1, rotate = true },
 		inventory_image = "rp_boats_boat_log_"..id.."_item.png",
 		wield_image = "rp_boats_boat_log_"..id.."_item.png",
 		_rp_wielditem_rotation = 135,
@@ -596,11 +622,14 @@ for l=1, #log_boats do
 		float_max = 0.0,
 		float_offset = -0.3,
 		float_min = -0.85,
-		attach_offset = { x=0, y=0, z=0 },
+		attach_offset = { x=0, y=-4, z=-2 },
 		max_speed = 3.8,
 		speed_change_rate = 1.5,
 		yaw_change_rate = 0.6,
 		detach_offset_y = 0.8,
+
+		sound_punch = {name = "rp_sounds_dig_wood", gain=0.3, pitch=1.05},
+		sound_break = {name = "rp_sounds_dug_wood", gain=0.5, pitch=1.05},
 	})
 	crafting.register_craft({
 		output = "rp_boats:log_boat_"..id,
@@ -621,7 +650,7 @@ for r=1, #rafts do
 		description = rafts[r][2],
 		_tt_help = S("Water vehicle"),
 		collisionbox = { -0.74, -0.3, -0.74, 0.74, 0.1, 0.74 },
-		selectionbox = { -0.85, -0.301, -0.85, 0.85, 0.101, 0.85 },
+		selectionbox = { -0.85, -0.301, -0.95, 0.85, 0.101, 0.95, rotate = true },
 		inventory_image = "rp_boats_boat_raft_"..id.."_item.png",
 		wield_image = "rp_boats_boat_raft_"..id.."_item.png",
 		_rp_wielditem_rotation = 135,
@@ -641,7 +670,7 @@ for r=1, #rafts do
 		float_min = -1.001,
 
 		max_punches = 3,
-		attach_offset = { x=0, y=1, z=0 },
+		attach_offset = { x=0, y=-3, z=-2 },
 		max_speed = 6,
 		speed_change_rate = 1.5,
 		yaw_change_rate = 0.3,
@@ -665,6 +694,9 @@ for r=1, #rafts do
 			return true
 		end,
 		sideways_place_offset = 1.0,
+
+		sound_punch = {name = "rp_sounds_dig_wood", gain=0.3, pitch=1.1},
+		sound_break = {name = "rp_sounds_dug_planks", gain=0.3, pitch=1.15},
 	})
 	crafting.register_craft({
 		output = "rp_boats:raft_"..id,

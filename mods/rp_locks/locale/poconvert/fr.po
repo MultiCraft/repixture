@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_locks x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Locked Chest"
+msgstr "Coffre verrouillé"
+
+msgid "Locked Chest (Owned by @1)"
+msgstr "Coffre verrouillé (propriété de @1)"
+
+msgid "Locked Chest (cracked open)"
+msgstr "Coffre verrouillé (fissuré, ouvert)"
+
+msgid "Locked Chest (cracked open) (Owned by @1)"
+msgstr "Coffre verrouillé (fissuré, ouvert) (propriété de @1)"
+
+msgid "@1 (Owned by @2)"
+msgstr "@1 (propriété de @2)"
+
+msgid "Lock Pick"
+msgstr "Outil de crochetage"
+
+msgid "Cracks locked chests"
+msgstr "Crochète les coffres verrouillés"
+
+msgid "@1 has broken into your locked chest!"
+msgstr "@1 a forcé votre coffre verrouillé !"
+
+msgid "You have broken the lock!"
+msgstr "Tu as cassé la serrure !"
+
+msgid "You have broken into your own locked chest!"
+msgstr "Vous avez forcé votre propre coffre verrouillé !"
+
+msgid "Lock"
+msgstr "Serrure"
+
+msgid "Used to craft locked chests"
+msgstr "Utilisée pour fabriquer des coffres verrouillés"
+
+msgid "Provides 32 inventory slots"
+msgstr "Fournit 32 emplacements d'inventaire"
+
+msgid "Can only be opened by its owner and those who have a lockpick"
+msgstr "Peut seulement être ouvert par son propriétaire ou avec un outil de crochetage"
+
+msgid "Painted Locked Chest"
+msgstr ""
+
+msgid "Locksmith"
+msgstr "Serrurier"
+
+msgid "Craft a lock."
+msgstr "Fabriquer une serrure."
+
+msgid "Burglar"
+msgstr "Cambrioleur"
+
+msgid "Break into a locked chest."
+msgstr "Forcer un coffre verrouillé."
+

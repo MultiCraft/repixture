@@ -125,7 +125,7 @@ local function check_destroy(drops, pos, cid)
 end
 
 
-local function calc_velocity(pos1, pos2, old_vel, power)
+local function calc_velocity(pos1, pos2, power)
    local vel = vector.direction(pos1, pos2)
    vel = vector.normalize(vel)
    vel = vector.multiply(vel, power)
@@ -135,12 +135,10 @@ local function calc_velocity(pos1, pos2, old_vel, power)
    dist = math.max(dist, 1)
    vel = vector.divide(vel, dist)
 
-   -- Add old velocity
-   vel = vector.add(vel, old_vel)
    return vel
 end
 
-local function entity_physics(pos, radius)
+local function entity_physics(pos, radius, igniter)
    -- Make the damage radius larger than the destruction radius
    radius = radius * 2
 
@@ -151,13 +149,18 @@ local function entity_physics(pos, radius)
       local dist = math.max(1, vector.distance(pos, obj_pos))
 
       if obj_vel ~= nil then
-	 obj:set_velocity(calc_velocity(pos, obj_pos,
-				       obj_vel, radius * 10))
+	 obj:add_velocity(calc_velocity(pos, obj_pos, radius*2.5))
       end
 
       local damage = (4 / dist) * radius
       local dir = vector.direction(pos, obj_pos)
-      obj:punch(obj, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, dir)
+      local puncher
+      if igniter then
+         puncher = igniter
+      else
+         puncher = obj
+      end
+      obj:punch(puncher, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, dir)
    end
 end
 
@@ -283,6 +286,11 @@ function tnt.burn(pos, igniter)
       minetest.set_node(pos, {name = "rp_tnt:tnt_burning"})
 
       if igniter then
+         achievements.trigger_achievement(igniter, "boom")
+         if igniter:is_player() then
+            local meta = minetest.get_meta(pos)
+            meta:set_string("igniter", igniter:get_player_name())
+         end
          minetest.log("action", "[rp_tnt] TNT ignited by "..igniter:get_player_name().." at "..minetest.pos_to_string(pos, 0))
       else
          minetest.log("verbose", "[rp_tnt] TNT ignited at "..minetest.pos_to_string(pos, 0))
@@ -373,7 +381,7 @@ end
 
 -- TNT node explosion
 
-local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
+local function rawboom(pos, radius, sound, remove_nodes, is_tnt, igniter)
    if is_tnt then
       local node = minetest.get_node(pos)
       minetest.remove_node(pos)
@@ -395,27 +403,27 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt)
       else
           minetest.log("verbose", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
       end
-      entity_physics(pos, radius)
+      entity_physics(pos, radius, igniter)
       eject_drops(drops, pos, radius)
    else
-      entity_physics(pos, radius)
+      entity_physics(pos, radius, igniter)
       play_tnt_sound(pos, sound)
    end
    add_explosion_effects(pos, radius)
 end
 
 
-function tnt.boom(pos, radius, sound)
+function tnt.boom(pos, radius, sound, igniter)
    if not radius then
       radius = tnt_radius
    end
    if not sound then
       sound = "tnt_explode"
    end
-   rawboom(pos, radius, sound, true, true)
+   rawboom(pos, radius, sound, true, true, igniter)
 end
 
-function tnt.boom_notnt(pos, radius, sound, remove_nodes)
+function tnt.boom_notnt(pos, radius, sound, remove_nodes, igniter)
    if not radius then
       radius = tnt_radius
    end
@@ -425,7 +433,7 @@ function tnt.boom_notnt(pos, radius, sound, remove_nodes)
    if remove_nodes == nil then
       remove_nodes = tnt_enable
    end
-   rawboom(pos, radius, sound, remove_nodes, false)
+   rawboom(pos, radius, sound, remove_nodes, false, igniter)
 end
 
 -- On load register content IDs
@@ -476,13 +484,15 @@ minetest.register_node(
             return
          end
          tnt.burn(pos, user)
-         achievements.trigger_achievement(user, "boom")
          return { sound = false }
       end,
 })
 
 local tnt_burning_on_timer = function(pos)
-	tnt.boom(pos)
+	local meta = minetest.get_meta(pos)
+	local igniter_name = meta:get_string("igniter")
+	local igniter = minetest.get_player_by_name(igniter_name)
+	tnt.boom(pos, nil, nil, igniter)
 end
 
 -- Nodes
@@ -575,7 +585,8 @@ if tnt_enable then
          title = S("Boom!"),
          description = S("Ignite TNT."),
          times = 1,
-         item_icon = "rp_tnt:tnt_burning",
+         -- Use inventorycube to make sure the icon renders correctly
+         icon = minetest.inventorycube("tnt_top_burning_static.png", "tnt_sides.png", "tnt_sides.png"),
 	 difficulty = 4.9,
    })
 else

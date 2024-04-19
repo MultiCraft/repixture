@@ -39,6 +39,8 @@ These are the arguments (note that most arguments are required):
    * `stage_extra_groups`: Optional. Table indexed by stage numbers. Each of these keys has a table as a value. This table is a
      groups table for nodes. These groups will be added to the corresponding nodes.
      If the default node definition already defines this group, it will be overwritten.
+   * `sounds_plant`: Optional. Node sound definition for the plant (same as `sounds` of node defintion).
+   * `sound_seed_place`: Optional. Seed placement sound. A SimpleSoundSpec.
 
 The nodes will be added to the following groups by default:
 
@@ -68,12 +70,21 @@ Arguments:
     * `light_max`: Minimum required light level to grow
 
 
-### `farming.next_state(pos, plant_name)`
+### `farming.next_stage(pos, plant_name)`
 
 Makes the plant at `pos` grow to its next stage, if possible.
 
 * `pos`: Plant position
 * `plant_name`: Plant ID (as provided by `farming.register_plant`)
+
+### `farming.previous_stage(pos, plant_name)`
+
+Makes the plant at `pos` return to its previous stage, if possible.
+
+* `pos`: Plant position
+* `plant_name`: Plant ID (as provided by `farming.register_plant`)
+
+
 
 ## Functions for internal use only
 

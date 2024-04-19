@@ -223,6 +223,8 @@ for c=0,7 do
 						nodeyaw = minetest.dir_to_yaw(minetest.wallmounted_to_dir(node.param2))
 					elseif nodedef and (nodedef.paramtype2 == "facedir" or nodedef.paramtype2 == "colorfacedir") then
 						nodeyaw = minetest.dir_to_yaw(minetest.facedir_to_dir(node.param2))
+					elseif nodedef and (nodedef.paramtype2 == "4dir" or nodedef.paramtype2 == "color4dir") then
+						nodeyaw = minetest.dir_to_yaw(minetest.fourdir_to_dir(node.param2))
 					end
 				end
 				-- Special case: Item frame. Add a little offset for nodepos as
@@ -269,6 +271,7 @@ for c=0,7 do
 
 		local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
 		if place_in == nil then
+			rp_sounds.play_place_failed_sound(placer)
 			return itemstack
 		end
 
@@ -297,6 +300,7 @@ for c=0,7 do
 		local node_floor = minetest.get_node(place_floor)
 		local def_floor = minetest.registered_nodes[node_floor.name]
 		if (not def_floor) or (not def_floor.walkable) or minetest.get_item_group(node_floor.name, "attached_node") == 1 then
+			rp_sounds.play_place_failed_sound(placer)
 			return itemstack
 		end
 		-- Place node
@@ -351,7 +355,7 @@ for c=0,7 do
 			      "rp_nav_compass_side.png",
 		      },
 		      use_texture_alpha = "clip",
-		      sounds = rp_sounds.node_sound_defaults(),
+		      sounds = rp_sounds.node_sound_small_defaults(),
 
 		      inventory_image = inv_imgs[c],
 		      wield_image = wield_imgs[c],
@@ -429,7 +433,7 @@ for c=0,7 do
 		      "rp_nav_magnocompass_side.png",
               },
               use_texture_alpha = "clip",
-	      sounds = rp_sounds.node_sound_defaults(),
+              sounds = rp_sounds.node_sound_small_defaults(),
 
 	      inventory_image = inv_imgs_magno[c],
 	      wield_image = wield_imgs_magno[c],
@@ -475,7 +479,7 @@ for c=0,7 do
 		      "rp_nav_magnocompass_side.png",
               },
               use_texture_alpha = "clip",
-	      sounds = rp_sounds.node_sound_defaults(),
+	      sounds = rp_sounds.node_sound_small_defaults(),
 
 	      inventory_image = "rp_nav_magnocompass_inventory_0.png",
 	      wield_image = "rp_nav_magnocompass_inventory_0.png",

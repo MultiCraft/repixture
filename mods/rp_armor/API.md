@@ -65,12 +65,24 @@ Returns the regular skin (=texture) for `player` without the armor. Is a string.
 
 This function **must** be called whenever the armor inventory of `player` has been changed.
 
+### `armor.get_armor_protection(player)
 
+Returns the current armor protection of the given player, given as percentage points.
+
+Returns `<full>, <base>, <bonus>`, where:
+
+* `<full>`: Effective armor protection (base+bonus)
+* `<base>`: Sum of armor protection from armor pieces
+* `<bonus>`: Protection bonus
 
 ## Tables
 
 ### `armor.slots`
 
-A list which contains the available armor slot names, starting with the first one.
-The first name correspons to the first inventory list slot, the second name to the
+A list which contains the available armor slot identifiers, starting with the first one.
+The first identifier correspons to the first inventory list slot, the second name to the
 second slot, etc.
+
+### `armor.slot_names`
+
+A list of human-readable armor slot names, in the same order as `armor.slots`.

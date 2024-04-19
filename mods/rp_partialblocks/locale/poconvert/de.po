@@ -1,0 +1,195 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_partialblocks x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Cobble Slab"
+msgstr "Pflastersteinplatte"
+
+msgid "Cobble Stair"
+msgstr "Pflastersteintreppe"
+
+msgid "Stone Slab"
+msgstr "Steinplatte"
+
+msgid "Stone Stair"
+msgstr "Steintreppe"
+
+msgid "Sandstone Slab"
+msgstr "Sandsteinplatte"
+
+msgid "Sandstone Stair"
+msgstr "Sandsteintreppe"
+
+msgid "Brick Slab"
+msgstr "Ziegelplatte"
+
+msgid "Brick Stair"
+msgstr "Ziegeltreppe"
+
+msgid "Painted Brick Slab"
+msgstr "Gefärbte Ziegelplatte"
+
+msgid "Painted Brick Stair"
+msgstr "Gefärbte Ziegeltreppe"
+
+msgid "Wooden Slab"
+msgstr "Holzplatte"
+
+msgid "Wooden Stair"
+msgstr "Holztreppe"
+
+msgid "Painted Wooden Slab"
+msgstr "Gefärbte Holzplatte"
+
+msgid "Painted Wooden Stair"
+msgstr "Gefärbte Holztreppe"
+
+msgid "Oak Slab"
+msgstr "Eichenplatte"
+
+msgid "Oak Stair"
+msgstr "Eichentreppe"
+
+msgid "Painted Oak Slab"
+msgstr "Gefärbte Eichenplatte"
+
+msgid "Painted Oak Stair"
+msgstr "Gefärbte Eichentreppe"
+
+msgid "Birch Slab"
+msgstr "Birkenplatte"
+
+msgid "Birch Stair"
+msgstr "Birkentreppe"
+
+msgid "Painted Birch Slab"
+msgstr "Gefärbte Birkenplatte"
+
+msgid "Painted Birch Stair"
+msgstr "Gefärbte Birkentreppe"
+
+msgid "Reed Slab"
+msgstr "Reetplatte"
+
+msgid "Reed Stair"
+msgstr "Reettreppe"
+
+msgid "Dried Reed Slab"
+msgstr "Trockenreetplatte"
+
+msgid "Dried Reed Stair"
+msgstr "Trockenreettreppe"
+
+msgid "Straw Slab"
+msgstr "Strohplatte"
+
+msgid "Straw Stair"
+msgstr "Strohtreppe"
+
+msgid "Hay Slab"
+msgstr "Heuplatte"
+
+msgid "Hay Stair"
+msgstr "Heutreppe"
+
+msgid "Frame Slab"
+msgstr "Rahmenplatte"
+
+msgid "Frame Stair"
+msgstr "Rahmentreppe"
+
+msgid "Painted Frame Slab"
+msgstr "Gefärbte Rahmenplatte"
+
+msgid "Painted Frame Stair"
+msgstr "Gefärbte Rahmentreppe"
+
+msgid "Reinforced Frame Slab"
+msgstr "Verstärkte Rahmenplatte"
+
+msgid "Reinforced Frame Stair"
+msgstr "Verstärkte Rahmentreppe"
+
+msgid "Painted Reinforced Frame Slab"
+msgstr "Gefärbte verstärkte Rahmenplatte"
+
+msgid "Painted Reinforced Frame Stair"
+msgstr "Gefärbte verstärkte Rahmentreppe"
+
+msgid "Reinforced Cobble Slab"
+msgstr "Verstärkte Pflastersteinplatte"
+
+msgid "Reinforced Cobble Stair"
+msgstr "Verstärkte Pflastersteintreppe"
+
+msgid "Coal Slab"
+msgstr "Kohleplatte"
+
+msgid "Coal Stair"
+msgstr "Kohletreppe"
+
+msgid "Steel Slab"
+msgstr "Stahlplatte"
+
+msgid "Steel Stair"
+msgstr "Stahltreppe"
+
+msgid "Carbon Steel Slab"
+msgstr "Karbonstahlplatte"
+
+msgid "Carbon Steel Stair"
+msgstr "Karbonstahltreppe"
+
+msgid "Wrought Iron Slab"
+msgstr "Schmiedeeisenplatte"
+
+msgid "Wrought Iron Stair"
+msgstr "Schmiedeeisentreppe"
+
+msgid "Bronze Slab"
+msgstr "Bronzeplatte"
+
+msgid "Bronze Stair"
+msgstr "Bronzetreppe"
+
+msgid "Copper Slab"
+msgstr "Kupferplatte"
+
+msgid "Copper Stair"
+msgstr "Kupfertreppe"
+
+msgid "Tin Slab"
+msgstr "Zinnplatte"
+
+msgid "Tin Stair"
+msgstr "Zinntreppe"
+
+msgid "Gold Slab"
+msgstr "Goldplatte"
+
+msgid "Gold Stair"
+msgstr "Goldtreppe"
+
+msgid "Compressed Sandstone Slab"
+msgstr "Kompaktsandsteinplatte"
+
+msgid "Compressed Sandstone Stair"
+msgstr "Kompaktsandsteintreppe"
+
+msgid "Reinforced Compressed Sandstone Slab"
+msgstr "Verstärkte Kompaktsandsteinplatte"
+
+msgid "Reinforced Compressed Sandstone Stair"
+msgstr "Verstärkte Kompaktsandsteintreppe"
+

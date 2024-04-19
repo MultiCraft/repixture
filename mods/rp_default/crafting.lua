@@ -211,6 +211,13 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
+      recipe = "rp_default:bucket",
+      burntime = 8,
+})
+
+minetest.register_craft(
+   {
+      type = "fuel",
       recipe = "rp_default:pick_wood",
       burntime = 15,
 })
@@ -708,6 +715,14 @@ crafting.register_craft(
 })
 
 -- Path nodes
+
+crafting.register_craft(
+   {
+      output = "rp_default:dirt_path",
+      items = {
+         "rp_default:path_slab 2",
+      }
+})
 
 crafting.register_craft(
    {

@@ -1,0 +1,102 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_armor x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Helmet"
+msgstr "Шлем"
+
+msgid "Chestplate"
+msgstr "Нагрудник"
+
+msgid "Boots"
+msgstr "Ботинки"
+
+msgid "Wooden Helmet"
+msgstr "Деверянный шлем"
+
+msgid "Wooden Chestplate"
+msgstr "Деревянный нагрудник"
+
+msgid "Wooden Boots"
+msgstr "Деревянные ботинки"
+
+msgid "Steel Helmet"
+msgstr "Стальной шлем"
+
+msgid "Steel Chestplate"
+msgstr "Стальной нагрудник"
+
+msgid "Steel Boots"
+msgstr "Стальные ботинки"
+
+msgid "Chainmail Helmet"
+msgstr "Кольчужный шлем"
+
+msgid "Chainmail Chestplate"
+msgstr "Кольчужный нагрудник"
+
+msgid "Chainmail Boots"
+msgstr "Кольчужные ботинки"
+
+msgid "Carbon Steel Helmet"
+msgstr "Шлем из углеродистой стали"
+
+msgid "Carbon Steel Chestplate"
+msgstr "Нагрудник из углеродистой стали"
+
+msgid "Carbon Steel Boots"
+msgstr "Ботинки из углеродистой стали"
+
+msgid "Bronze Helmet"
+msgstr "Бронзовый шлем"
+
+msgid "Bronze Chestplate"
+msgstr "Бронзовый нагрудник"
+
+msgid "Bronze Boots"
+msgstr "Бронзовые ботинки"
+
+msgid "Protection"
+msgstr ""
+
+msgid "@1%"
+msgstr ""
+
+msgid "Protection bonus for full set"
+msgstr ""
+
+msgid "+@1%"
+msgstr ""
+
+msgid "Armor"
+msgstr "Броня"
+
+msgid "Chainmail Sheet"
+msgstr "Лист кольчуги"
+
+msgid "Armored"
+msgstr "Бронирован"
+
+msgid "Craft a piece of armor."
+msgstr "Скрафти кусок брони."
+
+msgid "Skin of Bronze"
+msgstr "Кожа Бронзы"
+
+msgid "Equip a full suit of bronze armor."
+msgstr "Надень полный сет бронзовой брони."
+
+msgid "Protection: +@1%"
+msgstr "Защита: +@1%"
+

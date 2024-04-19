@@ -1,5 +1,4 @@
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
-local S = minetest.get_translator("rp_default")
 
 -- If a sapling fails to grow, check the sapling again after this many seconds
 local SAPLING_RECHECK_TIME_MIN = 60
@@ -69,6 +68,7 @@ function default.place_sapling(itemstack, placer, pointed_thing)
    -- Find position to place sapling at
    local place_in, place_floor = util.pointed_thing_to_place_pos(pointed_thing)
    if place_in == nil then
+      rp_sounds.play_place_failed_sound(placer)
       return itemstack
    end
    local floornode = minetest.get_node(place_floor)
@@ -82,11 +82,14 @@ function default.place_sapling(itemstack, placer, pointed_thing)
 
    -- Floor must be soil
    if minetest.get_item_group(floornode.name, "soil") == 0 then
+      rp_sounds.play_place_failed_sound(placer)
       return itemstack
    end
 
    -- Place sapling
-   minetest.set_node(place_in, {name = itemstack:get_name()})
+   local newnode = {name = itemstack:get_name()}
+   minetest.set_node(place_in, newnode)
+   rp_sounds.play_node_sound(place_in, newnode, "place")
 
    -- Reduce item count
    if not minetest.is_creative_enabled(placer:get_player_name()) then
@@ -405,6 +408,37 @@ function default.grow_underwater_leveled_plant(pos, node, add)
 	return true, top
 end
 
+-- Degrows (reduces height) a plantlike_rooted plant that lives underwater
+-- by `reduce` node lengths (default: 1).
+-- Returns: <success>, <top_pos>
+-- <success>: true if plant was degrown, false otherwise
+-- <top_pos>: position at which the new highest "plant segment" is (nil if not degrown)
+function default.degrow_underwater_leveled_plant(pos, node, reduce)
+	local def = minetest.registered_nodes[node.name]
+	if not def then
+		return false
+	end
+	if not reduce then
+		reduce = 1
+	end
+	local old_param2 = node.param2
+	local new_level = node.param2 - (16 * reduce)
+	if new_level % 16 > 0 then
+		new_level = new_level + (16 - new_level % 16)
+	end
+	if new_level < 16 then
+		new_level = 16
+	end
+	node.param2 = new_level
+	if node.param2 == old_param2 then
+		return false
+	end
+	local height = math.ceil(new_level / 16)
+	minetest.swap_node(pos, node)
+	local top = vector.new(pos.x, pos.y + height, pos.z)
+	return true, top
+end
+
 -- Starts the timer of an inert airweed at pos
 -- (if not started already) so it will become
 -- usable to get air bubbles soon.
@@ -451,7 +485,7 @@ minetest.register_lbm(
 minetest.register_lbm(
    {
       label = "Update signs",
-      name = "rp_default:update_signs_3_7_0",
+      name = "rp_default:update_signs_3_14_0",
       nodenames = {"group:sign"},
       action = function(pos, node)
          local meta = minetest.get_meta(pos)
@@ -571,6 +605,10 @@ minetest.register_abm( -- leaf decay
             end
             -- Remove node
             minetest.remove_node(p0)
+            -- Trigger fall
+            local above = {x=p0.x, y=p0.y+1, z=p0.z}
+            minetest.check_for_falling(above)
+            -- Particles
 	    if not leafdecay_drop then
                minetest.add_particlespawner({
                   amount = math.random(10, 20),

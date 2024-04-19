@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_mobs x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Hunter"
+msgstr "Chasseur"
+
+msgid "Kill an animal for food."
+msgstr "Tuer un animal pour la nourriture."
+
+msgid "Gotcha!"
+msgstr "Je te tiens !"
+
+msgid "Capture a tame animal."
+msgstr "Capturer un animal apprivoisé."
+
+msgid "Best Friends Forever"
+msgstr "Meilleurs amis pour toujours"
+
+msgid "Tame an animal."
+msgstr "Dompter un animal."
+
+msgid "Wonder of Life"
+msgstr "Merveille de la vie"
+
+msgid "Get two animals to breed."
+msgstr "Faire se reproduire deux animaux."
+
+msgid "Gonna Feed ’em All"
+msgstr "Nourrissez les tous"
+
+msgid "Feed an animal of each species once."
+msgstr "Nourrir une fois un animal de chaque espèce."
+
+msgid "Hostile mobs are disabled!"
+msgstr "Monstres hostiles désactivés !"
+
+msgid "Not tamed!"
+msgstr "Non apprivoisé !"
+
+msgid "Missed!"
+msgstr "Manqué !"
+
+msgid "Net"
+msgstr "Filet"
+
+msgid "Good for capturing small animals"
+msgstr "Idéal pour capturer de petits animaux"
+
+msgid "Lasso"
+msgstr "Lasso"
+
+msgid "Good for capturing large animals"
+msgstr "Idéal pour capturer de grands animaux"
+

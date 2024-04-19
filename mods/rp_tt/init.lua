@@ -18,3 +18,16 @@ tt.register_snippet(function(itemstring)
 	end
 	return
 end)
+
+tt.register_snippet(function(itemstring)
+	local can_scrape = minetest.get_item_group(itemstring, "can_scrape")
+	if can_scrape == 2 then
+		return S("Place: Scrape off paint")
+	elseif can_scrape == 3 then
+		return S("Punch: Scrape off paint")
+	elseif can_scrape == 1 then
+		return S("Can scrape off paint")
+	end
+end)
+
+

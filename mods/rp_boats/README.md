@@ -19,3 +19,13 @@ Once you've entered a boat, use these controls:
 * Sneak: Get off boat
 * "Place" key on boat: Get off boat
 
+## License and credits
+
+* Media files license: CC BY-SA 4.0
+* Source code license: LGPLv2.1
+
+Coding and models by Wuzzy.
+Textures by Wuzzy based on work by KaadmY.
+
+Sound effect `rp_boats_place_on_water.ogg` is a derivate work from `water_splash.wav` by soundscalpel.com
+from <https://freesound.org/people/soundscalpel.com/sounds/110393/> (license: CC BY 3.0)

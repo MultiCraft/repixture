@@ -1,0 +1,195 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_partialblocks x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Cobble Slab"
+msgstr "Булыжниковый полублок"
+
+msgid "Cobble Stair"
+msgstr "Булыжниковые ступеньки"
+
+msgid "Stone Slab"
+msgstr "Каменный полублок"
+
+msgid "Stone Stair"
+msgstr "Каменные ступеньки"
+
+msgid "Sandstone Slab"
+msgstr "Песчаниковый полублок"
+
+msgid "Sandstone Stair"
+msgstr "Песчаниковые ступеньки"
+
+msgid "Brick Slab"
+msgstr "Кирпичный полублок"
+
+msgid "Brick Stair"
+msgstr "Кирпичные ступеньки"
+
+msgid "Painted Brick Slab"
+msgstr "Окрашенный Кирпичный Полублок"
+
+msgid "Painted Brick Stair"
+msgstr "Окрашенные Кирпичные Ступеньки"
+
+msgid "Wooden Slab"
+msgstr "Деревянный полублок"
+
+msgid "Wooden Stair"
+msgstr "Деревянные ступеньки"
+
+msgid "Painted Wooden Slab"
+msgstr "Окрашенный Деревянный Полублок"
+
+msgid "Painted Wooden Stair"
+msgstr "Окрашенные Деревянные Ступеньки"
+
+msgid "Oak Slab"
+msgstr "Дубовый полублок"
+
+msgid "Oak Stair"
+msgstr "Дубовые ступеньки"
+
+msgid "Painted Oak Slab"
+msgstr "Окрашенный Дубовый Полублок"
+
+msgid "Painted Oak Stair"
+msgstr "Окрашенные Дубовые Ступеньки"
+
+msgid "Birch Slab"
+msgstr "Берёзовый полублок"
+
+msgid "Birch Stair"
+msgstr "Берёзовые ступеньки"
+
+msgid "Painted Birch Slab"
+msgstr "Окрашенный Берёзовый Полублок"
+
+msgid "Painted Birch Stair"
+msgstr "Окрашенные Берёзовые Ступеньки"
+
+msgid "Reed Slab"
+msgstr "Тростниковый полублок"
+
+msgid "Reed Stair"
+msgstr "Тростниковые ступеньки"
+
+msgid "Dried Reed Slab"
+msgstr "Высушенный тростниковый полублок"
+
+msgid "Dried Reed Stair"
+msgstr "Высушенные тростниковые ступеньки"
+
+msgid "Straw Slab"
+msgstr "Соломенный полублок"
+
+msgid "Straw Stair"
+msgstr "Соломенные ступеньки"
+
+msgid "Hay Slab"
+msgstr "Сенной полублок"
+
+msgid "Hay Stair"
+msgstr "Сенные ступеньки"
+
+msgid "Frame Slab"
+msgstr "Рамочный полублок"
+
+msgid "Frame Stair"
+msgstr "Рамочные ступеньки"
+
+msgid "Painted Frame Slab"
+msgstr "Окрашенный Рамочный полублок"
+
+msgid "Painted Frame Stair"
+msgstr "Окрашенные Рамочные ступеньки"
+
+msgid "Reinforced Frame Slab"
+msgstr "Усиленный рамочный полублок"
+
+msgid "Reinforced Frame Stair"
+msgstr "Усиленные рамочные ступеньки"
+
+msgid "Painted Reinforced Frame Slab"
+msgstr "Окрашенный Усиленный рамочный полублок"
+
+msgid "Painted Reinforced Frame Stair"
+msgstr "Окрашенные Усиленные рамочные ступеньки"
+
+msgid "Reinforced Cobble Slab"
+msgstr "Усиленный булыжниковый полублок"
+
+msgid "Reinforced Cobble Stair"
+msgstr "Усиленные булыжниковые ступеньки"
+
+msgid "Coal Slab"
+msgstr "Угольный полублок"
+
+msgid "Coal Stair"
+msgstr "Угольные ступеньки"
+
+msgid "Steel Slab"
+msgstr "Стальной полублок"
+
+msgid "Steel Stair"
+msgstr "Стальные ступеньки"
+
+msgid "Carbon Steel Slab"
+msgstr "Полублок из углеродистой стали"
+
+msgid "Carbon Steel Stair"
+msgstr "Ступеньки из углеродистой стали"
+
+msgid "Wrought Iron Slab"
+msgstr "Полублок из кованого железа"
+
+msgid "Wrought Iron Stair"
+msgstr "Ступеньки из кованого железа"
+
+msgid "Bronze Slab"
+msgstr "Бронзовый полублок"
+
+msgid "Bronze Stair"
+msgstr "Бронзовые ступеньки"
+
+msgid "Copper Slab"
+msgstr "Медный полублок"
+
+msgid "Copper Stair"
+msgstr "Медные ступеньки"
+
+msgid "Tin Slab"
+msgstr "Оловянный полублок"
+
+msgid "Tin Stair"
+msgstr "Оловянные ступеньки"
+
+msgid "Gold Slab"
+msgstr "Золотой полублок"
+
+msgid "Gold Stair"
+msgstr "Золотые ступеньки"
+
+msgid "Compressed Sandstone Slab"
+msgstr "Сжато-песчаниковый полублок"
+
+msgid "Compressed Sandstone Stair"
+msgstr "Сжато-песчаниковые ступеньки"
+
+msgid "Reinforced Compressed Sandstone Slab"
+msgstr "Усиленный Сжато-песчаниковый полублок"
+
+msgid "Reinforced Compressed Sandstone Stair"
+msgstr "Усиленные Сжато-песчаниковые ступеньки"
+

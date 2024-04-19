@@ -10,6 +10,13 @@ rp_attached.detach_from_node = function(pos, digger)
 	local at = minetest.get_item_group(belownode.name, "_attached_node_top") == 1
 	if at then
 		util.dig_down(pos, belownode, digger)
+		return
+	end
+	local above = vector.add(pos, vector.new(0,1,0))
+	local abovenode = minetest.get_node(above)
+	local ab = minetest.get_item_group(abovenode.name, "_attached_node_bottom") == 1
+	if ab then
+		util.dig_up(pos, abovenode, digger)
 	end
 end
 
