@@ -10,6 +10,7 @@ local BREATH_KEEP_TIME = 2.05
 local hud_ids = {} -- HUD IDs, per-player
 local hidden_huds = {} -- List of hidden HUDs, per-player
 local breath_timers = {} -- count the time each player has a full breath bar
+local hud_flag_states = {} -- List of HUD flag states, per-player
 
 -- Adds the statbar of the given type if it does not exist yet.
 -- Returns ID if statbar was added, nil otherwise
@@ -68,11 +69,9 @@ local function initialize_builtin_statbars(player)
       hud_ids[name] = {}
       -- flags are not transmitted to client on connect, we need to make sure
       -- our current flags are transmitted by sending them actively
-      local flg=player:hud_get_flags()
-      flg["healthbar"]=false
-      flg["breathbar"]=false
 
-      player:hud_set_flags(flg)
+      rp_hud.set_hud_flag_semaphore(player, "rp_hud:healthbar", "healthbar", false)
+      rp_hud.set_hud_flag_semaphore(player, "rp_hud:breathbar", "breathbar", false)
    end
    if breath_timers[name] == nil then
       -- Initial breath time is initialized to use a time so a full breath bar
@@ -107,7 +106,7 @@ end
 
 
 
-local function cleanup_builtin_statbars(player)
+local function cleanup_player_state(player)
    if not player:is_player() then
       return
    end
@@ -120,6 +119,7 @@ local function cleanup_builtin_statbars(player)
 
    hud_ids[name] = nil
    breath_timers[name] = nil
+   hud_flag_states[name] = nil
 end
 
 local function player_event_handler(player, eventname)
@@ -157,9 +157,68 @@ local function player_event_handler(player, eventname)
    return false
 end
 
+local request_hud_flag_disable = function(player, id, hud_flag)
+	local name = player:get_player_name()
+	if not hud_flag_states[name] then
+		hud_flag_states[name] = {}
+	end
+	if not hud_flag_states[name][hud_flag] then
+		hud_flag_states[name][hud_flag] = {}
+	end
+	local requesters = hud_flag_states[name][hud_flag]
+	local was_enabled = #requesters == 0
+	local included = false
+	if was_enabled then
+		included = false
+	else
+		for r=1, #requesters do
+			if requesters[r] == id then
+				included = true
+				break
+			end
+		end
+	end
+	if not included then
+		table.insert(requesters, id)
+	end
+	if was_enabled then
+		player:hud_set_flags({[hud_flag] = false})
+	end
+end
+
+local unrequest_hud_flag_disable = function(player, id, hud_flag)
+	local name = player:get_player_name()
+	if not hud_flag_states[name] then
+		hud_flag_states[name] = {}
+	end
+	if not hud_flag_states[name][hud_flag] then
+		return
+	end
+	local requesters = hud_flag_states[name][hud_flag]
+	local was_enabled = #requesters == 0
+	if was_enabled then
+		return
+	end
+	local included = false
+	local table_pos
+	for r=1, #requesters do
+		if requesters[r] == id then
+			included = true
+			table_pos = r
+			break
+		end
+	end
+	if included then
+		table.remove(requesters, table_pos)
+	end
+	if #requesters == 0 then
+		player:hud_set_flags({[hud_flag] = true})
+	end
+end
+
 minetest.register_on_joinplayer(initialize_builtin_statbars)
 minetest.register_on_joinplayer(initialize_hotbar)
-minetest.register_on_leaveplayer(cleanup_builtin_statbars)
+minetest.register_on_leaveplayer(cleanup_player_state)
 minetest.register_playerevent(player_event_handler)
 
 -- Increase or reset player breath timers.
@@ -189,6 +248,16 @@ end)
 
 
 --[[ Public functions ]]
+
+rp_hud.set_hud_flag_semaphore = function(player, id, hud_flag, state)
+	if state == true then
+		unrequest_hud_flag_disable(player, id, hud_flag)
+	elseif state == false then
+		request_hud_flag_disable(player, id, hud_flag)
+	else
+		minetest.log("error", "[rp_hud] rp_hud.set_hud_flag_semaphore called with nil state!")
+	end
+end
 
 -- Hide a statbar from view for player.
 -- hud_name is one of the registered statbars names.

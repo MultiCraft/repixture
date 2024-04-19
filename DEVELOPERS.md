@@ -33,13 +33,14 @@ To disable the settings, set them to `false` again.
 
 ## Some modding rules
 
-* Crafting recipes (except cooking and fuel recipes) **MUST**
-  be registered through `rp_crafting`.
-* Modifying player physics (like running speed)
-  **MUST** be done via `rp_player_effects`.
+There are some simple but important rules when it comes to coding or modding for Repixture.
+They must be followed at all times:
+
+* Crafting recipes (except cooking and fuel recipes) **MUST** be registered through `rp_crafting`.
+* Modifying player physics (like running speed) **MUST** be done via `rp_player_effects`.
   Calling `set_physics_override` directly is **FORBIDDEN**.
-* You **MUST NOT** touch the HUD flag `"wielditem"` while the spyglass
-  is active (see `rp_spyglass` mod)
+* Modifying HUD flags (like `"wielditem"`) **MUST** be done via `rp_hud`.
+  Calling `hud_set_flags` directly is **FORBIDDEN**.
 
 ## Mod APIs
 
@@ -59,6 +60,7 @@ Mods with documented APIs:
 * `rp_farming`: Add farmable plants
 * `rp_formspec`: Build formspecs and inventory pages
 * `rp_goodies`: Fill container nodes with random loot
+* `rp_hud`: Allow and forbid HUD flags here
 * `rp_hunger`: Get and set hunger
 * `rp_item_drop`: Add a function to simulate an item drop
 * `rp_itemshow`: Needed when your item needs a custom appearance in the item frame / item showcase
