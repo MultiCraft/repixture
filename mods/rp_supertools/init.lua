@@ -27,7 +27,7 @@ local get_use_growth_or_degrowth_tool_function = function(growth, place)
 					if growth and ent._child then
 						rp_mobs.turn_into_adult(ent)
 						changed = true
-					elseif not growth and not ent._child then
+					elseif not growth and not ent._child and rp_mobs.mobdef_has_tag(ent.name, "child_exists") then
 						rp_mobs.turn_into_child(obj)
 						changed = true
 					end
