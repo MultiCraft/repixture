@@ -8,6 +8,9 @@ local AIRWEED_RECHARGE_TIME_DEFAULT = 10.0 -- how many seconds it takes for an a
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
 
+-- Maximum length of the name of a named node (e.g. with label)
+local NAMED_NODE_MAX_TEXT_LENGTH = 80
+
 -- Maximum growth height of cactus on dry dirt, normally
 local CACTUS_MAX_HEIGHT_DDIRT = 2
 -- Maximum growth height of cactus on dry dirt, fertilized
@@ -41,6 +44,7 @@ default.PAPYRUS_MAX_HEIGHT_TOTAL = PAPYRUS_MAX_HEIGHT_PLUS + PAPYRUS_SWAMP_HEIGH
 -- Assign a name to a node
 
 function default.write_name(pos, text)
+   text = string.sub(text, 1, NAMED_NODE_MAX_TEXT_LENGTH)
    local node = minetest.get_node(pos)
    local def
    if minetest.registered_nodes[node.name] then
