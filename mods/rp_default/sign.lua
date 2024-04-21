@@ -11,6 +11,10 @@ local SIGN_THICKNESS = 1/16
 -- Offset from text entity from sign node border
 local TEXT_ENTITY_OFFSET = SIGN_THICKNESS + 1/64
 
+-- Maximum length for a texture string.
+-- Hard limit to avoid running into issues with Minetest.
+local MAX_TEXTURE_STRING_LENGTH = 64535
+
 -- Special string for metadata key "image" to denote empty image.
 -- Must not collide with base64 characters.
 -- Note the empty string stands for an undefined/uninitialized
@@ -233,7 +237,16 @@ local function update_sign(pos, text)
 			return "blank.png"
 		else
 			local decomp = minetest.decompress(minetest.decode_base64(data.image), COMPMETHOD)
-			return "[png:"..decomp
+			local tex = "[png:"..decomp
+			-- If encoded texture string is very long, replace it with a special gibberish texture.
+			-- Minetest enforces a length limit for object texture strings. If exceeded, it
+			-- creates a warning and clears the texture. We want to prevent that by using our
+			-- own replacement texture
+			if string.len(tex) > MAX_TEXTURE_STRING_LENGTH then
+				-- This should look like unreadable gibberish text
+				tex = "rp_default_sign_gibberish.png"
+			end
+			return tex
 		end
 	end
         local success, imagestr = pcall(encode)
