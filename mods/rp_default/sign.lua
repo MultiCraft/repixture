@@ -335,19 +335,11 @@ local function update_sign(pos, text)
 end
 
 local function crop_text(txt)
-        if not txt then
+	if not txt then
 		return ""
 	end
-        local lines = txt:split("\n")
-        local r = {}
-        for k, line in ipairs(lines) do
-                table.insert(r, crop_utf8_text(line))
-        end
-        return table.concat(r, "\n")
+	return crop_utf8_text(txt)
 end
-
-
-
 
 -- Formspec pages for sign (different background textures)
 local sign_pages = {}
