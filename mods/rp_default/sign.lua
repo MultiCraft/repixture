@@ -149,9 +149,9 @@ local function get_signdata(pos)
 		-- Ceiling sign
 		pitch = math.pi/2
 		if r90 then
-			yaw = -math.pi/2
+			yaw = math.pi/2
 		else
-			yaw = 0
+			yaw = math.pi
 		end
 		spos = vector.offset(pos, 0, 0.5 - TEXT_ENTITY_OFFSET, 0)
 	elseif dir.y <= -1 then
