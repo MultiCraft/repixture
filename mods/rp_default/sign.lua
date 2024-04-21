@@ -9,7 +9,7 @@ local COMPMETHOD = "deflate"
 local SIGN_THICKNESS = 1/16
 
 -- Offset from text entity from sign node border
-local TEXT_ENTITY_OFFSET = SIGN_THICKNESS + 1/64
+local TEXT_ENTITY_OFFSET = SIGN_THICKNESS + 1/128
 
 -- Maximum length for a texture string.
 -- Hard limit to avoid running into issues with Minetest.
@@ -270,7 +270,7 @@ local function update_sign(pos, text)
 
 	local encode = function()
 		if data.image == nil or data.image == META_IMAGE_EMPTY then
-			return "blank.png"
+			return "blank.png", false
 		else
 			local decomp = minetest.decompress(minetest.decode_base64(data.image), COMPMETHOD)
 			local tex = "[png:"..decomp
@@ -280,12 +280,12 @@ local function update_sign(pos, text)
 			-- own replacement texture
 			if string.len(tex) > MAX_TEXTURE_STRING_LENGTH then
 				-- This should look like unreadable gibberish text
-				tex = "rp_default_sign_gibberish.png"
+				return "rp_default_sign_gibberish.png", false
 			end
-			return tex
+			return tex, true
 		end
 	end
-        local success, imagestr = pcall(encode)
+        local success, imagestr, change_ratio = pcall(encode)
 	if success and imagestr then
 		local width, height = data.image_w, data.image_h
 		if not height or not width or height <= 0 or width <= 0 then
@@ -293,18 +293,22 @@ local function update_sign(pos, text)
 			get_text_entity(pos, true)
 			return
 		end
-		local ratio = width/height
-
 		local ewidth, eheight
-		-- Adjust entity height or width so that the aspect ratio of
-		-- TEXT_ENTITY_ASPECT_RATIO is preserved to avoid ugly stretching
-		-- of the font.
-		if ratio < TEXT_ENTITY_ASPECT_RATIO then
-			ewidth = TEXT_ENTITY_WIDTH * (ratio / TEXT_ENTITY_ASPECT_RATIO)
-			eheight = TEXT_ENTITY_HEIGHT
+		if change_ratio then
+			local ratio = width/height
+			-- Adjust entity height or width so that the aspect ratio of
+			-- TEXT_ENTITY_ASPECT_RATIO is preserved to avoid ugly stretching
+			-- of the font.
+			if ratio < TEXT_ENTITY_ASPECT_RATIO then
+				ewidth = TEXT_ENTITY_WIDTH * (ratio / TEXT_ENTITY_ASPECT_RATIO)
+				eheight = TEXT_ENTITY_HEIGHT
+			else
+				ewidth = TEXT_ENTITY_WIDTH
+				eheight = TEXT_ENTITY_HEIGHT / (ratio / TEXT_ENTITY_ASPECT_RATIO)
+			end
 		else
 			ewidth = TEXT_ENTITY_WIDTH
-			eheight = TEXT_ENTITY_HEIGHT / (ratio / TEXT_ENTITY_ASPECT_RATIO)
+			eheight = TEXT_ENTITY_HEIGHT
 		end
 
 		text_entity:set_properties({
