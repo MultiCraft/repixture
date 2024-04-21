@@ -1,6 +1,232 @@
 local S = minetest.get_translator("rp_default")
 
+-- Maximum number of characters on a sign
 local SIGN_MAX_TEXT_LENGTH = 500
+-- Compression method for text entity texture
+local COMPMETHOD = "deflate"
+
+local SIGN_THICKNESS = 1/16
+local TEXT_ENTITY_OFFSET = SIGN_THICKNESS + 1/64
+
+
+
+-- Load font
+local font = unicode_text.hexfont({
+        background_color = { 0, 0, 0, 0 }, --transparent
+        foreground_color = { 0, 0, 0, 255 }, -- black
+        kerning = false,
+   }
+)
+local fontpath = minetest.get_modpath("rp_default").."/fontdata"
+font:load_glyphs(
+	io.lines(fontpath.."/unifont.hex")
+)
+font:load_glyphs(
+	io.lines(fontpath.."/unifont_upper.hex")
+)
+font:load_glyphs(
+	io.lines(fontpath.."/plane00csur.hex")
+)
+font:load_glyphs(
+	io.lines(fontpath.."/plane0Fcsur.hex")
+)
+
+local function crop_utf8_text(txt)
+        local bytes = 1
+        local str = ""
+        local chars = 0
+        local final_string = ""
+        for i = 1, txt:len() do
+                local byte = txt:sub(i, i)
+                if bytes ~= 1 then
+                        bytes = bytes - 1
+                        str = str .. byte
+                        if bytes == 1 then
+                                if chars < SIGN_MAX_TEXT_LENGTH then
+                                        final_string = final_string .. str
+                                        chars = chars + 1
+                                else
+                                        break
+                                end
+                                str = ""
+                        end
+                else
+                        local octal = string.format('%o', string.byte(byte))
+                        -- Remove leading zeroes
+                        -- TODO: find out if it's needed (works without it)
+                        if octal:find("^0") ~= nil then
+                                octal = octal:sub(2, octal:len())
+                        elseif octal:find("^00") ~= nil then
+                                octal = octal:sub(3, octal:len())
+                        end
+                        -- Four bytes
+                        if octal:find("^36") ~= nil or octal:find("^37") ~= nil then
+                                bytes = 4
+                                str = str .. byte
+                        -- Three bytes
+                        elseif octal:find("^34") ~= nil or octal:find("^35") ~= nil then
+                                bytes = 3
+                                str = str .. byte
+                        -- Two bytes
+                        elseif octal:find("^33") ~= nil or octal:find("^32") ~= nil or octal:find("^31") ~= nil or octal:find("^30") ~= nil then
+                                bytes = 2
+                                str = str .. byte
+                        -- Assume everything else is one byte
+                        else
+                                bytes = 1
+                                str = ""
+                                if chars < SIGN_MAX_TEXT_LENGTH then
+                                        final_string = final_string .. byte
+                                        chars = chars + 1
+                                else
+                                        break
+                                end
+                        end
+                end
+        end
+        return final_string
+end
+
+local function make_text_texture(text, pos)
+        if not text or text == "" then
+		return false
+	end
+        local pixels
+        local success, pixels = pcall(function()
+                return font:render_text(text) --this often crashes on unexpected input
+        end)
+        if success and pixels then
+                local image = tga_encoder.image(pixels)
+                image.pixel_depth = 32
+                image:encode({
+                        colormap = {},
+                        compression = 'RLE',
+                        color_format = 'B8G8R8A8'
+                })
+                local meta = minetest.get_meta(pos)
+                local compressed_string = minetest.encode_base64(minetest.compress(minetest.encode_base64(image.data), COMPMETHOD))
+                meta:set_string("image", compressed_string)
+                return true
+        else
+		minetest.log("error", "[rp_default] Error when calling render_text for: "..tostring(text).." (error: "..tostring(pixels)..")")
+		return false
+	end
+end
+
+local function get_text_entity(pos, force_remove)
+        local objects = minetest.get_objects_inside_radius(pos, 0.5)
+        local text_entity
+        for _, v in pairs(objects) do
+                local ent = v:get_luaentity()
+                if ent and ent.name == "rp_default:sign_text" then
+                        if force_remove == true then
+                                v:remove()
+                        else
+                                text_entity = v
+                                break
+                        end
+                end
+        end
+        return text_entity
+end 
+
+local function get_signdata(pos)
+	local node = minetest.get_node(pos)
+	local def = minetest.registered_nodes[node.name]
+	if not def or minetest.get_item_group(node.name, "sign") == 0 then
+		return
+	end
+	local meta = minetest.get_meta(pos)
+	local text = meta:get_string("text")
+	local image = meta:get_string("image")
+	local yaw, spos
+	local dir = minetest.wallmounted_to_dir(node.param2)
+	spos = vector.add(pos, dir * (0.5 - TEXT_ENTITY_OFFSET))
+	yaw = minetest.dir_to_yaw(dir)
+	return {
+		text = text,
+		yaw = yaw,
+		node = node,
+		text_pos = spos,
+		image = image,
+	}
+end
+
+local function update_sign(pos, text)
+        local data = get_signdata(pos)
+        if not data then
+		return
+	end
+	if not text then
+		text = data.text
+	end
+	if not text then
+		return
+	end
+
+        local text_entity = get_text_entity(pos)
+        if text_entity and not data then
+                text_entity:remove()
+                return false
+        elseif not data then
+                return false
+        elseif not text_entity then
+                text_entity = minetest.add_entity(data.text_pos, "rp_default:sign_text")
+                if not text_entity or not text_entity:get_pos() then
+			return
+		end
+        end
+
+        if data.image == "" then
+                if make_text_texture(text, pos) then
+                        data = get_signdata(pos)
+                else
+                        get_text_entity(pos, true)
+                end
+        end
+
+	local encode = function()
+		if data.image == nil or data.image == "" then
+			return "blank.png"
+		end
+		local decomp = minetest.decompress(minetest.decode_base64(data.image), COMPMETHOD)
+		return "[png:"..decomp
+	end
+        local success, imagestr = pcall(encode)
+	if success and imagestr then
+		text_entity:set_properties({
+			textures = {
+				-- only one side is written
+				"blank.png",
+				imagestr,
+			},
+		})
+	else
+		minetest.log("error", "[rp_default] Sign texture decompression failed: "..tostring(imagestr))
+		if make_text_texture(data.text, pos) then
+			update_sign(pos)
+		else
+			get_text_entity(pos, true)
+		end
+	end
+        text_entity:set_yaw(data.yaw)
+        return true
+end
+
+local function crop_text(txt)
+        if not txt then
+		return ""
+	end
+        local lines = txt:split("\n")
+        local r = {}
+        for k, line in ipairs(lines) do
+                table.insert(r, crop_utf8_text(line))
+        end
+        return table.concat(r, "\n")
+end
+
+
+
 
 -- Formspec pages for sign (different background textures)
 local sign_pages = {}
@@ -51,14 +277,18 @@ local on_receive_fields = function(pos, formname, fields, sender)
 	end
 	local meta = minetest.get_meta(pos)
 	local text = fields.text
-	if string.len(text) > SIGN_MAX_TEXT_LENGTH then
-		text = string.sub(text, 1, SIGN_MAX_TEXT_LENGTH)
+	text = crop_text(text)
+	local texture = make_text_texture(text, pos)
+	if texture then
+		update_sign(pos, text)
+	else
+		return
 	end
+
 	minetest.sound_play({name="rp_default_write_sign", gain=0.2}, {pos=pos, max_hear_distance=16}, true)
 	minetest.log("action", "[rp_default] " .. (sender:get_player_name() or "")..
 					" wrote \""..text.."\" to sign at "..
 					minetest.pos_to_string(pos))
-	meta:set_string("text", text)
 	-- Show sign text in quotation marks
 	meta:set_string("infotext", S('"@1"', text))
 
@@ -66,6 +296,7 @@ local on_receive_fields = function(pos, formname, fields, sender)
 end
 local on_destruct = function(pos)
 	default.write_name(pos, "")
+	get_text_entity(pos, true)
 end
 
 local function register_sign(id, def)
@@ -82,9 +313,9 @@ local function register_sign(id, def)
 		walkable = false,
 		node_box = {
 			type = "wallmounted",
-			wall_top = {-0.5+(1/16), 0.5, -0.5+(4/16), 0.5-(1/16), 0.5-(1/16), 0.5-(4/16)},
-			wall_bottom = {-0.5+(1/16), -0.5, -0.5+(4/16), 0.5-(1/16), -0.5+(1/16), 0.5-(4/16)},
-			wall_side = {-0.5, -0.5+(4/16), -0.5+(1/16), -0.5+(1/16), 0.5-(4/16), 0.5-(1/16)},
+			wall_top = {-0.5+SIGN_THICKNESS, 0.5, -0.5+(4/16), 0.5-SIGN_THICKNESS, 0.5-SIGN_THICKNESS, 0.5-(4/16)},
+			wall_bottom = {-0.5+SIGN_THICKNESS, -0.5, -0.5+(4/16), 0.5-SIGN_THICKNESS, -0.5+SIGN_THICKNESS, 0.5-(4/16)},
+			wall_side = {-0.5, -0.5+(4/16), -0.5+SIGN_THICKNESS, -0.5+SIGN_THICKNESS, 0.5-(4/16), 0.5-SIGN_THICKNESS},
 		},
 		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, creative_decoblock = 1, paintable = 2},
 		is_ground_content = false,
@@ -143,9 +374,9 @@ local function register_sign(id, def)
 		walkable = false,
 		node_box = {
 			type = "wallmounted",
-			wall_top = {-0.5+(4/16), 0.5, -0.5+(1/16), 0.5-(4/16), 0.5-(1/16), 0.5-(1/16)},
-			wall_bottom = {-0.5+(4/16), -0.5, -0.5+(1/16), 0.5-(4/16), -0.5+(1/16), 0.5-(1/16)},
-			wall_side = {-0.5, -0.5+(1/16), -0.5+(4/16), -0.5+(1/16), 0.5-(1/16), 0.5-(4/16)},
+			wall_top = {-0.5+(4/16), 0.5, -0.5+SIGN_THICKNESS, 0.5-(4/16), 0.5-SIGN_THICKNESS, 0.5-SIGN_THICKNESS},
+			wall_bottom = {-0.5+(4/16), -0.5, -0.5+SIGN_THICKNESS, 0.5-(4/16), -0.5+SIGN_THICKNESS, 0.5-SIGN_THICKNESS},
+			wall_side = {-0.5, -0.5+SIGN_THICKNESS, -0.5+(4/16), -0.5+SIGN_THICKNESS, 0.5-SIGN_THICKNESS, 0.5-(4/16)},
 		},
 		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, not_in_creative_inventory=1, paintable = 2},
 		is_ground_content = false,
@@ -185,6 +416,33 @@ local function register_sign(id, def)
 
 	register_sign_page(id, {"rp_default:"..id, "rp_default:"..id.."_r90"})
 end
+
+minetest.register_lbm({
+        label = "Restore sign text entities",
+        name = "rp_default:restore_sign_entities",
+        nodenames = {"group:sign"},
+        run_at_every_load = true,
+        action = function(pos)
+                update_sign(pos)
+        end
+})
+
+minetest.register_entity("rp_default:sign_text", {
+        initial_properties = {
+                pointable = false,
+                visual = "upright_sprite",
+                textures = {},
+                physical = false,
+                collide_with_objects = false,
+                visual_size = {x = 12/16, y = 6/16, z = 12/16},
+        },
+        on_activate = function(self)
+		self.object:set_armor_groups({ immortal = 1 })
+
+                local pos = self.object:get_pos()
+                update_sign(pos)
+        end,
+})
 
 local sounds_wood_sign = rp_sounds.node_sound_planks_defaults({
 	footstep = {},
