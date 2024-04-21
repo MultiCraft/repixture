@@ -117,7 +117,7 @@ local W2 = function(run, sos)
          local j = i
          repeat
             j = j - 1
-            local previous_bidi_class = run[j].bidi_class
+            local previous_bidi_class = (run[j] and run[j].bidi_class) or nil
             if (
                "L" == previous_bidi_class or  -- left-to-right
                "R" == previous_bidi_class or  -- right-to-left
@@ -128,7 +128,7 @@ local W2 = function(run, sos)
             end
          until(
             nil ~= previous_strong_bidi_class or
-            1 == j
+            j <= 1
          )
          -- If an AL is found, change the type of the European number
          -- to Arabic number.
