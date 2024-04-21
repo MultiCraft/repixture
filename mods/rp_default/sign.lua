@@ -272,21 +272,29 @@ local register_sign_page = function(id, node_names)
 	end
 end
 
-default.refresh_sign = function(meta, node)
+local get_sign_formspec = function(pos)
+	local node = minetest.get_node(pos)
 	local pagename = sign_pages[node.name]
-	local page
+	local form
 	if pagename then
-		page = rp_formspec.get_page(pagename)
-		page = page .. "set_focus[text;true]"
+		form = rp_formspec.get_page(pagename)
+		form = form .. "set_focus[text;true]"
+		local meta = minetest.get_meta(pos)
 		local text = meta:get_string("text")
-		page = page .. "textarea[0.5,1;7.5,1.5;text;;"..minetest.formspec_escape(text).."]"
+		form = form .. "textarea[0.5,1;7.5,1.5;text;;"..minetest.formspec_escape(text).."]"
 	else
-		page = rp_formspec.get_page("rp_formspec:field")
+		minetest.log("warning", "[rp_default] No formspec page for sign at "..minetest.pos_to_string(pos, 0)..". Fallback to rp_formspec:field")
+		form = rp_formspec.get_page("rp_formspec:field")
 	end
-	meta:set_string("formspec", page)
+	return form
+end
 
-	local text = meta:get_string("text")
+default.refresh_sign = function(meta, node)
+	-- Clear the node formspec from older versions; the formspec is now sent manually
+	meta:set_string("formspec", "")
+
 	-- Show sign text in quotation marks
+	local text = meta:get_string("text")
 	meta:set_string("infotext", S('"@1"', text))
 end
 
@@ -296,32 +304,50 @@ local on_construct = function(pos)
 	local node = minetest.get_node(pos)
 	default.refresh_sign(meta, node)
 end
-local on_receive_fields = function(pos, formname, fields, sender)
-	if fields.text == nil then return end
-	if minetest.is_protected(pos, sender:get_player_name()) and
-			not minetest.check_player_privs(sender, "protection_bypass") then
-		minetest.record_protection_violation(pos, sender:get_player_name())
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+	if string.sub(formname, 1, 16) ~= "rp_default:sign_" then
+		return
+	end
+	local coords = string.sub(formname, 17)
+	local x, y, z = string.match(coords, "([0-9-]+)_([0-9-]+)_([0-9-]+)")
+	local pos = {x=tonumber(x), y=tonumber(y), z=tonumber(z)}
+	if not pos or not pos.x or not pos.y or not pos.z then
+		return
+	end
+
+	if not fields.text then
+		return
+	end
+	-- Check protection
+	if minetest.is_protected(pos, player:get_player_name()) and
+			not minetest.check_player_privs(player, "protection_bypass") then
+		minetest.record_protection_violation(pos, player:get_player_name())
 		return itemstack
 	end
+
+	-- Write text
 	local meta = minetest.get_meta(pos)
 	local text = fields.text
 	text = crop_text(text)
 	local texture = make_text_texture(text, pos)
 	if texture then
 		update_sign(pos, text)
+		meta:set_string("text", text)
 	else
 		return
 	end
 
 	minetest.sound_play({name="rp_default_write_sign", gain=0.2}, {pos=pos, max_hear_distance=16}, true)
-	minetest.log("action", "[rp_default] " .. (sender:get_player_name() or "")..
+	minetest.log("action", "[rp_default] " .. (player:get_player_name() or "")..
 					" wrote \""..text.."\" to sign at "..
 					minetest.pos_to_string(pos))
 	-- Show sign text in quotation marks
 	meta:set_string("infotext", S('"@1"', text))
 
 	default.write_name(pos, meta:get_string("text"))
-end
+end)
+
 local on_destruct = function(pos)
 	default.write_name(pos, "")
 	get_text_entity(pos, true)
@@ -353,7 +379,6 @@ local function register_sign(id, def)
 			minetest.add_item(pos, "rp_default:"..id)
 		end,
 		on_construct = on_construct,
-		on_receive_fields = on_receive_fields,
 		on_destruct = on_destruct,
 		on_place = function(itemstack, placer, pointed_thing)
 			-- Boilerplace to handle pointed node's rightclick handler
@@ -388,6 +413,22 @@ local function register_sign(id, def)
 			end
 			return itemstack
 		end,
+		on_rightclick = function(pos, node, clicker, itemstack)
+			if clicker and clicker:is_player() then
+				-- Don't allow editing if protected
+				if minetest.is_protected(pos, clicker:get_player_name()) and
+						not minetest.check_player_privs(clicker, "protection_bypass") then
+					minetest.record_protection_violation(pos, clicker:get_player_name())
+					return itemstack
+				end
+
+				-- Show sign formspec
+				local formspec = get_sign_formspec(pos)
+				local pos_id = tostring(pos.x).."_"..tostring(pos.y).."_"..tostring(pos.z)
+				minetest.show_formspec(clicker:get_player_name(), "rp_default:sign_"..pos_id, formspec)
+			end
+			return itemstack
+		end,
 	}
 	minetest.register_node("rp_default:"..id, sdef)
 
@@ -414,7 +455,6 @@ local function register_sign(id, def)
 			minetest.add_item(pos, "rp_default:"..id)
 		end,
 		on_construct = on_construct,
-		on_receive_fields = on_receive_fields,
 		on_destruct = on_destruct,
 		drop = "rp_default:"..id,
 	}
