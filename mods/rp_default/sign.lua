@@ -2,6 +2,10 @@ local S = minetest.get_translator("rp_default")
 
 -- Maximum number of characters on a sign
 local SIGN_MAX_TEXT_LENGTH = 500
+-- Maximum size of text image in pixels
+local SIGN_MAX_TEXT_WIDTH_PIXELS = 400
+local SIGN_MAX_TEXT_HEIGHT_PIXELS = 228
+
 -- Compression method for text entity texture
 local COMPMETHOD = "deflate"
 
@@ -271,6 +275,8 @@ local function update_sign(pos, text)
 	local encode = function()
 		if data.image == nil or data.image == META_IMAGE_EMPTY then
 			return "blank.png", false
+		elseif (data.image_w > SIGN_MAX_TEXT_WIDTH_PIXELS) or (data.image_h > SIGN_MAX_TEXT_HEIGHT_PIXELS) then
+			return "rp_default_sign_gibberish.png", false
 		else
 			local decomp = minetest.decompress(minetest.decode_base64(data.image), COMPMETHOD)
 			local tex = "[png:"..decomp
