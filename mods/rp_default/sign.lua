@@ -5,9 +5,17 @@ local SIGN_MAX_TEXT_LENGTH = 500
 -- Compression method for text entity texture
 local COMPMETHOD = "deflate"
 
+-- Sign thickness in node units
 local SIGN_THICKNESS = 1/16
+
+-- Offset from text entity from sign node border
 local TEXT_ENTITY_OFFSET = SIGN_THICKNESS + 1/64
 
+-- Special string for metadata key "image" to denote empty image.
+-- Must not collide with base64 characters.
+-- Note the empty string stands for an undefined/uninitialized
+-- image.
+local META_IMAGE_EMPTY = "!"
 
 
 -- Load font
@@ -88,8 +96,13 @@ local function crop_utf8_text(txt)
 end
 
 local function make_text_texture(text, pos)
-        if not text or text == "" then
+        if not text then
 		return false
+	end
+	if text == "" then
+		local meta = minetest.get_meta(pos)
+		meta:set_string("image", META_IMAGE_EMPTY)
+		return true
 	end
         local pixels
         local success, pixels = pcall(function()
@@ -188,27 +201,25 @@ local function update_sign(pos, text)
 		text = data.text
 	end
 	if not text then
+		make_text_texture("", pos)
+		get_text_entity(pos, true)
 		return
 	end
-
 	if text == "" then
+		make_text_texture("", pos)
 		get_text_entity(pos, true)
 		return
 	end
 
         local text_entity = get_text_entity(pos)
-        if text_entity and not data then
-                text_entity:remove()
-                return
-        elseif not data then
-                return
-        elseif not text_entity then
+        if not text_entity then
                 text_entity = minetest.add_entity(data.text_pos, "rp_default:sign_text")
                 if not text_entity or not text_entity:get_pos() then
 			return
 		end
         end
 
+	-- Regenerate image if not initialized yet
         if data.image == "" then
                 if make_text_texture(text, pos) then
                         data = get_signdata(pos)
@@ -218,11 +229,12 @@ local function update_sign(pos, text)
         end
 
 	local encode = function()
-		if data.image == nil or data.image == "" then
+		if data.image == nil or data.image == META_IMAGE_EMPTY then
 			return "blank.png"
+		else
+			local decomp = minetest.decompress(minetest.decode_base64(data.image), COMPMETHOD)
+			return "[png:"..decomp
 		end
-		local decomp = minetest.decompress(minetest.decode_base64(data.image), COMPMETHOD)
-		return "[png:"..decomp
 	end
         local success, imagestr = pcall(encode)
 	if success and imagestr then
@@ -235,11 +247,8 @@ local function update_sign(pos, text)
 		})
 	else
 		minetest.log("error", "[rp_default] Sign texture decompression failed: "..tostring(imagestr))
-		if make_text_texture(data.text, pos) then
-			update_sign(pos)
-		else
-			get_text_entity(pos, true)
-		end
+		get_text_entity(pos, true)
+		return
 	end
         text_entity:set_rotation({x=data.pitch, y=data.yaw, z=0})
         return
@@ -343,7 +352,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			return
 		end
 	else
-		update_sign(pos, text)
+		meta:set_string("image", META_IMAGE_EMPTY)
+		get_text_entity(pos, true)
 	end
 
 	meta:set_string("text", text)
@@ -520,9 +530,6 @@ minetest.register_entity("rp_default:sign_text", {
         },
         on_activate = function(self)
 		self.object:set_armor_groups({ immortal = 1 })
-
-                local pos = self.object:get_pos()
-                update_sign(pos)
         end,
 })
 
