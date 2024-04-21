@@ -523,13 +523,23 @@ minetest.register_entity("rp_default:sign_text", {
         initial_properties = {
                 pointable = false,
                 visual = "upright_sprite",
-                textures = {},
+                -- Textures must be updated after entity was spawned
+                textures = {"blank.png", "blank.png"},
                 physical = false,
                 collide_with_objects = false,
                 visual_size = {x = 12/16, y = 6/16, z = 12/16},
         },
         on_activate = function(self)
 		self.object:set_armor_groups({ immortal = 1 })
+
+		-- Remove entity if no matching sign node
+		local pos = self.object:get_pos()
+		local node = minetest.get_node(pos)
+		if minetest.get_item_group(node.name, "sign") == 0 then
+			self.object:remove()
+			minetest.log("action", "[rp_default] Removed orphan sign text entity at "..minetest.pos_to_string(pos, 1))
+			return
+		end
         end,
 })
 
