@@ -520,14 +520,20 @@ minetest.register_lbm({
 })
 
 minetest.register_entity("rp_default:sign_text", {
-        initial_properties = {
-                pointable = false,
-                visual = "upright_sprite",
-                -- Textures must be updated after entity was spawned
-                textures = {"blank.png", "blank.png"},
-                physical = false,
-                collide_with_objects = false,
-                visual_size = {x = 12/16, y = 6/16, z = 12/16},
+	initial_properties = {
+		pointable = false,
+		visual = "upright_sprite",
+		-- Initialize textures with a special 'loading' image to
+		-- catch mistakes and errors early.
+		-- This makes entity visible in case it appears somewhere where
+		-- it shouldn't or it fails to be updated.
+		-- The textures should be immediately updated after the entity
+		-- was spawned, so the player should normally not see them
+		-- except maybe in case of extreme lag.
+		textures = {"rp_default_text_entity_loading.png", "rp_default_text_entity_loading.png"},
+		physical = false,
+		collide_with_objects = false,
+		visual_size = {x = 12/16, y = 6/16, z = 12/16},
         },
         on_activate = function(self)
 		self.object:set_armor_groups({ immortal = 1 })
