@@ -353,6 +353,23 @@ local on_destruct = function(pos)
 	get_text_entity(pos, true)
 end
 
+local on_rightclick = function(pos, node, clicker, itemstack)
+	if clicker and clicker:is_player() then
+		-- Don't allow editing if protected
+		if minetest.is_protected(pos, clicker:get_player_name()) and
+				not minetest.check_player_privs(clicker, "protection_bypass") then
+			minetest.record_protection_violation(pos, clicker:get_player_name())
+			return itemstack
+		end
+
+		-- Show sign formspec
+		local formspec = get_sign_formspec(pos)
+		local pos_id = tostring(pos.x).."_"..tostring(pos.y).."_"..tostring(pos.z)
+		minetest.show_formspec(clicker:get_player_name(), "rp_default:sign_"..pos_id, formspec)
+	end
+	return itemstack
+end
+
 local function register_sign(id, def)
 	local sdef = {
 		description = def.description,
@@ -413,22 +430,7 @@ local function register_sign(id, def)
 			end
 			return itemstack
 		end,
-		on_rightclick = function(pos, node, clicker, itemstack)
-			if clicker and clicker:is_player() then
-				-- Don't allow editing if protected
-				if minetest.is_protected(pos, clicker:get_player_name()) and
-						not minetest.check_player_privs(clicker, "protection_bypass") then
-					minetest.record_protection_violation(pos, clicker:get_player_name())
-					return itemstack
-				end
-
-				-- Show sign formspec
-				local formspec = get_sign_formspec(pos)
-				local pos_id = tostring(pos.x).."_"..tostring(pos.y).."_"..tostring(pos.z)
-				minetest.show_formspec(clicker:get_player_name(), "rp_default:sign_"..pos_id, formspec)
-			end
-			return itemstack
-		end,
+		on_rightclick = on_rightclick,
 	}
 	minetest.register_node("rp_default:"..id, sdef)
 
@@ -456,6 +458,7 @@ local function register_sign(id, def)
 		end,
 		on_construct = on_construct,
 		on_destruct = on_destruct,
+		on_rightclick = on_rightclick,
 		drop = "rp_default:"..id,
 	}
 	minetest.register_node("rp_default:"..id.."_r90", sdef_r90)
@@ -483,7 +486,7 @@ local function register_sign(id, def)
 	sdef_r90_p.drop = "rp_default:"..id
 	minetest.register_node("rp_default:"..id.."_r90_painted", sdef_r90_p)
 
-	register_sign_page(id, {"rp_default:"..id, "rp_default:"..id.."_r90"})
+	register_sign_page(id, {"rp_default:"..id, "rp_default:"..id.."_r90", "rp_default:"..id.."_painted", "rp_default:"..id.."_r90_painted"})
 end
 
 minetest.register_lbm({
