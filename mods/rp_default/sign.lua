@@ -15,6 +15,14 @@ local TEXT_ENTITY_OFFSET = SIGN_THICKNESS + 1/64
 -- Hard limit to avoid running into issues with Minetest.
 local MAX_TEXTURE_STRING_LENGTH = 64535
 
+-- Text entity dimensions
+local TEXT_ENTITY_WIDTH = 12/16
+local TEXT_ENTITY_HEIGHT = 6/16
+
+-- Required aspect ratio of text entity so that each glyph
+-- pixel appears square. Prevents weird strecthing.
+local TEXT_ENTITY_ASPECT_RATIO = TEXT_ENTITY_WIDTH / TEXT_ENTITY_HEIGHT
+
 -- Special string for metadata key "image" to denote empty image.
 -- Must not collide with base64 characters.
 -- Note the empty string stands for an undefined/uninitialized
@@ -107,6 +115,8 @@ local function make_text_texture(text, pos)
 	if text == "" then
 		local meta = minetest.get_meta(pos)
 		meta:set_string("image", META_IMAGE_EMPTY)
+		meta:set_int("image_h", 0)
+		meta:set_int("image_w", 0)
 		return true
 	end
         local pixels
@@ -114,6 +124,25 @@ local function make_text_texture(text, pos)
                 return font:render_text(text) --this often crashes on unexpected input
         end)
         if success and pixels then
+		local height = #pixels
+		local width
+		if height == 0 then
+			-- 0-height image = empty image
+			meta:set_string("image", META_IMAGE_EMPTY)
+			meta:set_int("image_h", 0)
+			meta:set_int("image_w", 0)
+			return false
+		else
+			width = #pixels[1]
+		end
+		if width == 0 then
+			-- 0-width image = empty image
+			meta:set_string("image", META_IMAGE_EMPTY)
+			meta:set_int("image_h", 0)
+			meta:set_int("image_w", 0)
+			return false
+		end
+
                 local image = tga_encoder.image(pixels)
                 image.pixel_depth = 32
                 image:encode({
@@ -124,6 +153,8 @@ local function make_text_texture(text, pos)
                 local meta = minetest.get_meta(pos)
                 local compressed_string = minetest.encode_base64(minetest.compress(minetest.encode_base64(image.data), COMPMETHOD))
                 meta:set_string("image", compressed_string)
+                meta:set_int("image_h", height)
+                meta:set_int("image_w", width)
                 return true
         else
 		minetest.log("error", "[rp_default] Error when calling render_text for: "..tostring(text).." (error: "..tostring(pixels)..")")
@@ -161,6 +192,8 @@ local function get_signdata(pos)
 	local meta = minetest.get_meta(pos)
 	local text = meta:get_string("text")
 	local image = meta:get_string("image")
+	local image_w = meta:get_int("image_w")
+	local image_h = meta:get_int("image_h")
 	local yaw, pitch, spos
 	local dir = minetest.wallmounted_to_dir(node.param2)
 	if dir.y >= 1 then
@@ -194,6 +227,8 @@ local function get_signdata(pos)
 		node = node,
 		text_pos = spos,
 		image = image,
+		image_w = image_w,
+		image_h = image_h,
 	}
 end
 
@@ -252,12 +287,33 @@ local function update_sign(pos, text)
 	end
         local success, imagestr = pcall(encode)
 	if success and imagestr then
+		local width, height = data.image_w, data.image_h
+		if not height or not width or height <= 0 or width <= 0 then
+			minetest.log("error", "[rp_default] Missing or invalid image width or height for sign text texture!")
+			get_text_entity(pos, true)
+			return
+		end
+		local ratio = width/height
+
+		local ewidth, eheight
+		-- Adjust entity height or width so that the aspect ratio of
+		-- TEXT_ENTITY_ASPECT_RATIO is preserved to avoid ugly stretching
+		-- of the font.
+		if ratio < TEXT_ENTITY_ASPECT_RATIO then
+			ewidth = TEXT_ENTITY_WIDTH * (ratio / TEXT_ENTITY_ASPECT_RATIO)
+			eheight = TEXT_ENTITY_HEIGHT
+		else
+			ewidth = TEXT_ENTITY_WIDTH
+			eheight = TEXT_ENTITY_HEIGHT / (ratio / TEXT_ENTITY_ASPECT_RATIO)
+		end
+
 		text_entity:set_properties({
 			textures = {
 				-- only one side is written
 				"blank.png",
 				imagestr,
 			},
+			visual_size = { x = ewidth, y = eheight },
 		})
 	else
 		minetest.log("error", "[rp_default] Sign texture decompression failed: "..tostring(imagestr))
@@ -359,14 +415,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local text = fields.text
 	text = crop_text(text)
 	if text ~= "" then
-		local texture = make_text_texture(text, pos)
-		if texture then
+		local made = make_text_texture(text, pos)
+		if made then
 			update_sign(pos, text)
 		else
 			return
 		end
 	else
-		meta:set_string("image", META_IMAGE_EMPTY)
+		make_text_texture("", pos)
 		get_text_entity(pos, true)
 	end
 
@@ -547,7 +603,7 @@ minetest.register_entity("rp_default:sign_text", {
 		textures = {"rp_default_text_entity_loading.png", "rp_default_text_entity_loading.png"},
 		physical = false,
 		collide_with_objects = false,
-		visual_size = {x = 12/16, y = 6/16, z = 12/16},
+		visual_size = {x = TEXT_ENTITY_WIDTH, y = TEXT_ENTITY_HEIGHT },
         },
         on_activate = function(self)
 		self.object:set_armor_groups({ immortal = 1 })
