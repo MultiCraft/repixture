@@ -136,15 +136,42 @@ local function get_signdata(pos)
 	if not def or minetest.get_item_group(node.name, "sign") == 0 then
 		return
 	end
+	-- The sign_r90 group marks the sign as being rotated by 90°.
+	-- TODO: It should be replaced later with the new Minetest wallmounted
+	-- extensions.
+	local r90 = minetest.get_item_group(node.name, "sign_r90") == 1
 	local meta = minetest.get_meta(pos)
 	local text = meta:get_string("text")
 	local image = meta:get_string("image")
-	local yaw, spos
+	local yaw, pitch, spos
 	local dir = minetest.wallmounted_to_dir(node.param2)
-	spos = vector.add(pos, dir * (0.5 - TEXT_ENTITY_OFFSET))
-	yaw = minetest.dir_to_yaw(dir)
+	if dir.y >= 1 then
+		-- Ceiling sign
+		pitch = math.pi/2
+		if r90 then
+			yaw = -math.pi/2
+		else
+			yaw = 0
+		end
+		spos = vector.offset(pos, 0, 0.5 - TEXT_ENTITY_OFFSET, 0)
+	elseif dir.y <= -1 then
+		-- Floor sign
+		pitch = -math.pi/2
+		if r90 then
+			yaw = math.pi/2
+		else
+			yaw = 0
+		end
+		spos = vector.offset(pos, 0, -0.5 + TEXT_ENTITY_OFFSET, 0)
+	else
+		-- Wall sign
+		yaw = minetest.dir_to_yaw(dir)
+		pitch = 0
+		spos = vector.add(pos, dir * (0.5 - TEXT_ENTITY_OFFSET))
+	end
 	return {
 		text = text,
+		pitch = pitch,
 		yaw = yaw,
 		node = node,
 		text_pos = spos,
@@ -209,7 +236,7 @@ local function update_sign(pos, text)
 			get_text_entity(pos, true)
 		end
 	end
-        text_entity:set_yaw(data.yaw)
+        text_entity:set_rotation({x=data.pitch, y=data.yaw, z=0})
         return true
 end
 
@@ -349,7 +376,7 @@ local function register_sign(id, def)
 			end
 
 			local r90 = false
-				local yaw = placer:get_look_horizontal()
+			local yaw = placer:get_look_horizontal()
 			if not ((yaw > (1/4)*math.pi and yaw < (3/4)*math.pi) or (yaw > (5/4)*math.pi and yaw < (7/4)*math.pi)) then
 				return minetest.item_place_node(itemstack, placer, pointed_thing)
 			end
@@ -378,7 +405,7 @@ local function register_sign(id, def)
 			wall_bottom = {-0.5+(4/16), -0.5, -0.5+SIGN_THICKNESS, 0.5-(4/16), -0.5+SIGN_THICKNESS, 0.5-SIGN_THICKNESS},
 			wall_side = {-0.5, -0.5+SIGN_THICKNESS, -0.5+(4/16), -0.5+SIGN_THICKNESS, 0.5-SIGN_THICKNESS, 0.5-(4/16)},
 		},
-		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, not_in_creative_inventory=1, paintable = 2},
+		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, sign_r90=1, not_in_creative_inventory=1, paintable = 2},
 		is_ground_content = false,
 		sounds = def.sounds,
 		floodable = true,
@@ -408,6 +435,7 @@ local function register_sign(id, def)
 	sdef_r90_p.paramtype2 = "colorwallmounted"
 	sdef_r90_p.palette = "rp_paint_palette_32.png"
 	sdef_r90_p.groups.paintable = 1
+	sdef_r90_p.groups.sign_r90 = 1
 	sdef_r90_p.tiles = { "("..def.tile_painted..")^[transformR90" }
 	sdef_r90_p.inventory_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
 	sdef_r90_p.wield_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
