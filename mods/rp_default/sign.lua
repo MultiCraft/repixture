@@ -265,8 +265,6 @@ local register_sign_page = function(id, node_names)
 	form = form .. rp_formspec.default.boilerplate
 	form = form .. "background[0,0;8.5,4.5;ui_formspec_bg_"..id..".png]"
 	form = form .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
-	form = form .. "set_focus[text;true]"
-	form = form .. "field[0.5,1.7;7.5,0.5;text;;${text}]"
 	rp_formspec.register_page(page_name, form)
 
 	for n=1, #node_names do
@@ -279,6 +277,9 @@ default.refresh_sign = function(meta, node)
 	local page
 	if pagename then
 		page = rp_formspec.get_page(pagename)
+		page = page .. "set_focus[text;true]"
+		local text = meta:get_string("text")
+		page = page .. "textarea[0.5,1;7.5,1.5;text;;"..minetest.formspec_escape(text).."]"
 	else
 		page = rp_formspec.get_page("rp_formspec:field")
 	end
