@@ -26,6 +26,7 @@ local META_IMAGE_EMPTY = "!"
 local font = unicode_text.hexfont({
         background_color = { 0, 0, 0, 0 }, --transparent
         foreground_color = { 0, 0, 0, 255 }, -- black
+        tabulator_size = 16,
         kerning = false,
    }
 )
