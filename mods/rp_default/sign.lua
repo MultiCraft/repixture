@@ -191,12 +191,17 @@ local function update_sign(pos, text)
 		return
 	end
 
+	if text == "" then
+		get_text_entity(pos, true)
+		return
+	end
+
         local text_entity = get_text_entity(pos)
         if text_entity and not data then
                 text_entity:remove()
-                return false
+                return
         elseif not data then
-                return false
+                return
         elseif not text_entity then
                 text_entity = minetest.add_entity(data.text_pos, "rp_default:sign_text")
                 if not text_entity or not text_entity:get_pos() then
@@ -237,7 +242,7 @@ local function update_sign(pos, text)
 		end
 	end
         text_entity:set_rotation({x=data.pitch, y=data.yaw, z=0})
-        return true
+        return
 end
 
 local function crop_text(txt)
@@ -330,13 +335,18 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local meta = minetest.get_meta(pos)
 	local text = fields.text
 	text = crop_text(text)
-	local texture = make_text_texture(text, pos)
-	if texture then
-		update_sign(pos, text)
-		meta:set_string("text", text)
+	if text ~= "" then
+		local texture = make_text_texture(text, pos)
+		if texture then
+			update_sign(pos, text)
+		else
+			return
+		end
 	else
-		return
+		update_sign(pos, text)
 	end
+
+	meta:set_string("text", text)
 
 	minetest.sound_play({name="rp_default_write_sign", gain=0.2}, {pos=pos, max_hear_distance=16}, true)
 	minetest.log("action", "[rp_default] " .. (player:get_player_name() or "")..
