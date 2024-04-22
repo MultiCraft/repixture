@@ -230,9 +230,8 @@ hexfont.render_line = function(self, text)
    for i = 1, 16 do
       result[i] = {}
    end
-   local codepoints = bidi.get_visual_reordering(
-      utf8.text_to_codepoints(text)
-   )
+   local codepoints = utf8.text_to_codepoints(text)
+   codepoints = bidi.get_visual_reordering(codepoints)
    for i = 1, #codepoints do
       local codepoint = codepoints[i]
       local bitmap_hex = self[codepoint]
@@ -300,6 +299,19 @@ hexfont.render_text = function(self, text)
 
    local result
    local max_width = 0
+
+   local codepoints = utf8.text_to_codepoints(text)
+
+   -- RTL text is NOT supported yet, so if we find
+   -- any RTL codepoint, we discard all code points
+   -- and replace them with the replacement
+   -- character to indicate to the user that this
+   -- text doesn't work.
+   -- TODO: Add RTL support and remove this workaround.
+   if bidi.contains_rtl_codepoint(codepoints) then
+      codepoints = { 0xFFFD }
+   end
+
    -- According to UAX #14, line breaks happen on:
    -- • U+000A LINE FEED
    -- • U+000D CARRIAGE RETURN (except as part of CRLF)
@@ -308,7 +320,6 @@ hexfont.render_text = function(self, text)
    --
    -- Hack: Replace all of those with LINE FEED.
    -- FIXME: This makes CRLF into two newlines …
-   local codepoints = utf8.text_to_codepoints(text)
    for i, codepoint in ipairs(codepoints) do
       if (
          0x000D == codepoints[i] or

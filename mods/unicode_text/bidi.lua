@@ -22,6 +22,23 @@ dofile(modpath .. "/unicodedata.lua")
 
 bidi = {}
 
+-- Returns true if *any* codepoint in the list indicates
+-- right-to-left text
+bidi.contains_rtl_codepoint = function(codepoints)
+   for _, codepoint in ipairs(codepoints) do
+      if unicodedata[codepoint] then
+         local bidi_class = unicodedata[codepoint].bidi_class
+         if (
+            "R" == bidi_class or  -- right-to-left
+            "AL" == bidi_class  -- right-to-left (arabic)
+         ) then
+            return true
+         end
+      end
+   end
+   return false
+end
+
 local get_paragraph_direction = function(codepoints)
    -- Find the first character of type L, AL or R …
    -- See <https://www.unicode.org/reports/tr9/#P2>
