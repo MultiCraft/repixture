@@ -309,14 +309,25 @@ hexfont.render_text = function(self, text)
    -- • U+2029 PARAGRAPH SEPARATOR
    --
    -- Hack: Replace all of those with LINE FEED.
-   -- FIXME: This makes CRLF into two newlines …
    for i, codepoint in ipairs(codepoints) do
       if (
-         0x000D == codepoints[i] or
          0x0085 == codepoints[i] or
          0x2029 == codepoints[i]
       ) then
          codepoints[i] = 0x000A
+      elseif (
+         0x000D == codepoints[i]
+      ) then
+         -- CR, LF
+         if i < #codepoints and 0x000A == codepoints[i+1] then
+            -- Replace with line feed followed by ASCII DEL
+            -- (the DEL character should be ignored)
+            codepoints[i] = 0x000A
+            codepoints[i+1] = 0x007F
+         -- CR only
+         else
+            codepoints[i] = 0x000A
+         end
       -- Replace all RTL codepoints with replacement
       -- characters since we don't properly support RTL yet.
       -- TODO: Implement RTL properly and remove this
@@ -331,7 +342,8 @@ hexfont.render_text = function(self, text)
    -- back and forth makes it needlessly slow – but I do not know how
    -- to split a table properly to get a single table for each line …
    text = utf8.codepoints_to_text(codepoints)
-   for utf8_line in string.gmatch(text .. "\n", "([^\n]*)\n") do
+   local utf8_lines = string.split(text, "\n", true)
+   for _, utf8_line in pairs(utf8_lines) do
       local pixels = self:render_line(utf8_line)
       assert( nil ~= pixels )
       if nil == result then
