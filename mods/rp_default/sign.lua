@@ -130,6 +130,7 @@ local function make_text_texture(text, pos)
 		local width
 		if height == 0 then
 			-- 0-height image = empty image
+			local meta = minetest.get_meta(pos)
 			meta:set_string("image", META_IMAGE_EMPTY)
 			meta:set_int("image_h", 0)
 			meta:set_int("image_w", 0)
@@ -139,6 +140,7 @@ local function make_text_texture(text, pos)
 		end
 		if width == 0 then
 			-- 0-width image = empty image
+			local meta = minetest.get_meta(pos)
 			meta:set_string("image", META_IMAGE_EMPTY)
 			meta:set_int("image_h", 0)
 			meta:set_int("image_w", 0)
@@ -324,6 +326,10 @@ local function update_sign(pos, text)
 		local width, height = data.image_w, data.image_h
 		if not height or not width or height <= 0 or width <= 0 then
 			minetest.log("error", "[rp_default] Missing or invalid image width or height for sign text texture!")
+			get_text_entity(pos, true)
+			return
+		end
+		if height <= 0 or width <= 0 then
 			get_text_entity(pos, true)
 			return
 		end
