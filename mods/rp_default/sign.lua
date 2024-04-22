@@ -6,9 +6,6 @@ local SIGN_MAX_TEXT_LENGTH = 500
 local SIGN_MAX_TEXT_WIDTH_PIXELS = 400
 local SIGN_MAX_TEXT_HEIGHT_PIXELS = 228
 
--- Compression method for text entity texture
-local COMPMETHOD = "deflate"
-
 -- Sign thickness in node units
 local SIGN_THICKNESS = 1/16
 
@@ -36,12 +33,13 @@ local META_IMAGE_EMPTY = "!"
 
 -- Load font
 local font = unicode_text.hexfont({
-        background_color = { 0, 0, 0, 0 }, --transparent
-        foreground_color = { 0, 0, 0, 255 }, -- black
-        tabulator_size = 16,
-        kerning = false,
-   }
-)
+	background_color = { 0, 0, 0, 0 }, --transparent
+	foreground_color = { 0, 0, 0, 255 }, -- black
+	scanline_order = "top-bottom",
+	tabulator_size = 16,
+	kerning = false,
+})
+
 local fontpath = minetest.get_modpath("rp_default").."/fontdata"
 font:load_glyphs(
 	io.lines(fontpath.."/unifont.hex")
@@ -147,16 +145,24 @@ local function make_text_texture(text, pos)
 			return false
 		end
 
-                local image = tga_encoder.image(pixels)
-                image.pixel_depth = 32
-                image:encode({
-                        colormap = {},
-                        compression = 'RLE',
-                        color_format = 'B8G8R8A8'
-                })
+		local convert_pixels = function(ipixels)
+			local newpixels = {}
+			for y=1, #ipixels do
+				local linepixels = ipixels[y]
+				for x=1, #linepixels do
+					local pixel = linepixels[x]
+					local colorspec = { b = pixel[1], g = pixel[2], r = pixel[3], a = pixel[4] }
+					table.insert(newpixels, colorspec)
+				end
+			end
+			return newpixels
+		end
+		pixels = convert_pixels(pixels)
+
+                local image = minetest.encode_png(width, height, pixels)
                 local meta = minetest.get_meta(pos)
-                local compressed_string = minetest.encode_base64(minetest.compress(minetest.encode_base64(image.data), COMPMETHOD))
-                meta:set_string("image", compressed_string)
+                local encoded_string = minetest.encode_base64(image)
+                meta:set_string("image", encoded_string)
                 meta:set_int("image_h", height)
                 meta:set_int("image_w", width)
                 return true
@@ -290,27 +296,31 @@ local function update_sign(pos, text)
                 end
         end
 
-	local encode = function()
-		if data.image == nil or data.image == META_IMAGE_EMPTY then
+	local generate_texture_string = function()
+		if data.image == nil or data.image == META_IMAGE_EMPTY or data.image == "" then
+			-- Empty image
 			return "blank.png", false
 		elseif (data.image_w > SIGN_MAX_TEXT_WIDTH_PIXELS) or (data.image_h > SIGN_MAX_TEXT_HEIGHT_PIXELS) then
+			-- If the image is soo large it starts to become near-unreadable,
+			-- we will display a special 'gibberish' texture instead.
 			return "rp_default_sign_gibberish.png", false
 		else
-			local decomp = minetest.decompress(minetest.decode_base64(data.image), COMPMETHOD)
-			local tex = "[png:"..decomp
-			-- If encoded texture string is very long, replace it with a special gibberish texture.
-			-- Minetest enforces a length limit for object texture strings. If exceeded, it
-			-- creates a warning and clears the texture. We want to prevent that by using our
-			-- own replacement texture
+			-- This will render the PNG from the provided image data
+			local tex = "[png:"..data.image
+
+			-- If texture string is very long, replace it with a special gibberish texture.
+			-- Minetest has a length limit for object texture strings. Minetest
+			-- does not like if when it is exceeded. So we create a warning.
 			if string.len(tex) > MAX_TEXTURE_STRING_LENGTH then
-				-- This should look like unreadable gibberish text
 				return "rp_default_sign_gibberish.png", false
 			end
+
+			-- Everything is OK
 			return tex, true
 		end
 	end
-        local success, imagestr, change_ratio = pcall(encode)
-	if success and imagestr then
+        local imagestr, change_ratio = generate_texture_string()
+	if imagestr then
 		local width, height = data.image_w, data.image_h
 		if not height or not width or height <= 0 or width <= 0 then
 			minetest.log("error", "[rp_default] Missing or invalid image width or height for sign text texture!")
@@ -343,10 +353,6 @@ local function update_sign(pos, text)
 			},
 			visual_size = { x = ewidth, y = eheight },
 		})
-	else
-		minetest.log("error", "[rp_default] Sign texture decompression failed: "..tostring(imagestr))
-		get_text_entity(pos, true)
-		return
 	end
         text_entity:set_rotation({x=data.pitch, y=data.yaw, z=0})
         return
