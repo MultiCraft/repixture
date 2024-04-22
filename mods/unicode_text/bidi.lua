@@ -22,19 +22,14 @@ dofile(modpath .. "/unicodedata.lua")
 
 bidi = {}
 
--- Returns true if *any* codepoint in the list indicates
--- right-to-left text
-bidi.contains_rtl_codepoint = function(codepoints)
-   for _, codepoint in ipairs(codepoints) do
-      if unicodedata[codepoint] then
-         local bidi_class = unicodedata[codepoint].bidi_class
-         if (
-            "R" == bidi_class or  -- right-to-left
-            "AL" == bidi_class  -- right-to-left (arabic)
-         ) then
-            return true
-         end
-      end
+-- Returns true if given codepoint is RTL
+bidi.is_rtl_codepoint = function(codepoint)
+   local bidi_class = unicodedata[codepoint].bidi_class
+   if (
+      "R" == bidi_class or  -- right-to-left
+      "AL" == bidi_class  -- right-to-left (arabic)
+   ) then
+      return true
    end
    return false
 end
