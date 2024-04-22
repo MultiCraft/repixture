@@ -202,20 +202,38 @@ local function get_signdata(pos)
 	local dir = minetest.wallmounted_to_dir(node.param2)
 	if dir.y >= 1 then
 		-- Ceiling sign
+		local textflip = meta:get_int("textflip") == 1
 		pitch = math.pi/2
 		if r90 then
-			yaw = math.pi/2
+			if textflip then
+				yaw = -math.pi/2
+			else
+				yaw = math.pi/2
+			end
 		else
-			yaw = math.pi
+			if textflip then
+				yaw = math.pi
+			else
+				yaw = 0
+			end
 		end
 		spos = vector.offset(pos, 0, 0.5 - TEXT_ENTITY_OFFSET, 0)
 	elseif dir.y <= -1 then
 		-- Floor sign
+		local textflip = meta:get_int("textflip") == 1
 		pitch = -math.pi/2
 		if r90 then
-			yaw = math.pi/2
+			if textflip then
+				yaw = -math.pi/2
+			else
+				yaw = math.pi/2
+			end
 		else
-			yaw = 0
+			if textflip then
+				yaw = math.pi
+			else
+				yaw = 0
+			end
 		end
 		spos = vector.offset(pos, 0, -0.5 + TEXT_ENTITY_OFFSET, 0)
 	else
@@ -506,19 +524,38 @@ local function register_sign(id, def)
 			end
 
 
+			-- Wall sign
 			if pointed_thing.under.y == pointed_thing.above.y then
 				return minetest.item_place_node(itemstack, placer, pointed_thing)
 			end
 
+			-- Floor or ceiling sign
+
 			local r90 = false
 			local yaw = placer:get_look_horizontal()
-			if not ((yaw > (1/4)*math.pi and yaw < (3/4)*math.pi) or (yaw > (5/4)*math.pi and yaw < (7/4)*math.pi)) then
-				return minetest.item_place_node(itemstack, placer, pointed_thing)
+			if (yaw > (1/4)*math.pi and yaw < (3/4)*math.pi) or (yaw > (5/4)*math.pi and yaw < (7/4)*math.pi) then
+				r90 = true
 			end
-			local r90sign = ItemStack("rp_default:"..id.."_r90")
-			r90sign = minetest.item_place_node(r90sign, placer, pointed_thing)
-			if r90sign:is_empty() then
+			local sign_itemstack
+			if r90 then
+				sign_itemstack = ItemStack("rp_default:"..id.."_r90")
+			else
+				sign_itemstack = ItemStack(itemstack)
+				sign_itemstack:set_count(1)
+			end
+			local signpos
+			sign_itemstack, signpos = minetest.item_place_node(sign_itemstack, placer, pointed_thing)
+			if not signpos then
+				return itemstack
+			end
+			if sign_itemstack:is_empty() then
 				itemstack:take_item()
+			end
+
+			if (r90 and (yaw > (5/4)*math.pi and yaw < (7/4)*math.pi)) or
+					(not r90 and (yaw > math.pi/2) and (yaw < ((3*math.pi)/2))) then
+				local signmeta = minetest.get_meta(signpos)
+				signmeta:set_int("textflip", 1)
 			end
 			return itemstack
 		end,
