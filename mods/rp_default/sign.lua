@@ -177,14 +177,20 @@ end
 local function get_text_entity(pos, force_remove)
         local objects = minetest.get_objects_inside_radius(pos, 0.5)
         local text_entity
+	local sign_hash = minetest.hash_node_position(pos)
         for _, v in pairs(objects) do
                 local ent = v:get_luaentity()
-                if ent and ent.name == "rp_default:sign_text" then
-                        if force_remove == true then
-                                v:remove()
-                        else
-                                text_entity = v
-                                break
+                if ent and ent.name == "rp_default:sign_text" and ent._sign_pos then
+			local ent_hash = minetest.hash_node_position(ent._sign_pos)
+			if ent_hash then
+				if sign_hash == ent_hash then
+					if force_remove == true then
+						v:remove()
+					else
+						text_entity = v
+						break
+					end
+				end
                         end
                 end
         end
@@ -283,7 +289,15 @@ local function update_sign(pos, text)
 
         local text_entity = get_text_entity(pos)
         if not text_entity then
-                text_entity = minetest.add_entity(data.text_pos, "rp_default:sign_text")
+		-- Spawn entity
+		local sdata = {
+			-- We need to provide the entity the hash of the sign
+			-- node position to which this entity belongs to.
+			-- An entity without associated sign node is invalid.
+			sign_pos_hash = minetest.hash_node_position(pos)
+		}
+		local staticdata = minetest.serialize(sdata)
+                text_entity = minetest.add_entity(data.text_pos, "rp_default:sign_text", staticdata)
                 if not text_entity or not text_entity:get_pos() then
 			return
 		end
@@ -656,18 +670,41 @@ minetest.register_entity("rp_default:sign_text", {
 		collide_with_objects = false,
 		visual_size = {x = TEXT_ENTITY_WIDTH, y = TEXT_ENTITY_HEIGHT },
         },
-        on_activate = function(self)
+        on_activate = function(self, staticdata)
 		self.object:set_armor_groups({ immortal = 1 })
 
+		local data
+		if staticdata then
+			data = minetest.deserialize(staticdata)
+		end
+		local node_pos
+		if data and data.sign_pos_hash then
+			node_pos = minetest.get_position_from_hash(data.sign_pos_hash)
+		end
+
 		-- Remove entity if no matching sign node
-		local pos = self.object:get_pos()
-		local node = minetest.get_node(pos)
-		if minetest.get_item_group(node.name, "sign") == 0 then
+		local node
+		if node_pos then
+			node = minetest.get_node(node_pos)
+			self._sign_pos = node_pos
+		end
+		if not node or minetest.get_item_group(node.name, "sign") == 0 then
+			local pos = self.object:get_pos()
 			self.object:remove()
 			minetest.log("action", "[rp_default] Removed orphan sign text entity at "..minetest.pos_to_string(pos, 1))
 			return
 		end
         end,
+	get_staticdata = function(self)
+		local data = {}
+		if self._sign_pos then
+			local hash = minetest.hash_node_position(self._sign_pos)
+			-- Remember the position of the sign this entity belongs to
+			data.sign_pos_hash = hash
+		end
+		local str = minetest.serialize(data)
+		return str
+	end,
 })
 
 local sounds_wood_sign = rp_sounds.node_sound_planks_defaults({
