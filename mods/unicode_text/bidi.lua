@@ -24,6 +24,9 @@ bidi = {}
 
 -- Returns true if given codepoint is RTL
 bidi.is_rtl_codepoint = function(codepoint)
+   if not unicodedata[codepoint] then
+      return false
+   end
    local bidi_class = unicodedata[codepoint].bidi_class
    if (
       "R" == bidi_class or  -- right-to-left
