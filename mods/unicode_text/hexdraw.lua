@@ -329,7 +329,10 @@ local render_utf8_line = function(utf8_text, properties)
    )
 
    local result
-   local codepoints = utf8_text_to_codepoints(utf8_text)
+   local codepoints = bidi.get_visual_reordering(
+      utf8.text_to_codepoints(text)
+   )
+
    for i = 1, #codepoints do
       local codepoint = codepoints[i]
       local bitmap_hex = bitmaps_hex[codepoint]

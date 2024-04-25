@@ -18,9 +18,8 @@ local modpath = minetest and
    minetest.get_modpath and
    minetest.get_modpath("unicode_text") or
    "."
-dofile(modpath .. "/bidi.lua")
+dofile(modpath .. "/luabidi/bidi.lua")
 dofile(modpath .. "/pixelops.lua")
-dofile(modpath .. "/unicodedata.lua")
 dofile(modpath .. "/utf8.lua")
 
 hexfont = setmetatable(
@@ -328,14 +327,6 @@ hexfont.render_text = function(self, text)
          else
             codepoints[i] = 0x000A
          end
-      -- Replace all RTL codepoints with replacement
-      -- characters since we don't properly support RTL yet.
-      -- TODO: Implement RTL properly and remove this
-      -- workaround.
-      elseif (
-         bidi.is_rtl_codepoint(codepoints[i])
-      ) then
-         codepoints[i] = 0xFFFD
       end
    end
    -- FIXME: Code below should only operate on codepoints! Converting
