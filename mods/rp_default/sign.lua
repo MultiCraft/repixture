@@ -357,8 +357,10 @@ local function update_sign(pos, text)
         local imagestr, change_ratio = generate_texture_string()
 	if imagestr then
 		local width, height = data.image_w, data.image_h
-		if not height or not width or height <= 0 or width <= 0 then
+		if not height or not width then
 			minetest.log("error", "[rp_default] Missing or invalid image width or height for sign text texture!")
+			local meta = minetest.get_meta(pos)
+			meta:set_string("image", "")
 			get_text_entity(pos, true)
 			return
 		end
