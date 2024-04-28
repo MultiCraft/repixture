@@ -47,12 +47,6 @@ font:load_glyphs(
 font:load_glyphs(
 	io.lines(fontpath.."/unifont_upper.hex")
 )
-font:load_glyphs(
-	io.lines(fontpath.."/plane00csur.hex")
-)
-font:load_glyphs(
-	io.lines(fontpath.."/plane0Fcsur.hex")
-)
 
 local function crop_utf8_text(txt)
         local bytes = 1
