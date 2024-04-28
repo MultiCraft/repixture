@@ -174,6 +174,25 @@ local function make_text_texture(text, pos)
 	end
 end
 
+local function has_duplicate_entity(pos)
+	local objects = minetest.get_objects_inside_radius(pos, 0.5)
+	local count = 0
+	local sign_hash = minetest.hash_node_position(pos)
+        for _, v in pairs(objects) do
+		local ent = v:get_luaentity()
+		if ent and ent.name == "rp_default:sign_text" and ent._sign_pos then
+			local ent_hash = minetest.hash_node_position(ent._sign_pos)
+			if ent_hash and sign_hash == ent_hash then
+				count = count + 1
+				if count >= 2 then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+
 local function get_text_entity(pos, force_remove)
         local objects = minetest.get_objects_inside_radius(pos, 0.5)
         local text_entity
@@ -682,12 +701,20 @@ minetest.register_entity("rp_default:sign_text", {
 			node_pos = minetest.get_position_from_hash(data.sign_pos_hash)
 		end
 
-		-- Remove entity if no matching sign node
 		local node
 		if node_pos then
 			node = minetest.get_node(node_pos)
 			self._sign_pos = node_pos
+
+			-- Remove entity if it's a duplicate
+			if has_duplicate_entity(self._sign_pos) then
+				local pos = self.object:get_pos()
+				self.object:remove()
+				minetest.log("action", "[rp_default] Removed duplicate sign text entity at "..minetest.pos_to_string(pos, 1))
+				return
+			end
 		end
+		-- Remove entity if no matching sign node
 		if not node or minetest.get_item_group(node.name, "sign") == 0 then
 			local pos = self.object:get_pos()
 			self.object:remove()
