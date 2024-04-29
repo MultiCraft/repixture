@@ -242,7 +242,7 @@ hexfont.render_line = function(self, text)
          -- Several scripts are not supported because we con't render them properly yet,
          -- so we render all their characters as the replacement character.
          -- TODO: Support these scripts.
-         if script == "Hebrew" or script == "Arabic" or script == "Devanagari" or script == "Malayalam" or script == "Lao" or script == "Tamil" then
+         if script == "Arabic" or script == "Devanagari" or script == "Malayalam" or script == "Lao" or script == "Tamil" then
             bitmap_hex = self[0xFFFD]
          else
             -- We don't support combining marks either.
