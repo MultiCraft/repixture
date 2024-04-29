@@ -40,7 +40,7 @@ local font = unicode_text.hexfont({
 	kerning = false,
 })
 
-local fontpath = minetest.get_modpath("rp_default").."/fontdata"
+local fontpath = minetest.get_modpath("rp_fonts").."/fontdata"
 font:load_glyphs(
 	io.lines(fontpath.."/unifont.hex")
 )
