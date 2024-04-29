@@ -19,13 +19,17 @@ local modpath = minetest and
    minetest.get_modpath("unicode_text") or
    "."
 
+-- Maximum possible codepoint
+local MAX_CODEPOINT = 0x10FFFF
+
 unicodedata = {}
 
 -- https://www.unicode.org/reports/tr44/#Format_Conventions
 -- https://www.unicode.org/reports/tr44/#UnicodeData.txt
--- https://www.unicode.org/L2/L1999/UnicodeData.html
 local pattern = "^(%x+)" .. (";([^;]*)"):rep(14) .. "$"
-for line in io.lines(modpath .. "/UnicodeData.txt") do
+
+-- https://www.unicode.org/Public/15.0.0/ucd/UnicodeData.txt
+for line in io.lines(modpath .. "/ucd/UnicodeData.txt") do
    local properties = {}
    codepoint_hex,
       properties.name,
@@ -47,6 +51,48 @@ for line in io.lines(modpath .. "/UnicodeData.txt") do
    unicodedata[codepoint] = properties
 end
 
+-- https://www.unicode.org/Public/15.0.0/ucd/Scripts.txt
+for line in io.lines(modpath .. "/ucd/Scripts.txt") do
+   local script
+   local is_comment = string.sub(line, 1, 1) == "#"
+   local entries = string.split(line, ";", true)
+   if entries then
+      local e_codepoints = entries[1]
+      if not string.match(e_codepoints, "#") then
+         local e_script = entries[2]
+         local script
+         if e_script then
+            script = string.match(e_script, "[a-zA-Z]+")
+         end
+         local codepoint1, codepoint2
+         local tohex = tonumber(e_codepoints, 16)
+         if tohex then
+            codepoint1 = tohex
+            codepoint2 = tohex
+         elseif e_codepoints ~= "" then
+            codepoint1, codepoint2 = string.match(e_codepoints, "([a-fA-F0-9]+)%.%.([a-fA-F0-9]+)")
+            if codepoint1 and codepoint2 then
+               codepoint1 = tonumber(codepoint1, 16)
+               codepoint2 = tonumber(codepoint2, 16)
+            end
+         end
+         if script and codepoint1 and codepoint2 then
+            assert(codepoint1 >= 0 and codepoint1 <= MAX_CODEPOINT)
+            assert(codepoint2 >= 0 and codepoint2 <= MAX_CODEPOINT)
+            for cp=codepoint1, codepoint2 do
+               if not unicodedata[cp] then
+                  unicodedata[cp] = {}
+               end
+               unicodedata[cp].script = script
+            end
+         end
+      end
+   end
+end
+
+-- Test character data
 local w = unicodedata[0x0077]
 assert( "LATIN SMALL LETTER W" == w.name )
 assert( "Ll" == w.general_category )  -- a lowercase letter
+
+assert( "Latin" == w.script)
