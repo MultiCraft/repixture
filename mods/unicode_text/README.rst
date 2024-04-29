@@ -1,5 +1,8 @@
-unicode_text
-============
+unicode_text - Repixture version
+================================
+
+This is `unicode_text`, but modified for Repixture!
+Original mod by erlehmann.
 
 Synopsis
 --------
@@ -10,7 +13,28 @@ This repository contains Lua code to render Unicode text to a pixels table.
 
 The resulting pixels table can be written to a file using `tga_encoder`_.
 
+However, `tga_encoder` is not neccessary.
+
 .. _`tga_encoder`: https://git.minetest.land/erlehmann/tga_encoder
+
+Features
+--------
+
+- Render UTF-8-encoded text to a pixels table
+- Supports bidirectional text
+- Choose font color
+- Optional kerning
+- Custom tab size
+- Replacement character for missing characters and unsupported writing systems
+
+However, there are some limitations:
+
+- Combining characters are not supported
+- The only right-to-left script that works is Hebrew, but without diacritics
+- RTL text is still rendered left-justified
+- This mod refuses to render glyphs of complex writing systems it doesn't support
+  even if the font has them. Our motto: Rather refuse to render, than render incorrectly!
+- GNU Unifont is not included!
 
 Example Code
 ------------
@@ -462,3 +486,22 @@ they figure out why ZSTD compresses so slowly and why it is worse than
 DEFLATE for relatively small payloads that are dynamically generated …
 
 Why do you ask?
+
+License
+-------
+
+unicode_text, a Unicode text renderer mod for Minetest
+Copyright (C) 2024  Wuzzy and erlehmann
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
