@@ -491,8 +491,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
 	minetest.sound_play({name="rp_default_write_sign", gain=0.2}, {pos=pos, max_hear_distance=16}, true)
 	minetest.log("action", "[rp_default] " .. (player:get_player_name() or "")..
-					" wrote \""..text.."\" to sign at "..
-					minetest.pos_to_string(pos))
+		-- Note: Don't show written sign text in log to prevent log flooding
+		" wrote something to a sign at "..minetest.pos_to_string(pos))
 	-- Show sign text in quotation marks
 	meta:set_string("infotext", S('"@1"', text))
 
