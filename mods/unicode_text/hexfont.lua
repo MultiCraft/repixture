@@ -264,6 +264,8 @@ hexfont.render_line = function(self, text)
             tab_stop - result_width,
             self.background_color
          )
+      elseif unicodedata[codepoint] and unicodedata[codepoint].default_ignorable_codepoint then
+         -- Do nothing, this is an ignorable code point and should not be rendered at all
       else
          local result_width = #result[1]
          local bitmap_width = #bitmap[1]
