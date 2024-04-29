@@ -237,6 +237,14 @@ hexfont.render_line = function(self, text)
       -- use U+FFFD as fallback character
       if nil == bitmap_hex then
          bitmap_hex = self[0xFFFD]
+      else
+         local script = unicodedata[codepoint] and unicodedata[codepoint].script or "Unknown"
+         -- Serveral scripts are not supported because we con't render them properly yet,
+         -- so we render all their characters as the replacement character.
+         -- TODO: Support these scripts.
+         if script == "Hebrew" or script == "Arabic" or script == "Devanagari" or script == "Malayalam" or script == "Lao" or script == "Tamil" then
+            bitmap_hex = self[0xFFFD]
+         end
       end
       local bitmap = self:bitmap_to_pixels(bitmap_hex)
       if 0x0009 == codepoint then  -- HT (horizontal tab)
