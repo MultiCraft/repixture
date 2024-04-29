@@ -14,6 +14,22 @@ Overflow oder eine Format String Vulnerability zwischen die anderen
 Codezeilen und schreibe das auch nicht dran.
 ]]--
 
+--[[ List of scripts that this mod does NOT support.
+The mod will refuse to render glyphs of any of
+the listed scripts, even if the font supports them.
+The glyphs will turn into U+FFFD REPLACEMENT CHARACTER.
+This is because some writing systems are very complex
+and would not render correctly by the current code.
+So rather than render incorrectly, we refuse to render. ]]
+-- TODO: Add support for these scripts
+local UNSUPPORTED_SCRIPTS = {
+   ["Arabic"] = true,
+   ["Devanagari"] = true,
+   ["Malayalam"] = true,
+   ["Lao"] = true,
+   ["Tamil"] = true,
+}
+
 local modpath = minetest and
    minetest.get_modpath and
    minetest.get_modpath("unicode_text") or
@@ -239,13 +255,11 @@ hexfont.render_line = function(self, text)
          bitmap_hex = self[0xFFFD]
       else
          local script = unicodedata[codepoint] and unicodedata[codepoint].script or "Unknown"
-         -- Several scripts are not supported because we con't render them properly yet,
-         -- so we render all their characters as the replacement character.
-         -- TODO: Support these scripts.
-         if script == "Arabic" or script == "Devanagari" or script == "Malayalam" or script == "Lao" or script == "Tamil" then
+         -- Check if script is even supported; if not, refuse this glyph.
+         if UNSUPPORTED_SCRIPTS[script] then
             bitmap_hex = self[0xFFFD]
          else
-            -- We don't support combining marks either.
+            -- We don't support combining marks.
             -- TODO: Support combining marks.
             local gc = unicodedata[codepoint] and unicodedata[codepoint].general_category
             if gc == "Mn" or gc == "Me" or gc == "Mc" then
