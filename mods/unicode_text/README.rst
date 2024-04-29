@@ -487,6 +487,16 @@ DEFLATE for relatively small payloads that are dynamically generated …
 
 Why do you ask?
 
+
+
+Credits
+-------
+
+This mod was originally written by erlehmann, Wuzzy and Deepak Jois.
+This mod includes a modified version of luabidi, an implementation
+of the Unicode Bidirectional Algorithm. See the `luabidi` directory
+for details.
+
 License
 -------
 
