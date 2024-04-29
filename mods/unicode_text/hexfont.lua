@@ -239,11 +239,18 @@ hexfont.render_line = function(self, text)
          bitmap_hex = self[0xFFFD]
       else
          local script = unicodedata[codepoint] and unicodedata[codepoint].script or "Unknown"
-         -- Serveral scripts are not supported because we con't render them properly yet,
+         -- Several scripts are not supported because we con't render them properly yet,
          -- so we render all their characters as the replacement character.
          -- TODO: Support these scripts.
          if script == "Hebrew" or script == "Arabic" or script == "Devanagari" or script == "Malayalam" or script == "Lao" or script == "Tamil" then
             bitmap_hex = self[0xFFFD]
+         else
+            -- We don't support combining marks either.
+            -- TODO: Support combining marks.
+            local gc = unicodedata[codepoint] and unicodedata[codepoint].general_category
+            if gc == "Mn" or gc == "Me" or gc == "Mc" then
+               bitmap_hex = self[0xFFFD]
+            end
          end
       end
       local bitmap = self:bitmap_to_pixels(bitmap_hex)
@@ -260,30 +267,11 @@ hexfont.render_line = function(self, text)
       else
          local result_width = #result[1]
          local bitmap_width = #bitmap[1]
-         -- Hack: Overlay combining marks onto previous output.
-         -- <https://www.unicode.org/reports/tr44/#Canonical_Combining_Class_Values>
-         if (
-            unicodedata[codepoint] and -- ignore unknown codepoints
-            (
-               -- a nonspacing combining mark (zero advance width)
-               "Mn" == unicodedata[codepoint].general_category or
-               -- an enclosing combining mark
-               "Me" == unicodedata[codepoint].general_category
-            )
-         ) then
-            for j = 1, 16 do
-               for k = 1, bitmap_width do
-                  if self.foreground_color == bitmap[j][k] then
-                     result[j][result_width - bitmap_width + k] = bitmap[j][k]
-                  end
-               end
-            end
-         else
-            -- append current glyph at right edge of result
-            for j = 1, 16 do
-               for k = 1, bitmap_width do
-                  result[j][result_width + k] = bitmap[j][k]
-               end
+         -- TODO: Support combining marks
+         -- append current glyph at right edge of result
+         for j = 1, 16 do
+            for k = 1, bitmap_width do
+               result[j][result_width + k] = bitmap[j][k]
             end
          end
       end
