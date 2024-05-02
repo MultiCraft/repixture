@@ -30,11 +30,16 @@ local UNSUPPORTED_SCRIPTS = {
    ["Tamil"] = true,
 }
 
+-- Whether bidirectional text is recognized.
+local ENABLE_BIDI = false
+
 local modpath = minetest and
    minetest.get_modpath and
    minetest.get_modpath("unicode_text") or
    "."
-dofile(modpath .. "/luabidi/bidi.lua")
+if ENABLE_BIDI then
+   dofile(modpath .. "/luabidi/bidi.lua")
+end
 dofile(modpath .. "/pixelops.lua")
 dofile(modpath .. "/utf8.lua")
 
@@ -246,7 +251,9 @@ hexfont.render_line = function(self, text)
       result[i] = {}
    end
    local codepoints = utf8.text_to_codepoints(text)
-   codepoints = bidi.get_visual_reordering(codepoints)
+   if ENABLE_BIDI then
+      codepoints = bidi.get_visual_reordering(codepoints)
+   end
    for i = 1, #codepoints do
       local codepoint = codepoints[i]
       local bitmap_hex = self[codepoint]
@@ -257,6 +264,10 @@ hexfont.render_line = function(self, text)
          local script = unicodedata[codepoint] and unicodedata[codepoint].script or "Unknown"
          -- Check if script is even supported; if not, refuse this glyph.
          if UNSUPPORTED_SCRIPTS[script] then
+            bitmap_hex = self[0xFFFD]
+         -- Refuse to render right-to-left characters if bidirectional support is disabled.
+         elseif not ENABLE_BIDI and unicodedata[codepoint] and
+               (unicodedata[codepoint].bidi_class == "R" or unicodedata[codepoint].bidi_class == "AL") then
             bitmap_hex = self[0xFFFD]
          else
             -- We don't support combining marks.
