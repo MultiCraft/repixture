@@ -167,7 +167,9 @@ local function get_signdata(pos)
 	-- TODO: It should be replaced later with the new Minetest wallmounted
 	-- extensions.
 	local r90 = minetest.get_item_group(node.name, "sign_r90") == 1
-	local standing = minetest.get_item_group(node.name, "sign_standing") == 1
+	local g_standing = minetest.get_item_group(node.name, "sign_standing")
+	local standing = g_standing == 1 or g_standing == 2
+	local sideways = g_standing == 3
 	local meta = minetest.get_meta(pos)
 	local text = meta:get_string("text")
 	local image = meta:get_string("image")
@@ -177,6 +179,14 @@ local function get_signdata(pos)
 	if standing then
 		-- Standing sign
 		local dir = minetest.fourdir_to_dir(node.param2)
+		yaw = minetest.dir_to_yaw(dir)
+		pitch = 0
+		local offset = vector.multiply(dir, -TEXT_ENTITY_OFFSET_STANDING)
+		spos = vector.add(pos, offset)
+	elseif sideways then
+		-- Sideways attached sign
+		local dir = minetest.fourdir_to_dir(node.param2)
+		dir = vector.rotate_around_axis(dir, vector.new(0, 1, 0), math.pi/2)
 		yaw = minetest.dir_to_yaw(dir)
 		pitch = 0
 		local offset = vector.multiply(dir, -TEXT_ENTITY_OFFSET_STANDING)
@@ -622,14 +632,6 @@ local function register_sign(id, def)
 				base_standing_wallbox,
 				{ -1/16, -0.5, -SIGN_THICKNESS/2, 1/16, -0.5+(4/16), SIGN_THICKNESS/2 },
 			},
-			wall_top = {
-				base_standing_wallbox,
-				{ -1/16, 0.5-(4/16), -SIGN_THICKNESS/2, 1/16, 0.5, SIGN_THICKNESS/2 },
-			},
-			wall_side = {
-				base_standing_wallbox,
-				{ -0.5, -1/16, -SIGN_THICKNESS/2, -0.5+(1/16), 1/16, SIGN_THICKNESS/2 },
-			},
 		},
 		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, sign_standing=1, creative_decoblock = 1, paintable = 2},
 		is_ground_content = false,
@@ -656,19 +658,20 @@ local function register_sign(id, def)
 					pointed_thing) or itemstack
 			end
 
-
-			-- Wall sign
-			if pointed_thing.under.y == pointed_thing.above.y then
+			-- Floor or ceiling sign
+			if pointed_thing.under.y ~= pointed_thing.above.y then
 				return minetest.item_place_node(itemstack, placer, pointed_thing)
 			end
 
-			-- Floor or ceiling sign
-
+			-- Wall
 			local sign_itemstack
 			sign_itemstack = ItemStack(itemstack)
+			sign_itemstack:set_name("rp_signs:"..id.."_standing_side")
 			sign_itemstack:set_count(1)
 			local signpos
-			sign_itemstack, signpos = minetest.item_place_node(sign_itemstack, placer, pointed_thing)
+			local dir = vector.subtract(pointed_thing.under, pointed_thing.above)
+			local fourdir = minetest.dir_to_fourdir(dir)
+			sign_itemstack, signpos = minetest.item_place_node(sign_itemstack, placer, pointed_thing, fourdir)
 			if not signpos then
 				return itemstack
 			end
@@ -679,9 +682,24 @@ local function register_sign(id, def)
 		end,
 		on_rightclick = on_rightclick,
 	}
+
+	local stsdef = table.copy(ssdef)
+	stsdef.description = nil
+	stsdef.inventory_image = nil
+	stsdef.wield_image = nil
+	stsdef.groups = table.copy(ssdef.groups)
+	stsdef.groups.attached_node = 2
+	stsdef.groups.sign_standing = 3
+	stsdef.node_box = {
+		type = "fixed",
+		fixed = {
+			{ -SIGN_THICKNESS/2, -0.5+(4/16), -0.5+(1/16), SIGN_THICKNESS/2, 0.5-(4/16), 0.5-(1/16) },
+			{ -SIGN_THICKNESS/2, -1/16, 0.5-(1/16), SIGN_THICKNESS/2, 1/16, 0.5 },
+		},
+	}
+
 	minetest.register_node("rp_signs:"..id.."_standing", ssdef)
-
-
+	minetest.register_node("rp_signs:"..id.."_standing_side", stsdef)
 
 	local sdef_p = table.copy(sdef)
 	sdef_p.description = def.description_painted
@@ -725,6 +743,7 @@ local function register_sign(id, def)
 	ssdef_p.paramtype2 = "color4dir"
 	ssdef_p.palette = "rp_paint_palette_64.png"
 	ssdef_p.groups.paintable = 1
+	ssdef_p.groups.sign_standing = 1
 	ssdef_p.groups.not_in_creative_inventory = 1
 	ssdef_p.tiles = {
 		def.tile_painted,
@@ -747,6 +766,7 @@ local function register_sign(id, def)
 		"rp_signs:"..id.."_r90_painted",
 		"rp_signs:"..id.."_standing",
 		"rp_signs:"..id.."_standing_painted",
+		"rp_signs:"..id.."_standing_side",
 	})
 end
 
