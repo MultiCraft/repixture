@@ -14,7 +14,7 @@ Overflow oder eine Format String Vulnerability zwischen die anderen
 Codezeilen und schreibe das auch nicht dran.
 ]]--
 
-utf8 = {}
+local utf8 = {}
 
 -- convert a table with codepoints into an UTF-8 string
 -- inspired by <http://news.dieweltistgarnichtso.net/bin/unicode>
@@ -142,3 +142,5 @@ local codepoints = utf8.text_to_codepoints(
 assert(
    table.concat(codepoints, " ") == "119 240 9829 66376"
 )
+
+unicode_text.utf8 = utf8

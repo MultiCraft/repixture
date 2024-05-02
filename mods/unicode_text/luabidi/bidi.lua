@@ -1204,7 +1204,7 @@ function Paragraph:getReordering(linebreaks)
   return computeMultilineReordering(levels, linebreaks)
 end
 
-bidi = {
+local bidi = {
   Paragraph = Paragraph,
 }
 
@@ -1443,3 +1443,5 @@ bidi.BIDI_CLASS_FSI = FSI
 --- Pop\_Directional_Isolate
 -- @field bidi.BIDI_CLASS_PDI
 bidi.BIDI_CLASS_PDI = PDI
+
+unicode_text.bidi = bidi

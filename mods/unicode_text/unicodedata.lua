@@ -22,7 +22,7 @@ local modpath = minetest and
 -- Maximum possible codepoint
 local MAX_CODEPOINT = 0x10FFFF
 
-unicodedata = {}
+local unicodedata = {}
 
 -- https://www.unicode.org/reports/tr44/#Format_Conventions
 -- https://www.unicode.org/reports/tr44/#UnicodeData.txt
@@ -138,3 +138,5 @@ assert( "Latin" == w.script)
 
 w = unicodedata[0x00AD] -- SOFT HYPHEN
 assert( true == w.default_ignorable_codepoint)
+
+unicode_text.unicodedata = unicodedata

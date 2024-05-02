@@ -45,7 +45,7 @@ end
 dofile(modpath .. "/pixelops.lua")
 dofile(modpath .. "/utf8.lua")
 
-hexfont = setmetatable(
+local hexfont = setmetatable(
    {},
    {
       __call = function(self, ...)
@@ -252,29 +252,30 @@ hexfont.render_line = function(self, text)
    for i = 1, 16 do
       result[i] = {}
    end
-   local codepoints = utf8.text_to_codepoints(text)
+   local codepoints = unicode_text.utf8.text_to_codepoints(text)
    if ENABLE_BIDI then
-      codepoints = bidi.get_visual_reordering(codepoints)
+      codepoints = unicode_text.bidi.get_visual_reordering(codepoints)
    end
    for i = 1, #codepoints do
       local codepoint = codepoints[i]
+      local ucdata = unicode_text.unicodedata[codepoint]
       local bitmap_hex = self[codepoint]
       -- use U+FFFD as fallback character
       if nil == bitmap_hex then
          bitmap_hex = self[0xFFFD]
       else
-         local script = unicodedata[codepoint] and unicodedata[codepoint].script or "Unknown"
+         local script = ucdata and ucdata.script or "Unknown"
          -- Check if script is even supported; if not, refuse this glyph.
          if UNSUPPORTED_SCRIPTS[script] then
             bitmap_hex = self[0xFFFD]
          -- Refuse to render right-to-left characters if bidirectional support is disabled.
-         elseif not ENABLE_BIDI and unicodedata[codepoint] and
-               (unicodedata[codepoint].bidi_class == "R" or unicodedata[codepoint].bidi_class == "AL") then
+         elseif not ENABLE_BIDI and ucdata and
+               (ucdata.bidi_class == "R" or ucdata.bidi_class == "AL") then
             bitmap_hex = self[0xFFFD]
          else
             -- We don't support combining marks.
             -- TODO: Support combining marks.
-            local gc = unicodedata[codepoint] and unicodedata[codepoint].general_category
+            local gc = ucdata and ucdata.general_category
             if gc == "Mn" or gc == "Me" or gc == "Mc" then
                bitmap_hex = self[0xFFFD]
             end
@@ -291,7 +292,7 @@ hexfont.render_line = function(self, text)
             tab_stop - result_width,
             self.background_color
          )
-      elseif unicodedata[codepoint] and unicodedata[codepoint].default_ignorable_codepoint then
+      elseif ucdata and ucdata.default_ignorable_codepoint then
          -- Do nothing, this is an ignorable code point and should not be rendered at all
       else
          local result_width = #result[1]
@@ -324,7 +325,7 @@ hexfont.render_text = function(self, text)
    local result
    local max_width = 0
 
-   local codepoints = utf8.text_to_codepoints(text)
+   local codepoints = unicode_text.utf8.text_to_codepoints(text)
 
    -- According to UAX #14, line breaks happen on:
    -- • U+000A LINE FEED
@@ -357,7 +358,7 @@ hexfont.render_text = function(self, text)
    -- FIXME: Code below should only operate on codepoints! Converting
    -- back and forth makes it needlessly slow – but I do not know how
    -- to split a table properly to get a single table for each line …
-   text = utf8.codepoints_to_text(codepoints)
+   text = unicode_text.utf8.codepoints_to_text(codepoints)
    local utf8_lines = string.split(text, "\n", true)
    for _, utf8_line in pairs(utf8_lines) do
       local pixels = self:render_line(utf8_line)
@@ -392,3 +393,5 @@ hexfont.render_text = function(self, text)
    end
    return result
 end
+
+unicode_text.hexfont = hexfont

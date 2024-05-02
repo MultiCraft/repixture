@@ -23,5 +23,3 @@ local modpath = minetest and
 -- unicode_text only supports GNU Unifont .hex file format for now
 dofile( modpath .. "/unicodedata.lua" )
 dofile( modpath .. "/hexfont.lua" )
-unicode_text.hexfont = hexfont
-unicode_text.utf8 = utf8
