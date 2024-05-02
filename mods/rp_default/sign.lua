@@ -1,6 +1,6 @@
 local S = minetest.get_translator("rp_default")
 
--- Maximum number of characters on a sign
+-- Maximum number of characters on a sign text
 local SIGN_MAX_TEXT_LENGTH = 500
 -- Maximum size of text image in pixels
 local SIGN_MAX_TEXT_WIDTH_PIXELS = 400
@@ -47,62 +47,6 @@ font:load_glyphs(
 font:load_glyphs(
 	io.lines(fontpath.."/unifont_upper.hex")
 )
-
-local function crop_utf8_text(txt)
-        local bytes = 1
-        local str = ""
-        local chars = 0
-        local final_string = ""
-        for i = 1, txt:len() do
-                local byte = txt:sub(i, i)
-                if bytes ~= 1 then
-                        bytes = bytes - 1
-                        str = str .. byte
-                        if bytes == 1 then
-                                if chars < SIGN_MAX_TEXT_LENGTH then
-                                        final_string = final_string .. str
-                                        chars = chars + 1
-                                else
-                                        break
-                                end
-                                str = ""
-                        end
-                else
-                        local octal = string.format('%o', string.byte(byte))
-                        -- Remove leading zeroes
-                        -- TODO: find out if it's needed (works without it)
-                        if octal:find("^0") ~= nil then
-                                octal = octal:sub(2, octal:len())
-                        elseif octal:find("^00") ~= nil then
-                                octal = octal:sub(3, octal:len())
-                        end
-                        -- Four bytes
-                        if octal:find("^36") ~= nil or octal:find("^37") ~= nil then
-                                bytes = 4
-                                str = str .. byte
-                        -- Three bytes
-                        elseif octal:find("^34") ~= nil or octal:find("^35") ~= nil then
-                                bytes = 3
-                                str = str .. byte
-                        -- Two bytes
-                        elseif octal:find("^33") ~= nil or octal:find("^32") ~= nil or octal:find("^31") ~= nil or octal:find("^30") ~= nil then
-                                bytes = 2
-                                str = str .. byte
-                        -- Assume everything else is one byte
-                        else
-                                bytes = 1
-                                str = ""
-                                if chars < SIGN_MAX_TEXT_LENGTH then
-                                        final_string = final_string .. byte
-                                        chars = chars + 1
-                                else
-                                        break
-                                end
-                        end
-                end
-        end
-        return final_string
-end
 
 local function make_text_texture(text, pos)
         if not text then
@@ -397,7 +341,7 @@ local function crop_text(txt)
 	if not txt then
 		return ""
 	end
-	return crop_utf8_text(txt)
+	return unicode_text.utf8.crop_text(txt, SIGN_MAX_TEXT_LENGTH)
 end
 
 -- Formspec pages for sign (different background textures)

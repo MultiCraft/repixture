@@ -135,6 +135,61 @@ utf8.text_to_codepoints = function(text)
    return result
 end
 
+-- From [ucsigns] mod <https://codeberg.org/cora/uc_signs.git>
+-- Crops a string `txt` to the given length.
+-- Returns the result string.
+-- This function makes sure the resulting string is still valid UTF-8,
+-- so multi-byte codepoints are not chopped in half.
+function utf8.crop_text(txt, length)
+        local bytes = 1
+        local str = ""
+        local chars = 0
+        local final_string = ""
+        for i = 1, txt:len() do
+                local byte = txt:sub(i, i)
+                if bytes ~= 1 then
+                        bytes = bytes - 1
+                        str = str .. byte
+                        if bytes == 1 then
+                                if chars < length then
+                                        final_string = final_string .. str
+                                        chars = chars + 1
+                                else
+                                        break
+                                end
+                                str = ""
+                        end
+                else
+                        local octal = string.format('%o', string.byte(byte))
+                        -- Four bytes
+                        if octal:find("^36") ~= nil or octal:find("^37") ~= nil then
+                                bytes = 4
+                                str = str .. byte
+                        -- Three bytes
+                        elseif octal:find("^34") ~= nil or octal:find("^35") ~= nil then
+                                bytes = 3
+                                str = str .. byte
+                        -- Two bytes
+                        elseif octal:find("^33") ~= nil or octal:find("^32") ~= nil or octal:find("^31") ~= nil or octal:find("^30") ~= nil then
+                                bytes = 2
+                                str = str .. byte
+                        -- Assume everything else is one byte
+                        else
+                                bytes = 1
+                                str = ""
+                                if chars < length then
+                                        final_string = final_string .. byte
+                                        chars = chars + 1
+                                else
+                                        break
+                                end
+                        end
+                end
+        end
+        return final_string
+end
+
+
 -- Test one codepoint for each byte length:
 local codepoints = utf8.text_to_codepoints(
    "wð♥𐍈"  -- U+0077 U+00F0 U+2665 U+10348
