@@ -1,4 +1,6 @@
-local S = minetest.get_translator("rp_default")
+local S = minetest.get_translator("rp_signs")
+
+dofile(minetest.get_modpath("rp_signs").."/aliases.lua")
 
 -- Maximum number of characters on a sign text
 local SIGN_MAX_TEXT_LENGTH = 500
@@ -107,7 +109,7 @@ local function make_text_texture(text, pos)
                 meta:set_int("image_w", width)
                 return true
         else
-		minetest.log("error", "[rp_default] Error when calling render_text for: "..tostring(text).." (error: "..tostring(pixels)..")")
+		minetest.log("error", "[rp_signs] Error when calling render_text for: "..tostring(text).." (error: "..tostring(pixels)..")")
 		return false
 	end
 end
@@ -118,7 +120,7 @@ local function has_duplicate_entity(pos)
 	local sign_hash = minetest.hash_node_position(pos)
         for _, v in pairs(objects) do
 		local ent = v:get_luaentity()
-		if ent and ent.name == "rp_default:sign_text" and ent._sign_pos then
+		if ent and ent.name == "rp_signs:sign_text" and ent._sign_pos then
 			local ent_hash = minetest.hash_node_position(ent._sign_pos)
 			if ent_hash and sign_hash == ent_hash then
 				count = count + 1
@@ -137,7 +139,7 @@ local function get_text_entity(pos, force_remove)
 	local sign_hash = minetest.hash_node_position(pos)
         for _, v in pairs(objects) do
                 local ent = v:get_luaentity()
-                if ent and ent.name == "rp_default:sign_text" and ent._sign_pos then
+                if ent and ent.name == "rp_signs:sign_text" and ent._sign_pos then
 			local ent_hash = minetest.hash_node_position(ent._sign_pos)
 			if ent_hash then
 				if sign_hash == ent_hash then
@@ -254,7 +256,7 @@ local function update_sign(pos, text)
 			sign_pos_hash = minetest.hash_node_position(pos)
 		}
 		local staticdata = minetest.serialize(sdata)
-                text_entity = minetest.add_entity(data.text_pos, "rp_default:sign_text", staticdata)
+                text_entity = minetest.add_entity(data.text_pos, "rp_signs:sign_text", staticdata)
                 if not text_entity or not text_entity:get_pos() then
 			return
 		end
@@ -296,7 +298,7 @@ local function update_sign(pos, text)
 	if imagestr then
 		local width, height = data.image_w, data.image_h
 		if not height or not width then
-			minetest.log("error", "[rp_default] Missing or invalid image width or height for sign text texture!")
+			minetest.log("error", "[rp_signs] Missing or invalid image width or height for sign text texture!")
 			local meta = minetest.get_meta(pos)
 			meta:set_string("image", "")
 			get_text_entity(pos, true)
@@ -347,7 +349,7 @@ end
 -- Formspec pages for sign (different background textures)
 local sign_pages = {}
 local register_sign_page = function(id, node_names)
-	local page_name = "rp_default:"..id
+	local page_name = "rp_signs:"..id
 
 	local form = rp_formspec.default.version
         form = form .. "size[8.5,4.5]"
@@ -372,13 +374,13 @@ local get_sign_formspec = function(pos)
 		local text = meta:get_string("text")
 		form = form .. "textarea[0.5,1;7.5,1.5;text;;"..minetest.formspec_escape(text).."]"
 	else
-		minetest.log("warning", "[rp_default] No formspec page for sign at "..minetest.pos_to_string(pos, 0)..". Fallback to rp_formspec:field")
+		minetest.log("warning", "[rp_signs] No formspec page for sign at "..minetest.pos_to_string(pos, 0)..". Fallback to rp_formspec:field")
 		form = rp_formspec.get_page("rp_formspec:field")
 	end
 	return form
 end
 
-default.refresh_sign = function(meta, node)
+local refresh_sign = function(meta, node)
 	-- Clear the node formspec from older versions; the formspec is now sent manually
 	meta:set_string("formspec", "")
 
@@ -391,14 +393,14 @@ local on_construct = function(pos)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("text", "")
 	local node = minetest.get_node(pos)
-	default.refresh_sign(meta, node)
+	refresh_sign(meta, node)
 end
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-	if string.sub(formname, 1, 16) ~= "rp_default:sign_" then
+	if string.sub(formname, 1, 14) ~= "rp_signs:sign_" then
 		return
 	end
-	local coords = string.sub(formname, 17)
+	local coords = string.sub(formname, 15)
 	local x, y, z = string.match(coords, "([0-9-]+)_([0-9-]+)_([0-9-]+)")
 	local pos = {x=tonumber(x), y=tonumber(y), z=tonumber(z)}
 	if not pos or not pos.x or not pos.y or not pos.z then
@@ -434,7 +436,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	meta:set_string("text", text)
 
 	minetest.sound_play({name="rp_default_write_sign", gain=0.2}, {pos=pos, max_hear_distance=16}, true)
-	minetest.log("action", "[rp_default] " .. (player:get_player_name() or "")..
+	minetest.log("action", "[rp_signs] " .. (player:get_player_name() or "")..
 		-- Note: Don't show written sign text in log to prevent log flooding
 		" wrote something to a sign at "..minetest.pos_to_string(pos))
 	-- Show sign text in quotation marks
@@ -460,7 +462,7 @@ local on_rightclick = function(pos, node, clicker, itemstack)
 		-- Show sign formspec
 		local formspec = get_sign_formspec(pos)
 		local pos_id = tostring(pos.x).."_"..tostring(pos.y).."_"..tostring(pos.z)
-		minetest.show_formspec(clicker:get_player_name(), "rp_default:sign_"..pos_id, formspec)
+		minetest.show_formspec(clicker:get_player_name(), "rp_signs:sign_"..pos_id, formspec)
 	end
 	return itemstack
 end
@@ -488,7 +490,7 @@ local function register_sign(id, def)
 		sounds = def.sounds,
 		floodable = true,
 		on_flood = function(pos)
-			minetest.add_item(pos, "rp_default:"..id)
+			minetest.add_item(pos, "rp_signs:"..id)
 		end,
 		on_construct = on_construct,
 		on_destruct = on_destruct,
@@ -523,7 +525,7 @@ local function register_sign(id, def)
 			end
 			local sign_itemstack
 			if r90 then
-				sign_itemstack = ItemStack("rp_default:"..id.."_r90")
+				sign_itemstack = ItemStack("rp_signs:"..id.."_r90")
 			else
 				sign_itemstack = ItemStack(itemstack)
 				sign_itemstack:set_count(1)
@@ -546,7 +548,7 @@ local function register_sign(id, def)
 		end,
 		on_rightclick = on_rightclick,
 	}
-	minetest.register_node("rp_default:"..id, sdef)
+	minetest.register_node("rp_signs:"..id, sdef)
 
 	local sdef_r90 = {
 		drawtype = "nodebox",
@@ -568,14 +570,14 @@ local function register_sign(id, def)
 		sounds = def.sounds,
 		floodable = true,
 		on_flood = function(pos)
-			minetest.add_item(pos, "rp_default:"..id)
+			minetest.add_item(pos, "rp_signs:"..id)
 		end,
 		on_construct = on_construct,
 		on_destruct = on_destruct,
 		on_rightclick = on_rightclick,
-		drop = "rp_default:"..id,
+		drop = "rp_signs:"..id,
 	}
-	minetest.register_node("rp_default:"..id.."_r90", sdef_r90)
+	minetest.register_node("rp_signs:"..id.."_r90", sdef_r90)
 
 	local sdef_p = table.copy(sdef)
 	sdef_p.description = def.description_painted
@@ -586,8 +588,8 @@ local function register_sign(id, def)
 	sdef_p.tiles = { def.tile_painted }
 	sdef_p.inventory_image = def.inv_image.."^[hsl:0:-100:0"
 	sdef_p.wield_image = def.inv_image.."^[hsl:0:-100:0"
-	sdef_p.drop = "rp_default:"..id
-	minetest.register_node("rp_default:"..id.."_painted", sdef_p)
+	sdef_p.drop = "rp_signs:"..id
+	minetest.register_node("rp_signs:"..id.."_painted", sdef_p)
 
 	local sdef_r90_p = table.copy(sdef_r90)
 	sdef_r90_p.paramtype2 = "colorwallmounted"
@@ -597,23 +599,15 @@ local function register_sign(id, def)
 	sdef_r90_p.tiles = { "("..def.tile_painted..")^[transformR90" }
 	sdef_r90_p.inventory_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
 	sdef_r90_p.wield_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
-	sdef_r90_p.drop = "rp_default:"..id
-	minetest.register_node("rp_default:"..id.."_r90_painted", sdef_r90_p)
+	sdef_r90_p.drop = "rp_signs:"..id
+	minetest.register_node("rp_signs:"..id.."_r90_painted", sdef_r90_p)
 
-	register_sign_page(id, {"rp_default:"..id, "rp_default:"..id.."_r90", "rp_default:"..id.."_painted", "rp_default:"..id.."_r90_painted"})
+	register_sign_page(id, {"rp_signs:"..id, "rp_signs:"..id.."_r90", "rp_signs:"..id.."_painted", "rp_signs:"..id.."_r90_painted"})
 end
 
-minetest.register_lbm({
-        label = "Restore sign text entities",
-        name = "rp_default:restore_sign_entities",
-        nodenames = {"group:sign"},
-        run_at_every_load = true,
-        action = function(pos)
-                update_sign(pos)
-        end
-})
 
-minetest.register_entity("rp_default:sign_text", {
+
+minetest.register_entity("rp_signs:sign_text", {
 	initial_properties = {
 		pointable = false,
 		visual = "upright_sprite",
@@ -650,7 +644,7 @@ minetest.register_entity("rp_default:sign_text", {
 			if has_duplicate_entity(self._sign_pos) then
 				local pos = self.object:get_pos()
 				self.object:remove()
-				minetest.log("action", "[rp_default] Removed duplicate sign text entity at "..minetest.pos_to_string(pos, 1))
+				minetest.log("action", "[rp_signs] Removed duplicate sign text entity at "..minetest.pos_to_string(pos, 1))
 				return
 			end
 		end
@@ -658,7 +652,7 @@ minetest.register_entity("rp_default:sign_text", {
 		if not node or minetest.get_item_group(node.name, "sign") == 0 then
 			local pos = self.object:get_pos()
 			self.object:remove()
-			minetest.log("action", "[rp_default] Removed orphan sign text entity at "..minetest.pos_to_string(pos, 1))
+			minetest.log("action", "[rp_signs] Removed orphan sign text entity at "..minetest.pos_to_string(pos, 1))
 			return
 		end
         end,
@@ -705,4 +699,27 @@ register_sign("sign_birch", {
 	tile_painted = "rp_default_sign_birch_painted.png",
 	inv_image = "rp_default_sign_birch_inventory.png",
 	sounds = sounds_wood_sign,
+})
+
+dofile(minetest.get_modpath("rp_signs").."/crafting.lua")
+
+minetest.register_lbm({
+        label = "Restore sign text entities",
+        name = "rp_signs:restore_sign_entities",
+        nodenames = {"group:sign"},
+        run_at_every_load = true,
+        action = function(pos)
+                update_sign(pos)
+        end
+})
+
+-- Update sign formspecs/infotexts
+minetest.register_lbm({
+	label = "Update signs",
+	name = "rp_signs:update_signs_3_14_0",
+	nodenames = {"group:sign"},
+	action = function(pos, node)
+		local meta = minetest.get_meta(pos)
+		refresh_sign(meta, node)
+	end
 })

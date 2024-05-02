@@ -501,19 +501,6 @@ minetest.register_lbm(
    }
 )
 
--- Update sign formspecs/infotexts
-minetest.register_lbm(
-   {
-      label = "Update signs",
-      name = "rp_default:update_signs_3_14_0",
-      nodenames = {"group:sign"},
-      action = function(pos, node)
-         local meta = minetest.get_meta(pos)
-         default.refresh_sign(meta, node)
-      end
-   }
-)
-
 -- Force nodes to update infotext/formspec
 minetest.register_lbm(
    {
