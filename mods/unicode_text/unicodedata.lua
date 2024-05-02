@@ -62,7 +62,7 @@ for line in io.lines(modpath .. "/ucd/Scripts.txt") do
          local e_script = entries[2]
          local script
          if e_script then
-            script = string.match(e_script, "[a-zA-Z]+")
+            script = string.match(e_script, "[a-zA-Z_]+")
          end
          local codepoint1, codepoint2
          local tohex = tonumber(e_codepoints, 16)

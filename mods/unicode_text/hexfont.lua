@@ -29,6 +29,7 @@ local UNSUPPORTED_SCRIPTS = {
    ["Lao"] = true,
    ["Tamil"] = true,
    ["Mongolian"] = true,
+   ["Phags_Pa"] = true,
 }
 
 -- Whether bidirectional text is recognized.
