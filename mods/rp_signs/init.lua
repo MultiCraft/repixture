@@ -13,6 +13,7 @@ local SIGN_THICKNESS = 1/16
 
 -- Offset from text entity from sign node border
 local TEXT_ENTITY_OFFSET = SIGN_THICKNESS + 1/128
+local TEXT_ENTITY_OFFSET_STANDING = SIGN_THICKNESS/2 + 1/128
 
 -- Maximum length for a texture string.
 -- Hard limit to avoid running into issues with Minetest.
@@ -166,54 +167,64 @@ local function get_signdata(pos)
 	-- TODO: It should be replaced later with the new Minetest wallmounted
 	-- extensions.
 	local r90 = minetest.get_item_group(node.name, "sign_r90") == 1
+	local standing = minetest.get_item_group(node.name, "sign_standing") == 1
 	local meta = minetest.get_meta(pos)
 	local text = meta:get_string("text")
 	local image = meta:get_string("image")
 	local image_w = meta:get_int("image_w")
 	local image_h = meta:get_int("image_h")
 	local yaw, pitch, spos
-	local dir = minetest.wallmounted_to_dir(node.param2)
-	if dir.y >= 1 then
-		-- Ceiling sign
-		local textflip = meta:get_int("textflip") == 1
-		pitch = math.pi/2
-		if r90 then
-			if textflip then
-				yaw = -math.pi/2
-			else
-				yaw = math.pi/2
-			end
-		else
-			if textflip then
-				yaw = math.pi
-			else
-				yaw = 0
-			end
-		end
-		spos = vector.offset(pos, 0, 0.5 - TEXT_ENTITY_OFFSET, 0)
-	elseif dir.y <= -1 then
-		-- Floor sign
-		local textflip = meta:get_int("textflip") == 1
-		pitch = -math.pi/2
-		if r90 then
-			if textflip then
-				yaw = -math.pi/2
-			else
-				yaw = math.pi/2
-			end
-		else
-			if textflip then
-				yaw = math.pi
-			else
-				yaw = 0
-			end
-		end
-		spos = vector.offset(pos, 0, -0.5 + TEXT_ENTITY_OFFSET, 0)
-	else
-		-- Wall sign
+	if standing then
+		-- Standing sign
+		local dir = minetest.fourdir_to_dir(node.param2)
 		yaw = minetest.dir_to_yaw(dir)
 		pitch = 0
-		spos = vector.add(pos, dir * (0.5 - TEXT_ENTITY_OFFSET))
+		local offset = vector.multiply(dir, -TEXT_ENTITY_OFFSET_STANDING)
+		spos = vector.add(pos, offset)
+	else
+		local dir = minetest.wallmounted_to_dir(node.param2)
+		if dir.y >= 1 then
+			-- Ceiling sign
+			local textflip = meta:get_int("textflip") == 1
+			pitch = math.pi/2
+			if r90 then
+				if textflip then
+					yaw = -math.pi/2
+				else
+					yaw = math.pi/2
+				end
+			else
+				if textflip then
+					yaw = math.pi
+				else
+					yaw = 0
+				end
+			end
+			spos = vector.offset(pos, 0, 0.5 - TEXT_ENTITY_OFFSET, 0)
+		elseif dir.y <= -1 then
+			-- Floor sign
+			local textflip = meta:get_int("textflip") == 1
+			pitch = -math.pi/2
+			if r90 then
+				if textflip then
+					yaw = -math.pi/2
+				else
+					yaw = math.pi/2
+				end
+			else
+				if textflip then
+					yaw = math.pi
+				else
+					yaw = 0
+				end
+			end
+			spos = vector.offset(pos, 0, -0.5 + TEXT_ENTITY_OFFSET, 0)
+		else
+			-- Wall sign
+			yaw = minetest.dir_to_yaw(dir)
+			pitch = 0
+			spos = vector.add(pos, dir * (0.5 - TEXT_ENTITY_OFFSET))
+		end
 	end
 	return {
 		text = text,
@@ -472,7 +483,7 @@ local function register_sign(id, def)
 		description = def.description,
 		_tt_help = S("Write a short message"),
 		drawtype = "nodebox",
-		tiles = {def.tile},
+		tiles = {def.tile, "("..def.tile_back..")^[transformR180", def.tile, def.tile, def.tile, def.tile},
 		inventory_image = def.inv_image,
 		wield_image = def.inv_image,
 		paramtype = "light",
@@ -552,7 +563,14 @@ local function register_sign(id, def)
 
 	local sdef_r90 = {
 		drawtype = "nodebox",
-		tiles = {"("..def.tile..")^[transformR90"},
+		tiles = {
+			"("..def.tile..")^[transformR90",
+			"("..def.tile_back..")^[transformR270",
+			"("..def.tile..")^[transformR90",
+			"("..def.tile..")^[transformR90",
+			"("..def.tile..")^[transformR90",
+			"("..def.tile..")^[transformR90",
+		},
 		inventory_image = "("..def.inv_image..")^[transformR90",
 		wield_image = "("..def.inv_image..")^[transformR90",
 		paramtype = "light",
@@ -579,13 +597,106 @@ local function register_sign(id, def)
 	}
 	minetest.register_node("rp_signs:"..id.."_r90", sdef_r90)
 
+	local base_standing_wallbox = {-0.5+(1/16), -0.5+(4/16), -SIGN_THICKNESS/2, 0.5-(1/16), 0.5-(4/16), SIGN_THICKNESS/2}
+	local ssdef = {
+		description = def.description_standing,
+		_tt_help = S("Write a short message"),
+		drawtype = "nodebox",
+		tiles = {
+			def.tile,
+			def.tile,
+			def.tile,
+			def.tile,
+			def.tile_back,
+			def.tile,
+		},
+		inventory_image = def.inv_image_standing,
+		wield_image = def.inv_image_standing,
+		paramtype = "light",
+		paramtype2 = "4dir",
+		sunlight_propagates = true,
+		walkable = false,
+		node_box = {
+			type = "fixed",
+			fixed = {
+				base_standing_wallbox,
+				{ -1/16, -0.5, -SIGN_THICKNESS/2, 1/16, -0.5+(4/16), SIGN_THICKNESS/2 },
+			},
+			wall_top = {
+				base_standing_wallbox,
+				{ -1/16, 0.5-(4/16), -SIGN_THICKNESS/2, 1/16, 0.5, SIGN_THICKNESS/2 },
+			},
+			wall_side = {
+				base_standing_wallbox,
+				{ -0.5, -1/16, -SIGN_THICKNESS/2, -0.5+(1/16), 1/16, SIGN_THICKNESS/2 },
+			},
+		},
+		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, sign_standing=1, creative_decoblock = 1, paintable = 2},
+		is_ground_content = false,
+		sounds = def.sounds,
+		floodable = true,
+		on_flood = function(pos)
+			minetest.add_item(pos, "rp_signs:"..id.."_standing")
+		end,
+		on_construct = on_construct,
+		on_destruct = on_destruct,
+		on_place = function(itemstack, placer, pointed_thing)
+			-- Boilerplace to handle pointed node's rightclick handler
+			if not placer or not placer:is_player() then
+				return itemstack
+			end
+			if pointed_thing.type ~= "node" then
+				return minetest.item_place_node(itemstack, placer, pointed_thing)
+			end
+			local node = minetest.get_node(pointed_thing.under)
+			local def = minetest.registered_nodes[node.name]
+			if def and def.on_rightclick and
+				((not placer) or (placer and not placer:get_player_control().sneak)) then
+				return def.on_rightclick(pointed_thing.under, node, placer, itemstack,
+					pointed_thing) or itemstack
+			end
+
+
+			-- Wall sign
+			if pointed_thing.under.y == pointed_thing.above.y then
+				return minetest.item_place_node(itemstack, placer, pointed_thing)
+			end
+
+			-- Floor or ceiling sign
+
+			local sign_itemstack
+			sign_itemstack = ItemStack(itemstack)
+			sign_itemstack:set_count(1)
+			local signpos
+			sign_itemstack, signpos = minetest.item_place_node(sign_itemstack, placer, pointed_thing)
+			if not signpos then
+				return itemstack
+			end
+			if sign_itemstack:is_empty() then
+				itemstack:take_item()
+			end
+			return itemstack
+		end,
+		on_rightclick = on_rightclick,
+	}
+	minetest.register_node("rp_signs:"..id.."_standing", ssdef)
+
+
+
 	local sdef_p = table.copy(sdef)
 	sdef_p.description = def.description_painted
 	sdef_p.paramtype2 = "colorwallmounted"
 	sdef_p.palette = "rp_paint_palette_32.png"
 	sdef_p.groups.paintable = 1
 	sdef_p.groups.not_in_creative_inventory = 1
-	sdef_p.tiles = { def.tile_painted }
+	sdef_p.tiles = {
+		def.tile_painted,
+		"("..def.tile_back_painted..")^[transformR180",
+		def.tile_painted,
+		def.tile_painted,
+		def.tile_painted,
+		def.tile_painted,
+	}
 	sdef_p.inventory_image = def.inv_image.."^[hsl:0:-100:0"
 	sdef_p.wield_image = def.inv_image.."^[hsl:0:-100:0"
 	sdef_p.drop = "rp_signs:"..id
@@ -596,13 +707,47 @@ local function register_sign(id, def)
 	sdef_r90_p.palette = "rp_paint_palette_32.png"
 	sdef_r90_p.groups.paintable = 1
 	sdef_r90_p.groups.sign_r90 = 1
-	sdef_r90_p.tiles = { "("..def.tile_painted..")^[transformR90" }
+	sdef_r90_p.tiles = {
+		"("..def.tile_painted..")^[transformR90",
+		"("..def.tile_back_painted..")^[transformR270",
+		"("..def.tile_painted..")^[transformR90",
+		"("..def.tile_painted..")^[transformR90",
+		"("..def.tile_painted..")^[transformR90",
+		"("..def.tile_painted..")^[transformR90",
+	}
 	sdef_r90_p.inventory_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
 	sdef_r90_p.wield_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
 	sdef_r90_p.drop = "rp_signs:"..id
 	minetest.register_node("rp_signs:"..id.."_r90_painted", sdef_r90_p)
 
-	register_sign_page(id, {"rp_signs:"..id, "rp_signs:"..id.."_r90", "rp_signs:"..id.."_painted", "rp_signs:"..id.."_r90_painted"})
+	local ssdef_p = table.copy(ssdef)
+	ssdef_p.description = def.description_standing_painted
+	ssdef_p.paramtype2 = "color4dir"
+	ssdef_p.palette = "rp_paint_palette_64.png"
+	ssdef_p.groups.paintable = 1
+	ssdef_p.groups.not_in_creative_inventory = 1
+	ssdef_p.tiles = {
+		def.tile_painted,
+		def.tile_painted,
+		def.tile_painted,
+		def.tile_painted,
+		def.tile_back_painted,
+		def.tile_painted,
+	}
+	ssdef_p.inventory_image = "("..def.inv_image_standing..")^[hsl:0:-100:0"
+	ssdef_p.wield_image = "("..def.inv_image_standing..")^[hsl:0:-100:0"
+	ssdef_p.drop = "rp_signs:"..id.."_standing"
+	minetest.register_node("rp_signs:"..id.."_standing_painted", ssdef_p)
+
+
+	register_sign_page(id, {
+		"rp_signs:"..id,
+		"rp_signs:"..id.."_r90",
+		"rp_signs:"..id.."_painted",
+		"rp_signs:"..id.."_r90_painted",
+		"rp_signs:"..id.."_standing",
+		"rp_signs:"..id.."_standing_painted",
+	})
 end
 
 
@@ -678,26 +823,41 @@ local sounds_wood_sign = rp_sounds.node_sound_planks_defaults({
 
 register_sign("sign", {
 	description = S("Wooden Sign"),
+	description_standing = S("Standing Wooden Sign"),
 	description_painted = S("Painted Wooden Sign"),
+	description_standing_painted = S("Painted Standing Wooden Sign"),
 	tile = "default_sign.png",
+	tile_back = "rp_default_sign_back.png",
 	tile_painted = "rp_default_sign_painted.png",
+	tile_back_painted = "rp_default_sign_back_painted.png",
 	inv_image = "default_sign_inventory.png",
+	inv_image_standing = "rp_default_sign_standing_inventory.png",
 	sounds = sounds_wood_sign,
 })
 register_sign("sign_oak", {
 	description = S("Oak Sign"),
+	description_standing = S("Standing Oak Sign"),
 	description_painted = S("Painted Oak Sign"),
+	description_standing_painted = S("Painted Standing Oak Sign"),
 	tile = "rp_default_sign_oak.png",
+	tile_back = "rp_default_sign_oak_back.png",
 	tile_painted = "rp_default_sign_oak_painted.png",
+	tile_back_painted = "rp_default_sign_oak_back_painted.png",
 	inv_image = "rp_default_sign_oak_inventory.png",
+	inv_image_standing = "rp_default_sign_oak_standing_inventory.png",
 	sounds = sounds_wood_sign,
 })
 register_sign("sign_birch", {
 	description = S("Birch Sign"),
+	description_standing = S("Standing Birch Sign"),
 	description_painted = S("Painted Birch Sign"),
+	description_standing_painted = S("Painted Standing Birch Sign"),
 	tile = "rp_default_sign_birch.png",
+	tile_back = "rp_default_sign_birch_back.png",
 	tile_painted = "rp_default_sign_birch_painted.png",
+	tile_back_painted = "rp_default_sign_birch_back_painted.png",
 	inv_image = "rp_default_sign_birch_inventory.png",
+	inv_image_standing = "rp_default_sign_birch_standing_inventory.png",
 	sounds = sounds_wood_sign,
 })
 

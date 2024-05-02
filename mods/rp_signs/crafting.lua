@@ -19,7 +19,7 @@ crafting.register_craft({
 	items = {
 		"rp_default:planks",
 		"rp_default:fiber 2",
-		"rp_:stick 2",
+		"rp_default:stick 2",
 	}
 })
 crafting.register_craft({
