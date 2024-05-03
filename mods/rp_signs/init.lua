@@ -51,15 +51,25 @@ font:load_glyphs(
 	io.lines(fontpath.."/unifont_upper.hex")
 )
 
-local function make_text_texture(text, pos)
+local function make_text_texture(text, pos, front)
         if not text then
 		return false
 	end
+	local set_meta = function(front, image, h, w)
+		local meta = minetest.get_meta(pos)
+		if front then
+			meta:set_string("image", image)
+			meta:set_int("image_h", h)
+			meta:set_int("image_w", w)
+		else
+			meta:set_string("image_back", image)
+			meta:set_int("image_back_h", h)
+			meta:set_int("image_back_w", w)
+		end
+	end
 	if text == "" then
 		local meta = minetest.get_meta(pos)
-		meta:set_string("image", META_IMAGE_EMPTY)
-		meta:set_int("image_h", 0)
-		meta:set_int("image_w", 0)
+		set_meta(front, META_IMAGE_EMPTY, 0, 0)
 		return true
 	end
         local pixels
@@ -71,20 +81,14 @@ local function make_text_texture(text, pos)
 		local width
 		if height == 0 then
 			-- 0-height image = empty image
-			local meta = minetest.get_meta(pos)
-			meta:set_string("image", META_IMAGE_EMPTY)
-			meta:set_int("image_h", 0)
-			meta:set_int("image_w", 0)
+			set_meta(front, META_IMAGE_EMPTY, 0, 0)
 			return false
 		else
 			width = #pixels[1]
 		end
 		if width == 0 then
 			-- 0-width image = empty image
-			local meta = minetest.get_meta(pos)
-			meta:set_string("image", META_IMAGE_EMPTY)
-			meta:set_int("image_h", 0)
-			meta:set_int("image_w", 0)
+			set_meta(front, META_IMAGE_EMPTY, 0, 0)
 			return false
 		end
 
@@ -103,11 +107,8 @@ local function make_text_texture(text, pos)
 		pixels = convert_pixels(pixels)
 
                 local image = minetest.encode_png(width, height, pixels)
-                local meta = minetest.get_meta(pos)
                 local encoded_string = minetest.encode_base64(image)
-                meta:set_string("image", encoded_string)
-                meta:set_int("image_h", height)
-                meta:set_int("image_w", width)
+		set_meta(front, encoded_string, height, width)
                 return true
         else
 		minetest.log("error", "[rp_signs] Error when calling render_text for: "..tostring(text).." (error: "..tostring(pixels)..")")
@@ -155,7 +156,7 @@ local function get_text_entity(pos, force_remove)
                 end
         end
         return text_entity
-end 
+end
 
 local function get_signdata(pos)
 	local node = minetest.get_node(pos)
@@ -172,9 +173,13 @@ local function get_signdata(pos)
 	local sideways = minetest.get_item_group(node.name, "sign_side") == 1
 	local meta = minetest.get_meta(pos)
 	local text = meta:get_string("text")
+	local text_back = meta:get_string("text_back")
 	local image = meta:get_string("image")
 	local image_w = meta:get_int("image_w")
 	local image_h = meta:get_int("image_h")
+	local image_back = meta:get_string("image_back")
+	local image_back_w = meta:get_int("image_back_w")
+	local image_back_h = meta:get_int("image_back_h")
 	local yaw, pitch, spos
 	if standing then
 		-- Standing or hanging sign
@@ -236,6 +241,7 @@ local function get_signdata(pos)
 	end
 	return {
 		text = text,
+		text_back = text_back,
 		pitch = pitch,
 		yaw = yaw,
 		node = node,
@@ -243,24 +249,32 @@ local function get_signdata(pos)
 		image = image,
 		image_w = image_w,
 		image_h = image_h,
+		image_back = image_back,
+		image_back_w = image_back_w,
+		image_back_h = image_back_h,
 	}
 end
 
-local function update_sign(pos, text)
+local function update_sign(pos, text_front, text_back)
         local data = get_signdata(pos)
         if not data then
 		return
 	end
-	if not text then
-		text = data.text
+	if not text_front then
+		text_front = data.text
 	end
-	if not text then
-		make_text_texture("", pos)
+	if not text_back then
+		text_back = data.text_back
+	end
+	if not text_front or not text_back then
+		make_text_texture("", pos, false)
+		make_text_texture("", pos, true)
 		get_text_entity(pos, true)
 		return
 	end
-	if text == "" then
-		make_text_texture("", pos)
+	if text_front == "" and text_back == "" then
+		make_text_texture("", pos, false)
+		make_text_texture("", pos, true)
 		get_text_entity(pos, true)
 		return
 	end
@@ -290,25 +304,46 @@ local function update_sign(pos, text)
         end
 
 	-- Regenerate image if not initialized yet
+	local gen_fail = false
         if data.image == "" then
-                if make_text_texture(text, pos) then
+                if make_text_texture(text_front, pos, true) then
                         data = get_signdata(pos)
                 else
-                        get_text_entity(pos, true)
+			gen_fail = true
                 end
         end
+        if data.image_back == "" then
+                if make_text_texture(text_back, pos, false) then
+                        data = get_signdata(pos)
+                else
+			gen_fail = true
+                end
+        end
+	if gen_fail then
+		get_text_entity(pos, true)
+	end
 
-	local generate_texture_string = function()
-		if data.image == nil or data.image == META_IMAGE_EMPTY or data.image == "" then
+	local generate_texture_string = function(front)
+		local image, image_h, image_w
+		if front then
+			image = data.image
+			image_h = data.image_h
+			image_w = data.image_w
+		else
+			image = data.image_back
+			image_h = data.image_back_h
+			image_w = data.image_back_w
+		end
+		if image == nil or image == META_IMAGE_EMPTY or image == "" then
 			-- Empty image
 			return "blank.png", false
-		elseif (data.image_w > SIGN_MAX_TEXT_WIDTH_PIXELS) or (data.image_h > SIGN_MAX_TEXT_HEIGHT_PIXELS) then
+		elseif (image_w > SIGN_MAX_TEXT_WIDTH_PIXELS) or (image_h > SIGN_MAX_TEXT_HEIGHT_PIXELS) then
 			-- If the image is soo large it starts to become near-unreadable,
 			-- we will display a special 'gibberish' texture instead.
 			return "rp_default_sign_gibberish.png", false
 		else
 			-- This will render the PNG from the provided image data
-			local tex = "[png:"..data.image
+			local tex = "[png:"..image
 
 			-- If texture string is very long, replace it with a special gibberish texture.
 			-- Minetest has a length limit for object texture strings. Minetest
@@ -321,13 +356,15 @@ local function update_sign(pos, text)
 			return tex, true
 		end
 	end
-        local imagestr, change_ratio = generate_texture_string()
-	if imagestr then
-		local width, height = data.image_w, data.image_h
+        local imagestr_front, change_ratio_front = generate_texture_string(true)
+        local imagestr_back, change_ratio_back = generate_texture_string(false)
+
+	local get_effective_size = function(width, height, change_ratio)
 		if not height or not width then
 			minetest.log("error", "[rp_signs] Missing or invalid image width or height for sign text texture!")
 			local meta = minetest.get_meta(pos)
 			meta:set_string("image", "")
+			meta:set_string("image_back", "")
 			get_text_entity(pos, true)
 			return
 		end
@@ -352,32 +389,44 @@ local function update_sign(pos, text)
 			ewidth = TEXT_ENTITY_WIDTH
 			eheight = TEXT_ENTITY_HEIGHT
 		end
+		return ewidth, eheight
+	end
 
-		if both_sides then
-			-- Text appears on both sides
-			text_entity:set_properties({
-				-- We use the cube visual where the text appers on
-				-- opposite sides, so we only need one entity for both texts.
-				visual = "cube",
-				textures = {
-					-- The other cube sides are hidden
-					"blank.png", "blank.png", "blank.png", "blank.png",
-					-- Front and back
-					imagestr, imagestr,
-				},
-				visual_size = { x = ewidth, y = eheight, z = SIGN_THICKNESS+1/128 },
-			})
-		else
-			-- Text appears only on the front
-			text_entity:set_properties({
-				visual = "upright_sprite",
-				textures = {
-					"blank.png",
-					imagestr,
-				},
-				visual_size = { x = ewidth, y = eheight },
-			})
+	local ewidth_front, eheight_front = get_effective_size(data.image_w, data.image_h, change_ratio_front)
+	local ewidth_back, eheight_back = get_effective_size(data.image_back_w, data.image_back_h, change_ratio_back)
+
+	if both_sides then
+		if not ewidth_front then
+			imagestr_front = "blank.png"
+			ewidth_front = 1
+			eheight_front = 1
 		end
+		if not ewidth_back then
+			imagestr_back = "blank.png"
+		end
+		-- Text appears on both sides
+		text_entity:set_properties({
+			-- We use the cube visual where the text appers on
+			-- opposite sides, so we only need one entity for both texts.
+			visual = "cube",
+			textures = {
+				-- The other cube sides are hidden
+				"blank.png", "blank.png", "blank.png", "blank.png",
+				-- Front and back
+				imagestr_front, imagestr_back,
+			},
+			visual_size = { x = ewidth_front, y = eheight_front, z = SIGN_THICKNESS+1/128 },
+		})
+	else
+		-- Text appears only on the front
+		text_entity:set_properties({
+			visual = "upright_sprite",
+			textures = {
+				"blank.png",
+				imagestr_front,
+			},
+			visual_size = { x = ewidth_front, y = eheight_front },
+		})
 	end
         text_entity:set_rotation({x=data.pitch, y=data.yaw, z=0})
         return
@@ -407,16 +456,50 @@ local register_sign_page = function(id, node_names)
 	end
 end
 
-local get_sign_formspec = function(pos)
+-- Returns true if check_pos is in front of a horizontal sign
+-- (standing, hanging or sideways).
+-- Returns false otherwise.
+local is_pos_in_front_of_sign = function(sign_pos, sign_node, check_pos)
+	local p2 = sign_node.param2 % 4
+	local side = minetest.get_item_group(sign_node.name, "sign_side") ~= 0
+	if side then
+		p2 = (p2 + 1) % 4
+	end
+	-- X axis
+	if p2 == 1 or p2 == 3 then
+		if check_pos.x < sign_pos.x then
+			return false
+		end
+	-- Z axis
+	else
+		if check_pos.z < sign_pos.z then
+			return false
+		end
+	end
+	return true
+end
+
+local get_sign_formspec = function(pos, player_pos)
 	local node = minetest.get_node(pos)
+	local write_front = true
+	if player_pos then
+		write_front = is_pos_in_front_of_sign(pos, node, player_pos)
+	end
 	local pagename = sign_pages[node.name]
 	local form
 	if pagename then
 		form = rp_formspec.get_page(pagename)
 		form = form .. "set_focus[text;true]"
 		local meta = minetest.get_meta(pos)
-		local text = meta:get_string("text")
-		form = form .. "textarea[0.5,1;7.5,1.5;text;;"..minetest.formspec_escape(text).."]"
+		local text, elem
+		if write_front then
+			text = meta:get_string("text")
+			elem = "text"
+		else
+			text = meta:get_string("text_back")
+			elem = "text_back"
+		end
+		form = form .. "textarea[0.5,1;7.5,1.5;"..elem..";;"..minetest.formspec_escape(text).."]"
 	else
 		minetest.log("warning", "[rp_signs] No formspec page for sign at "..minetest.pos_to_string(pos, 0)..". Fallback to rp_formspec:field")
 		form = rp_formspec.get_page("rp_formspec:field")
@@ -451,33 +534,57 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		return
 	end
 
-	if not fields.text then
+	local text, write_front
+	if fields.text then
+		text = fields.text
+		write_front = true
+	elseif fields.text_back then
+		text = fields.text_back
+		write_front = false
+	else
 		return
 	end
+
+	-- Check if there's actually a sign at pos
+	local node = minetest.get_node(pos)
+	if minetest.get_item_group(node.name, "sign") == 0 then
+		return
+	end
+
 	-- Check protection
 	if minetest.is_protected(pos, player:get_player_name()) and
 			not minetest.check_player_privs(player, "protection_bypass") then
 		minetest.record_protection_violation(pos, player:get_player_name())
-		return itemstack
+		return
 	end
 
 	-- Write text
 	local meta = minetest.get_meta(pos)
-	local text = fields.text
 	text = crop_text(text)
 	if text ~= "" then
-		local made = make_text_texture(text, pos)
+		local made = make_text_texture(text, pos, write_front)
 		if made then
-			update_sign(pos, text)
+			if write_front then
+				local text_back = meta:get_string("text_back")
+				update_sign(pos, text, text_back)
+			else
+				local text_front = meta:get_string("text")
+				update_sign(pos, text_front, text)
+			end
 		else
 			return
 		end
 	else
-		make_text_texture("", pos)
+		make_text_texture("", pos, true)
+		make_text_texture("", pos, false)
 		get_text_entity(pos, true)
 	end
 
-	meta:set_string("text", text)
+	if write_front then
+		meta:set_string("text", text)
+	else
+		meta:set_string("text_back", text)
+	end
 
 	minetest.sound_play({name="rp_default_write_sign", gain=0.2}, {pos=pos, max_hear_distance=16}, true)
 	minetest.log("action", "[rp_signs] " .. (player:get_player_name() or "")..
@@ -485,8 +592,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		" wrote something to a sign at "..minetest.pos_to_string(pos))
 	-- Show sign text in quotation marks
 	meta:set_string("infotext", S('"@1"', text))
-
-	default.write_name(pos, meta:get_string("text"))
+	default.write_name(pos, text)
 end)
 
 local on_destruct = function(pos)
@@ -503,8 +609,17 @@ local on_rightclick = function(pos, node, clicker, itemstack)
 			return itemstack
 		end
 
+		local standing = minetest.get_item_group(node.name, "sign_standing") ~= 0
+		local sideways = minetest.get_item_group(node.name, "sign_side") ~= 0
+		local formspec
 		-- Show sign formspec
-		local formspec = get_sign_formspec(pos)
+		if standing or sideways then
+			-- Double-sided
+			formspec = get_sign_formspec(pos, clicker:get_pos())
+		else
+			-- Single-sided
+			formspec = get_sign_formspec(pos)
+		end
 		local pos_id = tostring(pos.x).."_"..tostring(pos.y).."_"..tostring(pos.z)
 		minetest.show_formspec(clicker:get_player_name(), "rp_signs:sign_"..pos_id, formspec)
 	end
