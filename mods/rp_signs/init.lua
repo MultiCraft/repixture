@@ -648,6 +648,7 @@ local function register_sign(id, def)
 		end,
 		on_construct = on_construct,
 		on_destruct = on_destruct,
+		node_placement_prediction = "",
 		on_place = function(itemstack, placer, pointed_thing)
 			-- Boilerplace to handle pointed node's rightclick handler
 			if not placer or not placer:is_player() then
@@ -664,12 +665,16 @@ local function register_sign(id, def)
 					pointed_thing) or itemstack
 			end
 
+			local idef = itemstack:get_definition()
 			-- Floor or ceiling sign
 			if pointed_thing.under.y ~= pointed_thing.above.y then
+				if idef and idef.sounds and idef.sounds.place then
+					minetest.sound_play(idef.sounds.place, {pos = pointed_thing.above}, true)
+				end
 				return minetest.item_place_node(itemstack, placer, pointed_thing)
 			end
 
-			-- Wall
+			-- Placing it at a wall turns it into a sideways sign
 			local sign_itemstack
 			sign_itemstack = ItemStack(itemstack)
 			sign_itemstack:set_name("rp_signs:"..id.."_side")
@@ -683,6 +688,15 @@ local function register_sign(id, def)
 			end
 			if sign_itemstack:is_empty() then
 				itemstack:take_item()
+			end
+
+			-- Node sound
+			if idef and idef.sounds then
+				local idef = itemstack:get_definition()
+				if idef and idef.sounds and idef.sounds.place then
+					minetest.sound_play(idef.sounds.place, {pos = pointed_thing.above}, true)
+				end
+				return minetest.item_place_node(itemstack, placer, pointed_thing)
 			end
 			return itemstack
 		end,
