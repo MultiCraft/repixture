@@ -463,18 +463,18 @@ local is_pos_in_front_of_sign = function(sign_pos, sign_node, check_pos)
 	local p2 = sign_node.param2 % 4
 	local side = minetest.get_item_group(sign_node.name, "sign_side") ~= 0
 	if side then
-		p2 = (p2 + 1) % 4
+		p2 = (p2 - 1) % 4
 	end
 	-- X axis
-	if p2 == 1 or p2 == 3 then
-		if check_pos.x < sign_pos.x then
-			return false
-		end
+	if p2 == 1 and check_pos.x < sign_pos.x then
+		return false
+	elseif p2 == 3 and check_pos.x >= sign_pos.x then
+		return false
 	-- Z axis
-	else
-		if check_pos.z < sign_pos.z then
-			return false
-		end
+	elseif p2 == 0 and check_pos.z < sign_pos.z then
+		return false
+	elseif p2 == 2 and check_pos.z >= sign_pos.z then
+		return false
 	end
 	return true
 end
