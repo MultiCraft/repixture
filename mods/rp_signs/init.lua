@@ -969,7 +969,7 @@ local sounds_wood_sign = rp_sounds.node_sound_planks_defaults({
 	place = { name = "rp_sounds_place_planks", pitch = 1.4, gain = 0.9 },
 })
 
-register_sign("sign", {
+register_sign("sign_wood", {
 	description = S("Wooden Sign"),
 	description_standing = S("Standing Wooden Sign"),
 	description_painted = S("Painted Wooden Sign"),
