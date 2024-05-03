@@ -304,23 +304,24 @@ local function update_sign(pos, text_front, text_back)
         end
 
 	-- Regenerate image if not initialized yet
-	local gen_fail = false
+	local gen_fails = 0
         if data.image == "" then
                 if make_text_texture(text_front, pos, true) then
                         data = get_signdata(pos)
                 else
-			gen_fail = true
+			gen_fails = gen_fails + 1
                 end
         end
         if data.image_back == "" then
                 if make_text_texture(text_back, pos, false) then
                         data = get_signdata(pos)
                 else
-			gen_fail = true
+			gen_fails = gen_fails + 1
                 end
         end
-	if gen_fail then
+	if gen_fails >= 2 then
 		get_text_entity(pos, true)
+		return
 	end
 
 	local generate_texture_string = function(front)
@@ -361,15 +362,9 @@ local function update_sign(pos, text_front, text_back)
 
 	local get_effective_size = function(width, height, change_ratio)
 		if not height or not width then
-			minetest.log("error", "[rp_signs] Missing or invalid image width or height for sign text texture!")
-			local meta = minetest.get_meta(pos)
-			meta:set_string("image", "")
-			meta:set_string("image_back", "")
-			get_text_entity(pos, true)
 			return
 		end
 		if height <= 0 or width <= 0 then
-			get_text_entity(pos, true)
 			return
 		end
 		local ewidth, eheight
@@ -393,16 +388,21 @@ local function update_sign(pos, text_front, text_back)
 	end
 
 	local ewidth_front, eheight_front = get_effective_size(data.image_w, data.image_h, change_ratio_front)
-	local ewidth_back, eheight_back = get_effective_size(data.image_back_w, data.image_back_h, change_ratio_back)
 
 	if both_sides then
+		local ewidth_back, eheight_back = get_effective_size(data.image_back_w, data.image_back_h, change_ratio_back)
+		if not ewidth_front and not ewidth_back then
+			get_text_entity(pos, true)
+		end
 		if not ewidth_front then
 			imagestr_front = "blank.png"
-			ewidth_front = 1
-			eheight_front = 1
+			ewidth_front = ewidth_back
+			eheight_front = eheight_back
 		end
 		if not ewidth_back then
 			imagestr_back = "blank.png"
+			ewidth_back = ewidth_front
+			eheight_back = eheight_front
 		end
 		-- Text appears on both sides
 		text_entity:set_properties({
@@ -418,6 +418,10 @@ local function update_sign(pos, text_front, text_back)
 			visual_size = { x = ewidth_front, y = eheight_front, z = SIGN_THICKNESS+1/128 },
 		})
 	else
+		if not ewidth_front then
+			get_text_entity(pos, true)
+			return
+		end
 		-- Text appears only on the front
 		text_entity:set_properties({
 			visual = "upright_sprite",
