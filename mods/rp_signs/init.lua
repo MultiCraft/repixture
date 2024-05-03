@@ -177,20 +177,18 @@ local function get_signdata(pos)
 	local image_h = meta:get_int("image_h")
 	local yaw, pitch, spos
 	if standing then
-		-- Standing sign
+		-- Standing or hanging sign
 		local dir = minetest.fourdir_to_dir(node.param2)
 		yaw = minetest.dir_to_yaw(dir)
 		pitch = 0
-		local offset = vector.multiply(dir, -TEXT_ENTITY_OFFSET_STANDING)
-		spos = vector.add(pos, offset)
+		spos = pos
 	elseif sideways then
 		-- Sideways sign
 		local dir = minetest.fourdir_to_dir(node.param2)
 		dir = vector.rotate_around_axis(dir, vector.new(0, 1, 0), math.pi/2)
 		yaw = minetest.dir_to_yaw(dir)
 		pitch = 0
-		local offset = vector.multiply(dir, -TEXT_ENTITY_OFFSET_STANDING)
-		spos = vector.add(pos, offset)
+		spos = pos
 	else
 		local dir = minetest.wallmounted_to_dir(node.param2)
 		if dir.y >= 1 then
@@ -266,6 +264,14 @@ local function update_sign(pos, text)
 		get_text_entity(pos, true)
 		return
 	end
+
+	-- Check if we can write to both sides of the sign
+	local node = minetest.get_node(pos)
+	local g_standing = minetest.get_item_group(node.name, "sign_standing")
+	local standing = g_standing == 1 or g_standing == 2
+	local sideways = minetest.get_item_group(node.name, "sign_side") == 1
+	-- Standing, hanging and sideways signs are writable both sides
+	local both_sides = standing or sideways
 
         local text_entity = get_text_entity(pos)
         if not text_entity then
@@ -347,14 +353,31 @@ local function update_sign(pos, text)
 			eheight = TEXT_ENTITY_HEIGHT
 		end
 
-		text_entity:set_properties({
-			textures = {
-				-- only one side is written
-				"blank.png",
-				imagestr,
-			},
-			visual_size = { x = ewidth, y = eheight },
-		})
+		if both_sides then
+			-- Text appears on both sides
+			text_entity:set_properties({
+				-- We use the cube visual where the text appers on
+				-- opposite sides, so we only need one entity for both texts.
+				visual = "cube",
+				textures = {
+					-- The other cube sides are hidden
+					"blank.png", "blank.png", "blank.png", "blank.png",
+					-- Front and back
+					imagestr, imagestr,
+				},
+				visual_size = { x = ewidth, y = eheight, z = SIGN_THICKNESS+1/128 },
+			})
+		else
+			-- Text appears only on the front
+			text_entity:set_properties({
+				visual = "upright_sprite",
+				textures = {
+					"blank.png",
+					imagestr,
+				},
+				visual_size = { x = ewidth, y = eheight },
+			})
+		end
 	end
         text_entity:set_rotation({x=data.pitch, y=data.yaw, z=0})
         return
