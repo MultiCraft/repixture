@@ -646,7 +646,7 @@ local function register_sign(id, def)
 			def.tile,
 			def.tile,
 			def.tile,
-			def.tile_back,
+			def.tile,
 			def.tile,
 		},
 		inventory_image = def.inv_image_standing,
@@ -835,7 +835,7 @@ local function register_sign(id, def)
 		def.tile_painted,
 		def.tile_painted,
 		def.tile_painted,
-		def.tile_back_painted,
+		def.tile_painted,
 		def.tile_painted,
 	}
 	ssdef_p.inventory_image = "("..def.inv_image_standing..")^[hsl:0:-100:0"
@@ -856,7 +856,7 @@ local function register_sign(id, def)
 		def.tile_painted,
 		def.tile_painted,
 		def.tile_painted,
-		def.tile_back_painted,
+		def.tile_painted,
 		def.tile_painted,
 	}
 	shdef_p.inventory_image = nil
@@ -876,7 +876,7 @@ local function register_sign(id, def)
 		def.tile_painted,
 		def.tile_painted,
 		def.tile_painted,
-		"("..def.tile_back_painted..")^[transformR180",
+		"("..def.tile_painted..")^[transformR180",
 		def.tile_painted,
 	}
 	stsdef_p.inventory_image = nil
