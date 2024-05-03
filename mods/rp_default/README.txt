@@ -119,5 +119,5 @@ Model license: CC BY-SA 4.0
 
 ### Source code license
 
-Source code license: LGPLv2.1.
+Source code license: LGPLv2.1 or later
 Note: Fence code based on Minetest Game 5.5.0

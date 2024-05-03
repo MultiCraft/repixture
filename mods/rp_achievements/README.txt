@@ -11,5 +11,5 @@ mod to be used by other mods to add achievements.
 Developers: See `API.md` for API documentation.
 
 ## License
-Source code license: LGPLv2.1
+Source code license: LGPLv2.1 or later
 Media license: MIT License
