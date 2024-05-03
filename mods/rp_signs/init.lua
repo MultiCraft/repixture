@@ -666,21 +666,20 @@ local function register_sign(id, def)
 			end
 
 			local idef = itemstack:get_definition()
-			-- Placed on floor: Standing sign
-			if pointed_thing.under.y < pointed_thing.above.y then
-				if idef and idef.sounds and idef.sounds.place then
-					minetest.sound_play(idef.sounds.place, {pos = pointed_thing.above}, true)
-				end
-				return minetest.item_place_node(itemstack, placer, pointed_thing)
-			-- Placed on ceiling: Standing sign
-			elseif pointed_thing.under.y > pointed_thing.above.y then
+			-- Placed on floor or ceiling: Standing or hanging sign
+			if pointed_thing.under.y ~= pointed_thing.above.y then
 				local sign_itemstack
 				sign_itemstack = ItemStack(itemstack)
-				sign_itemstack:set_name("rp_signs:"..id.."_hanging")
+				if pointed_thing.above.y > pointed_thing.under.y then
+					sign_itemstack:set_name("rp_signs:"..id.."_standing")
+				else
+					sign_itemstack:set_name("rp_signs:"..id.."_hanging")
+				end
 				sign_itemstack:set_count(1)
 				local signpos
 				sign_itemstack, signpos = minetest.item_place_node(sign_itemstack, placer, pointed_thing)
 				if not signpos then
+					rp_sounds.play_place_failed_sound(placer)
 					return itemstack
 				end
 				if sign_itemstack:is_empty() then
@@ -703,6 +702,7 @@ local function register_sign(id, def)
 			local fourdir = minetest.dir_to_fourdir(dir)
 			sign_itemstack, signpos = minetest.item_place_node(sign_itemstack, placer, pointed_thing, fourdir)
 			if not signpos then
+				rp_sounds.play_place_failed_sound(placer)
 				return itemstack
 			end
 			if sign_itemstack:is_empty() then
