@@ -719,6 +719,7 @@ local function register_sign(id, def)
 			{ -SIGN_THICKNESS/2, -1/16, 0.5-(1/16), SIGN_THICKNESS/2, 1/16, 0.5 },
 		},
 	}
+	stsdef.drop = "rp_signs:"..id.."_standing"
 
 	minetest.register_node("rp_signs:"..id.."_standing", ssdef)
 	minetest.register_node("rp_signs:"..id.."_side", stsdef)
@@ -800,7 +801,7 @@ local function register_sign(id, def)
 	}
 	stsdef_p.inventory_image = nil
 	stsdef_p.wield_image = nil
-	stsdef_p.drop = "rp_signs:"..id.."_side"
+	stsdef_p.drop = "rp_signs:"..id.."_standing"
 	minetest.register_node("rp_signs:"..id.."_side_painted", stsdef_p)
 
 	register_sign_page(id, {
