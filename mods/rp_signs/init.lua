@@ -511,9 +511,8 @@ local refresh_sign = function(meta, node)
 	-- Clear the node formspec from older versions; the formspec is now sent manually
 	meta:set_string("formspec", "")
 
-	-- Show sign text in quotation marks
-	local text = meta:get_string("text")
-	meta:set_string("infotext", S('"@1"', text))
+	-- Remove sign infotext
+	meta:set_string("infotext", "")
 end
 
 local on_construct = function(pos)
@@ -590,8 +589,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	minetest.log("action", "[rp_signs] " .. (player:get_player_name() or "")..
 		-- Note: Don't show written sign text in log to prevent log flooding
 		" wrote something to a sign at "..minetest.pos_to_string(pos))
-	-- Show sign text in quotation marks
-	meta:set_string("infotext", S('"@1"', text))
+	meta:set_string("infotext", "")
 	default.write_name(pos, text)
 end)
 
