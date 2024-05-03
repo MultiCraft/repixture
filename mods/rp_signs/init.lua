@@ -169,7 +169,7 @@ local function get_signdata(pos)
 	local r90 = minetest.get_item_group(node.name, "sign_r90") == 1
 	local g_standing = minetest.get_item_group(node.name, "sign_standing")
 	local standing = g_standing == 1 or g_standing == 2
-	local sideways = g_standing == 3
+	local sideways = minetest.get_item_group(node.name, "sign_side") == 1
 	local meta = minetest.get_meta(pos)
 	local text = meta:get_string("text")
 	local image = meta:get_string("image")
@@ -184,7 +184,7 @@ local function get_signdata(pos)
 		local offset = vector.multiply(dir, -TEXT_ENTITY_OFFSET_STANDING)
 		spos = vector.add(pos, offset)
 	elseif sideways then
-		-- Sideways attached sign
+		-- Sideways sign
 		local dir = minetest.fourdir_to_dir(node.param2)
 		dir = vector.rotate_around_axis(dir, vector.new(0, 1, 0), math.pi/2)
 		yaw = minetest.dir_to_yaw(dir)
@@ -489,6 +489,8 @@ local on_rightclick = function(pos, node, clicker, itemstack)
 end
 
 local function register_sign(id, def)
+	-- Wall sign.
+	-- May also be placed on floor or ceiling.
 	local sdef = {
 		description = def.description,
 		_tt_help = S("Write a short message"),
@@ -571,6 +573,9 @@ local function register_sign(id, def)
 	}
 	minetest.register_node("rp_signs:"..id, sdef)
 
+	-- Wall sign, rotated by 90°.
+	-- The 90° variant is only when placed on floor or ceiling to orient a different way.
+	-- It should not be used at walls (despite its name).
 	local sdef_r90 = {
 		drawtype = "nodebox",
 		tiles = {
@@ -607,6 +612,7 @@ local function register_sign(id, def)
 	}
 	minetest.register_node("rp_signs:"..id.."_r90", sdef_r90)
 
+	-- Standing sign
 	local base_standing_wallbox = {-0.5+(1/16), -0.5+(4/16), -SIGN_THICKNESS/2, 0.5-(1/16), 0.5-(4/16), SIGN_THICKNESS/2}
 	local ssdef = {
 		description = def.description_standing,
@@ -666,7 +672,7 @@ local function register_sign(id, def)
 			-- Wall
 			local sign_itemstack
 			sign_itemstack = ItemStack(itemstack)
-			sign_itemstack:set_name("rp_signs:"..id.."_standing_side")
+			sign_itemstack:set_name("rp_signs:"..id.."_side")
 			sign_itemstack:set_count(1)
 			local signpos
 			local dir = vector.subtract(pointed_thing.under, pointed_thing.above)
@@ -683,13 +689,15 @@ local function register_sign(id, def)
 		on_rightclick = on_rightclick,
 	}
 
+	-- Sideways sign
 	local stsdef = table.copy(ssdef)
 	stsdef.description = nil
 	stsdef.inventory_image = nil
 	stsdef.wield_image = nil
 	stsdef.groups = table.copy(ssdef.groups)
 	stsdef.groups.attached_node = 2
-	stsdef.groups.sign_standing = 3
+	stsdef.groups.sign_side = 1
+	stsdef.groups.sign_standing = nil
 	stsdef.node_box = {
 		type = "fixed",
 		fixed = {
@@ -699,8 +707,9 @@ local function register_sign(id, def)
 	}
 
 	minetest.register_node("rp_signs:"..id.."_standing", ssdef)
-	minetest.register_node("rp_signs:"..id.."_standing_side", stsdef)
+	minetest.register_node("rp_signs:"..id.."_side", stsdef)
 
+	-- Wall sign, painted
 	local sdef_p = table.copy(sdef)
 	sdef_p.description = def.description_painted
 	sdef_p.paramtype2 = "colorwallmounted"
@@ -720,6 +729,7 @@ local function register_sign(id, def)
 	sdef_p.drop = "rp_signs:"..id
 	minetest.register_node("rp_signs:"..id.."_painted", sdef_p)
 
+	-- Wall sign, rotated by 90°, painted
 	local sdef_r90_p = table.copy(sdef_r90)
 	sdef_r90_p.paramtype2 = "colorwallmounted"
 	sdef_r90_p.palette = "rp_paint_palette_32.png"
@@ -738,12 +748,13 @@ local function register_sign(id, def)
 	sdef_r90_p.drop = "rp_signs:"..id
 	minetest.register_node("rp_signs:"..id.."_r90_painted", sdef_r90_p)
 
+	-- Standing sign, painted
 	local ssdef_p = table.copy(ssdef)
 	ssdef_p.description = def.description_standing_painted
 	ssdef_p.paramtype2 = "color4dir"
 	ssdef_p.palette = "rp_paint_palette_64.png"
 	ssdef_p.groups.paintable = 1
-	ssdef_p.groups.sign_standing = 1
+	ssdef_p.groups.sign_side = 1
 	ssdef_p.groups.not_in_creative_inventory = 1
 	ssdef_p.tiles = {
 		def.tile_painted,
@@ -758,6 +769,25 @@ local function register_sign(id, def)
 	ssdef_p.drop = "rp_signs:"..id.."_standing"
 	minetest.register_node("rp_signs:"..id.."_standing_painted", ssdef_p)
 
+	-- Sideways sign, painted
+	local stsdef_p = table.copy(stsdef)
+	stsdef_p.description = nil
+	stsdef_p.paramtype2 = "color4dir"
+	stsdef_p.palette = "rp_paint_palette_64.png"
+	stsdef_p.groups.paintable = 1
+	stsdef_p.groups.not_in_creative_inventory = 1
+	stsdef_p.tiles = {
+		def.tile_painted,
+		def.tile_painted,
+		def.tile_painted,
+		def.tile_painted,
+		"("..def.tile_back_painted..")^[transformR180",
+		def.tile_painted,
+	}
+	stsdef_p.inventory_image = nil
+	stsdef_p.wield_image = nil
+	stsdef_p.drop = "rp_signs:"..id.."_side"
+	minetest.register_node("rp_signs:"..id.."_side_painted", stsdef_p)
 
 	register_sign_page(id, {
 		"rp_signs:"..id,
@@ -766,7 +796,8 @@ local function register_sign(id, def)
 		"rp_signs:"..id.."_r90_painted",
 		"rp_signs:"..id.."_standing",
 		"rp_signs:"..id.."_standing_painted",
-		"rp_signs:"..id.."_standing_side",
+		"rp_signs:"..id.."_side",
+		"rp_signs:"..id.."_side_painted",
 	})
 end
 
