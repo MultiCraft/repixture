@@ -639,7 +639,7 @@ local function register_sign(id, def)
 				{ -1/16, -0.5, -SIGN_THICKNESS/2, 1/16, -0.5+(4/16), SIGN_THICKNESS/2 },
 			},
 		},
-		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, sign_standing=1, creative_decoblock = 1, paintable = 2},
+		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 3, sign=1, sign_standing=1, creative_decoblock = 1, paintable = 2},
 		is_ground_content = false,
 		sounds = def.sounds,
 		floodable = true,
@@ -666,15 +666,34 @@ local function register_sign(id, def)
 			end
 
 			local idef = itemstack:get_definition()
-			-- Floor or ceiling sign
-			if pointed_thing.under.y ~= pointed_thing.above.y then
+			-- Placed on floor: Standing sign
+			if pointed_thing.under.y < pointed_thing.above.y then
+				if idef and idef.sounds and idef.sounds.place then
+					minetest.sound_play(idef.sounds.place, {pos = pointed_thing.above}, true)
+				end
+				return minetest.item_place_node(itemstack, placer, pointed_thing)
+			-- Placed on ceiling: Standing sign
+			elseif pointed_thing.under.y > pointed_thing.above.y then
+				local sign_itemstack
+				sign_itemstack = ItemStack(itemstack)
+				sign_itemstack:set_name("rp_signs:"..id.."_hanging")
+				sign_itemstack:set_count(1)
+				local signpos
+				sign_itemstack, signpos = minetest.item_place_node(sign_itemstack, placer, pointed_thing)
+				if not signpos then
+					return itemstack
+				end
+				if sign_itemstack:is_empty() then
+					itemstack:take_item()
+				end
+
 				if idef and idef.sounds and idef.sounds.place then
 					minetest.sound_play(idef.sounds.place, {pos = pointed_thing.above}, true)
 				end
 				return minetest.item_place_node(itemstack, placer, pointed_thing)
 			end
 
-			-- Placing it at a wall turns it into a sideways sign
+			-- Placed at wall: sideway sign
 			local sign_itemstack
 			sign_itemstack = ItemStack(itemstack)
 			sign_itemstack:set_name("rp_signs:"..id.."_side")
@@ -691,17 +710,31 @@ local function register_sign(id, def)
 			end
 
 			-- Node sound
-			if idef and idef.sounds then
-				local idef = itemstack:get_definition()
-				if idef and idef.sounds and idef.sounds.place then
-					minetest.sound_play(idef.sounds.place, {pos = pointed_thing.above}, true)
-				end
-				return minetest.item_place_node(itemstack, placer, pointed_thing)
+			if idef and idef.sounds and idef.sounds.place then
+				minetest.sound_play(idef.sounds.place, {pos = pointed_thing.above}, true)
 			end
-			return itemstack
+			return minetest.item_place_node(itemstack, placer, pointed_thing)
 		end,
 		on_rightclick = on_rightclick,
 	}
+
+	-- Hanging sign.
+	-- Same as standing sign, but attached at ceiling
+	local shdef = table.copy(ssdef)
+	shdef.description = nil
+	shdef.inventory_image = nil
+	shdef.wield_image = nil
+	shdef.groups = table.copy(ssdef.groups)
+	shdef.groups.attached_node = 4
+	shdef.groups.sign_standing = 2
+	shdef.node_box = {
+		type = "fixed",
+		fixed = {
+			base_standing_wallbox,
+			{ -1/16, 0.5-(4/16), -SIGN_THICKNESS/2, 1/16, 0.5, SIGN_THICKNESS/2 },
+		},
+	}
+	shdef.drop = "rp_signs:"..id.."_standing"
 
 	-- Sideways sign
 	local stsdef = table.copy(ssdef)
@@ -712,6 +745,8 @@ local function register_sign(id, def)
 	stsdef.groups.attached_node = 2
 	stsdef.groups.sign_side = 1
 	stsdef.groups.sign_standing = nil
+	-- This nodebox is rotated 90° compared to the standing sign so that attaching to
+	-- the wall works properly
 	stsdef.node_box = {
 		type = "fixed",
 		fixed = {
@@ -722,6 +757,7 @@ local function register_sign(id, def)
 	stsdef.drop = "rp_signs:"..id.."_standing"
 
 	minetest.register_node("rp_signs:"..id.."_standing", ssdef)
+	minetest.register_node("rp_signs:"..id.."_hanging", shdef)
 	minetest.register_node("rp_signs:"..id.."_side", stsdef)
 
 	-- Wall sign, painted
@@ -769,7 +805,7 @@ local function register_sign(id, def)
 	ssdef_p.paramtype2 = "color4dir"
 	ssdef_p.palette = "rp_paint_palette_64.png"
 	ssdef_p.groups.paintable = 1
-	ssdef_p.groups.sign_side = 1
+	ssdef_p.groups.sign_standing = 1
 	ssdef_p.groups.not_in_creative_inventory = 1
 	ssdef_p.tiles = {
 		def.tile_painted,
@@ -783,6 +819,27 @@ local function register_sign(id, def)
 	ssdef_p.wield_image = "("..def.inv_image_standing..")^[hsl:0:-100:0"
 	ssdef_p.drop = "rp_signs:"..id.."_standing"
 	minetest.register_node("rp_signs:"..id.."_standing_painted", ssdef_p)
+
+	-- Hanging sign, painted
+	local shdef_p = table.copy(shdef)
+	shdef_p.description = nil
+	shdef_p.paramtype2 = "color4dir"
+	shdef_p.palette = "rp_paint_palette_64.png"
+	shdef_p.groups.paintable = 1
+	shdef_p.groups.sign_standing = 2
+	shdef_p.groups.not_in_creative_inventory = 1
+	shdef_p.tiles = {
+		def.tile_painted,
+		def.tile_painted,
+		def.tile_painted,
+		def.tile_painted,
+		def.tile_back_painted,
+		def.tile_painted,
+	}
+	shdef_p.inventory_image = nil
+	shdef_p.wield_image = nil
+	shdef_p.drop = "rp_signs:"..id.."_standing"
+	minetest.register_node("rp_signs:"..id.."_hanging_painted", shdef_p)
 
 	-- Sideways sign, painted
 	local stsdef_p = table.copy(stsdef)
@@ -811,6 +868,8 @@ local function register_sign(id, def)
 		"rp_signs:"..id.."_r90_painted",
 		"rp_signs:"..id.."_standing",
 		"rp_signs:"..id.."_standing_painted",
+		"rp_signs:"..id.."_hanging",
+		"rp_signs:"..id.."_hanging_painted",
 		"rp_signs:"..id.."_side",
 		"rp_signs:"..id.."_side_painted",
 	})
