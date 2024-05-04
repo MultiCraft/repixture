@@ -49,7 +49,7 @@ file named `API.md`.
 
 Mods with documented APIs:
 
-* `rp_armor`: Armor information
+* `rp_armor`: Armor information and registration
 * `rp_achievements`: Add and trigger achievements
 * `rp_bed`: Get, set and unset (re)spawn position; query bed info
 * `rp_crafting`: Add crafting recipes

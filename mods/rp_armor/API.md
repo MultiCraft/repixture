@@ -1,6 +1,7 @@
 # API for `rp_armor`
 
-There are several helper functions for armor.
+There are several helper functions for armor, plus,
+you can register your own armor set.
 
 ## The armor slots
 
@@ -74,6 +75,47 @@ Returns `<full>, <base>, <bonus>`, where:
 * `<full>`: Effective armor protection (base+bonus)
 * `<base>`: Sum of armor protection from armor pieces
 * `<bonus>`: Protection bonus
+
+### `armor.register_armor_set(mod_name, material_id, def)`
+
+Registers a full set of armor. The armor items will be registered as:
+
+    <mod_name>:<material_id>_<armor_piece>
+
+Where `<mod_name>` and `<material_id>` are provided by you and
+`<armor_piece>` is either `helmet`, `chestplate` or `boots`.
+
+By default, the following crafting recipes will be added:
+
+* Helmet: 5 times `def.craftitem`
+* Chestplate: 8 times `def.craftitem`
+* Boots: 6 times `def.craftitem`
+
+This function requires the following texture files to be present:
+
+* `<prefix>_<armor_piece>_<material_id>_inventory.png`: Inventory and wield image for each armor piece
+* `<prefix>_<armor_piece>_<material_id>.png`: Texture of armor piece overlaid on player model
+
+Where `<prefix>` must be defined in the parameters.
+
+Function parameters:
+
+* `mod_name`: Mod name for item identifiers. Should be the same as the mod registering the armor.
+* `material_id`: Material identifier. Also used for item identifiers.
+* `def`: Armor definition. A table with these fields:
+   * `craftitem`: item used for crafting recipes (or nil to don’t register crafting recipes)
+   * `descriptions`: list of descriptions for each armor piece (in this order: helmet, chestplate, boots)
+   * `protections`: list of protection percentages for each piece (same order as for descriptions).
+                    can also be specified as a single number, which defines protection for all pieces.
+   * `inventory_image_prefix`: prefix for inventory image file name (e.g. `"armor"`)
+   * `full_suit_bonus`: bonus protection percentage points for wearing full suit (default: 0)
+   * `sound_equip`: name of sound to be played when equipping (default: `"rp_armor_equip_metal"`)
+   * `sound_unequip`: name of sound to be played when unequipping (default: `"rp_armor_unequip_metal"`)
+   * `sound_pitch`: sound pitch for all sounds (default: 1)
+
+Hint: Look in `register.lua` to see how this function works in practice.
+
+
 
 ## Tables
 
