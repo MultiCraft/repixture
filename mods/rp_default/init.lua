@@ -67,7 +67,6 @@ dofile(minetest.get_modpath("rp_default").."/nodes_waterlife.lua") -- small unde
 dofile(minetest.get_modpath("rp_default").."/torch.lua")
 dofile(minetest.get_modpath("rp_default").."/furnace.lua")
 dofile(minetest.get_modpath("rp_default").."/chest.lua") -- chest
-dofile(minetest.get_modpath("rp_default").."/sign.lua")
 dofile(minetest.get_modpath("rp_default").."/fence.lua")
 dofile(minetest.get_modpath("rp_default").."/ladder.lua")
 

@@ -148,8 +148,21 @@ local function entity_physics(pos, radius, igniter)
       local obj_vel = obj:get_velocity()
       local dist = math.max(1, vector.distance(pos, obj_pos))
 
+      -- Push object if player or mob.
+      -- Other objects are not pushed.
       if obj_vel ~= nil then
-	 obj:add_velocity(calc_velocity(pos, obj_pos, radius*2.5))
+         local can_push = false
+         if obj:is_player() then
+            can_push = true
+         else
+            local ent = obj:get_luaentity()
+            if ent and ent._cmi_is_mob then
+               can_push = true
+            end
+         end
+         if can_push then
+	    obj:add_velocity(calc_velocity(pos, obj_pos, radius*2.5))
+         end
       end
 
       local damage = (4 / dist) * radius

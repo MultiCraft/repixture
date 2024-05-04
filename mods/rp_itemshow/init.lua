@@ -306,6 +306,11 @@ minetest.register_node("rp_itemshow:frame",{
 		drop_item(pos, minetest.get_node(pos), minetest.is_creative_enabled(""))
 	end,
 
+	on_blast = function(pos)
+		-- Forces on_destruct to be called to clean up entities
+		minetest.remove_node(pos)
+	end,
+
 	on_punch = function(pos, node, puncher)
 		update_item(pos, node, true)
 	end,
@@ -355,6 +360,11 @@ minetest.register_node("rp_itemshow:showcase", {
 
 	on_destruct = function(pos)
 		drop_item(pos, minetest.get_node(pos), minetest.is_creative_enabled(""))
+	end,
+
+	on_blast = function(pos)
+		-- Forces on_destruct to be called to clean up entities
+		minetest.remove_node(pos)
 	end,
 
 	on_rightclick = on_rightclick,

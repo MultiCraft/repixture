@@ -19,4 +19,4 @@ Media files are licensed under CC BY-SA 4.0.
 
 ### Source code license
 
-Source code is licensed under LGPLv2.1.
+Source code is licensed under LGPLv2.1 or later.

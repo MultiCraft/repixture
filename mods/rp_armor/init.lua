@@ -74,8 +74,8 @@ register_armor("steel", {
    descriptions = { S("Steel Helmet"), S("Steel Chestplate"), S("Steel Boots") },
    protections = 6,
    full_suit_bonus = 2,
-   sound_equip = "rp_armor_equip_steel",
-   sound_unequip = "rp_armor_unequip_steel",
+   sound_equip = "rp_armor_equip_metal",
+   sound_unequip = "rp_armor_unequip_metal",
    sound_pitch = 0.90,
 })
 register_armor("chainmail", {
@@ -91,8 +91,8 @@ register_armor("carbon_steel", {
    descriptions = { S("Carbon Steel Helmet"), S("Carbon Steel Chestplate"), S("Carbon Steel Boots") },
    protections = 13,
    full_suit_bonus = 4,
-   sound_equip = "rp_armor_equip_steel",
-   sound_unequip = "rp_armor_unequip_steel",
+   sound_equip = "rp_armor_equip_metal",
+   sound_unequip = "rp_armor_unequip_metal",
    sound_pitch = 0.95,
 })
 register_armor("bronze", {
@@ -100,8 +100,8 @@ register_armor("bronze", {
    descriptions = { S("Bronze Helmet"), S("Bronze Chestplate"), S("Bronze Boots") },
    protections = 20,
    full_suit_bonus = 5,
-   sound_equip = "rp_armor_equip_steel",
-   sound_unequip = "rp_armor_unequip_steel",
+   sound_equip = "rp_armor_equip_metal",
+   sound_unequip = "rp_armor_unequip_metal",
    sound_pitch = 1.00,
 })
 

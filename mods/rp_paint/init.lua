@@ -117,7 +117,7 @@ rp_paint.get_color = function(node)
 		local pre_color = math.floor(node.param2 / 32) + 1
 		color = facedir_color_map[pre_color] + 1
 	end
-	if color < 1 or color > rp_paint.COLOR_COUNT then
+	if not color or color < 1 or color > rp_paint.COLOR_COUNT then
 		return nil
 	end
 	return color
@@ -183,6 +183,9 @@ rp_paint.set_color = function(pos, color)
 	end
 	if can_paint then
 		minetest.swap_node(pos, node)
+		if def._after_paint then
+			def._after_paint(pos)
+		end
 		return true
 	end
 	return false
@@ -228,6 +231,9 @@ rp_paint.remove_color = function(pos)
 
 				if can_unpaint then
 					minetest.swap_node(pos, newnode)
+					if olddef._after_unpaint then
+						olddef._after_unpaint(pos)
+					end
 					return true
 				end
 			end

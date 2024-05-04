@@ -49,9 +49,9 @@ local function fill_creative_inventory(pname, filter)
 	local inv = minetest.get_inventory({type="detached", name="creative_"..pname})
 	local creative_list = {}
 
-	local function check_match(name, def, filter)
+	local function check_match(item, filter)
 		if filter then
-			local item = ItemStack(name)
+			local name = item:get_name()
 			local desc = item:get_short_description()
 			local descl = string.lower(desc)
 			local desc_transl
@@ -73,14 +73,14 @@ local function fill_creative_inventory(pname, filter)
 	for name, def in pairs(minetest.registered_items) do
 		if (not def.groups.not_in_creative_inventory or def.groups.not_in_creative_inventory == 0)
 				and def.description and def.description ~= "" then
-			if check_match(name, def, filter) then
+			if check_match(ItemStack(name), filter) then
 				table.insert(creative_list, ItemStack(name))
 			end
 		end
 	end
 	for i=1, #special_items do
 		local item = special_items[i]
-		if check_match(item:get_name(), item:get_definition(), filter) then
+		if check_match(item, filter) then
 			table.insert(creative_list, special_items[i])
 		end
 	end

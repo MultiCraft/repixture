@@ -210,7 +210,7 @@ local get_dying_boxes = function(mob)
 	local props = mob.object:get_properties()
 	local colbox = props.collisionbox
 	if not mob._dead_y_offset then
-		minetest.log("warning", "[rp_mobs_mobs] No dead_y_offset specified for mob '"..mob.name.."'!")
+		minetest.log("warning", "[rp_mobs] No dead_y_offset specified for mob '"..mob.name.."'!")
 	end
 	colbox = flip_over_collisionbox(colbox, mob._child, mob._dead_y_offset or 0)
 	local selbox = props.selectionbox
@@ -430,7 +430,7 @@ end
 rp_mobs.init_mob = function(self)
 	if setting_peaceful_only and not rp_mobs.has_tag(self, "peaceful") then
 		self.object:remove()
-		minetest.log("action", "[mobs] Hostile mob '"..self.name.."' removed at "..minetest.pos_to_string(self.object:get_pos(), 1).." (only peaceful mobs allowed)")
+		minetest.log("action", "[rp_mobs] Hostile mob '"..self.name.."' removed at "..minetest.pos_to_string(self.object:get_pos(), 1).." (only peaceful mobs allowed)")
 		return
 	end
 end
