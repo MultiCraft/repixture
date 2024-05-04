@@ -37,6 +37,7 @@ local META_IMAGE_EMPTY = "!"
 -- Load font
 local font = unicode_text.hexfont({
 	background_color = { 0, 0, 0, 0 }, --transparent
+	-- Note: This color will be inverted on signs that are painted black
 	foreground_color = { 0, 0, 0, 255 }, -- black
 	scanline_order = "top-bottom",
 	tabulator_size = 16,
@@ -44,12 +45,8 @@ local font = unicode_text.hexfont({
 })
 
 local fontpath = minetest.get_modpath("rp_fonts").."/fontdata"
-font:load_glyphs(
-	io.lines(fontpath.."/unifont.hex")
-)
-font:load_glyphs(
-	io.lines(fontpath.."/unifont_upper.hex")
-)
+font:load_glyphs(io.lines(fontpath.."/unifont.hex"))
+font:load_glyphs(io.lines(fontpath.."/unifont_upper.hex"))
 
 local function make_text_texture(text, pos, front)
         if not text then
@@ -371,7 +368,7 @@ local function update_sign(pos, text_front, text_back)
 		return
 	end
 
-	local generate_texture_string = function(front)
+	local generate_texture_string = function(front, invert_color)
 		local image, image_h, image_w
 		if front then
 			image = data.image
@@ -382,30 +379,41 @@ local function update_sign(pos, text_front, text_back)
 			image_h = data.image_back_h
 			image_w = data.image_back_w
 		end
+		local invert_str = ""
+		if invert_color then
+			invert_str = "^[invert:rgb"
+		end
 		if image == nil or image == META_IMAGE_EMPTY or image == "" then
 			-- Empty image
 			return "blank.png", false
 		elseif (image_w > SIGN_MAX_TEXT_WIDTH_PIXELS) or (image_h > SIGN_MAX_TEXT_HEIGHT_PIXELS) then
 			-- If the image is soo large it starts to become near-unreadable,
 			-- we will display a special 'gibberish' texture instead.
-			return "rp_default_sign_gibberish.png", false
+			return "rp_default_sign_gibberish.png"..invert_str, false
 		else
 			-- This will render the PNG from the provided image data
-			local tex = "[png:"..image
+			local tex = "[png:"..image..invert_str
 
 			-- If texture string is very long, replace it with a special gibberish texture.
 			-- Minetest has a length limit for object texture strings. Minetest
 			-- does not like if when it is exceeded. So we create a warning.
 			if string.len(tex) > MAX_TEXTURE_STRING_LENGTH then
-				return "rp_default_sign_gibberish.png", false
+				return "rp_default_sign_gibberish.png"..invert_str, false
 			end
 
 			-- Everything is OK
 			return tex, true
 		end
 	end
-        local imagestr_front, change_ratio_front = generate_texture_string(true)
-        local imagestr_back, change_ratio_back = generate_texture_string(false)
+	-- Invert the color if the sign text is white.
+	-- This assumes the default text color is black.
+	local invert_color
+	do
+		local meta = minetest.get_meta(pos)
+		invert_color = meta:get_int("white_text") == 1
+	end
+        local imagestr_front, change_ratio_front = generate_texture_string(true, invert_color)
+        local imagestr_back, change_ratio_back = generate_texture_string(false, invert_color)
 
 	local get_effective_size = function(width, height, change_ratio)
 		if not height or not width then
@@ -678,6 +686,41 @@ local on_rightclick = function(pos, node, clicker, itemstack)
 	return itemstack
 end
 
+-- Change text color to white when painted white
+local _after_paint = function(pos)
+	local node = minetest.get_node(pos)
+	local color = rp_paint.get_color(node)
+	local meta = minetest.get_meta(pos)
+	local white_text = meta:get_int("white_text")
+	if color == rp_paint.COLOR_BLACK then
+		if white_text == 1 then
+			return
+		end
+		meta:set_int("white_text", 1)
+	else
+		if white_text == 0 then
+			return
+		end
+		meta:set_int("white_text", 0)
+	end
+	local text_front = meta:get_string("text")
+	local text_back = meta:get_string("text_back")
+	update_sign(pos, text_front, text_back)
+end
+
+-- Revert to black text color when removing color
+local _after_unpaint = function(pos)
+	local meta = minetest.get_meta(pos)
+	local white_text = meta:get_int("white_text")
+	if white_text == 0 then
+		return
+	end
+	meta:set_int("white_text", 0)
+	local text_front = meta:get_string("text")
+	local text_back = meta:get_string("text_back")
+	update_sign(pos, text_front, text_back)
+end
+
 local function register_sign(id, def)
 	-- Wall sign.
 	-- May also be placed on floor or ceiling.
@@ -760,6 +803,8 @@ local function register_sign(id, def)
 			return itemstack
 		end,
 		on_rightclick = on_rightclick,
+		_after_paint = _after_paint,
+		_after_unpaint = _after_unpaint,
 	}
 	minetest.register_node("rp_signs:"..id, sdef)
 
@@ -798,6 +843,8 @@ local function register_sign(id, def)
 		on_construct = on_construct,
 		on_destruct = on_destruct,
 		on_rightclick = on_rightclick,
+		_after_paint = _after_paint,
+		_after_unpaint = _after_unpaint,
 		drop = "rp_signs:"..id,
 	}
 	minetest.register_node("rp_signs:"..id.."_r90", sdef_r90)
@@ -906,6 +953,8 @@ local function register_sign(id, def)
 			return minetest.item_place_node(itemstack, placer, pointed_thing)
 		end,
 		on_rightclick = on_rightclick,
+		_after_paint = _after_paint,
+		_after_unpaint = _after_unpaint,
 	}
 
 	-- Hanging sign.
