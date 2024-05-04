@@ -660,6 +660,12 @@ local on_destruct = function(pos)
 	remove_text_entities(pos)
 end
 
+local on_blast = function(pos)
+	-- Forces on_destruct to be called,
+	-- so the entity is cleaned up.
+	minetest.remove_node(pos)
+end
+
 local on_rightclick = function(pos, node, clicker, itemstack)
 	if clicker and clicker:is_player() then
 		-- Don't allow editing if protected
@@ -750,6 +756,7 @@ local function register_sign(id, def)
 		end,
 		on_construct = on_construct,
 		on_destruct = on_destruct,
+		on_blast = on_blast,
 		on_place = function(itemstack, placer, pointed_thing)
 			-- Boilerplace to handle pointed node's rightclick handler
 			if not placer or not placer:is_player() then
@@ -842,6 +849,7 @@ local function register_sign(id, def)
 		end,
 		on_construct = on_construct,
 		on_destruct = on_destruct,
+		on_blast = on_blast,
 		on_rightclick = on_rightclick,
 		_after_paint = _after_paint,
 		_after_unpaint = _after_unpaint,
@@ -885,6 +893,7 @@ local function register_sign(id, def)
 		end,
 		on_construct = on_construct,
 		on_destruct = on_destruct,
+		on_blast = on_blast,
 		node_placement_prediction = "",
 		on_place = function(itemstack, placer, pointed_thing)
 			-- Boilerplace to handle pointed node's rightclick handler
