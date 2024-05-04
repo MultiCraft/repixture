@@ -248,12 +248,22 @@ function armor.is_armor(itemname)
 end
 
 function armor.is_slot(itemname, slot)
-   local match = string.find(itemname, "rp_armor:" .. slot .. "_")
-   local matchbool = false
-   if match ~= nil and match >= 1 then
-      matchbool = true
+   local wanted_slot_index
+   for s=1, #armor.slots do
+      if armor.slots[s] == slot then
+         wanted_slot_index = s
+         break
+      end
    end
-   return matchbool
+   if not wanted_slot_index and wanted_slot_index ~= 0 then
+      return false
+   end
+
+   local item_slot_index = minetest.get_item_group(itemname, "armor_slot")
+   if item_slot_index == 0 then
+      return false
+   end
+   return wanted_slot_index == item_slot_index
 end
 
 function armor.get_base_skin(player)
