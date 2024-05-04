@@ -450,10 +450,6 @@ local function update_sign(pos, text_front, text_back)
 		back_entity:set_rotation({x=data.pitch, y=data.yaw, z=0})
 
 		local ewidth_back, eheight_back = get_effective_size(data.image_back_w, data.image_back_h, change_ratio_back)
-		if not ewidth_front and not ewidth_back then
-			remove_text_entities(pos)
-			return
-		end
 		if not ewidth_front then
 			imagestr_front = "blank.png"
 		end
@@ -636,9 +632,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			return
 		end
 	else
-		make_text_texture("", pos, true)
-		make_text_texture("", pos, false)
-		remove_text_entities(pos)
+		make_text_texture("", pos, write_front)
+		local text_front = meta:get_string("text")
+		local text_back = meta:get_string("text_back")
+		update_sign(pos, text_front, text_back)
 	end
 
 	if write_front then
