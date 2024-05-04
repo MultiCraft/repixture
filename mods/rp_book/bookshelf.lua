@@ -51,6 +51,7 @@ local function get_bookshelf_formspec(pos)
          form = form .. rp_formspec.image_button(xstart+xoff, ystart + 1.15, 1, 1, "open_"..i, "ui_icon_view.png", S("Read book"))
       end
    end
+   form = form .. default.container_label_formspec_element(meta)
    return form
 end
 

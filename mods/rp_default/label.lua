@@ -10,6 +10,17 @@ form_label = form_label .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
 form_label = form_label .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 rp_formspec.register_page("rp_default:label", form_label)
 
+default.container_label_formspec_element = function(meta)
+   local name = meta:get_string("name")
+   local form = ""
+   if name ~= "" then
+      form = form .. "background9[0.5,-0.5;7,0.5;ui_formspec_bg_label_extension.png;false;15,15,-15,-1]"
+      form = form .. "style_type[label;noclip=true;textcolor=#000000FF]"
+      form = form .. "label[0.7,-0.25;"..minetest.formspec_escape(name).."]"
+   end
+   return form
+end
+
 local active_posses = {}
 
 local write = function(itemstack, player, pointed_thing)

@@ -23,12 +23,7 @@ end
 
 local get_chest_formspec = function(meta)
    local form = rp_formspec.get_page("rp_default:chest")
-   local name = meta:get_string("name")
-   if name ~= "" then
-      form = form .. "background9[0.5,-0.5;7,0.5;ui_formspec_bg_label_extension.png;false;15,15,-15,-1]"
-      form = form .. "style_type[label;noclip=true;textcolor=#000000FF]"
-      form = form .. "label[0.7,-0.25;"..minetest.formspec_escape(name).."]"
-   end
+   form = form .. default.container_label_formspec_element(meta)
    return form
 end
 local get_chest_infotext = function(meta)

@@ -24,6 +24,19 @@ Returns true if the given biome is considered to be
 a 'dry' biome (e.g. for dry grass). Custom or unknown
 biomes are never dry.
 
+### `default.label_container_formspec_element(meta)`
+Returns a formspec string for a given node metadata
+that adds a white 'label' formspec element on top of the
+formspec showing the current label of the node (added
+with the "label and graphite") item. The node label
+is defined in the metadata string `"name"`.
+
+Useful for all container nodes that can be labelled
+that way.
+
+If the label is empty, an empty formspec string will
+be returned.
+
 ## Functions for builtin biomes
 
 This mod adds all the core biomes for this game. There are some helper functions
