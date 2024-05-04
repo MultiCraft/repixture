@@ -734,7 +734,7 @@ local function register_sign(id, def)
 		description = def.description,
 		_tt_help = S("Write a short message"),
 		drawtype = "nodebox",
-		tiles = {def.tile, "("..def.tile_back..")^[transformR180", def.tile, def.tile, def.tile, def.tile},
+		tiles = {def.tile, "("..def.tile_back..")^[transformR180", def.tile_side, def.tile_side, def.tile_side, def.tile_side},
 		inventory_image = def.inv_image,
 		wield_image = def.inv_image,
 		paramtype = "light",
@@ -823,10 +823,10 @@ local function register_sign(id, def)
 		tiles = {
 			"("..def.tile..")^[transformR90",
 			"("..def.tile_back..")^[transformR270",
-			"("..def.tile..")^[transformR90",
-			"("..def.tile..")^[transformR90",
-			"("..def.tile..")^[transformR90",
-			"("..def.tile..")^[transformR90",
+			def.tile_side,
+			def.tile_side,
+			def.tile_side,
+			def.tile_side,
 		},
 		inventory_image = "("..def.inv_image..")^[transformR90",
 		wield_image = "("..def.inv_image..")^[transformR90",
@@ -864,10 +864,10 @@ local function register_sign(id, def)
 		_tt_help = S("Write a short message"),
 		drawtype = "nodebox",
 		tiles = {
-			def.tile,
-			def.tile,
-			def.tile,
-			def.tile,
+			def.tile_side,
+			def.tile_side,
+			def.tile_side,
+			def.tile_side,
 			def.tile,
 			def.tile,
 		},
@@ -989,6 +989,14 @@ local function register_sign(id, def)
 	stsdef.description = nil
 	stsdef.inventory_image = nil
 	stsdef.wield_image = nil
+	stsdef.tiles = {
+		"("..def.tile_side..")^[transformR90",
+		"("..def.tile_side..")^[transformR90",
+		def.tile,
+		def.tile,
+		def.tile_side,
+		def.tile_side,
+	}
 	stsdef.groups = table.copy(ssdef.groups)
 	stsdef.groups.attached_node = 2
 	stsdef.groups.sign_side = 1
@@ -1018,10 +1026,10 @@ local function register_sign(id, def)
 	sdef_p.tiles = {
 		def.tile_painted,
 		"("..def.tile_back_painted..")^[transformR180",
-		def.tile_painted,
-		def.tile_painted,
-		def.tile_painted,
-		def.tile_painted,
+		def.tile_side_painted,
+		def.tile_side_painted,
+		def.tile_side_painted,
+		def.tile_side_painted,
 	}
 	sdef_p.inventory_image = def.inv_image.."^[hsl:0:-100:0"
 	sdef_p.wield_image = def.inv_image.."^[hsl:0:-100:0"
@@ -1037,10 +1045,10 @@ local function register_sign(id, def)
 	sdef_r90_p.tiles = {
 		"("..def.tile_painted..")^[transformR90",
 		"("..def.tile_back_painted..")^[transformR270",
-		"("..def.tile_painted..")^[transformR90",
-		"("..def.tile_painted..")^[transformR90",
-		"("..def.tile_painted..")^[transformR90",
-		"("..def.tile_painted..")^[transformR90",
+		def.tile_side_painted,
+		def.tile_side_painted,
+		def.tile_side_painted,
+		def.tile_side_painted,
 	}
 	sdef_r90_p.inventory_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
 	sdef_r90_p.wield_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
@@ -1056,10 +1064,10 @@ local function register_sign(id, def)
 	ssdef_p.groups.sign_standing = 1
 	ssdef_p.groups.not_in_creative_inventory = 1
 	ssdef_p.tiles = {
-		def.tile_painted,
-		def.tile_painted,
-		def.tile_painted,
-		def.tile_painted,
+		def.tile_side_painted,
+		def.tile_side_painted,
+		def.tile_side_painted,
+		def.tile_side_painted,
 		def.tile_painted,
 		def.tile_painted,
 	}
@@ -1077,10 +1085,10 @@ local function register_sign(id, def)
 	shdef_p.groups.sign_standing = 2
 	shdef_p.groups.not_in_creative_inventory = 1
 	shdef_p.tiles = {
-		def.tile_painted,
-		def.tile_painted,
-		def.tile_painted,
-		def.tile_painted,
+		def.tile_side_painted,
+		def.tile_side_painted,
+		def.tile_side_painted,
+		def.tile_side_painted,
 		def.tile_painted,
 		def.tile_painted,
 	}
@@ -1097,12 +1105,12 @@ local function register_sign(id, def)
 	stsdef_p.groups.paintable = 1
 	stsdef_p.groups.not_in_creative_inventory = 1
 	stsdef_p.tiles = {
+		"("..def.tile_side_painted..")^[transformR90",
+		"("..def.tile_side_painted..")^[transformR90",
 		def.tile_painted,
 		def.tile_painted,
-		def.tile_painted,
-		def.tile_painted,
-		"("..def.tile_painted..")^[transformR180",
-		def.tile_painted,
+		def.tile_side_painted,
+		def.tile_side_painted,
 	}
 	stsdef_p.inventory_image = nil
 	stsdef_p.wield_image = nil
@@ -1203,40 +1211,46 @@ local sounds_wood_sign = rp_sounds.node_sound_planks_defaults({
 })
 
 register_sign("sign_wood", {
-	description = S("Wooden Sign"),
-	description_standing = S("Standing Wooden Sign"),
-	description_painted = S("Painted Wooden Sign"),
-	description_standing_painted = S("Painted Standing Wooden Sign"),
+	description = S("Wooden Wall Sign"),
+	description_painted = S("Painted Wooden Wall Sign"),
+	description_standing = S("Wooden Pole Sign"),
+	description_standing_painted = S("Painted Pole Wooden Sign"),
 	tile = "default_sign.png",
 	tile_back = "rp_default_sign_back.png",
 	tile_painted = "rp_default_sign_painted.png",
 	tile_back_painted = "rp_default_sign_back_painted.png",
+	tile_side = "rp_default_sign_side.png",
+	tile_side_painted = "rp_default_sign_side_painted.png",
 	inv_image = "default_sign_inventory.png",
 	inv_image_standing = "rp_default_sign_standing_inventory.png",
 	sounds = sounds_wood_sign,
 })
 register_sign("sign_oak", {
-	description = S("Oak Sign"),
-	description_standing = S("Standing Oak Sign"),
-	description_painted = S("Painted Oak Sign"),
-	description_standing_painted = S("Painted Standing Oak Sign"),
+	description = S("Oak Wall Sign"),
+	description_painted = S("Painted Oak Wall Sign"),
+	description_standing = S("Oak Pole Sign"),
+	description_standing_painted = S("Painted Oak Pole Sign"),
 	tile = "rp_default_sign_oak.png",
 	tile_back = "rp_default_sign_oak_back.png",
 	tile_painted = "rp_default_sign_oak_painted.png",
 	tile_back_painted = "rp_default_sign_oak_back_painted.png",
+	tile_side = "rp_default_sign_oak_side.png",
+	tile_side_painted = "rp_default_sign_oak_side_painted.png",
 	inv_image = "rp_default_sign_oak_inventory.png",
 	inv_image_standing = "rp_default_sign_oak_standing_inventory.png",
 	sounds = sounds_wood_sign,
 })
 register_sign("sign_birch", {
-	description = S("Birch Sign"),
-	description_standing = S("Standing Birch Sign"),
-	description_painted = S("Painted Birch Sign"),
-	description_standing_painted = S("Painted Standing Birch Sign"),
+	description = S("Birch Wall Sign"),
+	description_painted = S("Painted Birch Wall Sign"),
+	description_standing = S("Birch Pole Sign"),
+	description_standing_painted = S("Painted Birch Pole Sign"),
 	tile = "rp_default_sign_birch.png",
 	tile_back = "rp_default_sign_birch_back.png",
 	tile_painted = "rp_default_sign_birch_painted.png",
 	tile_back_painted = "rp_default_sign_birch_back_painted.png",
+	tile_side = "rp_default_sign_birch_side.png",
+	tile_side_painted = "rp_default_sign_birch_side_painted.png",
 	inv_image = "rp_default_sign_birch_inventory.png",
 	inv_image_standing = "rp_default_sign_birch_standing_inventory.png",
 	sounds = sounds_wood_sign,
