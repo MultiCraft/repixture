@@ -58,7 +58,7 @@ function armor.register_armor_set(mod_name, material_id, def)
       def.sound_equip, -- equip sound name
       def.sound_unequip, -- unequip sound name
       def.sound_pitch, -- sound pitch for all sounds
-      def.full_suit_bonus, -- bonus % for wearing full suit
+      def.full_suit_bonus or 0, -- bonus % for wearing full suit
       def.inventory_image_prefix, -- prefix for inventory image file name
    }
    table.insert(armor.materials, matdef)
@@ -112,35 +112,33 @@ function armor.register_armor_set(mod_name, material_id, def)
       })
    end
 
-   crafting.register_craft(
-      {
-	 output = mod_name..":helmet_" .. mat,
-	 items = {
-            matdef[A_CRAFTITEM] .. " 5",
-	 }
-   })
+   if matdef[A_CRAFTITEM] then
+      crafting.register_craft(
+         {
+	    output = mod_name..":helmet_" .. mat,
+	    items = {
+               matdef[A_CRAFTITEM] .. " 5",
+	    }
+      })
 
-   crafting.register_craft(
-      {
-	 output = mod_name..":chestplate_" .. mat,
-	 items = {
-            matdef[A_CRAFTITEM] .. " 8",
-	 }
-   })
+      crafting.register_craft(
+         {
+	    output = mod_name..":chestplate_" .. mat,
+	    items = {
+               matdef[A_CRAFTITEM] .. " 8",
+	    }
+      })
 
-   crafting.register_craft(
-      {
-	 output = mod_name..":boots_" .. mat,
-	 items = {
-            matdef[A_CRAFTITEM] .. " 6",
-	 }
-   })
-
+      crafting.register_craft(
+         {
+	    output = mod_name..":boots_" .. mat,
+	    items = {
+               matdef[A_CRAFTITEM] .. " 6",
+	    }
+      })
+   end
 
 end
-
--- Register built-in armors
-dofile(minetest.get_modpath("rp_armor").."/register.lua")
 
 -- Formspec
 
@@ -280,8 +278,8 @@ function armor_local.get_texture(player, base)
       if armor.is_armor(itemname) and armor.is_slot(itemname, slot) then
 	 local item = minetest.registered_items[itemname]
 	 local mat = armor.materials[item.groups.armor_material][A_MAT]
-
-	 image = image .. "^armor_" .. slot .. "_" .. mat ..".png"
+         local prefix = armor.materials[item.groups.armor_material][A_INVIMG_PREFIX]
+	 image = image .. "^" .. prefix .. "_" .. slot .. "_" .. mat ..".png"
       end
    end
 
@@ -585,4 +583,5 @@ if minetest.get_modpath("tt") then
 	end)
 end
 
+dofile(minetest.get_modpath("rp_armor").."/register.lua")
 dofile(minetest.get_modpath("rp_armor").."/aliases.lua")
