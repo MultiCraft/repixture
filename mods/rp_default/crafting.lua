@@ -794,8 +794,8 @@ crafting.register_craft(
       output = "rp_default:fence 4",
       items = {
          "rp_default:planks",
-         "rp_default:fiber 4",
          "rp_default:stick 4",
+         "rp_default:fiber 4",
       }
 })
 
