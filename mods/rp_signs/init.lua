@@ -780,7 +780,6 @@ local function register_sign(id, def)
 			end
 
 			local fakestack = ItemStack(itemstack)
-			local wall_sign
 			local wdir = minetest.dir_to_wallmounted(vector.subtract(pointed_thing.under, pointed_thing.above))
 			local look_yaw = placer:get_look_horizontal()
 			local r90 = false
@@ -789,9 +788,6 @@ local function register_sign(id, def)
 				if r90 then
 					fakestack:set_name("rp_signs:"..id.."_r90")
 				end
-				wall_sign = true
-			else
-				wall_sign = false
 			end
 
 			local place_pos
@@ -923,55 +919,53 @@ local function register_sign(id, def)
 					pointed_thing) or itemstack
 			end
 
-			local idef = itemstack:get_definition()
-			-- Placed on floor or ceiling: Standing or hanging sign
-			if pointed_thing.under.y ~= pointed_thing.above.y then
-				local sign_itemstack
-				sign_itemstack = ItemStack(itemstack)
-				if pointed_thing.above.y > pointed_thing.under.y then
-					sign_itemstack:set_name("rp_signs:"..id.."_standing")
-				else
-					sign_itemstack:set_name("rp_signs:"..id.."_hanging")
-				end
-				sign_itemstack:set_count(1)
-				local signpos
-				sign_itemstack, signpos = minetest.item_place_node(sign_itemstack, placer, pointed_thing)
-				if not signpos then
-					rp_sounds.play_place_failed_sound(placer)
-					return itemstack
-				end
-				if sign_itemstack:is_empty() then
-					itemstack:take_item()
-				end
-
-				if idef and idef.sounds and idef.sounds.place then
-					minetest.sound_play(idef.sounds.place, {pos = pointed_thing.above}, true)
-				end
-				return minetest.item_place_node(itemstack, placer, pointed_thing)
-			end
-
-			-- Placed at wall: sideway sign
-			local sign_itemstack
-			sign_itemstack = ItemStack(itemstack)
-			sign_itemstack:set_name("rp_signs:"..id.."_side")
-			sign_itemstack:set_count(1)
-			local signpos
+			local fakestack = ItemStack(itemstack)
 			local dir = vector.subtract(pointed_thing.under, pointed_thing.above)
-			local fourdir = minetest.dir_to_fourdir(dir)
-			sign_itemstack, signpos = minetest.item_place_node(sign_itemstack, placer, pointed_thing, fourdir)
-			if not signpos then
-				rp_sounds.play_place_failed_sound(placer)
-				return itemstack
-			end
-			if sign_itemstack:is_empty() then
-				itemstack:take_item()
+			local p2
+
+			-- Place different sign type depending on placement direction
+			if dir.y == -1 then
+				fakestack:set_name("rp_signs:"..id.."_standing")
+			elseif dir.y == 1 then
+				fakestack:set_name("rp_signs:"..id.."_hanging")
+			else
+				-- When placing sideways, the sign may either
+				-- become a sideways sign, or standing.
+				local nodedef = minetest.registered_nodes[node.name]
+				local stand = false
+				-- If targeted node is buildable_to and floor is
+				-- walkable, it becomes a standing sign because
+				-- that's what the player probably meant.
+				if nodedef and nodedef.buildable_to then
+					local below = vector.offset(pointed_thing.under, 0, -1, 0)
+					local node_below = minetest.get_node(below)
+					local nodedef_below = minetest.registered_nodes[node_below.name]
+					if nodedef_below and nodedef_below.walkable then
+						fakestack:set_name("rp_signs:"..id.."_standing")
+						stand = true
+					end
+				end
+				-- Otherwise, place a sideways sign. This is usually the
+				-- case when the wall was pointed *directly*.
+				if not stand then
+					fakestack:set_name("rp_signs:"..id.."_side")
+					p2 = minetest.dir_to_fourdir(dir)
+				end
 			end
 
-			-- Node sound
-			if idef and idef.sounds and idef.sounds.place then
-				minetest.sound_play(idef.sounds.place, {pos = pointed_thing.above}, true)
+			local place_pos
+			itemstack, place_pos = minetest.item_place(fakestack, placer, pointed_thing, p2)
+			if not place_pos then
+				fakestack:set_name("rp_signs:"..id.."_standing")
+				itemstack, place_pos = minetest.item_place(fakestack, placer, pointed_thing)
 			end
-			return minetest.item_place_node(itemstack, placer, pointed_thing)
+			if place_pos then
+				rp_sounds.play_node_sound(place_pos, {name="rp_signs:"..id.."_standing"}, "place")
+			else
+				rp_sounds.play_place_failed_sound(placer)
+			end
+			itemstack:set_name("rp_signs:"..id.."_standing")
+			return itemstack
 		end,
 		on_rightclick = on_rightclick,
 		_after_paint = _after_paint,
