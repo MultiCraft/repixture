@@ -893,7 +893,7 @@ local function register_sign(id, def)
 	local base_standing_wallbox = {-0.5+(1/16), -0.5+(4/16), -SIGN_THICKNESS/2, 0.5-(1/16), 0.5-(4/16), SIGN_THICKNESS/2}
 	local ssdef = {
 		description = def.description_standing,
-		_tt_help = S("Write a short message on two sides"),
+		_tt_help = S("Write short messages (two sides)"),
 		drawtype = "nodebox",
 		tiles = {
 			def.tile_side,

@@ -1,7 +1,7 @@
 # textdomain: rp_signs
 Write=
 Write a short message=
-Write a short message on two sides=
+Write short messages (two sides)=
 Wooden Wall Sign=
 Painted Wooden Wall Sign=
 Wooden Pole Sign=
