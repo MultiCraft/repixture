@@ -754,6 +754,7 @@ local function register_sign(id, def)
 		on_construct = on_construct,
 		on_destruct = on_destruct,
 		on_blast = on_blast,
+		node_placement_prediction = "",
 		on_place = function(itemstack, placer, pointed_thing)
 			-- Boilerplace to handle pointed node's rightclick handler
 			if not placer or not placer:is_player() then
@@ -770,40 +771,54 @@ local function register_sign(id, def)
 					pointed_thing) or itemstack
 			end
 
-
-			-- Wall sign
-			if pointed_thing.under.y == pointed_thing.above.y then
-				return minetest.item_place_node(itemstack, placer, pointed_thing)
+			local check_r90 = function(yaw)
+				if (yaw > (1/4)*math.pi and yaw < (3/4)*math.pi) or (yaw > (5/4)*math.pi and yaw < (7/4)*math.pi) then
+					return true
+				else
+					return false
+				end
 			end
 
-			-- Floor or ceiling sign
-
+			local fakestack = ItemStack(itemstack)
+			local wall_sign
+			local wdir = minetest.dir_to_wallmounted(vector.subtract(pointed_thing.under, pointed_thing.above))
+			local look_yaw = placer:get_look_horizontal()
 			local r90 = false
-			local yaw = placer:get_look_horizontal()
-			if (yaw > (1/4)*math.pi and yaw < (3/4)*math.pi) or (yaw > (5/4)*math.pi and yaw < (7/4)*math.pi) then
-				r90 = true
-			end
-			local sign_itemstack
-			if r90 then
-				sign_itemstack = ItemStack("rp_signs:"..id.."_r90")
+			if wdir == 0 or wdir == 1 then
+				r90 = check_r90(look_yaw)
+				if r90 then
+					fakestack:set_name("rp_signs:"..id.."_r90")
+				end
+				wall_sign = true
 			else
-				sign_itemstack = ItemStack(itemstack)
-				sign_itemstack:set_count(1)
-			end
-			local signpos
-			sign_itemstack, signpos = minetest.item_place_node(sign_itemstack, placer, pointed_thing)
-			if not signpos then
-				return itemstack
-			end
-			if sign_itemstack:is_empty() then
-				itemstack:take_item()
+				wall_sign = false
 			end
 
-			if (r90 and (yaw > (5/4)*math.pi and yaw < (7/4)*math.pi)) or
-					(not r90 and (yaw > math.pi/2) and (yaw < ((3*math.pi)/2))) then
-				local signmeta = minetest.get_meta(signpos)
-				signmeta:set_int("textflip", 1)
+			local place_pos
+			itemstack, place_pos = minetest.item_place(fakestack, placer, pointed_thing, wdir)
+			if not place_pos then
+				wdir = 1
+				r90 = check_r90(look_yaw)
+				if r90 then
+					fakestack:set_name("rp_signs:"..id.."_r90")
+				else
+					fakestack:set_name("rp_signs:"..id)
+				end
+				itemstack, place_pos = minetest.item_place(fakestack, placer, pointed_thing, wdir)
 			end
+			if place_pos then
+				-- Flip text on floor/ceiling sign depending on look direction
+				if (r90 and (look_yaw > (5/4)*math.pi and look_yaw < (7/4)*math.pi)) or
+						(not r90 and (look_yaw > math.pi/2) and (look_yaw < ((3*math.pi)/2))) then
+					local signmeta = minetest.get_meta(place_pos)
+					signmeta:set_int("textflip", 1)
+				end
+
+				rp_sounds.play_node_sound(place_pos, {name="rp_signs:"..id}, "place")
+			else
+				rp_sounds.play_place_failed_sound(placer)
+			end
+			itemstack:set_name("rp_signs:"..id)
 			return itemstack
 		end,
 		on_rightclick = on_rightclick,
