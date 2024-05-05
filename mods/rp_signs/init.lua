@@ -781,6 +781,20 @@ local function register_sign(id, def)
 					pointed_thing) or itemstack
 			end
 
+			local nodedef = minetest.registered_nodes[node.name]
+			local buildable_to = nodedef and nodedef.buildable_to
+			local protcheck
+			if buildable_to then
+				protcheck = pointed_thing.under
+			else
+				protcheck = pointed_thing.above
+			end
+			if minetest.is_protected(protcheck, placer:get_player_name()) and
+					not minetest.check_player_privs(placer, "protection_bypass") then
+				minetest.record_protection_violation(protcheck, placer:get_player_name())
+				return itemstack
+			end
+
 			local check_r90 = function(yaw)
 				if (yaw > (1/4)*math.pi and yaw < (3/4)*math.pi) or (yaw > (5/4)*math.pi and yaw < (7/4)*math.pi) then
 					return true
@@ -929,6 +943,21 @@ local function register_sign(id, def)
 					pointed_thing) or itemstack
 			end
 
+			local nodedef = minetest.registered_nodes[node.name]
+			local buildable_to = nodedef and nodedef.buildable_to
+			local protcheck
+			if buildable_to then
+				protcheck = pointed_thing.under
+			else
+				protcheck = pointed_thing.above
+			end
+
+			if minetest.is_protected(protcheck, placer:get_player_name()) and
+					not minetest.check_player_privs(placer, "protection_bypass") then
+				minetest.record_protection_violation(protcheck, placer:get_player_name())
+				return itemstack
+			end
+
 			local fakestack = ItemStack(itemstack)
 			local dir = vector.subtract(pointed_thing.under, pointed_thing.above)
 			local p2
@@ -941,12 +970,11 @@ local function register_sign(id, def)
 			else
 				-- When placing sideways, the sign may either
 				-- become a sideways sign, or standing.
-				local nodedef = minetest.registered_nodes[node.name]
 				local stand = false
 				-- If targeted node is buildable_to and floor is
 				-- walkable, it becomes a standing sign because
 				-- that's what the player probably meant.
-				if nodedef and nodedef.buildable_to then
+				if buildable_to then
 					local below = vector.offset(pointed_thing.under, 0, -1, 0)
 					local node_below = minetest.get_node(below)
 					local nodedef_below = minetest.registered_nodes[node_below.name]
