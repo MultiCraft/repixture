@@ -67,7 +67,7 @@ Mods with documented APIs:
 * `rp_jewels`: Register jeweled tools, and more
 * `rp_localize`: Localize numbers
 * `rp_locks`: Get info about lockable nodes
-* `rp_mobs`: Add mobs (animals, monsters) (EXPERIMENTAL!)
+* `rp_mobs`: Add mobs (animals, monsters)
 * `rp_moon`: Get moon phase
 * `rp_music`: Add or remove tracks; start/stop/toggle a music player
 * `rp_paint`: Add paintable nodes; set/remove paint of node
