@@ -506,7 +506,6 @@ local register_sign_page = function(id, node_names)
         form = form .. "size[8.5,4.5]"
 	form = form .. rp_formspec.default.boilerplate
 	form = form .. "background[0,0;8.5,4.5;ui_formspec_bg_"..id..".png]"
-	form = form .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 	rp_formspec.register_page(page_name, form)
 
 	for n=1, #node_names do
@@ -537,7 +536,12 @@ local is_pos_in_front_of_sign = function(sign_pos, sign_node, check_pos)
 	return true
 end
 
-local get_sign_formspec = function(pos, player_pos)
+-- Show formspec of sign at pos.
+-- * pos: Sign formspec
+-- * read_only: true if the text can not be edited
+-- * player_pos: Position of player to look at sign
+--   (used to select front or back side of sign)
+local get_sign_formspec = function(pos, read_only, player_pos)
 	local node = minetest.get_node(pos)
 	local write_front = true
 	if player_pos then
@@ -557,7 +561,13 @@ local get_sign_formspec = function(pos, player_pos)
 			text = meta:get_string("text_back")
 			elem = "text_back"
 		end
+		if read_only then
+			elem = ""
+		end
 		form = form .. "textarea[0.5,1;7.5,1.5;"..elem..";;"..minetest.formspec_escape(text).."]"
+		if not read_only then
+			form = form .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
+		end
 	else
 		minetest.log("warning", "[rp_signs] No formspec page for sign at "..minetest.pos_to_string(pos, 0)..". Fallback to rp_formspec:field")
 		form = rp_formspec.get_page("rp_formspec:field")
@@ -665,11 +675,11 @@ end
 
 local on_rightclick = function(pos, node, clicker, itemstack)
 	if clicker and clicker:is_player() then
+		local read_only = false
 		-- Don't allow editing if protected
 		if minetest.is_protected(pos, clicker:get_player_name()) and
 				not minetest.check_player_privs(clicker, "protection_bypass") then
-			minetest.record_protection_violation(pos, clicker:get_player_name())
-			return itemstack
+			read_only = true
 		end
 
 		local standing = minetest.get_item_group(node.name, "sign_standing") ~= 0
@@ -678,10 +688,10 @@ local on_rightclick = function(pos, node, clicker, itemstack)
 		-- Show sign formspec
 		if standing or sideways then
 			-- Double-sided
-			formspec = get_sign_formspec(pos, clicker:get_pos())
+			formspec = get_sign_formspec(pos, read_only, clicker:get_pos())
 		else
 			-- Single-sided
-			formspec = get_sign_formspec(pos)
+			formspec = get_sign_formspec(pos, read_only)
 		end
 		local pos_id = tostring(pos.x).."_"..tostring(pos.y).."_"..tostring(pos.z)
 		minetest.show_formspec(clicker:get_player_name(), "rp_signs:sign_"..pos_id, formspec)
