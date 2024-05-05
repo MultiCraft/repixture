@@ -22,12 +22,6 @@ msgstr "Ты поспал, проснись и пой!"
 msgid "Players have slept, rise and shine!"
 msgstr "Игроки поспали, проснись и пой!"
 
-msgid "Bed"
-msgstr "Кровать"
-
-msgid "Sets the respawn position and allows to pass the night"
-msgstr "Ставит точку возрождения и пропускает ночь"
-
 msgid "Sleeping is disabled."
 msgstr "Сон отключен."
 
@@ -48,6 +42,12 @@ msgstr "Тебе нужно остановиться прежде чем лож�
 
 msgid "Respawn position set!"
 msgstr "Точка возрождения установлена!"
+
+msgid "Bed"
+msgstr "Кровать"
+
+msgid "Sets the respawn position and allows to pass the night"
+msgstr "Ставит точку возрождения и пропускает ночь"
 
 msgid "In bed"
 msgstr "В кровати"

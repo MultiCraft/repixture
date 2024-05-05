@@ -382,7 +382,7 @@ msgstr ""
 msgid "Place it at the ceiling and watch it grow."
 msgstr ""
 
-msgid "If you want the vine to stops growing, make a precise cut using scissors."
+msgid "If you want the vine to stop growing, make a precise cut using scissors."
 msgstr ""
 
 msgid "It's climbing time!"

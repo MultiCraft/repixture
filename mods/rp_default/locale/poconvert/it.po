@@ -790,33 +790,6 @@ msgstr "Cresce sott'acqua su terra, terra paludosa o blocchi d'alga"
 msgid "Clam"
 msgstr ""
 
-msgid "Write"
-msgstr "Scrivi"
-
-msgid "\"@1\""
-msgstr ""
-
-msgid "Write a short message"
-msgstr ""
-
-msgid "Wooden Sign"
-msgstr ""
-
-msgid "Painted Wooden Sign"
-msgstr ""
-
-msgid "Oak Sign"
-msgstr ""
-
-msgid "Painted Oak Sign"
-msgstr ""
-
-msgid "Birch Sign"
-msgstr ""
-
-msgid "Painted Birch Sign"
-msgstr ""
-
 msgid "Creative Tool"
 msgstr ""
 

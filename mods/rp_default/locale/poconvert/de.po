@@ -790,33 +790,6 @@ msgstr "Wächst im Wasser auf Erde, Sumpferde, Sand oder Algenblock"
 msgid "Clam"
 msgstr "Muschel"
 
-msgid "Write"
-msgstr "Schreiben"
-
-msgid "\"@1\""
-msgstr "„@1“"
-
-msgid "Write a short message"
-msgstr "Darauf kann man eine kurze Botschaft schreiben"
-
-msgid "Wooden Sign"
-msgstr "Holzschild"
-
-msgid "Painted Wooden Sign"
-msgstr "Gefärbtes Holzschild"
-
-msgid "Oak Sign"
-msgstr "Eichenschild"
-
-msgid "Painted Oak Sign"
-msgstr "Gefärbtes Eichenschild"
-
-msgid "Birch Sign"
-msgstr "Birkenschild"
-
-msgid "Painted Birch Sign"
-msgstr "Gefärbtes Birkenschild"
-
 msgid "Creative Tool"
 msgstr "Kreativwerkzeug"
 
