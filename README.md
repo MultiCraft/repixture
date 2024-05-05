@@ -9,7 +9,7 @@ the world.
 
 ## Version
 
-3.15.0
+3.15.1
 
 Designed for use with Minetest 5.8.0 or later.
 
