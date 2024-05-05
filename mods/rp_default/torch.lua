@@ -69,7 +69,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
             local above = pointed_thing.above
             if minetest.is_protected(above, placer:get_player_name()) and
                   not minetest.check_player_privs(placer, "protection_bypass") then
-               minetest.record_protection_violation(pos, placer:get_player_name())
+               minetest.record_protection_violation(above, placer:get_player_name())
                return itemstack
             end
 
