@@ -53,6 +53,7 @@ Mods with documented APIs:
 * `rp_achievements`: Add and trigger achievements
 * `rp_bed`: Get, set and unset (re)spawn position; query bed info
 * `rp_crafting`: Add crafting recipes
+* `rp_death_messages`: Customize death messages
 * `rp_default`: Sapling helpers, biome information
 * `rp_door`: Add doors
 * `rp_drop_items_on_die`: You only need this mod if you added an inventory list to the player
