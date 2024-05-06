@@ -20,6 +20,7 @@ local particlespawners = {}
 local singleplayer = minetest.is_singleplayer()
 local setting = minetest.settings:get_bool("tnt_enable")
 local mod_attached = minetest.get_modpath("rp_attached") ~= nil
+local mod_death_messages = minetest.get_modpath("rp_death_messages") ~= nil
 
 local tnt_enable
 if (not singleplayer and setting ~= true) or (singleplayer and setting == false) then
@@ -173,8 +174,8 @@ local function entity_physics(pos, radius, is_tnt, igniter)
       else
          puncher = obj
       end
-      if obj:is_player() then
-         if is_tnt then
+      if mod_death_messages and is_tnt then
+         if obj:is_player() then
             rp_death_messages.player_damage(obj, S("You were blasted away by TNT."))
          end
       end
