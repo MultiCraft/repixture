@@ -1,5 +1,7 @@
 local S = minetest.get_translator("rp_commands")
 
+local mod_death_messages = minetest.get_modpath("rp_death_messages") ~= nil
+
 minetest.register_chatcommand("hp", {
 	privs = {server=true},
 	params = S("[<player>] <value>"),
@@ -31,10 +33,12 @@ minetest.register_chatcommand("hp", {
 		if not hp then
 			return false, S("Invalid health!")
 		end
-		if name == targetname then
-			rp_death_messages.player_damage(target, S("You suicided."))
-		else
-			rp_death_messages.player_damage(target, S("You were killed by a higher power."))
+		if mod_death_messages then
+			if name == targetname then
+				rp_death_messages.player_damage(target, S("You suicided."))
+			else
+				rp_death_messages.player_damage(target, S("You were killed by a higher power."))
+			end
 		end
 
 		target:set_hp(hp, { type = "set_hp", from = "mod", _reason_precise = "hp_command" })
