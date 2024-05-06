@@ -97,7 +97,7 @@ minetest.register_node(
           burnout_effect(pos)
 	  minetest.log("action", "[rp_fire] Bonfire at "..minetest.pos_to_string(pos).." goes out in the rain")
       end,
-      _rp_node_death_message = { NS("You burned to death in a bonfire") },
+      _rp_node_death_message = { NS("You burned to death in a bonfire.") },
 })
 
 crafting.register_craft({

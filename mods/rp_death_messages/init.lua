@@ -26,9 +26,11 @@ local msgs = {
 }
 
 local mobkills = {
-	["mobs:walker"] = NS("You were kicked to death by a walker."),
-	["mobs:boar"] = NS("You were killed by a boar."),
-	["mobs:npc"] = NS("You were killed by a trader."),
+	["rp_mobs_mobs:walker"] = NS("You were kicked to death by a walker."),
+	["rp_mobs_mobs:boar"] = NS("You were killed by a boar."),
+	["rp_mobs_mobs:skunk"] = NS("You were killed by a skunk."),
+	["rp_mobs_mobs:villager"] = NS("You were killed by a villager."),
+	["rp_mobs_mobs:mineturtle"] = NS("You were exploded by a mine turtle."),
 }
 
 -- Select death message
