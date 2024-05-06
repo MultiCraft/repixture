@@ -46,3 +46,23 @@ minetest.register_chatcommand("hp", {
 	end,
 })
 
+if mod_death_messages then
+	-- Extend /kill command to show death message
+	minetest.register_on_chatcommand(function(name, command, params)
+		if command == "kill" then
+			local targetname = params
+			if targetname == "" then
+				targetname = name
+			end
+			local target = minetest.get_player_by_name(targetname)
+			if not target or not target:is_player() then
+				return
+			end
+			if name == targetname then
+				rp_death_messages.player_damage(target, S("You suicided."))
+			else
+				rp_death_messages.player_damage(target, S("You were killed by a higher power."))
+			end
+		end
+	end)
+end
