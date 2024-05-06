@@ -4,20 +4,20 @@
 
 local S = minetest.get_translator("rp_default")
 
-function default.furnace_active_formspec(percent, item_percent)
-   local form = rp_formspec.get_page("rp_formspec:2part")
-   form = form .. "list[current_player;main;0.25,4.75;8,4;]"
-   form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-   form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+local generate_furnace_formspec = function(active, percent, item_percent)
+   local form = ""
+   form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
+   -- Source slot
+   form = form .. rp_formspec.get_itemslot_bg(2.5, 0.5, 1, 1)
+   form = form .. "list[current_name;src;2.5,0.5;1,1;]"
 
-   form = form .. "list[current_name;src;2.25,0.75;1,1;]"
-   form = form .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 1)
+   -- Fuel slot
+   form = form .. rp_formspec.get_itemslot_bg(2.5, 3, 1, 1)
+   form = form .. "list[current_name;fuel;2.5,3;1,1;]"
 
-   form = form .. "list[current_name;fuel;2.25,2.75;1,1;]"
-   form = form .. rp_formspec.get_itemslot_bg(2.25, 2.75, 1, 1)
-
-   form = form .. "list[current_name;dst;4.25,1.25;2,2;]"
-   form = form .. rp_formspec.get_output_itemslot_bg(4.25, 1.25, 2, 2)
+   -- Output slots
+   form = form .. rp_formspec.get_hotbar_itemslot_bg(5, 1.25, 2, 2)
+   form = form .. "list[current_name;dst;5,1.25;2,2;]"
 
    form = form .. "listring[current_player;main]"
    form = form .. "listring[current_name;src]"
@@ -26,37 +26,32 @@ function default.furnace_active_formspec(percent, item_percent)
    form = form .. "listring[current_player;main]"
    form = form .. "listring[current_name;fuel]"
 
-   form = form .. "image[2.25,1.75;1,1;ui_fire_bg.png^[lowpart:"
-   form = form .. (100-percent) .. ":ui_fire.png]"
-   form = form .. "image[3.25,1.75;1,1;ui_arrow_bg.png^[lowpart:"
-   form = form .. (item_percent) .. ":ui_arrow.png^[transformR270]"
-
+   -- Flame and arrow
+   if not active then
+      -- Inactive
+      form = form .. "image[2.5,1.75;1,1;ui_fire_bg.png]"
+      form = form .. "image[3.75,1.75;1,1;ui_arrow_bg.png^[transformR270]"
+   else
+      -- Active
+      form = form .. "image[2.5,1.75;1,1;ui_fire_bg.png^[lowpart:"
+      form = form .. (100-percent) .. ":ui_fire.png]"
+      form = form .. "image[3.75,1.75;1,1;ui_arrow_bg.png^[lowpart:"
+      form = form .. (item_percent) .. ":ui_arrow.png^[transformR270]"
+   end
+   form = form .. "container_end[]"
    return form
 end
 
+function default.furnace_active_formspec(percent, item_percent)
+   local form_furnace = rp_formspec.get_page("rp_formspec:2part")
+   form_furnace = form_furnace .. rp_formspec.default.player_inventory
+   form_furnace = form_furnace .. generate_furnace_formspec(true, percent, item_percent)
+   return form_furnace
+end
+
 local form_furnace = rp_formspec.get_page("rp_formspec:2part")
-form_furnace = form_furnace .. "list[current_player;main;0.25,4.75;8,4;]"
-form_furnace = form_furnace .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_furnace = form_furnace .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
-
-form_furnace = form_furnace .. "list[current_name;src;2.25,0.75;1,1;]"
-form_furnace = form_furnace .. rp_formspec.get_itemslot_bg(2.25, 0.75, 1, 1)
-
-form_furnace = form_furnace .. "list[current_name;fuel;2.25,2.75;1,1;]"
-form_furnace = form_furnace .. rp_formspec.get_itemslot_bg(2.25, 2.75, 1, 1)
-
-form_furnace = form_furnace .. "list[current_name;dst;4.25,1.25;2,2;]"
-form_furnace = form_furnace .. rp_formspec.get_hotbar_itemslot_bg(4.25, 1.25, 2, 2)
-
-form_furnace = form_furnace .. "listring[current_player;main]"
-form_furnace = form_furnace .. "listring[current_name;src]"
-form_furnace = form_furnace .. "listring[current_player;main]"
-form_furnace = form_furnace .. "listring[current_name;dst]"
-form_furnace = form_furnace .. "listring[current_player;main]"
-form_furnace = form_furnace .. "listring[current_name;fuel]"
-
-form_furnace = form_furnace .. "image[2.25,1.75;1,1;ui_fire_bg.png]"
-form_furnace = form_furnace .. "image[3.25,1.75;1,1;ui_arrow_bg.png^[transformR270]"
+form_furnace = form_furnace .. rp_formspec.default.player_inventory
+form_furnace = form_furnace .. generate_furnace_formspec(false)
 
 rp_formspec.register_page("rp_default:furnace_inactive", form_furnace)
 
@@ -175,8 +170,8 @@ minetest.register_node(
       _tt_help = S("Uses fuel to smelt a material into something else"),
       tiles ={"rp_default_furnace_top.png", "rp_default_furnace_top.png", "rp_default_furnace_sides.png",
 	      "rp_default_furnace_sides.png", "rp_default_furnace_sides.png", "rp_default_furnace_front.png"},
-      paramtype2 = "facedir",
-      groups = {cracky = 2,container=1,interactive_node=1},
+      paramtype2 = "4dir",
+      groups = {cracky = 2,container=1,interactive_node=1,furnace=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_stone_defaults(),
       on_construct = function(pos)
@@ -208,10 +203,10 @@ minetest.register_node(
 	      "rp_default_furnace_sides.png", "rp_default_furnace_sides.png",
 	      { name = "rp_default_furnace_active_anim.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 1.0 }}
       },
-      paramtype2 = "facedir",
+      paramtype2 = "4dir",
       light_source = 8,
       drop = "rp_default:furnace",
-      groups = {cracky = 2, container=1,interactive_node=1, not_in_creative_inventory=1},
+      groups = {cracky = 2, container=1,interactive_node=1, furnace=2,not_in_creative_inventory=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_stone_defaults(),
       on_construct = function(pos)

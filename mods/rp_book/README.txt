@@ -6,7 +6,7 @@ Code based off the books_plus mod.
 This mod adds books that can be written to, just
 punch while holding one, write, and save.
 
-Source license: LGPLv2.1
+Source code license: LGPLv2.1 or later
 Media license: LGPLv2.1
 
 

@@ -12,7 +12,7 @@ minetest.register_node(
    {
       description = S("Stone with Sulfur"),
       tiles = {"default_stone.png^default_mineral_sulfur.png"},
-      groups = {cracky = 2, stone = 1, ore = 1, not_in_craft_guide = 1},
+      groups = {cracky = 2, stone = 1, ore = 1},
       drop = "rp_default:lump_sulfur",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -22,7 +22,7 @@ minetest.register_node(
    {
       description = S("Stone with Graphite"),
       tiles = {"default_stone.png^default_mineral_graphite.png"},
-      groups = {cracky = 2, stone = 1, ore = 1, not_in_craft_guide = 1},
+      groups = {cracky = 2, stone = 1, ore = 1},
       drop = "rp_default:sheet_graphite",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -32,7 +32,7 @@ minetest.register_node(
    {
       description = S("Stone with Coal"),
       tiles = {"default_stone.png^default_mineral_coal.png"},
-      groups = {cracky = 2, stone = 1, ore = 1, not_in_craft_guide = 1},
+      groups = {cracky = 2, stone = 1, ore = 1},
       drop = "rp_default:lump_coal",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -42,7 +42,7 @@ minetest.register_node(
    {
       description = S("Stone with Iron"),
       tiles = {"default_stone.png^default_mineral_iron.png"},
-      groups = {cracky = 2, stone = 1, magnetic = 1, ore = 1, not_in_craft_guide = 1},
+      groups = {cracky = 2, stone = 1, magnetic = 1, ore = 1},
       drop = "rp_default:lump_iron",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -52,7 +52,7 @@ minetest.register_node(
    {
       description = S("Stone with Tin"),
       tiles = {"default_stone.png^default_mineral_tin.png"},
-      groups = {cracky = 1, stone = 1, ore = 1, not_in_craft_guide = 1},
+      groups = {cracky = 1, stone = 1, ore = 1},
       drop = "rp_default:lump_tin",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -62,7 +62,7 @@ minetest.register_node(
    {
       description = S("Stone with Copper"),
       tiles = {"default_stone.png^default_mineral_copper.png"},
-      groups = {cracky = 1, stone = 1, ore = 1, not_in_craft_guide = 1},
+      groups = {cracky = 1, stone = 1, ore = 1},
       drop = "rp_default:lump_copper",
       sounds = rp_sounds.node_sound_stone_defaults(),
 })
@@ -208,6 +208,26 @@ minetest.register_node(
       groups = {crumbly = 3, soil = 1, dirt = 1, normal_dirt = 1, plantable_soil = 1, fall_damage_add_percent = -5},
       sounds = rp_sounds.node_sound_dirt_defaults(),
       _fertilized_node = "rp_default:fertilized_dirt",
+
+      _on_grow = function(pos, node, grower)
+         local above = vector.offset(pos, 0, 1, 0)
+         local anode = minetest.get_node(above)
+         if anode.name == "air" then
+            local growername = grower and grower:get_player_name()
+            if growername and minetest.is_protected(above, growername) and not minetest.check_player_privs(grower, "protection_bypass") then
+               minetest.record_protection_violation(above, growername)
+               return false
+            end
+         end
+
+         local biomedata = minetest.get_biome_data(pos)
+         local biome = minetest.get_biome_name(biomedata.biome)
+         if default.is_dry_biome(biome) then
+            minetest.set_node(pos, {name="rp_default:dirt_with_dry_grass"})
+         else
+            minetest.set_node(pos, {name="rp_default:dirt_with_grass"})
+         end
+      end,
 })
 
 minetest.register_node(
@@ -230,7 +250,28 @@ minetest.register_node(
       groups = {crumbly = 3, soil = 1, dirt = 1, swamp_dirt = 1, plantable_wet = 1, fall_damage_add_percent = -10},
       sounds = rp_sounds.node_sound_swamp_dirt_defaults(),
       _fertilized_node = "rp_default:fertilized_swamp_dirt",
+
+      _on_grow = function(pos)
+         minetest.set_node(pos, {name="rp_default:dirt_with_swamp_grass"})
+      end,
 })
+
+local function grow_grass_on_dirt(newnode)
+   return function(pos, node, grower)
+      local above = vector.offset(pos, 0, 1, 0)
+      local anode = minetest.get_node(above)
+      if anode.name == "air" then
+         local growername = grower and grower:get_player_name()
+         if growername and minetest.is_protected(above, growername) and not minetest.check_player_privs(grower, "protection_bypass") then
+            minetest.record_protection_violation(above, growername)
+            return false
+         end
+         minetest.set_node(above, newnode)
+      else
+         return false
+      end
+   end
+end
 
 minetest.register_node(
    "rp_default:dirt_with_dry_grass",
@@ -242,7 +283,7 @@ minetest.register_node(
          "default_dirt.png^default_dry_grass_side.png"
       },
       groups = {crumbly = 3, soil = 1, dirt = 1, normal_dirt = 1, plantable_soil = 1, grass_cover = 1,
-                fall_damage_add_percent = -5, not_in_craft_guide = 1},
+                fall_damage_add_percent = -5},
       drop = {
 	 max_items = 3,
 	 items = {
@@ -256,6 +297,10 @@ minetest.register_node(
          footstep = { name = "rp_sounds_footstep_grass", gain = 1.0 },
       }),
       _fertilized_node = "rp_default:fertilized_dirt",
+      _on_grow = grow_grass_on_dirt({name="rp_default:dry_grass"}),
+      _on_degrow = function(pos)
+         minetest.set_node(pos, {name="rp_default:dirt"})
+      end,
 })
 
 minetest.register_node(
@@ -268,7 +313,7 @@ minetest.register_node(
          "default_swamp_dirt.png^default_swamp_grass_side.png"
       },
       groups = {crumbly = 3, soil = 1, dirt = 1, swamp_dirt = 1, plantable_wet = 1, grass_cover = 1,
-                fall_damage_add_percent = -10, not_in_craft_guide = 1},
+                fall_damage_add_percent = -10},
       drop = {
 	 max_items = 3,
 	 items = {
@@ -282,6 +327,10 @@ minetest.register_node(
          footstep = { name = "rp_sounds_footstep_swamp_grass", gain = 1.0 },
       }),
       _fertilized_node = "rp_default:fertilized_swamp_dirt",
+      _on_grow = grow_grass_on_dirt({name="rp_default:swamp_grass"}),
+      _on_degrow = function(pos)
+         minetest.set_node(pos, {name="rp_default:swamp_dirt"})
+      end,
 })
 
 minetest.register_node(
@@ -294,7 +343,7 @@ minetest.register_node(
 	 "default_dirt.png^default_grass_side.png",
       },
       groups = {crumbly = 3, soil = 1, dirt = 1, normal_dirt = 1, plantable_soil = 1, grass_cover = 1,
-                fall_damage_add_percent = -5, not_in_craft_guide = 1},
+                fall_damage_add_percent = -5},
       drop = {
 	 max_items = 3,
 	 items = {
@@ -309,6 +358,10 @@ minetest.register_node(
          footstep = { name = "rp_sounds_footstep_grass", gain = 1.0 },
       }),
       _fertilized_node = "rp_default:fertilized_dirt",
+      _on_grow = grow_grass_on_dirt({name="rp_default:grass"}),
+      _on_degrow = function(pos)
+         minetest.set_node(pos, {name="rp_default:dirt"})
+      end,
 })
 
 -- Paths
@@ -395,8 +448,22 @@ minetest.register_node(
       description = S("Brick Block"),
       tiles = {"default_brick.png"},
       is_ground_content = false,
-      groups = {cracky = 2},
+      groups = {cracky = 2, paintable = 2},
       sounds = rp_sounds.node_sound_stone_defaults(),
+})
+minetest.register_node(
+   "rp_default:brick_painted",
+   {
+      description = S("Painted Brick Block"),
+      tiles = {{name="rp_default_brick_paintable.png"}},
+      overlay_tiles = {{name="rp_default_brick_paintable_overlay.png",color="white"}},
+      use_texture_alpha = "blend",
+      is_ground_content = false,
+      groups = {cracky = 2, paintable = 1, not_in_creative_inventory = 1, not_in_craft_guide = 1},
+      sounds = rp_sounds.node_sound_stone_defaults(),
+      paramtype2 = "color",
+      palette = "rp_paint_palette_256.png",
+      drop = "rp_default:brick",
 })
 
 -- Sand
@@ -458,12 +525,33 @@ minetest.register_node(
       description = S("Glass"),
       drawtype = "glasslike_framed_optional",
       tiles = {"default_glass_frame.png", "default_glass.png"},
+      use_texture_alpha = "clip",
       paramtype = "light",
       sunlight_propagates = true,
-      groups = {cracky = 3,oddly_breakable_by_hand = 2, glass=1},
+      groups = {cracky = 3,oddly_breakable_by_hand = 2, glass=1, paintable=2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_glass_defaults(),
+      drop = "rp_default:glass",
 })
+minetest.register_node(
+   "rp_default:glass_painted",
+   {
+      description = S("Painted Glass"),
+      drawtype = "glasslike_framed_optional",
+      palette = "rp_paint_palette_256.png",
+      paramtype2 = "color",
+      tiles = {"rp_default_glass_semi.png^default_glass_frame.png", "rp_default_glass_semi.png^default_glass.png"},
+      -- HACK: This is a workaround to fix the coloring of the crack overlay
+      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
+      use_texture_alpha = "blend",
+      paramtype = "light",
+      sunlight_propagates = true,
+      groups = {cracky = 3,oddly_breakable_by_hand = 2, glass=1, paintable=1, not_in_creative_inventory=1, not_in_craft_guide = 1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_glass_defaults(),
+      drop = "rp_default:glass",
+})
+
 
 
 -- Planks
@@ -473,9 +561,24 @@ minetest.register_node(
    {
       description = S("Wooden Planks"),
       tiles = {"default_wood.png"},
-      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
+})
+minetest.register_node(
+   "rp_default:planks_painted",
+   {
+      description = S("Painted Wooden Planks"),
+      tiles = {"rp_default_wood_painted.png"},
+      -- HACK: This is a workaround to fix the coloring of the crack overlay
+      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 1, not_in_creative_inventory = 1, not_in_craft_guide = 1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_planks_defaults(),
+
+      palette = "rp_paint_palette_256.png",
+      drop = "rp_default:planks",
+      paramtype2 = "color",
 })
 
 minetest.register_node(
@@ -483,9 +586,23 @@ minetest.register_node(
    {
       description = S("Oak Planks"),
       tiles = {"default_wood_oak.png"},
-      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
+})
+minetest.register_node(
+   "rp_default:planks_oak_painted",
+   {
+      description = S("Painted Oak Planks"),
+      tiles = {"rp_default_wood_oak_painted.png"},
+      -- HACK: This is a workaround to fix the coloring of the crack overlay
+      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable=1, not_in_creative_inventory = 1, not_in_craft_guide = 1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_planks_defaults(),
+      palette = "rp_paint_palette_256.png",
+      drop = "rp_default:planks_oak",
+      paramtype2 = "color",
 })
 
 minetest.register_node(
@@ -493,10 +610,26 @@ minetest.register_node(
    {
       description = S("Birch Planks"),
       tiles = {"default_wood_birch.png"},
-      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable=2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
 })
+minetest.register_node(
+   "rp_default:planks_birch_painted",
+   {
+      description = S("Painted Birch Planks"),
+      tiles = {"rp_default_wood_birch_painted.png"},
+      -- HACK: This is a workaround to fix the coloring of the crack overlay
+      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
+      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable=1, not_in_creative_inventory = 1, not_in_craft_guide = 1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_planks_defaults(),
+      palette = "rp_paint_palette_256.png",
+      drop = "rp_default:planks_birch",
+      paramtype2 = "color",
+})
+
+
 
 -- Frames
 
@@ -505,9 +638,23 @@ minetest.register_node(
    {
       description = S("Frame"),
       tiles = {"default_frame.png"},
-      groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1},
+      groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
+})
+minetest.register_node(
+   "rp_default:frame_painted",
+   {
+      description = S("Painted Frame"),
+      tiles = {"rp_default_frame_painted.png"},
+      -- HACK: This is a workaround to fix the coloring of the crack overlay
+      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
+      paramtype2 = "color",
+      palette = "rp_paint_palette_256.png",
+      groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1, paintable = 1, not_in_creative_inventory = 1, not_in_craft_guide = 1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_planks_defaults(),
+      drop = "rp_default:frame",
 })
 
 minetest.register_node(
@@ -515,10 +662,24 @@ minetest.register_node(
    {
       description = S("Reinforced Frame"),
       tiles = {"default_reinforced_frame.png"},
-      groups = {wood = 1, choppy = 1},
+      groups = {wood = 1, choppy = 1, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
 })
+minetest.register_node(
+   "rp_default:reinforced_frame_painted",
+   {
+      description = S("Painted Reinforced Frame"),
+      tiles = {"rp_default_reinforced_frame_painted.png"},
+      overlay_tiles = {{name="rp_default_reinforced_frame_overlay.png",color="white"}},
+      paramtype2 = "color",
+      palette = "rp_paint_palette_256.png",
+      groups = {wood = 1, choppy = 1, paintable = 1, not_in_creative_inventory = 1, not_in_craft_guide = 1},
+      is_ground_content = false,
+      sounds = rp_sounds.node_sound_planks_defaults(),
+      drop = "rp_default:reinforced_frame",
+})
+
 
 -- Reed
 minetest.register_node(

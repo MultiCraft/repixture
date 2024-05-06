@@ -2,11 +2,38 @@
 -- Achievements mod
 --
 
-local COLOR_GOTTEN = "#00FF00"
-local COLOR_GOTTEN_MSG = "#00FF00"
-local COLOR_REVERT_MSG = "#FFFF00"
+-- Achievement message colors
+local COLOR_GOTTEN = "#00FF00" -- gotten (in list)
+
+local COLOR_GOTTEN_MSG = "#00FF00" -- gotten (chat message)
+local COLOR_REVERT_MSG = "#FFFF00" -- lost (chat message)
+local COLOR_GOTTEN_HUD = 0x00FF00 -- gotten (HUD element)
+local COLOR_REVERT_HUD = 0xFFFF00 -- lost (HUD element)
+
+-- Prefix for chat messages
 local MSG_PRE = "*** "
+-- Prefix for achievement list in /achievement command
 local BULLET_PRE = "• "
+
+-- Time that a HUD message stays on the screen (in seconds)
+local HUD_TIMER = 5.0
+
+-- Side length of the square icon in HUD message (in pixels)
+local HUD_ICON_SIZE = 64
+
+-- Current display mode
+local MODE_LIST = 1 -- text list
+local MODE_SYMBOLS = 2 -- symbols
+local MODE_DEFAULT = MODE_SYMBOLS
+
+-- Offset from big achievement icon from frame border (x and y)
+local ICON_OFFSET = 0.12222
+-- Size of big achievement icon
+local ICON_SIZE = 1.9555
+-- Distance between 2 achievment icons in symbols mode
+local ICON_FRAME_SPACING = 0.2
+-- Size of frame around the big achievement icon (including frame)
+local ICON_FRAME_SIZE = 2.2
 
 local S = minetest.get_translator("rp_achievements")
 local NS = function(s) return s end
@@ -19,11 +46,16 @@ achievements.ACHIEVEMENT_NOT_GOTTEN = 3
 achievements.registered_achievements = {}
 achievements.registered_achievements_list = {}
 
+local huds = {} -- HUD IDs, per-player
+local hud_queues = {} -- queued HUD messages, per-player
+
 local selected_row = {} -- current selected row, per-player
 
 local legacy_achievements_file = minetest.get_worldpath() .. "/achievements.dat"
 
 local legacy_achievements_states = {}
+
+local userdata = {} -- holds internal state for GUI, per-player
 
 local function load_legacy_achievements()
    local f = io.open(legacy_achievements_file, "r")
@@ -34,32 +66,288 @@ local function load_legacy_achievements()
    end
 end
 
+local function get_achievement_icon(aname)
+   local adef = achievements.registered_achievements[aname]
+   local icon = adef.icon
+   local item_icon = adef.item_icon
+   local icon_type
+   if not icon and not item_icon then
+      if adef.craftitem then
+         item_icon = adef.craftitem
+      elseif adef.dignode then
+         item_icon = adef.dignode
+      elseif adef.placenode then
+         item_icon = adef.placenode
+      end
+      if item_icon and string.sub(item_icon, 1, 6) == "group:" then
+         item_icon = nil
+      end
+   end
+   if item_icon then
+      return item_icon, "item_image"
+   elseif icon then
+      return icon, "image"
+   else
+      -- Fallback icon
+      return "rp_achievements_icon_default.png", "image"
+   end
+end
+
+-- Turns a node tile table to an 'inventorycube' texture
+local tiles_to_inventorycube = function(tiles)
+   if not tiles then
+      return minetest.inventorycube("no_texture.png")
+   end
+   local real_tiles = {}
+   local max_tile = 0
+   for t=1, #tiles do
+      real_tiles[t] = tiles[t]
+      if type(real_tiles[t]) == "table" then
+         -- Complex tiles are not supported
+         return minetest.inventorycube("no_texture.png")
+      end
+      if tiles[t] == "" then
+         real_tiles[t] = "no_texture.png"
+      end
+      max_tile = t
+   end
+   if max_tile < 6 then
+      local last_tile = tiles[max_tile]
+      for t=max_tile, 6 do
+         real_tiles[t] = last_tile
+      end
+   end
+   local tile1 = real_tiles[1] or "no_texture.png"
+   local tile2 = real_tiles[6] or "no_texture.png"
+   local tile3 = real_tiles[3] or "no_texture.png"
+   return minetest.inventorycube(tile1, tile2, tile3)
+end
+
+-- Convert node to a 2D texture
+local node_to_texture = function(nodename)
+   local def = minetest.registered_nodes[nodename]
+   if not def then
+      -- Unknown Node
+      return minetest.inventorycube("unknown_node.png")
+   end
+   if def.drawtype == "normal" or
+         def.drawtype == "liquid" or
+         def.drawtype == "allfaces" or
+         def.drawtype == "allfaces_optional" then
+      return tiles_to_inventorycube(def.tiles)
+   elseif def.drawtype == "glasslike" or
+         def.drawtype == "glasslike_framed" or
+         def.drawtype == "glasslike_framed_optional" then
+      if def.tiles and def.tiles[1] and type(def.tiles[1]) == "string" then
+         return def.tiles[1]
+      else
+         return "no_texture.png"
+      end
+   elseif def.drawtype == "plantlike" or def.drawtype == "firelike" or def.drawtype == "signlike" then
+      if def.tiles and def.tiles[1] and type(def.tiles[1]) == "string" then
+         return def.tiles[1]
+      else
+         return "no_texture.png"
+      end
+   elseif def.drawtype == "torchlike" then
+      if def.tiles then
+         if def.paramtype2 == "none" then
+            if def.tiles[1] and type(def.tiles[1]) == "string" then
+               return def.tiles[1]
+            else
+               return "no_texture.png"
+            end
+         else
+            if def.tiles[2] and type(def.tiles[2]) == "string" then
+               return def.tiles[2]
+            else
+               return "no_texture.png"
+            end
+         end
+      else
+         return "no_texture.png"
+      end
+   elseif def.drawtype == "airlike" then
+      return "blank.png"
+   else
+      return "no_texture.png"
+   end
+end
+
+-- Spawn an achievement popup message. The popup has an icon, caption and message.
+-- Any popup that is currently shown will be instantly replaced.
+-- * player_name: Show to this player
+-- * icon_type: Type of icon. One of "image" or "item_image"
+-- * icon: If icon_type is "image", specify the icon by its texture name here.
+--   If icon_type is "item_image", specify the itemname here.
+-- * caption: Caption text (keep it short)
+-- * message: Message text (keep it short)
+-- * caption_color: RGB color code for caption, as 3-byte number (default: 0xFFFFFF)
+-- * message_color: RGB color code for message, as 3-byte number (default: 0xFFFFFF)
+local achievement_popup = function(player_name, icon_type, icon, caption, message, caption_color, message_color)
+   local player = minetest.get_player_by_name(player_name)
+   if not player then
+      return
+   end
+   -- Put popup in queue if an achievement is currently shown.
+   -- Queued popups will appear later, in the order
+   -- they came in.
+   if huds[player_name] then
+      if not hud_queues[player_name] then
+         hud_queues[player_name] = {}
+      end
+      table.insert(hud_queues[player_name], {
+         icon_type = icon_type,
+         icon = icon,
+         caption = caption,
+         message = message,
+         caption_color = caption_color,
+         message_color = message_color,
+      })
+      return
+   end
+
+   -- Background
+   local hud_bg = player:hud_add({
+      hud_elem_type = "image",
+      text = "rp_achievements_hud_bg.png",
+      position = { x = 0.5, y = 0 },
+      alignment = { x = 0, y = 1 },
+      offset = { x = 0, y = 10 },
+      scale = { x = 4, y = 4 },
+      z_index = 100,
+   })
+
+   -- Icon
+   local icon_texture
+   if icon_type == "image" then
+      icon_texture = icon
+   elseif icon_type == "item_image" then
+      local item = icon
+      local itemdef = minetest.registered_items[item]
+      if itemdef and itemdef.inventory_image and itemdef.inventory_image ~= "" then
+         icon_texture = itemdef.inventory_image
+      elseif itemdef and itemdef.tiles then
+         icon_texture = node_to_texture(item)
+      else
+         icon_texture = "rp_achievements_icon_default.png"
+      end
+   else
+      minetest.log("error", "[rp_achievements] achievement_popup called with invalid icon_type!")
+   end
+
+   local hud_icon = player:hud_add({
+      hud_elem_type = "image",
+      text = "("..icon_texture..")^[resize:"..HUD_ICON_SIZE.."x"..HUD_ICON_SIZE,
+      position = { x = 0.5, y = 0 },
+      alignment = { x = 1, y = 1 },
+      offset = { x = -244, y = 22 },
+      scale = { x = 1, y = 1 },
+      z_index = 101,
+   })
+
+   -- Caption text
+   local hud_caption = player:hud_add({
+      hud_elem_type = "text",
+      number = caption_color or 0xFFFFFF,
+      text = caption,
+      position = { x = 0.5, y = 0 },
+      alignment = { x = 1, y = 1 },
+      offset = { x = -160, y = 24 },
+      size = { x = 1, y = 1 },
+      scale = { x = 1, y = 1 },
+      z_index = 102,
+      style = 1,
+   })
+
+   -- Message text
+   local hud_message = player:hud_add({
+      hud_elem_type = "text",
+      number = message_color or 0xFFFFFF,
+      text = message,
+      position = { x = 0.5, y = 0 },
+      alignment = { x = 1, y = 1 },
+      offset = { x = -160, y = 52 },
+      size = { x = 1, y = 1 },
+      scale = { x = 1, y = 1 },
+      z_index = 102,
+   })
+
+   huds[player_name] = {
+      message = hud_message,
+      caption = hud_caption,
+      icon = hud_icon,
+      bg = hud_bg,
+      timer = 0
+   }
+end
+
+-- Remove achievement HUD elements after some time
+minetest.register_globalstep(function(dtime)
+   for name, hud_ids in pairs(huds) do
+      local player = minetest.get_player_by_name(name)
+      if player and player:is_player() then
+         if huds[name] and huds[name].timer then
+            huds[name].timer = huds[name].timer + dtime
+            if huds[name].timer > HUD_TIMER then
+               -- Remove HUD when ran out of time
+               player:hud_remove(huds[name].caption)
+               player:hud_remove(huds[name].message)
+               player:hud_remove(huds[name].icon)
+               player:hud_remove(huds[name].bg)
+               huds[name] = nil
+
+               -- If there is something in the popup queue, show it
+               if hud_queues[name] and #hud_queues[name] > 0 then
+                  -- Get first entry in queue, show it, then remove entry
+                  local h = hud_queues[name][1]
+                  achievement_popup(name, h.icon_type, h.icon, h.caption, h.message, h.caption_color, h.message_color)
+                  table.remove(hud_queues[name], 1)
+               end
+            end
+         end
+      else
+         huds[name] = nil
+      end
+   end
+end)
+
 local achievement_message = function(name, aname, color, msg_private, msg_all)
    local notify_all = minetest.settings:get_bool("rp_achievements_notify_all", false)
    local str
    if notify_all and (not minetest.is_singleplayer()) then
-      -- Notify all players
-      if aname then
-         str = MSG_PRE .. S(msg_all, name, achievements.registered_achievements[aname].title)
-      else
-         str = MSG_PRE .. S(msg_all, name)
+      -- Notify all players but the given player
+      local players = minetest.get_connected_players()
+      for p=1, #players do
+         local pname = players[p]:get_player_name()
+         if pname ~= name then
+            if aname then
+               str = MSG_PRE .. S(msg_all, name, achievements.registered_achievements[aname].title)
+            else
+               str = MSG_PRE .. S(msg_all, name)
+            end
+            minetest.chat_send_player(pname, minetest.colorize(color, str))
+         end
       end
-      minetest.chat_send_all(minetest.colorize(color, str))
-   else
-      -- Only notify the given player
-      if aname then
-         str = MSG_PRE .. S(msg_private, achievements.registered_achievements[aname].title)
-      else
-         str = MSG_PRE .. S(msg_private)
-      end
-      minetest.chat_send_player(name, minetest.colorize(color, str))
    end
+   -- Notify the given player
+   if aname then
+      str = MSG_PRE .. S(msg_private, achievements.registered_achievements[aname].title)
+   else
+      str = MSG_PRE .. S(msg_private)
+   end
+   minetest.chat_send_player(name, minetest.colorize(color, str))
 end
 
 local achievement_gotten_message = function(name, aname)
    achievement_message(name, aname, COLOR_GOTTEN_MSG,
       NS("You have earned the achievement “@1”."),
       NS("@1 has earned the achievement “@2”."))
+
+   local adef = achievements.registered_achievements[aname]
+   local title = adef.title
+   local icon, icon_type = get_achievement_icon(aname)
+   achievement_popup(name, icon_type, icon, S("Achievement gotten!"), title, COLOR_GOTTEN_HUD)
 end
 
 local function set_achievement_states(player, states)
@@ -161,6 +449,17 @@ function achievements.register_achievement(name, def)
    table.sort(achievements.registered_achievements_list, sort_by_difficulty)
 end
 
+function achievements.register_subcondition_alias(aname, old_subcondition_name, new_subcondition_name)
+   local achv = achievements.registered_achievements[aname]
+   if not achv then
+      return
+   end
+   if not achv.subcondition_aliases then
+      achv.subcondition_aliases = {}
+   end
+   achv.subcondition_aliases[old_subcondition_name] = new_subcondition_name
+end
+
 local function get_completed_subconditions(player, aname)
    local reg_subconds = achievements.registered_achievements[aname].subconditions
    local reg_subconds_readable = achievements.registered_achievements[aname].subconditions_readable
@@ -245,9 +544,7 @@ local function check_achievement_gotten(player, aname)
       -- The state of -1 means the achievement has been completed
       states[aname] = -1
       set_achievement_states(player, states)
-      minetest.after(2.0, function(param)
-         achievement_gotten_message(param.name, param.aname)
-      end, {name=name, aname=aname})
+      achievement_gotten_message(name, aname)
       minetest.log("action", "[rp_achievements] " .. name .. " got achievement '"..aname.."'")
    end
 
@@ -281,6 +578,7 @@ local function give_all_achievements(player)
    achievement_message(playername, nil, COLOR_GOTTEN_MSG,
       NS("You have gotten all achievements!"),
       NS("@1 has gotten all achievements!"))
+   achievement_popup(playername, "image", "rp_achievements_icon_default.png", S("All achievements gotten!"), "", COLOR_GOTTEN_HUD)
    minetest.log("action", "[rp_achievements] " .. playername .. " got all achievements")
 end
 
@@ -295,6 +593,7 @@ local function remove_all_achievements(player)
    achievement_message(playername, nil, COLOR_REVERT_MSG,
       NS("You have lost all achievements!"),
       NS("@1 has lost all achievements!"))
+   achievement_popup(playername, "image", "rp_achievements_icon_removed.png", S("All achievements lost!"), "", COLOR_REVERT_HUD)
    minetest.log("action", "[rp_achievements] " .. playername .. " lost all achievements")
 end
 
@@ -346,7 +645,32 @@ local function remove_achievement(player, aname)
    achievement_message(playername, aname, COLOR_REVERT_MSG,
       NS("You have lost the achievement “@1”."),
       NS("@1 has lost the achievement “@2”."))
+   local title = achievements.registered_achievements[aname]
+   achievement_popup(playername, "image", "rp_achievements_icon_removed.png", S("Achievement lost!"), title, COLOR_REVERT_HUD)
    minetest.log("action", "[rp_achievements] " .. playername .. " lost achievement '"..aname.."'")
+end
+
+-- Iterate through all subconditions of the player's achievements
+-- and move the subcondition completion status of aliased
+-- subcondition names to the new subcondition name.
+-- Required if an achievmement has subcondition aliases
+-- and the player comes from a version with old subcondition
+-- names.
+local function update_aliased_subconditions(player)
+   local subconds = get_achievement_subconditions(player)
+
+   for aname, achv in pairs(achievements.registered_achievements) do
+      if subconds[aname] and achv.subcondition_aliases then
+         for old_name, new_name in pairs(achv.subcondition_aliases) do
+            if subconds[aname][old_name] == true then
+               minetest.log("action", "[rp_achievements] Updating aliased subcondition name for "..player:get_player_name()..": "..old_name.." -> "..new_name.." (aname="..aname..")")
+               subconds[aname][new_name] = true
+               subconds[aname][old_name] = nil
+            end
+         end
+      end
+   end
+   set_achievement_subconditions(player, subconds)
 end
 
 function achievements.trigger_subcondition(player, aname, subcondition)
@@ -489,6 +813,7 @@ local function on_joinplayer(player)
       meta:set_int("rp_achievements:version", 1)
    end
 
+   update_aliased_subconditions(player)
    -- Mark subcondition achievement that are marked as complete
    -- as incomplete again if it no longer meets all subconditions.
    -- This can happen if the player joins in a new version
@@ -526,6 +851,9 @@ end
 local function on_leaveplayer(player)
    local name = player:get_player_name()
    selected_row[name] = nil
+   huds[name] = nil
+   hud_queues[name] = nil
+   userdata[name] = nil
 end
 
 -- Add callback functions
@@ -571,8 +899,49 @@ rp_formspec.register_page("rp_achievements:achievements", form)
 
 rp_formspec.register_invtab("rp_achievements:achievements", {
    icon = "ui_icon_achievements.png",
+   icon_active = "ui_icon_achievements_active.png",
    tooltip = S("Achievements"),
 })
+
+-- Generate formspec string for large achievement icon
+-- * x, y: Coordinates in formspec
+-- * aname: Achievment identifier
+-- * gotten: true if achievement was gotten
+-- * tooltip: Optional tooltip text
+local achievement_icon_frame = function(x, y, aname, gotten, tooltip)
+   local form = ""
+   form = form .. "image["..x..","..y..";"..ICON_FRAME_SIZE..","..ICON_FRAME_SIZE..";"
+   if gotten then
+      form = form .. "rp_achievements_icon_frame_gotten.png]"
+   else
+      form = form .. "rp_achievements_icon_frame.png]"
+   end
+
+   local icon, icon_type
+   if not gotten then
+      icon = "rp_achievements_icon_missing.png"
+      icon_type = "image"
+   else
+      icon, icon_type = get_achievement_icon(aname)
+   end
+
+   local ix = x+ICON_OFFSET
+   local iy = y+ICON_OFFSET
+   local isize = ICON_SIZE
+   if icon_type == "image" then
+      form = form .. "image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
+   elseif icon_type == "item_image" then
+      form = form .. "item_image["..ix..","..iy..";"..isize..","..isize..";" .. minetest.formspec_escape(icon) .. "]"
+   else
+      minetest.log("error", "[rp_achievements] Invalid icon_type in achievemnet_icon()!")
+      return ""
+   end
+
+   if tooltip then
+      form = form .. "tooltip["..ix..","..iy..";"..ICON_SIZE..","..ICON_SIZE..";" .. minetest.formspec_escape(tooltip) .. "]"
+   end
+   return form
+end
 
 function achievements.get_formspec(name)
    local row = 1
@@ -591,18 +960,41 @@ function achievements.get_formspec(name)
    local amt_gotten = 0
    local amt_progress = 0
 
-   for _, aname in ipairs(achievements.registered_achievements_list) do
-      local def = achievements.registered_achievements[aname]
+   if not userdata[name] then
+      userdata[name] = {}
+   end
+   if not userdata[name].mode then
+      userdata[name].mode = MODE_DEFAULT
+   end
+   if not userdata[name].symbol_scroll then
+      userdata[name].symbol_scroll = 0
+   end
+
+   local form = rp_formspec.get_page("rp_achievements:achievements")
+
+   -- main content container
+   form = form .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
+
+   -- Achievement list
+   local aname = achievements.registered_achievements_list[row]
+   local def = achievements.registered_achievements[aname]
+
+   --[[~~~~~ TEXT LIST MODE ~~~~~]]
+   if userdata[name].mode == MODE_LIST then
+
+   -- Construct entries for text list
+   for _, paname in ipairs(achievements.registered_achievements_list) do
+      local pdef = achievements.registered_achievements[paname]
 
       local progress_column = ""
       local color = ""
-      local status = achievements.get_completion_status(player, aname)
+      local status = achievements.get_completion_status(player, paname)
       if status == achievements.ACHIEVEMENT_GOTTEN then
          progress_column = "0"
          color = COLOR_GOTTEN
 	 amt_gotten = amt_gotten + 1
       elseif status == achievements.ACHIEVEMENT_IN_PROGRESS then
-         local part, total = get_progress(player, aname, def, states)
+         local part, total = get_progress(player, paname, pdef, states)
          -- One of 8 icons to roughly show achievement progress
          local completion_ratio = math.max(0, math.min(7, math.floor((part / total) * 8)))
          progress_column = tostring(completion_ratio+1)
@@ -617,19 +1009,15 @@ function achievements.get_formspec(name)
 
       achievement_list = achievement_list .. color .. ","
       achievement_list = achievement_list .. minetest.formspec_escape(progress_column) .. ","
-      achievement_list = achievement_list .. minetest.formspec_escape(def.title) .. ","
-      achievement_list = achievement_list .. minetest.formspec_escape(def.description)
+      achievement_list = achievement_list .. minetest.formspec_escape(pdef.title) .. ","
+      achievement_list = achievement_list .. minetest.formspec_escape(pdef.description)
    end
 
-   local form = rp_formspec.get_page("rp_achievements:achievements", true)
-
-   form = form .. "set_focus[achievement_list]"
-   form = form .. "table[0.25,2.5;7.9,5.5;achievement_list;" .. achievement_list
+   -- Text list formspec element
+   form = form .. "table[0,3.0;9.75,6.2;achievement_list;" .. achievement_list
       .. ";" .. row .. "]"
 
-   local aname = achievements.registered_achievements_list[row]
-   local def = achievements.registered_achievements[aname]
-
+   -- Achievement title, description and status
    local progress = ""
    local title = def.title
    local description = def.description
@@ -649,6 +1037,91 @@ function achievements.get_formspec(name)
       progress = S("Missing")
    end
 
+
+   form = form .. "label[0,0.2;" .. minetest.formspec_escape(title) .. "]"
+   form = form .. "label[8.5,0.2;" .. minetest.formspec_escape(progress) .. "]"
+
+   if def.subconditions then
+      local progress_subconds = get_completed_subconditions(player, aname)
+      if #progress_subconds > 0 then
+         local progress_subconds_str = table.concat(progress_subconds, S(", "))
+         description = description .. "\n\n" .. S("Completed: @1", progress_subconds_str)
+      end
+   end
+   form = form .. "textarea[2.55,0.51;5.6,2.15;;;" .. minetest.formspec_escape(description) .. "]"
+
+   -- Achievement icon background
+   form = form .. "container[0,0.51]" -- icon container
+
+   -- Achievement icon
+   form = form .. achievement_icon_frame(0, 0, aname, gotten)
+   form = form .. "container_end[]" -- icon container end
+
+   --[[~~~~~ END OF TEXT LIST MODE ~~~~~]]
+   else
+   --[[~~~~~ SYMBOL LIST MODE ~~~~~]]
+
+   local SYMBOLS_PER_ROW = 4
+
+   local scroll_height = math.ceil(#achievements.registered_achievements_list / SYMBOLS_PER_ROW)
+   scroll_height = scroll_height - 4
+   scroll_height = scroll_height * 24 + 4
+   if scroll_height > 0 then
+      local thumbsize = math.ceil(scroll_height / 10)
+      form = form .. "scrollbaroptions[min=0;max="..scroll_height..";thumbsize="..thumbsize.."]"
+      form = form .. "scrollbar[9.5,0.2;0.275,9;vertical;symbol_list_scroller;"..tostring(userdata[name].symbol_scroll).."]"
+   end
+   form = form .. "scroll_container[0,0.2;9.4,9;symbol_list_scroller;vertical;0.1]"
+   local iconx = 0
+   local icony = 0
+   for _, aname in ipairs(achievements.registered_achievements_list) do
+      local def = achievements.registered_achievements[aname]
+      local imx = iconx * (ICON_FRAME_SIZE+ICON_FRAME_SPACING)
+      local imy = icony * (ICON_FRAME_SIZE+ICON_FRAME_SPACING)
+
+      local status = achievements.get_completion_status(player, aname)
+      local gotten = status == achievements.ACHIEVEMENT_GOTTEN
+
+      if gotten then
+	 amt_gotten = amt_gotten + 1
+      elseif status == achievements.ACHIEVEMENT_IN_PROGRESS then
+	 amt_progress = amt_progress + 1
+      end
+
+      iconx = iconx + 1
+      if iconx >= SYMBOLS_PER_ROW then
+         iconx = 0
+         icony = icony + 1
+      end
+      -- Achievement icon
+
+      local achievement_times = states[aname]
+      local progress
+      if gotten then
+	 progress = minetest.colorize(COLOR_GOTTEN, S("Gotten"))
+      elseif achievement_times then
+         local part, total = get_progress(player, aname, def, states)
+         progress = S("@1/@2", part, total)
+      else
+         progress = S("Missing")
+      end
+
+      local title = def.title
+      if gotten then
+         title = minetest.colorize(COLOR_GOTTEN, title)
+      end
+      local description = def.description or ""
+      local tt = title .. "\n" .. description .. "\n" .. S("Status: @1", progress)
+      form = form .. achievement_icon_frame(imx, imy, aname, gotten, tt)
+   end
+
+   form = form .. "scroll_container_end[]"
+
+   end
+   --[[~~~~~ END OF SYMBOL LIST MODE ~~~~~]]
+
+
+   -- Achievement progress summary
    local progress_total =
       S("@1 of @2 achievements gotten, @3 in progress",
       amt_gotten,
@@ -657,53 +1130,24 @@ function achievements.get_formspec(name)
    if amt_gotten == #achievements.registered_achievements_list then
       progress_total = minetest.colorize(COLOR_GOTTEN, progress_total)
    end
-   if def.subconditions then
-      local progress_subconds = get_completed_subconditions(player, aname)
-      if #progress_subconds > 0 then
-         local progress_subconds_str = table.concat(progress_subconds, S(", "))
-         description = description .. "\n\n" .. S("Completed: @1", progress_subconds_str)
-      end
-   end
 
-
-   form = form .. "label[0.25,8.15;"
+   form = form .. "label[0,9.5;"
       .. minetest.formspec_escape(progress_total)
       .. "]"
 
-   form = form .. "label[0.25,0.25;" .. minetest.formspec_escape(title) .. "]"
-   form = form .. "label[7.25,0.25;" .. minetest.formspec_escape(progress) .. "]"
+   form = form .. "container_end[]" -- main content container end
 
-   form = form .. "textarea[2.5,0.75;5.75,2;;;" .. minetest.formspec_escape(description) .. "]"
+   -- Display mode button
+   local mode_icon, mode_tip
 
-   local icon, item_icon
-   if not gotten then
-      icon = "rp_achievements_icon_missing.png"
+   if userdata[name].mode == MODE_LIST then
+      mode_icon = "ui_icon_achievements_mode_icons.png"
+      mode_tip = S("Show symbols")
    else
-      icon = def.icon
-      item_icon = def.item_icon
+      mode_icon = "ui_icon_achievements_mode_list.png"
+      mode_tip = S("Show list")
    end
-   if not icon and not item_icon then
-      if def.craftitem then
-         item_icon = def.craftitem
-      elseif def.dignode then
-         item_icon = def.dignode
-      elseif def.placenode then
-         item_icon = def.placenode
-      end
-      if item_icon and string.sub(item_icon, 1, 6) == "group:" then
-         item_icon = nil
-      end
-   end
-   if not icon and not item_icon then
-      -- Fallback icon
-      icon = "rp_achievements_icon_default.png"
-   end
-
-   if icon then
-      form = form .. "image[0.25,0.75;1.8,1.8;" .. minetest.formspec_escape(icon) .. "]"
-   elseif item_icon then
-      form = form .. "item_image[0.25,0.75;1.8,1.8;" .. minetest.formspec_escape(item_icon) .. "]"
-   end
+   form = form .. rp_formspec.tab(rp_formspec.default.size.x, 0.5, "toggle_display_mode", mode_icon, mode_tip, "right")
 
    return form
 end
@@ -727,25 +1171,26 @@ function achievements.get_completion_status(player, aname)
 end
 
 local function receive_fields(player, form_name, fields)
-   local name = player:get_player_name()
-
-   local in_achievements_menu = false
-   if form_name == "rp_achievements:achievements" then
-      in_achievements_menu = true
-   elseif form_name ~= "" then
+   local invpage = rp_formspec.get_current_invpage(player)
+   if not (form_name == "" and invpage == "rp_achievements:achievements") then
       return
    end
-   if fields.quit then
-      return
+
+   local name = player:get_player_name()
+
+   if fields.symbol_list_scroller then
+      if not userdata[name] then
+         userdata[name] = {}
+      end
+      local evnt = minetest.explode_scrollbar_event(fields.symbol_list_scroller)
+      if evnt.type == "CHG" then
+         userdata[name].symbol_scroll = evnt.value
+      end
    end
 
    local selected = 1
 
-   if fields.tab_achievements then
-      in_achievements_menu = true
-   end
    if fields.achievement_list then
-      in_achievements_menu = true
       local selection = minetest.explode_table_event(fields.achievement_list)
 
       if selection.type == "CHG" or selection.type == "DCL" then
@@ -754,9 +1199,18 @@ local function receive_fields(player, form_name, fields)
       elseif selection.type == "INV" then
 	 selected_row[name] = nil
       end
-
+      rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
    end
-   if in_achievements_menu then
+
+   if fields.toggle_display_mode then
+      if not userdata[name].mode then
+         userdata[name].mode = MODE_LIST
+      end
+      if userdata[name].mode == MODE_LIST then
+         userdata[name].mode = MODE_SYMBOLS
+      else
+         userdata[name].mode = MODE_LIST
+      end
       rp_formspec.refresh_invpage(player, "rp_achievements:achievements")
    end
 end

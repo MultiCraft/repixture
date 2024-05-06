@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_farming x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-02-27 21:56+0000\n"
+"Last-Translator: AbduSharif <narukomanroom@gmail.com>\n"
+"Language-Team: Arabic <https://translate.codeberg.org/projects/repixture/"
+"rp_farming/ar/>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 5.4\n"
+
+msgid "Farmer"
+msgstr "مزارع"
+
+msgid "Plant a crop."
+msgstr "ازرع محصولا."
+
+msgid "Cotton"
+msgstr "قطن"
+
+msgid "Wheat"
+msgstr "شعير"
+
+msgid "Flour"
+msgstr "دقيق"
+
+msgid "Bread"
+msgstr "خبز"
+
+msgid "Asparagus"
+msgstr "نبات الهليون"
+
+msgid "Cooked Asparagus"
+msgstr "نبات هليون مطبوخ"
+
+msgid "Baked Potato"
+msgstr "بطاطس مصلوقة"
+
+msgid "Wheat Seed"
+msgstr "حبة شعير"
+
+msgid "Wheat Plant (stage @1)"
+msgstr "نبتة شعير (مرحلة @1)"
+
+msgid "Grows on dirt; it likes water"
+msgstr "ينمو على تراب؛ يحب المياه"
+
+msgid "Potato"
+msgstr "بطاطا"
+
+msgid "Potato Plant (stage @1)"
+msgstr "نبتة بطاطس (مرحلة @1)"
+
+msgid "Grows on dirt and swamp dirt; it likes water"
+msgstr "ينمو على تراب وتراب المستنقع؛ يحب المياه"
+
+msgid "Carrot"
+msgstr "جزر"
+
+msgid "Carrot Plant (stage @1)"
+msgstr "نبتة جزر (مرحلة @1)"
+
+msgid "Grows on dry dirt; it likes water"
+msgstr "ينمو على تراب جاف؛ يحب المياه"
+
+msgid "Asparagus Seed"
+msgstr "حبة نبات الهليون"
+
+msgid "Asparagus Plant (stage @1)"
+msgstr "نبات الهليون (مرحلة @1)"
+
+msgid "Grows on swamp dirt; it likes water"
+msgstr "ينمو على تراب المستنقع؛ يحب المياه"
+
+msgid "Cotton Seed"
+msgstr "حبة قطن"
+
+msgid "Cotton Plant (stage @1)"
+msgstr "نبات القطن (مرحلة @1)"
+
+msgid "Grows on dirt, dry dirt and sand; it likes water"
+msgstr "ينمو على تراب، و تراب جاف ورمل؛ يحب المياه"
+
+msgid "Cotton Bale"
+msgstr "رزمة قطن ضخمة"
+
+msgid "Straw"
+msgstr "تبن"

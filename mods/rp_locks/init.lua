@@ -134,7 +134,7 @@ minetest.register_tool(
             minetest.sound_play({name="locks_unlock",gain=0.8},{pos=pos, max_hear_distance=16}, true)
 
             -- Spawn particles at lock to indicate lock break
-            local dir = minetest.facedir_to_dir(node.param2)
+            local dir = minetest.fourdir_to_dir(node.param2)
             local w = 1/16
             local k = 11/16
             local l = 7/16
@@ -253,9 +253,7 @@ minetest.register_craftitem(
       on_place = put_lock_place,
 })
 
-minetest.register_node(
-   "rp_locks:chest",
-   {
+local chest_def = {
       description = S("Locked Chest"),
       _tt_help = S("Provides 32 inventory slots") .. "\n" .. S("Can only be opened by its owner and those who have a lockpick"),
       tiles ={
@@ -266,8 +264,9 @@ minetest.register_node(
          "default_chest_sides.png",
          "locks_chest_front.png"
       },
-      paramtype2 = "facedir",
-      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, locked = 1, container = 1},
+      use_texture_alpha = "blend",
+      paramtype2 = "4dir",
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, locked = 1, chest = 2, container = 1, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
       on_construct = function(pos)
@@ -291,14 +290,17 @@ minetest.register_node(
          if not locks.is_locked(meta, player) then
             local np = pos.x .. "," .. pos.y .. "," .. pos.z
             local form = rp_formspec.get_page("rp_formspec:2part")
-            form = form .. "list[nodemeta:" .. np .. ";main;0.25,0.25;8,4;]"
-            form = form .. "listring[nodemeta:" .. np .. ";main]"
-            form = form .. rp_formspec.get_itemslot_bg(0.25, 0.25, 8, 4)
 
-            form = form .. "list[current_player;main;0.25,4.75;8,4;]"
-            form = form .. "listring[current_player;main]"
-            form = form .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-            form = form .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+            local xstart = rp_formspec.default.start_point.x
+            local ystart = rp_formspec.default.start_point.y
+            local form = rp_formspec.get_page("rp_formspec:2part")
+            form = form .. rp_formspec.get_itemslot_bg(xstart, ystart, 8, 4)
+            form = form .. "list[nodemeta:".. np ..";main;"..xstart..","..ystart..";8,4;]"
+
+            form = form .. rp_formspec.default.player_inventory
+
+            form = form .. "listring[nodemeta:" .. np .. ";main]"
+            form = form .. "listring[current_name;main]"
 
             minetest.show_formspec(
                player:get_player_name(),
@@ -372,7 +374,37 @@ minetest.register_node(
 ]]
       end,
       on_blast = function() end,
-})
+}
+
+minetest.register_node("rp_locks:chest", chest_def)
+
+local chest_defp = table.copy(chest_def)
+chest_defp.description = S("Painted Locked Chest")
+chest_defp.tiles ={
+	"default_chest_top_painted.png",
+	"default_chest_top_painted.png",
+	"default_chest_sides_painted.png",
+	"default_chest_sides_painted.png",
+	"default_chest_sides_painted.png",
+	"locks_chest_front_painted.png"
+}
+chest_defp.overlay_tiles ={
+	-- HACK: This is a workaround to fix the coloring of the crack overlay
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	{name="rp_textures_blank_paintable_overlay.png",color="white"},
+	-- This tile is part of the legit overlay
+	{name="locks_chest_front_painted_overlay.png",color="white"},
+}
+chest_defp.paramtype2 = "color4dir"
+chest_defp.palette = "rp_paint_palette_64d.png"
+chest_defp.drop = "rp_locks:chest"
+chest_defp.groups.paintable = 1
+chest_defp.groups.not_in_creative_inventory = 1
+
+minetest.register_node("rp_locks:chest_painted", chest_defp)
 
 -- Crafting
 

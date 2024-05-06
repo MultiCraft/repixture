@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_player_skins x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Headband"
+msgstr "Бандана"
+
+msgid "Hair"
+msgstr "Волосы"
+
+msgid "Eyes"
+msgstr "Глаза"
+
+msgid "Beard"
+msgstr "Борода"
+
+msgid "Shirt"
+msgstr "Футболка"
+
+msgid "Wristbands"
+msgstr "Ремешки"
+
+msgid "Trousers"
+msgstr "Трусы"
+
+msgid "Skin"
+msgstr "Скин"
+
+msgid "Shoes"
+msgstr "Туфли"
+
+msgid "Random"
+msgstr "Случайно"
+
+msgid "Player Skins"
+msgstr "Скины игроков"
+

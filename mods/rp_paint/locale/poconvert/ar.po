@@ -1,0 +1,112 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_paint x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-02-27 21:56+0000\n"
+"Last-Translator: AbduSharif <narukomanroom@gmail.com>\n"
+"Language-Team: Arabic <https://translate.codeberg.org/projects/repixture/"
+"rp_paint/ar/>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 5.4\n"
+
+msgid "White"
+msgstr "أبيض"
+
+msgid "Gray"
+msgstr "رمادي"
+
+msgid "Black"
+msgstr "أسود"
+
+msgid "Red"
+msgstr "أحمر"
+
+msgid "Orange"
+msgstr "برتقالي"
+
+msgid "Amber"
+msgstr "كهرماني"
+
+msgid "Yellow"
+msgstr "أصفر"
+
+msgid "Lime"
+msgstr "ليمي"
+
+msgid "Green"
+msgstr "أخضر"
+
+msgid "Bluegreen"
+msgstr "أزرق-أخضر"
+
+msgid "Turquoise"
+msgstr "توركوازي"
+
+msgid "Cyan"
+msgstr "سيان"
+
+msgid "Skyblue"
+msgstr "أزرق سمائي"
+
+msgid "Azure Blue"
+msgstr "أزرق لازوردي"
+
+msgid "Blue"
+msgstr "أزرق"
+
+msgid "Violet"
+msgstr "أرجواني"
+
+msgid "Magenta"
+msgstr "قرمزي"
+
+msgid "Redviolet"
+msgstr "أحمر أرجواني"
+
+msgid "Hot Pink"
+msgstr "وردي فاقع"
+
+msgid "Paint Bucket (Empty)"
+msgstr "دلو طلاء (فارغ)"
+
+msgid "Paint Bucket (@1)"
+msgstr "دلو طلاء (@1)"
+
+msgid "Paint Brush"
+msgstr "فرشاة طلاء"
+
+msgid "Paints blocks"
+msgstr "تقوم بطلاء كتل"
+
+msgid "Punch paint bucket to pick color"
+msgstr "الكم دلو الطلاء لتختار لونا"
+
+msgid "Paint Bucket"
+msgstr "دلو طلاء"
+
+msgid "Paint Bucket with Paint"
+msgstr "دلو طلاء مع طلاء"
+
+msgid "Use place key to change color"
+msgstr "استعمل ضع مفتاح لتغير اللون"
+
+msgid "Point at left/right part to get previous/next color"
+msgstr "قم بالإشارة إلي الجزء اليساري/اليميني للحصول على اللون السابق/التالي"
+
+msgid "Refill with flowers"
+msgstr "اعد الملئ بالزهور"
+
+msgid "Fill with flowers to get paint"
+msgstr "املئ بالزهور لتحصل على طلاء"
+
+msgid "Colorful World"
+msgstr "عالم ملون"
+
+msgid "Paint a block."
+msgstr "قم بطلاء كتلة."

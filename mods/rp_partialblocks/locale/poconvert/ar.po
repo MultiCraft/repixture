@@ -1,0 +1,160 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_partialblocks x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-02-27 21:56+0000\n"
+"Last-Translator: AbduSharif <narukomanroom@gmail.com>\n"
+"Language-Team: Arabic <https://translate.codeberg.org/projects/repixture/"
+"rp_partialblocks/ar/>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 5.4\n"
+
+msgid "Cobble Slab"
+msgstr "بلاطة مرصوفة بالحصى"
+
+msgid "Cobble Stair"
+msgstr "درج مرصوفة بالحصى"
+
+msgid "Stone Slab"
+msgstr "بلاطة حجر"
+
+msgid "Stone Stair"
+msgstr "درج حجر"
+
+msgid "Sandstone Slab"
+msgstr "بلاطة حجر رملي"
+
+msgid "Sandstone Stair"
+msgstr "درج حجر رملي"
+
+msgid "Brick Slab"
+msgstr "بلاطة قالب طوب"
+
+msgid "Brick Stair"
+msgstr "درج قالب طوب"
+
+msgid "Wooden Slab"
+msgstr "بلاطة خشبية"
+
+msgid "Wooden Stair"
+msgstr "درج خشبي"
+
+msgid "Oak Slab"
+msgstr "بلاطة خشب بلوط"
+
+msgid "Oak Stair"
+msgstr "درج خشب بلوط"
+
+msgid "Birch Slab"
+msgstr "بلاطة خشب البتولا"
+
+msgid "Birch Stair"
+msgstr "درج خشب البتولا"
+
+msgid "Reed Slab"
+msgstr "بلاط قصب"
+
+msgid "Reed Stair"
+msgstr "درج قصب"
+
+msgid "Dried Reed Slab"
+msgstr "بلاطة قصب مجفف"
+
+msgid "Dried Reed Stair"
+msgstr "درج قصب مجفف"
+
+msgid "Straw Slab"
+msgstr "بلاطة تبن"
+
+msgid "Straw Stair"
+msgstr "درج تبن"
+
+msgid "Hay Slab"
+msgstr "بلاطة قش"
+
+msgid "Hay Stair"
+msgstr "درج قش"
+
+msgid "Frame Slab"
+msgstr ""
+
+msgid "Frame Stair"
+msgstr ""
+
+msgid "Reinforced Frame Slab"
+msgstr ""
+
+msgid "Reinforced Frame Stair"
+msgstr ""
+
+msgid "Reinforced Cobble Slab"
+msgstr ""
+
+msgid "Reinforced Cobble Stair"
+msgstr ""
+
+msgid "Coal Slab"
+msgstr ""
+
+msgid "Coal Stair"
+msgstr ""
+
+msgid "Steel Slab"
+msgstr ""
+
+msgid "Steel Stair"
+msgstr ""
+
+msgid "Carbon Steel Slab"
+msgstr ""
+
+msgid "Carbon Steel Stair"
+msgstr ""
+
+msgid "Wrought Iron Slab"
+msgstr ""
+
+msgid "Wrought Iron Stair"
+msgstr ""
+
+msgid "Bronze Slab"
+msgstr ""
+
+msgid "Bronze Stair"
+msgstr ""
+
+msgid "Copper Slab"
+msgstr ""
+
+msgid "Copper Stair"
+msgstr ""
+
+msgid "Tin Slab"
+msgstr ""
+
+msgid "Tin Stair"
+msgstr ""
+
+msgid "Gold Slab"
+msgstr ""
+
+msgid "Gold Stair"
+msgstr ""
+
+msgid "Compressed Sandstone Slab"
+msgstr ""
+
+msgid "Compressed Sandstone Stair"
+msgstr ""
+
+msgid "Reinforced Compressed Sandstone Slab"
+msgstr ""
+
+msgid "Reinforced Compressed Sandstone Stair"
+msgstr ""

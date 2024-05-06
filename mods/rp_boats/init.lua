@@ -144,16 +144,18 @@ local register_boat = function(name, def)
 	end
 
 	minetest.register_entity(itemstring, {
-		physical = true,
-		collide_with_objects = true,
-		visual = "mesh",
+		initial_properties = {
+			physical = true,
+			collide_with_objects = true,
+			visual = "mesh",
 
-		collisionbox = def.collisionbox,
-		selectionbox = def.selectionbox,
-		textures = def.textures,
-		mesh = def.mesh,
-		hp_max = def.hp_max or 4,
-		damage_texture_modifier = "",
+			collisionbox = def.collisionbox,
+			selectionbox = def.selectionbox,
+			textures = def.textures,
+			mesh = def.mesh,
+			hp_max = def.hp_max or 4,
+			damage_texture_modifier = "",
+		},
 
 		_state = STATE_INIT,
 		_driver = nil,
@@ -435,7 +437,20 @@ local register_boat = function(name, def)
 						minetest.log("action", "[rp_boats] "..cname.." attaches to boat at "..minetest.pos_to_string(self.object:get_pos(),1))
 						set_driver(self, clicker, def.collisionbox)
 						rp_player.player_attached[cname] = true
+
 						self._driver:set_attach(self.object, "", def.attach_offset, {x=0,y=0,z=0}, true)
+
+						-- Make player sit down
+						minetest.after(0.1, function(param)
+							-- Check if player still exists and is still attached to the boat
+							if not (param.sitter and param.sitter:is_player()) then
+								return
+							end
+							if (not param.boat) or (param.sitter:get_attach() ~= param.boat.object) then
+								return
+							end
+							rp_player.player_set_animation(param.sitter, "sit", rp_player.player_animation_speed)
+						end, {sitter=self._driver, boat=self})
 					end
 				end
 			end
@@ -444,6 +459,7 @@ local register_boat = function(name, def)
 			if child and child == self._driver then
 				local cname = child:get_player_name()
 				minetest.log("action", "[rp_boats] "..cname.." detaches from boat at "..minetest.pos_to_string(self.object:get_pos(),1))
+				rp_player.player_set_animation(self._driver, "stand", rp_player.player_animation_speed)
 				rp_player.player_attached[cname] = false
 				unset_driver(self, def.collisionbox)
 			end
@@ -606,7 +622,7 @@ for l=1, #log_boats do
 		float_max = 0.0,
 		float_offset = -0.3,
 		float_min = -0.85,
-		attach_offset = { x=0, y=0, z=0 },
+		attach_offset = { x=0, y=-4, z=-2 },
 		max_speed = 3.8,
 		speed_change_rate = 1.5,
 		yaw_change_rate = 0.6,
@@ -654,7 +670,7 @@ for r=1, #rafts do
 		float_min = -1.001,
 
 		max_punches = 3,
-		attach_offset = { x=0, y=1, z=0 },
+		attach_offset = { x=0, y=-3, z=-2 },
 		max_speed = 6,
 		speed_change_rate = 1.5,
 		yaw_change_rate = 0.3,

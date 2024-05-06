@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_hunger x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Hunger Debug:"
+msgstr "Отладка голода:"
+
+msgid "<hunger disabled>"
+msgstr "<голод выключен>"
+
+msgid "You are hungry."
+msgstr "Ты голоден."
+
+msgid "You are starving."
+msgstr "Ты голодаешь."
+
+msgid "You starved to death."
+msgstr "Ты умер от голода."
+
+msgid "Eating"
+msgstr "Поедание"
+
+msgid "You're eating food, which slows you down"
+msgstr "Ты ешь пищу, которая тебя замедляет"
+
+msgid "Gourmet"
+msgstr "Гурман"
+
+msgid "Eat everything that can be eaten."
+msgstr "Съешь всё что может быть съедено."
+
+msgid "Set hunger level of player or yourself"
+msgstr "Установить уровень голода игрока или себя"
+
+msgid "[<player>] <hunger>"
+msgstr "[<игрок>] <голод>"
+
+msgid "Player is not online."
+msgstr "Игрок не в сети."
+
+msgid "No player."
+msgstr "Нет игрока."
+
+msgid "Food item"
+msgstr "Еда"
+
+msgid "Food points: +@1"
+msgstr "Очки питания: +@1"
+
+msgid "Saturation points: +@1"
+msgstr "Очки насыщения: +@1"
+

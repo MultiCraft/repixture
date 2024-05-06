@@ -1,5 +1,5 @@
 --
--- Gold and NPC Trading
+-- Gold and trading
 --
 local S = minetest.get_translator("rp_gold")
 
@@ -8,23 +8,22 @@ gold = {}
 -- Sound pitch modifier of gold nodes
 gold.PITCH = 1.25
 
-local mapseed = minetest.get_mapgen_setting("seed")
-gold.pr = PseudoRandom(mapseed+8732)
+gold.pr = PseudoRandom(os.time())
 
 --[[
 Table of trades offered by villagers.
 Format:
 
    gold.trades = {
-      -- List of trades for this villager type
-      ["villager_type_1"] = {
+      -- List of trades for this villager profession
+      ["profession_1"] = {
          -- first trade table (see below)
          trade_1,
          -- second trade table (see below)
          trade_2,
          -- ...
       },
-      ["villager_type_1"] = {
+      ["profession_2"] = {
          -- ...
       },
       -- ...
@@ -45,9 +44,12 @@ gold.trades = {}
 
 gold.trade_names = {}
 
-local TRADE_FORMSPEC_OFFSET = 2.5
+local TRADE_FORMSPEC_START_X = rp_formspec.default.start_point.x
+local TRADE_FORMSPEC_START_Y = rp_formspec.default.start_point.y
+local TRADE_FORMSPEC_OFFSET_X = 5
+local TRADE_FORMSPEC_OFFSET_Y = 0.8
 
-if minetest.get_modpath("mobs") ~= nil then
+if minetest.get_modpath("rp_mobs") ~= nil then
    gold.trades["farmer"] = {
       -- seeds/plants
       {"rp_gold:ingot_gold", "", "rp_farming:wheat_1 6"},
@@ -81,14 +83,14 @@ if minetest.get_modpath("mobs") ~= nil then
       {"rp_gold:ingot_gold 5", "", "rp_bed:bed"},
       {"rp_gold:ingot_gold 2", "", "rp_default:chest"},
       {"rp_gold:ingot_gold 10", "", "rp_locks:chest"},
-      {"rp_gold:ingot_gold", "mobs:wool 3", "rp_bed:bed"},
+      {"rp_gold:ingot_gold", "rp_mobs_mobs:wool 3", "rp_bed:bed"},
    }
    gold.trades["tavernkeeper"] = {
       -- edibles
       {"rp_gold:ingot_gold", "", "rp_default:apple 6"},
       {"rp_gold:ingot_gold", "", "rp_farming:bread 2"},
-      {"rp_gold:ingot_gold", "", "mobs:meat"},
-      {"rp_gold:ingot_gold 2", "", "mobs:pork"},
+      {"rp_gold:ingot_gold", "", "rp_mobs_mobs:meat"},
+      {"rp_gold:ingot_gold 2", "", "rp_mobs_mobs:pork"},
 
       -- filling buckets
       {"rp_gold:ingot_gold", "rp_default:bucket", "rp_default:bucket_water"},
@@ -128,12 +130,12 @@ if minetest.get_modpath("mobs") ~= nil then
    }
    gold.trades["butcher"] = {
       -- raw edibles
-      {"rp_gold:ingot_gold", "", "mobs:meat_raw"},
-      {"rp_gold:ingot_gold 3", "", "mobs:pork_raw 2"},
+      {"rp_gold:ingot_gold", "", "rp_mobs_mobs:meat_raw"},
+      {"rp_gold:ingot_gold 3", "", "rp_mobs_mobs:pork_raw 2"},
 
       -- cooking edibles
-      {"rp_gold:ingot_gold 1", "mobs:meat_raw", "mobs:meat"},
-      {"rp_gold:ingot_gold 2", "mobs:pork_raw", "mobs:pork"},
+      {"rp_gold:ingot_gold 1", "rp_mobs_mobs:meat_raw", "rp_mobs_mobs:meat"},
+      {"rp_gold:ingot_gold 2", "rp_mobs_mobs:pork_raw", "rp_mobs_mobs:pork"},
 
       -- tool repair
       {"rp_gold:ingot_gold 1", "rp_default:spear_stone", "rp_default:spear_stone"},
@@ -187,13 +189,13 @@ if minetest.get_modpath("mobs") ~= nil then
    table.insert(gold.trades["carpenter"], {"rp_default:tree_birch 5", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_default:tree_oak 4", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_default:fiber 50", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["carpenter"], {"mobs:wool 8", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["carpenter"], {"rp_mobs_mobs:wool 8", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_farming:cotton_bale 10", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["carpenter"], {"rp_default:glass 10", "", "rp_gold:ingot_gold"})
 
    -- butcher
-   table.insert(gold.trades["butcher"], {"mobs:meat_raw 4", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["butcher"], {"mobs:pork_raw 3", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["butcher"], {"rp_mobs_mobs:meat_raw 4", "", "rp_gold:ingot_gold"})
+   table.insert(gold.trades["butcher"], {"rp_mobs_mobs:pork_raw 3", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"rp_default:flint 12", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"rp_default:paper 30", "", "rp_gold:ingot_gold"})
    table.insert(gold.trades["butcher"], {"rp_default:sandstone 28", "", "rp_gold:ingot_gold"})
@@ -218,26 +220,26 @@ local form_trading = ""
 
 form_trading = form_trading .. rp_formspec.get_page("rp_formspec:2part")
 
-form_trading = form_trading .. "list[current_player;main;0.25,4.75;8,4;]"
-form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_trading = form_trading .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
+form_trading = form_trading .. rp_formspec.default.player_inventory
 
-form_trading = form_trading .. "container["..TRADE_FORMSPEC_OFFSET..",0]"
-form_trading = form_trading .. "list[current_player;gold_trade_out;4.75,2.25;1,1;]"
-form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(4.75, 2.25, 1, 1)
+form_trading = form_trading .. "container["..TRADE_FORMSPEC_START_X..","..TRADE_FORMSPEC_START_Y.."]"
+form_trading = form_trading .. "container["..TRADE_FORMSPEC_OFFSET_X..","..TRADE_FORMSPEC_OFFSET_Y.."]"
+form_trading = form_trading .. rp_formspec.get_hotbar_itemslot_bg(3.75, 1.25, 1, 1)
+form_trading = form_trading .. "list[current_player;gold_trade_out;3.75,1.25;1,1;]"
 
-form_trading = form_trading .. "list[current_player;gold_trade_in;1.25,2.25;2,1;]"
-form_trading = form_trading .. rp_formspec.get_itemslot_bg(1.25, 2.25, 2, 1)
+form_trading = form_trading .. rp_formspec.get_itemslot_bg(0, 1.25, 2, 1)
+form_trading = form_trading .. "list[current_player;gold_trade_in;0,1.25;2,1;]"
 
 form_trading = form_trading .. "listring[current_player;main]"
 form_trading = form_trading .. "listring[current_player;gold_trade_in]"
 form_trading = form_trading .. "listring[current_player;main]"
 form_trading = form_trading .. "listring[current_player;gold_trade_out]"
 
-form_trading = form_trading .. "image[3.5,1.25;1,1;ui_arrow_bg.png^[transformR270]"
-form_trading = form_trading .. "image[3.5,2.25;1,1;ui_arrow.png^[transformR270]"
+form_trading = form_trading .. "image[2.5,0;1,1;ui_arrow_bg.png^[transformR270]"
+form_trading = form_trading .. "image[2.5,1.25;1,1;ui_arrow.png^[transformR270]"
 
-form_trading = form_trading .. rp_formspec.button(1.25, 3.25, 2, 1, "trade", S("Trade"))
+form_trading = form_trading .. rp_formspec.button(0.15, 2.5, 2, 1, "trade", S("Trade"))
+form_trading = form_trading .. "container_end[]"
 form_trading = form_trading .. "container_end[]"
 
 rp_formspec.register_page("rp_gold:trading_book", form_trading)
@@ -250,7 +252,7 @@ end
 -- Remember with which traders the players trade
 local active_tradings = {}
 
--- Open the trading formspec that allows players to trade with NPCs.
+-- Open the trading formspec that allows players to trade with traders.
 -- * trade: Single trade table from gold.trades table
 -- * trade_type: Trader type name
 -- * player: Player object of player who trades
@@ -287,7 +289,8 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
 
    local form = rp_formspec.get_page("rp_gold:trading_book")
-   form = form .. "label[0.25,0.25;"..minetest.formspec_escape(label).."]"
+   form = form .. "container["..TRADE_FORMSPEC_START_X..","..TRADE_FORMSPEC_START_Y.."]"
+   form = form .. "label[0,"..(TRADE_FORMSPEC_OFFSET_Y-0.5)..";"..minetest.formspec_escape(label).."]"
 
    local trades_listed = {}
    local print_item = function(itemstring)
@@ -325,17 +328,18 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    end
    local trades_listed_str = table.concat(trades_listed, ",")
    form = form .. "tablecolumns[text]"
-   form = form .. "table[0.15,1.25;3.5,2.5;tradelist;"..trades_listed_str..";"..trade_index.."]"
+   form = form .. "table[0,"..TRADE_FORMSPEC_OFFSET_Y..";4.75,3.5;tradelist;"..trades_listed_str..";"..trade_index.."]"
 
-   form = form .. "container["..TRADE_FORMSPEC_OFFSET..",0]"
+   form = form .. "container["..TRADE_FORMSPEC_OFFSET_X..","..TRADE_FORMSPEC_OFFSET_Y.."]"
    if is_repair_trade(trade) then
       -- Display repairable tool as damaged so the purpose of
       -- repair trades is more obvious
       trade_wanted2:set_wear(58982) -- ca. 90% wear
    end
-   form = form .. rp_formspec.fake_itemstack(1.25, 1.25, trade_wanted1)
-   form = form .. rp_formspec.fake_itemstack(2.25, 1.25, trade_wanted2)
-   form = form .. rp_formspec.fake_itemstack(4.75, 1.25, ItemStack(trade[3]))
+   form = form .. rp_formspec.fake_itemstack(0, 0, trade_wanted1)
+   form = form .. rp_formspec.fake_itemstack(1.25, 0, trade_wanted2)
+   form = form .. rp_formspec.fake_itemstack(3.75, 0, ItemStack(trade[3]))
+   form = form .. "container_end[]"
    form = form .. "container_end[]"
 
    minetest.show_formspec(name, "rp_gold:trading_book", form)

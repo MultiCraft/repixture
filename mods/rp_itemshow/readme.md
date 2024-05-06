@@ -8,7 +8,7 @@ Punch the block to force update if items do not appear.
 ### Coding
 
 By Wuzzy.
-License: LGPLv2.1
+License: LGPLv2.1 or later
 
 ### Textures
 

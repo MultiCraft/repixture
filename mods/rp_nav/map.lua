@@ -19,10 +19,8 @@ function nav.map.update_hud_flags(player)
 		player:get_inventory():contains_item("main", "rp_nav:map")
 	local radar_enabled = creative_enabled
 
-	player:hud_set_flags({
-		minimap = minimap_enabled,
-		minimap_radar = radar_enabled
-	})
+	rp_hud.set_hud_flag_semaphore(player, "rp_map:map", "minimap", minimap_enabled)
+	rp_hud.set_hud_flag_semaphore(player, "rp_map:map", "minimap_radar", radar_enabled)
 end
 
 

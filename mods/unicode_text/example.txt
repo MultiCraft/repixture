@@ -1,0 +1,156 @@
+Arabic:
+  نص حكيم له سر قاطع وذو شأن عظيم 
+  مكتوب على ثوب أخضر ومغلف بجلد أزرق
+
+Azeri:
+  Zəfər, jaketini də papağını da götür,
+  bu axşam hava çox soyuq olacaq.
+
+Chinese:
+  子曰：「學而時習之，不亦說乎？
+  有朋自遠方來，不亦樂乎？
+  人不知而不慍，不亦君子乎？」
+
+Czech:
+  Příliš žluťoučký kůň úpěl ďábelské ódy.
+
+Danish:
+  Høj bly gom vandt fræk sexquiz på wc.
+
+Esperanto:
+  Eĥoŝanĝo ĉiuĵaŭde.
+
+Ethiopic:
+  ሰማይ አይታረስ ንጉሥ አይከሰስ።
+
+Finnish:
+  Törkylempijävongahdus.
+
+Georgian:
+  გთხოვთ ახლავე გაიაროთ რეგისტრაცია
+
+German (non-ASCII letters):
+  Heizölrückstoßabdämpfung
+
+Greek:
+  Ξεσκεπάζω τὴν ψυχοφθόρα βδελυγμία
+
+Hebrew:
+  נקודה מודגשת
+
+Hungarian:
+  Árvíztűrő tükörfúrógép
+
+Hiragana:
+  いろはにほへとちりぬるを
+  わかよたれそつねならむ
+  うゐのおくやまけふこえて
+  あさきゆめみしゑひもせす
+
+Icelandic:
+  Kæmi ný öxi hér, ykist þjófum nú bæði 
+  víl og ádrepa.
+
+Irish:
+  d'Ith cat mór dubh na héisc lofa go pras
+
+Katakana:
+  イロハニホヘト チリヌルヲ 
+  ワカヨタレソ ツネナラム 
+  ウヰノオクヤマ ケフコエテ 
+  アサキユメミシ ヱヒモセスン
+
+Korean:
+  다람쥐 헌 쳇바퀴에 타고파
+
+Mayalayam:
+  ബ്qരഹ്മപുരത്തേക്ക്
+
+Runic:
+  ᚻᛖ ᚳᚹᚫᚦ ᚦᚫᛏ ᚻᛖ ᛒᚢᛞᛖ ᚩᚾ ᚦᚫᛗ ᛚᚪᚾᛞᛖ
+
+Russian:
+  В чащах юга жил бы цитрус?
+  Да, но фальшивый экземпляр!
+
+Thai:
+  พ่อขุนรามคำแหงมหาราช
+
+Uyghur:
+  زۆھرەگۈل ئابدۇۋاجىت فرانسىيەنىڭ 
+  پارىژدىكى خېلى بىشەم ئوقۇغۇچى.
+
+Various latin alphabet variants:
+  𝐛𝐨𝐥𝐝 𝖋𝖗𝖆𝖐𝖙𝖚𝖗 𝒊𝒕𝒂𝒍𝒊𝒄 𝓼𝓬𝓻𝓲𝓹𝓽
+  𝕕𝕠𝕦𝕓𝕝𝕖-𝕤𝕥𝕣𝕦𝕔𝕜 𝚖𝚘𝚗𝚘𝚜𝚙𝚊𝚌𝚎
+  ｆｕｌｌ　ｗｉｄｔｈ
+
+Emoji:
+🌀🌁🌂🌃🌄🌅🌆🌇
+🐀🐁🐂🐃🐄🐅🐆🐇
+🔀🔁🔂🔃🔄🔅🔆🔇
+😀😁😂😃😄😅😆😇
+
+Line breaking:
+
+  U+000A LINE FEED
+  LINE 1
+  LINE 2
+
+  U+000A LINE FEED
+  LINE 1  LINE 2
+
+  U+000D CARRIAGE RETURN
+  U+000A LINE FEED
+  LINE 1
+  LINE 2
+
+  U+0085 NEXT LINE
+  LINE 1  LINE 2
+
+  U+2029 PARAGRAPH SEPARATOR
+  LINE 1   LINE 2
+
+Horizontal tabulator:
+	1	2	3	4	5	6
+	t	a	b
+	tt	aa	bb
+	ttt	aaa	bbb
+	tttt	aaaa	bbbb
+	ttttt	aaaaa	bbbbb
+	tttttt	aaaaaa	bbbbbb
+
+Combining characters:
+
+  NFC:	à	é	î	õ	ū
+  NFD:	à	é	î	õ	ū
+
+  U+FF17 FULLWIDTH DIGIT SEVEN
+  U+20DE COMBINING ENCLOSING SQUARE
+    ７⃞
+
+  U+01B5 LATIN CAPITAL LETTER Z WITH STROKE
+  U+0327 COMBINING CEDILLA
+  U+0308 COMBINING DIAERESIS
+    Ƶ̧̈
+
+  U+25CC DOTTED CIRCLE
+  U+0EB5 LAO VOWEL SIGN II
+    ◌ີ
+
+  U+00A0 NO-BREAK-SPACE
+  U+0EB5 LAO VOWEL SIGN II
+  U+0EC8 LAO TONE MAI EK
+     ີ່
+
+  U+0E81 LAO LETTER KO
+  U+0EB3 LAO VOWEL SIGN AM
+    ກຳ
+
+Bidirectional text:
+
+  Year rendered before hebrew name, no LRM:
+  Rivlin (ראובן ריבלין; * 1939 Jerusalem)
+
+  Year rendered after hebrew name with LRM:
+  Rivlin (ראובן ריבלין‎; * 1939 Jerusalem)

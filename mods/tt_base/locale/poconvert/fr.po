@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain tt_base x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Damage: @1"
+msgstr "Dégâts : @1"
+
+msgid "Healing: @1"
+msgstr "Soin : @1"
+
+msgid "Damage (@1): @2"
+msgstr "Dégâts (@1) : @2"
+
+msgid "Healing (@1): @2"
+msgstr "Soin (@1): @2"
+
+msgid "Full punch interval: @1s"
+msgstr "Intervalle de coup : @1s"
+
+msgid "Food item"
+msgstr "Nourriture"
+
+msgid "+@1 food points"
+msgstr "+@1 points de nourriture"
+
+msgid "Contact damage: @1 per second"
+msgstr "Dégâts au contact : @1 par seconde"
+
+msgid "Contact healing: @1 per second"
+msgstr "Soin au contact : @1 par seconde"
+
+msgid "Drowning damage: @1"
+msgstr "Dégâts de noyade : @1"
+
+msgid "Fall damage: +@1%"
+msgstr "Dégâts de chute : +@1%"
+
+msgid "No fall damage"
+msgstr "Pas de dégâts de chute"
+
+msgid "Fall damage: @1%"
+msgstr "Dégâts de chute : @1%"
+
+msgid "No jumping"
+msgstr "Pas de saut"
+
+msgid "No swimming upwards"
+msgstr "Pas de nage vers le haut"
+
+msgid "No rising"
+msgstr "Pas de montée"
+
+msgid "Climbable (only downwards)"
+msgstr "Grimpable (seulement vers le bas)"
+
+msgid "Climbable"
+msgstr "Grimpable"
+
+msgid "Slippery"
+msgstr "Glissant"
+
+msgid "Bouncy (@1%)"
+msgstr "Rebondissant (@1%)"
+
+msgid "Luminance: @1-@2"
+msgstr "Luminosité : @1-@2"
+
+msgid "Luminance: @1"
+msgstr "Luminosité : @1"
+

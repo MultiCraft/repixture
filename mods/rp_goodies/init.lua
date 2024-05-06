@@ -51,8 +51,8 @@ if minetest.get_modpath("rp_village") ~= nil then
    }
    goodies.types_valuable["tavern"] = {
       ["rp_farming:bread"] = 5,
-      ["mobs:meat"] = 7,
-      ["mobs:pork"] = 9,
+      ["rp_mobs_mobs:meat"] = 7,
+      ["rp_mobs_mobs:pork"] = 9,
       ["rp_farming:asparagus_cooked"] = 9,
    }
    goodies.types["house"] = {

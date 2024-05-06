@@ -1,0 +1,423 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_mobs_mobs x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Bomb has Been Defused!"
+msgstr "Bombe entschärft!"
+
+msgid "Kill a mine turtle."
+msgstr "Töten Sie eine Minenschildkröte."
+
+msgid "Taking a Cut"
+msgstr "Gut abschneiden"
+
+msgid "Shear a sheep."
+msgstr "Scheren Sie ein Schaf."
+
+msgid "Smalltalk"
+msgstr "Gerede"
+
+msgid "Have a friendly chat with a villager."
+msgstr "Reden Sie nett mit einem Dorfbewohner."
+
+msgid "Wool Bundle"
+msgstr "Wollbündel"
+
+msgid "Raw Meat"
+msgstr "Rohes Fleisch"
+
+msgid "Cooked Meat"
+msgstr "Gekochtes Fleisch"
+
+msgid "Raw Porkchop"
+msgstr "Rohes Schweinekotelett"
+
+msgid "Cooked Porkchop"
+msgstr "Gekochtes Schweinekotelett"
+
+msgid "Boar"
+msgstr "Wildschwein"
+
+msgid "Mine Turtle"
+msgstr "Minenschildkröte"
+
+msgid "Sheep"
+msgstr "Schaf"
+
+msgid "Skunk"
+msgstr "Stinktier"
+
+msgid "Farmer"
+msgstr "Bauer"
+
+msgid "Tavern Keeper"
+msgstr "Wirt"
+
+msgid "Blacksmith"
+msgstr "Schmied"
+
+msgid "Butcher"
+msgstr "Fleischer"
+
+msgid "Carpenter"
+msgstr "Schreiner"
+
+msgid "Villager"
+msgstr "Dorfbewohner"
+
+msgid "Hi! I'm a farmer. I sell farming goods."
+msgstr "Hallo! Ich bin ein Bauer. Ich verkaufe Dinge, die ein Bauer so hat."
+
+msgid "Hi! I'm a tavernkeeper. I trade with assorted goods."
+msgstr "Hallo! Ich bin ein Wirt. Ich handle mit verschiedenen Gütern."
+
+msgid "Hi! I'm a blacksmith. I sell metal products."
+msgstr "Hallo! Ich bin ein Schmied. Ich verkaufe Metallwaren."
+
+msgid "Hi! I'm a butcher. Want to buy something?"
+msgstr "Hallo! Ich bin ein Fleischer. Möchtest du etwas kaufen?"
+
+msgid "Hi! I'm a carpenter. Making things out of wood is my job."
+msgstr "Hallo! Ich bin ein Schreiner. Mein Beruf ist es, Dinge aus Holz zu fertigen."
+
+msgid "If you want to trade, show me a trading book."
+msgstr "Wenn du mit mir handeln willst, zeig mir ein Handelsbuch."
+
+msgid "Hello!"
+msgstr "Hallo!"
+
+msgid "Nice to see you."
+msgstr "Schön, dich zu sehen."
+
+msgid "Life is beautiful."
+msgstr "Das Leben ist schön."
+
+msgid "I feel good."
+msgstr "Mir geht's gut."
+
+msgid "Have a nice day!"
+msgstr "Guten Tag!"
+
+msgid "I'm not in a good mood."
+msgstr "Ich bin nicht so gut drauf."
+
+msgid "I'm tired."
+msgstr "Ich bin müde."
+
+msgid "I need to rest."
+msgstr "Ich muss mich ausruhen."
+
+msgid "Life could be better."
+msgstr "Das Leben könnte besser sein."
+
+msgid "I don't feel so good."
+msgstr "Mir geht es nicht so gut."
+
+msgid "I ... I am hurt."
+msgstr "Ich ... ich bin verletzt."
+
+msgid "I feel weak."
+msgstr "Ich fühle mich schwach."
+
+msgid "My head hurts."
+msgstr "Mein Kopf tut weh."
+
+msgid "I have a bad day today."
+msgstr "Ich hab heute einen schlechten Tag."
+
+msgid "Screw you!"
+msgstr "Verdammt seist du!"
+
+msgid "Get this thing out of my face!"
+msgstr "Nimm dieses Ding aus meinem Gesicht!"
+
+msgid "Villager says: “@1”"
+msgstr "Dorfbewohner sagt: „@1“"
+
+msgid "Ah, a cactus. You'd be surprised how well they burn in a furnace."
+msgstr "Ah, ein Kaktus. Du wirst staunen, wie gut sie im Ofen brennen."
+
+msgid "You can quickly kindle it in the furnace."
+msgstr "Du kannst sie rasch in einem Ofen anzünden."
+
+msgid "A truly amazing block!"
+msgstr "Ein wirklich großartiger Block!"
+
+msgid "Trees are a classic furnace fuel, but you can also cook them to get coal lumps."
+msgstr "Bäume sind ein klassischer Ofenbrennstoff, aber man kann sie auch kochen, um Kohleklumpen zu erhalten."
+
+msgid "You can cook it in the furnace to get: @1. But you can also use it as a furnace fuel."
+msgstr "Du kannst dies im Ofen kochen, um @1 zu erhalten. Aber du kannst es auch als einen Ofenbrennstoff verwenden."
+
+msgid "Cook it in the furnace to get: @1."
+msgstr "Koche es im Ofen, und du erhältst @1."
+
+msgid "This is an amazing furnace fuel, it burns for a very, very, very long time."
+msgstr "Dies ist ein ausgezeichneter Ofenbrennstoff, er brennt für eine sehr, sehr, sehr lange Dauer."
+
+msgid "This is a great furnace fuel, and it burns for a very, very long time."
+msgstr "Dies ist ein großartiger Ofenbrennstoff, er brennt für eine sehr, sehr lange Dauer."
+
+msgid "This is a very good furnace fuel, and it burns for a very long time."
+msgstr "Dies ist ein sehr guter Ofenbrennstoff, er brennt für eine sehr lange Dauer."
+
+msgid "This is a good furnace fuel, it burns for a long time."
+msgstr "Dies ist ein guter Ofenbrennstoff, er brennt für eine lange Dauer."
+
+msgid "This is a nice furnace fuel."
+msgstr "Dies ist ein netter Ofenbrennstoff."
+
+msgid "You can use this as a furnace fuel, but it's meh."
+msgstr "Man kann dies als Ofenbrennstoff verwenden, aber es ist so naja."
+
+msgid "You can use this as a furnace fuel, but it is gone quickly."
+msgstr "Man kann dies als Ofenbrennstoff verwenden, aber es ist schnell futsch."
+
+msgid "You can use this as a furnace fuel, but it is gone very quickly."
+msgstr "Man kann dies als Ofenbrennstoff verwenden, aber es ist sehr schnell futsch."
+
+msgid "You can theoretically use this as a furnace fuel, but it is gone almost instantly. You will need a large amount of these to cook anything."
+msgstr "Man kann dies theoretisch als Ofenbrennstoff verwenden, aber es ist fast sofort futsch. Man braucht eine große Anzahl davon, um irgendetwas damit kochen zu können."
+
+msgid "I'm impressed! Your weapon is a true masterpiece."
+msgstr "Ich bin beeindruckt! Deine Waffe ist wahrlich ein Meisterwerk."
+
+msgid "This is a mighty weapon, but have you considered upgrading it with jewels?"
+msgstr "Dies ist eine mächtige Waffe, aber hattest du schon die Idee, sie mit Juwelen zu verbessern?"
+
+msgid "Offense is the best defense."
+msgstr "Angriff ist die beste Verteidigung."
+
+msgid "If you equip a full set of armor made from the same material, you'll get a protection bonus."
+msgstr "Wenn du einen vollständigen Satz Rüstung aus diesem Material anlegst, erhältst du einen Schutzbonus."
+
+msgid "You can put anything inside a bookshelf, not just books."
+msgstr "Man kann alles mögliche da rein tun, nicht nur Bücher."
+
+msgid "This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."
+msgstr "Damit wachsen Samen schneller. Platziere den Dünger auf dem Boden, dann pflanze die Samen obendrauf."
+
+msgid "Sorry, I don't know how to use this. Maybe ask a farmer."
+msgstr "Leider weiß ich nicht, wie man das benutzt. Frag mal einen Bauern."
+
+msgid "Remember to put water near to your seeds."
+msgstr "Denk dran, dass du Wasser in der Nähe deiner Samen geben musst."
+
+msgid "Try magnetizing it on iron."
+msgstr "Versuch, dies an Eisen zu magnetisieren."
+
+msgid "If you use it on a cotton bale, it will point to the North again."
+msgstr "Wenn du ihn an einem Baumwollballen benutzt, wird er wieder nach Norden zeigen."
+
+msgid "If you use it on wool, it will point to the North again."
+msgstr "Wenn du ihn an Wolle benutzt, wird er wieder nach Norden zeigen."
+
+msgid "We live in a lovely place, don't we?"
+msgstr "Wir leben in einem schönen Ort, oder?"
+
+msgid "It's used to capture large animals."
+msgstr "Damit fängt man große Tiere."
+
+msgid "Why are you carrying this around? Do you want crack open our locked chests?"
+msgstr "Warum trägst du das hier herum? Willst du etwa unsere abgeschlossenen Truhen aufbrechen?"
+
+msgid "It's used to capture small animals."
+msgstr "Damit fängt man kleine Tiere."
+
+msgid "Every kid knows seeds need soil, water and sunlight."
+msgstr "Jedes Kind weiß, dass Samen einen Nährboden, Wasser und Sonnenlicht brauchen."
+
+msgid "Sheep love to eat wheat. Give them enough wheat and they'll multiply!"
+msgstr "Schafe fressen gerne Weizen. Gib ihnen genug davon, und sie vermehren sich!"
+
+msgid "We use wheat to make flour and bake bread."
+msgstr "Wir brauchen Weizen, um Mehl zu mahlen und Brot zu backen."
+
+msgid "Put it in a furnace to bake tasty bread."
+msgstr "Schmeiß es in einen Ofen, um leckeres Brot zu backen."
+
+msgid "Did you know cotton seed not only grow on dirt, but also on sand? But it still needs water."
+msgstr "Wusstest du, dass Baumwollsamen nicht nur auf Erde, sondern auch auf Sand wachsen? Aber sie brauchen immer noch Wasser."
+
+msgid "If you have grown a cotton plant, try using scissors to perform a precise cut."
+msgstr "Falls du eine Baumwollpflanze gezüchtet hast, benutz mal einen Präzisionsschnitt mit einer Schere aus."
+
+msgid "This can be used to make cotton bales."
+msgstr "Damit kann man Baumwollbauen machen."
+
+msgid "A truly epic story!"
+msgstr "Eine sagenhafte Geschichte!"
+
+msgid "Ooh, a shiny pearl! It's beautiful."
+msgstr "Oh, eine glitzernde Perle! Wunderschön."
+
+msgid "I heard the tavernkeeper likes these."
+msgstr "Ich habe gehört, dass der Wirt sie mag."
+
+msgid "Just place it on the ground and it will grow after a while."
+msgstr "Platziere es einfach auf den Boden, und es wird bald wachsen."
+
+msgid "If the sapling refuses to grow, make sure it has enough open space above it."
+msgstr "Wenn der Setzling sich weigert, zu wachsen, mach oben etwas Platz frei."
+
+msgid "Try placing it on different grounds. It might grow differently."
+msgstr "Probiere verschiedene Böden aus. Er könnte anders wachsen."
+
+msgid "Use this to trim plants and get wool from sheep."
+msgstr "Damit kannst du Pflanzen abschneiden und Wolle von Schafen erhalten."
+
+msgid "Papyrus grows best on fertilized swamp dirt."
+msgstr "Papyrus wächst am besten auf gedüngter Sumpferde."
+
+msgid "Papyrus likes to grow next to water."
+msgstr "Papyrus wächst gerne in der Nähe von Wasser."
+
+msgid "The papyrus grows tall in the swamp. But it can grow even taller."
+msgstr "Im Sumpf wächst der Papyrus hoch. Aber er kann noch höher wachsen."
+
+msgid "When I was I kid, I always liked to climb on the papyrus."
+msgstr "Als ich ein Kind war, kletterte ich gerne den Papyrus rauf."
+
+msgid "Cacti grow best on sand. They are also a food source, if you're really desperate."
+msgstr "Kakteen wachsen am Besten auf dem Sand. Sie sind auch eine Nahrungsquelle, wenn du wirklich verzweifelt bist."
+
+msgid "This is the secret ingredient for my special drink. But don't tell anyone!"
+msgstr "Dies ist die Geheimzutat für meinen besonderen Drink. Aber sagt das keinem!"
+
+msgid "Now what can you possibly do with a cactus? I don't know!"
+msgstr "Was kann man nur mit einem Kaktus anstellen? Keine Ahnung!"
+
+msgid "Jewels are great! If you have a jeweller's workbench, you can enhance your tools."
+msgstr "Juwelen sind großartig! Wenn du eine Juwelierswerkbank hast, kannst du deine Werkzeuge aufwerten."
+
+msgid "Did you know we sometimes sell jewels?"
+msgstr "Wusstest du, dass wir manchmal Juwelen verkaufen?"
+
+msgid "This looks like it could be a good wall decoration."
+msgstr "Das sieht aus, als könnte es sich gut als Wanddekoration machen."
+
+msgid "It’s burned out. Use flint and steel to kindle it."
+msgstr "Sie ist ausgebrannt. Benutze Feuerstein und Stahl, um sie wieder anzuzünden."
+
+msgid "With flint and steel you could stabilize the flame."
+msgstr "Mit Feuerstein und Stahl könnte man die Flamme stabilisieren."
+
+msgid "Let’s light up some caves!"
+msgstr "Lasst uns ein paar Höhlen erhellen!"
+
+msgid "A flower? I love flowers! Let's make the world bloom!"
+msgstr "Eine Blume? Ich liebe Blumen! Lasst uns die Welt zum Erblühen bringen!"
+
+msgid "You can use this to light up torches and bonfires and ignite TNT."
+msgstr "Damit kannst du Fackeln und TNT anzünden und Lagerfeuer entfachen."
+
+msgid "You can use this to light up torches and bonfires."
+msgstr "Damit kannst du Fackeln anzünden und Lagerfeuer entfachen."
+
+msgid "TNT needs to be ignited by a flint and steel."
+msgstr "TNT muss mit Feuerstein und Stahl entzündet werden."
+
+msgid "For some reason, TNT can't be ignited. Strange."
+msgstr "Aus irgendeinem Grund kann TNT nicht entzündet werden. Merkwürdig."
+
+msgid "You need flint and steel to light the fire. But don't walk into the flame!"
+msgstr "Du brauchst Feuerstein und Stahl, um das Feuer zu entfachen. Aber lauf nicht in die Flamme!"
+
+msgid "Isn't it stressful to carry this heavy bed around?"
+msgstr "Ist es nicht anstrengend, dieses schwere Bett mit dir herumzuschleppen?"
+
+msgid "Sleeping makes the night go past in the blink of an eye."
+msgstr "Im Schlaf vergeht die Nacht wie im Fluge."
+
+msgid "Hole in dirt, put bronze in. Bell’s complete, bim, bim, bim!"
+msgstr "Loch in Erde, Bronze rin. Glocke fertig, bim, bim, bim!"
+
+msgid "Apples are so tasty!"
+msgstr "Äpfel sind so lecker!"
+
+msgid "Boars love to eat acorns! If you feed enough of these to them, they will multiply."
+msgstr "Wildschweine lieben Eicheln! Wenn du sie ausreichend mit Eicheln fütterst, werden sie sich vermehren."
+
+msgid "Did you try to dry it in the furnace?"
+msgstr "Hast du probiert, es im Ofen zu trocknen?"
+
+msgid "Airweed is an underwater plant with little capsules filled with air. Use it underwater to release air bubbles and catch some breath."
+msgstr "Luftkraut ist eine Wasserpflanze mit kleinen mit Luft gefüllten Kapseln. Benutze sie im Wasser, um Luftblasen zu erzeugen und Luft zu holen."
+
+msgid "If you use the airweed plant, you will catch some breath. Other people near the plant will also benefit."
+msgstr "Wenn du die Luftkrautpflanze benutzt, wirst du Luft holen. Andere Leute in der Nähe der Pflanze werden auch Luft bekommen."
+
+msgid "Airweed is very useful, but it can't give you breath from your hand. You must place it on the ground first."
+msgstr "Luftkraut ist sehr nützlich, aber du kannst sie nicht von der Hand aus benutzen. Sie muss zuerst auf den Boden platziert werden."
+
+msgid "You can multiply airweed with fertilizer."
+msgstr "Man kann Luftkraut mit Dünger vermehren."
+
+msgid "Airweed needs a moment to refill after you used it. The time it needs depends on the surface."
+msgstr "Luftkraut braucht einen Moment, um sich nach Benutzung wieder aufzufüllen. Die Dauer hängt vom Boden ab."
+
+msgid "If you fertilize the ground, an alga will grow higher."
+msgstr "Wenn man den Boden düngt, wird eine Alge höher wachsen."
+
+msgid "The tallest algae always grow on alga blocks."
+msgstr "Die höchsten Algen wachen immer auf Algenblöcken."
+
+msgid "If an alga tries to grow but something blocks its path, it'll stop growing, even if the barrier is removed later."
+msgstr "Wenn eine Alge versucht, zu wachsen, aber etwas blockiert ihren Weg, wird ihr Wachstum gestoppt, selbst dann, wenn die Barriere später entfernt wird."
+
+msgid "Algae grow underwater in different heights."
+msgstr "Algen wachsen im Wasser in verschiedenen Höhen."
+
+msgid "Place it at the ceiling and watch it grow."
+msgstr "Platziere sie an die Decke und sie wird wachsen."
+
+msgid "If you want the vine to stop growing, make a precise cut using scissors."
+msgstr "Wenn du das Wachstum einer Liane stoppen willst, mach einen Präzisionsschnitt mit einer Schere."
+
+msgid "It's climbing time!"
+msgstr "Es ist Kletterzeit!"
+
+msgid "Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized."
+msgstr "Viele Wildpflanzen so wie Weizen und Baumwolle wachsen auf Erde, aber sie wachsen besser, wenn sie gedüngt ist."
+
+msgid "You're dirty!"
+msgstr "Du bist dreckig!"
+
+msgid "Swamp dirt is really interesting. The famous swamp oak grows on it, and papyrus also grows exceptionally well."
+msgstr "Sumpferde ist sehr interessant. Auf ihr wächst die berühmte Sumpfeiche, und Papyrus wächst auch besonders gut."
+
+msgid "Disgusting!"
+msgstr "Ekelhaft!"
+
+msgid "Not much grows on dry dirt."
+msgstr "Es wächst nicht viel auf trockener Erde."
+
+msgid "This dirt is as dry as my jokes."
+msgstr "Diese Erde ist so trocken wie meine Witze."
+
+msgid "You can use sand to grow cacti."
+msgstr "Auf Sand kann man Kakteen wachsen lassen."
+
+msgid "Be careful not to let it fall on your head!"
+msgstr "Pass auf, dass dir das nicht auf deinem Kopf fällt!"
+
+msgid "This is like my ex-lover's heart. Made out of stone."
+msgstr "Dies ist wie das Herz meines Exliebhabers. Aus Stein."
+
+msgid "Stay healthy!"
+msgstr "Bleib gesund!"
+
+msgid "Walker"
+msgstr "Läufer"
+

@@ -1,0 +1,85 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_gold x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-02-27 21:56+0000\n"
+"Last-Translator: AbduSharif <narukomanroom@gmail.com>\n"
+"Language-Team: Arabic <https://translate.codeberg.org/projects/repixture/"
+"rp_gold/ar/>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 5.4\n"
+
+msgid "Farmer"
+msgstr "مزارع"
+
+msgid "Tavern Keeper"
+msgstr "حارس حانة"
+
+msgid "Carpenter"
+msgstr "نجار"
+
+msgid "Blacksmith"
+msgstr "حداد"
+
+msgid "Butcher"
+msgstr "جزار"
+
+msgid "Trade"
+msgstr "تجارة"
+
+msgid "Trading with @1"
+msgstr "يتاجر مع @1"
+
+msgid "G"
+msgstr "G"
+
+msgid "@1 @2"
+msgstr "@1 @2"
+
+msgid "@1×@2"
+msgstr "@1×@2"
+
+msgid "@1 + @2"
+msgstr "@1 + @2"
+
+msgid "(repair)"
+msgstr "(تصليح)"
+
+msgid "@1 → @2"
+msgstr "@1 → @2"
+
+msgid "Trading Book"
+msgstr "كتاب تجارة"
+
+msgid "Show this to a villager to trade"
+msgstr "أظهر هذا الكتاب لقروي لتتمكن من التجارة"
+
+msgid "Gold Lump"
+msgstr "كتلة ذهب صغيرة"
+
+msgid "Gold Ingot"
+msgstr "سبيكة ذهب"
+
+msgid "Stone with Gold"
+msgstr "حجر مختلط بالذهب"
+
+msgid "Gold Block"
+msgstr "كتلة ذهب"
+
+msgid "Trader"
+msgstr "تاجر"
+
+msgid "Trade with a villager."
+msgstr "تاجر مع قروي."
+
+msgid "Gold Rush"
+msgstr "الإسراع نحو الذهب"
+
+msgid "Dig a gold ore."
+msgstr "احفر خامة ذهب."

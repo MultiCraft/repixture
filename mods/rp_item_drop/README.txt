@@ -11,4 +11,4 @@ Developers: There's a special function to "simulate" an item drop (see API.md).
 Credits: Originally by PilzAdam, then
 tweaked by Kaadmy for Pixture and later Wuzzy for Repixture.
 
-Source license: LGPLv2.1
+Source code license: LGPLv2.1 or later

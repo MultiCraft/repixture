@@ -30,7 +30,7 @@ default.register_ingot = function(name, def)
 			fixed = { -6/16, -0.5, -3/16, 6/16, -6/16, 3/16 },
 		},
 		paramtype = "light",
-		paramtype2 = "facedir",
+		paramtype2 = "4dir",
 		floodable = true,
 		on_flood = function(pos)
 			minetest.add_item(pos, name)

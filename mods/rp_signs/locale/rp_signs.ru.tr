@@ -1,0 +1,27 @@
+# textdomain: rp_signs
+Write=Записать
+Write a short message=Напиши короткое сообщение
+Write short messages (two sides)=
+Wooden Wall Sign=
+Painted Wooden Wall Sign=
+Wooden Pole Sign=
+Painted Pole Wooden Sign=
+Oak Wall Sign=
+Painted Oak Wall Sign=
+Oak Pole Sign=
+Painted Oak Pole Sign=
+Birch Wall Sign=
+Painted Birch Wall Sign=
+Birch Pole Sign=
+Painted Birch Pole Sign=
+
+
+##### not used anymore #####
+
+"@1"="@1"
+Wooden Sign=Деревянная табличка
+Painted Wooden Sign=Окрашенная Деревянная Табличка
+Oak Sign=Дубовая табличка
+Painted Oak Sign=Окрашенная Дубовая Табличка
+Birch Sign=Берёзовая табличка
+Painted Birch Sign=Окрашенная Берёзовая Табличка

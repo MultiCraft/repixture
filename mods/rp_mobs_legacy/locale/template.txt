@@ -1,0 +1,2 @@
+# textdomain: rp_mobs_legacy
+Entity name “@1” is outdated. Use “@2” instead.=

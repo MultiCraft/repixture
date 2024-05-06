@@ -1,0 +1,117 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_achievements x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "You have earned the achievement “@1”."
+msgstr ""
+
+msgid "@1 has earned the achievement “@2”."
+msgstr ""
+
+msgid "Achievement gotten!"
+msgstr ""
+
+msgid "You have gotten all achievements!"
+msgstr ""
+
+msgid "@1 has gotten all achievements!"
+msgstr ""
+
+msgid "All achievements gotten!"
+msgstr ""
+
+msgid "You have lost all achievements!"
+msgstr ""
+
+msgid "@1 has lost all achievements!"
+msgstr ""
+
+msgid "All achievements lost!"
+msgstr ""
+
+msgid "You have lost the achievement “@1”."
+msgstr ""
+
+msgid "@1 has lost the achievement “@2”."
+msgstr ""
+
+msgid "Achievement lost!"
+msgstr ""
+
+msgid "The achievement “@1” has new goals."
+msgstr ""
+
+msgid "Achievements"
+msgstr ""
+
+msgid "Gotten"
+msgstr ""
+
+msgid "@1/@2"
+msgstr ""
+
+msgid "Missing"
+msgstr ""
+
+msgid ", "
+msgstr ""
+
+msgid "Completed: @1"
+msgstr ""
+
+msgid "Status: @1"
+msgstr ""
+
+msgid "@1 of @2 achievements gotten, @3 in progress"
+msgstr ""
+
+msgid "Show symbols"
+msgstr ""
+
+msgid "Show list"
+msgstr ""
+
+msgid "(list [<player>]) | ((give | remove) <player> (<achievement> | all))"
+msgstr ""
+
+msgid "List, give or remove achievements of player"
+msgstr ""
+
+msgid "@1: @2 (@3)"
+msgstr ""
+
+msgid "unset"
+msgstr ""
+
+msgid "No achievements."
+msgstr ""
+
+msgid "List of achievements (difficulty rating in brackets):"
+msgstr ""
+
+msgid "Player is not online!"
+msgstr ""
+
+msgid "@1: Gotten"
+msgstr ""
+
+msgid "@1: In progress (@2/@3)"
+msgstr ""
+
+msgid "Achievements of @1:"
+msgstr ""
+
+msgid "Unknown achievement! Use “/achievement list” to list valid achievement names."
+msgstr ""
+

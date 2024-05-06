@@ -46,6 +46,8 @@ Arguments:
 
 #### Tool naming convention
 
+You should always set a custom `description` for the jeweled tool.
+
 For the `description`, most jeweled tools in this mod use a description
 of the form “[adjective] Jewel [orignal tool name]”, with the adjective
 describing what is special about this tool.

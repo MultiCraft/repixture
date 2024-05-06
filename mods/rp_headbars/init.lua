@@ -40,15 +40,17 @@ end
 minetest.register_entity(
    "rp_headbars:hpbar",
    {
-      visual = "sprite",
-      visual_size = {x = 1 * headbars_scale, y = 0.1 * headbars_scale, z = 1},
-      textures = {headbars.get_sprite("headbars_heart.png", "blank.png", 20, 20)},
+      initial_properties = {
+         visual = "sprite",
+         visual_size = {x = 1 * headbars_scale, y = 0.1 * headbars_scale, z = 1},
+         textures = {headbars.get_sprite("headbars_heart.png", "blank.png", 20, 20)},
 
-      glow = 5,
+         glow = 5,
 
-      physical = false,
-      pointable = false,
-      static_save = false,
+         physical = false,
+         pointable = false,
+         static_save = false,
+      },
 
       _wielder = nil,
 

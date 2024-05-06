@@ -2,8 +2,6 @@
 Your respawn position was blocked or dangerous. You’ve lost your old respawn position.=Votre position de réapparition était bloquée ou dangereuse. Vous avez perdu votre ancienne position de réapparition.
 You have slept, rise and shine!=Vous avez dormi, vous avez la pêche !
 Players have slept, rise and shine!=Les joueurs ont dormi, ils se lèvent et rayonnent !
-Bed=Lit
-Sets the respawn position and allows to pass the night=Définit la position de réapparition et permet de passer la nuit
 Sleeping is disabled.=Le sommeil est désactivé.
 It’s too painful to sleep here!=C'est trop pénible de dormir ici !
 You can’t sleep while holding your breath!=Vous ne pouvez pas dormir en retenant votre respiration !
@@ -11,6 +9,8 @@ Not enough space to sleep!=Pas assez d'espace pour dormir !
 You can’t sleep here!=Vous ne pouvez pas dormir ici !
 You have to stop moving before going to bed!=Vous devez arrêter de bouger avant d'aller au lit !
 Respawn position set!=Position de réapparition définie !
+Bed=Lit
+Sets the respawn position and allows to pass the night=Définit la position de réapparition et permet de passer la nuit
 In bed=Au lit
 You're in a bed=Vous êtes dans un lit
 Bed Time=Heure du coucher

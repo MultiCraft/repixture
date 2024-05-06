@@ -1,0 +1,930 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_default x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Timber"
+msgstr "Дровосек"
+
+msgid "Dig a tree trunk."
+msgstr "Сруби блок дерева."
+
+msgid "My First Pickaxe"
+msgstr "Моя первая кирка"
+
+msgid "Craft a pickaxe."
+msgstr "Скрафти кирку."
+
+msgid "Hardened Miner"
+msgstr "Закалённый шахтёр"
+
+msgid "Craft a carbon steel pickaxe."
+msgstr "Скрафти кирку из углеродистой стали."
+
+msgid "Off to Battle"
+msgstr "В бой"
+
+msgid "Craft a weapon."
+msgstr "Скрафти оружие."
+
+msgid "Mineority"
+msgstr "Каменьшинство"
+
+msgid "Mine a stone."
+msgstr "Выкопай камень."
+
+msgid "Smelting Room"
+msgstr "Плавильня"
+
+msgid "Craft a furnace."
+msgstr "Скрафти печку."
+
+msgid "Metal Age"
+msgstr "Железный век"
+
+msgid "Put a mineral and some fuel in a furnace to smelt an ingot."
+msgstr "Положи минерал и немного топлива в печку чтобы выплавить слиток."
+
+msgid "Fertile"
+msgstr "Плодородник"
+
+msgid "Use fertilizer to fertilize the ground."
+msgstr "Используй удобрение чтобы удобрить почву."
+
+msgid "Overgrowth"
+msgstr "Разрастание"
+
+msgid "Grow a papyrus to its maximum height, then harvest it."
+msgstr "Вырасти папирус до максимальной высоты, а потом собери."
+
+msgid "Librarian"
+msgstr "Библиотекарь"
+
+msgid "Craft a bookshelf."
+msgstr "Скрафти книжную полку."
+
+msgid "Forester"
+msgstr "Лесник"
+
+msgid "Plant one of every sapling."
+msgstr "Посади по каждому виду саженца."
+
+msgid "Explorer"
+msgstr "Путешественний"
+
+msgid "Visit all surface biomes."
+msgstr "Посети все наземные биомы."
+
+msgid "A Complete Collection"
+msgstr "Я собрал их всех"
+
+msgid "Obtain one of each minerals."
+msgstr "Добудь каждый минерал."
+
+msgid "Wooden Bucket with Water"
+msgstr "Деревянное Ведро Воды"
+
+msgid "Punch to empty the bucket"
+msgstr "Удар чтобы опустошить ведро"
+
+msgid "Wooden Bucket with River Water"
+msgstr "Деревянное Ведро Речной Воды"
+
+msgid "Wooden Bucket with Swamp Water"
+msgstr "Деревянное Ведро Болотной Воды"
+
+msgid "Wooden Bucket"
+msgstr "Деревянное Ведро"
+
+msgid "Punch to collect a liquid source"
+msgstr "Удар чтобы набрать жидкость"
+
+msgid "Chest"
+msgstr "Сундук"
+
+msgid "Provides 32 inventory slots"
+msgstr "Содержит 32 слота"
+
+msgid "Painted Chest"
+msgstr "Окрашенный Сундук"
+
+msgid "Fiber"
+msgstr "Волокно"
+
+msgid "Stick"
+msgstr "Палка"
+
+msgid "Paper"
+msgstr "Бумага"
+
+msgid "Pearl"
+msgstr "Жемчужина"
+
+msgid "Graphite Sheet"
+msgstr "Графитовый лист"
+
+msgid "Sulfur Lump"
+msgstr "Кусок серы"
+
+msgid "Coal Lump"
+msgstr "Кусок угля"
+
+msgid "Iron Lump"
+msgstr "Кусог железа"
+
+msgid "Tin Lump"
+msgstr "Кусок олова"
+
+msgid "Copper Lump"
+msgstr "Кусок меди"
+
+msgid "Bronze Lump"
+msgstr "Кусок бронзы"
+
+msgid "Flint Shard"
+msgstr "Кремневый осколок"
+
+msgid "Book"
+msgstr "Книга"
+
+msgid "Wooden Fence"
+msgstr "Деревянный забор"
+
+msgid "Painted Wooden Fence"
+msgstr "Окрашенный Деревянный Забор"
+
+msgid "Oak Fence"
+msgstr "Дубовый забор"
+
+msgid "Painted Oak Fence"
+msgstr "Окрашенный Дубовыц Забор"
+
+msgid "Birch Fence"
+msgstr "Берёзовый забор"
+
+msgid "Painted Birch Fence"
+msgstr "Окрашенный Берёзовый Забор"
+
+msgid "Fertilized Dirt"
+msgstr "Удобренная земля"
+
+msgid "Speeds up the growth of plants"
+msgstr "Ускоряет рост растений"
+
+msgid "Fertilized Dry Dirt"
+msgstr "Удобренная сухая земля"
+
+msgid "Fertilized Swamp Dirt"
+msgstr "Удобренная болотная земля"
+
+msgid "Fertilized Sand"
+msgstr "Удобренный песок"
+
+msgid "Fertilizer"
+msgstr "Удобрение"
+
+msgid "Used to fertilize dirt and sand to speed up plant growth"
+msgstr "Используется для удобрения земли и песка для ускорения роста растений"
+
+msgid "Furnace"
+msgstr "Печка"
+
+msgid "Uses fuel to smelt a material into something else"
+msgstr "Использует топливо чтобы переплавить материал во что-то ещё"
+
+msgid "Furnace (active)"
+msgstr "Печка (активна)"
+
+msgid "@1%"
+msgstr "@1%"
+
+msgid "Empty"
+msgstr "Пусто"
+
+msgid "Not cookable"
+msgstr "Непереплавляемый"
+
+msgid "Furnace active (Item: @1; Fuel: @2)"
+msgstr "Печка активна (Предмет: @1; Топливо: @2)"
+
+msgid "Furnace inactive (Item: @1; Fuel: @2)"
+msgstr "Печка не активна (Предмет: @1; Топливо: @2)"
+
+msgid "Steel Ingot"
+msgstr "Стальной слиток"
+
+msgid "Carbon Steel Ingot"
+msgstr "Слиток углеродистой стали"
+
+msgid "Copper Ingot"
+msgstr "Медный слиток"
+
+msgid "Tin Ingot"
+msgstr "Оловянный слитой"
+
+msgid "Bronze Ingot"
+msgstr "Бронзовый слиток"
+
+msgid "Wrought Iron Ingot"
+msgstr "Слиток кованого железа"
+
+msgid "Ladder"
+msgstr "Лестница"
+
+msgid "Marsh"
+msgstr "Топь"
+
+msgid "Marsh Underwater"
+msgstr ""
+
+msgid "Marsh Beach"
+msgstr ""
+
+msgid "Dense Grassland"
+msgstr "Густой луг"
+
+msgid "Giga Birch Forest"
+msgstr "Гига берёзовый лес"
+
+msgid "Mixed Forest"
+msgstr "Смешанный лес"
+
+msgid "Mixed Forest Underwater"
+msgstr ""
+
+msgid "Mixed Forest Beach"
+msgstr ""
+
+msgid "Grove"
+msgstr "Роща"
+
+msgid "Grove Underwater"
+msgstr ""
+
+msgid "Grove Beach"
+msgstr ""
+
+msgid "Wilderness"
+msgstr "Пустыня"
+
+msgid "Wilderness Underwater"
+msgstr ""
+
+msgid "Wilderness Beach"
+msgstr ""
+
+msgid "Grassland"
+msgstr "Луг"
+
+msgid "Grassland Underwater"
+msgstr ""
+
+msgid "Grassland Beach"
+msgstr ""
+
+msgid "Orchard"
+msgstr "Фруктовый сад"
+
+msgid "Shrubbery"
+msgstr "Кустарниковая заросль"
+
+msgid "Shrubbery Underwater"
+msgstr ""
+
+msgid "Shrubbery Beach"
+msgstr ""
+
+msgid "Chaparral"
+msgstr "Колючниковая заросль"
+
+msgid "Savanna"
+msgstr "Саванна"
+
+msgid "Savanna Underwater"
+msgstr ""
+
+msgid "Savanna Beach"
+msgstr ""
+
+msgid "Wasteland"
+msgstr "Пустошь"
+
+msgid "Wasteland Underwater"
+msgstr ""
+
+msgid "Wasteland Beach"
+msgstr ""
+
+msgid "Rocky Dryland"
+msgstr "Скалистая засушь"
+
+msgid "Rocky Dryland Underwater"
+msgstr ""
+
+msgid "Rocky Dryland Beach"
+msgstr ""
+
+msgid "Wooded Dryland"
+msgstr "Лесистая засушь"
+
+msgid "Wooded Dryland Underwater"
+msgstr ""
+
+msgid "Wooded Dryland Beach"
+msgstr ""
+
+msgid "Savannic Wasteland"
+msgstr "Саваннская пустошь"
+
+msgid "Savannic Wasteland Underwater"
+msgstr ""
+
+msgid "Savannic Wasteland Beach"
+msgstr ""
+
+msgid "Thorny Shrubs"
+msgstr "Колючие кустарники"
+
+msgid "Thorny Shrubs Underwater"
+msgstr ""
+
+msgid "Thorny Shrubs Beach"
+msgstr ""
+
+msgid "Mystery Forest"
+msgstr "Мистический лес"
+
+msgid "Mystery Forest Underwater"
+msgstr ""
+
+msgid "Mystery Forest Beach"
+msgstr ""
+
+msgid "Poplar Plains"
+msgstr "Равнины тополя"
+
+msgid "Poplar Plains Underwater"
+msgstr ""
+
+msgid "Poplar Plains Beach"
+msgstr ""
+
+msgid "Baby Poplar Plains"
+msgstr "Малые равнины тополя"
+
+msgid "Baby Poplar Plains Underwater"
+msgstr ""
+
+msgid "Baby Poplar Plains Beach"
+msgstr ""
+
+msgid "Tall Birch Forest"
+msgstr "Высокий берёзовый лес"
+
+msgid "Tall Birch Forest Underwater"
+msgstr ""
+
+msgid "Tall Birch Forest Beach"
+msgstr ""
+
+msgid "Birch Forest"
+msgstr "Берёзовый лес"
+
+msgid "Birch Forest Underwater"
+msgstr ""
+
+msgid "Birch Forest Beach"
+msgstr ""
+
+msgid "Oak Shrubbery"
+msgstr "Дубовая кустарниковая заросль"
+
+msgid "Oak Shrubbery Underwater"
+msgstr ""
+
+msgid "Oak Shrubbery Beach"
+msgstr ""
+
+msgid "Oak Forest"
+msgstr "Дубовый лес"
+
+msgid "Oak Forest Underwater"
+msgstr ""
+
+msgid "Oak Forest Beach"
+msgstr ""
+
+msgid "Tall Oak Forest"
+msgstr "Высокий дубовый лес"
+
+msgid "Tall Oak Forest Underwater"
+msgstr ""
+
+msgid "Tall Oak Forest Beach"
+msgstr ""
+
+msgid "Dense Oak Forest"
+msgstr "Густой дубовый лес"
+
+msgid "Swamp Meadow"
+msgstr "Болотный луг"
+
+msgid "Swamp Meadow Underwater"
+msgstr ""
+
+msgid "Swamp Meadow Beach"
+msgstr ""
+
+msgid "Swamp Meadow Highland"
+msgstr "Болотное луговое нагорье"
+
+msgid "Mixed Swamp"
+msgstr "Смешанное болото"
+
+msgid "Mixed Swamp Underwater"
+msgstr ""
+
+msgid "Mixed Swamp Beach"
+msgstr ""
+
+msgid "Mixed Swamp Highland"
+msgstr "Смешанное болотное нагорье"
+
+msgid "Swamp Forest"
+msgstr "Болотный лес"
+
+msgid "Swamp Forest Underwater"
+msgstr ""
+
+msgid "Swamp Forest Beach"
+msgstr ""
+
+msgid "Swamp Forest Highland"
+msgstr "Болотное лесное нагорье"
+
+msgid "Dry Swamp"
+msgstr "Сухое болото"
+
+msgid "Dry Swamp Underwater"
+msgstr ""
+
+msgid "Dry Swamp Beach"
+msgstr ""
+
+msgid "Dry Swamp Highland"
+msgstr "Сухое болотное нагорье"
+
+msgid "Papyrus Swamp"
+msgstr "Папирусное болото"
+
+msgid "Papyrus Swamp Underwater"
+msgstr ""
+
+msgid "Papyrus Swamp Beach"
+msgstr ""
+
+msgid "Underground"
+msgstr "Подземелье"
+
+msgid "Stone with Sulfur"
+msgstr "Камень с серой"
+
+msgid "Stone with Graphite"
+msgstr "Камень с графитом"
+
+msgid "Stone with Coal"
+msgstr "Камень с углём"
+
+msgid "Stone with Iron"
+msgstr "Камень с железом"
+
+msgid "Stone with Tin"
+msgstr "Камень с оловом"
+
+msgid "Stone with Copper"
+msgstr "Камень с медью"
+
+msgid "Stone"
+msgstr "Камень"
+
+msgid "Cobble"
+msgstr "Булыжник"
+
+msgid "Reinforced Cobble"
+msgstr "Усиленный булыжник"
+
+msgid "Gravel"
+msgstr "Гравий"
+
+msgid "Coal Block"
+msgstr "Угольный блок"
+
+msgid "Wrought Iron Block"
+msgstr "Блок из кованного железа"
+
+msgid "Steel Block"
+msgstr "Стальной блок"
+
+msgid "Carbon Steel Block"
+msgstr "Блок из углеродистой стали"
+
+msgid "Bronze Block"
+msgstr "Бронзовый блок"
+
+msgid "Copper Block"
+msgstr "Медный блок"
+
+msgid "Tin Block"
+msgstr "Оловянный блок"
+
+msgid "Dirt"
+msgstr "Земля"
+
+msgid "Dry Dirt"
+msgstr "Сухая земля"
+
+msgid "Swamp Dirt"
+msgstr "Болотная земля"
+
+msgid "Dirt with Dry Grass"
+msgstr "Земля с сухой травой"
+
+msgid "Swamp Dirt with Swamp Grass"
+msgstr "Болотная земля с болотной травой"
+
+msgid "Dirt with Grass"
+msgstr "Земля с травой"
+
+msgid "Dirt Path"
+msgstr "Земляная тропа"
+
+msgid "Dirt Path Slab"
+msgstr "Полублок земляной тропы"
+
+msgid "Glowing Dirt Path"
+msgstr "Светящаяся земляная тропа"
+
+msgid "Brick Block"
+msgstr "Кирпичный блок"
+
+msgid "Painted Brick Block"
+msgstr "Окрашенный Кирпичный Блок"
+
+msgid "Sand"
+msgstr "Песок"
+
+msgid "Sandstone"
+msgstr "Песчаник"
+
+msgid "Compressed Sandstone"
+msgstr "Спрессованный песчаник"
+
+msgid "Reinforced Compressed Sandstone"
+msgstr "Усиленный спрессованный песчаник"
+
+msgid "Glass"
+msgstr "Стекло"
+
+msgid "Painted Glass"
+msgstr "Окрашенное Стекло"
+
+msgid "Wooden Planks"
+msgstr "Деревянные доски"
+
+msgid "Painted Wooden Planks"
+msgstr "Окрашенные Деревянные Доски"
+
+msgid "Oak Planks"
+msgstr "Дубовые доски"
+
+msgid "Painted Oak Planks"
+msgstr "Окрашенные Дубовые Доски"
+
+msgid "Birch Planks"
+msgstr "Берёзовые доски"
+
+msgid "Painted Birch Planks"
+msgstr "Окрашенные Берёзовые Доски"
+
+msgid "Frame"
+msgstr "Каркас"
+
+msgid "Painted Frame"
+msgstr "Окрашенный Каркас"
+
+msgid "Reinforced Frame"
+msgstr "Усиленный каркас"
+
+msgid "Painted Reinforced Frame"
+msgstr "Окрашенный Усиленный Каркас"
+
+msgid "Reed Block"
+msgstr "Тростниковый блок"
+
+msgid "Dried Reed Block"
+msgstr "Высушенный тростниковый блок"
+
+msgid "Hay"
+msgstr "Сено"
+
+msgid "Rope"
+msgstr "Верёвка"
+
+msgid "Flowing Water"
+msgstr "Текущая вода"
+
+msgid "Water Source"
+msgstr "Источник воды"
+
+msgid "Flowing River Water"
+msgstr "Текущая речная вода"
+
+msgid "River Water Source"
+msgstr "Источник речной воды"
+
+msgid "Flowing Swamp Water"
+msgstr "Текущая болотная вода"
+
+msgid "Swamp Water Source"
+msgstr "Источник болотной воды"
+
+msgid "Cactus"
+msgstr "Кактус"
+
+msgid "Grows on sand and dry dirt"
+msgstr "Растёт на песке или земле"
+
+msgid "Papyrus"
+msgstr "Папирус"
+
+msgid "Grows on sand or dirt near water"
+msgstr "Растёт на песке или земле у воды"
+
+msgid "Vine"
+msgstr "Лоза"
+
+msgid "Hangs from stone or dirt"
+msgstr "Свисает с камня или земли"
+
+msgid "Fern"
+msgstr "Папоротник"
+
+msgid "Flower"
+msgstr "Цветок"
+
+msgid "Swamp Grass Clump"
+msgstr "Куст болотной травы"
+
+msgid "Dry Grass Clump"
+msgstr "Куст сухой травы"
+
+msgid "Grass Clump"
+msgstr "Куст травы"
+
+msgid "Tall Grass Clump"
+msgstr "Куст высокой травы"
+
+msgid "Sand Grass Clump"
+msgstr "Куст песчаной травы"
+
+msgid "Thistle"
+msgstr "Чертополох"
+
+msgid "Careful, it stings!"
+msgstr "Аккуратней, он жалит!"
+
+msgid "Sapling"
+msgstr "Саженец"
+
+msgid "Grows into an apple tree"
+msgstr "Вырастает в яблоню"
+
+msgid "Oak Sapling"
+msgstr "Дубовый саженец"
+
+msgid "Grows into an oak tree"
+msgstr "Вырастает в дуб"
+
+msgid "Birch Sapling"
+msgstr "Берёзовый саженец"
+
+msgid "Grows into a birch tree"
+msgstr "Вырастает в берёзу"
+
+msgid "Dry Bush Sapling"
+msgstr "Саженец сухого куста"
+
+msgid "Grows into a dry bush"
+msgstr "Вырастает в сухой куст"
+
+msgid "Tree"
+msgstr "Дерево"
+
+msgid "Oak Tree"
+msgstr "Дубовое дерево"
+
+msgid "Birch Tree"
+msgstr "Берёзовое дерево"
+
+msgid "Leaves"
+msgstr "Листва"
+
+msgid "Decays when not near a tree block"
+msgstr "Спадает, когда рядом нету блока дерева"
+
+msgid "Oak Leaves"
+msgstr "Дубовая листва"
+
+msgid "Birch Leaves"
+msgstr "Берёзовая листва"
+
+msgid "Dry Leaves"
+msgstr "Сухая листва"
+
+msgid "Apple"
+msgstr "Яблоко"
+
+msgid "Acorn"
+msgstr "Жёлудь"
+
+msgid "Tall Seagrass Clump"
+msgstr "Комок высоких водорослей"
+
+msgid "Grows underwater on dirt, swamp dirt or sand"
+msgstr "Растёт под водой на земле, болотной земле или песке"
+
+msgid "Seagrass Clump"
+msgstr "Куст водорослей"
+
+msgid "Airweed"
+msgstr "Дыхоросль"
+
+msgid "Gives back breath"
+msgstr "Отдаёт кислородом"
+
+msgid "Grows underwater on any dirt, sand or gravel"
+msgstr "Растёт под водой на любой земле, песке или гравии"
+
+msgid "Airweed (full)"
+msgstr "Дыхоросль (полная)"
+
+msgid "Alga Block"
+msgstr "Блок водорослей"
+
+msgid "Alga"
+msgstr "Водоросли"
+
+msgid "Grows underwater on dirt, swamp dirt, sand or alga block"
+msgstr "Растёт под водой на земле, болотной земле, песке или блоке водорослей"
+
+msgid "Clam"
+msgstr "Моллюск"
+
+msgid "Creative Tool"
+msgstr "Творческий инструмент"
+
+msgid "Can dig (nearly) every block"
+msgstr "Может выкопать (почти) любой блок"
+
+msgid "Digs hard, cracky blocks"
+msgstr "Копает твёрдые, трескающиеся блоки"
+
+msgid "Digs soft, crumbly blocks"
+msgstr "Копает мягкие, рассыпчатые блоки"
+
+msgid "Chops wood"
+msgstr "Рубит дерево"
+
+msgid "Melee weapon"
+msgstr "Оружие ближнего боя"
+
+msgid "Cuts leaves and plants and shears sheep"
+msgstr "Срезает листья с растениями и стрижёт овец"
+
+msgid "“Place” key: Precise cut"
+msgstr "Клавиша \"Поставить\": Точный надрез"
+
+msgid "Wooden Pickaxe"
+msgstr "Деревянная кирка"
+
+msgid "Stone Pickaxe"
+msgstr "Каменная кирка"
+
+msgid "Wrought Iron Pickaxe"
+msgstr "Кирка из кованого железа"
+
+msgid "Steel Pickaxe"
+msgstr "Стальная кирка"
+
+msgid "Carbon Steel Pickaxe"
+msgstr "Кирка из углеродистой стали"
+
+msgid "Bronze Pickaxe"
+msgstr "Бронзовая кирка"
+
+msgid "Wooden Shovel"
+msgstr "Деревянная лопата"
+
+msgid "Stone Shovel"
+msgstr "Каменная лопата"
+
+msgid "Wrought Iron Shovel"
+msgstr "Лопата из кованого железа"
+
+msgid "Steel Shovel"
+msgstr "Стальная лопата"
+
+msgid "Carbon Steel Shovel"
+msgstr "Лопата из углеродистой стали"
+
+msgid "Bronze Shovel"
+msgstr "Бронзовая лопата"
+
+msgid "Wooden Axe"
+msgstr "Деревянный топор"
+
+msgid "Stone Axe"
+msgstr "Каменный топор"
+
+msgid "Wrought Iron Axe"
+msgstr "Топор из кованого железа"
+
+msgid "Steel Axe"
+msgstr "Стальной топор"
+
+msgid "Carbon Steel Axe"
+msgstr "Топор из углеродистой стали"
+
+msgid "Bronze Axe"
+msgstr "Бронзовой топор"
+
+msgid "Wooden Spear"
+msgstr "Деревянное копьё"
+
+msgid "Stone Spear"
+msgstr "Каменное копьё"
+
+msgid "Wrought Iron Spear"
+msgstr "Копьё из кованого железа"
+
+msgid "Steel Spear"
+msgstr "Стальное копьё"
+
+msgid "Carbon Steel Spear"
+msgstr "Копьё из углеродистой стали"
+
+msgid "Bronze Spear"
+msgstr "Бронзовое копьё"
+
+msgid "Broadsword"
+msgstr "Палаш"
+
+msgid "A mighty melee weapon"
+msgstr "Мощное оружие ближнего боя"
+
+msgid "Wrought Iron Shears"
+msgstr "Ножницы из кованого железа"
+
+msgid "Steel Shears"
+msgstr "Стальные ножницы"
+
+msgid "Carbon Steel Shears"
+msgstr "Ножницы из углеродистой стали"
+
+msgid "Bronze Shears"
+msgstr "Бронзовые ножницы"
+
+msgid "Flint and Steel"
+msgstr "Огниво"
+
+msgid "Ignites ignitable blocks"
+msgstr "Зажигает блоки"
+
+msgid "Dead Torch"
+msgstr "Потухший факел"
+
+msgid "Doesn't provide any light"
+msgstr "Не излучает никакого света"
+
+msgid "Weak Torch"
+msgstr "Слабый факел"
+
+msgid "Provides a bit of light but it will eventually burn out"
+msgstr "Излучает немного света но позже потухнет"
+
+msgid "Torch"
+msgstr "Факел"
+
+msgid "It's bright and burns forever"
+msgstr "Он ярок и горит вечно"
+

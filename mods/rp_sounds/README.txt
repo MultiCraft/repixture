@@ -124,6 +124,10 @@ List of sounds and credits:
 	* A slight pitch change was applied
 	* Source: <https://opengameart.org/content/fantasy-sound-effects-library>
 	* License: CC BY 3.0
+* rp_sounds_disappear.ogg
+	* Sound by smidoid
+	* Source: <https://freesound.org/people/smidoid/sounds/49146/>
+	* License: CC BY 4.0
 
 * rp_sounds_footstep_dirt.*.ogg
 * rp_sounds_footstep_dry_dirt.*.ogg
@@ -159,6 +163,8 @@ List of sounds and credits:
 * rp_sounds_fall_gravel.*.ogg
 * rp_sounds_fall_grass.*.ogg
 * rp_sounds_fall_plant.*.ogg
+* rp_sounds_scrape_wood.*.ogg
+* rp_sounds_scrape_glass.*.ogg
 * default_water_footstep.*.ogg
 	* by Wuzzy
 	* License: CC0
@@ -167,7 +173,7 @@ All other sounds not mentioned above are licensed under CC0.
 
 ### Source code license
 
-The source code license is LGPLv2.1.
+The source code license is LGPLv2.1 or later.
 
 ### License references
 

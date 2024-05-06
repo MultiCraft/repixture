@@ -1,9 +1,9 @@
 local S = minetest.get_translator("rp_default")
 
 local water_buckets = {
-   { "water", S("Water Bucket"), "default_bucket_water.png", "rp_default:water_source", S("Punch to empty the bucket") },
-   { "river_water", S("River Water Bucket"), "default_bucket_river_water.png", "rp_default:river_water_source", S("Punch to empty the bucket") },
-   { "swamp_water", S("Swamp Water Bucket"), "default_bucket_swamp_water.png", "rp_default:swamp_water_source", S("Punch to empty the bucket") },
+   { "water", S("Wooden Bucket with Water"), "default_bucket_water.png", "rp_default:water_source", S("Punch to empty the bucket") },
+   { "river_water", S("Wooden Bucket with River Water"), "default_bucket_river_water.png", "rp_default:river_water_source", S("Punch to empty the bucket") },
+   { "swamp_water", S("Wooden Bucket with Swamp Water"), "default_bucket_swamp_water.png", "rp_default:swamp_water_source", S("Punch to empty the bucket") },
 }
 
 local node_to_bucket = {}
@@ -37,7 +37,7 @@ for b=1, #water_buckets do
          },
 	 use_texture_alpha = "blend",
 	 paramtype = "light",
-         paramtype2 = "facedir",
+         paramtype2 = "4dir",
 	 is_ground_content = false,
          selection_box = {
             type = "fixed",
@@ -120,7 +120,7 @@ end
 minetest.register_node(
    "rp_default:bucket",
    {
-      description = S("Empty Bucket"),
+      description = S("Wooden Bucket"),
       _tt_help = S("Punch to collect a liquid source"),
       inventory_image = "default_bucket.png",
       wield_image = "default_bucket.png",
@@ -146,7 +146,7 @@ minetest.register_node(
          footstep = {},
       }),
       paramtype = "light",
-      paramtype2 = "facedir",
+      paramtype2 = "4dir",
       use_texture_alpha = "clip",
       walkable = false,
       floodable = true,
@@ -221,8 +221,7 @@ minetest.register_node(
 	  -- fills with water. The fullness value is stored in param2.
 	  local p2 = node.param2
           if p2 < 64 then
-             -- We increase param2 by 32 because this is the value at which
-             -- facedir wraps around
+             -- We increase param2 by 32 because it's a number divisible by 4 (4dir wraps around)
              p2 = p2 + 32
              minetest.set_node(pos, {name=node.name, param2 = p2})
 	     minetest.log("verbose", "[rp_default] Bucket at "..minetest.pos_to_string(pos).." got its fullness increased in the rain (param2="..p2..")")

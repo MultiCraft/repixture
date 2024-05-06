@@ -203,7 +203,7 @@ local function update_bar(player)
 	    hud_elem_type = "statbar",
 	    position = {x=0.5,y=1.0},
 	    text = "hunger.png",
-	    text2 = "hunger.png^[colorize:#666666:255",
+	    text2 = "hunger_gone.png",
 	    number = userdata[name].hunger,
 	    item = hunger.MAX_HUNGER,
 	    dir = 0,
@@ -628,6 +628,13 @@ if mod_achievements then
 		      icon = "rp_hunger_achievement_eat_everything.png",
 		      difficulty = 6.9,
 		})
+
+		for old, new in pairs(minetest.registered_aliases) do
+			if minetest.get_item_group(new, "food") > 0 then
+				achievements.register_subcondition_alias("eat_everything", old, new)
+				minetest.log("verbose", "[rp_hunger] Registered subcondition alias for 'eat_everything' achievement: "..old.." -> "..new)
+			end
+		end
 
 	end)
 end

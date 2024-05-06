@@ -39,6 +39,7 @@ local village_file = minetest.get_worldpath() .. "/villages.dat"
 
 local modpath = minetest.get_modpath("rp_village")
 local mod_locks = minetest.get_modpath("rp_locks") ~= nil
+local mod_paint = minetest.get_modpath("rp_paint") ~= nil
 local mapseed = minetest.get_mapgen_setting("seed")
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
 
@@ -246,8 +247,14 @@ village chunk definition:
       [entity_1] = <number>,
       ...
       [entity_n] = <number>,
-   }, -- list of entities that can spawn (needs entity spawner node in schematic)
+   },
+   -- list of entities that can spawn (needs entity spawner node in schematic).
+   -- For villagers, the key must be of the form '__villager_<profession>',
+   -- e.g. '__villager_farmer'.
+   -- For all other entities, use the entitystring, e.g. 'rp_mobs_mobs:sheep'.
+
    entity_chance = <number>,
+   -- Chance for an entity to spawn by an entity spawner. Chance is 1/<number>
 }
 ]]
 
@@ -256,8 +263,8 @@ village.chunkdefs["livestock_pen"] = {
       ["grassland"] = {"livestock_pen"},
    },
    entities = {
-      ["mobs:sheep"] = 3,
-      ["mobs:boar"] = 1,
+      ["rp_mobs_mobs:sheep"] = 3,
+      ["rp_mobs_mobs:boar"] = 1,
    },
 }
 village.chunkdefs["lamppost"] = { -- not road because of road height limit of 1 nodes
@@ -276,14 +283,14 @@ village.chunkdefs["lamppost"] = { -- not road because of road height limit of 1 
    can_cache = true,
    entity_chance = 2,
    entities = {
-      ["mobs:npc_carpenter"] = 1,
+      ["__villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["well"] = {
    ruins = {"well_ruins"},
    entities = {
-      ["mobs:npc_farmer"] = 1,
-      ["mobs:npc_tavernkeeper"] = 1,
+      ["__villager_farmer"] = 1,
+      ["__villager_tavernkeeper"] = 1,
    },
 }
 village.chunkdefs["house"] = {
@@ -295,7 +302,7 @@ village.chunkdefs["house"] = {
    ruins = {"house_ruins", "house_ruins_2"},
    entity_chance = 2,
    entities = {
-      ["mobs:npc_carpenter"] = 1,
+      ["__villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["hut_s"] = {
@@ -305,7 +312,7 @@ village.chunkdefs["hut_s"] = {
    ruins = {"reed_hut_s_ruins", "reed_hut_s_ruins_2"},
    entitity_chance = 2,
    entities = {
-      ["mobs:npc_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    },
 }
 village.chunkdefs["hut_m"] = {
@@ -315,7 +322,7 @@ village.chunkdefs["hut_m"] = {
    ruins = {"reed_hut_m_ruins", "reed_hut_m_ruins_2"},
    entitity_chance = 2,
    entities = {
-      ["mobs:npc_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    },
 }
 
@@ -334,7 +341,7 @@ village.chunkdefs["workshop"] = {
    },
    entity_chance = 2,
    entities = {
-      ["mobs:npc_carpenter"] = 1,
+      ["__villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["townhall"] = {
@@ -352,10 +359,10 @@ village.chunkdefs["townhall"] = {
    },
    entity_chance = 1,
    entities = {
-      ["mobs:npc_tavernkeeper"] = 1,
-      ["mobs:npc_farmer"] = 1,
-      ["mobs:npc_blacksmith"] = 1,
-      ["mobs:npc_carpenter"] = 1,
+      ["__villager_tavernkeeper"] = 1,
+      ["__villager_farmer"] = 1,
+      ["__villager_blacksmith"] = 1,
+      ["__villager_carpenter"] = 1,
    },
 }
 
@@ -375,9 +382,27 @@ village.chunkdefs["tavern"] = {
    },
    entity_chance = 2,
    entities = {
-      ["mobs:npc_tavernkeeper"] = 1,
+      ["__villager_tavernkeeper"] = 1,
    },
 }
+
+village.chunkdefs["inn"] = {
+   groundclass_variants = {
+      grassland = {"inn"},
+      dry = {"inn"},
+      savanna = {"inn"},
+   },
+   groundclass_ruins = {
+      grassland = {"tavern_ruins"},
+      dry = {"tavern_ruins"},
+      savanna = {"tavern_ruins"},
+   },
+   entity_chance = 2,
+   entities = {
+      ["__villager_tavernkeeper"] = 1,
+   },
+}
+
 village.chunkdefs["library"] = {
    groundclass_variants = {
       grassland = {"library"},
@@ -393,7 +418,7 @@ village.chunkdefs["library"] = {
    },
    entity_chance = 3,
    entities = {
-      ["mobs:npc_carpenter"] = 1,
+      ["__villager_carpenter"] = 1,
    },
 }
 village.chunkdefs["reading_club"] = {
@@ -405,8 +430,8 @@ village.chunkdefs["reading_club"] = {
    ruins = {"house_ruins", "house_ruins_2"},
    entity_chance = 3,
    entities = {
-      ["mobs:npc_farmer"] = 1,
-      ["mobs:npc_blacksmith"] = 1,
+      ["__villager_farmer"] = 1,
+      ["__villager_blacksmith"] = 1,
    },
 }
 
@@ -419,7 +444,7 @@ village.chunkdefs["bakery"] = {
    ruins = {"bakery_ruins"},
    entity_chance = 2,
    entities = {
-      ["mobs:npc_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    },
 }
 
@@ -439,7 +464,7 @@ village.chunkdefs["forge"] = {
    },
    entity_chance = 2,
    entities = {
-      ["mobs:npc_blacksmith"] = 1,
+      ["__villager_blacksmith"] = 1,
    },
 }
 village.chunkdefs["orchard"] = {
@@ -450,7 +475,7 @@ village.chunkdefs["orchard"] = {
    can_cache = true,
    entity_chance = 2,
    entities = {
-      ["mobs:npc_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    },
 }
 village.chunkdefs["road"] = {
@@ -500,7 +525,7 @@ village.chunkdefs["farm_small_plants"] = {
    },
    entity_chance = 2,
    entities = {
-      ["mobs:npc_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    }
 }
 
@@ -517,7 +542,7 @@ village.chunkdefs["farm_papyrus"] = {
    },
    entity_chance = 2,
    entities = {
-      ["mobs:npc_farmer"] = 1,
+      ["__villager_farmer"] = 1,
    }
 }
 
@@ -538,6 +563,7 @@ village.chunktypes = {
    { "townhall", 60 },
    { "library", 20 },
    { "reading_club", 30 },
+   { "inn", 20 },
    -- workplaces
    { "forge", 100 },
    { "workshop", 100 },
@@ -1246,7 +1272,8 @@ local function village_modify_populate_containers(upos, upos2, pr, extras)
       end
 end
 
--- Village modifier: Limit number of music players in village to 1
+-- Village modifier: Limit number of music players in village to 1.
+-- Also set random color for the remaning music player.
 local function village_modify_limit_music_players(upos, upos2, pr)
       -- Maximum of 1 music player per village; remove excess music players
       local music_players = 0
@@ -1258,7 +1285,37 @@ local function village_modify_limit_music_players(upos, upos2, pr)
               minetest.remove_node(pos)
            else
               music_players = music_players + 1
+
+              -- Also initialize music box with random color
+              local color = math.random(1, rp_paint.COLOR_COUNT)
+              minetest.swap_node(pos, {name="rp_music:player", param2 = color-1})
+              local meta = minetest.get_meta(pos)
+              meta:set_int("music_player_legacy_color", 1)
            end
+         end, true)
+end
+
+-- Village modifier: Random bed color
+local function village_modify_bed_colors(upos, upos2, pr)
+      if not mod_paint then
+         return
+      end
+      util.nodefunc(
+         upos, upos2,
+         "rp_bed:bed_foot",
+         function(pos)
+             local node = minetest.get_node(pos)
+             local dir = minetest.fourdir_to_dir(node.param2)
+             local param2 = node.param2 % 4 + math.random(0, rp_paint.COLOR_COUNT-1)*4
+             node.param2 = param2
+             minetest.swap_node(pos, node)
+
+             local pos2 = vector.add(pos, dir)
+             local node2 = minetest.get_node(pos2)
+             node2.param2 = param2
+             if node2.name == "rp_bed:bed_head" then
+                 minetest.swap_node(pos2, node2)
+             end
          end, true)
 end
 
@@ -1547,6 +1604,9 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
          village_modify_abandoned_village(upos, upos2, pr, {path=dirt_path, path_slab=dirt_path_slab, ground_top=ground_top})
       end
 
+      -- Colorize beds
+      village_modify_bed_colors(upos, upos2, pr)
+
       -- Force on_construct to be called on all nodes
       util.reconstruct(upos, upos2, pr)
 
@@ -1586,6 +1646,11 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
                -- Initialize entity spawners
 	       if #ent_spawns > 0 then
 	          for ent, amt in pairs(chunkdef.entities) do
+                     local profession
+                     if string.sub(ent, 1, 11) == "__villager_" then
+                        profession = string.sub(ent, 12, -1)
+                        ent = "rp_mobs_mobs:villager"
+                     end
                      for j = 1, pr:next(1, amt) do
                         if #ent_spawns == 0 then
                            break
@@ -1594,6 +1659,9 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
                         if spawn ~= nil then
                            local meta = minetest.get_meta(spawn)
                            meta:set_string("entity", ent)
+                           if profession then
+                              meta:set_string("villager_profession", profession)
+                           end
                            minetest.get_node_timer(spawn):start(1)
                            -- Prevent spawning on same tile
                            table.remove(ent_spawns, index)

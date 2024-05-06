@@ -1,0 +1,930 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_default x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Timber"
+msgstr ""
+
+msgid "Dig a tree trunk."
+msgstr ""
+
+msgid "My First Pickaxe"
+msgstr "Il mio primo piccone"
+
+msgid "Craft a pickaxe."
+msgstr "Assembla un piccone."
+
+msgid "Hardened Miner"
+msgstr ""
+
+msgid "Craft a carbon steel pickaxe."
+msgstr "Assembla un piccone di acciaio al carbonio."
+
+msgid "Off to Battle"
+msgstr ""
+
+msgid "Craft a weapon."
+msgstr "Assembla un'arma."
+
+msgid "Mineority"
+msgstr ""
+
+msgid "Mine a stone."
+msgstr "Estrai una pietra."
+
+msgid "Smelting Room"
+msgstr ""
+
+msgid "Craft a furnace."
+msgstr "Assembla una fornace."
+
+msgid "Metal Age"
+msgstr "Età del metallo"
+
+msgid "Put a mineral and some fuel in a furnace to smelt an ingot."
+msgstr "Metti un minerale e del combustibile in una fornace per fondere un lingotto."
+
+msgid "Fertile"
+msgstr "Fertile"
+
+msgid "Use fertilizer to fertilize the ground."
+msgstr "Usa del fertilizzante per fertilizzare il suolo."
+
+msgid "Overgrowth"
+msgstr ""
+
+msgid "Grow a papyrus to its maximum height, then harvest it."
+msgstr "Fai crescere un papiro fino alla sua massima altezza, poi raccoglilo."
+
+msgid "Librarian"
+msgstr "Bibliotecario"
+
+msgid "Craft a bookshelf."
+msgstr "Assembla una libreria."
+
+msgid "Forester"
+msgstr ""
+
+msgid "Plant one of every sapling."
+msgstr "Pianta un esemplare di ogni germoglio."
+
+msgid "Explorer"
+msgstr "Esploratore"
+
+msgid "Visit all surface biomes."
+msgstr ""
+
+msgid "A Complete Collection"
+msgstr "Una collezione completa"
+
+msgid "Obtain one of each minerals."
+msgstr "Ottieni un esemplare di ogni minerale."
+
+msgid "Wooden Bucket with Water"
+msgstr ""
+
+msgid "Punch to empty the bucket"
+msgstr ""
+
+msgid "Wooden Bucket with River Water"
+msgstr ""
+
+msgid "Wooden Bucket with Swamp Water"
+msgstr ""
+
+msgid "Wooden Bucket"
+msgstr ""
+
+msgid "Punch to collect a liquid source"
+msgstr ""
+
+msgid "Chest"
+msgstr "Cassa"
+
+msgid "Provides 32 inventory slots"
+msgstr ""
+
+msgid "Painted Chest"
+msgstr ""
+
+msgid "Fiber"
+msgstr "Fibra"
+
+msgid "Stick"
+msgstr ""
+
+msgid "Paper"
+msgstr "Carta"
+
+msgid "Pearl"
+msgstr "Perla"
+
+msgid "Graphite Sheet"
+msgstr "Foglio di grafite"
+
+msgid "Sulfur Lump"
+msgstr "Grumo di zolfo"
+
+msgid "Coal Lump"
+msgstr "Grumo di carbone"
+
+msgid "Iron Lump"
+msgstr "Grumo di ferro"
+
+msgid "Tin Lump"
+msgstr "Grumo di stagno"
+
+msgid "Copper Lump"
+msgstr "Grumo di rame"
+
+msgid "Bronze Lump"
+msgstr "Grumo di bronzo"
+
+msgid "Flint Shard"
+msgstr "Scheggia di selce"
+
+msgid "Book"
+msgstr "Libro"
+
+msgid "Wooden Fence"
+msgstr "Steccato di legno"
+
+msgid "Painted Wooden Fence"
+msgstr ""
+
+msgid "Oak Fence"
+msgstr "Steccato di quercia"
+
+msgid "Painted Oak Fence"
+msgstr ""
+
+msgid "Birch Fence"
+msgstr "Steccato di betulla"
+
+msgid "Painted Birch Fence"
+msgstr ""
+
+msgid "Fertilized Dirt"
+msgstr "Terra fertilizzata"
+
+msgid "Speeds up the growth of plants"
+msgstr "Accelera la crescita delle piante"
+
+msgid "Fertilized Dry Dirt"
+msgstr "Terra secca fertilizzata"
+
+msgid "Fertilized Swamp Dirt"
+msgstr "Terra paludosa fertilizzata"
+
+msgid "Fertilized Sand"
+msgstr "Sabbia fertilizzata"
+
+msgid "Fertilizer"
+msgstr "Fertilizzante"
+
+msgid "Used to fertilize dirt and sand to speed up plant growth"
+msgstr "Usato per fertilizzare terra e sabbia per accelerare la crescita delle piante"
+
+msgid "Furnace"
+msgstr "Fornace"
+
+msgid "Uses fuel to smelt a material into something else"
+msgstr "Usa combustibile per fondere o cuocere un materiale, trasformandolo in qualcos'altro"
+
+msgid "Furnace (active)"
+msgstr "Fornace (attiva)"
+
+msgid "@1%"
+msgstr "@1%"
+
+msgid "Empty"
+msgstr "Vuoto"
+
+msgid "Not cookable"
+msgstr "Non cucinabile/fusibile"
+
+msgid "Furnace active (Item: @1; Fuel: @2)"
+msgstr "Fornace attiva (oggetto: @1; combustibile: @2)"
+
+msgid "Furnace inactive (Item: @1; Fuel: @2)"
+msgstr "Fornace inattiva (oggetto: @1; combustibile: @2)"
+
+msgid "Steel Ingot"
+msgstr "Lingotto di acciaio"
+
+msgid "Carbon Steel Ingot"
+msgstr "Lingotto di acciaio al carbonio"
+
+msgid "Copper Ingot"
+msgstr "Lingotto di rame"
+
+msgid "Tin Ingot"
+msgstr "Lingotto di stagno"
+
+msgid "Bronze Ingot"
+msgstr "Lingotto di bronzo"
+
+msgid "Wrought Iron Ingot"
+msgstr "Lingotto di ferro battuto"
+
+msgid "Ladder"
+msgstr "Scala a pioli"
+
+msgid "Marsh"
+msgstr "Palude"
+
+msgid "Marsh Underwater"
+msgstr ""
+
+msgid "Marsh Beach"
+msgstr ""
+
+msgid "Dense Grassland"
+msgstr "Prateria fitta"
+
+msgid "Giga Birch Forest"
+msgstr "Foresta di betulle giganti"
+
+msgid "Mixed Forest"
+msgstr "Foresta mista"
+
+msgid "Mixed Forest Underwater"
+msgstr ""
+
+msgid "Mixed Forest Beach"
+msgstr ""
+
+msgid "Grove"
+msgstr "Boschetto"
+
+msgid "Grove Underwater"
+msgstr ""
+
+msgid "Grove Beach"
+msgstr ""
+
+msgid "Wilderness"
+msgstr "Selva"
+
+msgid "Wilderness Underwater"
+msgstr ""
+
+msgid "Wilderness Beach"
+msgstr ""
+
+msgid "Grassland"
+msgstr "Prateria"
+
+msgid "Grassland Underwater"
+msgstr ""
+
+msgid "Grassland Beach"
+msgstr ""
+
+msgid "Orchard"
+msgstr "Frutteto"
+
+msgid "Shrubbery"
+msgstr "Macchia"
+
+msgid "Shrubbery Underwater"
+msgstr ""
+
+msgid "Shrubbery Beach"
+msgstr ""
+
+msgid "Chaparral"
+msgstr "Chaparral"
+
+msgid "Savanna"
+msgstr "Savana"
+
+msgid "Savanna Underwater"
+msgstr ""
+
+msgid "Savanna Beach"
+msgstr ""
+
+msgid "Wasteland"
+msgstr "Landa desolata"
+
+msgid "Wasteland Underwater"
+msgstr ""
+
+msgid "Wasteland Beach"
+msgstr ""
+
+msgid "Rocky Dryland"
+msgstr ""
+
+msgid "Rocky Dryland Underwater"
+msgstr ""
+
+msgid "Rocky Dryland Beach"
+msgstr ""
+
+msgid "Wooded Dryland"
+msgstr ""
+
+msgid "Wooded Dryland Underwater"
+msgstr ""
+
+msgid "Wooded Dryland Beach"
+msgstr ""
+
+msgid "Savannic Wasteland"
+msgstr "Savana desolata"
+
+msgid "Savannic Wasteland Underwater"
+msgstr ""
+
+msgid "Savannic Wasteland Beach"
+msgstr ""
+
+msgid "Thorny Shrubs"
+msgstr "Cespugli spinosi"
+
+msgid "Thorny Shrubs Underwater"
+msgstr ""
+
+msgid "Thorny Shrubs Beach"
+msgstr ""
+
+msgid "Mystery Forest"
+msgstr "Foresta misteriosa"
+
+msgid "Mystery Forest Underwater"
+msgstr ""
+
+msgid "Mystery Forest Beach"
+msgstr ""
+
+msgid "Poplar Plains"
+msgstr "Pianura di pioppi"
+
+msgid "Poplar Plains Underwater"
+msgstr ""
+
+msgid "Poplar Plains Beach"
+msgstr ""
+
+msgid "Baby Poplar Plains"
+msgstr "Pianura di giovani pioppi"
+
+msgid "Baby Poplar Plains Underwater"
+msgstr ""
+
+msgid "Baby Poplar Plains Beach"
+msgstr ""
+
+msgid "Tall Birch Forest"
+msgstr "Foresta di betulle alte"
+
+msgid "Tall Birch Forest Underwater"
+msgstr ""
+
+msgid "Tall Birch Forest Beach"
+msgstr ""
+
+msgid "Birch Forest"
+msgstr "Foresta di betulle"
+
+msgid "Birch Forest Underwater"
+msgstr ""
+
+msgid "Birch Forest Beach"
+msgstr ""
+
+msgid "Oak Shrubbery"
+msgstr "Macchia di querce"
+
+msgid "Oak Shrubbery Underwater"
+msgstr ""
+
+msgid "Oak Shrubbery Beach"
+msgstr ""
+
+msgid "Oak Forest"
+msgstr "Foresta di querce"
+
+msgid "Oak Forest Underwater"
+msgstr ""
+
+msgid "Oak Forest Beach"
+msgstr ""
+
+msgid "Tall Oak Forest"
+msgstr "Foresta di querce giganti"
+
+msgid "Tall Oak Forest Underwater"
+msgstr ""
+
+msgid "Tall Oak Forest Beach"
+msgstr ""
+
+msgid "Dense Oak Forest"
+msgstr "Foresta fitta di querce"
+
+msgid "Swamp Meadow"
+msgstr "Prato paludoso"
+
+msgid "Swamp Meadow Underwater"
+msgstr ""
+
+msgid "Swamp Meadow Beach"
+msgstr ""
+
+msgid "Swamp Meadow Highland"
+msgstr "Prato paludoso d'altopiano"
+
+msgid "Mixed Swamp"
+msgstr "Palude mista"
+
+msgid "Mixed Swamp Underwater"
+msgstr ""
+
+msgid "Mixed Swamp Beach"
+msgstr ""
+
+msgid "Mixed Swamp Highland"
+msgstr "Palude mista d'altopiano"
+
+msgid "Swamp Forest"
+msgstr "Foresta paludosa"
+
+msgid "Swamp Forest Underwater"
+msgstr ""
+
+msgid "Swamp Forest Beach"
+msgstr ""
+
+msgid "Swamp Forest Highland"
+msgstr "Foresta paludosa d'altopiano"
+
+msgid "Dry Swamp"
+msgstr "Palude secca"
+
+msgid "Dry Swamp Underwater"
+msgstr ""
+
+msgid "Dry Swamp Beach"
+msgstr ""
+
+msgid "Dry Swamp Highland"
+msgstr "Palude secca d'altopiano"
+
+msgid "Papyrus Swamp"
+msgstr "Palude di papiri"
+
+msgid "Papyrus Swamp Underwater"
+msgstr ""
+
+msgid "Papyrus Swamp Beach"
+msgstr ""
+
+msgid "Underground"
+msgstr ""
+
+msgid "Stone with Sulfur"
+msgstr ""
+
+msgid "Stone with Graphite"
+msgstr ""
+
+msgid "Stone with Coal"
+msgstr ""
+
+msgid "Stone with Iron"
+msgstr ""
+
+msgid "Stone with Tin"
+msgstr ""
+
+msgid "Stone with Copper"
+msgstr ""
+
+msgid "Stone"
+msgstr ""
+
+msgid "Cobble"
+msgstr ""
+
+msgid "Reinforced Cobble"
+msgstr ""
+
+msgid "Gravel"
+msgstr ""
+
+msgid "Coal Block"
+msgstr ""
+
+msgid "Wrought Iron Block"
+msgstr ""
+
+msgid "Steel Block"
+msgstr ""
+
+msgid "Carbon Steel Block"
+msgstr ""
+
+msgid "Bronze Block"
+msgstr ""
+
+msgid "Copper Block"
+msgstr ""
+
+msgid "Tin Block"
+msgstr ""
+
+msgid "Dirt"
+msgstr ""
+
+msgid "Dry Dirt"
+msgstr ""
+
+msgid "Swamp Dirt"
+msgstr "Terra paludosa"
+
+msgid "Dirt with Dry Grass"
+msgstr ""
+
+msgid "Swamp Dirt with Swamp Grass"
+msgstr "Terra paludosa con erba palustre"
+
+msgid "Dirt with Grass"
+msgstr ""
+
+msgid "Dirt Path"
+msgstr ""
+
+msgid "Dirt Path Slab"
+msgstr ""
+
+msgid "Glowing Dirt Path"
+msgstr ""
+
+msgid "Brick Block"
+msgstr ""
+
+msgid "Painted Brick Block"
+msgstr ""
+
+msgid "Sand"
+msgstr ""
+
+msgid "Sandstone"
+msgstr ""
+
+msgid "Compressed Sandstone"
+msgstr ""
+
+msgid "Reinforced Compressed Sandstone"
+msgstr ""
+
+msgid "Glass"
+msgstr ""
+
+msgid "Painted Glass"
+msgstr ""
+
+msgid "Wooden Planks"
+msgstr ""
+
+msgid "Painted Wooden Planks"
+msgstr ""
+
+msgid "Oak Planks"
+msgstr ""
+
+msgid "Painted Oak Planks"
+msgstr ""
+
+msgid "Birch Planks"
+msgstr ""
+
+msgid "Painted Birch Planks"
+msgstr ""
+
+msgid "Frame"
+msgstr ""
+
+msgid "Painted Frame"
+msgstr ""
+
+msgid "Reinforced Frame"
+msgstr ""
+
+msgid "Painted Reinforced Frame"
+msgstr ""
+
+msgid "Reed Block"
+msgstr ""
+
+msgid "Dried Reed Block"
+msgstr ""
+
+msgid "Hay"
+msgstr ""
+
+msgid "Rope"
+msgstr ""
+
+msgid "Flowing Water"
+msgstr ""
+
+msgid "Water Source"
+msgstr ""
+
+msgid "Flowing River Water"
+msgstr ""
+
+msgid "River Water Source"
+msgstr ""
+
+msgid "Flowing Swamp Water"
+msgstr "Acqua palustre fluente"
+
+msgid "Swamp Water Source"
+msgstr "Sorgente di acqua palustre"
+
+msgid "Cactus"
+msgstr ""
+
+msgid "Grows on sand and dry dirt"
+msgstr ""
+
+msgid "Papyrus"
+msgstr ""
+
+msgid "Grows on sand or dirt near water"
+msgstr ""
+
+msgid "Vine"
+msgstr ""
+
+msgid "Hangs from stone or dirt"
+msgstr ""
+
+msgid "Fern"
+msgstr ""
+
+msgid "Flower"
+msgstr ""
+
+msgid "Swamp Grass Clump"
+msgstr "Ciuffo di erba palustre"
+
+msgid "Dry Grass Clump"
+msgstr ""
+
+msgid "Grass Clump"
+msgstr ""
+
+msgid "Tall Grass Clump"
+msgstr ""
+
+msgid "Sand Grass Clump"
+msgstr ""
+
+msgid "Thistle"
+msgstr ""
+
+msgid "Careful, it stings!"
+msgstr ""
+
+msgid "Sapling"
+msgstr ""
+
+msgid "Grows into an apple tree"
+msgstr ""
+
+msgid "Oak Sapling"
+msgstr ""
+
+msgid "Grows into an oak tree"
+msgstr ""
+
+msgid "Birch Sapling"
+msgstr ""
+
+msgid "Grows into a birch tree"
+msgstr ""
+
+msgid "Dry Bush Sapling"
+msgstr ""
+
+msgid "Grows into a dry bush"
+msgstr ""
+
+msgid "Tree"
+msgstr ""
+
+msgid "Oak Tree"
+msgstr ""
+
+msgid "Birch Tree"
+msgstr ""
+
+msgid "Leaves"
+msgstr ""
+
+msgid "Decays when not near a tree block"
+msgstr ""
+
+msgid "Oak Leaves"
+msgstr ""
+
+msgid "Birch Leaves"
+msgstr ""
+
+msgid "Dry Leaves"
+msgstr ""
+
+msgid "Apple"
+msgstr ""
+
+msgid "Acorn"
+msgstr ""
+
+msgid "Tall Seagrass Clump"
+msgstr ""
+
+msgid "Grows underwater on dirt, swamp dirt or sand"
+msgstr "Cresce sott'acqua su terra, terra paludosa o sabbia"
+
+msgid "Seagrass Clump"
+msgstr ""
+
+msgid "Airweed"
+msgstr ""
+
+msgid "Gives back breath"
+msgstr ""
+
+msgid "Grows underwater on any dirt, sand or gravel"
+msgstr ""
+
+msgid "Airweed (full)"
+msgstr ""
+
+msgid "Alga Block"
+msgstr ""
+
+msgid "Alga"
+msgstr ""
+
+msgid "Grows underwater on dirt, swamp dirt, sand or alga block"
+msgstr "Cresce sott'acqua su terra, terra paludosa o blocchi d'alga"
+
+msgid "Clam"
+msgstr ""
+
+msgid "Creative Tool"
+msgstr ""
+
+msgid "Can dig (nearly) every block"
+msgstr ""
+
+msgid "Digs hard, cracky blocks"
+msgstr ""
+
+msgid "Digs soft, crumbly blocks"
+msgstr ""
+
+msgid "Chops wood"
+msgstr ""
+
+msgid "Melee weapon"
+msgstr ""
+
+msgid "Cuts leaves and plants and shears sheep"
+msgstr ""
+
+msgid "“Place” key: Precise cut"
+msgstr ""
+
+msgid "Wooden Pickaxe"
+msgstr ""
+
+msgid "Stone Pickaxe"
+msgstr ""
+
+msgid "Wrought Iron Pickaxe"
+msgstr ""
+
+msgid "Steel Pickaxe"
+msgstr ""
+
+msgid "Carbon Steel Pickaxe"
+msgstr ""
+
+msgid "Bronze Pickaxe"
+msgstr ""
+
+msgid "Wooden Shovel"
+msgstr ""
+
+msgid "Stone Shovel"
+msgstr ""
+
+msgid "Wrought Iron Shovel"
+msgstr ""
+
+msgid "Steel Shovel"
+msgstr ""
+
+msgid "Carbon Steel Shovel"
+msgstr ""
+
+msgid "Bronze Shovel"
+msgstr ""
+
+msgid "Wooden Axe"
+msgstr ""
+
+msgid "Stone Axe"
+msgstr ""
+
+msgid "Wrought Iron Axe"
+msgstr ""
+
+msgid "Steel Axe"
+msgstr ""
+
+msgid "Carbon Steel Axe"
+msgstr ""
+
+msgid "Bronze Axe"
+msgstr ""
+
+msgid "Wooden Spear"
+msgstr ""
+
+msgid "Stone Spear"
+msgstr ""
+
+msgid "Wrought Iron Spear"
+msgstr ""
+
+msgid "Steel Spear"
+msgstr ""
+
+msgid "Carbon Steel Spear"
+msgstr ""
+
+msgid "Bronze Spear"
+msgstr ""
+
+msgid "Broadsword"
+msgstr ""
+
+msgid "A mighty melee weapon"
+msgstr ""
+
+msgid "Wrought Iron Shears"
+msgstr ""
+
+msgid "Steel Shears"
+msgstr ""
+
+msgid "Carbon Steel Shears"
+msgstr ""
+
+msgid "Bronze Shears"
+msgstr ""
+
+msgid "Flint and Steel"
+msgstr ""
+
+msgid "Ignites ignitable blocks"
+msgstr ""
+
+msgid "Dead Torch"
+msgstr ""
+
+msgid "Doesn't provide any light"
+msgstr ""
+
+msgid "Weak Torch"
+msgstr ""
+
+msgid "Provides a bit of light but it will eventually burn out"
+msgstr ""
+
+msgid "Torch"
+msgstr ""
+
+msgid "It's bright and burns forever"
+msgstr ""
+

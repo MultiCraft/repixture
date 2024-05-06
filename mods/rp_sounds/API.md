@@ -58,6 +58,13 @@ These are the available functions:
 * `rp_sounds.node_sound_water_defaults(table)`: Water
 * `rp_sounds.node_sound_snow_defaults(table)`: Snow (incomplete, not recommended)
 
+#### Custom sound events
+
+Apart from the builtin sound events like `footstep`, `dig`, `dug`, etc. this mod supports
+custom sound events as well:
+
+* `_rp_scrape`: When something is scraped off the block (like removing paint)
+
 ### Helper functions
 
 #### `rp_sounds.play_place_failed_sound(player)`

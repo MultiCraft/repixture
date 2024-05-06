@@ -9,7 +9,10 @@ This is the list of all groups used for items. Note: If no number/rating is spec
 
 ## Interactive item groups
 * `not_in_creative_inventory`: Item won't show up in Creative Inventory
-* `not_in_craft_guide`: Item won't show up in crafting guide
+* `not_in_craft_guide`: All recipes that have this item as output will be hidden from the
+   crafting guide, even if the resources are in the input slots. The item can still be crafted
+   when the crafting guide is disabled (assuming there's a recipe). Useful for items that are
+   "secretly craftable" and for rather "technical" items that would pollute the crafting guide.
 * `no_item_drop`: This item can't exist as a dropped item on the ground. When dropping it, it is deleted instantly
 * `immortal_item`: In entity form, this item withstands damage and won't be destroyed by nodes with `destroys_items` group
 
@@ -39,6 +42,10 @@ These groups are mainly used for a better item sorting in Creative Mode.
 * `weapon`: Weapon (item that is *primarily* used for attacks)
 * `supertool`: Super tool, i.e. a powerful tool for Creative Mode use only
 * `sheep_cuts`: For shears. Rating specifies how often it can shear sheep
+* `can_scrape`: Tool is capable of scraping off paint
+    * `can_scrape=2`: ... with “punch” key
+    * `can_scrape=3`: ... with “place” key
+    * `can_scrape=1`: ... by some other or undefined method
 
 ## Armor
 * `is_armor`: Item is an armor piece
@@ -50,6 +57,8 @@ These groups are mainly used for a better item sorting in Creative Mode.
 * `stick`: Stick
 * `bucket`: Any bucket
 * `bucket_water`: Bucket with water
+* `paint_bucket`: Paint bucket. Rating is paint level (1 = empty, 2-10: contains paint)
+* `paint_bucket_not_full`: Paint bucket that isn’t full
 * `food`: Can be eaten by player. Rating: 2 = eatable, 3 = drinkable, 1 = unknown food type
 * `nav_compass`: Compass. Rating: 1 = normal compass, 2 = magnocompass
 * `spawn_egg`: Item that spawns mobs
@@ -106,7 +115,19 @@ Also, never use `handy` and `oddly_breakable_by_hand` at the same time.
 * `special_magnocompass_node_handling=1`: Node will handle placing a magno compass in a special way (see `rp_nav`)
 * `seed`: A farming item that can be planted on the ground to spawn a plant that will grow over time.
           Usually this is a seed, but it does not have to be.
-* `_attached_node_top=1`: Node attaches to the top of another node. If the node above disappears, the node itself detaches
+* `paintable=1`: Node is paintable and is in “painted” state (see `rp_paint` for details)
+* `paintable=2`: Node is paintable and is in “unpainted” state (see `rp_paint` for details)
+* `_attached_node_top=1`: Node attaches to the top of another node or itself. If the node above disappears, the node itself detaches
+* `_attached_node_bottom=1`: Node attaches to the bottom of another node or itself. If the node below disappears, the node itself detaches
+
+#### Note about the `_attached_node_*` groups
+
+These groups are a more specialized variant of the built-in `attached_node` group.
+
+They are specifically designed for nodes that vertically stack and attach to each other, like vines or thistles.
+The unique thing about these groups is that breaking the support of this node will cause a cascade.
+Unlike `attached_node`, they also work if the node is not `walkable`. Use these groups when a standard
+`attached_node` does not suffice.
 
 ### Node categorization
 
@@ -143,6 +164,8 @@ Also, never use `handy` and `oddly_breakable_by_hand` at the same time.
 
 * `spikes`: Spikes
 * `item_showcase`: Item showcase
+* `chest`: Chest (1=not locked, 2=with lock)
+* `furnace`: Furnace (1=inactive, 2=active)
 
 * `plantable_dry`: You can plant farming plants on it and this node is considered to be dry
 * `plantable_wet`: You can plant farming plants on it and this node is considered to be wet
@@ -159,7 +182,7 @@ Also, never use `handy` and `oddly_breakable_by_hand` at the same time.
 * `door_wood`: Wooden door
 * `door_state`: Door segment, internal state (1 or 2) (see `rp_door` mod)
 * `door_position`: Door segment, position (1 = bottom, 2 = top)
-* `fence`: Fence
+* `fence`: Fence. Fence nodes MUST have a collisionbox height of 1.5
 * `sign`: Sign
 * `bed`: Bed segment
 * `torch`: Torch

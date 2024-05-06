@@ -479,7 +479,31 @@ minetest.register_tool(
       groups = { shovel = 1 },
 })
 
+
 -- Axes
+
+-- Scrape off color of painted node
+local scrape = function(max_uses)
+    return function(itemstack, placer, pointed_thing)
+        -- Handle pointed node handlers and protection
+        local handled, handled_itemstack = util.on_place_pointed_node_handler(itemstack, placer, pointed_thing)
+        if handled then
+           return handled_itemstack
+        end
+        if util.handle_node_protection(placer, pointed_thing) then
+           return itemstack
+        end
+
+        -- Scrape off color
+        local pos = pointed_thing.under
+        if rp_paint.scrape_color(pos, pointed_thing) then
+           if not minetest.is_creative_enabled(placer:get_player_name()) then
+               itemstack:add_wear_by_uses(max_uses)
+           end
+        end
+        return itemstack
+    end
+end
 
 minetest.register_tool(
    "rp_default:axe_wood",
@@ -496,7 +520,8 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 3}
       },
       sound = sound_tool,
-      groups = { axe = 1 },
+      groups = { axe = 1, can_scrape = 2 },
+      on_place = scrape(90),
 })
 
 minetest.register_tool(
@@ -514,7 +539,8 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 4}
       },
       sound = sound_tool,
-      groups = { axe = 1 },
+      groups = { axe = 1, can_scrape = 2 },
+      on_place = scrape(180),
 })
 
 minetest.register_tool(
@@ -532,7 +558,8 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 5}
       },
       sound = sound_tool,
-      groups = { axe = 1 },
+      groups = { axe = 1, can_scrape = 2 },
+      on_place = scrape(405),
 })
 
 minetest.register_tool(
@@ -550,7 +577,8 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 6}
       },
       sound = sound_tool,
-      groups = { axe = 1 },
+      groups = { axe = 1, can_scrape = 2 },
+      on_place = scrape(810),
 })
 
 minetest.register_tool(
@@ -568,7 +596,8 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 6}
       },
       sound = sound_tool,
-      groups = { axe = 1 },
+      groups = { axe = 1, can_scrape = 2 },
+      on_place = scrape(1080),
 })
 
 minetest.register_tool(
@@ -586,7 +615,8 @@ minetest.register_tool(
 	 damage_groups = {fleshy = 6}
       },
       sound = sound_tool,
-      groups = { axe = 1 },
+      groups = { axe = 1, can_scrape = 2 },
+      on_place = scrape(810),
 })
 
 -- Spears

@@ -70,12 +70,21 @@ Arguments:
     * `light_max`: Minimum required light level to grow
 
 
-### `farming.next_state(pos, plant_name)`
+### `farming.next_stage(pos, plant_name)`
 
 Makes the plant at `pos` grow to its next stage, if possible.
 
 * `pos`: Plant position
 * `plant_name`: Plant ID (as provided by `farming.register_plant`)
+
+### `farming.previous_stage(pos, plant_name)`
+
+Makes the plant at `pos` return to its previous stage, if possible.
+
+* `pos`: Plant position
+* `plant_name`: Plant ID (as provided by `farming.register_plant`)
+
+
 
 ## Functions for internal use only
 

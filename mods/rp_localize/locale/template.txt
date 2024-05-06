@@ -1,6 +1,6 @@
 # textdomain: rp_localize
-∞=
 #Negative number
+∞=
 −@1=
 #Same as above, but with a minus sign in front
 −@1.@2=

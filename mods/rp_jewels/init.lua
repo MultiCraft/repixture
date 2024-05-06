@@ -20,17 +20,17 @@ jewels.registered_jewel_parents = {}
 
 local form_bench = rp_formspec.get_page("rp_formspec:2part")
 
-form_bench = form_bench .. "list[current_name;main;2.25,1.75;1,1;]"
+form_bench = form_bench .. "container["..rp_formspec.default.start_point.x..","..rp_formspec.default.start_point.y.."]"
+form_bench = form_bench .. rp_formspec.get_itemslot_bg(2.5, 1.75, 1, 1)
+form_bench = form_bench .. "list[current_name;main;2.5,1.75;1,1;]"
 form_bench = form_bench .. "listring[current_name;main]"
-form_bench = form_bench .. rp_formspec.get_itemslot_bg(2.25, 1.75, 1, 1)
 
-form_bench = form_bench .. "label[3.25,1.75;"..FS("1. Place tool here").."]"
-form_bench = form_bench .. "label[3.25,2.25;"..FS("2. Hold a jewel and punch the bench").."]"
+form_bench = form_bench .. "label[3.75,2;"..FS("1. Place tool here").."]"
+form_bench = form_bench .. "label[3.75,2.5;"..FS("2. Hold a jewel and punch the bench").."]"
+form_bench = form_bench .. "container_end[]"
 
-form_bench = form_bench .. "list[current_player;main;0.25,4.75;8,4;]"
+form_bench = form_bench .. rp_formspec.default.player_inventory
 form_bench = form_bench .. "listring[current_player;main]"
-form_bench = form_bench .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_bench = form_bench .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 
 rp_formspec.register_page("rp_jewels:bench", form_bench)
 
@@ -123,7 +123,8 @@ function jewels.register_jewel(toolname, new_toolname, def)
       if not desc then
          desc = new_toolname
       else
-         desc = S("Jeweled @1", desc)
+         -- Fallback description
+         desc = S("@1 (jeweled)", desc)
       end
    end
    new_tooldef.description = desc
@@ -311,9 +312,8 @@ minetest.register_node(
       description = S("Jeweler's Workbench"),
       _tt_help = S("Tools can be upgraded with jewels here"),
       tiles ={"jewels_bench_top.png", "jewels_bench_bottom.png", "jewels_bench_sides.png"},
-      paramtype2 = "facedir",
+      paramtype2 = "4dir",
       groups = {choppy=2,oddly_breakable_by_hand=2,interactive_node=1},
-      legacy_facedir_simple = true,
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
 
@@ -504,11 +504,13 @@ achievements.register_achievement(
 minetest.register_lbm(
    {
       label = "Update jeweler's workbench",
-      name = "rp_jewels:update_bench_3_0_1",
+      name = "rp_jewels:update_bench_3_14_0",
       nodenames = {"rp_jewels:bench"},
       action = function(pos, node)
-         local def = minetest.registered_nodes[node.name]
-         def.on_construct(pos)
+          local def = minetest.registered_nodes[node.name]
+          if def and def.on_construct then
+              def.on_construct(pos)
+          end
       end
    }
 )
