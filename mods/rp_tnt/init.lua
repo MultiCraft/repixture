@@ -138,7 +138,7 @@ local function calc_velocity(pos1, pos2, power)
    return vel
 end
 
-local function entity_physics(pos, radius, igniter)
+local function entity_physics(pos, radius, is_tnt, igniter)
    -- Make the damage radius larger than the destruction radius
    radius = radius * 2
 
@@ -174,7 +174,9 @@ local function entity_physics(pos, radius, igniter)
          puncher = obj
       end
       if obj:is_player() then
-         rp_death_messages.player_damage(obj, S("You were caught in an explosion."))
+         if is_tnt then
+            rp_death_messages.player_damage(obj, S("You were blasted away by TNT."))
+         end
       end
       obj:punch(puncher, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, dir)
    end
@@ -419,10 +421,10 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt, igniter)
       else
           minetest.log("verbose", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
       end
-      entity_physics(pos, radius, igniter)
+      entity_physics(pos, radius, is_tnt, igniter)
       eject_drops(drops, pos, radius)
    else
-      entity_physics(pos, radius, igniter)
+      entity_physics(pos, radius, is_tnt, igniter)
       play_tnt_sound(pos, sound)
    end
    add_explosion_effects(pos, radius)

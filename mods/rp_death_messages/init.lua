@@ -12,9 +12,12 @@ local msgs = {
 		NS("You took fatal damage from a block."),
 	},
 	["murder"] = {
+		NS("You were killed by @1."),
+	},
+	["murder_any"] = {
 		NS("You were killed."),
 	},
-	["mob_kill"] = {
+	["mob_kill_any"] = {
 		NS("You were killed by a hostile creature."),
 	},
 	["fall"] = {
@@ -48,7 +51,7 @@ local mmsg = function(mtype, ...)
 	if mobkills[mtype] then
 		return S("@1", S(mobkills[mtype], ...))
 	else
-		return dmsg("mob_kill", ...)
+		return dmsg("mob_kill")
 	end
 end
 
