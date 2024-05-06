@@ -21,6 +21,9 @@ minetest.register_chatcommand("hp", {
 			return false, S("Player @1 does not exist.", targetname)
 		end
 		hp = minetest.parse_relative_number(hp, target:get_hp())
+		if not hp then
+			return false, S("Invalid health!")
+		end
 		if hp < 0 then
 			hp = 0
 		end
