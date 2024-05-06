@@ -38,6 +38,7 @@ local EATING_SPEED = 0.6
 local EATING_SPEED_DURATION = 2.0
 
 local mod_achievements = minetest.get_modpath("rp_achievements") ~= nil
+local mod_death_messages = minetest.get_modpath("rp_death_messages") ~= nil
 
 -- Per-player userdata
 
@@ -489,15 +490,18 @@ local function on_globalstep(dtime)
                minetest.sound_play({name="hunger_hungry"}, {pos=pos_sound, max_hear_distance=3, object=player}, true)
             end
             if userdata[name].hunger <= HUNGER_STARVE_LEVEL and hp >= 0 then
-               local old_hp = hp
                -- Hurt player due to starving
-               player:set_hp(hp - 1, { type = "set_hp", from = "mod", _reason_precise = "starve" })
-               userdata[name].hunger = 0
+
+               -- Messages
                if hp > 1 then
                   minetest.chat_send_player(name, minetest.colorize("#f00", S("You are starving.")))
-               elseif old_hp > 0 then
-                  minetest.chat_send_player(name, minetest.colorize("#f00", S("You starved to death.")))
                end
+               if mod_death_messages then
+                  rp_death_messages.player_damage(player, S("You starved to death."))
+               end
+
+               player:set_hp(hp - 1, { type = "set_hp", from = "mod", _reason_precise = "starve" })
+               userdata[name].hunger = 0
             end
          end
       end
