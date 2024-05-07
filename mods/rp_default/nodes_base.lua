@@ -146,6 +146,7 @@ minetest.register_node(
       groups = {cracky = 2, magnetic = 1},
       sounds = make_metal_sounds(default.METAL_PITCH_WROUGHT_IRON),
       is_ground_content = false,
+      _rp_blast_resistance = 1000000,
 })
 
 minetest.register_node(
@@ -156,6 +157,7 @@ minetest.register_node(
       groups = {cracky = 2},
       sounds = make_metal_sounds(default.METAL_PITCH_STEEL),
       is_ground_content = false,
+      _rp_blast_resistance = 1000000,
 })
 
 minetest.register_node(
@@ -166,6 +168,7 @@ minetest.register_node(
       groups = {cracky = 1},
       sounds = make_metal_sounds(default.METAL_PITCH_CARBON_STEEL),
       is_ground_content = false,
+      _rp_blast_resistance = 1000000,
 })
 
 minetest.register_node(
@@ -176,6 +179,7 @@ minetest.register_node(
       groups = {cracky = 1},
       sounds = make_metal_sounds(default.METAL_PITCH_BRONZE),
       is_ground_content = false,
+      _rp_blast_resistance = 1000000,
 })
 
 minetest.register_node(
@@ -186,6 +190,7 @@ minetest.register_node(
       groups = {cracky = 2},
       sounds = make_metal_sounds(default.METAL_PITCH_COPPER),
       is_ground_content = false,
+      _rp_blast_resistance = 1000000,
 })
 
 minetest.register_node(
@@ -196,6 +201,7 @@ minetest.register_node(
       groups = {cracky = 2},
       sounds = make_metal_sounds(default.METAL_PITCH_TIN),
       is_ground_content = false,
+      _rp_blast_resistance = 1000000,
 })
 
 -- Soil

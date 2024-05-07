@@ -603,6 +603,7 @@ minetest.register_node(
       groups = {cracky = 2},
       sounds = make_metal_sounds(gold.PITCH),
       is_ground_content = false,
+      _rp_blast_resistance = 1000000,
 })
 
 -- Ores
