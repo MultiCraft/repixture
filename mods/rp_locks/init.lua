@@ -374,6 +374,7 @@ local chest_def = {
 ]]
       end,
       on_blast = function() end,
+      _rp_blast_resistance = 2,
 }
 
 minetest.register_node("rp_locks:chest", chest_def)

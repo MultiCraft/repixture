@@ -576,6 +576,7 @@ minetest.register_node(
       drop = "rp_gold:lump_gold",
       is_ground_content = true,
       sounds = rp_sounds.node_sound_stone_defaults(),
+      _rp_blast_resistance = 1,
 })
 
 local make_metal_sounds = function(pitch)
@@ -603,7 +604,7 @@ minetest.register_node(
       groups = {cracky = 2},
       sounds = make_metal_sounds(gold.PITCH),
       is_ground_content = false,
-      _rp_blast_resistance = 1000000,
+      _rp_blast_resistance = 8,
 })
 
 -- Ores

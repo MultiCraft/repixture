@@ -693,6 +693,7 @@ minetest.register_node(
          end
          return true
       end,
+      _rp_blast_resistance = 1,
 
       -- Drop itself, but without metadata
       drop = "rp_bed:bed_foot",

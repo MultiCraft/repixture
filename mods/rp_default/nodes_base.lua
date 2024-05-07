@@ -15,6 +15,7 @@ minetest.register_node(
       groups = {cracky = 2, stone = 1, ore = 1},
       drop = "rp_default:lump_sulfur",
       sounds = rp_sounds.node_sound_stone_defaults(),
+      _rp_blast_resistance = 1,
 })
 
 minetest.register_node(
@@ -25,6 +26,7 @@ minetest.register_node(
       groups = {cracky = 2, stone = 1, ore = 1},
       drop = "rp_default:sheet_graphite",
       sounds = rp_sounds.node_sound_stone_defaults(),
+      _rp_blast_resistance = 1,
 })
 
 minetest.register_node(
@@ -35,6 +37,7 @@ minetest.register_node(
       groups = {cracky = 2, stone = 1, ore = 1},
       drop = "rp_default:lump_coal",
       sounds = rp_sounds.node_sound_stone_defaults(),
+      _rp_blast_resistance = 1,
 })
 
 minetest.register_node(
@@ -45,6 +48,7 @@ minetest.register_node(
       groups = {cracky = 2, stone = 1, magnetic = 1, ore = 1},
       drop = "rp_default:lump_iron",
       sounds = rp_sounds.node_sound_stone_defaults(),
+      _rp_blast_resistance = 1,
 })
 
 minetest.register_node(
@@ -55,6 +59,7 @@ minetest.register_node(
       groups = {cracky = 1, stone = 1, ore = 1},
       drop = "rp_default:lump_tin",
       sounds = rp_sounds.node_sound_stone_defaults(),
+      _rp_blast_resistance = 1,
 })
 
 minetest.register_node(
@@ -65,6 +70,7 @@ minetest.register_node(
       groups = {cracky = 1, stone = 1, ore = 1},
       drop = "rp_default:lump_copper",
       sounds = rp_sounds.node_sound_stone_defaults(),
+      _rp_blast_resistance = 1,
 })
 
 -- Stonelike
@@ -77,6 +83,7 @@ minetest.register_node(
       groups = {cracky = 2, stone = 1},
       drop = "rp_default:cobble",
       sounds = rp_sounds.node_sound_stone_defaults(),
+      _rp_blast_resistance = 1,
 })
 
 minetest.register_node(
@@ -88,6 +95,7 @@ minetest.register_node(
       groups = {cracky = 3, stone = 1},
       sounds = rp_sounds.node_sound_stone_defaults(),
       is_ground_content = false,
+      _rp_blast_resistance = 2,
 })
 
 minetest.register_node(
@@ -98,7 +106,7 @@ minetest.register_node(
       is_ground_content = false,
       groups = {cracky = 1, stone = 1},
       sounds = rp_sounds.node_sound_stone_defaults(),
-      _rp_blast_resistance = 1000000,
+      _rp_blast_resistance = 6,
 })
 
 minetest.register_node(
@@ -119,6 +127,7 @@ minetest.register_node(
       tiles = {"default_block_coal.png"},
       groups = {cracky = 3},
       sounds = rp_sounds.node_sound_coal_defaults(),
+      _rp_blast_resistance = 1,
 })
 
 local make_metal_sounds = function(pitch)
@@ -146,7 +155,7 @@ minetest.register_node(
       groups = {cracky = 2, magnetic = 1},
       sounds = make_metal_sounds(default.METAL_PITCH_WROUGHT_IRON),
       is_ground_content = false,
-      _rp_blast_resistance = 1000000,
+      _rp_blast_resistance = 8,
 })
 
 minetest.register_node(
@@ -157,7 +166,7 @@ minetest.register_node(
       groups = {cracky = 2},
       sounds = make_metal_sounds(default.METAL_PITCH_STEEL),
       is_ground_content = false,
-      _rp_blast_resistance = 1000000,
+      _rp_blast_resistance = 9,
 })
 
 minetest.register_node(
@@ -168,7 +177,7 @@ minetest.register_node(
       groups = {cracky = 1},
       sounds = make_metal_sounds(default.METAL_PITCH_CARBON_STEEL),
       is_ground_content = false,
-      _rp_blast_resistance = 1000000,
+      _rp_blast_resistance = 9.25,
 })
 
 minetest.register_node(
@@ -179,7 +188,7 @@ minetest.register_node(
       groups = {cracky = 1},
       sounds = make_metal_sounds(default.METAL_PITCH_BRONZE),
       is_ground_content = false,
-      _rp_blast_resistance = 1000000,
+      _rp_blast_resistance = 9.5,
 })
 
 minetest.register_node(
@@ -190,7 +199,7 @@ minetest.register_node(
       groups = {cracky = 2},
       sounds = make_metal_sounds(default.METAL_PITCH_COPPER),
       is_ground_content = false,
-      _rp_blast_resistance = 1000000,
+      _rp_blast_resistance = 8,
 })
 
 minetest.register_node(
@@ -201,7 +210,7 @@ minetest.register_node(
       groups = {cracky = 2},
       sounds = make_metal_sounds(default.METAL_PITCH_TIN),
       is_ground_content = false,
-      _rp_blast_resistance = 1000000,
+      _rp_blast_resistance = 8.5,
 })
 
 -- Soil
@@ -404,6 +413,7 @@ minetest.register_node(
       is_ground_content = false,
       groups = {cracky = 2, paintable = 2},
       sounds = rp_sounds.node_sound_stone_defaults(),
+      _rp_blast_resistance = 2,
 })
 minetest.register_node(
    "rp_default:brick_painted",
@@ -418,6 +428,7 @@ minetest.register_node(
       paramtype2 = "color",
       palette = "rp_paint_palette_256.png",
       drop = "rp_default:brick",
+      _rp_blast_resistance = 2,
 })
 
 -- Sand
@@ -443,6 +454,7 @@ minetest.register_node(
          dug = {name="rp_sounds_dug_stone", gain=0.9, pitch=1.4},
          dig = {name="rp_sounds_dig_stone", gain=0.5, pitch=1.4},
       }),
+      _rp_blast_resistance = 0.5,
 })
 
 minetest.register_node(
@@ -456,6 +468,7 @@ minetest.register_node(
          dug = {name="rp_sounds_dug_stone", gain=0.9, pitch=1.2},
          dig = {name="rp_sounds_dig_stone", gain=0.5, pitch=1.2},
       }),
+      _rp_blast_resistance = 1,
 })
 
 minetest.register_node(
@@ -469,7 +482,7 @@ minetest.register_node(
          dug = {name="rp_sounds_dug_stone", gain=0.9, pitch=1.2},
          dig = {name="rp_sounds_dig_stone", gain=0.5, pitch=1.2},
       }),
-      _rp_blast_resistance = 1000000,
+      _rp_blast_resistance = 6,
 })
 
 -- Glass
@@ -487,6 +500,7 @@ minetest.register_node(
       is_ground_content = false,
       sounds = rp_sounds.node_sound_glass_defaults(),
       drop = "rp_default:glass",
+      _rp_blast_resistance = 0.2,
 })
 minetest.register_node(
    "rp_default:glass_painted",
@@ -505,6 +519,7 @@ minetest.register_node(
       is_ground_content = false,
       sounds = rp_sounds.node_sound_glass_defaults(),
       drop = "rp_default:glass",
+      _rp_blast_resistance = 0.2,
 })
 
 
@@ -519,6 +534,7 @@ minetest.register_node(
       groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
+      _rp_blast_resistance = 0.5,
 })
 minetest.register_node(
    "rp_default:planks_painted",
@@ -534,6 +550,7 @@ minetest.register_node(
       palette = "rp_paint_palette_256.png",
       drop = "rp_default:planks",
       paramtype2 = "color",
+      _rp_blast_resistance = 0.5,
 })
 
 minetest.register_node(
@@ -544,6 +561,7 @@ minetest.register_node(
       groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
+      _rp_blast_resistance = 0.5,
 })
 minetest.register_node(
    "rp_default:planks_oak_painted",
@@ -558,6 +576,7 @@ minetest.register_node(
       palette = "rp_paint_palette_256.png",
       drop = "rp_default:planks_oak",
       paramtype2 = "color",
+      _rp_blast_resistance = 0.5,
 })
 
 minetest.register_node(
@@ -568,6 +587,7 @@ minetest.register_node(
       groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable=2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
+      _rp_blast_resistance = 0.5,
 })
 minetest.register_node(
    "rp_default:planks_birch_painted",
@@ -582,6 +602,7 @@ minetest.register_node(
       palette = "rp_paint_palette_256.png",
       drop = "rp_default:planks_birch",
       paramtype2 = "color",
+      _rp_blast_resistance = 0.5,
 })
 
 
@@ -596,6 +617,7 @@ minetest.register_node(
       groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
+      _rp_blast_resistance = 0.75,
 })
 minetest.register_node(
    "rp_default:frame_painted",
@@ -610,6 +632,7 @@ minetest.register_node(
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
       drop = "rp_default:frame",
+      _rp_blast_resistance = 0.75,
 })
 
 minetest.register_node(
@@ -620,7 +643,7 @@ minetest.register_node(
       groups = {wood = 1, choppy = 1, paintable = 2},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
-      _rp_blast_resistance = 1000000,
+      _rp_blast_resistance = 5,
 })
 minetest.register_node(
    "rp_default:reinforced_frame_painted",
@@ -634,7 +657,7 @@ minetest.register_node(
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
       drop = "rp_default:reinforced_frame",
-      _rp_blast_resistance = 1000000,
+      _rp_blast_resistance = 5,
 })
 
 
@@ -651,6 +674,7 @@ minetest.register_node(
       groups = {snappy=2, fall_damage_add_percent=-10},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_grass_defaults(),
+      _rp_blast_resistance = 0.5,
 })
 minetest.register_node(
    "rp_default:dried_reed_block",
@@ -664,6 +688,7 @@ minetest.register_node(
       groups = {snappy=2, fall_damage_add_percent=-15},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_straw_defaults(),
+      _rp_blast_resistance = 0.5,
 })
 
 -- Hay

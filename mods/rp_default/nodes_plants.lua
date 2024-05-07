@@ -37,6 +37,7 @@ minetest.register_node(
          util.dig_up(pos, node, digger)
       end,
       on_use = minetest.item_eat(0),
+      _rp_blast_resistance = 0.5,
 })
 
 -- Papyrus
@@ -96,6 +97,7 @@ minetest.register_node(
          -- Dig up (papyrus can't float)
          util.dig_up(pos, node, digger)
       end,
+      _rp_blast_resistance = 0.1,
 })
 
 -- Vine

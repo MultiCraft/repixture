@@ -147,6 +147,7 @@ minetest.register_node(
       tiles = {"default_tree_top.png", "default_tree_top.png", "default_tree.png"},
       groups = {choppy = 2,tree = 1,oddly_breakable_by_hand = 1},
       sounds = snd_tree,
+      _rp_blast_resistance = 1,
 })
 
 minetest.register_node(
@@ -156,6 +157,7 @@ minetest.register_node(
       tiles = {"default_tree_oak_top.png", "default_tree_oak_top.png", "default_tree_oak.png"},
       groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1},
       sounds = snd_tree,
+      _rp_blast_resistance = 1,
 })
 
 minetest.register_node(
@@ -165,6 +167,7 @@ minetest.register_node(
       tiles = {"default_tree_birch_top.png", "default_tree_birch_top.png", "default_tree_birch.png"},
       groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1},
       sounds = snd_tree,
+      _rp_blast_resistance = 1,
 })
 
 -- Leaves

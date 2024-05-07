@@ -431,6 +431,7 @@ minetest.register_node(
              player:set_wielded_item(itemstack)
          end
       end,
+      _rp_blast_resistance = 2,
 })
 
 minetest.register_node(
@@ -445,6 +446,7 @@ minetest.register_node(
       drop = "rp_jewels:jewel",
       groups = {choppy=1, tree=1, ore=1},
       sounds = rp_sounds.node_sound_wood_defaults(),
+      _rp_blast_resistance = 1,
 })
 
 crafting.register_craft(
