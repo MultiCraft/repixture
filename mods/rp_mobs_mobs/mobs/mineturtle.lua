@@ -63,9 +63,9 @@ end
 
 local function explode(mob)
 	local pos = mob.object:get_pos()
-	mob.object:remove()
 	pos.y = pos.y - 1
-	tnt.boom_notnt(pos, EXPLODE_RADIUS)
+	rp_explosions.explode(pos, EXPLODE_RADIUS, {grief_protected=true}, mob)
+	mob.object:remove()
 	minetest.log("action", "[rp_mobs_mobs] "..mob.name.." exploded at "..minetest.pos_to_string(pos, 1))
 end
 
