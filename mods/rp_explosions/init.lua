@@ -365,8 +365,13 @@ local function trace_explode(pos, strength, raydirs, radius, info, direct, sourc
 				end
 				local damage = math.floor((impact * impact + impact) * 7 * strength + 1)
 
-				-- TODO: Use Repixture function
-				--mcl_util.deal_damage(obj, damage, { type = "explosion", direct = direct, source = source })
+				local punch_source
+				if source then
+					punch_source = source
+				else
+					punch_source = obj
+				end
+				obj:punch(punch_source, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, punch_dir )
 
 				if obj:is_player() or ent.tnt_knockback then
 					obj:add_velocity(vector.multiply(punch_dir, impact * 20))
