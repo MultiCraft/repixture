@@ -77,7 +77,7 @@ register_spikes("rp_spikes:spikes_copper", {
 	damage_per_second = 2,
 	craftitem = "rp_default:ingot_copper",
 	pitch = mod_default and default.METAL_PITCH_COPPER,
-	_rp_blast_resistance = 2,
+	_rp_blast_resistance = 1.75,
 })
 register_spikes("rp_spikes:spikes_wrought_iron", {
 	description = S("Wrought Iron Spikes"),

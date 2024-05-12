@@ -199,7 +199,7 @@ minetest.register_node(
       groups = {cracky = 2},
       sounds = make_metal_sounds(default.METAL_PITCH_COPPER),
       is_ground_content = false,
-      _rp_blast_resistance = 8,
+      _rp_blast_resistance = 7,
 })
 
 minetest.register_node(
