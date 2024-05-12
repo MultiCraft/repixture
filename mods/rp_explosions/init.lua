@@ -296,9 +296,9 @@ local function trace_explode(pos, strength, raydirs, radius, info, direct, sourc
 			if obj:is_player() then
 				local props = obj:get_properties()
 				collisionbox = props.collisionbox or { -0.3, 0.0, -0.3, 0.3, 1.77, 0.3 }
-			elseif ent.name then
-				local def = minetest.registered_entities[ent.name]
-				collisionbox = def.collisionbox
+			elseif ent and ent.name then
+				local props = obj:get_properties()
+				collisionbox = props.collisionbox
 			end
 
 			if collisionbox then
@@ -373,7 +373,7 @@ local function trace_explode(pos, strength, raydirs, radius, info, direct, sourc
 				end
 				obj:punch(punch_source, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, punch_dir )
 
-				if obj:is_player() or ent.tnt_knockback then
+				if obj:is_player() or ent._rp_explosions_knockback then
 					obj:add_velocity(vector.multiply(punch_dir, impact * 20))
 				end
 			end

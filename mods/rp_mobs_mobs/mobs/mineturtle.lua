@@ -214,6 +214,7 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 		end,
 		on_death = rp_mobs.on_death_default,
 		on_punch = rp_mobs.on_punch_default,
+		_rp_explosions_knockback = true,
 	},
 })
 
