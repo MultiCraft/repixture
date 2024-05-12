@@ -358,12 +358,13 @@ local function trace_explode(pos, strength, raydirs, radius, info, direct, sourc
 				-- distance to explosion
 				local exposure = count / N_EXPOSURE_RAYS
 				local punch_vec = vector.subtract(opos, pos)
+				local punch_len = vector.length(punch_vec)
 				local punch_dir = vector.normalize(punch_vec)
-				local impact = (1 - vector.length(punch_vec) / punch_radius) * exposure
+				local impact = (1 - punch_len / punch_radius) * exposure
 				if impact < 0 then
 					impact = 0
 				end
-				local damage = math.floor((impact * impact + impact) * 7 * strength + 1)
+				local damage = (impact * impact + impact) * ((4 / punch_len) * punch_radius)
 
 				local punch_source
 				if source then
