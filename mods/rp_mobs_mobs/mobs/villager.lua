@@ -1472,6 +1472,7 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 				end
 			end
 		end,
+		_rp_explosions_knockback = true,
 	},
 })
 

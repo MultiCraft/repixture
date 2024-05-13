@@ -446,6 +446,8 @@ function door.register_door(name, def)
 	 _rp_unpainted_node_name = unpainted_name and unpainted_name.."_b_1",
 	 _rp_painted_node_name = painted_name and painted_name.."_b_1",
          _rp_paint_particle_node = def.paint_particle_node,
+         -- Additional fields for rp_explosions mod
+         _rp_blast_resistance = def._rp_blast_resistance,
    })
 
    -- Door segment: top, state 1
@@ -516,6 +518,8 @@ function door.register_door(name, def)
 	 _rp_unpainted_node_name = unpainted_name and unpainted_name.."_t_1",
 	 _rp_painted_node_name = painted_name and painted_name.."_t_1",
          _rp_paint_particle_node = def.paint_particle_node,
+         -- Additional fields for rp_explosions mod
+         _rp_blast_resistance = def._rp_blast_resistance,
    })
 
    -- Door segment: bottom, state 2
@@ -586,6 +590,8 @@ function door.register_door(name, def)
 	 _rp_unpainted_node_name = unpainted_name and unpainted_name.."_b_2",
 	 _rp_painted_node_name = painted_name and painted_name.."_b_2",
          _rp_paint_particle_node = def.paint_particle_node,
+         -- Additional fields for rp_explosions mod
+         _rp_blast_resistance = def._rp_blast_resistance,
    })
 
    -- Door segment: top, state 2
@@ -655,6 +661,8 @@ function door.register_door(name, def)
          _rp_unpainted_node_name = unpainted_name and unpainted_name.."_t_2",
          _rp_painted_node_name = painted_name and painted_name.."_t_2",
          _rp_paint_particle_node = def.paint_particle_node,
+         -- Additional fields for rp_explosions mod
+         _rp_blast_resistance = def._rp_blast_resistance,
    })
 
 end
@@ -690,6 +698,7 @@ door.register_door(
       sounds = sounds_wood_door,
       sunlight = false,
       can_paint = true,
+      _rp_blast_resistance = 0.1,
 })
 door.register_door(
    "rp_door:door_wood_painted",
@@ -706,6 +715,7 @@ door.register_door(
       is_painted = true,
       can_unpaint = true,
       paint_particle_node = false,
+      _rp_blast_resistance = 0.1,
 })
 
 crafting.register_craft(
@@ -729,6 +739,7 @@ door.register_door(
       sounds = sounds_wood_door,
       sunlight = false,
       can_paint = true,
+      _rp_blast_resistance = 0.1,
 })
 door.register_door(
    "rp_door:door_wood_oak_painted",
@@ -745,6 +756,7 @@ door.register_door(
       is_painted = true,
       can_unpaint = true,
       paint_particle_node = false,
+      _rp_blast_resistance = 0.1,
 })
 
 
@@ -769,6 +781,7 @@ door.register_door(
       sounds = sounds_wood_door,
       sunlight = false,
       can_paint = true,
+      _rp_blast_resistance = 0.1,
 })
 door.register_door(
    "rp_door:door_wood_birch_painted",
@@ -785,6 +798,7 @@ door.register_door(
       is_painted = true,
       can_unpaint = true,
       paint_particle_node = false,
+      _rp_blast_resistance = 0.1,
 })
 
 
@@ -816,6 +830,7 @@ door.register_door(
       sunlight = false,
       sound_open_door = "door_open_stone",
       sound_close_door = "door_close_stone",
+      _rp_blast_resistance = 0.2,
 })
 
 door.toggle_door = function(pos)

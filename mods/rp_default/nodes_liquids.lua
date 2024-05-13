@@ -38,6 +38,7 @@ minetest.register_node(
       post_effect_color = {a = 90, r = 40, g = 40, b = 100},
       groups = {water = 1, flowing_water = 1, liquid = 1, not_in_creative_inventory=1,},
       sounds = rp_sounds.node_sound_water_defaults(),
+      _rp_blast_resistance = 4,
 })
 
 minetest.register_node(
@@ -74,6 +75,7 @@ minetest.register_node(
       post_effect_color = {a=90, r=40, g=40, b=100},
       groups = {water=1, liquid=1},
       sounds = rp_sounds.node_sound_water_defaults(),
+      _rp_blast_resistance = 4,
 })
 
 minetest.register_node(
@@ -112,6 +114,7 @@ minetest.register_node(
       post_effect_color = {a=40, r=40, g=70, b=100},
       groups = {water=1, flowing_water = 1, river_water = 1, liquid=1, not_in_creative_inventory=1,},
       sounds = rp_sounds.node_sound_water_defaults(),
+      _rp_blast_resistance = 4,
 })
 
 minetest.register_node(
@@ -150,6 +153,7 @@ minetest.register_node(
       post_effect_color = {a=40, r=40, g=70, b=100},
       groups = {water = 1, river_water = 1, liquid = 1},
       sounds = rp_sounds.node_sound_water_defaults(),
+      _rp_blast_resistance = 4,
 })
 
 minetest.register_node(
@@ -188,6 +192,7 @@ minetest.register_node(
       post_effect_color = {a=220, r=50, g=40, b=70},
       groups = {water=1, flowing_water = 1, swamp_water = 1, liquid=1, not_in_creative_inventory=1,},
       sounds = rp_sounds.node_sound_water_defaults(),
+      _rp_blast_resistance = 4,
 })
 
 minetest.register_node(
@@ -225,4 +230,5 @@ minetest.register_node(
       post_effect_color = {a=220, r=50, g=40, b=70},
       groups = {water = 1, swamp_water = 1, liquid = 1},
       sounds = rp_sounds.node_sound_water_defaults(),
+      _rp_blast_resistance = 4,
 })

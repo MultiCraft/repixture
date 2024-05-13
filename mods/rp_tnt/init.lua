@@ -8,8 +8,8 @@ local S = minetest.get_translator("rp_tnt")
 local TNT_TIMER = 2.0
 
 -- For performance debugging
-local TNT_NO_PARTICLES = false
 local TNT_NO_SOUNDS = false
+local TNT_NO_PARTICLES = false
 
 tnt = {}
 
@@ -207,69 +207,6 @@ local function add_node_break_effects(pos, node, node_tile)
    })
 end
 
-local function add_explosion_effects(pos, radius)
-   if TNT_NO_PARTICLES then
-      return
-   end
-   minetest.add_particlespawner(
-      {
-         amount = 128,
-         time = 0.6,
-         pos = {
-            min = vector.subtract(pos, radius / 2),
-            max = vector.add(pos, radius / 2),
-         },
-         vel = {
-            min = vector.new(-20, -20, -20),
-            max = vector.new(20, 20, 20),
-         },
-         acc = vector.zero(),
-         exptime = { min = 0.2, max = 1.0 },
-         size = { min = 16, max = 24 },
-	 drag = vector.new(1,1,1),
-         texture = {
-	    name = "rp_tnt_smoke_anim_1.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-	    name = "rp_tnt_smoke_anim_2.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-	    name = "rp_tnt_smoke_anim_1.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-	    name = "rp_tnt_smoke_anim_2.png^[transformFX", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = -1 },
-         },
-   })
-   minetest.add_particlespawner({
-         amount = 1,
-         time = 0.01,
-         pos = pos,
-         vel = vector.zero(),
-         acc = vector.zero(),
-         exptime = 1,
-         size = radius*10,
-         texture = "rp_tnt_smoke_ball_big.png",
-         animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
-   })
-   minetest.add_particlespawner({
-         amount = 4,
-         time = 0.25,
-         pos = pos,
-         vel = vector.zero(),
-         acc = vector.zero(),
-         exptime = { min = 0.6, max = 0.9 },
-         size = { min = 8, max = 12 },
-	 radius = { min = 0.5, max = math.max(0.6, radius*0.75) },
-         texture = "rp_tnt_smoke_ball_medium.png",
-         animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
-   })
-   minetest.add_particlespawner({
-         amount = 28,
-         time = 0.5,
-         pos = pos,
-         vel = vector.zero(),
-         acc = vector.zero(),
-         exptime = { min = 0.5, max = 0.8 },
-         size = { min = 6, max = 8 },
-	 radius = { min = 1, max = math.max(1.1, radius+1) },
-         texture = "rp_tnt_smoke_ball_small.png",
-         animation = { type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = -1, },
-   })
-end
 
 local function emit_fuse_smoke(pos)
 	if TNT_NO_PARTICLES then
@@ -330,72 +267,8 @@ local function play_tnt_sound(pos, sound)
    }, true)
 end
 
--- TNT ground removal
-
-function tnt.explode(pos, radius)
-   local pos = vector.round(pos)
-   local vm = VoxelManip()
-   local pr = PseudoRandom(os.time())
-   local p1 = vector.subtract(pos, radius)
-   local p2 = vector.add(pos, radius)
-   local minp, maxp = vm:read_from_map(p1, p2)
-   local area = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-   local data = vm:get_data()
-
-   local drops = {}
-   local p = {}
-
-   local c_air = minetest.get_content_id("air")
-
-   local destroyed_nodes = {}
-   local on_blasts = {}
-
-   for z = -radius, radius do
-      for y = -radius, radius do
-	 local vi = area:index(pos.x + (-radius), pos.y + y, pos.z + z)
-	 for x = -radius, radius do
-	    if (x * x) + (y * y) + (z * z) <= (radius * radius) + pr:next(-radius, radius) then
-	       local cid = data[vi]
-	       p.x = pos.x + x
-	       p.y = pos.y + y
-	       p.z = pos.z + z
-	       if cid ~= c_air then
-		  local destroy, fail_reason = check_destroy(drops, p, cid)
-		  if destroy == true then
-                     data[vi] = minetest.CONTENT_AIR
-                     local pp = {x=p.x, y=p.y, z=p.z}
-                     table.insert(destroyed_nodes, {vi=vi, pos=pp})
-                  elseif destroy == false and fail_reason == "on_blast" then
-                     local pp = {x=p.x, y=p.y, z=p.z}
-                     table.insert(on_blasts, {pos=pp, cid=cid})
-	          end
-	       end
-	    end
-	    vi = vi + 1
-	 end
-      end
-   end
-
-   vm:set_data(data)
-   vm:write_to_map()
-
-   for i=1, #on_blasts do
-      local pp = on_blasts[i].pos
-      local cid = on_blasts[i].cid
-      local def = cid_data[cid]
-      def.on_blast(vector.new(pp), 1)
-   end
-
-   for i=1, #destroyed_nodes do
-      local pp = destroyed_nodes[i].pos
-      local vi = destroyed_nodes[i].vi
-      minetest.check_for_falling(pp)
-      if mod_attached then
-         rp_attached.detach_from_node(pp)
-      end
-   end
-
-   return drops
+function tnt.explode(pos, radius, sound, remove_nodes, causer)
+   rp_explosions.explode(pos, radius, {sound=sound, griefing=remove_nodes}, causer)
 end
 
 -- TNT node explosion
@@ -415,20 +288,19 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt, igniter)
       end
    end
    if remove_nodes then
-      local drops = tnt.explode(pos, radius, sound)
-      play_tnt_sound(pos, sound)
+      tnt.explode(pos, radius, sound, remove_nodes, igniter)
+      --play_tnt_sound(pos, sound)
       if is_tnt then
           minetest.log("verbose", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
       else
           minetest.log("verbose", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
       end
-      entity_physics(pos, radius, is_tnt, igniter)
-      eject_drops(drops, pos, radius)
+      --entity_physics(pos, radius, is_tnt, igniter)
+      --eject_drops(drops, pos, radius)
    else
-      entity_physics(pos, radius, is_tnt, igniter)
-      play_tnt_sound(pos, sound)
+      --entity_physics(pos, radius, is_tnt, igniter)
+      --play_tnt_sound(pos, sound)
    end
-   add_explosion_effects(pos, radius)
 end
 
 

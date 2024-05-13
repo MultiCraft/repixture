@@ -80,6 +80,7 @@ minetest.register_node(
       _on_degrow = function(pos, node)
 		return degrow_tall(pos, 1, node.name)
       end,
+      _rp_blast_resistance = 0.5,
 })
 
 -- Papyrus
@@ -145,6 +146,7 @@ minetest.register_node(
       _on_degrow = function(pos, node)
 		return degrow_tall(pos, 1, node.name)
       end,
+      _rp_blast_resistance = 0.1,
 })
 
 -- Vine

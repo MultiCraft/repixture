@@ -54,6 +54,7 @@ local register_spikes = function(name, def)
 		damage_per_second = def.damage_per_second,
 		sounds = make_metal_sounds(def.pitch),
 		_rp_node_death_message = { NS("You were impaled by spikes.") },
+		_rp_blast_resistance = def._rp_blast_resistance,
 	}
 	minetest.register_node(name, spikedef)
 
@@ -78,6 +79,7 @@ register_spikes("rp_spikes:spikes_copper", {
 	damage_per_second = 2,
 	craftitem = "rp_default:ingot_copper",
 	pitch = mod_default and default.METAL_PITCH_COPPER,
+	_rp_blast_resistance = 1.75,
 })
 register_spikes("rp_spikes:spikes_wrought_iron", {
 	description = S("Wrought Iron Spikes"),
@@ -87,6 +89,7 @@ register_spikes("rp_spikes:spikes_wrought_iron", {
 	craftitem = "rp_default:ingot_wrought_iron",
 	groups_plus = { magnetic = 1 },
 	pitch = mod_default and default.METAL_PITCH_WROUGHT_IRON,
+	_rp_blast_resistance = 2,
 })
 register_spikes("rp_spikes:spikes_steel", {
 	description = S("Steel Spikes"),
@@ -95,6 +98,7 @@ register_spikes("rp_spikes:spikes_steel", {
 	damage_per_second = 4,
 	craftitem = "rp_default:ingot_steel",
 	pitch = mod_default and default.METAL_PITCH_STEEL,
+	_rp_blast_resistance = 2.25,
 })
 register_spikes("rp_spikes:spikes_carbon_steel", {
 	description = S("Carbon Steel Spikes"),
@@ -103,6 +107,7 @@ register_spikes("rp_spikes:spikes_carbon_steel", {
 	damage_per_second = 5,
 	craftitem = "rp_default:ingot_carbon_steel",
 	pitch = mod_default and default.METAL_PITCH_CARBON_STEEL,
+	_rp_blast_resistance = 2.5,
 })
 register_spikes("rp_spikes:spikes_bronze", {
 	description = S("Bronze Spikes"),
@@ -111,5 +116,6 @@ register_spikes("rp_spikes:spikes_bronze", {
 	damage_per_second = 6,
 	craftitem = "rp_default:ingot_bronze",
 	pitch = mod_default and default.METAL_PITCH_BRONZE,
+	_rp_blast_resistance = 3,
 })
 
