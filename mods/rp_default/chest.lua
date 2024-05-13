@@ -56,6 +56,7 @@ minetest.register_node(
          end
 ]]
       end,
+      _rp_blast_resistance = 2,
 })
 minetest.register_node(
    "rp_default:chest_painted",
@@ -82,6 +83,7 @@ minetest.register_node(
          item_drop.drop_items_from_container(pos, {"main"})
       end,
       drop = "rp_default:chest",
+      _rp_blast_resistance = 2,
 })
 
 local xstart = rp_formspec.default.start_point.x
