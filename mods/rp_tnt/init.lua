@@ -30,115 +30,11 @@ else
    tnt_enable = true
 end
 
-local tnt_radius = tonumber(minetest.settings:get("tnt_radius") or 3)
-
--- Loss probabilities array (one in X will be lost)
-
-local loss_prob = {
-   ["rp_default:cobble"] = 3,
-   ["group:dirt"] = 4,
-}
+local tnt_radius = tonumber(minetest.settings:get("tnt_radius")) or 3
 
 -- Fill a list with data for content IDs, after all nodes are registered
 
 local cid_data = {}
-
-local function rand_pos(center, pos, radius)
-   pos.x = center.x + math.random(-radius, radius)
-   pos.z = center.z + math.random(-radius, radius)
-end
-
-local function eject_drops(drops, pos, radius)
-   local drop_pos = vector.new(pos)
-   for _, item in pairs(drops) do
-      local count = item:get_count()
-      local max = item:get_stack_max()
-      if count > max then
-	 item:set_count(max)
-      end
-      while count > 0 do
-	 if count < max then
-	    item:set_count(count)
-	 end
-	 rand_pos(pos, drop_pos, radius)
-	 local obj = minetest.add_item(drop_pos, item)
-	 if obj then
-	    obj:get_luaentity().collect = true
-	    obj:set_velocity({x=math.random(-3, 3), y=10,
-			     z=math.random(-3, 3)})
-	 end
-	 count = count - max
-      end
-   end
-end
-
--- Checks if the given item would be lost
-local check_loss = function(itemname)
-   if loss_prob[itemname] ~= nil then
-      if math.random(1, loss_prob[itemname]) == 1 then
-         return true
-      end
-   else
-      for k,v in pairs(loss_prob) do
-         if string.sub(k, 1, 6) == "group:" then
-            local group = string.sub(k, 7)
-            if minetest.get_item_group(itemname, group) ~= 0 then
-               if math.random(1, v) == 1 then
-                  return true
-	       end
-	    end
-	 end
-      end
-   end
-   return false
-end
-
-local function add_drop(drops, item)
-   item = ItemStack(item)
-   local name = item:get_name()
-   if check_loss(name) then
-      return
-   end
-
-   local drop = drops[name]
-   if drop == nil then
-      drops[name] = item
-   else
-      drop:set_count(drop:get_count() + item:get_count())
-   end
-end
-
-local function check_destroy(drops, pos, cid)
-   if minetest.is_protected(pos, "") then
-      return false, "protected"
-   end
-   local def = cid_data[cid]
-   if def and def.on_blast then
-      return false, "on_blast"
-   end
-
-   if def then
-      local node_drops = minetest.get_node_drops(def.name, "")
-      for _, item in ipairs(node_drops) do
-	 add_drop(drops, item)
-      end
-   end
-   return true
-end
-
-
-local function calc_velocity(pos1, pos2, power)
-   local vel = vector.direction(pos1, pos2)
-   vel = vector.normalize(vel)
-   vel = vector.multiply(vel, power)
-
-   -- Divide by distance
-   local dist = vector.distance(pos1, pos2)
-   dist = math.max(dist, 1)
-   vel = vector.divide(vel, dist)
-
-   return vel
-end
 
 local function add_node_break_effects(pos, node, node_tile)
    if TNT_NO_PARTICLES then
@@ -235,14 +131,11 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt, igniter)
           return
       end
    end
-   if remove_nodes then
-      tnt.explode(pos, radius, sound, remove_nodes, igniter)
-      if is_tnt then
-          minetest.log("verbose", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
-      else
-          minetest.log("verbose", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
-      end
-      --eject_drops(drops, pos, radius)
+   tnt.explode(pos, radius, sound, remove_nodes, igniter)
+   if is_tnt then
+      minetest.log("verbose", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
+   else
+      minetest.log("verbose", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
    end
 end
 
