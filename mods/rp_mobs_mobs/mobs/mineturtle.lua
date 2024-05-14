@@ -64,8 +64,8 @@ end
 
 local function explode(mob)
 	local pos = mob.object:get_pos()
+	pos.y = pos.y + 0.35
 	mob.object:set_armor_groups({immortal=1})
-	pos.y = pos.y - 1
 	rp_explosions.explode(pos, EXPLODE_RADIUS, {grief_protected=true, death_message=NS("You were exploded by a mine turtle.")}, mob)
 	mob.object:remove()
 	minetest.log("action", "[rp_mobs_mobs] "..mob.name.." exploded at "..minetest.pos_to_string(pos, 1))
