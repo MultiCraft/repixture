@@ -20,4 +20,5 @@ The default blast resistance is 0. At blast resistance 1000000 or higher, the no
     * `particles`: bool, if true, the explosion will create particles (default: true)
     * `griefing`: bool, if true, the explosion will destroy nodes (default: true)
     * `grief_protected`: bool, if true, the explosion will also destroy nodes which have been protected (default: false)
+    * `death_message`: untranslated string. If set, will send this as a custom death message to all players who get killed. (default: "You were caught in an explosion").
 * `puncher`: (optional) entity, will be used as source for damage done by the explosion

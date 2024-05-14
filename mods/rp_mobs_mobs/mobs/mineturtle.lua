@@ -1,6 +1,7 @@
 -- Mine Turtle
 
 local S = minetest.get_translator("rp_mobs_mobs")
+local NS = function(s) return s end
 
 -- Constants
 
@@ -65,7 +66,7 @@ local function explode(mob)
 	local pos = mob.object:get_pos()
 	mob.object:set_armor_groups({immortal=1})
 	pos.y = pos.y - 1
-	rp_explosions.explode(pos, EXPLODE_RADIUS, {grief_protected=true}, mob)
+	rp_explosions.explode(pos, EXPLODE_RADIUS, {grief_protected=true, death_message=NS("You were exploded by a mine turtle.")}, mob)
 	mob.object:remove()
 	minetest.log("action", "[rp_mobs_mobs] "..mob.name.." exploded at "..minetest.pos_to_string(pos, 1))
 end

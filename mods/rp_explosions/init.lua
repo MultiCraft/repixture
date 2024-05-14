@@ -14,7 +14,12 @@ local PARTICLES = true
 
 rp_explosions = {}
 
+local S = minetest.get_translator("rp_explosions")
+local NS = function(s) return s end
+
 local explosions_griefing = minetest.settings:get_bool("rp_explosions_griefing", true)
+
+local mod_death_messages = minetest.get_modpath("rp_death_messages")
 
 local math = math
 local vector = vector
@@ -371,6 +376,14 @@ local function trace_explode(pos, strength, raydirs, radius, info, direct, sourc
 					punch_source = source
 				else
 					punch_source = obj
+				end
+
+				if mod_death_messages and obj:is_player() then
+					if info.death_message then
+						rp_death_messages.player_damage(obj, info.death_message)
+					else
+						rp_death_messages.player_damage(obj, NS("You were caught in an explosion."))
+					end
 				end
 				obj:punch(punch_source, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, punch_dir )
 

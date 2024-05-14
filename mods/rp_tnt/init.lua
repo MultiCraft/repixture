@@ -3,6 +3,7 @@
 -- TNT mod
 --
 local S = minetest.get_translator("rp_tnt")
+local NS = function(s) return s end
 
 -- Time in seconds before TNT explodes after ignited
 local TNT_TIMER = 2.0
@@ -139,50 +140,6 @@ local function calc_velocity(pos1, pos2, power)
    return vel
 end
 
-local function entity_physics(pos, radius, is_tnt, igniter)
-   -- Make the damage radius larger than the destruction radius
-   radius = radius * 2
-
-   local objs = minetest.get_objects_inside_radius(pos, radius)
-   for _, obj in pairs(objs) do
-      local obj_pos = obj:get_pos()
-      local obj_vel = obj:get_velocity()
-      local dist = math.max(1, vector.distance(pos, obj_pos))
-
-      -- Push object if player or mob.
-      -- Other objects are not pushed.
-      if obj_vel ~= nil then
-         local can_push = false
-         if obj:is_player() then
-            can_push = true
-         else
-            local ent = obj:get_luaentity()
-            if ent and ent._cmi_is_mob then
-               can_push = true
-            end
-         end
-         if can_push then
-	    obj:add_velocity(calc_velocity(pos, obj_pos, radius*2.5))
-         end
-      end
-
-      local damage = (4 / dist) * radius
-      local dir = vector.direction(pos, obj_pos)
-      local puncher
-      if igniter then
-         puncher = igniter
-      else
-         puncher = obj
-      end
-      if mod_death_messages and is_tnt then
-         if obj:is_player() then
-            rp_death_messages.player_damage(obj, S("You were blasted away by TNT."))
-         end
-      end
-      obj:punch(puncher, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, dir)
-   end
-end
-
 local function add_node_break_effects(pos, node, node_tile)
    if TNT_NO_PARTICLES then
       return
@@ -254,21 +211,12 @@ function tnt.burn(pos, igniter)
    end
 end
 
-local function play_tnt_sound(pos, sound)
-   if TNT_NO_SOUNDS then
-      return
-   end
-   minetest.sound_play(
-      sound,
-      {
-         pos = pos,
-         gain = 1.5,
-         max_hear_distance = 128
-   }, true)
-end
-
 function tnt.explode(pos, radius, sound, remove_nodes, causer)
-   rp_explosions.explode(pos, radius, {sound=sound, griefing=remove_nodes}, causer)
+   rp_explosions.explode(pos, radius, {
+      sound=sound,
+      griefing=remove_nodes,
+      death_message=NS("You were blasted away by TNT."),
+   }, causer)
 end
 
 -- TNT node explosion
@@ -289,17 +237,12 @@ local function rawboom(pos, radius, sound, remove_nodes, is_tnt, igniter)
    end
    if remove_nodes then
       tnt.explode(pos, radius, sound, remove_nodes, igniter)
-      --play_tnt_sound(pos, sound)
       if is_tnt then
           minetest.log("verbose", "[rp_tnt] TNT exploded at "..minetest.pos_to_string(pos, 0))
       else
           minetest.log("verbose", "[rp_tnt] Explosion at "..minetest.pos_to_string(pos, 0))
       end
-      --entity_physics(pos, radius, is_tnt, igniter)
       --eject_drops(drops, pos, radius)
-   else
-      --entity_physics(pos, radius, is_tnt, igniter)
-      --play_tnt_sound(pos, sound)
    end
 end
 
