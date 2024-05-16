@@ -1140,13 +1140,14 @@ local movement_decider_empty = function(task_queue, mob)
 	local schedule
 	if profession then
 		schedule = schedules[profession]
-	else
+	end
+	if not schedule then
 		schedule = schedules.none
 	end
 
 	local activity = schedule[day_phase]
 	if not activity then
-		minetest.log("error", "[rp_mobs_mobs] No villager schedule for villager at "..minetest.pos_to_string(mob.object:get_pos(), 1).."! (day_phase='"..tostring(day_phase).."', profession='"..tostring(profession).."'")
+		minetest.log("error", "[rp_mobs_mobs] No villager schedule for villager at "..minetest.pos_to_string(mob.object:get_pos(), 1).."! (day_phase='"..tostring(day_phase).."', profession='"..tostring(profession).."')")
 		return
 	end
 
