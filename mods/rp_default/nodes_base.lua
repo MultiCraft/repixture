@@ -583,7 +583,7 @@ local planks = {
    { "planks", "default_wood.png", "rp_default_wood_painted.png", S("Wooden Planks"), S("Painted Wooden Planks") },
    { "planks_oak", "default_wood_oak.png", "rp_default_wood_oak_painted.png", S("Oak Planks"), S("Painted Oak Planks") },
    { "planks_birch", "default_wood_birch.png", "rp_default_wood_birch_painted.png", S("Birch Planks"), S("Painted Fir Planks") },
-   { "planks_fir", "rp_default_wood_fir.png", "rp_default_wood_fir_painted.png", S("Fir Planks"), S("Painted Fir Planks") },
+   { "planks_fir", "rp_default_wood_fir.png", "rp_default_wood_fir_painted.png", S("Fir Planks"), S("Painted Fir Planks"), "rp_paint_palette_256l.png" },
 }
 for p=1, #planks do
    local id = planks[p][1]
@@ -591,6 +591,7 @@ for p=1, #planks do
    local tex_paint = planks[p][3]
    local desc = planks[p][4]
    local desc_paint = planks[p][5]
+   local palette = planks[p][6] or "rp_paint_palette_256.png"
 
    minetest.register_node(
       "rp_default:"..id,
@@ -613,7 +614,7 @@ for p=1, #planks do
          is_ground_content = false,
          sounds = rp_sounds.node_sound_planks_defaults(),
 
-         palette = "rp_paint_palette_256.png",
+         palette = palette,
          drop = "rp_default:"..id,
          paramtype2 = "color",
          _rp_blast_resistance = 0.5,
