@@ -300,7 +300,7 @@ local function talk_about_item(profession, iname, name)
 		if profession == "farmer" then
 			say(S("Place it at the ceiling and watch it grow."), name)
 		elseif profession == "carpenter" then
-			say(S("If you want the vine to stops growing, make a precise cut using scissors."), name)
+			say(S("If you want the vine to stop growing, make a precise cut using scissors."), name)
 		else
 			say(S("It's climbing time!"), name)
 		end

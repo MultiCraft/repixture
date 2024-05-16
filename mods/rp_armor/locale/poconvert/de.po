@@ -22,6 +22,30 @@ msgstr "Brustplatte"
 msgid "Boots"
 msgstr "Stiefel"
 
+msgid "Protection"
+msgstr "Schutz"
+
+msgid "@1%"
+msgstr "@1%"
+
+msgid "Protection bonus for full set"
+msgstr "Schutzbonus für vollständiges Set"
+
+msgid "+@1%"
+msgstr "+@1%"
+
+msgid "Armor"
+msgstr "Rüstung"
+
+msgid "Armored"
+msgstr "Gerüstet"
+
+msgid "Craft a piece of armor."
+msgstr "Fertigen Sie ein Rüstungsteil."
+
+msgid "Protection: +@1%"
+msgstr "Schutz: +@1%"
+
 msgid "Wooden Helmet"
 msgstr "Holzhelm"
 
@@ -67,36 +91,12 @@ msgstr "Bronzebrustplatte"
 msgid "Bronze Boots"
 msgstr "Bronzestiefel"
 
-msgid "Protection"
-msgstr "Schutz"
-
-msgid "@1%"
-msgstr "@1%"
-
-msgid "Protection bonus for full set"
-msgstr "Schutzbonus für vollständiges Set"
-
-msgid "+@1%"
-msgstr "+@1%"
-
-msgid "Armor"
-msgstr "Rüstung"
-
 msgid "Chainmail Sheet"
 msgstr "Kettenpanzerplane"
-
-msgid "Armored"
-msgstr "Gerüstet"
-
-msgid "Craft a piece of armor."
-msgstr "Fertigen Sie ein Rüstungsteil."
 
 msgid "Skin of Bronze"
 msgstr "Haut aus Bronze"
 
 msgid "Equip a full suit of bronze armor."
 msgstr "Tragen Sie eine vollständige Bronzerüstung."
-
-msgid "Protection: +@1%"
-msgstr "Schutz: +@1%"
 

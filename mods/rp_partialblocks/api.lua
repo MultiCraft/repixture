@@ -194,6 +194,9 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
             end
             return itemstack
          end,
+
+         -- for rp_explosions
+         _rp_blast_resistance = nodedef._rp_blast_resistance,
    })
 
    if register_crafts then
@@ -282,6 +285,9 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 	 use_texture_alpha = nodedef.use_texture_alpha,
 	 is_ground_content = nodedef.is_ground_content,
 	 drop = drop_stair,
+
+         -- for rp_explosions
+         _rp_blast_resistance = nodedef._rp_blast_resistance,
    })
 
    if register_crafts then

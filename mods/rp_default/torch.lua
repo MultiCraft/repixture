@@ -58,6 +58,7 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
                return itemstack
             end
             local under = pointed_thing.under
+            local above = pointed_thing.above
             local node = minetest.get_node(under)
             local def = minetest.registered_nodes[node.name]
             if def and def.on_rightclick and
@@ -66,10 +67,17 @@ local function register_torch(subname, description, tt_help, tiles, overlay_tile
                return def.on_rightclick(under, node, placer, itemstack, pointed_thing) or itemstack
             end
 
-            local above = pointed_thing.above
-            if minetest.is_protected(above, placer:get_player_name()) and
+            local nodedef = minetest.registered_nodes[node.name]
+            local buildable_to = nodedef and nodedef.buildable_to
+            local protcheck
+            if buildable_to then
+               protcheck = under
+            else
+               protcheck = above
+            end
+            if minetest.is_protected(protcheck, placer:get_player_name()) and
                   not minetest.check_player_privs(placer, "protection_bypass") then
-               minetest.record_protection_violation(pos, placer:get_player_name())
+               minetest.record_protection_violation(protcheck, placer:get_player_name())
                return itemstack
             end
 

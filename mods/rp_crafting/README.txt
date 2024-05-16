@@ -20,4 +20,4 @@ with identical input items to co-exist as the player selects the recipe from a l
 This mod does not support other crafting methods like cooking or furnace fuels.
 
 ## License
-Source code license: LGPLv2.1
+Source code license: LGPLv2.1 or later

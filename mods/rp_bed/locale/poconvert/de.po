@@ -22,12 +22,6 @@ msgstr "Sie haben geschlafen, raus aus den Federn!"
 msgid "Players have slept, rise and shine!"
 msgstr "Spieler haben geschlafen, raus aus den Federn!"
 
-msgid "Bed"
-msgstr "Bett"
-
-msgid "Sets the respawn position and allows to pass the night"
-msgstr "Setzt die Wiedereinstiegsposition und lässt die Nacht verstreichen"
-
 msgid "Sleeping is disabled."
 msgstr "Schlaf ist deaktiviert."
 
@@ -48,6 +42,12 @@ msgstr "Sie müssen stehen bleiben, bevor Sie zu Bett gehen!"
 
 msgid "Respawn position set!"
 msgstr "Wiedereinstiegsposition gesetzt!"
+
+msgid "Bed"
+msgstr "Bett"
+
+msgid "Sets the respawn position and allows to pass the night"
+msgstr "Setzt die Wiedereinstiegsposition und lässt die Nacht verstreichen"
 
 msgid "In bed"
 msgstr "Im Bett"

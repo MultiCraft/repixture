@@ -23,4 +23,4 @@ Sound licenses:
 
 (note: the asterisk above is a placeholder that stands for any sequence of characters)
 
-Source code license: LGPLv2.1
+Source code license: LGPLv2.1 or later

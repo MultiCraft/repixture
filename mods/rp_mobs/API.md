@@ -1,7 +1,5 @@
 # Repixture Mobs API
 
-NOTE: This API is EXPERIMENTAL and subject to change! Use at your own risk.
-
 This is the API documentation for the Repixture Mobs API. This is the document
 you want to read if you want to develop your own Repixture mobs.
 

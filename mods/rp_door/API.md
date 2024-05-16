@@ -16,8 +16,11 @@ Also adds a craftitem (with identifier `name`) which the players can use.
     * `description`: Same as in node definition
     * `inventory_image`: Same as in node definition
     * `groups`: List of groups for door item. It is recommended to always add `door=1` here
-    * `tiles_top`: Table of textures for the top door node. The first field is the front/back, the second field is top/bottom/side
-    * `tiles_bottom`: Same as `tiles_top`, except for the bottom door node
+    * `tiles_top`: Table of textures for the top door node. These fields are used:
+        * 1: front/back
+        * 2: side
+        * 3: top (optional, falls back to side tile if nil)
+    * `tiles_bottom`: Same as `tiles_top`, except for the bottom door node, and the third field is for the bottom
     * `overlay_tiles_top`: Same as `tiles_top` but for overlay textures (`overlay_tiles` in node definition) (optional)
     * `overlay_tiles_bottom`: Same as `tiles_bottom` but for overlay textures (optional)
     * `sounds`: Node sounds. Same syntax as for node definition
@@ -32,6 +35,7 @@ Also adds a craftitem (with identifier `name`) which the players can use.
     * `is_painted`: Set to true if this door is painted (see `rp_paint` mod)
     * `can_paint`: Set to true if this door can be painted (see `rp_paint` mod)
     * `can_unpaint`: Set to true if this door is painted and its color can be removed (see `rp_paint` mod)
+    * `_rp_blast_resistance`: Blast resistance of door nodes (see `rp_explosion` mod) (default: 0)
 
 #### Painted doors
 

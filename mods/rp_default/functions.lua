@@ -428,6 +428,37 @@ function default.grow_underwater_leveled_plant(pos, node, add)
 	return true, top
 end
 
+-- Degrows (reduces height) a plantlike_rooted plant that lives underwater
+-- by `reduce` node lengths (default: 1).
+-- Returns: <success>, <top_pos>
+-- <success>: true if plant was degrown, false otherwise
+-- <top_pos>: position at which the new highest "plant segment" is (nil if not degrown)
+function default.degrow_underwater_leveled_plant(pos, node, reduce)
+	local def = minetest.registered_nodes[node.name]
+	if not def then
+		return false
+	end
+	if not reduce then
+		reduce = 1
+	end
+	local old_param2 = node.param2
+	local new_level = node.param2 - (16 * reduce)
+	if new_level % 16 > 0 then
+		new_level = new_level + (16 - new_level % 16)
+	end
+	if new_level < 16 then
+		new_level = 16
+	end
+	node.param2 = new_level
+	if node.param2 == old_param2 then
+		return false
+	end
+	local height = math.ceil(new_level / 16)
+	minetest.swap_node(pos, node)
+	local top = vector.new(pos.x, pos.y + height, pos.z)
+	return true, top
+end
+
 -- Starts the timer of an inert airweed at pos
 -- (if not started already) so it will become
 -- usable to get air bubbles soon.
@@ -466,19 +497,6 @@ minetest.register_lbm(
       nodenames = {"group:airweed_inert"},
       action = function(pos, node)
          default.start_inert_airweed_timer(pos)
-      end
-   }
-)
-
--- Update sign formspecs/infotexts
-minetest.register_lbm(
-   {
-      label = "Update signs",
-      name = "rp_default:update_signs_3_14_0",
-      nodenames = {"group:sign"},
-      action = function(pos, node)
-         local meta = minetest.get_meta(pos)
-         default.refresh_sign(meta, node)
       end
    }
 )

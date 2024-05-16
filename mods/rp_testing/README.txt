@@ -7,4 +7,4 @@ The result of the automated tests is written into the log.
 
 Enable by adding the "rp_testing_enable = true" setting to minetest.conf.
 
-Source license: LGPLv2.1
+Source code license: LGPLv2.1 or later

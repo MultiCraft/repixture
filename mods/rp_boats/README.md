@@ -22,7 +22,7 @@ Once you've entered a boat, use these controls:
 ## License and credits
 
 * Media files license: CC BY-SA 4.0
-* Source code license: LGPLv2.1
+* Source code license: LGPLv2.1 or later
 
 Coding and models by Wuzzy.
 Textures by Wuzzy based on work by KaadmY.
