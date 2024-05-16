@@ -278,7 +278,7 @@ for c=0,7 do
 		-- Check protection
 		if minetest.is_protected(place_in, placer:get_player_name()) and
 				not minetest.check_player_privs(placer, "protection_bypass") then
-			minetest.record_protection_violation(pos, placer:get_player_name())
+			minetest.record_protection_violation(place_in, placer:get_player_name())
 			return itemstack
 		end
 

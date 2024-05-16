@@ -790,33 +790,6 @@ msgstr "Растёт под водой на земле, болотной зем�
 msgid "Clam"
 msgstr "Моллюск"
 
-msgid "Write"
-msgstr "Записать"
-
-msgid "\"@1\""
-msgstr "\"@1\""
-
-msgid "Write a short message"
-msgstr "Напиши короткое сообщение"
-
-msgid "Wooden Sign"
-msgstr "Деревянная табличка"
-
-msgid "Painted Wooden Sign"
-msgstr "Окрашенная Деревянная Табличка"
-
-msgid "Oak Sign"
-msgstr "Дубовая табличка"
-
-msgid "Painted Oak Sign"
-msgstr "Окрашенная Дубовая Табличка"
-
-msgid "Birch Sign"
-msgstr "Берёзовая табличка"
-
-msgid "Painted Birch Sign"
-msgstr "Окрашенная Берёзовая Табличка"
-
 msgid "Creative Tool"
 msgstr "Творческий инструмент"
 

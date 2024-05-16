@@ -29,7 +29,9 @@ Parameters:
 * `igniter`: Optional player object of player who ignited it or `nil` if nobody/unknown
 
 
-## `tnt.boom_notnt(pos, radius, sound, remove_nodes, igniter)`
+## [DEPRECATED] `tnt.boom_notnt(pos, radius, sound, remove_nodes, igniter)`
+
+This function is deprecated. Use `rp_explosions.explode` instead.
 
 Does an explosion.
 Same as `tnt.boom` but works for non-TNT nodes as well. No TNT required.
@@ -43,7 +45,9 @@ Parameters:
 * `igniter`: Optional player object of player who ignited it or `nil` if nobody/unknown
 
 
-## `tnt.explode(pos, radius)`
+## [DEPRECATED] `tnt.explode(pos, radius)`
+
+This function is deprecated. Use `rp_explosions.explode` instead.
 
 Low-level explosion.
 Does a "raw" explosion that only removes nodes and drops items.

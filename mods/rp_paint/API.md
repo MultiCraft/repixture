@@ -109,6 +109,18 @@ to get its color removed and return to its “neutral”/uncolored state.
 This function has the signature `(pos, newnode)` where `pos` is the
 node position and `node` is the node table of the new node.
 
+## `_after_paint` callback
+
+Similar to `_on_paint`, but called *after* a node has been painted.
+Function signature is `(pos)`. The return value of this function
+is ignored.
+
+## `_on_unpaint` callback
+
+Similar to `_on_unpaint`, but called *after* a node has gotten its color removed.
+Function signature is `(pos)`.
+
+
 ## Functions
 
 The color of nodes can be set and gotten programmatically by using

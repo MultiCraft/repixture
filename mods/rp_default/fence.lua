@@ -92,6 +92,7 @@ register_fence("rp_default:fence", {
 	wield_image = "default_fence.png",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
 	sounds = sounds_wood_fence,
+	_rp_blast_resistance = 0.5,
 })
 register_fence("rp_default:fence_oak", {
 	description = S("Oak Fence"),
@@ -104,6 +105,7 @@ register_fence("rp_default:fence_oak", {
 	wield_image = "default_fence_oak.png",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
 	sounds = sounds_wood_fence,
+	_rp_blast_resistance = 0.5,
 })
 register_fence("rp_default:fence_birch", {
 	description = S("Birch Fence"),
@@ -116,6 +118,7 @@ register_fence("rp_default:fence_birch", {
 	wield_image = "default_fence_birch.png",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
 	sounds = sounds_wood_fence,
+	_rp_blast_resistance = 0.5,
 })
 register_fence("rp_default:fence_fir", {
 	description = S("Fir Fence"),

@@ -22,12 +22,6 @@ msgstr ""
 msgid "Players have slept, rise and shine!"
 msgstr ""
 
-msgid "Bed"
-msgstr ""
-
-msgid "Sets the respawn position and allows to pass the night"
-msgstr ""
-
 msgid "Sleeping is disabled."
 msgstr ""
 
@@ -47,6 +41,12 @@ msgid "You have to stop moving before going to bed!"
 msgstr ""
 
 msgid "Respawn position set!"
+msgstr ""
+
+msgid "Bed"
+msgstr ""
+
+msgid "Sets the respawn position and allows to pass the night"
 msgstr ""
 
 msgid "In bed"

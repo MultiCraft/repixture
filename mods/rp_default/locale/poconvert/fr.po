@@ -790,33 +790,6 @@ msgstr "Pousse sous l'eau sur la terre, la terre de marais, le sable ou un bloc 
 msgid "Clam"
 msgstr "Palourde"
 
-msgid "Write"
-msgstr "Écrire"
-
-msgid "\"@1\""
-msgstr "\"@1\""
-
-msgid "Write a short message"
-msgstr "Écrire un court message"
-
-msgid "Wooden Sign"
-msgstr "Panneau en bois"
-
-msgid "Painted Wooden Sign"
-msgstr ""
-
-msgid "Oak Sign"
-msgstr "Panneau en chêne"
-
-msgid "Painted Oak Sign"
-msgstr ""
-
-msgid "Birch Sign"
-msgstr "Panneau en bouleau"
-
-msgid "Painted Birch Sign"
-msgstr ""
-
 msgid "Creative Tool"
 msgstr "Outil créatif"
 

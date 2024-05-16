@@ -20,5 +20,5 @@ Media license: CC BY-SA 4.0
   * Author of `rp_farming_place_seed.*.ogg`: Wuzzy
   * Author of `rp_farming_place_nonseed.ogg`: Wuzzy and freenode.org user fleurescence
 
-Source code license: LGPLv2.1
+Source code license: LGPLv2.1 or later
   * Coders: Kaadmy and Wuzzy

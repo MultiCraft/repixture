@@ -164,7 +164,7 @@ end
 -- Seagrass
 
 
-local register_seagrass = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, _on_trim, fertilize_info)
+local register_seagrass = function(plant_id, selection_box, drop, append, basenode, basenode_tiles, _on_trim, _on_grow, _on_degrow, fertilize_info)
    local groups = {snappy = 2, dig_immediate = 3, seagrass = 1, grass = 1, green_grass = 1, plant = 1, rooted_plant = 1}
    local _fertilized_node
    local def_base = minetest.registered_nodes[basenode]
@@ -212,18 +212,23 @@ local register_seagrass = function(plant_id, selection_box, drop, append, baseno
             end
          end,
 	 _on_trim = _on_trim,
+	 _on_grow = _on_grow,
+	 _on_degrow = _on_degrow,
 	 _fertilized_node = _fertilized_node,
 	 _waterplant_base_node = basenode,
 	 drop = drop,
    })
 end
 local register_seagrass_on = function(append, basenode, basenode_tiles, fertilize_info)
+   local _on_grow = function(pos, node)
+      minetest.set_node(pos, {name = "rp_default:tall_seagrass_on_"..append})
+   end
    register_seagrass("seagrass",
       { type = "fixed",
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 17/16, 0.5},
-      }}, "rp_default:seagrass", append, basenode, basenode_tiles, nil, fertilize_info)
+      }}, "rp_default:seagrass", append, basenode, basenode_tiles, nil, _on_grow, nil, fertilize_info)
 
     -- Trim tall sea grass with shears
     local _on_trim = function(pos, node, player, itemstack)
@@ -243,12 +248,15 @@ local register_seagrass_on = function(append, basenode, basenode_tiles, fertiliz
        end
        return itemstack
    end
+   local _on_degrow = function(pos, node)
+      minetest.set_node(pos, {name = "rp_default:seagrass_on_"..append})
+   end
    register_seagrass("tall_seagrass",
       { type = "fixed",
         fixed = {
            {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
            {-0.5, 0.5, -0.5, 0.5, 1.5, 0.5},
-      }}, "rp_default:seagrass", append, basenode, basenode_tiles, _on_trim, fertilize_info)
+      }}, "rp_default:seagrass", append, basenode, basenode_tiles, _on_trim, nil, _on_degrow, fertilize_info)
 
 end
 
@@ -632,6 +640,12 @@ local register_alga_on = function(append, basenode, basenode_tiles, max_height, 
 	 _fertilized_node = _fertilized_node,
          _waterplant_base_node = basenode,
 	 _waterplant_max_height = max_height,
+         _on_grow = function(pos, node)
+            return default.grow_underwater_leveled_plant(pos, node)
+         end,
+         _on_degrow = function(pos, node)
+            return default.degrow_underwater_leveled_plant(pos, node)
+         end,
    })
 end
 
@@ -654,6 +668,9 @@ minetest.register_node(
          dug = {name="rp_default_dug_alga", gain=0.3},
          place = {name="rp_default_place_alga", gain=0.3},
       }),
+      _on_grow = function(pos)
+         minetest.set_node(pos, {name="rp_default:alga_on_alga_block", param2=16})
+      end,
 })
 
 -- Alga item
@@ -664,6 +681,12 @@ minetest.register_craftitem("rp_default:alga", {
    wield_image = "rp_default_alga_inventory.png",
    on_place = get_sea_plant_on_place("alga", "leveled"),
    groups = { node = 1, plant = 1, alga = 1 },
+   _on_grow = function(pos, node)
+      default.grow_underwater_leveled_plant(pos, node)
+   end,
+   _on_degrow = function(pos, node)
+      default.degrow_underwater_leveled_plant(pos, node)
+   end,
 })
 
 -- Register alga on block nodes

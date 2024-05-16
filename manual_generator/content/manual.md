@@ -83,13 +83,14 @@ Repixture recognizes the following game-related controls offered by Minetest:
 * <kbd>Look around</kbd>
 * <kbd>Left</kbd> / <kbd>Right</kbd> / <kbd>Forwards</kbd> / <kbd>Backwards</kbd>
 * <kbd>Jump</kbd>
-* <kbd>Sneak</kbd> (also unmounts you on boats)
+* <kbd>Sneak</kbd> (also unmounts you on boats and gets you up from a bed)
 * <kbd>Drop item</kbd>
 * <kbd>Punch</kbd> (see below)
 * <kbd>Place</kbd> (see below)
 * <kbd>Minimap</kbd> (only works if you carry a <span class="item">map</span> or you’re in Creative Mode)
 * <kbd>Inventory</kbd>
 * <kbd>Select item in hotbar</kbd>
+* <kbd>Zoom</kbd> (only works in Creative Mode)
 
 All keys do what they say. The <kbd>Jump</kbd> and <kbd>Sneak</kbd> keys also move you up and down in liquids and blocks that can be climbed, as usual. Note there’s a Minetest setting `aux1_descends` that can alter this behavior.
 
@@ -436,9 +437,9 @@ A <span class="concept">player skin</span> is a style of your body and clothes, 
 * Items you place or use stay in your inventory
 * Blocks you mine *usually* do not drop as an item (so the world won’t get polluted with items)
 * Tools never wear
-* You can always use the minimap without items
+* You can always use the minimap (with the <kbd>Minimap</kbd> key) (no tool required)
 * You can also enable the radar mode for the minimap
-* Zooming is possible with the <kbd>Zoom</kbd> key
+* You can always zoom with the <kbd>Zoom</kbd> key (no tool required)
 
 Note: Damage is *not* automatically disabled by Creative Mode. Damage is toggled by a separate setting.
 

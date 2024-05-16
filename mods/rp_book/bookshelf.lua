@@ -112,6 +112,7 @@ local bookshelf_def = {
    write_name = function(pos, text)
       -- TODO: Bring back container naming
    end,
+   _rp_blast_resistance = 2,
 }
 minetest.register_node(":rp_default:bookshelf", bookshelf_def)
 

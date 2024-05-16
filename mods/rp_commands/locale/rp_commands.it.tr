@@ -4,3 +4,5 @@ Set health points of player or yourself=
 Not possible, damage is disabled.=
 Player @1 does not exist.=
 Invalid health!=
+You suicided.=
+You were killed by a higher power.=

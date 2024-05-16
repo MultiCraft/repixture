@@ -22,12 +22,6 @@ msgstr "Vous avez dormi, vous avez la pêche !"
 msgid "Players have slept, rise and shine!"
 msgstr "Les joueurs ont dormi, ils se lèvent et rayonnent !"
 
-msgid "Bed"
-msgstr "Lit"
-
-msgid "Sets the respawn position and allows to pass the night"
-msgstr "Définit la position de réapparition et permet de passer la nuit"
-
 msgid "Sleeping is disabled."
 msgstr "Le sommeil est désactivé."
 
@@ -48,6 +42,12 @@ msgstr "Vous devez arrêter de bouger avant d'aller au lit !"
 
 msgid "Respawn position set!"
 msgstr "Position de réapparition définie !"
+
+msgid "Bed"
+msgstr "Lit"
+
+msgid "Sets the respawn position and allows to pass the night"
+msgstr "Définit la position de réapparition et permet de passer la nuit"
 
 msgid "In bed"
 msgstr "Au lit"

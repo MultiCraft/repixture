@@ -97,7 +97,7 @@ function rp_mobs_spawn.register_spawn(name, params)
 
 			-- Spawn
 			minetest.add_entity(spawn_pos, name)
-			minetest.log("action", "[mobs] Spawned "..name.." at "..minetest.pos_to_string(spawn_pos, 1).." on "..node.name)
+			minetest.log("action", "[rp_mobs_spawn] Spawned "..name.." at "..minetest.pos_to_string(spawn_pos, 1).." on "..node.name)
 		end
 	})
 end

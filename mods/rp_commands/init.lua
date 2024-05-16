@@ -1,5 +1,7 @@
 local S = minetest.get_translator("rp_commands")
 
+local mod_death_messages = minetest.get_modpath("rp_death_messages") ~= nil
+
 minetest.register_chatcommand("hp", {
 	privs = {server=true},
 	params = S("[<player>] <value>"),
@@ -21,6 +23,9 @@ minetest.register_chatcommand("hp", {
 			return false, S("Player @1 does not exist.", targetname)
 		end
 		hp = minetest.parse_relative_number(hp, target:get_hp())
+		if not hp then
+			return false, S("Invalid health!")
+		end
 		if hp < 0 then
 			hp = 0
 		end
@@ -31,9 +36,36 @@ minetest.register_chatcommand("hp", {
 		if not hp then
 			return false, S("Invalid health!")
 		end
+		if mod_death_messages then
+			if name == targetname then
+				rp_death_messages.player_damage(target, S("You suicided."))
+			else
+				rp_death_messages.player_damage(target, S("You were killed by a higher power."))
+			end
+		end
 
 		target:set_hp(hp, { type = "set_hp", from = "mod", _reason_precise = "hp_command" })
 		return true
 	end,
 })
 
+if mod_death_messages then
+	-- Extend /kill command to show death message
+	minetest.register_on_chatcommand(function(name, command, params)
+		if command == "kill" then
+			local targetname = params
+			if targetname == "" then
+				targetname = name
+			end
+			local target = minetest.get_player_by_name(targetname)
+			if not target or not target:is_player() then
+				return
+			end
+			if name == targetname then
+				rp_death_messages.player_damage(target, S("You suicided."))
+			else
+				rp_death_messages.player_damage(target, S("You were killed by a higher power."))
+			end
+		end
+	end)
+end

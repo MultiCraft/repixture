@@ -15,4 +15,4 @@ Sound licenses:
     * Sound was changed!
     * Author: joedeshon (CC BY 3.0)
 Texture license: CC BY-SA 4.0
-Source license: LGPLv2.1
+Source code license: LGPLv2.1 or later

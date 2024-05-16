@@ -27,15 +27,17 @@ armor.materials = {}
 
 -- This is a table in which each entry is a list with elements in that order:
 local A_MAT = 1 -- material ID
-local A_CRAFTITEM = 2 -- item used for crafting
-local A_DESCRIPTIONS = 3 -- per-piece descripton list (in the order of armor.slots)
-local A_PROTECTIONS = 4 -- per-piece protection % (in the order of armor.slots)
-local A_SOUND_EQUIP = 5 -- equip sound
-local A_SOUND_UNEQUIP = 6 -- unequip sound
-local A_SOUND_PITCH = 7 -- pitch of all sounds
-local A_FULL_SUIT_BONUS = 8 -- bonus for wearing full suit
+local A_MODNAME = 2 -- mod name
+local A_CRAFTITEM = 3 -- item used for crafting
+local A_DESCRIPTIONS = 4 -- per-piece descripton list (in the order of armor.slots)
+local A_PROTECTIONS = 5 -- per-piece protection % (in the order of armor.slots)
+local A_SOUND_EQUIP = 6 -- equip sound
+local A_SOUND_UNEQUIP = 7 -- unequip sound
+local A_SOUND_PITCH = 8 -- pitch of all sounds
+local A_FULL_SUIT_BONUS = 9 -- bonus for wearing full suit
+local A_INVIMG_PREFIX = 10 -- prefix for inventory image file name
 
-local function register_armor(id, def)
+function armor.register_armor_set(mod_name, material_id, def)
    local protections
    -- If def.protections is number, use this number for all armor slots
    if type(def.protections) == "number" then
@@ -47,63 +49,97 @@ local function register_armor(id, def)
       -- Otherwise we assume def.protections is a table
       protections = def.protections
    end
-   table.insert(armor.materials, {
-      id, -- material ID
+   local matdef = {
+      material_id, -- material ID
+      mod_name, -- mod name
       def.craftitem, -- item used for crafting
       def.descriptions, -- list of description (in order of armor.slots)
       protections, -- protection % per-piece (in order of armor.slots)
       def.sound_equip, -- equip sound name
       def.sound_unequip, -- unequip sound name
       def.sound_pitch, -- sound pitch for all sounds
-      def.full_suit_bonus, -- bonus % for wearing full suit
-   })
+      def.full_suit_bonus or 0, -- bonus % for wearing full suit
+      def.inventory_image_prefix, -- prefix for inventory image file name
+   }
+   table.insert(armor.materials, matdef)
+
+   local mat = material_id
+   local mat_index = #armor.materials
+   for s, slot in ipairs(armor.slots) do
+      local armor_protection = matdef[A_PROTECTIONS][s]
+
+      minetest.register_craftitem(
+	 mod_name .. ":" .. slot .. "_" .. mat,
+	 {
+	    description = matdef[A_DESCRIPTIONS][s],
+
+	    inventory_image = matdef[A_INVIMG_PREFIX].."_" .. slot .. "_" .. mat .. "_inventory.png",
+	    wield_image = matdef[A_INVIMG_PREFIX].."_" .. slot .. "_" .. mat .. "_inventory.png",
+            _rp_armor_hud_image = matdef[A_INVIMG_PREFIX].."_"..slot .. "_" .. mat .. "_hud.png",
+
+	    groups = {
+	       is_armor = 1,
+	       armor = armor_protection,
+	       armor_material = mat_index,
+	       armor_slot = s,
+	    },
+
+            -- Allow to equip armor from wieldhand
+            on_use = function(itemstack, user, pointed_thing)
+               local inv = user:get_inventory()
+               local slotstack = inv:get_stack("armor", s)
+               local armor_changed = false
+               if slotstack:is_empty() then
+                  -- Empty slot: Equip armor
+                  inv:set_stack("armor", s, itemstack)
+                  itemstack:take_item()
+                  armor_changed = true
+               else
+                  -- Occupied slot: Exchange armor
+                  itemstack, slotstack = slotstack, itemstack
+                  inv:set_stack("armor", s, slotstack)
+                  armor_changed = true
+               end
+               if armor_changed then
+                  minetest.sound_play({name=matdef[A_SOUND_EQUIP] or "rp_armor_equip_metal", gain=SOUND_GAIN, pitch=matdef[A_SOUND_PITCH]}, {object=user}, true)
+                  armor.update(user)
+                  return itemstack
+               end
+            end,
+
+	    stack_max = 1,
+
+            _rp_armor_material = mat,
+      })
+   end
+
+   if matdef[A_CRAFTITEM] then
+      crafting.register_craft(
+         {
+	    output = mod_name..":helmet_" .. mat,
+	    items = {
+               matdef[A_CRAFTITEM] .. " 5",
+	    }
+      })
+
+      crafting.register_craft(
+         {
+	    output = mod_name..":chestplate_" .. mat,
+	    items = {
+               matdef[A_CRAFTITEM] .. " 8",
+	    }
+      })
+
+      crafting.register_craft(
+         {
+	    output = mod_name..":boots_" .. mat,
+	    items = {
+               matdef[A_CRAFTITEM] .. " 6",
+	    }
+      })
+   end
+
 end
-
---[[~~~~~ ARMOR REGISTRATIONS ~~~~~]]
-
-register_armor("wood", {
-   craftitem = "group:planks",
-   descriptions = { S("Wooden Helmet"), S("Wooden Chestplate"), S("Wooden Boots") },
-   protections = 3,
-   full_suit_bonus = 1,
-   sound_equip = "rp_armor_equip_wood",
-   sound_unequip = "rp_armor_unequip_wood",
-})
-register_armor("steel", {
-   craftitem = "rp_default:ingot_steel",
-   descriptions = { S("Steel Helmet"), S("Steel Chestplate"), S("Steel Boots") },
-   protections = 6,
-   full_suit_bonus = 2,
-   sound_equip = "rp_armor_equip_steel",
-   sound_unequip = "rp_armor_unequip_steel",
-   sound_pitch = 0.90,
-})
-register_armor("chainmail", {
-   craftitem = "rp_armor:chainmail_sheet",
-   descriptions = { S("Chainmail Helmet"), S("Chainmail Chestplate"), S("Chainmail Boots") },
-   protections = 10,
-   full_suit_bonus = 3,
-   sound_equip = "rp_armor_equip_chainmail",
-   sound_unequip = "rp_armor_unequip_chainmail",
-})
-register_armor("carbon_steel", {
-   craftitem = "rp_default:ingot_carbon_steel",
-   descriptions = { S("Carbon Steel Helmet"), S("Carbon Steel Chestplate"), S("Carbon Steel Boots") },
-   protections = 13,
-   full_suit_bonus = 4,
-   sound_equip = "rp_armor_equip_steel",
-   sound_unequip = "rp_armor_unequip_steel",
-   sound_pitch = 0.95,
-})
-register_armor("bronze", {
-   craftitem = "rp_default:ingot_bronze",
-   descriptions = { S("Bronze Helmet"), S("Bronze Chestplate"), S("Bronze Boots") },
-   protections = 20,
-   full_suit_bonus = 5,
-   sound_equip = "rp_armor_equip_steel",
-   sound_unequip = "rp_armor_unequip_steel",
-   sound_pitch = 1.00,
-})
 
 -- Formspec
 
@@ -213,12 +249,22 @@ function armor.is_armor(itemname)
 end
 
 function armor.is_slot(itemname, slot)
-   local match = string.find(itemname, "rp_armor:" .. slot .. "_")
-   local matchbool = false
-   if match ~= nil and match >= 1 then
-      matchbool = true
+   local wanted_slot_index
+   for s=1, #armor.slots do
+      if armor.slots[s] == slot then
+         wanted_slot_index = s
+         break
+      end
    end
-   return matchbool
+   if not wanted_slot_index and wanted_slot_index ~= 0 then
+      return false
+   end
+
+   local item_slot_index = minetest.get_item_group(itemname, "armor_slot")
+   if item_slot_index == 0 then
+      return false
+   end
+   return wanted_slot_index == item_slot_index
 end
 
 function armor.get_base_skin(player)
@@ -243,8 +289,8 @@ function armor_local.get_texture(player, base)
       if armor.is_armor(itemname) and armor.is_slot(itemname, slot) then
 	 local item = minetest.registered_items[itemname]
 	 local mat = armor.materials[item.groups.armor_material][A_MAT]
-
-	 image = image .. "^armor_" .. slot .. "_" .. mat ..".png"
+         local prefix = armor.materials[item.groups.armor_material][A_INVIMG_PREFIX]
+	 image = image .. "^" .. prefix .. "_" .. slot .. "_" .. mat ..".png"
       end
    end
 
@@ -342,20 +388,60 @@ function armor_local.get_groups(player)
    return groups
 end
 
+local armor_icon_definitions = {}
+
+for a=1, #armor.slots do
+   armor_icon_definitions[a] = {
+      hud_elem_type = "image",
+      position = { x=0.5, y=1 },
+      text = "blank.png",
+      direction = 0,
+      size = { x=12, y=12 },
+      scale = { x=2, y=2 },
+      offset = { x=-274, y=-64 + 24*(a-1) },
+      z_index = 1,
+   }
+end
+
+local hud_ids = {}
+
 -- Initialize armor for player
 function armor_local.init(player)
+   local name = player:get_player_name()
+   local huds = {}
+   for a=1, #armor_icon_definitions do
+      local id = player:hud_add(armor_icon_definitions[a])
+      table.insert(huds, id)
+   end
+   hud_ids[name] = huds
+
    local inv = player:get_inventory()
 
-   if inv:get_size("armor") ~= 3 then
-      inv:set_size("armor", 3)
+   if inv:get_size("armor") ~= #armor.slots then
+      inv:set_size("armor", #armor.slots)
    end
 end
+
+
 
 -- This function must be called whenever the armor inventory has been changed
 function armor.update(player)
    local groups = armor_local.get_groups(player)
    armor_local.check_achievement(player)
    player:set_armor_groups({fleshy = groups.fleshy, immortal = groups.immortal})
+
+   local huds = hud_ids[player:get_player_name()]
+   local inv = player:get_inventory()
+   for a=1, #huds do
+      local item = inv:get_stack("armor", a)
+      if item:is_empty() then
+         player:hud_change(huds[a], "text", "blank.png")
+      else
+         local idef = item:get_definition()
+         local tex = idef._rp_armor_hud_image or "no_texture.png"
+         player:hud_change(huds[a], "text", tex)
+      end
+   end
 
    local image = armor_local.get_texture(player, armor.get_base_skin(player))
    if image ~= rp_player.player_get_textures(player)[1] then
@@ -419,6 +505,10 @@ local function on_joinplayer(player)
    armor.update(player)
 end
 
+local function on_leaveplayer(player)
+   hud_ids[player:get_player_name()] = nil
+end
+
 local function on_respawnplayer(player)
    armor.update(player)
 end
@@ -430,107 +520,6 @@ end
 minetest.register_on_newplayer(on_newplayer)
 minetest.register_on_joinplayer(on_joinplayer)
 minetest.register_on_respawnplayer(on_respawnplayer)
-
--- Chainmail
-
-minetest.register_craftitem(
-   "rp_armor:chainmail_sheet",
-   {
-      description = S("Chainmail Sheet"),
-
-      inventory_image = "armor_chainmail.png",
-      wield_image = "armor_chainmail.png",
-
-      stack_max = 20,
-})
-
-crafting.register_craft(
-   {
-      output = "rp_armor:chainmail_sheet 3",
-      items = {
-         "rp_default:ingot_steel 5",
-      }
-})
-
--- Armor pieces
-
-for mat_index, matdef in ipairs(armor.materials) do
-
-   local mat = matdef[A_MAT]
-
-
-   for s, slot in ipairs(armor.slots) do
-      local armor_protection = matdef[A_PROTECTIONS][s]
-
-      minetest.register_craftitem(
-	 "rp_armor:" .. slot .. "_" .. mat,
-	 {
-	    description = matdef[A_DESCRIPTIONS][s],
-
-	    inventory_image = "armor_" .. slot .. "_" .. mat .. "_inventory.png",
-	    wield_image = "armor_" .. slot .. "_" .. mat .. "_inventory.png",
-
-	    groups = {
-	       is_armor = 1,
-	       armor = armor_protection,
-	       armor_material = mat_index,
-	       armor_slot = s,
-	    },
-
-            -- Allow to equip armor from wieldhand
-            on_use = function(itemstack, user, pointed_thing)
-               local inv = user:get_inventory()
-               local slotstack = inv:get_stack("armor", s)
-               local armor_changed = false
-               if slotstack:is_empty() then
-                  -- Empty slot: Equip armor
-                  inv:set_stack("armor", s, itemstack)
-                  itemstack:take_item()
-                  armor_changed = true
-               else
-                  -- Occupied slot: Exchange armor
-                  itemstack, slotstack = slotstack, itemstack
-                  inv:set_stack("armor", s, slotstack)
-                  armor_changed = true
-               end
-               if armor_changed then
-                  minetest.sound_play({name=matdef[A_SOUND_EQUIP] or "rp_armor_equip_metal", gain=SOUND_GAIN, pitch=matdef[A_SOUND_PITCH]}, {object=user}, true)
-                  armor.update(user)
-                  return itemstack
-               end
-            end,
-
-	    stack_max = 1,
-
-            _rp_armor_material = mat,
-      })
-   end
-
-   crafting.register_craft(
-      {
-	 output = "rp_armor:helmet_" .. mat,
-	 items = {
-            matdef[A_CRAFTITEM] .. " 5",
-	 }
-   })
-
-   crafting.register_craft(
-      {
-	 output = "rp_armor:chestplate_" .. mat,
-	 items = {
-            matdef[A_CRAFTITEM] .. " 8",
-	 }
-   })
-
-   crafting.register_craft(
-      {
-	 output = "rp_armor:boots_" .. mat,
-	 items = {
-            matdef[A_CRAFTITEM] .. " 6",
-	 }
-   })
-
-end
 
 -- Only allow armor items to be put into armor slots
 minetest.register_allow_player_inventory_action(function(player, action, inventory, inventory_info)
@@ -626,24 +615,8 @@ end)
 
 
 
--- Wooden armor fuel recipes
-minetest.register_craft({
-   type = "fuel",
-   recipe = "rp_armor:helmet_wood",
-   burntime = 10
-})
-minetest.register_craft({
-   type = "fuel",
-   recipe = "rp_armor:chestplate_wood",
-   burntime = 16
-})
-minetest.register_craft({
-   type = "fuel",
-   recipe = "rp_armor:boots_wood",
-   burntime = 12
-})
-
--- Achievements
+-- General achievement that applies to any armor
+-- Note: Armor-specific achievements go into register.lua.
 
 achievements.register_achievement(
    "armored",
@@ -656,17 +629,6 @@ achievements.register_achievement(
       difficulty = 1.9,
 })
 
-achievements.register_achievement(
-   -- REFERENCE ACHIEVEMENT 6
-   "full_armor",
-   {
-      title = S("Skin of Bronze"),
-      description = S("Equip a full suit of bronze armor."),
-      times = 1,
-      icon = "rp_armor_achievement_full_armor.png",
-      difficulty = 6,
-})
-
 if minetest.get_modpath("tt") then
 	tt.register_snippet(function(itemstring)
 		if minetest.get_item_group(itemstring, "is_armor") == 1 then
@@ -676,4 +638,5 @@ if minetest.get_modpath("tt") then
 	end)
 end
 
+dofile(minetest.get_modpath("rp_armor").."/register.lua")
 dofile(minetest.get_modpath("rp_armor").."/aliases.lua")

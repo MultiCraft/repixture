@@ -263,32 +263,6 @@ minetest.register_craft(
 minetest.register_craft(
    {
       type = "fuel",
-      recipe = "rp_default:sign",
-      burntime = 6,
-})
-minetest.register_craft(
-   {
-      type = "fuel",
-      recipe = "rp_default:sign_birch",
-      burntime = 6,
-})
-minetest.register_craft(
-   {
-      type = "fuel",
-      recipe = "rp_default:sign_oak",
-      burntime = 6,
-})
-minetest.register_craft(
-   {
-      type = "fuel",
-      recipe = "rp_default:sign_fir",
-      burntime = 6,
-})
-
-
-minetest.register_craft(
-   {
-      type = "fuel",
       recipe = "rp_default:cactus",
       burntime = 10,
 })
@@ -829,8 +803,8 @@ crafting.register_craft(
       output = "rp_default:fence 4",
       items = {
          "rp_default:planks",
-         "rp_default:fiber 4",
          "rp_default:stick 4",
+         "rp_default:fiber 4",
       }
 })
 
@@ -866,45 +840,6 @@ crafting.register_craft(
 
 
 -- Misc nodes
-
-crafting.register_craft(
-   {
-      output = "rp_default:sign 2",
-      items = {
-         "rp_default:planks",
-         "rp_default:fiber 2",
-         "rp_default:stick 2",
-      }
-})
-crafting.register_craft(
-   {
-      output = "rp_default:sign_birch 2",
-      items = {
-         "rp_default:planks_birch",
-         "rp_default:fiber 2",
-         "rp_default:stick 2",
-      }
-})
-crafting.register_craft(
-   {
-      output = "rp_default:sign_oak 2",
-      items = {
-         "rp_default:planks_oak",
-         "rp_default:fiber 2",
-         "rp_default:stick 2",
-      }
-})
-crafting.register_craft(
-   {
-      output = "rp_default:sign_fir 2",
-      items = {
-         "rp_default:planks_fir",
-         "rp_default:fiber 2",
-         "rp_default:stick 2",
-      }
-})
-
-
 
 crafting.register_craft(
    {

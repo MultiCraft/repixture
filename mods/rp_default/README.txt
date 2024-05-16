@@ -70,10 +70,6 @@ File credits and individual file licenses:
     * Derived by Wuzzy from sound by kyles
     * Source: <https://freesound.org/people/kyles/sounds/637746/>
     * License: CC0
-  * rp_default_write_sign.ogg
-    * Derived by Wuzzy from sound by avreference
-    * Source: <https://freesound.org/people/avreference/sounds/550285/>
-    * License: CC0
   * rp_default_footstep_ladder_wood.*.ogg
     * Derived by Wuzzy from sound by Fission9
     * Source: <https://freesound.org/people/Fission9/sounds/521589/>
@@ -123,5 +119,5 @@ Model license: CC BY-SA 4.0
 
 ### Source code license
 
-Source code license: LGPLv2.1.
+Source code license: LGPLv2.1 or later
 Note: Fence code based on Minetest Game 5.5.0

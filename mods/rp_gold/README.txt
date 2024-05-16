@@ -4,5 +4,5 @@ By Kaadmy and Wuzzy, for Repixture.
 
 Trading/currency mod; required by mobs
 
-Asset license: CC BY-SA 4.0
-Source license: LGPLv2.1
+Media files license: CC BY-SA 4.0
+Source code license: LGPLv2.1 or later

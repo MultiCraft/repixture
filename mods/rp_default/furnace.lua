@@ -192,6 +192,7 @@ minetest.register_node(
       allow_metadata_inventory_take = check_take,
       after_dig_node = after_dig_node,
       on_blast = on_blast,
+      _rp_blast_resistance = 2,
    })
 
 minetest.register_node(
@@ -227,6 +228,7 @@ minetest.register_node(
       allow_metadata_inventory_take = check_take,
       after_dig_node = after_dig_node,
       on_blast = on_blast,
+      _rp_blast_resistance = 2,
    })
 
 local function swap_node(pos, name)
