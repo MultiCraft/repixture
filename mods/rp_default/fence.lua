@@ -47,12 +47,13 @@ local function register_fence(name, def)
 		end
 	end
 
-
 	-- Always add to the fence group, even if no group provided
 	def.groups.fence = 1
 	def.groups.creative_decoblock = 1
 	def.groups.paintable = 2
 
+	local palette = def.palette
+	def.palette = nil
 	def.texture = nil
 	def.material = nil
 	local description_painted = def.description_painted
@@ -66,7 +67,7 @@ local function register_fence(name, def)
 	def_painted.groups.not_in_creative_inventory = 1
 	def_painted.description = description_painted
 	def_painted.paramtype2 = "color"
-	def_painted.palette = "rp_paint_palette_256.png"
+	def_painted.palette = palette or "rp_paint_palette_256.png"
 	def_painted.tiles = {def.texture_top_painted, def.texture_top_painted, def.texture_side_painted}
 	def_painted.inventory_image = def.inventory_image.."^[hsl:0:-100:0"
 	def_painted.wield_image = def.wield_image.."^[hsl:0:-100:0"
@@ -131,4 +132,5 @@ register_fence("rp_default:fence_fir", {
 	wield_image = "rp_default_fence_fir.png",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
 	sounds = sounds_wood_fence,
+	palette = "rp_paint_palette_256l.png"
 })

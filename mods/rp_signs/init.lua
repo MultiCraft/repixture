@@ -1064,7 +1064,7 @@ local function register_sign(id, def)
 	local sdef_p = table.copy(sdef)
 	sdef_p.description = def.description_painted
 	sdef_p.paramtype2 = "colorwallmounted"
-	sdef_p.palette = "rp_paint_palette_32.png"
+	sdef_p.palette = def.palette_wall or "rp_paint_palette_32.png"
 	sdef_p.groups.paintable = 1
 	sdef_p.groups.not_in_creative_inventory = 1
 	sdef_p.tiles = {
@@ -1083,7 +1083,7 @@ local function register_sign(id, def)
 	-- Wall sign, rotated by 90°, painted
 	local sdef_r90_p = table.copy(sdef_r90)
 	sdef_r90_p.paramtype2 = "colorwallmounted"
-	sdef_r90_p.palette = "rp_paint_palette_32.png"
+	sdef_r90_p.palette = def.palette_wall or "rp_paint_palette_32.png"
 	sdef_r90_p.groups.paintable = 1
 	sdef_r90_p.groups.sign_r90 = 1
 	sdef_r90_p.tiles = {
@@ -1103,7 +1103,7 @@ local function register_sign(id, def)
 	local ssdef_p = table.copy(ssdef)
 	ssdef_p.description = def.description_standing_painted
 	ssdef_p.paramtype2 = "color4dir"
-	ssdef_p.palette = "rp_paint_palette_64.png"
+	ssdef_p.palette = def.palette_stand or "rp_paint_palette_64.png"
 	ssdef_p.groups.paintable = 1
 	ssdef_p.groups.sign_standing = 1
 	ssdef_p.groups.not_in_creative_inventory = 1
@@ -1124,7 +1124,7 @@ local function register_sign(id, def)
 	local shdef_p = table.copy(shdef)
 	shdef_p.description = nil
 	shdef_p.paramtype2 = "color4dir"
-	shdef_p.palette = "rp_paint_palette_64.png"
+	shdef_p.palette = def.palette_stand or "rp_paint_palette_64.png"
 	shdef_p.groups.paintable = 1
 	shdef_p.groups.sign_standing = 2
 	shdef_p.groups.not_in_creative_inventory = 1
@@ -1145,7 +1145,7 @@ local function register_sign(id, def)
 	local stsdef_p = table.copy(stsdef)
 	stsdef_p.description = nil
 	stsdef_p.paramtype2 = "color4dir"
-	stsdef_p.palette = "rp_paint_palette_64.png"
+	stsdef_p.palette = def.palette_stand or "rp_paint_palette_64.png"
 	stsdef_p.groups.paintable = 1
 	stsdef_p.groups.not_in_creative_inventory = 1
 	stsdef_p.tiles = {
@@ -1313,6 +1313,8 @@ register_sign("sign_fir", {
 	inv_image = "rp_default_sign_fir_inventory.png",
 	inv_image_standing = "rp_default_sign_fir_standing_inventory.png",
 	sounds = sounds_wood_sign,
+	palette_wall = "rp_paint_palette_32l.png",
+	palette_stand = "rp_paint_palette_64l.png",
 })
 
 dofile(minetest.get_modpath("rp_signs").."/crafting.lua")

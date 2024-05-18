@@ -355,7 +355,7 @@ function door.register_door(name, def)
    local paramtype2 = "4dir"
    if def.is_painted then
       paramtype2 = "color4dir"
-      palette = "rp_paint_palette_64.png"
+      palette = def.palette or "rp_paint_palette_64.png"
    end
    if def.can_paint and not def.is_painted then
       painted_name = name .. "_painted"
@@ -692,7 +692,7 @@ local woods = {
    { "wood", "door_wood", "rp_default:wood", S("Wooden Door"), S("Painted Wooden Door") },
    { "wood_oak", "rp_door_wood_oak", "rp_default:wood_oak", S("Oak Door"), S("Painted Oak Door") },
    { "wood_birch", "rp_door_wood_birch", "rp_default:wood_birch", S("Birch Door"), S("Painted Birch Door") },
-   { "wood_fir", "rp_door_wood_fir", "rp_default:wood_fir", S("Fir Door"), S("Painted Fir Door") },
+   { "wood_fir", "rp_door_wood_fir", "rp_default:wood_fir", S("Fir Door"), S("Painted Fir Door"), "rp_paint_palette_64l.png" },
 }
 for w=1, #woods do
    local id = woods[w][1]
@@ -700,6 +700,7 @@ for w=1, #woods do
    local craftitem = woods[w][3]
    local desc = woods[w][4]
    local desc_paint = woods[w][5]
+   local palette = woods[w][6]
    door.register_door(
       "rp_door:door_"..id,
       {
@@ -725,6 +726,7 @@ for w=1, #woods do
          overlay_tiles_bottom = {{name=tex.."_b_painted_overlay.png",color="white"}, "", ""},
          sounds = sounds_wood_door,
          sunlight = false,
+         palette = palette,
          is_painted = true,
          can_unpaint = true,
          paint_particle_node = false,
