@@ -144,6 +144,10 @@ minetest.register_node(
 
       node_placement_prediction = "",
       on_place = default.place_sapling,
+
+      _on_grow = function(pos)
+         default.grow_sapling(pos)
+      end,
 })
 
 
@@ -177,6 +181,10 @@ minetest.register_node(
       end,
 
       on_place = default.place_sapling,
+
+      _on_grow = function(pos)
+         default.grow_sapling(pos)
+      end,
 })
 
 local snd_tree = rp_sounds.node_sound_wood_defaults({
