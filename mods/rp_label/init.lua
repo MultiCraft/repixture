@@ -66,10 +66,6 @@ rp_label.write_name = function(pos, text)
 end
 
 local write = function(itemstack, player, pointed_thing)
-    -- Handle pointed node handlers and protection
-    if util.handle_node_protection(player, pointed_thing) then
-       return itemstack
-    end
     if pointed_thing.type == "object" then
        if not mod_mobs then
           return itemstack
@@ -90,6 +86,10 @@ local write = function(itemstack, player, pointed_thing)
        return itemstack
     end
     if pointed_thing.type ~= "node" then
+       return itemstack
+    end
+    -- Handle pointed node handlers and protection
+    if util.handle_node_protection(player, pointed_thing) then
        return itemstack
     end
 
