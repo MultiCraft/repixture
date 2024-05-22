@@ -823,6 +823,15 @@ rp_mobs.drag = function(self, dtime, drag, drag_axes)
 	self.object:set_velocity(targetvel)
 end
 
+rp_mobs.set_nametag = function(self, nametag)
+	self.object:set_properties({nametag=nametag})
+end
+
+rp_mobs.get_nametag = function(self)
+	local props = self.object:get_properties()
+	return props.nametag
+end
+
 minetest.register_on_chatcommand(function(name, command, params)
 	if not setting_peaceful_only then
 		return

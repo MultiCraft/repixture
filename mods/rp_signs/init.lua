@@ -649,11 +649,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		-- Note: Don't show written sign text in log to prevent log flooding
 		" wrote something to a sign at "..minetest.pos_to_string(pos))
 	meta:set_string("infotext", "")
-	default.write_name(pos, text)
 end)
 
 local on_destruct = function(pos)
-	default.write_name(pos, "")
 	remove_text_entities(pos)
 end
 

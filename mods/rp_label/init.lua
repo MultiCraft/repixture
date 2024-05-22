@@ -1,6 +1,8 @@
 -- Label
 
-local S = minetest.get_translator("rp_default")
+local S = minetest.get_translator("rp_label")
+
+rp_label = {}
 
 -- Maximum length of the name of a named node (e.g. with label)
 local NAMED_NODE_MAX_TEXT_LENGTH = 40
@@ -11,11 +13,11 @@ form_label = form_label .. "size[8.5,4.5]"
 form_label = form_label .. rp_formspec.default.boilerplate
 form_label = form_label .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
 form_label = form_label .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
-rp_formspec.register_page("rp_default:label", form_label)
+rp_formspec.register_page("rp_label:label", form_label)
 
 local active_posses = {}
 
-default.container_label_formspec_element = function(meta)
+rp_label.container_label_formspec_element = function(meta)
    local name = meta:get_string("name")
    local form = ""
    if name ~= "" then
@@ -27,7 +29,7 @@ default.container_label_formspec_element = function(meta)
 end
 
 -- Assign a name to a node
-default.write_name = function(pos, text)
+rp_label.write_name = function(pos, text)
    -- Discard everything after the first newline or carriage return
    local tsplit = string.split(text, "\n", nil, 1)
    if #tsplit >= 1 then
@@ -71,11 +73,11 @@ local write = function(itemstack, player, pointed_thing)
        local meta = minetest.get_meta(pointed_thing.under)
        local text = meta:get_string("name")
 
-       local form = rp_formspec.get_page("rp_default:label")
+       local form = rp_formspec.get_page("rp_label:label")
        form = form .. "field[1,1.5;6.5,0.5;text;;"..minetest.formspec_escape(text).."]"
        form = form .. "set_focus[text;true]"
 
-       minetest.show_formspec(player:get_player_name(), "rp_default:label", form)
+       minetest.show_formspec(player:get_player_name(), "rp_label:label", form)
     end
 
     if not minetest.is_creative_enabled(player:get_player_name()) then
@@ -85,23 +87,23 @@ local write = function(itemstack, player, pointed_thing)
 end
 
 minetest.register_craftitem(
-   "rp_default:label",
+   "rp_label:label",
    {
       description = S("Label and Graphite"),
       _tt_help = S("Give a name to containers"),
-      inventory_image = "rp_default_label.png",
-      wield_image = "rp_default_label.png",
+      inventory_image = "rp_label_label.png",
+      wield_image = "rp_label_label.png",
       on_use = write,
 })
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-   if formname ~= "rp_default:label" then
+   if formname ~= "rp_label:label" then
       return
    end
    if fields.text then
       local pos = active_posses[player:get_player_name()]
       if pos then
-         default.write_name(pos, fields.text)
+         rp_label.write_name(pos, fields.text)
       end
    elseif fields.quit then
       active_posses[player:get_player_name()] = nil
@@ -111,3 +113,16 @@ end)
 minetest.register_on_leaveplayer(function(player)
    active_posses[player:get_player_name()] = nil
 end)
+
+
+-- Crafting
+if minetest.get_modpath("default") ~= nil then
+   crafting.register_craft({
+      output = "rp_label:label 20",
+      items = {
+         "rp_default:sheet_graphite",
+         "rp_default:paper",
+      }
+   })
+end
+

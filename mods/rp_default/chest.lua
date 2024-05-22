@@ -23,7 +23,7 @@ end
 
 local get_chest_formspec = function(meta)
    local form = rp_formspec.get_page("rp_default:chest")
-   form = form .. default.container_label_formspec_element(meta)
+   form = form .. rp_label.container_label_formspec_element(meta)
    return form
 end
 local get_chest_infotext = function(meta)

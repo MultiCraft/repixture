@@ -333,7 +333,7 @@ local chest_def = {
             form = form .. "listring[nodemeta:" .. np .. ";main]"
             form = form .. "listring[current_name;main]"
 
-            form = form .. default.container_label_formspec_element(meta)
+            form = form .. rp_label.container_label_formspec_element(meta)
 
             minetest.show_formspec(
                player:get_player_name(),

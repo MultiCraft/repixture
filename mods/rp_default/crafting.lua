@@ -425,17 +425,6 @@ crafting.register_craft(
       }
 })
 
--- Label
-
-crafting.register_craft(
-   {
-      output = "rp_default:label 20",
-      items = {
-         "rp_default:sheet_graphite",
-         "rp_default:paper",
-      }
-})
-
 -- Minerals
 
 crafting.register_craft(
