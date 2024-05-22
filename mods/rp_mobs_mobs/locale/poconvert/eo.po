@@ -1,0 +1,422 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_mobs_mobs x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: eo\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Bomb has Been Defused!"
+msgstr ""
+
+msgid "Kill a mine turtle."
+msgstr ""
+
+msgid "Taking a Cut"
+msgstr ""
+
+msgid "Shear a sheep."
+msgstr ""
+
+msgid "Smalltalk"
+msgstr ""
+
+msgid "Have a friendly chat with a villager."
+msgstr ""
+
+msgid "Wool Bundle"
+msgstr ""
+
+msgid "Raw Meat"
+msgstr ""
+
+msgid "Cooked Meat"
+msgstr ""
+
+msgid "Raw Porkchop"
+msgstr ""
+
+msgid "Cooked Porkchop"
+msgstr ""
+
+msgid "Boar"
+msgstr ""
+
+msgid "Mine Turtle"
+msgstr ""
+
+msgid "Sheep"
+msgstr ""
+
+msgid "Skunk"
+msgstr ""
+
+msgid "Farmer"
+msgstr ""
+
+msgid "Tavern Keeper"
+msgstr ""
+
+msgid "Blacksmith"
+msgstr ""
+
+msgid "Butcher"
+msgstr ""
+
+msgid "Carpenter"
+msgstr ""
+
+msgid "Villager"
+msgstr ""
+
+msgid "Hi! I'm a farmer. I sell farming goods."
+msgstr ""
+
+msgid "Hi! I'm a tavernkeeper. I trade with assorted goods."
+msgstr ""
+
+msgid "Hi! I'm a blacksmith. I sell metal products."
+msgstr ""
+
+msgid "Hi! I'm a butcher. Want to buy something?"
+msgstr ""
+
+msgid "Hi! I'm a carpenter. Making things out of wood is my job."
+msgstr ""
+
+msgid "If you want to trade, show me a trading book."
+msgstr ""
+
+msgid "Hello!"
+msgstr ""
+
+msgid "Nice to see you."
+msgstr ""
+
+msgid "Life is beautiful."
+msgstr ""
+
+msgid "I feel good."
+msgstr ""
+
+msgid "Have a nice day!"
+msgstr ""
+
+msgid "I'm not in a good mood."
+msgstr ""
+
+msgid "I'm tired."
+msgstr ""
+
+msgid "I need to rest."
+msgstr ""
+
+msgid "Life could be better."
+msgstr ""
+
+msgid "I don't feel so good."
+msgstr ""
+
+msgid "I ... I am hurt."
+msgstr ""
+
+msgid "I feel weak."
+msgstr ""
+
+msgid "My head hurts."
+msgstr ""
+
+msgid "I have a bad day today."
+msgstr ""
+
+msgid "Screw you!"
+msgstr ""
+
+msgid "Get this thing out of my face!"
+msgstr ""
+
+msgid "Villager says: “@1”"
+msgstr ""
+
+msgid "Ah, a cactus. You'd be surprised how well they burn in a furnace."
+msgstr ""
+
+msgid "You can quickly kindle it in the furnace."
+msgstr ""
+
+msgid "A truly amazing block!"
+msgstr ""
+
+msgid "Trees are a classic furnace fuel, but you can also cook them to get coal lumps."
+msgstr ""
+
+msgid "You can cook it in the furnace to get: @1. But you can also use it as a furnace fuel."
+msgstr ""
+
+msgid "Cook it in the furnace to get: @1."
+msgstr ""
+
+msgid "This is an amazing furnace fuel, it burns for a very, very, very long time."
+msgstr ""
+
+msgid "This is a great furnace fuel, and it burns for a very, very long time."
+msgstr ""
+
+msgid "This is a very good furnace fuel, and it burns for a very long time."
+msgstr ""
+
+msgid "This is a good furnace fuel, it burns for a long time."
+msgstr ""
+
+msgid "This is a nice furnace fuel."
+msgstr ""
+
+msgid "You can use this as a furnace fuel, but it's meh."
+msgstr ""
+
+msgid "You can use this as a furnace fuel, but it is gone quickly."
+msgstr ""
+
+msgid "You can use this as a furnace fuel, but it is gone very quickly."
+msgstr ""
+
+msgid "You can theoretically use this as a furnace fuel, but it is gone almost instantly. You will need a large amount of these to cook anything."
+msgstr ""
+
+msgid "I'm impressed! Your weapon is a true masterpiece."
+msgstr ""
+
+msgid "This is a mighty weapon, but have you considered upgrading it with jewels?"
+msgstr ""
+
+msgid "Offense is the best defense."
+msgstr ""
+
+msgid "If you equip a full set of armor made from the same material, you'll get a protection bonus."
+msgstr ""
+
+msgid "You can put anything inside a bookshelf, not just books."
+msgstr ""
+
+msgid "This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."
+msgstr ""
+
+msgid "Sorry, I don't know how to use this. Maybe ask a farmer."
+msgstr ""
+
+msgid "Remember to put water near to your seeds."
+msgstr ""
+
+msgid "Try magnetizing it on iron."
+msgstr ""
+
+msgid "If you use it on a cotton bale, it will point to the North again."
+msgstr ""
+
+msgid "If you use it on wool, it will point to the North again."
+msgstr ""
+
+msgid "We live in a lovely place, don't we?"
+msgstr ""
+
+msgid "It's used to capture large animals."
+msgstr ""
+
+msgid "Why are you carrying this around? Do you want crack open our locked chests?"
+msgstr ""
+
+msgid "It's used to capture small animals."
+msgstr ""
+
+msgid "Every kid knows seeds need soil, water and sunlight."
+msgstr ""
+
+msgid "Sheep love to eat wheat. Give them enough wheat and they'll multiply!"
+msgstr ""
+
+msgid "We use wheat to make flour and bake bread."
+msgstr ""
+
+msgid "Put it in a furnace to bake tasty bread."
+msgstr ""
+
+msgid "Did you know cotton seed not only grow on dirt, but also on sand? But it still needs water."
+msgstr ""
+
+msgid "If you have grown a cotton plant, try using scissors to perform a precise cut."
+msgstr ""
+
+msgid "This can be used to make cotton bales."
+msgstr ""
+
+msgid "A truly epic story!"
+msgstr ""
+
+msgid "Ooh, a shiny pearl! It's beautiful."
+msgstr ""
+
+msgid "I heard the tavernkeeper likes these."
+msgstr ""
+
+msgid "Just place it on the ground and it will grow after a while."
+msgstr ""
+
+msgid "If the sapling refuses to grow, make sure it has enough open space above it."
+msgstr ""
+
+msgid "Try placing it on different grounds. It might grow differently."
+msgstr ""
+
+msgid "Use this to trim plants and get wool from sheep."
+msgstr ""
+
+msgid "Papyrus grows best on fertilized swamp dirt."
+msgstr ""
+
+msgid "Papyrus likes to grow next to water."
+msgstr ""
+
+msgid "The papyrus grows tall in the swamp. But it can grow even taller."
+msgstr ""
+
+msgid "When I was I kid, I always liked to climb on the papyrus."
+msgstr ""
+
+msgid "Cacti grow best on sand. They are also a food source, if you're really desperate."
+msgstr ""
+
+msgid "This is the secret ingredient for my special drink. But don't tell anyone!"
+msgstr ""
+
+msgid "Now what can you possibly do with a cactus? I don't know!"
+msgstr ""
+
+msgid "Jewels are great! If you have a jeweller's workbench, you can enhance your tools."
+msgstr ""
+
+msgid "Did you know we sometimes sell jewels?"
+msgstr ""
+
+msgid "This looks like it could be a good wall decoration."
+msgstr ""
+
+msgid "It’s burned out. Use flint and steel to kindle it."
+msgstr ""
+
+msgid "With flint and steel you could stabilize the flame."
+msgstr ""
+
+msgid "Let’s light up some caves!"
+msgstr ""
+
+msgid "A flower? I love flowers! Let's make the world bloom!"
+msgstr ""
+
+msgid "You can use this to light up torches and bonfires and ignite TNT."
+msgstr ""
+
+msgid "You can use this to light up torches and bonfires."
+msgstr ""
+
+msgid "TNT needs to be ignited by a flint and steel."
+msgstr ""
+
+msgid "For some reason, TNT can't be ignited. Strange."
+msgstr ""
+
+msgid "You need flint and steel to light the fire. But don't walk into the flame!"
+msgstr ""
+
+msgid "Isn't it stressful to carry this heavy bed around?"
+msgstr ""
+
+msgid "Sleeping makes the night go past in the blink of an eye."
+msgstr ""
+
+msgid "Hole in dirt, put bronze in. Bell’s complete, bim, bim, bim!"
+msgstr ""
+
+msgid "Apples are so tasty!"
+msgstr ""
+
+msgid "Boars love to eat acorns! If you feed enough of these to them, they will multiply."
+msgstr ""
+
+msgid "Did you try to dry it in the furnace?"
+msgstr ""
+
+msgid "Airweed is an underwater plant with little capsules filled with air. Use it underwater to release air bubbles and catch some breath."
+msgstr ""
+
+msgid "If you use the airweed plant, you will catch some breath. Other people near the plant will also benefit."
+msgstr ""
+
+msgid "Airweed is very useful, but it can't give you breath from your hand. You must place it on the ground first."
+msgstr ""
+
+msgid "You can multiply airweed with fertilizer."
+msgstr ""
+
+msgid "Airweed needs a moment to refill after you used it. The time it needs depends on the surface."
+msgstr ""
+
+msgid "If you fertilize the ground, an alga will grow higher."
+msgstr ""
+
+msgid "The tallest algae always grow on alga blocks."
+msgstr ""
+
+msgid "If an alga tries to grow but something blocks its path, it'll stop growing, even if the barrier is removed later."
+msgstr ""
+
+msgid "Algae grow underwater in different heights."
+msgstr ""
+
+msgid "Place it at the ceiling and watch it grow."
+msgstr ""
+
+msgid "If you want the vine to stop growing, make a precise cut using scissors."
+msgstr ""
+
+msgid "It's climbing time!"
+msgstr ""
+
+msgid "Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized."
+msgstr ""
+
+msgid "You're dirty!"
+msgstr ""
+
+msgid "Swamp dirt is really interesting. The famous swamp oak grows on it, and papyrus also grows exceptionally well."
+msgstr ""
+
+msgid "Disgusting!"
+msgstr ""
+
+msgid "Not much grows on dry dirt."
+msgstr ""
+
+msgid "This dirt is as dry as my jokes."
+msgstr ""
+
+msgid "You can use sand to grow cacti."
+msgstr ""
+
+msgid "Be careful not to let it fall on your head!"
+msgstr ""
+
+msgid "This is like my ex-lover's heart. Made out of stone."
+msgstr ""
+
+msgid "Stay healthy!"
+msgstr ""
+
+msgid "Walker"
+msgstr ""
