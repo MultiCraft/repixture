@@ -112,9 +112,6 @@ rp_mobs.feed_tame_breed = function(mob, feeder, allowed_foods, food_till_tamed, 
 	 		-- Update achievement
 			if rp_mobs.has_tag(mob, "animal") then
 				local subcondition_name = mob.name
-				if rp_mobs.feed_achievement_subcondition_aliases[subcondition_name] then
-					subcondition_name = rp_mobs.feed_achievement_subcondition_aliases[subcondition_name]
-				end
 				achievements.trigger_subcondition(feeder, "gonna_feed_em_all", subcondition_name)
 			end
 

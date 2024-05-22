@@ -182,7 +182,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 	dead_y_offset = 0.6,
 	entity_definition = {
 		initial_properties = {
-			hp_max = 14,
+			hp_max = 7,
 			physical = true,
 			collisionbox = {-0.49, -1, -0.49, 0.49, 0.1, 0.49},
 			selectionbox = {-0.4, -1, -0.6, 0.4, 0.1, 0.7, rotate = true},
@@ -197,6 +197,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			rp_mobs.restore_state(self, staticdata)
 			if self._custom_state.shorn then
 				self.object:set_properties({
+					-- NOTE: If this is updated, rp_mobs_legacy must be updated as well!
 					textures = {"mobs_sheep_shaved.png"},
 				})
 			end
@@ -216,10 +217,11 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queues.food_breed_follow_scan(VIEW_RANGE, FOOD))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(eat_decider))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queues.call_sound(RANDOM_SOUND_TIMER_MIN, RANDOM_SOUND_TIMER_MAX))
+
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)
-			rp_mobs.handle_dying(self, dtime)
+			rp_mobs.handle_dying(self, dtime, moveresult, rp_mobs_mobs.get_dying_step(true, false))
 			rp_mobs.scan_environment(self, dtime, -0.3)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)
@@ -279,6 +281,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 					end
 					clicker:set_wielded_item(item)
 					self.object:set_properties({
+						-- NOTE: If this is updated, rp_mobs_legacy must be updated as well!
 						textures = {"mobs_sheep_shaved.png"},
 					})
 					self._custom_state.wool_regrow_timer = 0
@@ -293,6 +296,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 
 		on_death = rp_mobs.on_death_default,
 		on_punch = rp_mobs.on_punch_default,
+		_rp_explosions_knockback = true,
 	},
 })
 

@@ -19,11 +19,17 @@ msgstr "Vous avez réalisé avec succès “@1”."
 msgid "@1 has earned the achievement “@2”."
 msgstr "@1 a réalisé avec succès \"@2\"."
 
+msgid "Achievement gotten!"
+msgstr ""
+
 msgid "You have gotten all achievements!"
 msgstr "Vous avez obtenu toutes les réalisations !"
 
 msgid "@1 has gotten all achievements!"
 msgstr "@1 a obtenu toutes les réalisations !"
+
+msgid "All achievements gotten!"
+msgstr ""
 
 msgid "You have lost all achievements!"
 msgstr "Vous avez perdu toutes les réalisations !"
@@ -31,11 +37,17 @@ msgstr "Vous avez perdu toutes les réalisations !"
 msgid "@1 has lost all achievements!"
 msgstr "@1 a perdu toutes les réalisations !"
 
+msgid "All achievements lost!"
+msgstr ""
+
 msgid "You have lost the achievement “@1”."
 msgstr "Vous avez perdu la réalisation “@1”."
 
 msgid "@1 has lost the achievement “@2”."
 msgstr "@1 a perdu la réalisation “@2”."
+
+msgid "Achievement lost!"
+msgstr ""
 
 msgid "The achievement “@1” has new goals."
 msgstr "La réalisation “@1” a de nouveaux objectifs."
@@ -52,14 +64,23 @@ msgstr "@1/@2"
 msgid "Missing"
 msgstr "Manquant"
 
-msgid "@1 of @2 achievements gotten, @3 in progress"
-msgstr "@1 sur @2 réalisations obtenues, @3 en cours"
-
 msgid ", "
 msgstr ", "
 
 msgid "Completed: @1"
 msgstr "Complété : @1"
+
+msgid "Status: @1"
+msgstr ""
+
+msgid "@1 of @2 achievements gotten, @3 in progress"
+msgstr "@1 sur @2 réalisations obtenues, @3 en cours"
+
+msgid "Show symbols"
+msgstr ""
+
+msgid "Show list"
+msgstr ""
 
 msgid "(list [<player>]) | ((give | remove) <player> (<achievement> | all))"
 msgstr "(list [<joueur>]) | ((give | remove) <joueur> (<réalisation> | all))"

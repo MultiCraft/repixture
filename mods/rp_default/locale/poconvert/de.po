@@ -241,14 +241,14 @@ msgstr "Schmiedeeisenbarren"
 msgid "Ladder"
 msgstr "Leiter"
 
-msgid "@1 Underwater"
-msgstr "@1, im Wasser"
-
-msgid "@1 Beach"
-msgstr "@1, Strand"
-
 msgid "Marsh"
 msgstr "Moor"
+
+msgid "Marsh Underwater"
+msgstr "Moor im Wasser"
+
+msgid "Marsh Beach"
+msgstr "Moorstrand"
 
 msgid "Dense Grassland"
 msgstr "Dichtes Grasland"
@@ -259,14 +259,38 @@ msgstr "Riesenbirkenwald"
 msgid "Mixed Forest"
 msgstr "Mischwald"
 
+msgid "Mixed Forest Underwater"
+msgstr "Mischwald im Wasser"
+
+msgid "Mixed Forest Beach"
+msgstr "Mischwaldstrand"
+
 msgid "Grove"
 msgstr "Hain"
+
+msgid "Grove Underwater"
+msgstr "Hain im Wasser"
+
+msgid "Grove Beach"
+msgstr "Hainstrand"
 
 msgid "Wilderness"
 msgstr "Wildnis"
 
+msgid "Wilderness Underwater"
+msgstr "Wildnis im Wasser"
+
+msgid "Wilderness Beach"
+msgstr "Wildnisstrand"
+
 msgid "Grassland"
 msgstr "Grasland"
+
+msgid "Grassland Underwater"
+msgstr "Grasland im Wasser"
+
+msgid "Grassland Beach"
+msgstr "Graslandstrand"
 
 msgid "Orchard"
 msgstr "Obstgarten"
@@ -274,50 +298,140 @@ msgstr "Obstgarten"
 msgid "Shrubbery"
 msgstr "Buschland"
 
+msgid "Shrubbery Underwater"
+msgstr "Buschland im Wasser"
+
+msgid "Shrubbery Beach"
+msgstr "Buschlandstrand"
+
 msgid "Chaparral"
 msgstr "Unterholz"
 
 msgid "Savanna"
 msgstr "Savanne"
 
+msgid "Savanna Underwater"
+msgstr "Savanne im Wasser"
+
+msgid "Savanna Beach"
+msgstr "Savannenstrand"
+
 msgid "Wasteland"
 msgstr "Ödnis"
+
+msgid "Wasteland Underwater"
+msgstr "Ödnis im Wasser"
+
+msgid "Wasteland Beach"
+msgstr "Ödnisstrand"
 
 msgid "Rocky Dryland"
 msgstr "Steinige Ödnis"
 
+msgid "Rocky Dryland Underwater"
+msgstr "Steinige Ödnis im Wasser"
+
+msgid "Rocky Dryland Beach"
+msgstr "Steiniger Ödnisstrand"
+
 msgid "Wooded Dryland"
 msgstr "Bewaldete Ödnis"
+
+msgid "Wooded Dryland Underwater"
+msgstr "Bewaldete Ödnis im Wasser"
+
+msgid "Wooded Dryland Beach"
+msgstr "Strand der bewaldeten Ödnis"
 
 msgid "Savannic Wasteland"
 msgstr "Savannenödnis"
 
+msgid "Savannic Wasteland Underwater"
+msgstr "Savannenödnis im Wasser"
+
+msgid "Savannic Wasteland Beach"
+msgstr "Savannenödnisstrand"
+
 msgid "Thorny Shrubs"
 msgstr "Dornige Büsche"
+
+msgid "Thorny Shrubs Underwater"
+msgstr "Dornige Büsche im Wasser"
+
+msgid "Thorny Shrubs Beach"
+msgstr "Dornige-Büsche-Strand"
 
 msgid "Mystery Forest"
 msgstr "Wunderwald"
 
+msgid "Mystery Forest Underwater"
+msgstr "Wunderwald im Wasser"
+
+msgid "Mystery Forest Beach"
+msgstr "Wunderwaldstrand"
+
 msgid "Poplar Plains"
 msgstr "Pappelprärie"
+
+msgid "Poplar Plains Underwater"
+msgstr "Pappelprärie im Wasser"
+
+msgid "Poplar Plains Beach"
+msgstr "Pappelpräriestrand"
 
 msgid "Baby Poplar Plains"
 msgstr "Jungpappelprärie"
 
+msgid "Baby Poplar Plains Underwater"
+msgstr "Jungpappelprärie im Wasser"
+
+msgid "Baby Poplar Plains Beach"
+msgstr "Jungpappelpräriestrand"
+
 msgid "Tall Birch Forest"
 msgstr "Großbirkenwald"
+
+msgid "Tall Birch Forest Underwater"
+msgstr "Großbirkenwald im Wasser"
+
+msgid "Tall Birch Forest Beach"
+msgstr "Großbirkenwaldstrand"
 
 msgid "Birch Forest"
 msgstr "Birkenwald"
 
+msgid "Birch Forest Underwater"
+msgstr "Birkenwald im Wasser"
+
+msgid "Birch Forest Beach"
+msgstr "Birkenwaldstrand"
+
 msgid "Oak Shrubbery"
 msgstr "Eichenbuschland"
+
+msgid "Oak Shrubbery Underwater"
+msgstr "Eichenbuschland im Wasser"
+
+msgid "Oak Shrubbery Beach"
+msgstr "Eichenbuschlandstrand"
 
 msgid "Oak Forest"
 msgstr "Eichenwald"
 
+msgid "Oak Forest Underwater"
+msgstr "Eichenwald im Wasser"
+
+msgid "Oak Forest Beach"
+msgstr "Eichenwaldstrand"
+
 msgid "Tall Oak Forest"
 msgstr "Großeichenwald"
+
+msgid "Tall Oak Forest Underwater"
+msgstr "Großeichenwald im Wasser"
+
+msgid "Tall Oak Forest Beach"
+msgstr "Großeichenwaldstrand"
 
 msgid "Dense Oak Forest"
 msgstr "Dichter Eichenwald"
@@ -325,11 +439,23 @@ msgstr "Dichter Eichenwald"
 msgid "Swamp Meadow"
 msgstr "Sumpfwiese"
 
+msgid "Swamp Meadow Underwater"
+msgstr "Sumpfwiese im Wasser"
+
+msgid "Swamp Meadow Beach"
+msgstr "Sumpfwiesenstrand"
+
 msgid "Swamp Meadow Highland"
 msgstr "Sumpfwiesenhochland"
 
 msgid "Mixed Swamp"
 msgstr "Mischsumpf"
+
+msgid "Mixed Swamp Underwater"
+msgstr "Mischsumpf im Wasser"
+
+msgid "Mixed Swamp Beach"
+msgstr "Mischsumpfstrand"
 
 msgid "Mixed Swamp Highland"
 msgstr "Mischsumpfhochland"
@@ -337,17 +463,35 @@ msgstr "Mischsumpfhochland"
 msgid "Swamp Forest"
 msgstr "Sumpfwald"
 
+msgid "Swamp Forest Underwater"
+msgstr "Sumpwald im Wasser"
+
+msgid "Swamp Forest Beach"
+msgstr "Sumpfwaldstrand"
+
 msgid "Swamp Forest Highland"
 msgstr "Sumpfwaldhochland"
 
 msgid "Dry Swamp"
 msgstr "Trockensumpf"
 
+msgid "Dry Swamp Underwater"
+msgstr "Trockensumpf im Wasser"
+
+msgid "Dry Swamp Beach"
+msgstr "Trockensumpfstrand"
+
 msgid "Dry Swamp Highland"
 msgstr "Trockensumpfhochland"
 
 msgid "Papyrus Swamp"
 msgstr "Papyrussumpf"
+
+msgid "Papyrus Swamp Underwater"
+msgstr "Papyrussumpf im Wasser"
+
+msgid "Papyrus Swamp Beach"
+msgstr "Papyrussumpfstrand"
 
 msgid "Underground"
 msgstr "Untergrund"
@@ -645,33 +789,6 @@ msgstr "Wächst im Wasser auf Erde, Sumpferde, Sand oder Algenblock"
 
 msgid "Clam"
 msgstr "Muschel"
-
-msgid "Write"
-msgstr "Schreiben"
-
-msgid "\"@1\""
-msgstr "„@1“"
-
-msgid "Write a short message"
-msgstr "Darauf kann man eine kurze Botschaft schreiben"
-
-msgid "Wooden Sign"
-msgstr "Holzschild"
-
-msgid "Painted Wooden Sign"
-msgstr "Gefärbtes Holzschild"
-
-msgid "Oak Sign"
-msgstr "Eichenschild"
-
-msgid "Painted Oak Sign"
-msgstr "Gefärbtes Eichenschild"
-
-msgid "Birch Sign"
-msgstr "Birkenschild"
-
-msgid "Painted Birch Sign"
-msgstr "Gefärbtes Birkenschild"
 
 msgid "Creative Tool"
 msgstr "Kreativwerkzeug"

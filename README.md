@@ -9,7 +9,7 @@ the world.
 
 ## Version
 
-3.12.1
+3.15.1
 
 Designed for use with Minetest 5.8.0 or later.
 
@@ -83,18 +83,46 @@ See `mods/rp_music` for details.
 
 ## Licenses
 
-This game is free software, licensed 100% under free software licenses.
+### Summary
 
-See *LICENSE.txt* or the links below for the full license texts.
+The game is free software, released under the AGPLv3 (or later).
+Media files are released under CC BY-SA 4.0 or CC0, with one exception.
 
-- Media files: all licensed under CC BY-SA 4.0 or CC0, with one exception:
-    - The exception: Sounds in the `rp_weather` mod are under GPLv2
-    - See per-mod READMEs for details
-- Source code: all licensed under LGPLv2.1 (or later versions of the LGPL), or MIT License, see per-mod READMEs.
+Note that individual mods are also licensed additionally under
+more permissive licenses (LGPLv2.1 in most cases, see below).
 
-Links:
-- CC BY-SA 4.0: <https://creativecommons.org/licenses/by-sa/4.0>
-- CC0: <https://creativecommons.org/publicdomain/zero/1.0>
-- GPLv2: <https://www.gnu.org/licenses/old-licenses/gpl-2.0>
-- LGPLv2.1: <https://www.gnu.org/licenses/old-licenses/lgpl-2.1>
-- MIT License: <https://mit-license.org/>
+### Full text
+
+    Repixture, a game for Minetest
+    Copyright (C) 2024  Wuzzy, Kaadmy and others
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Media files (images, sounds, music, 3D models, etc.) are licensed under
+CC BY-SA 4.0 or CC0, with two exceptions:
+- Sounds in the `rp_weather` mod are under GPLv2
+- GNU Unifont in `rp_fonts` is under GPLv2 (or later version) or SIL
+
+See the README files of these mods for details.
+
+Note: The game as a whole is released under AGPLv3, but individual
+mods are additionally released under their own (usually more
+permissive) license, usually LGPLv2.1+ or MIT License.
+All mod licenses are compatible with AGPLv3. See the README files
+of each individual mod for details.
+
+The full license texts are written out in the `LICENSE_*.txt`
+text files. See `LICENSE.txt` for a file listing.
+
+

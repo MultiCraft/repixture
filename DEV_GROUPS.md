@@ -9,7 +9,10 @@ This is the list of all groups used for items. Note: If no number/rating is spec
 
 ## Interactive item groups
 * `not_in_creative_inventory`: Item won't show up in Creative Inventory
-* `not_in_craft_guide`: Item won't show up in crafting guide
+* `not_in_craft_guide`: All recipes that have this item as output will be hidden from the
+   crafting guide, even if the resources are in the input slots. The item can still be crafted
+   when the crafting guide is disabled (assuming there's a recipe). Useful for items that are
+   "secretly craftable" and for rather "technical" items that would pollute the crafting guide.
 * `no_item_drop`: This item can't exist as a dropped item on the ground. When dropping it, it is deleted instantly
 * `immortal_item`: In entity form, this item withstands damage and won't be destroyed by nodes with `destroys_items` group
 
@@ -179,7 +182,7 @@ Unlike `attached_node`, they also work if the node is not `walkable`. Use these 
 * `door_wood`: Wooden door
 * `door_state`: Door segment, internal state (1 or 2) (see `rp_door` mod)
 * `door_position`: Door segment, position (1 = bottom, 2 = top)
-* `fence`: Fence
+* `fence`: Fence. Fence nodes MUST have a collisionbox height of 1.5
 * `sign`: Sign
 * `bed`: Bed segment
 * `torch`: Torch

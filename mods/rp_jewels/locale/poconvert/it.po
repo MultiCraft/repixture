@@ -19,7 +19,7 @@ msgstr "1. Posiziona qui uno strumento"
 msgid "2. Hold a jewel and punch the bench"
 msgstr "2. Impugna una gemma e colpisci il tavolo"
 
-msgid "Jeweled @1"
+msgid "@1 (jeweled)"
 msgstr ""
 
 msgid "Range bonus: @1"

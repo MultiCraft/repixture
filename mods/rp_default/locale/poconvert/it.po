@@ -241,14 +241,14 @@ msgstr "Lingotto di ferro battuto"
 msgid "Ladder"
 msgstr "Scala a pioli"
 
-msgid "@1 Underwater"
-msgstr ""
-
-msgid "@1 Beach"
-msgstr ""
-
 msgid "Marsh"
 msgstr "Palude"
+
+msgid "Marsh Underwater"
+msgstr ""
+
+msgid "Marsh Beach"
+msgstr ""
 
 msgid "Dense Grassland"
 msgstr "Prateria fitta"
@@ -259,14 +259,38 @@ msgstr "Foresta di betulle giganti"
 msgid "Mixed Forest"
 msgstr "Foresta mista"
 
+msgid "Mixed Forest Underwater"
+msgstr ""
+
+msgid "Mixed Forest Beach"
+msgstr ""
+
 msgid "Grove"
 msgstr "Boschetto"
+
+msgid "Grove Underwater"
+msgstr ""
+
+msgid "Grove Beach"
+msgstr ""
 
 msgid "Wilderness"
 msgstr "Selva"
 
+msgid "Wilderness Underwater"
+msgstr ""
+
+msgid "Wilderness Beach"
+msgstr ""
+
 msgid "Grassland"
 msgstr "Prateria"
+
+msgid "Grassland Underwater"
+msgstr ""
+
+msgid "Grassland Beach"
+msgstr ""
 
 msgid "Orchard"
 msgstr "Frutteto"
@@ -274,50 +298,140 @@ msgstr "Frutteto"
 msgid "Shrubbery"
 msgstr "Macchia"
 
+msgid "Shrubbery Underwater"
+msgstr ""
+
+msgid "Shrubbery Beach"
+msgstr ""
+
 msgid "Chaparral"
 msgstr "Chaparral"
 
 msgid "Savanna"
 msgstr "Savana"
 
+msgid "Savanna Underwater"
+msgstr ""
+
+msgid "Savanna Beach"
+msgstr ""
+
 msgid "Wasteland"
 msgstr "Landa desolata"
 
+msgid "Wasteland Underwater"
+msgstr ""
+
+msgid "Wasteland Beach"
+msgstr ""
+
 msgid "Rocky Dryland"
+msgstr ""
+
+msgid "Rocky Dryland Underwater"
+msgstr ""
+
+msgid "Rocky Dryland Beach"
 msgstr ""
 
 msgid "Wooded Dryland"
 msgstr ""
 
+msgid "Wooded Dryland Underwater"
+msgstr ""
+
+msgid "Wooded Dryland Beach"
+msgstr ""
+
 msgid "Savannic Wasteland"
 msgstr "Savana desolata"
+
+msgid "Savannic Wasteland Underwater"
+msgstr ""
+
+msgid "Savannic Wasteland Beach"
+msgstr ""
 
 msgid "Thorny Shrubs"
 msgstr "Cespugli spinosi"
 
+msgid "Thorny Shrubs Underwater"
+msgstr ""
+
+msgid "Thorny Shrubs Beach"
+msgstr ""
+
 msgid "Mystery Forest"
 msgstr "Foresta misteriosa"
+
+msgid "Mystery Forest Underwater"
+msgstr ""
+
+msgid "Mystery Forest Beach"
+msgstr ""
 
 msgid "Poplar Plains"
 msgstr "Pianura di pioppi"
 
+msgid "Poplar Plains Underwater"
+msgstr ""
+
+msgid "Poplar Plains Beach"
+msgstr ""
+
 msgid "Baby Poplar Plains"
 msgstr "Pianura di giovani pioppi"
+
+msgid "Baby Poplar Plains Underwater"
+msgstr ""
+
+msgid "Baby Poplar Plains Beach"
+msgstr ""
 
 msgid "Tall Birch Forest"
 msgstr "Foresta di betulle alte"
 
+msgid "Tall Birch Forest Underwater"
+msgstr ""
+
+msgid "Tall Birch Forest Beach"
+msgstr ""
+
 msgid "Birch Forest"
 msgstr "Foresta di betulle"
+
+msgid "Birch Forest Underwater"
+msgstr ""
+
+msgid "Birch Forest Beach"
+msgstr ""
 
 msgid "Oak Shrubbery"
 msgstr "Macchia di querce"
 
+msgid "Oak Shrubbery Underwater"
+msgstr ""
+
+msgid "Oak Shrubbery Beach"
+msgstr ""
+
 msgid "Oak Forest"
 msgstr "Foresta di querce"
 
+msgid "Oak Forest Underwater"
+msgstr ""
+
+msgid "Oak Forest Beach"
+msgstr ""
+
 msgid "Tall Oak Forest"
 msgstr "Foresta di querce giganti"
+
+msgid "Tall Oak Forest Underwater"
+msgstr ""
+
+msgid "Tall Oak Forest Beach"
+msgstr ""
 
 msgid "Dense Oak Forest"
 msgstr "Foresta fitta di querce"
@@ -325,11 +439,23 @@ msgstr "Foresta fitta di querce"
 msgid "Swamp Meadow"
 msgstr "Prato paludoso"
 
+msgid "Swamp Meadow Underwater"
+msgstr ""
+
+msgid "Swamp Meadow Beach"
+msgstr ""
+
 msgid "Swamp Meadow Highland"
 msgstr "Prato paludoso d'altopiano"
 
 msgid "Mixed Swamp"
 msgstr "Palude mista"
+
+msgid "Mixed Swamp Underwater"
+msgstr ""
+
+msgid "Mixed Swamp Beach"
+msgstr ""
 
 msgid "Mixed Swamp Highland"
 msgstr "Palude mista d'altopiano"
@@ -337,17 +463,35 @@ msgstr "Palude mista d'altopiano"
 msgid "Swamp Forest"
 msgstr "Foresta paludosa"
 
+msgid "Swamp Forest Underwater"
+msgstr ""
+
+msgid "Swamp Forest Beach"
+msgstr ""
+
 msgid "Swamp Forest Highland"
 msgstr "Foresta paludosa d'altopiano"
 
 msgid "Dry Swamp"
 msgstr "Palude secca"
 
+msgid "Dry Swamp Underwater"
+msgstr ""
+
+msgid "Dry Swamp Beach"
+msgstr ""
+
 msgid "Dry Swamp Highland"
 msgstr "Palude secca d'altopiano"
 
 msgid "Papyrus Swamp"
 msgstr "Palude di papiri"
+
+msgid "Papyrus Swamp Underwater"
+msgstr ""
+
+msgid "Papyrus Swamp Beach"
+msgstr ""
 
 msgid "Underground"
 msgstr ""
@@ -644,33 +788,6 @@ msgid "Grows underwater on dirt, swamp dirt, sand or alga block"
 msgstr "Cresce sott'acqua su terra, terra paludosa o blocchi d'alga"
 
 msgid "Clam"
-msgstr ""
-
-msgid "Write"
-msgstr "Scrivi"
-
-msgid "\"@1\""
-msgstr ""
-
-msgid "Write a short message"
-msgstr ""
-
-msgid "Wooden Sign"
-msgstr ""
-
-msgid "Painted Wooden Sign"
-msgstr ""
-
-msgid "Oak Sign"
-msgstr ""
-
-msgid "Painted Oak Sign"
-msgstr ""
-
-msgid "Birch Sign"
-msgstr ""
-
-msgid "Painted Birch Sign"
 msgstr ""
 
 msgid "Creative Tool"

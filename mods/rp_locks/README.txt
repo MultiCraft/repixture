@@ -7,7 +7,7 @@ Adds locked stuff, like locked chests.
 Developers: See `API.md` for a few Lua functions to interface with.
 
 Media file license: CC BY-SA 4.0
-Source code license: LGPLv2.1
+Source code license: LGPLv2.1 or later
 
 Sound credits:
 * locks_unlock.ogg: qubodup (CC0)

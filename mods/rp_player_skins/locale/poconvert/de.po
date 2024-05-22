@@ -16,11 +16,11 @@ msgstr ""
 msgid "Headband"
 msgstr "Stirnband"
 
-msgid "Eyes"
-msgstr "Augen"
-
 msgid "Hair"
 msgstr "Haare"
+
+msgid "Eyes"
+msgstr "Augen"
 
 msgid "Beard"
 msgstr "Bart"

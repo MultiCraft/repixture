@@ -14,16 +14,16 @@ msgstr ""
 "X-Generator: mtt_convert 0.1.0\n"
 
 msgid "1. Place tool here"
-msgstr ""
+msgstr "1. Положи инструмент сюда"
 
 msgid "2. Hold a jewel and punch the bench"
-msgstr ""
+msgstr "2. Возьми кристалл и ударь по верстаку"
 
-msgid "Jeweled @1"
+msgid "@1 (jeweled)"
 msgstr ""
 
 msgid "Range bonus: @1"
-msgstr ""
+msgstr "Бонус к дальности: @1"
 
 msgid "Drop level bonus: @1"
 msgstr ""
@@ -32,7 +32,7 @@ msgid "Dig time bonus: @1 s"
 msgstr ""
 
 msgid "Durability bonus: @1"
-msgstr ""
+msgstr "Бонус к прочности: @1"
 
 msgid "Dig level bonus: @1"
 msgstr ""
@@ -50,7 +50,7 @@ msgid "Jewel Ore"
 msgstr ""
 
 msgid "Jeweler"
-msgstr ""
+msgstr "Ювелир"
 
 msgid "Jewel a tool."
 msgstr ""

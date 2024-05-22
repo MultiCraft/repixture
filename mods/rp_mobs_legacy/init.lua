@@ -19,31 +19,93 @@ local register_mob_alias = function(old_name, new_name, villager_profession)
 		},
 		on_activate = function(self, staticdata)
 			local pos = self.object:get_pos()
-			local hp = self.object:get_hp()
 			self.object:remove()
 			local mobent = minetest.add_entity(pos, new_name)
 			if mobent then
-				-- Restore child status
-				if staticdata then
-					local data = minetest.deserialize(staticdata)
-					if data and data.child then
-						rp_mobs.turn_into_child(mobent)
-					end
+				-- Initialize custom state
+				local mobluaent = mobent:get_luaentity()
+				if mobluaent and not mobluaent._custom_state then
+					mobluaent._custom_state = {}
 				end
+
 				-- Restore villager profession
 				if villager_profession then
-					local mobluaent = mobent:get_luaentity()
 					if mobluaent then
-						if not mobluaent._custom_state then
-							mobluaent._custom_state = {}
-						end
-						mobluaent._custom_state.profession = villager_profession
+						rp_mobs_mobs.set_villager_profession(mobluaent, villager_profession)
 						minetest.log("action", "[rp_mobs_legacy] Restored profession of legacy villager at "..minetest.pos_to_string(pos, 1).." to: "..villager_profession)
 					end
 				end
-				-- Note: We don't restore any other attributes to keep it simple.
-				-- Most notably, the HP of the legacy mob apparently cannot be
-				-- retrieved so the new mob will spawn with full HP.
+
+				-- Restore mob status
+				if staticdata then
+					local data = minetest.deserialize(staticdata)
+					if data then
+						-- Restore child status
+						if data.child then
+							rp_mobs.turn_into_child(mobent)
+							minetest.log("info", "[rp_mobs_legacy] Restored child status of legacy mob at "..minetest.pos_to_string(pos, 1))
+						-- Restore shorn sheep status
+						elseif old_name == "mobs:sheep" and data.gotten == true and mobluaent then
+							mobluaent._custom_state.shorn = true
+							mobent:set_properties({
+								textures = {"mobs_sheep_shaved.png"},
+							})
+							minetest.log("info", "[rp_mobs_legacy] Restored shorn status of legacy sheep at "..minetest.pos_to_string(pos, 1))
+						end
+						-- Restore tamed status
+						if data.tamed then
+							mobluaent._tamed = true
+							minetest.log("info", "[rp_mobs_legacy] Restored tamed status of legacy mob at "..minetest.pos_to_string(pos, 1))
+						end
+						-- Restore health
+						if data.health and type(data.health) == "number" and data.health > 0 then
+							local real_health
+							if villager_profession then
+								-- Villager health is correct
+								real_health = data.health
+							elseif old_name == "mobs:skunk" then
+								-- Health of skunk is 70% compared to 3.12.1
+								-- due to armor=130 in old definition
+								real_health = math.max(1, math.ceil(data.health * 0.7))
+							else
+								-- Health of other mobs is half compared to 3.12.1
+								-- due to armor=200 in old definition
+								real_health = math.max(1, math.ceil(data.health * 0.5))
+							end
+
+							-- Limit to hp_max
+							local props = mobent:get_properties()
+							real_health = math.min(real_health, props.hp_max)
+
+							mobent:set_hp(real_health)
+							minetest.log("info", "[rp_mobs_legacy] Restored health of legacy mob at "..minetest.pos_to_string(pos, 1).." to: "..real_health)
+						end
+						-- Set villager base skin based on villager textures.
+						-- This keepps the literal skin intact, but the clothes
+						-- will be changed in the villager code based on the villager's profession.
+						if villager_profession and data.textures and type(data.textures) == "table" then
+							local base_skin = data.textures[1]
+							-- Legacy texture name is expected to be "mobs_npc<number>.png"
+							if base_skin and string.sub(base_skin, 1, 8) == "mobs_npc" then
+								local num = string.sub(base_skin, 9, 9)
+								num = tonumber(num)
+								if type(num) == "number" and num >= 1 and num <= 6 then
+									num = math.floor(num)
+									base_skin = "mobs_villager_base_"..num..".png"
+									mobluaent._custom_state.base_skin = base_skin
+									rp_mobs_mobs.update_villager_textures(mobluaent)
+									minetest.log("info", "[rp_mobs_legacy] Restored base skin of legacy villager at "..minetest.pos_to_string(pos, 1).." to: "..base_skin)
+								end
+							end
+						end
+						-- Restore villager trades
+						if villager_profession and data.npc_trades then
+							mobluaent._custom_state.trades = data.npc_trades
+							minetest.log("info", "[rp_mobs_legacy] Restored trades of villager at "..minetest.pos_to_string(pos, 1))
+						end
+					end
+				end
+
 				minetest.log("action", "[rp_mobs_legacy] Replaced legacy mob '"..old_name.."' at "..minetest.pos_to_string(pos, 1).." with '"..new_name.."'")
 			else
 				minetest.log("error", "[rp_mobs_legacy] Could not replace legacy mob '"..old_name.."' at "..minetest.pos_to_string(pos, 1).." with '"..new_name.."'!")

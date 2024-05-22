@@ -13,6 +13,39 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.0\n"
 
+msgid "Helmet"
+msgstr "Шлем"
+
+msgid "Chestplate"
+msgstr "Нагрудник"
+
+msgid "Boots"
+msgstr "Ботинки"
+
+msgid "Protection"
+msgstr ""
+
+msgid "@1%"
+msgstr ""
+
+msgid "Protection bonus for full set"
+msgstr ""
+
+msgid "+@1%"
+msgstr ""
+
+msgid "Armor"
+msgstr "Броня"
+
+msgid "Armored"
+msgstr "Бронирован"
+
+msgid "Craft a piece of armor."
+msgstr "Скрафти кусок брони."
+
+msgid "Protection: +@1%"
+msgstr "Защита: +@1%"
+
 msgid "Wooden Helmet"
 msgstr "Деверянный шлем"
 
@@ -58,33 +91,12 @@ msgstr "Бронзовый нагрудник"
 msgid "Bronze Boots"
 msgstr "Бронзовые ботинки"
 
-msgid "Helmet"
-msgstr "Шлем"
-
-msgid "Chestplate"
-msgstr "Нагрудник"
-
-msgid "Boots"
-msgstr "Ботинки"
-
-msgid "Armor"
-msgstr "Броня"
-
 msgid "Chainmail Sheet"
 msgstr "Лист кольчуги"
-
-msgid "Armored"
-msgstr "Бронирован"
-
-msgid "Craft a piece of armor."
-msgstr "Скрафти кусок брони."
 
 msgid "Skin of Bronze"
 msgstr "Кожа Бронзы"
 
 msgid "Equip a full suit of bronze armor."
 msgstr "Надень полный сет бронзовой брони."
-
-msgid "Protection: +@1%"
-msgstr "Защита: +@1%"
 

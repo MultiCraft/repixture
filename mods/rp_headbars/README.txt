@@ -4,4 +4,4 @@ By Kaadmy and Wuzzy, for Repixture.
 
 Puts a health bar above players
 
-Source license: LGPLv2.1
+Source code license: LGPLv2.1 or later

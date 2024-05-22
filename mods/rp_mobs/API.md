@@ -1,7 +1,5 @@
 # Repixture Mobs API
 
-NOTE: This API is EXPERIMENTAL and subject to change! Use at your own risk.
-
 This is the API documentation for the Repixture Mobs API. This is the document
 you want to read if you want to develop your own Repixture mobs.
 
@@ -15,7 +13,7 @@ In this mod, a "mob" refers a non-player entity with added capabilities like a t
 
 The heart of this mod are tasks. A task is a single defined goal that a mob has to achieve in some manner. Every task can either succeed or fail. Tasks include high-level goals such as "find and eat food", "flee from the player", "kill the player", "roam randomly", etc.
 
-Additionally, every task consists of a number of microtasks. These are intended for more low-level and simple activities such as "go to point XYZ", "jump", "attack in direction A".
+Additionally, every task consists of a number of microtasks. These are intended for more low-level and simple activities such as "go to point XYZ", "jump", "attack in direction A". Microtasks are executed sequentially and can either succeed or fail. If a microtask fails, the task it is part of will end. If all microtasks in a task have finished, the task also ends.
 
 To use tasks, they must be initialized by calling `rp_mobs.init_tasks` in `on_activate` and be handled (i.e. executed) every step by calling `rp_mobs.handle_tasks` in `on_step`.
 
@@ -67,7 +65,7 @@ A template for a minimal mob looks like this:
 				rp_mobs.init_tasks(self)
 			end,
 			on_step = function(self, dtime, moveresult)
-				rp_mobs.handle_dying(self, dtime)
+				rp_mobs.handle_dying(self, dtime, moveresult)
 				rp_mobs.handle_tasks(self, dtime, moveresult)
 			end,
 			get_staticdata = rp_mobs.get_staticdata_default,
@@ -99,7 +97,10 @@ A microtask is a table with the following fields:
 
 * `label`: Same as for tasks
 * `on_step`: Called every step of the mob. Handle the microtask behavior here
-* `is_finished`: Must return true if the microtask is complete, false otherwise
+* `is_finished`: Must returns `<finished>, <success>`
+  `<finished>` must be `true` once the microtask is finished.
+  `<success>` (optional) can be set when the microtask finished to either `true`
+  if it *successfully* finishes (default) or `false` if it finishes in failure
 * `on_end`: Called when the microtask has ended. Useful for cleaning up state
 * `on_start`: Called when the microtask has begun. Called just before `on_step`
 * `singlestep`: If true, this microtask will run for only 1 step and automatically finishes (default: false)
@@ -125,6 +126,12 @@ finishes (skipping the next `on_step`), causing `on_end` to get called.
 
 In case of a `singlestep` microtask, the execution order is simply `on_start`,
 `on_step` (once) and `on_end`. `is_finished` is not called.
+
+When a microtask finishes, it either ends in success or failure. The default
+is success. Setting the `success` return value of `is_finished` to `false` will
+finish the microtask in failure. If a microtask finished in failure, the task
+it contains will end, skipping the remaining microtasks. `singlestep` microtasks always end
+in success.
 
 The `statedata` field can be used to associate arbitrary data with the microtask in
 order to preserve some state. You may read and write to it in functions
@@ -179,7 +186,10 @@ An entity “dies” in Minetest when its HP reaches 0, which instantly removes 
 triggers the `on_death` function.
 
 We do not like instant removal so this subsystem provides a simple graphical death
-effect and delay. This flips over the mob and makes it come to a screeching halt.
+effect and delay. This flips over the mob and calls a special `dying_step`
+function every step. This function is used by the mob to handle death physics stuff.
+
+While dying, no tasks or microtasks are run.
 The mob is still visible but all player interactions are disabled. After a short
 delay, the mob disappears in a cloud of dust by setting the HP to 0,
 causing `on_death` to be called.
@@ -327,9 +337,12 @@ The field `_cmi_is_mob=true` will be set automatically for all mobs and can be u
   * `call`: Occasional mob call (only played manually)
   * `horny`: When mob becomes horny
   * `give_birth`: When mob gives birth to a child
-* `front_body_point`: A point of the front side of the mob. Used by the mob to "see"
-                      forwards to detect dangerous land (cliffs, damaging blocks, etc.)
-                      Should be on the front face of the mob model and roughly in the center of that side.
+* `front_body_point`: A point of the front side of the mob, specified as offset vector from the mob position.
+    Used to "see" forwards to detect dangerous land (cliffs, damaging blocks, etc.)
+    Should be on the front face of the mob model and roughly in the center of that side.
+* `path_check_point`: A point that is used to compare the position to the path goal position,
+    specified as offset vector from the mob position. This point is used to check whether a path point
+    has been 'reached' for the `follow_path*` microtask templates.
 * `dead_y_offset`: Y offset of collisionbox when mob is in 'dying' state. Set this to
                    a number so that the mob lies on top of the ground (it should neither
                    float nor be inside the ground)
@@ -558,7 +571,7 @@ This is supposed to go into `on_step` of the entity definition. It must be calle
 
 `dtime` and `moveresult` must be passed from the arguments of the same name of the entity’s `on_step`.
 
-#### `rp_mobs.handle_dying(self, dtime)`
+#### `rp_mobs.handle_dying(self, dtime, moveresult, dying_step)`
 
 Handles the dying state of the mob if the mob has been killed. If the internal mob state
 `_dying` is true, the dying effect is applied and the mob gets removed after a short delay,
@@ -567,7 +580,13 @@ any other `rp_mobs` subsystem calls.
 
 See the section about the “Dying” subsystem for details.
 
-`dtime` must be passed from the argument of the same name of the entity’s `on_step`.
+Parameters:
+
+* `self`: Reference to mob object
+* `dtime`: Same as for the entity’s `on_step`
+* `moveresult`: Same as for the entity’s `on_step`
+* `dying_step`: Optional function with signature `self, dtime, moveresult`
+  that is called every step while the mob is in *dying* state
 
 #### `rp_mobs.handle_node_damage(mob, dtime)`
 
@@ -706,6 +725,10 @@ Add the microtask `microtask` to the specified `task`. Will also initialize the 
 
 Ends the currently active task in the given `task_queue` of `mob`.
 If the task queue is empty, nothing happens.
+
+#### `rp_mobs.clear_task_queue(mob, task_queue)`
+
+Remove all tasks in the given `task_queue`.
 
 
 
@@ -850,6 +873,20 @@ Make a mob play its “hurt” sound. The pitch will be slightly randomized. Chi
 
 
 
+### Nametag functions
+
+The nametag is a HUD text above the head of the mob.
+
+#### `rp_mobs.set_nametag(mob, nametag)`
+
+Set nametag text of mob to `nametag`.
+
+#### `rp_mobs.get_nametag(mob)`
+
+Get nametag text of `mob`.
+
+
+
 ### Event functions
 
 #### `rp_mobs.register_on_die(callback)`
@@ -947,6 +984,20 @@ Parameters:
 * `y_offset`: Y offset of roughly the "center point" of the mob,
   relative to the mob position (`get_pos()`)
 
+#### `rp_mobs.drag(mob, dtime, drag, drag_axes)`
+
+Slow mob down for the specified drag vector at the specified drag axes.
+The drag vector specifies on each axis how much the mob slows down.
+
+This will call `set_velocity` directly.
+
+Parameters:
+
+* `mob`: Mob object
+* `dtime`: `dtime` from `on_step`
+* `drag`: Drag vector. Higher number = faster slowdown.
+* `drag_axes`: List of axes to which apply drag for (`"x"`, `"y"`, `"z"`).
+  Other axes will be ignored.
 
 ## Appendix
 

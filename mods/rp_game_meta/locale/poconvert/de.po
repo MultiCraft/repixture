@@ -17,5 +17,5 @@ msgid "Repixture"
 msgstr "Repixture"
 
 msgid "A simple and beautiful sandbox construction game focusing on low-tech."
-msgstr "Ein einfaches und schönes Sandkastenaufbauspiel mit einem Fokus auf schlichte Technologien."
+msgstr "Ein einfaches und schönes Sandkastenaufbauspiel mit einem Fokus auf schlichten Technologien."
 

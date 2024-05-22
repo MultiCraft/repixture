@@ -29,14 +29,43 @@ Registers an achievement.
     * `title`: Title, as shown to the player (default: same as `name`)
     * `description`: Short (!) description that tells the player what to do to get the achievement
       crafting output identifier as provided to the `rp_crafting` mod)
-    * `icon`: Optional icon (texture name)
-    * `item_icon`: Optional icon (texture name)
+    * `icon`: Optional custom icon, using a texture name. Recommended size is 32×32 pixels.
+      You can use a different size, but the size must be a power of 2 to avoid stretching.
+    * `item_icon`: Alternative optional custom icon to be used instead of `icon`. The icon will
+      be based on the given itemname. (See warning below)
     * `difficulty`: Optional difficulty rating of achievement (see below)
     * Additional fields depending on the type (see below)
+
+Only one of either `icon` or `item_icon` should be used, not both.
 
 If neither `icon` nor `item_icon` are present, this mod will pick an icon automatically
 by using the item icon of `dignode`, `placenode` or `craftitem`. If those fields
 are not present, or use groups, a generic trophy icon will be used instead.
+
+#### Warning about `item_icon`
+
+Using `item_icon` for items that have `inventory_image` set is safe.
+
+However, `item_icon` may not render correctly in the achievement popup
+for some nodes if no `inventory_image` is set.
+
+The drawtypes `"normal"`, `"liquid"`, `"allfaces"`, and `"allfaces_optional"`
+will render as cubes.
+
+Drawtypes `"glasslike"`, `"glasslike_framed"`, `"glasslike_framed_optional"`,
+`"plantlike"`, `"signlike"`, `"torchlike"` and `"firelike"` will render as a flat image.
+
+Drawtype `"airlike"` will render as nothing (this is intentional).
+
+Other drawtypes are not supported!
+
+Also, if any tile in `tiles` is a tile definition table, that node is also
+unsupported.
+
+It is recommended to test the popup message if your achievement uses a node as
+item icon (use the `/achievement give` command).
+
+If this causes too many problems, use `icon` instead of `item_icon`.
 
 #### Difficulty rating
 
@@ -127,3 +156,22 @@ Parameters:
 
 * `player`: Player to check the achievement for
 * `name`: Achievement identifier
+
+### `achievements.register_subcondition_alias(name, old_subcondition_name, new_subcondition_name)`
+
+Registers an alias for a subcondition identifier of an achievement. This essentially replaces
+an old existing subcondition identifier with a new one.
+
+Useful if for some reason you needed to change a subcondition identifier of an achievement
+and still want to be backwards-compatible.
+
+If you rename a subcondition without using an alias, then all players who have completed
+that subcondition will lose it. By adding an alias, this allows players to still keep
+it after an update.
+
+Parameters:
+
+* `name`: Achievement identifier
+* `old_subcondition_name`: The old/legacy subcondition name you wish to replace
+* `new_subcondition_name`: The new subcondition name you consider to be canonical now.
+

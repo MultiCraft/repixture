@@ -22,24 +22,24 @@ partialblocks.register_material(
 partialblocks.register_material(
    "brick", S("Brick Slab"), S("Brick Stair"), "rp_default:brick", {cracky=2, paintable=2}, false, nil, "w")
 partialblocks.register_material(
-   "brick_painted", S("Painted Brick Slab"), S("Painted Brick Stair"), "rp_default:brick_painted", {cracky=2, paintable=1, not_in_creative_inventory=1}, false, nil, "w", nil, "w")
+   "brick_painted", S("Painted Brick Slab"), S("Painted Brick Stair"), "rp_default:brick_painted", {cracky=2, paintable=1, not_in_creative_inventory=1}, false, nil, "w", nil, "w", false)
 
 -- Woodlike
 
 partialblocks.register_material(
    "wood", S("Wooden Slab"), S("Wooden Stair"), "rp_default:planks", {choppy = 3, oddly_breakable_by_hand = 3, paintable = 2}, true, nil, "w")
 partialblocks.register_material(
-   "wood_painted", S("Painted Wooden Slab"), S("Painted Wooden Stair"), "rp_default:planks_painted", {choppy = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory=1, paintable = 1}, true, nil, "w", empty_overlay, "w")
+   "wood_painted", S("Painted Wooden Slab"), S("Painted Wooden Stair"), "rp_default:planks_painted", {choppy = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory=1, paintable = 1}, true, nil, "w", empty_overlay, "w", false)
 
 partialblocks.register_material(
    "oak", S("Oak Slab"), S("Oak Stair"), "rp_default:planks_oak", {choppy = 3, oddly_breakable_by_hand = 3, paintable = 2}, true, nil, "w")
 partialblocks.register_material(
-   "oak_painted", S("Painted Oak Slab"), S("Painted Oak Stair"), "rp_default:planks_oak_painted", {choppy = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory=1, paintable = 1}, true, nil, "w", empty_overlay, "w")
+   "oak_painted", S("Painted Oak Slab"), S("Painted Oak Stair"), "rp_default:planks_oak_painted", {choppy = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory=1, paintable = 1}, true, nil, "w", empty_overlay, "w", false)
 
 partialblocks.register_material(
    "birch", S("Birch Slab"), S("Birch Stair"), "rp_default:planks_birch", {choppy = 3, oddly_breakable_by_hand = 3, paintable = 2}, true, nil, "w")
 partialblocks.register_material(
-   "birch_painted", S("Painted Birch Slab"), S("Painted Birch Stair"), "rp_default:planks_birch_painted", {choppy = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory=1, paintable = 1}, true, nil, "w", empty_overlay, "w")
+   "birch_painted", S("Painted Birch Slab"), S("Painted Birch Stair"), "rp_default:planks_birch_painted", {choppy = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory=1, paintable = 1}, true, nil, "w", empty_overlay, "w", false)
 
 -- Reed
 
@@ -60,13 +60,13 @@ partialblocks.register_material(
 partialblocks.register_material(
    "frame", S("Frame Slab"), S("Frame Stair"), "rp_default:frame", {choppy = 2, oddly_breakable_by_hand = 1, paintable = 2}, true, "a|"..pbp.."frame", "a|"..pbp.."frame")
 partialblocks.register_material(
-   "frame_painted", S("Painted Frame Slab"), S("Painted Frame Stair"), "rp_default:frame_painted", {choppy = 2, oddly_breakable_by_hand = 1, not_in_creative_inventory=1, paintable = 1}, true, "a|"..pbp.."frame_painted", "a|"..pbp.."frame_painted")
+   "frame_painted", S("Painted Frame Slab"), S("Painted Frame Stair"), "rp_default:frame_painted", {choppy = 2, oddly_breakable_by_hand = 1, not_in_creative_inventory=1, paintable = 1}, true, "a|"..pbp.."frame_painted", "a|"..pbp.."frame_painted", nil, nil, false)
 
 -- The reinforced partialblocks have their level forced to 0, so are as hard to dig as the basenode. They're reinforced, after all.
 partialblocks.register_material(
    "reinforced_frame", S("Reinforced Frame Slab"), S("Reinforced Frame Stair"), "rp_default:reinforced_frame", {choppy = 1, level = 0, paintable = 2}, true, "a|"..pbp.."reinforced_frame", "a|"..pbp.."reinforced_frame")
 partialblocks.register_material(
-   "reinforced_frame_painted", S("Painted Reinforced Frame Slab"), S("Painted Reinforced Frame Stair"), "rp_default:reinforced_frame_painted", {choppy = 1, level = 0, not_in_creative_inventory=1, paintable = 1}, true, "a|"..pbp.."reinforced_frame_painted", "a|"..pbp.."reinforced_frame_painted", "A|"..pbp.."reinforced_frame_painted_overlay", "A|"..pbp.."reinforced_frame_painted_overlay")
+   "reinforced_frame_painted", S("Painted Reinforced Frame Slab"), S("Painted Reinforced Frame Stair"), "rp_default:reinforced_frame_painted", {choppy = 1, level = 0, not_in_creative_inventory=1, paintable = 1}, true, "a|"..pbp.."reinforced_frame_painted", "a|"..pbp.."reinforced_frame_painted", "A|"..pbp.."reinforced_frame_painted_overlay", "A|"..pbp.."reinforced_frame_painted_overlay", false)
 
 partialblocks.register_material(
    "reinforced_cobble", S("Reinforced Cobble Slab"), S("Reinforced Cobble Stair"), "rp_default:reinforced_cobble", {cracky = 1, level = 0}, false, "A|"..pbp.."reinforced_cobbles", "A|"..pbp.."reinforced_cobbles")

@@ -48,7 +48,7 @@ For the unpainted node:
 For the painted node:
 
 1. Use the same nodename as the unpainted node, but append `_paintable`
-2. Add the groups `paintable = 1` and `not_in_creative_inventory = 1`
+2. Add the groups `paintable = 1`, `not_in_creative_inventory = 1` and `not_in_craft_guide = 1`
 3. Set the `tiles` and optionally `overlay_tiles` as you wish (see Minetest Lua API documentation)
 4. Add the field `palette` (see below)
 4. Set `paramtype2` to `"color"`, `"color4dir"`, `"colorwallmounted"` or `"colorfacedir"`
@@ -108,6 +108,18 @@ to get its color removed and return to its “neutral”/uncolored state.
 
 This function has the signature `(pos, newnode)` where `pos` is the
 node position and `node` is the node table of the new node.
+
+## `_after_paint` callback
+
+Similar to `_on_paint`, but called *after* a node has been painted.
+Function signature is `(pos)`. The return value of this function
+is ignored.
+
+## `_on_unpaint` callback
+
+Similar to `_on_unpaint`, but called *after* a node has gotten its color removed.
+Function signature is `(pos)`.
+
 
 ## Functions
 

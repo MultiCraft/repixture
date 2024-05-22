@@ -1,5 +1,14 @@
 -- Behavior functions for land animals
 
+-- Velocity reduction when dead and not in a liquid
+local DEATH_DRAG = 0.05
+-- Velocity reduction when dead and in a liquid
+local DEATH_DRAG_LIQUID = 0.2
+
+-- Time range (ms) to continue walking after escaping damaging nodes
+local FINALIZE_ESCAPE_MIN = 500
+local FINALIZE_ESCAPE_MAX = 1000
+
 local random_yaw = function()
 	return math.random(0, 360) / 360 * (math.pi*2)
 end
@@ -121,9 +130,30 @@ return function(task_queue, mob, dtime)
 		if current and current.data then
 			-- Escape from damaging node has reached safety
 			if current.data.label == "escape from damaging node" then
-				if not rp_mobs_mobs.is_damaging(mob._env_node.name) or rp_mobs_mobs.is_liquid(mob._env_node.name) then
+				local damaging = rp_mobs_mobs.is_damaging(mob._env_node.name)
+				local liquid = rp_mobs_mobs.is_liquid(mob._env_node.name)
+				if not damaging or liquid then
+					-- End escape task
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+
+					if not liquid then
+						-- Continue walking for a few steps so the mob is in a safe distance
+						-- from the danger
+						local task = rp_mobs.create_task({label="roam land"})
+						local yaw = mob.object:get_yaw()
+						local walk_duration = math.random(FINALIZE_ESCAPE_MIN, FINALIZE_ESCAPE_MAX)/1000
+						local mt_walk = rp_mobs.microtasks.walk_straight(settings.walk_speed, yaw, settings.jump_strength, settings.jump_clear_height, true, walk_duration)
+						mt_walk.start_animation = "walk"
+						local mt_acceleration = rp_mobs.microtasks.set_acceleration(rp_mobs.GRAVITY_VECTOR)
+						local mt_sleep = rp_mobs.microtasks.sleep(math.random(settings.idle_duration_min, settings.idle_duration_max)/1000)
+						mt_sleep.start_animation = "idle"
+						rp_mobs.add_microtask_to_task(mob, mt_acceleration, task)
+						rp_mobs.add_microtask_to_task(mob, mt_walk, task)
+						rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
+						rp_mobs.add_task_to_task_queue(task_queue, task)
+					end
 				end
+
 			-- Stop following player or partner if gone
 			elseif (current.data.label == "follow player holding food" and not mob._temp_custom_state.closest_food_player) or
 					(current.data.label == "hunt player" and not mob._temp_custom_state.angry_at) or
@@ -141,22 +171,17 @@ return function(task_queue, mob, dtime)
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
 				-- Abort and stop movement when walking towards of a cliff or other dangerous node
 				elseif not rp_mobs_mobs.is_front_safe(mob, settings.fall_height, settings.max_fall_damage_add_percent_drop_on) and current.data.label ~= "stand still" then
-					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+					local vel = mob.object:get_velocity()
+					vel.y = 0
+					if vector.length(vel) > 0.01 then
+						rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+						rp_mobs_mobs.add_halt_to_task_queue(task_queue, mob, nil, settings.idle_duration_min, settings.idle_duration_max)
 
-					-- Rotate by 70° to 180° left or right
-					local sign = math.random(0, 1)
-					local yawplus = math.random(70, 180)/360 * (math.pi*2)
-					local yaw = mob.object:get_yaw() + yawplus
-					if sign == 1 then
-						yaw = -yaw
-					end
-					rp_mobs_mobs.add_halt_to_task_queue(task_queue, mob, yaw, settings.idle_duration_min, settings.idle_duration_max)
-
-
-					-- Disable following for a few seconds if mob just avoided a danger
-					if current.data.label == "follow player holding food" or current.data.label == "follow mating partner" or current.data.label == "hunt player" then
-						mob._temp_custom_state.no_follow = true
-						mob._temp_custom_state.no_follow_timer = 0
+						-- Disable following for a few seconds if mob just avoided a danger
+						if current.data.label == "follow player holding food" or current.data.label == "follow mating partner" or current.data.label == "hunt player" then
+							mob._temp_custom_state.no_follow = true
+							mob._temp_custom_state.no_follow_timer = 0
+						end
 					end
 				-- Follow player or mating partner
 				elseif (mob._temp_custom_state.closest_mating_partner or mob._temp_custom_state.closest_food_player or mob._temp_custom_state.angry_at) and not mob._temp_custom_state.no_follow then
@@ -240,6 +265,7 @@ return function(task_queue, mob, dtime)
 			elseif current.data.label == "swim on liquid surface" then
 				if not rp_mobs_mobs.is_liquid(mob._env_node.name) and not rp_mobs_mobs.is_liquid(mob._env_node_floor.name) then
 					rp_mobs.end_current_task_in_task_queue(mob, task_queue)
+					rp_mobs_mobs.add_halt_to_task_queue(task_queue, mob, nil, settings.idle_duration_min, settings.idle_duration_max)
 				end
 			end
 		end
@@ -278,4 +304,40 @@ rp_mobs_mobs.task_queues.land_roam = function(settings)
 	local roam_decider_start = create_roam_decider_start(settings)
 	local tq = rp_mobs.create_task_queue(roam_decider_empty, roam_decider_step, roam_decider_start)
 	return tq
+end
+
+-- Returns a default dying_step functionn for `rp_mobs.handle_dying`.
+-- If enabled, this can toggle gravity in liquids climbable nodes,
+-- and put the mob smoothly to a halt using drag.
+-- This assumes that `rp_mobs.scan_environment` is used.
+-- Parameters:
+-- * `can_swim`: turn off gravity in swimmable nodes
+-- * `can_climb`: turn off gravity in climbable nodes
+rp_mobs_mobs.get_dying_step = function(can_swim, can_climb)
+	return function(mob, dtime)
+		if not mob._env_node then
+			return
+		end
+		local drag, drag_axes
+		local grav = mob._temp_custom_state.dying_gravity == true
+		if (can_swim and (rp_mobs_mobs.is_liquid(mob._env_node.name) or rp_mobs_mobs.is_liquid(mob._env_node_floor.name)))
+				or (can_climb and (rp_mobs_mobs.is_climbable(mob._env_node.name) or rp_mobs_mobs.is_climbable(mob._env_node_floor.name))) then
+			-- Make mob come to a halt horizontally and vertically
+			drag = vector.new(DEATH_DRAG, DEATH_DRAG_LIQUID, DEATH_DRAG)
+			drag_axes = { "x", "y", "z" }
+			if grav then
+				mob.object:set_acceleration(vector.zero())
+				mob._temp_custom_state.dying_gravity = false
+			end
+		else
+			-- Make mob come to a halt horizontally
+			drag = vector.new(DEATH_DRAG, 0, DEATH_DRAG)
+			drag_axes = { "x", "z" }
+			if not grav then
+				mob.object:set_acceleration(rp_mobs.GRAVITY_VECTOR)
+				mob._temp_custom_state.dying_gravity = true
+			end
+		end
+		rp_mobs.drag(mob, dtime, drag, drag_axes)
+	end
 end

@@ -173,7 +173,7 @@ All other sounds not mentioned above are licensed under CC0.
 
 ### Source code license
 
-The source code license is LGPLv2.1.
+The source code license is LGPLv2.1 or later.
 
 ### License references
 

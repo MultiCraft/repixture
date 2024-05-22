@@ -25,6 +25,12 @@ rp_mobs_mobs.is_walkable = function(nodename)
 	return ndef and ndef.walkable
 end
 
+-- Returns true if node is climbable
+rp_mobs_mobs.is_climbable = function(nodename)
+	local ndef = minetest.registered_nodes[nodename]
+	return ndef and ndef.climbable
+end
+
 -- Returns true if the node(s) in front of the mob are safe.
 -- This is considered unsafe:
 -- * damage_per_second > 0
@@ -226,4 +232,5 @@ rp_mobs_mobs.add_halt_to_task_queue = function(task_queue, mob, set_yaw, idle_mi
 	rp_mobs.add_microtask_to_task(mob, mt_sleep, task)
 	rp_mobs.add_task_to_task_queue(task_queue, task)
 end
+
 

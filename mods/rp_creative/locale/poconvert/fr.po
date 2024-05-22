@@ -13,8 +13,20 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.0\n"
 
+msgid "No items."
+msgstr ""
+
 msgid "@1/@2"
 msgstr "@1/@2"
+
+msgid "Search"
+msgstr ""
+
+msgid "Stop search"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
 
 msgid "Creative Inventory"
 msgstr "Inventaire créatif"

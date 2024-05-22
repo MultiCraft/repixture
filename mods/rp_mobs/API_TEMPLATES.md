@@ -31,7 +31,8 @@ rp_mobs.add_task_to_task_queue(task_queue, task)
 
 Also, all microtasks come with a 'finish' condition. If this condition is met,
 the microtask is finished and removed from the task, continuing the processing
-with the next microtask (if any).
+with the next microtask (if any). If not noted otherwise, the microtask
+finishes successfully.
 
 ## Microtask template reference
 
@@ -100,6 +101,8 @@ Finish condition: If any of the following is true:
 * Target is further away than `max_distance`
 * When colliding with object if `stop_at_object_collision` is true
 
+This microtask finishes successfully unless there is an error.
+
 ### `rp_mobs.microtasks.set_yaw(yaw)`
 
 Set mob yaw instantly to `yaw`. Finishes instantly.
@@ -133,10 +136,12 @@ Instantly set mob acceleration to the given `acceleration` parameter (a vector).
 
 Finish condition: Finishes instantly.
 
-### `rp_mobs.microtasks.follow_path(path, walk_speed, jump_strength, set_yaw, can_jump)
+### `rp_mobs.microtasks.follow_path(path, walk_speed, jump_strength, set_yaw, can_jump, finish_func)
 
 Make the mob follow along a path, i.e. a sequence of positions by walking.
-This assumes the mob is bound to gravity. Jumping and falling is supported.
+This assumes the mob is bound to gravity along the whole path and the *entire* path is walkable.
+Jumping and falling is supported, but not climbing or swimming.
+Note: This function does not check the nodes along the path for validity.
 
 Parameters:
 
@@ -148,11 +153,37 @@ Parameters:
 * `set_yaw`: If true, mob will automatically set the yaw to face towards
   the next path position (default: false)
 * `can_jump`: If true, mob will jump to increase height (default: true)
+* `finish_func`: Optional function called every step with arguments `self, mob`
+  to force microtask to finish early.
+  `self` is the microtask reference, `mob` the mob reference.
+  Returns `<stop>, <success>`. If `stop` is `true`, microtask will finish.
+  with the given success (`success` = `true`/`false`; `true` is default).
 
 Finish condition: There are multiple reasons for finishing:
 
-* When the mob has reached the final position (within a small tolerance)
-* When mob was stuck and unable to continue to walk for a few seconds
+* When the mob has reached the final position (within a small tolerance) (considered success)
+* When mob was stuck and unable to continue to walk for a few seconds (considered failure)
+* When `finish_func` is has returned `true` for its 1st return value
 
+### `rp_mobs.microtasks.follow_path_climb(path, walk_speed, climb_speed, set_yaw, finish_func, anim_walk, anim_climb, anim_idle)`
 
+Make the mob follow along a path, i.e. a sequence of positions by *climbing*.
+The difference from `rp_mobs.microtask.follow_path` is that the mob climbs instead
+of walks. The path must exclusively consist of nodes that are considered 'climbable'.
+
+This assumes the mob is *not* bound to gravity while climbing and the *entire* path consists of
+climbable (or equivalent) nodes from the viewpoint of the mob.
+
+This function could also be used to follow a path through nodes with liquid physics.
+
+Parameters:
+
+* `path`: See `rp_mobs.microtasks.follow_path`
+* `walk_speed`: Horizontal movement speed
+* `climb_speed`: Vertical movement speed
+* `set_yaw`: See `rp_mobs.microtasks.follow_path`
+* `finish_func`: See `rp_mobs.microtasks.follow_path`
+* `anim_walk`: Mob animation name for horizontal movement (default: `"walk"`)
+* `anim_climb`: Mob animation name for vertical movement (default: `"idle"`)
+* `anim_idle`: Mob animation name when idling (default: `"idle"`)
 

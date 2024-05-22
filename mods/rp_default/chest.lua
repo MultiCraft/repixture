@@ -21,6 +21,27 @@ end
 
 -- Chest
 
+local get_chest_formspec = function(meta)
+   local form = rp_formspec.get_page("rp_default:chest")
+   form = form .. rp_label.container_label_formspec_element(meta)
+   return form
+end
+local get_chest_infotext = function(meta)
+   local name = meta:get_string("name")
+   if name ~= "" then
+      return S("Chest") .. "\n" .. S('“@1”', name)
+   else
+      return S("Chest")
+   end
+end
+
+local chest_write_name = function(pos, text)
+   local meta = minetest.get_meta(pos)
+   meta:set_string("name", text)
+   meta:set_string("infotext", get_chest_infotext(meta))
+   meta:set_string("formspec", get_chest_formspec(meta))
+end
+
 minetest.register_node(
    "rp_default:chest",
    {
@@ -35,8 +56,8 @@ minetest.register_node(
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
 
-         meta:set_string("formspec", rp_formspec.get_page("rp_default:chest"))
-         meta:set_string("infotext", S("Chest"))
+         meta:set_string("formspec", get_chest_formspec(meta))
+         meta:set_string("infotext", get_chest_infotext(meta))
 
          local inv = meta:get_inventory()
 
@@ -45,17 +66,8 @@ minetest.register_node(
       on_destruct = function(pos)
          item_drop.drop_items_from_container(pos, {"main"})
       end,
-      write_name = function(pos, text)
---[[ TODO: Bring back container naming
-         local meta = minetest.get_meta(pos)
-         
-         if text ~= "" then
-             meta:set_string("infotext", text)
-         else
-             meta:set_string("infotext", S("Chest"))
-         end
-]]
-      end,
+      _rp_write_name = chest_write_name,
+      _rp_blast_resistance = 2,
 })
 minetest.register_node(
    "rp_default:chest_painted",
@@ -81,17 +93,31 @@ minetest.register_node(
       on_destruct = function(pos)
          item_drop.drop_items_from_container(pos, {"main"})
       end,
+      _rp_write_name = chest_write_name,
       drop = "rp_default:chest",
+      _rp_blast_resistance = 2,
 })
 
+local xstart = rp_formspec.default.start_point.x
+local ystart = rp_formspec.default.start_point.y
 local form_chest = rp_formspec.get_page("rp_formspec:2part")
-form_chest = form_chest .. "list[current_name;main;0.25,0.25;8,4;]"
+form_chest = form_chest .. rp_formspec.get_itemslot_bg(xstart, ystart, 8, 4)
+form_chest = form_chest .. "list[current_name;main;"..xstart..","..ystart..";8,4;]"
 form_chest = form_chest .. "listring[current_name;main]"
-form_chest = form_chest .. rp_formspec.get_itemslot_bg(0.25, 0.25, 8, 4)
 
-form_chest = form_chest .. "list[current_player;main;0.25,4.75;8,4;]"
+form_chest = form_chest .. rp_formspec.default.player_inventory
 form_chest = form_chest .. "listring[current_player;main]"
-form_chest = form_chest .. rp_formspec.get_hotbar_itemslot_bg(0.25, 4.75, 8, 1)
-form_chest = form_chest .. rp_formspec.get_itemslot_bg(0.25, 5.75, 8, 3)
 rp_formspec.register_page("rp_default:chest", form_chest)
 
+minetest.register_lbm({
+	label = "Update chest formspec",
+	name = "rp_default:update_chest_formspec_3_14_0",
+	nodenames = { "rp_default:chest", "rp_default:chest_painted" },
+	action = function(pos, node)
+		local meta = minetest.get_meta(pos)
+		local formspec = get_chest_formspec(meta)
+		local infotext = get_chest_infotext(meta)
+		meta:set_string("formspec", formspec)
+		meta:set_string("infotext", infotext)
+	end,
+})

@@ -31,9 +31,6 @@ msgstr ""
 msgid "Have a friendly chat with a villager."
 msgstr ""
 
-msgid "Boar"
-msgstr ""
-
 msgid "Wool Bundle"
 msgstr ""
 
@@ -47,6 +44,9 @@ msgid "Raw Porkchop"
 msgstr ""
 
 msgid "Cooked Porkchop"
+msgstr ""
+
+msgid "Boar"
 msgstr ""
 
 msgid "Mine Turtle"
@@ -71,6 +71,9 @@ msgid "Butcher"
 msgstr ""
 
 msgid "Carpenter"
+msgstr ""
+
+msgid "Villager"
 msgstr ""
 
 msgid "Hi! I'm a farmer. I sell farming goods."
@@ -134,6 +137,9 @@ msgid "I have a bad day today."
 msgstr ""
 
 msgid "Screw you!"
+msgstr ""
+
+msgid "Get this thing out of my face!"
 msgstr ""
 
 msgid "Villager says: “@1”"
@@ -376,7 +382,7 @@ msgstr ""
 msgid "Place it at the ceiling and watch it grow."
 msgstr ""
 
-msgid "If you want the vine to stops growing, make a precise cut using scissors."
+msgid "If you want the vine to stop growing, make a precise cut using scissors."
 msgstr ""
 
 msgid "It's climbing time!"
@@ -410,9 +416,6 @@ msgid "This is like my ex-lover's heart. Made out of stone."
 msgstr ""
 
 msgid "Stay healthy!"
-msgstr ""
-
-msgid "Get this thing out of my face!"
 msgstr ""
 
 msgid "Walker"

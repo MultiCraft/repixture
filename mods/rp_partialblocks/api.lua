@@ -1,3 +1,6 @@
+local STAIR_BURNTIME_RATIO = 0.75
+local SLAB_BURNTIME_RATIO = 0.5
+local FALLBACK_BURNTIME = 7
 
 --
 -- Partial blocks API
@@ -79,8 +82,11 @@ local parse_stair_tiles = function(tiles_stair_def, tiles_fallback)
    return tiles
 end
 
-function partialblocks.register_material(name, desc_slab, desc_stair, node, groups, is_fuel, tiles_slab, tiles_stair, overlay_tiles_slab, overlay_tiles_stair)
+function partialblocks.register_material(name, desc_slab, desc_stair, node, groups, is_fuel, tiles_slab, tiles_stair, overlay_tiles_slab, overlay_tiles_stair, register_crafts)
    local nodedef = minetest.registered_nodes[node]
+   if register_crafts == nil then
+      register_crafts = true
+   end
 
    if nodedef == nil then
       minetest.log("warning", "[rp_partialblocks] Cannot find node for partialblock: " .. node)
@@ -162,9 +168,22 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
                -- Place node normally when sneak is pressed
                shift = placer:get_player_control().sneak
             end
-            if (not shift) and minetest.get_node(pos).name == itemstack:get_name()
-            and itemstack:get_count() >= 1 then
-               minetest.set_node(pos, {name = node})
+
+            -- If stacking paintable stacks, check for matching color
+            local old_node = minetest.get_node(pos)
+            local paint_match = true
+            if minetest.get_item_group(old_node.name, "paintable") == 1 then
+               local old_node_paint_index = old_node.param2
+               local imeta = itemstack:get_meta()
+               local item_paint_index = imeta:get_int("palette_index") or 0
+               paint_match = old_node_paint_index == item_paint_index
+            end
+
+            -- Create full block if both slabs are compatible
+            -- and not sneaking
+            if (not shift) and old_node.name == itemstack:get_name()
+            and itemstack:get_count() >= 1 and paint_match then
+               minetest.swap_node(pos, {name = node, param2 = old_node.param2})
 
 	       if not minetest.is_creative_enabled(placer:get_player_name()) then
                    itemstack:take_item()
@@ -175,25 +194,26 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
             end
             return itemstack
          end,
+
+         -- for rp_explosions
+         _rp_blast_resistance = nodedef._rp_blast_resistance,
    })
 
-   crafting.register_craft( -- 1 block --> 2 slabs
-      {
+   if register_crafts then
+      crafting.register_craft({ -- 1 block --> 2 slabs
 	 output = "rp_partialblocks:slab_" .. name .. " 2",
 	 items = {
 	    node,
 	 },
-   })
+      })
 
-   crafting.register_craft( -- 2 slabs --> 1 block
-      {
+      crafting.register_craft({ -- 2 slabs --> 1 block
 	 output = node,
 	 items = {
 	    "rp_partialblocks:slab_" .. name .. " 2",
 	 },
-   })
-
-
+      })
+   end
 
    local full_node_burntime
    local output = minetest.get_craft_result({
@@ -206,17 +226,16 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    if is_fuel then
       local burntime
       if full_node_burntime > 0 then
-	      -- Burntime is 50% of the origin node (if a fuel recipe was available)
-	      burntime = math.max(1, math.floor(output.time * 0.5))
+         -- Burntime is based on the origin node (if a fuel recipe was available)
+         burntime = math.max(1, math.floor(full_node_burntime * SLAB_BURNTIME_RATIO))
       else
-	      -- Fallback burntime
-	      burntime = 7
+         -- Fallback burntime
+         burntime = FALLBACK_BURNTIME
       end
-      minetest.register_craft( -- Fuel
-	 {
-	    type = "fuel",
-	    recipe = "rp_partialblocks:slab_" .. name,
-	    burntime = burntime,
+      minetest.register_craft({ -- Fuel
+         type = "fuel",
+         recipe = "rp_partialblocks:slab_" .. name,
+         burntime = burntime,
       })
    end
 
@@ -266,38 +285,39 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 	 use_texture_alpha = nodedef.use_texture_alpha,
 	 is_ground_content = nodedef.is_ground_content,
 	 drop = drop_stair,
+
+         -- for rp_explosions
+         _rp_blast_resistance = nodedef._rp_blast_resistance,
    })
 
-   crafting.register_craft( -- 3 blocks --> 4 stairs
-      {
-	 output = "rp_partialblocks:stair_" .. name .. " 4",
-	 items = {
+   if register_crafts then
+      crafting.register_craft({ -- 3 blocks --> 4 stairs
+         output = "rp_partialblocks:stair_" .. name .. " 4",
+         items = {
             node .. " 3",
-	 },
-   })
+         },
+      })
 
-   crafting.register_craft( -- 2 stairs --> 3 slabs
-      {
-	 output = "rp_partialblocks:slab_" .. name .. " 3",
-	 items = {
+      crafting.register_craft({ -- 2 stairs --> 3 slabs
+         output = "rp_partialblocks:slab_" .. name .. " 3",
+         items = {
             "rp_partialblocks:stair_" .. name .. " 2",
-	 },
-   })
-
+         },
+      })
+   end
    if is_fuel then
       local burntime
       if full_node_burntime > 0 then
-	      -- Burntime is 75% of the origin node (if a fuel recipe was available)
-	      burntime = math.max(1, math.floor(output.time * 0.75))
+         -- Burntime is based on the origin node (if a fuel recipe was available)
+         burntime = math.max(1, math.floor(full_node_burntime * STAIR_BURNTIME_RATIO))
       else
-	      -- Fallback burntime
-	      burntime = 7
+         -- Fallback burntime
+         burntime = FALLBACK_BURNTIME
       end
-      minetest.register_craft( -- Fuel
-	 {
-	    type = "fuel",
-	    recipe = "rp_partialblocks:stair_" .. name,
-	    burntime = burntime,
+      minetest.register_craft({ -- Fuel
+         type = "fuel",
+         recipe = "rp_partialblocks:stair_" .. name,
+         burntime = burntime,
       })
    end
 end

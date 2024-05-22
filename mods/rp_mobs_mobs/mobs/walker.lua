@@ -72,7 +72,7 @@ rp_mobs.register_mob("rp_mobs_mobs:walker", {
 	dead_y_offset = -0.3,
 	entity_definition = {
 		initial_properties = {
-			hp_max = 16,
+			hp_max = 8,
 			physical = true,
 			collisionbox = {-0.3, 0, -0.3, 0.3, 1.5, 0.3},
 			selectionbox = {-0.3, 0, -0.3, 0.3, 1.5, 0.3, rotate=true},
@@ -96,13 +96,14 @@ rp_mobs.register_mob("rp_mobs_mobs:walker", {
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)
-			rp_mobs.handle_dying(self, dtime)
+			rp_mobs.handle_dying(self, dtime, moveresult, rp_mobs_mobs.get_dying_step(true, false))
 			rp_mobs.scan_environment(self, dtime, -0.5)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)
 		end,
 		on_death = rp_mobs.on_death_default,
 		on_punch = rp_mobs.on_punch_default,
+		_rp_explosions_knockback = true,
 	},
 })
 

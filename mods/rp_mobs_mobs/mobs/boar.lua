@@ -69,7 +69,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 	dead_y_offset = 0.6,
 	entity_definition = {
 		initial_properties = {
-			hp_max = 20,
+			hp_max = 10,
 			physical = true,
 			collisionbox = {-0.49, -1, -0.49, 0.49, 0.1, 0.49},
 			selectionbox = {-0.4, -1, -0.6, 0.4, 0.1, 0.7, rotate = true},
@@ -101,7 +101,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)
-			rp_mobs.handle_dying(self, dtime)
+			rp_mobs.handle_dying(self, dtime, moveresult, rp_mobs_mobs.get_dying_step(true, false))
 			rp_mobs.scan_environment(self, dtime, -0.3)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)
@@ -117,6 +117,7 @@ rp_mobs.register_mob("rp_mobs_mobs:boar", {
 		end,
 		on_death = rp_mobs.on_death_default,
 		on_punch = rp_mobs_mobs.on_punch_make_hostile,
+		_rp_explosions_knockback = true,
 	},
 })
 

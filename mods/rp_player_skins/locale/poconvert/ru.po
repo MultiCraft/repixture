@@ -16,11 +16,11 @@ msgstr ""
 msgid "Headband"
 msgstr "Бандана"
 
-msgid "Eyes"
-msgstr "Глаза"
-
 msgid "Hair"
 msgstr "Волосы"
+
+msgid "Eyes"
+msgstr "Глаза"
 
 msgid "Beard"
 msgstr "Борода"

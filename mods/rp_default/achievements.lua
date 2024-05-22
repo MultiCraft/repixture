@@ -85,7 +85,7 @@ achievements.register_achievement(
       title = S("Metal Age"),
       description = S("Put a mineral and some fuel in a furnace to smelt an ingot."),
       times = 1,
-      craftitem = "rp_default:ingot_wrought_iron",
+      item_icon = "rp_default:ingot_wrought_iron",
       difficulty = 4,
 })
 

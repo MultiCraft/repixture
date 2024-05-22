@@ -41,6 +41,9 @@ restrictions and does not cut corners.
 	* `handler_blocking`: A function that takes a node table and returns
           true if the node shall block the path
           (default: same as `handler_walkable`)
+	* `handler_climbable`: A function that takes a node table and returns
+          true if the node is considered climable
+          (default: if `climbing` field of node is true)
 	* `use_vmanip`: If true, nodes will be queried using a LuaVoxelManip;
 	  otherwise, `minetest.get_node` will be used. Required for async
 	  usage.

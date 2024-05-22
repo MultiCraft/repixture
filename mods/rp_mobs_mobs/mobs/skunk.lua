@@ -59,7 +59,7 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 	dead_y_offset = 0.3,
 	entity_definition = {
 		initial_properties = {
-			hp_max = 16,
+			hp_max = 15,
 			physical = true,
 			collisionbox = {-0.2, -0.45, -0.2, 0.2, 0.1, 0.2},
 			selectionbox = {-0.15, -0.45, -0.35, 0.15, 0.1, 0.45, rotate=true},
@@ -90,8 +90,8 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)
-			rp_mobs.handle_dying(self, dtime)
-			rp_mobs.scan_environment(self, dtime, 0.3)
+			rp_mobs.handle_dying(self, dtime, moveresult, rp_mobs_mobs.get_dying_step(true, false))
+			rp_mobs.scan_environment(self, dtime, -0.1)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)
 			rp_mobs.advance_child_growth(self, dtime)
@@ -106,6 +106,7 @@ rp_mobs.register_mob("rp_mobs_mobs:skunk", {
 		end,
 		on_death = rp_mobs.on_death_default,
 		on_punch = rp_mobs_mobs.on_punch_make_hostile,
+		_rp_explosions_knockback = true,
 	},
 })
 

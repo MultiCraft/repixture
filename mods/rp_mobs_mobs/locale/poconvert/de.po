@@ -31,9 +31,6 @@ msgstr "Gerede"
 msgid "Have a friendly chat with a villager."
 msgstr "Reden Sie nett mit einem Dorfbewohner."
 
-msgid "Boar"
-msgstr "Wildschwein"
-
 msgid "Wool Bundle"
 msgstr "Wollbündel"
 
@@ -48,6 +45,9 @@ msgstr "Rohes Schweinekotelett"
 
 msgid "Cooked Porkchop"
 msgstr "Gekochtes Schweinekotelett"
+
+msgid "Boar"
+msgstr "Wildschwein"
 
 msgid "Mine Turtle"
 msgstr "Minenschildkröte"
@@ -72,6 +72,9 @@ msgstr "Fleischer"
 
 msgid "Carpenter"
 msgstr "Schreiner"
+
+msgid "Villager"
+msgstr "Dorfbewohner"
 
 msgid "Hi! I'm a farmer. I sell farming goods."
 msgstr "Hallo! Ich bin ein Bauer. Ich verkaufe Dinge, die ein Bauer so hat."
@@ -135,6 +138,9 @@ msgstr "Ich hab heute einen schlechten Tag."
 
 msgid "Screw you!"
 msgstr "Verdammt seist du!"
+
+msgid "Get this thing out of my face!"
+msgstr "Nimm dieses Ding aus meinem Gesicht!"
 
 msgid "Villager says: “@1”"
 msgstr "Dorfbewohner sagt: „@1“"
@@ -376,7 +382,7 @@ msgstr "Algen wachsen im Wasser in verschiedenen Höhen."
 msgid "Place it at the ceiling and watch it grow."
 msgstr "Platziere sie an die Decke und sie wird wachsen."
 
-msgid "If you want the vine to stops growing, make a precise cut using scissors."
+msgid "If you want the vine to stop growing, make a precise cut using scissors."
 msgstr "Wenn du das Wachstum einer Liane stoppen willst, mach einen Präzisionsschnitt mit einer Schere."
 
 msgid "It's climbing time!"
@@ -411,9 +417,6 @@ msgstr "Dies ist wie das Herz meines Exliebhabers. Aus Stein."
 
 msgid "Stay healthy!"
 msgstr "Bleib gesund!"
-
-msgid "Get this thing out of my face!"
-msgstr "Nimm dieses Ding aus meinem Gesicht!"
 
 msgid "Walker"
 msgstr "Läufer"

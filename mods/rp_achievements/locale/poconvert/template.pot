@@ -19,10 +19,16 @@ msgstr ""
 msgid "@1 has earned the achievement “@2”."
 msgstr ""
 
+msgid "Achievement gotten!"
+msgstr ""
+
 msgid "You have gotten all achievements!"
 msgstr ""
 
 msgid "@1 has gotten all achievements!"
+msgstr ""
+
+msgid "All achievements gotten!"
 msgstr ""
 
 msgid "You have lost all achievements!"
@@ -31,10 +37,16 @@ msgstr ""
 msgid "@1 has lost all achievements!"
 msgstr ""
 
+msgid "All achievements lost!"
+msgstr ""
+
 msgid "You have lost the achievement “@1”."
 msgstr ""
 
 msgid "@1 has lost the achievement “@2”."
+msgstr ""
+
+msgid "Achievement lost!"
 msgstr ""
 
 msgid "The achievement “@1” has new goals."
@@ -52,13 +64,22 @@ msgstr ""
 msgid "Missing"
 msgstr ""
 
-msgid "@1 of @2 achievements gotten, @3 in progress"
-msgstr ""
-
 msgid ", "
 msgstr ""
 
 msgid "Completed: @1"
+msgstr ""
+
+msgid "Status: @1"
+msgstr ""
+
+msgid "@1 of @2 achievements gotten, @3 in progress"
+msgstr ""
+
+msgid "Show symbols"
+msgstr ""
+
+msgid "Show list"
 msgstr ""
 
 msgid "(list [<player>]) | ((give | remove) <player> (<achievement> | all))"

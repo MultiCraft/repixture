@@ -1,10 +1,5 @@
 -- Functions/ABMs
 
-### `default.write_name(pos, text)`
-
-This function is currently unused.
-
-
 ### `default.is_sapling_growing(pos)`
 
 Returns true if node at pos is a sapling and

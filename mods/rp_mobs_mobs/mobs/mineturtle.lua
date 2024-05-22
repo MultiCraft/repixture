@@ -1,6 +1,7 @@
 -- Mine Turtle
 
 local S = minetest.get_translator("rp_mobs_mobs")
+local NS = function(s) return s end
 
 -- Constants
 
@@ -63,9 +64,10 @@ end
 
 local function explode(mob)
 	local pos = mob.object:get_pos()
+	pos.y = pos.y + 0.35
+	mob.object:set_armor_groups({immortal=1})
+	rp_explosions.explode(pos, EXPLODE_RADIUS, {grief_protected=true, death_message=NS("You were exploded by a mine turtle.")}, mob)
 	mob.object:remove()
-	pos.y = pos.y - 1
-	tnt.boom_notnt(pos, EXPLODE_RADIUS)
 	minetest.log("action", "[rp_mobs_mobs] "..mob.name.." exploded at "..minetest.pos_to_string(pos, 1))
 end
 
@@ -175,7 +177,7 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 	dead_y_offset = -0.4,
 	entity_definition = {
 		initial_properties = {
-			hp_max = 15,
+			hp_max = 8,
 			physical = true,
 			collisionbox = {-0.4, 0, -0.4, 0.4, 0.7, 0.4},
 			selectionbox = {-0.4, 0, -0.5, 0.4, 0.7, 0.8, rotate=true},
@@ -207,13 +209,14 @@ rp_mobs.register_mob("rp_mobs_mobs:mineturtle", {
 		end,
 		get_staticdata = rp_mobs.get_staticdata_default,
 		on_step = function(self, dtime, moveresult)
-			rp_mobs.handle_dying(self, dtime)
+			rp_mobs.handle_dying(self, dtime, moveresult, rp_mobs_mobs.get_dying_step(true, false))
 			rp_mobs.scan_environment(self, dtime, -0.3)
 			rp_mobs.handle_environment_damage(self, dtime, moveresult)
 			rp_mobs.handle_tasks(self, dtime, moveresult)
 		end,
 		on_death = rp_mobs.on_death_default,
 		on_punch = rp_mobs.on_punch_default,
+		_rp_explosions_knockback = true,
 	},
 })
 

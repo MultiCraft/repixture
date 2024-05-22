@@ -1,5 +1,5 @@
 -- Maximum allowed elements in the open list before aborting
-local MAX_OPEN = 700
+local MAX_OPEN = 300
 
 rp_pathfinder = {}
 
@@ -22,7 +22,7 @@ local blocking_default = walkable_default
 --    * 1: Check if can climb up (no 'disable_jump' group)
 --    * -1: Check if can climb down (no 'disable_descend' group)
 --    * nil: Ignore climb restrictions
-local function climbable(node, dir)
+local function climbable_default(node, dir)
 	local def = minetest.registered_nodes[node.name]
 	if not def then
 		return false
@@ -46,6 +46,53 @@ end
 -- Returns true player can jump from node
 local function jumpable(node)
 	return minetest.get_item_group(node.name, "disable_jump") == 0
+end
+
+-- Return the height of the given node or pessimistic_height
+-- if the node is too complex. This function is not 100% accurate
+-- and does not cover all possible node definitions and param2 values.
+-- TODO: Cover all possible node definitions and param2 values.
+local function get_node_height(node, pessimistic_height)
+	local def = minetest.registered_nodes[node.name]
+	if not def then
+		return 1
+	end
+	if not def.walkable then
+		return 0
+	end
+	local node_box
+	if def.collision_box then
+		node_box = def.collision_box
+	elseif def.node_box then
+		node_box = def.node_box
+	end
+	if node_box then
+		if node_box.type == "regular" then
+			return 1
+		elseif node_box.type == "fixed" or (node_box.type == "connected" and node_box.fixed) then
+			local max_y = 0
+			local fixed = node_box.fixed
+			if type(fixed[1]) == "table" then
+				for f=1, #fixed do
+					max_y = math.max(max_y, fixed[f][5])
+				end
+			else
+				max_y = fixed[5]
+			end
+			return (0.5 + max_y)
+		elseif node_box.type == "leveled" and def.paramtype2 == "leveled" then
+			if node.param2 == 0 then
+				return def.leveled or 0
+			else
+				return (node.param2 % 128) / 64
+			end
+		else
+			return pessimistic_height
+		end
+	else
+		-- No node box, this is a normal cube
+		return 1
+	end
 end
 
 -- 2D distance heuristic between pos1 and pos2
@@ -128,11 +175,12 @@ local function check_height_clearance(pos, nodes_above, nh, get_node)
 	return true
 end
 
-local function vertical_walk(start_pos, vdir, max_height, stop_func, stop_value, get_node)
+local function vertical_walk(start_pos, vdir, max_height, stop_func, stop_value, get_node, precise_height)
 	local pos = table.copy(start_pos)
 	local height = 0
 	local ok = false
 
+	local final_node
 	while height < max_height do
 		pos.y = pos.y + vdir
 		local node = get_node(pos)
@@ -141,7 +189,26 @@ local function vertical_walk(start_pos, vdir, max_height, stop_func, stop_value,
 			ok = true
 			break
 		end
+		final_node = node
 	end
+	-- Precide height mode:
+	-- Reduce returned height if the final node is node a standard cube,
+	-- e.g. a slab
+	if precise_height and ok then
+		if not final_node then
+			final_node = get_node(start_pos)
+		end
+		local nheight
+		local pessimistic
+		if vdir > 0 then
+			pessimistic = 2
+		else
+			pessimistic = 0
+		end
+		nheight = get_node_height(final_node, pessimistic)
+		height = height - (1 - nheight)
+	end
+
 	if ok then
 		return pos, height
 	end
@@ -151,7 +218,7 @@ end
 -- and returns the final node we land *in*
 local function drop_down(pos, drop_height, stop_at_climb, nh, get_node)
 	local stop = function(node)
-		return nh.blocking(node) or nh.walkable(node) or (stop_at_climb and climbable(node))
+		return nh.blocking(node) or nh.walkable(node) or (stop_at_climb and nh.climbable(node))
 	end
 	local dpos = table.copy(pos)
 	-- Get the first blocking or walkable node below neighbor
@@ -182,14 +249,14 @@ local function get_neighbor_floor_pos(neighbor_pos, current_pos, clear_height, j
 	-- Climb
 	if climb then
 		-- If neighbor is climbable
-		if climbable(nnode) and not nh.blocking(nnode) then
+		if nh.climbable(nnode) and not nh.blocking(nnode) then
 			return npos
 		-- If node *below* neighbor is climbable
 		elseif not nh.blocking(nnode) then
 			local bpos = vector.offset(npos, 0, -1, 0)
 			local bnode = get_node(bpos)
-			if climbable(bnode) and not nh.blocking(bnode) then
-				return bpos
+			if nh.climbable(bnode) and not nh.blocking(bnode) then
+				return npos
 			end
 		end
 	end
@@ -204,11 +271,29 @@ local function get_neighbor_floor_pos(neighbor_pos, current_pos, clear_height, j
 		end
 
 		-- Get the first non-walkable node above the neighbor
-		local target_pos, height = vertical_walk(npos, 1, jump_height, stop, true, get_node)
+		local target_pos, height = vertical_walk(npos, 1, jump_height, stop, true, get_node, true)
 
-		-- Also check the nodes above current pos for any blocking nodes,
-		-- since this is where the player has to jump
 		if target_pos then
+			-- Check if the floor node is lowered and if yes,
+			-- increase the required jump height by the difference.
+			-- E.g. a slab of height 0.5 would increase the
+			-- required jump height by 0.5
+			local floor = vector.offset(current_pos, 0, -1, 0)
+			local fnode = get_node(floor)
+			-- for normal nodes, add_height will be 0.
+			-- for overhigh nodes, add_height will be 0.
+			-- for nodes with a height lower than 1 (like slabs)
+			-- add_height will increase by the difference from a full node.
+			local add_height = math.max(0, 1-get_node_height(fnode, 0))
+			height = height + add_height
+			-- Check if we could still jump high enough
+			if jump_height < height then
+				return
+			end
+
+			-- Also check the nodes above current pos for any blocking nodes,
+			-- since this is where the player has to jump
+
 			-- If the top node is non-walkable,
 			-- we don't want to jump on it
 			local tnode = get_node(vector.offset(target_pos, 0, -1, 0))
@@ -320,6 +405,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 	local nh = {
 		walkable = options.handler_walkable or walkable_default,
 		blocking = options.handler_blocking or blocking_default,
+		climbable = options.handler_climbable or climbable_default,
 	}
 	local get_node
 	if options.use_vmanip then
@@ -432,20 +518,30 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 		if climb then
 			current_neighbor_dirs = table.copy(neighbor_dirs)
 			if respect_climb_restrictions then
-				if climbable(current_node, 1) then
-					table.insert(current_neighbor_dirs, {x=0,y=1,z=0})
-				elseif climbable(current_node) then
+				if nh.climbable(current_node) then
+					if nh.climbable(current_node, 1) then
+						table.insert(current_neighbor_dirs, {x=0,y=1,z=0})
+					end
+					if nh.climbable(current_node, -1) then
+						table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
+					end
 					current_max_jump = 0
-				end
-				if climbable(current_node, -1) then
+				else
 					table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
-				elseif climbable(current_node) then
-					current_max_drop = 0
 				end
 			else
-				if climbable(current_node) then
+				if nh.climbable(current_node) then
 					table.insert(current_neighbor_dirs, {x=0,y=1,z=0})
-					table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
+					current_max_jump = 0
+				end
+				table.insert(current_neighbor_dirs, {x=0,y=-1,z=0})
+			end
+
+			if current_max_jump > 0 then
+				local below_pos = vector.offset(current_pos, 0, -1, 0)
+				local below_node = get_node(below_pos)
+				if nh.climbable(below_node) then
+					current_max_jump = 0
 				end
 			end
 		end
@@ -481,9 +577,18 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 								current_max_jump, current_max_drop, climb, nh, get_node)
 					-- In case of Y change, we do a climb check
 					elseif climb then
-						-- No additional floor check needed
 						if not nh.blocking(neighbor) then
-							neighbor_floor = neighbor_pos
+							local safe_floor = true
+							-- If we climb downwards, check if the node below our destination
+							-- is safe to stand on
+							if y < 0 then
+								local below = vector.offset(neighbor_pos, 0, -1, 0)
+								local bnode = get_node(below)
+								safe_floor = nh.walkable(bnode) or nh.climbable(bnode)
+							end
+							if safe_floor then
+								neighbor_floor = neighbor_pos
+							end
 						end
 					end
 					if neighbor_floor then

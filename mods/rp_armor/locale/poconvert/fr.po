@@ -13,6 +13,39 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.0\n"
 
+msgid "Helmet"
+msgstr "Casque"
+
+msgid "Chestplate"
+msgstr "Plastron"
+
+msgid "Boots"
+msgstr "Bottes"
+
+msgid "Protection"
+msgstr ""
+
+msgid "@1%"
+msgstr ""
+
+msgid "Protection bonus for full set"
+msgstr ""
+
+msgid "+@1%"
+msgstr ""
+
+msgid "Armor"
+msgstr "Armure"
+
+msgid "Armored"
+msgstr "Blindé"
+
+msgid "Craft a piece of armor."
+msgstr "Fabriquer une pièce d'armure."
+
+msgid "Protection: +@1%"
+msgstr "Protection : +@1%"
+
 msgid "Wooden Helmet"
 msgstr "Casque en bois"
 
@@ -58,33 +91,12 @@ msgstr "Plastron en bronze"
 msgid "Bronze Boots"
 msgstr "Bottes en bronze"
 
-msgid "Helmet"
-msgstr "Casque"
-
-msgid "Chestplate"
-msgstr "Plastron"
-
-msgid "Boots"
-msgstr "Bottes"
-
-msgid "Armor"
-msgstr "Armure"
-
 msgid "Chainmail Sheet"
 msgstr "Drap en cotte de mailles"
-
-msgid "Armored"
-msgstr "Blindé"
-
-msgid "Craft a piece of armor."
-msgstr "Fabriquer une pièce d'armure."
 
 msgid "Skin of Bronze"
 msgstr "Costume de bronze"
 
 msgid "Equip a full suit of bronze armor."
 msgstr "Équiper une armure complète en bronze."
-
-msgid "Protection: +@1%"
-msgstr "Protection : +@1%"
 

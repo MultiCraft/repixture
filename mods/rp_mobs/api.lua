@@ -18,6 +18,9 @@ local DYING_TIME = 2
 -- Default texture modifier when mob takes damage
 local DAMAGE_TEXTURE_MODIFIER = "^[colorize:#df2222:180"
 
+-- Text color for mob nametags
+local NAMETAG_COLOR = { r = 0, g = 255, b = 0, a = 255 }
+
 rp_mobs.GRAVITY_VECTOR = vector.new(0, -GRAVITY, 0)
 
 rp_mobs.internal.add_persisted_entity_vars({
@@ -27,6 +30,7 @@ rp_mobs.internal.add_persisted_entity_vars({
 	"_killer_player_name",	-- if mob was killed by a player, this contains their name. Otherwise nil
 	"_textures_adult",	-- persisted textures of mob in adult state
 	"_textures_child",	-- persisted textures of mob in child state
+	"_name",		-- persisted mob name (for nametag)
 })
 
 local microtask_to_string = function(microtask)
@@ -159,6 +163,9 @@ rp_mobs.register_mob = function(mobname, def)
 	if def.front_body_point then
 		mdef.entity_definition._front_body_point = table.copy(def.front_body_point)
 	end
+	if def.path_check_point then
+		mdef.entity_definition._path_check_point = table.copy(def.path_check_point)
+	end
 	mdef.entity_definition._dead_y_offset = def.dead_y_offset
 
 	rp_mobs.registered_mobs[mobname] = mdef
@@ -207,7 +214,7 @@ local get_dying_boxes = function(mob)
 	local props = mob.object:get_properties()
 	local colbox = props.collisionbox
 	if not mob._dead_y_offset then
-		minetest.log("warning", "[rp_mobs_mobs] No dead_y_offset specified for mob '"..mob.name.."'!")
+		minetest.log("warning", "[rp_mobs] No dead_y_offset specified for mob '"..mob.name.."'!")
 	end
 	colbox = flip_over_collisionbox(colbox, mob._child, mob._dead_y_offset or 0)
 	local selbox = props.selectionbox
@@ -236,6 +243,12 @@ rp_mobs.restore_state = function(self, staticdata)
 			selectionbox = selbox,
 			damage_texture_modifier = "",
 			makes_footstep_sound = false,
+		})
+	end
+	if self._name and type(self._name) == "string" then
+		self.object:set_nametag_attributes({
+			text = self._name,
+			color = NAMETAG_COLOR,
 		})
 	end
 
@@ -427,7 +440,7 @@ end
 rp_mobs.init_mob = function(self)
 	if setting_peaceful_only and not rp_mobs.has_tag(self, "peaceful") then
 		self.object:remove()
-		minetest.log("action", "[mobs] Hostile mob '"..self.name.."' removed at "..minetest.pos_to_string(self.object:get_pos(), 1).." (only peaceful mobs allowed)")
+		minetest.log("action", "[rp_mobs] Hostile mob '"..self.name.."' removed at "..minetest.pos_to_string(self.object:get_pos(), 1).." (only peaceful mobs allowed)")
 		return
 	end
 end
@@ -458,6 +471,10 @@ rp_mobs.end_current_task_in_task_queue = function(mob, task_queue)
 	if first then
 		task_queue.tasks:remove(first)
 	end
+end
+
+rp_mobs.clear_task_queue = function(task_queue)
+	task_queue.tasks:removeAll()
 end
 
 rp_mobs.create_task = function(def)
@@ -561,6 +578,9 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 			end
 		end
 
+		local microtaskFinished = false
+		local microtaskSuccess
+
 		-- Remove microtask if completed
 		local activeMicroTask
 		if not task_queue_done then
@@ -568,12 +588,15 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 			if not activeMicroTask.has_started and activeMicroTask.on_start then
 				activeMicroTask:on_start(self)
 			end
-			if not activeMicroTask.singlestep and activeMicroTask:is_finished(self) then
-				if activeMicroTask.on_end then
-					activeMicroTask:on_end(self)
+			if not activeMicroTask.singlestep then
+				microtaskFinished, microtaskSuccess = activeMicroTask:is_finished(self)
+				if microtaskFinished then
+					if activeMicroTask.on_end then
+						activeMicroTask:on_end(self)
+					end
+					activeTask.microTasks:remove(activeMicroTaskEntry)
+					task_queue_done = true
 				end
-				activeTask.microTasks:remove(activeMicroTaskEntry)
-				task_queue_done = true
 			end
 		end
 
@@ -594,11 +617,17 @@ rp_mobs.handle_tasks = function(self, dtime, moveresult)
 
 		-- If singlestep is set, finish microtask after its first and only step
 		if not task_queue_done and activeMicroTask.singlestep then
+			microtaskFinished, microtaskSuccess = true, true
 			if activeMicroTask.on_end then
 				activeMicroTask:on_end(self)
 			end
 			activeTask.microTasks:remove(activeMicroTaskEntry)
 			task_queue_done = true
+		end
+
+		-- If microtask failed, clear the whole task
+		if microtaskFinished == true and microtaskSuccess == false then
+			activeTask.microTasks:removeAll()
 		end
 
 		-- Select next task queue
@@ -657,30 +686,16 @@ rp_mobs.die = function(self, killer)
 	self.object:set_rotation(rot)
 end
 
-rp_mobs.handle_dying = function(self, dtime)
+rp_mobs.handle_dying = function(self, dtime, moveresult, dying_step)
 	if rp_mobs.is_alive(self) then
 		return
 	end
 
-	-- Make mob come to a halt
-	local realvel = self.object:get_velocity()
-	local targetvel = vector.zero()
-	targetvel.y = realvel.y
-	local drag = vector.new(0.05, 0, 0.05)
-	local MOVE_SPEED_MAX_DIFFERENCE = 0.01
-	for _, axis in pairs({"x","z"}) do
-		if math.abs(realvel[axis]) > MOVE_SPEED_MAX_DIFFERENCE then
-			if realvel[axis] > targetvel[axis] then
-				targetvel[axis] = math.max(0, realvel[axis] - drag[axis])
-			else
-				targetvel[axis] = math.min(0, realvel[axis] + drag[axis])
-			end
-		end
+	if dying_step then
+		dying_step(self, dtime, moveresult)
 	end
 
-	self.object:set_velocity(targetvel)
-
-	-- Trigger final death when timer runs out
+	-- Trigger actual death when timer runs out
 	self._dying_timer = self._dying_timer + dtime
 	if self._dying_timer >= DYING_TIME then
 		self.object:set_hp(0)
@@ -798,6 +813,36 @@ rp_mobs.set_animation = function(self, animation_name, animation_speed)
 	elseif self._current_animation_speed ~= anim_speed then
 		self.object:set_animation_frame_speed(anim_speed)
 	end
+end
+
+rp_mobs.drag = function(self, dtime, drag, drag_axes)
+	local realvel = self.object:get_velocity()
+	local targetvel = vector.zero()
+	targetvel.y = realvel.y
+	local MOVE_SPEED_MAX_DIFFERENCE = 0.01
+	for _, axis in pairs(drag_axes) do
+		if drag[axis] ~= 0 and math.abs(realvel[axis]) > MOVE_SPEED_MAX_DIFFERENCE then
+			if realvel[axis] > targetvel[axis] then
+				targetvel[axis] = math.max(0, realvel[axis] - drag[axis])
+			else
+				targetvel[axis] = math.min(0, realvel[axis] + drag[axis])
+			end
+		end
+	end
+
+	self.object:set_velocity(targetvel)
+end
+
+rp_mobs.set_nametag = function(self, nametag)
+	self._name = nametag
+	self.object:set_nametag_attributes({
+		text = self._name,
+		color = NAMETAG_COLOR,
+	})
+end
+
+rp_mobs.get_nametag = function(self)
+	return self._name or ""
 end
 
 minetest.register_on_chatcommand(function(name, command, params)

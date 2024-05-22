@@ -385,6 +385,24 @@ village.chunkdefs["tavern"] = {
       ["__villager_tavernkeeper"] = 1,
    },
 }
+
+village.chunkdefs["inn"] = {
+   groundclass_variants = {
+      grassland = {"inn"},
+      dry = {"inn"},
+      savanna = {"inn"},
+   },
+   groundclass_ruins = {
+      grassland = {"tavern_ruins"},
+      dry = {"tavern_ruins"},
+      savanna = {"tavern_ruins"},
+   },
+   entity_chance = 2,
+   entities = {
+      ["__villager_tavernkeeper"] = 1,
+   },
+}
+
 village.chunkdefs["library"] = {
    groundclass_variants = {
       grassland = {"library"},
@@ -545,6 +563,7 @@ village.chunktypes = {
    { "townhall", 60 },
    { "library", 20 },
    { "reading_club", 30 },
+   { "inn", 20 },
    -- workplaces
    { "forge", 100 },
    { "workshop", 100 },

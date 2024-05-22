@@ -45,4 +45,4 @@ Media file license: CC BY-SA 4.0
 * mobs_swing_hit_hit.ogg: CC0
 * mobs_swing_hit_swing.ogg: CC0
 
-Source code license: LGPLv2.1
+Source code license: LGPLv2.1 or later

@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Hunger Debug:"
-msgstr ""
+msgstr "Отладка голода:"
 
 msgid "<hunger disabled>"
 msgstr "<голод выключен>"

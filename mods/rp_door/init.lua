@@ -4,6 +4,8 @@
 
 local S = minetest.get_translator("rp_door")
 
+local DOOR_THICKNESS = 1.5/16
+
 door = {}
 
 -- Mark the door segment at pos as having a right hinge.
@@ -141,10 +143,21 @@ door.get_free_axis = function(pos)
    end
 end
 
+local drop_door = function(pos, player, item)
+   if player and player:is_player() and minetest.is_creative_enabled(player:get_player_name()) then
+      local inv = player:get_inventory()
+      if not inv:contains_item("main", item) then
+         inv:add_item("main", item)
+      end
+   else
+      minetest.add_item(pos, item)
+   end
+end
+
 -- Registers a door
 
 function door.register_door(name, def)
-   local box = {{-0.5, -0.5, -0.5, 0.5, 0.5, -0.5+1.5/16}}
+   local box = {{-0.5, -0.5, -0.5, 0.5, 0.5, -0.5+DOOR_THICKNESS}}
 
    if not def.node_box_bottom then
       def.node_box_bottom = box
@@ -192,10 +205,23 @@ function door.register_door(name, def)
                return handled_itemstack
             end
 
+            if pointed_thing.type ~= "node" then
+               return itemstack
+            end
+
+            -- Get position where the bottom door segment will go
+            local pos
+            local undername = minetest.get_node(pointed_thing.under).name
+            -- Respect buildable_to when building
+            if minetest.registered_items[undername] and minetest.registered_items[undername].buildable_to then
+               pos = pointed_thing.under
+            else
+               pos = pointed_thing.above
+            end
+
 	    -- Check protection
-            local pos_protected = minetest.get_pointed_thing_position(pointed_thing, true)
 	    for i=0, 1 do
-               local protpos = vector.add(pos_protected, vector.new(0, i, 0))
+               local protpos = vector.add(pos, vector.new(0, i, 0))
                if minetest.is_protected(protpos, placer:get_player_name()) and
                      not minetest.check_player_privs(placer, "protection_bypass") then
                   minetest.record_protection_violation(protpos, placer:get_player_name())
@@ -203,16 +229,15 @@ function door.register_door(name, def)
                end
             end
 
-            local pt = pointed_thing.above
-            local pt2 = {x=pt.x, y=pt.y, z=pt.z}
-            pt2.y = pt2.y+1
-	    local ptdef = minetest.registered_nodes[minetest.get_node(pt).name]
-	    local pt2def = minetest.registered_nodes[minetest.get_node(pt2).name]
+            -- Position of top door segment
+            local pos2 = vector.offset(pos, 0, 1, 0)
+            local posdef = minetest.registered_nodes[minetest.get_node(pos).name]
+            local pos2def = minetest.registered_nodes[minetest.get_node(pos2).name]
             if
-               not ptdef or
-               not pt2def or
-               not ptdef.buildable_to or
-               not pt2def.buildable_to or
+               not posdef or
+               not pos2def or
+               not posdef.buildable_to or
+               not pos2def.buildable_to or
                not placer or
                not placer:is_player()
             then
@@ -224,27 +249,27 @@ function door.register_door(name, def)
             -- If yes, the door hinge will be right, otherwise it will be left.
             -- This allows to build double doors.
             local p2 = minetest.dir_to_fourdir(placer:get_look_dir())
-            local pt3 = {x=pt.x, y=pt.y, z=pt.z}
+            local pos3 = table.copy(pos)
             if p2 == 0 then
-               pt3.x = pt3.x-1
+               pos3.x = pos3.x-1
             elseif p2 == 1 then
-               pt3.z = pt3.z+1
+               pos3.z = pos3.z+1
             elseif p2 == 2 then
-               pt3.x = pt3.x+1
+               pos3.x = pos3.x+1
             elseif p2 == 3 then
-               pt3.z = pt3.z-1
+               pos3.z = pos3.z-1
             end
-            if minetest.get_item_group(minetest.get_node(pt3).name, "door") == 0 then
-               minetest.set_node(pt, {name=name.."_b_1", param2=p2})
-               minetest.set_node(pt2, {name=name.."_t_1", param2=p2})
+            if minetest.get_item_group(minetest.get_node(pos3).name, "door") == 0 then
+               minetest.set_node(pos, {name=name.."_b_1", param2=p2})
+               minetest.set_node(pos2, {name=name.."_t_1", param2=p2})
             else
-               minetest.set_node(pt, {name=name.."_b_2", param2=p2})
-               minetest.set_node(pt2, {name=name.."_t_2", param2=p2})
-               set_segment_hinge_right(pt)
-               set_segment_hinge_right(pt2)
+               minetest.set_node(pos, {name=name.."_b_2", param2=p2})
+               minetest.set_node(pos2, {name=name.."_t_2", param2=p2})
+               set_segment_hinge_right(pos)
+               set_segment_hinge_right(pos2)
             end
             if def.sounds and def.sounds.place then
-               minetest.sound_play(def.sounds.place, {pos=pt}, true)
+               minetest.sound_play(def.sounds.place, {pos=pos}, true)
             end
 
             if not minetest.is_creative_enabled(placer:get_player_name()) then
@@ -260,11 +285,28 @@ function door.register_door(name, def)
    local ott = def.overlay_tiles_top
    local otb = def.overlay_tiles_bottom
 
+   -- Tile 3 (top/bottom) falls back to tile 2 (side)
+   if not tt[3] then tt[3] = tt[2] end
+   if not tb[3] then tb[3] = tb[2] end
+   if ott then
+      if not ott[3] then ott[3] = ott[2] end
+   end
+   if otb then
+      if not otb[3] then otb[3] = otb[2] end
+   end
+
    local transformTileFX = function(tile)
       if type(tile) == "string" then
-         return tile .. "^[transformFX"
+         if tile == "" then
+            return tile
+         else
+            return tile .. "^[transformFX"
+         end
       elseif type(tile) == "table" then
          local newtile = table.copy(tile)
+         if newtile.name == "" then
+            return newtile.name
+         end
          newtile.name = newtile.name .. "^[transformFX"
          return newtile
       else
@@ -339,13 +381,14 @@ function door.register_door(name, def)
       name.."_b_1",
       {
          inventory_image = tb[1] .. "^rp_door_overlay_state_1.png",
-	 tiles = {tb[2], tb[2], tb[2], tb[2], tb[1], transformTileFX(tb[1])},
-	 overlay_tiles = otb and {otb[2], otb[2], otb[2], otb[2], otb[1], transformTileFX(otb[1])},
+	 tiles = {tt[3], tb[3], tb[2], tb[2], tb[1], transformTileFX(tb[1])},
+	 overlay_tiles = otb and {ott[3], otb[3], otb[2], otb[2], otb[1], transformTileFX(otb[1])},
          use_texture_alpha = "clip",
 	 paramtype = "light",
 	 paramtype2 = paramtype2,
          palette = palette,
-	 drop = drop_name,
+         -- item is dropped via drop_door()
+	 drop = "",
 	 drawtype = "nodebox",
 	 node_box = {
 	    type = "fixed",
@@ -375,7 +418,7 @@ function door.register_door(name, def)
             local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
             if minetest.get_node(bottom).name ~= name.."_b_2" and minetest.get_node(top).name == name.."_t_1" then
                remove_node_and_check_falling(top)
-               minetest.add_item(bottom, drop_name)
+               drop_door(bottom, nil, drop_name)
             end
          end,
          on_blast = function(bottom)
@@ -387,6 +430,13 @@ function door.register_door(name, def)
                remove_node_and_check_falling(top)
             end
          end,
+         on_dig = function(bottom, node, digger)
+            local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
+            if minetest.get_node(top).name == name.."_t_1" then
+               drop_door(bottom, digger, drop_name)
+            end
+            return minetest.node_dig(bottom, node, digger)
+         end,
 
 	 is_ground_content = false,
 	 sounds = sounds,
@@ -396,6 +446,8 @@ function door.register_door(name, def)
 	 _rp_unpainted_node_name = unpainted_name and unpainted_name.."_b_1",
 	 _rp_painted_node_name = painted_name and painted_name.."_b_1",
          _rp_paint_particle_node = def.paint_particle_node,
+         -- Additional fields for rp_explosions mod
+         _rp_blast_resistance = def._rp_blast_resistance,
    })
 
    -- Door segment: top, state 1
@@ -403,8 +455,8 @@ function door.register_door(name, def)
       name.."_t_1",
       {
          inventory_image = tt[1] .. "^rp_door_overlay_state_1.png",
-	 tiles = {tt[2], tt[2], tt[2], tt[2], tt[1], transformTileFX(tt[1])},
-	 overlay_tiles = ott and {ott[2], ott[2], ott[2], ott[2], ott[1], transformTileFX(ott[1])},
+	 tiles = {tt[3], tb[3], tt[2], tt[2], tt[1], transformTileFX(tt[1])},
+	 overlay_tiles = ott and {ott[3], otb[3], ott[2], ott[2], ott[1], transformTileFX(ott[1])},
          use_texture_alpha = "clip",
 	 paramtype = "light",
 	 paramtype2 = paramtype2,
@@ -439,7 +491,6 @@ function door.register_door(name, def)
             local bottom = { x = top.x, y = top.y - 1, z = top.z }
             if minetest.get_node(top).name ~= name.."_t_2" and minetest.get_node(bottom).name == name.."_b_1" and oldnode.name == name.."_t_1" then
                minetest.dig_node(bottom)
-               minetest.add_item(bottom, drop_name)
             end
          end,
          on_blast = function(top)
@@ -451,6 +502,13 @@ function door.register_door(name, def)
                minetest.dig_node(bottom)
             end
          end,
+         on_dig = function(top, node, digger)
+            local bottom = { x = top.x, y = top.y - 1, z = top.z }
+            if minetest.get_node(bottom).name == name.."_b_1" then
+               drop_door(bottom, digger, drop_name)
+            end
+            return minetest.node_dig(top, node, digger)
+         end,
 
 	 is_ground_content = false,
 	 sounds = sounds,
@@ -460,6 +518,8 @@ function door.register_door(name, def)
 	 _rp_unpainted_node_name = unpainted_name and unpainted_name.."_t_1",
 	 _rp_painted_node_name = painted_name and painted_name.."_t_1",
          _rp_paint_particle_node = def.paint_particle_node,
+         -- Additional fields for rp_explosions mod
+         _rp_blast_resistance = def._rp_blast_resistance,
    })
 
    -- Door segment: bottom, state 2
@@ -467,13 +527,13 @@ function door.register_door(name, def)
       name.."_b_2",
       {
          inventory_image = "("..tb[1] .. "^[transformfx)^rp_door_overlay_state_2.png",
-	 tiles = {tb[2], tb[2], tb[2], tb[2], transformTileFX(tb[1]), tb[1]},
-	 overlay_tiles = otb and {otb[2], otb[2], otb[2], otb[2], transformTileFX(otb[1]), otb[1]},
+	 tiles = {transformTileFX(tt[3]), transformTileFX(tb[3]), transformTileFX(tb[2]), transformTileFX(tb[2]), transformTileFX(tb[1]), tb[1]},
+	 overlay_tiles = otb and {transformTileFX(ott[3]), transformTileFX(otb[3]), transformTileFX(otb[2]), transformTileFX(otb[2]), transformTileFX(otb[1]), otb[1]},
          use_texture_alpha = "clip",
 	 paramtype = "light",
 	 paramtype2 = paramtype2,
          palette = palette,
-	 drop = drop_name,
+	 drop = "",
 	 drawtype = "nodebox",
 	 node_box = {
 	    type = "fixed",
@@ -502,7 +562,7 @@ function door.register_door(name, def)
             local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
             if minetest.get_node(bottom).name ~= name.."_b_1" and minetest.get_node(top).name == name.."_t_2" then
                remove_node_and_check_falling(top)
-	       minetest.add_item(bottom, drop_name)
+               drop_door(bottom, nil, drop_name)
             end
          end,
          on_blast = function(bottom)
@@ -514,6 +574,13 @@ function door.register_door(name, def)
                remove_node_and_check_falling(top)
             end
          end,
+         on_dig = function(bottom, node, digger)
+            local top = { x = bottom.x, y = bottom.y + 1, z = bottom.z }
+            if minetest.get_node(top).name == name.."_t_2" then
+               drop_door(bottom, digger, drop_name)
+            end
+            return minetest.node_dig(bottom, node, digger)
+         end,
 
 	 is_ground_content = false,
 	 sounds = sounds,
@@ -523,6 +590,8 @@ function door.register_door(name, def)
 	 _rp_unpainted_node_name = unpainted_name and unpainted_name.."_b_2",
 	 _rp_painted_node_name = painted_name and painted_name.."_b_2",
          _rp_paint_particle_node = def.paint_particle_node,
+         -- Additional fields for rp_explosions mod
+         _rp_blast_resistance = def._rp_blast_resistance,
    })
 
    -- Door segment: top, state 2
@@ -530,8 +599,8 @@ function door.register_door(name, def)
       name.."_t_2",
       {
          inventory_image = "("..tt[1] .. "^[transformfx)^rp_door_overlay_state_2.png",
-	 tiles = {tt[2], tt[2], tt[2], tt[2], transformTileFX(tt[1]), tt[1]},
-	 overlay_tiles = ott and {ott[2], ott[2], ott[2], ott[2], transformTileFX(ott[1]), ott[1]},
+	 tiles = {transformTileFX(tt[3]), transformTileFX(tb[3]), transformTileFX(tt[2]), transformTileFX(tt[2]), transformTileFX(tt[1]), tt[1]},
+	 overlay_tiles = ott and {transformTileFX(ott[3]), transformTileFX(otb[3]), transformTileFX(ott[2]), transformTileFX(ott[2]), transformTileFX(ott[1]), ott[1]},
          use_texture_alpha = "clip",
 	 paramtype = "light",
 	 paramtype2 = paramtype2,
@@ -565,7 +634,6 @@ function door.register_door(name, def)
             local bottom = { x = top.x, y = top.y - 1, z = top.z }
             if minetest.get_node(top).name ~= name.."_t_1" and minetest.get_node(bottom).name == name.."_b_2" and oldnode.name == name.."_t_2" then
                minetest.dig_node(bottom)
-	       minetest.add_item(bottom, drop_name)
             end
          end,
          on_blast = function(top)
@@ -577,6 +645,13 @@ function door.register_door(name, def)
                minetest.dig_node(bottom)
             end
          end,
+         on_dig = function(top, node, digger)
+            local bottom = { x = top.x, y = top.y - 1, z = top.z }
+            if minetest.get_node(bottom).name == name.."_b_2" then
+               drop_door(bottom, digger, drop_name)
+            end
+            return minetest.node_dig(top, node, digger)
+         end,
 
 	 is_ground_content = false,
 	 sounds = sounds,
@@ -586,6 +661,8 @@ function door.register_door(name, def)
          _rp_unpainted_node_name = unpainted_name and unpainted_name.."_t_2",
          _rp_painted_node_name = painted_name and painted_name.."_t_2",
          _rp_paint_particle_node = def.paint_particle_node,
+         -- Additional fields for rp_explosions mod
+         _rp_blast_resistance = def._rp_blast_resistance,
    })
 
 end
@@ -616,11 +693,12 @@ door.register_door(
       description = S("Wooden Door"),
       inventory_image = "door_wood.png",
       groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=2},
-      tiles_top = {"door_wood_a.png", "door_wood_side.png"},
-      tiles_bottom = {"door_wood_b.png", "door_wood_side.png"},
+      tiles_top = {"door_wood_a.png", "door_wood_side_a.png", "door_wood_top.png"},
+      tiles_bottom = {"door_wood_b.png", "door_wood_side_b.png", "door_wood_bottom.png"},
       sounds = sounds_wood_door,
       sunlight = false,
       can_paint = true,
+      _rp_blast_resistance = 0.1,
 })
 door.register_door(
    "rp_door:door_wood_painted",
@@ -628,15 +706,16 @@ door.register_door(
       description = S("Painted Wooden Door"),
       inventory_image = "door_wood.png^[hsl:0:-100:0",
       groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=1,not_in_creative_inventory=1},
-      tiles_top = {"door_wood_a_painted.png", {name="door_wood_side.png",color="white"}},
-      tiles_bottom = {"door_wood_b_painted.png", {name="door_wood_side.png",color="white"}},
-      overlay_tiles_top = {{name="door_wood_a_painted_overlay.png",color="white"}, ""},
-      overlay_tiles_bottom = {{name="door_wood_b_painted_overlay.png",color="white"}, ""},
+      tiles_top = {"door_wood_a_painted.png", {name="door_wood_side_a.png",color="white"}, {name="door_wood_top.png",color="white"}},
+      tiles_bottom = {"door_wood_b_painted.png", {name="door_wood_side_b.png",color="white"}, {name="door_wood_bottom.png",color="white"}},
+      overlay_tiles_top = {{name="door_wood_a_painted_overlay.png",color="white"}, "", ""},
+      overlay_tiles_bottom = {{name="door_wood_b_painted_overlay.png",color="white"}, "", ""},
       sounds = sounds_wood_door,
       sunlight = false,
       is_painted = true,
       can_unpaint = true,
       paint_particle_node = false,
+      _rp_blast_resistance = 0.1,
 })
 
 crafting.register_craft(
@@ -655,11 +734,12 @@ door.register_door(
       description = S("Oak Door"),
       inventory_image = "rp_door_wood_oak.png",
       groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=2},
-      tiles_top = {"rp_door_wood_oak_a.png", "rp_door_wood_oak_side.png"},
-      tiles_bottom = {"rp_door_wood_oak_b.png", "rp_door_wood_oak_side.png"},
+      tiles_top = {"rp_door_wood_oak_a.png", "rp_door_wood_oak_side_a.png", "rp_door_wood_oak_top.png"},
+      tiles_bottom = {"rp_door_wood_oak_b.png", "rp_door_wood_oak_side_b.png", "rp_door_wood_oak_bottom.png"},
       sounds = sounds_wood_door,
       sunlight = false,
       can_paint = true,
+      _rp_blast_resistance = 0.1,
 })
 door.register_door(
    "rp_door:door_wood_oak_painted",
@@ -667,15 +747,16 @@ door.register_door(
       description = S("Painted Oak Door"),
       inventory_image = "rp_door_wood_oak.png^[hsl:0:-100:0",
       groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=1,not_in_creative_inventory=1},
-      tiles_top = {"rp_door_wood_oak_a_painted.png", {name="rp_door_wood_oak_side.png",color="white"}},
-      tiles_bottom = {"rp_door_wood_oak_b_painted.png", {name="rp_door_wood_oak_side.png",color="white"}},
-      overlay_tiles_top = {{name="rp_door_wood_oak_a_painted_overlay.png",color="white"}, ""},
-      overlay_tiles_bottom = {{name="rp_door_wood_oak_b_painted_overlay.png",color="white"}, ""},
+      tiles_top = {"rp_door_wood_oak_a_painted.png", {name="rp_door_wood_oak_side_a.png",color="white"}, {name="rp_door_wood_oak_top.png",color="white"}},
+      tiles_bottom = {"rp_door_wood_oak_b_painted.png", {name="rp_door_wood_oak_side_b.png",color="white"}, {name="rp_door_wood_oak_bottom.png",color="white"}},
+      overlay_tiles_top = {{name="rp_door_wood_oak_a_painted_overlay.png",color="white"}, "", ""},
+      overlay_tiles_bottom = {{name="rp_door_wood_oak_b_painted_overlay.png",color="white"}, "", ""},
       sounds = sounds_wood_door,
       sunlight = false,
       is_painted = true,
       can_unpaint = true,
       paint_particle_node = false,
+      _rp_blast_resistance = 0.1,
 })
 
 
@@ -695,11 +776,12 @@ door.register_door(
       description = S("Birch Door"),
       inventory_image = "rp_door_wood_birch.png",
       groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=2},
-      tiles_top = {"rp_door_wood_birch_a.png", "rp_door_wood_birch_side.png"},
-      tiles_bottom = {"rp_door_wood_birch_b.png", "rp_door_wood_birch_side.png"},
+      tiles_top = {"rp_door_wood_birch_a.png", "rp_door_wood_birch_side_a.png", "rp_door_wood_birch_top.png"},
+      tiles_bottom = {"rp_door_wood_birch_b.png", "rp_door_wood_birch_side_b.png", "rp_door_wood_birch_bottom.png"},
       sounds = sounds_wood_door,
       sunlight = false,
       can_paint = true,
+      _rp_blast_resistance = 0.1,
 })
 door.register_door(
    "rp_door:door_wood_birch_painted",
@@ -707,15 +789,16 @@ door.register_door(
       description = S("Painted Birch Door"),
       inventory_image = "rp_door_wood_birch.png^[hsl:0:-100:0",
       groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=1,not_in_creative_inventory=1},
-      tiles_top = {"rp_door_wood_birch_a_painted.png", {name="rp_door_wood_birch_side.png",color="white"}},
-      tiles_bottom = {"rp_door_wood_birch_b_painted.png", {name="rp_door_wood_birch_side.png",color="white"}},
-      overlay_tiles_top = {{name="rp_door_wood_birch_a_painted_overlay.png",color="white"}, ""},
-      overlay_tiles_bottom = {{name="rp_door_wood_birch_b_painted_overlay.png",color="white"}, ""},
+      tiles_top = {"rp_door_wood_birch_a_painted.png", {name="rp_door_wood_birch_side_a.png",color="white"}, {name="rp_door_wood_birch_top.png",color="white"}},
+      tiles_bottom = {"rp_door_wood_birch_b_painted.png", {name="rp_door_wood_birch_side_b.png",color="white"}, {name="rp_door_wood_birch_bottom.png",color="white"}},
+      overlay_tiles_top = {{name="rp_door_wood_birch_a_painted_overlay.png",color="white"}, "", ""},
+      overlay_tiles_bottom = {{name="rp_door_wood_birch_b_painted_overlay.png",color="white"}, "", ""},
       sounds = sounds_wood_door,
       sunlight = false,
       is_painted = true,
       can_unpaint = true,
       paint_particle_node = false,
+      _rp_blast_resistance = 0.1,
 })
 
 
@@ -741,12 +824,13 @@ door.register_door(
       description = S("Stone Door"),
       inventory_image = "door_stone.png",
       groups = {cracky=3,oddly_breakable_by_hand=1,level=-2,door=1},
-      tiles_top = {"door_stone_a.png", "door_stone_side.png"},
-      tiles_bottom = {"door_stone_b.png", "door_stone_side.png"},
+      tiles_top = {"door_stone_a.png", "door_stone_side_a.png", "door_stone_top.png"},
+      tiles_bottom = {"door_stone_b.png", "door_stone_side_b.png", "door_stone_bottom.png"},
       sounds = rp_sounds.node_sound_stone_defaults(),
       sunlight = false,
       sound_open_door = "door_open_stone",
       sound_close_door = "door_close_stone",
+      _rp_blast_resistance = 0.2,
 })
 
 door.toggle_door = function(pos)

@@ -1,17 +1,17 @@
 # textdomain: rp_jewels
-1. Place tool here=
-2. Hold a jewel and punch the bench=
-Jeweled @1=
-Range bonus: @1=
+1. Place tool here=1. Положи инструмент сюда
+2. Hold a jewel and punch the bench=2. Возьми кристалл и ударь по верстаку
+@1 (jeweled)=
+Range bonus: @1=Бонус к дальности: @1
 Drop level bonus: @1=
 Dig time bonus: @1 s=
-Durability bonus: @1=
+Durability bonus: @1=Бонус к прочности: @1
 Dig level bonus: @1=
 Jewel=
 Jeweler's Workbench=
 Tools can be upgraded with jewels here=
 Jewel Ore=
-Jeweler=
+Jeweler=Ювелир
 Jewel a tool.=
 True Mighty Weapon=
 Use jewels to create a serrated jewel broadsword.=
