@@ -104,48 +104,52 @@ local function get_distance_2d(pos1, pos2)
 	return distX + distZ
 end
 
--- Get actual cost to walk from pos1 to pos2 (which must be a neighbor)
-local function get_neighbor_cost(pos1, pos2, get_node)
-	local floor = vector.offset(pos2, 0, -1, 0)
-	local floornode = get_node(floor)
-	local fnn = floornode.name
-	if fnn == "rp_default:heated_dirt_path" then
+local function get_floor_cost(node)
+	local nn = node.name
+	if nn == "rp_default:heated_dirt_path" then
 		return 1
-	elseif minetest.get_item_group(fnn, "path") ~= 0 then
+	elseif minetest.get_item_group(nn, "path") ~= 0 then
 		return 3
-	elseif minetest.get_item_group(fnn, "stone") ~= 0 or
-			minetest.get_item_group(fnn, "bricks") ~= 0 or
-			fnn == "rp_default:cobble" or
-			fnn == "rp_default:compressed_sandstone" or
-			fnn == "rp_default:reinforced_compressed_sandstone" or
-			fnn == "rp_default:reinforced_frame" or
-			fnn == "rp_default:reinforced_cobble" or
-			fnn == "rp_default:frame" or
-			fnn == "rp_default:glass" or
-			fnn == "rp_mobs_mobs:wool" or
-			fnn == "rp_mobs_mobs:wool_painted" or
-			fnn == "rp_default:block_bronze" or
-			fnn == "rp_default:block_steel" or
-			fnn == "rp_default:block_carbon_steel" or
-			fnn == "rp_default:block_wrought_iron" or
-			fnn == "rp_default:block_tin" or
-			fnn == "rp_default:block_copper" or
-			minetest.get_item_group(fnn, "planks") ~= 0 then
+	elseif minetest.get_item_group(nn, "stone") ~= 0 or
+			minetest.get_item_group(nn, "bricks") ~= 0 or
+			nn == "rp_default:cobble" or
+			nn == "rp_default:compressed_sandstone" or
+			nn == "rp_default:reinforced_compressed_sandstone" or
+			nn == "rp_default:reinforced_frame" or
+			nn == "rp_default:reinforced_cobble" or
+			nn == "rp_default:frame" or
+			nn == "rp_default:glass" or
+			nn == "rp_mobs_mobs:wool" or
+			nn == "rp_mobs_mobs:wool_painted" or
+			nn == "rp_default:block_bronze" or
+			nn == "rp_default:block_steel" or
+			nn == "rp_default:block_carbon_steel" or
+			nn == "rp_default:block_wrought_iron" or
+			nn == "rp_default:block_tin" or
+			nn == "rp_default:block_copper" or
+			minetest.get_item_group(nn, "planks") ~= 0 then
 		return 6
-	elseif minetest.get_item_group(fnn, "furnace") ~= 0 or
-			minetest.get_item_group(fnn, "chest") ~= 0 or
-			minetest.get_item_group(fnn, "bed") ~= 0 or
-			fnn == "rp_itemshow:showcase" or
-			fnn == "rp_default:bookshelf" or
-			fnn == "rp_decor:barrel" or
-			fnn == "rp_music:player" or
-			fnn == "rp_jewel:bench" then
+	elseif minetest.get_item_group(nn, "furnace") ~= 0 or
+			minetest.get_item_group(nn, "chest") ~= 0 or
+			minetest.get_item_group(nn, "bed") ~= 0 or
+			nn == "rp_itemshow:showcase" or
+			nn == "rp_default:bookshelf" or
+			nn == "rp_decor:barrel" or
+			nn == "rp_music:player" or
+			nn == "rp_jewel:bench" then
 		return 50
-	elseif fnn == "rp_default:cactus" or fnn == "rp_tnt:tnt" or fnn == "rp_tnt:tnt_burning" then
+	elseif nn == "rp_default:cactus" or nn == "rp_tnt:tnt" or nn == "rp_tnt:tnt_burning" then
 		return 100
 	else
 		return 9
 	end
+end
+
+-- Get actual cost to walk from pos1 to pos2 (which must be a neighbor)
+local function get_neighbor_cost(pos1, pos2, get_node)
+	local floor = vector.offset(pos2, 0, -1, 0)
+	local floornode = get_node(floor)
+	return get_floor_cost(floornode)
 end
 
 -- Checks nodes above pos to be non-blocking.
