@@ -1404,11 +1404,12 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 				return
 			end
 			local item = clicker:get_wielded_item()
-			local name = clicker:get_player_name()
+			local player_name = clicker:get_player_name()
+			local villager_name = self._name or ""
 
 			if self._temp_custom_state.angry_at and self._temp_custom_state.angry_at:is_player() and self._temp_custom_state.angry_at == clicker then
 				-- Villager is angry at player
-				villager_speech.say_random("hostile", name)
+				villager_speech.say_random("hostile", player_name, villager_name)
 				return
 			end
 
@@ -1417,7 +1418,7 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 			local iname = item:get_name()
 			if profession ~= "blacksmith" and (minetest.get_item_group(iname, "sword") > 0 or minetest.get_item_group(iname, "spear") > 0) then
 				-- Villager is annoyed by a weapon in hand
-				villager_speech.say_random("annoying_weapon", name)
+				villager_speech.say_random("annoying_weapon", player_name, villager_name)
 				return
 			end
 
@@ -1427,7 +1428,7 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 				-- No trading if low health
 				if hp < 5 then
 					-- Complain about being hurt
-					villager_speech.say_random("hurt", name)
+					villager_speech.say_random("hurt", player_name, villager_name)
 					achievements.trigger_achievement(clicker, "smalltalk")
 					return
 				end
@@ -1460,13 +1461,13 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 				if not trading then
 					if hp >= hp_max-7 then
 						-- Good mood: Talk about item in hand or about something random
-						villager_speech.talk_about_item(profession, iname, name)
+						villager_speech.talk_about_item(profession, iname, player_name, villager_name)
 					elseif hp >= 5 then
 						-- Low HP: Complain about exhaustion
-						villager_speech.say_random("exhausted", name)
+						villager_speech.say_random("exhausted", player_name, villager_name)
 					else
 						-- Very low HP: Complain about being hurt
-						villager_speech.say_random("hurt", name)
+						villager_speech.say_random("hurt", player_name, villager_name)
 					end
 					achievements.trigger_achievement(clicker, "smalltalk")
 				end
