@@ -24,7 +24,7 @@ Returns true if the given biome is considered to be
 a 'dry' biome (e.g. for dry grass). Custom or unknown
 biomes are never dry.
 
-### `default.label_container_formspec_element(meta)`
+### `default.container_label_formspec_element(meta)`
 Returns a formspec string for a given node metadata
 that adds a white 'label' formspec element on top of the
 formspec showing the current label of the node (added
