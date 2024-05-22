@@ -875,6 +875,20 @@ Make a mob play its “hurt” sound. The pitch will be slightly randomized. Chi
 
 
 
+### Nametag functions
+
+The nametag is a HUD text above the head of the mob.
+
+#### `rp_mobs.set_nametag(mob, nametag)`
+
+Set nametag text of mob to `nametag`.
+
+#### `rp_mobs.get_nametag(mob)`
+
+Get nametag text of `mob`.
+
+
+
 ### Event functions
 
 #### `rp_mobs.register_on_die(callback)`

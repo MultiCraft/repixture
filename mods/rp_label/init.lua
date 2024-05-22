@@ -7,6 +7,8 @@ rp_label = {}
 -- Maximum length of the name of a named node (e.g. with label)
 local NAMED_NODE_MAX_TEXT_LENGTH = 40
 
+local mod_mobs = minetest.get_modpath("rp_mobs") ~= nil
+
 local form_label = ""
 form_label = form_label .. rp_formspec.default.version
 form_label = form_label .. "size[8.5,4.5]"
@@ -16,6 +18,7 @@ form_label = form_label .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.f
 rp_formspec.register_page("rp_label:label", form_label)
 
 local active_posses = {}
+local active_objects = {}
 
 rp_label.container_label_formspec_element = function(meta)
    local name = meta:get_string("name")
@@ -28,8 +31,7 @@ rp_label.container_label_formspec_element = function(meta)
    return form
 end
 
--- Assign a name to a node
-rp_label.write_name = function(pos, text)
+local restrict_text = function(text)
    -- Discard everything after the first newline or carriage return
    local tsplit = string.split(text, "\n", nil, 1)
    if #tsplit >= 1 then
@@ -40,8 +42,15 @@ rp_label.write_name = function(pos, text)
       text = tsplit[1]
    end
 
-   -- Limit name length
+   -- Limit text length
    text = string.sub(text, 1, NAMED_NODE_MAX_TEXT_LENGTH)
+
+   return text
+end
+
+-- Assign a name to a node
+rp_label.write_name = function(pos, text)
+   text = restrict_text(text)
 
    local node = minetest.get_node(pos)
    local def
@@ -59,6 +68,29 @@ end
 local write = function(itemstack, player, pointed_thing)
     -- Handle pointed node handlers and protection
     if util.handle_node_protection(player, pointed_thing) then
+       return itemstack
+    end
+    if pointed_thing.type == "object" then
+       if not mod_mobs then
+          return itemstack
+       end
+       local obj = pointed_thing.ref
+       local lua = obj:get_luaentity()
+       if lua and lua._cmi_is_mob then
+          local text = rp_mobs.get_nametag(lua)
+
+          local form = rp_formspec.get_page("rp_label:label")
+          form = form .. "field[1,1.5;6.5,0.5;text;;"..minetest.formspec_escape(text).."]"
+          form = form .. "set_focus[text;true]"
+
+          minetest.show_formspec(player:get_player_name(), "rp_label:label", form)
+
+          active_objects[player:get_player_name()] = obj
+
+          if not minetest.is_creative_enabled(player:get_player_name()) then
+             itemstack:take_item()
+          end
+       end
        return itemstack
     end
     if pointed_thing.type ~= "node" then
@@ -90,7 +122,7 @@ minetest.register_craftitem(
    "rp_label:label",
    {
       description = S("Label and Graphite"),
-      _tt_help = S("Give a name to containers"),
+      _tt_help = S("Give a name to a container or creature"),
       inventory_image = "rp_label_label.png",
       wield_image = "rp_label_label.png",
       on_use = write,
@@ -100,18 +132,30 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
    if formname ~= "rp_label:label" then
       return
    end
+   local pname = player:get_player_name()
    if fields.text then
-      local pos = active_posses[player:get_player_name()]
+      local pos = active_posses[pname]
       if pos then
          rp_label.write_name(pos, fields.text)
+      elseif mod_mobs then
+         local obj = active_objects[pname]
+         if obj then
+            local lua = obj:get_luaentity()
+            if lua and lua._cmi_is_mob then
+               local text = restrict_text(fields.text)
+               rp_mobs.set_nametag(lua, text)
+            end
+         end
       end
    elseif fields.quit then
-      active_posses[player:get_player_name()] = nil
+      active_posses[pname] = nil
+      active_objects[pname] = nil
    end
 end)
 
 minetest.register_on_leaveplayer(function(player)
    active_posses[player:get_player_name()] = nil
+   active_objects[player:get_player_name()] = nil
 end)
 
 
