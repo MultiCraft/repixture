@@ -14,7 +14,7 @@ form_label = form_label .. rp_formspec.default.version
 form_label = form_label .. "size[8.5,4.5]"
 form_label = form_label .. rp_formspec.default.boilerplate
 form_label = form_label .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
-form_label = form_label .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
+form_label = form_label .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Give name")), false)
 rp_formspec.register_page("rp_label:label", form_label)
 
 local active_posses = {}
