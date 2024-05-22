@@ -8,9 +8,6 @@ local AIRWEED_RECHARGE_TIME_DEFAULT = 10.0 -- how many seconds it takes for an a
 
 local GRAVITY = tonumber(minetest.settings:get("movement_gravity") or 9.81)
 
--- Maximum length of the name of a named node (e.g. with label)
-local NAMED_NODE_MAX_TEXT_LENGTH = 40
-
 -- Maximum growth height of cactus on dry dirt, normally
 local CACTUS_MAX_HEIGHT_DDIRT = 2
 -- Maximum growth height of cactus on dry dirt, fertilized
@@ -40,35 +37,6 @@ default.PAPYRUS_MAX_HEIGHT_TOTAL = PAPYRUS_MAX_HEIGHT_PLUS + PAPYRUS_SWAMP_HEIGH
 --
 -- Functions/ABMs
 --
-
--- Assign a name to a node
-
-function default.write_name(pos, text)
-   -- Discard everything after the first newline or carriage return
-   local tsplit = string.split(text, "\n", nil, 1)
-   if #tsplit >= 1 then
-      text = tsplit[1]
-   end
-   tsplit = string.split(text, "\r", nil, 1)
-   if #tsplit >= 1 then
-      text = tsplit[1]
-   end
-
-   -- Limit name length
-   text = string.sub(text, 1, NAMED_NODE_MAX_TEXT_LENGTH)
-
-   local node = minetest.get_node(pos)
-   local def
-   if minetest.registered_nodes[node.name] then
-      def = minetest.registered_nodes[node.name]
-   end
-
-   if def and def._rp_write_name ~= nil then
-      def._rp_write_name(pos, text)
-      return true
-   end
-   return false
-end
 
 -- Saplings growing and placing
 

@@ -2,6 +2,9 @@
 
 local S = minetest.get_translator("rp_default")
 
+-- Maximum length of the name of a named node (e.g. with label)
+local NAMED_NODE_MAX_TEXT_LENGTH = 40
+
 local form_label = ""
 form_label = form_label .. rp_formspec.default.version
 form_label = form_label .. "size[8.5,4.5]"
@@ -9,6 +12,8 @@ form_label = form_label .. rp_formspec.default.boilerplate
 form_label = form_label .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
 form_label = form_label .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Write")), false)
 rp_formspec.register_page("rp_default:label", form_label)
+
+local active_posses = {}
 
 default.container_label_formspec_element = function(meta)
    local name = meta:get_string("name")
@@ -21,7 +26,33 @@ default.container_label_formspec_element = function(meta)
    return form
 end
 
-local active_posses = {}
+-- Assign a name to a node
+default.write_name = function(pos, text)
+   -- Discard everything after the first newline or carriage return
+   local tsplit = string.split(text, "\n", nil, 1)
+   if #tsplit >= 1 then
+      text = tsplit[1]
+   end
+   tsplit = string.split(text, "\r", nil, 1)
+   if #tsplit >= 1 then
+      text = tsplit[1]
+   end
+
+   -- Limit name length
+   text = string.sub(text, 1, NAMED_NODE_MAX_TEXT_LENGTH)
+
+   local node = minetest.get_node(pos)
+   local def
+   if minetest.registered_nodes[node.name] then
+      def = minetest.registered_nodes[node.name]
+   end
+
+   if def and def._rp_write_name ~= nil then
+      def._rp_write_name(pos, text)
+      return true
+   end
+   return false
+end
 
 local write = function(itemstack, player, pointed_thing)
     -- Handle pointed node handlers and protection
