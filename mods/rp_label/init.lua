@@ -86,10 +86,6 @@ local write = function(itemstack, player, pointed_thing)
           minetest.show_formspec(player:get_player_name(), "rp_label:label", form)
 
           active_objects[player:get_player_name()] = obj
-
-          if not minetest.is_creative_enabled(player:get_player_name()) then
-             itemstack:take_item()
-          end
        end
        return itemstack
     end
@@ -111,10 +107,6 @@ local write = function(itemstack, player, pointed_thing)
 
        minetest.show_formspec(player:get_player_name(), "rp_label:label", form)
     end
-
-    if not minetest.is_creative_enabled(player:get_player_name()) then
-       itemstack:take_item()
-    end
     return itemstack
 end
 
@@ -134,9 +126,16 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
    end
    local pname = player:get_player_name()
    if fields.text then
+      -- Player must wield label
+      local witem = player:get_wielded_item()
+      local named = false
+      if witem:get_name() ~= "rp_label:label" then
+         return
+      end
       local pos = active_posses[pname]
       if pos then
          rp_label.write_name(pos, fields.text)
+         named = true
       elseif mod_mobs then
          local obj = active_objects[pname]
          if obj then
@@ -144,8 +143,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             if lua and lua._cmi_is_mob then
                local text = restrict_text(fields.text)
                rp_mobs.set_nametag(lua, text)
+               named = true
             end
          end
+      end
+      -- Use up label item after writing
+      if named and not minetest.is_creative_enabled(pname) then
+         witem:take_item()
+         player:set_wielded_item(witem)
       end
    elseif fields.quit then
       active_posses[pname] = nil
