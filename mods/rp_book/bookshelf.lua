@@ -119,6 +119,7 @@ local bookshelf_def = {
       end
       meta:set_string("infotext", infotext)
    end,
+   _rp_blast_resistance = 2,
 }
 minetest.register_node(":rp_default:bookshelf", bookshelf_def)
 

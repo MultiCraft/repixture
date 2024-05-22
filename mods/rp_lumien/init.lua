@@ -146,6 +146,7 @@ minetest.register_node(
       groups = {cracky = 1, mineral_natural=1},
       light_source = LUMIEN_BLOCK_LIGHT,
       sounds = get_sounds(),
+      _rp_blast_resistance = 3,
 })
 
 minetest.register_node(
@@ -156,6 +157,7 @@ minetest.register_node(
       groups = {cracky = 1},
       light_source = LUMIEN_BLOCK_LIGHT,
       sounds = get_sounds(),
+      _rp_blast_resistance = 6,
 })
 
 -- Ores
@@ -168,6 +170,7 @@ minetest.register_node(
       groups = {cracky = 1, stone = 1, ore=1},
       drop = "rp_lumien:block",
       sounds = rp_sounds.node_sound_stone_defaults(),
+      _rp_blast_resistance = 1,
 })
 
 minetest.register_ore(

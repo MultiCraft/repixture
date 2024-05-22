@@ -98,11 +98,11 @@ local function use_spyglass(player)
 end
 rp_spyglass.toggle_spyglass = use_spyglass
 
-minetest.register_craftitem("rp_spyglass:spyglass",{
+minetest.register_tool("rp_spyglass:spyglass",{
 	description = S("Spyglass"),
 	_tt_help = S("Magnifies the view"),
 	inventory_image = "tph_spyglass_icon.png",
-	stack_max = 1,
+	groups = { disable_repair = 1 },
 	-- The control scheme differs from tph_spyglass;
 	-- Repixture requires the [Punch] key for normal item use
 	on_use = function(itemstack, user, pointed_thing)

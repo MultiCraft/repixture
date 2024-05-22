@@ -1,10 +1,16 @@
 # textdomain: rp_signs
 Write=
-"@1"=
 Write a short message=
-Wooden Sign=
-Painted Wooden Sign=
-Oak Sign=
-Painted Oak Sign=
-Birch Sign=
-Painted Birch Sign=
+Write short messages (two sides)=
+Wooden Wall Sign=
+Painted Wooden Wall Sign=
+Wooden Pole Sign=
+Painted Pole Wooden Sign=
+Oak Wall Sign=
+Painted Oak Wall Sign=
+Oak Pole Sign=
+Painted Oak Pole Sign=
+Birch Wall Sign=
+Painted Birch Wall Sign=
+Birch Pole Sign=
+Painted Birch Pole Sign=

@@ -49,10 +49,11 @@ file named `API.md`.
 
 Mods with documented APIs:
 
-* `rp_armor`: Armor information
+* `rp_armor`: Armor information and registration
 * `rp_achievements`: Add and trigger achievements
 * `rp_bed`: Get, set and unset (re)spawn position; query bed info
 * `rp_crafting`: Add crafting recipes
+* `rp_death_messages`: Customize death messages
 * `rp_default`: Sapling helpers, biome information
 * `rp_door`: Add doors
 * `rp_drop_items_on_die`: You only need this mod if you added an inventory list to the player
@@ -67,7 +68,7 @@ Mods with documented APIs:
 * `rp_jewels`: Register jeweled tools, and more
 * `rp_localize`: Localize numbers
 * `rp_locks`: Get info about lockable nodes
-* `rp_mobs`: Add mobs (animals, monsters) (EXPERIMENTAL!)
+* `rp_mobs`: Add mobs (animals, monsters)
 * `rp_moon`: Get moon phase
 * `rp_music`: Add or remove tracks; start/stop/toggle a music player
 * `rp_paint`: Add paintable nodes; set/remove paint of node

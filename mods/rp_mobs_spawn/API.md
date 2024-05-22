@@ -3,9 +3,6 @@
 This mod is for regularily spawning mobs in the world over time.
 If you want to spawn mobs in a more controlled way, use the `rp_mobs` API instead.
 
-NOTE: This mod is EXPERIMENTAL and may change at any time.
-Use at your own risk!
-
 ## Function reference
 
 ### `rp_mobs_spawn.register_spawn(name, params)`

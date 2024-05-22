@@ -382,7 +382,7 @@ msgstr "Algen wachsen im Wasser in verschiedenen Höhen."
 msgid "Place it at the ceiling and watch it grow."
 msgstr "Platziere sie an die Decke und sie wird wachsen."
 
-msgid "If you want the vine to stops growing, make a precise cut using scissors."
+msgid "If you want the vine to stop growing, make a precise cut using scissors."
 msgstr "Wenn du das Wachstum einer Liane stoppen willst, mach einen Präzisionsschnitt mit einer Schere."
 
 msgid "It's climbing time!"

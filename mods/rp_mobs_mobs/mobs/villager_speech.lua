@@ -334,7 +334,12 @@ local function talk_about_item(profession, iname, name, villager_name)
 		else
 			say(S("Be careful not to let it fall on your head!"), name, vn)
 		end
-
+	elseif iname == "rp_default:fern" then
+		if profession == "farmer" then
+			say(S("Fern is used to craft fertilizer. Fern spreads on fertilized dirt."))
+		else
+			say(S("Fern is used to craft fertilizer."))
+		end
 	elseif minetest.get_item_group(iname, "stone") > 0 then
 		if profession == "butcher" then
 			say(S("This is like my ex-lover's heart. Made out of stone."), name, vn)

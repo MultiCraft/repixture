@@ -1,4 +1,5 @@
 local S = minetest.get_translator("rp_default")
+local NS = function(s) return s end
 
 local grow_tall = function(pos, y_dir, nodename)
 	local newpos
@@ -79,6 +80,7 @@ minetest.register_node(
       _on_degrow = function(pos, node)
 		return degrow_tall(pos, 1, node.name)
       end,
+      _rp_blast_resistance = 0.5,
 })
 
 -- Papyrus
@@ -144,6 +146,7 @@ minetest.register_node(
       _on_degrow = function(pos, node)
 		return degrow_tall(pos, 1, node.name)
       end,
+      _rp_blast_resistance = 0.1,
 })
 
 -- Vine
@@ -533,6 +536,7 @@ minetest.register_node(
          minetest.add_item(pos, "rp_default:thistle")
          util.dig_up(pos, oldnode, nil, "rp_default:thistle")
       end,
+      _rp_node_death_message = { NS("You were prickled to death by a thistle.") },
       on_blast = function(pos)
          -- Destroy the blasted node and detach thistles above
          local oldnode = minetest.get_node(pos)

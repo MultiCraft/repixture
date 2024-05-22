@@ -372,6 +372,7 @@ minetest.register_node("rp_itemshow:showcase", {
 	on_punch = function(pos, node, puncher)
 		update_item(pos, node, true)
 	end,
+	_rp_blast_resistance = 0.4,
 })
 
 -- automatically restore entities lost from frames/showcases

@@ -743,6 +743,7 @@ minetest.register_node(
          end
          return true
       end,
+      _rp_blast_resistance = 1,
 
       -- Drop is handled in on_dig
       drop = "",

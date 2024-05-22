@@ -395,6 +395,7 @@ local chest_def = {
 	 meta:set_string("name", text)
 	 update_infotext(meta)
       end,
+      _rp_blast_resistance = 2,
 }
 
 minetest.register_node("rp_locks:chest", chest_def)

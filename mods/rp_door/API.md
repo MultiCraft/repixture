@@ -35,6 +35,7 @@ Also adds a craftitem (with identifier `name`) which the players can use.
     * `is_painted`: Set to true if this door is painted (see `rp_paint` mod)
     * `can_paint`: Set to true if this door can be painted (see `rp_paint` mod)
     * `can_unpaint`: Set to true if this door is painted and its color can be removed (see `rp_paint` mod)
+    * `_rp_blast_resistance`: Blast resistance of door nodes (see `rp_explosion` mod) (default: 0)
 
 #### Painted doors
 
