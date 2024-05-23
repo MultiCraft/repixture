@@ -39,6 +39,54 @@ register_sky("light_blue", {
 	},
 })
 
+register_sky("oakgreen", {
+	sky = {
+		sky_color = {
+			day_sky = "#009fa5",
+			day_horizon = "#1bbac6",
+			dawn_sky = "#00d500",
+			dawn_horizon = "#00ff00",
+			night_sky = "#00364b",
+			night_horizon = "#005d6c",
+		},
+		clouds = true,
+	},
+	sun = {
+		visible = true,
+		sunrise_visible = true,
+	},
+	moon = {
+		visible = true,
+	},
+	stars = {
+		visible = true,
+	},
+})
+
+register_sky("birch", {
+	sky = {
+		sky_color = {
+			day_sky = "#78abff",
+			day_horizon = "#abc3d5",
+			dawn_sky = "#78abff",
+			dawn_horizon = "#abc3d5",
+			night_sky = "#78abff",
+			night_horizon = "#abc3d5",
+		},
+		clouds = true,
+	},
+	sun = {
+		visible = true,
+		sunrise_visible = true,
+	},
+	moon = {
+		visible = true,
+	},
+	stars = {
+		visible = true,
+	},
+})
+
 register_sky("swamp", {
 	sky = {
 		sky_color = {
@@ -62,6 +110,105 @@ register_sky("swamp", {
 		visible = true,
 	},
 })
+
+register_sky("savannic", {
+	sky = {
+		sky_color = {
+			day_sky = "#6ff0ff",
+			day_horizon = "#e1e7ab",
+			dawn_sky = "#81c9ff",
+			dawn_horizon = "#db3900",
+			night_sky = "#db3900",
+			night_horizon = "#b70000",
+		},
+		clouds = true,
+	},
+	sun = {
+		visible = true,
+		sunrise_visible = true,
+	},
+	moon = {
+		visible = true,
+	},
+	stars = {
+		visible = true,
+	},
+})
+
+register_sky("hot_sky", {
+	sky = {
+		sky_color = {
+			day_sky = "#6ff0ff",
+			day_horizon = "#4fd0df",
+			dawn_sky = "#6ff0ff",
+			dawn_horizon = "#4fd0df",
+			night_sky = "#6ff0ff",
+			night_horizon = "#4fd0df",
+		},
+		clouds = true,
+	},
+	sun = {
+		visible = true,
+		sunrise_visible = true,
+	},
+	moon = {
+		visible = true,
+	},
+	stars = {
+		visible = true,
+	},
+})
+
+
+
+register_sky("drylandic", {
+	sky = {
+		sky_color = {
+			day_sky = "#d5ab9c",
+			day_horizon = "#edd2c6",
+			dawn_sky = "#d5ab9c",
+			dawn_horizon = "#edd2c6",
+			night_sky = "#db3900",
+			night_horizon = "#b70000",
+		},
+		clouds = true,
+	},
+	sun = {
+		visible = true,
+		sunrise_visible = true,
+	},
+	moon = {
+		visible = true,
+	},
+	stars = {
+		visible = true,
+	},
+})
+
+register_sky("mystic", {
+	sky = {
+		sky_color = {
+			day_sky = "#c8b9ff",
+			day_horizon = "#7c9bb3",
+			dawn_sky = "#7f55b2",
+			dawn_horizon = "#c1acdf",
+			night_sky = "#5f3592",
+			night_horizon = "#a18cbf",
+		},
+		clouds = true,
+	},
+	sun = {
+		visible = true,
+		sunrise_visible = true,
+	},
+	moon = {
+		visible = true,
+	},
+	stars = {
+		visible = true,
+	},
+})
+
 
 local SKY_UPDATE = 1
 local skytimer = SKY_UPDATE
@@ -88,8 +235,22 @@ minetest.register_globalstep(function(dtime)
 			local biome_id = biomedata.biome
 			local biome = minetest.get_biome_name(biome_id)
 			local biomeinfo = default.get_biome_info(biome)
-			if biomeinfo.class == "swampy" then
+			local main = biomeinfo.main_biome
+			local class = biomeinfo.class
+			if main == "Mystery Forest" then
+				rp_sky.set_sky(player, "mystic")
+			elseif main == "Thorny Shrubs" or main == "Poplar Plains" or main == "Baby Poplar Plains" or main == "Shrubbery" then
+				rp_sky.set_sky(player, "hot_sky")
+			elseif main == "Oak Forest" or biomeinfo.main == "Dense Oak Forest" or main == "Tall Oak Forest" or main == "Oak Shrubbery" then
+				rp_sky.set_sky(player, "oakgreen")
+			elseif main == "Birch Forest" or biomeinfo.main == "Tall Birch Forest" or main == "Deep Forest" then
+				rp_sky.set_sky(player, "birch")
+			elseif class == "swampy" then
 				rp_sky.set_sky(player, "swamp")
+			elseif class == "savannic" then
+				rp_sky.set_sky(player, "savannic")
+			elseif class == "drylandic" then
+				rp_sky.set_sky(player, "drylandic")
 			else
 				rp_sky.set_sky(player, "light_blue")
 			end
