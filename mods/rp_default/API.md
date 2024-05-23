@@ -41,7 +41,8 @@ Returns metadata for a builtin biome. Returns a table with these fields:
 
 * `main_biome`: Name of the main biome (useful if you have an underwater or beach biome variant)
 * `layer`: "main" for the core biome, "underwater" and "beach" for the special Underwater and Beach variants
-* `class`: Biome class that was assigned (see above)
+* `class`: Biome class. A rough categorization of this biome. One of:
+  `"grassy"`, `"savannic"`, `"drylandic"`, `"swampy"`, `"desertic"`, `"undergroundy"`
 * `is_dry`: True if biome is considered dry (e.g. for dry grass)
 * `dirt_blob`: Name of dirt ore node or nil to suppress generation
 * `sand_blob`: Name of sand ore node or nil to suppress generation

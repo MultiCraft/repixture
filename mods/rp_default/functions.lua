@@ -644,7 +644,7 @@ end
 -- Sets biome metadata for a built-in biome.
 -- Must be called AFTER biome registration.
 -- * biome_name: Name of the *main* biome (not Underwater or Beach variant!)
--- * biome_class: One of: savannic, drylandic, swampy, desertic, undergroundy
+-- * biome_class: One of: grassy, savannic, drylandic, swampy, desertic, undergroundy
 default.set_biome_info = function(biomename, biome_class)
    local is_dry = false
    local dirt_blob = "rp_default:dirt"
