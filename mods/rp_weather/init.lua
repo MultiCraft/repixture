@@ -204,6 +204,8 @@ minetest.register_globalstep(
 
 	    player:override_day_night_ratio(light)
 	 else
+-- TODO: Remove
+--[[
 	    player:set_sky({type = "regular", clouds = true, sky_color = {
                 day_sky = "#8cbafa",
                 day_horizon = "#9bc1f0",
@@ -221,6 +223,7 @@ minetest.register_globalstep(
             end
 
 	    player:override_day_night_ratio(nil)
+]]
 	 end
 
 	 local p=player:get_pos()
