@@ -25,7 +25,7 @@ function rp_sky.set_sky(player, skyname)
 	player:override_day_night_ratio(dnr)
 end
 
-register_sky("light_blue", {
+register_sky("condensed", {
 	sky = {
 		sky_color = {
 			day_sky = "#8cbafa",
@@ -49,7 +49,31 @@ register_sky("light_blue", {
 	},
 })
 
-register_sky("oakgreen", {
+register_sky("saturated", {
+	sky = {
+		sky_color = {
+			day_sky = "#549fff",
+			day_horizon = "#78c9ff",
+			dawn_sky = "#347fdf",
+			dawn_horizon = "#58a9df",
+			night_sky = "#045faf",
+			night_horizon = "#3889af",
+		},
+		clouds = true,
+	},
+	sun = {
+		visible = true,
+		sunrise_visible = true,
+	},
+	moon = {
+		visible = true,
+	},
+	stars = {
+		visible = true,
+	},
+})
+
+register_sky("oakish", {
 	sky = {
 		sky_color = {
 			day_sky = "#009fa5",
@@ -73,7 +97,33 @@ register_sky("oakgreen", {
 	},
 })
 
-register_sky("birch", {
+register_sky("oakish_soft", {
+	sky = {
+		sky_color = {
+			day_sky = "#24b1c7",
+			day_horizon = "#34cbde",
+			dawn_sky = "#00d500",
+			dawn_horizon = "#00ff00",
+			night_sky = "#00364b",
+			night_horizon = "#005d6c",
+		},
+		clouds = true,
+	},
+	sun = {
+		visible = true,
+		sunrise_visible = true,
+	},
+	moon = {
+		visible = true,
+	},
+	stars = {
+		visible = true,
+	},
+})
+
+
+
+register_sky("birchish", {
 	sky = {
 		sky_color = {
 			day_sky = "#78abff",
@@ -301,10 +351,14 @@ minetest.register_globalstep(function(dtime)
 					rp_sky.set_sky(player, "mystic")
 				elseif main == "Thorny Shrubs" or main == "Poplar Plains" or main == "Baby Poplar Plains" or main == "Shrubbery" or main == "Wilderness" then
 					rp_sky.set_sky(player, "hot_sky")
-				elseif main == "Oak Forest" or biomeinfo.main == "Dense Oak Forest" or main == "Tall Oak Forest" or main == "Oak Shrubbery" then
-					rp_sky.set_sky(player, "oakgreen")
+				elseif main == "Oak Forest" or biomeinfo.main == "Dense Oak Forest" or main == "Tall Oak Forest" then
+					rp_sky.set_sky(player, "oakish")
+				elseif main == "Oak Shrubbery" then
+					rp_sky.set_sky(player, "oakish_soft")
 				elseif main == "Birch Forest" or biomeinfo.main == "Tall Birch Forest" or main == "Deep Forest" then
-					rp_sky.set_sky(player, "birch")
+					rp_sky.set_sky(player, "birchish")
+				elseif main == "Forest" or main == "Orchard" or main == "Grove" then
+					rp_sky.set_sky(player, "saturated")
 				elseif class == "swampy" then
 					rp_sky.set_sky(player, "swamp")
 				elseif class == "savannic" then
@@ -312,7 +366,7 @@ minetest.register_globalstep(function(dtime)
 				elseif class == "drylandic" then
 					rp_sky.set_sky(player, "drylandic")
 				else
-					rp_sky.set_sky(player, "light_blue")
+					rp_sky.set_sky(player, "condensed")
 				end
 			end
 		end
