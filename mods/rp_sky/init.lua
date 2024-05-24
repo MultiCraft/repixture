@@ -7,12 +7,22 @@ end
 
 function rp_sky.set_sky(player, skyname)
 	local skydef = registered_skies[skyname]
-	player:set_sky(skydef.sky)
+	local skyskydef = table.copy(skydef.sky)
+	if type(skydef.sky.sky_color) == "function" then
+		skyskydef.sky_color = skydef.sky.sky_color()
+	end
+	player:set_sky(skyskydef)
 	player:set_clouds(skydef.clouds)
 	player:set_sun(skydef.sun)
 	player:set_moon(skydef.moon)
 	player:set_stars(skydef.stars)
-	player:override_day_night_ratio(skydef.day_night_ratio)
+	local dnr
+	if type(skydef.day_night_ratio) == "function" then
+		dnr = skydef.day_night_ratio()
+	else
+		dnr = skydef.day_night_ratio
+	end
+	player:override_day_night_ratio(dnr)
 end
 
 register_sky("light_blue", {
@@ -209,6 +219,55 @@ register_sky("mystic", {
 	},
 })
 
+local get_storm_light = function()
+	local light = (minetest.get_timeofday() * 2)
+	if light > 1 then
+		light = 1 - (light - 1)
+	end
+	light = (light * 0.5) + 0.15
+	return light
+end
+
+register_sky("storm", {
+	sky = {
+		sky_color = function()
+			local light = get_storm_light()
+			local skycol = math.floor(light * 190)
+			local sky_color = {
+				day_sky = {r = skycol, g = skycol, b = skycol * 1.2},
+				day_horizon = {r = skycol, g = skycol, b = skycol * 1.2},
+				dawn_sky = {r = skycol*0.75, g = skycol*0.75, b = skycol * 0.9},
+				dawn_horizon = {r = skycol*0.75, g = skycol*0.75, b = skycol * 0.9},
+				night_sky = {r = skycol*0.5, g = skycol*0.5, b = skycol * 0.6},
+				night_horizon = {r = skycol*0.5, g = skycol*0.5, b = skycol * 0.6},
+			}
+			return sky_color
+		end,
+		clouds = true,
+	},
+	clouds = {
+		density = 0.5,
+		color = "#a0a0a0f0",
+		ambient = "#000000",
+		height = 100,
+		thickness = 40,
+		speed = {x = -2, y = 1},
+	},
+	sun = {
+		visible = false,
+		sunrise_visible = false,
+	},
+	moon = {
+		visible = false,
+	},
+	stars = {
+		visible = false,
+	},
+	day_night_ratio = function()
+		return get_storm_light()
+	end,
+})
+
 
 local SKY_UPDATE = 1
 local skytimer = SKY_UPDATE
@@ -222,37 +281,39 @@ minetest.register_globalstep(function(dtime)
 		return
 	end
 	skytimer = 0
-        if weather.get_weather() ~= "clear" then
-		return
-	end
+	local is_storm = weather.get_weather() == "storm"
 	local players = minetest.get_connected_players()
 	for p=1, #players do
 		local player = players[p]
-		local pos = player:get_pos()
-		pos.y = math.floor(pos.y)
-		local biomedata = minetest.get_biome_data(pos)
-		if biomedata then
-			local biome_id = biomedata.biome
-			local biome = minetest.get_biome_name(biome_id)
-			local biomeinfo = default.get_biome_info(biome)
-			local main = biomeinfo.main_biome
-			local class = biomeinfo.class
-			if main == "Mystery Forest" then
-				rp_sky.set_sky(player, "mystic")
-			elseif main == "Thorny Shrubs" or main == "Poplar Plains" or main == "Baby Poplar Plains" or main == "Shrubbery" then
-				rp_sky.set_sky(player, "hot_sky")
-			elseif main == "Oak Forest" or biomeinfo.main == "Dense Oak Forest" or main == "Tall Oak Forest" or main == "Oak Shrubbery" then
-				rp_sky.set_sky(player, "oakgreen")
-			elseif main == "Birch Forest" or biomeinfo.main == "Tall Birch Forest" or main == "Deep Forest" then
-				rp_sky.set_sky(player, "birch")
-			elseif class == "swampy" then
-				rp_sky.set_sky(player, "swamp")
-			elseif class == "savannic" then
-				rp_sky.set_sky(player, "savannic")
-			elseif class == "drylandic" then
-				rp_sky.set_sky(player, "drylandic")
-			else
-				rp_sky.set_sky(player, "light_blue")
+		if is_storm then
+			rp_sky.set_sky(player, "storm")
+		else
+			local pos = player:get_pos()
+			pos.y = math.floor(pos.y)
+			local biomedata = minetest.get_biome_data(pos)
+			if biomedata then
+				local biome_id = biomedata.biome
+				local biome = minetest.get_biome_name(biome_id)
+				local biomeinfo = default.get_biome_info(biome)
+				local main = biomeinfo.main_biome
+				local class = biomeinfo.class
+				if main == "Mystery Forest" then
+					rp_sky.set_sky(player, "mystic")
+				elseif main == "Thorny Shrubs" or main == "Poplar Plains" or main == "Baby Poplar Plains" or main == "Shrubbery" then
+					rp_sky.set_sky(player, "hot_sky")
+				elseif main == "Oak Forest" or biomeinfo.main == "Dense Oak Forest" or main == "Tall Oak Forest" or main == "Oak Shrubbery" then
+					rp_sky.set_sky(player, "oakgreen")
+				elseif main == "Birch Forest" or biomeinfo.main == "Tall Birch Forest" or main == "Deep Forest" then
+					rp_sky.set_sky(player, "birch")
+				elseif class == "swampy" then
+					rp_sky.set_sky(player, "swamp")
+				elseif class == "savannic" then
+					rp_sky.set_sky(player, "savannic")
+				elseif class == "drylandic" then
+					rp_sky.set_sky(player, "drylandic")
+				else
+					rp_sky.set_sky(player, "light_blue")
+				end
 			end
 		end
 	end

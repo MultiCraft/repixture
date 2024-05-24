@@ -21,8 +21,6 @@ local weather_pr = PseudoRandom(mapseed + 2387 + minetest.get_us_time())
 
 local sound_min_height = -20 -- Below -20m you can't hear weather
 
-local default_cloud_state = nil
-
 local loaded_weather = mod_storage:get_string("rp_weather:weather")
 local weather_inited = false
 
@@ -162,69 +160,7 @@ minetest.register_globalstep(
 	 end
       end
 
-      local light = (minetest.get_timeofday() * 2)
-
-      if light > 1 then
-	 light = 1 - (light - 1)
-      end
-
-      light = (light * 0.5) + 0.15
-
-      local skycol = math.floor(light * 190)
-
       for _, player in ipairs(minetest.get_connected_players()) do
-	 if weather.weather == "storm" then
-	    player:set_sky({
-               type = "regular",
-               clouds = true,
-               sky_color = {
-                   day_sky = {r = skycol, g = skycol, b = skycol * 1.2},
-                   day_horizon = {r = skycol, g = skycol, b = skycol * 1.2},
-                   dawn_sky = {r = skycol*0.75, g = skycol*0.75, b = skycol * 0.9},
-                   dawn_horizon = {r = skycol*0.75, g = skycol*0.75, b = skycol * 0.9},
-                   night_sky = {r = skycol*0.5, g = skycol*0.5, b = skycol * 0.6},
-                   night_horizon = {r = skycol*0.5, g = skycol*0.5, b = skycol * 0.6},
-               },
-            })
-            player:set_sun({visible=false, sunrise_visible=false})
-            player:set_stars({visible=false})
-            player:set_moon({visible=false})
-            if default_cloud_state == nil then
-               default_cloud_state = player:get_clouds()
-            end
-
-            player:set_clouds({
-                  density = 0.5,
-                  color = "#a0a0a0f0",
-                  ambient = "#000000",
-                  height = 100,
-                  thickness = 40,
-                  speed = {x = -2, y = 1},
-            })
-
-	    player:override_day_night_ratio(light)
-	 else
--- TODO: Remove
---[[
-	    player:set_sky({type = "regular", clouds = true, sky_color = {
-                day_sky = "#8cbafa",
-                day_horizon = "#9bc1f0",
-                dawn_sky = "#b4bafa",
-                dawn_horizon = "#bac1f0",
-                night_sky = "#006aff",
-                night_horizon = "#4090ff",
-            }})
-            player:set_sun({visible=true, sunrise_visible=true})
-            player:set_stars({visible=true})
-            player:set_moon({visible=true})
-
-            if default_cloud_state ~= nil then
-               player:set_clouds(default_cloud_state)
-            end
-
-	    player:override_day_night_ratio(nil)
-]]
-	 end
 
 	 local p=player:get_pos()
 
