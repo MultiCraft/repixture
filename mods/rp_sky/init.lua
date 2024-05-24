@@ -299,7 +299,7 @@ minetest.register_globalstep(function(dtime)
 				local class = biomeinfo.class
 				if main == "Mystery Forest" then
 					rp_sky.set_sky(player, "mystic")
-				elseif main == "Thorny Shrubs" or main == "Poplar Plains" or main == "Baby Poplar Plains" or main == "Shrubbery" then
+				elseif main == "Thorny Shrubs" or main == "Poplar Plains" or main == "Baby Poplar Plains" or main == "Shrubbery" or main == "Wilderness" then
 					rp_sky.set_sky(player, "hot_sky")
 				elseif main == "Oak Forest" or biomeinfo.main == "Dense Oak Forest" or main == "Tall Oak Forest" or main == "Oak Shrubbery" then
 					rp_sky.set_sky(player, "oakgreen")
