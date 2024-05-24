@@ -15,6 +15,10 @@ The following functions are available:
 
 Returns the current weather as a string.
 
+### `weather.get_previous_weather()`
+
+Returns the weather that was active before the current one, as a string.
+
 ### `weather.is_node_rainable(pos)`
 
 Returns `true` is position `pos` is in a place in which it could rain into;

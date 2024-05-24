@@ -25,9 +25,9 @@ if ambiance.weather_available() then
 	ambiance.get_weather_lagged = function()
 		local time = weather.weather_last_changed_before()
 		if time and time < WEATHER_CONDITION_DELAY then
-			return weather.previous_weather
+			return weather.get_previous_weather()
 		else
-			return weather.weather
+			return weather.get_weather()
 		end
 	end
 end

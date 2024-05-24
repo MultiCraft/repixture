@@ -5,10 +5,12 @@ local S = minetest.get_translator("rp_weather")
 local mod_storage = minetest.get_mod_storage()
 
 weather = {}
-weather.weather = "clear"
-weather.previous_weather = "clear"
-weather.last_weather_change = nil
-weather.types = {"storm", "clear"}
+-- local weather variables
+local lweather = {}
+lweather.weather = "clear"
+lweather.previous_weather = "clear"
+lweather.last_weather_change = nil
+lweather.types = {"storm", "clear"}
 
 local sound_handles = {}
 
@@ -25,7 +27,7 @@ local loaded_weather = mod_storage:get_string("rp_weather:weather")
 local weather_inited = false
 
 local function update_sounds(do_repeat)
-   if weather.weather == "storm" then
+   if lweather.weather == "storm" then
       for _, player in ipairs(minetest.get_connected_players()) do
          local name = player:get_player_name()
          local pos = player:get_pos()
@@ -68,14 +70,14 @@ local stoptimer = 0
 local stoptimer_init = 300 -- minimum time between natural weather changes in seconds
 
 local function setweather_raw(new_weather)
-      local old_weather = weather.weather
+      local old_weather = lweather.weather
       -- No-op if weather is the same
       if new_weather == old_weather then
          return
       end
-      weather.previous_weather = old_weather
-      weather.weather = new_weather
-      weather.last_weather_change = minetest.get_us_time()
+      lweather.previous_weather = old_weather
+      lweather.weather = new_weather
+      lweather.last_weather_change = minetest.get_us_time()
       for i=1, #registered_on_weather_changes do
          local callback = registered_on_weather_changes[i]
          callback(old_weather, new_weather)
@@ -84,19 +86,19 @@ end
 
 local function setweather_type(wtype, do_repeat)
    local valid = false
-   for i = 1, #weather.types do
-      if weather.types[i] == wtype then
+   for i = 1, #lweather.types do
+      if lweather.types[i] == wtype then
 	 valid = true
       end
    end
    if valid then
-      if weather.weather ~= wtype then
+      if lweather.weather ~= wtype then
         -- Only reset stoptimer if weather actually changed
         stoptimer = stoptimer_init
       end
       setweather_raw(wtype)
-      mod_storage:set_string("rp_weather:weather", weather.weather)
-      minetest.log("action", "[rp_weather] Weather set to: "..weather.weather)
+      mod_storage:set_string("rp_weather:weather", lweather.weather)
+      minetest.log("action", "[rp_weather] Weather set to: "..lweather.weather)
       update_sounds(do_repeat)
       return true
    else
@@ -106,7 +108,12 @@ end
 
 -- Returns the current weather
 function weather.get_weather()
-   return weather.weather
+   return lweather.weather
+end
+
+-- Returns the previous weather
+function weather.get_previous_weather()
+   return lweather.previous_weather
 end
 
 -- Returns true is position `pos` is in a place in which it could rain into
@@ -132,10 +139,10 @@ end
 -- Returns nil if weather was not changed before
 function weather.weather_last_changed_before()
 	local time = minetest.get_us_time()
-	if not weather.last_weather_change then
+	if not lweather.last_weather_change then
 		return nil
 	end
-	local diff = time - weather.last_weather_change
+	local diff = time - lweather.last_weather_change
 	return diff
 end
 
@@ -155,19 +162,19 @@ minetest.register_globalstep(
 	 elseif weather_pr:next(0, 5000) < 1 then
 	    local weathertype = weather_pr:next(0, 19)
 
-	    -- on avg., every 1800 globalsteps, the weather.weather will change to one of:
+	    -- on avg., every 1800 globalsteps, the weather will change to one of:
 	    -- 13/20 chance of clear weather
 	    -- 7/20 chance or stormy weather
 
-            local oldweather = weather.weather
+            local oldweather = lweather.weather
 	    if weathertype < 13 then
                setweather_raw("clear")
 	    else
                setweather_raw("storm")
 	    end
-            if oldweather ~= weather.weather then
-               mod_storage:set_string("rp_weather:weather", weather.weather)
-               minetest.log("action", "[rp_weather] Weather changed to: "..weather.weather)
+            if oldweather ~= lweather.weather then
+               mod_storage:set_string("rp_weather:weather", lweather.weather)
+               minetest.log("action", "[rp_weather] Weather changed to: "..lweather.weather)
                update_sounds()
                stoptimer = stoptimer_init
             end
@@ -178,7 +185,7 @@ minetest.register_globalstep(
 
 	 local p=player:get_pos()
 
-	 if weather.weather == "storm" then
+	 if lweather.weather == "storm" then
 	    if minetest.get_node_light({x=p.x, y=p.y+15, z=p.z}, 0.5) == 15 then
 	       local minpos = addvec(player:get_pos(), {x = -15, y = 15, z = -15})
 	       local maxpos = addvec(player:get_pos(), {x = 15, y = 10, z = 15})
@@ -235,7 +242,7 @@ minetest.register_on_leaveplayer(function(player)
 end)
 
 local on_rain_abm = function(pos, node)
-        if weather.get_weather() ~= "storm" then
+        if lweather.get_weather() ~= "storm" then
            return
         end
 	-- Don't call handlers for the first 5 seconds of rain
