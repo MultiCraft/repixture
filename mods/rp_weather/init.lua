@@ -58,14 +58,28 @@ local function update_sounds(do_repeat)
    end
 end
 
+local registered_on_weather_changes = {}
+function weather.register_on_weather_change(callback)
+   table.insert(registered_on_weather_changes, callback)
+end
+
 -- This timer prevents the weather from changing naturally too fast
 local stoptimer = 0
 local stoptimer_init = 300 -- minimum time between natural weather changes in seconds
 
 local function setweather_raw(new_weather)
-      weather.previous_weather = weather.weather
+      local old_weather = weather.weather
+      -- No-op if weather is the same
+      if new_weather == old_weather then
+         return
+      end
+      weather.previous_weather = old_weather
       weather.weather = new_weather
       weather.last_weather_change = minetest.get_us_time()
+      for i=1, #registered_on_weather_changes do
+         local callback = registered_on_weather_changes[i]
+         callback(old_weather, new_weather)
+      end
 end
 
 local function setweather_type(wtype, do_repeat)

@@ -349,19 +349,7 @@ register_sky("storm", {
 	end,
 })
 
-
-local SKY_UPDATE = 1
-local skytimer = SKY_UPDATE
-
-minetest.register_globalstep(function(dtime)
-	if not registered_skies then
-		return
-	end
-	skytimer = skytimer + dtime
-	if skytimer < SKY_UPDATE then
-		return
-	end
-	skytimer = 0
+local update_biome_skies = function()
 	local is_storm = weather.get_weather() == "storm"
 	local players = minetest.get_connected_players()
 	for p=1, #players do
@@ -402,4 +390,22 @@ minetest.register_globalstep(function(dtime)
 			end
 		end
 	end
+end
+
+local SKY_UPDATE = 1
+local skytimer = SKY_UPDATE
+minetest.register_globalstep(function(dtime)
+	if not registered_skies then
+		return
+	end
+	skytimer = skytimer + dtime
+	if skytimer < SKY_UPDATE then
+		return
+	end
+	skytimer = 0
+	update_biome_skies()
+end)
+
+weather.register_on_weather_change(function(old_weather, new_weather)
+	update_biome_skies()
 end)
