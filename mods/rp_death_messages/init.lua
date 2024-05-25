@@ -54,11 +54,6 @@ local mobkills = {
 	},
 }
 
--- Select death message
-local smsg = function(msg)
-	return S("@1", msg)
-end
-
 local dmsg = function(mtype, ...)
 	local r = math.random(1, #msgs[mtype])
 	return S("@1", S(msgs[mtype][r], ...))
@@ -95,7 +90,7 @@ minetest.register_on_dieplayer(function(player, reason)
 		local msg
 		if last_damages[name] then
 			-- custom message
-			msg = smsg(last_damages[name].message)
+			msg = last_damages[name].message
 		elseif reason.type == "node_damage" then
 			local pos = player:get_pos()
 			local node = reason.node
@@ -116,7 +111,7 @@ minetest.register_on_dieplayer(function(player, reason)
 				end
 				-- We assume the textdomain of the death message in the node definition
 				-- equals the modname.
-				msg = smsg(minetest.translate(textdomain, field_msg))
+				msg = minetest.translate(textdomain, field_msg)
 			else
 				msg = dmsg("node")
 			end
@@ -132,7 +127,7 @@ minetest.register_on_dieplayer(function(player, reason)
 			local hittername, hittertype, hittersubtype, shooter
 			-- Custom message
 			if last_damages[name] then
-				msg = smsg(last_damages[name].message)
+				msg = last_damages[name].message
 			-- Unknown hitter
 			elseif hitter == nil then
 				msg = dmsg("murder_any")
@@ -161,7 +156,7 @@ minetest.register_on_dieplayer(function(player, reason)
 		-- Other
 		elseif reason.type == "set_hp" then
 			if last_damages[name] then
-				msg = smsg(last_damages[name].message)
+				msg = last_damages[name].message
 			end
 		end
 		if not msg then
