@@ -303,7 +303,7 @@ function farming.grow_plant(pos, name)
       farming.next_stage(pos, name)
    end
 
-   if weather.weather == "storm" then
+   if weather.get_weather() == "storm" then
       farming.next_stage(pos, name)
    end
 end
