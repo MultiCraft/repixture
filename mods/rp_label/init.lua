@@ -165,7 +165,7 @@ end)
 
 
 -- Crafting
-if minetest.get_modpath("default") ~= nil then
+if minetest.get_modpath("rp_default") ~= nil then
    crafting.register_craft({
       output = "rp_label:label 20",
       items = {
