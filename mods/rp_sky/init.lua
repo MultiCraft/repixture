@@ -1,5 +1,8 @@
 local rp_sky = {}
 
+-- list of currently active sky, per player
+local current_skies = {}
+
 local DEFAULT_CLOUDS = {
 	density = 0.4,
 	color = "#fff0f0e5",
@@ -22,8 +25,26 @@ local function register_sky(name, def)
 	registered_skies[name] = def
 end
 
+-- Returns true if the sky definition is the definition of a dynamic sky.
+-- A dynamic sky is a sky that uses any function to determine its sky values.
+-- If all values are defined by constant values, it is static (not dynamic).
+local function is_dynamic_sky(skydef)
+	if type(skydef.sky.sky_color) == "function" or type(skydef.day_night_ratio) == "function" then
+		return true
+	else
+		return false
+	end
+end
+
 function rp_sky.set_sky(player, skyname)
+	local pname = player:get_player_name()
 	local skydef = registered_skies[skyname]
+	-- Don't set sky if it's a static sky already in use.
+	-- Done to reduce unneccessary network packages.
+	if current_skies[pname] == skyname and not is_dynamic_sky(skydef) then
+		return
+	end
+
 	local skyskydef = table.copy(skydef.sky)
 	if type(skydef.sky.sky_color) == "function" then
 		skyskydef.sky_color = skydef.sky.sky_color()
@@ -40,6 +61,9 @@ function rp_sky.set_sky(player, skyname)
 		dnr = skydef.day_night_ratio
 	end
 	player:override_day_night_ratio(dnr)
+
+	-- Remember skyname for later
+	current_skies[pname] = skyname
 end
 
 register_sky("condensed", {
@@ -449,6 +473,10 @@ end
 minetest.register_on_joinplayer(function(player)
 	local is_storm = weather.get_weather() == "storm"
 	update_sky_for_player(player, is_storm)
+end)
+
+minetest.register_on_leaveplayer(function(player)
+	current_skies[player:get_player_name()] = nil
 end)
 
 local SKY_UPDATE = 1
