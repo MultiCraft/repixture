@@ -151,7 +151,7 @@ minetest.register_globalstep(
       if stoptimer > 0 then
          stoptimer = stoptimer - dtime
       end
-      if minetest.settings:get_bool("weather_enable") and stoptimer <= 0 then
+      if stoptimer <= 0 then
          if not weather_inited then
              if loaded_weather == "" then
                 setweather_type("clear", true)
@@ -159,7 +159,7 @@ minetest.register_globalstep(
                 setweather_type(loaded_weather, true)
              end
              weather_inited = true
-	 elseif weather_pr:next(0, 5000) < 1 then
+	 elseif minetest.settings:get_bool("weather_enable") and weather_pr:next(0, 5000) < 1 then
 	    local weathertype = weather_pr:next(0, 19)
 
 	    -- on avg., every 1800 globalsteps, the weather will change to one of:
