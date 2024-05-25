@@ -206,6 +206,34 @@ register_sky("swamp", {
 	},
 })
 
+register_sky("dry_swamp", {
+	sky = {
+		sky_color = {
+			day_sky = "#00ccb1",
+			day_horizon = "#99e1a7",
+			dawn_sky = "#00a791",
+			dawn_horizon = "#8aad91",
+			night_sky = "#005146",
+			night_horizon = "#546961",
+			fog_tint_type = "default",
+		},
+		clouds = true,
+	},
+	clouds = make_clouds({
+		color = "#bdffdec3",
+	}),
+	sun = {
+		visible = true,
+		sunrise_visible = true,
+	},
+	moon = {
+		visible = true,
+	},
+	stars = {
+		visible = true,
+	},
+})
+
 register_sky("savannic", {
 	sky = {
 		sky_color = {
@@ -399,6 +427,8 @@ local update_biome_skies = function()
 					rp_sky.set_sky(player, "birchish")
 				elseif main == "Forest" or main == "Orchard" or main == "Grove" then
 					rp_sky.set_sky(player, "saturated")
+				elseif main == "Dry Swamp" then
+					rp_sky.set_sky(player, "dry_swamp")
 				elseif class == "swampy" then
 					rp_sky.set_sky(player, "swamp")
 				elseif class == "savannic" then
