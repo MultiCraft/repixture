@@ -1,4 +1,4 @@
-rp_sky = {}
+local rp_sky = {}
 
 local DEFAULT_CLOUDS = {
 	density = 0.4,
@@ -398,50 +398,58 @@ register_sky("storm", {
 	end,
 })
 
-local update_biome_skies = function()
-	local is_storm = weather.get_weather() == "storm"
-	local players = minetest.get_connected_players()
-	for p=1, #players do
-		local player = players[p]
-		if is_storm then
-			rp_sky.set_sky(player, "storm")
-		else
-			local pos = player:get_pos()
-			pos.y = math.floor(pos.y)
-			local biomedata = minetest.get_biome_data(pos)
-			if biomedata then
-				local biome_id = biomedata.biome
-				local biome = minetest.get_biome_name(biome_id)
-				local biomeinfo = default.get_biome_info(biome)
-				local main = biomeinfo.main_biome
-				local class = biomeinfo.class
-				if main == "Mystery Forest" then
-					rp_sky.set_sky(player, "mystic")
-				elseif main == "Thorny Shrubs" or main == "Poplar Plains" or main == "Baby Poplar Plains" or main == "Shrubbery" or main == "Wilderness" then
-					rp_sky.set_sky(player, "hot_sky")
-				elseif main == "Oak Forest" or biomeinfo.main == "Dense Oak Forest" or main == "Tall Oak Forest" then
-					rp_sky.set_sky(player, "oakish")
-				elseif main == "Oak Shrubbery" then
-					rp_sky.set_sky(player, "oakish_soft")
-				elseif main == "Birch Forest" or biomeinfo.main == "Tall Birch Forest" or main == "Deep Forest" then
-					rp_sky.set_sky(player, "birchish")
-				elseif main == "Forest" or main == "Orchard" or main == "Grove" then
-					rp_sky.set_sky(player, "saturated")
-				elseif main == "Dry Swamp" then
-					rp_sky.set_sky(player, "dry_swamp")
-				elseif class == "swampy" then
-					rp_sky.set_sky(player, "swamp")
-				elseif class == "savannic" then
-					rp_sky.set_sky(player, "savannic")
-				elseif class == "drylandic" then
-					rp_sky.set_sky(player, "drylandic")
-				else
-					rp_sky.set_sky(player, "condensed")
-				end
+local update_sky_for_player = function(player, is_storm)
+	if is_storm then
+		rp_sky.set_sky(player, "storm")
+	else
+		local pos = player:get_pos()
+		pos.y = math.floor(pos.y)
+		local biomedata = minetest.get_biome_data(pos)
+		if biomedata then
+			local biome_id = biomedata.biome
+			local biome = minetest.get_biome_name(biome_id)
+			local biomeinfo = default.get_biome_info(biome)
+			local main = biomeinfo.main_biome
+			local class = biomeinfo.class
+			if main == "Mystery Forest" then
+				rp_sky.set_sky(player, "mystic")
+			elseif main == "Thorny Shrubs" or main == "Poplar Plains" or main == "Baby Poplar Plains" or main == "Shrubbery" or main == "Wilderness" then
+				rp_sky.set_sky(player, "hot_sky")
+			elseif main == "Oak Forest" or biomeinfo.main == "Dense Oak Forest" or main == "Tall Oak Forest" then
+				rp_sky.set_sky(player, "oakish")
+			elseif main == "Oak Shrubbery" then
+				rp_sky.set_sky(player, "oakish_soft")
+			elseif main == "Birch Forest" or biomeinfo.main == "Tall Birch Forest" or main == "Deep Forest" then
+				rp_sky.set_sky(player, "birchish")
+			elseif main == "Forest" or main == "Orchard" or main == "Grove" then
+				rp_sky.set_sky(player, "saturated")
+			elseif main == "Dry Swamp" then
+				rp_sky.set_sky(player, "dry_swamp")
+			elseif class == "swampy" then
+				rp_sky.set_sky(player, "swamp")
+			elseif class == "savannic" then
+				rp_sky.set_sky(player, "savannic")
+			elseif class == "drylandic" then
+				rp_sky.set_sky(player, "drylandic")
+			else
+				rp_sky.set_sky(player, "condensed")
 			end
 		end
 	end
 end
+
+local update_biome_skies = function()
+	local is_storm = weather.get_weather() == "storm"
+	local players = minetest.get_connected_players()
+	for p=1, #players do
+		update_sky_for_player(players[p], is_storm)
+	end
+end
+
+minetest.register_on_joinplayer(function(player)
+	local is_storm = weather.get_weather() == "storm"
+	update_sky_for_player(player, is_storm)
+end)
 
 local SKY_UPDATE = 1
 local skytimer = SKY_UPDATE
