@@ -1,7 +1,7 @@
 # API for `rp_player`
 
 Allows to register player models and change the current player model, animation and textures.
-The mod itself registers a default model with name `chracter.b3d`.
+The mod itself registers a default model with name `character.b3d`.
 
 The following functions are available:
 
