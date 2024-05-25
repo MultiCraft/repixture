@@ -1,4 +1,21 @@
 rp_sky = {}
+
+local DEFAULT_CLOUDS = {
+	density = 0.4,
+	color = "#fff0f0e5",
+	ambient = "#000000",
+	height = 120,
+	thickness = 16,
+	speed = {x=0, z=-2},
+}
+local function make_clouds(params)
+	local clouds = table.copy(DEFAULT_CLOUDS)
+	for k,v in pairs(params) do
+		clouds[k] = v
+	end
+	return clouds
+end
+
 local registered_skies = {}
 
 local function register_sky(name, def)
@@ -38,6 +55,7 @@ register_sky("condensed", {
 		},
 		clouds = true,
 	},
+	clouds = DEFAULT_CLOUDS,
 	sun = {
 		visible = true,
 		sunrise_visible = true,
@@ -63,6 +81,7 @@ register_sky("saturated", {
 		},
 		clouds = true,
 	},
+	clouds = DEFAULT_CLOUDS,
 	sun = {
 		visible = true,
 		sunrise_visible = true,
@@ -88,9 +107,9 @@ register_sky("oakish", {
 		},
 		clouds = true,
 	},
-	clouds = {
-		color = "#e0e0ffe5",
-	},
+	clouds = make_clouds({
+		{color="#e0e0ffe5"}
+	}),
 	sun = {
 		visible = true,
 		sunrise_visible = true,
@@ -116,9 +135,9 @@ register_sky("oakish_soft", {
 		},
 		clouds = true,
 	},
-	clouds = {
+	clouds = make_clouds({
 		color = "#e0e0ffe5",
-	},
+	}),
 	sun = {
 		visible = true,
 		sunrise_visible = true,
@@ -146,6 +165,7 @@ register_sky("birchish", {
 		},
 		clouds = true,
 	},
+	clouds = DEFAULT_CLOUDS,
 	sun = {
 		visible = true,
 		sunrise_visible = true,
@@ -171,9 +191,9 @@ register_sky("swamp", {
 		},
 		clouds = true,
 	},
-	clouds = {
+	clouds = make_clouds({
 		color = "#bdffc6c3",
-	},
+	}),
 	sun = {
 		visible = true,
 		sunrise_visible = true,
@@ -199,9 +219,9 @@ register_sky("savannic", {
 		},
 		clouds = true,
 	},
-	clouds = {
+	clouds = make_clouds({
 		color = "#e6e0c4c3",
-	},
+	}),
 	sun = {
 		visible = true,
 		sunrise_visible = true,
@@ -227,6 +247,7 @@ register_sky("hot_sky", {
 		},
 		clouds = true,
 	},
+	clouds = DEFAULT_CLOUDS,
 	sun = {
 		visible = true,
 		sunrise_visible = true,
@@ -254,9 +275,9 @@ register_sky("drylandic", {
 		},
 		clouds = true,
 	},
-	clouds = {
+	clouds = make_clouds({
 		color = "#f0d5c3e1",
-	},
+	}),
 	sun = {
 		visible = true,
 		sunrise_visible = true,
@@ -284,10 +305,10 @@ register_sky("mystic", {
 		},
 		clouds = true,
 	},
-	clouds = {
+	clouds = make_clouds({
 		color = "#ffc9ffab",
 		ambient = "#380946",
-	},
+	}),
 	sun = {
 		visible = true,
 		sunrise_visible = true,
@@ -326,14 +347,14 @@ register_sky("storm", {
 		end,
 		clouds = true,
 	},
-	clouds = {
+	clouds = make_clouds({
 		density = 0.5,
 		color = "#a0a0a0f0",
 		ambient = "#000000",
 		height = 100,
 		thickness = 40,
 		speed = {x = -2, y = 1},
-	},
+	}),
 	sun = {
 		visible = false,
 		sunrise_visible = false,
