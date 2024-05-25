@@ -49,8 +49,8 @@ local mobkills = {
 		NS("You were killed by @1, a villager."),
 	},
 	["rp_mobs_mobs:mineturtle"] = {
-		NS("You were exploded by a mine turtle."),
-		NS("You were exploded by @1, a mine turtle."),
+		NS("You were killed by a mine turtle."),
+		NS("You were killed by @1, a mine turtle."),
 	},
 }
 
