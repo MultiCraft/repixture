@@ -242,7 +242,7 @@ minetest.register_on_leaveplayer(function(player)
 end)
 
 local on_rain_abm = function(pos, node)
-        if lweather.get_weather() ~= "storm" then
+        if weather.get_weather() ~= "storm" then
            return
         end
 	-- Don't call handlers for the first 5 seconds of rain
