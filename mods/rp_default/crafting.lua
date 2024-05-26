@@ -821,7 +821,7 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
-      output = "rp_default:fence_gate 4",
+      output = "rp_default:fence_gate_closed 4",
       items = {
          "rp_default:planks",
          "rp_default:stick 6",
