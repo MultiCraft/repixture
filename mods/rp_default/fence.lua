@@ -228,7 +228,7 @@ register_fence("rp_default:fence", {
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
 })
-register_fence_gate("rp_default:fencegate", {
+register_fence_gate("rp_default:fence_gate", {
 	description = S("Wooden Fence Gate"),
 	description_painted = S("Painted Wooden Fence Gate"),
 	texture_front = "rp_default_fence_gate_front.png",
