@@ -28,3 +28,9 @@ msgstr ""
 msgid "Invalid health!"
 msgstr ""
 
+msgid "You suicided."
+msgstr ""
+
+msgid "You were killed by a higher power."
+msgstr ""
+

@@ -28,6 +28,9 @@ msgstr "Запертый сундук (взломан) (принадлежит @
 msgid "@1 (Owned by @2)"
 msgstr "@1 (принадлежит @2)"
 
+msgid "“@1”"
+msgstr ""
+
 msgid "Lock Pick"
 msgstr "Отмычка"
 

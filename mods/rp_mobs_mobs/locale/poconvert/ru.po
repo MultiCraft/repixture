@@ -49,6 +49,12 @@ msgstr "Жареная свинина"
 msgid "Boar"
 msgstr "Кабан"
 
+msgid "You were exploded by @1, a mine turtle."
+msgstr ""
+
+msgid "You were exploded by a mine turtle."
+msgstr ""
+
 msgid "Mine Turtle"
 msgstr "Шахточерепаха"
 
@@ -141,6 +147,9 @@ msgstr "Пошёл ты!"
 
 msgid "Get this thing out of my face!"
 msgstr "Убери эту штуку от моего лица!"
+
+msgid "@1 says: “@2”"
+msgstr ""
 
 msgid "Villager says: “@1”"
 msgstr "Житель говорит: \"@1\""
@@ -411,6 +420,12 @@ msgstr "Ты можешь использовать песок чтобы выр�
 
 msgid "Be careful not to let it fall on your head!"
 msgstr "Смотри, чтобы не упало на голову!"
+
+msgid "Fern is used to craft fertilizer. Fern spreads on fertilized dirt."
+msgstr ""
+
+msgid "Fern is used to craft fertilizer."
+msgstr ""
 
 msgid "This is like my ex-lover's heart. Made out of stone."
 msgstr "Это как сердце моей бывшей. Сделано из камня."

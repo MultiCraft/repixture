@@ -19,3 +19,6 @@ msgstr "Feu de joie"
 msgid "Bonfire (burning)"
 msgstr "Feu de joie (allumé)"
 
+msgid "You burned to death in a bonfire."
+msgstr ""
+

@@ -49,6 +49,12 @@ msgstr "Gekochtes Schweinekotelett"
 msgid "Boar"
 msgstr "Wildschwein"
 
+msgid "You were exploded by @1, a mine turtle."
+msgstr ""
+
+msgid "You were exploded by a mine turtle."
+msgstr ""
+
 msgid "Mine Turtle"
 msgstr "Minenschildkröte"
 
@@ -141,6 +147,9 @@ msgstr "Verdammt seist du!"
 
 msgid "Get this thing out of my face!"
 msgstr "Nimm dieses Ding aus meinem Gesicht!"
+
+msgid "@1 says: “@2”"
+msgstr ""
 
 msgid "Villager says: “@1”"
 msgstr "Dorfbewohner sagt: „@1“"
@@ -411,6 +420,12 @@ msgstr "Auf Sand kann man Kakteen wachsen lassen."
 
 msgid "Be careful not to let it fall on your head!"
 msgstr "Pass auf, dass dir das nicht auf deinem Kopf fällt!"
+
+msgid "Fern is used to craft fertilizer. Fern spreads on fertilized dirt."
+msgstr ""
+
+msgid "Fern is used to craft fertilizer."
+msgstr ""
 
 msgid "This is like my ex-lover's heart. Made out of stone."
 msgstr "Dies ist wie das Herz meines Exliebhabers. Aus Stein."

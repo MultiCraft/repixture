@@ -109,14 +109,29 @@ msgstr "Holzeimer"
 msgid "Punch to collect a liquid source"
 msgstr "Hauen, um Flüssigkeitsquelle aufzusammeln"
 
+msgid "“@1”"
+msgstr ""
+
+msgid "Painted Chest"
+msgstr "Gefärbte Truhe"
+
 msgid "Chest"
 msgstr "Truhe"
 
 msgid "Provides 32 inventory slots"
 msgstr "Enthält 32 Inventarplätze"
 
-msgid "Painted Chest"
-msgstr "Gefärbte Truhe"
+msgid "Chest “@1”"
+msgstr ""
+
+msgid "Bookshelf"
+msgstr ""
+
+msgid "Provides 8 inventory slots"
+msgstr ""
+
+msgid "Bookshelf “@1”"
+msgstr ""
 
 msgid "Fiber"
 msgstr "Faser"
@@ -702,6 +717,9 @@ msgstr "Distel"
 
 msgid "Careful, it stings!"
 msgstr "Vorsicht, es sticht!"
+
+msgid "You were prickled to death by a thistle."
+msgstr ""
 
 msgid "Sapling"
 msgstr "Setzling"

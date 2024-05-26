@@ -49,6 +49,12 @@ msgstr "Côtelette de porc cuite"
 msgid "Boar"
 msgstr "Sanglier"
 
+msgid "You were exploded by @1, a mine turtle."
+msgstr ""
+
+msgid "You were exploded by a mine turtle."
+msgstr ""
+
 msgid "Mine Turtle"
 msgstr "Tortue des mines"
 
@@ -141,6 +147,9 @@ msgstr "Allez au diable !"
 
 msgid "Get this thing out of my face!"
 msgstr "Enlevez ça de mon visage !"
+
+msgid "@1 says: “@2”"
+msgstr ""
 
 msgid "Villager says: “@1”"
 msgstr "Villageois dit : « @1 »"
@@ -410,6 +419,12 @@ msgid "You can use sand to grow cacti."
 msgstr ""
 
 msgid "Be careful not to let it fall on your head!"
+msgstr ""
+
+msgid "Fern is used to craft fertilizer. Fern spreads on fertilized dirt."
+msgstr ""
+
+msgid "Fern is used to craft fertilizer."
 msgstr ""
 
 msgid "This is like my ex-lover's heart. Made out of stone."

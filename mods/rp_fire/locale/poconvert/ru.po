@@ -19,3 +19,6 @@ msgstr "Костёр"
 msgid "Bonfire (burning)"
 msgstr "Костер (горящий)"
 
+msgid "You burned to death in a bonfire."
+msgstr ""
+

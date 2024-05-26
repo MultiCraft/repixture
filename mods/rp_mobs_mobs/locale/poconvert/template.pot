@@ -49,6 +49,12 @@ msgstr ""
 msgid "Boar"
 msgstr ""
 
+msgid "You were exploded by @1, a mine turtle."
+msgstr ""
+
+msgid "You were exploded by a mine turtle."
+msgstr ""
+
 msgid "Mine Turtle"
 msgstr ""
 
@@ -140,6 +146,9 @@ msgid "Screw you!"
 msgstr ""
 
 msgid "Get this thing out of my face!"
+msgstr ""
+
+msgid "@1 says: “@2”"
 msgstr ""
 
 msgid "Villager says: “@1”"
@@ -410,6 +419,12 @@ msgid "You can use sand to grow cacti."
 msgstr ""
 
 msgid "Be careful not to let it fall on your head!"
+msgstr ""
+
+msgid "Fern is used to craft fertilizer. Fern spreads on fertilized dirt."
+msgstr ""
+
+msgid "Fern is used to craft fertilizer."
 msgstr ""
 
 msgid "This is like my ex-lover's heart. Made out of stone."

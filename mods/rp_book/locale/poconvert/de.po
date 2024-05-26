@@ -43,6 +43,9 @@ msgstr "Bücherregal"
 msgid "Provides 8 inventory slots"
 msgstr "Enthält 8 Inventarplätze"
 
+msgid "“@1”"
+msgstr ""
+
 msgid "Painted Bookshelf"
 msgstr "Gefärbtes Bücherregal"
 

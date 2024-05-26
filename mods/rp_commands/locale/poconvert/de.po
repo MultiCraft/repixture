@@ -28,3 +28,9 @@ msgstr "Spieler @1 existiert nicht."
 msgid "Invalid health!"
 msgstr "Ungültige Gesundheit!"
 
+msgid "You suicided."
+msgstr ""
+
+msgid "You were killed by a higher power."
+msgstr ""
+

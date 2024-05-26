@@ -109,13 +109,28 @@ msgstr ""
 msgid "Punch to collect a liquid source"
 msgstr "Frapper pour récolter une source liquide"
 
+msgid "“@1”"
+msgstr ""
+
+msgid "Painted Chest"
+msgstr ""
+
 msgid "Chest"
 msgstr "Coffre"
 
 msgid "Provides 32 inventory slots"
 msgstr "Fournit 32 emplacements d'inventaire"
 
-msgid "Painted Chest"
+msgid "Chest “@1”"
+msgstr ""
+
+msgid "Bookshelf"
+msgstr ""
+
+msgid "Provides 8 inventory slots"
+msgstr ""
+
+msgid "Bookshelf “@1”"
 msgstr ""
 
 msgid "Fiber"
@@ -702,6 +717,9 @@ msgstr "Chardon"
 
 msgid "Careful, it stings!"
 msgstr "Attention, ça pique !"
+
+msgid "You were prickled to death by a thistle."
+msgstr ""
 
 msgid "Sapling"
 msgstr "Arbrisseau"

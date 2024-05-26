@@ -28,3 +28,9 @@ msgstr "Игрок @1 не существует."
 msgid "Invalid health!"
 msgstr "Недопустимое здоровье!"
 
+msgid "You suicided."
+msgstr ""
+
+msgid "You were killed by a higher power."
+msgstr ""
+

@@ -109,14 +109,29 @@ msgstr "Деревянное Ведро"
 msgid "Punch to collect a liquid source"
 msgstr "Удар чтобы набрать жидкость"
 
+msgid "“@1”"
+msgstr ""
+
+msgid "Painted Chest"
+msgstr "Окрашенный Сундук"
+
 msgid "Chest"
 msgstr "Сундук"
 
 msgid "Provides 32 inventory slots"
 msgstr "Содержит 32 слота"
 
-msgid "Painted Chest"
-msgstr "Окрашенный Сундук"
+msgid "Chest “@1”"
+msgstr ""
+
+msgid "Bookshelf"
+msgstr ""
+
+msgid "Provides 8 inventory slots"
+msgstr ""
+
+msgid "Bookshelf “@1”"
+msgstr ""
 
 msgid "Fiber"
 msgstr "Волокно"
@@ -702,6 +717,9 @@ msgstr "Чертополох"
 
 msgid "Careful, it stings!"
 msgstr "Аккуратней, он жалит!"
+
+msgid "You were prickled to death by a thistle."
+msgstr ""
 
 msgid "Sapling"
 msgstr "Саженец"

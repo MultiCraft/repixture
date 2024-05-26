@@ -109,13 +109,28 @@ msgstr ""
 msgid "Punch to collect a liquid source"
 msgstr ""
 
+msgid "“@1”"
+msgstr ""
+
+msgid "Painted Chest"
+msgstr ""
+
 msgid "Chest"
 msgstr ""
 
 msgid "Provides 32 inventory slots"
 msgstr ""
 
-msgid "Painted Chest"
+msgid "Chest “@1”"
+msgstr ""
+
+msgid "Bookshelf"
+msgstr ""
+
+msgid "Provides 8 inventory slots"
+msgstr ""
+
+msgid "Bookshelf “@1”"
 msgstr ""
 
 msgid "Fiber"
@@ -701,6 +716,9 @@ msgid "Thistle"
 msgstr ""
 
 msgid "Careful, it stings!"
+msgstr ""
+
+msgid "You were prickled to death by a thistle."
 msgstr ""
 
 msgid "Sapling"
