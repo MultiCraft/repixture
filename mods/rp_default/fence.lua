@@ -127,7 +127,7 @@ local function register_fence_gate(name, def)
 		},
 		inventory_image = def.inventory_image,
 		wield_image = def.wield_image,
-		tiles = {def.texture_top, def.texture_top, def.texture_side},
+		tiles = {def.texture_top, def.texture_top, def.texture_side, def.texture_side, def.texture_front},
 		-- HACK: This is a workaround to fix the coloring of the crack overlay
 		overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
 		sunlight_propagates = true,
@@ -227,8 +227,9 @@ register_fence("rp_default:fence", {
 register_fence_gate("rp_default:fencegate", {
 	description = S("Wooden Fence Gate"),
 	description_painted = S("Painted Wooden Fence Gate"),
+	texture_front = "rp_default_fence_gate_front.png",
 	texture_side = "rp_default_fence_gate_side.png",
-	texture_side_top = "rp_default_fence_gate_top.png",
+	texture_top = "rp_default_fence_gate_top.png",
 	inventory_image = "rp_default_fence_gate.png",
 	wield_image = "rp_default_fence_gate.png",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1},
