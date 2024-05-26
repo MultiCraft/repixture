@@ -133,8 +133,10 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       end
    end
 
-   minetest.register_node(
-      "rp_partialblocks:slab_" .. name,
+   local slabname = "rp_partialblocks:slab_" .. name
+   local slabupname = "rp_partialblocks:slab_up_" .. name
+
+   local slabdef =
       {
 	 tiles = tiles,
          overlay_tiles = overlay_tiles,
@@ -157,11 +159,37 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 	 drop = drop_slab,
 
          on_place = function(itemstack, placer, pointed_thing)
-            -- Slab on slab placement creates full block
-            if not (pointed_thing.above.y > pointed_thing.under.y) then
-               itemstack = minetest.item_place(itemstack, placer, pointed_thing)
+            local function place_slab_up(itemstack, placer, pointed_thing)
+               local itemstack_up = ItemStack(itemstack)
+               itemstack_up:set_name(slabupname)
+               itemstack_up:set_count(1)
+               itemstack_up = minetest.item_place(itemstack_up, placer, pointed_thing)
+               if itemstack_up:is_empty() and not minetest.is_creative_enabled(placer:get_player_name()) then
+                  itemstack:take_item()
+               end
                return itemstack
             end
+
+            -- Place at wall: Place "up" slab up pointed at upper half of node side
+            if (pointed_thing.above.y == pointed_thing.under.y) then
+               local precise = minetest.pointed_thing_to_face_pos(placer, pointed_thing)
+               local h = precise.y % 1
+               if h <= 0.5 then
+                  -- Place "up" slab
+                  itemstack = place_slab_up(itemstack, placer, pointed_thing)
+                  return itemstack
+               else
+                  -- Normal placement
+                  itemstack = minetest.item_place(itemstack, placer, pointed_thing)
+                  return itemstack
+               end
+            end
+
+            -- Place at floor or ceiling
+
+            local place_down = pointed_thing.above.y > pointed_thing.under.y
+
+            -- Slab on slab placement creates full block
             local pos = pointed_thing.under
             local shift = false
             if placer:is_player() then
@@ -180,24 +208,47 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
             end
 
             -- Create full block if both slabs are compatible
-            -- and not sneaking
-            if (not shift) and old_node.name == itemstack:get_name()
-            and itemstack:get_count() >= 1 and paint_match then
-               minetest.swap_node(pos, {name = node, param2 = old_node.param2})
+            -- and player is not sneaking
+            if (not shift) and ((place_down == true and old_node.name == slabname) or
+                  (place_down == false and old_node.name == slabupname))
+                  and itemstack:get_count() >= 1 and paint_match then
 
+               minetest.swap_node(pos, {name = node, param2 = old_node.param2})
 	       if not minetest.is_creative_enabled(placer:get_player_name()) then
                    itemstack:take_item()
                end
 
             else
-               itemstack = minetest.item_place(itemstack, placer, pointed_thing)
+               if place_down then
+                  itemstack = minetest.item_place(itemstack, placer, pointed_thing)
+               else
+                  itemstack = place_slab_up(itemstack, placer, pointed_thing)
+               end
             end
             return itemstack
          end,
 
          -- for rp_explosions
          _rp_blast_resistance = nodedef._rp_blast_resistance,
-   })
+   }
+
+   minetest.register_node("rp_partialblocks:slab_" .. name, slabdef)
+
+   local slabdef_up = table.copy(slabdef)
+   if slabdef_up.groups then
+      slabdef_up.groups.not_in_creative_inventory = 1
+      slabdef_up.groups.slab = 2
+   end
+   slabdef_up.description = nil
+   slabdef_up.on_place = nil
+   slabdef_up._tt_help = nil
+   slabdef_up.node_box = {
+      type = "fixed",
+      fixed = {-0.5, 0, -0.5, 0.5, 0.5, 0.5},
+   }
+   slabdef_up.collision_box = nil
+   slabdef_up.selection_box = nil
+   minetest.register_node("rp_partialblocks:slab_up_" .. name, slabdef_up)
 
    if register_crafts then
       crafting.register_craft({ -- 1 block --> 2 slabs
