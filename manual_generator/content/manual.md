@@ -111,15 +111,16 @@ On the game screen you see the following things:
 
 ![Game screen](./assets/images/screenshots/screen.png)
 
-1. **Crosshair** (in the center): Shows where you’re looking at. Normally, the crosshair is white, but if you’re looking at a dynamic object or living being, the crosshair will turn black
+1. **Crosshair**: Shows where you’re looking at. Normally, the crosshair is white, but if you’re looking at a dynamic object or living being, the crosshair will turn black
 2. **Health bar** (heart symbols): Indicates your health points
 3. **Food bar** (bread symbols): Indicates your food points
-4. **Breath bar** (bubble symbols above the food bar, not shown): Indicates your breath while diving. Not shown when you have full breath
-5. **Hotbar** (slots at the bottom): Shows items from your inventory that you can wield. A square marks the wielded item
-6. **Wielded item** (bottom right): This is your hand or the item you’re currently wielding
-7. **Minimap** (top right): A map of the world. Hidden by default, so you must enable with the <kbd>Minimap</kbd> key. This only works if you have a <span class="item">map</span> in your inventory or you’re in Creative Mode
-8. **Item name** (above the bars, not shown): At this position the short name of the wielded item is shown. It appears briefly when you switch items
-9. **Info text** (left side): If you’re pointing something special or something that has some text associated with it, a short text will appear here
+4. **Breath bar** (bubble symbols, not shown): Indicates your breath while diving. Not shown when you have full breath
+5. **Hotbar**: Shows items from your inventory that you can wield. A square marks the wielded item
+6. **Wielded item**: This is your hand or the item you’re currently wielding
+7. **Minimap**: A map of the world. Hidden by default, so you must enable with the <kbd>Minimap</kbd> key. This only works if you have a <span class="item">map</span> in your inventory or you’re in Creative Mode
+8. **Item name**: At this position the short name of the wielded item is shown. It appears briefly when you switch items
+9. **Info text**: If you’re pointing something special or something that has some text associated with it, a short text will appear here
+10. **Armor icons**: Your equipped armor pieces will appear here
 
 ### Inventory screen
 
