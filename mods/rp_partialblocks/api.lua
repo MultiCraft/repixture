@@ -94,6 +94,12 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       return
    end
 
+   -- Node identifiers
+   local slabname = "rp_partialblocks:slab_" .. name
+   local slabupname = "rp_partialblocks:slab_up_" .. name
+   local stairname = "rp_partialblocks:stair_" .. name
+   local stairupname = "rp_partialblocks:stair_up_" .. name
+
    -- Slab
    local tiles = parse_slab_tiles(tiles_slab, nodedef.tiles)
    local overlay_tiles = parse_slab_tiles(overlay_tiles_slab, nodedef.overlay_tiles)
@@ -125,16 +131,13 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
          palette_slab = "rp_paint_palette_256.png"
          palette_stair = "rp_paint_palette_64.png"
       end
-      drop_slab = "rp_partialblocks:slab_" .. name
-      drop_stair = "rp_partialblocks:stair_" .. name
+      drop_slab = slabname
+      drop_stair = stairname
       if string.sub(name, -8, -1) == "_painted" then
          drop_slab = string.sub(drop_slab, 1, -9)
          drop_stair = string.sub(drop_stair, 1, -9)
       end
    end
-
-   local slabname = "rp_partialblocks:slab_" .. name
-   local slabupname = "rp_partialblocks:slab_up_" .. name
 
    local slabdef =
       {
@@ -232,7 +235,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
          _rp_blast_resistance = nodedef._rp_blast_resistance,
    }
 
-   minetest.register_node("rp_partialblocks:slab_" .. name, slabdef)
+   minetest.register_node(slabname, slabdef)
 
    local slabdef_up = table.copy(slabdef)
    if slabdef_up.groups then
@@ -248,11 +251,11 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    }
    slabdef_up.collision_box = nil
    slabdef_up.selection_box = nil
-   minetest.register_node("rp_partialblocks:slab_up_" .. name, slabdef_up)
+   minetest.register_node(slabupname, slabdef_up)
 
    if register_crafts then
       crafting.register_craft({ -- 1 block --> 2 slabs
-	 output = "rp_partialblocks:slab_" .. name .. " 2",
+	 output = slabname .. " 2",
 	 items = {
 	    node,
 	 },
@@ -261,7 +264,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       crafting.register_craft({ -- 2 slabs --> 1 block
 	 output = node,
 	 items = {
-	    "rp_partialblocks:slab_" .. name .. " 2",
+	    slabname .. " 2",
 	 },
       })
    end
@@ -285,7 +288,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       end
       minetest.register_craft({ -- Fuel
          type = "fuel",
-         recipe = "rp_partialblocks:slab_" .. name,
+         recipe = slabname,
          burntime = burntime,
       })
    end
@@ -311,8 +314,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    end
    groups_stair.stair = 1
 
-   minetest.register_node(
-      "rp_partialblocks:stair_" .. name,
+   local stairdef =
       {
 	 tiles = tiles,
          overlay_tiles = overlay_tiles,
@@ -337,22 +339,106 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 	 is_ground_content = nodedef.is_ground_content,
 	 drop = drop_stair,
 
+         on_place = function(itemstack, placer, pointed_thing)
+            local function place_stair_up(itemstack, placer, pointed_thing)
+               local itemstack_up = ItemStack(itemstack)
+               itemstack_up:set_name(stairupname)
+               itemstack_up:set_count(1)
+               itemstack_up = minetest.item_place(itemstack_up, placer, pointed_thing)
+               if itemstack_up:is_empty() and not minetest.is_creative_enabled(placer:get_player_name()) then
+                  itemstack:take_item()
+               end
+               return itemstack
+            end
+
+            -- Place at wall: Place "up" stair up if placer pointed at upper half of node side
+            if (pointed_thing.above.y == pointed_thing.under.y) then
+               local precise = minetest.pointed_thing_to_face_pos(placer, pointed_thing)
+               local h = precise.y % 1
+               if h <= 0.5 then
+                  -- Place "up" stair
+                  itemstack = place_stair_up(itemstack, placer, pointed_thing)
+                  return itemstack
+               else
+                  -- Normal placement
+                  itemstack = minetest.item_place(itemstack, placer, pointed_thing)
+                  return itemstack
+               end
+            elseif (pointed_thing.above.y < pointed_thing.under.y) then
+               -- Place at ceiling: Place "up" stair
+               itemstack = place_stair_up(itemstack, placer, pointed_thing)
+               return itemstack
+            else
+               -- Place at floor: Normal placement
+               itemstack = minetest.item_place(itemstack, placer, pointed_thing)
+               return itemstack
+            end
+         end,
+
          -- for rp_explosions
          _rp_blast_resistance = nodedef._rp_blast_resistance,
-   })
+   }
+
+   minetest.register_node(stairname, stairdef)
+
+   local stairdef_up = table.copy(stairdef)
+   if stairdef_up.groups then
+      stairdef_up.groups.not_in_creative_inventory = 1
+      stairdef_up.groups.stair = 2
+   end
+   stairdef_up.description = nil
+   stairdef_up.on_place = nil
+   stairdef_up._tt_help = nil
+   stairdef_up.node_box = {
+      type = "fixed",
+      fixed = {
+         {-0.5, 0, -0.5, 0.5, 0.5, 0.5},
+         {-0.5, -0.5, 0, 0.5, 0, 0.5},
+      },
+   }
+   local stiles = table.copy(stairdef.tiles)
+   local last_tile
+   for i=1,6 do
+      if not stiles[i] then
+         if i > 1 and not last_tile then
+            last_tile = tiles[i-1]
+         end
+         stiles[i] = last_tile or ""
+      end
+   end
+   local mirror = function(tile)
+      if type(tile) == "string" then
+         return "("..tile..")^[transformFY"
+      else
+         return tile
+      end
+   end
+   stairdef_up.tiles = {
+      stiles[2],
+      stiles[1],
+      mirror(stiles[3]),
+      mirror(stiles[4]),
+      stiles[5],
+      stiles[6],
+   }
+   stairdef_up.collision_box = nil
+   stairdef_up.selection_box = nil
+   stairdef_up.drop = drop_stair
+   minetest.register_node(stairupname, stairdef_up)
+
 
    if register_crafts then
       crafting.register_craft({ -- 3 blocks --> 4 stairs
-         output = "rp_partialblocks:stair_" .. name .. " 4",
+         output = stairname .. " 4",
          items = {
             node .. " 3",
          },
       })
 
       crafting.register_craft({ -- 2 stairs --> 3 slabs
-         output = "rp_partialblocks:slab_" .. name .. " 3",
+         output = slabname .. " 3",
          items = {
-            "rp_partialblocks:stair_" .. name .. " 2",
+            stairname .. " 2",
          },
       })
    end
@@ -367,7 +453,7 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       end
       minetest.register_craft({ -- Fuel
          type = "fuel",
-         recipe = "rp_partialblocks:stair_" .. name,
+         recipe = stairname,
          burntime = burntime,
       })
    end
