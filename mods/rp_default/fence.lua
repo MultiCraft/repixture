@@ -2,7 +2,7 @@ local S = minetest.get_translator("rp_default")
 
 -- Fence register function loosely based on Minetest Game 5.5.0 (LGPLv2.1)
 
-local fence_collision_extra = 1/2
+local FENCE_COLLISION_EXTRA = 1/2
 local function register_fence(name, def)
 	local default_fields = {
 		paramtype = "light",
@@ -21,11 +21,11 @@ local function register_fence(name, def)
 		},
 		collision_box = {
 			type = "connected",
-			fixed = {-1/8, -1/2, -1/8, 1/8, 1/2 + fence_collision_extra, 1/8},
-			connect_front = {-1/8, -1/2, -1/2,  1/8, 1/2 + fence_collision_extra, -1/8},
-			connect_left =  {-1/2, -1/2, -1/8, -1/8, 1/2 + fence_collision_extra,  1/8},
-			connect_back =  {-1/8, -1/2,  1/8,  1/8, 1/2 + fence_collision_extra,  1/2},
-			connect_right = { 1/8, -1/2, -1/8,  1/2, 1/2 + fence_collision_extra,  1/8}
+			fixed = {-1/8, -1/2, -1/8, 1/8, 1/2 + FENCE_COLLISION_EXTRA, 1/8},
+			connect_front = {-1/8, -1/2, -1/2,  1/8, 1/2 + FENCE_COLLISION_EXTRA, -1/8},
+			connect_left =  {-1/2, -1/2, -1/8, -1/8, 1/2 + FENCE_COLLISION_EXTRA,  1/8},
+			connect_back =  {-1/8, -1/2,  1/8,  1/8, 1/2 + FENCE_COLLISION_EXTRA,  1/2},
+			connect_right = { 1/8, -1/2, -1/8,  1/2, 1/2 + FENCE_COLLISION_EXTRA,  1/8}
 		},
 		connects_to = {"group:fence", "group:fence_gate", "group:wood", "group:tree"},
 		inventory_image = def.inventory_image,
@@ -78,8 +78,8 @@ local function register_fence_gate(name, def)
 	local gate_id_closed = name .. "_closed"
 	local gate_id_open = name .. "_open"
 
-	local sound_open = def.sound_open or "doors_fencegate_open"
-	local sound_close = def.sound_close or "doors_fencegate_close"
+	local sound_open = def.sound_open or "rp_default_fence_gate_wood_open"
+	local sound_close = def.sound_close or "rp_default_fence_gate_wood_close"
 	local sound_gain_open = def.sound_gain_open or 0.3
 	local sound_gain_close = def.sound_gain_close or 0.3
 	local description_painted = def.description_painted
@@ -174,7 +174,7 @@ local function register_fence_gate(name, def)
 	def_closed.collision_box = {
 		type = "fixed",
 		fixed = {
-			{-0.5, -3/16, -2/16, 0.5, 1, 2/16},
+			{-0.5, -3/16, -2/16, 0.5, 0.5 + FENCE_COLLISION_EXTRA, 2/16},
 		}
 	}
 	def_closed.selection_box = {
@@ -228,9 +228,10 @@ register_fence("rp_default:fence", {
 register_fence_gate("rp_default:fencegate", {
 	description = S("Wooden Fence Gate"),
 	description_painted = S("Painted Wooden Fence Gate"),
-	texture = "rp_default_fence_side.png",
-	inventory_image = "default_fence_gate.png",
-	wield_image = "default_fence_gate.png",
+	texture_side = "rp_default_fence_gate_side.png",
+	texture_side_top = "rp_default_fence_gate_top.png",
+	inventory_image = "rp_default_fence_gate.png",
+	wield_image = "rp_default_fence_gate.png",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1},
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
