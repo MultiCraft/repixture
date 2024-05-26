@@ -1,4 +1,4 @@
-# textdomain: book
+# textdomain: rp_book
 Title:=
 Contents:=
 Write=
@@ -9,5 +9,6 @@ Unnamed Book=
 Read book=
 Bookshelf=
 Provides 8 inventory slots=
+“@1”=
 Painted Bookshelf=
 Return=
