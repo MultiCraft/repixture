@@ -27,7 +27,7 @@ local function register_fence(name, def)
 			connect_back =  {-1/8, -1/2,  1/8,  1/8, 1/2 + fence_collision_extra,  1/2},
 			connect_right = { 1/8, -1/2, -1/8,  1/2, 1/2 + fence_collision_extra,  1/8}
 		},
-		connects_to = {"group:fence", "group:wood", "group:tree"},
+		connects_to = {"group:fence", "group:fence_gate", "group:wood", "group:tree"},
 		inventory_image = def.inventory_image,
 		wield_image = def.wield_image,
 		tiles = {def.texture_top, def.texture_top, def.texture_side},
@@ -74,6 +74,137 @@ local function register_fence(name, def)
 	minetest.register_node(name_painted, def_painted)
 end
 
+local function register_fence_gate(name, def)
+	local gate_id_closed = name .. "_closed"
+	local gate_id_open = name .. "_open"
+
+	local sound_open = def.sound_open or "doors_fencegate_open"
+	local sound_close = def.sound_close or "doors_fencegate_close"
+	local sound_gain_open = def.sound_gain_open or 0.3
+	local sound_gain_close = def.sound_gain_close or 0.3
+	local description_painted = def.description_painted
+	def.sound_open = nil
+	def.sound_close = nil
+	def.sound_sound_gain_open = nil
+	def.sound_sound_gain_close = nil
+	def.description_painted = nil
+
+	local function toggle_gate(pos, node)
+		local is_open = minetest.get_item_group(node.name, "fence_gate") == 2
+		if is_open then
+			minetest.sound_play(sound_close, {gain = sound_gain_close, max_hear_distance = 10, pos = pos}, true)
+			minetest.set_node(pos, {name=gate_id_closed, param1=node.param1, param2=node.param2})
+		else
+			minetest.sound_play(sound_open, {gain = sound_gain_open, max_hear_distance = 10, pos = pos}, true)
+			minetest.set_node(pos, {name=gate_id_open, param1=node.param1, param2=node.param2})
+		end
+	end
+
+	local def_open = table.copy(def)
+	local default_fields_open = {
+		walkable = false,
+		paramtype = "light",
+		drawtype = "nodebox",
+		paramtype2 = "4dir",
+		node_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5, -1/16, -6/16, 0.5, 1/16}, -- left end
+				{6/16, -0.5, -1/16, 0.5, 0.5, 1/16}, -- right end
+				{-0.5, 4/16, 1/16, -6/16, 7/16, 6/16}, -- top left x
+				{-0.5, -2/16, 1/16, -6/16, 1/16, 6/16}, -- bottom left x
+				{6/16, 4/16, 1/16, 0.5, 7/16, 0.5},   -- top right x
+				{6/16, -2/16, 1/16, 0.5, 1/16, 0.5}, -- bottom right x
+				{-0.5, -2/16, 6/16, -6/16, 7/16, 0.5},  -- middle center
+				{6/16, 1/16, 0.5, 0.5, 4/16, 6/16},  -- middle right
+			}
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -3/16, -1/16, 0.5, 0.5, 1/16},
+			}
+		},
+		inventory_image = def.inventory_image,
+		wield_image = def.wield_image,
+		tiles = {def.texture_top, def.texture_top, def.texture_side},
+		-- HACK: This is a workaround to fix the coloring of the crack overlay
+		overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
+		sunlight_propagates = true,
+		is_ground_content = false,
+		groups = {},
+		drop = gate_id_closed,
+		on_rightclick = function(pos, node, clicker)
+			toggle_gate(pos, node)
+		end,
+	}
+	for k, v in pairs(default_fields_open) do
+		if def_open[k] == nil then
+			def_open[k] = v
+		end
+	end
+
+	def_open.description = nil
+	def_open.groups.fence_gate = 2
+	def_open.groups.creative_decoblock = 1
+	def_open.groups.not_in_creative_inventory = 1
+--	def.groups.paintable = 2
+
+	def_open.texture = nil
+	def_open.material = nil
+
+	minetest.register_node(gate_id_open, def_open)
+
+	-- Closed fence gate
+	local def_closed = table.copy(def_open)
+	def_closed.walkable = true
+	def_closed.node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -1/16, -6/16, 0.5, 1/16}, -- left end
+			{6/16, -0.5, -1/16, 0.5, 0.5, 1/16}, -- right end
+			{-2/16, -2/16, -1/16, 0, 7/16, 1/16}, -- middle left
+			{0, -2/16, -1/16, 2/16, 7/16, 1/16}, -- middle right
+			{-0.5, 4/16, -1/16, -2/16, 7/16, 1/16}, -- top -z
+			{-0.5, -2/16, -1/16, -2/16, 1/16, 1/16}, -- bottom -z
+			{2/16, 4/16, -1/16, 0.5, 7/16, 1/16},  -- top +z
+			{2/16, -2/16, -1/16, 0.5, 1/16, 1/16}, -- bottom +z
+		}
+	}
+	def_closed.collision_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -3/16, -2/16, 0.5, 1, 2/16},
+		}
+	}
+	def_closed.selection_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -3/16, -1/16, 0.5, 0.5, 1/16},
+		}
+	}
+	def_closed.description = def.description
+	def_closed.groups.fence_gate = 1
+	def_closed.groups.not_in_creative_inventory = nil
+	minetest.register_node(gate_id_closed, def_closed)
+
+
+--[[
+	local def_painted = table.copy(def)
+	def_painted.groups = table.copy(def.groups)
+	def_painted.groups.paintable = 1
+	def_painted.groups.not_in_creative_inventory = 1
+	def_painted.description = description_painted
+	def_painted.paramtype2 = "color4dir"
+	def_painted.palette = "rp_paint_palette_64.png"
+	def_painted.tiles = {def.texture_top_painted, def.texture_top_painted, def.texture_side_painted}
+	def_painted.inventory_image = def.inventory_image.."^[hsl:0:-100:0"
+	def_painted.wield_image = def.wield_image.."^[hsl:0:-100:0"
+	local name_painted = name .. "_painted"
+	minetest.register_node(name_painted, def_painted)
+]]
+end
+
 local sounds_wood_fence = rp_sounds.node_sound_planks_defaults({
 	footstep = { name = "rp_sounds_footstep_wood", pitch = 1.2 },
 	dig = { name = "rp_sounds_dig_wood", pitch = 1.2, gain = 0.5 },
@@ -94,6 +225,17 @@ register_fence("rp_default:fence", {
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
 })
+register_fence_gate("rp_default:fencegate", {
+	description = S("Wooden Fence Gate"),
+	description_painted = S("Painted Wooden Fence Gate"),
+	texture = "rp_default_fence_side.png",
+	inventory_image = "default_fence_gate.png",
+	wield_image = "default_fence_gate.png",
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1},
+	sounds = sounds_wood_fence,
+	_rp_blast_resistance = 0.5,
+})
+
 register_fence("rp_default:fence_oak", {
 	description = S("Oak Fence"),
 	description_painted = S("Painted Oak Fence"),
