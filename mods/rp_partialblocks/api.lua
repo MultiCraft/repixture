@@ -398,18 +398,25 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       },
    }
    local stiles = table.copy(stairdef.tiles)
-   local last_tile
-   for i=1,6 do
-      if not stiles[i] then
-         if i > 1 and not last_tile then
-            last_tile = tiles[i-1]
+   local fill_tiles = function(tiles)
+      local last_tile
+      for i=1,6 do
+         if not tiles[i] then
+            if i > 1 and not last_tile then
+               last_tile = tiles[i-1]
+            end
+            tiles[i] = last_tile or ""
          end
-         stiles[i] = last_tile or ""
       end
+      return tiles
    end
+   stiles = fill_tiles(stiles)
    local mirror = function(tile)
       if type(tile) == "string" then
          return "("..tile..")^[transformFY"
+      elseif type(tile) == "table" and tile.align_style ~= "world" then
+         tile.name = "("..tile.name..")^[transformFY"
+         return tile
       else
          return tile
       end
@@ -422,6 +429,18 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       stiles[5],
       stiles[6],
    }
+   if stairdef.overlay_tiles then
+      local sotiles = table.copy(stairdef.overlay_tiles)
+      sotiles = fill_tiles(sotiles)
+      stairdef_up.overlay_tiles = {
+         sotiles[2],
+         sotiles[1],
+         mirror(sotiles[3]),
+         mirror(sotiles[4]),
+         sotiles[5],
+         sotiles[6],
+      }
+   end
    stairdef_up.collision_box = nil
    stairdef_up.selection_box = nil
    stairdef_up.drop = drop_stair
