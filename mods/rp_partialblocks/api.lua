@@ -137,6 +137,9 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
          drop_slab = string.sub(drop_slab, 1, -9)
          drop_stair = string.sub(drop_stair, 1, -9)
       end
+   else
+      drop_slab = slabname
+      drop_stair = stairname
    end
 
    local slabdef =
