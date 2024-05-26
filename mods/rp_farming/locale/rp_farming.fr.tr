@@ -1,0 +1,27 @@
+# textdomain: rp_farming
+Farmer=Fermier
+Plant a crop.=Planter une plante.
+Cotton=Coton
+Wheat=Blé
+Flour=Farine
+Bread=Pain
+Asparagus=Asperge
+Cooked Asparagus=Asperge cuisinée
+Baked Potato=Patate cuite
+Wheat Seed=Graine de blé
+Wheat Plant (stage @1)=Plant de blé (étape @1)
+Grows on dirt; it likes water=Pousse sur la terre ; aime l'eau
+Potato=Patate
+Potato Plant (stage @1)=Plant de patate (étape @1)
+Grows on dirt and swamp dirt; it likes water=Pousse sur la terre et la terre de marais ; aime l'eau
+Carrot=Carotte
+Carrot Plant (stage @1)=Plant de carotte (étape @1)
+Grows on dry dirt; it likes water=Pousse sur la terre sèche ; aime l'eau
+Asparagus Seed=Graine d'asperge
+Asparagus Plant (stage @1)=Plant d'asperge (étape @1)
+Grows on swamp dirt; it likes water=Pousse sur la terre de marais ; aime l'eau
+Cotton Seed=Graines de coton
+Cotton Plant (stage @1)=Plant de coton (étape @1)
+Grows on dirt, dry dirt and sand; it likes water=Pousse sur la terre, la terre sèche et le sable ; aime l'eau
+Cotton Bale=Ballot de coton
+Straw=Paille

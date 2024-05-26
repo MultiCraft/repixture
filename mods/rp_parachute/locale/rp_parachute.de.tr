@@ -1,0 +1,9 @@
+# textdomain: rp_parachute
+Parachute=Fallschirm
+Lets you glide safely to the ground when falling=Damit gleitet man sicher im Sinkflug zu Boden
+You can open the parachute only in air!=Fallschirm kann nur in der Luft geöffnet werden!
+Not enough space to open parachute!=Nicht genügend Platz, um Fallschirm zu öffnen!
+The parachute fails to open for some reason.=Der Fallschirm öffnet sich nicht.
+Skydiver=Fallschirmspringer
+Descend over 100 blocks with a parachute.=Sinken Sie 100 Blöcke mit einem Fallschirm ab.
+Entity name “@1” is outdated. Use “@2” instead.=Entity-Name „@1“ ist veraltet. Bitte stattdessen „@2“ benutzen.

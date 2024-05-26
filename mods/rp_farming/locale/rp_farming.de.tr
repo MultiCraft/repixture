@@ -1,0 +1,27 @@
+# textdomain: rp_farming
+Farmer=Bauer
+Plant a crop.=Pflanzen Sie eine Nutzpflanze.
+Cotton=Baumwolle
+Wheat=Weizen
+Flour=Mehl
+Bread=Brot
+Asparagus=Spargel
+Cooked Asparagus=Gekochter Spargel
+Baked Potato=Bratkartoffel
+Wheat Seed=Weizensamen
+Wheat Plant (stage @1)=Weizenpflanze (@1. Stufe)
+Grows on dirt; it likes water=Wächst auf Erde; mag Wasser
+Potato=Kartoffel
+Potato Plant (stage @1)=Kartoffelpflanze (@1. Stufe)
+Grows on dirt and swamp dirt; it likes water=Wächst auf Erde und Sumpferde; mag Wasser
+Carrot=Karotte
+Carrot Plant (stage @1)=Karottenpflanze (@1. Stufe)
+Grows on dry dirt; it likes water=Wächst auf trockener Erde; mag Wasser
+Asparagus Seed=Spargelsamen
+Asparagus Plant (stage @1)=Spargelpflanze (@1. Stufe)
+Grows on swamp dirt; it likes water=Wächst auf Sumpferde; mag Wasser
+Cotton Seed=Baumwollsamen
+Cotton Plant (stage @1)=Baumwollpflanze (@1. Stufe)
+Grows on dirt, dry dirt and sand; it likes water=Wächst auf Erde, trockener Erde und Sand; mag Wasser
+Cotton Bale=Baumwollballen
+Straw=Stroh
