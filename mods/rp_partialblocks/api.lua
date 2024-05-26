@@ -240,7 +240,6 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    local slabdef_up = table.copy(slabdef)
    if slabdef_up.groups then
       slabdef_up.groups.not_in_creative_inventory = 1
-      slabdef_up.groups.slab = 2
    end
    slabdef_up.description = nil
    slabdef_up.on_place = nil
@@ -384,7 +383,6 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
    local stairdef_up = table.copy(stairdef)
    if stairdef_up.groups then
       stairdef_up.groups.not_in_creative_inventory = 1
-      stairdef_up.groups.stair = 2
    end
    stairdef_up.description = nil
    stairdef_up.on_place = nil
