@@ -122,7 +122,9 @@ local function register_fence_gate(name, def)
 		selection_box = {
 			type = "fixed",
 			fixed = {
-				{-0.5, -3/16, -1/16, 0.5, 0.5, 1/16},
+				{-0.5, -0.5, -1/16, -6/16, 0.5, 1/16}, -- left end
+				{6/16, -0.5, -1/16, 0.5, 0.5, 1/16}, -- right end
+				{-6/16, -5/16, -1/16, 6/16, 5/16, 1/16}, -- gate
 			}
 		},
 		inventory_image = def.inventory_image,
@@ -179,7 +181,9 @@ local function register_fence_gate(name, def)
 	def_closed.selection_box = {
 		type = "fixed",
 		fixed = {
-			{-0.5, -3/16, -1/16, 0.5, 0.5, 1/16},
+			{-0.5, -0.5, -1/16, -6/16, 0.5, 1/16}, -- left end
+			{6/16, -0.5, -1/16, 0.5, 0.5, 1/16}, -- right end
+			{-6/16, -5/16, -1/16, 6/16, 5/16, 1/16}, -- gate
 		}
 	}
 	def_closed.description = def.description
