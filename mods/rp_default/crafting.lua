@@ -819,6 +819,18 @@ crafting.register_craft(
       }
 })
 
+crafting.register_craft(
+   {
+      output = "rp_default:fence_gate 4",
+      items = {
+         "rp_default:planks",
+         "rp_default:stick 6",
+         "rp_default:fiber 4",
+      }
+})
+
+
+
 -- Misc nodes
 
 
