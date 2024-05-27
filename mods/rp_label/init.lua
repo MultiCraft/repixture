@@ -118,6 +118,7 @@ minetest.register_craftitem(
       inventory_image = "rp_label_label.png",
       wield_image = "rp_label_label.png",
       on_use = write,
+      groups = { tool = 1 },
 })
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
