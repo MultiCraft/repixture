@@ -926,6 +926,15 @@ local path_to_todo_list = function(path)
 			else
 				door_pos = pos
 			end
+
+			-- Wait a moment if we passed an 'openable' node before
+			-- (simulates interaction cooldown)
+			if prev_todo == "door" or prev_todo == "fence_gate" then
+				table.insert(todo, {
+					type = "idle",
+					time = IDLE_INTERACT_TIME,
+				})
+			end
 			-- Mark the door to be opened.
 			-- Note: This does not mean the mob will always toggle the door,
 			-- only if it is *neccessary* to toggle it to free the way
@@ -965,6 +974,15 @@ local path_to_todo_list = function(path)
 			flush_climb()
 			flush_path()
 
+			-- Wait a moment if we passed an 'openable' node before
+			-- (simulates interaction cooldown)
+			if prev_todo == "door" or prev_todo == "fence_gate" then
+				table.insert(todo, {
+					type = "idle",
+					time = IDLE_INTERACT_TIME,
+				})
+			end
+
 			-- Check node above ground, and the node above that for fence gates;
 			-- because the villager is 2 nodes high, we need to check 2 nodes.
 			local fence_gate_pos_1, fence_gate_pos_2
@@ -987,6 +1005,7 @@ local path_to_todo_list = function(path)
 				})
 			end
 			-- Short delay when opening two fence gates
+			-- (simulates interaction cooldown)
 			if fence_gate_pos_1 and fence_gate_pos_2 then
 				table.insert(todo, {
 					type = "idle",
