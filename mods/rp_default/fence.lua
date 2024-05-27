@@ -77,6 +77,8 @@ end
 local function register_fence_gate(name, def)
 	local gate_id_closed = name .. "_closed"
 	local gate_id_open = name .. "_open"
+	local gate_id_closed_painted = name .. "_closed_painted"
+	local gate_id_open_painted = name .. "_open_painted"
 
 	local sound_open = def.sound_open or "rp_default_fence_gate_wood_open"
 	local sound_close = def.sound_close or "rp_default_fence_gate_wood_close"
@@ -91,12 +93,24 @@ local function register_fence_gate(name, def)
 
 	local function toggle_gate(pos, node)
 		local is_open = minetest.get_item_group(node.name, "fence_gate") == 2
+		local is_painted = minetest.get_item_group(node.name, "paintable") == 1
+		local new_id
 		if is_open then
 			minetest.sound_play(sound_close, {gain = sound_gain_close, max_hear_distance = 10, pos = pos}, true)
-			minetest.set_node(pos, {name=gate_id_closed, param1=node.param1, param2=node.param2})
+			if is_painted then
+				new_id = gate_id_closed_painted
+			else
+				new_id = gate_id_closed
+			end
+			minetest.set_node(pos, {name=new_id, param1=node.param1, param2=node.param2})
 		else
 			minetest.sound_play(sound_open, {gain = sound_gain_open, max_hear_distance = 10, pos = pos}, true)
-			minetest.set_node(pos, {name=gate_id_open, param1=node.param1, param2=node.param2})
+			if is_painted then
+				new_id = gate_id_open_painted
+			else
+				new_id = gate_id_open
+			end
+			minetest.set_node(pos, {name=new_id, param1=node.param1, param2=node.param2})
 		end
 	end
 
@@ -150,7 +164,7 @@ local function register_fence_gate(name, def)
 	def_open.groups.fence_gate = 2
 	def_open.groups.creative_decoblock = 1
 	def_open.groups.not_in_creative_inventory = 1
---	def.groups.paintable = 2
+	def_open.groups.paintable = 2
 
 	def_open.texture = nil
 	def_open.material = nil
@@ -192,20 +206,28 @@ local function register_fence_gate(name, def)
 	minetest.register_node(gate_id_closed, def_closed)
 
 
---[[
-	local def_painted = table.copy(def)
-	def_painted.groups = table.copy(def.groups)
-	def_painted.groups.paintable = 1
-	def_painted.groups.not_in_creative_inventory = 1
-	def_painted.description = description_painted
-	def_painted.paramtype2 = "color4dir"
-	def_painted.palette = "rp_paint_palette_64.png"
-	def_painted.tiles = {def.texture_top_painted, def.texture_top_painted, def.texture_side_painted}
-	def_painted.inventory_image = def.inventory_image.."^[hsl:0:-100:0"
-	def_painted.wield_image = def.wield_image.."^[hsl:0:-100:0"
-	local name_painted = name .. "_painted"
-	minetest.register_node(name_painted, def_painted)
-]]
+	local def_open_painted = table.copy(def_open)
+	def_open_painted.groups = table.copy(def_open.groups)
+	def_open_painted.groups.paintable = 1
+	def_open_painted.description = nil
+	def_open_painted.paramtype2 = "color4dir"
+	def_open_painted.palette = "rp_paint_palette_64.png"
+	def_open_painted.tiles = {def.texture_top_painted, def.texture_top_painted, def.texture_side_painted, def.texture_side_painted, def.texture_front_painted}
+	def_open_painted.inventory_image = nil
+	def_open_painted.wield_image = nil
+	minetest.register_node(gate_id_open_painted, def_open_painted)
+
+	local def_closed_painted = table.copy(def_closed)
+	def_closed_painted.groups = table.copy(def_closed.groups)
+	def_closed_painted.groups.paintable = 1
+	def_closed_painted.groups.not_in_creative_inventory = 1
+	def_closed_painted.description = description_painted
+	def_closed_painted.paramtype2 = "color4dir"
+	def_closed_painted.palette = "rp_paint_palette_64.png"
+	def_closed_painted.tiles = {def.texture_top_painted, def.texture_top_painted, def.texture_side_painted, def.texture_side_painted, def.texture_front_painted}
+	def_closed_painted.inventory_image = def.inventory_image.."^[hsl:0:-100:0"
+	def_closed_painted.wield_image = def.wield_image.."^[hsl:0:-100:0"
+	minetest.register_node(gate_id_closed_painted, def_closed_painted)
 end
 
 local sounds_wood_fence = rp_sounds.node_sound_planks_defaults({
@@ -234,6 +256,9 @@ register_fence_gate("rp_default:fence_gate", {
 	texture_front = "rp_default_fence_gate_front.png",
 	texture_side = "rp_default_fence_gate_side.png",
 	texture_top = "rp_default_fence_gate_top.png",
+	texture_front_painted = "rp_default_fence_gate_front_painted.png",
+	texture_side_painted = "rp_default_fence_gate_side_painted.png",
+	texture_top_painted = "rp_default_fence_gate_top_painted.png",
 	inventory_image = "rp_default_fence_gate.png",
 	wield_image = "rp_default_fence_gate.png",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1},
