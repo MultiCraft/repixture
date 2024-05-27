@@ -85,8 +85,8 @@ local is_node_blocking = function(node)
 	if not def then
 		-- Unknown nodes are blocking
 		return true
-	elseif minetest.get_item_group(node.name, "door") ~= 0 then
-		-- Villagers know how to open doors so they pathfind through them
+	elseif minetest.get_item_group(node.name, "door") ~= 0 or minetest.get_item_group(node.name, "fence_gate") ~= 0 then
+		-- Villagers know how to open doors and fence gates so they pathfind through them
 		return false
 	elseif def.damage_per_second > 0 then
 		-- No damage allowed
@@ -108,8 +108,8 @@ local is_node_blocking_water_ok = function(node)
 	if not def then
 		-- Unknown nodes are blocking
 		return true
-	elseif minetest.get_item_group(node.name, "door") ~= 0 then
-		-- Villagers know how to open doors so they pathfind through them
+	elseif minetest.get_item_group(node.name, "door") ~= 0 or minetest.get_item_group(node.name, "fence_gate") ~= 0 then
+		-- Villagers know how to open doors and fence gates so they pathfind through them
 		return false
 	elseif def.damage_per_second > 0 then
 		-- No damage allowed
@@ -129,6 +129,7 @@ local is_node_stucking = function(node)
 		-- Unknown nodes are blocking
 		return true
 	elseif minetest.get_item_group(node.name, "door") ~= 0
+			or minetest.get_item_group(node.name, "fence_gate") ~= 0
 			or minetest.get_item_group(node.name, "slab") ~= 0
 			or minetest.get_item_group(node.name, "path") ~= 0 then
 		return false
@@ -702,6 +703,29 @@ local create_microtask_open_door = function(door_pos, walk_axis)
 	})
 end
 
+local create_microtask_open_fence_gate = function(fence_gate_pos)
+	return rp_mobs.create_microtask({
+		label = "open fence gate",
+		singlestep = true,
+		on_step = function(self, mob)
+			local dist = vector.distance(mob.object:get_pos(), fence_gate_pos)
+			if dist > REACH then
+				-- Fail microtask if mob is too far away from fence gate
+				return
+			end
+
+			-- Toggle fence gate if closed; otherwise to nothing
+			local node = minetest.get_node(fence_gate_pos)
+			local is_closed = minetest.get_item_group(node.name, "fence_gate") == 1
+			if is_closed then
+				default.toggle_fence_gate(fence_gate_pos)
+			end
+		end,
+	})
+end
+
+
+
 -- Handle basic physics (gravity)
 local physics_decider = function(task_queue, mob)
 	local mt_gravity = rp_mobs.create_microtask({
@@ -780,10 +804,12 @@ end
 
 -- Walk through all nodes along the given path
 -- and create a table of "to-do" tasks.
--- each element in the todo table is either:
--- { type = "path", path = <path> }
--- or:
--- { type = "door", pos = <door pos> }
+-- each element in the todo table is one of these:
+--
+-- * { type = "path", path = <path> }
+-- * { type = "climb", path = <path> }
+-- * { type = "door", pos = <door pos> }
+-- * { type = "fence_gate", pos = <fence gate pos> }
 
 -- The point of this is to split the input path
 -- into multiple paths separated by doors.
@@ -846,7 +872,7 @@ local path_to_todo_list = function(path)
 		if (def and def.climbable) or (def3 and def3.climbable) or
 				is_node_swimmable(node) or is_node_swimmable(node3) then
 
-			if prev_todo == "walk" or prev_todo == "door" then
+			if prev_todo == "walk" or prev_todo == "door" or prev_todo == "fence_gate" then
 				table.insert(current_path, pos)
 			end
 			flush_path()
@@ -931,6 +957,47 @@ local path_to_todo_list = function(path)
 
 			prev_todo = "door"
 
+		elseif minetest.get_item_group(node.name, "fence_gate") ~= 0 or minetest.get_item_group(node2.name, "fence_gate") ~= 0 then
+			flush_climb()
+			flush_path()
+
+			-- Check node above ground, and the node above that for fence gates;
+			-- because the villager is 2 nodes high, we need to check 2 nodes.
+			local fence_gate_pos_1, fence_gate_pos_2
+			if minetest.get_item_group(node.name, "fence_gate") ~= 0 then
+				fence_gate_pos_1 = pos
+			end
+			if minetest.get_item_group(node2.name, "fence_gate") ~= 0 then
+				fence_gate_pos_2 = pos2
+			end
+			-- Mark the fence gate(s) to be opened.
+			-- Note: This does not mean the mob will always toggle the fence gate,
+			-- only if it is *neccessary* to toggle it to free the way
+			-- once the mob reaches it.
+
+			-- Fence gate on ground
+			if fence_gate_pos_1 then
+				table.insert(todo, {
+					type = "fence_gate",
+					pos = fence_gate_pos_1,
+				})
+			end
+			-- Fence gate above that
+			if fence_gate_pos_2 then
+				table.insert(todo, {
+					type = "fence_gate",
+					pos = fence_gate_pos_2,
+				})
+			end
+
+			-- Add a 1-entry long path todo right after the fence gate(s) to force the mob
+			-- to walk into it. This avoids the mob opening multiple fence gates
+			-- that are placed right behind each other to be opened all at once.
+			table.insert(current_path, pos)
+			flush_path()
+
+			prev_todo = "fence_gate"
+
 		-- Any other node ...
 		else
 			flush_climb()
@@ -974,6 +1041,9 @@ local path_to_microtasks = function(path)
 			mt.start_animation = "walk"
 		elseif entry.type == "door" then
 			mt = create_microtask_open_door(entry.pos, entry.axis)
+			mt.start_animation = "idle"
+		elseif entry.type == "fence_gate" then
+			mt = create_microtask_open_fence_gate(entry.pos)
 			mt.start_animation = "idle"
 		elseif entry.type == "climb" then
 			mt = rp_mobs.microtasks.follow_path_climb(entry.path, WALK_SPEED, CLIMB_SPEED, true, stop_follow_path_climb)
