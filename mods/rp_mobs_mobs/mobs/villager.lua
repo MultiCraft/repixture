@@ -67,8 +67,8 @@ local is_node_walkable = function(node)
 	elseif minetest.get_item_group(node.name, "door") ~= 0 then
 		-- Same for doors
 		return false
-	elseif minetest.get_item_group(node.name, "fence") ~= 0 then
-		-- We refuse to walk on fences (although we could)
+	elseif minetest.get_item_group(node.name, "fence") ~= 0 or minetest.get_item_group(node.name, "fence_gate") ~= 0 then
+		-- We refuse to walk on fences and fence gates (although we could)
 		-- because it looks weird.
 		return false
 	elseif def.walkable then
