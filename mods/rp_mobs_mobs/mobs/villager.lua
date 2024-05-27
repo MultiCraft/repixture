@@ -1079,6 +1079,7 @@ local path_to_microtasks = function(path)
 			mt = rp_mobs.microtasks.follow_path_climb(entry.path, WALK_SPEED, CLIMB_SPEED, true, stop_follow_path_climb)
 		elseif entry.type == "idle" then
 			mt = rp_mobs.microtasks.sleep(entry.time)
+			mt.start_animation = "idle"
 		else
 			minetest.log("error", "[rp_mobs_mobs] path_to_microtasks: Invalid entry type in TODO list!")
 			return
