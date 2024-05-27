@@ -279,6 +279,22 @@ register_fence("rp_default:fence_oak", {
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
 })
+register_fence_gate("rp_default:fence_gate_oak", {
+	description = S("Oak Fence Gate"),
+	description_painted = S("Painted Oak Fence Gate"),
+	texture_front = "rp_default_fence_gate_oak_front.png",
+	texture_side = "rp_default_fence_gate_oak_side.png",
+	texture_top = "rp_default_fence_gate_oak_top.png",
+	texture_front_painted = "rp_default_fence_gate_oak_front_painted.png",
+	texture_side_painted = "rp_default_fence_gate_oak_side_painted.png",
+	texture_top_painted = "rp_default_fence_gate_oak_top_painted.png",
+	inventory_image = "rp_default_fence_gate_oak.png",
+	wield_image = "rp_default_fence_gate_oak.png",
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1},
+	sounds = sounds_wood_fence,
+	_rp_blast_resistance = 0.5,
+})
+
 register_fence("rp_default:fence_birch", {
 	description = S("Birch Fence"),
 	description_painted = S("Painted Birch Fence"),
@@ -289,6 +305,21 @@ register_fence("rp_default:fence_birch", {
 	inventory_image = "default_fence_birch.png",
 	wield_image = "default_fence_birch.png",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
+	sounds = sounds_wood_fence,
+	_rp_blast_resistance = 0.5,
+})
+register_fence_gate("rp_default:fence_gate_birch", {
+	description = S("Birch Fence Gate"),
+	description_painted = S("Painted Birch Fence Gate"),
+	texture_front = "rp_default_fence_gate_birch_front.png",
+	texture_side = "rp_default_fence_gate_birch_side.png",
+	texture_top = "rp_default_fence_gate_birch_top.png",
+	texture_front_painted = "rp_default_fence_gate_birch_front_painted.png",
+	texture_side_painted = "rp_default_fence_gate_birch_side_painted.png",
+	texture_top_painted = "rp_default_fence_gate_birch_top_painted.png",
+	inventory_image = "rp_default_fence_gate_birch.png",
+	wield_image = "rp_default_fence_gate_birch.png",
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1},
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
 })
