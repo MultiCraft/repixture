@@ -38,9 +38,12 @@ local CLIMB_SPEED = 1
 local CLIMB_DRAG = 1
 -- How strong to jump
 local JUMP_STRENGTH = 4
--- Time the mob idles around
+-- Time the mob idles around (in seconds)
 local IDLE_TIME = 3.0
--- Delay between attempting to find new home bed or work site
+-- Time the mob needs to wait between certain interactions (in seconds)
+-- (like opening fence gates)
+local IDLE_INTERACT_TIME = 0.25
+-- Delay between attempting to find new home bed or work site (in seconds)
 local FIND_SITE_IDLE_TIME = 6.0
 -- How many nodes the villager can be away from nodes and entities to interact with them
 local REACH = 4.0
@@ -810,6 +813,7 @@ end
 -- * { type = "climb", path = <path> }
 -- * { type = "door", pos = <door pos> }
 -- * { type = "fence_gate", pos = <fence gate pos> }
+-- * { type = "idle", time = <idle time in seconds> }
 
 -- The point of this is to split the input path
 -- into multiple paths separated by doors.
@@ -982,6 +986,13 @@ local path_to_todo_list = function(path)
 					pos = fence_gate_pos_1,
 				})
 			end
+			-- Short delay when opening two fence gates
+			if fence_gate_pos_1 and fence_gate_pos_2 then
+				table.insert(todo, {
+					type = "idle",
+					time = IDLE_INTERACT_TIME,
+				})
+			end
 			-- Fence gate above that
 			if fence_gate_pos_2 then
 				table.insert(todo, {
@@ -1047,6 +1058,8 @@ local path_to_microtasks = function(path)
 			mt.start_animation = "idle"
 		elseif entry.type == "climb" then
 			mt = rp_mobs.microtasks.follow_path_climb(entry.path, WALK_SPEED, CLIMB_SPEED, true, stop_follow_path_climb)
+		elseif entry.type == "idle" then
+			mt = rp_mobs.microtasks.sleep(entry.time)
 		else
 			minetest.log("error", "[rp_mobs_mobs] path_to_microtasks: Invalid entry type in TODO list!")
 			return
