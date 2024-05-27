@@ -822,6 +822,8 @@ local path_to_todo_list = function(path)
 		return
 	end
 
+	local prev_pos
+	local prev_todo
 	local todo = {}
 
 	local current_path = {}
@@ -833,6 +835,7 @@ local path_to_todo_list = function(path)
 				type = "path",
 				path = table.copy(current_path),
 			})
+			prev_todo = "path"
 			current_path = {}
 		end
 	end
@@ -842,12 +845,11 @@ local path_to_todo_list = function(path)
 				type = "climb",
 				path = table.copy(current_climb_path),
 			})
+			prev_todo = "climb"
 			current_climb_path = {}
 		end
 	end
 
-	local prev_pos
-	local prev_todo
 	for p=1, #path do
 		local pos = path[p]
 		local pos2 = vector.offset(pos, 0, 1, 0)
@@ -944,6 +946,7 @@ local path_to_todo_list = function(path)
 				pos = door_pos,
 				axis = axis,
 			})
+			prev_todo = "door"
 
 			-- Add a 1-entry long path todo right after the door to force the mob
 			-- to walk into the door node. This avoids the mob opening multiple doors
@@ -966,9 +969,8 @@ local path_to_todo_list = function(path)
 					pos = door_pos,
 					axis = axis,
 				})
+				prev_todo = "door"
 			end
-
-			prev_todo = "door"
 
 		elseif minetest.get_item_group(node.name, "fence_gate") ~= 0 or minetest.get_item_group(node2.name, "fence_gate") ~= 0 then
 			flush_climb()
@@ -1019,14 +1021,13 @@ local path_to_todo_list = function(path)
 					pos = fence_gate_pos_2,
 				})
 			end
+			prev_todo = "fence_gate"
 
 			-- Add a 1-entry long path todo right after the fence gate(s) to force the mob
 			-- to walk into it. This avoids the mob opening multiple fence gates
 			-- that are placed right behind each other to be opened all at once.
 			table.insert(current_path, pos)
 			flush_path()
-
-			prev_todo = "fence_gate"
 
 		-- Any other node ...
 		else
