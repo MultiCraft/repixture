@@ -74,45 +74,66 @@ local function register_fence(name, def)
 	minetest.register_node(name_painted, def_painted)
 end
 
+local function toggle_fence_gate_raw(pos, node)
+	local def = minetest.registered_nodes[node.name]
+	if not def then
+		return false
+	end
+
+	local is_open = minetest.get_item_group(node.name, "fence_gate") == 2
+	local is_painted = minetest.get_item_group(node.name, "paintable") == 1
+	local base_name = node.name
+	if is_painted then
+		-- Remove "_painted" suffix
+		base_name = string.sub(base_name, 1, -9)
+	end
+	if is_open then
+		-- Remove "_open" suffix
+		base_name = string.sub(base_name, 1, -6)
+	else
+		-- Remove "_closed" suffix
+		base_name = string.sub(base_name, 1, -8)
+	end
+
+	local new_id
+	if is_open then
+		minetest.sound_play(def._sound_close, {gain = def._sound_gain_close, max_hear_distance = 10, pos = pos}, true)
+		if is_painted then
+			new_id = base_name .. "_closed_painted"
+		else
+			new_id = base_name .. "_closed"
+		end
+		minetest.set_node(pos, {name=new_id, param1=node.param1, param2=node.param2})
+		return true
+	else
+		minetest.sound_play(def._sound_open, {gain = def._sound_gain_open, max_hear_distance = 10, pos = pos}, true)
+		if is_painted then
+			new_id = base_name .. "_open_painted"
+		else
+			new_id = base_name .. "_open"
+		end
+		minetest.set_node(pos, {name=new_id, param1=node.param1, param2=node.param2})
+		return true
+	end
+end
+
+function default.toggle_fence_gate(pos)
+	local node = minetest.get_node(pos)
+	return toggle_fence_gate_raw(pos)
+end
+
 local function register_fence_gate(name, def)
 	local gate_id_closed = name .. "_closed"
 	local gate_id_open = name .. "_open"
 	local gate_id_closed_painted = name .. "_closed_painted"
 	local gate_id_open_painted = name .. "_open_painted"
 
-	local sound_open = def.sound_open or "rp_default_fence_gate_wood_open"
-	local sound_close = def.sound_close or "rp_default_fence_gate_wood_close"
-	local sound_gain_open = def.sound_gain_open or 0.3
-	local sound_gain_close = def.sound_gain_close or 0.3
+	def._sound_open = def._sound_open or "rp_default_fence_gate_wood_open"
+	def._sound_close = def._sound_close or "rp_default_fence_gate_wood_close"
+	def._sound_gain_open = def._sound_gain_open or 0.3
+	def._sound_gain_close = def._sound_gain_close or 0.3
 	local description_painted = def.description_painted
-	def.sound_open = nil
-	def.sound_close = nil
-	def.sound_sound_gain_open = nil
-	def.sound_sound_gain_close = nil
 	def.description_painted = nil
-
-	local function toggle_gate(pos, node)
-		local is_open = minetest.get_item_group(node.name, "fence_gate") == 2
-		local is_painted = minetest.get_item_group(node.name, "paintable") == 1
-		local new_id
-		if is_open then
-			minetest.sound_play(sound_close, {gain = sound_gain_close, max_hear_distance = 10, pos = pos}, true)
-			if is_painted then
-				new_id = gate_id_closed_painted
-			else
-				new_id = gate_id_closed
-			end
-			minetest.set_node(pos, {name=new_id, param1=node.param1, param2=node.param2})
-		else
-			minetest.sound_play(sound_open, {gain = sound_gain_open, max_hear_distance = 10, pos = pos}, true)
-			if is_painted then
-				new_id = gate_id_open_painted
-			else
-				new_id = gate_id_open
-			end
-			minetest.set_node(pos, {name=new_id, param1=node.param1, param2=node.param2})
-		end
-	end
 
 	local def_open = table.copy(def)
 	local default_fields_open = {
@@ -151,7 +172,7 @@ local function register_fence_gate(name, def)
 		groups = {},
 		drop = gate_id_closed,
 		on_rightclick = function(pos, node, clicker)
-			toggle_gate(pos, node)
+			toggle_fence_gate_raw(pos, node)
 		end,
 	}
 	for k, v in pairs(default_fields_open) do
