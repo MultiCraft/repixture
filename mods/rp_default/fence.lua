@@ -119,7 +119,7 @@ end
 
 function default.toggle_fence_gate(pos)
 	local node = minetest.get_node(pos)
-	return toggle_fence_gate_raw(pos)
+	return toggle_fence_gate_raw(pos, node)
 end
 
 local function register_fence_gate(name, def)
