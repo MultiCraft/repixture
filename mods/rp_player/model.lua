@@ -2,7 +2,10 @@ rp_player = {}
 
 -- Player animation blending
 -- Note: This is currently broken due to a bug in Irrlicht, leave at 0
-local animation_blend = 0
+local ANIMATION_BLEND = 0
+
+-- Animation speed factor when sneaking
+local ANIM_SPEED_SNEAK = 0.6
 
 rp_player.registered_models = {}
 
@@ -153,7 +156,7 @@ function rp_player.player_set_animation(player, anim_name, speed, loop)
 		end
 	end
 	-- Set the animation seen by everyone else
-	player:set_animation(anim, speed, animation_blend, loop)
+	player:set_animation(anim, speed, ANIMATION_BLEND, loop)
 	-- Update related properties if they changed
 	if anim._equals ~= previous_anim._equals then
 		player:set_properties({
@@ -200,7 +203,7 @@ function rp_player.globalstep()
 
 			-- Determine if the player is sneaking, and reduce animation speed if so
 			if controls.sneak then
-				animation_speed_mod = animation_speed_mod / 2
+				animation_speed_mod = animation_speed_mod * ANIM_SPEED_SNEAK
 			end
 
 			-- Apply animations based on what the player is doing
