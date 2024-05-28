@@ -449,7 +449,7 @@ local register_boat = function(name, def)
 							if (not param.boat) or (param.sitter:get_attach() ~= param.boat.object) then
 								return
 							end
-							rp_player.player_set_animation(param.sitter, "sit", rp_player.player_animation_speed)
+							rp_player.player_set_animation(param.sitter, "sit")
 						end, {sitter=self._driver, boat=self})
 					end
 				end
@@ -459,7 +459,7 @@ local register_boat = function(name, def)
 			if child and child == self._driver then
 				local cname = child:get_player_name()
 				minetest.log("action", "[rp_boats] "..cname.." detaches from boat at "..minetest.pos_to_string(self.object:get_pos(),1))
-				rp_player.player_set_animation(self._driver, "stand", rp_player.player_animation_speed)
+				rp_player.player_set_animation(self._driver, "stand")
 				rp_player.player_attached[cname] = false
 				unset_driver(self, def.collisionbox)
 			end

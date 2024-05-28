@@ -8,7 +8,6 @@ local S = minetest.get_translator("rp_bed")
 bed = {}
 
 local DEFAULT_BED_COLOR = rp_paint.COLOR_AZURE_BLUE
-local BED_EYE_OFFSET_Y = -13
 
 -- Per-user data table
 
@@ -125,17 +124,8 @@ local function put_player_in_bed(player)
 
    player_effects.apply_effect(player, "inbed")
 
-   player:set_eye_offset(vector.new(0, BED_EYE_OFFSET_Y, 0), vector.new(0, BED_EYE_OFFSET_Y, 0))
-   player:set_local_animation(
-      {x=162, y=166},
-      {x=162, y=166},
-      {x=162, y=166},
-      {x=162, y=168},
-      rp_player.player_animation_speed)
-
-   rp_player.player_set_animation(player, "lay", rp_player.player_animation_speed)
-
    rp_player.player_attached[name] = true
+   rp_player.player_set_animation(player, "lay")
 
    minetest.log("action", "[rp_bed] "..name.." was put into bed")
 end
@@ -154,17 +144,8 @@ local function clear_bed_status(player)
 
    player_effects.remove_effect(player, "inbed")
 
-   player:set_eye_offset(vector.new(0, 0, 0), vector.new(0, 0, 0))
-   player:set_local_animation(
-      {x=0, y=79},
-      {x=168, y=187},
-      {x=189, y=198},
-      {x=200, y=219},
-      rp_player.player_animation_speed)
-
-   rp_player.player_set_animation(player, "stand", rp_player.player_animation_speed)
-
    rp_player.player_attached[name] = false
+   rp_player.player_set_animation(player, "stand")
 end
 
 local function take_player_from_bed(player)
@@ -552,7 +533,10 @@ local on_rightclick_bed_foot = function(pos, node, clicker, itemstack)
 		end
 
 		bed_userdata.temp[clicker_name].node_pos = pos
+		-- Put player slightly away from the bed middle
 		local sleep_pos = vector.add(pos, vector.multiply(minetest.fourdir_to_dir(node.param2), 0.49))
+		-- Increase player Y to reach exact position of bed top
+		sleep_pos = vector.offset(sleep_pos, 0, 0.125, 0)
 		bed_userdata.temp[clicker_name].sleep_pos = sleep_pos
 
 		set_bed_occupier(pos, clicker_name)
