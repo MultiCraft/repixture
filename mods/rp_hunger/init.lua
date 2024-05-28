@@ -484,12 +484,12 @@ local function on_globalstep(dtime)
             player_step[name] = 0
             local oldhng = userdata[name].hunger
             userdata[name].hunger = userdata[name].hunger - 1
-            if (oldhng == HUNGER_WARNING_1 or oldhng == HUNGER_WARNING_2) and hp >= 0 then
+            if (oldhng == HUNGER_WARNING_1 or oldhng == HUNGER_WARNING_2) and hp > 0 then
                minetest.chat_send_player(name, minetest.colorize("#ff0", S("You are hungry.")))
                local pos_sound  = player:get_pos()
                minetest.sound_play({name="hunger_hungry"}, {pos=pos_sound, max_hear_distance=3, object=player}, true)
             end
-            if userdata[name].hunger <= HUNGER_STARVE_LEVEL and hp >= 0 then
+            if userdata[name].hunger <= HUNGER_STARVE_LEVEL and hp > 0 then
                -- Hurt player due to starving
 
                -- Messages
