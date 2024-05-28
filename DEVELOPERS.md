@@ -39,6 +39,7 @@ They must be followed at all times:
 * Crafting recipes (except cooking and fuel recipes) **MUST** be registered through `rp_crafting`.
 * Modifying player physics (like running speed) **MUST** be done via `rp_player_effects`.
   Calling `set_physics_override` directly is **FORBIDDEN**.
+* If you attach or detach the player, you **MUST** update `rp_player.player_attached`.
 * Modifying HUD flags (like `"wielditem"`) **MUST** be done via `rp_hud`.
   Calling `hud_set_flags` directly is **FORBIDDEN**.
 * Changing the sky (`set_sky`, `set_sun`, `set_moon`, `set_clouds`, `set_stars`)

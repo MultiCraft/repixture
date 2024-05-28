@@ -199,9 +199,7 @@ local function on_joinplayer(player)
       zoom = 10 -- to match spyglass zoom
    end
    player:set_properties({
-      stepheight = 0.626, -- slightly above 10/16
       damage_texture_modifier = DAMAGE_TEXTURE_MODIFIER,
-      collisionbox = { -0.3, 0, -0.3, 0.3, 1.77, 0.3 },
       selectionbox = { -0.32, 0, -0.22, 0.32, 1.77, 0.22, rotate=true},
       zoom_fov = zoom,
    })
@@ -209,6 +207,7 @@ local function on_joinplayer(player)
    -- No free coordinates for you, sorry!
    rp_hud.set_hud_flag_semaphore(player, "rp_player:debug", "basic_debug", false)
 end
+
 
 local function on_leaveplayer(player)
    local name = player:get_player_name()
@@ -227,3 +226,5 @@ minetest.register_on_leaveplayer(on_leaveplayer)
 minetest.register_on_respawnplayer(on_respawnplayer)
 
 minetest.register_globalstep(step)
+
+
