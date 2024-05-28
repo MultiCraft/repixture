@@ -1,4 +1,4 @@
--- Functions/ABMs
+## Functions
 
 ### `default.is_sapling_growing(pos)`
 
@@ -12,12 +12,14 @@ Returns true on success or false if it was not a sapling.
 ### `default.grow_sapling(pos)`
 If there's a sapling node at `pos`, will grow it into
 a tree instantly, if it has enough space.
-Returns true on successs.
+Returns true on success.
 
-### `default.is_dry_biome(biomename)`
-Returns true if the given biome is considered to be
-a 'dry' biome (e.g. for dry grass). Custom or unknown
-biomes are never dry.
+### `default.toggle_fence_gate(pos)`
+If there's a fence gate node at `pos`,
+it will be opened when it's closed, or
+it will be closed when it's opened.
+
+Returns true on success.
 
 ## Functions for builtin biomes
 
@@ -51,3 +53,10 @@ Returns metadata for a builtin biome. Returns a table with these fields:
 Note: `dirt_blob`, `sand_blob` and `gravel_blob` are used to create ores after all builtin
 biomes were created. These fields are useless for biomes from
 external mods.
+
+### `default.is_dry_biome(biomename)`
+Returns true if the given biome is considered to be
+a 'dry' biome (e.g. for dry grass). Custom or unknown
+biomes are never dry.
+
+
