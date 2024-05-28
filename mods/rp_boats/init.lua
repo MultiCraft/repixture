@@ -55,14 +55,15 @@ local set_damage_texture = function(self, original, punches, max_punches)
 	end
 end
 
-local set_driver = function(self, driver, orig_collisionbox)
+local set_driver = function(self, driver, orig_collisionbox, player_y_overlap)
 	self._driver = driver
 	local colbox = table.copy(orig_collisionbox)
 
 	-- Add player height to boat collisionbox top Y
 	-- so the player will also collide.
 	local dcolbox = driver:get_properties().collisionbox
-	colbox[5] = colbox[5] + (dcolbox[5] - dcolbox[2])
+	local dheight = dcolbox[5] - dcolbox[2]
+	colbox[5] = colbox[5] + math.max(0, dheight - (player_y_overlap or 0))
 	local props = self.object:get_properties()
 	props.collisionbox = colbox
 	self.object:set_properties(props)
@@ -435,22 +436,13 @@ local register_boat = function(name, def)
 							return
 						end
 						minetest.log("action", "[rp_boats] "..cname.." attaches to boat at "..minetest.pos_to_string(self.object:get_pos(),1))
-						set_driver(self, clicker, def.collisionbox)
-						rp_player.player_attached[cname] = true
-
-						self._driver:set_attach(self.object, "", def.attach_offset, {x=0,y=0,z=0}, true)
 
 						-- Make player sit down
-						minetest.after(0.1, function(param)
-							-- Check if player still exists and is still attached to the boat
-							if not (param.sitter and param.sitter:is_player()) then
-								return
-							end
-							if (not param.boat) or (param.sitter:get_attach() ~= param.boat.object) then
-								return
-							end
-							rp_player.player_set_animation(param.sitter, "sit")
-						end, {sitter=self._driver, boat=self})
+						rp_player.player_attached[cname] = true
+						rp_player.player_set_animation(clicker, "sit")
+
+						set_driver(self, clicker, def.collisionbox, def.player_collisionbox_y_overlap)
+						self._driver:set_attach(self.object, "", def.attach_offset, {x=0,y=0,z=0}, true)
 					end
 				end
 			end
@@ -627,6 +619,7 @@ for l=1, #log_boats do
 		speed_change_rate = 1.5,
 		yaw_change_rate = 0.6,
 		detach_offset_y = 0.8,
+		player_collisionbox_y_overlap = 0.89,
 
 		sound_punch = {name = "rp_sounds_dig_wood", gain=0.3, pitch=1.05},
 		sound_break = {name = "rp_sounds_dug_wood", gain=0.5, pitch=1.05},
@@ -675,6 +668,7 @@ for r=1, #rafts do
 		speed_change_rate = 1.5,
 		yaw_change_rate = 0.3,
 		detach_offset_y = 0.2,
+		player_collisionbox_y_overlap = 0.38,
 		check_boat_space = function(place_pos, on_liquid)
 			local ymin = 0
 			if on_liquid then

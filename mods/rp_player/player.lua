@@ -200,7 +200,6 @@ local function on_joinplayer(player)
    end
    player:set_properties({
       damage_texture_modifier = DAMAGE_TEXTURE_MODIFIER,
-      selectionbox = { -0.32, 0, -0.22, 0.32, 1.77, 0.22, rotate=true},
       zoom_fov = zoom,
    })
 
