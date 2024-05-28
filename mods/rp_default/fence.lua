@@ -113,6 +113,8 @@ local function toggle_fence_gate_raw(pos, node)
 			new_id = base_name .. "_open"
 		end
 		minetest.set_node(pos, {name=new_id, param1=node.param1, param2=node.param2})
+		local up = vector.add(pos, 0, 1, 0)
+		minetest.check_for_falling(up)
 		return true
 	end
 end
