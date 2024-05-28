@@ -215,6 +215,7 @@ rp_mobs.register_mob("rp_mobs_mobs:sheep", {
 			rp_mobs.init_tasks(self)
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queues.land_roam(task_queue_roam_settings))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queues.food_breed_follow_scan(VIEW_RANGE, FOOD))
+			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queues.player_follow_scan(VIEW_RANGE))
 			rp_mobs.add_task_queue(self, rp_mobs.create_task_queue(eat_decider))
 			rp_mobs.add_task_queue(self, rp_mobs_mobs.task_queues.call_sound(RANDOM_SOUND_TIMER_MIN, RANDOM_SOUND_TIMER_MAX))
 
