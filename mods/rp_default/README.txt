@@ -82,6 +82,14 @@ File credits and individual file licenses:
     * Derived by Wuzzy from sound by sifujordan
     * Source: <https://freesound.org/people/sifujordan/sounds/506160/>
     * License: CC0
+  * `rp_default_fence_gate_wood_open.ogg`
+    * By Iwan 'qubodup' Gabovitch <qubodup@gmail.com> <qubodup.net>
+    * Source: <https://opengameart.org/content/door-open-door-close-set>
+    * License: CC0
+  * `rp_default_fence_gate_wood_close.ogg`
+    * By Iwan 'qubodup' Gabovitch <qubodup@gmail.com> <qubodup.net>
+    * Source: <https://opengameart.org/content/door-open-door-close-set>
+    * License: CC0
 
   * rp_default_footstep_cactus.*.ogg
   * rp_default_dig_cactus.*.ogg
