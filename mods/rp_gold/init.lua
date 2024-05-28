@@ -283,7 +283,17 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    inv:set_stack("gold_trade_wanted", 2, trade[2])
 
    local trade_name = gold.trade_names[trade_type]
-   local label = S("Trading with @1", trade_name)
+   local trader_name
+   -- Generate trading formspec caption
+   if trader._name then
+      -- Trader has a name: show name and profession
+      -- @1 = trader name, @2 = profession name
+      trader_name = S("@1 (@2)", trader._name, trade_name)
+   else
+      -- Trader has no name: show profession
+      trader_name = trade_name
+   end
+   local label = S("Trading with @1", trader_name)
 
    local trade_wanted1 = inv:get_stack("gold_trade_wanted", 1)
    local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
