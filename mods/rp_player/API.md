@@ -29,6 +29,7 @@ written right of the equals sign, if any):
       --   x = <start_frame>,
       --   y = <end_frame>,
       --   collisionbox = <model collisionbox>, -- (optional)
+      --   selectionbox = <model selectionbox>, -- (optional, defaults to collisionbox)
       --   eye_height = <model eye height>,     -- (optional)
       --   -- suspend client side animations while this one is active (optional)
       --   override_local = <true/false>
@@ -37,6 +38,7 @@ written right of the equals sign, if any):
    -- Default object properties, see lua_api.txt:
    visual_size = {x = 1, y = 1},
    collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
+   selectionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3, rotate = true},
    stepheight = 0.6,
    eye_height = 1.47
 }

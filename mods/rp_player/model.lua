@@ -12,12 +12,12 @@ rp_player.registered_models = {}
 -- Local for speed.
 local models = rp_player.registered_models
 
-local function collisionbox_equals(collisionbox, other_collisionbox)
-	if collisionbox == other_collisionbox then
+local function collisionbox_or_selectionbox_equals(box, other_box)
+	if box == other_box then
 		return true
 	end
 	for index = 1, 6 do
-		if collisionbox[index] ~= other_collisionbox[index] then
+		if box[index] ~= other_box[index] then
 			return false
 		end
 	end
@@ -28,6 +28,7 @@ function rp_player.player_register_model(name, def)
 	models[name] = def
 	def.visual_size = def.visual_size or {x = 1, y = 1}
 	def.collisionbox = def.collisionbox or {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3}
+	def.selectionbox = def.selectionbox or def.collisionbox
 	def.stepheight = def.stepheight or 0.6
 	def.eye_height = def.eye_height or 1.47
 
@@ -36,11 +37,13 @@ function rp_player.player_register_model(name, def)
 	for animation_name, animation in pairs(def.animations) do
 		animation.eye_height = animation.eye_height or def.eye_height
 		animation.collisionbox = animation.collisionbox or def.collisionbox
+		animation.selectionbox = animation.selectionbox or def.selectionbox
 		animation.override_local = animation.override_local or false
 
 		for _, other_animation in pairs(def.animations) do
 			if other_animation._equals then
-				if collisionbox_equals(animation.collisionbox, other_animation.collisionbox)
+				if collisionbox_or_selectionbox_equals(animation.collisionbox, other_animation.collisionbox)
+						and collisionbox_or_selectionbox_equals(animation.selectionbox, other_animation.selectionbox)
 						and animation.eye_height == other_animation.eye_height then
 					animation._equals = other_animation._equals
 					break
@@ -85,7 +88,7 @@ function rp_player.player_set_model(player, model_name)
 			visual_size = model.visual_size,
 			stepheight = model.stepheight
 		})
-		-- sets local_animation, collisionbox & eye_height
+		-- sets local_animation, collisionbox, selectionbox & eye_height
 		rp_player.player_set_animation(player, "stand")
 	else
 		player:set_properties({
@@ -93,6 +96,7 @@ function rp_player.player_set_model(player, model_name)
 			visual = "upright_sprite",
 			visual_size = {x = 1, y = 2},
 			collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.75, 0.3},
+			selectionbox = {-0.3, 0.0, -0.3, 0.3, 1.75, 0.3, rotate = true},
 			stepheight = 0.6,
 			eye_height = 1.625,
 		})
@@ -161,6 +165,7 @@ function rp_player.player_set_animation(player, anim_name, speed, loop)
 	if anim._equals ~= previous_anim._equals then
 		player:set_properties({
 			collisionbox = anim.collisionbox,
+			selectionbox = anim.selectionbox,
 			eye_height = anim.eye_height
 		})
 	end
