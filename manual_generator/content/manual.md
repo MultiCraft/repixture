@@ -465,7 +465,9 @@ Repixture supports the protection system of Minetest but it doesn’t enforce pr
 
 Whatever you do with your Repixture server is up to you, of course, just keep the gameplay implications in mind.
 
-In multiplayer, you can see the name as well as the health bar of every player above their head. The health bar can be disabled in the settings.
+In multiplayer, you can see the name as well as the health bar of every player above their head as a white text. But when a player is sneaking, their nametag becomes near-invisible.
+
+The health bar can be disabled in the settings.
 
 
 ### Modding support
