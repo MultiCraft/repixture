@@ -302,7 +302,7 @@ unpushed state.
 (Note: Internally, this tab is a button. It has nothing to do with
 Minetest's builtin 'tabheader')
 
-### `rp_formspec.fake_itemstack(x, y, itemstack)`
+### `rp_formspec.fake_itemstack(x, y, itemstack, xsize, ysize)`
 
 Adds an item image that shows the given itemstack.
 A tooltip for the image will be added as well, showing
@@ -310,10 +310,11 @@ the item’s tooltip.
 
 * `x`, `y`: Position
 * `itemstack`: ItemStack to represent.
+* `xsize`, `ysize`: Optional X and Y size (default: 1×1)
 
 
 
-### `rp_formspec.fake_itemstack_any(x, y, itemstack, name)`
+### `rp_formspec.fake_itemstack_any(x, y, itemstack, name, xsize, ysize)`
 
 Convenience function that either uses `rp_formspec.fake_itemstack` or
 `rp_formspec.item_group`.
@@ -326,10 +327,11 @@ is used.
 * `x`, `y`: Position
 * `itemstack`: ItemStack of the item or group to represent
 * `name`: Internal name to use for the formspec element iff it’s a group
+* `xsize`, `ysize`: Optional X and Y size (default: 1×1)
 
 
 
-### `rp_formspec.item_group(x, y, group, count, name)`
+### `rp_formspec.item_group(x, y, group, count, name, xsize, ysize)`
 
 A symbol that represents an item group. Item groups use item images
 to represent themselves but with a darkened background. Used by
@@ -339,7 +341,7 @@ the crafting guide. The group **must** exist in `rp_formspec.group_names`.
 * `group`: Group name (must be supported)
 * `count`: Item count to show (default: nothing to show)
 * `name`: Internal identifier
-
+* `xsize`, `ysize`: Optional X and Y size (default: 1×1)
 
 
 ## Other features

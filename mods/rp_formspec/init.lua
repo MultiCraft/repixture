@@ -271,10 +271,16 @@ local function get_itemdef_field(itemname, fieldname)
    return minetest.registered_items[itemname][fieldname]
 end
 
-function rp_formspec.fake_itemstack(x, y, itemstack)
+function rp_formspec.fake_itemstack(x, y, itemstack, xsize, ysize)
    local itemname = itemstack:get_name()
    local itemamt = itemstack:get_count()
    local itemwear = itemstack:get_wear()
+   if not xsize then
+      xsize = 1
+   end
+   if not ysize then
+      ysize = 1
+   end
 
    local itemdesc = ""
    if minetest.registered_items[itemname]
@@ -286,17 +292,23 @@ function rp_formspec.fake_itemstack(x, y, itemstack)
 
    local result = ""
    if itemname ~= "" then
-      result = result .. "item_image["..x..","..y..";1,1;"
+      result = result .. "item_image["..x..","..y..";"..xsize..","..ysize..";"
          ..minetest.formspec_escape(itemstring).."]"
 
-      result = result .. "tooltip["..x..","..y..";1,1;"..minetest.formspec_escape(itemdesc).."]"
+      result = result .. "tooltip["..x..","..y..";"..xsize..","..ysize..";"..minetest.formspec_escape(itemdesc).."]"
    end
 
    return result
 end
 
-function rp_formspec.item_group(x, y, group, count, name)
+function rp_formspec.item_group(x, y, group, count, name, xsize, ysize)
    local name = name or "fake_itemgroup"
+   if not xsize then
+      xsize = 1
+   end
+   if not ysize then
+      ysize = 1
+   end
 
    local itemname = ""
 
@@ -316,8 +328,8 @@ function rp_formspec.item_group(x, y, group, count, name)
    local result = ""
    if itemname ~= "" then
       result = result
-         .."box["..x..","..y..";1,1;#00000040]"
-         .."item_image["..x..","..y..";1,1;"
+         .."box["..x..","..y..";"..xsize..","..ysize..";#00000040]"
+         .."item_image["..x..","..y..";"..xsize..","..ysize..";"
          ..minetest.formspec_escape(itemname .. " " .. count).."]"
 
       local group_prettyprint
@@ -326,20 +338,20 @@ function rp_formspec.item_group(x, y, group, count, name)
       else
           group_prettyprint = S("Group: @1", minetest.colorize("#ffecb6", group))
       end
-      result = result .. "tooltip["..x..","..y..";1,1;"..
+      result = result .. "tooltip["..x..","..y..";"..xsize..","..ysize..";"..
          minetest.formspec_escape(group_prettyprint).."]"
    end
 
    return result
 end
 
-function rp_formspec.fake_itemstack_any(x, y, itemstack, name)
+function rp_formspec.fake_itemstack_any(x, y, itemstack, name, xsize, ysize)
    local group = string.match(itemstack:get_name(), "group:(.*)")
 
    if group == nil then
-      return rp_formspec.fake_itemstack(x, y, itemstack)
+      return rp_formspec.fake_itemstack(x, y, itemstack, xsize, ysize)
    else
-      return rp_formspec.item_group(x, y, group, itemstack:get_count(), name)
+      return rp_formspec.item_group(x, y, group, itemstack:get_count(), name, xsize, ysize)
    end
 end
 
