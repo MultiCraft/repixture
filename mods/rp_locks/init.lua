@@ -330,8 +330,8 @@ local chest_def = {
 
             form = form .. rp_formspec.default.player_inventory
 
+            form = form .. "listring[current_player;main]"
             form = form .. "listring[nodemeta:" .. np .. ";main]"
-            form = form .. "listring[current_name;main]"
 
             form = form .. rp_label.container_label_formspec_element(meta)
 
