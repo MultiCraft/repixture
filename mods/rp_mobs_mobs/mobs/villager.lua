@@ -1566,7 +1566,12 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 				if not trading then
 					if hp >= hp_max-7 then
 						-- Good mood: Talk about item in hand or about something random
-						villager_speech.talk_about_item(profession, iname, player_name, villager_name)
+						local has_worksite = self._custom_state.worksite and is_valid_worksite(self._custom_state.worksite, profession)
+						local has_bed = self._custom_state.home_bed and bed.is_valid_bed(self._custom_state.home_bed)
+						local talked = villager_speech.talk_about_item(profession, iname, player_name, villager_name, has_worksite, has_bed)
+						if not talked then
+							villager_speech.smalltalk(profession, player_name, villager_name, has_worksite, has_bed)
+						end
 					elseif hp >= 5 then
 						-- Low HP: Complain about exhaustion
 						villager_speech.say_random("exhausted", player_name, villager_name)
