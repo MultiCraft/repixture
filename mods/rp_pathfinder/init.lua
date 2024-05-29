@@ -111,13 +111,12 @@ end
 -- * get_floor_cost(node): Function that, given a node table, returns the
 --   cost of walking *on* this node (default cost is 1)
 local function get_neighbor_cost(pos1, pos2, get_node, get_floor_cost)
-	local floor = vector.offset(pos2, 0, -1, 0)
-	local floornode = get_node(floor)
 	if not get_floor_cost then
 		return 1
-	else
-		return get_floor_cost(floornode)
 	end
+	local floor = vector.offset(pos2, 0, -1, 0)
+	local floornode = get_node(floor)
+	return get_floor_cost(floornode)
 end
 
 -- Checks nodes above pos to be non-blocking.
