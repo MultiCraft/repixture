@@ -70,6 +70,25 @@ bed.is_valid_bed = function(pos)
    return false
 end
 
+bed.get_bed_segment = function(pos, node, segment)
+   local dir = minetest.fourdir_to_dir(node.param2)
+   if node.name == "rp_bed:bed_head" then
+      if segment == "head" then
+         return pos
+      elseif segment == "foot" or segment == "other" then
+         return vector.subtract(pos, dir)
+      end
+   elseif node.name == "rp_bed:bed_foot" then
+      if segment == "head" or segment == "other" then
+         return vector.add(pos, dir)
+      elseif segment == "foot" then
+         return pos
+      end
+   else
+      return nil
+   end
+end
+
 -- Savefile
 
 local bed_file = minetest.get_worldpath() .. "/bed.dat"
