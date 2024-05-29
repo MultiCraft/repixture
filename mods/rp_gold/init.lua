@@ -47,7 +47,7 @@ gold.trade_names = {}
 local TRADE_FORMSPEC_START_X = rp_formspec.default.start_point.x
 local TRADE_FORMSPEC_START_Y = rp_formspec.default.start_point.y
 local TRADE_FORMSPEC_OFFSET_X = 5
-local TRADE_FORMSPEC_OFFSET_Y = 0.8
+local TRADE_FORMSPEC_OFFSET_Y = 0.5
 
 if minetest.get_modpath("rp_mobs") ~= nil then
    gold.trades["farmer"] = {
@@ -235,7 +235,6 @@ form_trading = form_trading .. "listring[current_player;gold_trade_in]"
 form_trading = form_trading .. "listring[current_player;main]"
 form_trading = form_trading .. "listring[current_player;gold_trade_out]"
 
-form_trading = form_trading .. "image[2.5,0;1,1;ui_arrow_bg.png^[transformR270]"
 form_trading = form_trading .. "image[2.5,1.25;1,1;ui_arrow.png^[transformR270]"
 
 form_trading = form_trading .. rp_formspec.button(0.15, 2.5, 2, 1, "trade", S("Trade"))
@@ -275,7 +274,13 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
       return
    end
 
-   active_tradings[name] = { all_trades = all_trades, trade_index = trade_index, trade_type = trade_type, trader = trader }
+   local scroll_pos
+   if active_tradings[name] then
+      scroll_pos = active_tradings[name].scroll_pos
+   else
+      scroll_pos = 0
+   end
+   active_tradings[name] = { all_trades = all_trades, trade_index = trade_index, scroll_pos = scroll_pos, trade_type = trade_type, trader = trader }
 
    local inv = player:get_inventory()
 
@@ -300,56 +305,58 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
 
    local form = rp_formspec.get_page("rp_gold:trading_book")
    form = form .. "container["..TRADE_FORMSPEC_START_X..","..TRADE_FORMSPEC_START_Y.."]"
-   form = form .. "label[0,"..(TRADE_FORMSPEC_OFFSET_Y-0.5)..";"..minetest.formspec_escape(label).."]"
+   form = form .. "label[0,"..(TRADE_FORMSPEC_OFFSET_Y-0.3)..";"..minetest.formspec_escape(label).."]"
 
    local trades_listed = {}
-   local print_item = function(itemstring)
-      local stack = ItemStack(itemstring)
-      local name = stack:get_short_description()
-      if stack:get_name() == "rp_gold:ingot_gold" then
-         -- Short for "Gold Ingot"
-         name = S("G")
-      end
-      local count = stack:get_count()
-      local out
-      if stack:get_name() == "rp_gold:ingot_gold" then
-         out = S("@1 @2", count, name)
-      elseif count > 1 then
-         out = S("@1×@2", count, name)
-      else
-         out = name
-      end
-      return out
-   end
+   local trades_listed_str = ""
+   local cy = 0
    for t=1, #all_trades do
-      local take, give
+      local take1, take2, give
       if all_trades[t][2] == "" then
-         take = print_item(all_trades[t][1])
+         take1 = ItemStack(all_trades[t][1])
+         take2 = ItemStack(all_trades[t][2])
       else
-         take = S("@1 + @2", print_item(all_trades[t][1]), print_item(all_trades[t][2]))
+         take1 = ItemStack(all_trades[t][1])
+         take2 = ItemStack(all_trades[t][2])
       end
       if is_repair_trade(all_trades[t]) then
-         give = S("(repair)")
+         give = ItemStack(all_trades[t][2])
       else
-         give = print_item(all_trades[t][3])
+         give = ItemStack(all_trades[t][3])
       end
-      local entry = S("@1 → @2", take, give)
-      table.insert(trades_listed, minetest.formspec_escape(entry))
-   end
-   local trades_listed_str = table.concat(trades_listed, ",")
-   form = form .. "tablecolumns[text]"
-   form = form .. "table[0,"..TRADE_FORMSPEC_OFFSET_Y..";4.75,3.5;tradelist;"..trades_listed_str..";"..trade_index.."]"
 
-   form = form .. "container["..TRADE_FORMSPEC_OFFSET_X..","..TRADE_FORMSPEC_OFFSET_Y.."]"
-   if is_repair_trade(trade) then
-      -- Display repairable tool as damaged so the purpose of
-      -- repair trades is more obvious
-      trade_wanted2:set_wear(58982) -- ca. 90% wear
+      if is_repair_trade(all_trades[t]) then
+         -- Display repairable tool as damaged so the purpose of
+         -- repair trades is more obvious
+         take2:set_wear(58982) -- ca. 90% wear
+      end
+      trades_listed_str =
+          -- Trade selection button
+          "button[0,"..cy..";4.2,1.0;tradesel_"..t..";]" ..
+          trades_listed_str .. rp_formspec.fake_itemstack(0.2, cy+0.1, take1, 0.8, 0.8) ..
+          rp_formspec.fake_itemstack(1.2, cy+0.1, take2, 0.8, 0.8) ..
+          "image[2.2,"..(cy+0.1)..";0.8,0.8;ui_arrow_bg.png^[transformR270]" ..
+          rp_formspec.fake_itemstack(3.2, cy+0.1, give, 0.8, 0.8)
+
+      cy = cy + 1
    end
-   form = form .. rp_formspec.fake_itemstack(0, 0, trade_wanted1)
-   form = form .. rp_formspec.fake_itemstack(1.25, 0, trade_wanted2)
-   form = form .. rp_formspec.fake_itemstack(3.75, 0, ItemStack(trade[3]))
-   form = form .. "container_end[]"
+   if #all_trades > 4 then
+      local maxscroll = #all_trades - 4
+      local thumb = math.max(1, math.floor(maxscroll / 5))
+      form = form .. "scrollbaroptions[min=0;max="..maxscroll..";thumbsize="..thumb..";smallstep=1;largestep=4]"
+      form = form .. "scrollbar[4.3,"..TRADE_FORMSPEC_OFFSET_Y..";0.3,4;vertical;tradescroller;"..scroll_pos.."]"
+   end
+   form = form .. "scroll_container[0,"..TRADE_FORMSPEC_OFFSET_Y..";4.21,4;tradescroller;vertical;1]"
+   form = form .. "style_type[button;border=false;bgimg_middle=24]"
+   form = form .. "style_type[button;bgimg=ui_button_trade_inactive.png^[resize:64x64]"
+   form = form .. "style_type[button:pressed;bgimg=ui_button_trade_active.png^[resize:64x64]"
+   if trade_index then
+      local selected_trade_elem = "tradesel_"..trade_index
+      form = form .. "style["..selected_trade_elem..";bgimg=ui_button_trade_selected_inactive.png^[resize:64x64]"
+      form = form .. "style["..selected_trade_elem..":pressed;bgimg=ui_button_trade_selected_active.png^[resize:64x64]"
+   end
+   form = form .. trades_listed_str
+   form = form .. "scroll_container_end[]"
    form = form .. "container_end[]"
 
    minetest.show_formspec(name, "rp_gold:trading_book", form)
@@ -429,20 +436,29 @@ minetest.register_on_player_receive_fields(
 	 return
       end
 
-      if fields.tradelist then
-	 local tdata = minetest.explode_table_event(fields.tradelist)
-	 if tdata.type == "CHG" or tdata.type == "DCL" then
-            do
-               local trade_index = tdata.row
-               local all_trades = active_tradings[name].all_trades
-               local trade_type = active_tradings[name].trade_type
-               local trader = active_tradings[name].trader
-               local trade = all_trades[trade_index]
-               gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
-	    end
-	 end
-	 return
+      if fields.tradescroller then
+         -- Remember position of scrollbar
+         local evnt = minetest.explode_scrollbar_event(fields.tradescroller)
+         if evnt.type == "CHG" then
+            active_tradings[name].scroll_pos = evnt.value
+            return
+         end
       end
+
+      -- Selected a trade from trade list
+      for f=1, #active_tradings[name].all_trades do
+         if fields["tradesel_"..f] then
+            local trade_index = f
+            local all_trades = active_tradings[name].all_trades
+            local trade_type = active_tradings[name].trade_type
+            local trader = active_tradings[name].trader
+            local trade = all_trades[trade_index]
+            gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
+            return
+	 end
+      end
+
+      -- Trade button pressed
       if fields.trade then
 	 local trade_wanted1 = inv:get_stack("gold_trade_wanted", 1)
 	 local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
