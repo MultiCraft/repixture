@@ -1,5 +1,8 @@
 local S = minetest.get_translator("rp_mobs")
 
+-- Color of mob name in inventory
+local MOB_NAME_COLOR_INV = "#FFFF00"
+
 local capture_tools = {}
 rp_mobs.register_capture_tool = function(toolname, def)
 	capture_tools[toolname] = { uses = def.tool_uses, sound = def.sound, sound_gain = def.sound_gain, sound_max_hear_distance = def.sound_max_hear_distance }
@@ -73,6 +76,13 @@ rp_mobs.attempt_capture = function(self, clicker, capture_chances, force_take, r
 
 			-- Create item
 			local mobitem = ItemStack(mobname)
+			local mobitemmeta = mobitem:get_meta()
+
+			-- Set mob name in description
+			if self._name and self._name ~= "" then
+				-- @1 = mob description, @2 = mob name (label)
+				mobitemmeta:set_string("description", S("@1: “@2”", mobitem:get_description(), minetest.colorize(MOB_NAME_COLOR_INV, self._name)))
+			end
 
 			-- _on_create_capture_item
 			local mobitemdef = minetest.registered_items[mobname]
