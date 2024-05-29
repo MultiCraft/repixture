@@ -44,6 +44,10 @@ restrictions and does not cut corners.
 	* `handler_climbable`: A function that takes a node table and returns
           true if the node is considered climable
           (default: if `climbing` field of node is true)
+	* `get_floor_cost`: Function that takes a node table and returns
+           the cost (a number) of walking _on_ the given node. The villager searches
+           for the path with the lowest total cost. By default, the cost is 1
+           for all nodes. The function _MUST NOT_ return a negative cost!
 	* `use_vmanip`: If true, nodes will be queried using a LuaVoxelManip;
 	  otherwise, `minetest.get_node` will be used. Required for async
 	  usage.

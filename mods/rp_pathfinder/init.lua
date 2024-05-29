@@ -104,52 +104,20 @@ local function get_distance_2d(pos1, pos2)
 	return distX + distZ
 end
 
-local function get_floor_cost(node)
-	local nn = node.name
-	if nn == "rp_default:heated_dirt_path" then
-		return 1
-	elseif minetest.get_item_group(nn, "path") ~= 0 then
-		return 3
-	elseif minetest.get_item_group(nn, "stone") ~= 0 or
-			minetest.get_item_group(nn, "bricks") ~= 0 or
-			nn == "rp_default:cobble" or
-			nn == "rp_default:compressed_sandstone" or
-			nn == "rp_default:reinforced_compressed_sandstone" or
-			nn == "rp_default:reinforced_frame" or
-			nn == "rp_default:reinforced_cobble" or
-			nn == "rp_default:frame" or
-			nn == "rp_default:glass" or
-			nn == "rp_mobs_mobs:wool" or
-			nn == "rp_mobs_mobs:wool_painted" or
-			nn == "rp_default:block_bronze" or
-			nn == "rp_default:block_steel" or
-			nn == "rp_default:block_carbon_steel" or
-			nn == "rp_default:block_wrought_iron" or
-			nn == "rp_default:block_tin" or
-			nn == "rp_default:block_copper" or
-			minetest.get_item_group(nn, "planks") ~= 0 then
-		return 6
-	elseif minetest.get_item_group(nn, "furnace") ~= 0 or
-			minetest.get_item_group(nn, "chest") ~= 0 or
-			minetest.get_item_group(nn, "bed") ~= 0 or
-			nn == "rp_itemshow:showcase" or
-			nn == "rp_default:bookshelf" or
-			nn == "rp_decor:barrel" or
-			nn == "rp_music:player" or
-			nn == "rp_jewel:bench" then
-		return 50
-	elseif nn == "rp_default:cactus" or nn == "rp_tnt:tnt" or nn == "rp_tnt:tnt_burning" then
-		return 100
-	else
-		return 9
-	end
-end
-
 -- Get actual cost to walk from pos1 to pos2 (which must be a neighbor)
-local function get_neighbor_cost(pos1, pos2, get_node)
+-- * pos1: Origin position
+-- * pos2: Target position (neighbor of pos1)
+-- * get_node: get_node function
+-- * get_floor_cost(node): Function that, given a node table, returns the
+--   cost of walking *on* this node (default cost is 1)
+local function get_neighbor_cost(pos1, pos2, get_node, get_floor_cost)
 	local floor = vector.offset(pos2, 0, -1, 0)
 	local floornode = get_node(floor)
-	return get_floor_cost(floornode)
+	if not get_floor_cost then
+		return 1
+	else
+		return get_floor_cost(floornode)
+	end
 end
 
 -- Checks nodes above pos to be non-blocking.
@@ -402,6 +370,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 	local max_jump = options.max_jump or 0
 	local respect_disable_jump = options.respect_disable_jump or false
 	local respect_climb_restrictions = options.respect_climb_restrictions
+	local get_floor_cost = options.get_floor_cost
 	if respect_climb_restrictions == nil then
 		respect_climb_restrictions = true
 	end
@@ -484,7 +453,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 
 	-- Add the first search node to open set at the start
 
-	local h_first = get_neighbor_cost(pos1, pos2, get_node)
+	local h_first = get_neighbor_cost(pos1, pos2, get_node, get_floor_cost)
 	set_search_node(open_set, start_hash, {
 		pos = pos1,
 		parent = nil,
@@ -615,7 +584,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 				local g = 0 -- cost from start
 				local h -- estimated cost from search node to finish
 				local f -- g+h
-				local neighbor_cost = current_data.g + get_neighbor_cost(current_data.pos, neighbor.pos, get_node)
+				local neighbor_cost = current_data.g + get_neighbor_cost(current_data.pos, neighbor.pos, get_node, get_floor_cost)
 				local neighbor_data = get_search_node(open_set, neighbor.hash)
 				local neighbor_exists
 				if neighbor_data then
@@ -625,7 +594,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 					neighbor_exists = false
 				end
 				if not neighbor_exists or neighbor_cost < g then
-					h = get_neighbor_cost(neighbor.pos, pos2, get_node)
+					h = get_neighbor_cost(neighbor.pos, pos2, get_node, get_floor_cost)
 					g = neighbor_cost
 					f = g + h
 					set_search_node(open_set, neighbor.hash, {

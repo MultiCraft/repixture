@@ -155,6 +155,50 @@ local is_node_swimmable = function(node)
 	end
 end
 
+-- Cost function for rp_pathfinder. Returns the cost of walking
+-- *on* a node.
+local function get_floor_cost(node)
+	local nn = node.name
+	if nn == "rp_default:heated_dirt_path" then
+		return 1
+	elseif minetest.get_item_group(nn, "path") ~= 0 then
+		return 3
+	elseif minetest.get_item_group(nn, "stone") ~= 0 or
+			minetest.get_item_group(nn, "bricks") ~= 0 or
+			nn == "rp_default:cobble" or
+			nn == "rp_default:compressed_sandstone" or
+			nn == "rp_default:reinforced_compressed_sandstone" or
+			nn == "rp_default:reinforced_frame" or
+			nn == "rp_default:reinforced_cobble" or
+			nn == "rp_default:frame" or
+			nn == "rp_default:glass" or
+			nn == "rp_mobs_mobs:wool" or
+			nn == "rp_mobs_mobs:wool_painted" or
+			nn == "rp_default:block_bronze" or
+			nn == "rp_default:block_steel" or
+			nn == "rp_default:block_carbon_steel" or
+			nn == "rp_default:block_wrought_iron" or
+			nn == "rp_default:block_tin" or
+			nn == "rp_default:block_copper" or
+			minetest.get_item_group(nn, "planks") ~= 0 then
+		return 6
+	elseif minetest.get_item_group(nn, "furnace") ~= 0 or
+			minetest.get_item_group(nn, "chest") ~= 0 or
+			minetest.get_item_group(nn, "bed") ~= 0 or
+			nn == "rp_itemshow:showcase" or
+			nn == "rp_default:bookshelf" or
+			nn == "rp_decor:barrel" or
+			nn == "rp_music:player" or
+			nn == "rp_jewel:bench" then
+		return 50
+	elseif nn == "rp_default:cactus" or nn == "rp_tnt:tnt" or nn == "rp_tnt:tnt_burning" then
+		return 100
+	else
+		return 9
+	end
+end
+
+
 local PATHFINDER_SEARCHDISTANCE = 30
 local PATHFINDER_TIMEOUT = 1.0
 local PATHFINDER_OPTIONS = {
@@ -166,6 +210,7 @@ local PATHFINDER_OPTIONS = {
 	respect_disable_jump = true,
 	handler_walkable = is_node_walkable,
 	handler_blocking = is_node_blocking,
+	get_floor_cost = get_floor_cost,
 	use_vmanip = true,
 }
 
