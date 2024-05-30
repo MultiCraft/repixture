@@ -42,6 +42,7 @@ end
 -- * original: Original texture definition table (to overlay the punch texture)
 -- * punches: Number of punches or -1 to reset to original (unpunched) texture
 -- * max_punches: Number of max. punches at which the boat will die
+--                (1 damage counts as 1 punch)
 local set_damage_texture = function(self, original, punches, max_punches)
 	if punches == -1 then
 		self.object:set_properties({textures=original})
@@ -469,16 +470,25 @@ local register_boat = function(name, def)
 				-- Use engine punch handling for non-player puncher (like TNT)
 				return false
 			end
+			-- Negative damage won't do anything to the boat
+			if damage < 0 then
+				return true
+			end
+			-- Damage of 0 or 1 counts as a single valid punch
+			-- and increases punch counter by 1.
+			-- Damage higher than 1 counts as multiple punches.
+			damage = math.max(1, damage)
+
 			-- If there were def.max_punches consecutive punches on the boat,
 			-- each punch faster than RESET_PUNCH_TIMER, the boat dies.
 			minetest.sound_play(def.sound_punch or {name="rp_sounds_dig_hard", gain=0.3}, {pos=self.object:get_pos()}, true)
 			if time_from_last_punch == nil or time_from_last_punch < RESET_PUNCH_TIMER then
 				-- Increase punch counter if first punch, it it was fast enough
-				self._punches = self._punches + 1
+				self._punches = self._punches + damage
 				self._punch_timer = 0
 			else
 				-- Reset punch counter, but count this punch again
-				self._punches = 1
+				self._punches = damage
 				self._punch_timer = 0
 			end
 			set_damage_texture(self, def.textures, self._punches, def.max_punches)
