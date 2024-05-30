@@ -22,3 +22,9 @@ The default blast resistance is 0. At blast resistance 1000000 or higher, the no
     * `grief_protected`: bool, if true, the explosion will also destroy nodes which have been protected (default: false)
     * `death_message`: string. If set, will send this as a custom death message to all players who get killed. Can be translated. (default: "You were caught in an explosion" (translated)).
 * `puncher`: (optional) entity, will be used as source for damage done by the explosion
+
+## Entity knockback
+
+By default, entities do not suffer knockback from explosions. It has to be activated manually.
+To activate knockback, add `_rp_explosions_knockback = true` to the entity definition in
+`minetest.register_entity`.
