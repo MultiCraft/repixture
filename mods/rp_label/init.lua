@@ -82,6 +82,7 @@ local write = function(itemstack, player, pointed_thing)
           minetest.show_formspec(player:get_player_name(), "rp_label:label", form)
 
           active_objects[player:get_player_name()] = obj
+          active_posses[player:get_player_name()] = nil
        end
        return itemstack
     end
@@ -93,7 +94,6 @@ local write = function(itemstack, player, pointed_thing)
        return itemstack
     end
 
-    active_posses[player:get_player_name()] = table.copy(pointed_thing.under)
     local node = minetest.get_node(pointed_thing.under)
     local def = minetest.registered_nodes[node.name]
 
@@ -104,6 +104,9 @@ local write = function(itemstack, player, pointed_thing)
        local form = rp_formspec.get_page("rp_label:label")
        form = form .. "field[1,1.5;6.5,0.5;text;;"..minetest.formspec_escape(text).."]"
        form = form .. "set_focus[text;true]"
+
+       active_posses[player:get_player_name()] = table.copy(pointed_thing.under)
+       active_objects[player:get_player_name()] = nil
 
        minetest.show_formspec(player:get_player_name(), "rp_label:label", form)
     end
@@ -122,10 +125,13 @@ minetest.register_craftitem(
 })
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
+   local pname = player:get_player_name()
    if formname ~= "rp_label:label" then
+      -- Reset temp vars
+      active_posses[pname] = nil
+      active_objects[pname] = nil
       return
    end
-   local pname = player:get_player_name()
    if fields.text then
       -- Player must wield label
       local witem = player:get_wielded_item()
@@ -148,10 +154,16 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             end
          end
       end
-      -- Use up label item after writing
-      if named and not minetest.is_creative_enabled(pname) then
-         witem:take_item()
-         player:set_wielded_item(witem)
+      if named then
+         -- Reset temp vars
+         active_posses[pname] = nil
+         active_objects[pname] = nil
+
+         -- Use up label item after writing
+         if not minetest.is_creative_enabled(pname) then
+            witem:take_item()
+            player:set_wielded_item(witem)
+         end
       end
    elseif fields.quit then
       active_posses[pname] = nil
