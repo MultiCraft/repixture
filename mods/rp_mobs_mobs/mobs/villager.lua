@@ -55,6 +55,8 @@ local REFLEX_TIME = 0.333
 local LIQUID_ESCAPE_RANGE = 6
 -- Number of tries to find safe dry nodes when stuck in liquid
 local LIQUID_ESCAPE_TRIES = 10
+-- Drag to apply when standing (slows down villager on XZ plane when pushed by add_velocity)
+local STAND_DRAG = 0.2
 
 -- Pathfinder stuff
 
@@ -1079,7 +1081,7 @@ local path_to_microtasks = function(path)
 		elseif entry.type == "climb" then
 			mt = rp_mobs.microtasks.follow_path_climb(entry.path, WALK_SPEED, CLIMB_SPEED, true, stop_follow_path_climb)
 		elseif entry.type == "idle" then
-			mt = rp_mobs.microtasks.sleep(entry.time)
+			mt = rp_mobs.microtasks.drag(vector.new(STAND_DRAG,0,STAND_DRAG), {"x", "z"}, entry.time)
 			mt.start_animation = "idle"
 		else
 			minetest.log("error", "[rp_mobs_mobs] path_to_microtasks: Invalid entry type in TODO list!")
@@ -1232,9 +1234,9 @@ local movement_decider_empty = function(task_queue, mob)
 
 	local task_stand = rp_mobs.create_task({label="stand still"})
 	rp_mobs.add_microtask_to_task(mob, microtask_look_around, task_stand)
-	local mt_sleep = rp_mobs.microtasks.sleep(IDLE_TIME)
-	mt_sleep.start_animation = "idle"
-	rp_mobs.add_microtask_to_task(mob, mt_sleep, task_stand)
+	local mt_stand = rp_mobs.microtasks.drag(vector.new(STAND_DRAG,0,STAND_DRAG), {"x", "z"}, IDLE_TIME)
+	mt_stand.start_animation = "idle"
+	rp_mobs.add_microtask_to_task(mob, mt_stand, task_stand)
 	rp_mobs.add_task_to_task_queue(task_queue, task_stand)
 
 	-- Regular day activity based on schedule: Go to bed, go to work or play
