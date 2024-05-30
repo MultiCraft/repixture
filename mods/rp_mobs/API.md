@@ -984,20 +984,20 @@ Parameters:
 * `y_offset`: Y offset of roughly the "center point" of the mob,
   relative to the mob position (`get_pos()`)
 
-#### `rp_mobs.drag(mob, dtime, drag, drag_axes)`
+### `rp_mobs.microtasks.drag = function(drag, drag_axes, time)`
 
-Slow mob down for the specified drag vector at the specified drag axes.
-The drag vector specifies on each axis how much the mob slows down.
+Continously reduces the mob velocity using the specified drag vector at the specified
+drag axes for a specified time. The drag vector specifies on each axis how much the mob slows down.
+This microtask finishes after the `time` runs out.
 
 This will call `set_velocity` directly.
 
 Parameters:
 
-* `mob`: Mob object
-* `dtime`: `dtime` from `on_step`
 * `drag`: Drag vector. Higher number = faster slowdown.
 * `drag_axes`: List of axes to which apply drag for (`"x"`, `"y"`, `"z"`).
   Other axes will be ignored.
+* `time`: Time after which microtaks finishes (seconds)
 
 ## Appendix
 

@@ -858,6 +858,23 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 	})
 end
 
+rp_mobs.microtasks.drag = function(drag, drag_axes, time)
+	return rp_mobs.create_microtask({
+		label = "stand",
+		on_start = function(self)
+			self.statedata.sleeptimer = 0
+		end,
+		on_step = function(self, mob, dtime)
+			self.statedata.sleeptimer = self.statedata.sleeptimer + dtime
+
+			rp_mobs.drag(mob, dtime, drag, drag_axes)
+		end,
+		is_finished = function(self, mob)
+			return self.statedata.sleeptimer and self.statedata.sleeptimer >= time
+		end,
+	})
+end
+
 rp_mobs.microtasks.rotate_yaw_smooth = function(yaw, time)
 	local label
 	if yaw == "random" then
@@ -914,10 +931,10 @@ end
 rp_mobs.microtasks.sleep = function(time)
 	return rp_mobs.create_microtask({
 		label = "sleep for "..time.."s",
+		on_start = function(self)
+			self.statedata.sleeptimer = 0
+		end,
 		on_step = function(self, mob, dtime)
-			if not self.statedata.sleeptimer then
-				self.statedata.sleeptimer = 0
-			end
 			self.statedata.sleeptimer = self.statedata.sleeptimer + dtime
 		end,
 		is_finished = function(self, mob)
