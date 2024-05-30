@@ -147,14 +147,26 @@ Removes color of a paintable node at `pos`, returning it to its
 Returns `true` on success, `false` on failure or if node was not painted
 or if node does not support an unpainted state.
 
-### `rp_paint.scrape_color(pos)`
+### `rp_paint.scrape_color(pos, pointed_thing)`
 
 Same as `rp_paint.remove_color`, but will also play a “scraping-off”
 sound effect (`_rp_scrape`) and show a particle effect.
 
 The recommended use case for this function is tools.
 
-By default, the particles will be based on the node itself by adding
+* `pos`: Position of node to scrape off
+* `pointed_thing`: A pointed thing table specifying where the position
+                   was pointed to (used for particle position)
+
+See also "Scrape particle fine-tuning" for details on how to customize
+the scrape particles for nodes.
+
+## Appendix
+
+### Scrape particle fine-tuning
+
+By default, when scraping off a node, the particles will be based on
+the node itself by adding
 `node = <the node that was scraped>` to the particle spawner
 definition. This looks good for most nodes but sometimes it doesn’t.
 
@@ -163,6 +175,13 @@ node to specify a different node (as string) to base the
 particle effect on. If set to `false`, there will be no scraping
 particles.
 (Example: `_rp_paint_particle_node = "rp_default:planks_painted"`)
+
+With the field `_rp_paint_particle_pos`, you can specify a custom
+position for the particles:
+
+* `"flat_above"` (default): Particles appear in front of the node
+                 where it was scraped
+* `"cube_inside"`: Particles appear inside the scraped node
 
 ### Color IDs
 

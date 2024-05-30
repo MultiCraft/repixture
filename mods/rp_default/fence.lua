@@ -70,6 +70,7 @@ local function register_fence(name, def)
 	def_painted.tiles = {def.texture_top_painted, def.texture_top_painted, def.texture_side_painted}
 	def_painted.inventory_image = def.inventory_image.."^[hsl:0:-100:0"
 	def_painted.wield_image = def.wield_image.."^[hsl:0:-100:0"
+	def_painted._rp_paint_particle_pos = "cube_inside"
 	local name_painted = name .. "_painted"
 	minetest.register_node(name_painted, def_painted)
 end
@@ -238,6 +239,7 @@ local function register_fence_gate(name, def)
 	def_open_painted.tiles = {def.texture_top_painted, def.texture_top_painted, def.texture_side_painted, def.texture_side_painted, def.texture_front_painted}
 	def_open_painted.inventory_image = nil
 	def_open_painted.wield_image = nil
+	def_open_painted._rp_paint_particle_pos = "cube_inside"
 	minetest.register_node(gate_id_open_painted, def_open_painted)
 
 	local def_closed_painted = table.copy(def_closed)
@@ -250,6 +252,7 @@ local function register_fence_gate(name, def)
 	def_closed_painted.tiles = {def.texture_top_painted, def.texture_top_painted, def.texture_side_painted, def.texture_side_painted, def.texture_front_painted}
 	def_closed_painted.inventory_image = def.inventory_image.."^[hsl:0:-100:0"
 	def_closed_painted.wield_image = def.wield_image.."^[hsl:0:-100:0"
+	def_closed_painted._rp_paint_particle_pos = "cube_inside"
 	minetest.register_node(gate_id_closed_painted, def_closed_painted)
 end
 
