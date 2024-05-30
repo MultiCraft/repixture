@@ -434,7 +434,7 @@ local function trace_explode(pos, strength, raydirs, radius, info, direct, sourc
 	end
 
 	-- Log explosion
-	minetest.log("action", "Explosion at " .. pos_to_string(pos) .. " with strength " .. strength .. " and radius " ..
+	minetest.log("action", "[rp_explosions] Explosion at " .. pos_to_string(pos) .. " with strength " .. strength .. " and radius " ..
 		radius)
 end
 
