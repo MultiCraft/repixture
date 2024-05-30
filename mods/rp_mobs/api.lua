@@ -63,6 +63,9 @@ local task_queue_to_string = function(task_queue)
 end
 local mob_task_queues_to_string = function(mob)
 	local str = ""
+	if not mob._task_queues then
+		return str
+	end
 	local next_task_queue = mob._task_queues:iterator()
 	local task_queue = next_task_queue()
 	local first = true
@@ -106,6 +109,9 @@ local set_debug_nametag = function(mob)
 			str = str .. "\n"
 		end
 		str = str .. mob_task_queues_to_string(mob)
+	end
+	if str ~= "" and mob._name and mob._name ~= "" then
+		str = mob._name .. "\n" .. str
 	end
 	mob.object:set_properties({
 		nametag = str,
@@ -245,9 +251,15 @@ rp_mobs.restore_state = function(self, staticdata)
 			makes_footstep_sound = false,
 		})
 	end
+	local name = ""
 	if self._name and type(self._name) == "string" then
+		name = self._name
+	end
+	if TASK_DEBUG or STATE_DEBUG then
+		set_debug_nametag(self)
+	else
 		self.object:set_nametag_attributes({
-			text = self._name,
+			text = name,
 			color = NAMETAG_COLOR,
 		})
 	end
@@ -835,10 +847,14 @@ end
 
 rp_mobs.set_nametag = function(self, nametag)
 	self._name = nametag
-	self.object:set_nametag_attributes({
-		text = self._name,
-		color = NAMETAG_COLOR,
-	})
+	if TASK_DEBUG or STATE_DEBUG then
+		set_debug_nametag(self)
+	else
+		self.object:set_nametag_attributes({
+			text = self._name,
+			color = NAMETAG_COLOR,
+		})
+	end
 end
 
 rp_mobs.get_nametag = function(self)
