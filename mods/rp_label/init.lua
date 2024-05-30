@@ -17,8 +17,13 @@ form_label = form_label .. "background[0,0;8.5,4.5;ui_formspec_bg_short.png]"
 form_label = form_label .. rp_formspec.button_exit(2.75, 3, 3, 1, "", minetest.formspec_escape(S("Give name")), false)
 rp_formspec.register_page("rp_label:label", form_label)
 
-local active_posses = {}
-local active_objects = {}
+-- Remembers which thing (pos or object) a player is currently about to give a label to.
+-- * Key: player name
+-- * Value: {
+--     ttype = "pos" or "object", -- thing type
+--     thing = -- <position vector> or an <ObjectRef>
+-- }
+local active_things = {}
 
 rp_label.container_label_formspec_element = function(meta)
    local name = meta:get_string("name")
@@ -81,8 +86,7 @@ local write = function(itemstack, player, pointed_thing)
 
           minetest.show_formspec(player:get_player_name(), "rp_label:label", form)
 
-          active_objects[player:get_player_name()] = obj
-          active_posses[player:get_player_name()] = nil
+          active_things[player:get_player_name()] = { ttype = "object", thing = obj }
        end
        return itemstack
     end
@@ -105,8 +109,7 @@ local write = function(itemstack, player, pointed_thing)
        form = form .. "field[1,1.5;6.5,0.5;text;;"..minetest.formspec_escape(text).."]"
        form = form .. "set_focus[text;true]"
 
-       active_posses[player:get_player_name()] = table.copy(pointed_thing.under)
-       active_objects[player:get_player_name()] = nil
+       active_things[player:get_player_name()] = { ttype = "pos", thing = table.copy(pointed_thing.under) }
 
        minetest.show_formspec(player:get_player_name(), "rp_label:label", form)
     end
@@ -128,8 +131,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
    local pname = player:get_player_name()
    if formname ~= "rp_label:label" then
       -- Reset temp vars
-      active_posses[pname] = nil
-      active_objects[pname] = nil
+      active_things[pname] = nil
       return
    end
    if fields.text then
@@ -139,12 +141,13 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
       if witem:get_name() ~= "rp_label:label" then
          return
       end
-      local pos = active_posses[pname]
-      if pos then
+      local thing = active_things[pname]
+      if thing and thing.ttype == "pos" then
+         local pos = thing.thing
          rp_label.write_name(pos, fields.text)
          named = true
-      elseif mod_mobs then
-         local obj = active_objects[pname]
+      elseif mod_mobs and thing and thing.ttype == "object" then
+         local obj = thing.thing
          if obj then
             local lua = obj:get_luaentity()
             if lua and lua._cmi_is_mob then
@@ -156,8 +159,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
       end
       if named then
          -- Reset temp vars
-         active_posses[pname] = nil
-         active_objects[pname] = nil
+         active_things[pname] = nil
 
          -- Use up label item after writing
          if not minetest.is_creative_enabled(pname) then
@@ -166,14 +168,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
          end
       end
    elseif fields.quit then
-      active_posses[pname] = nil
-      active_objects[pname] = nil
+      active_things[pname] = nil
    end
 end)
 
 minetest.register_on_leaveplayer(function(player)
-   active_posses[player:get_player_name()] = nil
-   active_objects[player:get_player_name()] = nil
+   active_things[player:get_player_name()] = nil
 end)
 
 
