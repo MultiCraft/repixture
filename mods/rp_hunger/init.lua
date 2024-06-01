@@ -483,7 +483,7 @@ local function on_globalstep(dtime)
          if player_step[name] >= 24 then -- how much the player has been active
             player_step[name] = 0
             local oldhng = userdata[name].hunger
-            userdata[name].hunger = userdata[name].hunger - 1
+            userdata[name].hunger = math.max(0, userdata[name].hunger - 1)
             if (oldhng == HUNGER_WARNING_1 or oldhng == HUNGER_WARNING_2) and hp > 0 then
                minetest.chat_send_player(name, minetest.colorize("#ff0", S("You are hungry.")))
                local pos_sound  = player:get_pos()
