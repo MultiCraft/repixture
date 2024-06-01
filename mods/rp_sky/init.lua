@@ -12,7 +12,7 @@ local DEFAULT_CLOUDS = {
 	speed = {x=0, z=-2},
 }
 local DEFAULT_FOG_SUN_TINT = "#ff6300"
-local DEFAULT_FOG_MOON_TINT = "#7f99ff"
+local DEFAULT_FOG_MOON_TINT = "#7f99fe"
 
 local function make_clouds(params)
 	local clouds = table.copy(DEFAULT_CLOUDS)
