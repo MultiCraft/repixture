@@ -62,12 +62,12 @@ end
 -- Select death message for death by mob
 local mmsg = function(mtype, mname)
 	if mtype and mobkills[mtype] then
-		if mname then
+		if mname and mname ~= "" then
 			return S(mobkills[mtype][2], mname)
 		else
 			return S(mobkills[mtype][1])
 		end
-	elseif mname then
+	elseif mname and mname ~= "" then
 		return dmsg("mob_kill_named", mname)
 	else
 		return dmsg("mob_kill_any")

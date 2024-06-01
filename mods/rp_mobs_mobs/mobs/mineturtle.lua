@@ -67,7 +67,7 @@ local function explode(mob)
 	mob.object:set_armor_groups({immortal=1})
 	local mobname = rp_mobs.get_nametag(mob)
 	local death_message
-	if mobname then
+	if mobname and mobname ~= "" then
 		death_message = S("You were exploded by @1, a mine turtle.", mobname)
 	else
 		death_message = S("You were exploded by a mine turtle.")
