@@ -1232,7 +1232,13 @@ minetest.register_chatcommand("achievement", {
          for a=1, #achievements.registered_achievements_list do
             local aname = achievements.registered_achievements_list[a]
             local ach = achievements.registered_achievements[aname]
-            local str = BULLET_PRE .. S("@1: @2 (@3)", aname, ach.title, ach.difficulty or S("unset"))
+            local difficulty
+            if ach.difficulty then
+               difficulty = loc.num(ach.difficulty)
+            else
+               difficulty = S("unset")
+            end
+            local str = BULLET_PRE .. S("@1: @2 (@3)", aname, ach.title, difficulty)
             table.insert(strs, str)
          end
          local output = table.concat(strs, "\n")
