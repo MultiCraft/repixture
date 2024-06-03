@@ -361,7 +361,8 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 				-- due to the overhigh collisionbox
 				local next_pos_below = vector.offset(next_pos, 0, -1, 0)
 				local next_node_below = minetest.get_node(next_pos_below)
-				if minetest.get_item_group(next_node_below.name, "fence") == 1 then
+				if minetest.get_item_group(next_node_below.name, "fence") == 1 or
+						minetest.get_item_group(next_node_below.name, "fence_gate") ~= 0 then
 					next_pos.y = next_pos.y + 0.5
 				end
 			end
@@ -588,8 +589,11 @@ local can_clear_jump = function(mob, jump_clear_height)
 	end
 
 	-- Add 0.5 to height if top node is a fence due to the overhigh collisionbox
-	if node_top_walkable and minetest.get_item_group(node_top_walkable.name, "fence") ~= 0 then
-		h = h + 0.5
+	if node_top_walkable then
+		if minetest.get_item_group(node_top_walkable.name, "fence") ~= 0 or
+				minetest.get_item_group(node_top_walkable.name, "fence_gate") ~= 0 then
+			h = h + 0.5
+		end
 	end
 
 	if h <= jump_clear_height then
