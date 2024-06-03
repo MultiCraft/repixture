@@ -1,17 +1,7 @@
 # textdomain: rp_gold
-Farmer=Фермер
-Tavern Keeper=Хозяин таверны
-Carpenter=Плотник
-Blacksmith=Кузнец
-Butcher=Мясник
 Trade=Торговля
+@1 (@2)=
 Trading with @1=Торговля с @1
-G=$
-@1 @2=@1 @2
-@1×@2=@1*@2
-@1 + @2=@1 + @2
-(repair)=(починить)
-@1 → @2=@1 → @2
 Trading Book=Книга торговли
 Show this to a villager to trade=Покажи это жителю чтобы торговать с ним
 Gold Lump=Кусок золота
@@ -22,3 +12,18 @@ Trader=Торговец
 Trade with a villager.=Поторгуй с жителем.
 Gold Rush=Золотая лихорадка
 Dig a gold ore.=Выкопай золотую руду.
+Farmer=Фермер
+Tavern Keeper=Хозяин таверны
+Carpenter=Плотник
+Blacksmith=Кузнец
+Butcher=Мясник
+
+
+##### not used anymore #####
+
+G=$
+@1 @2=@1 @2
+@1×@2=@1*@2
+@1 + @2=@1 + @2
+(repair)=(починить)
+@1 → @2=@1 → @2

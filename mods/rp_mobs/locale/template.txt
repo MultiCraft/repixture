@@ -12,6 +12,7 @@ Feed an animal of each species once.=
 Hostile mobs are disabled!=
 Not tamed!=
 Missed!=
+@1: “@2”=
 Net=
 Good for capturing small animals=
 Lasso=

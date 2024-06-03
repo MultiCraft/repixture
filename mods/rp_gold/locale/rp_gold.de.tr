@@ -1,17 +1,7 @@
 # textdomain: rp_gold
-Farmer=Bauer
-Tavern Keeper=Wirt
-Carpenter=Schreiner
-Blacksmith=Schmied
-Butcher=Fleischer
 Trade=Handeln
+@1 (@2)=
 Trading with @1=Handel mit @1
-G=G
-@1 @2=@1 @2
-@1×@2=@1×@2
-@1 + @2=@1 + @2
-(repair)=(reparieren)
-@1 → @2=@1 → @2
 Trading Book=Handelsbuch
 Show this to a villager to trade=Einem Dorfbewohner zeigen, um Handel zu treiben
 Gold Lump=Goldklumpen
@@ -22,3 +12,18 @@ Trader=Händler
 Trade with a villager.=Handeln Sie mit einem Dorfbewohner.
 Gold Rush=Goldrausch
 Dig a gold ore.=Graben Sie ein Golderz.
+Farmer=Bauer
+Tavern Keeper=Wirt
+Carpenter=Schreiner
+Blacksmith=Schmied
+Butcher=Fleischer
+
+
+##### not used anymore #####
+
+G=G
+@1 @2=@1 @2
+@1×@2=@1×@2
+@1 + @2=@1 + @2
+(repair)=(reparieren)
+@1 → @2=@1 → @2

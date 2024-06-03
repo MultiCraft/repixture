@@ -1,17 +1,7 @@
 # textdomain: rp_gold
-Farmer=
-Tavern Keeper=
-Carpenter=
-Blacksmith=
-Butcher=
 Trade=
+@1 (@2)=
 Trading with @1=
-G=
-@1 @2=
-@1×@2=
-@1 + @2=
-(repair)=
-@1 → @2=
 Trading Book=
 Show this to a villager to trade=
 Gold Lump=
@@ -22,3 +12,8 @@ Trader=
 Trade with a villager.=
 Gold Rush=
 Dig a gold ore.=
+Farmer=
+Tavern Keeper=
+Carpenter=
+Blacksmith=
+Butcher=
