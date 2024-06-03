@@ -13,44 +13,14 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.0\n"
 
-msgid "Farmer"
-msgstr "Фермер"
-
-msgid "Tavern Keeper"
-msgstr "Хозяин таверны"
-
-msgid "Carpenter"
-msgstr "Плотник"
-
-msgid "Blacksmith"
-msgstr "Кузнец"
-
-msgid "Butcher"
-msgstr "Мясник"
-
 msgid "Trade"
 msgstr "Торговля"
 
+msgid "@1 (@2)"
+msgstr ""
+
 msgid "Trading with @1"
 msgstr "Торговля с @1"
-
-msgid "G"
-msgstr "$"
-
-msgid "@1 @2"
-msgstr "@1 @2"
-
-msgid "@1×@2"
-msgstr "@1*@2"
-
-msgid "@1 + @2"
-msgstr "@1 + @2"
-
-msgid "(repair)"
-msgstr "(починить)"
-
-msgid "@1 → @2"
-msgstr "@1 → @2"
 
 msgid "Trading Book"
 msgstr "Книга торговли"
@@ -81,4 +51,19 @@ msgstr "Золотая лихорадка"
 
 msgid "Dig a gold ore."
 msgstr "Выкопай золотую руду."
+
+msgid "Farmer"
+msgstr "Фермер"
+
+msgid "Tavern Keeper"
+msgstr "Хозяин таверны"
+
+msgid "Carpenter"
+msgstr "Плотник"
+
+msgid "Blacksmith"
+msgstr "Кузнец"
+
+msgid "Butcher"
+msgstr "Мясник"
 

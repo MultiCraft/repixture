@@ -1,18 +1,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_default x.x.x\n"
-"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-05-27 08:45+0000\n"
-"Last-Translator: Wuzzy <Wuzzy@users.noreply.translate.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/repixture/"
-"rp_default/de/>\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.5\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Timber"
 msgstr "Bauholz"
@@ -179,17 +178,35 @@ msgstr "Holzzaun"
 msgid "Painted Wooden Fence"
 msgstr "Gefärbter Holzzaun"
 
+msgid "Wooden Fence Gate"
+msgstr ""
+
+msgid "Painted Wooden Fence Gate"
+msgstr ""
+
 msgid "Oak Fence"
 msgstr "Eichenzaun"
 
 msgid "Painted Oak Fence"
 msgstr "Gefärbter Eichenzaun"
 
+msgid "Oak Fence Gate"
+msgstr ""
+
+msgid "Painted Oak Fence Gate"
+msgstr ""
+
 msgid "Birch Fence"
 msgstr "Birkenzaun"
 
 msgid "Painted Birch Fence"
 msgstr "Gefärbter Birkenzaun"
+
+msgid "Birch Fence Gate"
+msgstr ""
+
+msgid "Painted Birch Fence Gate"
+msgstr ""
 
 msgid "Fertilized Dirt"
 msgstr "Gedüngte Erde"
@@ -946,3 +963,4 @@ msgstr "Fackel"
 
 msgid "It's bright and burns forever"
 msgstr "Sie ist hell und brennt für immer"
+

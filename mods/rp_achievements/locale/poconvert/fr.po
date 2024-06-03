@@ -88,11 +88,11 @@ msgstr "(list [<joueur>]) | ((give | remove) <joueur> (<réalisation> | all))"
 msgid "List, give or remove achievements of player"
 msgstr "Liste, donne ou enlève les réalisations du joueur"
 
-msgid "@1: @2 (@3)"
-msgstr "@1 : @2 (@3)"
-
 msgid "unset"
 msgstr "non défini"
+
+msgid "@1: @2 (@3)"
+msgstr "@1 : @2 (@3)"
 
 msgid "No achievements."
 msgstr "Pas de réalisations."

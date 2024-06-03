@@ -178,17 +178,35 @@ msgstr "Деревянный забор"
 msgid "Painted Wooden Fence"
 msgstr "Окрашенный Деревянный Забор"
 
+msgid "Wooden Fence Gate"
+msgstr ""
+
+msgid "Painted Wooden Fence Gate"
+msgstr ""
+
 msgid "Oak Fence"
 msgstr "Дубовый забор"
 
 msgid "Painted Oak Fence"
 msgstr "Окрашенный Дубовыц Забор"
 
+msgid "Oak Fence Gate"
+msgstr ""
+
+msgid "Painted Oak Fence Gate"
+msgstr ""
+
 msgid "Birch Fence"
 msgstr "Берёзовый забор"
 
 msgid "Painted Birch Fence"
 msgstr "Окрашенный Берёзовый Забор"
+
+msgid "Birch Fence Gate"
+msgstr ""
+
+msgid "Painted Birch Fence Gate"
+msgstr ""
 
 msgid "Fertilized Dirt"
 msgstr "Удобренная земля"

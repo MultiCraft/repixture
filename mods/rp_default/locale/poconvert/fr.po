@@ -178,16 +178,34 @@ msgstr "Clôture en bois"
 msgid "Painted Wooden Fence"
 msgstr ""
 
+msgid "Wooden Fence Gate"
+msgstr ""
+
+msgid "Painted Wooden Fence Gate"
+msgstr ""
+
 msgid "Oak Fence"
 msgstr "Clôture en chêne"
 
 msgid "Painted Oak Fence"
 msgstr ""
 
+msgid "Oak Fence Gate"
+msgstr ""
+
+msgid "Painted Oak Fence Gate"
+msgstr ""
+
 msgid "Birch Fence"
 msgstr "Clôture en bouleau"
 
 msgid "Painted Birch Fence"
+msgstr ""
+
+msgid "Birch Fence Gate"
+msgstr ""
+
+msgid "Painted Birch Fence Gate"
 msgstr ""
 
 msgid "Fertilized Dirt"

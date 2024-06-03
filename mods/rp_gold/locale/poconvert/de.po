@@ -13,44 +13,14 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.0\n"
 
-msgid "Farmer"
-msgstr "Bauer"
-
-msgid "Tavern Keeper"
-msgstr "Wirt"
-
-msgid "Carpenter"
-msgstr "Schreiner"
-
-msgid "Blacksmith"
-msgstr "Schmied"
-
-msgid "Butcher"
-msgstr "Fleischer"
-
 msgid "Trade"
 msgstr "Handeln"
 
+msgid "@1 (@2)"
+msgstr ""
+
 msgid "Trading with @1"
 msgstr "Handel mit @1"
-
-msgid "G"
-msgstr "G"
-
-msgid "@1 @2"
-msgstr "@1 @2"
-
-msgid "@1×@2"
-msgstr "@1×@2"
-
-msgid "@1 + @2"
-msgstr "@1 + @2"
-
-msgid "(repair)"
-msgstr "(reparieren)"
-
-msgid "@1 → @2"
-msgstr "@1 → @2"
 
 msgid "Trading Book"
 msgstr "Handelsbuch"
@@ -81,4 +51,19 @@ msgstr "Goldrausch"
 
 msgid "Dig a gold ore."
 msgstr "Graben Sie ein Golderz."
+
+msgid "Farmer"
+msgstr "Bauer"
+
+msgid "Tavern Keeper"
+msgstr "Wirt"
+
+msgid "Carpenter"
+msgstr "Schreiner"
+
+msgid "Blacksmith"
+msgstr "Schmied"
+
+msgid "Butcher"
+msgstr "Fleischer"
 

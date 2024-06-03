@@ -88,11 +88,11 @@ msgstr "(list [<игрок>]) | ((give | remove) <игрок> (<достижен
 msgid "List, give or remove achievements of player"
 msgstr "Просмотреть, выдать или убрать достижения игрока"
 
-msgid "@1: @2 (@3)"
-msgstr "@1: @2 (@3)"
-
 msgid "unset"
 msgstr "н/д"
+
+msgid "@1: @2 (@3)"
+msgstr "@1: @2 (@3)"
 
 msgid "No achievements."
 msgstr "Нету достижений."

@@ -52,6 +52,9 @@ msgstr "Nicht gezähmt!"
 msgid "Missed!"
 msgstr "Verfehlt!"
 
+msgid "@1: “@2”"
+msgstr ""
+
 msgid "Net"
 msgstr "Netz"
 
