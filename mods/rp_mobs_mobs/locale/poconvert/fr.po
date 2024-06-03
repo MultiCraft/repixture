@@ -83,19 +83,19 @@ msgid "Villager"
 msgstr ""
 
 msgid "Hi! I’m a farmer. I sell farming goods."
-msgstr ""
+msgstr "Salut ! Je suis un agriculteur. Je vends des biens agricoles."
 
 msgid "Hi! I’m a tavernkeeper. I trade with assorted goods."
-msgstr ""
+msgstr "Salut ! Je suis un tavernier. J'échange divers biens."
 
 msgid "Hi! I’m a blacksmith. I sell metal products."
-msgstr ""
+msgstr "Salut ! Je suis un forgeron. Je vends des produits en métal."
 
 msgid "Hi! I’m a butcher. Want to buy something?"
-msgstr ""
+msgstr "Salut ! Je suis un boucher. Vous voulez acheter quelque chose ?"
 
 msgid "Hi! I’m a carpenter. Making things out of wood is my job."
-msgstr ""
+msgstr "Salut ! Je suis un charpentier. Je fabrique des choses en bois."
 
 msgid "If you want to trade, show me a trading book."
 msgstr "Si vous voulez faire un échange, montrez-moi un livre de commerce."
@@ -140,10 +140,10 @@ msgid "Have a nice day!"
 msgstr "Bonne journée !"
 
 msgid "I’m not in a good mood."
-msgstr ""
+msgstr "Je ne suis pas de bonne humeur."
 
 msgid "I’m tired."
-msgstr ""
+msgstr "Je suis fatigué."
 
 msgid "I need to rest."
 msgstr "J'ai besoin de me reposer."
@@ -152,7 +152,7 @@ msgid "Life could be better."
 msgstr "La vie pourrait être meilleure."
 
 msgid "I don’t feel so good."
-msgstr ""
+msgstr "Je ne me sens pas bien."
 
 msgid "I ... I am hurt."
 msgstr "Je ... Je suis blessé."
@@ -203,7 +203,7 @@ msgid "This is exactly what I need! Can you please put the barrel on the floor f
 msgstr ""
 
 msgid "Ah, a cactus. You’d be surprised how well they burn in a furnace."
-msgstr ""
+msgstr "Ah, un cactus. Vous seriez surpris de voir à quel point ils brûlent dans un four."
 
 msgid "You can quickly kindle it in the furnace."
 msgstr "Vous pouvez l'enflammer rapidement dans un four."
@@ -236,7 +236,7 @@ msgid "This is a nice furnace fuel."
 msgstr "C'est un combustible de four correct."
 
 msgid "You can use this as a furnace fuel, but it’s meh."
-msgstr ""
+msgstr "Vous pouvez l'utiliser comme combustible de four, mais il est bof."
 
 msgid "You can use this as a furnace fuel, but it is gone quickly."
 msgstr "Vous pouvez l'utiliser comme combustible de four, mais il se consumera rapidement."
@@ -248,7 +248,7 @@ msgid "You can theoretically use this as a furnace fuel, but it is gone almost i
 msgstr "Vous pouvez théoriquement l'utiliser comme combustible de four, mais il se consumera presque instantanément."
 
 msgid "I’m impressed! Your weapon is a true masterpiece."
-msgstr ""
+msgstr "Je suis impressionné ! Votre arme est un vrai chef-d'œuvre."
 
 msgid "This is a mighty weapon, but have you considered upgrading it with jewels?"
 msgstr "C'est une arme puissante, mais avez-vous envisagé de l'améliorer avec des joyaux ?"
@@ -257,7 +257,7 @@ msgid "Offense is the best defense."
 msgstr "La meilleure défense c'est l'attaque."
 
 msgid "If you equip a full set of armor made from the same material, you’ll get a protection bonus."
-msgstr ""
+msgstr "Si vous vous équipez d'une armure complète faite dans le même matériau, vous bénéficiez d'un bonus de protection."
 
 msgid "This block is so fascinating …"
 msgstr ""
@@ -269,7 +269,7 @@ msgid "This makes seeds grow faster. Place the fertilizer on soil, then plant th
 msgstr "Fait pousser les graines plus vite. Placez l'engrais sur le sol, puis plantez la graine au-dessus de celui-ci."
 
 msgid "Sorry, I don’t know how to use this. Maybe ask a farmer."
-msgstr ""
+msgstr "Désolé, je ne sais pas comment l'utiliser. Demandez peut-être à un agriculteur."
 
 msgid "Remember to put water near to your seeds."
 msgstr "Rappelez-vous de mettre de l'eau à proximité de vos graines."
@@ -287,13 +287,13 @@ msgid "We live in a lovely place, don’t we?"
 msgstr ""
 
 msgid "It’s used to capture large animals."
-msgstr ""
+msgstr "Il est utilisé pour capturer les gros animaux."
 
 msgid "Why are you carrying this around? Do you want crack open our locked chests?"
 msgstr "Pourquoi portez-vous cela ? Voulez-vous forcer nos coffres verrouillés ?"
 
 msgid "It’s used to capture small animals."
-msgstr ""
+msgstr "Il est utilisé pour capturer les petits animaux."
 
 msgid "Every kid knows seeds need soil, water and sunlight."
 msgstr "Tous les enfants savent que les graines ont besoin de terre, d'eau et de soleil."
@@ -356,10 +356,10 @@ msgid "This is the secret ingredient for my special drink. But don’t tell anyo
 msgstr ""
 
 msgid "Now what can you possibly do with a cactus? I don’t know!"
-msgstr ""
+msgstr "Maintenant, que pouvez-vous faire avec un cactus ? Je ne sais pas !"
 
 msgid "Jewels are great! If you have a jeweller’s workbench, you can enhance your tools."
-msgstr ""
+msgstr "Les plaquages sont supers ! Si vous avez un établi de plaqueur, vous pouvez améliorer vos outils."
 
 msgid "Did you know we sometimes sell jewels?"
 msgstr "Saviez-vous que nous vendons parfois des bijoux ?"
@@ -377,7 +377,7 @@ msgid "Let’s light up some caves!"
 msgstr ""
 
 msgid "A flower? I love flowers! Let’s make the world bloom!"
-msgstr ""
+msgstr "Une fleur ? J'adore les fleurs ! Faisons fleurir le monde !"
 
 msgid "You can use this to light up torches and bonfires and ignite TNT."
 msgstr ""
@@ -389,13 +389,13 @@ msgid "TNT needs to be ignited by a flint and steel."
 msgstr "L'explosif doit être mis à feu par un silex et de l'acier."
 
 msgid "For some reason, TNT can’t be ignited. Strange."
-msgstr ""
+msgstr "Pour une raison quelconque, l'explosif ne peut pas être allumé. Étrange."
 
 msgid "You need flint and steel to light the fire. But don’t walk into the flame!"
 msgstr ""
 
 msgid "Isn’t it stressful to carry this heavy bed around?"
-msgstr ""
+msgstr "N'est-ce pas stressant de porter ce lourd lit ?"
 
 msgid "Sleeping makes the night go past in the blink of an eye."
 msgstr "Dormir la nuit la fait passer en un clin d'œil."
