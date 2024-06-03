@@ -1,17 +1,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_mobs_mobs x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2024-06-03 09:12+0000\n"
+"Last-Translator: Wuzzy <Wuzzy@users.noreply.translate.codeberg.org>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/repixture/"
+"rp_mobs_mobs/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.5.5\n"
 
 msgid "Bomb has Been Defused!"
 msgstr "Bombe entschärft!"
@@ -101,28 +102,30 @@ msgid "If you want to trade, show me a trading book."
 msgstr "Wenn du mit mir handeln willst, zeig mir ein Handelsbuch."
 
 msgid "I want to work on a field of crops."
-msgstr ""
+msgstr "Ich möchte auf einem Acker arbeiten."
 
 msgid "Did you see a barrel nearby? I need one for work."
-msgstr ""
+msgstr "Hast du ein Fass in der Nähe gesehen? Ich brauche eins für die Arbeit."
 
 msgid "I need a furnace to do my work, but I can’t find any."
 msgstr ""
+"Ich brauche einen Ofen, um meine Arbeit zu verrichten, aber ich kann keinen "
+"finden."
 
 msgid "I wanted to cook some meat, but I can’t find a furnace."
-msgstr ""
+msgstr "Ich wollte etwas Fleisch braten, aber ich kann keinen Ofen finden."
 
 msgid "It would be nice if we had a library."
-msgstr ""
+msgstr "Es wäre nett, wenn wir eine Bibliothek hätten."
 
 msgid "I’m grumpy because I can’t find my bed."
-msgstr ""
+msgstr "Ich bin schlecht drauf, weil ich mein Bett nicht finden kann."
 
 msgid "Have you seen a free bed somewhere?"
-msgstr ""
+msgstr "Hast du irgendwo ein freies Bett gesehen?"
 
 msgid "I need a place to sleep."
-msgstr ""
+msgstr "Ich brauche einen Schlafplatz."
 
 msgid "Hello!"
 msgstr "Hallo!"
@@ -180,27 +183,44 @@ msgstr "Dorfbewohner sagt: „@1“"
 
 msgid "I need this bed. Please place it somewhere. I promise I won’t abuse it as furnace fuel!"
 msgstr ""
+"Ich brauche dieses Bett. Bitte platziere es irgendwo. Ich verspreche, dass "
+"ich es nicht als Ofenbrennstoff missbrauchen werde!"
 
 msgid "Can you please put this bed down for me?"
-msgstr ""
+msgstr "Kannst du bitte dieses Bett für mich platzieren?"
 
 msgid "Beautiful bookshelf you have there! Can you please place it somewhere where I can reach it? It’s so fascinating …"
 msgstr ""
+"Was für ein schönes Bücherregal du hast! Kannst du es bitte platzieren, wo "
+"ich es erreichen kann? Es ist so faszinierend."
 
 msgid "I know this sounds strange but: Can you please plant some potatoes for me? I want to start a farm but I can’t decide where."
 msgstr ""
+"Ich weiß, das hört sich komisch an, aber: Kannst du bitte ein paar "
+"Kartoffeln für mich anpflanzen? Ich möchte einen Bauernhof aufbauen, aber "
+"ich kann mich nicht entscheiden, wo."
 
 msgid "I know this is a weird request but: Can you please plant some carrots for me? I want to start a farm but I can’t decide where."
 msgstr ""
+"Ich weiß, das ist eine komische Bitte, aber: Kannst du bitte ein paar "
+"Karotten für mich anpflanzen? Ich möchte einen Bauernhof aufbauen, aber ich "
+"kann mich nicht entscheiden, wo."
 
 msgid "I know this sounds awkward but: Can you please plant some crops for me? I want to start a farm but I can’t decide where."
 msgstr ""
+"Ich weiß, das klingt seltsam, aber: Kannst du bitte ein paar Nutzpflanzen "
+"für mich anpflanzen? Ich möchte einen Bauernhof aufbauen, aber ich kann mich "
+"nicht entscheiden, wo."
 
 msgid "You got a furnace! Please place it somewhere so I can do my work."
 msgstr ""
+"Du hast einen Ofen! Bitte platziere ihn irgendwo, damit ich meine Arbeit tun "
+"kann."
 
 msgid "This is exactly what I need! Can you please put the barrel on the floor for me?"
 msgstr ""
+"Das ist genau das, was ich brauche! Kannst du bitte dieses Fass für mich auf "
+"den Boden platzieren?"
 
 msgid "Ah, a cactus. You’d be surprised how well they burn in a furnace."
 msgstr "Ah, ein Kaktus. Du wirst staunen, wie gut sie im Ofen brennen."
@@ -260,7 +280,7 @@ msgid "If you equip a full set of armor made from the same material, you’ll ge
 msgstr "Wenn du einen vollständigen Satz Rüstung aus diesem Material anlegst, erhältst du einen Schutzbonus."
 
 msgid "This block is so fascinating …"
-msgstr ""
+msgstr "Dieser Block ist so faszinierend."
 
 msgid "You can put anything inside a bookshelf, not just books."
 msgstr "Man kann alles mögliche da rein tun, nicht nur Bücher."
@@ -413,13 +433,15 @@ msgid "Did you try to dry it in the furnace?"
 msgstr "Hast du probiert, es im Ofen zu trocknen?"
 
 msgid "Meat tastes best when it’s cooked."
-msgstr ""
+msgstr "Fleisch schmeckt gebraten am Besten."
 
 msgid "Raw metals aren’t going to smelt themselves!"
-msgstr ""
+msgstr "Rohmetalle schmelzen sich nicht von alleine!"
 
 msgid "Furnaces are so versatile, they not just smelt ores, but cook foods as well!"
 msgstr ""
+"Öfen sind so vielseitig, sie schmelzen nicht nur Erze, sondern kochen auch "
+"Essen!"
 
 msgid "Airweed is an underwater plant with little capsules filled with air. Use it underwater to release air bubbles and catch some breath."
 msgstr "Luftkraut ist eine Wasserpflanze mit kleinen mit Luft gefüllten Kapseln. Benutze sie im Wasser, um Luftblasen zu erzeugen und Luft zu holen."
@@ -488,10 +510,10 @@ msgid "Fern is used to craft fertilizer."
 msgstr "Mit Farn kann man Dünger herstellen."
 
 msgid "I use a barrel for the work at the tavern."
-msgstr ""
+msgstr "Ich benutze ein Fass für die Arbeit in der Taverne."
 
 msgid "The tavernkeeper uses the barrel to do their work."
-msgstr ""
+msgstr "Der Wirt benutzt das Fass für die Arbeit."
 
 msgid "This is like my ex-lover’s heart. Made out of stone."
 msgstr "Dies ist wie das Herz meines Exliebhabers. Aus Stein."
@@ -501,4 +523,3 @@ msgstr "Bleib gesund!"
 
 msgid "Walker"
 msgstr "Läufer"
-
