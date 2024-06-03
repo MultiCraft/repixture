@@ -153,7 +153,7 @@ Instantly set mob acceleration to the given `acceleration` parameter (a vector).
 
 Finish condition: Finishes instantly.
 
-### `rp_mobs.microtasks.follow_path(path, walk_speed, jump_strength, set_yaw, can_jump, finish_func)
+### `rp_mobs.microtasks.follow_path(path, walk_speed, jump_strength, set_yaw, can_jump, finish_func, valid_node_func)
 
 Make the mob follow along a path, i.e. a sequence of positions by walking.
 This assumes the mob is bound to gravity along the whole path and the *entire* path is walkable.
@@ -175,6 +175,10 @@ Parameters:
   `self` is the microtask reference, `mob` the mob reference.
   Returns `<stop>, <success>`. If `stop` is `true`, microtask will finish.
   with the given success (`success` = `true`/`false`; `true` is default).
+* `valid_node_func`: Optional function that checks if the next node is still “valid” (i.e. can
+  be safely moved towadrds). It's called right before the mob is starting to go towards
+  a new position of the path with arguments `pos, node`.
+  Returns `true` or `false`. If it returns `true`, the microtask will finish and fail.
 
 Finish condition: There are multiple reasons for finishing:
 
@@ -203,4 +207,4 @@ Parameters:
 * `anim_walk`: Mob animation name for horizontal movement (default: `"walk"`)
 * `anim_climb`: Mob animation name for vertical movement (default: `"idle"`)
 * `anim_idle`: Mob animation name when idling (default: `"idle"`)
-
+* `valid_node_func`: See `rp_mobs.microtasks.follow_path`

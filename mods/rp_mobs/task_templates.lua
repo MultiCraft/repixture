@@ -86,7 +86,7 @@ end
 
 rp_mobs.microtasks = {}
 
-rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, set_yaw, finish_func, anim_walk, anim_climb, anim_idle)
+rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, set_yaw, finish_func, anim_walk, anim_climb, anim_idle, valid_node_func)
 	local mtask = {}
 	mtask.label = "follow climb path"
 	mtask.on_start = function(self, mob)
@@ -145,6 +145,21 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 
 		-- Get next target position
 		local next_pos = self.statedata.path[1]
+
+		-- Validate target position
+		if next_pos and valid_node_func then
+			local next_node = minetest.get_node(next_pos)
+			if not valid_node_func(next_pos, next_node) then
+				self.statedata.stop = true
+				self.statedata.success = false
+				local vel = mob.object:get_velocity()
+				vel.x = 0
+				vel.z = 0
+				mob.object:set_velocity(vel)
+				return
+			end
+		end
+
 		local mob_pos = mob.object:get_pos()
 		mob_pos = vector.add(mob_pos, mob._path_check_point or vector.zero())
 
@@ -261,7 +276,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 end
 
 
-rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_yaw, can_jump, finish_func)
+rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_yaw, can_jump, finish_func, valid_node_func)
 	if can_jump == nil then
 		can_jump = true
 	end
@@ -326,6 +341,20 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 
 		-- Get next target position
 		local next_pos = self.statedata.path[1]
+
+		-- Validate target position
+		if next_pos and valid_node_func then
+			local next_node = minetest.get_node(next_pos)
+			if not valid_node_func(next_pos, next_node) then
+				self.statedata.stop = true
+				self.statedata.success = false
+				local vel = mob.object:get_velocity()
+				vel.x = 0
+				vel.z = 0
+				mob.object:set_velocity(vel)
+				return
+			end
+		end
 		local mob_pos = mob.object:get_pos()
 		mob_pos = vector.add(mob_pos, mob._path_check_point or vector.zero())
 
