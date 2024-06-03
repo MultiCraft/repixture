@@ -1,6 +1,6 @@
 # textdomain: rp_gold
 Trade=Handeln
-@1 (@2)=
+@1 (@2)=@1 (@2)
 Trading with @1=Handel mit @1
 Trading Book=Handelsbuch
 Show this to a villager to trade=Einem Dorfbewohner zeigen, um Handel zu treiben
@@ -17,13 +17,3 @@ Tavern Keeper=Wirt
 Carpenter=Schreiner
 Blacksmith=Schmied
 Butcher=Fleischer
-
-
-##### not used anymore #####
-
-G=G
-@1 @2=@1 @2
-@1×@2=@1×@2
-@1 + @2=@1 + @2
-(repair)=(reparieren)
-@1 → @2=@1 → @2

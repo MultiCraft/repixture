@@ -17,13 +17,3 @@ Tavern Keeper=Хозяин таверны
 Carpenter=Плотник
 Blacksmith=Кузнец
 Butcher=Мясник
-
-
-##### not used anymore #####
-
-G=$
-@1 @2=@1 @2
-@1×@2=@1*@2
-@1 + @2=@1 + @2
-(repair)=(починить)
-@1 → @2=@1 → @2

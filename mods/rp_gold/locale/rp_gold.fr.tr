@@ -17,13 +17,3 @@ Tavern Keeper=Tavernier
 Carpenter=Charpentier
 Blacksmith=Forgeron
 Butcher=Boucher
-
-
-##### not used anymore #####
-
-G=Or
-@1 @2=@1 @2
-@1×@2=@1×@2
-@1 + @2=@1 + @2
-(repair)=(réparer)
-@1 → @2=@1 → @2
