@@ -19,11 +19,11 @@ end
 
 local msgs = {
 	villager = {
-		farmer = S("Hi! I'm a farmer. I sell farming goods."),
-		tavernkeeper = S("Hi! I'm a tavernkeeper. I trade with assorted goods."),
-		blacksmith = S("Hi! I'm a blacksmith. I sell metal products."),
-		butcher = S("Hi! I'm a butcher. Want to buy something?"),
-		carpenter = S("Hi! I'm a carpenter. Making things out of wood is my job."),
+		farmer = S("Hi! I’m a farmer. I sell farming goods."),
+		tavernkeeper = S("Hi! I’m a tavernkeeper. I trade with assorted goods."),
+		blacksmith = S("Hi! I’m a blacksmith. I sell metal products."),
+		butcher = S("Hi! I’m a butcher. Want to buy something?"),
+		carpenter = S("Hi! I’m a carpenter. Making things out of wood is my job."),
 	},
 	trade = {
 		S("If you want to trade, show me a trading book."),
@@ -31,12 +31,12 @@ local msgs = {
 	no_worksite = {
 		farmer = S("I want to work on a field of crops."),
 		tavernkeeper = S("Did you see a barrel nearby? I need one for work."),
-		blacksmith = S("I need a furnace to do my work, but I can't find any."),
-		butcher = S("I wanted to cook some meat, but I can't find a furnace."),
+		blacksmith = S("I need a furnace to do my work, but I can’t find any."),
+		butcher = S("I wanted to cook some meat, but I can’t find a furnace."),
 		carpenter = S("It would be nice if we had a library."),
 	},
 	no_bed = {
-		S("I'm grumpy because I can't find my bed."),
+		S("I’m grumpy because I can’t find my bed."),
 		S("Have you seen a free bed somewhere?"),
 		S("I need a place to sleep."),
 	},
@@ -48,13 +48,13 @@ local msgs = {
 		S("Have a nice day!"),
 	},
 	exhausted = {
-		S("I'm not in a good mood."),
-		S("I'm tired."),
+		S("I’m not in a good mood."),
+		S("I’m tired."),
 		S("I need to rest."),
 		S("Life could be better."),
 	},
 	hurt = {
-		S("I don't feel so good."),
+		S("I don’t feel so good."),
 		S("I ... I am hurt."),
 		S("I feel weak."),
 		S("My head hurts."),
@@ -134,7 +134,7 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 	if not has_bed then
 		if iname == "rp_bed:bed_foot" then
 			if profession == "blacksmith" then
-				say(S("I need this bed. Please place it somewhere. I promise I won't abuse it as furnace fuel!"), name, vn)
+				say(S("I need this bed. Please place it somewhere. I promise I won’t abuse it as furnace fuel!"), name, vn)
 			else
 				say(S("Can you please put this bed down for me?"), name, vn)
 			end
@@ -149,11 +149,11 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 		if profession == "carpenter" and iname == "rp_default:bookshelf" then
 			say(S("Beautiful bookshelf you have there! Can you please place it somewhere where I can reach it? It’s so fascinating …"), name, vn)
 		elseif profession == "farmer" and iname == "rp_farming:potato_1" then
-			say(S("I know this sounds strange but: Can you please plant some potatoes for me? I want to start a farm but I can't decide where."), name, vn)
+			say(S("I know this sounds strange but: Can you please plant some potatoes for me? I want to start a farm but I can’t decide where."), name, vn)
 		elseif profession == "farmer" and iname == "rp_farming:carrot_1" then
-			say(S("I know this is a weird request but: Can you please plant some carrots for me? I want to start a farm but I can't decide where."), name, vn)
+			say(S("I know this is a weird request but: Can you please plant some carrots for me? I want to start a farm but I can’t decide where."), name, vn)
 		elseif profession == "farmer" and minetest.get_item_group(iname, "seed") ~= 0 then
-			say(S("I know this sounds awkward but: Can you please plant some crops for me? I want to start a farm but I can't decide where."), name, vn)
+			say(S("I know this sounds awkward but: Can you please plant some crops for me? I want to start a farm but I can’t decide where."), name, vn)
 		elseif (profession == "butcher" or profession == "blacksmith") and iname == "rp_default:furnace" then
 			say(S("You got a furnace! Please place it somewhere so I can do my work."), name, vn)
 		elseif profession == "tavernkeeper" and iname == "rp_decor:barrel" then
@@ -169,7 +169,7 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 	if profession == "blacksmith" then
 		-- First some hardcoded texts
 		if iname == "rp_default:cactus" then
-			say(S("Ah, a cactus. You'd be surprised how well they burn in a furnace."), name, vn)
+			say(S("Ah, a cactus. You’d be surprised how well they burn in a furnace."), name, vn)
 			return true
 		elseif iname == "rp_default:torch_dead" or iname == "rp_default:torch_weak" then
 			say(S("You can quickly kindle it in the furnace."), name, vn)
@@ -205,7 +205,7 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 			elseif fuel >= 20 then
 				say(S("This is a nice furnace fuel."), name, vn)
 			elseif fuel >= 15 then
-				say(S("You can use this as a furnace fuel, but it's meh."), name, vn)
+				say(S("You can use this as a furnace fuel, but it’s meh."), name, vn)
 			elseif fuel >= 9 then
 				say(S("You can use this as a furnace fuel, but it is gone quickly."), name, vn)
 			elseif fuel >= 3 then
@@ -221,7 +221,7 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 		say_random("trade", name, vn)
 	elseif iname == "rp_jewels:serrated_broadsword" then
 		if profession == "blacksmith" then
-			say(S("I'm impressed! Your weapon is a true masterpiece."), name, vn)
+			say(S("I’m impressed! Your weapon is a true masterpiece."), name, vn)
 		else
 			say_random("happy", name, vn)
 		end
@@ -230,7 +230,7 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 	elseif (minetest.get_item_group(iname, "sword") > 0) or (minetest.get_item_group(iname, "spear") > 0) then
 		say(S("Offense is the best defense."), name, vn)
 	elseif minetest.get_item_group(iname, "is_armor") == 1 then
-		say(S("If you equip a full set of armor made from the same material, you'll get a protection bonus."), name, vn)
+		say(S("If you equip a full set of armor made from the same material, you’ll get a protection bonus."), name, vn)
 	elseif iname == "rp_default:bookshelf" then
 		if profession == "carpenter" then
 			say(S("This block is so fascinating …"), name, vn)
@@ -242,7 +242,7 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 		if profession == "farmer" then
 			say(S("This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."), name, vn)
 		else
-			say(S("Sorry, I don't know how to use this. Maybe ask a farmer."), name, vn)
+			say(S("Sorry, I don’t know how to use this. Maybe ask a farmer."), name, vn)
 		end
 	elseif minetest.get_item_group(iname, "bucket") > 0 then
 		if profession == "farmer" then
@@ -260,13 +260,13 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 			say(S("If you use it on wool, it will point to the North again."), name, vn)
 		end
 	elseif iname == "rp_nav:map" then
-		say(S("We live in a lovely place, don't we?"), name, vn)
+		say(S("We live in a lovely place, don’t we?"), name, vn)
 	elseif iname == "mobs:lasso" then
-		say(S("It's used to capture large animals."), name, vn)
+		say(S("It’s used to capture large animals."), name, vn)
 	elseif iname == "rp_locks:pick" then
 		say(S("Why are you carrying this around? Do you want crack open our locked chests?"), name, vn)
 	elseif iname == "mobs:net" then
-		say(S("It's used to capture small animals."), name, vn)
+		say(S("It’s used to capture small animals."), name, vn)
 	elseif iname == "rp_farming:wheat_1" then
 		say(S("Every kid knows seeds need soil, water and sunlight."), name, vn)
 	elseif iname == "rp_farming:cotton_1" then
@@ -279,7 +279,7 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 		end
 	elseif iname == "rp_farming:wheat" then
 		if profession == "farmer" then
-			say(S("Sheep love to eat wheat. Give them enough wheat and they'll multiply!"), name, vn)
+			say(S("Sheep love to eat wheat. Give them enough wheat and they’ll multiply!"), name, vn)
 		else
 			say(S("We use wheat to make flour and bake bread."), name, vn)
 		end
@@ -291,7 +291,7 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 		say(S("A truly epic story!"), name, vn)
 	elseif iname == "rp_default:pearl" then
 		if profession == "tavernkeeper" then
-			say(S("Ooh, a shiny pearl! It's beautiful."), name, vn)
+			say(S("Ooh, a shiny pearl! It’s beautiful."), name, vn)
 		else
 			say(S("I heard the tavernkeeper likes these."), name, vn)
 		end
@@ -318,15 +318,15 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 		end
 	elseif iname == "rp_default:cactus" then
 		if profession == "farmer" then
-			say(S("Cacti grow best on sand. They are also a food source, if you're really desperate."), name, vn)
+			say(S("Cacti grow best on sand. They are also a food source, if you’re really desperate."), name, vn)
 		elseif profession == "tavernkeeper" then
-			say(S("This is the secret ingredient for my special drink. But don't tell anyone!"), name, vn)
+			say(S("This is the secret ingredient for my special drink. But don’t tell anyone!"), name, vn)
 		else
-			say(S("Now what can you possibly do with a cactus? I don't know!"), name, vn)
+			say(S("Now what can you possibly do with a cactus? I don’t know!"), name, vn)
 		end
 	elseif iname == "jewels:jewel" then
 		if profession == "blacksmith" then
-			say(S("Jewels are great! If you have a jeweller's workbench, you can enhance your tools."), name, vn)
+			say(S("Jewels are great! If you have a jeweller’s workbench, you can enhance your tools."), name, vn)
 		else
 			say(S("Did you know we sometimes sell jewels?"), name, vn)
 		end
@@ -339,7 +339,7 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 	elseif iname == "rp_default:torch" then
 		say(S("Let’s light up some caves!"), name, vn)
 	elseif iname == "rp_default:flower" then
-		say(S("A flower? I love flowers! Let's make the world bloom!"), name, vn)
+		say(S("A flower? I love flowers! Let’s make the world bloom!"), name, vn)
 	elseif iname == "rp_default:flint_and_steel" then
 		if minetest.settings:get_bool("tnt_enable", true) then
 			say(S("You can use this to light up torches and bonfires and ignite TNT."), name, vn)
@@ -350,13 +350,13 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 		if minetest.settings:get_bool("tnt_enable", true) then
 			say(S("TNT needs to be ignited by a flint and steel."), name, vn)
 		else
-			say(S("For some reason, TNT can't be ignited. Strange."), name, vn)
+			say(S("For some reason, TNT can’t be ignited. Strange."), name, vn)
 		end
 	elseif iname == "rp_fire:bonfire" then
-		say(S("You need flint and steel to light the fire. But don't walk into the flame!"), name, vn)
+		say(S("You need flint and steel to light the fire. But don’t walk into the flame!"), name, vn)
 	elseif iname == "rp_bed:bed_foot" then
 		if profession == "carpenter" then
-			say(S("Isn't it stressful to carry this heavy bed around?"), name, vn)
+			say(S("Isn’t it stressful to carry this heavy bed around?"), name, vn)
 		else
 			say(S("Sleeping makes the night go past in the blink of an eye."), name, vn)
 		end
@@ -376,9 +376,9 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 	elseif iname == "rp_default:furnace" then
 		if (profession == "butcher" or profession == "blacksmith") then
 			if profession == "butcher" then
-				say(S("Meat tastes best when it's cooked."), name, vn)
+				say(S("Meat tastes best when it’s cooked."), name, vn)
 			elseif profession == "blacksmith" then
-				say(S("Raw metals aren't going to smelt themselves!"), name, vn)
+				say(S("Raw metals aren’t going to smelt themselves!"), name, vn)
 			end
 		else
 			say(S("Furnaces are so versatile, they not just smelt ores, but cook foods as well!"), name, vn)
@@ -389,7 +389,7 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 		elseif profession == "butcher" then
 			say(S("If you use the airweed plant, you will catch some breath. Other people near the plant will also benefit."), name, vn)
 		elseif profession == "tavernkeeper" then
-			say(S("Airweed is very useful, but it can't give you breath from your hand. You must place it on the ground first."), name, vn)
+			say(S("Airweed is very useful, but it can’t give you breath from your hand. You must place it on the ground first."), name, vn)
 		elseif profession == "farmer" then
 			say(S("You can multiply airweed with fertilizer."), name, vn)
 		else
@@ -401,7 +401,7 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 		elseif profession == "tavernkeeper" then
 			say(S("The tallest algae always grow on alga blocks."), name, vn)
 		elseif profession == "carpenter" then
-			say(S("If an alga tries to grow but something blocks its path, it'll stop growing, even if the barrier is removed later."), name, vn)
+			say(S("If an alga tries to grow but something blocks its path, it’ll stop growing, even if the barrier is removed later."), name, vn)
 		else
 			say(S("Algae grow underwater in different heights."), name, vn)
 		end
@@ -411,13 +411,13 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 		elseif profession == "carpenter" then
 			say(S("If you want the vine to stop growing, make a precise cut using scissors."), name, vn)
 		else
-			say(S("It's climbing time!"), name, vn)
+			say(S("It’s climbing time!"), name, vn)
 		end
 	elseif iname == "rp_default:dirt" then
 		if profession == "farmer" then
-			say(S("Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized."), name, vn)
+			say(S("Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it’s fertilized."), name, vn)
 		else
-			say(S("You're dirty!"), name, vn)
+			say(S("You’re dirty!"), name, vn)
 		end
 	elseif iname == "rp_default:swamp_dirt" then
 		if profession == "farmer" then
@@ -451,7 +451,7 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 		end
 	elseif minetest.get_item_group(iname, "stone") > 0 then
 		if profession == "butcher" then
-			say(S("This is like my ex-lover's heart. Made out of stone."), name, vn)
+			say(S("This is like my ex-lover’s heart. Made out of stone."), name, vn)
 		else
 			say_random("happy", name, vn)
 		end
