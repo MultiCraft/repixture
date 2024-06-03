@@ -4,5 +4,5 @@ Set health points of player or yourself=Gesundheitspunkte eines Spielers oder di
 Not possible, damage is disabled.=Nicht möglich, Schaden ist deaktiviert.
 Player @1 does not exist.=Spieler @1 existiert nicht.
 Invalid health!=Ungültige Gesundheit!
-You suicided.=
-You were killed by a higher power.=
+You suicided.=Sie haben sich selbst getötet.
+You were killed by a higher power.=Sie wurden von einer höheren Macht getötet.
