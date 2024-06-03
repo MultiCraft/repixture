@@ -56,7 +56,7 @@ local mobkills = {
 
 local dmsg = function(mtype, ...)
 	local r = math.random(1, #msgs[mtype])
-	return S("@1", S(msgs[mtype][r], ...))
+	return S(msgs[mtype][r], ...)
 end
 
 -- Select death message for death by mob
