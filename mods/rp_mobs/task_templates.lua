@@ -361,7 +361,8 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 				-- due to the overhigh collisionbox
 				local next_pos_below = vector.offset(next_pos, 0, -1, 0)
 				local next_node_below = minetest.get_node(next_pos_below)
-				if minetest.get_item_group(next_node_below.name, "fence") == 1 then
+				if minetest.get_item_group(next_node_below.name, "fence") == 1 or
+						minetest.get_item_group(next_node_below.name, "fence_gate") ~= 0 then
 					next_pos.y = next_pos.y + 0.5
 				end
 			end
@@ -588,8 +589,11 @@ local can_clear_jump = function(mob, jump_clear_height)
 	end
 
 	-- Add 0.5 to height if top node is a fence due to the overhigh collisionbox
-	if node_top_walkable and minetest.get_item_group(node_top_walkable.name, "fence") ~= 0 then
-		h = h + 0.5
+	if node_top_walkable then
+		if minetest.get_item_group(node_top_walkable.name, "fence") ~= 0 or
+				minetest.get_item_group(node_top_walkable.name, "fence_gate") ~= 0 then
+			h = h + 0.5
+		end
 	end
 
 	if h <= jump_clear_height then
@@ -858,6 +862,23 @@ rp_mobs.microtasks.walk_straight_towards = function(walk_speed, target_type, tar
 	})
 end
 
+rp_mobs.microtasks.drag = function(drag, drag_axes, time)
+	return rp_mobs.create_microtask({
+		label = "stand",
+		on_start = function(self)
+			self.statedata.sleeptimer = 0
+		end,
+		on_step = function(self, mob, dtime)
+			self.statedata.sleeptimer = self.statedata.sleeptimer + dtime
+
+			rp_mobs.drag(mob, dtime, drag, drag_axes)
+		end,
+		is_finished = function(self, mob)
+			return self.statedata.sleeptimer and self.statedata.sleeptimer >= time
+		end,
+	})
+end
+
 rp_mobs.microtasks.rotate_yaw_smooth = function(yaw, time)
 	local label
 	if yaw == "random" then
@@ -914,10 +935,10 @@ end
 rp_mobs.microtasks.sleep = function(time)
 	return rp_mobs.create_microtask({
 		label = "sleep for "..time.."s",
+		on_start = function(self)
+			self.statedata.sleeptimer = 0
+		end,
 		on_step = function(self, mob, dtime)
-			if not self.statedata.sleeptimer then
-				self.statedata.sleeptimer = 0
-			end
 			self.statedata.sleeptimer = self.statedata.sleeptimer + dtime
 		end,
 		is_finished = function(self, mob)

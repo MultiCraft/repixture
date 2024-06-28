@@ -74,6 +74,7 @@ dofile(minetest.get_modpath("rp_default").."/craftitems.lua") -- simple craftite
 dofile(minetest.get_modpath("rp_default").."/ingot.lua")
 dofile(minetest.get_modpath("rp_default").."/bucket.lua")
 dofile(minetest.get_modpath("rp_default").."/tools.lua")
+dofile(minetest.get_modpath("rp_default").."/fertilizer.lua")
 
 dofile(minetest.get_modpath("rp_default").."/crafting.lua")
 

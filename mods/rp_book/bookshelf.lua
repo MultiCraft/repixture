@@ -51,6 +51,7 @@ local function get_bookshelf_formspec(pos)
          form = form .. rp_formspec.image_button(xstart+xoff, ystart + 1.15, 1, 1, "open_"..i, "ui_icon_view.png", S("Read book"))
       end
    end
+   form = form .. rp_label.container_label_formspec_element(meta)
    return form
 end
 
@@ -109,8 +110,14 @@ local bookshelf_def = {
          minetest.show_formspec(pname, "rp_default:bookshelf", get_bookshelf_formspec(pos))
       end
    end,
-   write_name = function(pos, text)
-      -- TODO: Bring back container naming
+   _rp_write_name = function(pos, text)
+      local meta = minetest.get_meta(pos)
+      meta:set_string("name", text)
+      local infotext = S("Bookshelf")
+      if text ~= "" then
+          infotext = infotext .. "\n" .. S("“@1”", text)
+      end
+      meta:set_string("infotext", infotext)
    end,
    _rp_blast_resistance = 2,
 }

@@ -662,11 +662,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		-- Note: Don't show written sign text in log to prevent log flooding
 		" wrote something to a sign at "..minetest.pos_to_string(pos))
 	meta:set_string("infotext", "")
-	default.write_name(pos, text)
 end)
 
 local on_destruct = function(pos)
-	default.write_name(pos, "")
 	remove_text_entities(pos)
 end
 
@@ -1109,6 +1107,7 @@ local function register_sign(id, def)
 	sdef_p.inventory_image = def.inv_image.."^[hsl:0:-100:0"
 	sdef_p.wield_image = def.inv_image.."^[hsl:0:-100:0"
 	sdef_p.drop = "rp_signs:"..id
+	sdef_p._rp_paint_particle_pos = "cube_inside"
 	minetest.register_node("rp_signs:"..id.."_painted", sdef_p)
 
 	-- Wall sign, rotated by 90°, painted
@@ -1130,6 +1129,7 @@ local function register_sign(id, def)
 	sdef_r90_p.inventory_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
 	sdef_r90_p.wield_image = "("..def.inv_image..")^[transformR90^[hsl:0:-100:0"
 	sdef_r90_p.drop = "rp_signs:"..id
+	sdef_r90_p._rp_paint_particle_pos = "cube_inside"
 	minetest.register_node("rp_signs:"..id.."_r90_painted", sdef_r90_p)
 
 	-- Standing sign, painted
@@ -1153,6 +1153,7 @@ local function register_sign(id, def)
 	ssdef_p.inventory_image = "("..def.inv_image_standing..")^[hsl:0:-100:0"
 	ssdef_p.wield_image = "("..def.inv_image_standing..")^[hsl:0:-100:0"
 	ssdef_p.drop = "rp_signs:"..id.."_standing"
+	ssdef_p._rp_paint_particle_pos = "cube_inside"
 	minetest.register_node("rp_signs:"..id.."_standing_painted", ssdef_p)
 
 	-- Hanging sign, painted
@@ -1176,6 +1177,7 @@ local function register_sign(id, def)
 	shdef_p.inventory_image = nil
 	shdef_p.wield_image = nil
 	shdef_p.drop = "rp_signs:"..id.."_standing"
+	shdef_p._rp_paint_particle_pos = "cube_inside"
 	minetest.register_node("rp_signs:"..id.."_hanging_painted", shdef_p)
 
 	-- Sideways sign, painted
@@ -1198,6 +1200,7 @@ local function register_sign(id, def)
 	stsdef_p.inventory_image = nil
 	stsdef_p.wield_image = nil
 	stsdef_p.drop = "rp_signs:"..id.."_standing"
+	stsdef_p._rp_paint_particle_pos = "cube_inside"
 	minetest.register_node("rp_signs:"..id.."_side_painted", stsdef_p)
 
 	register_sign_page(id, {

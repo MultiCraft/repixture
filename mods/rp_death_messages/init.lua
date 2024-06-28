@@ -20,6 +20,9 @@ local msgs = {
 	["mob_kill_any"] = {
 		NS("You were killed by a hostile creature."),
 	},
+	["mob_kill_named"] = {
+		NS("You were killed by a hostile creature named @1."),
+	},
 	["fall"] = {
 		NS("You fell to your death."),
 	},
@@ -29,29 +32,45 @@ local msgs = {
 }
 
 local mobkills = {
-	["rp_mobs_mobs:walker"] = NS("You were kicked to death by a walker."),
-	["rp_mobs_mobs:boar"] = NS("You were killed by a boar."),
-	["rp_mobs_mobs:skunk"] = NS("You were killed by a skunk."),
-	["rp_mobs_mobs:villager"] = NS("You were killed by a villager."),
-	["rp_mobs_mobs:mineturtle"] = NS("You were exploded by a mine turtle."),
+	["rp_mobs_mobs:walker"] = {
+		NS("You were kicked to death by a walker."),
+		NS("You were kicked to death by @1, a walker."),
+	},
+	["rp_mobs_mobs:boar"] = {
+		NS("You were killed by a boar."),
+		NS("You were killed by @1, a boar."),
+	},
+	["rp_mobs_mobs:skunk"] = {
+		NS("You were killed by a skunk."),
+		NS("You were killed by @1, a skunk."),
+	},
+	["rp_mobs_mobs:villager"] = {
+		NS("You were killed by a villager."),
+		NS("You were killed by @1, a villager."),
+	},
+	["rp_mobs_mobs:mineturtle"] = {
+		NS("You were killed by a mine turtle."),
+		NS("You were killed by @1, a mine turtle."),
+	},
 }
-
--- Select death message
-local smsg = function(msg)
-	return S("@1", msg)
-end
 
 local dmsg = function(mtype, ...)
 	local r = math.random(1, #msgs[mtype])
-	return S("@1", S(msgs[mtype][r], ...))
+	return S(msgs[mtype][r], ...)
 end
 
 -- Select death message for death by mob
-local mmsg = function(mtype, ...)
-	if mobkills[mtype] then
-		return S("@1", S(mobkills[mtype], ...))
+local mmsg = function(mtype, mname)
+	if mtype and mobkills[mtype] then
+		if mname and mname ~= "" then
+			return S(mobkills[mtype][2], mname)
+		else
+			return S(mobkills[mtype][1])
+		end
+	elseif mname and mname ~= "" then
+		return dmsg("mob_kill_named", mname)
 	else
-		return dmsg("mob_kill")
+		return dmsg("mob_kill_any")
 	end
 end
 
@@ -71,7 +90,7 @@ minetest.register_on_dieplayer(function(player, reason)
 		local msg
 		if last_damages[name] then
 			-- custom message
-			msg = smsg(last_damages[name].message)
+			msg = last_damages[name].message
 		elseif reason.type == "node_damage" then
 			local pos = player:get_pos()
 			local node = reason.node
@@ -92,7 +111,7 @@ minetest.register_on_dieplayer(function(player, reason)
 				end
 				-- We assume the textdomain of the death message in the node definition
 				-- equals the modname.
-				msg = smsg(minetest.translate(textdomain, field_msg))
+				msg = minetest.translate(textdomain, field_msg)
 			else
 				msg = dmsg("node")
 			end
@@ -108,7 +127,7 @@ minetest.register_on_dieplayer(function(player, reason)
 			local hittername, hittertype, hittersubtype, shooter
 			-- Custom message
 			if last_damages[name] then
-				msg = smsg(last_damages[name].message)
+				msg = last_damages[name].message
 			-- Unknown hitter
 			elseif hitter == nil then
 				msg = dmsg("murder_any")
@@ -121,17 +140,14 @@ minetest.register_on_dieplayer(function(player, reason)
 					msg = dmsg("murder_any")
 				end
 			-- Mob (according to Common Mob Interface)
-			elseif hitter:get_luaentity()._cmi_is_mob then
-				if hitter:get_luaentity().nametag and hitter:get_luaentity().nametag ~= "" then
-					hittername = hitter:get_luaentity().nametag
-				end
-				hittersubtype = hitter:get_luaentity().name
-				if hittername then
-					msg = dmsg("murder", hittername)
-				elseif hittersubtype ~= nil and hittersubtype ~= "" then
-					msg = mmsg(hittersubtype)
+			elseif hitter:get_luaentity() and hitter:get_luaentity()._cmi_is_mob then
+				local lua = hitter:get_luaentity()
+				hittername = rp_mobs.get_nametag(lua)
+				hittersubtype = lua.name
+				if hittername and hittername ~= "" then
+					msg = mmsg(hittersubtype, hittername)
 				else
-					msg = dmsg("murder_any")
+					msg = mmsg(hittersubtype)
 				end
 			end
 		-- Falling
@@ -140,7 +156,7 @@ minetest.register_on_dieplayer(function(player, reason)
 		-- Other
 		elseif reason.type == "set_hp" then
 			if last_damages[name] then
-				msg = smsg(last_damages[name].message)
+				msg = last_damages[name].message
 			end
 		end
 		if not msg then

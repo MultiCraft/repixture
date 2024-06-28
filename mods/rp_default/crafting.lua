@@ -838,6 +838,35 @@ crafting.register_craft(
       }
 })
 
+crafting.register_craft({
+      output = "rp_default:fence_gate_closed 2",
+      items = {
+         "rp_default:planks",
+         "rp_default:stick 6",
+         "rp_default:fiber 4",
+      }
+})
+
+crafting.register_craft(
+   {
+      output = "rp_default:fence_gate_oak_closed 2",
+      items = {
+         "rp_default:planks_oak",
+         "rp_default:stick 6",
+         "rp_default:fiber 4",
+      }
+})
+
+crafting.register_craft(
+   {
+      output = "rp_default:fence_gate_birch_closed 2",
+      items = {
+         "rp_default:planks_birch",
+         "rp_default:stick 6",
+         "rp_default:fiber 4",
+      }
+})
+
 
 -- Misc nodes
 

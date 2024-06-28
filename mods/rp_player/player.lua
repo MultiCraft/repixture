@@ -7,6 +7,7 @@ local player_lastsound = {}
 local player_health = {}
 local player_lastpos = {}
 local player_watertime = {} -- for aqualung achievement
+local player_sneak = {}
 
 local particlespawners = {}
 
@@ -66,6 +67,25 @@ local function step(dtime)
       if player_lastsound[name] == nil then player_lastsound[name] = 100 end
 
       player_lastsound[name] = player_lastsound[name] + dtime
+
+      -- Make nametag color less visible while sneaking
+      local controls = player:get_player_control()
+      if player_sneak[name] ~= controls.sneak then
+         if controls.sneak then
+            player:set_nametag_attributes({
+               color = {a = 30, r = 255, g = 255, b = 255},
+               bgcolor = {a = 10, r = 0, g = 0, b = 0},
+            })
+         else
+            player:set_nametag_attributes({
+               color = {a = 255, r = 255, g = 255, b = 255},
+               bgcolor = {a = 50, r = 0, g = 0, b = 0},
+            })
+         end
+      end
+      if player_sneak[name] ~= controls.sneak then
+         player_sneak[name] = controls.sneak
+      end
 
       local headnode = minetest.get_node(head_pos)
       if minetest.get_item_group(headnode.name, 'water') > 0 then
@@ -199,16 +219,14 @@ local function on_joinplayer(player)
       zoom = 10 -- to match spyglass zoom
    end
    player:set_properties({
-      stepheight = 0.626, -- slightly above 10/16
       damage_texture_modifier = DAMAGE_TEXTURE_MODIFIER,
-      collisionbox = { -0.3, 0, -0.3, 0.3, 1.77, 0.3 },
-      selectionbox = { -0.32, 0, -0.22, 0.32, 1.77, 0.22, rotate=true},
       zoom_fov = zoom,
    })
 
    -- No free coordinates for you, sorry!
    rp_hud.set_hud_flag_semaphore(player, "rp_player:debug", "basic_debug", false)
 end
+
 
 local function on_leaveplayer(player)
    local name = player:get_player_name()
@@ -217,6 +235,7 @@ local function on_leaveplayer(player)
 
    player_lastpos[name] = nil
    player_watertime[name] = nil
+   player_sneak[name] = nil
 
    player_soundspec[name] = nil
    player_lastsound[name] = nil
@@ -227,3 +246,5 @@ minetest.register_on_leaveplayer(on_leaveplayer)
 minetest.register_on_respawnplayer(on_respawnplayer)
 
 minetest.register_globalstep(step)
+
+

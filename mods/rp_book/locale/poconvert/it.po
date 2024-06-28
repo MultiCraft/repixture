@@ -43,6 +43,9 @@ msgstr "Libreria"
 msgid "Provides 8 inventory slots"
 msgstr ""
 
+msgid "“@1”"
+msgstr ""
+
 msgid "Painted Bookshelf"
 msgstr ""
 

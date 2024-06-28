@@ -28,6 +28,9 @@ msgstr "Abgeschlossene Truhe (geknackt) (Eigentümer: @1)"
 msgid "@1 (Owned by @2)"
 msgstr "@1 (Eigentümer: @2)"
 
+msgid "“@1”"
+msgstr "„@1“"
+
 msgid "Lock Pick"
 msgstr "Dietrich"
 

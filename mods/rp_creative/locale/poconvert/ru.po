@@ -14,19 +14,19 @@ msgstr ""
 "X-Generator: mtt_convert 0.1.0\n"
 
 msgid "No items."
-msgstr ""
+msgstr "Пусто."
 
 msgid "@1/@2"
 msgstr "@1/@2"
 
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 msgid "Stop search"
-msgstr ""
+msgstr "Остановить поиск"
 
 msgid "Submit"
-msgstr ""
+msgstr "Готово"
 
 msgid "Creative Inventory"
 msgstr "Творческий инвентарь"

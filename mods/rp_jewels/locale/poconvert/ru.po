@@ -26,7 +26,7 @@ msgid "Range bonus: @1"
 msgstr "Бонус к дальности: @1"
 
 msgid "Drop level bonus: @1"
-msgstr ""
+msgstr "Бонус к выпадению: @1"
 
 msgid "Dig time bonus: @1 s"
 msgstr ""
@@ -38,16 +38,16 @@ msgid "Dig level bonus: @1"
 msgstr ""
 
 msgid "Jewel"
-msgstr ""
+msgstr "Самоцвет"
 
 msgid "Jeweler's Workbench"
-msgstr ""
+msgstr "Верстак ювелира"
 
 msgid "Tools can be upgraded with jewels here"
-msgstr ""
+msgstr "Здесь можно улучшить инструменты самоцветами"
 
 msgid "Jewel Ore"
-msgstr ""
+msgstr "Самоцветная руда"
 
 msgid "Jeweler"
 msgstr "Ювелир"

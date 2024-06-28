@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_door x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: eo\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Wooden Door"
+msgstr ""
+
+msgid "Painted Wooden Door"
+msgstr ""
+
+msgid "Oak Door"
+msgstr ""
+
+msgid "Painted Oak Door"
+msgstr ""
+
+msgid "Birch Door"
+msgstr ""
+
+msgid "Painted Birch Door"
+msgstr ""
+
+msgid "Stone Door"
+msgstr ""
+
+msgid "Adoorable"
+msgstr ""
+
+msgid "Craft a door."
+msgstr ""
+

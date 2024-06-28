@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_death_messages x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-06-03 08:53+0000\n"
+"Last-Translator: Wuzzy <Wuzzy@users.noreply.translate.codeberg.org>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/repixture/"
+"rp_death_messages/de/>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.5.5\n"
+
+msgid "You drowned."
+msgstr "Sie sind ertrunken."
+
+msgid "You took fatal damage from a block."
+msgstr "Sie haben tödlichen Schaden von einen Block erhalten."
+
+msgid "You were killed by @1."
+msgstr "Sie wurden von @1 getötet."
+
+msgid "You were killed."
+msgstr "Sie wurden getötet."
+
+msgid "You were killed by a hostile creature."
+msgstr "Sie wurden von einer feindlichen Kreatur getötet."
+
+msgid "You were killed by a hostile creature named @1."
+msgstr "Sie wurden von einer feindlichen Kreatur namens @1 getötet."
+
+msgid "You fell to your death."
+msgstr "Sie sind in den Tod gestürzt."
+
+msgid "You died."
+msgstr "Sie sind gestorben."
+
+msgid "You were kicked to death by a walker."
+msgstr "Sie wurden von einem Läufer zu Tode getreten."
+
+msgid "You were kicked to death by @1, a walker."
+msgstr "Sie wurden von @1, einem Läufer, zu Tode getreten."
+
+msgid "You were killed by a boar."
+msgstr "Sie wurden von einem Wildschwein getötet."
+
+msgid "You were killed by @1, a boar."
+msgstr "Sie wurden von @1, einem Wildschwein, getötet."
+
+msgid "You were killed by a skunk."
+msgstr "Sie wurden von einem Stinktier getötet."
+
+msgid "You were killed by @1, a skunk."
+msgstr "Sie wurden von @1, einem Stinktier, getötet."
+
+msgid "You were killed by a villager."
+msgstr "Sie wurden von einem Dorfbewohner getötet."
+
+msgid "You were killed by @1, a villager."
+msgstr "Sie wurden von @1, einem Dorfbewohner, getötet."
+
+msgid "You were killed by a mine turtle."
+msgstr "Sie wurden von einer Minenschildkröte getötet."
+
+msgid "You were killed by @1, a mine turtle."
+msgstr "Sie wurden von @1, einer Minenschildkröte, getötet."
+
+msgid "@1"
+msgstr "@1"

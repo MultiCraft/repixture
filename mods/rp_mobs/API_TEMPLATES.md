@@ -36,6 +36,23 @@ finishes successfully.
 
 ## Microtask template reference
 
+### `rp_mobs.microtasks.drag(move_vector, yaw, drag, max_timer)`
+
+Slow mob down for the specified drag vector at the specified drag axes.
+The drag vector specifies on each axis how much the mob slows down.
+
+This will call `set_velocity` directly.
+
+Parameters:
+
+* `mob`: Mob object
+* `dtime`: `dtime` from `on_step`
+* `drag`: Drag vector. Higher number = faster slowdown.
+* `drag_axes`: List of axes to which apply drag for (`"x"`, `"y"`, `"z"`).
+  Other axes will be ignored.
+
+
+
 ### `rp_mobs.microtasks.move_straight(move_vector, yaw, drag, max_timer)`
 
 Move in a straight line on any axis.

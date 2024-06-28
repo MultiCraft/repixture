@@ -49,6 +49,12 @@ msgstr "Côtelette de porc cuite"
 msgid "Boar"
 msgstr "Sanglier"
 
+msgid "You were exploded by @1, a mine turtle."
+msgstr ""
+
+msgid "You were exploded by a mine turtle."
+msgstr ""
+
 msgid "Mine Turtle"
 msgstr "Tortue des mines"
 
@@ -76,23 +82,47 @@ msgstr "Charpentier"
 msgid "Villager"
 msgstr ""
 
-msgid "Hi! I'm a farmer. I sell farming goods."
+msgid "Hi! I’m a farmer. I sell farming goods."
 msgstr "Salut ! Je suis un agriculteur. Je vends des biens agricoles."
 
-msgid "Hi! I'm a tavernkeeper. I trade with assorted goods."
+msgid "Hi! I’m a tavernkeeper. I trade with assorted goods."
 msgstr "Salut ! Je suis un tavernier. J'échange divers biens."
 
-msgid "Hi! I'm a blacksmith. I sell metal products."
+msgid "Hi! I’m a blacksmith. I sell metal products."
 msgstr "Salut ! Je suis un forgeron. Je vends des produits en métal."
 
-msgid "Hi! I'm a butcher. Want to buy something?"
+msgid "Hi! I’m a butcher. Want to buy something?"
 msgstr "Salut ! Je suis un boucher. Vous voulez acheter quelque chose ?"
 
-msgid "Hi! I'm a carpenter. Making things out of wood is my job."
+msgid "Hi! I’m a carpenter. Making things out of wood is my job."
 msgstr "Salut ! Je suis un charpentier. Je fabrique des choses en bois."
 
 msgid "If you want to trade, show me a trading book."
 msgstr "Si vous voulez faire un échange, montrez-moi un livre de commerce."
+
+msgid "I want to work on a field of crops."
+msgstr ""
+
+msgid "Did you see a barrel nearby? I need one for work."
+msgstr ""
+
+msgid "I need a furnace to do my work, but I can’t find any."
+msgstr ""
+
+msgid "I wanted to cook some meat, but I can’t find a furnace."
+msgstr ""
+
+msgid "It would be nice if we had a library."
+msgstr ""
+
+msgid "I’m grumpy because I can’t find my bed."
+msgstr ""
+
+msgid "Have you seen a free bed somewhere?"
+msgstr ""
+
+msgid "I need a place to sleep."
+msgstr ""
 
 msgid "Hello!"
 msgstr "Salut !"
@@ -109,10 +139,10 @@ msgstr "Je me sens bien."
 msgid "Have a nice day!"
 msgstr "Bonne journée !"
 
-msgid "I'm not in a good mood."
+msgid "I’m not in a good mood."
 msgstr "Je ne suis pas de bonne humeur."
 
-msgid "I'm tired."
+msgid "I’m tired."
 msgstr "Je suis fatigué."
 
 msgid "I need to rest."
@@ -121,7 +151,7 @@ msgstr "J'ai besoin de me reposer."
 msgid "Life could be better."
 msgstr "La vie pourrait être meilleure."
 
-msgid "I don't feel so good."
+msgid "I don’t feel so good."
 msgstr "Je ne me sens pas bien."
 
 msgid "I ... I am hurt."
@@ -142,10 +172,37 @@ msgstr "Allez au diable !"
 msgid "Get this thing out of my face!"
 msgstr "Enlevez ça de mon visage !"
 
+msgid "@1 says: “@2”"
+msgstr ""
+
 msgid "Villager says: “@1”"
 msgstr "Villageois dit : « @1 »"
 
-msgid "Ah, a cactus. You'd be surprised how well they burn in a furnace."
+msgid "I need this bed. Please place it somewhere. I promise I won’t abuse it as furnace fuel!"
+msgstr ""
+
+msgid "Can you please put this bed down for me?"
+msgstr ""
+
+msgid "Beautiful bookshelf you have there! Can you please place it somewhere where I can reach it? It’s so fascinating …"
+msgstr ""
+
+msgid "I know this sounds strange but: Can you please plant some potatoes for me? I want to start a farm but I can’t decide where."
+msgstr ""
+
+msgid "I know this is a weird request but: Can you please plant some carrots for me? I want to start a farm but I can’t decide where."
+msgstr ""
+
+msgid "I know this sounds awkward but: Can you please plant some crops for me? I want to start a farm but I can’t decide where."
+msgstr ""
+
+msgid "You got a furnace! Please place it somewhere so I can do my work."
+msgstr ""
+
+msgid "This is exactly what I need! Can you please put the barrel on the floor for me?"
+msgstr ""
+
+msgid "Ah, a cactus. You’d be surprised how well they burn in a furnace."
 msgstr "Ah, un cactus. Vous seriez surpris de voir à quel point ils brûlent dans un four."
 
 msgid "You can quickly kindle it in the furnace."
@@ -178,7 +235,7 @@ msgstr "C'est un bon combustible de four, il brûle longtemps."
 msgid "This is a nice furnace fuel."
 msgstr "C'est un combustible de four correct."
 
-msgid "You can use this as a furnace fuel, but it's meh."
+msgid "You can use this as a furnace fuel, but it’s meh."
 msgstr "Vous pouvez l'utiliser comme combustible de four, mais il est bof."
 
 msgid "You can use this as a furnace fuel, but it is gone quickly."
@@ -190,7 +247,7 @@ msgstr "Vous pouvez l'utiliser comme combustible de four, mais il se consumera t
 msgid "You can theoretically use this as a furnace fuel, but it is gone almost instantly. You will need a large amount of these to cook anything."
 msgstr "Vous pouvez théoriquement l'utiliser comme combustible de four, mais il se consumera presque instantanément."
 
-msgid "I'm impressed! Your weapon is a true masterpiece."
+msgid "I’m impressed! Your weapon is a true masterpiece."
 msgstr "Je suis impressionné ! Votre arme est un vrai chef-d'œuvre."
 
 msgid "This is a mighty weapon, but have you considered upgrading it with jewels?"
@@ -199,8 +256,11 @@ msgstr "C'est une arme puissante, mais avez-vous envisagé de l'améliorer avec 
 msgid "Offense is the best defense."
 msgstr "La meilleure défense c'est l'attaque."
 
-msgid "If you equip a full set of armor made from the same material, you'll get a protection bonus."
+msgid "If you equip a full set of armor made from the same material, you’ll get a protection bonus."
 msgstr "Si vous vous équipez d'une armure complète faite dans le même matériau, vous bénéficiez d'un bonus de protection."
+
+msgid "This block is so fascinating …"
+msgstr ""
 
 msgid "You can put anything inside a bookshelf, not just books."
 msgstr "Vous pouvez mettre n'importe quoi dans une étagère à livres, pas seulement des livres."
@@ -208,7 +268,7 @@ msgstr "Vous pouvez mettre n'importe quoi dans une étagère à livres, pas seul
 msgid "This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."
 msgstr "Fait pousser les graines plus vite. Placez l'engrais sur le sol, puis plantez la graine au-dessus de celui-ci."
 
-msgid "Sorry, I don't know how to use this. Maybe ask a farmer."
+msgid "Sorry, I don’t know how to use this. Maybe ask a farmer."
 msgstr "Désolé, je ne sais pas comment l'utiliser. Demandez peut-être à un agriculteur."
 
 msgid "Remember to put water near to your seeds."
@@ -223,22 +283,28 @@ msgstr ""
 msgid "If you use it on wool, it will point to the North again."
 msgstr ""
 
-msgid "We live in a lovely place, don't we?"
+msgid "We live in a lovely place, don’t we?"
 msgstr ""
 
-msgid "It's used to capture large animals."
+msgid "It’s used to capture large animals."
 msgstr "Il est utilisé pour capturer les gros animaux."
 
 msgid "Why are you carrying this around? Do you want crack open our locked chests?"
 msgstr "Pourquoi portez-vous cela ? Voulez-vous forcer nos coffres verrouillés ?"
 
-msgid "It's used to capture small animals."
+msgid "It’s used to capture small animals."
 msgstr "Il est utilisé pour capturer les petits animaux."
 
 msgid "Every kid knows seeds need soil, water and sunlight."
 msgstr "Tous les enfants savent que les graines ont besoin de terre, d'eau et de soleil."
 
-msgid "Sheep love to eat wheat. Give them enough wheat and they'll multiply!"
+msgid "Did you know cotton seed not only grow on dirt, but also on sand? But it still needs water."
+msgstr "Saviez-vous que les graines de coton ne poussent pas seulement sur la terre, mais aussi sur le sable ? Mais elle a quand même besoin d'eau."
+
+msgid "If you have grown a cotton plant, try using scissors to perform a precise cut."
+msgstr ""
+
+msgid "Sheep love to eat wheat. Give them enough wheat and they’ll multiply!"
 msgstr ""
 
 msgid "We use wheat to make flour and bake bread."
@@ -247,19 +313,13 @@ msgstr ""
 msgid "Put it in a furnace to bake tasty bread."
 msgstr ""
 
-msgid "Did you know cotton seed not only grow on dirt, but also on sand? But it still needs water."
-msgstr "Saviez-vous que les graines de coton ne poussent pas seulement sur la terre, mais aussi sur le sable ? Mais elle a quand même besoin d'eau."
-
-msgid "If you have grown a cotton plant, try using scissors to perform a precise cut."
-msgstr ""
-
 msgid "This can be used to make cotton bales."
 msgstr ""
 
 msgid "A truly epic story!"
 msgstr "Une histoire vraiment épique !"
 
-msgid "Ooh, a shiny pearl! It's beautiful."
+msgid "Ooh, a shiny pearl! It’s beautiful."
 msgstr ""
 
 msgid "I heard the tavernkeeper likes these."
@@ -289,16 +349,16 @@ msgstr ""
 msgid "When I was I kid, I always liked to climb on the papyrus."
 msgstr "Quand j'étais enfant, j'aimais grimper sur le papyrus."
 
-msgid "Cacti grow best on sand. They are also a food source, if you're really desperate."
+msgid "Cacti grow best on sand. They are also a food source, if you’re really desperate."
 msgstr ""
 
-msgid "This is the secret ingredient for my special drink. But don't tell anyone!"
+msgid "This is the secret ingredient for my special drink. But don’t tell anyone!"
 msgstr ""
 
-msgid "Now what can you possibly do with a cactus? I don't know!"
+msgid "Now what can you possibly do with a cactus? I don’t know!"
 msgstr "Maintenant, que pouvez-vous faire avec un cactus ? Je ne sais pas !"
 
-msgid "Jewels are great! If you have a jeweller's workbench, you can enhance your tools."
+msgid "Jewels are great! If you have a jeweller’s workbench, you can enhance your tools."
 msgstr "Les plaquages sont supers ! Si vous avez un établi de plaqueur, vous pouvez améliorer vos outils."
 
 msgid "Did you know we sometimes sell jewels?"
@@ -316,7 +376,7 @@ msgstr ""
 msgid "Let’s light up some caves!"
 msgstr ""
 
-msgid "A flower? I love flowers! Let's make the world bloom!"
+msgid "A flower? I love flowers! Let’s make the world bloom!"
 msgstr "Une fleur ? J'adore les fleurs ! Faisons fleurir le monde !"
 
 msgid "You can use this to light up torches and bonfires and ignite TNT."
@@ -328,13 +388,13 @@ msgstr ""
 msgid "TNT needs to be ignited by a flint and steel."
 msgstr "L'explosif doit être mis à feu par un silex et de l'acier."
 
-msgid "For some reason, TNT can't be ignited. Strange."
+msgid "For some reason, TNT can’t be ignited. Strange."
 msgstr "Pour une raison quelconque, l'explosif ne peut pas être allumé. Étrange."
 
-msgid "You need flint and steel to light the fire. But don't walk into the flame!"
+msgid "You need flint and steel to light the fire. But don’t walk into the flame!"
 msgstr ""
 
-msgid "Isn't it stressful to carry this heavy bed around?"
+msgid "Isn’t it stressful to carry this heavy bed around?"
 msgstr "N'est-ce pas stressant de porter ce lourd lit ?"
 
 msgid "Sleeping makes the night go past in the blink of an eye."
@@ -352,13 +412,22 @@ msgstr ""
 msgid "Did you try to dry it in the furnace?"
 msgstr ""
 
+msgid "Meat tastes best when it’s cooked."
+msgstr ""
+
+msgid "Raw metals aren’t going to smelt themselves!"
+msgstr ""
+
+msgid "Furnaces are so versatile, they not just smelt ores, but cook foods as well!"
+msgstr ""
+
 msgid "Airweed is an underwater plant with little capsules filled with air. Use it underwater to release air bubbles and catch some breath."
 msgstr ""
 
 msgid "If you use the airweed plant, you will catch some breath. Other people near the plant will also benefit."
 msgstr ""
 
-msgid "Airweed is very useful, but it can't give you breath from your hand. You must place it on the ground first."
+msgid "Airweed is very useful, but it can’t give you breath from your hand. You must place it on the ground first."
 msgstr ""
 
 msgid "You can multiply airweed with fertilizer."
@@ -373,7 +442,7 @@ msgstr ""
 msgid "The tallest algae always grow on alga blocks."
 msgstr ""
 
-msgid "If an alga tries to grow but something blocks its path, it'll stop growing, even if the barrier is removed later."
+msgid "If an alga tries to grow but something blocks its path, it’ll stop growing, even if the barrier is removed later."
 msgstr ""
 
 msgid "Algae grow underwater in different heights."
@@ -385,13 +454,13 @@ msgstr ""
 msgid "If you want the vine to stop growing, make a precise cut using scissors."
 msgstr ""
 
-msgid "It's climbing time!"
+msgid "It’s climbing time!"
 msgstr ""
 
-msgid "Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it's fertilized."
+msgid "Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it’s fertilized."
 msgstr ""
 
-msgid "You're dirty!"
+msgid "You’re dirty!"
 msgstr ""
 
 msgid "Swamp dirt is really interesting. The famous swamp oak grows on it, and papyrus also grows exceptionally well."
@@ -412,7 +481,19 @@ msgstr ""
 msgid "Be careful not to let it fall on your head!"
 msgstr ""
 
-msgid "This is like my ex-lover's heart. Made out of stone."
+msgid "Fern is used to craft fertilizer. Fern spreads on fertilized dirt."
+msgstr ""
+
+msgid "Fern is used to craft fertilizer."
+msgstr ""
+
+msgid "I use a barrel for the work at the tavern."
+msgstr ""
+
+msgid "The tavernkeeper uses the barrel to do their work."
+msgstr ""
+
+msgid "This is like my ex-lover’s heart. Made out of stone."
 msgstr ""
 
 msgid "Stay healthy!"

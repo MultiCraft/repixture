@@ -88,11 +88,11 @@ msgstr "(list [<Spieler>]) | ((give | remove) <Spieler> (<Errungenschaft> | all)
 msgid "List, give or remove achievements of player"
 msgstr "Errungenschaft einem Spieler geben oder wegnehmen, oder Errungenschaften auflisten"
 
-msgid "@1: @2 (@3)"
-msgstr "@1: @2 (@3)"
-
 msgid "unset"
 msgstr "nicht gesetzt"
+
+msgid "@1: @2 (@3)"
+msgstr "@1: @2 (@3)"
 
 msgid "No achievements."
 msgstr "Keine Errungenschaften."

@@ -19,3 +19,6 @@ msgstr "Lagerfeuer"
 msgid "Bonfire (burning)"
 msgstr "Lagerfeuer (brennend)"
 
+msgid "You burned to death in a bonfire."
+msgstr "Sie sind in einem Lagerfeuer verbrannt."
+

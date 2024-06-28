@@ -34,3 +34,20 @@ A bed is valid if:
 * Both nodes have the same `param2`
 
 Single 'bed' nodes (without a matching other piece) count as invalid.
+
+### `bed.get_bed_segment(pos, node, segment)`
+
+Returns the pos of the specified bed segment of the bed at pos
+or nil if there is no bed at pos.
+For example, if `segment` is `"foot"`, the position of that segment
+will be returned (which may or may not be equal to `pos`).
+
+Arguments:
+
+* `pos`: Position of bed segment
+* `node`: Node table of the node at pos
+* `segment`: Segment to get position for. One of:
+    * `"foot"`: lower segment
+    * `"head"`: upper segment
+    * `"other"`: lower segment if pos is the upper segment and vice-versa
+

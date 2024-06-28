@@ -109,14 +109,29 @@ msgstr "Деревянное Ведро"
 msgid "Punch to collect a liquid source"
 msgstr "Удар чтобы набрать жидкость"
 
+msgid "“@1”"
+msgstr ""
+
+msgid "Painted Chest"
+msgstr "Окрашенный Сундук"
+
 msgid "Chest"
 msgstr "Сундук"
 
 msgid "Provides 32 inventory slots"
 msgstr "Содержит 32 слота"
 
-msgid "Painted Chest"
-msgstr "Окрашенный Сундук"
+msgid "Chest “@1”"
+msgstr ""
+
+msgid "Bookshelf"
+msgstr ""
+
+msgid "Provides 8 inventory slots"
+msgstr ""
+
+msgid "Bookshelf “@1”"
+msgstr ""
 
 msgid "Fiber"
 msgstr "Волокно"
@@ -163,17 +178,35 @@ msgstr "Деревянный забор"
 msgid "Painted Wooden Fence"
 msgstr "Окрашенный Деревянный Забор"
 
+msgid "Wooden Fence Gate"
+msgstr ""
+
+msgid "Painted Wooden Fence Gate"
+msgstr ""
+
 msgid "Oak Fence"
 msgstr "Дубовый забор"
 
 msgid "Painted Oak Fence"
 msgstr "Окрашенный Дубовыц Забор"
 
+msgid "Oak Fence Gate"
+msgstr ""
+
+msgid "Painted Oak Fence Gate"
+msgstr ""
+
 msgid "Birch Fence"
 msgstr "Берёзовый забор"
 
 msgid "Painted Birch Fence"
 msgstr "Окрашенный Берёзовый Забор"
+
+msgid "Birch Fence Gate"
+msgstr ""
+
+msgid "Painted Birch Fence Gate"
+msgstr ""
 
 msgid "Fertilized Dirt"
 msgstr "Удобренная земля"
@@ -702,6 +735,9 @@ msgstr "Чертополох"
 
 msgid "Careful, it stings!"
 msgstr "Аккуратней, он жалит!"
+
+msgid "You were prickled to death by a thistle."
+msgstr ""
 
 msgid "Sapling"
 msgstr "Саженец"

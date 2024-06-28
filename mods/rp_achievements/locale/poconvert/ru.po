@@ -20,7 +20,7 @@ msgid "@1 has earned the achievement “@2”."
 msgstr "@1 выполнил достижение \"@2\"."
 
 msgid "Achievement gotten!"
-msgstr ""
+msgstr "Достижение получено!"
 
 msgid "You have gotten all achievements!"
 msgstr "Ты выполнил все достижения!"
@@ -29,7 +29,7 @@ msgid "@1 has gotten all achievements!"
 msgstr "@1 выполнил все достижения!"
 
 msgid "All achievements gotten!"
-msgstr ""
+msgstr "Все достижения получены!"
 
 msgid "You have lost all achievements!"
 msgstr "Ты потерял все достижения!"
@@ -38,7 +38,7 @@ msgid "@1 has lost all achievements!"
 msgstr "@1 потерял все достижения!"
 
 msgid "All achievements lost!"
-msgstr ""
+msgstr "Все достижения потеряны!"
 
 msgid "You have lost the achievement “@1”."
 msgstr "Ты потерял достижение \"@1\"."
@@ -47,7 +47,7 @@ msgid "@1 has lost the achievement “@2”."
 msgstr "@1 потерял достижение \"@2\"."
 
 msgid "Achievement lost!"
-msgstr ""
+msgstr "Достижение потеряно!"
 
 msgid "The achievement “@1” has new goals."
 msgstr "Достижение \"@1\" получило новые цели."
@@ -71,7 +71,7 @@ msgid "Completed: @1"
 msgstr "Выполнено: @1"
 
 msgid "Status: @1"
-msgstr ""
+msgstr "Статус: @1"
 
 msgid "@1 of @2 achievements gotten, @3 in progress"
 msgstr "@1 из @2 достижений выполнено, @3 в процессе"
@@ -80,7 +80,7 @@ msgid "Show symbols"
 msgstr ""
 
 msgid "Show list"
-msgstr ""
+msgstr "Показать список"
 
 msgid "(list [<player>]) | ((give | remove) <player> (<achievement> | all))"
 msgstr "(list [<игрок>]) | ((give | remove) <игрок> (<достижение> | all))"
@@ -88,11 +88,11 @@ msgstr "(list [<игрок>]) | ((give | remove) <игрок> (<достижен
 msgid "List, give or remove achievements of player"
 msgstr "Просмотреть, выдать или убрать достижения игрока"
 
-msgid "@1: @2 (@3)"
-msgstr "@1: @2 (@3)"
-
 msgid "unset"
 msgstr "н/д"
+
+msgid "@1: @2 (@3)"
+msgstr "@1: @2 (@3)"
 
 msgid "No achievements."
 msgstr "Нету достижений."

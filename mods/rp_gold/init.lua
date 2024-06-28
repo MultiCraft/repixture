@@ -8,213 +8,17 @@ gold = {}
 -- Sound pitch modifier of gold nodes
 gold.PITCH = 1.25
 
+-- Load available trades
+dofile(minetest.get_modpath("rp_gold").."/trades.lua")
+
+-- Randomness for selecting trades
 gold.pr = PseudoRandom(os.time())
 
---[[
-Table of trades offered by villagers.
-Format:
-
-   gold.trades = {
-      -- List of trades for this villager profession
-      ["profession_1"] = {
-         -- first trade table (see below)
-         trade_1,
-         -- second trade table (see below)
-         trade_2,
-         -- ...
-      },
-      ["profession_2"] = {
-         -- ...
-      },
-      -- ...
-   },
-
-A trade table is a list of 3 itemstrings:
-
-   { wanted_item_1, wanted_item_2, given_item }
-
-The first 2 items are the items you give to the villager.
-`wanted_item_2` can be the empty string.
-`given_item` is the item you get.
-If `wanted_item_2` and `given_item` are equal and tools
-(via `minetest.registered_tool`), this trade is considered
-to be a repair trade
-]]
-gold.trades = {}
-
-gold.trade_names = {}
-
+-- Trading formspec
 local TRADE_FORMSPEC_START_X = rp_formspec.default.start_point.x
 local TRADE_FORMSPEC_START_Y = rp_formspec.default.start_point.y
 local TRADE_FORMSPEC_OFFSET_X = 5
-local TRADE_FORMSPEC_OFFSET_Y = 0.8
-
-if minetest.get_modpath("rp_mobs") ~= nil then
-   gold.trades["farmer"] = {
-      -- seeds/plants
-      {"rp_gold:ingot_gold", "", "rp_farming:wheat_1 6"},
-      {"rp_gold:ingot_gold", "", "rp_farming:potato_1 7"},
-      {"rp_gold:ingot_gold", "", "rp_farming:cotton_1 2"},
-      {"rp_gold:ingot_gold", "", "rp_default:papyrus 4"},
-      {"rp_gold:ingot_gold 2", "", "rp_farming:carrot_1"},
-      {"rp_gold:ingot_gold 2", "", "rp_farming:asparagus_1"},
-      {"rp_gold:ingot_gold 3", "", "rp_default:cactus"},
-
-      -- crafts
-      {"rp_gold:ingot_gold 2", "", "rp_farming:cotton_bale 1"},
-
-      -- tool repair
-      {"rp_gold:ingot_gold 1", "rp_default:shovel_stone", "rp_default:shovel_stone"},
-      {"rp_gold:ingot_gold 8", "rp_default:shovel_steel", "rp_default:shovel_steel"},
-      {"rp_gold:ingot_gold 10", "rp_default:shovel_carbon_steel", "rp_default:shovel_carbon_steel"},
-
-      -- filling buckets
-      {"rp_gold:ingot_gold", "rp_default:bucket", "rp_default:bucket_water"},
-   }
-   gold.trades["carpenter"] = {
-      -- materials
-      {"rp_gold:ingot_gold", "", "rp_default:planks 6"},
-      {"rp_gold:ingot_gold", "", "rp_default:planks_birch 5"},
-      {"rp_gold:ingot_gold", "", "rp_default:planks_oak 3"},
-      {"rp_gold:ingot_gold", "", "rp_default:frame 2"},
-      {"rp_gold:ingot_gold", "", "rp_default:reinforced_frame"},
-
-      -- useables
-      {"rp_gold:ingot_gold 5", "", "rp_bed:bed"},
-      {"rp_gold:ingot_gold 2", "", "rp_default:chest"},
-      {"rp_gold:ingot_gold 10", "", "rp_locks:chest"},
-      {"rp_gold:ingot_gold", "rp_mobs_mobs:wool 3", "rp_bed:bed"},
-   }
-   gold.trades["tavernkeeper"] = {
-      -- edibles
-      {"rp_gold:ingot_gold", "", "rp_default:apple 6"},
-      {"rp_gold:ingot_gold", "", "rp_farming:bread 2"},
-      {"rp_gold:ingot_gold", "", "rp_mobs_mobs:meat"},
-      {"rp_gold:ingot_gold 2", "", "rp_mobs_mobs:pork"},
-
-      -- filling buckets
-      {"rp_gold:ingot_gold", "rp_default:bucket", "rp_default:bucket_water"},
-   }
-   gold.trades["blacksmith"] = {
-      -- smeltables
-      {"rp_gold:ingot_gold", "", "rp_default:lump_coal"},
-      {"rp_gold:ingot_gold 3", "", "rp_default:lump_iron"},
-
-      -- materials
-      {"rp_gold:ingot_gold", "", "rp_default:cobble 20"},
-      {"rp_gold:ingot_gold", "", "rp_default:stone 18"},
-      {"rp_gold:ingot_gold", "", "rp_default:reinforced_cobble 2"},
-      -- much cheaper than 9 steel ingots, buying in bulk slashes the price
-      {"rp_gold:ingot_gold 25", "", "rp_default:block_steel"},
-      {"rp_gold:ingot_gold 6", "", "rp_default:glass 5"},
-
-      -- usebles
-      {"rp_gold:ingot_gold", "", "rp_default:furnace"},
-
-      -- ingots
-      {"rp_gold:ingot_gold 5", "", "rp_default:ingot_steel"},
-      {"rp_gold:ingot_gold 8", "", "rp_default:ingot_carbon_steel"},
-
-      -- special trades
-      -- iron to steel
-      {"rp_gold:ingot_gold 2", "rp_default:lump_iron 2", "rp_default:ingot_steel"},
-      -- bronze lump: unique item, can't be crafted. Cheaper than crafting bronze ingots
-      {"rp_default:lump_tin 1", "rp_default:lump_copper 4", "rp_default:lump_bronze"},
-      -- chainmail sheet to steel
-      {"rp_gold:ingot_gold", "rp_armor:chainmail_sheet", "rp_default:ingot_steel"},
-
-      -- tool repair
-      {"rp_gold:ingot_gold 1", "rp_default:pick_stone", "rp_default:pick_stone"},
-      {"rp_gold:ingot_gold 12", "rp_default:pick_steel", "rp_default:pick_steel"},
-      {"rp_gold:ingot_gold 16", "rp_default:pick_carbon_steel", "rp_default:pick_carbon_steel"},
-   }
-   gold.trades["butcher"] = {
-      -- raw edibles
-      {"rp_gold:ingot_gold", "", "rp_mobs_mobs:meat_raw"},
-      {"rp_gold:ingot_gold 3", "", "rp_mobs_mobs:pork_raw 2"},
-
-      -- cooking edibles
-      {"rp_gold:ingot_gold 1", "rp_mobs_mobs:meat_raw", "rp_mobs_mobs:meat"},
-      {"rp_gold:ingot_gold 2", "rp_mobs_mobs:pork_raw", "rp_mobs_mobs:pork"},
-
-      -- tool repair
-      {"rp_gold:ingot_gold 1", "rp_default:spear_stone", "rp_default:spear_stone"},
-      {"rp_gold:ingot_gold 7", "rp_default:spear_steel", "rp_default:spear_steel"},
-      {"rp_gold:ingot_gold 11", "rp_default:spear_carbon_steel", "rp_default:spear_carbon_steel"},
-
-   }
-   -- trading currency
-   if minetest.get_modpath("rp_jewels") ~= nil then -- jewels/gold
-      --farmer
-      table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 16", "", "rp_jewels:jewel"})
-      table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 22", "", "rp_jewels:jewel 2"})
-      table.insert(gold.trades["farmer"], {"rp_gold:ingot_gold 34", "", "rp_jewels:jewel 4"})
-
-      table.insert(gold.trades["farmer"], {"rp_jewels:jewel", "", "rp_gold:ingot_gold 7"})
-      table.insert(gold.trades["farmer"], {"rp_jewels:jewel 2", "", "rp_gold:ingot_gold 15"})
-      table.insert(gold.trades["farmer"], {"rp_jewels:jewel 4", "", "rp_gold:ingot_gold 31"})
-
-      -- tavern keeper
-      table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 14", "", "rp_jewels:jewel"})
-      table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 20", "", "rp_jewels:jewel 2"})
-      table.insert(gold.trades["tavernkeeper"], {"rp_gold:ingot_gold 32", "", "rp_jewels:jewel 4"})
-
-      -- blacksmith
-      table.insert(gold.trades["blacksmith"], {"rp_default:ingot_steel 14", "", "rp_jewels:jewel"})
-      table.insert(gold.trades["blacksmith"], {"rp_default:ingot_steel 20", "", "rp_jewels:jewel 2"})
-      table.insert(gold.trades["blacksmith"], {"rp_default:ingot_steel 32", "", "rp_jewels:jewel 4"})
-   end
-
-   -- farmer
-   table.insert(gold.trades["farmer"], {"rp_farming:wheat 15", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["farmer"], {"rp_default:apple 12", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["farmer"], {"rp_default:flower 10", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["farmer"], {"rp_default:fern 10", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["farmer"], {"rp_farming:carrot_1 10", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["farmer"], {"rp_farming:asparagus_1 12", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["farmer"], {"rp_farming:potato_1 14", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["farmer"], {"rp_default:lump_sulfur 6", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["farmer"], {"rp_default:thistle 13", "", "rp_gold:ingot_gold"})
-
-   -- blacksmith
-   table.insert(gold.trades["blacksmith"], {"rp_default:tree 6", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["blacksmith"], {"rp_default:lump_coal 15", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["blacksmith"], {"rp_default:lump_iron 12", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["blacksmith"], {"rp_default:lump_tin 10", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["blacksmith"], {"rp_gold:lump_gold 2", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["blacksmith"], {"rp_armor:chainmail_sheet 2", "", "rp_gold:ingot_gold"})
-
-   -- carpenter
-   table.insert(gold.trades["carpenter"], {"rp_default:tree 5", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["carpenter"], {"rp_default:tree_birch 5", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["carpenter"], {"rp_default:tree_oak 4", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["carpenter"], {"rp_default:fiber 50", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["carpenter"], {"rp_mobs_mobs:wool 8", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["carpenter"], {"rp_farming:cotton_bale 10", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["carpenter"], {"rp_default:glass 10", "", "rp_gold:ingot_gold"})
-
-   -- butcher
-   table.insert(gold.trades["butcher"], {"rp_mobs_mobs:meat_raw 4", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["butcher"], {"rp_mobs_mobs:pork_raw 3", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["butcher"], {"rp_default:flint 12", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["butcher"], {"rp_default:paper 30", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["butcher"], {"rp_default:sandstone 28", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["butcher"], {"rp_default:ingot_wrought_iron 11", "", "rp_gold:ingot_gold"})
-
-   -- tavernkeeper
-   table.insert(gold.trades["tavernkeeper"], {"rp_default:pearl 2", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["tavernkeeper"], {"rp_default:sheet_graphite 10", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["tavernkeeper"], {"rp_lumien:block 4", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["tavernkeeper"], {"rp_farming:flour 4", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["tavernkeeper"], {"rp_default:cactus 24", "", "rp_gold:ingot_gold"})
-   table.insert(gold.trades["tavernkeeper"], {"rp_default:swamp_grass 20", "", "rp_gold:ingot_gold"})
-
-   gold.trade_names["farmer"] = S("Farmer")
-   gold.trade_names["tavernkeeper"] = S("Tavern Keeper")
-   gold.trade_names["carpenter"] = S("Carpenter")
-   gold.trade_names["blacksmith"] = S("Blacksmith")
-   gold.trade_names["butcher"] = S("Butcher")
-end
+local TRADE_FORMSPEC_OFFSET_Y = 0.5
 
 local form_trading = ""
 
@@ -235,7 +39,6 @@ form_trading = form_trading .. "listring[current_player;gold_trade_in]"
 form_trading = form_trading .. "listring[current_player;main]"
 form_trading = form_trading .. "listring[current_player;gold_trade_out]"
 
-form_trading = form_trading .. "image[2.5,0;1,1;ui_arrow_bg.png^[transformR270]"
 form_trading = form_trading .. "image[2.5,1.25;1,1;ui_arrow.png^[transformR270]"
 
 form_trading = form_trading .. rp_formspec.button(0.15, 2.5, 2, 1, "trade", S("Trade"))
@@ -275,7 +78,13 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
       return
    end
 
-   active_tradings[name] = { all_trades = all_trades, trade_index = trade_index, trade_type = trade_type, trader = trader }
+   local scroll_pos
+   if active_tradings[name] then
+      scroll_pos = active_tradings[name].scroll_pos
+   else
+      scroll_pos = 0
+   end
+   active_tradings[name] = { all_trades = all_trades, trade_index = trade_index, scroll_pos = scroll_pos, trade_type = trade_type, trader = trader }
 
    local inv = player:get_inventory()
 
@@ -283,63 +92,75 @@ function gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
    inv:set_stack("gold_trade_wanted", 2, trade[2])
 
    local trade_name = gold.trade_names[trade_type]
-   local label = S("Trading with @1", trade_name)
+   local trader_name
+   -- Generate trading formspec caption
+   if trader._name then
+      -- Trader has a name: show name and profession
+      -- @1 = trader name, @2 = profession name
+      trader_name = S("@1 (@2)", trader._name, trade_name)
+   else
+      -- Trader has no name: show profession
+      trader_name = trade_name
+   end
+   local label = S("Trading with @1", trader_name)
 
    local trade_wanted1 = inv:get_stack("gold_trade_wanted", 1)
    local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)
 
    local form = rp_formspec.get_page("rp_gold:trading_book")
    form = form .. "container["..TRADE_FORMSPEC_START_X..","..TRADE_FORMSPEC_START_Y.."]"
-   form = form .. "label[0,"..(TRADE_FORMSPEC_OFFSET_Y-0.5)..";"..minetest.formspec_escape(label).."]"
+   form = form .. "label[0,"..(TRADE_FORMSPEC_OFFSET_Y-0.3)..";"..minetest.formspec_escape(label).."]"
 
    local trades_listed = {}
-   local print_item = function(itemstring)
-      local stack = ItemStack(itemstring)
-      local name = stack:get_short_description()
-      if stack:get_name() == "rp_gold:ingot_gold" then
-         -- Short for "Gold Ingot"
-         name = S("G")
-      end
-      local count = stack:get_count()
-      local out
-      if stack:get_name() == "rp_gold:ingot_gold" then
-         out = S("@1 @2", count, name)
-      elseif count > 1 then
-         out = S("@1×@2", count, name)
-      else
-         out = name
-      end
-      return out
-   end
+   local trades_listed_str = ""
+   local cy = 0
    for t=1, #all_trades do
-      local take, give
+      local take1, take2, give
       if all_trades[t][2] == "" then
-         take = print_item(all_trades[t][1])
+         take1 = ItemStack(all_trades[t][1])
+         take2 = ItemStack(all_trades[t][2])
       else
-         take = S("@1 + @2", print_item(all_trades[t][1]), print_item(all_trades[t][2]))
+         take1 = ItemStack(all_trades[t][1])
+         take2 = ItemStack(all_trades[t][2])
       end
       if is_repair_trade(all_trades[t]) then
-         give = S("(repair)")
+         give = ItemStack(all_trades[t][2])
       else
-         give = print_item(all_trades[t][3])
+         give = ItemStack(all_trades[t][3])
       end
-      local entry = S("@1 → @2", take, give)
-      table.insert(trades_listed, minetest.formspec_escape(entry))
-   end
-   local trades_listed_str = table.concat(trades_listed, ",")
-   form = form .. "tablecolumns[text]"
-   form = form .. "table[0,"..TRADE_FORMSPEC_OFFSET_Y..";4.75,3.5;tradelist;"..trades_listed_str..";"..trade_index.."]"
 
-   form = form .. "container["..TRADE_FORMSPEC_OFFSET_X..","..TRADE_FORMSPEC_OFFSET_Y.."]"
-   if is_repair_trade(trade) then
-      -- Display repairable tool as damaged so the purpose of
-      -- repair trades is more obvious
-      trade_wanted2:set_wear(58982) -- ca. 90% wear
+      if is_repair_trade(all_trades[t]) then
+         -- Display repairable tool as damaged so the purpose of
+         -- repair trades is more obvious
+         take2:set_wear(58982) -- ca. 90% wear
+      end
+      trades_listed_str =
+          -- Trade selection button
+          "button[0,"..cy..";4.2,1.0;tradesel_"..t..";]" ..
+          trades_listed_str .. rp_formspec.fake_itemstack(0.2, cy+0.1, take1, 0.8, 0.8) ..
+          rp_formspec.fake_itemstack(1.2, cy+0.1, take2, 0.8, 0.8) ..
+          "image[2.2,"..(cy+0.1)..";0.8,0.8;ui_arrow_bg.png^[transformR270]" ..
+          rp_formspec.fake_itemstack(3.2, cy+0.1, give, 0.8, 0.8)
+
+      cy = cy + 1
    end
-   form = form .. rp_formspec.fake_itemstack(0, 0, trade_wanted1)
-   form = form .. rp_formspec.fake_itemstack(1.25, 0, trade_wanted2)
-   form = form .. rp_formspec.fake_itemstack(3.75, 0, ItemStack(trade[3]))
-   form = form .. "container_end[]"
+   if #all_trades > 4 then
+      local maxscroll = #all_trades - 4
+      local thumb = math.max(1, math.floor(maxscroll / 5))
+      form = form .. "scrollbaroptions[min=0;max="..maxscroll..";thumbsize="..thumb..";smallstep=1;largestep=4]"
+      form = form .. "scrollbar[4.3,"..TRADE_FORMSPEC_OFFSET_Y..";0.3,4;vertical;tradescroller;"..scroll_pos.."]"
+   end
+   form = form .. "scroll_container[0,"..TRADE_FORMSPEC_OFFSET_Y..";4.21,4;tradescroller;vertical;1]"
+   form = form .. "style_type[button;border=false;bgimg_middle=24]"
+   form = form .. "style_type[button;bgimg=ui_button_trade_inactive.png^[resize:64x64]"
+   form = form .. "style_type[button:pressed;bgimg=ui_button_trade_active.png^[resize:64x64]"
+   if trade_index then
+      local selected_trade_elem = "tradesel_"..trade_index
+      form = form .. "style["..selected_trade_elem..";bgimg=ui_button_trade_selected_inactive.png^[resize:64x64]"
+      form = form .. "style["..selected_trade_elem..":pressed;bgimg=ui_button_trade_selected_active.png^[resize:64x64]"
+   end
+   form = form .. trades_listed_str
+   form = form .. "scroll_container_end[]"
    form = form .. "container_end[]"
 
    minetest.show_formspec(name, "rp_gold:trading_book", form)
@@ -419,20 +240,29 @@ minetest.register_on_player_receive_fields(
 	 return
       end
 
-      if fields.tradelist then
-	 local tdata = minetest.explode_table_event(fields.tradelist)
-	 if tdata.type == "CHG" or tdata.type == "DCL" then
-            do
-               local trade_index = tdata.row
-               local all_trades = active_tradings[name].all_trades
-               local trade_type = active_tradings[name].trade_type
-               local trader = active_tradings[name].trader
-               local trade = all_trades[trade_index]
-               gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
-	    end
-	 end
-	 return
+      if fields.tradescroller then
+         -- Remember position of scrollbar
+         local evnt = minetest.explode_scrollbar_event(fields.tradescroller)
+         if evnt.type == "CHG" then
+            active_tradings[name].scroll_pos = evnt.value
+            return
+         end
       end
+
+      -- Selected a trade from trade list
+      for f=1, #active_tradings[name].all_trades do
+         if fields["tradesel_"..f] then
+            local trade_index = f
+            local all_trades = active_tradings[name].all_trades
+            local trade_type = active_tradings[name].trade_type
+            local trader = active_tradings[name].trader
+            local trade = all_trades[trade_index]
+            gold.trade(trade, trade_type, player, trader, trade_index, all_trades)
+            return
+	 end
+      end
+
+      -- Trade button pressed
       if fields.trade then
 	 local trade_wanted1 = inv:get_stack("gold_trade_wanted", 1)
 	 local trade_wanted2 = inv:get_stack("gold_trade_wanted", 2)

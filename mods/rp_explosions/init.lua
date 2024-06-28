@@ -15,7 +15,6 @@ local PARTICLES = true
 rp_explosions = {}
 
 local S = minetest.get_translator("rp_explosions")
-local NS = function(s) return s end
 
 local explosions_griefing = minetest.settings:get_bool("rp_explosions_griefing", true)
 
@@ -382,7 +381,7 @@ local function trace_explode(pos, strength, raydirs, radius, info, direct, sourc
 					if info.death_message then
 						rp_death_messages.player_damage(obj, info.death_message)
 					else
-						rp_death_messages.player_damage(obj, NS("You were caught in an explosion."))
+						rp_death_messages.player_damage(obj, S("You were caught in an explosion."))
 					end
 				end
 				obj:punch(punch_source, 1000000, { full_punch_interval = 0, damage_groups = { fleshy = damage } }, punch_dir )
@@ -435,7 +434,7 @@ local function trace_explode(pos, strength, raydirs, radius, info, direct, sourc
 	end
 
 	-- Log explosion
-	minetest.log("action", "Explosion at " .. pos_to_string(pos) .. " with strength " .. strength .. " and radius " ..
+	minetest.log("action", "[rp_explosions] Explosion at " .. pos_to_string(pos) .. " with strength " .. strength .. " and radius " ..
 		radius)
 end
 

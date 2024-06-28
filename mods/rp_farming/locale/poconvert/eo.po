@@ -1,0 +1,93 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_farming x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: eo\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.0\n"
+
+msgid "Farmer"
+msgstr ""
+
+msgid "Plant a crop."
+msgstr ""
+
+msgid "Cotton"
+msgstr ""
+
+msgid "Wheat"
+msgstr ""
+
+msgid "Flour"
+msgstr ""
+
+msgid "Bread"
+msgstr ""
+
+msgid "Asparagus"
+msgstr ""
+
+msgid "Cooked Asparagus"
+msgstr ""
+
+msgid "Baked Potato"
+msgstr ""
+
+msgid "Wheat Seed"
+msgstr ""
+
+msgid "Wheat Plant (stage @1)"
+msgstr ""
+
+msgid "Grows on dirt; it likes water"
+msgstr ""
+
+msgid "Potato"
+msgstr ""
+
+msgid "Potato Plant (stage @1)"
+msgstr ""
+
+msgid "Grows on dirt and swamp dirt; it likes water"
+msgstr ""
+
+msgid "Carrot"
+msgstr ""
+
+msgid "Carrot Plant (stage @1)"
+msgstr ""
+
+msgid "Grows on dry dirt; it likes water"
+msgstr ""
+
+msgid "Asparagus Seed"
+msgstr ""
+
+msgid "Asparagus Plant (stage @1)"
+msgstr ""
+
+msgid "Grows on swamp dirt; it likes water"
+msgstr ""
+
+msgid "Cotton Seed"
+msgstr ""
+
+msgid "Cotton Plant (stage @1)"
+msgstr ""
+
+msgid "Grows on dirt, dry dirt and sand; it likes water"
+msgstr ""
+
+msgid "Cotton Bale"
+msgstr ""
+
+msgid "Straw"
+msgstr ""
+

@@ -38,42 +38,6 @@ default.PAPYRUS_MAX_HEIGHT_TOTAL = PAPYRUS_MAX_HEIGHT_PLUS + PAPYRUS_SWAMP_HEIGH
 -- Functions/ABMs
 --
 
--- Chest naming via signs
-
-function default.write_name(pos, text)
--- TODO: Allow container naming later
---[[
-   -- Check above, if allowed
-
-   if minetest.settings:get_bool("signs_allow_name_above") then
-      local above = {x = pos.x, y = pos.y + 1, z = pos.z}
-
-      local abovedef = nil
-
-      if minetest.registered_nodes[minetest.get_node(above).name] then
-	 abovedef = minetest.registered_nodes[minetest.get_node(above).name]
-      end
-      if abovedef and abovedef.write_name ~= nil then
-	 abovedef.write_name(above, text)
-      end
-   end
-
-   -- Then below
-
-   local below = {x = pos.x, y = pos.y - 1, z = pos.z}
-
-   local belowdef = nil
-
-   if minetest.registered_nodes[minetest.get_node(below).name] then
-      belowdef = minetest.registered_nodes[minetest.get_node(below).name]
-   end
-
-   if belowdef and belowdef.write_name ~= nil then
-      belowdef.write_name(below, text)
-   end
-]]
-end
-
 -- Saplings growing and placing
 
 function default.place_sapling(itemstack, placer, pointed_thing)
@@ -716,7 +680,7 @@ end
 -- Sets biome metadata for a built-in biome.
 -- Must be called AFTER biome registration.
 -- * biome_name: Name of the *main* biome (not Underwater or Beach variant!)
--- * biome_class: One of: savannic, drylandic, swampy, desertic, undergroundy
+-- * biome_class: One of: grassy, savannic, drylandic, swampy, desertic, undergroundy
 default.set_biome_info = function(biomename, biome_class)
    local is_dry = false
    local dirt_blob = "rp_default:dirt"

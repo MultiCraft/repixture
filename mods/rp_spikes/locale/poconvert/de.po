@@ -13,6 +13,9 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.0\n"
 
+msgid "You were impaled by spikes."
+msgstr "Sie wurden von Stacheln durchbohrt."
+
 msgid "Copper Spikes"
 msgstr "Kupferstacheln"
 

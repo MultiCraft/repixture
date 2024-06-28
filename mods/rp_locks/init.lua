@@ -8,8 +8,8 @@ local NS = function(s) return s end
 
 local INFOTEXT_PUBLIC = NS("Locked Chest")
 local INFOTEXT_OWNED = NS("Locked Chest (Owned by @1)")
-local INFOTEXT_CRACKED_PUBLIC = NS("Locked Chest (cracked open)")
-local INFOTEXT_CRACKED_OWNED = NS("Locked Chest (cracked open) (Owned by @1)")
+local INFOTEXT_PUBLIC_CRACKED = NS("Locked Chest (cracked open)")
+local INFOTEXT_OWNED_CRACKED = NS("Locked Chest (cracked open) (Owned by @1)")
 local INFOTEXT_NAMED_OWNED = NS("@1 (Owned by @2)")
 
 local GRAVITY = minetest.settings:get("movement_gravity") or 9.81
@@ -20,6 +20,42 @@ locks = {}
 
 local picked_time = tonumber(minetest.settings:get("locks_picked_time")) or 15 -- unlocked for 15 seconds
 local all_unlocked = minetest.settings:get_bool("locks_all_unlocked")
+
+local function update_infotext(meta)
+   local text = meta:get_string("name")
+   local owner = meta:get_string("lock_owner")
+   local cracked = meta:get_int("lock_cracked") == 1
+   if text ~= "" then
+      local namepart = S("“@1”", text)
+      if owner ~= "" then
+         if cracked then
+            meta:set_string("infotext", S(INFOTEXT_OWNED_CRACKED, owner) .. "\n" .. namepart)
+         else
+            meta:set_string("infotext", S(INFOTEXT_OWNED, owner) .. "\n" .. namepart)
+	 end
+      else
+         if cracked then
+            meta:set_string("infotext", S(INFOTEXT_PUBLIC_CRACKED) .. "\n" .. namepart)
+         else
+            meta:set_string("infotext", S(INFOTEXT_PUBLIC) .. "\n" .. namepart)
+         end
+      end
+   else
+      if owner ~= "" then
+         if cracked then
+            meta:set_string("infotext", S(INFOTEXT_OWNED_CRACKED, owner))
+         else
+            meta:set_string("infotext", S(INFOTEXT_OWNED, owner))
+	 end
+      else
+         if cracked then
+            meta:set_string("infotext", S(INFOTEXT_PUBLIC_CRACKED))
+         else
+            meta:set_string("infotext", S(INFOTEXT_PUBLIC))
+         end
+      end
+   end
+end
 
 -- API functions
 
@@ -100,11 +136,7 @@ minetest.register_tool(
             timer:start(picked_time)
 
             local owner = meta:get_string("lock_owner")
-            if owner == "" then
-               meta:set_string("infotext", S(INFOTEXT_CRACKED_PUBLIC))
-            else
-               meta:set_string("infotext", S(INFOTEXT_CRACKED_OWNED, owner))
-            end
+	    update_infotext(meta)
 
             -- TODO: Add graphical effect to show success
 
@@ -208,13 +240,12 @@ local put_lock = function(itemstack, putter, pointed_thing)
         minetest.sound_play({name="locks_lock",gain=0.5},{pos=pos, max_hear_distance=16}, true)
         local meta = minetest.get_meta(pos)
         if name ~= "" then
-           meta:set_string("infotext", S(INFOTEXT_OWNED, name))
            meta:set_string("lock_owner", name)
 	   minetest.log("action", "[rp_locks] " .. name .. " puts a lock on a chest at " .. minetest.pos_to_string(pos, 0))
         else
-           meta:set_string("infotext", S(INFOTEXT_PUBLIC))
 	   minetest.log("action", "[rp_locks] A lock was put on a chest at " .. minetest.pos_to_string(pos, 0))
         end
+	update_infotext(meta)
 	local creative_name
 	if not name or name == "" then
            creative_name = ""
@@ -272,7 +303,7 @@ local chest_def = {
       on_construct = function(pos)
          local meta = minetest.get_meta(pos)
          meta:set_int("lock_cracked", 0)
-         meta:set_string("infotext", S(INFOTEXT_PUBLIC))
+         update_infotext(meta)
 
          local inv = meta:get_inventory()
          inv:set_size("main", 8 * 4)
@@ -281,8 +312,8 @@ local chest_def = {
          local name = player:get_player_name()
 
          local meta = minetest.get_meta(pos)
-         meta:set_string("infotext", S(INFOTEXT_OWNED, name))
          meta:set_string("lock_owner", name)
+         update_infotext(meta)
       end,
       on_rightclick = function(pos, node, player)
          local meta = minetest.get_meta(pos)
@@ -299,8 +330,10 @@ local chest_def = {
 
             form = form .. rp_formspec.default.player_inventory
 
+            form = form .. "listring[current_player;main]"
             form = form .. "listring[nodemeta:" .. np .. ";main]"
-            form = form .. "listring[current_name;main]"
+
+            form = form .. rp_label.container_label_formspec_element(meta)
 
             minetest.show_formspec(
                player:get_player_name(),
@@ -313,11 +346,7 @@ local chest_def = {
          local meta = minetest.get_meta(pos)
          meta:set_int("lock_cracked", 0)
          local owner = meta:get_string("lock_owner")
-         if owner == "" then
-            meta:set_string("infotext", S(INFOTEXT_PUBLIC))
-         else
-            meta:set_string("infotext", S(INFOTEXT_OWNED, owner))
-         end
+         update_infotext(meta)
       end,
       allow_metadata_inventory_move = function(pos, from_l, from_i, to_l, to_i, cnt, player)
          if minetest.is_protected(pos, player:get_player_name()) and
@@ -360,20 +389,12 @@ local chest_def = {
          local inv = meta:get_inventory()
          return inv:is_empty("main") and (locks.is_owner(meta, player) or (not locks.has_owner(meta)))
       end,
-      write_name = function(pos, text)
---[[ TODO: Bring back locked chest naming
-         local meta = minetest.get_meta(pos)
-
-         if text == "" then
-            meta:set_string("infotext", S(INFOTEXT_OWNED,
-                               meta:get_string("lock_owner")))
-         else
-            meta:set_string("infotext", S(INFOTEXT_NAMED_OWNED,
-                               text, meta:get_string("lock_owner")))
-         end
-]]
-      end,
       on_blast = function() end,
+      _rp_write_name = function(pos, text)
+         local meta = minetest.get_meta(pos)
+	 meta:set_string("name", text)
+	 update_infotext(meta)
+      end,
       _rp_blast_resistance = 2,
 }
 
@@ -464,29 +485,15 @@ achievements.register_achievement(
       difficulty = 5.8,
 })
 
--- Update node after the rename orgy after 1.5.3
+-- Update node infotext
 minetest.register_lbm(
    {
       label = "Update locked chests",
-      name = "rp_locks:update_locked_chests",
+      name = "rp_locks:update_locked_chests_2_2_0",
       nodenames = {"rp_locks:chest"},
       action = function(pos, node)
          local meta = minetest.get_meta(pos)
-         local owner = meta:get_string("lock_owner")
-         local cracked = meta:get_int("lock_cracked") == 1
-         if cracked then
-           if owner ~= "" then
-              meta:set_string("infotext", S(INFOTEXT_CRACKED_OWNED, owner))
-           else
-              meta:set_string("infotext", S(INFOTEXT_CRACKED_PUBLIC))
-           end
-         else
-           if owner ~= "" then
-              meta:set_string("infotext", S(INFOTEXT_OWNED, owner))
-           else
-              meta:set_string("infotext", S(INFOTEXT_PUBLIC))
-           end
-         end
+         update_infotext(meta)
       end,
    }
 )

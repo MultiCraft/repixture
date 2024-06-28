@@ -7,7 +7,7 @@ This function lets you register partial blocks.
 Registers a new material as a partial block (slab and stair). This requires a base node (`node`) from which
 the partial blocks will be derived.
 
-This adds a stair and a slab. If the base node is paintable, the new nodes will be paintable as well.
+This adds a stair and a slab (including an upside-down variant for each). If the base node is paintable, the new nodes will be paintable as well.
 Crafting recipes will be added by default but can be disabled.
 
 Parameters:

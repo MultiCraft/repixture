@@ -18,6 +18,9 @@ local DYING_TIME = 2
 -- Default texture modifier when mob takes damage
 local DAMAGE_TEXTURE_MODIFIER = "^[colorize:#df2222:180"
 
+-- Text color for mob nametags
+local NAMETAG_COLOR = { r = 0, g = 255, b = 0, a = 255 }
+
 rp_mobs.GRAVITY_VECTOR = vector.new(0, -GRAVITY, 0)
 
 rp_mobs.internal.add_persisted_entity_vars({
@@ -27,6 +30,7 @@ rp_mobs.internal.add_persisted_entity_vars({
 	"_killer_player_name",	-- if mob was killed by a player, this contains their name. Otherwise nil
 	"_textures_adult",	-- persisted textures of mob in adult state
 	"_textures_child",	-- persisted textures of mob in child state
+	"_name",		-- persisted mob name (for nametag)
 })
 
 local microtask_to_string = function(microtask)
@@ -59,6 +63,9 @@ local task_queue_to_string = function(task_queue)
 end
 local mob_task_queues_to_string = function(mob)
 	local str = ""
+	if not mob._task_queues then
+		return str
+	end
 	local next_task_queue = mob._task_queues:iterator()
 	local task_queue = next_task_queue()
 	local first = true
@@ -102,6 +109,9 @@ local set_debug_nametag = function(mob)
 			str = str .. "\n"
 		end
 		str = str .. mob_task_queues_to_string(mob)
+	end
+	if str ~= "" and mob._name and mob._name ~= "" then
+		str = mob._name .. "\n" .. str
 	end
 	mob.object:set_properties({
 		nametag = str,
@@ -239,6 +249,18 @@ rp_mobs.restore_state = function(self, staticdata)
 			selectionbox = selbox,
 			damage_texture_modifier = "",
 			makes_footstep_sound = false,
+		})
+	end
+	local name = ""
+	if self._name and type(self._name) == "string" then
+		name = self._name
+	end
+	if TASK_DEBUG or STATE_DEBUG then
+		set_debug_nametag(self)
+	else
+		self.object:set_nametag_attributes({
+			text = name,
+			color = NAMETAG_COLOR,
 		})
 	end
 
@@ -821,6 +843,22 @@ rp_mobs.drag = function(self, dtime, drag, drag_axes)
 	end
 
 	self.object:set_velocity(targetvel)
+end
+
+rp_mobs.set_nametag = function(self, nametag)
+	self._name = nametag
+	if TASK_DEBUG or STATE_DEBUG then
+		set_debug_nametag(self)
+	else
+		self.object:set_nametag_attributes({
+			text = self._name,
+			color = NAMETAG_COLOR,
+		})
+	end
+end
+
+rp_mobs.get_nametag = function(self)
+	return self._name or ""
 end
 
 minetest.register_on_chatcommand(function(name, command, params)

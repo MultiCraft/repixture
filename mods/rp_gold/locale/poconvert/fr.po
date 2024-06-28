@@ -13,44 +13,14 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.0\n"
 
-msgid "Farmer"
-msgstr "Agriculteur"
-
-msgid "Tavern Keeper"
-msgstr "Tavernier"
-
-msgid "Carpenter"
-msgstr "Charpentier"
-
-msgid "Blacksmith"
-msgstr "Forgeron"
-
-msgid "Butcher"
-msgstr "Boucher"
-
 msgid "Trade"
 msgstr "Commerce"
 
+msgid "@1 (@2)"
+msgstr ""
+
 msgid "Trading with @1"
 msgstr "Commercer avec @1"
-
-msgid "G"
-msgstr "Or"
-
-msgid "@1 @2"
-msgstr "@1 @2"
-
-msgid "@1×@2"
-msgstr "@1×@2"
-
-msgid "@1 + @2"
-msgstr "@1 + @2"
-
-msgid "(repair)"
-msgstr "(réparer)"
-
-msgid "@1 → @2"
-msgstr "@1 → @2"
 
 msgid "Trading Book"
 msgstr "Livre de commerce"
@@ -81,4 +51,19 @@ msgstr "Ruée vers l'or"
 
 msgid "Dig a gold ore."
 msgstr "Extraire un minerai d'or."
+
+msgid "Farmer"
+msgstr "Agriculteur"
+
+msgid "Tavern Keeper"
+msgstr "Tavernier"
+
+msgid "Carpenter"
+msgstr "Charpentier"
+
+msgid "Blacksmith"
+msgstr "Forgeron"
+
+msgid "Butcher"
+msgstr "Boucher"
 

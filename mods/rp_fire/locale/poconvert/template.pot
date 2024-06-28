@@ -19,3 +19,6 @@ msgstr ""
 msgid "Bonfire (burning)"
 msgstr ""
 
+msgid "You burned to death in a bonfire."
+msgstr ""
+

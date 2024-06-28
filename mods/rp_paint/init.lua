@@ -247,12 +247,18 @@ rp_paint.add_scrape_particles = function(pos, oldnode, direction)
 	if not olddef then
 		return false
 	end
+	local ptype = olddef._rp_paint_particle_pos
+	local rpos = table.copy(pos)
 	-- Spawn particles where we scrape
 	local offset1, offset2
 	local SQ = 0.48 -- "radius" of square
 	local H1 = 0.48 -- min. distance from node
 	local H2 = 0.49 -- max. distance from node
-	if direction.y > 0 then
+	if ptype == "cube_inside" then
+		offset1 = {x=-SQ, y=-SQ, z=-SQ}
+		offset2 = {x=SQ, y=SQ, z=SQ}
+		rpos = vector.subtract(rpos, direction)
+	elseif direction.y > 0 then
 		offset1 = {x=-SQ, y=-H2, z=-SQ}
 		offset2 = {x=SQ, y=-H1, z=SQ}
 	elseif direction.y < 0 then
@@ -290,11 +296,20 @@ rp_paint.add_scrape_particles = function(pos, oldnode, direction)
 	else
 		particle_node = oldnode
 	end
+	local minpos, maxpos
+	if ptype == "flat_under" then
+		rpos = vector.subtract(rpos, direction)
+		minpos = vector.add(rpos, offset1)
+		maxpos = vector.add(rpos, offset2)
+	else
+		minpos = vector.add(rpos, offset1)
+		maxpos = vector.add(rpos, offset2)
+	end
 	minetest.add_particlespawner({
 		amount = math.random(10, 20),
 		time = 0.1,
-		minpos = vector.add(pos, offset1),
-		maxpos = vector.add(pos, offset2),
+		minpos = minpos,
+		maxpos = maxpos,
 		minvel = {x=-0.2, y=0, z=-0.2},
 		maxvel = {x=0.2, y=2, z=0.2},
 		minacc = {x=0, y=-GRAVITY, z=0},

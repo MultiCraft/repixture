@@ -39,8 +39,11 @@ They must be followed at all times:
 * Crafting recipes (except cooking and fuel recipes) **MUST** be registered through `rp_crafting`.
 * Modifying player physics (like running speed) **MUST** be done via `rp_player_effects`.
   Calling `set_physics_override` directly is **FORBIDDEN**.
+* If you attach or detach the player, you **MUST** update `rp_player.player_attached`.
 * Modifying HUD flags (like `"wielditem"`) **MUST** be done via `rp_hud`.
   Calling `hud_set_flags` directly is **FORBIDDEN**.
+* Changing the sky (`set_sky`, `set_sun`, `set_moon`, `set_clouds`, `set_stars`)
+  outside of the `rp_sky` mod is **FORBIDDEN**.
 
 ## Mod APIs
 
@@ -49,6 +52,7 @@ file named `API.md`.
 
 Mods with documented APIs:
 
+* `player_api`: Player model handling, model animation, textures (see also `rp_player`)
 * `rp_armor`: Armor information and registration
 * `rp_achievements`: Add and trigger achievements
 * `rp_bed`: Get, set and unset (re)spawn position; query bed info
@@ -74,7 +78,9 @@ Mods with documented APIs:
 * `rp_paint`: Add paintable nodes; set/remove paint of node
 * `rp_partialblocks`: Register partial blocks (slabs, stairs)
 * `rp_pathfinder`: Advanced pathfinding
-* `rp_player`: Player model handling, model animation, textures
+* `rp_player`: Same as `player_api`, but with extra features specific to Repixture. Only use this if
+               you need those extra features or for internal Repixture development.
+               Otherwise, use `player_api`.
 * `rp_player_effects`: Add player effects (required if you want to modify player physics)
 * `rp_sounds`: Node sounds
 * `rp_spyglass`: Spyglass

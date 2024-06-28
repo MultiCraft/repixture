@@ -1,17 +1,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_default x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2024-06-03 09:12+0000\n"
+"Last-Translator: Wuzzy <Wuzzy@users.noreply.translate.codeberg.org>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/repixture/"
+"rp_default/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.5.5\n"
 
 msgid "Timber"
 msgstr "Bauholz"
@@ -109,14 +110,29 @@ msgstr "Holzeimer"
 msgid "Punch to collect a liquid source"
 msgstr "Hauen, um Flüssigkeitsquelle aufzusammeln"
 
+msgid "“@1”"
+msgstr "„@1“"
+
+msgid "Painted Chest"
+msgstr "Gefärbte Truhe"
+
 msgid "Chest"
 msgstr "Truhe"
 
 msgid "Provides 32 inventory slots"
 msgstr "Enthält 32 Inventarplätze"
 
-msgid "Painted Chest"
-msgstr "Gefärbte Truhe"
+msgid "Chest “@1”"
+msgstr "Truhe „@1“"
+
+msgid "Bookshelf"
+msgstr "Bücherregal"
+
+msgid "Provides 8 inventory slots"
+msgstr "Bietet 8 Inventarplätze"
+
+msgid "Bookshelf “@1”"
+msgstr "Bücherregal „@1“"
 
 msgid "Fiber"
 msgstr "Faser"
@@ -163,17 +179,35 @@ msgstr "Holzzaun"
 msgid "Painted Wooden Fence"
 msgstr "Gefärbter Holzzaun"
 
+msgid "Wooden Fence Gate"
+msgstr "Holzzauntor"
+
+msgid "Painted Wooden Fence Gate"
+msgstr "Bemaltes Holzzauntor"
+
 msgid "Oak Fence"
 msgstr "Eichenzaun"
 
 msgid "Painted Oak Fence"
 msgstr "Gefärbter Eichenzaun"
 
+msgid "Oak Fence Gate"
+msgstr "Eichenzauntor"
+
+msgid "Painted Oak Fence Gate"
+msgstr "Bemaltes Eichenzauntor"
+
 msgid "Birch Fence"
 msgstr "Birkenzaun"
 
 msgid "Painted Birch Fence"
 msgstr "Gefärbter Birkenzaun"
+
+msgid "Birch Fence Gate"
+msgstr "Birkenzauntor"
+
+msgid "Painted Birch Fence Gate"
+msgstr "Bemaltes Birkenzauntor"
 
 msgid "Fertilized Dirt"
 msgstr "Gedüngte Erde"
@@ -703,6 +737,9 @@ msgstr "Distel"
 msgid "Careful, it stings!"
 msgstr "Vorsicht, es sticht!"
 
+msgid "You were prickled to death by a thistle."
+msgstr "Sie wurden von einer Distel zu Tode gepiekst."
+
 msgid "Sapling"
 msgstr "Setzling"
 
@@ -927,4 +964,3 @@ msgstr "Fackel"
 
 msgid "It's bright and burns forever"
 msgstr "Sie ist hell und brennt für immer"
-

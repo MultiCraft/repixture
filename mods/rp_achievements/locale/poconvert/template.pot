@@ -88,10 +88,10 @@ msgstr ""
 msgid "List, give or remove achievements of player"
 msgstr ""
 
-msgid "@1: @2 (@3)"
+msgid "unset"
 msgstr ""
 
-msgid "unset"
+msgid "@1: @2 (@3)"
 msgstr ""
 
 msgid "No achievements."

@@ -38,9 +38,12 @@ local CLIMB_SPEED = 1
 local CLIMB_DRAG = 1
 -- How strong to jump
 local JUMP_STRENGTH = 4
--- Time the mob idles around
+-- Time the mob idles around (in seconds)
 local IDLE_TIME = 3.0
--- Delay between attempting to find new home bed or work site
+-- Time the mob needs to wait between certain interactions (in seconds)
+-- (like opening fence gates)
+local IDLE_INTERACT_TIME = 0.25
+-- Delay between attempting to find new home bed or work site (in seconds)
 local FIND_SITE_IDLE_TIME = 6.0
 -- How many nodes the villager can be away from nodes and entities to interact with them
 local REACH = 4.0
@@ -52,6 +55,8 @@ local REFLEX_TIME = 0.333
 local LIQUID_ESCAPE_RANGE = 6
 -- Number of tries to find safe dry nodes when stuck in liquid
 local LIQUID_ESCAPE_TRIES = 10
+-- Drag to apply when standing (slows down villager on XZ plane when pushed by add_velocity)
+local STAND_DRAG = 0.2
 
 -- Pathfinder stuff
 
@@ -67,8 +72,8 @@ local is_node_walkable = function(node)
 	elseif minetest.get_item_group(node.name, "door") ~= 0 then
 		-- Same for doors
 		return false
-	elseif minetest.get_item_group(node.name, "fence") ~= 0 then
-		-- We refuse to walk on fences (although we could)
+	elseif minetest.get_item_group(node.name, "fence") ~= 0 or minetest.get_item_group(node.name, "fence_gate") ~= 0 then
+		-- We refuse to walk on fences and fence gates (although we could)
 		-- because it looks weird.
 		return false
 	elseif def.walkable then
@@ -85,8 +90,8 @@ local is_node_blocking = function(node)
 	if not def then
 		-- Unknown nodes are blocking
 		return true
-	elseif minetest.get_item_group(node.name, "door") ~= 0 then
-		-- Villagers know how to open doors so they pathfind through them
+	elseif minetest.get_item_group(node.name, "door") ~= 0 or minetest.get_item_group(node.name, "fence_gate") ~= 0 then
+		-- Villagers know how to open doors and fence gates so they pathfind through them
 		return false
 	elseif def.damage_per_second > 0 then
 		-- No damage allowed
@@ -108,8 +113,8 @@ local is_node_blocking_water_ok = function(node)
 	if not def then
 		-- Unknown nodes are blocking
 		return true
-	elseif minetest.get_item_group(node.name, "door") ~= 0 then
-		-- Villagers know how to open doors so they pathfind through them
+	elseif minetest.get_item_group(node.name, "door") ~= 0 or minetest.get_item_group(node.name, "fence_gate") ~= 0 then
+		-- Villagers know how to open doors and fence gates so they pathfind through them
 		return false
 	elseif def.damage_per_second > 0 then
 		-- No damage allowed
@@ -129,6 +134,7 @@ local is_node_stucking = function(node)
 		-- Unknown nodes are blocking
 		return true
 	elseif minetest.get_item_group(node.name, "door") ~= 0
+			or minetest.get_item_group(node.name, "fence_gate") ~= 0
 			or minetest.get_item_group(node.name, "slab") ~= 0
 			or minetest.get_item_group(node.name, "path") ~= 0 then
 		return false
@@ -702,6 +708,29 @@ local create_microtask_open_door = function(door_pos, walk_axis)
 	})
 end
 
+local create_microtask_open_fence_gate = function(fence_gate_pos)
+	return rp_mobs.create_microtask({
+		label = "open fence gate",
+		singlestep = true,
+		on_step = function(self, mob)
+			local dist = vector.distance(mob.object:get_pos(), fence_gate_pos)
+			if dist > REACH then
+				-- Fail microtask if mob is too far away from fence gate
+				return
+			end
+
+			-- Toggle fence gate if closed; otherwise to nothing
+			local node = minetest.get_node(fence_gate_pos)
+			local is_closed = minetest.get_item_group(node.name, "fence_gate") == 1
+			if is_closed then
+				default.toggle_fence_gate(fence_gate_pos)
+			end
+		end,
+	})
+end
+
+
+
 -- Handle basic physics (gravity)
 local physics_decider = function(task_queue, mob)
 	local mt_gravity = rp_mobs.create_microtask({
@@ -780,10 +809,13 @@ end
 
 -- Walk through all nodes along the given path
 -- and create a table of "to-do" tasks.
--- each element in the todo table is either:
--- { type = "path", path = <path> }
--- or:
--- { type = "door", pos = <door pos> }
+-- each element in the todo table is one of these:
+--
+-- * { type = "path", path = <path> }
+-- * { type = "climb", path = <path> }
+-- * { type = "door", pos = <door pos> }
+-- * { type = "fence_gate", pos = <fence gate pos> }
+-- * { type = "idle", time = <idle time in seconds> }
 
 -- The point of this is to split the input path
 -- into multiple paths separated by doors.
@@ -792,6 +824,8 @@ local path_to_todo_list = function(path)
 		return
 	end
 
+	local prev_pos
+	local prev_todo
 	local todo = {}
 
 	local current_path = {}
@@ -803,6 +837,7 @@ local path_to_todo_list = function(path)
 				type = "path",
 				path = table.copy(current_path),
 			})
+			prev_todo = "path"
 			current_path = {}
 		end
 	end
@@ -812,12 +847,11 @@ local path_to_todo_list = function(path)
 				type = "climb",
 				path = table.copy(current_climb_path),
 			})
+			prev_todo = "climb"
 			current_climb_path = {}
 		end
 	end
 
-	local prev_pos
-	local prev_todo
 	for p=1, #path do
 		local pos = path[p]
 		local pos2 = vector.offset(pos, 0, 1, 0)
@@ -846,7 +880,7 @@ local path_to_todo_list = function(path)
 		if (def and def.climbable) or (def3 and def3.climbable) or
 				is_node_swimmable(node) or is_node_swimmable(node3) then
 
-			if prev_todo == "walk" or prev_todo == "door" then
+			if prev_todo == "walk" or prev_todo == "door" or prev_todo == "fence_gate" then
 				table.insert(current_path, pos)
 			end
 			flush_path()
@@ -896,6 +930,15 @@ local path_to_todo_list = function(path)
 			else
 				door_pos = pos
 			end
+
+			-- Wait a moment if we passed an 'openable' node before
+			-- (simulates interaction cooldown)
+			if prev_todo == "door" or prev_todo == "fence_gate" then
+				table.insert(todo, {
+					type = "idle",
+					time = IDLE_INTERACT_TIME,
+				})
+			end
 			-- Mark the door to be opened.
 			-- Note: This does not mean the mob will always toggle the door,
 			-- only if it is *neccessary* to toggle it to free the way
@@ -905,6 +948,7 @@ local path_to_todo_list = function(path)
 				pos = door_pos,
 				axis = axis,
 			})
+			prev_todo = "door"
 
 			-- Add a 1-entry long path todo right after the door to force the mob
 			-- to walk into the door node. This avoids the mob opening multiple doors
@@ -927,9 +971,65 @@ local path_to_todo_list = function(path)
 					pos = door_pos,
 					axis = axis,
 				})
+				prev_todo = "door"
 			end
 
-			prev_todo = "door"
+		elseif minetest.get_item_group(node.name, "fence_gate") ~= 0 or minetest.get_item_group(node2.name, "fence_gate") ~= 0 then
+			flush_climb()
+			flush_path()
+
+			-- Wait a moment if we passed an 'openable' node before
+			-- (simulates interaction cooldown)
+			if prev_todo == "door" or prev_todo == "fence_gate" then
+				table.insert(todo, {
+					type = "idle",
+					time = IDLE_INTERACT_TIME,
+				})
+			end
+
+			-- Check node above ground, and the node above that for fence gates;
+			-- because the villager is 2 nodes high, we need to check 2 nodes.
+			local fence_gate_pos_1, fence_gate_pos_2
+			if minetest.get_item_group(node.name, "fence_gate") ~= 0 then
+				fence_gate_pos_1 = pos
+			end
+			if minetest.get_item_group(node2.name, "fence_gate") ~= 0 then
+				fence_gate_pos_2 = pos2
+			end
+			-- Mark the fence gate(s) to be opened.
+			-- Note: This does not mean the mob will always toggle the fence gate,
+			-- only if it is *neccessary* to toggle it to free the way
+			-- once the mob reaches it.
+
+			-- Fence gate on ground
+			if fence_gate_pos_1 then
+				table.insert(todo, {
+					type = "fence_gate",
+					pos = fence_gate_pos_1,
+				})
+			end
+			-- Short delay when opening two fence gates
+			-- (simulates interaction cooldown)
+			if fence_gate_pos_1 and fence_gate_pos_2 then
+				table.insert(todo, {
+					type = "idle",
+					time = IDLE_INTERACT_TIME,
+				})
+			end
+			-- Fence gate above that
+			if fence_gate_pos_2 then
+				table.insert(todo, {
+					type = "fence_gate",
+					pos = fence_gate_pos_2,
+				})
+			end
+			prev_todo = "fence_gate"
+
+			-- Add a 1-entry long path todo right after the fence gate(s) to force the mob
+			-- to walk into it. This avoids the mob opening multiple fence gates
+			-- that are placed right behind each other to be opened all at once.
+			table.insert(current_path, pos)
+			flush_path()
 
 		-- Any other node ...
 		else
@@ -975,8 +1075,14 @@ local path_to_microtasks = function(path)
 		elseif entry.type == "door" then
 			mt = create_microtask_open_door(entry.pos, entry.axis)
 			mt.start_animation = "idle"
+		elseif entry.type == "fence_gate" then
+			mt = create_microtask_open_fence_gate(entry.pos)
+			mt.start_animation = "idle"
 		elseif entry.type == "climb" then
 			mt = rp_mobs.microtasks.follow_path_climb(entry.path, WALK_SPEED, CLIMB_SPEED, true, stop_follow_path_climb)
+		elseif entry.type == "idle" then
+			mt = rp_mobs.microtasks.drag(vector.new(STAND_DRAG,0,STAND_DRAG), {"x", "z"}, entry.time)
+			mt.start_animation = "idle"
 		else
 			minetest.log("error", "[rp_mobs_mobs] path_to_microtasks: Invalid entry type in TODO list!")
 			return
@@ -1128,9 +1234,9 @@ local movement_decider_empty = function(task_queue, mob)
 
 	local task_stand = rp_mobs.create_task({label="stand still"})
 	rp_mobs.add_microtask_to_task(mob, microtask_look_around, task_stand)
-	local mt_sleep = rp_mobs.microtasks.sleep(IDLE_TIME)
-	mt_sleep.start_animation = "idle"
-	rp_mobs.add_microtask_to_task(mob, mt_sleep, task_stand)
+	local mt_stand = rp_mobs.microtasks.drag(vector.new(STAND_DRAG,0,STAND_DRAG), {"x", "z"}, IDLE_TIME)
+	mt_stand.start_animation = "idle"
+	rp_mobs.add_microtask_to_task(mob, mt_stand, task_stand)
 	rp_mobs.add_task_to_task_queue(task_queue, task_stand)
 
 	-- Regular day activity based on schedule: Go to bed, go to work or play
@@ -1405,11 +1511,12 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 				return
 			end
 			local item = clicker:get_wielded_item()
-			local name = clicker:get_player_name()
+			local player_name = clicker:get_player_name()
+			local villager_name = self._name or ""
 
 			if self._temp_custom_state.angry_at and self._temp_custom_state.angry_at:is_player() and self._temp_custom_state.angry_at == clicker then
 				-- Villager is angry at player
-				villager_speech.say_random("hostile", name)
+				villager_speech.say_random("hostile", player_name, villager_name)
 				return
 			end
 
@@ -1418,7 +1525,7 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 			local iname = item:get_name()
 			if profession ~= "blacksmith" and (minetest.get_item_group(iname, "sword") > 0 or minetest.get_item_group(iname, "spear") > 0) then
 				-- Villager is annoyed by a weapon in hand
-				villager_speech.say_random("annoying_weapon", name)
+				villager_speech.say_random("annoying_weapon", player_name, villager_name)
 				return
 			end
 
@@ -1428,7 +1535,7 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 				-- No trading if low health
 				if hp < 5 then
 					-- Complain about being hurt
-					villager_speech.say_random("hurt", name)
+					villager_speech.say_random("hurt", player_name, villager_name)
 					achievements.trigger_achievement(clicker, "smalltalk")
 					return
 				end
@@ -1461,13 +1568,18 @@ rp_mobs.register_mob("rp_mobs_mobs:villager", {
 				if not trading then
 					if hp >= hp_max-7 then
 						-- Good mood: Talk about item in hand or about something random
-						villager_speech.talk_about_item(profession, iname, name)
+						local has_worksite = self._custom_state.worksite and is_valid_worksite(self._custom_state.worksite, profession)
+						local has_bed = self._custom_state.home_bed and bed.is_valid_bed(self._custom_state.home_bed)
+						local talked = villager_speech.talk_about_item(profession, iname, player_name, villager_name, has_worksite, has_bed)
+						if not talked then
+							villager_speech.smalltalk(profession, player_name, villager_name, has_worksite, has_bed)
+						end
 					elseif hp >= 5 then
 						-- Low HP: Complain about exhaustion
-						villager_speech.say_random("exhausted", name)
+						villager_speech.say_random("exhausted", player_name, villager_name)
 					else
 						-- Very low HP: Complain about being hurt
-						villager_speech.say_random("hurt", name)
+						villager_speech.say_random("hurt", player_name, villager_name)
 					end
 					achievements.trigger_achievement(clicker, "smalltalk")
 				end
