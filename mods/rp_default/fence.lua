@@ -366,4 +366,20 @@ register_fence("rp_default:fence_fir", {
 	_rp_blast_resistance = 0.5,
 })
 
+register_fence_gate("rp_default:fence_gate_fir", {
+	description = S("Fir Fence Gate"),
+	description_painted = S("Painted Fir Fence Gate"),
+	texture_front = "rp_default_fence_gate_fir_front.png",
+	texture_side = "rp_default_fence_gate_fir_side.png",
+	texture_top = "rp_default_fence_gate_fir_top.png",
+	texture_front_painted = "rp_default_fence_gate_fir_front_painted.png",
+	texture_side_painted = "rp_default_fence_gate_fir_side_painted.png",
+	texture_top_painted = "rp_default_fence_gate_fir_top_painted.png",
+	inventory_image = "rp_default_fence_gate_fir.png",
+	wield_image = "rp_default_fence_gate_fir.png",
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1},
+	sounds = sounds_wood_fence,
+	_rp_blast_resistance = 0.5,
+})
+
 
