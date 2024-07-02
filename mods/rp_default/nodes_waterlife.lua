@@ -69,10 +69,12 @@ return function(itemstack, placer, pointed_thing)
 	local underdef = minetest.registered_nodes[undernode.name]
 	-- Grow leveled plantlike_rooted node by 1 "node length"
 	if paramtype2 == "leveled" and underdef and underdef.paramtype2 == "leveled" and pointed_thing.under.y < pointed_thing.above.y and pointed_thing.under.x == pointed_thing.above.x and pointed_thing.under.z == pointed_thing.above.z then
-           if minetest.is_protected(pointed_thing.under, player_name) or
-                 minetest.is_protected(pointed_thing.above, player_name) then
-              minetest.record_protection_violation(pointed_thing.under, player_name)
-              return itemstack
+           if not minetest.check_player_privs(placer, "protection_bypass") then
+              if minetest.is_protected(pointed_thing.under, player_name) or
+                    minetest.is_protected(pointed_thing.above, player_name) then
+                 minetest.record_protection_violation(pointed_thing.under, player_name)
+                 return itemstack
+              end
            end
            local grown, top = default.grow_underwater_leveled_plant(pointed_thing.under, undernode)
            if grown then
@@ -99,10 +101,12 @@ return function(itemstack, placer, pointed_thing)
         local floornode = minetest.get_node(place_floor)
 
         -- Check protection
-        if minetest.is_protected(place_in, player_name) or
-              minetest.is_protected(place_floor, player_name) then
-           minetest.record_protection_violation(place_floor, player_name)
-           return itemstack
+        if not minetest.check_player_privs(placer, "protection_bypass") then
+           if minetest.is_protected(place_in, player_name) or
+                 minetest.is_protected(place_floor, player_name) then
+              minetest.record_protection_violation(place_floor, player_name)
+              return itemstack
+           end
         end
 
 	local node_floor = minetest.get_node(place_floor)
