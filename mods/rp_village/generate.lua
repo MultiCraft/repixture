@@ -56,6 +56,7 @@ local village_replaces = {
       ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_wood",
       ["rp_default:tree_birch"] = "rp_default:tree",
       ["rp_default:fence_birch"] = "rp_default:fence",
+      ["rp_default:fence_gate_birch_closed"] = "rp_default:fence_gate_closed",
    },
    -- Birch → Fir (Oak + Fir)
    {
@@ -64,6 +65,7 @@ local village_replaces = {
       ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_fir",
       ["rp_default:tree_birch"] = "rp_default:tree_fir",
       ["rp_default:fence_birch"] = "rp_default:fence_fir",
+      ["rp_default:fence_gate_birch_closed"] = "rp_default:fence_gate_fir_closed",
    },
    -- Oak → Normal (Normal + Birch)
    {
@@ -72,6 +74,7 @@ local village_replaces = {
       ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_wood",
       ["rp_default:tree_oak"] = "rp_default:tree",
       ["rp_default:fence_oak"] = "rp_default:fence",
+      ["rp_default:fence_gate_oak_closed"] = "rp_default:fence_gate_closed",
    },
    -- Oak → Fir (Fir + Birch)
    {
@@ -80,6 +83,7 @@ local village_replaces = {
       ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_fir",
       ["rp_default:tree_oak"] = "rp_default:tree_fir",
       ["rp_default:fence_oak"] = "rp_default:fence_fir",
+      ["rp_default:fence_gate_oak_closed"] = "rp_default:fence_gate_fir_closed",
    },
    -- Normal wood only
    {
@@ -92,7 +96,9 @@ local village_replaces = {
       ["rp_default:tree_birch"] = "rp_default:tree",
       ["rp_default:tree_oak"] = "rp_default:tree",
       ["rp_default:fence_birch"] = "rp_default:fence",
+      ["rp_default:fence_gate_birch_closed"] = "rp_default:fence_gate_closed",
       ["rp_default:fence_oak"] = "rp_default:fence",
+      ["rp_default:fence_gate_oak_closed"] = "rp_default:fence_gate_closed",
    },
    -- Birch wood only
    {
@@ -105,7 +111,9 @@ local village_replaces = {
       ["rp_default:tree"] = "rp_default:tree_birch",
       ["rp_default:tree_oak"] = "rp_default:tree_birch",
       ["rp_default:fence"] = "rp_default:fence_birch",
+      ["rp_default:fence_gate_closed"] = "rp_default:fence_gate_birch_closed",
       ["rp_default:fence_oak"] = "rp_default:fence_birch",
+      ["rp_default:fence_gate_oak_closed"] = "rp_default:fence_gate_birch_closed",
       ["rp_door:door_wood_t_1"] = "rp_door:door_wood_birch_t_1",
       ["rp_door:door_wood_b_1"] = "rp_door:door_wood_birch_b_1",
    },
@@ -120,7 +128,9 @@ local village_replaces = {
       ["rp_default:tree"] = "rp_default:tree_oak",
       ["rp_default:tree_birch"] = "rp_default:tree_oak",
       ["rp_default:fence"] = "rp_default:fence_oak",
+      ["rp_default:fence_gate_closed"] = "rp_default:fence_gate_oak_closed",
       ["rp_default:fence_birch"] = "rp_default:fence_oak",
+      ["rp_default:fence_gate_birch_closed"] = "rp_default:fence_gate_oak_closed",
       ["rp_door:door_wood_t_1"] = "rp_door:door_wood_oak_t_1",
       ["rp_door:door_wood_b_1"] = "rp_door:door_wood_oak_b_1",
    },
@@ -139,8 +149,11 @@ local village_replaces = {
       ["rp_default:tree_birch"] = "rp_default:tree_fir",
       ["rp_default:tree_oak"] = "rp_default:tree_fir",
       ["rp_default:fence"] = "rp_default:fence_fir",
+      ["rp_default:fence_gate_closed"] = "rp_default:fence_gate_fir_closed",
       ["rp_default:fence_birch"] = "rp_default:fence_fir",
+      ["rp_default:fence_gate_birch_closed"] = "rp_default:fence_gate_fir_closed",
       ["rp_default:fence_oak"] = "rp_default:fence_fir",
+      ["rp_default:fence_gate_oak_closed"] = "rp_default:fence_gate_fir_closed",
       ["rp_door:door_wood_t_1"] = "rp_door:door_wood_fir_t_1",
       ["rp_door:door_wood_b_1"] = "rp_door:door_wood_fir_b_1",
    },
@@ -296,7 +309,7 @@ village chunk definition:
 
 village.chunkdefs["livestock_pen"] = {
    groundclass_variants = {
-      ["grassland"] = {"livestock_pen"},
+      ["grassland"] = {"livestock_pen", "livestock_pen_mirrored"},
    },
    entities = {
       ["rp_mobs_mobs:sheep"] = 3,
