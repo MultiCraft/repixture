@@ -66,6 +66,7 @@ gold.trades["carpenter"] = {
 	{"rp_gold:ingot_gold", "", "rp_default:planks 6"},
 	{"rp_gold:ingot_gold", "", "rp_default:planks_birch 5"},
 	{"rp_gold:ingot_gold", "", "rp_default:planks_oak 3"},
+	{"rp_gold:ingot_gold", "", "rp_default:planks_fir 5"},
 	{"rp_gold:ingot_gold", "", "rp_default:frame 2"},
 	{"rp_gold:ingot_gold", "", "rp_default:reinforced_frame"},
 
@@ -178,6 +179,7 @@ table.insert(gold.trades["blacksmith"], {"rp_armor:chainmail_sheet 2", "", "rp_g
 table.insert(gold.trades["carpenter"], {"rp_default:tree 5", "", "rp_gold:ingot_gold"})
 table.insert(gold.trades["carpenter"], {"rp_default:tree_birch 5", "", "rp_gold:ingot_gold"})
 table.insert(gold.trades["carpenter"], {"rp_default:tree_oak 4", "", "rp_gold:ingot_gold"})
+table.insert(gold.trades["carpenter"], {"rp_default:tree_fir 5", "", "rp_gold:ingot_gold"})
 table.insert(gold.trades["carpenter"], {"rp_default:fiber 50", "", "rp_gold:ingot_gold"})
 table.insert(gold.trades["carpenter"], {"rp_mobs_mobs:wool 8", "", "rp_gold:ingot_gold"})
 table.insert(gold.trades["carpenter"], {"rp_farming:cotton_bale 10", "", "rp_gold:ingot_gold"})
