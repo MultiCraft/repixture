@@ -645,7 +645,7 @@ local function remove_achievement(player, aname)
    achievement_message(playername, aname, COLOR_REVERT_MSG,
       NS("You have lost the achievement “@1”."),
       NS("@1 has lost the achievement “@2”."))
-   local title = achievements.registered_achievements[aname]
+   local title = achievements.registered_achievements[aname].title
    achievement_popup(playername, "image", "rp_achievements_icon_removed.png", S("Achievement lost!"), title, COLOR_REVERT_HUD)
    minetest.log("action", "[rp_achievements] " .. playername .. " lost achievement '"..aname.."'")
 end
