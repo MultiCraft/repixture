@@ -61,11 +61,8 @@ local is_node_walkable = function(node)
 	if not def then
 		-- Unknown nodes are walkable
 		return true
-	elseif node.name == "rp_itemshow:frame" then
-		-- Item frames are to thin to walk *on*
-		return false
-	elseif minetest.get_item_group(node.name, "door") ~= 0 then
-		-- Same for doors
+	elseif minetest.get_item_group(node.name, "pathfinder_thin") ~= 0 then
+		-- Refuse to walk on very thin nodes like item frames to avoid fall-through
 		return false
 	elseif minetest.get_item_group(node.name, "fence") ~= 0 then
 		-- We refuse to walk on fences (although we could)
