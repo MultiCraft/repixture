@@ -5,6 +5,8 @@
 
 local S = minetest.get_translator("rp_lumien")
 
+local has_mobs_mod = minetest.get_modpath("rp_mobs") ~= nil
+
 -- How close a player needs to be (in nodes) for a lumien crystal to light up
 local LUMIEN_ON_RADIUS = 2
 -- How far a player needs to be (in nodes) from an active lumien crystal to turn off again
@@ -20,52 +22,8 @@ local LUMIEN_CRYSTAL_SOUND_PITCH = 1.2
 -- Sound pitch modifier for lumien footstep sound (both block and crystal)
 local LUMIEN_SOUND_PITCH_FOOTSTEP = 0.8
 
-local timer_interval = 1
-local timer = 0
-
--- Update function
-
-local function on_globalstep(dtime)
-   timer = timer + dtime
-
-   if timer < timer_interval then
-      return
-   end
-
-   timer = 0
-
-   for _, player in ipairs(minetest.get_connected_players()) do
-      local pos = player:get_pos()
-
-      util.nodefunc(
-	 {
-            x = pos.x-LUMIEN_ON_RADIUS,
-            y = pos.y-LUMIEN_ON_RADIUS,
-            z = pos.z-LUMIEN_ON_RADIUS
-         },
-	 {
-            x = pos.x+LUMIEN_ON_RADIUS,
-            y = pos.y+LUMIEN_ON_RADIUS,
-            z = pos.z+LUMIEN_ON_RADIUS
-         },
-	 "rp_lumien:crystal_off",
-	 function(pos)
-	    local node = minetest.get_node(pos)
-
-	    minetest.set_node(
-	       pos,
-	       {
-		  name = "rp_lumien:crystal_on",
-		  param = node.param,
-		  param2 = node.param2
-            })
-	 end,
-	 true
-      )
-   end
-end
-
-minetest.register_globalstep(on_globalstep)
+-- Interval (in seconds) to check for nearby humanoids
+local LUMIEN_CRYSTAL_CHECK_TIMER = 1.0
 
 local get_sounds = function(pitch)
    if not pitch then
@@ -77,6 +35,34 @@ local get_sounds = function(pitch)
       dig = {name="rp_sounds_dug_crystal",gain=0.5,pitch=pitch},
       dug = {name="rp_sounds_dug_crystal",gain=1,pitch=pitch*0.95},
    })
+end
+
+-- Return true if a "luminator" (an entity that causes a lumien crystal to glow) is nearby pos.
+-- Players and animal and humanoid mobs are luminators.
+-- * pos: Position to compare to
+-- * is_on: true if lumien crystal
+local is_luminator_nearby = function(pos, is_on)
+    local offset
+    if is_on then
+       -- Offset to turn crytal off
+       offset = LUMIEN_OFF_RADIUS
+    else
+       -- Offset to turn crytal on
+       offset = LUMIEN_ON_RADIUS
+    end
+    local objects = minetest.get_objects_in_area(vector.subtract(pos, offset), vector.add(pos, offset))
+    for o=1, #objects do
+       local obj = objects[o]
+       if obj:is_player() then
+          return true
+       elseif has_mobs_mod then
+          local lua = obj:get_luaentity()
+          if lua and lua._cmi_is_mob and (rp_mobs.has_tag(lua, "animal") or rp_mobs.has_tag(lua, "humanoid")) then
+             return true
+          end
+       end
+    end
+    return false
 end
 
 -- Nodes
@@ -100,6 +86,19 @@ minetest.register_node(
       floodable = true,
       on_flood = function(pos)
          minetest.add_item(pos, "rp_lumien:crystal_off")
+      end,
+      on_construct = function(pos)
+         local timer = minetest.get_node_timer(pos)
+         timer:start(LUMIEN_CRYSTAL_CHECK_TIMER)
+      end,
+      on_timer = function(pos)
+         local timer = minetest.get_node_timer(pos)
+         timer:start(LUMIEN_CRYSTAL_CHECK_TIMER)
+         if not is_luminator_nearby(pos, true) then
+             local node = minetest.get_node(pos)
+             node.name = "rp_lumien:crystal_off"
+             minetest.swap_node(pos, node)
+         end
       end,
 
       groups = {crumbly = 3, not_in_creative_inventory = 1},
@@ -129,6 +128,19 @@ minetest.register_node(
       floodable = true,
       on_flood = function(pos)
          minetest.add_item(pos, "rp_lumien:crystal_off")
+      end,
+      on_construct = function(pos)
+         local timer = minetest.get_node_timer(pos)
+         timer:start(LUMIEN_CRYSTAL_CHECK_TIMER)
+      end,
+      on_timer = function(pos)
+         local timer = minetest.get_node_timer(pos)
+         timer:start(LUMIEN_CRYSTAL_CHECK_TIMER)
+         if is_luminator_nearby(pos, false) then
+             local node = minetest.get_node(pos)
+             node.name = "rp_lumien:crystal_on"
+             minetest.swap_node(pos, node)
+         end
       end,
 
       groups = {crumbly = 3, creative_decoblock = 1},
@@ -185,35 +197,6 @@ minetest.register_ore(
       y_max     = -100,
 })
 
--- Update functions
-
-minetest.register_abm(
-   {
-      label = "Lumien crystals",
-      nodenames = {"rp_lumien:crystal_on"},
-      interval = timer_interval,
-      chance = 1,
-      action = function(pos, node)
-         local ok = true
-
-         for _,object in ipairs(minetest.get_objects_inside_radius(pos, LUMIEN_OFF_RADIUS)) do
-            if object:is_player() then
-               ok = false
-            end
-         end
-
-         if ok then
-            minetest.set_node(
-               pos,
-               {
-                  name = "rp_lumien:crystal_off",
-                  param = node.param,
-                  param2 = node.param2
-            })
-         end
-      end,
-})
-
 -- Crafting
 
 crafting.register_craft(
@@ -257,6 +240,19 @@ minetest.register_craft(
       output = "rp_lumien:block",
       recipe = "rp_lumien:stone_with_lumien",
       cooktime = 6,
+})
+
+minetest.register_lbm({
+    name = "rp_lumien:restart_timers",
+    label = "Restart lumien crystal timers",
+    nodenames = { "rp_lumien:crystal_on", "rp_lumien:crystal_off" },
+    run_at_every_load = true,
+    action = function(pos)
+       local timer = minetest.get_node_timer(pos)
+       if not timer:is_started() then
+          timer:start(LUMIEN_CRYSTAL_CHECK_TIMER)
+       end
+    end,
 })
 
 -- Achievements

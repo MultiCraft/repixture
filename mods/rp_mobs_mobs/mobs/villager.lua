@@ -1424,7 +1424,7 @@ local droptables = {
 
 rp_mobs.register_mob("rp_mobs_mobs:villager", {
 	description = S("Villager"),
-	tags = { peaceful = 1 },
+	tags = { humanoid = 1, peaceful = 1 },
 
 	-- Profession-specific drops
 	drop_func = function(self)
