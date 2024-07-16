@@ -66,11 +66,8 @@ local is_node_walkable = function(node)
 	if not def then
 		-- Unknown nodes are walkable
 		return true
-	elseif node.name == "rp_itemshow:frame" then
-		-- Item frames are to thin to walk *on*
-		return false
-	elseif minetest.get_item_group(node.name, "door") ~= 0 then
-		-- Same for doors
+	elseif minetest.get_item_group(node.name, "pathfinder_thin") ~= 0 then
+		-- Refuse to walk on very thin nodes like item frames to avoid fall-through
 		return false
 	elseif minetest.get_item_group(node.name, "fence") ~= 0 or minetest.get_item_group(node.name, "fence_gate") ~= 0 then
 		-- We refuse to walk on fences and fence gates (although we could)
@@ -161,6 +158,26 @@ local is_node_swimmable = function(node)
 	end
 end
 
+-- Cost function for rp_pathfinder. Returns the cost of walking
+-- *on* a node.
+local function get_floor_cost(node)
+	local nn = node.name
+	if nn == "rp_default:heated_dirt_path" then
+		return 1
+	elseif nn == "rp_default:cactus" or nn == "rp_tnt:tnt" or nn == "rp_tnt:tnt_burning" then
+		return 100
+	elseif minetest.get_item_group(nn, "furniture") ~= 0 then
+		return 50
+	elseif minetest.get_item_group(nn, "path") ~= 0 then
+		return 2
+	elseif minetest.get_item_group(nn, "pathfinder_hard") ~= 0 then
+		return 4
+	else
+		return 6
+	end
+end
+
+
 local PATHFINDER_SEARCHDISTANCE = 30
 local PATHFINDER_TIMEOUT = 1.0
 local PATHFINDER_OPTIONS = {
@@ -172,6 +189,7 @@ local PATHFINDER_OPTIONS = {
 	respect_disable_jump = true,
 	handler_walkable = is_node_walkable,
 	handler_blocking = is_node_blocking,
+	get_floor_cost = get_floor_cost,
 	use_vmanip = true,
 }
 

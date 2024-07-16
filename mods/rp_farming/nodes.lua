@@ -270,7 +270,7 @@ minetest.register_node(
       is_ground_content = false,
       groups = {snappy = 2, oddly_breakable_by_hand = 3,
                 fall_damage_add_percent = -15, fuzzy = 1,
-		unmagnetic = 1, paintable = 1},
+		unmagnetic = 1, paintable = 1, pathfinder_soft=1},
       sounds = rp_sounds.node_sound_fuzzy_defaults({
          footstep = { name = "rp_sounds_footstep_fuzzy", gain = 0.7, pitch = 1.3 },
          dig = {name="rp_sounds_dig_fuzzy", gain=0.5, pitch = 1.3 },
@@ -290,7 +290,7 @@ minetest.register_node(
       description = S("Straw"),
       tiles = {"rp_farming_straw.png"},
       is_ground_content = false,
-      groups = {snappy = 3, fall_damage_add_percent = -15},
+      groups = {snappy = 3, fall_damage_add_percent = -15, pathfinder_fibrous=1},
       sounds = rp_sounds.node_sound_straw_defaults(),
    }
 )

@@ -267,6 +267,7 @@ minetest.register_node("rp_itemshow:frame",{
 	sunlight_propagates = true,
 	groups = {
 		choppy = 2, dig_immediate = 2, creative_decoblock = 1, paintable = 1,
+		pathfinder_thin = 1,
 		-- So that placing a magnocompass on it will point
 		-- the needle to the correct direction
 		special_magnocompass_place_handling = 1},
@@ -347,7 +348,7 @@ minetest.register_node("rp_itemshow:showcase", {
 	tiles = {"rp_itemshow_showcase.png"},
 	use_texture_alpha = "clip",
 	paramtype = "light",
-	groups = { item_showcase = 1, cracky = 3, oddly_breakable_by_hand = 2, uses_canonical_compass = 1, creative_decoblock = 1 },
+	groups = { item_showcase = 1, cracky = 3, oddly_breakable_by_hand = 2, uses_canonical_compass = 1, creative_decoblock = 1, furniture = 1, pathfinder_hard = 1 },
 	sounds = rp_sounds.node_sound_glass_defaults(),
 	is_ground_content = false,
 

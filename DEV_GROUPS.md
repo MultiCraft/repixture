@@ -92,6 +92,25 @@ any of the other digging groups, make sure dig times of the weakest tool are
 still faster than with the hand (test this in-game to make sure).
 Also, never use `handy` and `oddly_breakable_by_hand` at the same time.
 
+### Pathfinder groups
+
+These groups very roughly categorize nodes for pathfinding. Specifically,
+the cost function in the `rp_pathfinder` mod. The groups
+are based on how the node would "feel" when you're barefoot.
+The pathfinder can use the groups to use preferences for paths.
+It’s not restricted to these groups, however, as the groups are intentionally
+very broad.
+
+It is recommended that every walkable node has at least one pathfinder
+group. Non-walkable nodes don't need this.
+
+* `pathfinder_crumbly`: Floor gives in (dirt, etc.)
+* `pathfinder_fibrous`: Fiber- or plant-based floor (grass, leaves, ...)
+* `pathfinder_spiky`: Somewhat spiky floor with sharp edges (cactus, gravel, ...)
+* `pathfinder_thin`: Block has a very thin walking surface (door, ...)
+* `pathfinder_hard`: Generic hard floor (stone, wood, ...)
+* `pathfinder_soft`: Generic soft floor (sand, cotton, ...)
+
 ### Interactive node groups:
 * `soil`: For blocks that allow several plants to grow
 * `leafdecay`: Node decays if not close to a `tree` group node (max. distance = rating).
@@ -162,10 +181,12 @@ Unlike `attached_node`, they also work if the node is not `walkable`. Use these 
 * `dry_leaves`: Dry leaves
 * `lush_leaves`: Any non-dry leaves
 
-* `spikes`: Spikes
+* `furniture`: Any piece of furniture, including workstations (e.g.: bed, chest, furnace, jeweller's workbench)
 * `item_showcase`: Item showcase
 * `chest`: Chest (1=not locked, 2=with lock)
 * `furnace`: Furnace (1=inactive, 2=active)
+
+* `spikes`: Spikes
 
 * `plantable_dry`: You can plant farming plants on it and this node is considered to be dry
 * `plantable_wet`: You can plant farming plants on it and this node is considered to be wet

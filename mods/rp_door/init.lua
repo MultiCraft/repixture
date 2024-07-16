@@ -332,6 +332,7 @@ function door.register_door(name, def)
 
    local groups_node = table.copy(def.groups)
    groups_node.not_in_creative_inventory = 1
+   groups_node.pathfinder_thin = 1
 
    local groups_node_b_1 = table.copy(groups_node)
    -- door position: 1 = bottom, 2 = top

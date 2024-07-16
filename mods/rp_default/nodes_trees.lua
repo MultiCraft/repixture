@@ -198,7 +198,7 @@ minetest.register_node(
    {
       description = S("Tree"),
       tiles = {"default_tree_top.png", "default_tree_top.png", "default_tree.png"},
-      groups = {choppy = 2,tree = 1,oddly_breakable_by_hand = 1},
+      groups = {choppy = 2,tree = 1,oddly_breakable_by_hand = 1, pathfinder_hard = 1},
       sounds = snd_tree,
       _rp_blast_resistance = 1,
 })
@@ -208,7 +208,7 @@ minetest.register_node(
    {
       description = S("Oak Tree"),
       tiles = {"default_tree_oak_top.png", "default_tree_oak_top.png", "default_tree_oak.png"},
-      groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1},
+      groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1, pathfinder_hard = 1},
       sounds = snd_tree,
       _rp_blast_resistance = 1,
 })
@@ -218,7 +218,7 @@ minetest.register_node(
    {
       description = S("Birch Tree"),
       tiles = {"default_tree_birch_top.png", "default_tree_birch_top.png", "default_tree_birch.png"},
-      groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1},
+      groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1, pathfinder_hard = 1},
       sounds = snd_tree,
       _rp_blast_resistance = 1,
 })
@@ -244,7 +244,7 @@ minetest.register_node(
       tiles = {"default_leaves.png"},
       paramtype = "light",
       waving = 1,
-      groups = {snappy = 3, leafdecay = 3, fall_damage_add_percent = -10, leaves = 1, lush_leaves = 1},
+      groups = {snappy = 3, leafdecay = 3, fall_damage_add_percent = -10, leaves = 1, lush_leaves = 1, pathfinder_fibrous = 1},
       drop = {
 	 max_items = 1,
 	 items = {
@@ -269,7 +269,7 @@ minetest.register_node(
       tiles = {"default_leaves_oak.png"},
       paramtype = "light",
       waving = 1,
-      groups = {snappy = 3, leafdecay = 4, fall_damage_add_percent = -5, leaves = 1, lush_leaves = 1},
+      groups = {snappy = 3, leafdecay = 4, fall_damage_add_percent = -5, leaves = 1, lush_leaves = 1, pathfinder_fibrous = 1},
       drop = {
 	 max_items = 1,
 	 items = {
@@ -294,7 +294,7 @@ minetest.register_node(
       tiles = {"default_leaves_birch.png"},
       paramtype = "light",
       waving = 1,
-      groups = {snappy = 3, leafdecay = 6, fall_damage_add_percent = -5, leaves = 1, lush_leaves = 1},
+      groups = {snappy = 3, leafdecay = 6, fall_damage_add_percent = -5, leaves = 1, lush_leaves = 1, pathfinder_fibrous = 1},
       drop = {
 	 max_items = 1,
 	 items = {
@@ -344,7 +344,7 @@ minetest.register_node(
       tiles = {"default_dry_leaves.png"},
       paramtype = "light",
       waving = 1,
-      groups = {snappy = 3, leafdecay = 3, fall_damage_add_percent = -20, leaves = 1, dry_leaves = 1},
+      groups = {snappy = 3, leafdecay = 3, fall_damage_add_percent = -20, leaves = 1, dry_leaves = 1, pathfinder_fibrous = 1},
       drop = {
 	 max_items = 1,
 	 items = {

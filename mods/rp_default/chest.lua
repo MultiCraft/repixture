@@ -50,7 +50,7 @@ minetest.register_node(
       tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_sides.png",
 	      "default_chest_sides.png", "default_chest_sides.png", "default_chest_front.png"},
       paramtype2 = "4dir",
-      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, chest = 1, container = 1, paintable = 2},
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, chest = 1, container = 1, paintable = 2, furniture = 1, pathfinder_hard = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
       on_construct = function(pos)
@@ -86,7 +86,7 @@ minetest.register_node(
               -- Actual legit overlay
 	      {name="default_chest_front_painted_overlay.png",color="white"}},
       paramtype2 = "color4dir",
-      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, chest = 1, container = 1, paintable = 1, not_in_creative_inventory = 1},
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, chest = 1, container = 1, paintable = 1, not_in_creative_inventory = 1, furniture = 1, pathfinder_hard = 1},
       palette = "rp_paint_palette_64d.png",
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),

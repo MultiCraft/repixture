@@ -104,14 +104,19 @@ local function get_distance_2d(pos1, pos2)
 	return distX + distZ
 end
 
--- 3D distance heuristic between pos1 and pos2
-local function get_distance_3d(pos1, pos2)
-	local distX = math.abs(pos1.x - pos2.x)
-	local distY = math.abs(pos1.y - pos2.y)
-	local distZ = math.abs(pos1.z - pos2.z)
-
-	-- Manhattan distance
-	return distX + distY + distZ
+-- Get actual cost to walk from pos1 to pos2 (which must be a neighbor)
+-- * pos1: Origin position
+-- * pos2: Target position (neighbor of pos1)
+-- * get_node: get_node function
+-- * get_floor_cost(node): Function that, given a node table, returns the
+--   cost of walking *on* this node (default cost is 1)
+local function get_neighbor_cost(pos1, pos2, get_node, get_floor_cost)
+	if not get_floor_cost then
+		return 1
+	end
+	local floor = vector.offset(pos2, 0, -1, 0)
+	local floornode = get_node(floor)
+	return get_floor_cost(floornode)
 end
 
 -- Checks nodes above pos to be non-blocking.
@@ -364,6 +369,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 	local max_jump = options.max_jump or 0
 	local respect_disable_jump = options.respect_disable_jump or false
 	local respect_climb_restrictions = options.respect_climb_restrictions
+	local get_floor_cost = options.get_floor_cost
 	if respect_climb_restrictions == nil then
 		respect_climb_restrictions = true
 	end
@@ -446,7 +452,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 
 	-- Add the first search node to open set at the start
 
-	local h_first = get_distance_3d(pos1, pos2)
+	local h_first = get_neighbor_cost(pos1, pos2, get_node, get_floor_cost)
 	set_search_node(open_set, start_hash, {
 		pos = pos1,
 		parent = nil,
@@ -577,7 +583,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 				local g = 0 -- cost from start
 				local h -- estimated cost from search node to finish
 				local f -- g+h
-				local neighbor_cost = current_data.g + get_distance_3d(current_data.pos, neighbor.pos)
+				local neighbor_cost = current_data.g + get_neighbor_cost(current_data.pos, neighbor.pos, get_node, get_floor_cost)
 				local neighbor_data = get_search_node(open_set, neighbor.hash)
 				local neighbor_exists
 				if neighbor_data then
@@ -587,7 +593,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 					neighbor_exists = false
 				end
 				if not neighbor_exists or neighbor_cost < g then
-					h = get_distance_3d(neighbor.pos, pos2)
+					h = get_neighbor_cost(neighbor.pos, pos2, get_node, get_floor_cost)
 					g = neighbor_cost
 					f = g + h
 					set_search_node(open_set, neighbor.hash, {

@@ -294,7 +294,7 @@ if minetest.settings:get_bool("music_enable") then
             rp_music.toggle(pos)
 	 end,
 
-	 groups = {handy = 3, attached_node = 1, interactive_node = 1, paintable = 1},
+	 groups = {handy = 3, attached_node = 1, interactive_node = 1, paintable = 1, furniture = 1, pathfinder_hard = 1},
 
 	 drop = "rp_music:player",
    })
@@ -369,7 +369,7 @@ else
             note_particle(pos, "rp_music_no_music.png")
          end,
 
-	 groups = {handy = 3, attached_node = 1, interactive_node = 1}
+	 groups = {handy = 3, attached_node = 1, interactive_node = 1, furniture = 1, pathfinder_hard = 1}
    })
 end
 
