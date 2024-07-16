@@ -166,13 +166,11 @@ local function get_floor_cost(node)
 	elseif minetest.get_item_group(nn, "furniture") ~= 0 then
 		return 50
 	elseif minetest.get_item_group(nn, "path") ~= 0 then
-		return 3
+		return 2
 	elseif minetest.get_item_group(nn, "pathfinder_hard") ~= 0 then
-		return 6
-	elseif minetest.get_item_group(nn, "pathfinder_crumbly") ~= 0 then
-		return 7
+		return 4
 	else
-		return 9
+		return 6
 	end
 end
 
