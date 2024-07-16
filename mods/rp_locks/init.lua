@@ -297,7 +297,7 @@ local chest_def = {
       },
       use_texture_alpha = "blend",
       paramtype2 = "4dir",
-      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, locked = 1, chest = 2, container = 1, paintable = 2},
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, level = -1, locked = 1, chest = 2, container = 1, paintable = 2, furniture = 1, pathfinder_hard = 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_planks_defaults(),
       on_construct = function(pos)

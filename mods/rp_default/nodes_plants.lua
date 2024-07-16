@@ -64,7 +64,7 @@ minetest.register_node(
       },
       tiles = {"default_cactus_top.png", "default_cactus_top.png", "default_cactus_sides.png"},
       --	damage_per_second = 1,
-      groups = {snappy = 2, choppy = 2, fall_damage_add_percent = 20, plant = 1, food = 2},
+      groups = {snappy = 2, choppy = 2, fall_damage_add_percent = 20, plant = 1, food = 2, pathfinder_spiky = 1},
       sounds = rp_sounds.node_sound_defaults({
          footstep = { name = "rp_default_footstep_cactus", gain = 1.0 },
          dig = { name = "rp_default_dig_cactus", gain = 0.5 },

@@ -603,7 +603,7 @@ minetest.register_node(
          {name="bed_back_overlay.png",color="white"},
       },
       use_texture_alpha = "clip",
-      groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, creative_decoblock = 1, interactive_node = 1, paintable = 1 },
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, creative_decoblock = 1, interactive_node = 1, paintable = 1, furniture = 1, pathfinder_soft = 1},
       is_ground_content = false,
       sounds = sounds,
       node_box = {
@@ -775,7 +775,7 @@ minetest.register_node(
          {name="bed_inside_overlay.png",color="white"},
       },
       use_texture_alpha = "clip",
-      groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, not_in_creative_inventory = 1, paintable = 1 },
+      groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, bed = 1, fall_damage_add_percent = -15, not_in_creative_inventory = 1, paintable = 1, furniture = 1, pathfinder_soft = 1 },
       sounds = sounds,
       node_box = {
 	 type = "fixed",

@@ -85,7 +85,7 @@ local bookshelf_def = {
    _tt_help = S("Provides 8 inventory slots"),
    tiles = {"rp_book_bookshelf_base.png", "rp_book_bookshelf_base.png", "rp_book_bookshelf_base_side.png^rp_book_bookshelf_overlay.png"},
    paramtype2 = "4dir",
-   groups = {choppy = 3,oddly_breakable_by_hand = 2,container=1,paintable=2},
+   groups = {choppy = 3,oddly_breakable_by_hand = 2,container=1,paintable=2,furniture=1,pathfinder_hard=1},
    is_ground_content = false,
    sounds = rp_sounds.node_sound_planks_defaults(),
    on_construct = function(pos)

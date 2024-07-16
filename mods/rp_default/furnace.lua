@@ -171,7 +171,7 @@ minetest.register_node(
       tiles ={"rp_default_furnace_top.png", "rp_default_furnace_top.png", "rp_default_furnace_sides.png",
 	      "rp_default_furnace_sides.png", "rp_default_furnace_sides.png", "rp_default_furnace_front.png"},
       paramtype2 = "4dir",
-      groups = {cracky = 2,container=1,interactive_node=1,furnace=1},
+      groups = {cracky = 2,container=1,interactive_node=1,furnace=1,furniture=1,pathfinder_hard=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_stone_defaults(),
       on_construct = function(pos)
@@ -207,7 +207,7 @@ minetest.register_node(
       paramtype2 = "4dir",
       light_source = 8,
       drop = "rp_default:furnace",
-      groups = {cracky = 2, container=1,interactive_node=1, furnace=2,not_in_creative_inventory=1},
+      groups = {cracky = 2, container=1,interactive_node=1, furnace=2,not_in_creative_inventory=1,furniture=1,pathfinder_hard=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_stone_defaults(),
       on_construct = function(pos)

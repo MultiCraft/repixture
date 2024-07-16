@@ -198,7 +198,7 @@ minetest.register_node(
       _rp_tt_has_ignitible_text = true, -- prevent rp_tt mod from adding automatic tooltip
       tiles = {top_tex, "tnt_bottom.png", "tnt_sides.png"},
       is_ground_content = false,
-      groups = {handy = 2, interactive_node=1},
+      groups = {handy = 2, interactive_node=1, pathfinder_hard=1},
       sounds = rp_sounds.node_sound_wood_defaults(),
 
       on_blast = function(pos, intensity)
@@ -243,7 +243,7 @@ minetest.register_node(
       light_source = 5,
       drop = "",
       is_ground_content = false,
-      groups = {handy = 2, not_in_creative_inventory=1},
+      groups = {handy = 2, not_in_creative_inventory=1, pathfinder_hard=1},
       sounds = rp_sounds.node_sound_wood_defaults(),
       on_timer = tnt_burning_on_timer,
       on_construct = function(pos)
