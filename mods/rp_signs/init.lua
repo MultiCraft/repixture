@@ -587,6 +587,9 @@ local on_construct = function(pos)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("text", "")
 	local node = minetest.get_node(pos)
+	if minetest.get_item_group(node.name, "sign_text_white_unpainted") == 1 then
+		meta:set_int("white_text", 1)
+	end
 	refresh_sign(meta, node)
 end
 
@@ -703,7 +706,15 @@ local _after_paint = function(pos)
 	local color = rp_paint.get_color(node)
 	local meta = minetest.get_meta(pos)
 	local white_text = meta:get_int("white_text")
-	if color == rp_paint.COLOR_BLACK then
+	local white = false
+	if color == rp_paint.COLOR_BLACK or
+			(minetest.get_item_group(node.name, "sign_text_white_colored") == 1 and
+			color ~= rp_paint.COLOR_GRAY and
+			color ~= rp_paint.COLOR_WHITE) then
+		white = true
+	end
+
+	if white then
 		if white_text == 1 then
 			return
 		end
@@ -723,16 +734,34 @@ end
 local _after_unpaint = function(pos)
 	local meta = minetest.get_meta(pos)
 	local white_text = meta:get_int("white_text")
-	if white_text == 0 then
+	local white_text_new = 0
+	local node = minetest.get_node(pos)
+	if minetest.get_item_group(node.name, "sign_text_white_unpainted") == 1 then
+		white_text_new = 1
+	end
+
+	if (white_text == white_text_new) then
 		return
 	end
-	meta:set_int("white_text", 0)
+	meta:set_int("white_text", white_text_new)
 	local text_front = meta:get_string("text")
 	local text_back = meta:get_string("text_back")
 	update_sign(pos, text_front, text_back)
 end
 
 local function register_sign(id, def)
+	local stwc, stwu = 0, 0
+	-- Value for group 'sign_text_white_colored';
+	-- indicates the sign text is white on colored signs
+	if def.text_white_on_colored then
+		stwc = 1
+	end
+	-- Value for group 'sign_text_white_unpainted';
+	-- indicates the sign text is white on unpainted signs
+	if def.text_white_on_unpainted then
+		stwu = 1
+	end
+
 	-- Wall sign.
 	-- May also be placed on floor or ceiling.
 	local sdef = {
@@ -752,7 +781,7 @@ local function register_sign(id, def)
 			wall_bottom = {-0.5+SIGN_THICKNESS, -0.5, -0.5+(4/16), 0.5-SIGN_THICKNESS, -0.5+SIGN_THICKNESS, 0.5-(4/16)},
 			wall_side = {-0.5, -0.5+(4/16), -0.5+SIGN_THICKNESS, -0.5+SIGN_THICKNESS, 0.5-(4/16), 0.5-SIGN_THICKNESS},
 		},
-		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, creative_decoblock = 1, paintable = 2},
+		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, sign_text_white_unpainted=stwu, creative_decoblock = 1, paintable = 2},
 		is_ground_content = false,
 		sounds = def.sounds,
 		floodable = true,
@@ -870,7 +899,7 @@ local function register_sign(id, def)
 			wall_bottom = {-0.5+(4/16), -0.5, -0.5+SIGN_THICKNESS, 0.5-(4/16), -0.5+SIGN_THICKNESS, 0.5-SIGN_THICKNESS},
 			wall_side = {-0.5, -0.5+SIGN_THICKNESS, -0.5+(4/16), -0.5+SIGN_THICKNESS, 0.5-SIGN_THICKNESS, 0.5-(4/16)},
 		},
-		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, sign_r90=1, not_in_creative_inventory=1, paintable = 2},
+		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 1, sign=1, sign_r90=1, sign_text_white_unpainted=stwu, not_in_creative_inventory=1, paintable = 2},
 		is_ground_content = false,
 		sounds = def.sounds,
 		floodable = true,
@@ -914,7 +943,7 @@ local function register_sign(id, def)
 				{ -1/16, -0.5, -SIGN_THICKNESS/2, 1/16, -0.5+(4/16), SIGN_THICKNESS/2 },
 			},
 		},
-		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 3, sign=1, sign_standing=1, creative_decoblock = 1, paintable = 2},
+		groups = {choppy = 3,oddly_breakable_by_hand=2,level=-4,attached_node = 3, sign=1, sign_standing=1, sign_text_white_unpainted=stwu, creative_decoblock = 1, paintable = 2},
 		is_ground_content = false,
 		sounds = def.sounds,
 		floodable = true,
@@ -1062,9 +1091,11 @@ local function register_sign(id, def)
 	local sdef_p = table.copy(sdef)
 	sdef_p.description = def.description_painted
 	sdef_p.paramtype2 = "colorwallmounted"
-	sdef_p.palette = "rp_paint_palette_32.png"
+	sdef_p.palette = def.palette_wall or "rp_paint_palette_32.png"
 	sdef_p.groups.paintable = 1
 	sdef_p.groups.not_in_creative_inventory = 1
+	sdef_p.groups.sign_text_white_unpainted = nil
+	sdef_p.groups.sign_text_white_colored = stwc
 	sdef_p.tiles = {
 		def.tile_painted,
 		"("..def.tile_back_painted..")^[transformR180",
@@ -1082,9 +1113,11 @@ local function register_sign(id, def)
 	-- Wall sign, rotated by 90°, painted
 	local sdef_r90_p = table.copy(sdef_r90)
 	sdef_r90_p.paramtype2 = "colorwallmounted"
-	sdef_r90_p.palette = "rp_paint_palette_32.png"
+	sdef_r90_p.palette = def.palette_wall or "rp_paint_palette_32.png"
 	sdef_r90_p.groups.paintable = 1
 	sdef_r90_p.groups.sign_r90 = 1
+	sdef_r90_p.groups.sign_text_white_unpainted = nil
+	sdef_r90_p.groups.sign_text_white_colored = stwc
 	sdef_r90_p.tiles = {
 		"("..def.tile_painted..")^[transformR90",
 		"("..def.tile_back_painted..")^[transformR270",
@@ -1103,10 +1136,12 @@ local function register_sign(id, def)
 	local ssdef_p = table.copy(ssdef)
 	ssdef_p.description = def.description_standing_painted
 	ssdef_p.paramtype2 = "color4dir"
-	ssdef_p.palette = "rp_paint_palette_64.png"
+	ssdef_p.palette = def.palette_stand or "rp_paint_palette_64.png"
 	ssdef_p.groups.paintable = 1
 	ssdef_p.groups.sign_standing = 1
 	ssdef_p.groups.not_in_creative_inventory = 1
+	ssdef_p.groups.sign_text_white_unpainted = nil
+	ssdef_p.groups.sign_text_white_colored = stwc
 	ssdef_p.tiles = {
 		def.tile_side_painted,
 		def.tile_side_painted,
@@ -1125,10 +1160,12 @@ local function register_sign(id, def)
 	local shdef_p = table.copy(shdef)
 	shdef_p.description = nil
 	shdef_p.paramtype2 = "color4dir"
-	shdef_p.palette = "rp_paint_palette_64.png"
+	shdef_p.palette = def.palette_stand or "rp_paint_palette_64.png"
 	shdef_p.groups.paintable = 1
 	shdef_p.groups.sign_standing = 2
 	shdef_p.groups.not_in_creative_inventory = 1
+	shdef_p.groups.sign_text_white_unpainted = nil
+	shdef_p.groups.sign_text_white_colored = stwc
 	shdef_p.tiles = {
 		def.tile_side_painted,
 		def.tile_side_painted,
@@ -1147,9 +1184,11 @@ local function register_sign(id, def)
 	local stsdef_p = table.copy(stsdef)
 	stsdef_p.description = nil
 	stsdef_p.paramtype2 = "color4dir"
-	stsdef_p.palette = "rp_paint_palette_64.png"
+	stsdef_p.palette = def.palette_stand or "rp_paint_palette_64.png"
 	stsdef_p.groups.paintable = 1
 	stsdef_p.groups.not_in_creative_inventory = 1
+	stsdef_p.groups.sign_text_white_unpainted = nil
+	stsdef_p.groups.sign_text_white_colored = stwc
 	stsdef_p.tiles = {
 		"("..def.tile_side_painted..")^[transformR90",
 		"("..def.tile_side_painted..")^[transformR90",
@@ -1301,6 +1340,26 @@ register_sign("sign_birch", {
 	inv_image = "rp_default_sign_birch_inventory.png",
 	inv_image_standing = "rp_default_sign_birch_standing_inventory.png",
 	sounds = sounds_wood_sign,
+})
+register_sign("sign_fir", {
+	description = S("Fir Wall Sign"),
+	description_painted = S("Painted Fir Wall Sign"),
+	description_standing = S("Fir Pole Sign"),
+	description_standing_painted = S("Painted Fir Pole Sign"),
+	tile = "rp_default_sign_fir.png",
+	tile_back = "rp_default_sign_fir_back.png",
+	tile_painted = "rp_default_sign_fir_painted.png",
+	tile_back_painted = "rp_default_sign_fir_back_painted.png",
+	tile_side = "rp_default_sign_fir_side.png",
+	tile_side_painted = "rp_default_sign_fir_side_painted.png",
+	inv_image = "rp_default_sign_fir_inventory.png",
+	inv_image_standing = "rp_default_sign_fir_standing_inventory.png",
+	sounds = sounds_wood_sign,
+	palette_wall = "rp_paint_palette_32l.png",
+	palette_stand = "rp_paint_palette_64l.png",
+	-- The fir sign is pretty dark, so we prefer a white text color
+	text_white_on_unpainted = true,
+	text_white_on_colored = true,
 })
 
 dofile(minetest.get_modpath("rp_signs").."/crafting.lua")

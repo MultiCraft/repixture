@@ -579,86 +579,47 @@ minetest.register_node(
 
 -- Planks
 
-minetest.register_node(
-   "rp_default:planks",
-   {
-      description = S("Wooden Planks"),
-      tiles = {"default_wood.png"},
-      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 2},
-      is_ground_content = false,
-      sounds = rp_sounds.node_sound_planks_defaults(),
-      _rp_blast_resistance = 0.5,
-})
-minetest.register_node(
-   "rp_default:planks_painted",
-   {
-      description = S("Painted Wooden Planks"),
-      tiles = {"rp_default_wood_painted.png"},
-      -- HACK: This is a workaround to fix the coloring of the crack overlay
-      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
-      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 1, not_in_creative_inventory = 1, not_in_craft_guide = 1},
-      is_ground_content = false,
-      sounds = rp_sounds.node_sound_planks_defaults(),
+local planks = {
+   { "planks", "default_wood.png", "rp_default_wood_painted.png", S("Wooden Planks"), S("Painted Wooden Planks") },
+   { "planks_oak", "default_wood_oak.png", "rp_default_wood_oak_painted.png", S("Oak Planks"), S("Painted Oak Planks") },
+   { "planks_birch", "default_wood_birch.png", "rp_default_wood_birch_painted.png", S("Birch Planks"), S("Painted Fir Planks") },
+   { "planks_fir", "rp_default_wood_fir.png", "rp_default_wood_fir_painted.png", S("Fir Planks"), S("Painted Fir Planks"), "rp_paint_palette_256l.png" },
+}
+for p=1, #planks do
+   local id = planks[p][1]
+   local tex = planks[p][2]
+   local tex_paint = planks[p][3]
+   local desc = planks[p][4]
+   local desc_paint = planks[p][5]
+   local palette = planks[p][6] or "rp_paint_palette_256.png"
 
-      palette = "rp_paint_palette_256.png",
-      drop = "rp_default:planks",
-      paramtype2 = "color",
-      _rp_blast_resistance = 0.5,
-})
+   minetest.register_node(
+      "rp_default:"..id,
+      {
+         description = desc,
+         tiles = {tex},
+         groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 2},
+         is_ground_content = false,
+         sounds = rp_sounds.node_sound_planks_defaults(),
+         _rp_blast_resistance = 0.5,
+   })
+   minetest.register_node(
+      "rp_default:"..id.."_painted",
+      {
+         description = desc_paint,
+         tiles = {tex_paint},
+         -- HACK: This is a workaround to fix the coloring of the crack overlay
+         overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
+         groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 1, not_in_creative_inventory = 1, not_in_craft_guide = 1},
+         is_ground_content = false,
+         sounds = rp_sounds.node_sound_planks_defaults(),
 
-minetest.register_node(
-   "rp_default:planks_oak",
-   {
-      description = S("Oak Planks"),
-      tiles = {"default_wood_oak.png"},
-      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable = 2},
-      is_ground_content = false,
-      sounds = rp_sounds.node_sound_planks_defaults(),
-      _rp_blast_resistance = 0.5,
-})
-minetest.register_node(
-   "rp_default:planks_oak_painted",
-   {
-      description = S("Painted Oak Planks"),
-      tiles = {"rp_default_wood_oak_painted.png"},
-      -- HACK: This is a workaround to fix the coloring of the crack overlay
-      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
-      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable=1, not_in_creative_inventory = 1, not_in_craft_guide = 1},
-      is_ground_content = false,
-      sounds = rp_sounds.node_sound_planks_defaults(),
-      palette = "rp_paint_palette_256.png",
-      drop = "rp_default:planks_oak",
-      paramtype2 = "color",
-      _rp_blast_resistance = 0.5,
-})
-
-minetest.register_node(
-   "rp_default:planks_birch",
-   {
-      description = S("Birch Planks"),
-      tiles = {"default_wood_birch.png"},
-      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable=2},
-      is_ground_content = false,
-      sounds = rp_sounds.node_sound_planks_defaults(),
-      _rp_blast_resistance = 0.5,
-})
-minetest.register_node(
-   "rp_default:planks_birch_painted",
-   {
-      description = S("Painted Birch Planks"),
-      tiles = {"rp_default_wood_birch_painted.png"},
-      -- HACK: This is a workaround to fix the coloring of the crack overlay
-      overlay_tiles = {{name="rp_textures_blank_paintable_overlay.png",color="white"}},
-      groups = {planks = 1, wood = 1, choppy = 3, oddly_breakable_by_hand = 3, paintable=1, not_in_creative_inventory = 1, not_in_craft_guide = 1},
-      is_ground_content = false,
-      sounds = rp_sounds.node_sound_planks_defaults(),
-      palette = "rp_paint_palette_256.png",
-      drop = "rp_default:planks_birch",
-      paramtype2 = "color",
-      _rp_blast_resistance = 0.5,
-})
-
-
+         palette = palette,
+         drop = "rp_default:"..id,
+         paramtype2 = "color",
+         _rp_blast_resistance = 0.5,
+   })
+end
 
 -- Frames
 

@@ -37,19 +37,21 @@ default.register_decoration(
       y_max = default.GLOBAL_Y_MAX,
 })
 
-default.register_decoration(
-   {
-      deco_type = "schematic",
-      place_on = {"rp_default:dirt_with_grass"},
-      sidelen = 16,
-      fill_ratio = 0.008,
-      biomes = {"Forest"},
-      flags = "place_center_x, place_center_z",
-      schematic = minetest.get_modpath("rp_default")
-         .. "/schematics/rp_default_coniferlike_tree.mts",
-      y_min = default.GLOBAL_Y_MIN,
-      y_max = default.GLOBAL_Y_MAX,
-})
+-- 3 fir variants
+for s=1, 3 do
+	default.register_decoration({
+		deco_type = "schematic",
+		place_on = {"rp_default:dirt_with_grass"},
+		sidelen = 16,
+		fill_ratio = 0.008/3,
+		biomes = {"Forest"},
+		flags = "place_center_x, place_center_z",
+		schematic = minetest.get_modpath("rp_default")
+		.. "/schematics/rp_default_fir_tall_s"..s.."_h3.mts",
+		y_min = default.GLOBAL_Y_MIN,
+		y_max = default.GLOBAL_Y_MAX,
+	})
+end
 
 default.register_decoration(
    {

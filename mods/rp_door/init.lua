@@ -355,7 +355,7 @@ function door.register_door(name, def)
    local paramtype2 = "4dir"
    if def.is_painted then
       paramtype2 = "color4dir"
-      palette = "rp_paint_palette_64.png"
+      palette = def.palette or "rp_paint_palette_64.png"
    end
    if def.can_paint and not def.is_painted then
       painted_name = name .. "_painted"
@@ -687,130 +687,61 @@ local sounds_wood_door = rp_sounds.node_sound_planks_defaults({
 	place = { name = "rp_sounds_place_planks", pitch = 1.1, gain = 0.9 },
 })
 
-door.register_door(
-   "rp_door:door_wood",
-   {
-      description = S("Wooden Door"),
-      inventory_image = "door_wood.png",
-      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=2},
-      tiles_top = {"door_wood_a.png", "door_wood_side_a.png", "door_wood_top.png"},
-      tiles_bottom = {"door_wood_b.png", "door_wood_side_b.png", "door_wood_bottom.png"},
-      sounds = sounds_wood_door,
-      sunlight = false,
-      can_paint = true,
-      _rp_blast_resistance = 0.1,
-})
-door.register_door(
-   "rp_door:door_wood_painted",
-   {
-      description = S("Painted Wooden Door"),
-      inventory_image = "door_wood.png^[hsl:0:-100:0",
-      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=1,not_in_creative_inventory=1},
-      tiles_top = {"door_wood_a_painted.png", {name="door_wood_side_a.png",color="white"}, {name="door_wood_top.png",color="white"}},
-      tiles_bottom = {"door_wood_b_painted.png", {name="door_wood_side_b.png",color="white"}, {name="door_wood_bottom.png",color="white"}},
-      overlay_tiles_top = {{name="door_wood_a_painted_overlay.png",color="white"}, "", ""},
-      overlay_tiles_bottom = {{name="door_wood_b_painted_overlay.png",color="white"}, "", ""},
-      sounds = sounds_wood_door,
-      sunlight = false,
-      is_painted = true,
-      can_unpaint = true,
-      paint_particle_node = false,
-      _rp_blast_resistance = 0.1,
-})
-
-crafting.register_craft(
-   {
-      output = "rp_door:door_wood",
+-- Register wooden doors
+local woods = {
+   { "wood", "door_wood", "rp_default:wood", S("Wooden Door"), S("Painted Wooden Door") },
+   { "wood_oak", "rp_door_wood_oak", "rp_default:wood_oak", S("Oak Door"), S("Painted Oak Door") },
+   { "wood_birch", "rp_door_wood_birch", "rp_default:wood_birch", S("Birch Door"), S("Painted Birch Door") },
+   { "wood_fir", "rp_door_wood_fir", "rp_default:wood_fir", S("Fir Door"), S("Painted Fir Door"), "rp_paint_palette_64l.png" },
+}
+for w=1, #woods do
+   local id = woods[w][1]
+   local tex = woods[w][2]
+   local craftitem = woods[w][3]
+   local desc = woods[w][4]
+   local desc_paint = woods[w][5]
+   local palette = woods[w][6]
+   door.register_door(
+      "rp_door:door_"..id,
+      {
+         description = desc,
+         inventory_image = tex..".png",
+         groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=2},
+         tiles_top = {tex.."_a.png", tex.."_side_a.png", tex.."_top.png"},
+         tiles_bottom = {tex.."_b.png", tex.."_side_b.png", tex.."_bottom.png"},
+         sounds = sounds_wood_door,
+         sunlight = false,
+         can_paint = true,
+         _rp_blast_resistance = 0.1,
+   })
+   door.register_door(
+      "rp_door:door_"..id.."_painted",
+      {
+         description = desc_paint,
+         inventory_image = tex..".png^[hsl:0:-100:0",
+         groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=1,not_in_creative_inventory=1},
+         tiles_top = {tex.."_a_painted.png", {name=tex.."_side_a.png",color="white"}, {name=tex.."_top.png",color="white"}},
+         tiles_bottom = {tex.."_b_painted.png", {name=tex.."_side_b.png",color="white"}, {name=tex.."_bottom.png",color="white"}},
+         overlay_tiles_top = {{name=tex.."_a_painted_overlay.png",color="white"}, "", ""},
+         overlay_tiles_bottom = {{name=tex.."_b_painted_overlay.png",color="white"}, "", ""},
+         sounds = sounds_wood_door,
+         sunlight = false,
+         palette = palette,
+         is_painted = true,
+         can_unpaint = true,
+         paint_particle_node = false,
+         _rp_blast_resistance = 0.1,
+   })
+   crafting.register_craft({
+      output = "rp_door:door_"..id,
       items = {
          "rp_default:fiber 6",
          "rp_default:stick 7",
-         "rp_default:planks 2",
+         craftitem .. " 2",
       }
-})
+   })
+end
 
-door.register_door(
-   "rp_door:door_wood_oak",
-   {
-      description = S("Oak Door"),
-      inventory_image = "rp_door_wood_oak.png",
-      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=2},
-      tiles_top = {"rp_door_wood_oak_a.png", "rp_door_wood_oak_side_a.png", "rp_door_wood_oak_top.png"},
-      tiles_bottom = {"rp_door_wood_oak_b.png", "rp_door_wood_oak_side_b.png", "rp_door_wood_oak_bottom.png"},
-      sounds = sounds_wood_door,
-      sunlight = false,
-      can_paint = true,
-      _rp_blast_resistance = 0.1,
-})
-door.register_door(
-   "rp_door:door_wood_oak_painted",
-   {
-      description = S("Painted Oak Door"),
-      inventory_image = "rp_door_wood_oak.png^[hsl:0:-100:0",
-      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=1,not_in_creative_inventory=1},
-      tiles_top = {"rp_door_wood_oak_a_painted.png", {name="rp_door_wood_oak_side_a.png",color="white"}, {name="rp_door_wood_oak_top.png",color="white"}},
-      tiles_bottom = {"rp_door_wood_oak_b_painted.png", {name="rp_door_wood_oak_side_b.png",color="white"}, {name="rp_door_wood_oak_bottom.png",color="white"}},
-      overlay_tiles_top = {{name="rp_door_wood_oak_a_painted_overlay.png",color="white"}, "", ""},
-      overlay_tiles_bottom = {{name="rp_door_wood_oak_b_painted_overlay.png",color="white"}, "", ""},
-      sounds = sounds_wood_door,
-      sunlight = false,
-      is_painted = true,
-      can_unpaint = true,
-      paint_particle_node = false,
-      _rp_blast_resistance = 0.1,
-})
-
-
-crafting.register_craft(
-   {
-      output = "rp_door:door_wood_oak",
-      items = {
-         "rp_default:fiber 6",
-         "rp_default:stick 7",
-         "rp_default:planks_oak 2",
-      }
-})
-
-door.register_door(
-   "rp_door:door_wood_birch",
-   {
-      description = S("Birch Door"),
-      inventory_image = "rp_door_wood_birch.png",
-      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=2},
-      tiles_top = {"rp_door_wood_birch_a.png", "rp_door_wood_birch_side_a.png", "rp_door_wood_birch_top.png"},
-      tiles_bottom = {"rp_door_wood_birch_b.png", "rp_door_wood_birch_side_b.png", "rp_door_wood_birch_bottom.png"},
-      sounds = sounds_wood_door,
-      sunlight = false,
-      can_paint = true,
-      _rp_blast_resistance = 0.1,
-})
-door.register_door(
-   "rp_door:door_wood_birch_painted",
-   {
-      description = S("Painted Birch Door"),
-      inventory_image = "rp_door_wood_birch.png^[hsl:0:-100:0",
-      groups = {choppy=3,oddly_breakable_by_hand=2,level=-2,flammable=2,door=1,door_wood=1,paintable=1,not_in_creative_inventory=1},
-      tiles_top = {"rp_door_wood_birch_a_painted.png", {name="rp_door_wood_birch_side_a.png",color="white"}, {name="rp_door_wood_birch_top.png",color="white"}},
-      tiles_bottom = {"rp_door_wood_birch_b_painted.png", {name="rp_door_wood_birch_side_b.png",color="white"}, {name="rp_door_wood_birch_bottom.png",color="white"}},
-      overlay_tiles_top = {{name="rp_door_wood_birch_a_painted_overlay.png",color="white"}, "", ""},
-      overlay_tiles_bottom = {{name="rp_door_wood_birch_b_painted_overlay.png",color="white"}, "", ""},
-      sounds = sounds_wood_door,
-      sunlight = false,
-      is_painted = true,
-      can_unpaint = true,
-      paint_particle_node = false,
-      _rp_blast_resistance = 0.1,
-})
-
-
-crafting.register_craft(
-   {
-      output = "rp_door:door_wood_birch",
-      items = {
-         "rp_default:fiber 6",
-         "rp_default:stick 7",
-         "rp_default:planks_birch 2",
-      }
-})
 minetest.register_craft({
     type = "fuel",
     recipe = "group:door_wood",

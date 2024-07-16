@@ -128,8 +128,21 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
       if nodedef.groups.paintable == 1 then
          paramtype2_slab = "color"
          paramtype2_stair = "color4dir"
-         palette_slab = "rp_paint_palette_256.png"
-         palette_stair = "rp_paint_palette_64.png"
+         -- Base the slab/stair palettes on base node
+
+         -- dark palette
+         if nodedef.palette == "rp_paint_palette_256l.png" then
+            palette_slab = "rp_paint_palette_256l.png"
+            palette_stair = "rp_paint_palette_64l.png"
+         -- desaturated palette
+         elseif nodedef.palette == "rp_paint_palette_256d.png" then
+            palette_slab = "rp_paint_palette_256d.png"
+            palette_stair = "rp_paint_palette_64d.png"
+         -- default palette
+         else
+            palette_slab = "rp_paint_palette_256.png"
+            palette_stair = "rp_paint_palette_64.png"
+         end
       end
       drop_slab = slabname
       drop_stair = stairname

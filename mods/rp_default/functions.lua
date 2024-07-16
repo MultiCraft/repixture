@@ -118,6 +118,16 @@ local sapling_data = {
 		grow_time_min = 480,
 		grow_time_max = 780,
 	},
+	["rp_default:sapling_fir"] = {
+		grows_to = {
+			["dry"] = "fir_broad",
+			["swamp"] = "fir_swamp",
+			["normal"] = "fir_tall",
+			["default"] = "fir_tall",
+		},
+		grow_time_min = 700,
+		grow_time_max = 960,
+	},
 	["rp_default:sapling_dry_bush"] = {
 		grows_to = {
 			["dry"] = "dry_bush",
@@ -131,108 +141,179 @@ local sapling_data = {
 }
 
 local tree_data = {
-	["apple"] = {
+	["apple"] = {{
 		schem = "rp_default_apple_tree.mts",
 		offset = vector.new(-2, -1, -2),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,2,0) },
 			{ vector.new(-2,3,-2), vector.new(2,5,2) },
 		},
-	},
-	["normal_tiny"] = {
+	}},
+	["normal_tiny"] = {{
 		schem = "rp_default_tiny_normal_tree.mts",
 		offset = vector.new(-1, -1, -1),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
 			{ vector.new(-1,2,-1), vector.new(1,4,1) },
 		},
-	},
-	["apple_swamp"] = {
+	}},
+	["apple_swamp"] = {{
 		schem = "rp_default_swamp_apple_tree.mts",
 		offset = vector.new(-2, -1, -2),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,2,0) },
 			{ vector.new(-2,3,-2), vector.new(2,4,2) },
 		},
-	},
-	["oak"] = {
+	}},
+	["oak"] = {{
 		schem = "rp_default_oak_tree.mts",
 		offset = vector.new(-2, -1, -2),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,2,0) },
 			{ vector.new(-1,3,-1), vector.new(1,5,1) },
 		},
-	},
-	["oak_acorns"] = {
+	}},
+	["oak_acorns"] = {{
 		schem = "rp_default_oak_tree_acorns.mts",
 		offset = vector.new(-2, -1, -2),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,2,0) },
 			{ vector.new(-1,3,-1), vector.new(1,5,1) },
 		},
-	},
-	["oak_swamp"] = {
+	}},
+	["oak_swamp"] = {{
 		schem = "rp_default_swamp_oak.mts",
 		offset = vector.new(-3, -1, -3),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,2,0) },
 			{ vector.new(-2,3,-2), vector.new(2,5,2) },
 		},
-	},
-	["oak_tiny"] = {
+	}},
+	["oak_tiny"] = {{
 		schem = "rp_default_tiny_oak.mts",
 		offset = vector.new(-1, -1, -1),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
 			{ vector.new(-1,2,-1), vector.new(1,4,1) },
 		},
-	},
-	["birch_cuboid"] = {
+	}},
+	["birch_cuboid"] = {{
 		schem = "rp_default_birch_cuboid_3x3_short.mts",
 		offset = vector.new(-1, -1, -1),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
 			{ vector.new(-1,2,-1), vector.new(1,4,1) },
 		},
-	},
-	["birch_swamp"] = {
+	}},
+	["birch_swamp"] = {{
 		schem = "rp_default_swamp_birch.mts",
 		offset = vector.new(-2, -1, -2),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,3,0) },
 			{ vector.new(-1,4,-1), vector.new(1,6,1) },
 		},
-	},
-	["birch_tiny"] = {
+	}},
+	["birch_tiny"] = {{
 		schem = "rp_default_tiny_birch.mts",
 		offset = vector.new(-1, -1, -1),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
 			{ vector.new(-1,2,-1), vector.new(1,4,1) },
 		},
+	}},
+	["fir_tall"] = {
+		{
+			schems = {
+				"rp_default_fir_tall_s1_h3.mts",
+				"rp_default_fir_tall_s2_h3.mts",
+				"rp_default_fir_tall_s3_h3.mts",
+			},
+			offset = vector.new(-2, -1, -2),
+			space = {
+				{ vector.new(0,0,0), vector.new(0,16,0) },
+				{ vector.new(-2,5,-2), vector.new(2,15,2) },
+			},
+		},
+		{
+			schems = {
+				"rp_default_fir_tall_s1_h2.mts",
+				"rp_default_fir_tall_s2_h2.mts",
+				"rp_default_fir_tall_s3_h2.mts",
+			},
+			offset = vector.new(-2, -1, -2),
+			space = {
+				{ vector.new(0,0,0), vector.new(0,11,0) },
+				{ vector.new(-2,5,-2), vector.new(2,10,2) },
+			},
+		},
+		{
+			schems = {
+				"rp_default_fir_tall_s1_h1.mts",
+				"rp_default_fir_tall_s2_h1.mts",
+				"rp_default_fir_tall_s3_h1.mts",
+			},
+			offset = vector.new(-2, -1, -2),
+			space = {
+				{ vector.new(0,0,0), vector.new(0,7,0) },
+				{ vector.new(-2,3,-2), vector.new(2,6,2) },
+			},
+		},
 	},
-	["dry_bush"] = {
+	["fir_broad"] = {
+		{
+			schem = "rp_default_fir_candle_h3.mts",
+			offset = vector.new(-3, -1, -3),
+			space = {
+				{ vector.new(0,0,0), vector.new(0,11,0) },
+				{ vector.new(-3,4,-3), vector.new(3,11,3) },
+			},
+		},
+		{
+			schem = "rp_default_fir_candle_h2.mts",
+			offset = vector.new(-2, -1, -2),
+			space = {
+				{ vector.new(0,0,0), vector.new(0,7,0) },
+				{ vector.new(-2,3,-2), vector.new(2,7,2) },
+			},
+		},
+		{
+			schem = "rp_default_fir_candle_h1.mts",
+			offset = vector.new(-1, -1, -1),
+			space = {
+				{ vector.new(0,0,0), vector.new(0,5,0) },
+				{ vector.new(-1,2,-1), vector.new(1,5,1) },
+			},
+		},
+	},
+	["fir_swamp"] = {{
+		schem = "rp_default_fir_tree_swamp.mts",
+		offset = vector.new(-2, -1, -2),
+		space = {
+			{ vector.new(0,0,0), vector.new(0,1,0) },
+			{ vector.new(-2,2,-2), vector.new(2,6,2) },
+		},
+	}},
+	["dry_bush"] = {{
 		schem = "rp_default_dry_bush.mts",
 		offset = vector.new(-1, -1, -1),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
 		},
-	},
-	["dry_bush_small"] = {
+	}},
+	["dry_bush_small"] = {{
 		schem = "rp_default_dry_bush_small.mts",
 		offset = vector.new(-1, -1, -1),
 		space = {
 			{ vector.new(0,0,0), vector.new(0,1,0) },
 		},
-	},
+	}},
 }
 
 function default.check_sapling_space(pos, variety)
-	local tdata = tree_data[variety]
-	if not tdata then
+	if not variety then
 		return false
 	end
-	local space = tdata.space
+	local space = variety.space
 	for i=1, #space do
 		local min, max = space[i][1], space[i][2]
 		min = vector.add(pos, min)
@@ -297,16 +378,24 @@ end
 -- Grow a sapling at pos
 function default.grow_sapling(pos)
    local function grow(variety)
-      local tdata = tree_data[variety]
-      if not tdata then
-	      minetest.log("error", "[rp_default] Unknown sapling variety in default.grow_sapling!")
-	      return
+      if not variety then
+         minetest.log("error", "[rp_default] Unknown sapling variety in default.grow_sapling!")
+         return
       end
-      local opos = vector.add(pos, tdata.offset)
-      local replacements = tdata.replacements or {}
+      local opos = vector.add(pos, variety.offset)
+      local replacements = variety.replacements or {}
+      local schem = variety.schem
+      if not schem then
+         local r = math.random(1, #variety.schems)
+         schem = variety.schems[r]
+      end
+      if not schem then
+         minetest.log("error", "[rp_default] Invalid or missing schem/schems definition in default.grow_sapling!")
+         return
+      end
       minetest.place_schematic(
          opos,
-         minetest.get_modpath("rp_default") .. "/schematics/" .. tdata.schem,
+         minetest.get_modpath("rp_default") .. "/schematics/" .. schem,
 	 "random", replacements, false)
    end
 
@@ -325,16 +414,33 @@ function default.grow_sapling(pos)
    elseif minetest.get_item_group(belownode.name, "dry_dirt") == 1 then
 	   dirttype = "dry"
    end
-   local variety = grows_to[dirttype]
-   if not variety then
+   local variety_name = grows_to[dirttype]
+   if not variety_name then
 	   dirttype = "default"
-	   variety = grows_to[dirttype]
+	   variety_name = grows_to[dirttype]
    end
-   local enough_space = default.check_sapling_space(pos, variety)
+   local varieties = tree_data[variety_name]
+   local enough_space = false
+   local variety
+   -- Progressively try out tree varieties
+   for v=1, #varieties do
+      variety = varieties[v]
+      enough_space = default.check_sapling_space(pos, variety)
+      if enough_space then
+         break
+      end
+   end
 
+   -- Use default variety if none of the previously checked varieties fit
    if not enough_space and dirttype ~= "default" then
-	variety = grows_to["default"]
-        enough_space = default.check_sapling_space(pos, variety)
+      varieties = grows_to["default"]
+      for v=1, #varieties do
+         variety = varieties[v]
+         enough_space = default.check_sapling_space(pos, variety)
+         if enough_space then
+            break
+         end
+      end
    end
 
    if not enough_space then
@@ -346,7 +452,7 @@ function default.grow_sapling(pos)
 
    minetest.after(0, grow, variety)
 
-   minetest.log("action", "[rp_default] Sapling of type '" .. variety .. "' grows at " ..
+   minetest.log("action", "[rp_default] Sapling of type '" .. variety_name .. "' grows at " ..
                   minetest.pos_to_string(pos))
    return true
 end

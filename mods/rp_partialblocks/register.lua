@@ -41,6 +41,11 @@ partialblocks.register_material(
 partialblocks.register_material(
    "birch_painted", S("Painted Birch Slab"), S("Painted Birch Stair"), "rp_default:planks_birch_painted", {choppy = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory=1, paintable = 1}, true, nil, "w", empty_overlay, "w", false)
 
+partialblocks.register_material(
+   "fir", S("Fir Slab"), S("Fir Stair"), "rp_default:planks_fir", {choppy = 3, oddly_breakable_by_hand = 3, paintable = 2}, true, nil, "w")
+partialblocks.register_material(
+   "fir_painted", S("Painted Fir Slab"), S("Painted Fir Stair"), "rp_default:planks_fir_painted", {choppy = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory=1, paintable = 1}, true, nil, "w", empty_overlay, "w", false)
+
 -- Reed
 
 partialblocks.register_material(

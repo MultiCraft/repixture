@@ -15,6 +15,11 @@ minetest.register_craft({
 })
 minetest.register_craft({
 	type = "fuel",
+	recipe = "rp_signs:sign_fir",
+	burntime = 6,
+})
+minetest.register_craft({
+	type = "fuel",
 	recipe = "rp_signs:sign_wood_standing",
 	burntime = 6,
 })
@@ -26,6 +31,11 @@ minetest.register_craft({
 minetest.register_craft({
 	type = "fuel",
 	recipe = "rp_signs:sign_oak_standing",
+	burntime = 6,
+})
+minetest.register_craft({
+	type = "fuel",
+	recipe = "rp_signs:sign_fir_standing",
 	burntime = 6,
 })
 
@@ -54,6 +64,15 @@ crafting.register_craft({
 	}
 })
 crafting.register_craft({
+	output = "rp_signs:sign_fir 2",
+	items = {
+		"rp_default:planks_fir",
+		"rp_default:fiber 2",
+		"rp_default:stick 2",
+	}
+})
+
+crafting.register_craft({
 	output = "rp_signs:sign_wood_standing",
 	items = {
 		"rp_signs:sign_wood",
@@ -71,6 +90,13 @@ crafting.register_craft({
 	output = "rp_signs:sign_oak_standing",
 	items = {
 		"rp_signs:sign_oak",
+		"rp_default:stick",
+	}
+})
+crafting.register_craft({
+	output = "rp_signs:sign_fir_standing",
+	items = {
+		"rp_signs:sign_fir",
 		"rp_default:stick",
 	}
 })

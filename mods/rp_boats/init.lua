@@ -598,6 +598,7 @@ local log_boats = {
 	{ "wood", S("Wooden Log Boat"), "rp_default:tree" },
 	{ "birch", S("Birch Log Boat"), "rp_default:tree_birch" },
 	{ "oak", S("Oak Log Boat"), "rp_default:tree_oak" },
+	{ "fir", S("Fir Log Boat"), "rp_default:tree_fir" },
 }
 for l=1, #log_boats do
 	local id = log_boats[l][1]
@@ -646,6 +647,7 @@ local rafts = {
 	{ "wood", S("Wooden Raft"), "rp_default:planks" },
 	{ "birch", S("Birch Raft"), "rp_default:planks_birch" },
 	{ "oak", S("Oak Raft"), "rp_default:planks_oak" },
+	{ "fir", S("Fir Raft"), "rp_default:planks_fir" },
 }
 for r=1, #rafts do
 	local id = rafts[r][1]

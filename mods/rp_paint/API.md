@@ -75,12 +75,10 @@ by setting the `palette` field of the node definition accordingly:
 * `"colorwallmounted"`: `"rp_paint_palette_32.png"`
 * `"colorfacedir"`: `"rp_paint_palette_8.png"`
 
-There are also a desaturated palette variants:
+There are also palette variants which use similar file names:
 
-* `"color"`: `"rp_paint_palette_256d.png"`
-* `"color4dir"`: `"rp_paint_palette_64d.png"`
-* `"colorwallmounted"`: `"rp_paint_palette_32d.png"`
-* `"colorfacedir"`: `"rp_paint_palette_8d.png"`
+* desaturated: Append "d" to the number (e.g. `rp_paint_palette_256d.png`)
+* dark: Append "l" to the number
 
 Most palettes support the full 19 colors, but the palette for
 `"colorfacedir"` only contains 8 colors. When these nodes

@@ -745,6 +745,15 @@ crafting.register_craft(
       }
 })
 
+crafting.register_craft(
+   {
+      output = "rp_default:planks_fir 4",
+      items = {
+         "rp_default:tree_fir",
+      }
+})
+
+
 -- Frame nodes
 
 crafting.register_craft(
@@ -821,6 +830,15 @@ crafting.register_craft(
 
 crafting.register_craft(
    {
+      output = "rp_default:fence_fir 4",
+      items = {
+         "rp_default:planks_fir",
+         "rp_default:stick 4",
+         "rp_default:fiber 4",
+      }
+})
+
+crafting.register_craft({
       output = "rp_default:fence_gate_closed 2",
       items = {
          "rp_default:planks",
@@ -850,9 +868,7 @@ crafting.register_craft(
 })
 
 
-
 -- Misc nodes
-
 
 crafting.register_craft(
    {

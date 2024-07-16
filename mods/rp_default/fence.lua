@@ -47,12 +47,13 @@ local function register_fence(name, def)
 		end
 	end
 
-
 	-- Always add to the fence group, even if no group provided
 	def.groups.fence = 1
 	def.groups.creative_decoblock = 1
 	def.groups.paintable = 2
 
+	local palette = def.palette
+	def.palette = nil
 	def.texture = nil
 	def.material = nil
 	local description_painted = def.description_painted
@@ -66,7 +67,7 @@ local function register_fence(name, def)
 	def_painted.groups.not_in_creative_inventory = 1
 	def_painted.description = description_painted
 	def_painted.paramtype2 = "color"
-	def_painted.palette = "rp_paint_palette_256.png"
+	def_painted.palette = palette or "rp_paint_palette_256.png"
 	def_painted.tiles = {def.texture_top_painted, def.texture_top_painted, def.texture_side_painted}
 	def_painted.inventory_image = def.inventory_image.."^[hsl:0:-100:0"
 	def_painted.wield_image = def.wield_image.."^[hsl:0:-100:0"
@@ -130,6 +131,7 @@ local function register_fence_gate(name, def)
 	local gate_id_open = name .. "_open"
 	local gate_id_closed_painted = name .. "_closed_painted"
 	local gate_id_open_painted = name .. "_open_painted"
+	local palette = def.palette
 
 	def._sound_open = def._sound_open or "rp_default_fence_gate_wood_open"
 	def._sound_close = def._sound_close or "rp_default_fence_gate_wood_close"
@@ -137,6 +139,7 @@ local function register_fence_gate(name, def)
 	def._sound_gain_close = def._sound_gain_close or 0.3
 	local description_painted = def.description_painted
 	def.description_painted = nil
+	def.palette = nil
 
 	local def_open = table.copy(def)
 	local default_fields_open = {
@@ -229,13 +232,12 @@ local function register_fence_gate(name, def)
 	def_closed.groups.not_in_creative_inventory = nil
 	minetest.register_node(gate_id_closed, def_closed)
 
-
 	local def_open_painted = table.copy(def_open)
 	def_open_painted.groups = table.copy(def_open.groups)
 	def_open_painted.groups.paintable = 1
 	def_open_painted.description = nil
 	def_open_painted.paramtype2 = "color4dir"
-	def_open_painted.palette = "rp_paint_palette_64.png"
+	def_open_painted.palette = palette or "rp_paint_palette_64.png"
 	def_open_painted.tiles = {def.texture_top_painted, def.texture_top_painted, def.texture_side_painted, def.texture_side_painted, def.texture_front_painted}
 	def_open_painted.inventory_image = nil
 	def_open_painted.wield_image = nil
@@ -248,7 +250,7 @@ local function register_fence_gate(name, def)
 	def_closed_painted.groups.not_in_creative_inventory = 1
 	def_closed_painted.description = description_painted
 	def_closed_painted.paramtype2 = "color4dir"
-	def_closed_painted.palette = "rp_paint_palette_64.png"
+	def_closed_painted.palette = palette or "rp_paint_palette_64.png"
 	def_closed_painted.tiles = {def.texture_top_painted, def.texture_top_painted, def.texture_side_painted, def.texture_side_painted, def.texture_front_painted}
 	def_closed_painted.inventory_image = def.inventory_image.."^[hsl:0:-100:0"
 	def_closed_painted.wield_image = def.wield_image.."^[hsl:0:-100:0"
@@ -334,6 +336,7 @@ register_fence("rp_default:fence_birch", {
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
 })
+
 register_fence_gate("rp_default:fence_gate_birch", {
 	description = S("Birch Fence Gate"),
 	description_painted = S("Painted Birch Fence Gate"),
@@ -349,3 +352,37 @@ register_fence_gate("rp_default:fence_gate_birch", {
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
 })
+
+register_fence("rp_default:fence_fir", {
+	description = S("Fir Fence"),
+	description_painted = S("Painted Fir Fence"),
+	texture_side = "rp_default_fence_fir_side.png",
+	texture_top = "rp_default_fence_fir_top.png",
+	texture_side_painted = "rp_default_fence_fir_side_painted.png",
+	texture_top_painted = "rp_default_fence_fir_top_painted.png",
+	inventory_image = "rp_default_fence_fir.png",
+	wield_image = "rp_default_fence_fir.png",
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
+	sounds = sounds_wood_fence,
+	palette = "rp_paint_palette_256l.png",
+	_rp_blast_resistance = 0.5,
+})
+
+register_fence_gate("rp_default:fence_gate_fir", {
+	description = S("Fir Fence Gate"),
+	description_painted = S("Painted Fir Fence Gate"),
+	texture_front = "rp_default_fence_gate_fir_front.png",
+	texture_side = "rp_default_fence_gate_fir_side.png",
+	texture_top = "rp_default_fence_gate_fir_top.png",
+	texture_front_painted = "rp_default_fence_gate_fir_front_painted.png",
+	texture_side_painted = "rp_default_fence_gate_fir_side_painted.png",
+	texture_top_painted = "rp_default_fence_gate_fir_top_painted.png",
+	inventory_image = "rp_default_fence_gate_fir.png",
+	wield_image = "rp_default_fence_gate_fir.png",
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1},
+	sounds = sounds_wood_fence,
+	palette = "rp_paint_palette_64l.png",
+	_rp_blast_resistance = 0.5,
+})
+
+
