@@ -405,6 +405,10 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 		else
 			say(S("Algae grow underwater in different heights."), name, vn)
 		end
+	elseif iname == "rp_default:heated_dirt_path" then
+		say(S("We villagers love to walk on this block, even more than on the regular dirt path."), name, vn)
+	elseif minetest.get_item_group(iname, "path") > 0 then
+		say(S("We villagers prefer to walk on paths."), name, vn)
 	elseif iname == "rp_default:vine" then
 		if profession == "farmer" then
 			say(S("Place it at the ceiling and watch it grow."), name, vn)
