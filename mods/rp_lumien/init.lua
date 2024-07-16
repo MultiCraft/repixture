@@ -194,16 +194,6 @@ minetest.register_abm(
       interval = timer_interval,
       chance = 1,
       action = function(pos, node)
-         util.nodefunc(
-            {x = pos.x-1, y = pos.y-1, z = pos.z-1},
-            {x = pos.x+1, y = pos.y+1, z = pos.z+1},
-            "rp_tnt:tnt",
-            function(pos)
-               tnt.burn(pos)
-            end,
-            true
-         )
-
          local ok = true
 
          for _,object in ipairs(minetest.get_objects_inside_radius(pos, LUMIEN_OFF_RADIUS)) do
