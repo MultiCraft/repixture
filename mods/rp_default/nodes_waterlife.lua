@@ -664,7 +664,7 @@ minetest.register_node(
    {
       description = S("Alga Block"),
       tiles = alga_block_tiles,
-      groups = {snappy=2, fall_damage_add_percent=-10, slippery=ALGA_BLOCK_SLIPPERY},
+      groups = {snappy=2, fall_damage_add_percent=-10, slippery=ALGA_BLOCK_SLIPPERY, pathfinder_fibrous=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_grass_defaults({
          footstep = {name="rp_default_footstep_alga", gain=0.3},
