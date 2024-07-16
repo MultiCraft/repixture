@@ -274,7 +274,7 @@ register_fence("rp_default:fence", {
 	texture_top_painted = "rp_default_fence_top_painted.png",
 	inventory_image = "default_fence.png",
 	wield_image = "default_fence.png",
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1, pathfinder_hard = 1},
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
 })
@@ -289,7 +289,7 @@ register_fence_gate("rp_default:fence_gate", {
 	texture_top_painted = "rp_default_fence_gate_top_painted.png",
 	inventory_image = "rp_default_fence_gate.png",
 	wield_image = "rp_default_fence_gate.png",
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1, pathfinder_hard = 1},
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
 })
@@ -303,7 +303,7 @@ register_fence("rp_default:fence_oak", {
 	texture_top_painted = "rp_default_fence_oak_top_painted.png",
 	inventory_image = "default_fence_oak.png",
 	wield_image = "default_fence_oak.png",
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1, pathfinder_hard = 1},
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
 })
@@ -318,7 +318,7 @@ register_fence_gate("rp_default:fence_gate_oak", {
 	texture_top_painted = "rp_default_fence_gate_oak_top_painted.png",
 	inventory_image = "rp_default_fence_gate_oak.png",
 	wield_image = "rp_default_fence_gate_oak.png",
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1, pathfinder_hard = 1},
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
 })
@@ -332,7 +332,7 @@ register_fence("rp_default:fence_birch", {
 	texture_top_painted = "rp_default_fence_birch_top_painted.png",
 	inventory_image = "default_fence_birch.png",
 	wield_image = "default_fence_birch.png",
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1, pathfinder_hard = 1},
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
 })
@@ -348,7 +348,7 @@ register_fence_gate("rp_default:fence_gate_birch", {
 	texture_top_painted = "rp_default_fence_gate_birch_top_painted.png",
 	inventory_image = "rp_default_fence_gate_birch.png",
 	wield_image = "rp_default_fence_gate_birch.png",
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1, pathfinder_hard = 1},
 	sounds = sounds_wood_fence,
 	_rp_blast_resistance = 0.5,
 })
@@ -362,7 +362,7 @@ register_fence("rp_default:fence_fir", {
 	texture_top_painted = "rp_default_fence_fir_top_painted.png",
 	inventory_image = "rp_default_fence_fir.png",
 	wield_image = "rp_default_fence_fir.png",
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence = 1, pathfinder_hard = 1},
 	sounds = sounds_wood_fence,
 	palette = "rp_paint_palette_256l.png",
 	_rp_blast_resistance = 0.5,
@@ -379,7 +379,7 @@ register_fence_gate("rp_default:fence_gate_fir", {
 	texture_top_painted = "rp_default_fence_gate_fir_top_painted.png",
 	inventory_image = "rp_default_fence_gate_fir.png",
 	wield_image = "rp_default_fence_gate_fir.png",
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, level = -2, fence_gate = 1, pathfinder_hard = 1},
 	sounds = sounds_wood_fence,
 	palette = "rp_paint_palette_64l.png",
 	_rp_blast_resistance = 0.5,
