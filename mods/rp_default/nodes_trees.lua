@@ -228,7 +228,7 @@ minetest.register_node(
    {
       description = S("Fir Tree"),
       tiles = {"rp_default_tree_fir_top.png", "rp_default_tree_fir_top.png", "rp_default_tree_fir.png"},
-      groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1},
+      groups = {choppy = 2, tree = 1, oddly_breakable_by_hand = 1, pathfinder_hard = 1},
       sounds = rp_sounds.node_sound_wood_defaults(),
 })
 
@@ -319,7 +319,7 @@ minetest.register_node(
       tiles = {"rp_default_leaves_fir.png"},
       paramtype = "light",
       waving = 1,
-      groups = {snappy = 3, leafdecay = 4, leaves = 1, lush_leaves = 1},
+      groups = {snappy = 3, leafdecay = 4, leaves = 1, lush_leaves = 1, pathfinder_fibrous = 1},
       drop = {
 	 max_items = 1,
 	 items = {

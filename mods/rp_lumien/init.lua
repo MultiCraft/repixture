@@ -166,7 +166,7 @@ minetest.register_node(
    {
       description = S("Reinforced Lumien Block"),
       tiles = {"rp_lumien_reinforced_block.png"},
-      groups = {cracky = 1},
+      groups = {cracky = 1, pathfinder_hard = 1},
       light_source = LUMIEN_BLOCK_LIGHT,
       sounds = get_sounds(),
       _rp_blast_resistance = 6,
@@ -179,7 +179,7 @@ minetest.register_node(
    {
       description = S("Stone with Lumien"),
       tiles = {"default_stone.png^lumien_mineral_lumien.png"},
-      groups = {cracky = 1, stone = 1, ore=1},
+      groups = {cracky = 1, stone = 1, ore=1, pathfinder_hard=1},
       drop = "rp_lumien:block",
       sounds = rp_sounds.node_sound_stone_defaults(),
       _rp_blast_resistance = 1,

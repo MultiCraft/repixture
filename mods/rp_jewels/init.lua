@@ -444,7 +444,7 @@ minetest.register_node(
          "default_tree_birch.png^jewels_ore.png"
       },
       drop = "rp_jewels:jewel",
-      groups = {choppy=1, tree=1, ore=1},
+      groups = {choppy=1, tree=1, ore=1, pathfinder_hard=1},
       sounds = rp_sounds.node_sound_wood_defaults(),
       _rp_blast_resistance = 1,
 })

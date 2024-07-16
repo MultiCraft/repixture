@@ -685,7 +685,7 @@ minetest.register_node(
 	     "rp_default_reed_block_top.png",
 	     "rp_default_reed_block_side.png",
       },
-      groups = {snappy=2, fall_damage_add_percent=-10, pathfinder_soft=1},
+      groups = {snappy=2, fall_damage_add_percent=-10, pathfinder_fibrous=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_grass_defaults(),
       _rp_blast_resistance = 0.5,
@@ -699,7 +699,7 @@ minetest.register_node(
 	     "rp_default_dried_reed_block_top.png",
 	     "rp_default_dried_reed_block_side.png",
       },
-      groups = {snappy=2, fall_damage_add_percent=-15, pathfinder_soft=1},
+      groups = {snappy=2, fall_damage_add_percent=-15, pathfinder_fibrous=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_straw_defaults(),
       _rp_blast_resistance = 0.5,
@@ -713,7 +713,7 @@ minetest.register_node(
       tiles = {
 	     "rp_default_hay.png",
       },
-      groups = {snappy=3, fall_damage_add_percent=-30, pathfinder_soft = 1},
+      groups = {snappy=3, fall_damage_add_percent=-30, pathfinder_fibrous= 1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_grass_defaults({
          footstep = { name = "rp_default_footstep_hay", gain = 1.0 },
