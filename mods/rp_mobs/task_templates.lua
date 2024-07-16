@@ -101,6 +101,10 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 		self.statedata.stuck_last_position = nil
 		self.statedata.stuck_recheck_timer = 0
 
+		self.statedata.valid_timer = 0
+		self.statedata.valid_last_position = nil
+		self.statedata.valid_last_node = nil
+
 		if not path then
 			path = mob._temp_custom_state.follow_path
 		end
