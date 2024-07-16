@@ -12,6 +12,9 @@ local PATH_STUCK_RECHECK_TIME = 1.0
 -- Minimum distance a mob has to have moved to count as no longer stuck
 local PATH_UNSTUCK_DISTANCE = 0.1
 
+-- Check if next node is valid at least every this many seconds
+local PATH_VALID_CHECK_TIME = 1.0
+
 -- Precision for random yaw calculation
 local YAW_PRECISION = 10000
 -- How long in seconds to wait before jumping again
@@ -86,7 +89,7 @@ end
 
 rp_mobs.microtasks = {}
 
-rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, set_yaw, finish_func, anim_walk, anim_climb, anim_idle)
+rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, set_yaw, finish_func, anim_walk, anim_climb, anim_idle, valid_node_func)
 	local mtask = {}
 	mtask.label = "follow climb path"
 	mtask.on_start = function(self, mob)
@@ -145,6 +148,27 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 
 		-- Get next target position
 		local next_pos = self.statedata.path[1]
+
+		-- Validate target position
+		if next_pos and valid_node_func then
+			self.statedata.valid_timer = self.statedata.valid_timer + dtime
+			if not self.statedata.valid_last_position or (not vector.equals(self.statedata.valid_last_position, next_pos)) or self.statedata.valid_timer >= PATH_VALID_CHECK_TIME then
+				local next_node = minetest.get_node(next_pos)
+				self.statedata.valid_last_position = table.copy(next_pos)
+				self.statedata.valid_last_node = next_node
+				self.statedata.valid_timer = 0
+				if not valid_node_func(next_pos, next_node) then
+					self.statedata.stop = true
+					self.statedata.success = false
+					local vel = mob.object:get_velocity()
+					vel.x = 0
+					vel.z = 0
+					mob.object:set_velocity(vel)
+					return
+				end
+			end
+		end
+
 		local mob_pos = mob.object:get_pos()
 		mob_pos = vector.add(mob_pos, mob._path_check_point or vector.zero())
 
@@ -261,7 +285,7 @@ rp_mobs.microtasks.follow_path_climb = function(path, walk_speed, climb_speed, s
 end
 
 
-rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_yaw, can_jump, finish_func)
+rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_yaw, can_jump, finish_func, valid_node_func)
 	if can_jump == nil then
 		can_jump = true
 	end
@@ -278,6 +302,10 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 		self.statedata.stuck_timer = 0
 		self.statedata.stuck_last_position = nil
 		self.statedata.stuck_recheck_timer = 0
+
+		self.statedata.valid_timer = 0
+		self.statedata.valid_last_position = nil
+		self.statedata.valid_last_node = nil
 
 		if not path then
 			path = mob._temp_custom_state.follow_path
@@ -326,6 +354,27 @@ rp_mobs.microtasks.follow_path = function(path, walk_speed, jump_strength, set_y
 
 		-- Get next target position
 		local next_pos = self.statedata.path[1]
+
+		-- Validate target position
+		if next_pos and valid_node_func then
+			self.statedata.valid_timer = self.statedata.valid_timer + dtime
+			if not self.statedata.valid_last_position or (not vector.equals(self.statedata.valid_last_position, next_pos)) or self.statedata.valid_timer >= PATH_VALID_CHECK_TIME then
+				local next_node = minetest.get_node(next_pos)
+				self.statedata.valid_last_position = table.copy(next_pos)
+				self.statedata.valid_last_node = next_node
+				self.statedata.valid_timer = 0
+				if not valid_node_func(next_pos, next_node) then
+					self.statedata.stop = true
+					self.statedata.success = false
+					local vel = mob.object:get_velocity()
+					vel.x = 0
+					vel.z = 0
+					mob.object:set_velocity(vel)
+					return
+				end
+			end
+		end
+
 		local mob_pos = mob.object:get_pos()
 		mob_pos = vector.add(mob_pos, mob._path_check_point or vector.zero())
 

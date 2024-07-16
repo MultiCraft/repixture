@@ -1061,6 +1061,31 @@ local path_to_microtasks = function(path)
 		end
 	end
 
+	-- Validate if the next position in the villager path is still valid.
+	-- Used to halt the villager if the path was sabotaged.
+	local validate_next_path_pos = function(pos, node)
+		local def = minetest.registered_nodes[node.name]
+		if not def then
+			return false
+		end
+		if is_node_blocking_water_ok(node) or is_node_stucking(node) then
+			return false
+		end
+		local apos = vector.offset(pos, 0, 1, 0)
+		local anode = minetest.get_node(apos)
+		if is_node_blocking_water_ok(anode) or is_node_stucking(anode) then
+			return false
+		end
+
+		local fpos = vector.offset(pos, 0, -1, 0)
+		local fnode = minetest.get_node(fpos)
+		local fdef = minetest.registered_nodes[fnode.name]
+		if not is_node_walkable(fnode) and not is_node_swimmable(fnode) and (fdef and not fdef.climbable) then
+			return false
+		end
+		return true
+	end
+
 	local todo = path_to_todo_list(path)
 	local microtasks = {}
 	if not todo then
@@ -1070,7 +1095,7 @@ local path_to_microtasks = function(path)
 		local entry = todo[t]
 		local mt
 		if entry.type == "path" then
-			mt = rp_mobs.microtasks.follow_path(entry.path, WALK_SPEED, JUMP_STRENGTH, true)
+			mt = rp_mobs.microtasks.follow_path(entry.path, WALK_SPEED, JUMP_STRENGTH, true, true, nil, validate_next_path_pos)
 			mt.start_animation = "walk"
 		elseif entry.type == "door" then
 			mt = create_microtask_open_door(entry.pos, entry.axis)
@@ -1079,7 +1104,7 @@ local path_to_microtasks = function(path)
 			mt = create_microtask_open_fence_gate(entry.pos)
 			mt.start_animation = "idle"
 		elseif entry.type == "climb" then
-			mt = rp_mobs.microtasks.follow_path_climb(entry.path, WALK_SPEED, CLIMB_SPEED, true, stop_follow_path_climb)
+			mt = rp_mobs.microtasks.follow_path_climb(entry.path, WALK_SPEED, CLIMB_SPEED, true, stop_follow_path_climb, nil, nil, nil, validate_next_path_pos)
 		elseif entry.type == "idle" then
 			mt = rp_mobs.microtasks.drag(vector.new(STAND_DRAG,0,STAND_DRAG), {"x", "z"}, entry.time)
 			mt.start_animation = "idle"
