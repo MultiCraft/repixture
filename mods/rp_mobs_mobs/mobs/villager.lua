@@ -388,20 +388,19 @@ local find_closest_horizontal_dir = function(pos)
 	end
 end
 
-local find_free_horizontal_neighbor = function(pos, precise)
+local find_free_horizontal_neighbor = function(pos, precise, prefer_front)
 	local neighbors = {
 		{ vector.new(-1,0,0), "-x" },
 		{ vector.new(1,0,0), "+x" },
 		{ vector.new(0,0,-1), "-z" },
 		{ vector.new(0,0,1), "+z" },
 	}
-	-- Check which neighbors are 'free'
+
+	-- Check if node at npos is 'free'
 	-- (not blocking, not dangerous, not on air or fence;
 	-- 2 nodes space;
 	-- on walkable node)
-	local possible = {}
-	for n=1,#neighbors do
-		local npos = vector.add(pos, neighbors[n][1])
+	local is_free = function(npos)
 		local nnode = minetest.get_node(npos)
 		local ndef = minetest.registered_nodes[nnode.name]
 		local bpos = vector.offset(npos, 0, -1, 0)
@@ -413,6 +412,33 @@ local find_free_horizontal_neighbor = function(pos, precise)
 		if ndef and not ndef.walkable and ndef.drowning == 0 and ndef.damage_per_second <= 0 and
 				adef and not adef.walkable and adef.drowning == 0 and adef.damage_per_second <= 0 and
 				bdef and bdef.walkable and minetest.get_item_group(bnode.name, "fence") == 0 then
+			return true
+		else
+			return false
+		end
+	end
+
+	-- First check if the front of the target node is free, if requested
+	if prefer_front then
+		local node = minetest.get_node(pos)
+		local def = minetest.registered_nodes[node.name]
+		-- Currently, only 4dir is supported. Extend this check
+		-- when more complex nodes need to be checked
+		if def and def.paramtype2 == "4dir" or def.paramtype2 == "color4dir" then
+			local p2 = node.param2 % 4
+			local dir = minetest.fourdir_to_dir(p2)
+			local fpos = vector.subtract(pos, dir)
+			if is_free(fpos) then
+				return fpos
+			end
+		end
+	end
+
+	-- Check which neighbors are 'free'
+	local possible = {}
+	for n=1,#neighbors do
+		local npos = vector.add(pos, neighbors[n][1])
+		if is_free(npos) then
 			table.insert(possible, neighbors[n])
 		end
 	end
@@ -1319,7 +1345,9 @@ local movement_decider_empty = function(task_queue, mob)
 				-- Farmer's worksite is crops, so we can stand directly on top
 				target = mob._custom_state.worksite
 			else
-				target = find_free_horizontal_neighbor(mob._custom_state.worksite)
+				-- Butcher and blacksmith want to stand in front of worksite
+				local prefer_front = profession == "butcher" or profession == "blacksmith"
+				target = find_free_horizontal_neighbor(mob._custom_state.worksite, nil, prefer_front)
 			end
 			task_label = "walk to workplace"
 		end
