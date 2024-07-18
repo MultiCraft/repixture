@@ -65,7 +65,7 @@ function rp_mobs_spawn.register_spawn(name, params)
 			end
 
 			-- Non-peaceful mobs cannot spawn if setting restricts it
-			if setting_peaceful_only and rp_mobs.mobdef_has_tag(name, "peaceful") then
+			if setting_peaceful_only and not rp_mobs.mobdef_has_tag(name, "peaceful") then
 				return
 			end
 
