@@ -388,13 +388,74 @@ local find_closest_horizontal_dir = function(pos)
 	end
 end
 
-local find_free_horizontal_neighbor = function(pos, precise, prefer_front)
+local find_random_crop = function(pos)
+	local neighbors = {
+		vector.new(0,0,0),
+		vector.new(-1,0,0),
+		vector.new(1,0,0),
+		vector.new(0,0,-1),
+		vector.new(0,0,1),
+		vector.new(-1,0,-1),
+		vector.new(-1,0,1),
+		vector.new(1,0,-1),
+		vector.new(1,0,1),
+	}
+
+	-- Check if node at npos is a crop, has enough space to stand on
+	-- and is on a safe on walkable node
+	local is_crop = function(npos)
+		local nnode = minetest.get_node(npos)
+		local ndef = minetest.registered_nodes[nnode.name]
+		local bpos = vector.offset(npos, 0, -1, 0)
+		local bnode = minetest.get_node(bpos)
+		local bdef = minetest.registered_nodes[bnode.name]
+		local apos = vector.offset(npos, 0, 1, 0)
+		local anode = minetest.get_node(apos)
+		local adef = minetest.registered_nodes[anode.name]
+		if ndef and minetest.get_item_group(nnode.name, "farming_plant") ~= 0 and
+				not ndef.walkable and ndef.drowning == 0 and ndef.damage_per_second <= 0 and
+				adef and not adef.walkable and adef.drowning == 0 and adef.damage_per_second <= 0 and
+				bdef and bdef.walkable and minetest.get_item_group(bnode.name, "fence") == 0 then
+			return true
+		else
+			return false
+		end
+	end
+
+	-- Check which neighbors are valid crops
+	local possible = {}
+	for n=1,#neighbors do
+		local npos = vector.add(pos, neighbors[n])
+		if is_crop(npos) then
+			table.insert(possible, neighbors[n])
+		end
+	end
+	if #possible == 0 then
+		return
+	end
+
+	-- Pick random possible neighbor
+	local r = math.random(1, #possible)
+	local offset = possible[r]
+	return vector.add(pos, offset)
+end
+
+local find_free_horizontal_neighbor = function(pos, precise, prefer_front, add_corners, add_self)
 	local neighbors = {
 		{ vector.new(-1,0,0), "-x" },
 		{ vector.new(1,0,0), "+x" },
 		{ vector.new(0,0,-1), "-z" },
 		{ vector.new(0,0,1), "+z" },
 	}
+	if add_self then
+		table.insert(neighbors, { vector.new(0,0,0), "" })
+	end
+	if add_corners then
+		table.insert(neighbors, { vector.new(-1,0,-1), "" })
+		table.insert(neighbors, { vector.new(-1,0,1), "" })
+		table.insert(neighbors, { vector.new(1,0,-1), "" })
+		table.insert(neighbors, { vector.new(1,0,1), "" })
+	end
 
 	-- Check if node at npos is 'free'
 	-- (not blocking, not dangerous, not on air or fence;
@@ -452,7 +513,7 @@ local find_free_horizontal_neighbor = function(pos, precise, prefer_front)
 		for p=1, #possible do
 			local offset = possible[p][1]
 			local dir = possible[p][2]
-			if closest_dir == dir then
+			if dir ~= "" and closest_dir == dir then
 				return vector.round(vector.add(pos, offset))
 			end
 		end
@@ -1342,8 +1403,8 @@ local movement_decider_empty = function(task_queue, mob)
 		if mob._custom_state.worksite then
 			target_block = mob._custom_state.worksite
 			if profession == "farmer" then
-				-- Farmer's worksite is crops, so we can stand directly on top
-				target = mob._custom_state.worksite
+				-- Farmer's worksite is crops, so find a crop at or near the worksite
+				target = find_random_crop(mob._custom_state.worksite)
 			else
 				-- Butcher and blacksmith want to stand in front of worksite
 				local prefer_front = profession == "butcher" or profession == "blacksmith"
@@ -1373,9 +1434,9 @@ local movement_decider_empty = function(task_queue, mob)
 	end
 
 	if target and target_block then
-		-- Check if we are already close to the target block.
+		-- Check if we are already close to the target.
 		-- If yes, no need to pathfind again.
-		local dist = vector.distance(mobpos, target_block)
+		local dist = vector.distance(mobpos, target)
 		local ydist = math.abs(target_block.y - mobpos.y)
 		if dist >= 1.42 or ydist >= 1 then
 			-- First find the path asynchronously ...
