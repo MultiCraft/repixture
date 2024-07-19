@@ -25,7 +25,7 @@ These are the arguments (note that most arguments are required):
 
 * `name`. Plant ID. Must be for the form `<mod_name>:<plant_name>`
 * `def`: A definition table with these fields:
-   * `texture_prefix`: Prefix for all texures used by this plant. Recommended style: `"<mod_name>_<plant_name>"`
+   * `texture_prefix`: Prefix for all textures used by this plant. Recommended style: `"<mod_name>_<plant_name>"`
    * `description_stage_1`: Translatable description for the stage 1 node (this is the seed)
    * `tooltip_stage_1`: Translatable tooltip for the stage 1 node (describe here how the seed grows)
    * `description_general`: Description for other stage nodes (2-4). This string must have "@1" in it which will be replaced with the stage number.
@@ -39,7 +39,7 @@ These are the arguments (note that most arguments are required):
    * `stage_extra_groups`: Optional. Table indexed by stage numbers. Each of these keys has a table as a value. This table is a
      groups table for nodes. These groups will be added to the corresponding nodes.
      If the default node definition already defines this group, it will be overwritten.
-   * `sounds_plant`: Optional. Node sound definition for the plant (same as `sounds` of node defintion).
+   * `sounds_plant`: Optional. Node sound definition for the plant (same as `sounds` of node definition).
    * `sound_seed_place`: Optional. Seed placement sound. A SimpleSoundSpec.
 
 The nodes will be added to the following groups by default:
@@ -56,7 +56,7 @@ The nodes will be added to the following groups by default:
 
 Registers a plant. Before you can call this function, you need to have registered the plant nodes (one for each stage). It is recommended to call `farming.register_plant_nodes` to do this.
 
-But it's also possible to register the 4 plant nodes manually. If you want to do this, register them with a name of the form `<name>_<stage>"`; `stage` must be between 1 to 4. Stage 1 is also the placable seed. This function then will automatically add placement handlers and node timers to your nodes. You **must not** set `on_timer`, `on_construct` or `on_place` in these nodes.
+But it's also possible to register the 4 plant nodes manually. If you want to do this, register them with a name of the form `<name>_<stage>"`; `stage` must be between 1 to 4. Stage 1 is also the placeable seed. This function then will automatically add placement handlers and node timers to your nodes. You **must not** set `on_timer`, `on_construct` or `on_place` in these nodes.
 
 Arguments:
 

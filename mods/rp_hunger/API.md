@@ -28,7 +28,7 @@ to do the following:
    * `_rp_hunger_sat`: How many saturation points this item restores
 * When calling `minetest.item_eat` or `minetest.do_item_eat`,
   always set `hp_change` to `0`. This is required for
-  compability reasons.
+  compatibility reasons.
 
 ## Functions
 

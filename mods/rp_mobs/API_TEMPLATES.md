@@ -176,7 +176,7 @@ Parameters:
   Returns `<stop>, <success>`. If `stop` is `true`, microtask will finish.
   with the given success (`success` = `true`/`false`; `true` is default).
 * `valid_node_func`: Optional function that checks if the next node is still “valid” (i.e. can
-  be safely moved towadrds). It's called right before the mob is starting to go towards
+  be safely moved towards). It's called right before the mob is starting to go towards
   a new position of the path with arguments `pos, node`.
   Returns `true` or `false`. If it returns `true`, the microtask will finish and fail.
 

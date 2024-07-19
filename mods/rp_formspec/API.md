@@ -6,7 +6,7 @@ and you can also register new pages/tabs.
 There are also some functions for adding special
 formspec elements, some of them are required.
 
-## Compability note
+## Compatibility note
 
 This mod provides a reasonable formspec prepend so that formspecs
 from mods that do not know about `rp_formspec` should still
@@ -137,7 +137,7 @@ Call this whenever you need to report to `rp_formspec`
 the formspec of an invpage had some changes (i.e. new
 elements).
 For example, on an achievements page, when the list
-of achievments has changed.
+of achievements has changed.
 
 Note: The invpage is automatically rebuilt when the current
 invpage is selected manually.

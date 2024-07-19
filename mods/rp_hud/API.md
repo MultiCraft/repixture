@@ -11,7 +11,7 @@ This mod uses binary semaphores.
 
 Multiple mods can specify whether they want to allow or forbid a certain
 HUD flag. Semaphores can be in two states: true (allow) or false (forbid).
-If *any* semaphoer assigned to a HUD flag forbids it, the HUD flag will
+If *any* semaphore assigned to a HUD flag forbids it, the HUD flag will
 not be shown. If all semaphores allow the HUD flag, or no semaphores exist
 for that HUD flag, the HUD flag will be shown.
 

@@ -62,7 +62,7 @@ but then you must also do this:
 2. Add the field `_rp_painted_node_name` to the unpainted node. The value is the name of the painted node
 3. Add the field `_rp_unpainted_node_name` to the painted node. The value is the name of the unpainted node
 
-It is recommended to stick with the default naming convention unless a custom name is neccessary
+It is recommended to stick with the default naming convention unless a custom name is necessary
 for technical reasons (e.g. if you must obey the naming convention of a different mod).
 
 ### Palettes

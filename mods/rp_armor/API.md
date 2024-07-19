@@ -123,7 +123,7 @@ Hint: Look in `register.lua` to see how this function works in practice.
 ### `armor.slots`
 
 A list which contains the available armor slot identifiers, starting with the first one.
-The first identifier correspons to the first inventory list slot, the second name to the
+The first identifier corresponds to the first inventory list slot, the second name to the
 second slot, etc.
 
 ### `armor.slot_names`

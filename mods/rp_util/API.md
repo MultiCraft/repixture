@@ -24,7 +24,7 @@ Parameters:
 * `pos1`: First corner of area
 * `pos2`: Second corner of area
 * `nodes`: List of node names (supports `group:<groupname>` syntax)
-* `func` Function to be called. Will be called for every positon
+* `func` Function to be called. Will be called for every position
          between `pos1` and `pos2` with the argument `pos`
 * `nomanip`: If true, will not use VoxelManip (default: false)
 
@@ -51,7 +51,7 @@ Parameters:
 
 * `pos1`: First corner of area
 * `pos2`: Second corner of area
-* `func` Function to be called. Will be called for every positon
+* `func` Function to be called. Will be called for every position
          between `pos1` and `pos2` with the argument `pos`
 * `nomanip`: If true, will not use VoxelManip (default: false)
 

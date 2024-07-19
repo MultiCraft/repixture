@@ -49,7 +49,7 @@ Arguments:
 You should always set a custom `description` for the jeweled tool.
 
 For the `description`, most jeweled tools in this mod use a description
-of the form “[adjective] Jewel [orignal tool name]”, with the adjective
+of the form “[adjective] Jewel [original tool name]”, with the adjective
 describing what is special about this tool.
 
 Example: “Swift Jewel Bronze Pickaxe” is a jeweled bronze pickaxe
@@ -80,7 +80,7 @@ Registered jeweled tools are stored in read-only lookup tables, indexed by items
 * `jewels.registered_jewel_defs`: Indexed by original tool itemstrings. The
     value is a list of jeweled tool definitions for tools that you could get
     when jeweling this tool
-* `jewels.registered_jewel_parents`: Indxed by jeweled tool itemstrings, the value
+* `jewels.registered_jewel_parents`: Indexed by jeweled tool itemstrings, the value
     for each key is a table containing info about the “parent” (i.e. original)
     tool that the jeweled tool is based on. Each value is a table with the
     fields `name` (=itemstring) and `stats` (same as in `jewels.register_jewel`)

@@ -2,7 +2,7 @@
 
 ## How moon phases work
 
-Internally, the moon phase is directly derivied from
+Internally, the moon phase is directly derived from
 the current game day (`minetest.get_day_count()`) plus
 a random offset that is specific to the world seed.
 
@@ -27,4 +27,4 @@ Updates the moon for all players.
 You should call this function after the the time of day
 has been changed in order for the moon phase to be updated
 instantly.
-It is not neccessary to call this function for any other reason.
+It is not necessary to call this function for any other reason.

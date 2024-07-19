@@ -17,7 +17,7 @@ the goodies are more valuable.
 Parameters:
 
 * `pos`: Position of the node
-* `ctype`: A identifier for the type of treasuer to use.
+* `ctype`: A identifier for the type of treasure to use.
            See “Available treasure types” below.
 * `pr`: A PseudoRandom object used for pseudo-randomness
 * `listname`: Name of the inventory list to put items into

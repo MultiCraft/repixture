@@ -986,7 +986,7 @@ Parameters:
 
 ### `rp_mobs.microtasks.drag = function(drag, drag_axes, time)`
 
-Continously reduces the mob velocity using the specified drag vector at the specified
+Continuously reduces the mob velocity using the specified drag vector at the specified
 drag axes for a specified time. The drag vector specifies on each axis how much the mob slows down.
 This microtask finishes after the `time` runs out.
 
@@ -997,7 +997,7 @@ Parameters:
 * `drag`: Drag vector. Higher number = faster slowdown.
 * `drag_axes`: List of axes to which apply drag for (`"x"`, `"y"`, `"z"`).
   Other axes will be ignored.
-* `time`: Time after which microtaks finishes (seconds)
+* `time`: Time after which microtasks finishes (seconds)
 
 ## Appendix
 

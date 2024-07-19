@@ -42,7 +42,7 @@ restrictions and does not cut corners.
           true if the node shall block the path
           (default: same as `handler_walkable`)
 	* `handler_climbable`: A function that takes a node table and returns
-          true if the node is considered climable
+          true if the node is considered climbable
           (default: if `climbing` field of node is true)
 	* `get_floor_cost`: Function that takes a node table and returns
            the cost (a number) of walking _on_ the given node. The villager searches
@@ -54,7 +54,7 @@ restrictions and does not cut corners.
 	* `use_vmanip`: If true, nodes will be queried using a LuaVoxelManip;
 	  otherwise, `minetest.get_node` will be used. Required for async
 	  usage.
-	* `vmanip`: Only neccessary for asyn usage. Optionally pass a
+	* `vmanip`: Only necessary for async usage. Optionally pass a
 	  pre-generated LuaVoxelManip object for the corresponding `pos1`,
 	  `pos2` and `searchdistance` arguments. Use the return value of
 	  `rp_pathfinder.get_voxelmanip_for_path` here.

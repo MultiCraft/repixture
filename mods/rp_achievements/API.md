@@ -116,7 +116,7 @@ the achievement.
 
 #### Subcondition achievements
 
-For subconditoin achievements, use this additional field for `def`:
+For subcondition achievements, use this additional field for `def`:
 
 * `subconditions`: List of subcondition identifiers (as strings). Put all
   the required subconditions here. NOT translatable!
@@ -150,7 +150,7 @@ Possible return values:
 
 * `achievements.ACHIEVEMENT_GOTTEN`: Achievement gotten
 * `achievements.ACHIEVEMENT_IN_PROGRESS`: Not gotten, but at least one subcondition was met
-* `achievements.ACHIEVEMENT_NOT_GOTTEN`: Not gotten, and no subconditions completedkb
+* `achievements.ACHIEVEMENT_NOT_GOTTEN`: Not gotten, and no subconditions completed
 
 Parameters:
 
