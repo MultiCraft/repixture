@@ -1,8 +1,8 @@
-# `player_api` compability layer for Repixture
+# `player_api` compatibility layer for Repixture
 
 This mod is the Repixture implementation of `player_api` originally from Minetest Game.
 It is API-compatible with Minetest Game's `player_api` from Minetest Game 5.8.0.
-Technically, it is just a wrapper around `rp_player`, provided for compability.
+Technically, it is just a wrapper around `rp_player`, provided for compatibility.
 
 Mod developers can use this mod to handle player-related stuff and should be enough
 for most purposes.
@@ -16,4 +16,4 @@ originally by celeron55, Perttu Ahola <celeron55@gmail.com> (LGPLv2.1+),
 continued by Minetest developers and contributors (LGPLv2.1+),
 changed for Repixture by Wuzzy (LGPLv2.1+).
 
-Everything else written by Wuzzy (LGBPLv2.1+).
+Everything else written by Wuzzy (LGPLv2.1+).
