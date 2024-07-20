@@ -43,121 +43,97 @@ local mod_paint = minetest.get_modpath("rp_paint") ~= nil
 local mapseed = minetest.get_mapgen_setting("seed")
 local water_level = tonumber(minetest.get_mapgen_setting("water_level"))
 
---[[ List of village wood materials (schematic replacements)
-One of these will be chosen at random per village. ]]
-local village_replaces = {
-   -- Default (Birch + Oak, as specified in schematics)
-   {
+local wood_materials = {
+   wood = {
+      "rp_default:planks",
+      "rp_partialblocks:stair_wood",
+      "rp_partialblocks:slab_wood",
+      "rp_default:tree",
+      "rp_default:fence",
+      "rp_default:fence_gate_closed",
+      "rp_door:door_wood_t_1",
+      "rp_door:door_wood_b_1",
+      "rp_door:door_wood_t_2",
+      "rp_door:door_wood_b_2",
    },
-   -- Birch → Normal (Normal + Oak)
-   {
-      ["rp_default:planks_birch"] = "rp_default:planks",
-      ["rp_partialblocks:stair_birch"] = "rp_partialblocks:stair_wood",
-      ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_wood",
-      ["rp_default:tree_birch"] = "rp_default:tree",
-      ["rp_default:fence_birch"] = "rp_default:fence",
-      ["rp_default:fence_gate_birch_closed"] = "rp_default:fence_gate_closed",
+   birch = {
+      "rp_default:planks_birch",
+      "rp_partialblocks:stair_birch",
+      "rp_partialblocks:slab_birch",
+      "rp_default:tree_birch",
+      "rp_default:fence_birch",
+      "rp_default:fence_gate_birch_closed",
+      "rp_door:door_wood_birch_t_1",
+      "rp_door:door_wood_birch_b_1",
+      "rp_door:door_wood_birch_t_2",
+      "rp_door:door_wood_birch_b_2",
    },
-   -- Birch → Fir (Oak + Fir)
-   {
-      ["rp_default:planks_birch"] = "rp_default:planks_fir",
-      ["rp_partialblocks:stair_birch"] = "rp_partialblocks:stair_fir",
-      ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_fir",
-      ["rp_default:tree_birch"] = "rp_default:tree_fir",
-      ["rp_default:fence_birch"] = "rp_default:fence_fir",
-      ["rp_default:fence_gate_birch_closed"] = "rp_default:fence_gate_fir_closed",
+   oak = {
+      "rp_default:planks_oak",
+      "rp_partialblocks:stair_oak",
+      "rp_partialblocks:slab_oak",
+      "rp_default:tree_oak",
+      "rp_default:fence_oak",
+      "rp_default:fence_gate_oak_closed",
+      "rp_door:door_wood_oak_t_1",
+      "rp_door:door_wood_oak_b_1",
+      "rp_door:door_wood_oak_t_2",
+      "rp_door:door_wood_oak_b_2",
    },
-   -- Oak → Normal (Normal + Birch)
-   {
-      ["rp_default:planks_oak"] = "rp_default:planks",
-      ["rp_partialblocks:stair_oak"] = "rp_partialblocks:stair_wood",
-      ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_wood",
-      ["rp_default:tree_oak"] = "rp_default:tree",
-      ["rp_default:fence_oak"] = "rp_default:fence",
-      ["rp_default:fence_gate_oak_closed"] = "rp_default:fence_gate_closed",
-   },
-   -- Oak → Fir (Fir + Birch)
-   {
-      ["rp_default:planks_oak"] = "rp_default:planks_fir",
-      ["rp_partialblocks:stair_oak"] = "rp_partialblocks:stair_fir",
-      ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_fir",
-      ["rp_default:tree_oak"] = "rp_default:tree_fir",
-      ["rp_default:fence_oak"] = "rp_default:fence_fir",
-      ["rp_default:fence_gate_oak_closed"] = "rp_default:fence_gate_fir_closed",
-   },
-   -- Normal wood only
-   {
-      ["rp_default:planks_birch"] = "rp_default:planks",
-      ["rp_default:planks_oak"] = "rp_default:planks",
-      ["rp_partialblocks:stair_birch"] = "rp_partialblocks:stair_wood",
-      ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_wood",
-      ["rp_partialblocks:stair_oak"] = "rp_partialblocks:stair_wood",
-      ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_wood",
-      ["rp_default:tree_birch"] = "rp_default:tree",
-      ["rp_default:tree_oak"] = "rp_default:tree",
-      ["rp_default:fence_birch"] = "rp_default:fence",
-      ["rp_default:fence_gate_birch_closed"] = "rp_default:fence_gate_closed",
-      ["rp_default:fence_oak"] = "rp_default:fence",
-      ["rp_default:fence_gate_oak_closed"] = "rp_default:fence_gate_closed",
-   },
-   -- Birch wood only
-   {
-      ["rp_default:planks"] = "rp_default:planks_birch",
-      ["rp_default:planks_oak"] = "rp_default:planks_birch",
-      ["rp_partialblocks:stair_wood"] = "rp_partialblocks:stair_birch",
-      ["rp_partialblocks:slab_wood"] = "rp_partialblocks:slab_birch",
-      ["rp_partialblocks:stair_oak"] = "rp_partialblocks:stair_birch",
-      ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_birch",
-      ["rp_default:tree"] = "rp_default:tree_birch",
-      ["rp_default:tree_oak"] = "rp_default:tree_birch",
-      ["rp_default:fence"] = "rp_default:fence_birch",
-      ["rp_default:fence_gate_closed"] = "rp_default:fence_gate_birch_closed",
-      ["rp_default:fence_oak"] = "rp_default:fence_birch",
-      ["rp_default:fence_gate_oak_closed"] = "rp_default:fence_gate_birch_closed",
-      ["rp_door:door_wood_t_1"] = "rp_door:door_wood_birch_t_1",
-      ["rp_door:door_wood_b_1"] = "rp_door:door_wood_birch_b_1",
-   },
-   -- Oak wood only
-   {
-      ["rp_default:planks"] = "rp_default:planks_oak",
-      ["rp_default:planks_birch"] = "rp_default:planks_oak",
-      ["rp_partialblocks:stair_wood"] = "rp_partialblocks:stair_oak",
-      ["rp_partialblocks:slab_wood"] = "rp_partialblocks:slab_oak",
-      ["rp_partialblocks:stair_birch"] = "rp_partialblocks:stair_oak",
-      ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_oak",
-      ["rp_default:tree"] = "rp_default:tree_oak",
-      ["rp_default:tree_birch"] = "rp_default:tree_oak",
-      ["rp_default:fence"] = "rp_default:fence_oak",
-      ["rp_default:fence_gate_closed"] = "rp_default:fence_gate_oak_closed",
-      ["rp_default:fence_birch"] = "rp_default:fence_oak",
-      ["rp_default:fence_gate_birch_closed"] = "rp_default:fence_gate_oak_closed",
-      ["rp_door:door_wood_t_1"] = "rp_door:door_wood_oak_t_1",
-      ["rp_door:door_wood_b_1"] = "rp_door:door_wood_oak_b_1",
-   },
-   -- Fir wood only
-   {
-      ["rp_default:planks"] = "rp_default:planks_fir",
-      ["rp_default:planks_birch"] = "rp_default:planks_fir",
-      ["rp_default:planks_oak"] = "rp_default:planks_fir",
-      ["rp_partialblocks:stair_wood"] = "rp_partialblocks:stair_fir",
-      ["rp_partialblocks:slab_wood"] = "rp_partialblocks:stair_fir",
-      ["rp_partialblocks:stair_birch"] = "rp_partialblocks:stair_fir",
-      ["rp_partialblocks:slab_birch"] = "rp_partialblocks:slab_fir",
-      ["rp_partialblocks:stair_oak"] = "rp_partialblocks:stair_fir",
-      ["rp_partialblocks:slab_oak"] = "rp_partialblocks:slab_fir",
-      ["rp_default:tree"] = "rp_default:tree_fir",
-      ["rp_default:tree_birch"] = "rp_default:tree_fir",
-      ["rp_default:tree_oak"] = "rp_default:tree_fir",
-      ["rp_default:fence"] = "rp_default:fence_fir",
-      ["rp_default:fence_gate_closed"] = "rp_default:fence_gate_fir_closed",
-      ["rp_default:fence_birch"] = "rp_default:fence_fir",
-      ["rp_default:fence_gate_birch_closed"] = "rp_default:fence_gate_fir_closed",
-      ["rp_default:fence_oak"] = "rp_default:fence_fir",
-      ["rp_default:fence_gate_oak_closed"] = "rp_default:fence_gate_fir_closed",
-      ["rp_door:door_wood_t_1"] = "rp_door:door_wood_fir_t_1",
-      ["rp_door:door_wood_b_1"] = "rp_door:door_wood_fir_b_1",
+   fir = {
+      "rp_default:planks_fir",
+      "rp_partialblocks:stair_fir",
+      "rp_partialblocks:slab_fir",
+      "rp_default:tree_fir",
+      "rp_default:fence_fir",
+      "rp_default:fence_gate_fir_closed",
+      "rp_door:door_wood_fir_t_1",
+      "rp_door:door_wood_fir_b_1",
+      "rp_door:door_wood_fir_t_2",
+      "rp_door:door_wood_fir_b_2",
    },
 }
+
+-- List of wood types used in the source schematic files
+local SOURCE_STYLES = { "birch", "oak", "wood" }
+--[[ List of village wood materials (schematic replacements)
+One of these will be chosen at random per village. ]]
+local village_wood_styles = {
+   { "birch", "oak", "wood" },
+   { "wood", "oak", "wood" },
+   { "oak", "fir", "wood" },
+   { "wood", "birch", "wood" },
+   { "fir", "birch", "wood" },
+   { "wood", "wood", "wood" },
+   { "birch", "birch", "birch" },
+   { "oak", "oak", "oak" }, -- must be synced with VILLAGE_REPLACE_OAK
+   { "fir", "fir", "fir" },
+}
+-- Index of oak-only village wood style (must be synced with village_wood_styles
+-- table)
+local VILLAGE_REPLACE_OAK = 8
+
+--[[ Generate list of replacable house blocks.
+It will be a table indexed by the original node name (used in the schematic)
+with the value being the new node name (to replace it with).
+This allows houses to vary in wood styles ]]
+local village_replaces = {}
+for s=1, #village_wood_styles do
+   local style = village_wood_styles[s]
+   local replace = {}
+   for t=1, #style do
+      local materials = wood_materials[style[t]]
+      local source_materials = wood_materials[SOURCE_STYLES[t]]
+      for w=1, #materials do
+         local mat1 = source_materials[w]
+         local mat2 = materials[w]
+         if mat1 ~= mat2 then
+            replace[mat1] = mat2
+         end
+      end
+   end
+   table.insert(village_replaces, replace)
+end
 
 local schematic_cache = {}
 -- Wrapper around minetest.read_schematic to
@@ -1440,7 +1416,7 @@ local function after_village_area_emerged(blockpos, action, calls_remaining, par
    local village_replace_id
    if state.groundclass == "swamp" then
       -- swamp village: always oak wood
-      village_replace_id = 6
+      village_replace_id = VILLAGE_REPLACE_OAK
    else
       -- other villages: random
       village_replace_id = vpr:next(1,#village_replaces)
