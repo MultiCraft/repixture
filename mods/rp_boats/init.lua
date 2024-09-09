@@ -166,7 +166,7 @@ local register_boat = function(name, def)
 		_punch_timer = nil,
 
 		on_activate = function(self, staticdata, dtime_s)
-			local data = minetest.deserialize(staticdata)
+			local data = minetest.deserialize(staticdata, true)
 			if data then
 				self._state = data._state or STATE_FALLING
 				self._speed = data._speed or 0

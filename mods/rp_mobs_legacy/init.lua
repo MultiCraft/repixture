@@ -38,7 +38,7 @@ local register_mob_alias = function(old_name, new_name, villager_profession)
 
 				-- Restore mob status
 				if staticdata then
-					local data = minetest.deserialize(staticdata)
+					local data = minetest.deserialize(staticdata, true)
 					if data then
 						-- Restore child status
 						if data.child then

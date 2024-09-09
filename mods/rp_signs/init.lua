@@ -1240,7 +1240,7 @@ minetest.register_entity("rp_signs:sign_text", {
 
 		local data
 		if staticdata then
-			data = minetest.deserialize(staticdata)
+			data = minetest.deserialize(staticdata, true)
 		end
 		local node_pos, front
 		if data and data.sign_pos_hash then

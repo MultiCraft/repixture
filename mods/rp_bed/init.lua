@@ -207,7 +207,7 @@ local function load_bed()
    local f = io.open(bed_file, "r")
 
    if f then
-      bed_userdata.saved = minetest.deserialize(f:read("*all"))
+      bed_userdata.saved = minetest.deserialize(f:read("*all"), true)
 
       io.close(f)
    else

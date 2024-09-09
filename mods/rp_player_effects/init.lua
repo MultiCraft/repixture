@@ -26,7 +26,7 @@ local function load_effects()
    local f = io.open(effects_file, "r")
 
    if f then
-      player_effects.effects = minetest.deserialize(f:read("*all"))
+      player_effects.effects = minetest.deserialize(f:read("*all"), true)
 
       io.close(f)
    else

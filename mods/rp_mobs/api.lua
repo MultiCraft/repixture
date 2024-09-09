@@ -228,7 +228,7 @@ local get_dying_boxes = function(mob)
 end
 
 rp_mobs.restore_state = function(self, staticdata)
-	local staticdata_table = minetest.deserialize(staticdata)
+	local staticdata_table = minetest.deserialize(staticdata, true)
 	if not staticdata_table then
 		-- Default for empty/invalid staticdata
 		self._custom_state = {}

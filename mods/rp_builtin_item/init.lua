@@ -119,7 +119,7 @@ minetest.register_entity(":__builtin:item", {
 
 	on_activate = function(self, staticdata, dtime_s)
 		if string.sub(staticdata, 1, string.len("return")) == "return" then
-			local data = minetest.deserialize(staticdata)
+			local data = minetest.deserialize(staticdata, true)
 			if data and type(data) == "table" then
 				self.itemstring = data.itemstring
 				self.age = (data.age or 0) + dtime_s

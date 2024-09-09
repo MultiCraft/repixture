@@ -61,7 +61,7 @@ local function load_legacy_achievements()
    local f = io.open(legacy_achievements_file, "r")
 
    if f then
-      legacy_achievements_states = minetest.deserialize(f:read("*all"))
+      legacy_achievements_states = minetest.deserialize(f:read("*all"), true)
       io.close(f)
    end
 end
@@ -358,7 +358,7 @@ local function get_achievement_states(player)
     local meta = player:get_meta()
     local data = meta:get_string("rp_achievements:achievement_states")
     if data ~= "" then
-       return minetest.deserialize(data)
+       return minetest.deserialize(data, true)
     else
        return {}
     end
@@ -371,7 +371,7 @@ local function get_achievement_subconditions(player)
     local meta = player:get_meta()
     local data = meta:get_string("rp_achievements:achievement_subconditions")
     if data ~= "" then
-       return minetest.deserialize(data)
+       return minetest.deserialize(data, true)
     else
        return {}
     end
