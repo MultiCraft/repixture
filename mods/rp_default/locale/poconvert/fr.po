@@ -1,17 +1,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_default x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2024-08-06 20:18+0000\n"
+"Last-Translator: Dacmot <Dacmot@users.noreply.translate.codeberg.org>\n"
+"Language-Team: French <https://translate.codeberg.org/projects/repixture/"
+"rp_default/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
 
 msgid "Timber"
 msgstr "Charpente"
@@ -92,28 +93,28 @@ msgid "Obtain one of each minerals."
 msgstr "Obtenir un exemplaire de chaque minerai."
 
 msgid "Wooden Bucket with Water"
-msgstr ""
+msgstr "Seau de bois rempli d'eau"
 
 msgid "Punch to empty the bucket"
 msgstr "Frapper pour vider le seau"
 
 msgid "Wooden Bucket with River Water"
-msgstr ""
+msgstr "Seau de bois rempli d'eau de rivière"
 
 msgid "Wooden Bucket with Swamp Water"
-msgstr ""
+msgstr "Seau de bois rempli d'eau de marais"
 
 msgid "Wooden Bucket"
-msgstr ""
+msgstr "Seau de bois"
 
 msgid "Punch to collect a liquid source"
 msgstr "Frapper pour récolter une source liquide"
 
 msgid "“@1”"
-msgstr ""
+msgstr "\"@1\""
 
 msgid "Painted Chest"
-msgstr ""
+msgstr "Coffre peinturé"
 
 msgid "Chest"
 msgstr "Coffre"
@@ -122,16 +123,16 @@ msgid "Provides 32 inventory slots"
 msgstr "Fournit 32 emplacements d'inventaire"
 
 msgid "Chest “@1”"
-msgstr ""
+msgstr "Coffre \"@1\""
 
 msgid "Bookshelf"
-msgstr ""
+msgstr "Bibliothèque"
 
 msgid "Provides 8 inventory slots"
-msgstr ""
+msgstr "Fournit 8 espaces d'inventaire"
 
 msgid "Bookshelf “@1”"
-msgstr ""
+msgstr "Bibliothèque \"@1\""
 
 msgid "Fiber"
 msgstr "Fibre"
@@ -149,22 +150,22 @@ msgid "Graphite Sheet"
 msgstr "Feuille de graphite"
 
 msgid "Sulfur Lump"
-msgstr "Morceau de soufre"
+msgstr "Pépite de soufre"
 
 msgid "Coal Lump"
-msgstr "Morceau de charbon"
+msgstr "Pépite de charbon"
 
 msgid "Iron Lump"
-msgstr "Morceau de fer"
+msgstr "Pépite de fer"
 
 msgid "Tin Lump"
-msgstr "Morceau d'étain"
+msgstr "Pépite d'étain"
 
 msgid "Copper Lump"
-msgstr "Morceau de cuivre"
+msgstr "Pépite de cuivre"
 
 msgid "Bronze Lump"
-msgstr "Morceau de bronze"
+msgstr "Pépite de bronze"
 
 msgid "Flint Shard"
 msgstr "Éclat de silex"
@@ -176,37 +177,37 @@ msgid "Wooden Fence"
 msgstr "Clôture en bois"
 
 msgid "Painted Wooden Fence"
-msgstr ""
+msgstr "Clôture de bois peinte"
 
 msgid "Wooden Fence Gate"
-msgstr ""
+msgstr "Porte de clôture en bois"
 
 msgid "Painted Wooden Fence Gate"
-msgstr ""
+msgstr "Porte de clôture en bois peinte"
 
 msgid "Oak Fence"
 msgstr "Clôture en chêne"
 
 msgid "Painted Oak Fence"
-msgstr ""
+msgstr "Clôture de chêne peinte"
 
 msgid "Oak Fence Gate"
-msgstr ""
+msgstr "Porte de clôture en chêne"
 
 msgid "Painted Oak Fence Gate"
-msgstr ""
+msgstr "Porte de clôture en chêne peinte"
 
 msgid "Birch Fence"
 msgstr "Clôture en bouleau"
 
 msgid "Painted Birch Fence"
-msgstr ""
+msgstr "Clôture de bouleau peinte"
 
 msgid "Birch Fence Gate"
-msgstr ""
+msgstr "Porte de clôture de bouleau"
 
 msgid "Painted Birch Fence Gate"
-msgstr ""
+msgstr "Porte de clôture de bouleau peinte"
 
 msgid "Fertilized Dirt"
 msgstr "Terre fertile"
@@ -278,10 +279,10 @@ msgid "Marsh"
 msgstr "Marais"
 
 msgid "Marsh Underwater"
-msgstr ""
+msgstr "Sous l'eau des marais"
 
 msgid "Marsh Beach"
-msgstr ""
+msgstr "Plage des marais"
 
 msgid "Dense Grassland"
 msgstr "Prairie dense"
@@ -293,49 +294,49 @@ msgid "Mixed Forest"
 msgstr "Forêt mixte"
 
 msgid "Mixed Forest Underwater"
-msgstr ""
+msgstr "Sous l'eau de forêt mixe"
 
 msgid "Mixed Forest Beach"
-msgstr ""
+msgstr "Plage de forêt mixe"
 
 msgid "Grove"
-msgstr "Bocage"
+msgstr "Bosquet"
 
 msgid "Grove Underwater"
-msgstr ""
+msgstr "Sous l'eau de bosquet"
 
 msgid "Grove Beach"
-msgstr ""
+msgstr "Plage de bosquet"
 
 msgid "Wilderness"
-msgstr "Jungle"
+msgstr "Contrée sauvage"
 
 msgid "Wilderness Underwater"
-msgstr ""
+msgstr "Sous l'eau de contrée sauvage"
 
 msgid "Wilderness Beach"
-msgstr ""
+msgstr "Plage de contrée sauvage"
 
 msgid "Grassland"
 msgstr "Prairie"
 
 msgid "Grassland Underwater"
-msgstr ""
+msgstr "Sous l'eau de pairie"
 
 msgid "Grassland Beach"
-msgstr ""
+msgstr "Plage de prairie"
 
 msgid "Orchard"
 msgstr "Verger"
 
 msgid "Shrubbery"
-msgstr "Fruticée"
+msgstr "Arbrisseau"
 
 msgid "Shrubbery Underwater"
-msgstr ""
+msgstr "Sous l'eau d'arbrisseau"
 
 msgid "Shrubbery Beach"
-msgstr ""
+msgstr "Plage d'arbrisseau"
 
 msgid "Chaparral"
 msgstr "Chaparral"
@@ -344,91 +345,91 @@ msgid "Savanna"
 msgstr "Savane"
 
 msgid "Savanna Underwater"
-msgstr ""
+msgstr "Sous l'eau de la savane"
 
 msgid "Savanna Beach"
-msgstr ""
+msgstr "Plage de la savane"
 
 msgid "Wasteland"
-msgstr "Désert"
+msgstr "Terres stériles"
 
 msgid "Wasteland Underwater"
-msgstr ""
+msgstr "Sous l'eau des terres stériles"
 
 msgid "Wasteland Beach"
-msgstr ""
+msgstr "Plage des terres stériles"
 
 msgid "Rocky Dryland"
-msgstr "Terres arides rocheuses"
+msgstr "Rocheuses arides"
 
 msgid "Rocky Dryland Underwater"
-msgstr ""
+msgstr "Sous l'eau des rocheuses arides"
 
 msgid "Rocky Dryland Beach"
-msgstr ""
+msgstr "Plage des rocheuses arides"
 
 msgid "Wooded Dryland"
-msgstr "Terres arides boisées"
+msgstr "Boisé aride"
 
 msgid "Wooded Dryland Underwater"
-msgstr ""
+msgstr "Sous l'eau du boisé aride"
 
 msgid "Wooded Dryland Beach"
-msgstr ""
+msgstr "Plage de boisé aride"
 
 msgid "Savannic Wasteland"
-msgstr "Désert savanique"
+msgstr "Savane désertique"
 
 msgid "Savannic Wasteland Underwater"
-msgstr ""
+msgstr "Sous l'eau de savane désertique"
 
 msgid "Savannic Wasteland Beach"
-msgstr ""
+msgstr "Plage de savane désertique"
 
 msgid "Thorny Shrubs"
 msgstr "Arbustes épineux"
 
 msgid "Thorny Shrubs Underwater"
-msgstr ""
+msgstr "Sous l'eau d'arbustes épineux"
 
 msgid "Thorny Shrubs Beach"
-msgstr ""
+msgstr "Plage d'arbustes épineux"
 
 msgid "Mystery Forest"
 msgstr "Forêt mystérieuse"
 
 msgid "Mystery Forest Underwater"
-msgstr ""
+msgstr "Sous l'eau d'une forêt mystérieuse"
 
 msgid "Mystery Forest Beach"
-msgstr ""
+msgstr "Plage d'une forêt mystérieuse"
 
 msgid "Poplar Plains"
 msgstr "Plaines de peupliers"
 
 msgid "Poplar Plains Underwater"
-msgstr ""
+msgstr "Sous l'eau des plaines de peupliers"
 
 msgid "Poplar Plains Beach"
-msgstr ""
+msgstr "Plage des plaines de peupliers"
 
 msgid "Baby Poplar Plains"
 msgstr "Plaines de bébés peupliers"
 
 msgid "Baby Poplar Plains Underwater"
-msgstr ""
+msgstr "Sous l'eau des plaines de bébés peupliers"
 
 msgid "Baby Poplar Plains Beach"
-msgstr ""
+msgstr "Plage des plaines de bébés peupliers"
 
 msgid "Tall Birch Forest"
 msgstr "Forêt de grands bouleaux"
 
 msgid "Tall Birch Forest Underwater"
-msgstr ""
+msgstr "Sous l'eau de la forêt de grands bouleaux"
 
 msgid "Tall Birch Forest Beach"
-msgstr ""
+msgstr "Plage de la forêt des grands bouleaux"
 
 msgid "Birch Forest"
 msgstr "Forêt de bouleaux"
@@ -963,4 +964,3 @@ msgstr "Torche"
 
 msgid "It's bright and burns forever"
 msgstr "Elle est allumée et brûle pour toujours"
-
