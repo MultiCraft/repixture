@@ -582,7 +582,7 @@ minetest.register_node(
 local planks = {
    { "planks", "default_wood.png", "rp_default_wood_painted.png", S("Wooden Planks"), S("Painted Wooden Planks") },
    { "planks_oak", "default_wood_oak.png", "rp_default_wood_oak_painted.png", S("Oak Planks"), S("Painted Oak Planks") },
-   { "planks_birch", "default_wood_birch.png", "rp_default_wood_birch_painted.png", S("Birch Planks"), S("Painted Fir Planks") },
+   { "planks_birch", "default_wood_birch.png", "rp_default_wood_birch_painted.png", S("Birch Planks"), S("Painted Birch Planks") },
    { "planks_fir", "rp_default_wood_fir.png", "rp_default_wood_fir_painted.png", S("Fir Planks"), S("Painted Fir Planks"), "rp_paint_palette_256l.png" },
 }
 for p=1, #planks do
