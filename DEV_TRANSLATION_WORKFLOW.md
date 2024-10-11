@@ -4,6 +4,8 @@ This document is directed to *developers* describing what to do how to make sure
 
 **If you just want to translate, go to:** <https://translate.codeberg.org/projects/repixture/> (you can ignore the rest of the document)
 
+
+
 ## Introduction
 
 Repixture translations utilize Weblate to allow translators to translate the game online. But for this to work, the workflow to maintain translations is a little bit more involved.
@@ -16,17 +18,21 @@ Rather than translating strings directly in the TR files, translators are encour
 **IMPORTANT**: Translators should NOT translate the TR or PO files in this game repository, as it disrupts the workflow. They are adviced to go to the aforementioned website instead.
 
 
-
 ## Preconditions
 
-You need at least Minetest 5.8.0, Python 3 and the Minetest Translation Tools for this to work. You can find the Minetest Translation tools at <https://codeberg.org/Wuzzy/Minetest_Translation_Tools>.
+You need:
+
+* Python 3
+* The script `mod_translation_updater.py` (from <https://github.com/minetest/modtools>)
+* The script `mtt_convert.py` (from <https://codeberg.org/Wuzzy/Minetest_Translation_Tools>)
+* The script `mtt_check.py` (from <https://codeberg.org/Wuzzy/Minetest_Translation_Tools>)
 
 
 
 ## Part 1: Pushing the translations from the game to Weblate:
 
 1. Clean up: Make sure the game repository is in a clean state (no non-committed changes)
-2. Update TR files: Run `util/mod_translation_updater.py` (included since Minetest 5.8.0) in the `mods` directory and commit the changes (if any)
+2. Update TR files: Run `mod_translation_updater.py` in the `mods` directory and commit the changes (if any)
 3. Convert TR to PO: Run `mtt_convert.py --tr2po -r` in the `mods` directory and commit the changes
 4. Push: Push the changes to the online repository of the game
 5. Update Weblate repository (optional): Weblate should soon automatically update its repository. But if you want to want the new strings to be available immediately, go to the project page, then “Manage > Repository Maintenance” and click “Update”
