@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.1\n"
 
 msgid "Wooden Door"
 msgstr "Holztür"
@@ -30,6 +30,12 @@ msgstr "Birkentür"
 
 msgid "Painted Birch Door"
 msgstr "Gefärbte Birkentür"
+
+msgid "Fir Door"
+msgstr "Tannentür"
+
+msgid "Painted Fir Door"
+msgstr "Gefärbte Tannentür"
 
 msgid "Stone Door"
 msgstr "Steintür"

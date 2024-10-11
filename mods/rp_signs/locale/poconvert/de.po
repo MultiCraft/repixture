@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.1\n"
 
 msgid "Write"
 msgstr "Schreiben"
@@ -57,4 +57,16 @@ msgstr "Birkenstandschild"
 
 msgid "Painted Birch Pole Sign"
 msgstr "Gefärbtes Birkenstandschild"
+
+msgid "Fir Wall Sign"
+msgstr "Tannenwandschild"
+
+msgid "Painted Fir Wall Sign"
+msgstr "Gefärbtes Tannenwandschild"
+
+msgid "Fir Pole Sign"
+msgstr "Tannenstandschild"
+
+msgid "Painted Fir Pole Sign"
+msgstr "Gefärbtes Tannenstandschild"
 

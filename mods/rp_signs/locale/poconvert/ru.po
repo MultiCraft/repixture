@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.1\n"
 
 msgid "Write"
 msgstr "Записать"
@@ -56,5 +56,17 @@ msgid "Birch Pole Sign"
 msgstr ""
 
 msgid "Painted Birch Pole Sign"
+msgstr ""
+
+msgid "Fir Wall Sign"
+msgstr ""
+
+msgid "Painted Fir Wall Sign"
+msgstr ""
+
+msgid "Fir Pole Sign"
+msgstr ""
+
+msgid "Painted Fir Pole Sign"
 msgstr ""
 

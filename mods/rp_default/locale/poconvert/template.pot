@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.1\n"
 
 msgid "Timber"
 msgstr ""
@@ -206,6 +206,18 @@ msgid "Birch Fence Gate"
 msgstr ""
 
 msgid "Painted Birch Fence Gate"
+msgstr ""
+
+msgid "Fir Fence"
+msgstr ""
+
+msgid "Painted Fir Fence"
+msgstr ""
+
+msgid "Fir Fence Gate"
+msgstr ""
+
+msgid "Painted Fir Fence Gate"
 msgstr ""
 
 msgid "Fertilized Dirt"
@@ -649,6 +661,12 @@ msgstr ""
 msgid "Painted Birch Planks"
 msgstr ""
 
+msgid "Fir Planks"
+msgstr ""
+
+msgid "Painted Fir Planks"
+msgstr ""
+
 msgid "Frame"
 msgstr ""
 
@@ -757,6 +775,12 @@ msgstr ""
 msgid "Grows into a birch tree"
 msgstr ""
 
+msgid "Fir Sapling"
+msgstr ""
+
+msgid "Grows into a fir tree"
+msgstr ""
+
 msgid "Dry Bush Sapling"
 msgstr ""
 
@@ -772,6 +796,9 @@ msgstr ""
 msgid "Birch Tree"
 msgstr ""
 
+msgid "Fir Tree"
+msgstr ""
+
 msgid "Leaves"
 msgstr ""
 
@@ -782,6 +809,9 @@ msgid "Oak Leaves"
 msgstr ""
 
 msgid "Birch Leaves"
+msgstr ""
+
+msgid "Fir Needles"
 msgstr ""
 
 msgid "Dry Leaves"

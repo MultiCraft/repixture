@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.1\n"
 
 msgid "Not enough space to enter!"
 msgstr "Nicht genügend Platz zum Betreten!"
@@ -25,6 +25,9 @@ msgstr "Birkenbaumstamboot"
 msgid "Oak Log Boat"
 msgstr "Eichenbaumstammboot"
 
+msgid "Fir Log Boat"
+msgstr "Tannenbaumstammboot"
+
 msgid "Water vehicle"
 msgstr "Wasserfahrzeug"
 
@@ -36,4 +39,7 @@ msgstr "Birkenfloß"
 
 msgid "Oak Raft"
 msgstr "Eichenfloß"
+
+msgid "Fir Raft"
+msgstr "Tannenfloß"
 

@@ -1,18 +1,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_default x.x.x\n"
-"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-06-28 02:31+0000\n"
-"Last-Translator: Wuzzy <Wuzzy@users.noreply.translate.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/repixture/"
-"rp_default/de/>\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.5\n"
+"Plural-Forms: \n"
+"X-Generator: mtt_convert 0.1.1\n"
 
 msgid "Timber"
 msgstr "Bauholz"
@@ -183,7 +182,7 @@ msgid "Wooden Fence Gate"
 msgstr "Holzzauntor"
 
 msgid "Painted Wooden Fence Gate"
-msgstr "Bemaltes Holzzauntor"
+msgstr "Gefärbtes Holzzauntor"
 
 msgid "Oak Fence"
 msgstr "Eichenzaun"
@@ -195,7 +194,7 @@ msgid "Oak Fence Gate"
 msgstr "Eichenzauntor"
 
 msgid "Painted Oak Fence Gate"
-msgstr "Bemaltes Eichenzauntor"
+msgstr "Gefärbtes Eichenzauntor"
 
 msgid "Birch Fence"
 msgstr "Birkenzaun"
@@ -207,7 +206,19 @@ msgid "Birch Fence Gate"
 msgstr "Birkenzauntor"
 
 msgid "Painted Birch Fence Gate"
-msgstr "Bemaltes Birkenzauntor"
+msgstr "Gefärbtes Birkenzauntor"
+
+msgid "Fir Fence"
+msgstr "Tannenzaun"
+
+msgid "Painted Fir Fence"
+msgstr "Gefärbter Tannenzaun"
+
+msgid "Fir Fence Gate"
+msgstr "Tannenzauntor"
+
+msgid "Painted Fir Fence Gate"
+msgstr "Gefärbtes Tannenzauntor"
 
 msgid "Fertilized Dirt"
 msgstr "Gedüngte Erde"
@@ -650,6 +661,12 @@ msgstr "Birkenplanken"
 msgid "Painted Birch Planks"
 msgstr "Gefärbte Birkenplanken"
 
+msgid "Fir Planks"
+msgstr "Tannenplanken"
+
+msgid "Painted Fir Planks"
+msgstr "Gefärbte Tannenplanken"
+
 msgid "Frame"
 msgstr "Rahmen"
 
@@ -758,6 +775,12 @@ msgstr "Birkensetzling"
 msgid "Grows into a birch tree"
 msgstr "Wächst zu einer Birke"
 
+msgid "Fir Sapling"
+msgstr "Tannensetzling"
+
+msgid "Grows into a fir tree"
+msgstr "Wächst zu einer Tanne"
+
 msgid "Dry Bush Sapling"
 msgstr "Trockenbuschsetzling"
 
@@ -773,6 +796,9 @@ msgstr "Eichenbaum"
 msgid "Birch Tree"
 msgstr "Birkenbaum"
 
+msgid "Fir Tree"
+msgstr "Tannenbaum"
+
 msgid "Leaves"
 msgstr "Blätter"
 
@@ -784,6 +810,9 @@ msgstr "Eichenblätter"
 
 msgid "Birch Leaves"
 msgstr "Birkenblätter"
+
+msgid "Fir Needles"
+msgstr "Tannennadeln"
 
 msgid "Dry Leaves"
 msgstr "Trockene Blätter"
@@ -964,3 +993,4 @@ msgstr "Fackel"
 
 msgid "It's bright and burns forever"
 msgstr "Sie ist hell und brennt für immer"
+

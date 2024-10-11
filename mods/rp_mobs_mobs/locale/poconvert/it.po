@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.1\n"
 
 msgid "Bomb has Been Defused!"
 msgstr ""
@@ -446,6 +446,12 @@ msgid "If an alga tries to grow but something blocks its path, it’ll stop grow
 msgstr ""
 
 msgid "Algae grow underwater in different heights."
+msgstr ""
+
+msgid "We villagers prefer to walk on paths, especially when it’s glowing."
+msgstr ""
+
+msgid "We villagers prefer to walk on paths."
 msgstr ""
 
 msgid "Place it at the ceiling and watch it grow."

@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.0\n"
+"X-Generator: mtt_convert 0.1.1\n"
 
 msgid "Not enough space to enter!"
 msgstr "Pas assez de place pour monter !"
@@ -25,6 +25,9 @@ msgstr "Barque en bouleau"
 msgid "Oak Log Boat"
 msgstr "Barque en chêne"
 
+msgid "Fir Log Boat"
+msgstr ""
+
 msgid "Water vehicle"
 msgstr "Véhicule aquatique"
 
@@ -36,4 +39,7 @@ msgstr "Radeau en bouleau"
 
 msgid "Oak Raft"
 msgstr "Radeau en chêne"
+
+msgid "Fir Raft"
+msgstr ""
 
