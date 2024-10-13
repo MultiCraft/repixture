@@ -1,0 +1,206 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_partialblocks x.x.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: mtt_convert 0.1.1\n"
+
+msgid "Cobble Slab"
+msgstr ""
+
+msgid "Cobble Stair"
+msgstr ""
+
+msgid "Stone Slab"
+msgstr ""
+
+msgid "Stone Stair"
+msgstr ""
+
+msgid "Sandstone Slab"
+msgstr ""
+
+msgid "Sandstone Stair"
+msgstr ""
+
+msgid "Brick Slab"
+msgstr ""
+
+msgid "Brick Stair"
+msgstr ""
+
+msgid "Painted Brick Slab"
+msgstr ""
+
+msgid "Painted Brick Stair"
+msgstr ""
+
+msgid "Wooden Slab"
+msgstr ""
+
+msgid "Wooden Stair"
+msgstr ""
+
+msgid "Painted Wooden Slab"
+msgstr ""
+
+msgid "Painted Wooden Stair"
+msgstr ""
+
+msgid "Oak Slab"
+msgstr ""
+
+msgid "Oak Stair"
+msgstr ""
+
+msgid "Painted Oak Slab"
+msgstr ""
+
+msgid "Painted Oak Stair"
+msgstr ""
+
+msgid "Birch Slab"
+msgstr ""
+
+msgid "Birch Stair"
+msgstr ""
+
+msgid "Painted Birch Slab"
+msgstr ""
+
+msgid "Painted Birch Stair"
+msgstr ""
+
+msgid "Fir Slab"
+msgstr ""
+
+msgid "Fir Stair"
+msgstr ""
+
+msgid "Painted Fir Slab"
+msgstr ""
+
+msgid "Painted Fir Stair"
+msgstr ""
+
+msgid "Reed Slab"
+msgstr ""
+
+msgid "Reed Stair"
+msgstr ""
+
+msgid "Dried Reed Slab"
+msgstr ""
+
+msgid "Dried Reed Stair"
+msgstr ""
+
+msgid "Straw Slab"
+msgstr ""
+
+msgid "Straw Stair"
+msgstr ""
+
+msgid "Hay Slab"
+msgstr ""
+
+msgid "Hay Stair"
+msgstr ""
+
+msgid "Frame Slab"
+msgstr ""
+
+msgid "Frame Stair"
+msgstr ""
+
+msgid "Painted Frame Slab"
+msgstr ""
+
+msgid "Painted Frame Stair"
+msgstr ""
+
+msgid "Reinforced Frame Slab"
+msgstr ""
+
+msgid "Reinforced Frame Stair"
+msgstr ""
+
+msgid "Painted Reinforced Frame Slab"
+msgstr ""
+
+msgid "Painted Reinforced Frame Stair"
+msgstr ""
+
+msgid "Reinforced Cobble Slab"
+msgstr ""
+
+msgid "Reinforced Cobble Stair"
+msgstr ""
+
+msgid "Coal Slab"
+msgstr ""
+
+msgid "Coal Stair"
+msgstr ""
+
+msgid "Steel Slab"
+msgstr ""
+
+msgid "Steel Stair"
+msgstr ""
+
+msgid "Carbon Steel Slab"
+msgstr ""
+
+msgid "Carbon Steel Stair"
+msgstr ""
+
+msgid "Wrought Iron Slab"
+msgstr ""
+
+msgid "Wrought Iron Stair"
+msgstr ""
+
+msgid "Bronze Slab"
+msgstr ""
+
+msgid "Bronze Stair"
+msgstr ""
+
+msgid "Copper Slab"
+msgstr ""
+
+msgid "Copper Stair"
+msgstr ""
+
+msgid "Tin Slab"
+msgstr ""
+
+msgid "Tin Stair"
+msgstr ""
+
+msgid "Gold Slab"
+msgstr ""
+
+msgid "Gold Stair"
+msgstr ""
+
+msgid "Compressed Sandstone Slab"
+msgstr ""
+
+msgid "Compressed Sandstone Stair"
+msgstr ""
+
+msgid "Reinforced Compressed Sandstone Slab"
+msgstr ""
+
+msgid "Reinforced Compressed Sandstone Stair"
+msgstr ""
