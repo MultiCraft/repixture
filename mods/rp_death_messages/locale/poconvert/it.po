@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Minetest textdomain rp_death_messages x.x.x\n"
 "Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-10-13 19:11+0000\n"
+"PO-Revision-Date: 2024-10-13 19:13+0000\n"
 "Last-Translator: mondstern <mondstern@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/repixture/"
 "rp_death_messages/it/>\n"
@@ -33,22 +33,22 @@ msgid "You were killed by a hostile creature named @1."
 msgstr "Sei stato ucciso da una creatura ostile di nome @1."
 
 msgid "You fell to your death."
-msgstr ""
+msgstr "Sei caduto e sei morto."
 
 msgid "You died."
-msgstr ""
+msgstr "Sei morto."
 
 msgid "You were kicked to death by a walker."
-msgstr ""
+msgstr "Sei stato preso a calci da un ambulante."
 
 msgid "You were kicked to death by @1, a walker."
-msgstr ""
+msgstr "Sei stato preso a calci da @1, un ambulante."
 
 msgid "You were killed by a boar."
-msgstr ""
+msgstr "Sei stato ucciso da un cinghiale."
 
 msgid "You were killed by @1, a boar."
-msgstr ""
+msgstr "Sei stato ucciso da @1, un cinghiale."
 
 msgid "You were killed by a skunk."
 msgstr ""
