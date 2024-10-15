@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Minetest textdomain rp_partialblocks x.x.x\n"
 "Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-10-15 13:56+0000\n"
+"PO-Revision-Date: 2024-10-15 14:13+0000\n"
 "Last-Translator: Gabri06 <Gabri06@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/repixture/"
 "rp_partialblocks/es/>\n"
@@ -93,58 +93,58 @@ msgid "Painted Fir Stair"
 msgstr "Escalera de pino pintado"
 
 msgid "Reed Slab"
-msgstr ""
+msgstr "Losa de caña"
 
 msgid "Reed Stair"
-msgstr ""
+msgstr "Escalera de caña"
 
 msgid "Dried Reed Slab"
-msgstr ""
+msgstr "Losa de caña seca"
 
 msgid "Dried Reed Stair"
-msgstr ""
+msgstr "Escalera de caña seca"
 
 msgid "Straw Slab"
-msgstr ""
+msgstr "Losa de paja"
 
 msgid "Straw Stair"
-msgstr ""
+msgstr "Escalera de paja"
 
 msgid "Hay Slab"
-msgstr ""
+msgstr "Losa de heno"
 
 msgid "Hay Stair"
-msgstr ""
+msgstr "Escalera de heno"
 
 msgid "Frame Slab"
-msgstr ""
+msgstr "Losas de marco"
 
 msgid "Frame Stair"
-msgstr ""
+msgstr "Escalera de marco"
 
 msgid "Painted Frame Slab"
-msgstr ""
+msgstr "Losa de marco pintado"
 
 msgid "Painted Frame Stair"
-msgstr ""
+msgstr "Escalera de marco pintado"
 
 msgid "Reinforced Frame Slab"
-msgstr ""
+msgstr "Losa de marco reforzada"
 
 msgid "Reinforced Frame Stair"
-msgstr ""
+msgstr "Escalera de marco reforzada"
 
 msgid "Painted Reinforced Frame Slab"
-msgstr ""
+msgstr "Losa de marco reforzada pintado"
 
 msgid "Painted Reinforced Frame Stair"
-msgstr ""
+msgstr "Escalera de marco reforzada pintado"
 
 msgid "Reinforced Cobble Slab"
-msgstr ""
+msgstr "Losa de adoquines reforzados"
 
 msgid "Reinforced Cobble Stair"
-msgstr ""
+msgstr "Escalera de adoquines reforzados"
 
 msgid "Coal Slab"
 msgstr "Losa de carbón"
