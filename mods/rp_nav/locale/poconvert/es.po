@@ -1,53 +1,54 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minetest textdomain rp_nav x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-10-16 02:54+0000\n"
+"Last-Translator: Gabri06 <Gabri06@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Spanish <https://translate.codeberg.org/projects/repixture/"
+"rp_nav/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: mtt_convert 0.1.1\n"
+"X-Generator: Weblate 5.7.2\n"
 
 msgid "Compass"
-msgstr ""
+msgstr "Brújula"
 
 msgid "It points to the North"
-msgstr ""
+msgstr "Apunta al Norte"
 
 msgid "Can be magnetized at magnetic blocks"
-msgstr ""
+msgstr "Puede ser magnetizado en bloques magnéticos"
 
 msgid "Magno Compass"
-msgstr ""
+msgstr "Brújula Magno"
 
 msgid "It points to a position"
-msgstr ""
+msgstr "Apunta a una posición"
 
 msgid "Can be demagnetized at unmagnetic blocks"
-msgstr ""
+msgstr "Puede ser desmagnetizado en bloques no magnéticos"
 
 msgid "True Navigator"
-msgstr ""
+msgstr "Navegador Verdadero"
 
 msgid "Magnetize a compass."
-msgstr ""
+msgstr "Imantar una brújula."
 
 msgid "Map"
-msgstr ""
+msgstr "Mapa"
 
 msgid "Keep this in your inventory and view the map with the 'minimap' key"
-msgstr ""
+msgstr "Mantén esto en tu inventario y visualiza el mapa con la tecla 'minimap'"
 
 msgid "Use the minimap key to show the map."
-msgstr ""
+msgstr "Utiliza la tecla del minimapa para mostrar el mapa."
 
 msgid "Navigator"
-msgstr ""
+msgstr "Navegador"
 
 msgid "Craft a map."
-msgstr ""
+msgstr "Craftea un mapa."
