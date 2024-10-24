@@ -38,6 +38,13 @@ local ICON_FRAME_SIZE = 2.2
 local S = minetest.get_translator("rp_achievements")
 local NS = function(s) return s end
 
+local hud_def_type_field
+if minetest.features.hud_def_type_field then
+    hud_def_type_field = "type"
+else
+    hud_def_type_field = "hud_elem_type"
+end
+
 achievements = {}
 achievements.ACHIEVEMENT_GOTTEN = 1
 achievements.ACHIEVEMENT_IN_PROGRESS = 2
@@ -209,7 +216,7 @@ local achievement_popup = function(player_name, icon_type, icon, caption, messag
 
    -- Background
    local hud_bg = player:hud_add({
-      hud_elem_type = "image",
+      [hud_def_type_field] = "image",
       text = "rp_achievements_hud_bg.png",
       position = { x = 0.5, y = 0 },
       alignment = { x = 0, y = 1 },
@@ -237,7 +244,7 @@ local achievement_popup = function(player_name, icon_type, icon, caption, messag
    end
 
    local hud_icon = player:hud_add({
-      hud_elem_type = "image",
+      [hud_def_type_field] = "image",
       text = "("..icon_texture..")^[resize:"..HUD_ICON_SIZE.."x"..HUD_ICON_SIZE,
       position = { x = 0.5, y = 0 },
       alignment = { x = 1, y = 1 },
@@ -248,7 +255,7 @@ local achievement_popup = function(player_name, icon_type, icon, caption, messag
 
    -- Caption text
    local hud_caption = player:hud_add({
-      hud_elem_type = "text",
+      [hud_def_type_field] = "text",
       number = caption_color or 0xFFFFFF,
       text = caption,
       position = { x = 0.5, y = 0 },
@@ -262,7 +269,7 @@ local achievement_popup = function(player_name, icon_type, icon, caption, messag
 
    -- Message text
    local hud_message = player:hud_add({
-      hud_elem_type = "text",
+      [hud_def_type_field] = "text",
       number = message_color or 0xFFFFFF,
       text = message,
       position = { x = 0.5, y = 0 },

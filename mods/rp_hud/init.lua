@@ -4,6 +4,13 @@ rp_hud = {}
 
 rp_hud.registered_statbars = {}
 
+local hud_def_type_field
+if minetest.features.hud_def_type_field then
+    hud_def_type_field = "type"
+else
+    hud_def_type_field = "hud_elem_type"
+end
+
 -- time in seconds the breath bar will still show after going full again
 local BREATH_KEEP_TIME = 2.05
 
@@ -304,7 +311,7 @@ end
 --    * z_index: Statbar Z-index (see lua_api.md)
 rp_hud.register_statbar = function(name, def)
    local statbar_definition = {
-      hud_elem_type = "statbar",
+      [hud_def_type_fields] = "statbar",
       position = { x=0.5, y=1 },
       text = def.image,
       text2 = def.image_gone,

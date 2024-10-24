@@ -5,6 +5,13 @@
 local S = minetest.get_translator("rp_player_effects")
 local DISPLAY_ICONS = false
 
+local hud_def_type_field
+if minetest.features.hud_def_type_field then
+    hud_def_type_field = "type"
+else
+    hud_def_type_field = "hud_elem_type"
+end
+
 player_effects = {}
 
 player_effects.effects = {}
@@ -51,7 +58,7 @@ local function display_effect_icons(player)
      local effect = player_effects.get_registered_effect(en)
      if effect.icon then
         local id = player:hud_add({
-            hud_elem_type = "image",
+            [hud_def_type_field] = "image",
             position = { x = 1, y = 0 },
             offset = { x = -52 - i*52, y = 270 },
             text = effect.icon,

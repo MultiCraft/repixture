@@ -12,6 +12,13 @@ local settings = {
 }
 local spyglass_users = {}
 
+local hud_def_type_field
+if minetest.features.hud_def_type_field then
+    hud_def_type_field = "type"
+else
+    hud_def_type_field = "hud_elem_type"
+end
+
 rp_spyglass = {}
 
 -- check if player is using spyglass
@@ -57,7 +64,7 @@ local function use_spyglass(player)
 	local data = {
 		hud = settings.use_hud and player:hud_add({
 			name = "tph_spyglass",
-			hud_elem_type = "image",
+			[hud_def_type_field] = "image",
 			text = "tph_spyglass_hud.png", -- image is 52x32, any texture pack or edit to the image should have a resolution that properly factors to said resolution or width = height*1.625
 			position = {x = 0.5, y = 0.5},
 			scale = { x = -100, y = -100},

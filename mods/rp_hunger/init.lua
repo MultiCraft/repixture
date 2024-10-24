@@ -40,6 +40,13 @@ local EATING_SPEED_DURATION = 2.0
 local mod_achievements = minetest.get_modpath("rp_achievements") ~= nil
 local mod_death_messages = minetest.get_modpath("rp_death_messages") ~= nil
 
+local hud_def_type_field
+if minetest.features.hud_def_type_field then
+    hud_def_type_field = "type"
+else
+    hud_def_type_field = "hud_elem_type"
+end
+
 -- Per-player userdata
 
 local userdata = {}
@@ -180,7 +187,7 @@ local function update_bar(player)
       else
          player_debughud[name] = player:hud_add(
 	 {
-	    hud_elem_type = "text",
+	    [hud_def_type_field] = "text",
             position = {x=0.75,y=1.0},
             text = text,
             number = 0xFFFFFFFF,
@@ -201,7 +208,7 @@ local function update_bar(player)
    else
       player_bar[name] = player:hud_add(
 	 {
-	    hud_elem_type = "statbar",
+	    [hud_def_type_field] = "statbar",
 	    position = {x=0.5,y=1.0},
 	    text = "hunger.png",
 	    text2 = "hunger_gone.png",

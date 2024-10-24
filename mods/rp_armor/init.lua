@@ -8,6 +8,13 @@ local NS = function(s) return s end
 
 local mod_player_skins = minetest.get_modpath("rp_player_skins") ~= nil
 
+local hud_def_type_field
+if minetest.features.hud_def_type_field then
+    hud_def_type_field = "type"
+else
+    hud_def_type_field = "hud_elem_type"
+end
+
 -- Gain for equip/unequip sounds
 local SOUND_GAIN = 0.4
 
@@ -392,7 +399,7 @@ local armor_icon_definitions = {}
 
 for a=1, #armor.slots do
    armor_icon_definitions[a] = {
-      hud_elem_type = "image",
+      [hud_def_type_field] = "image",
       position = { x=0.5, y=1 },
       text = "blank.png",
       direction = 0,
