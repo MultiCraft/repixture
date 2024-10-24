@@ -3,9 +3,10 @@ This Minetest mod displays the name of the wielded item above the hotbar and
 statbars.
 
 This mod is compatible with the HUD Bars [`hudbars`] mod.
-Compability with other HUD-related mods is possible, but not guaranteed.
+This mod *disables* itself if Unified Inventory is detected to show item names.
+Compatibility with other HUD-related mods is possible, but not guaranteed.
 
-Version: 1.2.0
+Version: 1.2.1 (modified for Repixture)
 
 ## Credits
 Released by Wuzzy.

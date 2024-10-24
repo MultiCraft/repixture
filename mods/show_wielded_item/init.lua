@@ -7,6 +7,17 @@ local dtimes = {}
 local dlimit = 3  -- HUD element will be hidden after this many seconds
 
 local hudbars_mod = minetest.get_modpath("hudbars")
+local unified_inventory_mod = minetest.get_modpath("unified_inventory")
+
+-- Legacy support: Name of the HUD type field for 'hud_add'.
+local hud_type_field_name
+if minetest.features.hud_def_type_field then
+	-- Minetest 5.9.0 and later
+	hud_type_field_name = "type"
+else
+	-- All Minetest versions before 5.9.0
+	hud_type_field_name = "hud_elem_type"
+end
 
 local function set_hud(player)
 	if not player:is_player() then return end
@@ -36,7 +47,7 @@ local function set_hud(player)
 	end
 
 	huds[player_name] = player:hud_add({
-		hud_elem_type = "text",
+		[hud_type_field_name] = "text",
 		position = {x=0.5, y=1},
 		offset = off,
 		alignment = {x=0, y=0},
