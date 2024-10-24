@@ -311,7 +311,7 @@ end
 --    * z_index: Statbar Z-index (see lua_api.md)
 rp_hud.register_statbar = function(name, def)
    local statbar_definition = {
-      [hud_def_type_fields] = "statbar",
+      [hud_def_type_field] = "statbar",
       position = { x=0.5, y=1 },
       text = def.image,
       text2 = def.image_gone,
