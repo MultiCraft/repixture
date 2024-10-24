@@ -13,8 +13,8 @@ end
 rp_item_update.update_item = function(itemstack)
 	local iname = itemstack:get_name()
 	if updaters[iname] then
-		itemstack = updaters[iname](itemstack)
-		return itemstack
+		local new_itemstack = updaters[iname](itemstack)
+		return new_itemstack
 	else
 		return nil
 	end
@@ -22,16 +22,20 @@ end
 
 local update_inventory = function(inventory, lists)
 	if not lists then
-		lists = { "main" }
+		lists = { main = inventory:get_list("main") }
 	end
-	for l=1, #lists do
-		local list = lists[l]
-		for i=1, inventory:get_size(list) do
-			local item = inventory:get_stack(list, i)
+	for listname, list in pairs(lists) do
+		local changed = false
+		for i=1, #list do
+			local item = list[i]
 			local new_item = rp_item_update.update_item(item)
 			if new_item then
-				inventory:set_stack(list, i, new_item)
+				list[i] = new_item
+				changed = true
 			end
+		end
+		if changed then
+			inventory:set_list(listname, list)
 		end
 	end
 end
@@ -44,10 +48,10 @@ end)
 minetest.register_lbm({
 	label = "Update items in containers",
 	name = "rp_item_update:update_containers",
-	nodename = { "group:container" },
+	nodenames = { "group:container" },
 	run_at_every_load = true,
 	action = function(pos, node)
-		local meta = minetest.get_meta()
+		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		local lists = inv:get_lists()
 		update_inventory(inv, lists)

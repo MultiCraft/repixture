@@ -399,6 +399,7 @@ local function set_brush_image(itemstack)
 		item_meta:set_string("wield_overlay", "")
 		return itemstack
 	end
+	-- Brush with paint; show the amount of paint left
 	local ratio = color_uses / BRUSH_PAINTS
 	local rem
 	if ratio > 0.83333 then
@@ -456,7 +457,7 @@ minetest.register_tool("rp_paint:brush", {
 		-- Dip brush in water bucket to remove paint
 		if minetest.get_item_group(node.name, "bucket_water") == 1 then
 			imeta:set_int("color_uses", 0)
-			set_item_image(imeta, "")
+			itemstack = set_brush_image(itemstack)
 			minetest.sound_play({name="rp_paint_brush_dip", gain=0.3, pitch=1.5}, {pos=pos, max_hear_distance = 8}, true)
 			return itemstack
 		end
@@ -475,19 +476,18 @@ minetest.register_tool("rp_paint:brush", {
 			imeta:set_int("_palette_index", color)
 			imeta:set_int("color_uses", BRUSH_PAINTS)
 
-			local hexcode = COLOR_HEXCODES[color+1] or "#FFFFFF"
-			set_item_image(imeta, "rp_paint_brush_overlay.png^(rp_paint_brush.png^[multiply:"..hexcode..")")
+			itemstack = set_brush_image(itemstack)
 
 			minetest.sound_play({name="rp_paint_brush_dip", gain=0.3}, {pos=pos, max_hear_distance = 8}, true)
 			return itemstack
 		end
 
 		-- Paint paintable node (brush needs to have paint and node must be paintable)
-		local color = imeta:get_int("_palette_index")
+		local color = imeta:get_int("_palette_index") + 1
 		local color_uses = imeta:get_int("color_uses")
 		if color_uses <= 0 then
 			-- Not enough paint on brush: do nothing
-			set_item_image(imeta, "")
+			itemstack = set_brush_image(itemstack)
 			minetest.sound_play({name="rp_paint_brush_fail", gain=0.5}, {pos=pos, max_hear_distance=8}, true)
 			return itemstack
 		end
@@ -507,38 +507,8 @@ minetest.register_tool("rp_paint:brush", {
 
 			color_uses = math.max(0, math.min(BRUSH_PAINTS, color_uses))
 
-			-- Update paint brush image to show the amount of paint left
-			if color_uses <= 0 then
-				set_item_image(imeta, "")
-			else
-				local ratio = color_uses / BRUSH_PAINTS
-				local rem
-				if ratio > 0.83333 then
-					rem = 0
-				elseif ratio > 0.66667 then
-					rem = 1
-				elseif ratio > 0.50000 then
-					rem = 2
-				elseif ratio > 0.33333 then
-					rem = 3
-				elseif ratio > 0.16667 then
-					rem = 4
-				else
-					rem = 5
-				end
-
-				local color = imeta:get_int("_palette_index") + 1
-				local hexcode = COLOR_HEXCODES[color] or "#FFFFFF"
-
-				local mask
-				if rem > 0 then
-					mask = "^[mask:rp_paint_brush_overlay_mask_"..rem..".png"
-				else
-					mask = ""
-				end
-				local istr = "rp_paint_brush_overlay.png^(rp_paint_brush.png"..mask.."^[multiply:"..hexcode..")"
-				set_item_image(imeta, istr)
-			end
+			-- Update paint brush image
+			itemstack = set_brush_image(itemstack)
 		else
 			minetest.sound_play({name="rp_paint_brush_fail", gain=0.5}, {pos=pos, max_hear_distance=8}, true)
 		end
@@ -862,11 +832,11 @@ rp_item_update.register_item_update("rp_paint:brush", function(itemstack)
 	local item_meta = itemstack:get_meta()
 	local pi = item_meta:get_int("palette_index")
 	local color
-	if pi > 0 then
+	if pi ~= 0 then
 		item_meta:set_int("palette_index", 0)
 		item_meta:set_int("_palette_index", pi)
+		itemstack = set_brush_image(itemstack)
+		return itemstack
 	end
-	itemstack = set_brush_image(itemstack)
-	return itemstack
 end)
 
