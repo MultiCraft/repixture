@@ -56,9 +56,27 @@ Pixture was inspired by [Kenney](http://kenney.nl).
 
 ### Translators
 
-* Wuzzy: German
-* rudzik8, vintprox: Russian
-* Trent Pic, tgree, syl: French
+* German:
+   * Wuzzy <Wuzzy@disroot.org>
+* Russian:
+   * Application-Maker <application-maker.uinwad@erine.email>
+   * rudzik8 <rudzik8@protonmail.com>
+   * vintprox
+   * standmit <standmit@yandex.ru>
+   * mondstern <mondstern@monocles.de>
+* French:
+   * Trent Pic
+   * tgree
+   * syl
+   * Dacmot <odragon@protonmail.com>
+* Esperanto:
+   * mondstern <mondstern@monocles.de>
+* Italian:
+   * Francesco Gazzetta <fgaz@fgaz.me>
+   * mondstern <mondstern@monocles.de>
+* Spanish:
+   * Gabri06 <rangelg2908@gmail.com>
+
 
 ### Sounds
 
