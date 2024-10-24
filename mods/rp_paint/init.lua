@@ -397,7 +397,7 @@ local function set_brush_image(itemstack)
 		item_meta:set_string("wield_image", "")
 		item_meta:set_string("inventory_overlay", "")
 		item_meta:set_string("wield_overlay", "")
-		return
+		return itemstack
 	end
 	local ratio = color_uses / BRUSH_PAINTS
 	local rem
@@ -415,7 +415,7 @@ local function set_brush_image(itemstack)
 		rem = 5
 	end
 
-	local color = item_meta:get_int("_palette_index", 0) + 1
+	local color = item_meta:get_int("_palette_index") + 1
 	local hexcode = COLOR_HEXCODES[color] or "#FFFFFF"
 
 	local mask
@@ -430,6 +430,7 @@ local function set_brush_image(itemstack)
 	item_meta:set_string("wield_image", image)
 	item_meta:set_string("inventory_overlay", "")
 	item_meta:set_string("wield_overlay", "")
+	return itemstack
 end
 
 minetest.register_tool("rp_paint:brush", {
@@ -471,7 +472,6 @@ minetest.register_tool("rp_paint:brush", {
 				-- Reduce amount of paint in bucket
 				change_bucket_level(pos, node, -1)
 			end
-			imeta:set_int("palette_index", 0)
 			imeta:set_int("_palette_index", color)
 			imeta:set_int("color_uses", BRUSH_PAINTS)
 
@@ -483,7 +483,7 @@ minetest.register_tool("rp_paint:brush", {
 		end
 
 		-- Paint paintable node (brush needs to have paint and node must be paintable)
-		local color = get_color(imeta)
+		local color = imeta:get_int("_palette_index")
 		local color_uses = imeta:get_int("color_uses")
 		if color_uses <= 0 then
 			-- Not enough paint on brush: do nothing
@@ -527,7 +527,7 @@ minetest.register_tool("rp_paint:brush", {
 					rem = 5
 				end
 
-				local color = get_color(imeta)
+				local color = imeta:get_int("_palette_index") + 1
 				local hexcode = COLOR_HEXCODES[color] or "#FFFFFF"
 
 				local mask
@@ -866,7 +866,7 @@ rp_item_update.register_item_update("rp_paint:brush", function(itemstack)
 		item_meta:set_int("palette_index", 0)
 		item_meta:set_int("_palette_index", pi)
 	end
-	set_brush_image(itemstack)
+	itemstack = set_brush_image(itemstack)
 	return itemstack
 end)
 

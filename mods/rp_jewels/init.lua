@@ -313,7 +313,7 @@ minetest.register_node(
       _tt_help = S("Tools can be upgraded with jewels here"),
       tiles ={"jewels_bench_top.png", "jewels_bench_bottom.png", "jewels_bench_sides.png"},
       paramtype2 = "4dir",
-      groups = {choppy=2,oddly_breakable_by_hand=2,interactive_node=1,furniture=1,pathfinder_hard=1},
+      groups = {container=1, choppy=2,oddly_breakable_by_hand=2,interactive_node=1,furniture=1,pathfinder_hard=1},
       is_ground_content = false,
       sounds = rp_sounds.node_sound_wood_defaults(),
 
