@@ -176,32 +176,44 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
 	 palette = palette_slab,
 	 is_ground_content = nodedef.is_ground_content,
 	 drop = drop_slab,
+         node_placement_prediction = "",
 
          on_place = function(itemstack, placer, pointed_thing)
             local function place_slab_up(itemstack, placer, pointed_thing)
                local itemstack_up = ItemStack(itemstack)
                itemstack_up:set_name(slabupname)
                itemstack_up:set_count(1)
-               itemstack_up = minetest.item_place(itemstack_up, placer, pointed_thing)
-               if itemstack_up:is_empty() and not minetest.is_creative_enabled(placer:get_player_name()) then
+               local position
+               itemstack_up, position = minetest.item_place(itemstack_up, placer, pointed_thing)
+               if position and not minetest.is_creative_enabled(placer:get_player_name()) then
                   itemstack:take_item()
                end
-               return itemstack
+               return itemstack, position
             end
+
+            local old_itemstack = ItemStack(itemstack)
+            local olddef = old_itemstack:get_definition()
 
             -- Place at wall: Place "up" slab up pointed at upper half of node side
             if (pointed_thing.above.y == pointed_thing.under.y) then
                local precise = minetest.pointed_thing_to_face_pos(placer, pointed_thing)
                local h = precise.y % 1
+               local position
                if h <= 0.5 then
                   -- Place "up" slab
-                  itemstack = place_slab_up(itemstack, placer, pointed_thing)
-                  return itemstack
+                  itemstack, position = place_slab_up(itemstack, placer, pointed_thing)
                else
                   -- Normal placement
-                  itemstack = minetest.item_place(itemstack, placer, pointed_thing)
-                  return itemstack
+                  itemstack, position = minetest.item_place(itemstack, placer, pointed_thing)
                end
+               if position then
+                  if olddef and olddef.sounds and olddef.sounds.place then
+                     minetest.sound_play(olddef.sounds.place, {pos=position}, false)
+                  end
+               else
+                  rp_sounds.play_place_failed_sound(placer)
+               end
+               return itemstack
             end
 
             -- Place at floor or ceiling
@@ -233,15 +245,26 @@ function partialblocks.register_material(name, desc_slab, desc_stair, node, grou
                   and itemstack:get_count() >= 1 and paint_match then
 
                minetest.swap_node(pos, {name = node, param2 = old_node.param2})
+               if olddef and olddef.sounds and olddef.sounds.place then
+                  minetest.sound_play(olddef.sounds.place, {pos=pos}, false)
+               end
 	       if not minetest.is_creative_enabled(placer:get_player_name()) then
                    itemstack:take_item()
                end
 
             else
+               local position
                if place_down then
-                  itemstack = minetest.item_place(itemstack, placer, pointed_thing)
+                  itemstack, position = minetest.item_place(itemstack, placer, pointed_thing)
                else
-                  itemstack = place_slab_up(itemstack, placer, pointed_thing)
+                  itemstack, position = place_slab_up(itemstack, placer, pointed_thing)
+               end
+               if position then
+                  if olddef and olddef.sounds and olddef.sounds.place then
+                     minetest.sound_play(olddef.sounds.place, {pos=position}, false)
+                  end
+               else
+                  rp_sounds.play_place_failed_sound(placer)
                end
             end
             return itemstack
