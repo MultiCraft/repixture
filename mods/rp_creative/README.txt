@@ -1,4 +1,4 @@
-Minetest 0.4 mod: creative
+Repixture mod: rp_creative
 ==========================
 
 Implements creative mode.

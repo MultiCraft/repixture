@@ -4,7 +4,7 @@ This mod provides an advanced pathfinding algorithm that finds
 an optimal path between two positions in the world. It uses the
 `A*` search algorithm.
 
-It has more features than the built-in pathfinder of Minetest,
+It has more features than the built-in pathfinder of Luanti,
 but it is also less performant. It was created to aid mobs (creatures,
 animals, monsters) to walk through their world.
 

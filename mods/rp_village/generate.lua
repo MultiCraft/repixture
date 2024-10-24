@@ -232,7 +232,7 @@ farms, roads, and the like.
 village chunk definition:
 {
    -- every field is optional
-   can_cache = <bool>, -- if true, schematic can be cached by Minetest
+   can_cache = <bool>, -- if true, schematic can be cached by Luanti
                        -- use this if no random node replacements (like wood)
                       -- are required (default: false)
    variants = { "variant_1", ..., "variant_n" },
@@ -930,12 +930,12 @@ function village.spawn_chunk(vmanip, pos, state, orient, replace, pr, chunktype,
 
    local schem_spec
    if village.chunkdefs[chunktype] and village.chunkdefs[chunktype].can_cache then
-      -- Minetest's caching is allowed for this chunktype, so we call the schematic place function
-      -- in the normal way (schematics are cached by Minetest if the schematic path is
+      -- Luanti's caching is allowed for this chunktype, so we call the schematic place function
+      -- in the normal way (schematics are cached by Luanti if the schematic path is
       -- specified in the place function)
       schem_spec = modpath .. "/schematics/village_" .. schem_segment .. ".mts"
    else
-      -- load schematic from table definition (read_schematic). This will force Minetest
+      -- load schematic from table definition (read_schematic). This will force Luanti
       -- to skip its schematic cache and guarantee that node replacements are
       -- applied every time.
       -- However, this mod still caches the result of read_schematic itself to save

@@ -16,7 +16,7 @@ local TEXT_ENTITY_OFFSET = SIGN_THICKNESS + 1/128
 local TEXT_ENTITY_OFFSET_STANDING = SIGN_THICKNESS/2 + 1/128
 
 -- Maximum length for a texture string.
--- Hard limit to avoid running into issues with Minetest.
+-- Hard limit to avoid running into issues with Luanti.
 local MAX_TEXTURE_STRING_LENGTH = 64535
 
 -- Text entity dimensions
@@ -185,7 +185,7 @@ local function get_signdata(pos)
 		return
 	end
 	-- The sign_r90 group marks the sign as being rotated by 90°.
-	-- TODO: It should be replaced later with the new Minetest wallmounted
+	-- TODO: It should be replaced later with the new Luanti wallmounted
 	-- extensions.
 	local r90 = minetest.get_item_group(node.name, "sign_r90") == 1
 	local g_standing = minetest.get_item_group(node.name, "sign_standing")
@@ -395,7 +395,7 @@ local function update_sign(pos, text_front, text_back)
 			local tex = "[png:"..image..invert_str
 
 			-- If texture string is very long, replace it with a special gibberish texture.
-			-- Minetest has a length limit for object texture strings. Minetest
+			-- Luanti has a length limit for object texture strings. Luanti
 			-- does not like if when it is exceeded. So we create a warning.
 			if string.len(tex) > MAX_TEXTURE_STRING_LENGTH then
 				return "rp_default_sign_gibberish.png"..invert_str, false

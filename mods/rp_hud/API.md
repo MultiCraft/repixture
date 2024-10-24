@@ -29,7 +29,7 @@ Parameters:
 
 * `player`: Player object for which this takes effect
 * `semaphore_id`: Unique identifier for the semaphore. Use the form `"modname:name"`
-* `hud_flag`: Which HUD flag to modify (see `hud_set_flags` in Minetest Lua API docs)
+* `hud_flag`: Which HUD flag to modify (see `hud_set_flags` in Luanti Lua API docs)
 * `semaphore_state`: True if the semaphore allows the HUD flag, false if not.
 
 ### Notes

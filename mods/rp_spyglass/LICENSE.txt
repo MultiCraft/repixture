@@ -1,4 +1,4 @@
-This mod is based on the `tph_spyglass` mod by the Minetest.net user TPH,
+This mod is based on the `tph_spyglass` mod by the Luanti.net user TPH,
 it has been modified for Repixture.
 It is free software.
 

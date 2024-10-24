@@ -13,7 +13,7 @@ For advanced player model features specific to Repixture, you may use `rp_player
 
 The API documentation is copied from from Minetest Game 5.8.0.
 originally by celeron55, Perttu Ahola <celeron55@gmail.com> (LGPLv2.1+),
-continued by Minetest developers and contributors (LGPLv2.1+),
+continued by Luanti developers and contributors (LGPLv2.1+),
 changed for Repixture by Wuzzy (LGPLv2.1+).
 
 Everything else written by Wuzzy (LGPLv2.1+).

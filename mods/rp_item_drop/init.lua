@@ -67,7 +67,7 @@ function item_drop.drop_items_from_container_meta_table(pos, invlists, meta_tabl
    end
 end
 
--- Overwrite Minetest's item_drop function
+-- Overwrite Luanti's item_drop function
 minetest.item_drop = function(itemstack, dropper, pos)
 	local dropper_is_player = dropper and dropper:is_player()
 	local dpos = vector.new(pos.x, pos.y, pos.z)

@@ -21,7 +21,7 @@ It does not contain any mobs itself, but only the technical framework for it.
 
 ## Priorities
 
-There are many mob mods for Minetest, but Repixture has its own brand-new mob API
+There are many mob mods for Luanti, but Repixture has its own brand-new mob API
 specifically created for Repixture. The priorities of the Repixture Mobs API are:
 
 * Flexibility: The API should not restrict what mobs can do

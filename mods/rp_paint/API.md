@@ -30,7 +30,7 @@ in inventory to reduce inventory clutter.
 Follow these steps to make an intrinsically painted node:
 
 1. Add the `paintable = 1` group
-2. Set the `tiles` and optionally `overlay_tiles` as you wish (see Minetest Lua API documentation)
+2. Set the `tiles` and optionally `overlay_tiles` as you wish (see Luanti Lua API documentation)
 3. Add the field `palette` (see below)
 4. Set `paramtype2` to `"color"`, `"color4dir"`, `"colorwallmounted"` or `"colorfacedir"`
 5. Add the field `drop = "<name of this node>"`
@@ -49,7 +49,7 @@ For the painted node:
 
 1. Use the same nodename as the unpainted node, but append `_paintable`
 2. Add the groups `paintable = 1`, `not_in_creative_inventory = 1` and `not_in_craft_guide = 1`
-3. Set the `tiles` and optionally `overlay_tiles` as you wish (see Minetest Lua API documentation)
+3. Set the `tiles` and optionally `overlay_tiles` as you wish (see Luanti Lua API documentation)
 4. Add the field `palette` (see below)
 4. Set `paramtype2` to `"color"`, `"color4dir"`, `"colorwallmounted"` or `"colorfacedir"`
 6. Add the field `drop = "<name of the unpainted node>"`

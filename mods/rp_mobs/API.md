@@ -38,14 +38,14 @@ So on the top level, you have task queues, which consist of tasks, which in turn
 
 ### Physics and movement
 
-This mod doesn't handle physics. Just use Minetest’s built-in functions like `set_velocity` and `set_acceleration`.
+This mod doesn't handle physics. Just use Luanti’s built-in functions like `set_velocity` and `set_acceleration`.
 
 There’s one exception: Gravity. This mod provides a default gravity vector at `rp_mobs.GRAVITY_VECTOR`.
 
 To activate gravity for a mob, you use the `set_acceleration` microtask template (see the section about task templates).
 
 ### Registering a mob
-You add (register) a mob via `rp_mobs.register_mob`. Mob definitions in this API are very low-level and similar to typical entity definitions in Minetest. You still have to provide a full entity definition via `entity_definition` including the callback functions like `on_activate` and `on_rightclick`.
+You add (register) a mob via `rp_mobs.register_mob`. Mob definitions in this API are very low-level and similar to typical entity definitions in Luanti. You still have to provide a full entity definition via `entity_definition` including the callback functions like `on_activate` and `on_rightclick`.
 
 You're supposed to use the Repixture Mob API functionality by inserting the various helper functions into the callbacks like `on_step` and `on_activate` where appropriate.
 
@@ -182,7 +182,7 @@ of the `on_activate` function.
 
 ### Dying
 
-An entity “dies” in Minetest when its HP reaches 0, which instantly removes it and
+An entity “dies” in Luanti when its HP reaches 0, which instantly removes it and
 triggers the `on_death` function.
 
 We do not like instant removal so this subsystem provides a simple graphical death
@@ -206,7 +206,7 @@ When the mob has received fatal damage, the HP remains at 1 but the mob
 counts as dead.
 
 If this subsystem is not used, the mob will instantly disappear when the HP reaches 0.
-But `on_death` is still called because this is built-in by Minetest.
+But `on_death` is still called because this is built-in by Luanti.
 
 ### Node damage
 
@@ -444,7 +444,7 @@ Currently, the default death handler just drops the mob death items.
 
 Set `on_death = rp_mobs.on_death_default` to use the default death behavior.
 
-Remember that `on_death` is a built-in Minetest event, so it is triggered even
+Remember that `on_death` is a built-in Luanti event, so it is triggered even
 if the mob doesn't use the 'Dying' subsystem.
 
 #### `rp_mobs.on_punch_default(mob, puncher, time_from_last_punch, tool_capabilities, dir, damage)`
@@ -1016,7 +1016,7 @@ Parameters:
 
 ### Why yet another Mob API?
 
-If you know the Minetest community, you might have noticed there are a lot of Mob APIs around.
+If you know the Luanti community, you might have noticed there are a lot of Mob APIs around.
 So why introduce another one?
 
 The reason is that I (Wuzzy) was dissatisfied with the current mod situation.

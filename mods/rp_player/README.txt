@@ -11,7 +11,7 @@ Developers: See `API.md` to manage the player model (including textures and anim
 
 `model.lua` is derived from `player_api` mod from Minetest Game 5.8.0,
 originally by celeron55, Perttu Ahola <celeron55@gmail.com> (LGPLv2.1+),
-continued by Minetest developers and contributors (LGPLv2.1+),
+continued by Luanti developers and contributors (LGPLv2.1+),
 changed for Repixture by Wuzzy (LGPLv2.1+).
 
 Other code by Kaadmy and Wuzzy.

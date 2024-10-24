@@ -12,10 +12,10 @@ local unified_inventory_mod = minetest.get_modpath("unified_inventory")
 -- Legacy support: Name of the HUD type field for 'hud_add'.
 local hud_type_field_name
 if minetest.features.hud_def_type_field then
-	-- Minetest 5.9.0 and later
+	-- Luanti 5.9.0 and later
 	hud_type_field_name = "type"
 else
-	-- All Minetest versions before 5.9.0
+	-- All Luanti versions before 5.9.0
 	hud_type_field_name = "hud_elem_type"
 end
 
@@ -40,7 +40,7 @@ local function set_hud(player)
 			off.y = -76 - vmargin*rows
 		end
 
-		-- Dirty trick to avoid collision with Minetest's status text (e.g. “Volume changed to 0%”)
+		-- Dirty trick to avoid collision with Luanti's status text (e.g. “Volume changed to 0%”)
 		if off.y >= -167 and off.y <= -156 then
 			off.y = -181
 		end
@@ -102,7 +102,7 @@ minetest.register_globalstep(function(dtime)
 
 			if huds[player_name] then 
 
-				-- Get description (various fallback checks for old Minetest versions)
+				-- Get description (various fallback checks for old Luanti versions)
 				local def = minetest.registered_items[wname]
 				local desc
 				if wstack.get_short_description then

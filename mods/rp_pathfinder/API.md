@@ -90,7 +90,7 @@ which is not permitted. To use the pathfinder asynchronously, you need to do the
 
 ### Performance notes
 
-This function is less performant than the built-in `A*` pathfinder from Minetest,
+This function is less performant than the built-in `A*` pathfinder from Luanti,
 but it has more features.
 
 For long-distance destinations, calling this function asynchronously is a good idea so the lowered

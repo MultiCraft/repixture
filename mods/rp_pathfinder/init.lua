@@ -442,7 +442,7 @@ function rp_pathfinder.find_path(pos1, pos2, searchdistance, options, timeout)
 
 	--[[ Syntax of a single search node for the A* search:
 		{
-			pos: World position of the Minetest node that this search node represents
+			pos: World position of the Luanti node that this search node represents
 			parent: Reference to preceding node in the search (nil for start node)
 			h: Heuristic cost estimate from node to finish
 			g: Total cost from start to this node

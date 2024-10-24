@@ -21,7 +21,7 @@ it's already used by the player.
 ### `bed.unset_spawn(player)`
 
 Clears the bed (re)spawn position of `player`. The player will respawn
-according to the default Minetest rules.
+according to the default Luanti rules.
 
 ### `bed.is_valid_bed(pos)`
 

@@ -437,7 +437,7 @@ TGA encoder on filesize for larger image dimensions, but not on speed.
 
 Note that `minetest.encode_png()` is not a good PNG encoder, as it can
 not apply prefilters and always writes 32bpp non-colormap RBGA images.
-Compare the Minetest devtest checkerboard to the checkerboard that was
+Compare the Luanti devtest checkerboard to the checkerboard that was
 generated in the previous section to know how bad of an encoder it is.
 
 In the following example, rendering `UTF-8-demo.txt`_ with GNU Unifont
@@ -475,9 +475,9 @@ The above times were measured on a Thinkpad P14s.
 Anything else?
 ++++++++++++++
 
-Yes, Minetest should support deflated TGA as a texture format and send
+Yes, Luanti should support deflated TGA as a texture format and send
 uncompressed TGA to older clients to provide compatibility at the cost
-of more network traffic. Minetest should also compress files which are
+of more network traffic. Luanti should also compress files which are
 sent as dynamic media, but only if doing it reduces the transfer size.
 
 Also, any developer who proposes to use ZSTD instead of DEFLATE should
@@ -500,7 +500,7 @@ for details.
 License
 -------
 
-unicode_text, a Unicode text renderer mod for Minetest
+unicode_text, a Unicode text renderer mod for Luanti
 Copyright (C) 2024  Wuzzy and erlehmann
 
 This program is free software: you can redistribute it and/or modify

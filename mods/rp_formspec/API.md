@@ -300,7 +300,7 @@ It is also recommended to use a different icon for both pushed and
 unpushed state.
 
 (Note: Internally, this tab is a button. It has nothing to do with
-Minetest's builtin 'tabheader')
+Luanti's builtin 'tabheader')
 
 ### `rp_formspec.fake_itemstack(x, y, itemstack, xsize, ysize)`
 

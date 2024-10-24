@@ -2,8 +2,8 @@
 
 -- Jewel ore generated in birch tree nodes in the giga tree decorations
 -- in the Deep Forest biome.
--- The algorithm uses LVM to imitate Minetest's scatter ores,
--- since ores in Minetest are generated after decorations.
+-- The algorithm uses LVM to imitate Luanti's scatter ores,
+-- since ores in Luanti are generated after decorations.
 
 -- Fields of the original ore definition:
 local clust_scarcity = 11*11*11
@@ -54,7 +54,7 @@ do
 			deco_ok = deco and #deco > 0
 		end
 		if deco_ok then
-			-- This code tries to imitate scatter ores in Minetest
+			-- This code tries to imitate scatter ores in Luanti
 			local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 			local area = VoxelArea:new({MinEdge=emin, MaxEdge=emax})
 			local data = vm:get_data(lvm_buffer)

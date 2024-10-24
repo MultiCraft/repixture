@@ -11,7 +11,7 @@ the world.
 
 3.16.0
 
-Designed for use with Minetest 5.8.0 or later.
+Designed for use with Luanti 5.8.0 or later.
 
 ## Features
 
@@ -37,7 +37,7 @@ Designed for use with Minetest 5.8.0 or later.
 ## Credits
 
 Repixture was started by Wuzzy. It's a fork of Pixture.
-Repixture is a revival of Pixture 0.1.1, a game for Minetest 0.4.
+Repixture is a revival of Pixture 0.1.1, a game for Luanti 0.4.
 
 Pixture is Copyright (C) 2015-2017 [Kaadmy](https://github.com/kaadmy).
 
@@ -111,7 +111,7 @@ more permissive licenses (LGPLv2.1 in most cases, see below).
 
 ### Full text
 
-    Repixture, a game for Minetest
+    Repixture, a game for Luanti
     Copyright (C) 2024  Wuzzy, Kaadmy and others
 
     This program is free software: you can redistribute it and/or modify

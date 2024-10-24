@@ -5,7 +5,7 @@ Lua implementation of the Unicode Bidirectional Algorithm (UAX #9).
 Based on the original source code on GitHub: https://github.com/deepakjois/luabidi
 
 Minimal modifications had been made to the code to make
-it compatible with Minetest.
+it compatible with Luanti.
 
 ## How to use
 

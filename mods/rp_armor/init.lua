@@ -375,7 +375,7 @@ function armor.get_armor_protection(player)
    -- Final armor protection is sum of base armor and bonus,
    -- as percentage points
    local armor_all = math.min(100, armor_base + armor_bonus)
-   -- Negative armor is allowed, but limited by Minetest's
+   -- Negative armor is allowed, but limited by Luanti's
    -- armor group value range.
    armor_all = math.max(armor_all, -32767+100)
    return armor_all, armor_base, armor_bonus

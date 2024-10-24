@@ -9,7 +9,7 @@ correct translation after the renaming orgy
 after 1.5.3. If we switch to 'rp_book',
 then the item tooltip of writen books would
 lose their translation.
-This could be solved if Minetest had a function like
+This could be solved if Luanti had a function like
 minetest.register_lbm, but for items.
 But the 'book' identifier works just fine for now,
 it's just a minor deviation from convention. ]]

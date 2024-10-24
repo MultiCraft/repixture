@@ -7,12 +7,12 @@ This manual explains the basics of Repixture. Here you learn how to install, set
 
 ## Introduction
 
-Welcome to <span class="concept">Repixture</span>! Repixture is a sandbox game for Minetest focusing on nature, survival and primitive technologies. The world is random and features mostly a temperate climate. Explore the world and gather resources to survive. Craft tools and things to build with, build shelter and later the buildings of your dreams. What you do in this world is up to you: Go mining for the mysterious lumien, forge the mightiest sword, trade with villagers, go farming, hunt for achievements, or whatever.
+Welcome to <span class="concept">Repixture</span>! Repixture is a sandbox game for Luanti focusing on nature, survival and primitive technologies. The world is random and features mostly a temperate climate. Explore the world and gather resources to survive. Craft tools and things to build with, build shelter and later the buildings of your dreams. What you do in this world is up to you: Go mining for the mysterious lumien, forge the mightiest sword, trade with villagers, go farming, hunt for achievements, or whatever.
 
 ### Information for players familiar with Minetest Game, Minecraft, Terasology, etc.
 
 If you know any of these games, you will find this game easy to pick up. Repixture is similar to these games and follows the same key principles.
-If you’re familiar with Minetest in general, you’re already familiar with the basics.
+If you’re familiar with Luanti in general, you’re already familiar with the basics.
 
 Here’s what’s special in Repixture:
 
@@ -37,14 +37,14 @@ Here’s what’s special in Repixture:
 
 ### Installation
 
-To play Repixture, you must have Minetest installed. See the `README.md` text file for the required Minetest version.
-The recommended method to install Repixture is by using the Minetest ContentDB. This is the “Content” tab in Minetest.
+To play Repixture, you must have Luanti installed. See the `README.md` text file for the required Luanti version.
+The recommended method to install Repixture is by using the Luanti ContentDB. This is the “Content” tab in Luanti.
 
-You can also install Repixture manually. Look up the Minetest documentation to learn how to install games manually.
+You can also install Repixture manually. Look up the Luanti documentation to learn how to install games manually.
 
 ### Setup / configuration
 
-For the vanilla Repixture gameplay experience, Repixture needs several settings to be untouched (reset to defaults) in your Minetest configuration. If you want the official Repixture experience, please make sure the following Minetest settings are at the default value / removed from `minetest.conf`:
+For the vanilla Repixture gameplay experience, Repixture needs several settings to be untouched (reset to defaults) in your Luanti configuration. If you want the official Repixture experience, please make sure the following Luanti settings are at the default value / removed from `minetest.conf`:
 
 * Any player movement settings (Settings that start with “`movement_`”. Exception: `movement_speed_fast`)
 * Time speed (`time_speed`)
@@ -62,13 +62,13 @@ The following settings are recognized in Repixture:
 * No damage (`enable_damage=false`): All players are immortal. No damage, no hunger, no drowning, no deaths. Doesn’t affect creatures.
 * No hunger (`enable_hunger=false`): Hunger is disabled.
 
-For more settings, go to the Minetest settings menu and look for the Repixture section.
+For more settings, go to the Luanti settings menu and look for the Repixture section.
 
 ## Starting the game
 
 ### A new world
 
-Starting a world works like with any other game in Minetest. Enter a world name, select a map generator and settings, and off you go! The seed is value that will be used to calculate random things in the game. The same seed will generate the same world.
+Starting a world works like with any other game in Luanti. Enter a world name, select a map generator and settings, and off you go! The seed is value that will be used to calculate random things in the game. The same seed will generate the same world.
 
 You can choose one of various map generators, like v7, carpathian, valleys, etc. For new players, v7 is recommended for new players, but other map generators also work fine and can be nice if you want to try out something new. Only v6 isn’t supported and can’t be selected.
 
@@ -76,9 +76,9 @@ Note: The “singlenode” map generator is special as the world is completely e
 
 ## Controls
 
-Repixture uses the same control scheme as Minetest. Walking, jumping, etc. works the usual way. Remember you can always change or lookup the key bindings in the settings and/or pause menu of Minetest.
+Repixture uses the same control scheme as Luanti. Walking, jumping, etc. works the usual way. Remember you can always change or lookup the key bindings in the settings and/or pause menu of Luanti.
 
-Repixture recognizes the following game-related controls offered by Minetest:
+Repixture recognizes the following game-related controls offered by Luanti:
 
 * <kbd>Look around</kbd>
 * <kbd>Left</kbd> / <kbd>Right</kbd> / <kbd>Forwards</kbd> / <kbd>Backwards</kbd>
@@ -92,7 +92,7 @@ Repixture recognizes the following game-related controls offered by Minetest:
 * <kbd>Select item in hotbar</kbd>
 * <kbd>Zoom</kbd> (only works in Creative Mode)
 
-All keys do what they say. The <kbd>Jump</kbd> and <kbd>Sneak</kbd> keys also move you up and down in liquids and blocks that can be climbed, as usual. Note there’s a Minetest setting `aux1_descends` that can alter this behavior.
+All keys do what they say. The <kbd>Jump</kbd> and <kbd>Sneak</kbd> keys also move you up and down in liquids and blocks that can be climbed, as usual. Note there’s a Luanti setting `aux1_descends` that can alter this behavior.
 
 For clarity, here’s what happens if you use the <kbd>Place</kbd> or <kbd>Punch</kbd> key:
 
@@ -446,7 +446,7 @@ Note: Damage is *not* automatically disabled by Creative Mode. Damage is toggled
 
 ### Commands
 
-Like in many other Minetest games, several <span class="concept">server commands</span> are available which allow you to do some special things via the chat. Most of these commands are considered cheating and require privileges. Commands work like in other games for Minetest. Look up the Minetest help for details. Say `/help` in chat for a list of available commands.
+Like in many other Luanti games, several <span class="concept">server commands</span> are available which allow you to do some special things via the chat. Most of these commands are considered cheating and require privileges. Commands work like in other games for Luanti. Look up the Luanti help for details. Say `/help` in chat for a list of available commands.
 
 Here are some noteworthy commands (all of these need some privilege):
 
@@ -461,7 +461,7 @@ This game can be played in multiplayer, too. Keep in mind: Without any modificat
 
 Nothing is completely safe from attacks. Not even <span class="item">locked chests</span> are safe because of <span class="item">lockpicks</span>.
 
-Repixture supports the protection system of Minetest but it doesn’t enforce protection itself. This protection system allows the players to protect a piece of land for themselves so that other players cannot dig or build here. This is popular in servers where you want to show off creative buildings. If you want protection for Repixture, install a protection mod of your choice in Minetest.
+Repixture supports the protection system of Luanti but it doesn’t enforce protection itself. This protection system allows the players to protect a piece of land for themselves so that other players cannot dig or build here. This is popular in servers where you want to show off creative buildings. If you want protection for Repixture, install a protection mod of your choice in Luanti.
 
 Whatever you do with your Repixture server is up to you, of course, just keep the gameplay implications in mind.
 
@@ -472,7 +472,7 @@ The health bar can be disabled in the settings.
 
 ### Modding support
 
-Repixture supports mods, using the powerful Minetest Lua API. With mods, people can extend or modify the game in many fun and interesting ways. Mods are completely optional, however, as Repixture wants to be a complete game in its own right. Refer to the Minetest documentation to learn how to install and activate mods.
+Repixture supports mods, using the powerful Luanti Lua API. With mods, people can extend or modify the game in many fun and interesting ways. Mods are completely optional, however, as Repixture wants to be a complete game in its own right. Refer to the Luanti documentation to learn how to install and activate mods.
 
 If you’re a mod developer, read the text file `DEVELOPERS.md` in the Repixture directory to get started.
 
@@ -480,7 +480,7 @@ If you’re a mod developer, read the text file `DEVELOPERS.md` in the Repixture
 
 ### Mod compatibility
 
-While Repixture supports Minetest mods, not all mods that were created for Minetest will work in Repixture.
+While Repixture supports Luanti mods, not all mods that were created for Luanti will work in Repixture.
 
 Mods …
 
@@ -499,11 +499,11 @@ If you want to prevent this, you can manually edit the world file *before* start
 
 Repixture aims to be compatible with Pixture worlds. You can manually convert an old Pixture world to a Repixture world.
 
-Here’s how to do it: In your Minetest user directory, look into “worlds”, then look for the directory with your world’s name. Before you do anything, make a backup copy of this folder, just in case. Then open the file “`world.mt`” in this directory with a text editor. Look for the line that says “gameid = pixture”. Replace it with “gameid = repixture”. Now your world should appear when you select Repixture.
+Here’s how to do it: In your Luanti user directory, look into “worlds”, then look for the directory with your world’s name. Before you do anything, make a backup copy of this folder, just in case. Then open the file “`world.mt`” in this directory with a text editor. Look for the line that says “gameid = pixture”. Replace it with “gameid = repixture”. Now your world should appear when you select Repixture.
 
 
 ## Further reading
 
-See `README.md` in the Repixture directory (usually in `games/repixture` in the Minetest directory) for general information about the game, about licensing and credits.
+See `README.md` in the Repixture directory (usually in `games/repixture` in the Luanti directory) for general information about the game, about licensing and credits.
 
-For more information about Minetest, go to <https://www.minetest.net/>.
+For more information about Luanti, go to <https://www.minetest.net/>.

@@ -4,7 +4,7 @@ Repixture builtin item mod
 Item entities for Repixture.
 
 Adds the custom handling for item entities (dropped items) by overriding
-`__builtin:item`. Item entities work similar to Minetest's builtin item entities.
+`__builtin:item`. Item entities work similar to Luanti's builtin item entities.
 
 Features:
 
@@ -20,9 +20,9 @@ Features:
   variants like a compass
 
 ## Licensing
-Credits: Originally by Minetest developers (from the `builtin` part of Minetest)
+Credits: Originally by Luanti developers (from the `builtin` part of Luanti)
 with tweaks by Kaadmy and Wuzzy.
 
 Source code license: LGPLv2.1 or later
 Sound license: CC BY-SA 4.0
-License of rp_builtin_item_die.png: LGPLv2.1 (same as smoke_puff.png from Minetest)
+License of rp_builtin_item_die.png: LGPLv2.1 (same as smoke_puff.png from Luanti)
