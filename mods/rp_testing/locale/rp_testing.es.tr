@@ -1,0 +1,7 @@
+# textdomain: rp_testing
+List all furnace fuels and their burntime=Enumera todos los combustibles de horno y su tiempo de combustión
+@1: @2=@1: @2
+List all cooking recipes=Enumera todas las recetas de cocina
+@1 → @2 (time@=@3)=@1 → @2 (tiempo@=@3)
+Paintable Wallmounted Test Node=Nodo de prueba montado en la pared y pintable
+Paintable Facedir Test Node=Nodo de prueba de cara pintable

@@ -1,0 +1,14 @@
+# textdomain: rp_nav
+Compass=Brújula
+It points to the North=Apunta al Norte
+Can be magnetized at magnetic blocks=Puede ser magnetizado en bloques magnéticos
+Magno Compass=Brújula Magno
+It points to a position=Apunta a una posición
+Can be demagnetized at unmagnetic blocks=Puede ser desmagnetizado en bloques no magnéticos
+True Navigator=Navegador Verdadero
+Magnetize a compass.=Imantar una brújula.
+Map=Mapa
+Keep this in your inventory and view the map with the 'minimap' key=Mantén esto en tu inventario y visualiza el mapa con la tecla 'minimap'
+Use the minimap key to show the map.=Utiliza la tecla del minimapa para mostrar el mapa.
+Navigator=Navegador
+Craft a map.=Craftea un mapa.
