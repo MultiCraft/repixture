@@ -138,10 +138,13 @@ if minetest.settings:get_bool("ambiance_enable") == true then
          return nil
       end
 
-      -- Pick a random node and check if it can play a sound.
-      -- If yes, take it. If not, try with the next one
-      -- until the list is exhausted.
-      table.shuffle(nodeposses)
+      table.sort(nodeposses, function(p1, p2)
+         return vector.distance(p1, pos) < vector.distance(p2, pos)
+      end)
+
+      -- Pick the closest node and check if it can play a sound,
+      -- If yes, take it. If not, try with the next-closest one
+      -- and try again. Repeat until the list is exhausted.
       for n=1, #nodeposses do
          local nodepos = nodeposses[n]
          -- Check can_play function. If nil, can play sound.
