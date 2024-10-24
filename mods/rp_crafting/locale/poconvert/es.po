@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_crafting x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-10-13 14:58+0000\n"
+"Last-Translator: Gabri06 <Gabri06@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Spanish <https://translate.codeberg.org/projects/repixture/"
+"rp_crafting/es/>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.7.2\n"
+
+msgid "Craft once"
+msgstr "Craftear una vez"
+
+msgid "Craft 10 times"
+msgstr "Craftear 10 veces"
+
+msgid "Show only craftable recipes"
+msgstr "Mostrar solo las recetas crafteables"
+
+msgid "Show all recipes"
+msgstr "Mostrar todas las recetas"
+
+msgid "Crafting"
+msgstr "Crafteando"

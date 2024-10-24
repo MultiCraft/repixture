@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_hunger x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-10-15 00:54+0000\n"
+"Last-Translator: Gabri06 <Gabri06@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Spanish <https://translate.codeberg.org/projects/repixture/"
+"rp_hunger/es/>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.7.2\n"
+
+msgid "Hunger Debug:"
+msgstr ""
+
+msgid "<hunger disabled>"
+msgstr ""
+
+msgid "You are hungry."
+msgstr ""
+
+msgid "You are starving."
+msgstr ""
+
+msgid "You starved to death."
+msgstr ""
+
+msgid "Eating"
+msgstr ""
+
+msgid "You're eating food, which slows you down"
+msgstr ""
+
+msgid "Gourmet"
+msgstr ""
+
+msgid "Eat everything that can be eaten."
+msgstr ""
+
+msgid "Set hunger level of player or yourself"
+msgstr ""
+
+msgid "[<player>] <hunger>"
+msgstr ""
+
+msgid "Player is not online."
+msgstr ""
+
+msgid "No player."
+msgstr "Ningún jugador."
+
+msgid "Food item"
+msgstr ""
+
+msgid "Food points: +@1"
+msgstr ""
+
+msgid "Saturation points: +@1"
+msgstr ""

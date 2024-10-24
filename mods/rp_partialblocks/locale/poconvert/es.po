@@ -1,0 +1,207 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_partialblocks x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-10-15 14:13+0000\n"
+"Last-Translator: Gabri06 <Gabri06@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Spanish <https://translate.codeberg.org/projects/repixture/"
+"rp_partialblocks/es/>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.7.2\n"
+
+msgid "Cobble Slab"
+msgstr "Losa de adoquines"
+
+msgid "Cobble Stair"
+msgstr "Escalera de adoquines"
+
+msgid "Stone Slab"
+msgstr "Losa de piedra"
+
+msgid "Stone Stair"
+msgstr "Escalera de piedra"
+
+msgid "Sandstone Slab"
+msgstr "Losa de arenisca"
+
+msgid "Sandstone Stair"
+msgstr "Escalera de arenisca"
+
+msgid "Brick Slab"
+msgstr "Losa de ladrillo"
+
+msgid "Brick Stair"
+msgstr "Escalera de ladrillo"
+
+msgid "Painted Brick Slab"
+msgstr "Losa de ladrillo pintado"
+
+msgid "Painted Brick Stair"
+msgstr "Escalera de ladrillo pintado"
+
+msgid "Wooden Slab"
+msgstr "Losa de madera"
+
+msgid "Wooden Stair"
+msgstr "Escalera de madera"
+
+msgid "Painted Wooden Slab"
+msgstr "Losa de madera pintado"
+
+msgid "Painted Wooden Stair"
+msgstr "Escalera de madera pintado"
+
+msgid "Oak Slab"
+msgstr "Losa de roble"
+
+msgid "Oak Stair"
+msgstr "Escalera de roble"
+
+msgid "Painted Oak Slab"
+msgstr "Losa de roble pintado"
+
+msgid "Painted Oak Stair"
+msgstr "Escalera de roble pintado"
+
+msgid "Birch Slab"
+msgstr "Losa de abedul"
+
+msgid "Birch Stair"
+msgstr "Escalera de abedul"
+
+msgid "Painted Birch Slab"
+msgstr "Losa de abedul pintado"
+
+msgid "Painted Birch Stair"
+msgstr "Escalera de abedul pintado"
+
+msgid "Fir Slab"
+msgstr "Losa de pino"
+
+msgid "Fir Stair"
+msgstr "Escalera de Pino"
+
+msgid "Painted Fir Slab"
+msgstr "Losa de pino pintado"
+
+msgid "Painted Fir Stair"
+msgstr "Escalera de pino pintado"
+
+msgid "Reed Slab"
+msgstr "Losa de caña"
+
+msgid "Reed Stair"
+msgstr "Escalera de caña"
+
+msgid "Dried Reed Slab"
+msgstr "Losa de caña seca"
+
+msgid "Dried Reed Stair"
+msgstr "Escalera de caña seca"
+
+msgid "Straw Slab"
+msgstr "Losa de paja"
+
+msgid "Straw Stair"
+msgstr "Escalera de paja"
+
+msgid "Hay Slab"
+msgstr "Losa de heno"
+
+msgid "Hay Stair"
+msgstr "Escalera de heno"
+
+msgid "Frame Slab"
+msgstr "Losas de marco"
+
+msgid "Frame Stair"
+msgstr "Escalera de marco"
+
+msgid "Painted Frame Slab"
+msgstr "Losa de marco pintado"
+
+msgid "Painted Frame Stair"
+msgstr "Escalera de marco pintado"
+
+msgid "Reinforced Frame Slab"
+msgstr "Losa de marco reforzada"
+
+msgid "Reinforced Frame Stair"
+msgstr "Escalera de marco reforzada"
+
+msgid "Painted Reinforced Frame Slab"
+msgstr "Losa de marco reforzada pintado"
+
+msgid "Painted Reinforced Frame Stair"
+msgstr "Escalera de marco reforzada pintado"
+
+msgid "Reinforced Cobble Slab"
+msgstr "Losa de adoquines reforzados"
+
+msgid "Reinforced Cobble Stair"
+msgstr "Escalera de adoquines reforzados"
+
+msgid "Coal Slab"
+msgstr "Losa de carbón"
+
+msgid "Coal Stair"
+msgstr "Escalera de carbón"
+
+msgid "Steel Slab"
+msgstr "Losa de hierro"
+
+msgid "Steel Stair"
+msgstr "Escalera de hierro"
+
+msgid "Carbon Steel Slab"
+msgstr "Losa de acero al carbono"
+
+msgid "Carbon Steel Stair"
+msgstr "Escalera de acero al carbono"
+
+msgid "Wrought Iron Slab"
+msgstr "Losa de Hierro Forjado"
+
+msgid "Wrought Iron Stair"
+msgstr "Escalera de Hierro Forjado"
+
+msgid "Bronze Slab"
+msgstr "Losa de Bronce"
+
+msgid "Bronze Stair"
+msgstr "Escalera de Bronce"
+
+msgid "Copper Slab"
+msgstr "Losa de Cobre"
+
+msgid "Copper Stair"
+msgstr "Escalera de Cobre"
+
+msgid "Tin Slab"
+msgstr "Losa de estaño"
+
+msgid "Tin Stair"
+msgstr "Escalera de estaño"
+
+msgid "Gold Slab"
+msgstr "Losa de Oro"
+
+msgid "Gold Stair"
+msgstr "Escalera de Oro"
+
+msgid "Compressed Sandstone Slab"
+msgstr "Losa de arenisca comprimida"
+
+msgid "Compressed Sandstone Stair"
+msgstr "Escalera de arenisca comprimida"
+
+msgid "Reinforced Compressed Sandstone Slab"
+msgstr "Losa de arenisca comprimida reforzada"
+
+msgid "Reinforced Compressed Sandstone Stair"
+msgstr "Escalera de arenisca comprimida reforzada"

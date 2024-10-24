@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_parachute x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-10-16 02:54+0000\n"
+"Last-Translator: Gabri06 <Gabri06@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Spanish <https://translate.codeberg.org/projects/repixture/"
+"rp_parachute/es/>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.7.2\n"
+
+msgid "Parachute"
+msgstr "Paracaídas"
+
+msgid "Lets you glide safely to the ground when falling"
+msgstr "Te permite deslizarte de manera segura al suelo al caer"
+
+msgid "You can open the parachute only in air!"
+msgstr "¡Solo puedes abrir el paracaídas en el aire!"
+
+msgid "Not enough space to open parachute!"
+msgstr "¡No hay suficiente espacio para abrir el paracaídas!"
+
+msgid "The parachute fails to open for some reason."
+msgstr "El paracaídas no se abre por alguna razón."
+
+msgid "Skydiver"
+msgstr "Paracaidista"
+
+msgid "Descend over 100 blocks with a parachute."
+msgstr "Desciende más de 100 bloques con un paracaídas."
+
+msgid "Entity name “@1” is outdated. Use “@2” instead."
+msgstr "El nombre de la entidad “@1” está desactualizado. Usa “@2” en su lugar."

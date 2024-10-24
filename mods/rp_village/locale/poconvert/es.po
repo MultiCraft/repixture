@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Minetest textdomain rp_village x.x.x\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-10-15 00:54+0000\n"
+"Last-Translator: Gabri06 <Gabri06@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Spanish <https://translate.codeberg.org/projects/repixture/"
+"rp_village/es/>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.7.2\n"
+
+msgid "List known villages"
+msgstr "Enumerar las villas conocidas"
+
+msgid "@1: @2"
+msgstr "@1: @2"
+
+msgid "No villages."
+msgstr "Ninguna villa."
+
+msgid "List of villages:"
+msgstr "Lista de las villas:"
+
+msgid "Find closest known village"
+msgstr "Encuentra la villa conocida más cercana"
+
+msgid "No player."
+msgstr "Ningún jugador."
+
+msgid "Nearest village is @1 at @2."
+msgstr "Villa más cercana is @1 en @2."
+
+msgid "You need the “maphack” privilege to use this."
+msgstr "Necesitas el privilegio de “maphack” para usar esto."
+
+msgid "Village Entity Spawner"
+msgstr "Generador de entidades de aldea"
+
+msgid "Placeholder that marks a position at which to spawn an entity during village generation"
+msgstr ""
+"Marcador de posición que indica una posición en la que generar una entidad "
+"durante la generación de la aldea"
+
+msgid "Punch to reveal village entity spawners nearby"
+msgstr "Golpea para revelar los generadores de entidades de la aldea cercanos"
+
+msgid "Village Spawner"
+msgstr "Generador de villas"
+
+msgid "Generates a village when placed"
+msgstr "Genera una villa cuando es colocado"
