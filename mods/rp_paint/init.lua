@@ -16,6 +16,28 @@ local COLOR_NAMES = {
 	S("White"), S("Gray"), S("Black"), S("Red"), S("Orange"), S("Amber"), S("Yellow"), S("Lime"), S("Green"), S("Bluegreen"), S("Turquoise"), S("Cyan"), S("Skyblue"), S("Azure Blue"), S("Blue"), S("Violet"), S("Magenta"), S("Redviolet"), S("Hot Pink"),
 }
 
+local COLOR_HEXCODES = {
+	"#FFFFFF", -- white
+	"#A9A9A9", -- gray
+	"#545454", -- black
+	"#DE4646", -- red
+	"#DE7246", -- orange
+	"#DEAB46", -- amber
+	"#DFDF46", -- yellow
+	"#9DDE46", -- lime
+	"#63DE46", -- green
+	"#46DE63", -- bluegreen
+	"#46DE9D", -- turquiose
+	"#46DED7", -- cyan
+	"#46ABDE", -- skyblue
+	"#4672DE", -- azure blue
+	"#4646DE", -- blue
+	"#8E46DE", -- violet
+	"#D746DE", -- magenta
+	"#DE46AB", -- redviolet
+	"#DE4671", -- hot pink
+}
+
 rp_paint.COLOR_COUNT = #COLOR_NAMES
 
 rp_paint.COLOR_WHITE = 1
@@ -365,13 +387,37 @@ rp_paint.scrape_color = function(pos, pointed_thing)
 	return false
 end
 
+local function set_item_image(item_meta, image)
+	if item_meta:get_string("inventory_image") == image and
+			item_meta:get_string("wield_image") == image and
+			item_meta:get_string("inventory_overlay") == image and
+			item_meta:get_string("wield_overlay") == image then
+		return
+	end
+	item_meta:set_string("inventory_image", image)
+	item_meta:set_string("wield_image", image)
+	item_meta:set_string("inventory_overlay", "")
+	item_meta:set_string("wield_overlay", "")
+end
+
+local function get_color(item_meta)
+	local pi = item_meta:get_int("palette_index")
+	local color
+	if pi > 0 then
+		color = pi + 1
+		item_meta:set_int("palette_index", 0)
+		item_meta:set_int("_palette_index", pi)
+	else
+		color = item_meta:get_int("_palette_index") + 1
+	end
+	return color
+end
+
 minetest.register_tool("rp_paint:brush", {
 	description = S("Paint Brush"),
 	_tt_help = S("Paints blocks").."\n"..S("Punch paint bucket to pick color"),
-	inventory_image = "rp_paint_brush.png",
-	inventory_overlay = "rp_paint_brush_overlay.png",
-	wield_image = "rp_paint_brush.png",
-	wield_overlay = "rp_paint_brush_overlay.png",
+	inventory_image = "rp_paint_brush_overlay.png",
+	wield_image = "rp_paint_brush_overlay.png",
 	palette = "rp_paint_palette_256.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing == nil or pointed_thing.type ~= "node" then
@@ -390,8 +436,7 @@ minetest.register_tool("rp_paint:brush", {
 		-- Dip brush in water bucket to remove paint
 		if minetest.get_item_group(node.name, "bucket_water") == 1 then
 			imeta:set_int("color_uses", 0)
-			imeta:set_string("inventory_overlay", "")
-			imeta:set_string("wield_overlay", "")
+			set_item_image(imeta, "")
 			minetest.sound_play({name="rp_paint_brush_dip", gain=0.3, pitch=1.5}, {pos=pos, max_hear_distance = 8}, true)
 			return itemstack
 		end
@@ -407,21 +452,23 @@ minetest.register_tool("rp_paint:brush", {
 				-- Reduce amount of paint in bucket
 				change_bucket_level(pos, node, -1)
 			end
-			imeta:set_int("palette_index", color)
+			imeta:set_int("palette_index", 0)
+			imeta:set_int("_palette_index", color)
 			imeta:set_int("color_uses", BRUSH_PAINTS)
-			imeta:set_string("inventory_overlay", "rp_paint_brush_overlay.png^[mask:rp_paint_brush_overlay_mask_6.png")
-			imeta:set_string("wield_overlay", "rp_paint_brush_overlay.png^[mask:rp_paint_brush_overlay_mask_6.png")
+
+			local hexcode = COLOR_HEXCODES[color+1] or "#FFFFFF"
+			set_item_image(imeta, "rp_paint_brush_overlay.png^(rp_paint_brush.png^[multiply:"..hexcode..")")
+
 			minetest.sound_play({name="rp_paint_brush_dip", gain=0.3}, {pos=pos, max_hear_distance = 8}, true)
 			return itemstack
 		end
 
 		-- Paint paintable node (brush needs to have paint and node must be paintable)
-		local color = imeta:get_int("palette_index") + 1
+		local color = get_color(imeta)
 		local color_uses = imeta:get_int("color_uses")
 		if color_uses <= 0 then
 			-- Not enough paint on brush: do nothing
-			imeta:set_string("inventory_overlay", "")
-			imeta:set_string("wield_overlay", "")
+			set_item_image(imeta, "")
 			minetest.sound_play({name="rp_paint_brush_fail", gain=0.5}, {pos=pos, max_hear_distance=8}, true)
 			return itemstack
 		end
@@ -443,29 +490,35 @@ minetest.register_tool("rp_paint:brush", {
 
 			-- Update paint brush image to show the amount of paint left
 			if color_uses <= 0 then
-				imeta:set_string("inventory_overlay", "")
-				imeta:set_string("wield_overlay", "")
+				set_item_image(imeta, "")
 			else
 				local ratio = color_uses / BRUSH_PAINTS
 				local rem
 				if ratio > 0.83333 then
-					rem = 6
+					rem = 0
 				elseif ratio > 0.66667 then
-					rem = 5
+					rem = 1
 				elseif ratio > 0.50000 then
-					rem = 4
+					rem = 2
 				elseif ratio > 0.33333 then
 					rem = 3
 				elseif ratio > 0.16667 then
-					rem = 2
+					rem = 4
 				else
-					rem = 1
+					rem = 5
 				end
-				local istr = "rp_paint_brush_overlay.png^[mask:rp_paint_brush_overlay_mask_"..rem..".png"
-				if imeta:get_string("inventory_overlay") ~= istr or imeta:get_string("wield_overlay") ~= istr then
-					imeta:set_string("inventory_overlay", istr)
-					imeta:set_string("wield_overlay", istr)
+
+				local color = get_color(imeta)
+				local hexcode = COLOR_HEXCODES[color] or "#FFFFFF"
+
+				local mask
+				if rem > 0 then
+					mask = "^[mask:rp_paint_brush_overlay_mask_"..rem..".png"
+				else
+					mask = ""
 				end
+				local istr = "rp_paint_brush_overlay.png^(rp_paint_brush.png"..mask.."^[multiply:"..hexcode..")"
+				set_item_image(imeta, istr)
 			end
 		else
 			minetest.sound_play({name="rp_paint_brush_fail", gain=0.5}, {pos=pos, max_hear_distance=8}, true)
