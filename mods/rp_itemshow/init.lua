@@ -217,6 +217,12 @@ minetest.register_entity("rp_itemshow:item",{
 		end
 
 		if item and item ~= "" then
+			local itemstack = ItemStack(item)
+			local new_itemstack = rp_item_update.update_item(itemstack)
+			if new_itemstack then
+				item = new_itemstack:to_string()
+			end
+
 			self:_configure(item, nodename, rotate_dir)
 		end
 	end,
