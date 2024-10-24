@@ -42,7 +42,7 @@ Also adds a craftitem (with identifier `name`) which the players can use.
 
 To register painted doors, mostly the same rules apply as for normal nodes. See the `rp_paint`
 mod for details. The `tiles_*` and `overlay_tiles_*` fields in the door definition
-correspond to `tiles` and `overlay_tiles` of the Minetest node definition and need
+correspond to `tiles` and `overlay_tiles` of the Luanti node definition and need
 to be defined properly. Overlay tiles are optional.
 
 What is new is that you *must* add the fields `is_painted`, `can_paint` and/or
