@@ -128,6 +128,12 @@ minetest.register_entity(":__builtin:item", {
 		else
 			self.itemstring = staticdata
 		end
+		local itemstack = ItemStack(self.itemstring)
+		local new_item = rp_item_update.update_item(itemstack)
+		if new_item then
+			self.itemstring = new_item:to_string()
+		end
+
 		self.object:set_armor_groups({immortal = 1})
 		self.object:set_velocity({x = 0, y = 2, z = 0})
 		self.object:set_acceleration({x = 0, y = -gravity, z = 0})

@@ -387,30 +387,49 @@ rp_paint.scrape_color = function(pos, pointed_thing)
 	return false
 end
 
-local function set_item_image(item_meta, image)
-	if item_meta:get_string("inventory_image") == image and
-			item_meta:get_string("wield_image") == image and
-			item_meta:get_string("inventory_overlay") == image and
-			item_meta:get_string("wield_overlay") == image then
+local function set_brush_image(itemstack)
+	local item_meta = itemstack:get_meta()
+	local color_uses = item_meta:get_int("color_uses")
+	color_uses = math.max(0, math.min(BRUSH_PAINTS, color_uses))
+	if color_uses == 0 then
+		-- Brush without paint
+		item_meta:set_string("inventory_image", "")
+		item_meta:set_string("wield_image", "")
+		item_meta:set_string("inventory_overlay", "")
+		item_meta:set_string("wield_overlay", "")
 		return
 	end
+	local ratio = color_uses / BRUSH_PAINTS
+	local rem
+	if ratio > 0.83333 then
+		rem = 0
+	elseif ratio > 0.66667 then
+		rem = 1
+	elseif ratio > 0.50000 then
+		rem = 2
+	elseif ratio > 0.33333 then
+		rem = 3
+	elseif ratio > 0.16667 then
+		rem = 4
+	else
+		rem = 5
+	end
+
+	local color = item_meta:get_int("_palette_index", 0) + 1
+	local hexcode = COLOR_HEXCODES[color] or "#FFFFFF"
+
+	local mask
+	if rem > 0 then
+		mask = "^[mask:rp_paint_brush_overlay_mask_"..rem..".png"
+	else
+		mask = ""
+	end
+	local image = "rp_paint_brush_overlay.png^(rp_paint_brush.png"..mask.."^[multiply:"..hexcode..")"
+
 	item_meta:set_string("inventory_image", image)
 	item_meta:set_string("wield_image", image)
 	item_meta:set_string("inventory_overlay", "")
 	item_meta:set_string("wield_overlay", "")
-end
-
-local function get_color(item_meta)
-	local pi = item_meta:get_int("palette_index")
-	local color
-	if pi > 0 then
-		color = pi + 1
-		item_meta:set_int("palette_index", 0)
-		item_meta:set_int("_palette_index", pi)
-	else
-		color = item_meta:get_int("_palette_index") + 1
-	end
-	return color
 end
 
 minetest.register_tool("rp_paint:brush", {
@@ -838,3 +857,16 @@ if minetest.get_modpath("rp_achievements") then
 		difficulty = 5.4,
 	})
 end
+
+rp_item_update.register_item_update("rp_paint:brush", function(itemstack)
+	local item_meta = itemstack:get_meta()
+	local pi = item_meta:get_int("palette_index")
+	local color
+	if pi > 0 then
+		item_meta:set_int("palette_index", 0)
+		item_meta:set_int("_palette_index", pi)
+	end
+	set_brush_image(itemstack)
+	return itemstack
+end)
+
