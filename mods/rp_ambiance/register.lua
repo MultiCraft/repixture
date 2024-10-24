@@ -224,5 +224,24 @@ ambiance.register_ambiance("rp_ambiance:flowing_water", {
    dist = 16,
    gain = 0.08,
    nodename = "group:flowing_water",
+   can_play = function(pos)
+      -- Flowing water can only make noise when it's next to any non-solid non-water node
+      local neighbors = {
+         vector.new(0,0,-1),
+         vector.new(0,0,1),
+         vector.new(0,-1,0),
+         vector.new(0,1,0),
+         vector.new(-1,0,0),
+         vector.new(1,0,0),
+      }
+      for n=1, #neighbors do
+         local node = minetest.get_node(vector.add(pos, neighbors[n]))
+         local def = minetest.registered_nodes[node.name]
+         if def and not def.walkable and minetest.get_item_group(node.name, "water") == 0 then
+            return true
+         end
+      end
+      return
+   end,
 })
 

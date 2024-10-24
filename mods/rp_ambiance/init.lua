@@ -126,10 +126,29 @@ if minetest.settings:get_bool("ambiance_enable") == true then
    local cooldown = {}
 
    local function ambient_node_near(sound, pos)
-      local nodepos = minetest.find_node_near(pos, sound.dist, sound.nodename)
+      local offset = vector.new(sound.dist, sound.dist, sound.dist)
+      local minpos = vector.subtract(pos, offset)
+      local maxpos = vector.add(pos, offset)
+      local nodeposses = minetest.find_nodes_in_area(minpos, maxpos, sound.nodename)
 
-      if nodepos ~= nil and math.random(1, sound.chance) == 1 then
-         return nodepos
+      if #nodeposses == 0 then
+         return nil
+      end
+      if math.random(1, sound.chance) > 1 then
+         return nil
+      end
+
+      -- Pick a random node and check if it can play a sound.
+      -- If yes, take it. If not, try with the next one
+      -- until the list is exhausted.
+      table.shuffle(nodeposses)
+      for n=1, #nodeposses do
+         local nodepos = nodeposses[n]
+         -- Check can_play function. If nil, can play sound.
+         -- if can_play is a function, can play sound if it returns true.
+         if not sound.can_play or (sound.can_play(nodepos)) then
+            return nodepos
+         end
       end
 
       return nil
@@ -170,11 +189,6 @@ if minetest.settings:get_bool("ambiance_enable") == true then
 
             if lastsound[name][soundname] > sound.length and cooldown[name][soundname] > math.min(SOUND_COOLDOWN_MAX, sound.length) then
                local sourcepos = ambient_node_near(sound, pos)
-
-               -- Check if can_play of sound definition allows sound to be played
-               if sound.can_play and sourcepos ~= nil and (not sound.can_play(sourcepos)) then
-                  sourcepos = nil
-               end
 
                if sourcepos then
                   local ok = true
