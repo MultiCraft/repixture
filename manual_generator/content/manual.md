@@ -37,10 +37,26 @@ Here’s what’s special in Repixture:
 
 ### Installation
 
-To play Repixture, you must have Luanti installed. See the `README.md` text file for the required Luanti version.
-The recommended method to install Repixture is by using the Luanti ContentDB. This is the “Content” tab in Luanti.
+To play Repixture, you must have [Luanti](https://minetest.net) installed. The required Luanti version is written in the `README.md` file of the Repixture directory.
 
-You can also install Repixture manually. Look up the Luanti documentation to learn how to install games manually.
+#### Instructions for Luanti 5.8.0 or later (PC version)
+
+These steps require an Internet connection.
+
+1. Install [Luanti](https://minetest.net)
+2. Start Luanti
+3. Click on the tab “Content”, then on the button “Browse online content”
+4. Use the search bar to search for “Repixture”
+5. Click on the install button for Repixture
+
+You can also update Luanti in the Content tab in a similar fashion.
+
+Note: These instructions may be outdated in later Luanti versions. If these instructions don’t work, refer to the latest Luanti documentation to learn how to use this application.
+
+#### Manual installation
+
+While this method is outdated, you can also install Repixture manually. Look up the Luanti documentation to learn how to manually install a game.
+
 
 ### Setup / configuration
 
@@ -68,11 +84,22 @@ For more settings, go to the Luanti settings menu and look for the Repixture sec
 
 ### A new world
 
-Starting a world works like with any other game in Luanti. Enter a world name, select a map generator and settings, and off you go! The seed is value that will be used to calculate random things in the game. The same seed will generate the same world.
+Starting a world works like with any other game in Luanti.
 
-You can choose one of various map generators, like v7, carpathian, valleys, etc. For new players, v7 is recommended for new players, but other map generators also work fine and can be nice if you want to try out something new. Only v6 isn’t supported and can’t be selected.
+If you’re unfamiliar with Luanti so far, here’s how to create a singleplayer world (and game) in Luanti 5.8.0:
+
+1. In Luanti, go to the tab “Start game”
+2. Select Repixture by clicking on the Repixture icon at the bottom (it has the letters “RP”)
+3. Create a new world with “New” and enter your preferred settings
+4. Launch the game
+
+For details about world creation and multiplayer games, refer to the Luanti documentation.
+
+For new players, the map generator v7 is recommended, but other map generators also work fine and can be nice if you want to try out something new. Only v6 isn’t supported and can’t be selected from the list.
 
 Note: The “singlenode” map generator is special as the world is completely empty. This one only makes sense if you use Repixture in combination with mod that generates a special world (like Skyblock).
+
+Note: These instructions may become outdated in later Luanti versions. When in doubt, refer to the latest Luanti documentation.
 
 ## Controls
 
