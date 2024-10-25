@@ -9,7 +9,7 @@ the world.
 
 ## Version
 
-3.17.0
+3.17.1
 
 Designed for use with Luanti 5.8.0 or later.
 
