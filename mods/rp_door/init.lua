@@ -690,10 +690,10 @@ local sounds_wood_door = rp_sounds.node_sound_planks_defaults({
 
 -- Register wooden doors
 local woods = {
-   { "wood", "door_wood", "rp_default:wood", S("Wooden Door"), S("Painted Wooden Door") },
-   { "wood_oak", "rp_door_wood_oak", "rp_default:wood_oak", S("Oak Door"), S("Painted Oak Door") },
-   { "wood_birch", "rp_door_wood_birch", "rp_default:wood_birch", S("Birch Door"), S("Painted Birch Door") },
-   { "wood_fir", "rp_door_wood_fir", "rp_default:wood_fir", S("Fir Door"), S("Painted Fir Door"), "rp_paint_palette_64l.png" },
+   { "wood", "door_wood", "rp_default:planks", S("Wooden Door"), S("Painted Wooden Door") },
+   { "wood_oak", "rp_door_wood_oak", "rp_default:planks_oak", S("Oak Door"), S("Painted Oak Door") },
+   { "wood_birch", "rp_door_wood_birch", "rp_default:planks_birch", S("Birch Door"), S("Painted Birch Door") },
+   { "wood_fir", "rp_door_wood_fir", "rp_default:planks_fir", S("Fir Door"), S("Painted Fir Door"), "rp_paint_palette_64l.png" },
 }
 for w=1, #woods do
    local id = woods[w][1]
