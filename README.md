@@ -13,6 +13,12 @@ the world.
 
 Designed for use with Luanti 5.8.0 or later.
 
+## Installation
+
+You need to have [Luanti](https://minetest.net) installed to play Repixture. Repixture can be downloaded and installed within the Luanti application, like most other games for Luanti.
+
+If you need details, read the Player Manual at <https://wuzzy.codeberg.page/Repixture> or, alternatively, refer to the Luanti documentation to learn how to install and play a game in Luanti.
+
 ## Features
 
 * Animals and monsters
