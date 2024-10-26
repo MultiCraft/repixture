@@ -37,7 +37,22 @@ Here’s what’s special in Repixture:
 
 ### Installation
 
-To play Repixture, you must have [Luanti](https://minetest.net) installed. The required Luanti version is written in the `README.md` file of the Repixture directory.
+To play Repixture, you must have [Luanti](https://minetest.net) installed. The required version of Luanti can be looked up from the following table:
+
+<table>
+<thead>
+<tr><th>Repixture versions</th>
+<th>Minimum required Luanti version</th></tr>
+</thead>
+<tbody>
+<tr><td>3.14.0 and later</td><td>5.8.0</td></tr>
+<tr><td>3.5.0 to 3.13.1</td><td>5.6.0</td></tr>
+<tr><td>3.3.0 to 3.4.1</td><td>5.5.0</td></tr>
+<tr><td>1.4.0 to 3.2.1</td><td>5.4.0</td></tr>
+<tr><td>1.3.0 to 1.3.2</td><td>5.2.0</td></tr>
+<tr><td>0.4.1 to 1.2.0</td><td>5.0.0</td></tr>
+</tbody>
+</table>
 
 #### Instructions for Luanti 5.8.0 or later (PC version)
 
