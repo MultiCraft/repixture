@@ -2,7 +2,7 @@ unicode_text - Repixture version
 ================================
 
 This is `unicode_text`, but modified for Repixture!
-Original mod by erlehmann.
+Original mod by erle.
 
 Synopsis
 --------
@@ -492,7 +492,7 @@ Why do you ask?
 Credits
 -------
 
-This mod was originally written by erlehmann, Wuzzy and Deepak Jois.
+This mod was originally written by erle, Wuzzy and Deepak Jois.
 This mod includes a modified version of luabidi, an implementation
 of the Unicode Bidirectional Algorithm. See the `luabidi` directory
 for details.
@@ -501,7 +501,7 @@ License
 -------
 
 unicode_text, a Unicode text renderer mod for Luanti
-Copyright (C) 2024  Wuzzy and erlehmann
+Copyright (C) 2024  Wuzzy and erle
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
