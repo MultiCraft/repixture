@@ -1,7 +1,7 @@
 #!/usr/bin/env lua5.1
 
 --[[
-Copyright © 2023  Nils Dagsson Moskopp (erle)
+Copyright © 2023  Ælla Chiana Moskopp (erle)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
