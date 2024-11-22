@@ -37,7 +37,7 @@ local ENABLE_BIDI = false
 
 local modpath = minetest and
    minetest.get_modpath and
-   minetest.get_modpath("unicode_text") or
+   minetest.get_modpath("rp_unicode_text") or
    "."
 if ENABLE_BIDI then
    dofile(modpath .. "/luabidi/bidi.lua")

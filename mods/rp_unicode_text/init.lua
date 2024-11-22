@@ -18,8 +18,8 @@ unicode_text = {}
 
 local modpath = minetest and
    minetest.get_modpath and
-   minetest.get_modpath("unicode_text") or
+   minetest.get_modpath("rp_unicode_text") or
    "."
--- unicode_text only supports GNU Unifont .hex file format for now
+-- rp_unicode_text only supports GNU Unifont .hex file format for now
 dofile( modpath .. "/unicodedata.lua" )
 dofile( modpath .. "/hexfont.lua" )

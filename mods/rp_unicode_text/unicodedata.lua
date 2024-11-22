@@ -16,7 +16,7 @@ Codezeilen und schreibe das auch nicht dran.
 
 local modpath = minetest and
    minetest.get_modpath and
-   minetest.get_modpath("unicode_text") or
+   minetest.get_modpath("rp_unicode_text") or
    "."
 
 -- Maximum possible codepoint

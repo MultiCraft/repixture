@@ -1,21 +1,15 @@
-unicode_text - Repixture version
-================================
+`rp_unicode_text`: Unicode Text for Repixture
+=============================================
 
-This is `unicode_text`, but modified for Repixture!
+This is a fork of the mod `unicode_text`, modified for Repixture!
 Original mod by erle.
 
 Synopsis
 --------
 
-This repository contains Lua code to render Unicode text to a pixels table.
+This mod contains Lua code to render Unicode text to a pixels table.
 
-`unicode_text` requires font files encoded in GNU Unifont hexfont format.
-
-The resulting pixels table can be written to a file using `tga_encoder`_.
-
-However, `tga_encoder` is not neccessary.
-
-.. _`tga_encoder`: https://git.minetest.land/erlehmann/tga_encoder
+`rp_unicode_text` requires font files encoded in GNU Unifont hexfont format.
 
 Features
 --------
@@ -36,7 +30,7 @@ However, there are some limitations:
   even if the font has them. Our motto: Rather refuse to render, than render incorrectly!
 - GNU Unifont is not included!
 
-Example Code
+Example code
 ------------
 
 If you are impatient, just copy and paste the following example code:
@@ -265,7 +259,7 @@ Like in school, the x axis points right and the y axis points up …
 Scanline order `bottom-top` was chosen as the default to match the
 default scanline order of `tga_encoder` and to require users using
 another file format encoder to care about scanline order. Users of
-`unicode_text` that “do not care about scanline order” may see the
+`rp_unicode_text` that “do not care about scanline order” may see the
 glyphs upside down – the fault, naturally, lies with the user.
 
 TGA is an obsolete format! Why write TGA files?
@@ -365,7 +359,7 @@ Medium Images (up to 512×512)
 If you care about how many bytes are written to disk or sent over the
 network, it is likely that you will get “good enough” results using a
 DEFLATE-compressed TGA file instead of a PNG file if an image has few
-colors and regular features, like images that `unicode_text` renders.
+colors and regular features, like images that `rp_unicode_text` renders.
 
 To verify, generate a TGA image with a black and orange checkerboard:
 
@@ -500,7 +494,7 @@ for details.
 License
 -------
 
-unicode_text, a Unicode text renderer mod for Luanti
+`rp_unicode_text`, a Unicode text renderer mod for Luanti
 Copyright (C) 2024  Wuzzy and erle
 
 This program is free software: you can redistribute it and/or modify
