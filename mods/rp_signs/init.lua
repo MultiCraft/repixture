@@ -35,7 +35,7 @@ local META_IMAGE_EMPTY = "!"
 
 
 -- Load font
-local font = unicode_text.hexfont({
+local font = rp_unicode_text.hexfont({
 	background_color = { 0, 0, 0, 0 }, --transparent
 	-- Note: This color will be inverted on signs that are painted black
 	foreground_color = { 0, 0, 0, 255 }, -- black
@@ -494,7 +494,7 @@ local function crop_text(txt)
 	if not txt then
 		return ""
 	end
-	return unicode_text.utf8.crop_text(txt, SIGN_MAX_TEXT_LENGTH)
+	return rp_unicode_text.utf8.crop_text(txt, SIGN_MAX_TEXT_LENGTH)
 end
 
 -- Formspec pages for sign (different background textures)

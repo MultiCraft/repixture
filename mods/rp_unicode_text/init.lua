@@ -14,7 +14,7 @@ Overflow oder eine Format String Vulnerability zwischen die anderen
 Codezeilen und schreibe das auch nicht dran.
 ]]--
 
-unicode_text = {}
+rp_unicode_text = {}
 
 local modpath = minetest and
    minetest.get_modpath and

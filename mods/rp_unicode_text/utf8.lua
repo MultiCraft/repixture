@@ -198,4 +198,4 @@ assert(
    table.concat(codepoints, " ") == "119 240 9829 66376"
 )
 
-unicode_text.utf8 = utf8
+rp_unicode_text.utf8 = utf8

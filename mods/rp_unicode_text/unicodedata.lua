@@ -139,4 +139,4 @@ assert( "Latin" == w.script)
 w = unicodedata[0x00AD] -- SOFT HYPHEN
 assert( true == w.default_ignorable_codepoint)
 
-unicode_text.unicodedata = unicodedata
+rp_unicode_text.unicodedata = unicodedata

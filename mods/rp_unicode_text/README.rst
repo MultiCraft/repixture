@@ -37,7 +37,7 @@ If you are impatient, just copy and paste the following example code:
 
 .. code::
 
-   local font = unicode_text.hexfont()
+   local font = rp_unicode_text.hexfont()
    font:load_glyphs(io.lines("unifont.hex"))
    font:load_glyphs(io.lines("unifont_upper.hex"))
    local pixels = font:render_text("wð♥𐍈😀!🂐겫")
@@ -57,13 +57,13 @@ To create a hexfont table with default parameters, do:
 
 .. code::
 
-   font = unicode_text.hexfont()
+   font = rp_unicode_text.hexfont()
 
 The above code is equivalent to the following code:
 
 .. code::
 
-   font = unicode_text.hexfont(
+   font = rp_unicode_text.hexfont(
       {
          background_color = { 0x00 },
          foreground_color = { 0xFF },
@@ -130,7 +130,7 @@ The above code writes an uncompressed 80×16 grayscale bitmap.
 Pixels Tables
 +++++++++++++
 
-Pixels tables represent output rendered by `unicode_text`.
+Pixels tables represent output rendered by `rp_unicode_text`.
 
 Pixels tables contains tables that represent scanlines.
 
@@ -442,7 +442,7 @@ writes an uncompressed 8bpp grayscale TGA file with 632 × 3408 pixels:
 
 .. code::
 
-   font = unicode_text.hexfont()
+   font = rp_unicode_text.hexfont()
    font:load_glyphs( io.lines("unifont.hex") )
    font:load_glyphs( io.lines("unifont_upper.hex") )
 

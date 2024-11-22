@@ -4,7 +4,7 @@
 dofile("init.lua")
 dofile("../tga_encoder/init.lua")
 
-font = unicode_text.hexfont(
+font = rp_unicode_text.hexfont(
    {
       kerning = true,
    }

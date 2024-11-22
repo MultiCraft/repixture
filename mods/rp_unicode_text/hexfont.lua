@@ -252,13 +252,13 @@ hexfont.render_line = function(self, text)
    for i = 1, 16 do
       result[i] = {}
    end
-   local codepoints = unicode_text.utf8.text_to_codepoints(text)
+   local codepoints = rp_unicode_text.utf8.text_to_codepoints(text)
    if ENABLE_BIDI then
-      codepoints = unicode_text.bidi.get_visual_reordering(codepoints)
+      codepoints = rp_unicode_text.bidi.get_visual_reordering(codepoints)
    end
    for i = 1, #codepoints do
       local codepoint = codepoints[i]
-      local ucdata = unicode_text.unicodedata[codepoint]
+      local ucdata = rp_unicode_text.unicodedata[codepoint]
       local bitmap_hex = self[codepoint]
       -- use U+FFFD as fallback character
       if nil == bitmap_hex then
@@ -325,7 +325,7 @@ hexfont.render_text = function(self, text)
    local result
    local max_width = 0
 
-   local codepoints = unicode_text.utf8.text_to_codepoints(text)
+   local codepoints = rp_unicode_text.utf8.text_to_codepoints(text)
 
    -- According to UAX #14, line breaks happen on:
    -- • U+000A LINE FEED
@@ -358,7 +358,7 @@ hexfont.render_text = function(self, text)
    -- FIXME: Code below should only operate on codepoints! Converting
    -- back and forth makes it needlessly slow – but I do not know how
    -- to split a table properly to get a single table for each line …
-   text = unicode_text.utf8.codepoints_to_text(codepoints)
+   text = rp_unicode_text.utf8.codepoints_to_text(codepoints)
    local utf8_lines = string.split(text, "\n", true)
    for _, utf8_line in pairs(utf8_lines) do
       local pixels = self:render_line(utf8_line)
@@ -394,4 +394,4 @@ hexfont.render_text = function(self, text)
    return result
 end
 
-unicode_text.hexfont = hexfont
+rp_unicode_text.hexfont = hexfont

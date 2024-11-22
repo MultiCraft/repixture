@@ -4,7 +4,7 @@
 dofile("init.lua")
 dofile("../tga_encoder/init.lua")
 
-font_1 = unicode_text.hexfont(
+font_1 = rp_unicode_text.hexfont(
    {
       kerning = true,
    }
@@ -28,7 +28,7 @@ local pixels = font_1:render_text(text)
 local image = tga_encoder.image(pixels)
 image:save("test.tga")
 
-font_2 = unicode_text.hexfont(
+font_2 = rp_unicode_text.hexfont(
    {
       background_color = { 1 },
       foreground_color = { 0 },

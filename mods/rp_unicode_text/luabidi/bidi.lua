@@ -1444,4 +1444,4 @@ bidi.BIDI_CLASS_FSI = FSI
 -- @field bidi.BIDI_CLASS_PDI
 bidi.BIDI_CLASS_PDI = PDI
 
-unicode_text.bidi = bidi
+rp_unicode_text.bidi = bidi
