@@ -1,71 +1,72 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_jewels x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2024-11-03 21:07+0000\n"
+"Last-Translator: Vulcain <Vulcain@users.noreply.translate.codeberg.org>\n"
+"Language-Team: French <https://translate.codeberg.org/projects/repixture/"
+"rp_jewels/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.1\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.8.1\n"
 
 msgid "1. Place tool here"
 msgstr "1. Placer l'outil ici"
 
 msgid "2. Hold a jewel and punch the bench"
-msgstr "2. Tenir un bijou et frapper l'établi"
+msgstr "2. Tenir un joyau et frapper l'établi"
 
 msgid "@1 (jeweled)"
-msgstr ""
+msgstr "@1 (serti.e de joyaux)"
 
 msgid "Range bonus: @1"
-msgstr ""
+msgstr "Bonus de portée : @1"
 
 msgid "Drop level bonus: @1"
 msgstr ""
 
 msgid "Dig time bonus: @1 s"
-msgstr ""
+msgstr "Bonus de vitesse d'excavation : @1 s"
 
 msgid "Durability bonus: @1"
-msgstr ""
+msgstr "Bonus de durabilité : @1"
 
 msgid "Dig level bonus: @1"
-msgstr ""
+msgstr "Bonus de niveau d'excavation : @1"
 
 msgid "Jewel"
-msgstr "Plaquage"
+msgstr "Joyau"
 
 msgid "Jeweler's Workbench"
-msgstr "Établi du plaqueur"
+msgstr "Établi du joaillier"
 
 msgid "Tools can be upgraded with jewels here"
-msgstr ""
+msgstr "Les outils peuvent être améliorés avec des gemmes ici"
 
 msgid "Jewel Ore"
-msgstr "Minerai de plaquage"
+msgstr "Minerai gemme"
 
 msgid "Jeweler"
-msgstr "Plaqueur"
+msgstr "Joaillier"
 
 msgid "Jewel a tool."
-msgstr "Plaquer un outil."
+msgstr "Sertir un outil."
 
 msgid "True Mighty Weapon"
-msgstr ""
+msgstr "Arme Véritablement Puissante"
 
 msgid "Use jewels to create a serrated jewel broadsword."
-msgstr ""
+msgstr "Utilisez des gemmes pour créer une épée dentelée sertie de joyaux."
 
 msgid "Secret of Jewels"
-msgstr "Secret de parures"
+msgstr "Secret des joyaux"
 
 msgid "Discover the origin of jewels."
-msgstr "Découvrir l'origine des bijoux."
+msgstr "Découvrir l'origine des gemmes."
 
 msgid "Swift Jewel Steel Pickaxe"
 msgstr ""
@@ -201,4 +202,3 @@ msgstr ""
 
 msgid "Serrated Jewel Broadsword"
 msgstr ""
-
