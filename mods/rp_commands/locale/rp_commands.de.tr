@@ -1,8 +1,0 @@
-# textdomain: rp_commands
-[<player>] <value>=[<Spieler>] <Wert>
-Set health points of player or yourself=Gesundheitspunkte eines Spielers oder die eigenen setzen
-Not possible, damage is disabled.=Nicht möglich, Schaden ist deaktiviert.
-Player @1 does not exist.=Spieler @1 existiert nicht.
-Invalid health!=Ungültige Gesundheit!
-You suicided.=Sie haben sich selbst getötet.
-You were killed by a higher power.=Sie wurden von einer höheren Macht getötet.

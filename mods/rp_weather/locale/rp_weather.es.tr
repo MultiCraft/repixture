@@ -1,5 +1,0 @@
-# textdomain: rp_weather
-Can change the weather using the /weather command=Se puede cambiar el clima usando el comando /weather
-Change the weather=Cambiar el clima
-Incorrect weather. Valid weathers are “storm” and “clear”.=Clima incorrecto. Los climas válidos son “storm” (tormenta) y “clear” (despejado).
-Weather changed.=Clima cambiado.

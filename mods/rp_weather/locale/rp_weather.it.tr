@@ -1,5 +1,0 @@
-# textdomain: rp_weather
-Can change the weather using the /weather command=Può cambiare il tempo atmosferico con il comando /weather
-Change the weather=Cambia il tempo atmosferico
-Incorrect weather. Valid weathers are “storm” and “clear”.=Tempo atmosferico errato. I valori validi sono “storm” e “clear”.
-Weather changed.=Tempo atmosferico cambiato.
