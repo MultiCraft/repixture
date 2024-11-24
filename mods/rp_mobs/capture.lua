@@ -80,7 +80,7 @@ rp_mobs.attempt_capture = function(self, clicker, capture_chances, force_take, r
 
 			-- Set mob name in description
 			if self._name and self._name ~= "" then
-				-- @1 = mob description, @2 = mob name (label)
+				--~ Tooltip of mob in item form. @1 = mob description, @2 = mob name (label)
 				mobitemmeta:set_string("description", S("@1: “@2”", mobitem:get_description(), minetest.colorize(MOB_NAME_COLOR_INV, self._name)))
 			end
 

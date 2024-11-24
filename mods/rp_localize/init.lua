@@ -4,6 +4,9 @@ local NEG_INFINITY = -1/0
 
 loc = {}
 
+--~ symbol representing infinity
+local INF_SYMBOL = S("∞")
+
 loc.num = function(numbr)
 	if type(numbr) == "string" then
 		numbr = tonumber(numbr)
@@ -15,9 +18,10 @@ loc.num = function(numbr)
 		return tostring(numbr)
 	end
 	if numbr == INFINITY then
-		return S("∞")
+		return INF_SYMBOL
 	elseif numbr == NEG_INFINITY then
-		return S("−@1", S("∞"))
+                --~ a negative whole number. @1 will be replaced by digits
+		return S("−@1", INF_SYMBOL)
 	end
 	local negative
 	if numbr < 0 then
@@ -30,11 +34,14 @@ loc.num = function(numbr)
 	if post ~= 0 then
 		post = string.sub(post, 3)
 		if negative then
+			--~ a negative number with some decimal places. @1 is the part before the decimal point, @2 is the part after it. Replace the minus sign and decimal point with whatever is appropriate for your language.
 			str = S("−@1.@2", pre, post)
 		else
+			--~ a positive number with some decimal places. @1 is the part before the decimal point, @2 is the part after it. Replace the decimal point with whatever is appropriate for your language.
 			str = S("@1.@2", pre, post)
 		end
 	elseif negative then
+                --~ a negative whole number. @1 will be replaced by digits
 		str = S("−@1", numbr)
 	else
 		str = tostring(numbr)

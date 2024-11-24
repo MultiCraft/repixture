@@ -29,7 +29,9 @@ end
 local get_chest_infotext = function(meta)
    local name = meta:get_string("name")
    if name ~= "" then
-      return S("Chest") .. "\n" .. S('“@1”', name)
+      return S("Chest") .. "\n" ..
+         --~ Shown when hovering a named chest. @1 = name
+         S('“@1”', name)
    else
       return S("Chest")
    end

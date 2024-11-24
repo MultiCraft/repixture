@@ -80,6 +80,7 @@ tt.register_snippet(function(itemstring)
 	if def._tt_food then
 		desc = S("Food item")
 		if def._tt_food_hp then
+			-- FIXME: doesn't support singular
 			local msg = S("+@1 food points", def._tt_food_hp)
 			desc = desc .. "\n" .. msg
 		end

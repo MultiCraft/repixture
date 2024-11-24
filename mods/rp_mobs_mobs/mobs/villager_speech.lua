@@ -361,7 +361,9 @@ local function talk_about_item(profession, iname, name, villager_name, has_works
 			say(S("Sleeping makes the night go past in the blink of an eye."), name, vn)
 		end
 	elseif iname == "rp_default:lump_bronze" then
-		-- Classic parody of Friedrich Schiller’s “Das Lied von der Glocke” (works best in German)
+		--~ Said by villager when showing them a bronze lump.
+		--~ Classic parody of Friedrich Schiller’s “Das Lied von der Glocke” in German:
+		--~ “Loch in Erde, Bronze rinn, Glocke fertig, bim, bim, bim!”
 		say(S("Hole in dirt, put bronze in. Bell’s complete, bim, bim, bim!"), name, vn)
 	elseif iname == "rp_default:apple" then
 		say(S("Apples are so tasty!"), name, vn)

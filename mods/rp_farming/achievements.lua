@@ -7,7 +7,7 @@ achievements.register_achievement(
    "farmer",
    {
       title = S("Farmer"),
-      -- "crop" as in "usable plant" / "plant for farming"
+      --~ Achievement description for Farmer achievement. "crop" as in "usable plant" / "plant for farming"
       description = S("Plant a crop."),
       times = 1,
       placenode = "group:seed",

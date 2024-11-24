@@ -7,7 +7,7 @@ minetest.register_chatcommand("villages", {
 	func = function(name, param)
 		local list = {}
 		for _, vill in pairs(village.villages) do
-			-- <Village name>: Coordinates>
+			--~ List entry for /villages command that lists all known villages. @1 = village name, @2 coordinates
 			table.insert(list, "• " .. S("@1: @2", vill.name, minetest.pos_to_string(vill.pos)))
 		end
 		if #list == 0 then
@@ -33,6 +33,7 @@ minetest.register_chatcommand("find_village", {
 		if not vill then
 			return true, S("No villages.")
 		end
+		--~ @1 = village name, @2 = coordinates
 		return true, S("Nearest village is @1 at @2.", vill.fname, minetest.pos_to_string(vill.pos))
 	end,
 })

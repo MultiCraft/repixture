@@ -12,6 +12,7 @@ local msgs = {
 		NS("You took fatal damage from a block."),
 	},
 	["murder"] = {
+		--~ @1 is a player
 		NS("You were killed by @1."),
 	},
 	["murder_any"] = {
@@ -34,22 +35,27 @@ local msgs = {
 local mobkills = {
 	["rp_mobs_mobs:walker"] = {
 		NS("You were kicked to death by a walker."),
+		--~ @1 is a given name
 		NS("You were kicked to death by @1, a walker."),
 	},
 	["rp_mobs_mobs:boar"] = {
 		NS("You were killed by a boar."),
+		--~ @1 is a given name
 		NS("You were killed by @1, a boar."),
 	},
 	["rp_mobs_mobs:skunk"] = {
 		NS("You were killed by a skunk."),
+		--~ @1 is a given name
 		NS("You were killed by @1, a skunk."),
 	},
 	["rp_mobs_mobs:villager"] = {
 		NS("You were killed by a villager."),
+		--~ @1 is a given name
 		NS("You were killed by @1, a villager."),
 	},
 	["rp_mobs_mobs:mineturtle"] = {
 		NS("You were killed by a mine turtle."),
+		--~ @1 is a given name
 		NS("You were killed by @1, a mine turtle."),
 	},
 }

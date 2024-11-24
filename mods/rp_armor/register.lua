@@ -1,6 +1,6 @@
 local S = minetest.get_translator("rp_armor")
 
---[[~~~~~ ARMOR REGISTRATIONS ~~~~~]]
+--[[----- ARMOR REGISTRATIONS -----]]
 
 armor.register_armor_set("rp_armor", "wood", {
 	craftitem = "group:planks",

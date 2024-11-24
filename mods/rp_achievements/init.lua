@@ -986,7 +986,7 @@ function achievements.get_formspec(name)
    local aname = achievements.registered_achievements_list[row]
    local def = achievements.registered_achievements[aname]
 
-   --[[~~~~~ TEXT LIST MODE ~~~~~]]
+   --[[----- TEXT LIST MODE -----]]
    if userdata[name].mode == MODE_LIST then
 
    -- Construct entries for text list
@@ -1064,9 +1064,9 @@ function achievements.get_formspec(name)
    form = form .. achievement_icon_frame(0, 0, aname, gotten)
    form = form .. "container_end[]" -- icon container end
 
-   --[[~~~~~ END OF TEXT LIST MODE ~~~~~]]
+   --[[----- END OF TEXT LIST MODE -----]]
    else
-   --[[~~~~~ SYMBOL LIST MODE ~~~~~]]
+   --[[----- SYMBOL LIST MODE -----]]
 
    local SYMBOLS_PER_ROW = 4
 
@@ -1125,7 +1125,7 @@ function achievements.get_formspec(name)
    form = form .. "scroll_container_end[]"
 
    end
-   --[[~~~~~ END OF SYMBOL LIST MODE ~~~~~]]
+   --[[----- END OF SYMBOL LIST MODE -----]]
 
 
    -- Achievement progress summary

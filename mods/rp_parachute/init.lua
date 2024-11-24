@@ -80,7 +80,7 @@ local check_parachute_spawnable = function(pos, player)
       local ray_end = vector.add(pos, off_end)
       local ray = minetest.raycast(ray_start, ray_end, true, true)
       local on_ground_only = true -- whether we stand on ground
-      local in_liquid = false -- whether we're in liquid (liquidtype~="none")
+      local in_liquid = false -- whether we're in liquid (liquidtype unqual to "none")
       local collide = false -- whethe we collide
       while true do
          local thing = ray:next()

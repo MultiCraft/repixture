@@ -312,6 +312,7 @@ creative.get_creative_formspec = function(player, start_i, pagenum)
 		page_label = ""
 	else
 		inventory_list = "list[detached:creative_"..player_name..";main;0,0;"..creative.slots_width..","..creative.slots_height..";"..tostring(start_i).."]"
+		--~ Creative inventory page counter. @1 is current page, @2 is maximum page
 		page_label = "label[8.95,0.75;"..FS("@1/@2", pagenum, pagemax).."]"
 	end
 	return
@@ -382,6 +383,7 @@ creative.get_formspec = function(playername)
 			form = form .. "style[search_submit;border=false;noclip=true;bgimg=ui_button_search_submit_inactive.png]"
 			form = form .. "style[search_submit:pressed;border=false;noclip=true;bgimg=ui_button_search_submit_active.png]"
 			form = form .. "button["..(rp_formspec.default.size.x+2.134)..",1.6;0.77778,0.8;search_submit;]"
+			--~ Tooltip of button that submits an item search
 			form = form .. "tooltip[search_submit;"..minetest.formspec_escape(S("Submit")).."]"
 			form = form .. "field_close_on_enter[search_input;false]"
 		end

@@ -10,6 +10,7 @@ local INFOTEXT_PUBLIC = NS("Locked Chest")
 local INFOTEXT_OWNED = NS("Locked Chest (Owned by @1)")
 local INFOTEXT_PUBLIC_CRACKED = NS("Locked Chest (cracked open)")
 local INFOTEXT_OWNED_CRACKED = NS("Locked Chest (cracked open) (Owned by @1)")
+--~ @1 is some block that can be owned (like a locked chest). @2 is an owner name.
 local INFOTEXT_NAMED_OWNED = NS("@1 (Owned by @2)")
 
 local GRAVITY = minetest.settings:get("movement_gravity") or 9.81
@@ -26,6 +27,7 @@ local function update_infotext(meta)
    local owner = meta:get_string("lock_owner")
    local cracked = meta:get_int("lock_cracked") == 1
    if text ~= "" then
+      --~ @1 is the name of a locked block
       local namepart = S("“@1”", text)
       if owner ~= "" then
          if cracked then

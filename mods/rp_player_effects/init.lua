@@ -76,6 +76,7 @@ end
 function player_effects.register_effect(ename, def)
    local rd = {
       title = def.title or ename, -- good-looking name of the effect
+      --~ Fallback description for a player effect, sloppy translations are OK. @1 is the technical effect identifier.
       description = def.description or S("The @1 effect", ename), -- description of what the effect does
       duration = def.duration or 1, -- how long the effect lasts, <0 is infinite and has to be disabled manually
       physics = def.physics or {}, -- physics overrides for the player
@@ -276,8 +277,10 @@ minetest.register_chatcommand(
 
          for ename, endtime in pairs(player_effects.effects[name]) do
             if endtime < 0 then
+               --~ @1 is a player effect name
                s = s .. "  " .. S("@1: unlimited", player_effects.registered_effects[ename].title) .. "\n"
             else
+               --~ @1 is a player effect name, @2 is the number of seconds the effect is still active
                s = s .. "  " .. S("@1: @2 s remaining", player_effects.registered_effects[ename].title, (endtime - minetest.get_gametime())) .. "\n"
             end
 

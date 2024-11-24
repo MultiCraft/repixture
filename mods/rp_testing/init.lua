@@ -85,6 +85,7 @@ do
 		   end
 		   table.sort(fuels, sort_by_time)
 		   for f=1, #fuels do
+                           --~ List entry of fuel list for developer /list_fuels command. @1 = item name, @2 = fuel burn duration
 			   minetest.chat_send_player(name, S("@1: @2", fuels[f][1], fuels[f][2]))
 		   end
 		   return true
@@ -112,6 +113,7 @@ do
 		   end
 		   table.sort(recipes, sort_by_input)
 		   for r=1, #recipes do
+                           --~ List entry of cooking recipe list for the developer command /list_cookings. @1 = item to be cooked, @2 = item after cooking, @3 = cooking duration
 			   minetest.chat_send_player(name, S("@1 → @2 (time=@3)", recipes[r][1], recipes[r][2]:to_string(), recipes[r][3]))
 		   end
 		   return true

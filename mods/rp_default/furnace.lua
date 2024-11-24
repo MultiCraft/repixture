@@ -363,6 +363,7 @@ minetest.register_abm(
 		  local item_percent = 0
 		  if cookable then
 		     item_percent =  math.floor(src_time / cooked.time * 100)
+                     --~ Furnace cook completion percentage, shown when hovering furnace
 		     item_state = S("@1%", item_percent)
 		  else
 		     if srclist[1]:is_empty() then
@@ -377,6 +378,7 @@ minetest.register_abm(
 		  if fuel_time <= fuel_totaltime and fuel_totaltime ~= 0 then
 		     active = true
 		     local fuel_percent = math.floor(fuel_time / fuel_totaltime * 100)
+                     --~ Percentage showing remaining furnace fuel, shown when hovering furnace
 		     fuel_state = S("@1%", fuel_percent)
 		     formspec = default.furnace_active_formspec(fuel_percent, item_percent)
 		     swap_node(pos, "rp_default:furnace_active")
@@ -389,8 +391,10 @@ minetest.register_abm(
 
 		  local infotext
 		  if active then
+                     --~ Shown when hovering furnace. @1 = cooked item, @2 = fuel percentage
 		     infotext = S("Furnace active (Item: @1; Fuel: @2)", item_state, fuel_state)
 		  else
+                     --~ Shown when hovering furnace. @1 = cooked item, @2 = fuel percentage
 		     infotext = S("Furnace inactive (Item: @1; Fuel: @2)", item_state, fuel_state)
 		  end
 

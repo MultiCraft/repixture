@@ -54,6 +54,7 @@ minetest.register_node(
          local meta = minetest.get_meta(pos)
 	 meta:set_string("name", text)
          if text ~= "" then
+             --~ @1 is a name given to a chest
              meta:set_string("infotext", S("Chest “@1”", text))
          else
              meta:set_string("infotext", S("Chest"))
@@ -102,6 +103,7 @@ minetest.register_node(
          local meta = minetest.get_meta(pos)
 	 meta:set_string("name", text)
          if text ~= "" then
+            --~ @1 is a name given to a bookshelf
             meta:set_string("infotext", S("Bookshelf “@1”", text))
          else
             meta:set_string("infotext", S("Bookshelf"))
