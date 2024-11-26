@@ -38,10 +38,9 @@ msgid "Food item"
 msgstr "Lebensmittel"
 
 #: mods/tt_base/init.lua:83
-#, fuzzy
 msgid "+@1 food point"
 msgid_plural "+@1 food points"
-msgstr[0] "+@1 Nahrungspunkte"
+msgstr[0] "+@1 Nahrungspunkt"
 msgstr[1] "+@1 Nahrungspunkte"
 
 #: mods/tt_base/init.lua:99
