@@ -42,7 +42,6 @@ def invoke_msgmerge(template_file, mod_folder, modname):
           match = pattern_po.match(f)
           if match:
               po_files.append(f)
-    print(po_files)
     if len(po_files) > 0:
         for po_file in po_files:
             po_file = os.path.join("locale", po_file)
