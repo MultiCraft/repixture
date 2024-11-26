@@ -1,4 +1,4 @@
-local S = minetest.get_translator("tt_base")
+local S, PS = minetest.get_translator("tt_base")
 
 local function get_min_digtime(caps)
 	local mintime
@@ -80,8 +80,7 @@ tt.register_snippet(function(itemstring)
 	if def._tt_food then
 		desc = S("Food item")
 		if def._tt_food_hp then
-			-- FIXME: doesn't support singular
-			local msg = S("+@1 food points", def._tt_food_hp)
+			local msg = PS("+@1 food point", "+@1 food points", def._tt_food_hp, def._tt_food_hp)
 			desc = desc .. "\n" .. msg
 		end
 	end
