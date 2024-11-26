@@ -277,7 +277,7 @@ minetest.register_chatcommand(
 
          for ename, endtime in pairs(player_effects.effects[name]) do
             if endtime < 0 then
-               --~ @1 is a player effect name
+               --~ @1 is a player effect name. “unlimited” refers to an effect duration
                s = s .. "  " .. S("@1: unlimited", player_effects.registered_effects[ename].title) .. "\n"
             else
                --~ @1 is a player effect name, @2 is the number of seconds the effect is still active
