@@ -24,8 +24,8 @@ You need:
 ## Part 1: Pushing the translations from the game to Weblate:
 
 1. Clean up: Make sure the game repository is in a clean state (no non-committed changes)
-2. Update POT files: Run `update_locale_templates.py` in the root directory of this repositoryand commit the changes (if any)
-3. Update PO files: TODO
+2. Update POT files: Run `update_locale_files.py pot` in the root directory of this repository and commit the changes (if any)
+3. Update PO files: Run `update_locale_files.py po` in the root directory of this repository and commit the changes (if any)
 4. Push: Push the changes to the online repository of the game
 5. Update Weblate repository (optional): Weblate should soon automatically update its repository. But if you want to want the new strings to be available immediately, go to the project page, then “Manage > Repository Maintenance” and click “Update”
 

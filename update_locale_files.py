@@ -3,11 +3,16 @@
 
 ##########################################################################
 ##### ABOUT THIS SCRIPT ##################################################
-# This script updates the translation template files (*.pot) of all mods
-# by running the xgettext application.
+# This script updates the translation template files (*.pot) or
+# translation files (*.po) of all mods by using the gettext tools.
 # It requires you have the 'gettext' software installed on your system.
 #
-# Run this script, and the *.pot files will be updated.
+# INVOCATION:
+# ./update_locale_files.py [mode]
+#
+#     where "mode" is either "pot" if you want to update the *.pot files
+#     or "po" if you want to update the *.po files. If "mode" is omitted,
+#     it defaults to "pot".
 ##########################################################################
 
 
@@ -19,11 +24,34 @@ PACKAGE_NAME = "Repixture"
 
 import os
 import re
+import sys
 
 # pattern for the 'name' in mod.conf
 pattern_name = re.compile(r'^name[ ]*=[ ]*([^ \n]*)')
 # file name pattern for gettext translation template files (*.pot)
 pattern_pot = re.compile(r'(.*)\.pot$')
+# file name pattern for gettext translation files (*.po)
+pattern_po = re.compile(r'(.*)\.po$')
+
+def invoke_msgmerge(template_file, mod_folder, modname):
+    containing_path = os.path.dirname(template_file)
+
+    po_files = []
+    for root, dirs, files in os.walk(os.path.join(mod_folder)):
+       for f in files:
+          match = pattern_po.match(f)
+          if match:
+              po_files.append(f)
+    print(po_files)
+    if len(po_files) > 0:
+        for po_file in po_files:
+            po_file = os.path.join("locale", po_file)
+            po_file = os.path.join(mod_folder, po_file)
+            command = "msgmerge --backup=none -U '"+po_file+"' '"+template_file+"'"
+            return_value = os.system(command)
+            if return_value != 0:
+                print("ERROR: msgmerge invocation returned with "+str(return_value))
+                exit(1)
 
 def invoke_xgettext(template_file, mod_folder, modname):
     containing_path = os.path.dirname(template_file)
@@ -43,14 +71,20 @@ def invoke_xgettext(template_file, mod_folder, modname):
         print("ERROR: xgettext invocation returned with "+str(return_value))
         exit(1)
 
-def update_locale_template(folder, modname):
+def update_locale_template(folder, modname, mode):
     for root, dirs, files in os.walk(os.path.join(folder, 'locale')):
         for name in files:
             code_match = pattern_pot.match(name)
-            if code_match == None: 
+            if code_match == None:
                 continue
             fname = os.path.join(root, name)
-            invoke_xgettext(fname, folder, modname)
+            if mode == "pot":
+                invoke_xgettext(fname, folder, modname)
+            elif mode == "po":
+                invoke_msgmerge(fname, folder, modname)
+            else:
+                print("ERROR: invalid locale template mode!")
+                exit(1)
 
 def get_modname(folder):
     try:
@@ -67,21 +101,30 @@ def get_modname(folder):
             return None
     return None
 
-def update_mod(folder):
+def update_mod(folder, mode):
     modname = get_modname(folder)
     if modname != None:
        print("Updating '"+modname+"' ...")
-       update_locale_template(folder, modname)
+       update_locale_template(folder, modname, mode)
 
 def main():
+    mode = ""
+    if len(sys.argv) >= 2:
+        mode = sys.argv[1]
+    if mode == "":
+        mode = "pot"
+    if mode != "po" and mode != "pot":
+        print("ERROR: invalid mode specified. Provide either 'po', 'pot' or nothing as command line argument")
+        exit(1)
+
     for modfolder in [f.path for f in os.scandir("./mods") if f.is_dir() and not f.name.startswith('.')]:
         is_modpack = os.path.exists(os.path.join(modfolder, "modpack.txt")) or os.path.exists(os.path.join(modfolder, "modpack.conf"))
         if is_modpack:
             subfolders = [f.path for f in os.scandir(modfolder) if f.is_dir() and not f.name.startswith('.')]
             for subfolder in subfolders:
-                update_mod(subfolder)
+                update_mod(subfolder, mode)
         else:
-            update_mod(modfolder)
+            update_mod(modfolder, mode)
     print("All done.")
 
 main()
