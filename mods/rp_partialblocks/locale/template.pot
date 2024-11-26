@@ -1,207 +1,274 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Repixture package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Luanti textdomain rp_partialblocks x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: Repixture\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_partialblocks/register.lua:14
 msgid "Cobble Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:14
 msgid "Cobble Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:17
 msgid "Stone Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:17
 msgid "Stone Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:20
 msgid "Sandstone Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:20
 msgid "Sandstone Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:23
 msgid "Brick Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:23
 msgid "Brick Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:25
 msgid "Painted Brick Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:25
 msgid "Painted Brick Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:30
 msgid "Wooden Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:30
 msgid "Wooden Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:32
 msgid "Painted Wooden Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:32
 msgid "Painted Wooden Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:35
 msgid "Oak Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:35
 msgid "Oak Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:37
 msgid "Painted Oak Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:37
 msgid "Painted Oak Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:40
 msgid "Birch Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:40
 msgid "Birch Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:42
 msgid "Painted Birch Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:42
 msgid "Painted Birch Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:45
 msgid "Fir Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:45
 msgid "Fir Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:47
 msgid "Painted Fir Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:47
 msgid "Painted Fir Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:52
 msgid "Reed Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:52
 msgid "Reed Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:55
 msgid "Dried Reed Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:55
 msgid "Dried Reed Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:58
 msgid "Straw Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:58
 msgid "Straw Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:61
 msgid "Hay Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:61
 msgid "Hay Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:66
 msgid "Frame Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:66
 msgid "Frame Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:68
 msgid "Painted Frame Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:68
 msgid "Painted Frame Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:72
 msgid "Reinforced Frame Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:72
 msgid "Reinforced Frame Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:74
 msgid "Painted Reinforced Frame Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:74
 msgid "Painted Reinforced Frame Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:77
 msgid "Reinforced Cobble Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:77
 msgid "Reinforced Cobble Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:82
 msgid "Coal Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:82
 msgid "Coal Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:87
 msgid "Steel Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:87
 msgid "Steel Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:90
 msgid "Carbon Steel Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:90
 msgid "Carbon Steel Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:93
 msgid "Wrought Iron Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:93
 msgid "Wrought Iron Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:96
 msgid "Bronze Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:96
 msgid "Bronze Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:99
 msgid "Copper Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:99
 msgid "Copper Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:102
 msgid "Tin Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:102
 msgid "Tin Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:105
 msgid "Gold Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:105
 msgid "Gold Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:116
 msgid "Compressed Sandstone Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:116
 msgid "Compressed Sandstone Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:119
 msgid "Reinforced Compressed Sandstone Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:119
 msgid "Reinforced Compressed Sandstone Stair"
 msgstr ""
-

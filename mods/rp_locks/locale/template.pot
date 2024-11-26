@@ -1,75 +1,100 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Repixture package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Luanti textdomain rp_locks x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: Repixture\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_locks/init.lua:9 mods/rp_locks/init.lua:290
 msgid "Locked Chest"
 msgstr ""
 
+#: mods/rp_locks/init.lua:10
 msgid "Locked Chest (Owned by @1)"
 msgstr ""
 
+#: mods/rp_locks/init.lua:11
 msgid "Locked Chest (cracked open)"
 msgstr ""
 
+#: mods/rp_locks/init.lua:12
 msgid "Locked Chest (cracked open) (Owned by @1)"
 msgstr ""
 
+#. ~ @1 is some block that can be owned (like a locked chest). @2 is an owner name.
+#: mods/rp_locks/init.lua:14
 msgid "@1 (Owned by @2)"
 msgstr ""
 
+#. ~ @1 is the name of a locked block
+#: mods/rp_locks/init.lua:31
 msgid "“@1”"
 msgstr ""
 
+#: mods/rp_locks/init.lua:100
 msgid "Lock Pick"
 msgstr ""
 
+#: mods/rp_locks/init.lua:101
 msgid "Cracks locked chests"
 msgstr ""
 
+#: mods/rp_locks/init.lua:151
 msgid "@1 has broken into your locked chest!"
 msgstr ""
 
+#: mods/rp_locks/init.lua:154 mods/rp_locks/init.lua:164
 msgid "You have broken the lock!"
 msgstr ""
 
+#: mods/rp_locks/init.lua:158
 msgid "You have broken into your own locked chest!"
 msgstr ""
 
+#: mods/rp_locks/init.lua:277
 msgid "Lock"
 msgstr ""
 
+#: mods/rp_locks/init.lua:278
 msgid "Used to craft locked chests"
 msgstr ""
 
+#: mods/rp_locks/init.lua:291
 msgid "Provides 32 inventory slots"
 msgstr ""
 
+#: mods/rp_locks/init.lua:291
 msgid "Can only be opened by its owner and those who have a lockpick"
 msgstr ""
 
+#: mods/rp_locks/init.lua:406
 msgid "Painted Locked Chest"
 msgstr ""
 
+#: mods/rp_locks/init.lua:473
 msgid "Locksmith"
 msgstr ""
 
+#: mods/rp_locks/init.lua:474
 msgid "Craft a lock."
 msgstr ""
 
+#: mods/rp_locks/init.lua:483
 msgid "Burglar"
 msgstr ""
 
+#: mods/rp_locks/init.lua:484
 msgid "Break into a locked chest."
 msgstr ""
-

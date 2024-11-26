@@ -1,33 +1,44 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Repixture package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Luanti textdomain rp_testing x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: Repixture\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_testing/init.lua:69
 msgid "List all furnace fuels and their burntime"
 msgstr ""
 
+#. ~ List entry of fuel list for developer /list_fuels command. @1 = item name, @2 = fuel burn duration
+#: mods/rp_testing/init.lua:89
 msgid "@1: @2"
 msgstr ""
 
+#: mods/rp_testing/init.lua:97
 msgid "List all cooking recipes"
 msgstr ""
 
+#. ~ List entry of cooking recipe list for the developer command /list_cookings. @1 = item to be cooked, @2 = item after cooking, @3 = cooking duration
+#: mods/rp_testing/init.lua:117
 msgid "@1 → @2 (time=@3)"
 msgstr ""
 
+#: mods/rp_testing/init.lua:127
 msgid "Paintable Wallmounted Test Node"
 msgstr ""
 
+#: mods/rp_testing/init.lua:146
 msgid "Paintable Facedir Test Node"
 msgstr ""
-

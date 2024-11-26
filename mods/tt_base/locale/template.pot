@@ -1,81 +1,106 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Repixture package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Luanti textdomain tt_base x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: Repixture\n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/tt_base/init.lua:48
 msgid "Damage: @1"
 msgstr ""
 
+#: mods/tt_base/init.lua:50
 msgid "Healing: @1"
 msgstr ""
 
+#: mods/tt_base/init.lua:54
 msgid "Damage (@1): @2"
 msgstr ""
 
+#: mods/tt_base/init.lua:56
 msgid "Healing (@1): @2"
 msgstr ""
 
+#: mods/tt_base/init.lua:67
 msgid "Full punch interval: @1s"
 msgstr ""
 
+#: mods/tt_base/init.lua:81
 msgid "Food item"
 msgstr ""
 
+#: mods/tt_base/init.lua:84
 msgid "+@1 food points"
 msgstr ""
 
+#: mods/tt_base/init.lua:100
 msgid "Contact damage: @1 per second"
 msgstr ""
 
+#: mods/tt_base/init.lua:103
 msgid "Contact healing: @1 per second"
 msgstr ""
 
+#: mods/tt_base/init.lua:108
 msgid "Drowning damage: @1"
 msgstr ""
 
+#: mods/tt_base/init.lua:113
 msgid "Fall damage: +@1%"
 msgstr ""
 
+#: mods/tt_base/init.lua:116
 msgid "No fall damage"
 msgstr ""
 
+#: mods/tt_base/init.lua:119
 msgid "Fall damage: @1%"
 msgstr ""
 
+#: mods/tt_base/init.lua:126
 msgid "No jumping"
 msgstr ""
 
+#: mods/tt_base/init.lua:129
 msgid "No swimming upwards"
 msgstr ""
 
+#: mods/tt_base/init.lua:132
 msgid "No rising"
 msgstr ""
 
+#: mods/tt_base/init.lua:138
 msgid "Climbable (only downwards)"
 msgstr ""
 
+#: mods/tt_base/init.lua:141
 msgid "Climbable"
 msgstr ""
 
+#: mods/tt_base/init.lua:146
 msgid "Slippery"
 msgstr ""
 
+#: mods/tt_base/init.lua:151
 msgid "Bouncy (@1%)"
 msgstr ""
 
+#: mods/tt_base/init.lua:159
 msgid "Luminance: @1-@2"
 msgstr ""
 
+#: mods/tt_base/init.lua:162
 msgid "Luminance: @1"
 msgstr ""
-
