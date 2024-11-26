@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_partialblocks x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,195 +13,258 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_partialblocks/register.lua:14
 msgid "Cobble Slab"
 msgstr "Pflastersteinplatte"
 
+#: mods/rp_partialblocks/register.lua:14
 msgid "Cobble Stair"
 msgstr "Pflastersteintreppe"
 
+#: mods/rp_partialblocks/register.lua:17
 msgid "Stone Slab"
 msgstr "Steinplatte"
 
+#: mods/rp_partialblocks/register.lua:17
 msgid "Stone Stair"
 msgstr "Steintreppe"
 
+#: mods/rp_partialblocks/register.lua:20
 msgid "Sandstone Slab"
 msgstr "Sandsteinplatte"
 
+#: mods/rp_partialblocks/register.lua:20
 msgid "Sandstone Stair"
 msgstr "Sandsteintreppe"
 
+#: mods/rp_partialblocks/register.lua:23
 msgid "Brick Slab"
 msgstr "Ziegelplatte"
 
+#: mods/rp_partialblocks/register.lua:23
 msgid "Brick Stair"
 msgstr "Ziegeltreppe"
 
+#: mods/rp_partialblocks/register.lua:25
 msgid "Painted Brick Slab"
 msgstr "Gefärbte Ziegelplatte"
 
+#: mods/rp_partialblocks/register.lua:25
 msgid "Painted Brick Stair"
 msgstr "Gefärbte Ziegeltreppe"
 
+#: mods/rp_partialblocks/register.lua:30
 msgid "Wooden Slab"
 msgstr "Holzplatte"
 
+#: mods/rp_partialblocks/register.lua:30
 msgid "Wooden Stair"
 msgstr "Holztreppe"
 
+#: mods/rp_partialblocks/register.lua:32
 msgid "Painted Wooden Slab"
 msgstr "Gefärbte Holzplatte"
 
+#: mods/rp_partialblocks/register.lua:32
 msgid "Painted Wooden Stair"
 msgstr "Gefärbte Holztreppe"
 
+#: mods/rp_partialblocks/register.lua:35
 msgid "Oak Slab"
 msgstr "Eichenplatte"
 
+#: mods/rp_partialblocks/register.lua:35
 msgid "Oak Stair"
 msgstr "Eichentreppe"
 
+#: mods/rp_partialblocks/register.lua:37
 msgid "Painted Oak Slab"
 msgstr "Gefärbte Eichenplatte"
 
+#: mods/rp_partialblocks/register.lua:37
 msgid "Painted Oak Stair"
 msgstr "Gefärbte Eichentreppe"
 
+#: mods/rp_partialblocks/register.lua:40
 msgid "Birch Slab"
 msgstr "Birkenplatte"
 
+#: mods/rp_partialblocks/register.lua:40
 msgid "Birch Stair"
 msgstr "Birkentreppe"
 
+#: mods/rp_partialblocks/register.lua:42
 msgid "Painted Birch Slab"
 msgstr "Gefärbte Birkenplatte"
 
+#: mods/rp_partialblocks/register.lua:42
 msgid "Painted Birch Stair"
 msgstr "Gefärbte Birkentreppe"
 
+#: mods/rp_partialblocks/register.lua:45
 msgid "Fir Slab"
 msgstr "Tannenplatte"
 
+#: mods/rp_partialblocks/register.lua:45
 msgid "Fir Stair"
 msgstr "Tannentreppe"
 
+#: mods/rp_partialblocks/register.lua:47
 msgid "Painted Fir Slab"
 msgstr "Gefärbte Tannenplatte"
 
+#: mods/rp_partialblocks/register.lua:47
 msgid "Painted Fir Stair"
 msgstr "Gefärbte Tannentreppe"
 
+#: mods/rp_partialblocks/register.lua:52
 msgid "Reed Slab"
 msgstr "Reetplatte"
 
+#: mods/rp_partialblocks/register.lua:52
 msgid "Reed Stair"
 msgstr "Reettreppe"
 
+#: mods/rp_partialblocks/register.lua:55
 msgid "Dried Reed Slab"
 msgstr "Trockenreetplatte"
 
+#: mods/rp_partialblocks/register.lua:55
 msgid "Dried Reed Stair"
 msgstr "Trockenreettreppe"
 
+#: mods/rp_partialblocks/register.lua:58
 msgid "Straw Slab"
 msgstr "Strohplatte"
 
+#: mods/rp_partialblocks/register.lua:58
 msgid "Straw Stair"
 msgstr "Strohtreppe"
 
+#: mods/rp_partialblocks/register.lua:61
 msgid "Hay Slab"
 msgstr "Heuplatte"
 
+#: mods/rp_partialblocks/register.lua:61
 msgid "Hay Stair"
 msgstr "Heutreppe"
 
+#: mods/rp_partialblocks/register.lua:66
 msgid "Frame Slab"
 msgstr "Rahmenplatte"
 
+#: mods/rp_partialblocks/register.lua:66
 msgid "Frame Stair"
 msgstr "Rahmentreppe"
 
+#: mods/rp_partialblocks/register.lua:68
 msgid "Painted Frame Slab"
 msgstr "Gefärbte Rahmenplatte"
 
+#: mods/rp_partialblocks/register.lua:68
 msgid "Painted Frame Stair"
 msgstr "Gefärbte Rahmentreppe"
 
+#: mods/rp_partialblocks/register.lua:72
 msgid "Reinforced Frame Slab"
 msgstr "Verstärkte Rahmenplatte"
 
+#: mods/rp_partialblocks/register.lua:72
 msgid "Reinforced Frame Stair"
 msgstr "Verstärkte Rahmentreppe"
 
+#: mods/rp_partialblocks/register.lua:74
 msgid "Painted Reinforced Frame Slab"
 msgstr "Gefärbte verstärkte Rahmenplatte"
 
+#: mods/rp_partialblocks/register.lua:74
 msgid "Painted Reinforced Frame Stair"
 msgstr "Gefärbte verstärkte Rahmentreppe"
 
+#: mods/rp_partialblocks/register.lua:77
 msgid "Reinforced Cobble Slab"
 msgstr "Verstärkte Pflastersteinplatte"
 
+#: mods/rp_partialblocks/register.lua:77
 msgid "Reinforced Cobble Stair"
 msgstr "Verstärkte Pflastersteintreppe"
 
+#: mods/rp_partialblocks/register.lua:82
 msgid "Coal Slab"
 msgstr "Kohleplatte"
 
+#: mods/rp_partialblocks/register.lua:82
 msgid "Coal Stair"
 msgstr "Kohletreppe"
 
+#: mods/rp_partialblocks/register.lua:87
 msgid "Steel Slab"
 msgstr "Stahlplatte"
 
+#: mods/rp_partialblocks/register.lua:87
 msgid "Steel Stair"
 msgstr "Stahltreppe"
 
+#: mods/rp_partialblocks/register.lua:90
 msgid "Carbon Steel Slab"
 msgstr "Karbonstahlplatte"
 
+#: mods/rp_partialblocks/register.lua:90
 msgid "Carbon Steel Stair"
 msgstr "Karbonstahltreppe"
 
+#: mods/rp_partialblocks/register.lua:93
 msgid "Wrought Iron Slab"
 msgstr "Schmiedeeisenplatte"
 
+#: mods/rp_partialblocks/register.lua:93
 msgid "Wrought Iron Stair"
 msgstr "Schmiedeeisentreppe"
 
+#: mods/rp_partialblocks/register.lua:96
 msgid "Bronze Slab"
 msgstr "Bronzeplatte"
 
+#: mods/rp_partialblocks/register.lua:96
 msgid "Bronze Stair"
 msgstr "Bronzetreppe"
 
+#: mods/rp_partialblocks/register.lua:99
 msgid "Copper Slab"
 msgstr "Kupferplatte"
 
+#: mods/rp_partialblocks/register.lua:99
 msgid "Copper Stair"
 msgstr "Kupfertreppe"
 
+#: mods/rp_partialblocks/register.lua:102
 msgid "Tin Slab"
 msgstr "Zinnplatte"
 
+#: mods/rp_partialblocks/register.lua:102
 msgid "Tin Stair"
 msgstr "Zinntreppe"
 
+#: mods/rp_partialblocks/register.lua:105
 msgid "Gold Slab"
 msgstr "Goldplatte"
 
+#: mods/rp_partialblocks/register.lua:105
 msgid "Gold Stair"
 msgstr "Goldtreppe"
 
+#: mods/rp_partialblocks/register.lua:116
 msgid "Compressed Sandstone Slab"
 msgstr "Kompaktsandsteinplatte"
 
+#: mods/rp_partialblocks/register.lua:116
 msgid "Compressed Sandstone Stair"
 msgstr "Kompaktsandsteintreppe"
 
+#: mods/rp_partialblocks/register.lua:119
 msgid "Reinforced Compressed Sandstone Slab"
 msgstr "Verstärkte Kompaktsandsteinplatte"
 
+#: mods/rp_partialblocks/register.lua:119
 msgid "Reinforced Compressed Sandstone Stair"
 msgstr "Verstärkte Kompaktsandsteintreppe"
-

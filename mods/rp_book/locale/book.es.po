@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain book x.x.x\n"
 "Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
-"POT-Creation-Date: \n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: 2024-10-15 13:56+0000\n"
 "Last-Translator: Gabri06 <Gabri06@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/repixture/"
@@ -14,41 +14,58 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.7.2\n"
 
+#: mods/rp_book/book.lua:40
 msgid "Title:"
 msgstr ""
 
+#: mods/rp_book/book.lua:41
 msgid "Contents:"
 msgstr ""
 
+#: mods/rp_book/book.lua:43
 msgid "Write"
 msgstr "Escribir"
 
+#: mods/rp_book/book.lua:101
 msgid "Book"
 msgstr ""
 
+#: mods/rp_book/book.lua:102
 msgid "Write down some notes"
 msgstr ""
 
+#. ~ @1 = book title
+#: mods/rp_book/book.lua:123 mods/rp_book/book.lua:152
 msgid "Book: “@1”"
 msgstr ""
 
+#: mods/rp_book/book.lua:133
 msgid "Unnamed Book"
 msgstr ""
 
+#. ~ Button tooltip in bookshelf to read a book
+#: mods/rp_book/bookshelf.lua:52
 msgid "Read book"
 msgstr ""
 
+#: mods/rp_book/bookshelf.lua:85 mods/rp_book/bookshelf.lua:94
+#: mods/rp_book/bookshelf.lua:117
 msgid "Bookshelf"
 msgstr ""
 
+#: mods/rp_book/bookshelf.lua:86
 msgid "Provides 8 inventory slots"
 msgstr ""
 
+#: mods/rp_book/bookshelf.lua:119
 msgid "“@1”"
 msgstr ""
 
+#: mods/rp_book/bookshelf.lua:128
 msgid "Painted Bookshelf"
 msgstr ""
 
+#. ~ Button to return from book reading screen (bookshelf)
+#: mods/rp_book/bookshelf.lua:177
 msgid "Return"
 msgstr ""

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_lumien x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,30 +13,34 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_lumien/init.lua:73
 msgid "Glowing Lumien Crystal"
 msgstr "كريستالة لومين متهجة"
 
+#: mods/rp_lumien/init.lua:114
 msgid "Lumien Crystal"
 msgstr "كريستالة لومين"
 
+#: mods/rp_lumien/init.lua:115
 msgid "Can be placed; glows when someone is close"
 msgstr "يمكن أن توضع؛ تتوهج عندما يقترب أحد ما"
 
+#: mods/rp_lumien/init.lua:156
 msgid "Lumien Block"
 msgstr "كتلة لومين"
 
-msgid "It shines so bright"
-msgstr ""
-
+#: mods/rp_lumien/init.lua:167
 msgid "Reinforced Lumien Block"
 msgstr "كتلة لومين معززة"
 
+#: mods/rp_lumien/init.lua:180
 msgid "Stone with Lumien"
 msgstr "حجر باللومين"
 
+#: mods/rp_lumien/init.lua:263
 msgid "Enlightened"
 msgstr "مستنير"
 
+#: mods/rp_lumien/init.lua:264
 msgid "Place a lumien crystal."
 msgstr "قم بوضع كريستالة لومين."
-

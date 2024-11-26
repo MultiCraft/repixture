@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_armor x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,90 +13,120 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_armor/init.lua:26
 msgid "Helmet"
 msgstr "Casque"
 
+#: mods/rp_armor/init.lua:26
 msgid "Chestplate"
 msgstr "Plastron"
 
+#: mods/rp_armor/init.lua:26
 msgid "Boots"
 msgstr "Bottes"
 
+#: mods/rp_armor/init.lua:220
 msgid "Protection"
 msgstr ""
 
+#. ~ armor protection percentage, shown in armor page
+#: mods/rp_armor/init.lua:223
 msgid "@1%"
 msgstr ""
 
+#: mods/rp_armor/init.lua:227
 msgid "Protection bonus for full set"
 msgstr ""
 
+#. ~ protection bonus for wearing full set, shown in armor page
+#: mods/rp_armor/init.lua:229
 msgid "+@1%"
 msgstr ""
 
+#: mods/rp_armor/init.lua:247
 msgid "Armor"
 msgstr "Armure"
 
+#: mods/rp_armor/init.lua:633
 msgid "Armored"
 msgstr "Blindé"
 
+#: mods/rp_armor/init.lua:634
 msgid "Craft a piece of armor."
 msgstr "Fabriquer une pièce d'armure."
 
+#: mods/rp_armor/init.lua:645
 msgid "Protection: +@1%"
 msgstr "Protection : +@1%"
 
+#: mods/rp_armor/register.lua:7
 msgid "Wooden Helmet"
 msgstr "Casque en bois"
 
+#: mods/rp_armor/register.lua:7
 msgid "Wooden Chestplate"
 msgstr "Plastron en bois"
 
+#: mods/rp_armor/register.lua:7
 msgid "Wooden Boots"
 msgstr "Bottes en bois"
 
+#: mods/rp_armor/register.lua:16
 msgid "Steel Helmet"
 msgstr "Casque en acier"
 
+#: mods/rp_armor/register.lua:16
 msgid "Steel Chestplate"
 msgstr "Plastron en acier"
 
+#: mods/rp_armor/register.lua:16
 msgid "Steel Boots"
 msgstr "Bottes en acier"
 
+#: mods/rp_armor/register.lua:26
 msgid "Chainmail Helmet"
 msgstr "Casque en cotte de mailles"
 
+#: mods/rp_armor/register.lua:26
 msgid "Chainmail Chestplate"
 msgstr "Plastron en cotte de mailles"
 
+#: mods/rp_armor/register.lua:26
 msgid "Chainmail Boots"
 msgstr "Bottes en cotte de mailles"
 
+#: mods/rp_armor/register.lua:35
 msgid "Carbon Steel Helmet"
 msgstr "Casque en acier carbone"
 
+#: mods/rp_armor/register.lua:35
 msgid "Carbon Steel Chestplate"
 msgstr "Plastron en acier carbone"
 
+#: mods/rp_armor/register.lua:35
 msgid "Carbon Steel Boots"
 msgstr "Bottes en acier carbone"
 
+#: mods/rp_armor/register.lua:45
 msgid "Bronze Helmet"
 msgstr "Casque en bronze"
 
+#: mods/rp_armor/register.lua:45
 msgid "Bronze Chestplate"
 msgstr "Plastron en bronze"
 
+#: mods/rp_armor/register.lua:45
 msgid "Bronze Boots"
 msgstr "Bottes en bronze"
 
+#: mods/rp_armor/register.lua:56
 msgid "Chainmail Sheet"
 msgstr "Drap en cotte de mailles"
 
+#: mods/rp_armor/register.lua:89
 msgid "Skin of Bronze"
 msgstr "Costume de bronze"
 
+#: mods/rp_armor/register.lua:90
 msgid "Equip a full suit of bronze armor."
 msgstr "Équiper une armure complète en bronze."
-

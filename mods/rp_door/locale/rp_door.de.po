@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_door x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,36 +13,46 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_door/init.lua:693
 msgid "Wooden Door"
 msgstr "Holztür"
 
+#: mods/rp_door/init.lua:693
 msgid "Painted Wooden Door"
 msgstr "Gefärbte Holztür"
 
+#: mods/rp_door/init.lua:694
 msgid "Oak Door"
 msgstr "Eichentür"
 
+#: mods/rp_door/init.lua:694
 msgid "Painted Oak Door"
 msgstr "Gefärbte Eichentür"
 
+#: mods/rp_door/init.lua:695
 msgid "Birch Door"
 msgstr "Birkentür"
 
+#: mods/rp_door/init.lua:695
 msgid "Painted Birch Door"
 msgstr "Gefärbte Birkentür"
 
+#: mods/rp_door/init.lua:696
 msgid "Fir Door"
 msgstr "Tannentür"
 
+#: mods/rp_door/init.lua:696
 msgid "Painted Fir Door"
 msgstr "Gefärbte Tannentür"
 
+#: mods/rp_door/init.lua:756
 msgid "Stone Door"
 msgstr "Steintür"
 
+#: mods/rp_door/init.lua:802
 msgid "Adoorable"
 msgstr "Na-Tür-lich"
 
+#: mods/rp_door/init.lua:803
 msgid "Craft a door."
 msgstr "Fertigen Sie eine Tür."
-

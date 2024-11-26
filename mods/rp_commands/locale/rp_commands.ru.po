@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_commands x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,24 +13,31 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#. ~ command syntax for /hp command. Translate the words, but the symbols MUST be left intact
+#: mods/rp_commands/init.lua:8
 msgid "[<player>] <value>"
 msgstr "[<игрок>] <значение>"
 
+#: mods/rp_commands/init.lua:9
 msgid "Set health points of player or yourself"
 msgstr "Установить очки здоровья игрока или себя"
 
+#: mods/rp_commands/init.lua:12
 msgid "Not possible, damage is disabled."
 msgstr "Невозможно, урон отключен."
 
+#: mods/rp_commands/init.lua:24
 msgid "Player @1 does not exist."
 msgstr "Игрок @1 не существует."
 
+#: mods/rp_commands/init.lua:28 mods/rp_commands/init.lua:38
 msgid "Invalid health!"
 msgstr "Недопустимое здоровье!"
 
+#: mods/rp_commands/init.lua:42 mods/rp_commands/init.lua:66
 msgid "You suicided."
 msgstr ""
 
+#: mods/rp_commands/init.lua:44 mods/rp_commands/init.lua:68
 msgid "You were killed by a higher power."
 msgstr ""
-

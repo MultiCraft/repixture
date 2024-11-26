@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain tt_base x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,69 +13,90 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/tt_base/init.lua:48
 msgid "Damage: @1"
 msgstr "الضرر: @1"
 
+#: mods/tt_base/init.lua:50
 msgid "Healing: @1"
 msgstr "الشفاء: @1"
 
+#: mods/tt_base/init.lua:54
 msgid "Damage (@1): @2"
 msgstr "الضرر (@1): @2"
 
+#: mods/tt_base/init.lua:56
 msgid "Healing (@1): @2"
 msgstr "الشفاء (@1): @2"
 
+#: mods/tt_base/init.lua:67
 msgid "Full punch interval: @1s"
 msgstr "الفاصل الزمني لاللكمة الكاملة: @1s"
 
+#: mods/tt_base/init.lua:81
 msgid "Food item"
 msgstr "طعام"
 
+#: mods/tt_base/init.lua:84
 msgid "+@1 food points"
 msgstr "+@1 نقاط طعام"
 
+#: mods/tt_base/init.lua:100
 msgid "Contact damage: @1 per second"
 msgstr "ضرر اللمس: @1 ضمن ثانية"
 
+#: mods/tt_base/init.lua:103
 msgid "Contact healing: @1 per second"
 msgstr "شفاء من لمس: @1 ضمن ثانية"
 
+#: mods/tt_base/init.lua:108
 msgid "Drowning damage: @1"
 msgstr "ضرر الغرق: @1"
 
+#: mods/tt_base/init.lua:113
 msgid "Fall damage: +@1%"
 msgstr "ضرر السقوط: +@1%"
 
+#: mods/tt_base/init.lua:116
 msgid "No fall damage"
 msgstr "لا ضرر سقوط"
 
+#: mods/tt_base/init.lua:119
 msgid "Fall damage: @1%"
 msgstr "ضرر السقوط: @1%"
 
+#: mods/tt_base/init.lua:126
 msgid "No jumping"
 msgstr "لا قفز"
 
+#: mods/tt_base/init.lua:129
 msgid "No swimming upwards"
 msgstr "لا سباحة إلى الأعلى"
 
+#: mods/tt_base/init.lua:132
 msgid "No rising"
 msgstr "لا صعود"
 
+#: mods/tt_base/init.lua:138
 msgid "Climbable (only downwards)"
 msgstr "يمكن صعوده (للأسفل فقط)"
 
+#: mods/tt_base/init.lua:141
 msgid "Climbable"
 msgstr "يمكن صعوده"
 
+#: mods/tt_base/init.lua:146
 msgid "Slippery"
 msgstr "زلق"
 
+#: mods/tt_base/init.lua:151
 msgid "Bouncy (@1%)"
 msgstr "نطاط (@1%)"
 
+#: mods/tt_base/init.lua:159
 msgid "Luminance: @1-@2"
 msgstr "الإنارة: @1-@2"
 
+#: mods/tt_base/init.lua:162
 msgid "Luminance: @1"
 msgstr "الإنارة: @1"
-

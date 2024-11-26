@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_formspec x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,51 +13,66 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_formspec/init.lua:95
 msgid "Fuzzy"
 msgstr "Duveteux"
 
+#: mods/rp_formspec/init.lua:95
 msgid "Any fuzzy block"
 msgstr "N'importe quel bloc duveteux"
 
+#: mods/rp_formspec/init.lua:96
 msgid "Planks"
 msgstr "Planches"
 
+#: mods/rp_formspec/init.lua:96
 msgid "Any planks"
 msgstr "N'importe quelles planches"
 
+#: mods/rp_formspec/init.lua:97
 msgid "Soil"
 msgstr "Sol"
 
+#: mods/rp_formspec/init.lua:97
 msgid "Any soil"
 msgstr "N'importe quel sol"
 
+#: mods/rp_formspec/init.lua:98
 msgid "Stone"
 msgstr "Pierre"
 
+#: mods/rp_formspec/init.lua:98
 msgid "Any stone"
 msgstr "N'importe quelle pierre"
 
+#: mods/rp_formspec/init.lua:99
 msgid "Green Grass Clump"
 msgstr "Touffe d'herbe verte"
 
+#: mods/rp_formspec/init.lua:99
 msgid "Any green grass clump"
 msgstr "N'importe quelle touffe d'herbe verte"
 
+#: mods/rp_formspec/init.lua:100
 msgid "Paint Bucket"
 msgstr ""
 
+#: mods/rp_formspec/init.lua:100
 msgid "Any paint bucket"
 msgstr ""
 
+#: mods/rp_formspec/init.lua:101
 msgid "Non-full Paint Bucket"
 msgstr ""
 
+#: mods/rp_formspec/init.lua:101
 msgid "Any paint bucket that isn’t full"
 msgstr ""
 
+#: mods/rp_formspec/init.lua:339
 msgid "Group: @1"
 msgstr "Groupe : @1"
 
+#: mods/rp_formspec/init.lua:422
 msgid "Write"
 msgstr "Écrire"
-

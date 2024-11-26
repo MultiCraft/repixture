@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_formspec x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,39 +13,67 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_formspec/init.lua:95
 msgid "Fuzzy"
 msgstr "غامض"
 
+#: mods/rp_formspec/init.lua:95
 msgid "Any fuzzy block"
 msgstr "أي كتلة غامضة"
 
+#: mods/rp_formspec/init.lua:96
 msgid "Planks"
 msgstr "ألواح"
 
+#: mods/rp_formspec/init.lua:96
 msgid "Any planks"
 msgstr "أي ألواح"
 
+#: mods/rp_formspec/init.lua:97
 msgid "Soil"
 msgstr "تربة"
 
+#: mods/rp_formspec/init.lua:97
 msgid "Any soil"
 msgstr "أي تربة"
 
+#: mods/rp_formspec/init.lua:98
 msgid "Stone"
 msgstr "حجر"
 
+#: mods/rp_formspec/init.lua:98
 msgid "Any stone"
 msgstr "أي حجر"
 
+#: mods/rp_formspec/init.lua:99
 msgid "Green Grass Clump"
 msgstr "أجمة عشب أخضر"
 
+#: mods/rp_formspec/init.lua:99
 msgid "Any green grass clump"
 msgstr "أي أجمة عشب أخضر"
 
+#: mods/rp_formspec/init.lua:100
+msgid "Paint Bucket"
+msgstr ""
+
+#: mods/rp_formspec/init.lua:100
+#, fuzzy
+msgid "Any paint bucket"
+msgstr "أي ألواح"
+
+#: mods/rp_formspec/init.lua:101
+msgid "Non-full Paint Bucket"
+msgstr ""
+
+#: mods/rp_formspec/init.lua:101
+msgid "Any paint bucket that isn’t full"
+msgstr ""
+
+#: mods/rp_formspec/init.lua:339
 msgid "Group: @1"
 msgstr "مجموعة: @1"
 
+#: mods/rp_formspec/init.lua:422
 msgid "Write"
 msgstr "أكتب"
-

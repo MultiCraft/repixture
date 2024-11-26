@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_door x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,21 +13,50 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_door/init.lua:693
 msgid "Wooden Door"
 msgstr "باب خشبي"
 
+#: mods/rp_door/init.lua:693
+#, fuzzy
+msgid "Painted Wooden Door"
+msgstr "باب خشبي"
+
+#: mods/rp_door/init.lua:694
 msgid "Oak Door"
 msgstr "باب خشب البلوط"
 
+#: mods/rp_door/init.lua:694
+#, fuzzy
+msgid "Painted Oak Door"
+msgstr "باب خشب البلوط"
+
+#: mods/rp_door/init.lua:695
 msgid "Birch Door"
 msgstr "باب خشب البتولا"
 
+#: mods/rp_door/init.lua:695
+#, fuzzy
+msgid "Painted Birch Door"
+msgstr "باب خشب البتولا"
+
+#: mods/rp_door/init.lua:696
+#, fuzzy
+msgid "Fir Door"
+msgstr "باب خشب البتولا"
+
+#: mods/rp_door/init.lua:696
+msgid "Painted Fir Door"
+msgstr ""
+
+#: mods/rp_door/init.lua:756
 msgid "Stone Door"
 msgstr "باب حجري"
 
+#: mods/rp_door/init.lua:802
 msgid "Adoorable"
 msgstr "بااابي"
 
+#: mods/rp_door/init.lua:803
 msgid "Craft a door."
 msgstr "اصنع بابا."
-

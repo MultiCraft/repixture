@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_nav x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,42 +13,56 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_nav/compass.lua:142
 msgid "Compass"
 msgstr "Boussole"
 
+#: mods/rp_nav/compass.lua:143
 msgid "It points to the North"
 msgstr "Elle pointe vers le nord"
 
+#: mods/rp_nav/compass.lua:143
 msgid "Can be magnetized at magnetic blocks"
 msgstr "Peut être magnétisée par les blocs magnétiques"
 
+#: mods/rp_nav/compass.lua:144
 msgid "Magno Compass"
 msgstr "Boussole Magno"
 
+#: mods/rp_nav/compass.lua:145
 msgid "It points to a position"
 msgstr "Elle pointe vers une position"
 
+#: mods/rp_nav/compass.lua:145
 msgid "Can be demagnetized at unmagnetic blocks"
 msgstr "Peut être démagnétisée par les blocs non-magnétiques"
 
+#: mods/rp_nav/compass.lua:523
 msgid "True Navigator"
 msgstr "Vrai navigateur"
 
+#: mods/rp_nav/compass.lua:524
 msgid "Magnetize a compass."
 msgstr "Magnétiser une boussole."
 
+#: mods/rp_nav/map.lua:68
 msgid "Map"
 msgstr "Carte"
 
+#: mods/rp_nav/map.lua:69
 msgid "Keep this in your inventory and view the map with the 'minimap' key"
-msgstr "Gardez là dans votre inventaire et regardez la carte avec la touche 'mini-carte'"
+msgstr ""
+"Gardez là dans votre inventaire et regardez la carte avec la touche 'mini-"
+"carte'"
 
+#: mods/rp_nav/map.lua:76
 msgid "Use the minimap key to show the map."
 msgstr "Utilisez la touche mini-carte pour afficher la carte."
 
+#: mods/rp_nav/map.lua:98
 msgid "Navigator"
 msgstr "Navigateur"
 
+#: mods/rp_nav/map.lua:99
 msgid "Craft a map."
 msgstr "Fabriquer une carte."
-

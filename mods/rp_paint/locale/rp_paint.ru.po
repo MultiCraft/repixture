@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_paint x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,99 +13,133 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_paint/init.lua:16
 msgid "White"
 msgstr "белый"
 
+#: mods/rp_paint/init.lua:16
 msgid "Gray"
 msgstr "серый"
 
+#: mods/rp_paint/init.lua:16
 msgid "Black"
 msgstr "чёрный"
 
+#: mods/rp_paint/init.lua:16
 msgid "Red"
 msgstr "красный"
 
+#: mods/rp_paint/init.lua:16
 msgid "Orange"
 msgstr "оранжевый"
 
+#: mods/rp_paint/init.lua:16
 msgid "Amber"
 msgstr "янтарный"
 
+#: mods/rp_paint/init.lua:16
 msgid "Yellow"
 msgstr "жёлтый"
 
+#: mods/rp_paint/init.lua:16
 msgid "Lime"
 msgstr "лаймовый"
 
+#: mods/rp_paint/init.lua:16
 msgid "Green"
 msgstr "зелёный"
 
+#: mods/rp_paint/init.lua:16
 msgid "Bluegreen"
 msgstr "морской"
 
+#: mods/rp_paint/init.lua:16
 msgid "Turquoise"
 msgstr "бирюзовый"
 
+#: mods/rp_paint/init.lua:16
 msgid "Cyan"
 msgstr "голубой"
 
+#: mods/rp_paint/init.lua:16
 msgid "Skyblue"
 msgstr "небесный"
 
+#: mods/rp_paint/init.lua:16
 msgid "Azure Blue"
 msgstr "лазурный"
 
+#: mods/rp_paint/init.lua:16
 msgid "Blue"
 msgstr "синий"
 
+#: mods/rp_paint/init.lua:16
 msgid "Violet"
 msgstr "фиолетовый"
 
+#: mods/rp_paint/init.lua:16
 msgid "Magenta"
 msgstr "пурпурный"
 
+#: mods/rp_paint/init.lua:16
 msgid "Redviolet"
 msgstr "малиновый"
 
+#: mods/rp_paint/init.lua:16
 msgid "Hot Pink"
 msgstr "розовый"
 
+#: mods/rp_paint/init.lua:116 mods/rp_paint/init.lua:643
 msgid "Paint Bucket (Empty)"
 msgstr "Ведро краски (пустое)"
 
+#. ~ @1 = color name of color contained in paint bucket
+#: mods/rp_paint/init.lua:121 mods/rp_paint/init.lua:523
+#: mods/rp_paint/init.lua:635
 msgid "Paint Bucket (@1)"
 msgstr "Ведро краски (Цвет: @1)"
 
+#: mods/rp_paint/init.lua:439
 msgid "Paint Brush"
 msgstr "Кисть"
 
+#: mods/rp_paint/init.lua:440
 msgid "Paints blocks"
 msgstr "Окрашивает блоки"
 
+#: mods/rp_paint/init.lua:440
 msgid "Punch paint bucket to pick color"
 msgstr "Ударьте по ведру краски, чтобы выбрать цвет"
 
+#: mods/rp_paint/init.lua:711
 msgid "Paint Bucket"
 msgstr "Ведро краски"
 
+#: mods/rp_paint/init.lua:719 mods/rp_paint/init.lua:728
 msgid "Paint Bucket with Paint"
 msgstr "Ведро краски (полное)"
 
+#: mods/rp_paint/init.lua:737
 msgid "Use place key to change color"
 msgstr "Используйте, чтобы изменить цвет"
 
+#: mods/rp_paint/init.lua:737
 msgid "Point at left/right part to get previous/next color"
-msgstr "Нацельтесь на левую/правую часть чтобы получить предыдущий/следующий цвет"
+msgstr ""
+"Нацельтесь на левую/правую часть чтобы получить предыдущий/следующий цвет"
 
+#: mods/rp_paint/init.lua:737
 msgid "Refill with flowers"
 msgstr "Наполните цветами"
 
+#: mods/rp_paint/init.lua:742
 msgid "Fill with flowers to get paint"
 msgstr "Наполните цветами, чтобы получить краску"
 
+#: mods/rp_paint/init.lua:824
 msgid "Colorful World"
 msgstr "Цветной мир"
 
+#: mods/rp_paint/init.lua:825
 msgid "Paint a block."
 msgstr "Покрасьте блок."
-

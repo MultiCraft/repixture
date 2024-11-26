@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_signs x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,60 +13,78 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_signs/init.lua:569
 msgid "Write"
 msgstr "Escribir"
 
+#: mods/rp_signs/init.lua:769
 msgid "Write a short message"
 msgstr "Escribe un mensaje corto"
 
+#: mods/rp_signs/init.lua:923
 msgid "Write short messages (two sides)"
 msgstr "Escribe mensajes cortos (de dos lados)"
 
+#: mods/rp_signs/init.lua:1300
 msgid "Wooden Wall Sign"
 msgstr "Cartel de madera"
 
+#: mods/rp_signs/init.lua:1301
 msgid "Painted Wooden Wall Sign"
 msgstr "Cartel de madera pintado"
 
+#: mods/rp_signs/init.lua:1302
 msgid "Wooden Pole Sign"
 msgstr "Señal de Poste de Madera"
 
+#: mods/rp_signs/init.lua:1303
 msgid "Painted Pole Wooden Sign"
 msgstr "Señal de poste de madera pintado"
 
+#: mods/rp_signs/init.lua:1315
 msgid "Oak Wall Sign"
 msgstr "Cartel de roble"
 
+#: mods/rp_signs/init.lua:1316
 msgid "Painted Oak Wall Sign"
 msgstr "Cartel de roble pintado"
 
+#: mods/rp_signs/init.lua:1317
 msgid "Oak Pole Sign"
 msgstr "Señal de Poste de Roble"
 
+#: mods/rp_signs/init.lua:1318
 msgid "Painted Oak Pole Sign"
 msgstr "Señal de poste de roble pintado"
 
+#: mods/rp_signs/init.lua:1330
 msgid "Birch Wall Sign"
 msgstr "Cartel de abedul"
 
+#: mods/rp_signs/init.lua:1331
 msgid "Painted Birch Wall Sign"
 msgstr "Cartel de abedul pintado"
 
+#: mods/rp_signs/init.lua:1332
 msgid "Birch Pole Sign"
 msgstr "Señal de Poste de Abedul"
 
+#: mods/rp_signs/init.lua:1333
 msgid "Painted Birch Pole Sign"
 msgstr "Señal de poste de abedul pintado"
 
+#: mods/rp_signs/init.lua:1345
 msgid "Fir Wall Sign"
 msgstr "Cartel de Pino"
 
+#: mods/rp_signs/init.lua:1346
 msgid "Painted Fir Wall Sign"
 msgstr "Cartel de pino pintado"
 
+#: mods/rp_signs/init.lua:1347
 msgid "Fir Pole Sign"
 msgstr "Señal de Poste de Pino"
 
+#: mods/rp_signs/init.lua:1348
 msgid "Painted Fir Pole Sign"
 msgstr "Señal de Poste de Pino pintado"
-

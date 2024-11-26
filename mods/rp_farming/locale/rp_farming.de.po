@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_farming x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,81 +13,107 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_farming/achievements.lua:9
 msgid "Farmer"
 msgstr "Bauer"
 
+#. ~ Achievement description for Farmer achievement. "crop" as in "usable plant" / "plant for farming"
+#: mods/rp_farming/achievements.lua:11
 msgid "Plant a crop."
 msgstr "Pflanzen Sie eine Nutzpflanze."
 
+#: mods/rp_farming/craft.lua:11
 msgid "Cotton"
 msgstr "Baumwolle"
 
+#: mods/rp_farming/craft.lua:18
 msgid "Wheat"
 msgstr "Weizen"
 
+#: mods/rp_farming/craft.lua:25
 msgid "Flour"
 msgstr "Mehl"
 
+#: mods/rp_farming/craft.lua:32
 msgid "Bread"
 msgstr "Brot"
 
+#: mods/rp_farming/craft.lua:43
 msgid "Asparagus"
 msgstr "Spargel"
 
+#: mods/rp_farming/craft.lua:54
 msgid "Cooked Asparagus"
 msgstr "Gekochter Spargel"
 
+#: mods/rp_farming/craft.lua:65
 msgid "Baked Potato"
 msgstr "Bratkartoffel"
 
+#: mods/rp_farming/nodes.lua:9
 msgid "Wheat Seed"
 msgstr "Weizensamen"
 
+#: mods/rp_farming/nodes.lua:10
 msgid "Wheat Plant (stage @1)"
 msgstr "Weizenpflanze (@1. Stufe)"
 
+#: mods/rp_farming/nodes.lua:11
 msgid "Grows on dirt; it likes water"
 msgstr "Wächst auf Erde; mag Wasser"
 
+#: mods/rp_farming/nodes.lua:43
 msgid "Potato"
 msgstr "Kartoffel"
 
+#: mods/rp_farming/nodes.lua:44
 msgid "Potato Plant (stage @1)"
 msgstr "Kartoffelpflanze (@1. Stufe)"
 
+#: mods/rp_farming/nodes.lua:45
 msgid "Grows on dirt and swamp dirt; it likes water"
 msgstr "Wächst auf Erde und Sumpferde; mag Wasser"
 
+#: mods/rp_farming/nodes.lua:93
 msgid "Carrot"
 msgstr "Karotte"
 
+#: mods/rp_farming/nodes.lua:94
 msgid "Carrot Plant (stage @1)"
 msgstr "Karottenpflanze (@1. Stufe)"
 
+#: mods/rp_farming/nodes.lua:95
 msgid "Grows on dry dirt; it likes water"
 msgstr "Wächst auf trockener Erde; mag Wasser"
 
+#: mods/rp_farming/nodes.lua:144
 msgid "Asparagus Seed"
 msgstr "Spargelsamen"
 
+#: mods/rp_farming/nodes.lua:145
 msgid "Asparagus Plant (stage @1)"
 msgstr "Spargelpflanze (@1. Stufe)"
 
+#: mods/rp_farming/nodes.lua:146
 msgid "Grows on swamp dirt; it likes water"
 msgstr "Wächst auf Sumpferde; mag Wasser"
 
+#: mods/rp_farming/nodes.lua:219
 msgid "Cotton Seed"
 msgstr "Baumwollsamen"
 
+#: mods/rp_farming/nodes.lua:220
 msgid "Cotton Plant (stage @1)"
 msgstr "Baumwollpflanze (@1. Stufe)"
 
+#: mods/rp_farming/nodes.lua:221
 msgid "Grows on dirt, dry dirt and sand; it likes water"
 msgstr "Wächst auf Erde, trockener Erde und Sand; mag Wasser"
 
+#: mods/rp_farming/nodes.lua:266
 msgid "Cotton Bale"
 msgstr "Baumwollballen"
 
+#: mods/rp_farming/nodes.lua:290
 msgid "Straw"
 msgstr "Stroh"
-

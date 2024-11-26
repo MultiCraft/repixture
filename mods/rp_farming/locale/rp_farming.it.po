@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_farming x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,81 +13,107 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_farming/achievements.lua:9
 msgid "Farmer"
 msgstr ""
 
+#. ~ Achievement description for Farmer achievement. "crop" as in "usable plant" / "plant for farming"
+#: mods/rp_farming/achievements.lua:11
 msgid "Plant a crop."
 msgstr ""
 
+#: mods/rp_farming/craft.lua:11
 msgid "Cotton"
 msgstr "Cotone"
 
+#: mods/rp_farming/craft.lua:18
 msgid "Wheat"
 msgstr "Grano"
 
+#: mods/rp_farming/craft.lua:25
 msgid "Flour"
 msgstr "Farina"
 
+#: mods/rp_farming/craft.lua:32
 msgid "Bread"
 msgstr "Pane"
 
+#: mods/rp_farming/craft.lua:43
 msgid "Asparagus"
 msgstr "Asparago"
 
+#: mods/rp_farming/craft.lua:54
 msgid "Cooked Asparagus"
 msgstr "Asparago cotto"
 
+#: mods/rp_farming/craft.lua:65
 msgid "Baked Potato"
 msgstr "Patata al forno"
 
+#: mods/rp_farming/nodes.lua:9
 msgid "Wheat Seed"
 msgstr "Seme di grano"
 
+#: mods/rp_farming/nodes.lua:10
 msgid "Wheat Plant (stage @1)"
 msgstr "Pianta di grano (stadio @1)"
 
+#: mods/rp_farming/nodes.lua:11
 msgid "Grows on dirt; it likes water"
 msgstr "Cresce sulla terra; ama l'acqua"
 
+#: mods/rp_farming/nodes.lua:43
 msgid "Potato"
 msgstr "Patata"
 
+#: mods/rp_farming/nodes.lua:44
 msgid "Potato Plant (stage @1)"
 msgstr "Pianta di patate (stadio @1)"
 
+#: mods/rp_farming/nodes.lua:45
 msgid "Grows on dirt and swamp dirt; it likes water"
 msgstr "Cresce sulla terra e sulla terra paludosa; ama l'acqua"
 
+#: mods/rp_farming/nodes.lua:93
 msgid "Carrot"
 msgstr "Carota"
 
+#: mods/rp_farming/nodes.lua:94
 msgid "Carrot Plant (stage @1)"
 msgstr "Pianta di carote (stadio @1)"
 
+#: mods/rp_farming/nodes.lua:95
 msgid "Grows on dry dirt; it likes water"
 msgstr "Cresce sulla terra secca; ama l'acqua"
 
+#: mods/rp_farming/nodes.lua:144
 msgid "Asparagus Seed"
 msgstr "Seme di asparago"
 
+#: mods/rp_farming/nodes.lua:145
 msgid "Asparagus Plant (stage @1)"
 msgstr "Pianta di asparagi (stadio @1)"
 
+#: mods/rp_farming/nodes.lua:146
 msgid "Grows on swamp dirt; it likes water"
 msgstr "Cresce sulla terra paludosa; ama l'acqua"
 
+#: mods/rp_farming/nodes.lua:219
 msgid "Cotton Seed"
 msgstr "Seme di cotone"
 
+#: mods/rp_farming/nodes.lua:220
 msgid "Cotton Plant (stage @1)"
 msgstr "Pianta di cotone (stadio @1)"
 
+#: mods/rp_farming/nodes.lua:221
 msgid "Grows on dirt, dry dirt and sand; it likes water"
 msgstr "Cresce sulla terra, sulla terra secca, e sulla sabbia; ama l'acqua"
 
+#: mods/rp_farming/nodes.lua:266
 msgid "Cotton Bale"
 msgstr "Balla di cotone"
 
+#: mods/rp_farming/nodes.lua:290
 msgid "Straw"
 msgstr ""
-

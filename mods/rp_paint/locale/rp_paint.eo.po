@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_paint x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,99 +13,132 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_paint/init.lua:16
 msgid "White"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Gray"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Black"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Red"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Orange"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Amber"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Yellow"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Lime"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Green"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Bluegreen"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Turquoise"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Cyan"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Skyblue"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Azure Blue"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Blue"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Violet"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Magenta"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Redviolet"
 msgstr ""
 
+#: mods/rp_paint/init.lua:16
 msgid "Hot Pink"
 msgstr ""
 
+#: mods/rp_paint/init.lua:116 mods/rp_paint/init.lua:643
 msgid "Paint Bucket (Empty)"
 msgstr ""
 
+#. ~ @1 = color name of color contained in paint bucket
+#: mods/rp_paint/init.lua:121 mods/rp_paint/init.lua:523
+#: mods/rp_paint/init.lua:635
 msgid "Paint Bucket (@1)"
 msgstr ""
 
+#: mods/rp_paint/init.lua:439
 msgid "Paint Brush"
 msgstr ""
 
+#: mods/rp_paint/init.lua:440
 msgid "Paints blocks"
 msgstr ""
 
+#: mods/rp_paint/init.lua:440
 msgid "Punch paint bucket to pick color"
 msgstr ""
 
+#: mods/rp_paint/init.lua:711
 msgid "Paint Bucket"
 msgstr ""
 
+#: mods/rp_paint/init.lua:719 mods/rp_paint/init.lua:728
 msgid "Paint Bucket with Paint"
 msgstr ""
 
+#: mods/rp_paint/init.lua:737
 msgid "Use place key to change color"
 msgstr ""
 
+#: mods/rp_paint/init.lua:737
 msgid "Point at left/right part to get previous/next color"
 msgstr ""
 
+#: mods/rp_paint/init.lua:737
 msgid "Refill with flowers"
 msgstr ""
 
+#: mods/rp_paint/init.lua:742
 msgid "Fill with flowers to get paint"
 msgstr ""
 
+#: mods/rp_paint/init.lua:824
 msgid "Colorful World"
 msgstr ""
 
+#: mods/rp_paint/init.lua:825
 msgid "Paint a block."
 msgstr ""
-

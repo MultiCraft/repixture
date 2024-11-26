@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_mobs x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,54 +13,75 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
-msgid "Hunter"
-msgstr "الصياد"
-
-msgid "Kill an animal for food."
-msgstr "اقتل حيوانا للغذاء."
-
-msgid "Gotcha!"
-msgstr "نلت منك!"
-
-msgid "Capture a tame animal."
-msgstr "امسك حيوانا مروضا."
-
-msgid "Best Friends Forever"
-msgstr "أفضل أصدقاء إلى الأبد"
-
-msgid "Tame an animal."
-msgstr "روض حيوانا."
-
-msgid "Wonder of Life"
-msgstr "أعجوبة الحياة"
-
-msgid "Get two animals to breed."
-msgstr "اجعل حيوانين يتكاثران."
-
+#: mods/rp_mobs/achievements_feed.lua:21
 msgid "Gonna Feed ’em All"
 msgstr "سأطعمهم جميعا"
 
+#: mods/rp_mobs/achievements_feed.lua:22
 msgid "Feed an animal of each species once."
 msgstr "اطعم حيوانا من كل صنف مرة واحدة."
 
+#: mods/rp_mobs/achievements.lua:14
+msgid "Hunter"
+msgstr "الصياد"
+
+#: mods/rp_mobs/achievements.lua:15
+msgid "Kill an animal for food."
+msgstr "اقتل حيوانا للغذاء."
+
+#: mods/rp_mobs/achievements.lua:24
+msgid "Gotcha!"
+msgstr "نلت منك!"
+
+#: mods/rp_mobs/achievements.lua:25
+msgid "Capture a tame animal."
+msgstr "امسك حيوانا مروضا."
+
+#: mods/rp_mobs/achievements.lua:34
+msgid "Best Friends Forever"
+msgstr "أفضل أصدقاء إلى الأبد"
+
+#: mods/rp_mobs/achievements.lua:35
+msgid "Tame an animal."
+msgstr "روض حيوانا."
+
+#: mods/rp_mobs/achievements.lua:44
+msgid "Wonder of Life"
+msgstr "أعجوبة الحياة"
+
+#: mods/rp_mobs/achievements.lua:45
+msgid "Get two animals to breed."
+msgstr "اجعل حيوانين يتكاثران."
+
+#: mods/rp_mobs/api.lua:736 mods/rp_mobs/api.lua:874
 msgid "Hostile mobs are disabled!"
 msgstr "تم إلغاء تفعيل الحيوانات الشرسة!"
 
+#: mods/rp_mobs/capture.lua:42
 msgid "Not tamed!"
 msgstr "ليس مروضا!"
 
+#: mods/rp_mobs/capture.lua:66 mods/rp_mobs/capture.lua:117
 msgid "Missed!"
 msgstr "أخفقت!"
 
+#. ~ Tooltip of mob in item form. @1 = mob description, @2 = mob name (label)
+#: mods/rp_mobs/capture.lua:84
+msgid "@1: “@2”"
+msgstr ""
+
+#: mods/rp_mobs/crafts.lua:48
 msgid "Net"
 msgstr "شبكة"
 
+#: mods/rp_mobs/crafts.lua:49
 msgid "Good for capturing small animals"
 msgstr "مفيد للامساك الحيوانات الصغيرة"
 
+#: mods/rp_mobs/crafts.lua:74
 msgid "Lasso"
 msgstr "وهق"
 
+#: mods/rp_mobs/crafts.lua:75
 msgid "Good for capturing large animals"
 msgstr "جيد لصيد الحيوانات الكبيرة"
-

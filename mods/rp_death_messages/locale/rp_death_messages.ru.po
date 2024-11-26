@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_death_messages x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,57 +13,80 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_death_messages/init.lua:9
 msgid "You drowned."
 msgstr "Вы утонули."
 
+#: mods/rp_death_messages/init.lua:12
 msgid "You took fatal damage from a block."
 msgstr "Вы получили смертельный урон от блока."
 
+#. ~ @1 is a player
+#: mods/rp_death_messages/init.lua:16
 msgid "You were killed by @1."
 msgstr "Вас убил @1."
 
+#: mods/rp_death_messages/init.lua:19
 msgid "You were killed."
 msgstr "Вы были убиты."
 
+#: mods/rp_death_messages/init.lua:22
 msgid "You were killed by a hostile creature."
 msgstr "Вы были убиты враждебным существом."
 
+#: mods/rp_death_messages/init.lua:25
 msgid "You were killed by a hostile creature named @1."
 msgstr "Вы были убиты враждебным существом по имени @1."
 
+#: mods/rp_death_messages/init.lua:28
 msgid "You fell to your death."
 msgstr "Вы упали навзничь."
 
+#: mods/rp_death_messages/init.lua:31
 msgid "You died."
 msgstr "Ты умер."
 
+#: mods/rp_death_messages/init.lua:37
 msgid "You were kicked to death by a walker."
 msgstr "Тебя насмерть забил ходячий."
 
+#. ~ @1 is a given name
+#: mods/rp_death_messages/init.lua:39
 msgid "You were kicked to death by @1, a walker."
 msgstr "Вас забил ногами до смерти @1, ходячий."
 
+#: mods/rp_death_messages/init.lua:42
 msgid "You were killed by a boar."
 msgstr "Тебя убил кабан."
 
+#. ~ @1 is a given name
+#: mods/rp_death_messages/init.lua:44
 msgid "You were killed by @1, a boar."
 msgstr "Вы были убиты @1, кабаном."
 
+#: mods/rp_death_messages/init.lua:47
 msgid "You were killed by a skunk."
 msgstr "Вас убил скунс."
 
+#. ~ @1 is a given name
+#: mods/rp_death_messages/init.lua:49
 msgid "You were killed by @1, a skunk."
 msgstr "Вас убил @1, скунс."
 
+#: mods/rp_death_messages/init.lua:52
 msgid "You were killed by a villager."
 msgstr "Вас убил деревенский житель."
 
+#. ~ @1 is a given name
+#: mods/rp_death_messages/init.lua:54
 msgid "You were killed by @1, a villager."
 msgstr "Вас убил @1, житель деревни."
 
+#: mods/rp_death_messages/init.lua:57
 msgid "You were killed by a mine turtle."
 msgstr ""
 
+#. ~ @1 is a given name
+#: mods/rp_death_messages/init.lua:59
 msgid "You were killed by @1, a mine turtle."
 msgstr ""
-

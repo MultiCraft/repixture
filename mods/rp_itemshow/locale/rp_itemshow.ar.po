@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_itemshow x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,12 +13,14 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_itemshow/init.lua:245 mods/rp_itemshow/init.lua:299
 msgid "Item Frame"
 msgstr "إطار شيء"
 
+#: mods/rp_itemshow/init.lua:246 mods/rp_itemshow/init.lua:352
 msgid "You can show off an item here"
 msgstr "يمكنك عرض شيء هنا"
 
+#: mods/rp_itemshow/init.lua:351 mods/rp_itemshow/init.lua:363
 msgid "Item Showcase"
 msgstr "عارض الأشياء"
-

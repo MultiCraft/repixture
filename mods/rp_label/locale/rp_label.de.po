@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_label x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,12 +13,14 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_label/init.lua:17
 msgid "Give name"
 msgstr "Namen vergeben"
 
+#: mods/rp_label/init.lua:122
 msgid "Label and Graphite"
 msgstr "Etikett und Graphit"
 
+#: mods/rp_label/init.lua:123
 msgid "Give a name to a container or creature"
 msgstr "Einen Namen an einen Behälter oder eine Kreatur vergeben"
-

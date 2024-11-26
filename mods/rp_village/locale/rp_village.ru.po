@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_village x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,42 +13,60 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_village/command.lua:4
 msgid "List known villages"
 msgstr "Перечислить известные деревни"
 
+#. ~ List entry for /villages command that lists all known villages. @1 = village name, @2 = coordinates
+#: mods/rp_village/command.lua:11
 msgid "@1: @2"
 msgstr "@1: @2"
 
+#: mods/rp_village/command.lua:14 mods/rp_village/command.lua:34
 msgid "No villages."
 msgstr "Нет деревней."
 
+#: mods/rp_village/command.lua:17
 msgid "List of villages:"
 msgstr "Список деревней:"
 
+#: mods/rp_village/command.lua:23
 msgid "Find closest known village"
 msgstr "Найти ближайшую известную деревню"
 
+#: mods/rp_village/command.lua:29
 msgid "No player."
 msgstr "Нет игрока."
 
+#. ~ @1 = village name, @2 = coordinates
+#: mods/rp_village/command.lua:37
 msgid "Nearest village is @1 at @2."
 msgstr "Ближайшая деревня - @1 на @2."
 
+#: mods/rp_village/mapgen.lua:26
 msgid "You need the “maphack” privilege to use this."
 msgstr "Вам нужна привилегия \"maphack\", чтобы это использовать."
 
+#: mods/rp_village/mapgen.lua:64
 msgid "Village Entity Spawner"
 msgstr "Спавнер сущности деревни"
 
-msgid "Placeholder that marks a position at which to spawn an entity during village generation"
-msgstr "Заполнитель, который отмечает позицию, в которой можно создать объект во время генерации деревни"
+#: mods/rp_village/mapgen.lua:65
+msgid ""
+"Placeholder that marks a position at which to spawn an entity during village "
+"generation"
+msgstr ""
+"Заполнитель, который отмечает позицию, в которой можно создать объект во "
+"время генерации деревни"
 
+#: mods/rp_village/mapgen.lua:66
 msgid "Punch to reveal village entity spawners nearby"
 msgstr "Ударь чтобы показать спавнера сущности деревней поблизости"
 
+#: mods/rp_village/mapgen.lua:195
 msgid "Village Spawner"
 msgstr "Спавнер деревни"
 
+#: mods/rp_village/mapgen.lua:196
 msgid "Generates a village when placed"
 msgstr "Создаёт деревню при размещении"
-

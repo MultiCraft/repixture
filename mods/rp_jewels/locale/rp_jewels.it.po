@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_jewels x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,192 +13,256 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_jewels/init.lua:28
 msgid "1. Place tool here"
 msgstr "1. Posiziona qui uno strumento"
 
+#: mods/rp_jewels/init.lua:29
 msgid "2. Hold a jewel and punch the bench"
 msgstr "2. Impugna una gemma e colpisci il tavolo"
 
+#. ~ Fallback description for jeweled tools that don’t provide their own description. @1 = name of original tool that has been jeweled
+#: mods/rp_jewels/init.lua:127
 msgid "@1 (jeweled)"
 msgstr ""
 
+#: mods/rp_jewels/init.lua:193
 msgid "Range bonus: @1"
 msgstr "Bonus di portata: @1"
 
+#: mods/rp_jewels/init.lua:194
 msgid "Drop level bonus: @1"
 msgstr ""
 
+#. ~ dig time bonus for jeweled tools. “s” stands for “seconds”
+#: mods/rp_jewels/init.lua:196
 msgid "Dig time bonus: @1 s"
 msgstr "Bonus di tempo di estrazione: @1 s"
 
+#: mods/rp_jewels/init.lua:197
 msgid "Durability bonus: @1"
 msgstr "Bonus di durabilità: @1"
 
+#: mods/rp_jewels/init.lua:198
 msgid "Dig level bonus: @1"
 msgstr ""
 
+#: mods/rp_jewels/init.lua:247
 msgid "Jewel"
 msgstr "Gemma"
 
+#: mods/rp_jewels/init.lua:313 mods/rp_jewels/init.lua:324
 msgid "Jeweler's Workbench"
 msgstr "Tavolo del gioielliere"
 
+#: mods/rp_jewels/init.lua:314
 msgid "Tools can be upgraded with jewels here"
 msgstr "Qui gli strumenti possono essere migliorati con le gemme"
 
+#: mods/rp_jewels/init.lua:441
 msgid "Jewel Ore"
 msgstr "Gemma grezza"
 
+#: mods/rp_jewels/init.lua:477
 msgid "Jeweler"
 msgstr "Gioielliere"
 
+#: mods/rp_jewels/init.lua:478
 msgid "Jewel a tool."
 msgstr "Gemma uno strumento."
 
+#: mods/rp_jewels/init.lua:488
 msgid "True Mighty Weapon"
 msgstr ""
 
+#: mods/rp_jewels/init.lua:489
 msgid "Use jewels to create a serrated jewel broadsword."
 msgstr ""
 
+#: mods/rp_jewels/init.lua:499
 msgid "Secret of Jewels"
 msgstr "Il segreto delle gemme"
 
+#: mods/rp_jewels/init.lua:500
 msgid "Discover the origin of jewels."
 msgstr "Scopri l'origine delle gemme."
 
+#: mods/rp_jewels/jewels.lua:19
 msgid "Swift Jewel Steel Pickaxe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:23
 msgid "Harming Jewel Steel Pickaxe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:28
 msgid "Durable Jewel Steel Pickaxe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:34
 msgid "Swift Jewel Carbon Steel Pickaxe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:38
 msgid "Harming Jewel Carbon Steel Pickaxe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:43
 msgid "Durable Jewel Carbon Steel Pickaxe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:49
 msgid "Swift Jewel Bronze Pickaxe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:53
 msgid "Harming Jewel Bronze Pickaxe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:58
 msgid "Durable Jewel Bronze Pickaxe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:66
 msgid "Swift Jewel Steel Shovel"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:70
 msgid "Harming Jewel Steel Shovel"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:75
 msgid "Durable Jewel Steel Shovel"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:81
 msgid "Swift Jewel Carbon Steel Shovel"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:85
 msgid "Harming Jewel Carbon Steel Shovel"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:90
 msgid "Durable Jewel Carbon Steel Shovel"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:96
 msgid "Swift Jewel Bronze Shovel"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:100
 msgid "Harming Jewel Bronze Shovel"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:105
 msgid "Durable Jewel Bronze Shovel"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:113
 msgid "Swift Jewel Steel Axe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:117
 msgid "Harming Jewel Steel Axe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:122
 msgid "Durable Jewel Steel Axe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:128
 msgid "Swift Jewel Carbon Steel Axe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:132
 msgid "Harming Jewel Carbon Steel Axe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:137
 msgid "Durable Jewel Carbon Steel Axe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:143
 msgid "Swift Jewel Bronze Axe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:147
 msgid "Harming Jewel Bronze Axe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:152
 msgid "Durable Jewel Bronze Axe"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:162
 msgid "Extended Jewel Steel Spear"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:168
 msgid "Harming Jewel Steel Spear"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:174
 msgid "Durable Jewel Steel Spear"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:180
 msgid "Extended Jewel Carbon Steel Spear"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:186
 msgid "Harming Jewel Carbon Steel Spear"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:192
 msgid "Durable Jewel Carbon Steel Spear"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:200
 msgid "Extended Jewel Bronze Spear"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:206
 msgid "Harming Jewel Bronze Spear"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:212
 msgid "Durable Jewel Bronze Spear"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:224
 msgid "Swift Jewel Steel Shears"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:230
 msgid "Durable Jewel Steel Shears"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:238
 msgid "Swift Jewel Carbon Steel Shears"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:244
 msgid "Durable Jewel Carbon Steel Shears"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:252
 msgid "Swift Jewel Bronze Shears"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:258
 msgid "Durable Jewel Bronze Shears"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:301
 msgid "Pommel Jewel Broadsword"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:312
 msgid "Pommel&Guard Jewel Broadsword"
 msgstr ""
 
+#: mods/rp_jewels/jewels.lua:323
 msgid "Serrated Jewel Broadsword"
 msgstr ""
-

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_hunger x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,51 +13,67 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_hunger/init.lua:171
 msgid "Hunger Debug:"
 msgstr ""
 
+#: mods/rp_hunger/init.lua:180
 msgid "<hunger disabled>"
 msgstr ""
 
+#: mods/rp_hunger/init.lua:495
 msgid "You are hungry."
 msgstr ""
 
+#: mods/rp_hunger/init.lua:504
 msgid "You are starving."
 msgstr ""
 
+#: mods/rp_hunger/init.lua:507
 msgid "You starved to death."
 msgstr ""
 
+#: mods/rp_hunger/init.lua:612
 msgid "Eating"
 msgstr ""
 
+#: mods/rp_hunger/init.lua:613
 msgid "You're eating food, which slows you down"
 msgstr ""
 
+#: mods/rp_hunger/init.lua:634
 msgid "Gourmet"
 msgstr ""
 
+#: mods/rp_hunger/init.lua:635
 msgid "Eat everything that can be eaten."
 msgstr ""
 
+#: mods/rp_hunger/init.lua:654
 msgid "Set hunger level of player or yourself"
 msgstr ""
 
+#. ~ Syntax for /hunger command. You may translate the words, but the symbols MUST be left intact.
+#: mods/rp_hunger/init.lua:657
 msgid "[<player>] <hunger>"
 msgstr ""
 
+#: mods/rp_hunger/init.lua:664
 msgid "Player is not online."
 msgstr ""
 
+#: mods/rp_hunger/init.lua:678
 msgid "No player."
 msgstr "Ningún jugador."
 
+#: mods/rp_hunger/init.lua:698
 msgid "Food item"
 msgstr ""
 
+#: mods/rp_hunger/init.lua:700
 msgid "Food points: +@1"
 msgstr ""
 
+#: mods/rp_hunger/init.lua:703
 msgid "Saturation points: +@1"
 msgstr ""
-

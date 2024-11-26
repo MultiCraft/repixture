@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_fire x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,12 +13,14 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_fire/init.lua:39
 msgid "Bonfire"
 msgstr "Костёр"
 
+#: mods/rp_fire/init.lua:69
 msgid "Bonfire (burning)"
 msgstr "Костер (горящий)"
 
+#: mods/rp_fire/init.lua:100
 msgid "You burned to death in a bonfire."
 msgstr ""
-

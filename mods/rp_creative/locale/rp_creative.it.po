@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_creative x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,21 +13,28 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_creative/init.lua:311
 msgid "No items."
 msgstr ""
 
+#. ~ Creative inventory page counter. @1 is current page, @2 is maximum page
+#: mods/rp_creative/init.lua:316
 msgid "@1/@2"
 msgstr "pagina @1 di @2 dell'inventario creativo"
 
+#: mods/rp_creative/init.lua:368
 msgid "Search"
 msgstr ""
 
+#: mods/rp_creative/init.lua:373
 msgid "Stop search"
 msgstr ""
 
+#. ~ Tooltip of button that submits an item search
+#: mods/rp_creative/init.lua:387
 msgid "Submit"
 msgstr ""
 
+#: mods/rp_creative/init.lua:411
 msgid "Creative Inventory"
 msgstr "Inventario creativo"
-

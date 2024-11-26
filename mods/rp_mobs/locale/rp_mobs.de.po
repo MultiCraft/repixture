@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_mobs x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,57 +13,75 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
-msgid "Hunter"
-msgstr "Jäger"
-
-msgid "Kill an animal for food."
-msgstr "Töten Sie ein Tier für Nahrung."
-
-msgid "Gotcha!"
-msgstr "Hab’ dich!"
-
-msgid "Capture a tame animal."
-msgstr "Fangen Sie ein zahmes Tier."
-
-msgid "Best Friends Forever"
-msgstr "Beste Freunde"
-
-msgid "Tame an animal."
-msgstr "Zähmen Sie ein Tier."
-
-msgid "Wonder of Life"
-msgstr "Wunder des Lebens"
-
-msgid "Get two animals to breed."
-msgstr "Bringen Sie zwei Tiere dazu, sich zu vermehren."
-
+#: mods/rp_mobs/achievements_feed.lua:21
 msgid "Gonna Feed ’em All"
 msgstr "Fütter sie alle"
 
+#: mods/rp_mobs/achievements_feed.lua:22
 msgid "Feed an animal of each species once."
 msgstr "Füttern Sie ein Tier jeder Art."
 
+#: mods/rp_mobs/achievements.lua:14
+msgid "Hunter"
+msgstr "Jäger"
+
+#: mods/rp_mobs/achievements.lua:15
+msgid "Kill an animal for food."
+msgstr "Töten Sie ein Tier für Nahrung."
+
+#: mods/rp_mobs/achievements.lua:24
+msgid "Gotcha!"
+msgstr "Hab’ dich!"
+
+#: mods/rp_mobs/achievements.lua:25
+msgid "Capture a tame animal."
+msgstr "Fangen Sie ein zahmes Tier."
+
+#: mods/rp_mobs/achievements.lua:34
+msgid "Best Friends Forever"
+msgstr "Beste Freunde"
+
+#: mods/rp_mobs/achievements.lua:35
+msgid "Tame an animal."
+msgstr "Zähmen Sie ein Tier."
+
+#: mods/rp_mobs/achievements.lua:44
+msgid "Wonder of Life"
+msgstr "Wunder des Lebens"
+
+#: mods/rp_mobs/achievements.lua:45
+msgid "Get two animals to breed."
+msgstr "Bringen Sie zwei Tiere dazu, sich zu vermehren."
+
+#: mods/rp_mobs/api.lua:736 mods/rp_mobs/api.lua:874
 msgid "Hostile mobs are disabled!"
 msgstr "Feindliche Mobs sind deaktiviert!"
 
+#: mods/rp_mobs/capture.lua:42
 msgid "Not tamed!"
 msgstr "Nicht gezähmt!"
 
+#: mods/rp_mobs/capture.lua:66 mods/rp_mobs/capture.lua:117
 msgid "Missed!"
 msgstr "Verfehlt!"
 
+#. ~ Tooltip of mob in item form. @1 = mob description, @2 = mob name (label)
+#: mods/rp_mobs/capture.lua:84
 msgid "@1: “@2”"
 msgstr "@1: „@2“"
 
+#: mods/rp_mobs/crafts.lua:48
 msgid "Net"
 msgstr "Netz"
 
+#: mods/rp_mobs/crafts.lua:49
 msgid "Good for capturing small animals"
 msgstr "Gut zum Fangen kleiner Tiere"
 
+#: mods/rp_mobs/crafts.lua:74
 msgid "Lasso"
 msgstr "Lasso"
 
+#: mods/rp_mobs/crafts.lua:75
 msgid "Good for capturing large animals"
 msgstr "Gut zum Fangen großer Tiere"
-

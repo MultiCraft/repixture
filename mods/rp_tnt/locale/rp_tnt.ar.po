@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_tnt x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,33 +13,46 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_tnt/init.lua:114
+msgid "You were blasted away by TNT."
+msgstr ""
+
+#: mods/rp_tnt/init.lua:185
 msgid "TNT"
 msgstr "TNT"
 
+#: mods/rp_tnt/init.lua:186
 msgid "Will explode when ignited by flint and steel"
 msgstr "سينفجر عن إشعاله بواسطة حجر الصوان و الفولاذ"
 
+#: mods/rp_tnt/init.lua:189
 msgid "TNT (defused)"
 msgstr "TNT (منطفئ)"
 
+#: mods/rp_tnt/init.lua:190
 msgid "It's harmless"
 msgstr "غير مؤذ"
 
+#: mods/rp_tnt/init.lua:230
 msgid "TNT (ignited)"
 msgstr "TNT (مشتعل)"
 
+#: mods/rp_tnt/init.lua:231
 msgid "Will explode after being placed"
 msgstr "سينفجر عند وضعه"
 
+#: mods/rp_tnt/init.lua:312
 msgid "Boom!"
 msgstr "انفجار!"
 
+#: mods/rp_tnt/init.lua:313
 msgid "Ignite TNT."
 msgstr "أشعل TNT."
 
+#: mods/rp_tnt/init.lua:323
 msgid "Boom?"
 msgstr "انفجار؟"
 
+#: mods/rp_tnt/init.lua:324
 msgid "Craft defused TNT."
 msgstr "اصنع TNT منطفئ."
-

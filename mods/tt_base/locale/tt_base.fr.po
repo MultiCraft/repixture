@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain tt_base x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,69 +13,90 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/tt_base/init.lua:48
 msgid "Damage: @1"
 msgstr "Dégâts : @1"
 
+#: mods/tt_base/init.lua:50
 msgid "Healing: @1"
 msgstr "Soin : @1"
 
+#: mods/tt_base/init.lua:54
 msgid "Damage (@1): @2"
 msgstr "Dégâts (@1) : @2"
 
+#: mods/tt_base/init.lua:56
 msgid "Healing (@1): @2"
 msgstr "Soin (@1): @2"
 
+#: mods/tt_base/init.lua:67
 msgid "Full punch interval: @1s"
 msgstr "Intervalle de coup : @1s"
 
+#: mods/tt_base/init.lua:81
 msgid "Food item"
 msgstr "Nourriture"
 
+#: mods/tt_base/init.lua:84
 msgid "+@1 food points"
 msgstr "+@1 points de nourriture"
 
+#: mods/tt_base/init.lua:100
 msgid "Contact damage: @1 per second"
 msgstr "Dégâts au contact : @1 par seconde"
 
+#: mods/tt_base/init.lua:103
 msgid "Contact healing: @1 per second"
 msgstr "Soin au contact : @1 par seconde"
 
+#: mods/tt_base/init.lua:108
 msgid "Drowning damage: @1"
 msgstr "Dégâts de noyade : @1"
 
+#: mods/tt_base/init.lua:113
 msgid "Fall damage: +@1%"
 msgstr "Dégâts de chute : +@1%"
 
+#: mods/tt_base/init.lua:116
 msgid "No fall damage"
 msgstr "Pas de dégâts de chute"
 
+#: mods/tt_base/init.lua:119
 msgid "Fall damage: @1%"
 msgstr "Dégâts de chute : @1%"
 
+#: mods/tt_base/init.lua:126
 msgid "No jumping"
 msgstr "Pas de saut"
 
+#: mods/tt_base/init.lua:129
 msgid "No swimming upwards"
 msgstr "Pas de nage vers le haut"
 
+#: mods/tt_base/init.lua:132
 msgid "No rising"
 msgstr "Pas de montée"
 
+#: mods/tt_base/init.lua:138
 msgid "Climbable (only downwards)"
 msgstr "Grimpable (seulement vers le bas)"
 
+#: mods/tt_base/init.lua:141
 msgid "Climbable"
 msgstr "Grimpable"
 
+#: mods/tt_base/init.lua:146
 msgid "Slippery"
 msgstr "Glissant"
 
+#: mods/tt_base/init.lua:151
 msgid "Bouncy (@1%)"
 msgstr "Rebondissant (@1%)"
 
+#: mods/tt_base/init.lua:159
 msgid "Luminance: @1-@2"
 msgstr "Luminosité : @1-@2"
 
+#: mods/tt_base/init.lua:162
 msgid "Luminance: @1"
 msgstr "Luminosité : @1"
-

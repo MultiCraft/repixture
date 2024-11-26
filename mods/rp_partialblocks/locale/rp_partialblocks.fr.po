@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_partialblocks x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,195 +13,258 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_partialblocks/register.lua:14
 msgid "Cobble Slab"
 msgstr "Dalle en pavé"
 
+#: mods/rp_partialblocks/register.lua:14
 msgid "Cobble Stair"
 msgstr "Escalier en pavé"
 
+#: mods/rp_partialblocks/register.lua:17
 msgid "Stone Slab"
 msgstr "Dalle en pierre"
 
+#: mods/rp_partialblocks/register.lua:17
 msgid "Stone Stair"
 msgstr "Escalier en pierre"
 
+#: mods/rp_partialblocks/register.lua:20
 msgid "Sandstone Slab"
 msgstr "Dalle en grès"
 
+#: mods/rp_partialblocks/register.lua:20
 msgid "Sandstone Stair"
 msgstr "Escalier en grès"
 
+#: mods/rp_partialblocks/register.lua:23
 msgid "Brick Slab"
 msgstr "Dalle en brique"
 
+#: mods/rp_partialblocks/register.lua:23
 msgid "Brick Stair"
 msgstr "Escalier en brique"
 
+#: mods/rp_partialblocks/register.lua:25
 msgid "Painted Brick Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:25
 msgid "Painted Brick Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:30
 msgid "Wooden Slab"
 msgstr "Dalle en bois"
 
+#: mods/rp_partialblocks/register.lua:30
 msgid "Wooden Stair"
 msgstr "Escalier en bois"
 
+#: mods/rp_partialblocks/register.lua:32
 msgid "Painted Wooden Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:32
 msgid "Painted Wooden Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:35
 msgid "Oak Slab"
 msgstr "Dalle en chêne"
 
+#: mods/rp_partialblocks/register.lua:35
 msgid "Oak Stair"
 msgstr "Escalier en chêne"
 
+#: mods/rp_partialblocks/register.lua:37
 msgid "Painted Oak Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:37
 msgid "Painted Oak Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:40
 msgid "Birch Slab"
 msgstr "Dalle en bouleau"
 
+#: mods/rp_partialblocks/register.lua:40
 msgid "Birch Stair"
 msgstr "Escalier en bouleau"
 
+#: mods/rp_partialblocks/register.lua:42
 msgid "Painted Birch Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:42
 msgid "Painted Birch Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:45
 msgid "Fir Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:45
 msgid "Fir Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:47
 msgid "Painted Fir Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:47
 msgid "Painted Fir Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:52
 msgid "Reed Slab"
 msgstr "Dalle en roseau"
 
+#: mods/rp_partialblocks/register.lua:52
 msgid "Reed Stair"
 msgstr "Escalier en roseau"
 
+#: mods/rp_partialblocks/register.lua:55
 msgid "Dried Reed Slab"
 msgstr "Dalle en roseau sec"
 
+#: mods/rp_partialblocks/register.lua:55
 msgid "Dried Reed Stair"
 msgstr "Escalier en roseau sec"
 
+#: mods/rp_partialblocks/register.lua:58
 msgid "Straw Slab"
 msgstr "Dalle en paille"
 
+#: mods/rp_partialblocks/register.lua:58
 msgid "Straw Stair"
 msgstr "Escalier en paille"
 
+#: mods/rp_partialblocks/register.lua:61
 msgid "Hay Slab"
 msgstr "Dalle en foin"
 
+#: mods/rp_partialblocks/register.lua:61
 msgid "Hay Stair"
 msgstr "Escalier en foin"
 
+#: mods/rp_partialblocks/register.lua:66
 msgid "Frame Slab"
 msgstr "Dalle en cadre"
 
+#: mods/rp_partialblocks/register.lua:66
 msgid "Frame Stair"
 msgstr "Escalier en cadre"
 
+#: mods/rp_partialblocks/register.lua:68
 msgid "Painted Frame Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:68
 msgid "Painted Frame Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:72
 msgid "Reinforced Frame Slab"
 msgstr "Dalle en cadre renforcé"
 
+#: mods/rp_partialblocks/register.lua:72
 msgid "Reinforced Frame Stair"
 msgstr "Escalier en cadre renforcé"
 
+#: mods/rp_partialblocks/register.lua:74
 msgid "Painted Reinforced Frame Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:74
 msgid "Painted Reinforced Frame Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:77
 msgid "Reinforced Cobble Slab"
 msgstr "Dalle en pavé renforcé"
 
+#: mods/rp_partialblocks/register.lua:77
 msgid "Reinforced Cobble Stair"
 msgstr "Escalier en pavé renforcé"
 
+#: mods/rp_partialblocks/register.lua:82
 msgid "Coal Slab"
 msgstr "Dalle en charbon"
 
+#: mods/rp_partialblocks/register.lua:82
 msgid "Coal Stair"
 msgstr "Escalier en charbon"
 
+#: mods/rp_partialblocks/register.lua:87
 msgid "Steel Slab"
 msgstr "Dalle en acier"
 
+#: mods/rp_partialblocks/register.lua:87
 msgid "Steel Stair"
 msgstr "Escalier en acier"
 
+#: mods/rp_partialblocks/register.lua:90
 msgid "Carbon Steel Slab"
 msgstr "Dalle en acier carbone"
 
+#: mods/rp_partialblocks/register.lua:90
 msgid "Carbon Steel Stair"
 msgstr "Escalier en acier carbone"
 
+#: mods/rp_partialblocks/register.lua:93
 msgid "Wrought Iron Slab"
 msgstr "Dalle en fer forgé"
 
+#: mods/rp_partialblocks/register.lua:93
 msgid "Wrought Iron Stair"
 msgstr "Escalier en fer forgé"
 
+#: mods/rp_partialblocks/register.lua:96
 msgid "Bronze Slab"
 msgstr "Dalle en bronze"
 
+#: mods/rp_partialblocks/register.lua:96
 msgid "Bronze Stair"
 msgstr "Escalier en bronze"
 
+#: mods/rp_partialblocks/register.lua:99
 msgid "Copper Slab"
 msgstr "Dalle en cuivre"
 
+#: mods/rp_partialblocks/register.lua:99
 msgid "Copper Stair"
 msgstr "Escalier en cuivre"
 
+#: mods/rp_partialblocks/register.lua:102
 msgid "Tin Slab"
 msgstr "Dalle en étain"
 
+#: mods/rp_partialblocks/register.lua:102
 msgid "Tin Stair"
 msgstr "Escalier en étain"
 
+#: mods/rp_partialblocks/register.lua:105
 msgid "Gold Slab"
 msgstr "Dalle en or"
 
+#: mods/rp_partialblocks/register.lua:105
 msgid "Gold Stair"
 msgstr "Escalier en or"
 
+#: mods/rp_partialblocks/register.lua:116
 msgid "Compressed Sandstone Slab"
 msgstr "Dalle en grès comprimé"
 
+#: mods/rp_partialblocks/register.lua:116
 msgid "Compressed Sandstone Stair"
 msgstr "Escalier en grès comprimé"
 
+#: mods/rp_partialblocks/register.lua:119
 msgid "Reinforced Compressed Sandstone Slab"
 msgstr "Dalle en grès comprimé renforcé"
 
+#: mods/rp_partialblocks/register.lua:119
 msgid "Reinforced Compressed Sandstone Stair"
 msgstr "Escalier en grès comprimé renforcé"
-

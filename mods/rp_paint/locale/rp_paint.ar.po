@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_paint x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,99 +13,132 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_paint/init.lua:16
 msgid "White"
 msgstr "أبيض"
 
+#: mods/rp_paint/init.lua:16
 msgid "Gray"
 msgstr "رمادي"
 
+#: mods/rp_paint/init.lua:16
 msgid "Black"
 msgstr "أسود"
 
+#: mods/rp_paint/init.lua:16
 msgid "Red"
 msgstr "أحمر"
 
+#: mods/rp_paint/init.lua:16
 msgid "Orange"
 msgstr "برتقالي"
 
+#: mods/rp_paint/init.lua:16
 msgid "Amber"
 msgstr "كهرماني"
 
+#: mods/rp_paint/init.lua:16
 msgid "Yellow"
 msgstr "أصفر"
 
+#: mods/rp_paint/init.lua:16
 msgid "Lime"
 msgstr "ليمي"
 
+#: mods/rp_paint/init.lua:16
 msgid "Green"
 msgstr "أخضر"
 
+#: mods/rp_paint/init.lua:16
 msgid "Bluegreen"
 msgstr "أزرق-أخضر"
 
+#: mods/rp_paint/init.lua:16
 msgid "Turquoise"
 msgstr "توركوازي"
 
+#: mods/rp_paint/init.lua:16
 msgid "Cyan"
 msgstr "سيان"
 
+#: mods/rp_paint/init.lua:16
 msgid "Skyblue"
 msgstr "أزرق سمائي"
 
+#: mods/rp_paint/init.lua:16
 msgid "Azure Blue"
 msgstr "أزرق لازوردي"
 
+#: mods/rp_paint/init.lua:16
 msgid "Blue"
 msgstr "أزرق"
 
+#: mods/rp_paint/init.lua:16
 msgid "Violet"
 msgstr "أرجواني"
 
+#: mods/rp_paint/init.lua:16
 msgid "Magenta"
 msgstr "قرمزي"
 
+#: mods/rp_paint/init.lua:16
 msgid "Redviolet"
 msgstr "أحمر أرجواني"
 
+#: mods/rp_paint/init.lua:16
 msgid "Hot Pink"
 msgstr "وردي فاقع"
 
+#: mods/rp_paint/init.lua:116 mods/rp_paint/init.lua:643
 msgid "Paint Bucket (Empty)"
 msgstr "دلو طلاء (فارغ)"
 
+#. ~ @1 = color name of color contained in paint bucket
+#: mods/rp_paint/init.lua:121 mods/rp_paint/init.lua:523
+#: mods/rp_paint/init.lua:635
 msgid "Paint Bucket (@1)"
 msgstr "دلو طلاء (@1)"
 
+#: mods/rp_paint/init.lua:439
 msgid "Paint Brush"
 msgstr "فرشاة طلاء"
 
+#: mods/rp_paint/init.lua:440
 msgid "Paints blocks"
 msgstr "تقوم بطلاء كتل"
 
+#: mods/rp_paint/init.lua:440
 msgid "Punch paint bucket to pick color"
 msgstr "الكم دلو الطلاء لتختار لونا"
 
+#: mods/rp_paint/init.lua:711
 msgid "Paint Bucket"
 msgstr "دلو طلاء"
 
+#: mods/rp_paint/init.lua:719 mods/rp_paint/init.lua:728
 msgid "Paint Bucket with Paint"
 msgstr "دلو طلاء مع طلاء"
 
+#: mods/rp_paint/init.lua:737
 msgid "Use place key to change color"
 msgstr "استعمل ضع مفتاح لتغير اللون"
 
+#: mods/rp_paint/init.lua:737
 msgid "Point at left/right part to get previous/next color"
 msgstr "قم بالإشارة إلي الجزء اليساري/اليميني للحصول على اللون السابق/التالي"
 
+#: mods/rp_paint/init.lua:737
 msgid "Refill with flowers"
 msgstr "اعد الملئ بالزهور"
 
+#: mods/rp_paint/init.lua:742
 msgid "Fill with flowers to get paint"
 msgstr "املئ بالزهور لتحصل على طلاء"
 
+#: mods/rp_paint/init.lua:824
 msgid "Colorful World"
 msgstr "عالم ملون"
 
+#: mods/rp_paint/init.lua:825
 msgid "Paint a block."
 msgstr "قم بطلاء كتلة."
-

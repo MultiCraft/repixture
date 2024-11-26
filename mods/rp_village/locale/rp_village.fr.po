@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_village x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,42 +13,60 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_village/command.lua:4
 msgid "List known villages"
 msgstr "Liste les villages connus"
 
+#. ~ List entry for /villages command that lists all known villages. @1 = village name, @2 = coordinates
+#: mods/rp_village/command.lua:11
 msgid "@1: @2"
 msgstr "@1 : @2"
 
+#: mods/rp_village/command.lua:14 mods/rp_village/command.lua:34
 msgid "No villages."
 msgstr "Pas de village."
 
+#: mods/rp_village/command.lua:17
 msgid "List of villages:"
 msgstr "Liste des villages :"
 
+#: mods/rp_village/command.lua:23
 msgid "Find closest known village"
 msgstr "Trouve le plus proche village connu"
 
+#: mods/rp_village/command.lua:29
 msgid "No player."
 msgstr "Pas de joueur."
 
+#. ~ @1 = village name, @2 = coordinates
+#: mods/rp_village/command.lua:37
 msgid "Nearest village is @1 at @2."
 msgstr "Le village le plus proche est @1 en @2."
 
+#: mods/rp_village/mapgen.lua:26
 msgid "You need the “maphack” privilege to use this."
 msgstr "Vous avez besoin du privilège \"maphack\" pour l'utiliser."
 
+#: mods/rp_village/mapgen.lua:64
 msgid "Village Entity Spawner"
 msgstr "Générateur d'entité de village"
 
-msgid "Placeholder that marks a position at which to spawn an entity during village generation"
-msgstr "Élément générique qui marque la position où doit apparaitre une entité durant la génération d'un village"
+#: mods/rp_village/mapgen.lua:65
+msgid ""
+"Placeholder that marks a position at which to spawn an entity during village "
+"generation"
+msgstr ""
+"Élément générique qui marque la position où doit apparaitre une entité "
+"durant la génération d'un village"
 
+#: mods/rp_village/mapgen.lua:66
 msgid "Punch to reveal village entity spawners nearby"
 msgstr "Frapper pour révéler les générateurs d'entité de village proches"
 
+#: mods/rp_village/mapgen.lua:195
 msgid "Village Spawner"
 msgstr "Générateur de village"
 
+#: mods/rp_village/mapgen.lua:196
 msgid "Generates a village when placed"
 msgstr "Génére un village quand il est posé"
-

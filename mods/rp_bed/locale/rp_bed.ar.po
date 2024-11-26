@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_bed x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,51 +13,68 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
-msgid "Your respawn position was blocked or dangerous. You’ve lost your old respawn position."
+#: mods/rp_bed/init.lua:357
+msgid ""
+"Your respawn position was blocked or dangerous. You’ve lost your old respawn "
+"position."
 msgstr "مكان عودتك ضيق أو خطير. لقد أضعت مكان عودتك القديم."
 
+#: mods/rp_bed/init.lua:430
 msgid "You have slept, rise and shine!"
 msgstr "لقد نمت، صباح الخير!"
 
+#: mods/rp_bed/init.lua:432
 msgid "Players have slept, rise and shine!"
 msgstr "لاعبين قد ناموا، صباح الخير!"
 
-msgid "Bed"
-msgstr "سرير"
-
-msgid "Sets the respawn position and allows to pass the night"
-msgstr "يعد مكان عودتك ويسمح بمضي الليل"
-
+#: mods/rp_bed/init.lua:506
 msgid "Sleeping is disabled."
 msgstr "النوم غير مسموح به."
 
+#: mods/rp_bed/init.lua:524
 msgid "It’s too painful to sleep here!"
 msgstr "النوم هنا مألم جدا!"
 
+#: mods/rp_bed/init.lua:526
 msgid "You can’t sleep while holding your breath!"
 msgstr "لا يمكنك النوم بينما تحبس نفسك!"
 
+#: mods/rp_bed/init.lua:528
 msgid "Not enough space to sleep!"
 msgstr "غير كافي للنوم!"
 
+#: mods/rp_bed/init.lua:530
 msgid "You can’t sleep here!"
 msgstr "لا يمكنك النوم هنا!"
 
+#: mods/rp_bed/init.lua:539
 msgid "You have to stop moving before going to bed!"
 msgstr "يجب أن تتوقف عن الحركة قبل النوم!"
 
+#: mods/rp_bed/init.lua:551
 msgid "Respawn position set!"
 msgstr "تم إعداد مكان عودتك!"
 
+#: mods/rp_bed/init.lua:583
+msgid "Bed"
+msgstr "سرير"
+
+#: mods/rp_bed/init.lua:584
+msgid "Sets the respawn position and allows to pass the night"
+msgstr "يعد مكان عودتك ويسمح بمضي الليل"
+
+#: mods/rp_bed/init.lua:876
 msgid "In bed"
 msgstr "في السرير"
 
+#: mods/rp_bed/init.lua:877
 msgid "You're in a bed"
 msgstr "أنت في سرير"
 
+#: mods/rp_bed/init.lua:892
 msgid "Bed Time"
 msgstr "موعد النوم"
 
+#: mods/rp_bed/init.lua:893
 msgid "Craft a bed."
 msgstr "إصنع سريرا."
-

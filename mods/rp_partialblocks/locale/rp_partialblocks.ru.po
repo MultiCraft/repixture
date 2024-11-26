@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_partialblocks x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,195 +13,258 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_partialblocks/register.lua:14
 msgid "Cobble Slab"
 msgstr "Булыжниковый полублок"
 
+#: mods/rp_partialblocks/register.lua:14
 msgid "Cobble Stair"
 msgstr "Булыжниковые ступеньки"
 
+#: mods/rp_partialblocks/register.lua:17
 msgid "Stone Slab"
 msgstr "Каменный полублок"
 
+#: mods/rp_partialblocks/register.lua:17
 msgid "Stone Stair"
 msgstr "Каменные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:20
 msgid "Sandstone Slab"
 msgstr "Песчаниковый полублок"
 
+#: mods/rp_partialblocks/register.lua:20
 msgid "Sandstone Stair"
 msgstr "Песчаниковые ступеньки"
 
+#: mods/rp_partialblocks/register.lua:23
 msgid "Brick Slab"
 msgstr "Кирпичный полублок"
 
+#: mods/rp_partialblocks/register.lua:23
 msgid "Brick Stair"
 msgstr "Кирпичные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:25
 msgid "Painted Brick Slab"
 msgstr "Окрашенный Кирпичный Полублок"
 
+#: mods/rp_partialblocks/register.lua:25
 msgid "Painted Brick Stair"
 msgstr "Окрашенные Кирпичные Ступеньки"
 
+#: mods/rp_partialblocks/register.lua:30
 msgid "Wooden Slab"
 msgstr "Деревянный полублок"
 
+#: mods/rp_partialblocks/register.lua:30
 msgid "Wooden Stair"
 msgstr "Деревянные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:32
 msgid "Painted Wooden Slab"
 msgstr "Окрашенный Деревянный Полублок"
 
+#: mods/rp_partialblocks/register.lua:32
 msgid "Painted Wooden Stair"
 msgstr "Окрашенные Деревянные Ступеньки"
 
+#: mods/rp_partialblocks/register.lua:35
 msgid "Oak Slab"
 msgstr "Дубовый полублок"
 
+#: mods/rp_partialblocks/register.lua:35
 msgid "Oak Stair"
 msgstr "Дубовые ступеньки"
 
+#: mods/rp_partialblocks/register.lua:37
 msgid "Painted Oak Slab"
 msgstr "Окрашенный Дубовый Полублок"
 
+#: mods/rp_partialblocks/register.lua:37
 msgid "Painted Oak Stair"
 msgstr "Окрашенные Дубовые Ступеньки"
 
+#: mods/rp_partialblocks/register.lua:40
 msgid "Birch Slab"
 msgstr "Берёзовый полублок"
 
+#: mods/rp_partialblocks/register.lua:40
 msgid "Birch Stair"
 msgstr "Берёзовые ступеньки"
 
+#: mods/rp_partialblocks/register.lua:42
 msgid "Painted Birch Slab"
 msgstr "Окрашенный Берёзовый Полублок"
 
+#: mods/rp_partialblocks/register.lua:42
 msgid "Painted Birch Stair"
 msgstr "Окрашенные Берёзовые Ступеньки"
 
+#: mods/rp_partialblocks/register.lua:45
 msgid "Fir Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:45
 msgid "Fir Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:47
 msgid "Painted Fir Slab"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:47
 msgid "Painted Fir Stair"
 msgstr ""
 
+#: mods/rp_partialblocks/register.lua:52
 msgid "Reed Slab"
 msgstr "Тростниковый полублок"
 
+#: mods/rp_partialblocks/register.lua:52
 msgid "Reed Stair"
 msgstr "Тростниковые ступеньки"
 
+#: mods/rp_partialblocks/register.lua:55
 msgid "Dried Reed Slab"
 msgstr "Высушенный тростниковый полублок"
 
+#: mods/rp_partialblocks/register.lua:55
 msgid "Dried Reed Stair"
 msgstr "Высушенные тростниковые ступеньки"
 
+#: mods/rp_partialblocks/register.lua:58
 msgid "Straw Slab"
 msgstr "Соломенный полублок"
 
+#: mods/rp_partialblocks/register.lua:58
 msgid "Straw Stair"
 msgstr "Соломенные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:61
 msgid "Hay Slab"
 msgstr "Сенной полублок"
 
+#: mods/rp_partialblocks/register.lua:61
 msgid "Hay Stair"
 msgstr "Сенные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:66
 msgid "Frame Slab"
 msgstr "Рамочный полублок"
 
+#: mods/rp_partialblocks/register.lua:66
 msgid "Frame Stair"
 msgstr "Рамочные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:68
 msgid "Painted Frame Slab"
 msgstr "Окрашенный Рамочный полублок"
 
+#: mods/rp_partialblocks/register.lua:68
 msgid "Painted Frame Stair"
 msgstr "Окрашенные Рамочные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:72
 msgid "Reinforced Frame Slab"
 msgstr "Усиленный рамочный полублок"
 
+#: mods/rp_partialblocks/register.lua:72
 msgid "Reinforced Frame Stair"
 msgstr "Усиленные рамочные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:74
 msgid "Painted Reinforced Frame Slab"
 msgstr "Окрашенный Усиленный рамочный полублок"
 
+#: mods/rp_partialblocks/register.lua:74
 msgid "Painted Reinforced Frame Stair"
 msgstr "Окрашенные Усиленные рамочные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:77
 msgid "Reinforced Cobble Slab"
 msgstr "Усиленный булыжниковый полублок"
 
+#: mods/rp_partialblocks/register.lua:77
 msgid "Reinforced Cobble Stair"
 msgstr "Усиленные булыжниковые ступеньки"
 
+#: mods/rp_partialblocks/register.lua:82
 msgid "Coal Slab"
 msgstr "Угольный полублок"
 
+#: mods/rp_partialblocks/register.lua:82
 msgid "Coal Stair"
 msgstr "Угольные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:87
 msgid "Steel Slab"
 msgstr "Стальной полублок"
 
+#: mods/rp_partialblocks/register.lua:87
 msgid "Steel Stair"
 msgstr "Стальные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:90
 msgid "Carbon Steel Slab"
 msgstr "Полублок из углеродистой стали"
 
+#: mods/rp_partialblocks/register.lua:90
 msgid "Carbon Steel Stair"
 msgstr "Ступеньки из углеродистой стали"
 
+#: mods/rp_partialblocks/register.lua:93
 msgid "Wrought Iron Slab"
 msgstr "Полублок из кованого железа"
 
+#: mods/rp_partialblocks/register.lua:93
 msgid "Wrought Iron Stair"
 msgstr "Ступеньки из кованого железа"
 
+#: mods/rp_partialblocks/register.lua:96
 msgid "Bronze Slab"
 msgstr "Бронзовый полублок"
 
+#: mods/rp_partialblocks/register.lua:96
 msgid "Bronze Stair"
 msgstr "Бронзовые ступеньки"
 
+#: mods/rp_partialblocks/register.lua:99
 msgid "Copper Slab"
 msgstr "Медный полублок"
 
+#: mods/rp_partialblocks/register.lua:99
 msgid "Copper Stair"
 msgstr "Медные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:102
 msgid "Tin Slab"
 msgstr "Оловянный полублок"
 
+#: mods/rp_partialblocks/register.lua:102
 msgid "Tin Stair"
 msgstr "Оловянные ступеньки"
 
+#: mods/rp_partialblocks/register.lua:105
 msgid "Gold Slab"
 msgstr "Золотой полублок"
 
+#: mods/rp_partialblocks/register.lua:105
 msgid "Gold Stair"
 msgstr "Золотые ступеньки"
 
+#: mods/rp_partialblocks/register.lua:116
 msgid "Compressed Sandstone Slab"
 msgstr "Сжато-песчаниковый полублок"
 
+#: mods/rp_partialblocks/register.lua:116
 msgid "Compressed Sandstone Stair"
 msgstr "Сжато-песчаниковые ступеньки"
 
+#: mods/rp_partialblocks/register.lua:119
 msgid "Reinforced Compressed Sandstone Slab"
 msgstr "Усиленный Сжато-песчаниковый полублок"
 
+#: mods/rp_partialblocks/register.lua:119
 msgid "Reinforced Compressed Sandstone Stair"
 msgstr "Усиленные Сжато-песчаниковые ступеньки"
-

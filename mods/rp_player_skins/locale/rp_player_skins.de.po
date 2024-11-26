@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_player_skins x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,36 +13,46 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_player_skins/init.lua:260
 msgid "Headband"
 msgstr "Stirnband"
 
+#: mods/rp_player_skins/init.lua:261
 msgid "Hair"
 msgstr "Haare"
 
+#: mods/rp_player_skins/init.lua:262
 msgid "Eyes"
 msgstr "Augen"
 
+#: mods/rp_player_skins/init.lua:263
 msgid "Beard"
 msgstr "Bart"
 
+#: mods/rp_player_skins/init.lua:264
 msgid "Shirt"
 msgstr "Hemd"
 
+#: mods/rp_player_skins/init.lua:265
 msgid "Wristbands"
 msgstr "Armbänder"
 
+#: mods/rp_player_skins/init.lua:266
 msgid "Trousers"
 msgstr "Hose"
 
+#: mods/rp_player_skins/init.lua:267
 msgid "Skin"
 msgstr "Haut"
 
+#: mods/rp_player_skins/init.lua:268
 msgid "Shoes"
 msgstr "Schuhe"
 
+#: mods/rp_player_skins/init.lua:269
 msgid "Random"
 msgstr "Zufällig"
 
+#: mods/rp_player_skins/init.lua:285
 msgid "Player Skins"
 msgstr "Spieler-Skins"
-

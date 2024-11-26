@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_boats x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,33 +13,42 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_boats/init.lua:436
 msgid "Not enough space to enter!"
 msgstr "Nicht genügend Platz zum Betreten!"
 
+#: mods/rp_boats/init.lua:598
 msgid "Wooden Log Boat"
 msgstr "Baumstammboot"
 
+#: mods/rp_boats/init.lua:599
 msgid "Birch Log Boat"
 msgstr "Birkenbaumstamboot"
 
+#: mods/rp_boats/init.lua:600
 msgid "Oak Log Boat"
 msgstr "Eichenbaumstammboot"
 
+#: mods/rp_boats/init.lua:601
 msgid "Fir Log Boat"
 msgstr "Tannenbaumstammboot"
 
+#: mods/rp_boats/init.lua:607 mods/rp_boats/init.lua:656
 msgid "Water vehicle"
 msgstr "Wasserfahrzeug"
 
+#: mods/rp_boats/init.lua:647
 msgid "Wooden Raft"
 msgstr "Holzfloß"
 
+#: mods/rp_boats/init.lua:648
 msgid "Birch Raft"
 msgstr "Birkenfloß"
 
+#: mods/rp_boats/init.lua:649
 msgid "Oak Raft"
 msgstr "Eichenfloß"
 
+#: mods/rp_boats/init.lua:650
 msgid "Fir Raft"
 msgstr "Tannenfloß"
-

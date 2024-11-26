@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_weather x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,15 +13,20 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_weather/init.lua:220
 msgid "Can change the weather using the /weather command"
 msgstr "Se puede cambiar el clima usando el comando /weather"
 
+#: mods/rp_weather/init.lua:228
 msgid "Change the weather"
 msgstr "Cambiar el clima"
 
+#: mods/rp_weather/init.lua:233
 msgid "Incorrect weather. Valid weathers are “storm” and “clear”."
-msgstr "Clima incorrecto. Los climas válidos son “storm” (tormenta) y “clear” (despejado)."
+msgstr ""
+"Clima incorrecto. Los climas válidos son “storm” (tormenta) y “clear” "
+"(despejado)."
 
+#: mods/rp_weather/init.lua:235
 msgid "Weather changed."
 msgstr "Clima cambiado."
-

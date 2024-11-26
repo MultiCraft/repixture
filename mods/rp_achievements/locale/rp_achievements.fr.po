@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_achievements x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,105 +13,153 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_achievements/init.lua:351
 msgid "You have earned the achievement “@1”."
 msgstr "Vous avez réalisé avec succès “@1”."
 
+#: mods/rp_achievements/init.lua:352
 msgid "@1 has earned the achievement “@2”."
 msgstr "@1 a réalisé avec succès \"@2\"."
 
+#: mods/rp_achievements/init.lua:357
 msgid "Achievement gotten!"
 msgstr ""
 
+#: mods/rp_achievements/init.lua:586
 msgid "You have gotten all achievements!"
 msgstr "Vous avez obtenu toutes les réalisations !"
 
+#: mods/rp_achievements/init.lua:587
 msgid "@1 has gotten all achievements!"
 msgstr "@1 a obtenu toutes les réalisations !"
 
+#: mods/rp_achievements/init.lua:588
 msgid "All achievements gotten!"
 msgstr ""
 
+#: mods/rp_achievements/init.lua:601
 msgid "You have lost all achievements!"
 msgstr "Vous avez perdu toutes les réalisations !"
 
+#: mods/rp_achievements/init.lua:602
 msgid "@1 has lost all achievements!"
 msgstr "@1 a perdu toutes les réalisations !"
 
+#: mods/rp_achievements/init.lua:603
 msgid "All achievements lost!"
 msgstr ""
 
+#: mods/rp_achievements/init.lua:653
 msgid "You have lost the achievement “@1”."
 msgstr "Vous avez perdu la réalisation “@1”."
 
+#: mods/rp_achievements/init.lua:654
 msgid "@1 has lost the achievement “@2”."
 msgstr "@1 a perdu la réalisation “@2”."
 
+#: mods/rp_achievements/init.lua:656
 msgid "Achievement lost!"
 msgstr ""
 
+#: mods/rp_achievements/init.lua:841
 msgid "The achievement “@1” has new goals."
 msgstr "La réalisation “@1” a de nouveaux objectifs."
 
+#: mods/rp_achievements/init.lua:910
 msgid "Achievements"
 msgstr "Réalisations"
 
+#. ~ gotten achievement
+#: mods/rp_achievements/init.lua:1037 mods/rp_achievements/init.lua:1113
 msgid "Gotten"
 msgstr "Obtenu"
 
+#. ~ Achievement progress counter. @1 = number of tasks to complete to get an achievement, @2 = total number of tasks in that achievement
+#: mods/rp_achievements/init.lua:1043 mods/rp_achievements/init.lua:1116
 msgid "@1/@2"
 msgstr "@1/@2"
 
+#. ~ missing achievement
+#: mods/rp_achievements/init.lua:1047 mods/rp_achievements/init.lua:1118
 msgid "Missing"
 msgstr "Manquant"
 
+#. ~ List separator. Used for the list of completed achievement subconditions
+#: mods/rp_achievements/init.lua:1058
 msgid ", "
 msgstr ", "
 
+#. ~ Shows the progress of an achievement with subconditions. @1 is a list of all such completed subconditions
+#: mods/rp_achievements/init.lua:1060
 msgid "Completed: @1"
 msgstr "Complété : @1"
 
+#: mods/rp_achievements/init.lua:1126
 msgid "Status: @1"
 msgstr ""
 
+#. ~ @1, @2 and @3 are numbers that count achievements
+#: mods/rp_achievements/init.lua:1139
 msgid "@1 of @2 achievements gotten, @3 in progress"
 msgstr "@1 sur @2 réalisations obtenues, @3 en cours"
 
+#: mods/rp_achievements/init.lua:1158
 msgid "Show symbols"
 msgstr ""
 
+#: mods/rp_achievements/init.lua:1161
 msgid "Show list"
 msgstr ""
 
+#. ~ chat command syntax for /achievement. You can translate the parts between “<” and “>”, but the rest MUST be left intact
+#: mods/rp_achievements/init.lua:1237
 msgid "(list [<player>]) | ((give | remove) <player> (<achievement> | all))"
 msgstr "(list [<joueur>]) | ((give | remove) <joueur> (<réalisation> | all))"
 
+#: mods/rp_achievements/init.lua:1238
 msgid "List, give or remove achievements of player"
 msgstr "Liste, donne ou enlève les réalisations du joueur"
 
+#. ~ Shown when the achievement difficulty has not been set
+#: mods/rp_achievements/init.lua:1254
 msgid "unset"
 msgstr "non défini"
 
+#. ~ List entry. @1 = technical achievement name, @2 = achievement name, @3 = achievement difficulty rating
+#: mods/rp_achievements/init.lua:1257
 msgid "@1: @2 (@3)"
 msgstr "@1 : @2 (@3)"
 
+#: mods/rp_achievements/init.lua:1262 mods/rp_achievements/init.lua:1293
 msgid "No achievements."
 msgstr "Pas de réalisations."
 
+#: mods/rp_achievements/init.lua:1264
 msgid "List of achievements (difficulty rating in brackets):"
 msgstr "Liste les réalisations (note de difficulté entre parenthèses)"
 
+#: mods/rp_achievements/init.lua:1274 mods/rp_achievements/init.lua:1315
 msgid "Player is not online!"
 msgstr "Le joueur n'est pas en ligne !"
 
+#. ~ @1 = achievement name
+#: mods/rp_achievements/init.lua:1281
 msgid "@1: Gotten"
 msgstr "@1 : obtenu"
 
+#. ~ @1 = achievement name, @2 and @3 are numbers for a progress counter
+#: mods/rp_achievements/init.lua:1287
 msgid "@1: In progress (@2/@3)"
 msgstr "@1 : en cours (@2/@3)"
 
+#. ~ @1 = player name
+#: mods/rp_achievements/init.lua:1296
 msgid "Achievements of @1:"
 msgstr "Réalisations de @1 :"
 
-msgid "Unknown achievement! Use “/achievement list” to list valid achievement names."
-msgstr "Réalisation inconnue ! Utilisez “/achievement list” pour lister les noms des réalisations valides."
-
+#: mods/rp_achievements/init.lua:1333
+msgid ""
+"Unknown achievement! Use “/achievement list” to list valid achievement names."
+msgstr ""
+"Réalisation inconnue ! Utilisez “/achievement list” pour lister les noms des "
+"réalisations valides."

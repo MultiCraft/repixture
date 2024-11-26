@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_death_messages x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,57 +13,80 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_death_messages/init.lua:9
 msgid "You drowned."
 msgstr "Vi dronis."
 
+#: mods/rp_death_messages/init.lua:12
 msgid "You took fatal damage from a block."
 msgstr "Vi ricevis mortigajn damaĝojn de bloko."
 
+#. ~ @1 is a player
+#: mods/rp_death_messages/init.lua:16
 msgid "You were killed by @1."
 msgstr "Vi estis mortigita de @1."
 
+#: mods/rp_death_messages/init.lua:19
 msgid "You were killed."
 msgstr "Vi estis mortigita."
 
+#: mods/rp_death_messages/init.lua:22
 msgid "You were killed by a hostile creature."
 msgstr "Vi estis mortigita de malamika estaĵo."
 
+#: mods/rp_death_messages/init.lua:25
 msgid "You were killed by a hostile creature named @1."
 msgstr "Vi estis mortigita de malamika estaĵo nomata @1."
 
+#: mods/rp_death_messages/init.lua:28
 msgid "You fell to your death."
 msgstr "Vi sentas vian morton."
 
+#: mods/rp_death_messages/init.lua:31
 msgid "You died."
 msgstr "Vi mortis."
 
+#: mods/rp_death_messages/init.lua:37
 msgid "You were kicked to death by a walker."
 msgstr "Vi estis mortbatita de promenanto."
 
+#. ~ @1 is a given name
+#: mods/rp_death_messages/init.lua:39
 msgid "You were kicked to death by @1, a walker."
 msgstr "Vi estis mortbatita de @1, promenanto."
 
+#: mods/rp_death_messages/init.lua:42
 msgid "You were killed by a boar."
 msgstr "Vi estis mortigita de tabulo."
 
+#. ~ @1 is a given name
+#: mods/rp_death_messages/init.lua:44
 msgid "You were killed by @1, a boar."
 msgstr "Vi estis mortigita de @1, tabulo."
 
+#: mods/rp_death_messages/init.lua:47
 msgid "You were killed by a skunk."
 msgstr "Vi estis mortigita de skunko."
 
+#. ~ @1 is a given name
+#: mods/rp_death_messages/init.lua:49
 msgid "You were killed by @1, a skunk."
 msgstr "Vi estis mortigita de @1, skunko."
 
+#: mods/rp_death_messages/init.lua:52
 msgid "You were killed by a villager."
 msgstr "Vi estis mortigita de vilaĝano."
 
+#. ~ @1 is a given name
+#: mods/rp_death_messages/init.lua:54
 msgid "You were killed by @1, a villager."
 msgstr "Vi estis mortigita de @1, vilaĝano."
 
+#: mods/rp_death_messages/init.lua:57
 msgid "You were killed by a mine turtle."
 msgstr ""
 
+#. ~ @1 is a given name
+#: mods/rp_death_messages/init.lua:59
 msgid "You were killed by @1, a mine turtle."
 msgstr ""
-

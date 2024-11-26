@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_jewels x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,192 +13,257 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_jewels/init.lua:28
 msgid "1. Place tool here"
 msgstr "1.: Werkzeug hier ablegen"
 
+#: mods/rp_jewels/init.lua:29
 msgid "2. Hold a jewel and punch the bench"
 msgstr "2.: Juwel halten und auf Bank hauen"
 
+#. ~ Fallback description for jeweled tools that don’t provide their own description. @1 = name of original tool that has been jeweled
+#: mods/rp_jewels/init.lua:127
 msgid "@1 (jeweled)"
 msgstr "@1 (Juwel)"
 
+#: mods/rp_jewels/init.lua:193
 msgid "Range bonus: @1"
 msgstr "Reichweitenbonus: @1"
 
+#: mods/rp_jewels/init.lua:194
 msgid "Drop level bonus: @1"
 msgstr "Abwurfstufenbonus: @1"
 
+#. ~ dig time bonus for jeweled tools. “s” stands for “seconds”
+#: mods/rp_jewels/init.lua:196
 msgid "Dig time bonus: @1 s"
 msgstr "Grabezeitbonus: @1 s"
 
+#: mods/rp_jewels/init.lua:197
 msgid "Durability bonus: @1"
 msgstr "Haltbarkeitsbonus: @1"
 
+#: mods/rp_jewels/init.lua:198
 msgid "Dig level bonus: @1"
 msgstr "Grabestufenbonus: @1"
 
+#: mods/rp_jewels/init.lua:247
 msgid "Jewel"
 msgstr "Juwel"
 
+#: mods/rp_jewels/init.lua:313 mods/rp_jewels/init.lua:324
 msgid "Jeweler's Workbench"
 msgstr "Juwelierswerkbank"
 
+#: mods/rp_jewels/init.lua:314
 msgid "Tools can be upgraded with jewels here"
 msgstr "Werkzeuge können hier mit Juwelen aufgewertet werden"
 
+#: mods/rp_jewels/init.lua:441
 msgid "Jewel Ore"
 msgstr "Juwelenerz"
 
+#: mods/rp_jewels/init.lua:477
 msgid "Jeweler"
 msgstr "Juwelier"
 
+#: mods/rp_jewels/init.lua:478
 msgid "Jewel a tool."
 msgstr "Besetzen Sie ein Werkzeug mit einem Juwel."
 
+#: mods/rp_jewels/init.lua:488
 msgid "True Mighty Weapon"
 msgstr "Wahrhaft mächtige Waffe"
 
+#: mods/rp_jewels/init.lua:489
 msgid "Use jewels to create a serrated jewel broadsword."
-msgstr "Benutzen Sie Juwelen, um ein gezacktes Juwelenbreitschwert zu erschaffen."
+msgstr ""
+"Benutzen Sie Juwelen, um ein gezacktes Juwelenbreitschwert zu erschaffen."
 
+#: mods/rp_jewels/init.lua:499
 msgid "Secret of Jewels"
 msgstr "Juwelengeheimnis"
 
+#: mods/rp_jewels/init.lua:500
 msgid "Discover the origin of jewels."
 msgstr "Entdecken Sie den Ursprung der Juwelen."
 
+#: mods/rp_jewels/jewels.lua:19
 msgid "Swift Jewel Steel Pickaxe"
 msgstr "Schnelle Juwelenstahlspitzhacke"
 
+#: mods/rp_jewels/jewels.lua:23
 msgid "Harming Jewel Steel Pickaxe"
 msgstr "Mächtige Juwelenstahlspitzhacke"
 
+#: mods/rp_jewels/jewels.lua:28
 msgid "Durable Jewel Steel Pickaxe"
 msgstr "Haltbare Juwelenstahlspitzhacke"
 
+#: mods/rp_jewels/jewels.lua:34
 msgid "Swift Jewel Carbon Steel Pickaxe"
 msgstr "Schnelle Juwelenkarbonstahlspitzhacke"
 
+#: mods/rp_jewels/jewels.lua:38
 msgid "Harming Jewel Carbon Steel Pickaxe"
 msgstr "Mächtige Juwelenkarbonstahlspitzhacke"
 
+#: mods/rp_jewels/jewels.lua:43
 msgid "Durable Jewel Carbon Steel Pickaxe"
 msgstr "Haltbare Juwelenkarbonstahlspitzhacke"
 
+#: mods/rp_jewels/jewels.lua:49
 msgid "Swift Jewel Bronze Pickaxe"
 msgstr "Schnelle Juwelenbronzespitzhacke"
 
+#: mods/rp_jewels/jewels.lua:53
 msgid "Harming Jewel Bronze Pickaxe"
 msgstr "Mächtige Juwelenbronzespitzhacke"
 
+#: mods/rp_jewels/jewels.lua:58
 msgid "Durable Jewel Bronze Pickaxe"
 msgstr "Haltbare Juwelenbronzespitzhacke"
 
+#: mods/rp_jewels/jewels.lua:66
 msgid "Swift Jewel Steel Shovel"
 msgstr "Schnelle Juwelenstahlschaufel"
 
+#: mods/rp_jewels/jewels.lua:70
 msgid "Harming Jewel Steel Shovel"
 msgstr "Mächtige Juwelenstahlschaufel"
 
+#: mods/rp_jewels/jewels.lua:75
 msgid "Durable Jewel Steel Shovel"
 msgstr "Haltbare Juwelenstahlschaufel"
 
+#: mods/rp_jewels/jewels.lua:81
 msgid "Swift Jewel Carbon Steel Shovel"
 msgstr "Schnelle Juwelenkarbonstahlschaufel"
 
+#: mods/rp_jewels/jewels.lua:85
 msgid "Harming Jewel Carbon Steel Shovel"
 msgstr "Mächtige Juwelenkarbonstahlschaufel"
 
+#: mods/rp_jewels/jewels.lua:90
 msgid "Durable Jewel Carbon Steel Shovel"
 msgstr "Haltbare Juwelenkarbonstahlschaufel"
 
+#: mods/rp_jewels/jewels.lua:96
 msgid "Swift Jewel Bronze Shovel"
 msgstr "Schnelle Juwelenbronzeschaufel"
 
+#: mods/rp_jewels/jewels.lua:100
 msgid "Harming Jewel Bronze Shovel"
 msgstr "Mächtige Juwelenbronzeschaufel"
 
+#: mods/rp_jewels/jewels.lua:105
 msgid "Durable Jewel Bronze Shovel"
 msgstr "Haltbare Juwelenbronzeschaufel"
 
+#: mods/rp_jewels/jewels.lua:113
 msgid "Swift Jewel Steel Axe"
 msgstr "Schnelle Juwelenstahlaxt"
 
+#: mods/rp_jewels/jewels.lua:117
 msgid "Harming Jewel Steel Axe"
 msgstr "Mächtige Juwelenstahlaxt"
 
+#: mods/rp_jewels/jewels.lua:122
 msgid "Durable Jewel Steel Axe"
 msgstr "Haltbare Juwelenstahlaxt"
 
+#: mods/rp_jewels/jewels.lua:128
 msgid "Swift Jewel Carbon Steel Axe"
 msgstr "Schnelle Juwelenkarbonstahlaxt"
 
+#: mods/rp_jewels/jewels.lua:132
 msgid "Harming Jewel Carbon Steel Axe"
 msgstr "Mächtige Juwelenkarbonstahlaxt"
 
+#: mods/rp_jewels/jewels.lua:137
 msgid "Durable Jewel Carbon Steel Axe"
 msgstr "Haltbare Juwelenkarbonstahlaxt"
 
+#: mods/rp_jewels/jewels.lua:143
 msgid "Swift Jewel Bronze Axe"
 msgstr "Schnelle Juwelenbronzeaxt"
 
+#: mods/rp_jewels/jewels.lua:147
 msgid "Harming Jewel Bronze Axe"
 msgstr "Mächtige Juwelenbronzeaxt"
 
+#: mods/rp_jewels/jewels.lua:152
 msgid "Durable Jewel Bronze Axe"
 msgstr "Haltbare Juwelenbronzeaxt"
 
+#: mods/rp_jewels/jewels.lua:162
 msgid "Extended Jewel Steel Spear"
 msgstr "Verlängerter Juwelenstahlspeer"
 
+#: mods/rp_jewels/jewels.lua:168
 msgid "Harming Jewel Steel Spear"
 msgstr "Mächtiger Juwelenstahlspeer"
 
+#: mods/rp_jewels/jewels.lua:174
 msgid "Durable Jewel Steel Spear"
 msgstr "Haltbarer Juwelenstahlspeer"
 
+#: mods/rp_jewels/jewels.lua:180
 msgid "Extended Jewel Carbon Steel Spear"
 msgstr "Verlängerter Juwelenkarbonstahlspeer"
 
+#: mods/rp_jewels/jewels.lua:186
 msgid "Harming Jewel Carbon Steel Spear"
 msgstr "Mächtiger Juwelenkarbonstahlspeer"
 
+#: mods/rp_jewels/jewels.lua:192
 msgid "Durable Jewel Carbon Steel Spear"
 msgstr "Haltbarer Juwelenkarbonstahlspeer"
 
+#: mods/rp_jewels/jewels.lua:200
 msgid "Extended Jewel Bronze Spear"
 msgstr "Verlängerter Juwelenbronzespeer"
 
+#: mods/rp_jewels/jewels.lua:206
 msgid "Harming Jewel Bronze Spear"
 msgstr "Mächtiger Juwelenbronzespeer"
 
+#: mods/rp_jewels/jewels.lua:212
 msgid "Durable Jewel Bronze Spear"
 msgstr "Haltbarer Juwelenbronzespeer"
 
+#: mods/rp_jewels/jewels.lua:224
 msgid "Swift Jewel Steel Shears"
 msgstr "Schnelle Juwelenstahlschere"
 
+#: mods/rp_jewels/jewels.lua:230
 msgid "Durable Jewel Steel Shears"
 msgstr "Haltbare Juwelenstahlschere"
 
+#: mods/rp_jewels/jewels.lua:238
 msgid "Swift Jewel Carbon Steel Shears"
 msgstr "Schnelle Juwelenkarbonstahlschere"
 
+#: mods/rp_jewels/jewels.lua:244
 msgid "Durable Jewel Carbon Steel Shears"
 msgstr "Haltbare Juwelenkarbonstahlschere"
 
+#: mods/rp_jewels/jewels.lua:252
 msgid "Swift Jewel Bronze Shears"
 msgstr "Schnelle Juwelenbronzeschere"
 
+#: mods/rp_jewels/jewels.lua:258
 msgid "Durable Jewel Bronze Shears"
 msgstr "Haltbare Juwelenbronzeschere"
 
+#: mods/rp_jewels/jewels.lua:301
 msgid "Pommel Jewel Broadsword"
 msgstr "Prügeljuwelenbreitschwert"
 
+#: mods/rp_jewels/jewels.lua:312
 msgid "Pommel&Guard Jewel Broadsword"
 msgstr "Prügel- und Wächterjuwelenbreitschwert"
 
+#: mods/rp_jewels/jewels.lua:323
 msgid "Serrated Jewel Broadsword"
 msgstr "Gezacktes Juwelenbreitschwert"
-

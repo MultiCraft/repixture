@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_default x.x.x\n"
 "Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
-"POT-Creation-Date: \n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: 2024-11-24 01:52+0000\n"
 "Last-Translator: Wuzzy <Wuzzy@users.noreply.translate.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/repixture/"
@@ -14,984 +14,1331 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.8.1\n"
 
+#: mods/rp_default/achievements.lua:15
 msgid "Timber"
 msgstr "Bauholz"
 
+#: mods/rp_default/achievements.lua:16
 msgid "Dig a tree trunk."
 msgstr "Bauen Sie einen Baumstamm ab."
 
+#: mods/rp_default/achievements.lua:29
 msgid "My First Pickaxe"
 msgstr "Erste Spitzhacke"
 
+#: mods/rp_default/achievements.lua:30
 msgid "Craft a pickaxe."
 msgstr "Fertigen Sie eine Spitzhacke."
 
+#: mods/rp_default/achievements.lua:40
 msgid "Hardened Miner"
 msgstr "Harte Bergarbeit"
 
+#: mods/rp_default/achievements.lua:41
 msgid "Craft a carbon steel pickaxe."
 msgstr "Fertigen Sie eine Karbonstahlspitzhacke."
 
+#: mods/rp_default/achievements.lua:50
 msgid "Off to Battle"
 msgstr "Auf in die Schlacht"
 
+#: mods/rp_default/achievements.lua:51
 msgid "Craft a weapon."
 msgstr "Stellen Sie eine Waffe her."
 
+#: mods/rp_default/achievements.lua:64
 msgid "Mineority"
 msgstr "Bergbaby"
 
+#: mods/rp_default/achievements.lua:65
 msgid "Mine a stone."
 msgstr "Graben Sie einen Stein."
 
+#: mods/rp_default/achievements.lua:74
 msgid "Smelting Room"
 msgstr "Schmelzraum"
 
+#: mods/rp_default/achievements.lua:75
 msgid "Craft a furnace."
 msgstr "Fertigen Sie einen Ofen."
 
+#: mods/rp_default/achievements.lua:85
 msgid "Metal Age"
 msgstr "Metallzeitalter"
 
+#: mods/rp_default/achievements.lua:86
 msgid "Put a mineral and some fuel in a furnace to smelt an ingot."
 msgstr ""
 "Legen Sie ein Mineral und Brennstoff in den Ofen und schmelzen Sie so Barren."
 
+#: mods/rp_default/achievements.lua:97
 msgid "Fertile"
 msgstr "Fruchtbar"
 
+#: mods/rp_default/achievements.lua:98
 msgid "Use fertilizer to fertilize the ground."
 msgstr "Benutzen Sie Dünger, um den Boden zu düngen."
 
+#: mods/rp_default/achievements.lua:107
 msgid "Overgrowth"
 msgstr "Überwachsen"
 
+#: mods/rp_default/achievements.lua:108
 msgid "Grow a papyrus to its maximum height, then harvest it."
 msgstr "Lassen Sie Papyrus zu seiner Maximalhöhe wachsen, dann ernten Sie ihn."
 
+#: mods/rp_default/achievements.lua:119
 msgid "Librarian"
 msgstr "Bibliothekar"
 
+#: mods/rp_default/achievements.lua:120
 msgid "Craft a bookshelf."
 msgstr "Fertigen Sie ein Bücherregal."
 
+#: mods/rp_default/achievements.lua:140
 msgid "Forester"
 msgstr "Waldheger"
 
+#: mods/rp_default/achievements.lua:141
 msgid "Plant one of every sapling."
 msgstr "Pflanzen Sie einen Setzling von jeder Art."
 
+#: mods/rp_default/achievements.lua:172
 msgid "Explorer"
 msgstr "Entdecker"
 
+#: mods/rp_default/achievements.lua:173
 msgid "Visit all surface biomes."
 msgstr "Besuchen Sie alle Biome an der Oberfläche."
 
+#: mods/rp_default/achievements.lua:225
 msgid "A Complete Collection"
 msgstr "Vollendete Sammlung"
 
+#: mods/rp_default/achievements.lua:226
 msgid "Obtain one of each minerals."
 msgstr "Besorgen Sie sich ein Mineral von jeder Sorte."
 
+#: mods/rp_default/bucket.lua:4
 msgid "Wooden Bucket with Water"
 msgstr "Holzeimer mit Wasser"
 
+#: mods/rp_default/bucket.lua:4 mods/rp_default/bucket.lua:5
+#: mods/rp_default/bucket.lua:6
 msgid "Punch to empty the bucket"
 msgstr "Hauen, um den Eimer zu leeren"
 
+#: mods/rp_default/bucket.lua:5
 msgid "Wooden Bucket with River Water"
 msgstr "Holzeimer mit Flusswasser"
 
+#: mods/rp_default/bucket.lua:6
 msgid "Wooden Bucket with Swamp Water"
 msgstr "Holzeimer mit Sumpfwasser"
 
+#: mods/rp_default/bucket.lua:123
 msgid "Wooden Bucket"
 msgstr "Holzeimer"
 
+#: mods/rp_default/bucket.lua:124
 msgid "Punch to collect a liquid source"
 msgstr "Hauen, um Flüssigkeitsquelle aufzusammeln"
 
-msgid "“@1”"
-msgstr "„@1“"
-
-msgid "Painted Chest"
-msgstr "Gefärbte Truhe"
-
+#: mods/rp_default/chest.lua:32 mods/rp_default/chest.lua:36
+#: mods/rp_default/chest.lua:50 mods/rp_default/container.lua:27
+#: mods/rp_default/container.lua:39 mods/rp_default/container.lua:60
 msgid "Chest"
 msgstr "Truhe"
 
+#. ~ Shown when hovering a named chest. @1 = name
+#: mods/rp_default/chest.lua:34
+msgid "“@1”"
+msgstr "„@1“"
+
+#: mods/rp_default/chest.lua:51 mods/rp_default/chest.lua:78
+#: mods/rp_default/container.lua:28
 msgid "Provides 32 inventory slots"
 msgstr "Enthält 32 Inventarplätze"
 
+#: mods/rp_default/chest.lua:77
+msgid "Painted Chest"
+msgstr "Gefärbte Truhe"
+
+#. ~ @1 is a name given to a chest
+#: mods/rp_default/container.lua:58
 msgid "Chest “@1”"
 msgstr "Truhe „@1“"
 
+#: mods/rp_default/container.lua:80 mods/rp_default/container.lua:90
+#: mods/rp_default/container.lua:109
 msgid "Bookshelf"
 msgstr "Bücherregal"
 
+#: mods/rp_default/container.lua:81
 msgid "Provides 8 inventory slots"
 msgstr "Bietet 8 Inventarplätze"
 
+#. ~ @1 is a name given to a bookshelf
+#: mods/rp_default/container.lua:107
 msgid "Bookshelf “@1”"
 msgstr "Bücherregal „@1“"
 
+#: mods/rp_default/craftitems.lua:13
 msgid "Fiber"
 msgstr "Faser"
 
+#: mods/rp_default/craftitems.lua:20
 msgid "Stick"
 msgstr "Stock"
 
+#: mods/rp_default/craftitems.lua:28
 msgid "Paper"
 msgstr "Papier"
 
+#: mods/rp_default/craftitems.lua:35
 msgid "Pearl"
 msgstr "Perle"
 
+#: mods/rp_default/craftitems.lua:44
 msgid "Graphite Sheet"
 msgstr "Graphitstück"
 
+#: mods/rp_default/craftitems.lua:54
 msgid "Sulfur Lump"
 msgstr "Schwefelklumpen"
 
+#: mods/rp_default/craftitems.lua:62
 msgid "Coal Lump"
 msgstr "Kohleklumpen"
 
+#: mods/rp_default/craftitems.lua:70
 msgid "Iron Lump"
 msgstr "Eisenklumpen"
 
+#: mods/rp_default/craftitems.lua:78
 msgid "Tin Lump"
 msgstr "Zinnklumpen"
 
+#: mods/rp_default/craftitems.lua:86
 msgid "Copper Lump"
 msgstr "Kupferklumpen"
 
+#: mods/rp_default/craftitems.lua:94
 msgid "Bronze Lump"
 msgstr "Bronzeklumpen"
 
+#: mods/rp_default/craftitems.lua:104
 msgid "Flint Shard"
 msgstr "Feuersteinscherbe"
 
+#: mods/rp_default/craftitems.lua:111
 msgid "Book"
 msgstr "Buch"
 
+#: mods/rp_default/fence.lua:269
 msgid "Wooden Fence"
 msgstr "Holzzaun"
 
+#: mods/rp_default/fence.lua:270
 msgid "Painted Wooden Fence"
 msgstr "Gefärbter Holzzaun"
 
+#: mods/rp_default/fence.lua:282
 msgid "Wooden Fence Gate"
 msgstr "Holzzauntor"
 
+#: mods/rp_default/fence.lua:283
 msgid "Painted Wooden Fence Gate"
 msgstr "Gefärbtes Holzzauntor"
 
+#: mods/rp_default/fence.lua:298
 msgid "Oak Fence"
 msgstr "Eichenzaun"
 
+#: mods/rp_default/fence.lua:299
 msgid "Painted Oak Fence"
 msgstr "Gefärbter Eichenzaun"
 
+#: mods/rp_default/fence.lua:311
 msgid "Oak Fence Gate"
 msgstr "Eichenzauntor"
 
+#: mods/rp_default/fence.lua:312
 msgid "Painted Oak Fence Gate"
 msgstr "Gefärbtes Eichenzauntor"
 
+#: mods/rp_default/fence.lua:327
 msgid "Birch Fence"
 msgstr "Birkenzaun"
 
+#: mods/rp_default/fence.lua:328
 msgid "Painted Birch Fence"
 msgstr "Gefärbter Birkenzaun"
 
+#: mods/rp_default/fence.lua:341
 msgid "Birch Fence Gate"
 msgstr "Birkenzauntor"
 
+#: mods/rp_default/fence.lua:342
 msgid "Painted Birch Fence Gate"
 msgstr "Gefärbtes Birkenzauntor"
 
+#: mods/rp_default/fence.lua:357
 msgid "Fir Fence"
 msgstr "Tannenzaun"
 
+#: mods/rp_default/fence.lua:358
 msgid "Painted Fir Fence"
 msgstr "Gefärbter Tannenzaun"
 
+#: mods/rp_default/fence.lua:372
 msgid "Fir Fence Gate"
 msgstr "Tannenzauntor"
 
+#: mods/rp_default/fence.lua:373
 msgid "Painted Fir Fence Gate"
 msgstr "Gefärbtes Tannenzauntor"
 
+#: mods/rp_default/fertilizer.lua:9
 msgid "Fertilized Dirt"
 msgstr "Gedüngte Erde"
 
+#: mods/rp_default/fertilizer.lua:10 mods/rp_default/fertilizer.lua:33
+#: mods/rp_default/fertilizer.lua:56 mods/rp_default/fertilizer.lua:79
 msgid "Speeds up the growth of plants"
 msgstr "Lässt Pflanzen schneller wachsen"
 
+#: mods/rp_default/fertilizer.lua:32
 msgid "Fertilized Dry Dirt"
 msgstr "Gedüngte trockene Erde"
 
+#: mods/rp_default/fertilizer.lua:55
 msgid "Fertilized Swamp Dirt"
 msgstr "Gedüngte Sumpferde"
 
+#: mods/rp_default/fertilizer.lua:78
 msgid "Fertilized Sand"
 msgstr "Gedüngter Sand"
 
+#: mods/rp_default/fertilizer.lua:97
 msgid "Fertilizer"
 msgstr "Dünger"
 
+#: mods/rp_default/fertilizer.lua:98
 msgid "Used to fertilize dirt and sand to speed up plant growth"
 msgstr "Düngt Erde und Sand, um Pflanzen schneller wachsen zu lassen"
 
+#: mods/rp_default/furnace.lua:169 mods/rp_default/furnace.lua:180
+#: mods/rp_default/furnace.lua:216
 msgid "Furnace"
 msgstr "Ofen"
 
+#: mods/rp_default/furnace.lua:170 mods/rp_default/furnace.lua:202
 msgid "Uses fuel to smelt a material into something else"
 msgstr "Benutzt Brennstoff, um ein Material zu etwas anderem zu schmelzen"
 
+#: mods/rp_default/furnace.lua:201
 msgid "Furnace (active)"
 msgstr "Ofen (aktiv)"
 
+#. ~ Furnace cook completion percentage, shown when hovering furnace
+#. ~ Percentage showing remaining furnace fuel, shown when hovering furnace
+#: mods/rp_default/furnace.lua:367 mods/rp_default/furnace.lua:382
+#: mods/rp_default/furnace.lua:387
 msgid "@1%"
 msgstr "@1%"
 
+#: mods/rp_default/furnace.lua:370 mods/rp_default/furnace.lua:376
 msgid "Empty"
 msgstr "Leer"
 
+#: mods/rp_default/furnace.lua:372
 msgid "Not cookable"
 msgstr "Nicht kochbar"
 
+#. ~ Shown when hovering furnace. @1 = cooked item, @2 = fuel percentage
+#: mods/rp_default/furnace.lua:395
 msgid "Furnace active (Item: @1; Fuel: @2)"
 msgstr "Ofen aktiv (Gegenstand: @1; Brennstoff: @2)"
 
+#. ~ Shown when hovering furnace. @1 = cooked item, @2 = fuel percentage
+#: mods/rp_default/furnace.lua:398
 msgid "Furnace inactive (Item: @1; Fuel: @2)"
 msgstr "Ofen inaktiv (Gegenstand: @1; Brennstoff: @2)"
 
+#: mods/rp_default/ingot.lua:50
 msgid "Steel Ingot"
 msgstr "Stahlbarren"
 
+#: mods/rp_default/ingot.lua:51
 msgid "Carbon Steel Ingot"
 msgstr "Karbonstahlbarren"
 
+#: mods/rp_default/ingot.lua:52
 msgid "Copper Ingot"
 msgstr "Kupferbarren"
 
+#: mods/rp_default/ingot.lua:53
 msgid "Tin Ingot"
 msgstr "Zinnbarren"
 
+#: mods/rp_default/ingot.lua:54
 msgid "Bronze Ingot"
 msgstr "Bronzebarren"
 
+#: mods/rp_default/ingot.lua:55
 msgid "Wrought Iron Ingot"
 msgstr "Schmiedeeisenbarren"
 
+#: mods/rp_default/ladder.lua:8
 msgid "Ladder"
 msgstr "Leiter"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:51
 msgid "Marsh"
 msgstr "Moor"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:68
 msgid "Marsh Underwater"
 msgstr "Moor im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:68
 msgid "Marsh Beach"
 msgstr "Moorstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:75
 msgid "Dense Grassland"
 msgstr "Dichtes Grasland"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:100
 msgid "Giga Birch Forest"
 msgstr "Riesenbirkenwald"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:121
 msgid "Mixed Forest"
 msgstr "Mischwald"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:137
 msgid "Mixed Forest Underwater"
 msgstr "Mischwald im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:137
 msgid "Mixed Forest Beach"
 msgstr "Mischwaldstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:143
 msgid "Grove"
 msgstr "Hain"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:159
 msgid "Grove Underwater"
 msgstr "Hain im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:159
 msgid "Grove Beach"
 msgstr "Hainstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:165
 msgid "Wilderness"
 msgstr "Wildnis"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:181
 msgid "Wilderness Underwater"
 msgstr "Wildnis im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:181
 msgid "Wilderness Beach"
 msgstr "Wildnisstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:188
 msgid "Grassland"
 msgstr "Grasland"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:204
 msgid "Grassland Underwater"
 msgstr "Grasland im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:204
 msgid "Grassland Beach"
 msgstr "Graslandstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:211
 msgid "Orchard"
 msgstr "Obstgarten"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:233
 msgid "Shrubbery"
 msgstr "Buschland"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:249
 msgid "Shrubbery Underwater"
 msgstr "Buschland im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:249
 msgid "Shrubbery Beach"
 msgstr "Buschlandstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:256
 msgid "Chaparral"
 msgstr "Unterholz"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:277
 msgid "Savanna"
 msgstr "Savanne"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:293
 msgid "Savanna Underwater"
 msgstr "Savanne im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:293
 msgid "Savanna Beach"
 msgstr "Savannenstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:299
 msgid "Wasteland"
 msgstr "Ödnis"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:315
 msgid "Wasteland Underwater"
 msgstr "Ödnis im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:315
 msgid "Wasteland Beach"
 msgstr "Ödnisstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:321
 msgid "Rocky Dryland"
 msgstr "Steinige Ödnis"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:337
 msgid "Rocky Dryland Underwater"
 msgstr "Steinige Ödnis im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:337
 msgid "Rocky Dryland Beach"
 msgstr "Steiniger Ödnisstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:343
 msgid "Wooded Dryland"
 msgstr "Bewaldete Ödnis"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:359
 msgid "Wooded Dryland Underwater"
 msgstr "Bewaldete Ödnis im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:359
 msgid "Wooded Dryland Beach"
 msgstr "Strand der bewaldeten Ödnis"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:365
 msgid "Savannic Wasteland"
 msgstr "Savannenödnis"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:381
 msgid "Savannic Wasteland Underwater"
 msgstr "Savannenödnis im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:381
 msgid "Savannic Wasteland Beach"
 msgstr "Savannenödnisstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:387
 msgid "Thorny Shrubs"
 msgstr "Dornige Büsche"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:403
 msgid "Thorny Shrubs Underwater"
 msgstr "Dornige Büsche im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:403
 msgid "Thorny Shrubs Beach"
 msgstr "Dornige-Büsche-Strand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:409
 msgid "Mystery Forest"
 msgstr "Wunderwald"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:425
 msgid "Mystery Forest Underwater"
 msgstr "Wunderwald im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:425
 msgid "Mystery Forest Beach"
 msgstr "Wunderwaldstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:431
 msgid "Poplar Plains"
 msgstr "Pappelprärie"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:447
 msgid "Poplar Plains Underwater"
 msgstr "Pappelprärie im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:447
 msgid "Poplar Plains Beach"
 msgstr "Pappelpräriestrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:453
 msgid "Baby Poplar Plains"
 msgstr "Jungpappelprärie"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:469
 msgid "Baby Poplar Plains Underwater"
 msgstr "Jungpappelprärie im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:469
 msgid "Baby Poplar Plains Beach"
 msgstr "Jungpappelpräriestrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:475
 msgid "Tall Birch Forest"
 msgstr "Großbirkenwald"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:491
 msgid "Tall Birch Forest Underwater"
 msgstr "Großbirkenwald im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:491
 msgid "Tall Birch Forest Beach"
 msgstr "Großbirkenwaldstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:497
 msgid "Birch Forest"
 msgstr "Birkenwald"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:513
 msgid "Birch Forest Underwater"
 msgstr "Birkenwald im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:513
 msgid "Birch Forest Beach"
 msgstr "Birkenwaldstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:519
 msgid "Oak Shrubbery"
 msgstr "Eichenbuschland"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:535
 msgid "Oak Shrubbery Underwater"
 msgstr "Eichenbuschland im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:535
 msgid "Oak Shrubbery Beach"
 msgstr "Eichenbuschlandstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:541
 msgid "Oak Forest"
 msgstr "Eichenwald"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:557
 msgid "Oak Forest Underwater"
 msgstr "Eichenwald im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:557
 msgid "Oak Forest Beach"
 msgstr "Eichenwaldstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:563
 msgid "Tall Oak Forest"
 msgstr "Großeichenwald"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:579
 msgid "Tall Oak Forest Underwater"
 msgstr "Großeichenwald im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:579
 msgid "Tall Oak Forest Beach"
 msgstr "Großeichenwaldstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:585
 msgid "Dense Oak Forest"
 msgstr "Dichter Eichenwald"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:607
 msgid "Swamp Meadow"
 msgstr "Sumpfwiese"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:624
 msgid "Swamp Meadow Underwater"
 msgstr "Sumpfwiese im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:624
 msgid "Swamp Meadow Beach"
 msgstr "Sumpfwiesenstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:630
 msgid "Swamp Meadow Highland"
 msgstr "Sumpfwiesenhochland"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:652
 msgid "Mixed Swamp"
 msgstr "Mischsumpf"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:669
 msgid "Mixed Swamp Underwater"
 msgstr "Mischsumpf im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:669
 msgid "Mixed Swamp Beach"
 msgstr "Mischsumpfstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:675
 msgid "Mixed Swamp Highland"
 msgstr "Mischsumpfhochland"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:697
 msgid "Swamp Forest"
 msgstr "Sumpfwald"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:714
 msgid "Swamp Forest Underwater"
 msgstr "Sumpwald im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:714
 msgid "Swamp Forest Beach"
 msgstr "Sumpfwaldstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:720
 msgid "Swamp Forest Highland"
 msgstr "Sumpfwaldhochland"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:743
 msgid "Dry Swamp"
 msgstr "Trockensumpf"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:759
 msgid "Dry Swamp Underwater"
 msgstr "Trockensumpf im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:759
 msgid "Dry Swamp Beach"
 msgstr "Trockensumpfstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:765
 msgid "Dry Swamp Highland"
 msgstr "Trockensumpfhochland"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:786
 msgid "Papyrus Swamp"
 msgstr "Papyrussumpf"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:803
 msgid "Papyrus Swamp Underwater"
 msgstr "Papyrussumpf im Wasser"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:803
 msgid "Papyrus Swamp Beach"
 msgstr "Papyrussumpfstrand"
 
+#: mods/rp_default/mapgen_biomes_v2.lua:810
 msgid "Underground"
 msgstr "Untergrund"
 
+#: mods/rp_default/nodes_base.lua:13
 msgid "Stone with Sulfur"
 msgstr "Stein mit Schwefel"
 
+#: mods/rp_default/nodes_base.lua:24
 msgid "Stone with Graphite"
 msgstr "Stein mit Graphit"
 
+#: mods/rp_default/nodes_base.lua:35
 msgid "Stone with Coal"
 msgstr "Stein mit Kohle"
 
+#: mods/rp_default/nodes_base.lua:46
 msgid "Stone with Iron"
 msgstr "Stein mit Eisen"
 
+#: mods/rp_default/nodes_base.lua:57
 msgid "Stone with Tin"
 msgstr "Stein mit Zinn"
 
+#: mods/rp_default/nodes_base.lua:68
 msgid "Stone with Copper"
 msgstr "Stein mit Kupfer"
 
+#: mods/rp_default/nodes_base.lua:81
 msgid "Stone"
 msgstr "Stein"
 
+#: mods/rp_default/nodes_base.lua:92
 msgid "Cobble"
 msgstr "Pflasterstein"
 
+#: mods/rp_default/nodes_base.lua:104
 msgid "Reinforced Cobble"
 msgstr "Verstärkter Pflasterstein"
 
+#: mods/rp_default/nodes_base.lua:115
 msgid "Gravel"
 msgstr "Kies"
 
+#: mods/rp_default/nodes_base.lua:126
 msgid "Coal Block"
 msgstr "Kohleblock"
 
+#: mods/rp_default/nodes_base.lua:153
 msgid "Wrought Iron Block"
 msgstr "Schmiedeeisenblock"
 
+#: mods/rp_default/nodes_base.lua:164
 msgid "Steel Block"
 msgstr "Stahlblock"
 
+#: mods/rp_default/nodes_base.lua:175
 msgid "Carbon Steel Block"
 msgstr "Karbonstahlblock"
 
+#: mods/rp_default/nodes_base.lua:186
 msgid "Bronze Block"
 msgstr "Bronzeblock"
 
+#: mods/rp_default/nodes_base.lua:197
 msgid "Copper Block"
 msgstr "Kupferblock"
 
+#: mods/rp_default/nodes_base.lua:208
 msgid "Tin Block"
 msgstr "Zinnblock"
 
+#: mods/rp_default/nodes_base.lua:221
 msgid "Dirt"
 msgstr "Erde"
 
+#: mods/rp_default/nodes_base.lua:252
 msgid "Dry Dirt"
 msgstr "Trockene Erde"
 
+#: mods/rp_default/nodes_base.lua:263
 msgid "Swamp Dirt"
 msgstr "Sumpferde"
 
+#: mods/rp_default/nodes_base.lua:295
 msgid "Dirt with Dry Grass"
 msgstr "Erde mit trockenem Gras"
 
+#: mods/rp_default/nodes_base.lua:325
 msgid "Swamp Dirt with Swamp Grass"
 msgstr "Sumpferde mit Sumpfgras"
 
+#: mods/rp_default/nodes_base.lua:355
 msgid "Dirt with Grass"
 msgstr "Erde mit Gras"
 
+#: mods/rp_default/nodes_base.lua:388
 msgid "Dirt Path"
 msgstr "Erdpfad"
 
+#: mods/rp_default/nodes_base.lua:404
 msgid "Dirt Path Slab"
 msgstr "Erdpfadplatte"
 
+#: mods/rp_default/nodes_base.lua:445
 msgid "Glowing Dirt Path"
 msgstr "Leuchtender Erdpfad"
 
+#: mods/rp_default/nodes_base.lua:464
 msgid "Brick Block"
 msgstr "Ziegelblock"
 
+#: mods/rp_default/nodes_base.lua:474
 msgid "Painted Brick Block"
 msgstr "Gefärbter Ziegelblock"
 
+#: mods/rp_default/nodes_base.lua:492
 msgid "Sand"
 msgstr "Sand"
 
+#: mods/rp_default/nodes_base.lua:502
 msgid "Sandstone"
 msgstr "Sandstein"
 
+#: mods/rp_default/nodes_base.lua:516
 msgid "Compressed Sandstone"
 msgstr "Kompaktsandstein"
 
+#: mods/rp_default/nodes_base.lua:530
 msgid "Reinforced Compressed Sandstone"
 msgstr "Verstärkter Kompaktsandstein"
 
+#: mods/rp_default/nodes_base.lua:546
 msgid "Glass"
 msgstr "Glas"
 
+#: mods/rp_default/nodes_base.lua:561
 msgid "Painted Glass"
 msgstr "Gefärbtes Glas"
 
+#: mods/rp_default/nodes_base.lua:583
 msgid "Wooden Planks"
 msgstr "Holzplanken"
 
+#: mods/rp_default/nodes_base.lua:583
 msgid "Painted Wooden Planks"
 msgstr "Gefärbte Holzplanken"
 
+#: mods/rp_default/nodes_base.lua:584
 msgid "Oak Planks"
 msgstr "Eichenplanken"
 
+#: mods/rp_default/nodes_base.lua:584
 msgid "Painted Oak Planks"
 msgstr "Gefärbte Eichenplanken"
 
+#: mods/rp_default/nodes_base.lua:585
 msgid "Birch Planks"
 msgstr "Birkenplanken"
 
+#: mods/rp_default/nodes_base.lua:585
 msgid "Painted Birch Planks"
 msgstr "Gefärbte Birkenplanken"
 
+#: mods/rp_default/nodes_base.lua:586
 msgid "Fir Planks"
 msgstr "Tannenplanken"
 
+#: mods/rp_default/nodes_base.lua:586
 msgid "Painted Fir Planks"
 msgstr "Gefärbte Tannenplanken"
 
+#: mods/rp_default/nodes_base.lua:629
 msgid "Frame"
 msgstr "Rahmen"
 
+#: mods/rp_default/nodes_base.lua:639
 msgid "Painted Frame"
 msgstr "Gefärbter Rahmen"
 
+#: mods/rp_default/nodes_base.lua:655
 msgid "Reinforced Frame"
 msgstr "Verstärkter Rahmen"
 
+#: mods/rp_default/nodes_base.lua:665
 msgid "Painted Reinforced Frame"
 msgstr "Gefärbter verstärkter Rahmen"
 
+#: mods/rp_default/nodes_base.lua:682
 msgid "Reed Block"
 msgstr "Reetblock"
 
+#: mods/rp_default/nodes_base.lua:696
 msgid "Dried Reed Block"
 msgstr "Trockenreetblock"
 
+#: mods/rp_default/nodes_base.lua:712
 msgid "Hay"
 msgstr "Heu"
 
+#: mods/rp_default/nodes_base.lua:731
 msgid "Rope"
 msgstr "Seil"
 
+#: mods/rp_default/nodes_liquids.lua:9
 msgid "Flowing Water"
 msgstr "Fließendes Wasser"
 
+#: mods/rp_default/nodes_liquids.lua:47
 msgid "Water Source"
 msgstr "Wasserquelle"
 
+#: mods/rp_default/nodes_liquids.lua:84
 msgid "Flowing River Water"
 msgstr "Fließendes Flusswasser"
 
+#: mods/rp_default/nodes_liquids.lua:123
 msgid "River Water Source"
 msgstr "Flusswasserquelle"
 
+#: mods/rp_default/nodes_liquids.lua:162
 msgid "Flowing Swamp Water"
 msgstr "Fließendes Sumpfwasser"
 
+#: mods/rp_default/nodes_liquids.lua:201
 msgid "Swamp Water Source"
 msgstr "Sumpfwasserquelle"
 
+#: mods/rp_default/nodes_plants.lua:45
 msgid "Cactus"
 msgstr "Kaktus"
 
+#: mods/rp_default/nodes_plants.lua:46
 msgid "Grows on sand and dry dirt"
 msgstr "Wächst auf Sand und trockener Erde"
 
+#: mods/rp_default/nodes_plants.lua:96
 msgid "Papyrus"
 msgstr "Papyrus"
 
+#: mods/rp_default/nodes_plants.lua:97
 msgid "Grows on sand or dirt near water"
 msgstr "Wächst auf Sand oder Erde in der Nähe von Wasser"
 
+#: mods/rp_default/nodes_plants.lua:157
 msgid "Vine"
 msgstr "Liane"
 
+#: mods/rp_default/nodes_plants.lua:158
 msgid "Hangs from stone or dirt"
 msgstr "Hängt von Stein oder Erde"
 
+#: mods/rp_default/nodes_plants.lua:307
 msgid "Fern"
 msgstr "Farn"
 
+#: mods/rp_default/nodes_plants.lua:332
 msgid "Flower"
 msgstr "Blume"
 
+#: mods/rp_default/nodes_plants.lua:371
 msgid "Swamp Grass Clump"
 msgstr "Sumpfgrasbüschel"
 
+#: mods/rp_default/nodes_plants.lua:396
 msgid "Dry Grass Clump"
 msgstr "Trockenes Grasbüschel"
 
+#: mods/rp_default/nodes_plants.lua:419
 msgid "Grass Clump"
 msgstr "Grasbüschel"
 
+#: mods/rp_default/nodes_plants.lua:445
 msgid "Tall Grass Clump"
 msgstr "Hohes Grasbüschel"
 
+#: mods/rp_default/nodes_plants.lua:487
 msgid "Sand Grass Clump"
 msgstr "Sandgrasbüschel"
 
+#: mods/rp_default/nodes_plants.lua:514
 msgid "Thistle"
 msgstr "Distel"
 
+#: mods/rp_default/nodes_plants.lua:515
 msgid "Careful, it stings!"
 msgstr "Vorsicht, es sticht!"
 
+#: mods/rp_default/nodes_plants.lua:539
 msgid "You were prickled to death by a thistle."
 msgstr "Sie wurden von einer Distel zu Tode gepiekst."
 
+#: mods/rp_default/nodes_trees.lua:10
 msgid "Sapling"
 msgstr "Setzling"
 
+#: mods/rp_default/nodes_trees.lua:11
 msgid "Grows into an apple tree"
 msgstr "Wächst zu einem Apfelbaum"
 
+#: mods/rp_default/nodes_trees.lua:47
 msgid "Oak Sapling"
 msgstr "Eichensetzling"
 
+#: mods/rp_default/nodes_trees.lua:48
 msgid "Grows into an oak tree"
 msgstr "Wächst zu einer Eiche"
 
+#: mods/rp_default/nodes_trees.lua:83
 msgid "Birch Sapling"
 msgstr "Birkensetzling"
 
+#: mods/rp_default/nodes_trees.lua:84
 msgid "Grows into a birch tree"
 msgstr "Wächst zu einer Birke"
 
+#: mods/rp_default/nodes_trees.lua:120
 msgid "Fir Sapling"
 msgstr "Tannensetzling"
 
+#: mods/rp_default/nodes_trees.lua:121
 msgid "Grows into a fir tree"
 msgstr "Wächst zu einer Tanne"
 
+#: mods/rp_default/nodes_trees.lua:157
 msgid "Dry Bush Sapling"
 msgstr "Trockenbuschsetzling"
 
+#: mods/rp_default/nodes_trees.lua:158
 msgid "Grows into a dry bush"
 msgstr "Wächst zu einem Trockenbusch"
 
+#: mods/rp_default/nodes_trees.lua:199
 msgid "Tree"
 msgstr "Baum"
 
+#: mods/rp_default/nodes_trees.lua:209
 msgid "Oak Tree"
 msgstr "Eichenbaum"
 
+#: mods/rp_default/nodes_trees.lua:219
 msgid "Birch Tree"
 msgstr "Birkenbaum"
 
+#: mods/rp_default/nodes_trees.lua:229
 msgid "Fir Tree"
 msgstr "Tannenbaum"
 
+#: mods/rp_default/nodes_trees.lua:241
 msgid "Leaves"
 msgstr "Blätter"
 
+#: mods/rp_default/nodes_trees.lua:242 mods/rp_default/nodes_trees.lua:267
+#: mods/rp_default/nodes_trees.lua:292 mods/rp_default/nodes_trees.lua:317
+#: mods/rp_default/nodes_trees.lua:342
 msgid "Decays when not near a tree block"
 msgstr "Stirbt ab, wenn nicht in der Nähe eines Baumblocks"
 
+#: mods/rp_default/nodes_trees.lua:266
 msgid "Oak Leaves"
 msgstr "Eichenblätter"
 
+#: mods/rp_default/nodes_trees.lua:291
 msgid "Birch Leaves"
 msgstr "Birkenblätter"
 
+#: mods/rp_default/nodes_trees.lua:316
 msgid "Fir Needles"
 msgstr "Tannennadeln"
 
+#: mods/rp_default/nodes_trees.lua:341
 msgid "Dry Leaves"
 msgstr "Trockene Blätter"
 
+#: mods/rp_default/nodes_trees.lua:408
 msgid "Apple"
 msgstr "Apfel"
 
+#: mods/rp_default/nodes_trees.lua:474
 msgid "Acorn"
 msgstr "Eichel"
 
+#: mods/rp_default/nodes_waterlife.lua:268
 msgid "Tall Seagrass Clump"
 msgstr "Hohes Seegrasbüschel"
 
+#: mods/rp_default/nodes_waterlife.lua:269
+#: mods/rp_default/nodes_waterlife.lua:277
 msgid "Grows underwater on dirt, swamp dirt or sand"
 msgstr "Wächst im Wasser auf Erde, Sumpferde oder Sand"
 
+#: mods/rp_default/nodes_waterlife.lua:276
 msgid "Seagrass Clump"
 msgstr "Seegrasbüschel"
 
+#: mods/rp_default/nodes_waterlife.lua:488
 msgid "Airweed"
 msgstr "Luftkraut"
 
+#: mods/rp_default/nodes_waterlife.lua:489
+#: mods/rp_default/nodes_waterlife.lua:499
 msgid "Gives back breath"
 msgstr "Gibt Atem zurück"
 
+#: mods/rp_default/nodes_waterlife.lua:490
+#: mods/rp_default/nodes_waterlife.lua:500
 msgid "Grows underwater on any dirt, sand or gravel"
 msgstr "Wächst im Wasser auf jeder Erde, Sand oder Kies"
 
+#: mods/rp_default/nodes_waterlife.lua:498
 msgid "Airweed (full)"
 msgstr "Luftkraut (voll)"
 
+#: mods/rp_default/nodes_waterlife.lua:665
 msgid "Alga Block"
 msgstr "Algenblock"
 
+#: mods/rp_default/nodes_waterlife.lua:682
 msgid "Alga"
 msgstr "Alge"
 
+#: mods/rp_default/nodes_waterlife.lua:683
 msgid "Grows underwater on dirt, swamp dirt, sand or alga block"
 msgstr "Wächst im Wasser auf Erde, Sumpferde, Sand oder Algenblock"
 
+#: mods/rp_default/nodes_waterlife.lua:717
 msgid "Clam"
 msgstr "Muschel"
 
+#: mods/rp_default/tools.lua:245
 msgid "Creative Tool"
 msgstr "Kreativwerkzeug"
 
+#: mods/rp_default/tools.lua:246
 msgid "Can dig (nearly) every block"
 msgstr "Kann (fast) jeden Block graben"
 
+#: mods/rp_default/tools.lua:268
 msgid "Digs hard, cracky blocks"
 msgstr "Gräbt harte, brüchige Blöcke"
 
+#: mods/rp_default/tools.lua:269
 msgid "Digs soft, crumbly blocks"
 msgstr "Gräbt weiche, bröckelige Blöcke"
 
+#: mods/rp_default/tools.lua:270
 msgid "Chops wood"
 msgstr "Fällt Holz"
 
+#: mods/rp_default/tools.lua:271
 msgid "Melee weapon"
 msgstr "Nahkampfwaffe"
 
+#: mods/rp_default/tools.lua:272
 msgid "Cuts leaves and plants and shears sheep"
 msgstr "Schneidet Blätter und Pflanzen ab und schert Schafe"
 
+#: mods/rp_default/tools.lua:272
 msgid "“Place” key: Precise cut"
 msgstr "„Platzieren“-Taste: Präzisionsschnitt"
 
+#: mods/rp_default/tools.lua:279
 msgid "Wooden Pickaxe"
 msgstr "Holzspitzhacke"
 
+#: mods/rp_default/tools.lua:296
 msgid "Stone Pickaxe"
 msgstr "Steinspitzhacke"
 
+#: mods/rp_default/tools.lua:313
 msgid "Wrought Iron Pickaxe"
 msgstr "Schmiedeeisenspitzhacke"
 
+#: mods/rp_default/tools.lua:330
 msgid "Steel Pickaxe"
 msgstr "Stahlspitzhacke"
 
+#: mods/rp_default/tools.lua:347
 msgid "Carbon Steel Pickaxe"
 msgstr "Karbonstahlspitzhacke"
 
+#: mods/rp_default/tools.lua:364
 msgid "Bronze Pickaxe"
 msgstr "Bronzespitzhacke"
 
+#: mods/rp_default/tools.lua:383
 msgid "Wooden Shovel"
 msgstr "Holzschaufel"
 
+#: mods/rp_default/tools.lua:400
 msgid "Stone Shovel"
 msgstr "Steinschaufel"
 
+#: mods/rp_default/tools.lua:417
 msgid "Wrought Iron Shovel"
 msgstr "Schmiedeeisenschaufel"
 
+#: mods/rp_default/tools.lua:434
 msgid "Steel Shovel"
 msgstr "Stahlschaufel"
 
+#: mods/rp_default/tools.lua:451
 msgid "Carbon Steel Shovel"
 msgstr "Karbonstahlschaufel"
 
+#: mods/rp_default/tools.lua:468
 msgid "Bronze Shovel"
 msgstr "Bronzeschaufel"
 
+#: mods/rp_default/tools.lua:511
 msgid "Wooden Axe"
 msgstr "Holzaxt"
 
+#: mods/rp_default/tools.lua:530
 msgid "Stone Axe"
 msgstr "Steinaxt"
 
+#: mods/rp_default/tools.lua:549
 msgid "Wrought Iron Axe"
 msgstr "Schmiedeeisenaxt"
 
+#: mods/rp_default/tools.lua:568
 msgid "Steel Axe"
 msgstr "Stahlaxt"
 
+#: mods/rp_default/tools.lua:587
 msgid "Carbon Steel Axe"
 msgstr "Karbonstahlaxt"
 
+#: mods/rp_default/tools.lua:606
 msgid "Bronze Axe"
 msgstr "Bronzeaxt"
 
+#: mods/rp_default/tools.lua:629
 msgid "Wooden Spear"
 msgstr "Holzspeer"
 
+#: mods/rp_default/tools.lua:649
 msgid "Stone Spear"
 msgstr "Steinspeer"
 
+#: mods/rp_default/tools.lua:669
 msgid "Wrought Iron Spear"
 msgstr "Schmiedeeisenspeer"
 
+#: mods/rp_default/tools.lua:689
 msgid "Steel Spear"
 msgstr "Stahlspeer"
 
+#: mods/rp_default/tools.lua:709
 msgid "Carbon Steel Spear"
 msgstr "Karbonstahlspeer"
 
+#: mods/rp_default/tools.lua:729
 msgid "Bronze Spear"
 msgstr "Bronzespeer"
 
+#: mods/rp_default/tools.lua:751
 msgid "Broadsword"
 msgstr "Breitschwert"
 
+#: mods/rp_default/tools.lua:752
 msgid "A mighty melee weapon"
 msgstr "Eine mächtige Nahkampfwaffe"
 
+#: mods/rp_default/tools.lua:793
 msgid "Wrought Iron Shears"
 msgstr "Schmiedeeisenschere"
 
+#: mods/rp_default/tools.lua:812
 msgid "Steel Shears"
 msgstr "Stahlschere"
 
+#: mods/rp_default/tools.lua:831
 msgid "Carbon Steel Shears"
 msgstr "Karbonstahlschere"
 
+#: mods/rp_default/tools.lua:850
 msgid "Bronze Shears"
 msgstr "Bronzeschere"
 
+#: mods/rp_default/tools.lua:870
 msgid "Flint and Steel"
 msgstr "Feuerstein und Stahl"
 
+#: mods/rp_default/tools.lua:871
 msgid "Ignites ignitable blocks"
 msgstr "Zündet anzündbare Blöcke an"
 
+#: mods/rp_default/torch.lua:309
 msgid "Dead Torch"
 msgstr "Ausgebrannte Fackel"
 
+#: mods/rp_default/torch.lua:309
 msgid "Doesn't provide any light"
 msgstr "Leuchtet nicht"
 
+#: mods/rp_default/torch.lua:310
 msgid "Weak Torch"
 msgstr "Schwache Fackel"
 
+#: mods/rp_default/torch.lua:310
 msgid "Provides a bit of light but it will eventually burn out"
 msgstr "Leuchtet ein bisschen, aber sie wird bald ausbrennen"
 
+#: mods/rp_default/torch.lua:311
 msgid "Torch"
 msgstr "Fackel"
 
+#: mods/rp_default/torch.lua:311
 msgid "It's bright and burns forever"
 msgstr "Sie ist hell und brennt für immer"

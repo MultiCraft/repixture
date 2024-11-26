@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_mobs x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,57 +13,75 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
-msgid "Hunter"
-msgstr ""
-
-msgid "Kill an animal for food."
-msgstr ""
-
-msgid "Gotcha!"
-msgstr ""
-
-msgid "Capture a tame animal."
-msgstr ""
-
-msgid "Best Friends Forever"
-msgstr ""
-
-msgid "Tame an animal."
-msgstr ""
-
-msgid "Wonder of Life"
-msgstr ""
-
-msgid "Get two animals to breed."
-msgstr ""
-
+#: mods/rp_mobs/achievements_feed.lua:21
 msgid "Gonna Feed ’em All"
 msgstr ""
 
+#: mods/rp_mobs/achievements_feed.lua:22
 msgid "Feed an animal of each species once."
 msgstr ""
 
+#: mods/rp_mobs/achievements.lua:14
+msgid "Hunter"
+msgstr ""
+
+#: mods/rp_mobs/achievements.lua:15
+msgid "Kill an animal for food."
+msgstr ""
+
+#: mods/rp_mobs/achievements.lua:24
+msgid "Gotcha!"
+msgstr ""
+
+#: mods/rp_mobs/achievements.lua:25
+msgid "Capture a tame animal."
+msgstr ""
+
+#: mods/rp_mobs/achievements.lua:34
+msgid "Best Friends Forever"
+msgstr ""
+
+#: mods/rp_mobs/achievements.lua:35
+msgid "Tame an animal."
+msgstr ""
+
+#: mods/rp_mobs/achievements.lua:44
+msgid "Wonder of Life"
+msgstr ""
+
+#: mods/rp_mobs/achievements.lua:45
+msgid "Get two animals to breed."
+msgstr ""
+
+#: mods/rp_mobs/api.lua:736 mods/rp_mobs/api.lua:874
 msgid "Hostile mobs are disabled!"
 msgstr ""
 
+#: mods/rp_mobs/capture.lua:42
 msgid "Not tamed!"
 msgstr ""
 
+#: mods/rp_mobs/capture.lua:66 mods/rp_mobs/capture.lua:117
 msgid "Missed!"
 msgstr ""
 
+#. ~ Tooltip of mob in item form. @1 = mob description, @2 = mob name (label)
+#: mods/rp_mobs/capture.lua:84
 msgid "@1: “@2”"
 msgstr ""
 
+#: mods/rp_mobs/crafts.lua:48
 msgid "Net"
 msgstr ""
 
+#: mods/rp_mobs/crafts.lua:49
 msgid "Good for capturing small animals"
 msgstr ""
 
+#: mods/rp_mobs/crafts.lua:74
 msgid "Lasso"
 msgstr ""
 
+#: mods/rp_mobs/crafts.lua:75
 msgid "Good for capturing large animals"
 msgstr ""
-

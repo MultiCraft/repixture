@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_parachute x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,27 +13,34 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_parachute/init.lua:223
 msgid "Parachute"
 msgstr "Парашют"
 
+#: mods/rp_parachute/init.lua:224
 msgid "Lets you glide safely to the ground when falling"
 msgstr "Позволяет тебе безопасно парить в воздухе во время падения"
 
+#: mods/rp_parachute/init.lua:241
 msgid "You can open the parachute only in air!"
 msgstr "Ты можешь раскрыть парашют только в воздухе!"
 
+#: mods/rp_parachute/init.lua:245
 msgid "Not enough space to open parachute!"
 msgstr "Недостаточно места чтобы раскрыть парашют!"
 
+#: mods/rp_parachute/init.lua:251
 msgid "The parachute fails to open for some reason."
 msgstr "Парашют не раскрывается по какой-то причине."
 
+#: mods/rp_parachute/init.lua:494
 msgid "Skydiver"
 msgstr "Парашютист"
 
+#: mods/rp_parachute/init.lua:495
 msgid "Descend over 100 blocks with a parachute."
 msgstr "Упади с высоты в более чем 100 блоков с парашютом."
 
+#: mods/rp_parachute/init.lua:522
 msgid "Entity name “@1” is outdated. Use “@2” instead."
 msgstr ""
-

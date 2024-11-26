@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain book x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,42 +13,58 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_book/book.lua:40
 msgid "Title:"
 msgstr "Titel:"
 
+#: mods/rp_book/book.lua:41
 msgid "Contents:"
 msgstr "Inhalt:"
 
+#: mods/rp_book/book.lua:43
 msgid "Write"
 msgstr "Schreiben"
 
+#: mods/rp_book/book.lua:101
 msgid "Book"
 msgstr "Buch"
 
+#: mods/rp_book/book.lua:102
 msgid "Write down some notes"
 msgstr "Zum Aufschreiben von Notizen"
 
+#. ~ @1 = book title
+#: mods/rp_book/book.lua:123 mods/rp_book/book.lua:152
 msgid "Book: “@1”"
 msgstr "Buch: „@1“"
 
+#: mods/rp_book/book.lua:133
 msgid "Unnamed Book"
 msgstr "Namenloses Buch"
 
+#. ~ Button tooltip in bookshelf to read a book
+#: mods/rp_book/bookshelf.lua:52
 msgid "Read book"
 msgstr "Buch lesen"
 
+#: mods/rp_book/bookshelf.lua:85 mods/rp_book/bookshelf.lua:94
+#: mods/rp_book/bookshelf.lua:117
 msgid "Bookshelf"
 msgstr "Bücherregal"
 
+#: mods/rp_book/bookshelf.lua:86
 msgid "Provides 8 inventory slots"
 msgstr "Bietet 8 Inventarplätze"
 
+#: mods/rp_book/bookshelf.lua:119
 msgid "“@1”"
 msgstr "„@1“"
 
+#: mods/rp_book/bookshelf.lua:128
 msgid "Painted Bookshelf"
 msgstr "Gefärbtes Bücherregal"
 
+#. ~ Button to return from book reading screen (bookshelf)
+#: mods/rp_book/bookshelf.lua:177
 msgid "Return"
 msgstr "Zurück"
-

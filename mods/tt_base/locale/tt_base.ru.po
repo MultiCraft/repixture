@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain tt_base x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,69 +13,90 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/tt_base/init.lua:48
 msgid "Damage: @1"
 msgstr "Урон: @1"
 
+#: mods/tt_base/init.lua:50
 msgid "Healing: @1"
 msgstr "Исцеление: @1"
 
+#: mods/tt_base/init.lua:54
 msgid "Damage (@1): @2"
 msgstr "Урон (@1): @2"
 
+#: mods/tt_base/init.lua:56
 msgid "Healing (@1): @2"
 msgstr "Исцеление (@1): @2"
 
+#: mods/tt_base/init.lua:67
 msgid "Full punch interval: @1s"
 msgstr "Полный интервал удара: @1сек"
 
+#: mods/tt_base/init.lua:81
 msgid "Food item"
 msgstr "Еда"
 
+#: mods/tt_base/init.lua:84
 msgid "+@1 food points"
 msgstr "+@1ед. сытости"
 
+#: mods/tt_base/init.lua:100
 msgid "Contact damage: @1 per second"
 msgstr "Урон при прикосновении: @1 в секунду"
 
+#: mods/tt_base/init.lua:103
 msgid "Contact healing: @1 per second"
 msgstr "Исцеление при прикосновении: @1 в секунду"
 
+#: mods/tt_base/init.lua:108
 msgid "Drowning damage: @1"
 msgstr "Урон от утопления: @1"
 
+#: mods/tt_base/init.lua:113
 msgid "Fall damage: +@1%"
 msgstr "Урон от падения: +@1%"
 
+#: mods/tt_base/init.lua:116
 msgid "No fall damage"
 msgstr "Нет урона от падения"
 
+#: mods/tt_base/init.lua:119
 msgid "Fall damage: @1%"
 msgstr "Урон от падения: @1%"
 
+#: mods/tt_base/init.lua:126
 msgid "No jumping"
 msgstr "Нельзя прыгать"
 
+#: mods/tt_base/init.lua:129
 msgid "No swimming upwards"
 msgstr "Нельзя всплывать"
 
+#: mods/tt_base/init.lua:132
 msgid "No rising"
 msgstr "Нельзя подниматься"
 
+#: mods/tt_base/init.lua:138
 msgid "Climbable (only downwards)"
 msgstr "Можно взобраться (только вниз)"
 
+#: mods/tt_base/init.lua:141
 msgid "Climbable"
 msgstr "Можно взобраться"
 
+#: mods/tt_base/init.lua:146
 msgid "Slippery"
 msgstr "Скользкость"
 
+#: mods/tt_base/init.lua:151
 msgid "Bouncy (@1%)"
 msgstr "Упругий (@1%)"
 
+#: mods/tt_base/init.lua:159
 msgid "Luminance: @1-@2"
 msgstr "Яркость: @1-@2"
 
+#: mods/tt_base/init.lua:162
 msgid "Luminance: @1"
 msgstr "Яркость: @1"
-

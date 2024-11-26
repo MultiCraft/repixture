@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_signs x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,60 +13,78 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_signs/init.lua:569
 msgid "Write"
 msgstr "Écrire"
 
+#: mods/rp_signs/init.lua:769
 msgid "Write a short message"
 msgstr "Écrire un court message"
 
+#: mods/rp_signs/init.lua:923
 msgid "Write short messages (two sides)"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1300
 msgid "Wooden Wall Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1301
 msgid "Painted Wooden Wall Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1302
 msgid "Wooden Pole Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1303
 msgid "Painted Pole Wooden Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1315
 msgid "Oak Wall Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1316
 msgid "Painted Oak Wall Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1317
 msgid "Oak Pole Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1318
 msgid "Painted Oak Pole Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1330
 msgid "Birch Wall Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1331
 msgid "Painted Birch Wall Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1332
 msgid "Birch Pole Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1333
 msgid "Painted Birch Pole Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1345
 msgid "Fir Wall Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1346
 msgid "Painted Fir Wall Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1347
 msgid "Fir Pole Sign"
 msgstr ""
 
+#: mods/rp_signs/init.lua:1348
 msgid "Painted Fir Pole Sign"
 msgstr ""
-

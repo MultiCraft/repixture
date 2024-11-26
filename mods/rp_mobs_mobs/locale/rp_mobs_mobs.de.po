@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_mobs_mobs x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,498 +13,803 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_mobs_mobs/achievements.lua:9
 msgid "Bomb has Been Defused!"
 msgstr "Bombe entschärft!"
 
+#: mods/rp_mobs_mobs/achievements.lua:10
 msgid "Kill a mine turtle."
 msgstr "Töten Sie eine Minenschildkröte."
 
+#: mods/rp_mobs_mobs/achievements.lua:21
 msgid "Taking a Cut"
 msgstr "Gut abschneiden"
 
+#: mods/rp_mobs_mobs/achievements.lua:22
 msgid "Shear a sheep."
 msgstr "Scheren Sie ein Schaf."
 
+#: mods/rp_mobs_mobs/achievements.lua:31
 msgid "Smalltalk"
 msgstr "Gerede"
 
+#: mods/rp_mobs_mobs/achievements.lua:32
 msgid "Have a friendly chat with a villager."
 msgstr "Reden Sie nett mit einem Dorfbewohner."
 
+#: mods/rp_mobs_mobs/crafts.lua:13
 msgid "Wool Bundle"
 msgstr "Wollbündel"
 
+#: mods/rp_mobs_mobs/crafts.lua:31
 msgid "Raw Meat"
 msgstr "Rohes Fleisch"
 
+#: mods/rp_mobs_mobs/crafts.lua:44
 msgid "Cooked Meat"
 msgstr "Gekochtes Fleisch"
 
+#: mods/rp_mobs_mobs/crafts.lua:65
 msgid "Raw Porkchop"
 msgstr "Rohes Schweinekotelett"
 
+#: mods/rp_mobs_mobs/crafts.lua:79
 msgid "Cooked Porkchop"
 msgstr "Gekochtes Schweinekotelett"
 
+#: mods/rp_mobs_mobs/mobs/boar.lua:46
 msgid "Boar"
 msgstr "Wildschwein"
 
+#: mods/rp_mobs_mobs/mobs/mineturtle.lua:71
 msgid "You were exploded by @1, a mine turtle."
 msgstr "Sie wurden von @1, einer Minenschildkröte, in die Luft gejagt."
 
+#: mods/rp_mobs_mobs/mobs/mineturtle.lua:73
 msgid "You were exploded by a mine turtle."
 msgstr "Sie wurden von einer Minenschildkröte in die Luft gejagt."
 
+#: mods/rp_mobs_mobs/mobs/mineturtle.lua:165
 msgid "Mine Turtle"
 msgstr "Minenschildkröte"
 
+#: mods/rp_mobs_mobs/mobs/sheep.lua:154
 msgid "Sheep"
 msgstr "Schaf"
 
+#: mods/rp_mobs_mobs/mobs/skunk.lua:40
 msgid "Skunk"
 msgstr "Stinktier"
 
+#: mods/rp_mobs_mobs/mobs/villager.lua:235
 msgid "Farmer"
 msgstr "Bauer"
 
+#: mods/rp_mobs_mobs/mobs/villager.lua:236
 msgid "Tavern Keeper"
 msgstr "Wirt"
 
+#: mods/rp_mobs_mobs/mobs/villager.lua:237
 msgid "Blacksmith"
 msgstr "Schmied"
 
+#: mods/rp_mobs_mobs/mobs/villager.lua:238
 msgid "Butcher"
 msgstr "Fleischer"
 
+#: mods/rp_mobs_mobs/mobs/villager.lua:239
 msgid "Carpenter"
 msgstr "Schreiner"
 
+#: mods/rp_mobs_mobs/mobs/villager.lua:1533
 msgid "Villager"
 msgstr "Dorfbewohner"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:22
 msgid "Hi! I’m a farmer. I sell farming goods."
 msgstr "Hallo! Ich bin ein Bauer. Ich verkaufe Dinge, die ein Bauer so hat."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:23
 msgid "Hi! I’m a tavernkeeper. I trade with assorted goods."
 msgstr "Hallo! Ich bin ein Wirt. Ich handle mit verschiedenen Gütern."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:24
 msgid "Hi! I’m a blacksmith. I sell metal products."
 msgstr "Hallo! Ich bin ein Schmied. Ich verkaufe Metallwaren."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:25
 msgid "Hi! I’m a butcher. Want to buy something?"
 msgstr "Hallo! Ich bin ein Fleischer. Möchtest du etwas kaufen?"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:26
 msgid "Hi! I’m a carpenter. Making things out of wood is my job."
-msgstr "Hallo! Ich bin ein Schreiner. Mein Beruf ist es, Dinge aus Holz zu fertigen."
+msgstr ""
+"Hallo! Ich bin ein Schreiner. Mein Beruf ist es, Dinge aus Holz zu fertigen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:29
 msgid "If you want to trade, show me a trading book."
 msgstr "Wenn du mit mir handeln willst, zeig mir ein Handelsbuch."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:32
 msgid "I want to work on a field of crops."
 msgstr "Ich möchte auf einem Acker arbeiten."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:33
 msgid "Did you see a barrel nearby? I need one for work."
 msgstr "Hast du ein Fass in der Nähe gesehen? Ich brauche eins für die Arbeit."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:34
 msgid "I need a furnace to do my work, but I can’t find any."
-msgstr "Ich brauche einen Ofen, um meine Arbeit zu verrichten, aber ich kann keinen finden."
+msgstr ""
+"Ich brauche einen Ofen, um meine Arbeit zu verrichten, aber ich kann keinen "
+"finden."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:35
 msgid "I wanted to cook some meat, but I can’t find a furnace."
 msgstr "Ich wollte etwas Fleisch braten, aber ich kann keinen Ofen finden."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:36
 msgid "It would be nice if we had a library."
 msgstr "Es wäre nett, wenn wir eine Bibliothek hätten."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:39
 msgid "I’m grumpy because I can’t find my bed."
 msgstr "Ich bin schlecht drauf, weil ich mein Bett nicht finden kann."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:40
 msgid "Have you seen a free bed somewhere?"
 msgstr "Hast du irgendwo ein freies Bett gesehen?"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:41
 msgid "I need a place to sleep."
 msgstr "Ich brauche einen Schlafplatz."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:44
 msgid "Hello!"
 msgstr "Hallo!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:45
 msgid "Nice to see you."
 msgstr "Schön, dich zu sehen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:46
 msgid "Life is beautiful."
 msgstr "Das Leben ist schön."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:47
 msgid "I feel good."
 msgstr "Mir geht’s gut."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:48
 msgid "Have a nice day!"
 msgstr "Guten Tag!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:51
 msgid "I’m not in a good mood."
 msgstr "Ich bin nicht so gut drauf."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:52
 msgid "I’m tired."
 msgstr "Ich bin müde."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:53
 msgid "I need to rest."
 msgstr "Ich muss mich ausruhen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:54
 msgid "Life could be better."
 msgstr "Das Leben könnte besser sein."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:57
 msgid "I don’t feel so good."
 msgstr "Mir geht es nicht so gut."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:58
 msgid "I ... I am hurt."
 msgstr "Ich ... ich bin verletzt."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:59
 msgid "I feel weak."
 msgstr "Ich fühle mich schwach."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:60
 msgid "My head hurts."
 msgstr "Mein Kopf tut weh."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:61
 msgid "I have a bad day today."
 msgstr "Ich hab heute einen schlechten Tag."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:64
 msgid "Screw you!"
 msgstr "Verdammt seist du!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:67
 msgid "Get this thing out of my face!"
 msgstr "Nimm dieses Ding aus meinem Gesicht!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:73
 msgid "@1 says: “@2”"
 msgstr "@1 sagt: „@2“"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:75
 msgid "Villager says: “@1”"
 msgstr "Dorfbewohner sagt: „@1“"
 
-msgid "I need this bed. Please place it somewhere. I promise I won’t abuse it as furnace fuel!"
-msgstr "Ich brauche dieses Bett. Bitte platziere es irgendwo. Ich verspreche, dass ich es nicht als Ofenbrennstoff missbrauchen werde!"
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:137
+msgid ""
+"I need this bed. Please place it somewhere. I promise I won’t abuse it as "
+"furnace fuel!"
+msgstr ""
+"Ich brauche dieses Bett. Bitte platziere es irgendwo. Ich verspreche, dass "
+"ich es nicht als Ofenbrennstoff missbrauchen werde!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:139
 msgid "Can you please put this bed down for me?"
 msgstr "Kannst du bitte dieses Bett für mich platzieren?"
 
-msgid "Beautiful bookshelf you have there! Can you please place it somewhere where I can reach it? It’s so fascinating …"
-msgstr "Was für ein schönes Bücherregal du hast! Kannst du es bitte platzieren, wo ich es erreichen kann? Es ist so faszinierend."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:150
+msgid ""
+"Beautiful bookshelf you have there! Can you please place it somewhere where "
+"I can reach it? It’s so fascinating …"
+msgstr ""
+"Was für ein schönes Bücherregal du hast! Kannst du es bitte platzieren, wo "
+"ich es erreichen kann? Es ist so faszinierend."
 
-msgid "I know this sounds strange but: Can you please plant some potatoes for me? I want to start a farm but I can’t decide where."
-msgstr "Ich weiß, das hört sich komisch an, aber: Kannst du bitte ein paar Kartoffeln für mich anpflanzen? Ich möchte einen Bauernhof aufbauen, aber ich kann mich nicht entscheiden, wo."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:152
+msgid ""
+"I know this sounds strange but: Can you please plant some potatoes for me? I "
+"want to start a farm but I can’t decide where."
+msgstr ""
+"Ich weiß, das hört sich komisch an, aber: Kannst du bitte ein paar "
+"Kartoffeln für mich anpflanzen? Ich möchte einen Bauernhof aufbauen, aber "
+"ich kann mich nicht entscheiden, wo."
 
-msgid "I know this is a weird request but: Can you please plant some carrots for me? I want to start a farm but I can’t decide where."
-msgstr "Ich weiß, das ist eine komische Bitte, aber: Kannst du bitte ein paar Karotten für mich anpflanzen? Ich möchte einen Bauernhof aufbauen, aber ich kann mich nicht entscheiden, wo."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:154
+msgid ""
+"I know this is a weird request but: Can you please plant some carrots for "
+"me? I want to start a farm but I can’t decide where."
+msgstr ""
+"Ich weiß, das ist eine komische Bitte, aber: Kannst du bitte ein paar "
+"Karotten für mich anpflanzen? Ich möchte einen Bauernhof aufbauen, aber ich "
+"kann mich nicht entscheiden, wo."
 
-msgid "I know this sounds awkward but: Can you please plant some crops for me? I want to start a farm but I can’t decide where."
-msgstr "Ich weiß, das klingt seltsam, aber: Kannst du bitte ein paar Nutzpflanzen für mich anpflanzen? Ich möchte einen Bauernhof aufbauen, aber ich kann mich nicht entscheiden, wo."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:156
+msgid ""
+"I know this sounds awkward but: Can you please plant some crops for me? I "
+"want to start a farm but I can’t decide where."
+msgstr ""
+"Ich weiß, das klingt seltsam, aber: Kannst du bitte ein paar Nutzpflanzen "
+"für mich anpflanzen? Ich möchte einen Bauernhof aufbauen, aber ich kann mich "
+"nicht entscheiden, wo."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:158
 msgid "You got a furnace! Please place it somewhere so I can do my work."
-msgstr "Du hast einen Ofen! Bitte platziere ihn irgendwo, damit ich meine Arbeit tun kann."
+msgstr ""
+"Du hast einen Ofen! Bitte platziere ihn irgendwo, damit ich meine Arbeit tun "
+"kann."
 
-msgid "This is exactly what I need! Can you please put the barrel on the floor for me?"
-msgstr "Das ist genau das, was ich brauche! Kannst du bitte dieses Fass für mich auf den Boden platzieren?"
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:160
+msgid ""
+"This is exactly what I need! Can you please put the barrel on the floor for "
+"me?"
+msgstr ""
+"Das ist genau das, was ich brauche! Kannst du bitte dieses Fass für mich auf "
+"den Boden platzieren?"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:172
 msgid "Ah, a cactus. You’d be surprised how well they burn in a furnace."
 msgstr "Ah, ein Kaktus. Du wirst staunen, wie gut sie im Ofen brennen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:175
 msgid "You can quickly kindle it in the furnace."
 msgstr "Du kannst sie rasch in einem Ofen anzünden."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:178
 msgid "A truly amazing block!"
 msgstr "Ein wirklich großartiger Block!"
 
-msgid "Trees are a classic furnace fuel, but you can also cook them to get coal lumps."
-msgstr "Bäume sind ein klassischer Ofenbrennstoff, aber man kann sie auch kochen, um Kohleklumpen zu erhalten."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:181
+msgid ""
+"Trees are a classic furnace fuel, but you can also cook them to get coal "
+"lumps."
+msgstr ""
+"Bäume sind ein klassischer Ofenbrennstoff, aber man kann sie auch kochen, um "
+"Kohleklumpen zu erhalten."
 
-msgid "You can cook it in the furnace to get: @1. But you can also use it as a furnace fuel."
-msgstr "Du kannst dies im Ofen kochen, um @1 zu erhalten. Aber du kannst es auch als einen Ofenbrennstoff verwenden."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:189
+msgid ""
+"You can cook it in the furnace to get: @1. But you can also use it as a "
+"furnace fuel."
+msgstr ""
+"Du kannst dies im Ofen kochen, um @1 zu erhalten. Aber du kannst es auch als "
+"einen Ofenbrennstoff verwenden."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:191
 msgid "Cook it in the furnace to get: @1."
 msgstr "Koche es im Ofen, und du erhältst @1."
 
-msgid "This is an amazing furnace fuel, it burns for a very, very, very long time."
-msgstr "Dies ist ein ausgezeichneter Ofenbrennstoff, er brennt für eine sehr, sehr, sehr lange Dauer."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:198
+msgid ""
+"This is an amazing furnace fuel, it burns for a very, very, very long time."
+msgstr ""
+"Dies ist ein ausgezeichneter Ofenbrennstoff, er brennt für eine sehr, sehr, "
+"sehr lange Dauer."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:200
 msgid "This is a great furnace fuel, and it burns for a very, very long time."
-msgstr "Dies ist ein großartiger Ofenbrennstoff, er brennt für eine sehr, sehr lange Dauer."
+msgstr ""
+"Dies ist ein großartiger Ofenbrennstoff, er brennt für eine sehr, sehr lange "
+"Dauer."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:202
 msgid "This is a very good furnace fuel, and it burns for a very long time."
-msgstr "Dies ist ein sehr guter Ofenbrennstoff, er brennt für eine sehr lange Dauer."
+msgstr ""
+"Dies ist ein sehr guter Ofenbrennstoff, er brennt für eine sehr lange Dauer."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:204
 msgid "This is a good furnace fuel, it burns for a long time."
 msgstr "Dies ist ein guter Ofenbrennstoff, er brennt für eine lange Dauer."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:206
 msgid "This is a nice furnace fuel."
 msgstr "Dies ist ein netter Ofenbrennstoff."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:208
 msgid "You can use this as a furnace fuel, but it’s meh."
 msgstr "Man kann dies als Ofenbrennstoff verwenden, aber es ist so naja."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:210
 msgid "You can use this as a furnace fuel, but it is gone quickly."
-msgstr "Man kann dies als Ofenbrennstoff verwenden, aber es ist schnell futsch."
+msgstr ""
+"Man kann dies als Ofenbrennstoff verwenden, aber es ist schnell futsch."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:212
 msgid "You can use this as a furnace fuel, but it is gone very quickly."
-msgstr "Man kann dies als Ofenbrennstoff verwenden, aber es ist sehr schnell futsch."
+msgstr ""
+"Man kann dies als Ofenbrennstoff verwenden, aber es ist sehr schnell futsch."
 
-msgid "You can theoretically use this as a furnace fuel, but it is gone almost instantly. You will need a large amount of these to cook anything."
-msgstr "Man kann dies theoretisch als Ofenbrennstoff verwenden, aber es ist fast sofort futsch. Man braucht eine große Anzahl davon, um irgendetwas damit kochen zu können."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:214
+msgid ""
+"You can theoretically use this as a furnace fuel, but it is gone almost "
+"instantly. You will need a large amount of these to cook anything."
+msgstr ""
+"Man kann dies theoretisch als Ofenbrennstoff verwenden, aber es ist fast "
+"sofort futsch. Man braucht eine große Anzahl davon, um irgendetwas damit "
+"kochen zu können."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:224
 msgid "I’m impressed! Your weapon is a true masterpiece."
 msgstr "Ich bin beeindruckt! Deine Waffe ist wahrlich ein Meisterwerk."
 
-msgid "This is a mighty weapon, but have you considered upgrading it with jewels?"
-msgstr "Dies ist eine mächtige Waffe, aber hattest du schon die Idee, sie mit Juwelen zu verbessern?"
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:229
+msgid ""
+"This is a mighty weapon, but have you considered upgrading it with jewels?"
+msgstr ""
+"Dies ist eine mächtige Waffe, aber hattest du schon die Idee, sie mit "
+"Juwelen zu verbessern?"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:231
 msgid "Offense is the best defense."
 msgstr "Angriff ist die beste Verteidigung."
 
-msgid "If you equip a full set of armor made from the same material, you’ll get a protection bonus."
-msgstr "Wenn du einen vollständigen Satz Rüstung aus diesem Material anlegst, erhältst du einen Schutzbonus."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:233
+msgid ""
+"If you equip a full set of armor made from the same material, you’ll get a "
+"protection bonus."
+msgstr ""
+"Wenn du einen vollständigen Satz Rüstung aus diesem Material anlegst, "
+"erhältst du einen Schutzbonus."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:236
 msgid "This block is so fascinating …"
 msgstr "Dieser Block ist so faszinierend."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:239
 msgid "You can put anything inside a bookshelf, not just books."
 msgstr "Man kann alles mögliche da rein tun, nicht nur Bücher."
 
-msgid "This makes seeds grow faster. Place the fertilizer on soil, then plant the seed on top of it."
-msgstr "Damit wachsen Samen schneller. Platziere den Dünger auf dem Boden, dann pflanze die Samen obendrauf."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:243
+msgid ""
+"This makes seeds grow faster. Place the fertilizer on soil, then plant the "
+"seed on top of it."
+msgstr ""
+"Damit wachsen Samen schneller. Platziere den Dünger auf dem Boden, dann "
+"pflanze die Samen obendrauf."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:245
 msgid "Sorry, I don’t know how to use this. Maybe ask a farmer."
 msgstr "Leider weiß ich nicht, wie man das benutzt. Frag mal einen Bauern."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:249
 msgid "Remember to put water near to your seeds."
 msgstr "Denk dran, dass du Wasser in der Nähe deiner Samen geben musst."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:254
 msgid "Try magnetizing it on iron."
 msgstr "Versuch, dies an Eisen zu magnetisieren."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:258
 msgid "If you use it on a cotton bale, it will point to the North again."
-msgstr "Wenn du ihn an einem Baumwollballen benutzt, wird er wieder nach Norden zeigen."
+msgstr ""
+"Wenn du ihn an einem Baumwollballen benutzt, wird er wieder nach Norden "
+"zeigen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:260
 msgid "If you use it on wool, it will point to the North again."
 msgstr "Wenn du ihn an Wolle benutzt, wird er wieder nach Norden zeigen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:263
 msgid "We live in a lovely place, don’t we?"
 msgstr "Wir leben in einem schönen Ort, oder?"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:265
 msgid "It’s used to capture large animals."
 msgstr "Damit fängt man große Tiere."
 
-msgid "Why are you carrying this around? Do you want crack open our locked chests?"
-msgstr "Warum trägst du das hier herum? Willst du etwa unsere abgeschlossenen Truhen aufbrechen?"
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:267
+msgid ""
+"Why are you carrying this around? Do you want crack open our locked chests?"
+msgstr ""
+"Warum trägst du das hier herum? Willst du etwa unsere abgeschlossenen Truhen "
+"aufbrechen?"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:269
 msgid "It’s used to capture small animals."
 msgstr "Damit fängt man kleine Tiere."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:271
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:278
 msgid "Every kid knows seeds need soil, water and sunlight."
-msgstr "Jedes Kind weiß, dass Samen einen Nährboden, Wasser und Sonnenlicht brauchen."
+msgstr ""
+"Jedes Kind weiß, dass Samen einen Nährboden, Wasser und Sonnenlicht brauchen."
 
-msgid "Did you know cotton seed not only grow on dirt, but also on sand? But it still needs water."
-msgstr "Wusstest du, dass Baumwollsamen nicht nur auf Erde, sondern auch auf Sand wachsen? Aber sie brauchen immer noch Wasser."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:274
+msgid ""
+"Did you know cotton seed not only grow on dirt, but also on sand? But it "
+"still needs water."
+msgstr ""
+"Wusstest du, dass Baumwollsamen nicht nur auf Erde, sondern auch auf Sand "
+"wachsen? Aber sie brauchen immer noch Wasser."
 
-msgid "If you have grown a cotton plant, try using scissors to perform a precise cut."
-msgstr "Falls du eine Baumwollpflanze gezüchtet hast, benutz mal einen Präzisionsschnitt mit einer Schere aus."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:276
+msgid ""
+"If you have grown a cotton plant, try using scissors to perform a precise "
+"cut."
+msgstr ""
+"Falls du eine Baumwollpflanze gezüchtet hast, benutz mal einen "
+"Präzisionsschnitt mit einer Schere aus."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:282
 msgid "Sheep love to eat wheat. Give them enough wheat and they’ll multiply!"
-msgstr "Schafe fressen gerne Weizen. Gib ihnen genug davon, und sie vermehren sich!"
+msgstr ""
+"Schafe fressen gerne Weizen. Gib ihnen genug davon, und sie vermehren sich!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:284
 msgid "We use wheat to make flour and bake bread."
 msgstr "Wir brauchen Weizen, um Mehl zu mahlen und Brot zu backen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:287
 msgid "Put it in a furnace to bake tasty bread."
 msgstr "Schmeiß es in einen Ofen, um leckeres Brot zu backen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:289
 msgid "This can be used to make cotton bales."
 msgstr "Damit kann man Baumwollbauen machen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:291
 msgid "A truly epic story!"
 msgstr "Eine sagenhafte Geschichte!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:294
 msgid "Ooh, a shiny pearl! It’s beautiful."
 msgstr "Oh, eine glitzernde Perle! Wunderschön."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:296
 msgid "I heard the tavernkeeper likes these."
 msgstr "Ich habe gehört, dass der Wirt sie mag."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:301
 msgid "Just place it on the ground and it will grow after a while."
 msgstr "Platziere es einfach auf den Boden, und es wird bald wachsen."
 
-msgid "If the sapling refuses to grow, make sure it has enough open space above it."
-msgstr "Wenn der Setzling sich weigert, zu wachsen, mach oben etwas Platz frei."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:303
+msgid ""
+"If the sapling refuses to grow, make sure it has enough open space above it."
+msgstr ""
+"Wenn der Setzling sich weigert, zu wachsen, mach oben etwas Platz frei."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:305
 msgid "Try placing it on different grounds. It might grow differently."
 msgstr "Probiere verschiedene Böden aus. Er könnte anders wachsen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:308
 msgid "Use this to trim plants and get wool from sheep."
 msgstr "Damit kannst du Pflanzen abschneiden und Wolle von Schafen erhalten."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:311
 msgid "Papyrus grows best on fertilized swamp dirt."
 msgstr "Papyrus wächst am besten auf gedüngter Sumpferde."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:313
 msgid "Papyrus likes to grow next to water."
 msgstr "Papyrus wächst gerne in der Nähe von Wasser."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:315
 msgid "The papyrus grows tall in the swamp. But it can grow even taller."
 msgstr "Im Sumpf wächst der Papyrus hoch. Aber er kann noch höher wachsen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:317
 msgid "When I was I kid, I always liked to climb on the papyrus."
 msgstr "Als ich ein Kind war, kletterte ich gerne den Papyrus rauf."
 
-msgid "Cacti grow best on sand. They are also a food source, if you’re really desperate."
-msgstr "Kakteen wachsen am Besten auf dem Sand. Sie sind auch eine Nahrungsquelle, wenn du wirklich verzweifelt bist."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:321
+msgid ""
+"Cacti grow best on sand. They are also a food source, if you’re really "
+"desperate."
+msgstr ""
+"Kakteen wachsen am Besten auf dem Sand. Sie sind auch eine Nahrungsquelle, "
+"wenn du wirklich verzweifelt bist."
 
-msgid "This is the secret ingredient for my special drink. But don’t tell anyone!"
-msgstr "Dies ist die Geheimzutat für meinen besonderen Drink. Aber sagt das keinem!"
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:323
+msgid ""
+"This is the secret ingredient for my special drink. But don’t tell anyone!"
+msgstr ""
+"Dies ist die Geheimzutat für meinen besonderen Drink. Aber sagt das keinem!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:325
 msgid "Now what can you possibly do with a cactus? I don’t know!"
 msgstr "Was kann man nur mit einem Kaktus anstellen? Keine Ahnung!"
 
-msgid "Jewels are great! If you have a jeweller’s workbench, you can enhance your tools."
-msgstr "Juwelen sind großartig! Wenn du eine Juwelierswerkbank hast, kannst du deine Werkzeuge aufwerten."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:329
+msgid ""
+"Jewels are great! If you have a jeweller’s workbench, you can enhance your "
+"tools."
+msgstr ""
+"Juwelen sind großartig! Wenn du eine Juwelierswerkbank hast, kannst du deine "
+"Werkzeuge aufwerten."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:331
 msgid "Did you know we sometimes sell jewels?"
 msgstr "Wusstest du, dass wir manchmal Juwelen verkaufen?"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:334
 msgid "This looks like it could be a good wall decoration."
 msgstr "Das sieht aus, als könnte es sich gut als Wanddekoration machen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:336
 msgid "It’s burned out. Use flint and steel to kindle it."
-msgstr "Sie ist ausgebrannt. Benutze Feuerstein und Stahl, um sie wieder anzuzünden."
+msgstr ""
+"Sie ist ausgebrannt. Benutze Feuerstein und Stahl, um sie wieder anzuzünden."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:338
 msgid "With flint and steel you could stabilize the flame."
 msgstr "Mit Feuerstein und Stahl könnte man die Flamme stabilisieren."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:340
 msgid "Let’s light up some caves!"
 msgstr "Lasst uns ein paar Höhlen erhellen!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:342
 msgid "A flower? I love flowers! Let’s make the world bloom!"
 msgstr "Eine Blume? Ich liebe Blumen! Lasst uns die Welt zum Erblühen bringen!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:345
 msgid "You can use this to light up torches and bonfires and ignite TNT."
 msgstr "Damit kannst du Fackeln und TNT anzünden und Lagerfeuer entfachen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:347
 msgid "You can use this to light up torches and bonfires."
 msgstr "Damit kannst du Fackeln anzünden und Lagerfeuer entfachen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:351
 msgid "TNT needs to be ignited by a flint and steel."
 msgstr "TNT muss mit Feuerstein und Stahl entzündet werden."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:353
 msgid "For some reason, TNT can’t be ignited. Strange."
 msgstr "Aus irgendeinem Grund kann TNT nicht entzündet werden. Merkwürdig."
 
-msgid "You need flint and steel to light the fire. But don’t walk into the flame!"
-msgstr "Du brauchst Feuerstein und Stahl, um das Feuer zu entfachen. Aber lauf nicht in die Flamme!"
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:356
+msgid ""
+"You need flint and steel to light the fire. But don’t walk into the flame!"
+msgstr ""
+"Du brauchst Feuerstein und Stahl, um das Feuer zu entfachen. Aber lauf nicht "
+"in die Flamme!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:359
 msgid "Isn’t it stressful to carry this heavy bed around?"
-msgstr "Ist es nicht anstrengend, dieses schwere Bett mit dir herumzuschleppen?"
+msgstr ""
+"Ist es nicht anstrengend, dieses schwere Bett mit dir herumzuschleppen?"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:361
 msgid "Sleeping makes the night go past in the blink of an eye."
 msgstr "Im Schlaf vergeht die Nacht wie im Fluge."
 
+#. ~ Said by villager when showing them a bronze lump.
+#. ~ Classic parody of Friedrich Schiller’s “Das Lied von der Glocke” in German:
+#. ~ “Loch in Erde, Bronze rin. Glocke fertig, bim, bim, bim!”
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:367
 msgid "Hole in dirt, put bronze in. Bell’s complete, bim, bim, bim!"
 msgstr "Loch in Erde, Bronze rin. Glocke fertig, bim, bim, bim!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:369
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:374
 msgid "Apples are so tasty!"
 msgstr "Äpfel sind so lecker!"
 
-msgid "Boars love to eat acorns! If you feed enough of these to them, they will multiply."
-msgstr "Wildschweine lieben Eicheln! Wenn du sie ausreichend mit Eicheln fütterst, werden sie sich vermehren."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:372
+msgid ""
+"Boars love to eat acorns! If you feed enough of these to them, they will "
+"multiply."
+msgstr ""
+"Wildschweine lieben Eicheln! Wenn du sie ausreichend mit Eicheln fütterst, "
+"werden sie sich vermehren."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:377
 msgid "Did you try to dry it in the furnace?"
 msgstr "Hast du probiert, es im Ofen zu trocknen?"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:381
 msgid "Meat tastes best when it’s cooked."
 msgstr "Fleisch schmeckt gebraten am Besten."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:383
 msgid "Raw metals aren’t going to smelt themselves!"
 msgstr "Rohmetalle schmelzen sich nicht von alleine!"
 
-msgid "Furnaces are so versatile, they not just smelt ores, but cook foods as well!"
-msgstr "Öfen sind so vielseitig, sie schmelzen nicht nur Erze, sondern kochen auch Essen!"
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:386
+msgid ""
+"Furnaces are so versatile, they not just smelt ores, but cook foods as well!"
+msgstr ""
+"Öfen sind so vielseitig, sie schmelzen nicht nur Erze, sondern kochen auch "
+"Essen!"
 
-msgid "Airweed is an underwater plant with little capsules filled with air. Use it underwater to release air bubbles and catch some breath."
-msgstr "Luftkraut ist eine Wasserpflanze mit kleinen mit Luft gefüllten Kapseln. Benutze sie im Wasser, um Luftblasen zu erzeugen und Luft zu holen."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:390
+msgid ""
+"Airweed is an underwater plant with little capsules filled with air. Use it "
+"underwater to release air bubbles and catch some breath."
+msgstr ""
+"Luftkraut ist eine Wasserpflanze mit kleinen mit Luft gefüllten Kapseln. "
+"Benutze sie im Wasser, um Luftblasen zu erzeugen und Luft zu holen."
 
-msgid "If you use the airweed plant, you will catch some breath. Other people near the plant will also benefit."
-msgstr "Wenn du die Luftkrautpflanze benutzt, wirst du Luft holen. Andere Leute in der Nähe der Pflanze werden auch Luft bekommen."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:392
+msgid ""
+"If you use the airweed plant, you will catch some breath. Other people near "
+"the plant will also benefit."
+msgstr ""
+"Wenn du die Luftkrautpflanze benutzt, wirst du Luft holen. Andere Leute in "
+"der Nähe der Pflanze werden auch Luft bekommen."
 
-msgid "Airweed is very useful, but it can’t give you breath from your hand. You must place it on the ground first."
-msgstr "Luftkraut ist sehr nützlich, aber du kannst sie nicht von der Hand aus benutzen. Sie muss zuerst auf den Boden platziert werden."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:394
+msgid ""
+"Airweed is very useful, but it can’t give you breath from your hand. You "
+"must place it on the ground first."
+msgstr ""
+"Luftkraut ist sehr nützlich, aber du kannst sie nicht von der Hand aus "
+"benutzen. Sie muss zuerst auf den Boden platziert werden."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:396
 msgid "You can multiply airweed with fertilizer."
 msgstr "Man kann Luftkraut mit Dünger vermehren."
 
-msgid "Airweed needs a moment to refill after you used it. The time it needs depends on the surface."
-msgstr "Luftkraut braucht einen Moment, um sich nach Benutzung wieder aufzufüllen. Die Dauer hängt vom Boden ab."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:398
+msgid ""
+"Airweed needs a moment to refill after you used it. The time it needs "
+"depends on the surface."
+msgstr ""
+"Luftkraut braucht einen Moment, um sich nach Benutzung wieder aufzufüllen. "
+"Die Dauer hängt vom Boden ab."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:402
 msgid "If you fertilize the ground, an alga will grow higher."
 msgstr "Wenn man den Boden düngt, wird eine Alge höher wachsen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:404
 msgid "The tallest algae always grow on alga blocks."
 msgstr "Die höchsten Algen wachen immer auf Algenblöcken."
 
-msgid "If an alga tries to grow but something blocks its path, it’ll stop growing, even if the barrier is removed later."
-msgstr "Wenn eine Alge versucht, zu wachsen, aber etwas blockiert ihren Weg, wird ihr Wachstum gestoppt, selbst dann, wenn die Barriere später entfernt wird."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:406
+msgid ""
+"If an alga tries to grow but something blocks its path, it’ll stop growing, "
+"even if the barrier is removed later."
+msgstr ""
+"Wenn eine Alge versucht, zu wachsen, aber etwas blockiert ihren Weg, wird "
+"ihr Wachstum gestoppt, selbst dann, wenn die Barriere später entfernt wird."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:408
 msgid "Algae grow underwater in different heights."
 msgstr "Algen wachsen im Wasser in verschiedenen Höhen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:411
 msgid "We villagers prefer to walk on paths, especially when it’s glowing."
 msgstr "Wir Dorfbewohner laufen gerne auf Pfaden, besonders, wenn es leuchtet."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:413
 msgid "We villagers prefer to walk on paths."
 msgstr "Wir Dorfbewohner laufen gerne auf Pfaden."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:416
 msgid "Place it at the ceiling and watch it grow."
 msgstr "Platziere sie an die Decke und sie wird wachsen."
 
-msgid "If you want the vine to stop growing, make a precise cut using scissors."
-msgstr "Wenn du das Wachstum einer Liane stoppen willst, mach einen Präzisionsschnitt mit einer Schere."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:418
+msgid ""
+"If you want the vine to stop growing, make a precise cut using scissors."
+msgstr ""
+"Wenn du das Wachstum einer Liane stoppen willst, mach einen "
+"Präzisionsschnitt mit einer Schere."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:420
 msgid "It’s climbing time!"
 msgstr "Es ist Kletterzeit!"
 
-msgid "Many wild plants as well as wheat and cotton grow on dirt, but they grow better when it’s fertilized."
-msgstr "Viele Wildpflanzen so wie Weizen und Baumwolle wachsen auf Erde, aber sie wachsen besser, wenn sie gedüngt ist."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:424
+msgid ""
+"Many wild plants as well as wheat and cotton grow on dirt, but they grow "
+"better when it’s fertilized."
+msgstr ""
+"Viele Wildpflanzen so wie Weizen und Baumwolle wachsen auf Erde, aber sie "
+"wachsen besser, wenn sie gedüngt ist."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:426
 msgid "You’re dirty!"
 msgstr "Du bist dreckig!"
 
-msgid "Swamp dirt is really interesting. The famous swamp oak grows on it, and papyrus also grows exceptionally well."
-msgstr "Sumpferde ist sehr interessant. Auf ihr wächst die berühmte Sumpfeiche, und Papyrus wächst auch besonders gut."
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:430
+msgid ""
+"Swamp dirt is really interesting. The famous swamp oak grows on it, and "
+"papyrus also grows exceptionally well."
+msgstr ""
+"Sumpferde ist sehr interessant. Auf ihr wächst die berühmte Sumpfeiche, und "
+"Papyrus wächst auch besonders gut."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:432
 msgid "Disgusting!"
 msgstr "Ekelhaft!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:436
 msgid "Not much grows on dry dirt."
 msgstr "Es wächst nicht viel auf trockener Erde."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:438
 msgid "This dirt is as dry as my jokes."
 msgstr "Diese Erde ist so trocken wie meine Witze."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:442
 msgid "You can use sand to grow cacti."
 msgstr "Auf Sand kann man Kakteen wachsen lassen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:444
 msgid "Be careful not to let it fall on your head!"
 msgstr "Pass auf, dass dir das nicht auf deinem Kopf fällt!"
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:448
 msgid "Fern is used to craft fertilizer. Fern spreads on fertilized dirt."
-msgstr "Mit Farn kann man Dünger herstellen. Farn breitet sich auf gedüngter Erde aus."
+msgstr ""
+"Mit Farn kann man Dünger herstellen. Farn breitet sich auf gedüngter Erde "
+"aus."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:450
 msgid "Fern is used to craft fertilizer."
 msgstr "Mit Farn kann man Dünger herstellen."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:454
 msgid "I use a barrel for the work at the tavern."
 msgstr "Ich benutze ein Fass für die Arbeit in der Taverne."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:456
 msgid "The tavernkeeper uses the barrel to do their work."
 msgstr "Der Wirt benutzt das Fass für die Arbeit."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:460
 msgid "This is like my ex-lover’s heart. Made out of stone."
 msgstr "Dies ist wie das Herz meines Exliebhabers. Aus Stein."
 
+#: mods/rp_mobs_mobs/mobs/villager_speech.lua:465
 msgid "Stay healthy!"
 msgstr "Bleib gesund!"
 
+#: mods/rp_mobs_mobs/mobs/walker.lua:43
 msgid "Walker"
 msgstr "Läufer"
-

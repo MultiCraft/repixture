@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_gold x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,57 +13,76 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#: mods/rp_gold/init.lua:44
 msgid "Trade"
 msgstr "Торговля"
 
+#. ~ Shown in trader menu. @1 = trader name, @2 = profession name
+#: mods/rp_gold/init.lua:100
 msgid "@1 (@2)"
 msgstr ""
 
+#. ~ @1 is either a given name or a profession
+#: mods/rp_gold/init.lua:106
 msgid "Trading with @1"
 msgstr "Торговля с @1"
 
+#: mods/rp_gold/init.lua:356
 msgid "Trading Book"
 msgstr "Книга торговли"
 
+#: mods/rp_gold/init.lua:357
 msgid "Show this to a villager to trade"
 msgstr "Покажи это жителю чтобы торговать с ним"
 
+#: mods/rp_gold/init.lua:375
 msgid "Gold Lump"
 msgstr "Кусок золота"
 
+#: mods/rp_gold/init.lua:383 mods/rp_gold/init.lua:389
 msgid "Gold Ingot"
 msgstr "Золотой слиток"
 
+#: mods/rp_gold/init.lua:404
 msgid "Stone with Gold"
 msgstr "Камень с золотом"
 
+#: mods/rp_gold/init.lua:433
 msgid "Gold Block"
 msgstr "Золотой блок"
 
+#: mods/rp_gold/init.lua:502
 msgid "Trader"
 msgstr "Торговец"
 
+#: mods/rp_gold/init.lua:503
 msgid "Trade with a villager."
 msgstr "Поторгуй с жителем."
 
+#: mods/rp_gold/init.lua:512
 msgid "Gold Rush"
 msgstr "Золотая лихорадка"
 
+#: mods/rp_gold/init.lua:513
 msgid "Dig a gold ore."
 msgstr "Выкопай золотую руду."
 
+#: mods/rp_gold/trades.lua:207
 msgid "Farmer"
 msgstr "Фермер"
 
+#: mods/rp_gold/trades.lua:208
 msgid "Tavern Keeper"
 msgstr "Хозяин таверны"
 
+#: mods/rp_gold/trades.lua:209
 msgid "Carpenter"
 msgstr "Плотник"
 
+#: mods/rp_gold/trades.lua:210
 msgid "Blacksmith"
 msgstr "Кузнец"
 
+#: mods/rp_gold/trades.lua:211
 msgid "Butcher"
 msgstr "Мясник"
-

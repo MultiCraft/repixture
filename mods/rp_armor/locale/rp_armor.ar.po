@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_armor x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,78 +13,121 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
-msgid "Wooden Helmet"
-msgstr "خوذة خشبية"
-
-msgid "Wooden Chestplate"
-msgstr "لوحة صدر خشبية"
-
-msgid "Wooden Boots"
-msgstr "أحذية خشبية"
-
-msgid "Steel Helmet"
-msgstr "خوذة فولاذية"
-
-msgid "Steel Chestplate"
-msgstr "لوحة صدر فولاذية"
-
-msgid "Steel Boots"
-msgstr "أحذية فولاذية"
-
-msgid "Chainmail Helmet"
-msgstr "خوذة مزردة"
-
-msgid "Chainmail Chestplate"
-msgstr "لوحة صدر مزردة"
-
-msgid "Chainmail Boots"
-msgstr "أحذية مزردة"
-
-msgid "Carbon Steel Helmet"
-msgstr "خوذة كربون فولاذي"
-
-msgid "Carbon Steel Chestplate"
-msgstr "لوحة صدر كربون فولاذي"
-
-msgid "Carbon Steel Boots"
-msgstr "أحذية كربون فولاذي"
-
-msgid "Bronze Helmet"
-msgstr "خوذة برونزية"
-
-msgid "Bronze Chestplate"
-msgstr "لوحة صدر برونزية"
-
-msgid "Bronze Boots"
-msgstr "أحذية برونزية"
-
+#: mods/rp_armor/init.lua:26
 msgid "Helmet"
 msgstr "خوذة"
 
+#: mods/rp_armor/init.lua:26
 msgid "Chestplate"
 msgstr "لوحة صدر"
 
+#: mods/rp_armor/init.lua:26
 msgid "Boots"
 msgstr "أحذية"
 
+#: mods/rp_armor/init.lua:220
+#, fuzzy
+msgid "Protection"
+msgstr "الحماية: +@1%"
+
+#. ~ armor protection percentage, shown in armor page
+#: mods/rp_armor/init.lua:223
+msgid "@1%"
+msgstr ""
+
+#: mods/rp_armor/init.lua:227
+msgid "Protection bonus for full set"
+msgstr ""
+
+#. ~ protection bonus for wearing full set, shown in armor page
+#: mods/rp_armor/init.lua:229
+msgid "+@1%"
+msgstr ""
+
+#: mods/rp_armor/init.lua:247
 msgid "Armor"
 msgstr "درع"
 
-msgid "Chainmail Sheet"
-msgstr "صحيفة مزردة"
-
+#: mods/rp_armor/init.lua:633
 msgid "Armored"
 msgstr "مدرع"
 
+#: mods/rp_armor/init.lua:634
 msgid "Craft a piece of armor."
 msgstr "اصنع قطعة درع."
 
-msgid "Skin of Bronze"
-msgstr "جلد من برونز"
-
-msgid "Equip a full suit of bronze armor."
-msgstr "البس كل قطع الدرع البرونزي."
-
+#: mods/rp_armor/init.lua:645
 msgid "Protection: +@1%"
 msgstr "الحماية: +@1%"
 
+#: mods/rp_armor/register.lua:7
+msgid "Wooden Helmet"
+msgstr "خوذة خشبية"
+
+#: mods/rp_armor/register.lua:7
+msgid "Wooden Chestplate"
+msgstr "لوحة صدر خشبية"
+
+#: mods/rp_armor/register.lua:7
+msgid "Wooden Boots"
+msgstr "أحذية خشبية"
+
+#: mods/rp_armor/register.lua:16
+msgid "Steel Helmet"
+msgstr "خوذة فولاذية"
+
+#: mods/rp_armor/register.lua:16
+msgid "Steel Chestplate"
+msgstr "لوحة صدر فولاذية"
+
+#: mods/rp_armor/register.lua:16
+msgid "Steel Boots"
+msgstr "أحذية فولاذية"
+
+#: mods/rp_armor/register.lua:26
+msgid "Chainmail Helmet"
+msgstr "خوذة مزردة"
+
+#: mods/rp_armor/register.lua:26
+msgid "Chainmail Chestplate"
+msgstr "لوحة صدر مزردة"
+
+#: mods/rp_armor/register.lua:26
+msgid "Chainmail Boots"
+msgstr "أحذية مزردة"
+
+#: mods/rp_armor/register.lua:35
+msgid "Carbon Steel Helmet"
+msgstr "خوذة كربون فولاذي"
+
+#: mods/rp_armor/register.lua:35
+msgid "Carbon Steel Chestplate"
+msgstr "لوحة صدر كربون فولاذي"
+
+#: mods/rp_armor/register.lua:35
+msgid "Carbon Steel Boots"
+msgstr "أحذية كربون فولاذي"
+
+#: mods/rp_armor/register.lua:45
+msgid "Bronze Helmet"
+msgstr "خوذة برونزية"
+
+#: mods/rp_armor/register.lua:45
+msgid "Bronze Chestplate"
+msgstr "لوحة صدر برونزية"
+
+#: mods/rp_armor/register.lua:45
+msgid "Bronze Boots"
+msgstr "أحذية برونزية"
+
+#: mods/rp_armor/register.lua:56
+msgid "Chainmail Sheet"
+msgstr "صحيفة مزردة"
+
+#: mods/rp_armor/register.lua:89
+msgid "Skin of Bronze"
+msgstr "جلد من برونز"
+
+#: mods/rp_armor/register.lua:90
+msgid "Equip a full suit of bronze armor."
+msgstr "البس كل قطع الدرع البرونزي."

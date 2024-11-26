@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_player_effects x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,21 +13,29 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
+#. ~ Fallback description for a player effect, sloppy translations are OK. @1 is the technical effect identifier.
+#: mods/rp_player_effects/init.lua:80
 msgid "The @1 effect"
 msgstr "El efecto @1"
 
+#: mods/rp_player_effects/init.lua:273
 msgid "Show your current player effects"
 msgstr "Mostrar tus efectos de jugador actuales"
 
+#: mods/rp_player_effects/init.lua:275
 msgid "Current player effects:"
 msgstr "Efectos de jugador actuales:"
 
+#. ~ @1 is a player effect name. “unlimited” refers to an effect duration
+#: mods/rp_player_effects/init.lua:281
 msgid "@1: unlimited"
 msgstr "@1: ilimitado"
 
+#. ~ @1 is a player effect name, @2 is the number of seconds the effect is still active
+#: mods/rp_player_effects/init.lua:284
 msgid "@1: @2 s remaining"
 msgstr "@1: @2 s restantes"
 
+#: mods/rp_player_effects/init.lua:293
 msgid "You currently have no effects."
 msgstr "Actualmente no tienes efectos."
-

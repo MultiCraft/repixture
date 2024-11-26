@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Luanti textdomain rp_bed x.x.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
+"POT-Creation-Date: 2024-11-26 15:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,51 +13,70 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: mtt_convert 0.1.1\n"
 
-msgid "Your respawn position was blocked or dangerous. You’ve lost your old respawn position."
-msgstr "Твоя точка возрождения блокирована или опасна. Ты потерял свою предыдущую точку возрождения."
+#: mods/rp_bed/init.lua:357
+msgid ""
+"Your respawn position was blocked or dangerous. You’ve lost your old respawn "
+"position."
+msgstr ""
+"Твоя точка возрождения блокирована или опасна. Ты потерял свою предыдущую "
+"точку возрождения."
 
+#: mods/rp_bed/init.lua:430
 msgid "You have slept, rise and shine!"
 msgstr "Ты поспал, проснись и пой!"
 
+#: mods/rp_bed/init.lua:432
 msgid "Players have slept, rise and shine!"
 msgstr "Игроки поспали, проснись и пой!"
 
+#: mods/rp_bed/init.lua:506
 msgid "Sleeping is disabled."
 msgstr "Сон отключен."
 
+#: mods/rp_bed/init.lua:524
 msgid "It’s too painful to sleep here!"
 msgstr "Здесь слишком больно чтобы спать!"
 
+#: mods/rp_bed/init.lua:526
 msgid "You can’t sleep while holding your breath!"
 msgstr "Ты не можешь спать когда задерживаешь дыхание!"
 
+#: mods/rp_bed/init.lua:528
 msgid "Not enough space to sleep!"
 msgstr "Недостаточно места для сна!"
 
+#: mods/rp_bed/init.lua:530
 msgid "You can’t sleep here!"
 msgstr "Ты не можешь здесь спать!"
 
+#: mods/rp_bed/init.lua:539
 msgid "You have to stop moving before going to bed!"
 msgstr "Тебе нужно остановиться прежде чем ложиться спать!"
 
+#: mods/rp_bed/init.lua:551
 msgid "Respawn position set!"
 msgstr "Точка возрождения установлена!"
 
+#: mods/rp_bed/init.lua:583
 msgid "Bed"
 msgstr "Кровать"
 
+#: mods/rp_bed/init.lua:584
 msgid "Sets the respawn position and allows to pass the night"
 msgstr "Ставит точку возрождения и пропускает ночь"
 
+#: mods/rp_bed/init.lua:876
 msgid "In bed"
 msgstr "В кровати"
 
+#: mods/rp_bed/init.lua:877
 msgid "You're in a bed"
 msgstr "Ты в кровати"
 
+#: mods/rp_bed/init.lua:892
 msgid "Bed Time"
 msgstr "Время спать"
 
+#: mods/rp_bed/init.lua:893
 msgid "Craft a bed."
 msgstr "Скрафти кровать."
-
