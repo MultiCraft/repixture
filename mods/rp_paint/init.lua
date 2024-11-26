@@ -117,6 +117,7 @@ local change_bucket_level = function(pos, node, level_change)
 	elseif old_paint_level == 0 and paint_level > 0 then
 		local meta = minetest.get_meta(pos)
 		local color = bit.rshift(node.param2, 2)
+		--~ @1 = color name of color contained in paint bucket
 		meta:set_string("infotext", S("Paint Bucket (@1)", COLOR_NAMES[color+1]))
 	end
 	-- Return actual level change

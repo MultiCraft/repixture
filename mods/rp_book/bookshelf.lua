@@ -48,6 +48,7 @@ local function get_bookshelf_formspec(pos)
    for i=1,8 do
       if inv:get_stack("main", i):get_name() == "rp_default:book" then
          local xoff = (i-1) * 1.25
+         --~ Button tooltip in bookshelf to read a book
          form = form .. rp_formspec.image_button(xstart+xoff, ystart + 1.15, 1, 1, "open_"..i, "ui_icon_view.png", S("Read book"))
       end
    end
@@ -172,6 +173,7 @@ minetest.register_on_player_receive_fields(
          local form = rp_formspec.get_page("rp_book:book_page")
          form = form .. rp_book.make_read_book_page_formspec(title, text)
 
+         --~ Button to return from book reading screen (bookshelf)
          form = form .. rp_formspec.button(3.5, 9, 3, 1, "return", S("Return"))
          minetest.sound_play({name="rp_book_open_book", gain=0.5}, {pos=player:get_pos(), max_hear_distance=16}, true)
          minetest.show_formspec(pname, "rp_default:read_book_in_bookshelf", form)

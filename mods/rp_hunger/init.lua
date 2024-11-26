@@ -653,6 +653,7 @@ end
 minetest.register_chatcommand("hunger", {
 	description = S("Set hunger level of player or yourself"),
 	privs = { server = true },
+	--~ Syntax for /hunger command. You may translate the words, but the symbols MUST be left intact.
 	params = S("[<player>] <hunger>"),
 	func = function(playername, param)
 		-- Set hunger of specified target player

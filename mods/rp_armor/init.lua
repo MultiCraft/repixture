@@ -219,11 +219,13 @@ function armor.get_formspec(name)
    form = form .. "image[5,1.75;1,1;rp_armor_icon_protection.png]"
    form = form .. "tooltip[5,1.75;1,1;"..FS("Protection").."]"
    form = form .. "style_type[label;font_size=*2]"
+   --~ armor protection percentage, shown in armor page
    form = form .. "label[6.1,2.25;"..S("@1%", armor_full).."]"
    if armor_bonus ~= 0 then
       form = form .. "style_type[label;font_size=]"
       form = form .. "image[2.45,4.05;0.5,0.5;rp_armor_icon_bonus.png]"
       form = form .. "tooltip[2.45,4.05;0.5,0.5;"..FS("Protection bonus for full set").."]"
+      --~ protection bonus for wearing full set, shown in armor page
       form = form .. "label[3,4.3;"..S("+@1%", armor_bonus).."]"
    end
 

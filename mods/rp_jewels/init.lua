@@ -123,7 +123,7 @@ function jewels.register_jewel(toolname, new_toolname, def)
       if not desc then
          desc = new_toolname
       else
-         -- Fallback description
+         --~ Fallback description for jeweled tools that don’t provide their own description. @1 = name of original tool that has been jeweled
          desc = S("@1 (jeweled)", desc)
       end
    end
@@ -192,6 +192,7 @@ end
 local amendments = {
    { "range", NS("Range bonus: @1") },
    { "maxdrop", NS("Drop level bonus: @1") },
+   --~ dig time bonus for jeweled tools. “s” stands for “seconds”
    { "digspeed", NS("Dig time bonus: @1 s") },
    { "uses", NS("Durability bonus: @1") },
    { "maxlevel", NS("Dig level bonus: @1") },

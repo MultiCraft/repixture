@@ -119,6 +119,7 @@ book.register_book_node(
 
 local set_meta_description = function(meta, title)
    if title ~= "" then
+      --~ @1 = book title
       meta:set_string("description", S("Book: “@1”", minetest.colorize("#ffff00", title))) -- Set the item description
    else
       meta:set_string("description", "")

@@ -1033,14 +1033,17 @@ function achievements.get_formspec(name)
    if achievement_times then
       if achievement_times == -1 then
 	 gotten = true
+         --~ gotten achievement
 	 progress = minetest.colorize(COLOR_GOTTEN, S("Gotten"))
          title = minetest.colorize(COLOR_GOTTEN, title)
          description = minetest.colorize(COLOR_GOTTEN, description)
       else
          local part, total = get_progress(player, aname, def, states)
+         --~ Achievement progress counter. @1 = number of tasks to complete to get an achievement, @2 = total number of tasks in that achievement
          progress = S("@1/@2", part, total)
       end
    else
+      --~ missing achievement
       progress = S("Missing")
    end
 
@@ -1051,7 +1054,9 @@ function achievements.get_formspec(name)
    if def.subconditions then
       local progress_subconds = get_completed_subconditions(player, aname)
       if #progress_subconds > 0 then
+         --~ List separator. Used for the list of completed achievement subconditions
          local progress_subconds_str = table.concat(progress_subconds, S(", "))
+         --~ Shows the progress of an achievement with subconditions. @1 is a list of all such completed subconditions
          description = description .. "\n\n" .. S("Completed: @1", progress_subconds_str)
       end
    end
@@ -1130,6 +1135,7 @@ function achievements.get_formspec(name)
 
    -- Achievement progress summary
    local progress_total =
+      --~ @1, @2 and @3 are numbers that count achievements
       S("@1 of @2 achievements gotten, @3 in progress",
       amt_gotten,
       #achievements.registered_achievements_list,
@@ -1227,6 +1233,7 @@ minetest.register_on_player_receive_fields(receive_fields)
 -- Chat command to manipulate and review player achievements
 minetest.register_chatcommand("achievement", {
    privs = {server=true},
+   --~ chat command syntax for /achievement. You can translate the parts between “<” and “>”, but the rest MUST be left intact
    params = S("(list [<player>]) | ((give | remove) <player> (<achievement> | all))"),
    description = S("List, give or remove achievements of player"),
    func = function(name, param)
@@ -1243,8 +1250,10 @@ minetest.register_chatcommand("achievement", {
             if ach.difficulty then
                difficulty = loc.num(ach.difficulty)
             else
+               --~ Shown when the achievement difficulty has not been set
                difficulty = S("unset")
             end
+            --~ List entry. @1 = technical achievement name, @2 = achievement name, @3 = achievement difficulty rating
             local str = BULLET_PRE .. S("@1: @2 (@3)", aname, ach.title, difficulty)
             table.insert(strs, str)
          end
@@ -1268,11 +1277,13 @@ minetest.register_chatcommand("achievement", {
          for _, aname in ipairs(achievements.registered_achievements_list) do
             local status = achievements.get_completion_status(player, aname)
             if status == achievements.ACHIEVEMENT_GOTTEN then
+               --~ @1 = achievement name
                local str = BULLET_PRE .. S("@1: Gotten", aname)
                table.insert(strs, str)
             elseif status == achievements.ACHIEVEMENT_IN_PROGRESS then
                local ach = achievements.registered_achievements[aname]
                local part, total = get_progress(player, aname, ach, get_achievement_states(player))
+               --~ @1 = achievement name, @2 and @3 are numbers for a progress counter
                local str = BULLET_PRE .. S("@1: In progress (@2/@3)", aname, part, total)
                table.insert(strs, str)
             end
@@ -1281,6 +1292,7 @@ minetest.register_chatcommand("achievement", {
          if output == "" then
             output = S("No achievements.")
          else
+            --~ @1 = player name
 	    output = S("Achievements of @1:", playername).."\n"..output
          end
 	 return true, output

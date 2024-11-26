@@ -4,6 +4,7 @@ local mod_death_messages = minetest.get_modpath("rp_death_messages") ~= nil
 
 minetest.register_chatcommand("hp", {
 	privs = {server=true},
+	--~ command syntax for /hp command. Translate the words, but the symbols MUST be left intact
 	params = S("[<player>] <value>"),
 	description = S("Set health points of player or yourself"),
 	func = function(name, param)
