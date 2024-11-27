@@ -21,6 +21,8 @@
 MSGID_BUGS_ADDRESS = "Wuzzy@disroot.org"
 # name of the package
 PACKAGE_NAME = "Repixture"
+# version of the package (optional)
+PACKAGE_VERSION = None
 
 import os
 import re
@@ -63,7 +65,11 @@ def invoke_xgettext(template_file, mod_folder, modname):
 
     lua_search_string = " ".join(lua_files)
 
-    command = "xgettext -L lua -kS -kNS -kFS -kNFS -kPS:1,2 -kcore.translate:1c,2 -kcore.translate_n:1c,2,3 -d '"+modname+"' --add-comments='~' -o '"+template_file+"' --from-code=UTF-8 --msgid-bugs-address='"+MSGID_BUGS_ADDRESS+"' --package-name='"+PACKAGE_NAME+"' "+lua_search_string
+    package_string = "--package_name='"+PACKAGE_NAME+"'"
+    if PACKAGE_VERSION:
+        package_string += " --package_version='"+PACKAGE_VERSION+"'"
+
+    command = "xgettext -L lua -kS -kNS -kFS -kNFS -kPS:1,2 -kcore.translate:1c,2 -kcore.translate_n:1c,2,3 -d '"+modname+"' --add-comments='~' -o '"+template_file+"' --from-code=UTF-8 --msgid-bugs-address='"+MSGID_BUGS_ADDRESS+"' "+package_string+" "+lua_search_string
 
     return_value = os.system(command)
     if return_value != 0:
