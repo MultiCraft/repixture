@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Repixture\n"
 "Report-Msgid-Bugs-To: Wuzzy@disroot.org\n"
-"POT-Creation-Date: 2024-11-26 15:16+0100\n"
+"POT-Creation-Date: 2024-11-28 13:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid "−@1.@2"
 msgstr ""
 
-#. ~ a positive number with some decimal places. @1 is the part before the decimal point, @2 is the part after it. Replace the decimal point with whatever is appropriate for your language.
+#. ~ a non-negative number with some decimal places. @1 is the part before the decimal point, @2 is the part after it. Replace the decimal point with whatever is appropriate for your language.
 #: mods/rp_localize/init.lua:41
 msgid "@1.@2"
 msgstr ""
