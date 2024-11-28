@@ -80,7 +80,13 @@ tt.register_snippet(function(itemstring)
 	if def._tt_food then
 		desc = S("Food item")
 		if def._tt_food_hp then
-			local msg = PS("+@1 food point", "+@1 food points", def._tt_food_hp, def._tt_food_hp)
+			local msg
+			if PS then
+				msg = PS("+@1 food point", "+@1 food points", def._tt_food_hp, def._tt_food_hp)
+			else
+				-- fallback when plural forms are unavailable
+				msg = S("+@1 food points", def._tt_food_hp)
+			end
 			desc = desc .. "\n" .. msg
 		end
 	end
