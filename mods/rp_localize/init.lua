@@ -37,7 +37,7 @@ loc.num = function(numbr)
 			--~ a negative number with some decimal places. @1 is the part before the decimal point, @2 is the part after it. Replace the minus sign and decimal point with whatever is appropriate for your language.
 			str = S("−@1.@2", pre, post)
 		else
-			--~ a positive number with some decimal places. @1 is the part before the decimal point, @2 is the part after it. Replace the decimal point with whatever is appropriate for your language.
+			--~ a non-negative number with some decimal places. @1 is the part before the decimal point, @2 is the part after it. Replace the decimal point with whatever is appropriate for your language.
 			str = S("@1.@2", pre, post)
 		end
 	elseif negative then
