@@ -44,8 +44,8 @@ rp_mobs_mobs.microtasks.player_find_follow = function(view_range)
 			else
 				-- Unfollow player if out of view range, dead or gone
 				local player = mob._temp_custom_state.closest_player
-				if player then
-					local p = player:get_pos()
+				local p = player and player:get_pos()
+				if p then
 					local dist = vector.distance(s, p)
 					-- Out of range
 					if dist > view_range then
