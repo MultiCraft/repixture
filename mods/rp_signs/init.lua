@@ -9,11 +9,12 @@ local SIGN_MAX_TEXT_LENGTH = 500
 local SIGN_THICKNESS = 1/16
 
 
+local utf8_sub = minetest.global_exists("utf8") and utf8.sub or string.sub
 local function crop_text(txt)
 	if not txt then
 		return ""
 	end
-	return rp_unicode_text.utf8.crop_text(txt, SIGN_MAX_TEXT_LENGTH)
+	return utf8_sub(txt, 1, SIGN_MAX_TEXT_LENGTH)
 end
 
 -- Formspec pages for sign (different background textures)
@@ -150,6 +151,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 
 	local meta = minetest.get_meta(pos)
+	text = crop_text(text)
 	if write_front then
 		meta:set_string("text", text)
 	else
