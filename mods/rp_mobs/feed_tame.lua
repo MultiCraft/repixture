@@ -12,12 +12,18 @@ rp_mobs.internal.add_persisted_entity_vars({
 
 
 local feed_handling = function(mob, feeder_name, food_points, food_till_tamed, food_till_horny, add_child_grow_timer) -- Check if a mob is fed
+	if not mob._tame_level then
+		mob._tame_level = 0
+	end
+	if not mob._horny_level then
+		mob._horny_level = 0
+	end
 	-- Increase tame and horny level
 	if not mob._tamed then
-		mob._tame_level = (mob._tame_level or 0) + food_points
+		mob._tame_level = mob._tame_level + food_points
 	end
 	if not mob._child and not mob._horny and not mob._horny_recover and not mob._pregnant then
-		mob._horny_level = (mob._horny_level or 0) + food_points
+		mob._horny_level = mob._horny_level + food_points
 	end
 
 	-- Remember name of feeder for achievements
