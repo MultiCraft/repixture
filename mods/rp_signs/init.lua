@@ -351,8 +351,6 @@ local function register_sign(id, def)
 			minetest.add_item(pos, "rp_signs:"..id)
 		end,
 		on_construct = on_construct,
-		on_destruct = on_destruct,
-		on_blast = on_blast,
 		on_rightclick = on_rightclick,
 		drop = "rp_signs:"..id,
 	}
@@ -393,8 +391,6 @@ local function register_sign(id, def)
 			minetest.add_item(pos, "rp_signs:"..id.."_standing")
 		end,
 		on_construct = on_construct,
-		on_destruct = on_destruct,
-		on_blast = on_blast,
 		node_placement_prediction = "",
 		on_place = function(itemstack, placer, pointed_thing)
 			-- Boilerplace to handle pointed node's rightclick handler
@@ -475,8 +471,6 @@ local function register_sign(id, def)
 			return itemstack
 		end,
 		on_rightclick = on_rightclick,
-		_after_paint = _after_paint,
-		_after_unpaint = _after_unpaint,
 	}
 
 	-- Hanging sign.
