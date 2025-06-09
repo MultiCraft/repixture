@@ -55,7 +55,7 @@ function rp_sky.set_sky(player, skyname)
 	player:set_sky(skyskydef)
 	player:set_clouds(skydef.clouds)
 	player:set_sun(skydef.sun)
-	player:set_moon(skydef.moon)
+	--player:set_moon(skydef.moon)
 	player:set_stars(skydef.stars)
 	local dnr
 	if type(skydef.day_night_ratio) == "function" then

@@ -27,16 +27,16 @@ end
 
 -- Updates the moon for a single player
 local function update_moon_for_player(player)
-	player:set_moon({texture = get_moon_texture()})
+	--player:set_moon({texture = get_moon_texture()})
 end
 
 -- Updates the moon for all players
 local function update_moon()
-	local moon_arg = {texture = get_moon_texture()}
+	--[[local moon_arg = {texture = get_moon_texture()}
 	local players = minetest.get_connected_players()
 	for p=1, #players do
 		players[p]:set_moon(moon_arg)
-	end
+	end]]
 end
 
 local timer = 0
