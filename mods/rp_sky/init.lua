@@ -54,7 +54,7 @@ function rp_sky.set_sky(player, skyname)
 	end
 	player:set_sky(skyskydef)
 	player:set_clouds(skydef.clouds)
-	player:set_sun(skydef.sun)
+	--player:set_sun(skydef.sun)
 	--player:set_moon(skydef.moon)
 	player:set_stars(skydef.stars)
 	local dnr
